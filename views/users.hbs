@@ -1,0 +1,10 @@
+<h1>{{title}} - {{user.name}}</h1>
+<p>Current Status of Wallet: {{user.wallet_status}}</p>
+<div id="work_dao" class="link_list">
+You have participation on the following Organizations:
+<ul>
+{{#each workdaos}}
+<li><a href="dao/{{id}}?usr={{../user.username}}">{{name}}</a> - Your Participation {{pct}}% ({{mypower}}/{{total_power}})</li>
+{{/each}}
+</ul>
+</div>
