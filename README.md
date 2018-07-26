@@ -14,19 +14,28 @@ In the heart of the community lies the Common Fund, a particular DAO responsible
 Tokens are not transferable, so they cannot be inherited or sold. The funds gathered through wage are transferable, and can be accumulated, which still stratifies society, but concentrates this more in lifestyles and their resource consumption. 
 
 ## The Community
+This term will be referenced all over this text, and usually as a source of authority. It consists of all of those registered in the system (as in a particular instance of Collective, but also a potential unified global system) and it represents the whole, being as such, the sole owner of resources available. This strict ownership doesn't mean nobody can access or use resources, but rather that its usage is governed by the People.
+
+Very little impositions are made, and so nothing directs how communities are managed, except themselves. The prime rule is that nobody is required to be part or stay in a community and that all members should have representativeness.
+
+To allow integration with non-Collective systems, Goods and Services may be sold to non-members and also Resources may be acquired from external entities. The Common Fund is used for the monetary aspect.
 
 ## The Worker
+The members of the community can be called by any name, but I rather stick with Worker. It receives a Unique pair of Keys, a Public one, and a Private, the Public is used as his Wallet, or Checkings Account, it identifies him on transactions happening and the private to authorize any movements from his Wallet. This is a very sensitive part of the system as Private Keys must be kept in secret but also, can't be lost otherwise the account is permanently locked.
+
+Workers not only have Value obtained from Tasks completed but also Tokens from all DAOs he worked with. DAOs may have additional information regarding a Worker, such as Reviews from Tasks executed or other issues identified. In order to take Tasks, Workers have to show that they have the required Skills. The certification process is controlled by a DAO that regulates a group of activities, the Body of Knowledge.
 
 ### Skills
+Skills are a way of establishing requirements for the execution of a Task, such as knowing how to Cook to take a Cooking Task for a DAO Restaurant. It's the job of the Bodies of Knowledge to decide the granularity and specificity of skills, or how they relate with each other.
 
 ## The DAO
-The symbol of the Means of Production, the assembly of human talent and work into forces of transformation.
+These organizations represent modern day Companies, except that they are public owned and governed by those that have worked on it. The foundation of a DAO requires an effort that grants its founders Tokens and as such, power over it, but unless they do all the work, this power will dilute as the business expands.
 
 ### Bodies of Knowledge
 Cooks, Plumbers, Carpenteers and so on ... the Bodies of Knowledge represents the Intangible Human Knowledge on the different fields, and also supervises (or manage) the Training, Research and Assessment. Most importantly is that a Body of Knowledge Regulates its field.
 
 ### The Common Fund
-Basically a public Bank, but it can operate differently than a pure interest based system. 
+Basically a public Bank, but it can operate differently than a pure interest based system. His most important role is incubating DAOs, since the initial investment involved is high and it takes time for it to start repaying, and in order to do so, DAOs borrow Value to pay for Resources and Tasks.
 
 ### Society
 The Community itself can be organized in a DAO, and operate through Direct Democracy. Given that most of the regulatory weight is delegated to Bodies of Knowledge, Elections are held less frequently and Decisions are narrowed to specific details of Social Engagement. Another way of minimizing Decisions is to establish a Hierarchy where Locally affecting decisions are taken only by members of that locality.
@@ -46,9 +55,9 @@ Anything that isn't direct work is a Resource, even services provided by other D
 
 ## Technical Specification
 
-Alright, How? By the usage of Contracts and DAOs its awful clear that this has something to do with Blockchain. Yes, that is correct, but right now I have no idea on how to make that happen.
+Alright, How? By the usage of Contracts and DAOs its awful clear that this has something to do with Blockchain. Yes, that is correct, but right now I have no idea on how to make that happen ... well, I have some ideas, but very little practice on the tech and some stuff may be increadibly hard to impractical to do on Blockchains.
 
-Also, there are a few UIs needed for interaction with the system, and some really good WitchCraft to make a decent Contract/Task modeller for non-tech folks to be able to break down Economic segments into DAOs and Contracts.
+Also, there are a few UIs needed for interaction with the system, and some really good WitchCraft to make a decent Contract/Task modeller for non-tech folks to be able to break down Economic segments into DAOs and Contracts. Also, weareables and other small devices are great for simplifying some of the interactions described.
 
 There is no need for this to run on an existing CryptoCoin, it could certainly operate on a different coin in a more closed system, the Common Fund also operating as the Reserve and giving monetary foundation to the Community. Also, Mining is not technically needed, neither is Proof of Work, the most important trait of the Blockchain is the Consensus Mechanism and if some low energy alternative is available, it should be considered.
 
