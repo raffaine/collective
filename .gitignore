@@ -1,2 +1,8 @@
-node_modules
-package-lock.json
+% Ignore LaTeX auxiliary files
+.aux
+.log
+.toc
+.bbl
+.blg
+.brf
+.fls
