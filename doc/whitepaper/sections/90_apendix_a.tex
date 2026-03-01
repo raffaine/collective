@@ -1,0 +1,46 @@
+\section*{Appendix A: The Community Kitchen Reference Node}
+
+To illustrate the practical application of the Service Node Modeler, we present the architecture of a "Nourishment Node." This node operates within a local Society to provide daily meals to Community Members while managing the "Leaching" of external food supplies.
+
+\subsection*{A.1 Work Breakdown Structure (WBS)}
+The Kitchen Node consists of three primary Task Classes imported from the Global \textbf{Body of Knowledge (BoK)}:
+\begin{enumerate}
+    \item \textbf{Preparation (Skill: Culinary.Level\_1):} The conversion of raw ingredients into utility.
+    \item \textbf{Hospitality (Skill: Social.Mediation):} The management of the physical space and member interaction.
+    \item \textbf{Stocking (Skill: Logistics.Basic):} The monitoring of inventory and triggering of procurement requests.
+\end{enumerate}
+
+\subsection*{A.2 Interaction with the Common Fund}
+The Kitchen utilizes a "Hybrid Sourcing" logic. High-perishables (leafy greens, eggs) are sourced from an internal \textit{Agricultural Node} via "Direct Consumption" tasks. Bulk staples (grains, oils) not yet internalized are leased via the \textbf{Common Fund}. 
+
+When the Stocking Task identifies a grain level below the 20\% threshold, the Node Modeler automatically issues a "Lease Request" to the Common Fund. The Fund pays the "Alien" supplier in legacy currency, and the Kitchen Node escalates a "Receiving" task to the local Worker pool.
+
+\subsection*{A.3 Governance and Token Weighting}
+In this specific node, the "Head Chef" role is not a permanent title but a state granted to the Member with the highest \textit{Nourishment Tokens}. 
+\begin{itemize}
+    \item \textbf{Value Payment:} Due to the high demand for dinner services, the "Preparation" tasks between 18:00 and 20:00 carry a $1.5\times$ Value weight.
+    \item \textbf{Spend-to-Change:} A Member wishing to change the menu (altering the Resource Requirements in the WBS) must stake 50 Tokens. If the new menu results in excessive waste (Resource Leakage), those tokens are depleted.
+\end{itemize}
+
+\begin{figure*}[h]
+\centering
+\begin{tikzpicture}[
+    node distance = 1.2cm,
+    align=center,
+    block/.style = {rectangle, draw, fill=blue!5, rounded corners, font=\tiny, minimum width=2.5cm, minimum height=0.8cm},
+    arrow/.style = {->, >=stealth, thick, color=collectiveBlue}
+]
+    % Sequence Flow
+    \node [block] (inventory) {Stocking Check \\ (Logistics)};
+    \node [block, below=of inventory] (prep) {Food Prep \\ (Culinary)};
+    \node [block, below=of prep] (serve) {Service \\ (Hospitality)};
+    \node [block, right=1.5cm of inventory, fill=orange!10] (fund) {Common Fund \\ (Procurement)};
+
+    % Connections
+    \draw [arrow] (inventory) -- (prep);
+    \draw [arrow] (prep) -- (serve);
+    \draw [arrow] (inventory) -- node[above, font=\tiny] {Low Stock} (fund);
+    \draw [arrow] (fund) |- node[pos=0.7, right, font=\tiny] {Delivery} (prep);
+\end{tikzpicture}
+\caption{Simplified BPMN logic for a Nourishment Service Node.}
+\end{figure*}

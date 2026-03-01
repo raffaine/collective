@@ -1,0 +1,95 @@
+\documentclass[10pt, a4paper]{article}
+
+% --- Packages ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[margin=2cm]{geometry} % Modern, slightly tighter margins
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{multicol} % For the 2-column magazine feel
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage{abstract}
+\usepackage{microtype} % Better kerning
+\usepackage{fontspec} % Requires XeLaTeX/LuaLaTeX
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage{float}
+\usepackage{graphicx}
+
+\graphicspath{ {./images/} } % This tells LaTeX to look in the 'images' folder
+
+\usetikzlibrary{shapes,arrows,positioning}
+
+% --- Aesthetic Setup ---
+\definecolor{collectiveBlue}{HTML}{0056b3}
+
+% Custom Fonts (Assuming standard Ubuntu fonts, or swap for your favs)
+\newfontfamily\headerfont{FreeSans} 
+\setmainfont{FreeSerif}
+
+% Commands for convenience
+\newcommand{\magazineRule}{
+    \nointerlineskip \vspace{0.5em}
+    \noindent\rule{\textwidth}{1.2pt}
+    \vspace{0.5em}
+}
+
+% Header Styling
+\titleformat{\section}{\large\headerfont\bfseries\color{collectiveBlue}}{}{0em}{\MakeUppercase}
+\titleformat{\subsection}{\normalsize\headerfont\bfseries}{}{0em}{}
+
+% --- Document Info ---
+\title{
+    {\headerfont\Huge \textbf{Collective}} \\
+    \vspace{0.5em}
+    {\large \textit{A Ubiquitous Computational Model for a Post-Market Collaborative Society}}
+}
+\author{J.C. Novais Raffaine \\ \small \texttt{dev.epensieve.com}}
+\date{\today}
+
+% --- The Document ---
+\begin{document}
+
+\maketitle
+
+% --- Abstract (Single Column) ---
+\begin{abstract}
+\input{sections/00_abstract}
+\end{abstract}
+
+\vspace{2em}
+\magazineRule % Horizontal rule for style
+
+% --- Body (Double Column) ---
+\begin{multicols}{2}
+
+\input{sections/01_introduction.tex}
+
+\input{sections/02_taxonomy.tex}
+
+\input{sections/03_servicenode.tex}
+
+\input{sections/04_metabolism.tex}
+
+\input{sections/05_societies_fund.tex}
+
+\input{sections/06_boostrapping_mesh.tex}
+
+\input{sections/07_conclusion.tex}
+
+\bibliographystyle{plain} % Or 'alpha', 'unsrt', etc.
+\bibliography{references} % This assumes your file is named references.bib
+
+\end{multicols}
+
+\newpage
+
+\input{sections/90_apendix_a.tex}
+\newpage
+\input{sections/91_apendix_b.tex}
+\newpage
+\input{sections/92_apendix_c.tex}
+
+\end{document}

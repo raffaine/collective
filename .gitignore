@@ -1,8 +1,6 @@
 % Ignore LaTeX auxiliary files
-.aux
-.log
-.toc
-.bbl
-.blg
-.brf
-.fls
+*.aux
+*.log
+*.toc
+*.bbl
+*.blg
