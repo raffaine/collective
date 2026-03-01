@@ -1,4 +1,4 @@
-# THE COLLECTIVE: SYSTEM CALL V1.0
+# COLLECTIVE: SYSTEM CALL V1.0
 
 > **STATUS:** SIGNAL ACTIVE  
 > **ORIGIN:** SECTOR 7-B  
@@ -32,7 +32,7 @@ We don't need "Users". We need **Architects** and **Designers**.
 
 ### 1. Identify Latent Demand
 
-Look at your neighborhood. Find the "Broken Loops"—the tools gathering dust, the food being wasted, the energy being lost. 
+Look at your neighborhood. Find the "Broken Loops"—the tools gathering dust, the food being wasted, the energy being lost.
 
 ### 2. Map the Metabolism
 
