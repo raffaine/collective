@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collective Mythos | System Call</title>
+    <style>
+        :root {
+            --bg-color: #1a1a1a;
+            --text-gold: #FFD700;
+            --mesh-blue: #0070FF;
+            --fog-grey: #4D4D4D;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: #e0e0e0;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            margin: 0;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            padding: 100px 20px 50px;
+            text-align: center;
+        }
+
+        h1 {
+            color: var(--text-gold);
+            font-size: 3rem;
+            letter-spacing: 0.5rem;
+            margin: 0;
+            text-transform: uppercase;
+        }
+
+        .subtitle {
+            color: var(--mesh-blue);
+            font-weight: bold;
+            letter-spacing: 0.2rem;
+            margin-top: 10px;
+        }
+
+        .container {
+            max-width: 800px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .hero-image {
+            width: 100%;
+            max-width: 400px;
+            border: 1px solid var(--fog-grey);
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+            margin: 40px 0;
+        }
+
+        .manifesto {
+            font-size: 1.2rem;
+            color: #ccc;
+            margin-bottom: 50px;
+            font-style: italic;
+        }
+
+        .system-call {
+            border: 1px solid var(--mesh-blue);
+            padding: 20px;
+            background: rgba(0, 112, 255, 0.05);
+            font-family: 'Courier New', Courier, monospace;
+            color: var(--mesh-blue);
+            display: inline-block;
+            text-align: left;
+            margin-bottom: 50px;
+        }
+
+        .links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            width: 100%;
+        }
+
+        .btn {
+            padding: 15px 25px;
+            border: 1px solid var(--text-gold);
+            color: var(--text-gold);
+            text-decoration: none;
+            transition: 0.3s;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 0.1rem;
+        }
+
+        .btn:hover {
+            background-color: var(--text-gold);
+            color: var(--bg-color);
+        }
+
+        footer {
+            margin-top: 100px;
+            padding: 50px;
+            font-size: 0.8rem;
+            color: var(--fog-grey);
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Collective Mythos</h1>
+    <div class="subtitle">SYSTEM CALL: ACTIVE</div>
+</header>
+
+<div class="container">
+    <img src="images/cover.png" alt="System Call Cover" class="hero-image">
+    
+    <p class="manifesto">
+        "The Fog is not the weather. It is the market. It is time to dissociate."
+    </p>
+
+    <div class="system-call">
+        > NODE_ID: SOCIETY_ALPHA<br>
+        > STATUS: SOVEREIGN<br>
+        > ACTION: DOWNLOAD_PROTOCOLS
+    </div>
+
+    <div class="links">
+        <a href="assets/system_call.pdf" class="btn">Read the Novel</a>
+        <a href="../specs/index.html" class="btn">The Logic</a>
+        <a href="../blog/index.html" class="btn">The Pulse</a>
+        <a href="https://github.com/raffaine/collective" class="btn">Source Logic</a>
+    </div>
+</div>
+
+<footer>
+    J.C. NOVAIS RAFFAINE // SECTOR 7-B // 2026
+</footer>
+
+</body>
+</html>

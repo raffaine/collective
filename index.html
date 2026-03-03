@@ -3,139 +3,153 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THE COLLECTIVE | Answer the Call</title>
+    <title>COLLECTIVE | Beacon Portal</title>
     <style>
         :root {
-            --bg-color: #1a1a1a;
-            --text-gold: #FFD700;
-            --mesh-blue: #0070FF;
-            --fog-grey: #4D4D4D;
+            --sun-gold: #F4C430;
+            --leaf-green: #4F7942;
+            --sky-white: #FDFCF8; /* Warm paper tone */
+            --earth-clay: #7D4F39;
+            --transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
         body {
-            background-color: var(--bg-color);
-            color: #e0e0e0;
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
             margin: 0;
-            line-height: 1.6;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            background-color: var(--sky-white);
+            color: var(--earth-clay);
+            font-family: 'Charter', 'Georgia', serif;
+            overflow-x: hidden;
         }
 
-        header {
-            padding: 100px 20px 50px;
+        /* Scroll Animation Classes */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: var(--transition);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* The Hero - The Beacon */
+        section {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             text-align: center;
+            padding: 20px;
+        }
+
+        #hero {
+            background: radial-gradient(circle at center, #fff9e6 0%, var(--sky-white) 70%);
         }
 
         h1 {
-            color: var(--text-gold);
-            font-size: 3rem;
-            letter-spacing: 0.5rem;
+            font-size: 4rem;
+            color: var(--leaf-green);
             margin: 0;
-            text-transform: uppercase;
+            letter-spacing: -1px;
         }
 
-        .subtitle {
-            color: var(--mesh-blue);
-            font-weight: bold;
-            letter-spacing: 0.2rem;
+        .tagline {
+            font-size: 1.5rem;
+            color: var(--sun-gold);
+            font-style: italic;
             margin-top: 10px;
         }
 
-        .container {
-            max-width: 800px;
-            padding: 20px;
-            text-align: center;
-        }
-
-        .hero-image {
-            width: 100%;
-            max-width: 400px;
-            border: 1px solid var(--fog-grey);
-            box-shadow: 0 0 30px rgba(0,0,0,0.5);
-            margin: 40px 0;
-        }
-
-        .manifesto {
-            font-size: 1.2rem;
-            color: #ccc;
-            margin-bottom: 50px;
-            font-style: italic;
-        }
-
-        .system-call {
-            border: 1px solid var(--mesh-blue);
-            padding: 20px;
-            background: rgba(0, 112, 255, 0.05);
-            font-family: 'Courier New', Courier, monospace;
-            color: var(--mesh-blue);
-            display: inline-block;
-            text-align: left;
-            margin-bottom: 50px;
-        }
-
-        .links {
+        /* The Grid - The 4 Nodes */
+        .node-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
             width: 100%;
+            margin-top: 50px;
         }
 
-        .btn {
-            padding: 15px 25px;
-            border: 1px solid var(--text-gold);
-            color: var(--text-gold);
+        .node-card {
+            padding: 40px;
+            border: 1px solid rgba(79, 121, 66, 0.2);
             text-decoration: none;
-            transition: 0.3s;
-            text-transform: uppercase;
-            font-size: 0.9rem;
-            letter-spacing: 0.1rem;
+            color: inherit;
+            transition: var(--transition);
+            background: white;
         }
 
-        .btn:hover {
-            background-color: var(--text-gold);
-            color: var(--bg-color);
+        .node-card:hover {
+            border-color: var(--sun-gold);
+            transform: scale(1.02);
+            box-shadow: 0 10px 30px rgba(244, 196, 48, 0.1);
         }
 
-        footer {
-            margin-top: 100px;
-            padding: 50px;
-            font-size: 0.8rem;
-            color: var(--fog-grey);
+        .node-card h2 {
+            color: var(--leaf-green);
+            margin-bottom: 10px;
         }
+
+        /* Floating Elements Decoration */
+        .leaf-decoration {
+            position: fixed;
+            z-index: -1;
+            color: rgba(79, 121, 66, 0.05);
+            font-size: 15rem;
+            pointer-events: none;
+        }
+
     </style>
 </head>
 <body>
 
-<header>
-    <h1>The Collective</h1>
-    <div class="subtitle">SYSTEM CALL: ACTIVE</div>
-</header>
+    <div class="leaf-decoration" style="top: -50px; left: -50px;">🌿</div>
+    <div class="leaf-decoration" style="bottom: -50px; right: -50px;">☀️</div>
 
-<div class="container">
-    <img src="doc/book_syscall/images/cover.png" alt="System Call Cover" class="hero-image">
-    
-    <p class="manifesto">
-        "The Fog is not the weather. It is the market. It is time to dissociate."
-    </p>
+    <section id="hero">
+        <h1 class="reveal">Collective</h1>
+        <p class="tagline reveal">Dissociate from the Fog. Anchor in the Sun.</p>
+        <div class="reveal" style="margin-top: 50px;">↓ Scroll to Instantiate</div>
+    </section>
 
-    <div class="system-call">
-        > NODE_ID: SOCIETY_ALPHA<br>
-        > STATUS: SOVEREIGN<br>
-        > ACTION: DOWNLOAD_PROTOCOLS
-    </div>
+    <section id="nodes">
+        <div class="node-grid">
+            <a href="book/index.html" class="node-card reveal">
+                <h2>The Mythos</h2>
+                <p>Read "System Call". Experience the first dissociation through the eyes of Elara.</p>
+            </a>
+            <a href="specs/" class="node-card reveal">
+                <h2>The Logic</h2>
+                <p>The Whitepaper and technical schemas. The architecture of a sovereign metabolism.</p>
+            </a>
+            <a href="blog/" class="node-card reveal">
+                <h2>The Pulse</h2>
+                <p>Field reports from active cells. The chronological heart of the Mesh.</p>
+            </a>
+            <a href="https://github.com/raffaine/collective" class="node-card reveal">
+                <h2>The Source</h2>
+                <p>Join the Forge. Contribute to the Epics on GitHub.</p>
+            </a>
+        </div>
+    </section>
 
-    <div class="links">
-        <a href="doc/book_syscall/main.pdf" class="btn">Read the Novel</a>
-        <a href="doc/whitepaper/main.pdf" class="btn">The White Paper</a>
-        <a href="https://github.com/raffaine/collective" class="btn">Source Logic</a>
-    </div>
-</div>
+    <script>
+        // Intersection Observer Logic
+        const observerOptions = {
+            threshold: 0.2
+        };
 
-<footer>
-    J.C. NOVAIS RAFFAINE // SECTOR 7-B // 2026
-</footer>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
 
+        document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+    </script>
 </body>
 </html>
