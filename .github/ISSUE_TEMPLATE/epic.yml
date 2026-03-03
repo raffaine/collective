@@ -1,0 +1,22 @@
+name: "🏆 Epic"
+description: "A high-level strategic block for the Collective."
+title: "[EPIC] "
+labels: ["Epic"]
+body:
+  - type: textarea
+    id: intent
+    attributes:
+      label: "Strategic Intent"
+      placeholder: "Describe the 'Sovereign Presence' this Epic establishes..."
+    validations:
+      required: true
+  - type: textarea
+    id: principles
+    attributes:
+      label: "Guiding Principles"
+      placeholder: "- Principle 1: Automation as Autonomy..."
+  - type: textarea
+    id: dod
+    attributes:
+      label: "Definition of Done"
+      placeholder: "[ ] Criterion 1..."

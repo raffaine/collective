@@ -1,0 +1,19 @@
+name: "📄 User Story"
+description: "A specific unit of human or system value."
+title: "[STORY] "
+labels: ["User Story"]
+body:
+  - type: textarea
+    id: story_format
+    attributes:
+      label: "The Story"
+      placeholder: "As a [Role], I want [Action] so that [Value]."
+    validations:
+      required: true
+  - type: textarea
+    id: criteria
+    attributes:
+      label: "Acceptance Criteria"
+      placeholder: "[ ] Criterion 1..."
+    validations:
+      required: true

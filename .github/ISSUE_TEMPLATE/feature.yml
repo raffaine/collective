@@ -1,0 +1,20 @@
+name: "💡 Feature"
+description: "A functional unit within an Epic."
+title: "[FEATURE] "
+labels: ["Feature"]
+body:
+  - type: textarea
+    id: principle
+    attributes:
+      label: "Feature Principle"
+      placeholder: "e.g., 'Continuous Dissociation'..."
+  - type: input
+    id: metric
+    attributes:
+      label: "Success Metric"
+      placeholder: "e.g., Zero lag time between PR and PDF build."
+  - type: textarea
+    id: context
+    attributes:
+      label: "Context/Dependencies"
+      placeholder: "Which Epic does this belong to?"
