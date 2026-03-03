@@ -4,150 +4,309 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>COLLECTIVE | Beacon Portal</title>
+    <link rel="icon" type="image/png" href="images/favicon.png">
     <style>
         :root {
             --sun-gold: #F4C430;
             --leaf-green: #4F7942;
-            --sky-white: #FDFCF8; /* Warm paper tone */
+            --sky-white: #FDFCF8; 
             --earth-clay: #7D4F39;
-            --transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+            --soft-shadow: 0 10px 30px rgba(79, 121, 66, 0.1);
+            --transition: all 1.2s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
-        body {
+        body, html {
             margin: 0;
-            background-color: var(--sky-white);
+            padding: 0;
+            background-color: transparent;
             color: var(--earth-clay);
             font-family: 'Charter', 'Georgia', serif;
-            overflow-x: hidden;
+            scroll-behavior: smooth;
         }
 
-        /* Scroll Animation Classes */
+        /* Fixed Background Container - MUST be the lowest layer */
+        .bg-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: -1; /* Moved up to -1 */
+            background-color: var(--sky-white);
+        }
+
+        .bg-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+            transition: opacity 1.5s ease-in-out;
+            filter: brightness(0.7) sepia(0.2); /* Unified your solarpunk filter */
+            opacity: 0; /* All hidden by default */
+        }
+
+        /* Explicitly show the first video */
+        #video-hero { opacity: 1; }
+
+        /* The Hero Section needs to be transparent to show the video behind it */
+        .video-hero {
+            position: relative;
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            background: transparent; /* Essential */
+            z-index: 1;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3); /* Boosts readability on bright videos */
+        }
+
+        /* Reveal Logic */
         .reveal {
             opacity: 0;
-            transform: translateY(30px);
+            transform: translateY(40px);
             transition: var(--transition);
         }
-
         .reveal.active {
             opacity: 1;
             transform: translateY(0);
         }
 
-        /* The Hero - The Beacon */
+        /* Sections */
         section {
-            height: 100vh;
+            min-height: 80vh;
+            padding: 100px 10%;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 20px;
+            position: relative;
+            z-index: 1;
+            background: transparent;
+        }
+     
+        /* Add a semi-transparent "paper" overlay to the middle sections 
+           to ensure text remains readable over the moving video */
+        .content-overlay {
+            background: rgba(253, 252, 248, 0.85);
+            padding: 60px;
+            border-radius: 4px;
+            box-shadow: var(--soft-shadow);
+            max-width: 900px; /* Gives the text room to breathe */
+            backdrop-filter: blur(8px); /* Softens the video behind the 'paper' for better focus */
+            text-align: left; /* Better for long-form reading */
         }
 
-        #hero {
-            background: radial-gradient(circle at center, #fff9e6 0%, var(--sky-white) 70%);
+        /* Enhanced Intro Typography */
+        .content-overlay p {
+            margin-bottom: 2rem;
+            font-size: 1.6rem; /* Increased from 1.4rem */
+            line-height: 1.6;
+            text-align: left;
         }
 
-        h1 {
-            font-size: 4rem;
+        .content-overlay h2 {
+            font-size: 3rem;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+
+        .intro-text {
+            max-width: 800px;
+            font-size: 1.4rem;
+            line-height: 1.6;
+            color: var(--earth-clay);
+        }
+
+        /* Map Placeholder */
+        .map-container {
+            width: 100%;
+            max-width: 1000px;
+            height: 500px;
+            background: #f0ede4;
+            border: 2px solid var(--sun-gold);
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            box-shadow: var(--soft-shadow);
+        }
+
+        .map-placeholder-text {
             color: var(--leaf-green);
-            margin: 0;
-            letter-spacing: -1px;
+            font-weight: bold;
+            letter-spacing: 2px;
         }
 
-        .tagline {
-            font-size: 1.5rem;
-            color: var(--sun-gold);
-            font-style: italic;
-            margin-top: 10px;
-        }
-
-        /* The Grid - The 4 Nodes */
+        /* Engage Grid */
         .node-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
-            max-width: 1200px;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
             width: 100%;
-            margin-top: 50px;
+            max-width: 1200px;
         }
 
         .node-card {
-            padding: 40px;
-            border: 1px solid rgba(79, 121, 66, 0.2);
+            background: white;
+            padding: 30px;
+            border-bottom: 4px solid transparent;
             text-decoration: none;
             color: inherit;
-            transition: var(--transition);
-            background: white;
+            transition: 0.3s;
+            box-shadow: var(--soft-shadow);
         }
 
         .node-card:hover {
-            border-color: var(--sun-gold);
-            transform: scale(1.02);
-            box-shadow: 0 10px 30px rgba(244, 196, 48, 0.1);
+            border-bottom: 4px solid var(--sun-gold);
+            transform: translateY(-5px);
         }
 
-        .node-card h2 {
-            color: var(--leaf-green);
-            margin-bottom: 10px;
-        }
+        h1 { font-size: 4.5rem; margin-bottom: 10px; }
+        h2 { color: var(--leaf-green); font-size: 2.5rem; }
 
-        /* Floating Elements Decoration */
-        .leaf-decoration {
+        /* Floating Navigation Menu */
+        .floating-nav {
             position: fixed;
-            z-index: -1;
-            color: rgba(79, 121, 66, 0.05);
-            font-size: 15rem;
-            pointer-events: none;
+            top: 30px;
+            right: 30px;
+            z-index: 100;
+            display: flex;
+            gap: 20px;
         }
 
+        .nav-link {
+            text-decoration: none;
+            color: var(--earth-clay);
+            font-size: 0.9rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 10px 15px;
+            background: rgba(253, 252, 248, 0.6);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(79, 121, 66, 0.2);
+            transition: 0.3s;
+        }
+
+        .nav-link:hover {
+            color: var(--leaf-green);
+            border-color: var(--sun-gold);
+            background: rgba(253, 252, 248, 0.9);
+        }
+
+        /* Mobile adjustment for the floating nav */
+        @media (max-width: 768px) {
+            .floating-nav {
+                top: auto;
+                bottom: 20px;
+                right: 50%;
+                transform: translateX(50%);
+                width: 90%;
+                justify-content: center;
+            }
+        }
     </style>
 </head>
 <body>
+    <nav class="floating-nav">
+        <img src="images/collective-logo.png" alt="Collective Logo" style="height: 40px; margin-right: auto;">
+        <a href="#intro" class="nav-link">The Narrative</a>
+        <a href="#engage" class="nav-link">The Call</a>
+        <a href="#map-trigger" class="nav-link">The Mesh</a>
+    </nav>
 
-    <div class="leaf-decoration" style="top: -50px; left: -50px;">🌿</div>
-    <div class="leaf-decoration" style="bottom: -50px; right: -50px;">☀️</div>
+    <div class="bg-container">
+        <video autoplay muted loop playsinline id="video-hero" class="bg-video" poster="images/collective-static.jpeg">
+            <source src="images/collective.webm" type="video/webm">
+            <source src="images/collective.mp4" type="video/mp4">
+        </video>
+        <video autoplay muted loop playsinline id="video-map" class="bg-video">
+            <source src="images/seattlemap.webm" type="video/webm">
+            <source src="images/seattlemap.mp4" type="video/mp4">
+        </video>
+    </div>
 
-    <section id="hero">
-        <h1 class="reveal">Collective</h1>
-        <p class="tagline reveal">Dissociate from the Fog. Anchor in the Sun.</p>
-        <div class="reveal" style="margin-top: 50px;">↓ Scroll to Instantiate</div>
+    <div class="video-hero">
+        <div class="reveal">
+            <h1>Collective</h1>
+            <p style="font-size: 1.5rem; letter-spacing: 2px;">THE SUN RISES ON SECTOR 7-B</p>
+        </div>
+    </div>
+
+    <section id="intro">
+        <div class="content-overlay reveal">
+            <h2>A New Metabolism</h2>            
+            <p>For decades, we lived in <strong>The Fog</strong>—a market-driven haze that obscured our own utility. We were told that survival required competition, but we found that sovereignty thrives in the mesh. The Collective is our answer: a shared metabolism for a world that has finally outgrown the old ways.</p>
+            <p>This is not a return to the primitive, but a leap into the <strong>High-Reliability</strong>. By decoupling our essential needs—energy, nourishment, and cognition—from centralized, fragile grids, we transform from passive consumers into active nodes. We use the tools of the legacy world to build the foundations of the next, "leaching" the old to feed the new.</p>
+            <p>Our architecture is built on the <strong>Body of Knowledge (BoK)</strong>—a living library of Service Nodes that standardize human utility. Whether it is a solar array in a community garden or a localized data mesh, every action is a verified contribution to our collective resilience. We do not just share space; we share a functional destiny.</p>
+            <p>The <strong>Beacon</strong> is lit. Around you, the map is beginning to glow as cells instantiate, synchronize, and stabilize. You are no longer an isolated observer in a collapsing system; you are an architect of the clearing. Welcome to the first day of the Sun.</p>
+        </div>
     </section>
 
-    <section id="nodes">
-        <div class="node-grid">
-            <a href="book/index.html" class="node-card reveal">
-                <h2>The Mythos</h2>
-                <p>Read "System Call". Experience the first dissociation through the eyes of Elara.</p>
-            </a>
-            <a href="specs/" class="node-card reveal">
-                <h2>The Logic</h2>
-                <p>The Whitepaper and technical schemas. The architecture of a sovereign metabolism.</p>
-            </a>
-            <a href="blog/" class="node-card reveal">
-                <h2>The Pulse</h2>
-                <p>Field reports from active cells. The chronological heart of the Mesh.</p>
-            </a>
-            <a href="https://github.com/raffaine/collective" class="node-card reveal">
-                <h2>The Source</h2>
-                <p>Join the Forge. Contribute to the Epics on GitHub.</p>
-            </a>
+    <section id="engage">
+        <div class="content-overlay reveal">
+            <h2>Answer the Call</h2>
+            <div class="node-grid">
+                <a href="book/index.html" class="node-card reveal">
+                    <h3 style="color: var(--leaf-green);">The Mythos</h3>
+                    <p>Experience the story of the first dissociation.</p>
+                </a>
+                <a href="specs/" class="node-card reveal">
+                    <h3 style="color: var(--leaf-green);">The Logic</h3>
+                    <p>Examine the architecture of the Mesh.</p>
+                </a>
+                <a href="blog/" class="node-card reveal">
+                    <h3 style="color: var(--leaf-green);">The Pulse</h3>
+                    <p>Read reports from the field.</p>
+                </a>
+                <a href="https://github.com/raffaine/collective" class="node-card reveal">
+                    <h3 style="color: var(--leaf-green);">The Source</h3>
+                    <p>Join the Forge on GitHub.</p>
+                </a>
+            </div>            
+        </div>
+    </section>
+
+    <section id="map-trigger">
+        <div class="map-container reveal">
+            <div class="map-placeholder-text">[ ACTIVE NODES MAPPING... ]</div>
         </div>
     </section>
 
     <script>
-        // Intersection Observer Logic
-        const observerOptions = {
-            threshold: 0.2
-        };
+        // VIDEO SWAP LOGIC
+        const videoHero = document.getElementById('video-hero');
+        const videoMap = document.getElementById('video-map');
+        const mapSection = document.getElementById('map-trigger');
 
+        window.addEventListener('scroll', () => {
+            const rect = mapSection.getBoundingClientRect();
+            
+            // If the Map section is entering the viewport
+            if (rect.top < window.innerHeight / 2) {
+                videoHero.style.opacity = '0';
+                videoMap.style.opacity = '1';
+            } else {
+                videoHero.style.opacity = '1';
+                videoMap.style.opacity = '0';
+            }
+        });
+
+        // REVEAL LOGIC (Existing)
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('active');
                 }
             });
-        }, observerOptions);
+        }, { threshold: 0.1 });
 
         document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
     </script>
