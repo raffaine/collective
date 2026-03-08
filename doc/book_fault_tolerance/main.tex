@@ -1,0 +1,179 @@
+\documentclass[11pt, openany]{book}
+
+% --- Core Packages ---
+\usepackage[paperwidth=5.5in, paperheight=8.5in, margin=0.75in]{geometry} 
+\usepackage{fontspec}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{setspace}
+\usepackage{fancyhdr}
+\usepackage{csquotes}
+\usepackage{url}
+\usepackage{pdfpages} 
+\usepackage{eso-pic} 
+
+% --- Custom Colors (Metabolic Palette) ---
+\definecolor{collectiveBlue}{HTML}{0070FF}
+\definecolor{legacyGrey}{HTML}{4D4D4D}
+\definecolor{signalGold}{HTML}{FFD700}
+
+% --- Typography ---
+\setmainfont[
+  Path=/usr/share/fonts/truetype/ebgaramond/,
+  UprightFont=EBGaramond12-Regular.ttf,
+  ItalicFont=EBGaramond12-Italic.ttf,
+  BoldFont=EBGaramond12-Bold.ttf,
+  BoldItalicFeatures={FakeSlant=0.2},
+  OpticalSize=12
+]{EB Garamond} 
+
+\newfontfamily\monofont[
+  Path=/usr/share/fonts/truetype/firacode/,
+  UprightFont=FiraCode-Regular.ttf,
+  BoldFont=FiraCode-Bold.ttf
+]{Fira Code} 
+
+\newfontfamily\headerfont{Inter} 
+
+% --- Chapter Styling ---
+\titleformat{\chapter}[display]
+  {\headerfont\bfseries\huge\color{legacyGrey}}
+  {\filleft\headerfont\fontsize{60}{60}\selectfont\color{gray!20}\thechapter}
+  {1ex}
+  {\titlerule\vspace{1ex}\filright}
+
+% --- Custom Environments ---
+
+% 1. The Epigraph (At the start of chapters)
+\newcommand{\epigraph}[2]{
+    \begin{flushright}
+    \begin{minipage}{0.7\textwidth}
+        \begin{flushright}
+        \itshape\small #1 \\
+        \vspace{0.5ex}
+        \headerfont\upshape\scriptsize #2
+    \end{flushright}
+    \end{minipage}
+    \end{flushright}
+    \vspace{4ex}
+}
+
+% 2. System/AR Overlay Data
+\newcommand{\systemcall}[1]{
+    \vspace{2ex}
+    \begin{center}
+    \begin{tikzpicture}
+        \node[draw=collectiveBlue, fill=blue!5, rounded corners, inner sep=10pt, text width=0.8\textwidth, align=left] 
+        {\monofont\footnotesize\color{collectiveBlue} #1};
+    \end{tikzpicture}
+    \end{center}
+    \vspace{2ex}
+}
+
+% --- Header/Footer ---
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE,RO]{\headerfont\scriptsize\thepage}
+\fancyhead[RE]{\headerfont\scriptsize\leftmark}
+\fancyhead[LO]{\headerfont\scriptsize FAULT TOLERANCE}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% --- Document Info ---
+\title{\headerfont\Huge\textbf{FAULT TOLERANCE}}
+\author{\headerfont J.C. Novais Raffaine}
+\date{}
+
+\graphicspath{ {./images/} } 
+
+\begin{document}
+
+% --- Front Cover ---
+%\includepdf[pages={1}, width=\paperwidth, height=\paperheight, keepaspectratio=false]{cover.png}
+
+% --- Copyright Page (Verso) ---
+\newpage
+\thispagestyle{empty}
+\vspace*{\fill}
+
+\begin{flushleft}
+    {\headerfont\large\textbf{Fault Tolerance}} \\
+    {\headerfont\small A Novel of Structural Resilience} \\
+    \vspace{2ex}
+    
+    {\small \copyright\ 2026 J.C. NOVAIS RAFFAINE. All rights reserved.} \\
+    \vspace{2ex}
+    
+    {\footnotesize 
+    This is a work of fiction. Names, characters, places, and incidents are products of the author’s imagination or are used fictitiously. [cite: 5, 6]}
+    
+    \vspace{4ex}
+    
+    {\headerfont\scriptsize FIRST EDITION} \\
+    {\headerfont\scriptsize PRINTED IN THE PACIFIC NORTHWEST // SECTOR 7-B} \\
+    \vspace{2ex}
+    
+    {\headerfont\tiny 10 9 8 7 6 5 4 3 2 1}
+\end{flushleft}
+\vspace{2ex}
+
+% --- Title Page (Recto) and TOC ---
+\frontmatter
+\maketitle
+\tableofcontents
+
+% --- Main Content ---
+\mainmatter
+
+% --- PART I: THE RESONANCE OF THE MESH ---
+\part{The Resonance of the Mesh}
+\input{chapters/01_Init_Bios.tex}
+\input{chapters/02_Recursive_Kin.tex}
+\input{chapters/03_Tidal_Pulse.tex}
+\input{chapters/04_The_Traveler_Log.tex}
+\input{chapters/05_Cognition_Gap.tex}
+\input{chapters/06_Veteran_Signal.tex}
+\input{chapters/07_The_Ghost_Signature.tex}
+\input{chapters/08_Synovial_Leak.tex}
+\input{chapters/09_Council_Dissent.tex}
+\input{chapters/10_The_Settling_Debate.tex}
+\input{chapters/11_System_Diagnostic.tex}
+\input{chapters/12_Exit_Protocol.tex}
+
+% --- PART II: THE ILLUSORY ARCHITECTURE ---
+\part{The Illusory Architecture}
+\input{chapters/13_Legacy_Overshadow.tex}
+\input{chapters/14_Shadow_Mesh_01.tex}
+\input{chapters/15_Transaction_Nostalgia.tex}
+\input{chapters/16_The_Enforcers_Limit.tex}
+\input{chapters/17_Hidden_Debt.tex}
+\input{chapters/18_Vanes_Sermon.tex}
+\input{chapters/19_Synthetic_Demand.tex}
+\input{chapters/20_The_Resonance_Fracture.tex}
+\input{chapters/21_Data_Poisoning.tex}
+\input{chapters/22_The_Tempters_Offer.tex}
+\input{chapters/23_Metabolic_Friction.tex}
+\input{chapters/24_The_Fork_Initiated.tex}
+
+% --- PART III: THE IMMUNE RESPONSE ---
+\part{The Immune Response}
+\input{chapters/25_Isolation_Ward.tex}
+\input{chapters/26_Gabes_Echo.tex}
+\input{chapters/27_The_Battle_of_Cognition.tex}
+\input{chapters/28_Transparency_Rift.tex}
+\input{chapters/29_Systemic_Fever.tex}
+\input{chapters/30_The_Recursive_Shield.tex}
+\input{chapters/31_Vanes_Exposure.tex}
+\input{chapters/32_The_Logic_Collapse.tex}
+\input{chapters/33_Pathogen_Rejection.tex}
+\input{chapters/34_Recalibration.tex}
+\input{chapters/35_Equilibrium_Found.tex}
+\input{chapters/36_Return_Call.tex}
+
+\appendix
+\input{chapters/99_glossary.tex}
+\input{chapters/99_backcover.tex}
+
+\end{document}
