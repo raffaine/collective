@@ -1,0 +1,156 @@
+\documentclass[11pt, openany]{book}
+
+% --- Core Packages ---
+\usepackage[paperwidth=5.5in, paperheight=8.5in, margin=0.75in]{geometry} % Standard Trade Paperback
+\usepackage[brazilian]{babel} % [ADICIONADO] Suporte para hifenização e termos PT-BR
+\usepackage{fontspec}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{setspace}
+\usepackage{fancyhdr}
+\usepackage{csquotes}
+\usepackage{url}
+\usepackage{pdfpages} % Allows full-page image insertion
+\usepackage{eso-pic} % For absolute positioning of elements
+
+% --- Custom Colors (Metabolic Palette) ---
+\definecolor{collectiveBlue}{HTML}{0070FF}
+\definecolor{legacyGrey}{HTML}{4D4D4D}
+\definecolor{signalGold}{HTML}{FFD700}
+
+% --- Typography ---
+\setmainfont[
+  Path=/usr/share/fonts/truetype/ebgaramond/,
+  UprightFont=EBGaramond12-Regular.ttf,
+  ItalicFont=EBGaramond12-Italic.ttf,
+  BoldFont=EBGaramond12-Bold.ttf,
+  BoldItalicFeatures={FakeSlant=0.2},
+  OpticalSize=12
+]{EB Garamond} % Elegant, classical serif for prose
+
+\newfontfamily\monofont[
+  Path=/usr/share/fonts/truetype/firacode/,
+  UprightFont=FiraCode-Regular.ttf,
+  BoldFont=FiraCode-Bold.ttf
+]{Fira Code} % For AR/System data strings
+
+\newfontfamily\headerfont{Inter} % Modern sans-serif for system elements
+
+% --- Chapter Styling ---
+\titleformat{\chapter}[display]
+  {\headerfont\bfseries\huge\color{legacyGrey}}
+  {\filleft\headerfont\fontsize{60}{60}\selectfont\color{gray!20}\thechapter}
+  {1ex}
+  {\titlerule\vspace{1ex}\filright}
+
+% --- Custom Environments ---
+
+% 1. The Epigraph (At the start of chapters)
+\newcommand{\epigraph}[2]{
+    \begin{flushright}
+    \begin{minipage}{0.7\textwidth}
+        \begin{flushright}
+        \itshape\small #1 \\
+        \vspace{0.5ex}
+        \headerfont\upshape\scriptsize #2
+        \end{flushright}
+    \end{minipage}
+    \end{flushright}
+    \vspace{4ex}
+}
+
+% 2. System/AR Overlay Data
+\newcommand{\systemcall}[1]{
+    \vspace{2ex}
+    \begin{center}
+    \begin{tikzpicture}
+        \node[draw=collectiveBlue, fill=blue!5, rounded corners, inner sep=10pt, text width=0.8\textwidth, align=left] 
+        {\monofont\footnotesize\color{collectiveBlue} #1};
+    \end{tikzpicture}
+    \end{center}
+    \vspace{2ex}
+}
+
+% --- Header/Footer ---
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE,RO]{\headerfont\scriptsize\thepage}
+\fancyhead[RE]{\headerfont\scriptsize\leftmark}
+\fancyhead[LO]{\headerfont\scriptsize SYSTEM CALL}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% --- Document Info ---
+\title{\headerfont\Huge\textbf{SYSTEM CALL}}
+\author{\headerfont J.C. Novais Raffaine}
+\date{}
+
+\graphicspath{ {./images/} } 
+
+\begin{document}
+
+% --- Front Cover ---
+\includepdf[pages={1}, width=\paperwidth, height=\paperheight, keepaspectratio=false]{cover.png}
+
+% --- Copyright Page (Verso) ---
+\newpage
+\thispagestyle{empty}
+\vspace*{\fill}
+
+\begin{flushleft}
+    {\headerfont\large\textbf{SYSTEM CALL}} \\
+    {\headerfont\small Um Romance de Guerra Metabólica} \\ % [AJUSTADO]
+    \vspace{2ex}
+    
+    {\small \copyright\ 2026 J.C. NOVAIS RAFFAINE. Todos os direitos reservados.} \\ % [AJUSTADO]
+    \vspace{2ex}
+    
+    {\footnotesize 
+    Esta é uma obra de ficção.
+    Nomes, personagens, lugares e incidentes são produtos da imaginação do autor ou usados de forma fictícia.
+    Qualquer semelhança com pessoas reais, vivas ou mortas, ou eventos reais é mera coincidência. \\
+    \vspace{1ex}
+    
+    Os protocolos e especificações técnicas aqui descritos são lançados sob a Collective Open Source License. 
+    Para mais informações, visite: \\
+    \headerfont\color{collectiveBlue} github.com/raffaine/collective
+    }
+    
+    \vspace{4ex}
+    
+    {\headerfont\scriptsize PRIMEIRA EDIÇÃO BRASILEIRA} \\ % [AJUSTADO]
+    {\headerfont\scriptsize IMPRESSO EM SÃO PAULO // SETOR CENTRAL} \\ % [AJUSTADO]
+    \vspace{2ex}
+    
+    {\headerfont\tiny 10 9 8 7 6 5 4 3 2 1}
+\end{flushleft}
+\vspace{2ex}
+
+% --- Title Page (Recto) and TOC ---
+\frontmatter
+\maketitle
+\tableofcontents
+
+% --- Main Content ---
+\mainmatter
+
+\input{chapters/01_logistics.tex}
+\input{chapters/02_telemetry.tex}
+\input{chapters/03_breach.tex}
+\input{chapters/04_injection.tex}
+\input{chapters/05_verification.tex}
+\input{chapters/06_task.tex}
+\input{chapters/07_discrepancy.tex}
+\input{chapters/08_anchor.tex}
+\input{chapters/09_pressure.tex}
+\input{chapters/10_ransom.tex}
+\input{chapters/11_dissociation.tex}
+\input{chapters/12_dawn.tex}
+
+\appendix
+\input{chapters/99_appendix.tex}
+\input{chapters/99_backcover.tex}
+
+\end{document}
