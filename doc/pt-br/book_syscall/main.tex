@@ -23,18 +23,14 @@
 
 % --- Typography ---
 \setmainfont[
-  Path=/usr/share/fonts/truetype/ebgaramond/,
-  UprightFont=EBGaramond12-Regular.ttf,
-  ItalicFont=EBGaramond12-Italic.ttf,
-  BoldFont=EBGaramond12-Bold.ttf,
-  BoldItalicFeatures={FakeSlant=0.2},
-  OpticalSize=12
+  BoldFont={EBGaramond-Bold},
+  ItalicFont={EBGaramond-Italic},
+  % If Font Book says "SemiBold" instead of "Bold", use that!
+  BoldItalicFeatures={FakeSlant=0.2}
 ]{EB Garamond} % Elegant, classical serif for prose
 
 \newfontfamily\monofont[
-  Path=/usr/share/fonts/truetype/firacode/,
-  UprightFont=FiraCode-Regular.ttf,
-  BoldFont=FiraCode-Bold.ttf
+  BoldFont={Fira Code Bold}
 ]{Fira Code} % For AR/System data strings
 
 \newfontfamily\headerfont{Inter} % Modern sans-serif for system elements

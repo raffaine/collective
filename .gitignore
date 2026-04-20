@@ -5,3 +5,5 @@
 *.bbl
 *.blg
 *.synctex.gz
+
+.DS_Store
