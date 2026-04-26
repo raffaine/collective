@@ -4,6 +4,7 @@
 *.toc
 *.bbl
 *.blg
+*.out
 *.synctex.gz
 
 .DS_Store
