@@ -14,6 +14,7 @@
 \usepackage{url}
 \usepackage{pdfpages} % Allows full-page image insertion
 \usepackage{eso-pic} % For absolute positioning of elements
+\usepackage{hyperref}
 
 % --- Custom Colors (Metabolic Palette) ---
 \definecolor{collectiveBlue}{HTML}{0070FF}
@@ -22,19 +23,14 @@
 
 % --- Typography ---
 \setmainfont[
-  Path=/usr/share/fonts/truetype/ebgaramond/,
-  UprightFont=EBGaramond12-Regular.ttf,
-  ItalicFont=EBGaramond12-Italic.ttf,
-  BoldFont=EBGaramond12-Bold.ttf,
-  % BoldItalic often doesn't exist in EB Garamond packages; synthesize:
-  BoldItalicFeatures={FakeSlant=0.2},
-  OpticalSize=12
+  BoldFont={EBGaramond-Bold},
+  ItalicFont={EBGaramond-Italic},
+  % If Font Book says "SemiBold" instead of "Bold", use that!
+  BoldItalicFeatures={FakeSlant=0.2}
 ]{EB Garamond} % Elegant, classical serif for prose
 
 \newfontfamily\monofont[
-  Path=/usr/share/fonts/truetype/firacode/,
-  UprightFont=FiraCode-Regular.ttf,
-  BoldFont=FiraCode-Bold.ttf
+  BoldFont={Fira Code Bold}
 ]{Fira Code} % For AR/System data strings
 
 \newfontfamily\headerfont{Inter} % Modern sans-serif for system elements
@@ -63,16 +59,22 @@
 }
 
 % 2. System/AR Overlay Data
-\newcommand{\systemcall}[1]{
-    \vspace{2ex}
-    \begin{center}
-    \begin{tikzpicture}
-        \node[draw=collectiveBlue, fill=blue!5, rounded corners, inner sep=10pt, text width=0.8\textwidth, align=left] 
-        {\monofont\footnotesize\color{collectiveBlue} #1};
-    \end{tikzpicture}
-    \end{center}
-    \vspace{2ex}
-}
+\ifdefined\isepub
+  % EPUB PIPELINE: Output a clean structural block for CSS to hook into
+  \newcommand{\systemcall}[1]{\begin{systemcallenv}#1\end{systemcallenv}}
+\else
+  % PDF PIPELINE: Your original TikZ vector artwork
+  \newcommand{\systemcall}[1]{
+      \vspace{2ex}
+      \begin{center}
+      \begin{tikzpicture}
+          \node[draw=collectiveBlue, fill=blue!5, rounded corners, inner sep=10pt, text width=0.8\textwidth, align=left] 
+          {\monofont\footnotesize\color{collectiveBlue} #1};
+      \end{tikzpicture}
+      \end{center}
+      \vspace{2ex}
+  }
+\fi
 
 % --- Header/Footer ---
 \pagestyle{fancy}
@@ -86,6 +88,15 @@
 \title{\headerfont\Huge\textbf{SYSTEM CALL}}
 \author{\headerfont J.C. Novais Raffaine}
 \date{}
+
+\hypersetup{
+    pdftitle={SYSTEM CALL},
+    pdfauthor={J.C. Novais Raffaine},
+    pdfsubject={Metabolic War},
+    colorlinks=true,
+    linkcolor=collectiveBlue,
+    urlcolor=collectiveBlue
+}
 
 
 \graphicspath{ {./images/} } % This tells LaTeX to look in the 'images' folder
@@ -108,6 +119,9 @@
     {\small \copyright\ 2026 J.C. NOVAIS RAFFAINE. All rights reserved.} \\
     \vspace{2ex}
     
+    {\small This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.} \\
+    \vspace{2ex}
+
     {\footnotesize 
     This is a work of fiction. Names, characters, places, and incidents are products of the author’s imagination or are used fictitiously. Any resemblance to actual persons, living or dead, or actual events is entirely coincidental. \\
     \vspace{1ex}
