@@ -15,6 +15,7 @@
 \usepackage{url}
 \usepackage{pdfpages} % Allows full-page image insertion
 \usepackage{eso-pic} % For absolute positioning of elements
+\usepackage{hyperref}
 
 % --- Custom Colors (Metabolic Palette) ---
 \definecolor{collectiveBlue}{HTML}{0070FF}
@@ -59,16 +60,22 @@
 }
 
 % 2. System/AR Overlay Data
-\newcommand{\systemcall}[1]{
-    \vspace{2ex}
-    \begin{center}
-    \begin{tikzpicture}
-        \node[draw=collectiveBlue, fill=blue!5, rounded corners, inner sep=10pt, text width=0.8\textwidth, align=left] 
-        {\monofont\footnotesize\color{collectiveBlue} #1};
-    \end{tikzpicture}
-    \end{center}
-    \vspace{2ex}
-}
+\ifdefined\isepub
+  % EPUB PIPELINE: Output a clean structural block for CSS to hook into
+  \newcommand{\systemcall}[1]{\begin{systemcallenv}#1\end{systemcallenv}}
+\else
+  % PDF PIPELINE: original TikZ vector artwork
+  \newcommand{\systemcall}[1]{
+      \vspace{2ex}
+      \begin{center}
+      \begin{tikzpicture}
+          \node[draw=collectiveBlue, fill=blue!5, rounded corners, inner sep=10pt, text width=0.8\textwidth, align=left] 
+          {\monofont\footnotesize\color{collectiveBlue} #1};
+      \end{tikzpicture}
+      \end{center}
+      \vspace{2ex}
+  }
+\fi
 
 % --- Header/Footer ---
 \pagestyle{fancy}
@@ -82,6 +89,15 @@
 \title{\headerfont\Huge\textbf{SYSTEM CALL}}
 \author{\headerfont J.C. Novais Raffaine}
 \date{}
+
+\hypersetup{
+    pdftitle={SYSTEM CALL},
+    pdfauthor={J.C. Novais Raffaine},
+    pdfsubject={Metabolic War},
+    colorlinks=true,
+    linkcolor=collectiveBlue,
+    urlcolor=collectiveBlue
+}
 
 \graphicspath{ {./images/} } 
 
@@ -103,6 +119,9 @@
     {\small \copyright\ 2026 J.C. NOVAIS RAFFAINE. Todos os direitos reservados.} \\ % [AJUSTADO]
     \vspace{2ex}
     
+    {\small Esta obra está licenciada sob uma Licença Creative Commons Atribuição-CompartilhaIgual 4.0 Internacional.} \\
+    \vspace{2ex}
+
     {\footnotesize 
     Esta é uma obra de ficção.
     Nomes, personagens, lugares e incidentes são produtos da imaginação do autor ou usados de forma fictícia.

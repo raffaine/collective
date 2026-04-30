@@ -1,0 +1,13 @@
+/* Recreating the TikZ HUD element in Web Standards */
+.systemcallenv {
+    border: 2px solid #4A90E2; /* Replace with your collectiveBlue hex code */
+    background-color: rgba(74, 144, 226, 0.05); /* Equivalent to blue!5 */
+    border-radius: 10px;
+    padding: 15px;
+    width: 80%;
+    margin: 20px auto; /* Centers the div perfectly */
+    text-align: left;
+    font-family: "Fira Code", monospace; /* Pandoc will map this if the font is embedded, or use standard monospace */
+    font-size: 0.85em;
+    color: #4A90E2; /* Replace with your collectiveBlue hex code */
+}
