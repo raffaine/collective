@@ -5,6 +5,9 @@
 *.bbl
 *.blg
 *.out
+*.xdv
+*.fls
+*.fdb_latexmk
 *.synctex.gz
 
 .DS_Store
