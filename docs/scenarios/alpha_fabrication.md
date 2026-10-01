@@ -70,12 +70,68 @@ stateDiagram-v2
     SettleLedger --> [*]
 ```
 
-### Layer 5: Policy & Web of Trust
-*   **Noise & Energy Budgeting:** High-temperature engineering filaments (requiring sustained high bed temps) are prohibited during peak residential quiet hours or local microgrid deficits unless compensated at surge exergy rates.
-*   **Reputation Gating:** Unverified or low-trust nodes must lock full replacement collateral for borrowing handheld tools from the physical library; verified Stewards check out tools on mutual trust attestations.
+### Layer 5: Policy & Polycentric Governance
+Layer 5 acts as the cryptographic traffic cop and judge. It ingests the JSON-LD intents from Layer 6, evaluates them against the local Trust Ring's policies, and if approved, routes them to the appropriate Layer 4 BPMN orchestrator. 
 
-### Layer 6: Semantic Intent
-Requests are defined as machine-readable Linked Data, mapping directly to standard ontologies and custom Collective extensions.
+Layer 5 governs these multiple workflows via **Policy Gates**:
+
+*   **Execution Gate (Acoustic & Energy Budgeting):** If a `FabricationIntent` requests high-temperature ABS printing at 2:00 AM, Layer 5 checks the local acoustic zoning policy. If the Node is in a residential cluster, the policy rejects the intent or queues it for daylight hours, preventing neighbor disputes.
+*   **Maintenance Gate (Competency Gating):** If a `MaintenanceIntent` is generated to replace a 500°C hotend, Layer 5 consults the Web of Trust. It will *only* forward the maintenance bounty to a Steward whose decentralized identity holds a `Hardware_Maintenance_L2` Verifiable Credential. This prevents unskilled users from physically damaging the public utility.
+*   **Procurement Gate (Fiat Capital Allocation):** If a `ProcurementIntent` requires spending legacy fiat (via the Layer 7 SPC) to buy bulk PETG, Layer 5 evaluates the cost. If the cost is $<\$50$, it auto-approves via pre-authorized budget. If it is $>\$50$, Layer 5 suspends the workflow and triggers a multi-sig consensus request, requiring 3-of-5 local Stewards to cryptographically sign off before the fiat is spent.
+*   **Logistics Gate (Reputation Escrow):** If a user requests a tool checkout or delivery, Layer 5 verifies their Reputational Weight on the ledger. If they have a history of returning tools broken, the policy demands a higher Value Token collateral lock before releasing the smart locker latch.
+
+### Layer 6: Semantic Intent & The Fabrication Ontology
+The network does not understand "I need a part." Layer 6 is responsible for mapping raw human needs into strict, machine-readable JSON-LD Knowledge Artifacts. 
+
+For the Fabrication Commons, Layer 6 maintains a specific ontology that categorizes intent into four distinct branches, each triggering a completely different lifecycle:
+1.  **`FabricationIntent` (Execution):** The request to convert digital `.3mf` geometry into physical matter. Contains material specs, tolerances, and timeline.
+2.  **`MaintenanceIntent` (Hardware Care):** Emitted automatically by Layer 2 (e.g., "extruder clogged" or "bed leveling failed") or manually by a user.
+3.  **`ProcurementIntent` (Supply Chain):** Emitted when internal voxel hoppers report filament mass $< 100\text{g}$, requesting raw material replenishment.
+4.  **`LogisticsIntent` (Movement):** The request to physically transport a printed part from the Node's smart locker to a remote Trust Ring pod.
+
+Layer 6 bundles these intents with cryptographic signatures (proving *who* is asking) and hands them down to Layer 5 for evaluation.
+
+### The Governance Router Flowchart
+*(Add this Mermaid diagram to visualize how L5 routes L6 intents to different L4 BPMNs)*
+
+```mermaid
+graph TD
+    subgraph Layer 6: Semantic Ontology
+        L6_Fab[FabricationIntent]
+        L6_Maint[MaintenanceIntent]
+        L6_Proc[ProcurementIntent]
+        L6_Log[LogisticsIntent]
+    end
+
+    subgraph Layer 5: Polycentric Governance & Policy
+        P_Exec{Execution Gate: <br>Energy/Time Budget?}
+        P_Maint{Maintenance Gate: <br>Valid Credential?}
+        P_Proc{Procurement Gate: <br>Multi-sig Approved?}
+        P_Log{Logistics Gate: <br>Reputation Score?}
+    end
+
+    subgraph Layer 4: BPMN Orchestrators
+        BPMN_Print[Print Job Engine]
+        BPMN_Fix[Hardware Repair Engine]
+        BPMN_Buy[L7 Bulk Purchase Engine]
+        BPMN_Move[Courier / Locker Engine]
+    end
+
+    %% Routing
+    L6_Fab --> P_Exec
+    P_Exec -->|Approved| BPMN_Print
+    P_Exec -.->|Rejected/Delay| L6_Fab
+
+    L6_Maint --> P_Maint
+    P_Maint -->|Verified Steward| BPMN_Fix
+    P_Maint -.->|Unqualified| L6_Maint
+
+    L6_Proc --> P_Proc
+    P_Proc -->|Consensus Reached| BPMN_Buy
+    
+    L6_Log --> P_Log
+    P_Log -->|Collateral Locked| BPMN_Move
+```
 
 ### Layer 7: The Legacy Proxy (Fiat Ingestion & Stewarded Procurement)
 The Fabrication Commons does not exist in a vacuum; it actively interfaces with the legacy capitalist market through the Node's Social Purpose Corporation (SPC) to achieve two vital bootstrapping functions:
