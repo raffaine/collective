@@ -42,7 +42,7 @@ Scenario Pi establishes the Node as a Sovereign Guild. It operates an internal a
 
 ```mermaid
 graph TD
-    subgraph Layer 7: Legacy Proxy (Identity & Fiat)
+    subgraph Layer 7: Legacy Proxy - Identity & Fiat
         IRS[Legacy State / IRS]
         LegacyClient[External Web2 Client]
         Landlord[Legacy Vendors / Banks]
