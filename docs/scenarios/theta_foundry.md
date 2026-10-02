@@ -69,7 +69,7 @@ graph TD
         Escrow[Lock Tokens for Exergy/Heat]
     end
 
-    subgraph Layer 2: Twin (Telemetry)
+    subgraph Layer 2: Twin/Telemetry
         TempSensor[Type-K Thermocouple]
         VOCSensor[Exhaust PM2.5 / VOC Monitor]
     end
