@@ -22,7 +22,7 @@ Click on any Scenario Name to view its detailed workflow, physical acceptance te
 | **Xi** | [Algorithmic Architecture](./scenarios/xi_architecture.md) | L1, L2, L4, L5 | 🔴 Unstarted | 🔴 Unstarted |
 | **Omicron**| [The Kinship Protocol (Trust Rings)](./scenarios/omicron_kinship.md) | L3, L4, L5, L6 | 🔴 Unstarted | 🔴 Unstarted |
 | **Pi** | [The Sovereign Guild (Identity & Treasury)](./scenarios/pi_guild.md) | L2, L4, L5, L6 | 🔴 Unstarted | 🔴 Unstarted |
-| **Rho** | [The Sensor Spoof Attack](./scenarios/rho_sensor_spoof.md) | L2, L3, L5 | 🔴 Unstarted | 🔴 Unstarted |
+| **Rho** | [The Adversarial Mesh (Threat Modeling & Defense)](./scenarios/rho_adversarial.md) | L2, L3, L5 | 🔴 Unstarted | 🔴 Unstarted |
 | **Sigma** | [Altruism Fatigue (Burnout)](./scenarios/sigma_burnout.md) | L3, L4, L6 | 🔴 Unstarted | 🔴 Unstarted |
 | **Tau** | [The HOA Legal Injunction](./scenarios/tau_hoa.md) | L2, L6, L7 | 🔴 Unstarted | 🔴 Unstarted |
 | **Upsilon**| [Hardware Cascade Disaster](./scenarios/upsilon_hardware.md) | L1, L2, L3, L4 | 🔴 Unstarted | 🔴 Unstarted |
