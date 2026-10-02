@@ -25,7 +25,7 @@ Click on any Scenario Name to view its detailed workflow, physical acceptance te
 | **Rho** | [The Adversarial Mesh (Threat Modeling & Defense)](./scenarios/rho_adversarial.md) | L2, L3, L5 | 🔴 Unstarted | 🔴 Unstarted |
 | **Sigma** | [Altruism Fatigue (Burnout)](./scenarios/sigma_burnout.md) | L3, L4, L6 | 🔴 Unstarted | 🔴 Unstarted |
 | **Tau** | [Steward Genesis (Character Creation)](./scenarios/tau_genesis.md) | L2, L6, L7 | 🔴 Unstarted | 🔴 Unstarted |
-| **Upsilon**| [Hardware Cascade Disaster](./scenarios/upsilon_hardware.md) | L1, L2, L3, L4 | 🔴 Unstarted | 🔴 Unstarted |
+| **Upsilon**| [Ecological Shock (Disaster Resilience)](./scenarios/upsilon_shock.md) | L1, L2, L3, L4 | 🔴 Unstarted | 🔴 Unstarted |
 | **Phi** | [Elder Ring & End-of-Life](./scenarios/phi_elder.md) | L2, L4, L5, L6 | 🔴 Unstarted | 🔴 Unstarted |
 | **Chi** | [Paramedic Mesh & Pharmacopeia](./scenarios/chi_paramedic.md) | L1, L2, L4, L5 | 🔴 Unstarted | 🔴 Unstarted |
 | **Psi** | [Watershed Defense](./scenarios/psi_watershed.md) | L2, L3, L4, L7 | 🔴 Unstarted | 🔴 Unstarted |
