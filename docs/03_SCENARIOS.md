@@ -28,5 +28,5 @@ Click on any Scenario Name to view its detailed workflow, physical acceptance te
 | **Upsilon**| [Ecological Shock (Disaster Resilience)](./scenarios/upsilon_shock.md) | L1, L2, L3, L4 | 🔴 Unstarted | 🔴 Unstarted |
 | **Phi** | [Elder Ring & End-of-Life](./scenarios/phi_elder.md) | L2, L4, L5, L6 | 🔴 Unstarted | 🔴 Unstarted |
 | **Chi** | [Paramedic Mesh & Pharmacopeia](./scenarios/chi_paramedic.md) | L1, L2, L4, L5 | 🔴 Unstarted | 🔴 Unstarted |
-| **Psi** | [Watershed Defense](./scenarios/psi_watershed.md) | L2, L3, L4, L7 | 🔴 Unstarted | 🔴 Unstarted |
+| **Psi** | [Restorative Justice & Conflict Resolution](./scenarios/psi_mediation.md) | L2, L3, L4, L7 | 🔴 Unstarted | 🔴 Unstarted |
 | **Omega** | [The Terminal Decoupling](./scenarios/omega_decoupling.md) | L1 through L6 | 🔴 Unstarted | 🔴 Unstarted |
