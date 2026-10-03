@@ -1,56 +1,22 @@
-# COLLECTIVE: SYSTEM CALL V1.0
+# The Collective: A Decentralized Operating System for Physical Sovereignty
 
-> **STATUS:** SIGNAL ACTIVE  
-> **ORIGIN:** SECTOR 7-B  
-> **ENCRYPTION:** SOVEREIGN  
+The Collective is not a blockchain project; it is a localized, thermodynamic operating system. It routes physical resources, ecological stewardship, and human labor across a decentralized peer-to-peer mesh, systematically severing dependency on legacy corporate and municipal infrastructure (The Legacy Tether).
 
-### "The Fog is not the weather. It is the market."
+To bootstrap this reality, we are building **Oasis**—a local-first, WASM-compiled C++20 voxel simulation that acts as a digital twin, a visual orchestrator, and a Trojan Horse to fund the physical Genesis Nodes.
 
-You are a variable in a dying system. Every breath is a subscription; every step is a transaction. You have been optimized by the Auditor's algorithms until your utility is zero.
+## The 7-Layer Architecture
+The system enforces a strict separation of concerns, mapping human intent down to physical thermodynamics without centralized servers.
 
-**The System Call is the end of the Fog.**
+*   **Layer 7 (The Legacy Proxy):** Perpetual Purpose Trusts and fiat ingestion.
+*   **Layer 6 (The Semantic Layer):** Human intent, JSON-LD Knowledge Artifacts, and UIs.
+*   **Layer 5 (The Policy Layer):** Web of Trust, Sortition, and Polycentric Governance.
+*   **Layer 4 (The Orchestration Layer):** BPMN XML state machines and WASM executors.
+*   **Layer 3 (The Ledger Layer):** Content-Addressed CRDTs and Value Token minting.
+*   **Layer 2 (The Digital Twin):** Edge telemetry, MQTT brokers, and IoT actuators.
+*   **Layer 1 (The Physical Reality):** Soil, water, joules, and human caloric labor.
 
-Collective is an open-source framework for **Metabolic Dissociation**. We do not seek to reform the Legacy Market; we seek to internalize its utility and leach its resources until the "Alien" grid is irrelevant.
+## Valuenomics (Proof of Stewardship)
+Value Tokens are not fiat. They are cryptographic representations of localized negentropy. Tokens are minted strictly when Layer 2 telemetry proves a net-positive thermodynamic action (e.g., carbon sequestration, water purification, caloric generation), bounded dynamically by the Ecological Replacement Cost (ERC).
 
----
-
-## 🏗️ THE ARCHITECTURE
-
-This repository contains the "Source Code" for a new reality.
-
-1. **THE MYTHOS:** [Read the Novel (PDF)](doc/book_syscall/syscall.pdf) — *The story of Elara and the first Dissociation.*
-
-2. **THE LOGIC:** [The White Paper (PDF)](doc/whitepaper/whitepaper.pdf) — *The technical specifications for the Metabolic War.*
-
-3. **THE BOK:** [Body of Knowledge](/doc/whitepaper/schema) — *The library of Work Breakdown Structures (WBS) for human survival.*
-
----
-
-## 🛰️ ANSWER THE CALL (ONBOARDING)
-
-We don't need "Users". We need **Architects** and **Designers**.
-
-### 1. Identify Latent Demand
-
-Look at your neighborhood. Find the "Broken Loops"—the tools gathering dust, the food being wasted, the energy being lost.
-
-### 2. Map the Metabolism
-
-Use our **Service Node Schema** to define the task. Don't ask for permission from the Auditor. Ask for the **Utility** from your peers.
-
-### 3. Dissociate
-
-[Join the Project Roadmap](https://github.com/raffaine/collective/projects) to claim a Feature or Story. We are currently bootstrapping **Society Alpha**.
-
----
-
-## 🛠️ REPOSITORY STRUCTURE
-
-* `/doc/book_syscall`: LaTeX source and PDF for the narrative.
-* `/doc/whitepaper`: Technical specs and the "Logic of Flow."
-* `/schema`: (DRAFT) JSON/YAML definitions for Service Nodes.
-
-**Welcome to the Mesh.**
-
----
-*J.C. NOVAIS RAFFAINE // [github.com/raffaine/collective](https://github.com/raffaine/collective)*
+## Development Methodology
+The Oasis engine is built using **Scenario-Driven Development (SDD)**. The architecture is tested against 24 socio-ecological stress tests (Scenarios Alpha through Omega), ranging from micro-foundry supply chains to hardware cascade failures.
