@@ -42,13 +42,13 @@ Scenario Omega does not build a new system; it orchestrates the graceful deletio
 
 ```mermaid
 graph TD
-    subgraph Layer 7: The Legacy State (Deprecated)
+    subgraph Layer 7: The Legacy State - Deprecated
         State[Legacy State / Banks]
         SPC[Social Purpose Corporation]
         Taxes[Fiat Extraction]
     end
 
-    subgraph The Sovereign Node (Node A)
+    subgraph The Sovereign Node - Node A
         L6_A[L6: SovereignFederationIntent]
         L5_A[L5: Inter-Node Diplomacy]
         L4_A[L4: P2P Orchestrator]
@@ -57,7 +57,7 @@ graph TD
         L1_A[L1: Physical Autonomy]
     end
 
-    subgraph The Federated Network (Node B)
+    subgraph The Federated Network - Node B
         L6_B[L6: Peer Intent]
         L1_B[L1: Physical Assets]
     end
