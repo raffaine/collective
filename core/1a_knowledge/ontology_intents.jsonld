@@ -1,0 +1,43 @@
+{
+  "@context": {
+    "mesh": "https://collective.network/ontology/v1/intents/",
+    "schema": "https://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@graph": [
+    {
+      "@id": "mesh:BaseIntent",
+      "@type": "schema:Class",
+      "schema:name": "BaseIntent",
+      "schema:description": "The root class for all state-changing requests in the Node."
+    },
+    {
+      "@id": "mesh:FabricationIntent",
+      "@type": "schema:Class",
+      "schema:subClassOf": "mesh:BaseIntent",
+      "schema:name": "Fabrication Intent",
+      "schema:description": "A request to physically manifest a digital blueprint (Scenario Alpha, Theta)."
+    },
+    {
+      "@id": "mesh:RestIntent",
+      "@type": "schema:Class",
+      "schema:subClassOf": "mesh:BaseIntent",
+      "schema:name": "Rest Intent",
+      "schema:description": "A psychological temporal lock preventing the Orchestrator from routing maintenance or work bounties to the issuer (Scenario Sigma)."
+    },
+    {
+      "@id": "mesh:MediationIntent",
+      "@type": "schema:Class",
+      "schema:subClassOf": "mesh:BaseIntent",
+      "schema:name": "Mediation Intent",
+      "schema:description": "A request for decentralized conflict resolution and thermodynamic restitution (Scenario Psi)."
+    },
+    {
+      "@id": "mesh:TriageIntent",
+      "@type": "schema:Class",
+      "schema:subClassOf": "mesh:BaseIntent",
+      "schema:name": "Triage Intent",
+      "schema:description": "A high-priority emergency broadcast triggered by humans or L2 telemetry to route immediate medical or disaster response (Scenarios Chi, Upsilon)."
+    }
+  ]
+}

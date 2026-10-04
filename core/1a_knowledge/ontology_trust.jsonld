@@ -1,0 +1,37 @@
+{
+  "@context": {
+    "mesh": "https://collective.network/ontology/v1/trust/",
+    "schema": "https://schema.org/",
+    "sec": "https://w3id.org/security/v2",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@graph": [
+    {
+      "@id": "mesh:TrustGraphEdge",
+      "@type": "schema:Class",
+      "schema:name": "Trust Graph Edge",
+      "schema:description": "A directional cryptographic relationship between two DIDs. Defines the weight of the vouch or slash."
+    },
+    {
+      "@id": "mesh:edgeWeight",
+      "@type": "schema:Property",
+      "schema:domainIncludes": "mesh:TrustGraphEdge",
+      "schema:rangeIncludes": "schema:Number",
+      "schema:description": "A float from -1.0 (Slash) to 1.0 (Maximum Vouch) representing the cryptographic trust between two citizens."
+    },
+    {
+      "@id": "mesh:SkillCredential",
+      "@type": "schema:Class",
+      "schema:subClassOf": "sec:VerifiableCredential",
+      "schema:name": "Skill Credential",
+      "schema:description": "A Verifiable Credential issued by a Master to an Apprentice, unlocking specific workflow capabilities in the Orchestrator."
+    },
+    {
+      "@id": "mesh:SafeHarborSeverance",
+      "@type": "schema:Class",
+      "schema:subClassOf": "mesh:TrustGraphEdge",
+      "schema:name": "Safe Harbor Severance",
+      "schema:description": "A specialized edge weight of -1.0 with a ZK-Privacy flag (Scenario Omicron). Mathematically prevents the Orchestrator from ever routing two specific DIDs to the same physical location."
+    }
+  ]
+}
