@@ -23,8 +23,9 @@ Scenario Pi establishes the Node as a Sovereign Guild. It operates an internal a
 ### Layer 6: Semantic Intent
 *   Citizens emit a `TreasuryIntent` with two sub-types: `FiatIngress` (logging an external invoice paid to the SPC) or `ResourceDraw` (requesting mesh Value Tokens or fiat for legacy expenses).
 
-### Layer 5: Policy & Web of Trust (Zero-Knowledge Privacy)
-*   **Identity Segregation:** Layer 5 enforces a strict firewall between the L7 Legal Identity (SSN, Legal Name) and the L5 Mesh Identity (DID, Pseudonym). The internal mesh ledger does *not* record a citizen's legal name. It uses Zero-Knowledge (ZK) proofs to attest that "DID_04 has paid their share of the property tax" without revealing *who* DID_04 is to the rest of the network.
+### Layer 5: Policy & Web of Trust (Zero-Knowledge Privacy & Firewalling)
+*   **Identity Segregation:** Layer 5 enforces a strict firewall between the L7 Legal Identity (SSN, Legal Name) and the L5 Mesh Identity (DID, Pseudonym). The internal mesh ledger does *not* record a citizen's legal name. It uses Zero-Knowledge (ZK) proofs to attest that "DID_04 has paid their share of the property tax" without revealing *who* DID_04 is.
+*   **The Omicron Insulation:** Because of this strict firewall, if a citizen suffers a massive "Social Slashing" in **Scenario Omicron** (losing their internal trust ring reputation), their legacy W-2 employment, health insurance, and external fiat stability provided by the SPC are completely unaffected. The mesh does not destroy legacy survival.
 *   **Tax Compliance Gate:** The system algorithmically rejects any `ResourceDraw` if the required fractional fiat reserves for legacy state taxes have not been met. The Guild never defaults on the state.
 
 ### Layer 4: Orchestration (The Fiat-to-Token Router)

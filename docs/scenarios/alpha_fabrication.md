@@ -20,7 +20,7 @@ When a physical component fails (e.g., a broken dishwasher impeller, a custom mo
 
 ## 2. The Collective Workflow (7-Layer Traversal)
 
-The Fabrication Commons converts personal fabrication capacity into an automated, neighborhood-scale public utility.
+The Fabrication Commons acts as a localized analogue to a corporate maker space (akin to Microsoft's "The Garage"), converting atomized personal fabrication capacity and equipment into an automated, neighborhood-scale public utility. It functions as both a comprehensive hub for stationary fabrication and diagnostics (3D printers, CNC metal cutters, woodworking stations, oscilloscopes) and a shared "tool library" for high-value portable equipment (e.g., lawn mowers, power drills).
 
 ```mermaid
 graph TD
@@ -33,23 +33,24 @@ graph TD
 ```
 
 ### Layer 1: Physical Ground Truth
-*   **Hardware Node:** A shared high-reliability FDM printer (e.g., Bambu Lab A1 Mini with 4-spool AMS for multi-material/color capacity) housed in a climate-controlled acoustic enclosure, coupled with an electronically latched physical retrieval locker.
-*   **Feedstock Inventory:** Standardized spools of structural PETG, recycled PLA, and TPU tagged with optical or RFID spool markers.
-*   **Action:** Extruder heating, selective AMS filament retraction and feeding, dynamic layer deposition, and automated bed clearance or manual transfer into the smart locker.
+*   **Hardware Nodes (Stationary Hub):** A shared high-reliability FDM printer (e.g., Bambu Lab A1 Mini with 4-spool AMS) housed in a climate-controlled acoustic enclosure, alongside CNC metal cutters, woodworking stations, and diagnostic benches (oscilloscopes, protoboards).
+*   **Hardware Nodes (Tool Library):** High-value, portable equipment (e.g., electric lawn mowers, reciprocating saws) housed in secure, electronically latched physical retrieval lockers or garage bays, tracked via embedded RFID or BLE beacons.
+*   **Inventory & Feedstock:** Standardized spools of structural PETG/TPU tagged with optical markers, alongside bins of spare electrical material (resistors, ICs) and standardized lumber/sheet metal.
+*   **Action:** Extruder heating and layer deposition for printing, alongside physical solenoid latch actuation for smart lockers allowing users to check-in/check-out portable tools and materials.
 
 ### Layer 2: Digital Twin & Telemetry
 *   **Ingress Telemetry (MQTT):**
     *   `node/fab/printer_01/telemetry/nozzle_temp` (Target vs. Actual °C)
-    *   `node/fab/printer_01/telemetry/bed_temp` (°C)
     *   `node/fab/printer_01/telemetry/filament_used_grams` (Continuous integration)
-    *   `node/fab/printer_01/status` (`IDLE`, `PREHEAT`, `PRINTING`, `FAILED`, `COMPLETE`)
-*   **Optical Verification:** Edge-AI camera inference flags spaghetti failures or layer shifts; if confidence of failure > 85%, an emergency stop is dispatched over local MQTT.
-*   **Actuator Control:** Physical solenoid latch on the smart locker triggered via authenticated relay pin.
+    *   `node/tools/lawnmower_01/telemetry/battery_level` (%)
+    *   `node/tools/lawnmower_01/status` (`STOWED`, `IN_USE`, `MAINTENANCE_REQUIRED`)
+*   **Verification:** Edge-AI camera inference flags spaghetti failures for 3D prints. For portable tools, BLE beacon proximity paired with weight sensors in the locker bay verifies the tool has been physically returned.
+*   **Actuator Control:** Physical solenoid latch on the smart locker triggered via authenticated relay pin for both printed part retrieval and tool check-out.
 
 ### Layer 3: Network & Ledger
-*   **Escrow Lock:** Prior to g-code dispatch, the requester’s wallet locks the estimated thermodynamic fee:
-    $$\Delta V_{est} = \left( m_{filament} \cdot k_{material} + E_{electrical} \right) \cdot \lambda_{ERC}$$
-*   **Consensus Settlement:** Upon Layer 2 confirmation of `COMPLETE` and verification that actual filament mass matches the slice profile within $\pm 3\%$, the locked tokens transfer to the printer Steward, minus a localized depreciation reserve credited to the Commons Maintenance Pool.
+*   **Escrow Lock:** Prior to g-code dispatch or tool check-out, the requester’s wallet locks the estimated thermodynamic fee (for fabrication) or a temporary collateral deposit (for the tool library):
+    $$\Delta V_{est\_fab} = \left( m_{filament} \cdot k_{material} + E_{electrical} \right) \cdot \lambda_{ERC}$$
+*   **Consensus Settlement:** Upon Layer 2 confirmation of `COMPLETE` (print) or `STOWED` (tool return), the locked tokens transfer to the Steward (minus a localized depreciation reserve), or the tool collateral is safely released back to the requester.
 
 ### Layer 4: Orchestration State Machine
 The workflow is managed deterministically via an embedded BPMN 2.0 engine:
@@ -83,11 +84,12 @@ Layer 5 governs these multiple workflows via **Policy Gates**:
 ### Layer 6: Semantic Intent & The Fabrication Ontology
 The network does not understand "I need a part." Layer 6 is responsible for mapping raw human needs into strict, machine-readable JSON-LD Knowledge Artifacts. 
 
-For the Fabrication Commons, Layer 6 maintains a specific ontology that categorizes intent into four distinct branches, each triggering a completely different lifecycle:
-1.  **`FabricationIntent` (Execution):** The request to convert digital `.3mf` geometry into physical matter. Contains material specs, tolerances, and timeline.
-2.  **`MaintenanceIntent` (Hardware Care):** Emitted automatically by Layer 2 (e.g., "extruder clogged" or "bed leveling failed") or manually by a user.
-3.  **`ProcurementIntent` (Supply Chain):** Emitted when internal voxel hoppers report filament mass $< 100\text{g}$, requesting raw material replenishment.
-4.  **`LogisticsIntent` (Movement):** The request to physically transport a printed part from the Node's smart locker to a remote Trust Ring pod.
+For the Fabrication Commons, Layer 6 maintains a specific ontology that categorizes intent into five distinct branches, each triggering a completely different lifecycle:
+1.  **`FabricationIntent` (Execution):** The request to convert digital geometry or CAD paths into physical matter (via FDM printer, CNC, or laser).
+2.  **`ToolCheckoutIntent` (Library Access):** The request to temporarily check out a portable physical asset (e.g., lawn mower, oscilloscope). Contains duration bounds and collateral terms.
+3.  **`MaintenanceIntent` (Hardware Care):** Emitted automatically by Layer 2 (e.g., "extruder clogged" or "mower blade dull") or manually by a user.
+4.  **`ProcurementIntent` (Supply Chain):** Emitted when internal hoppers report low raw materials (filament, protoboards, lumber), requesting replenishment.
+5.  **`LogisticsIntent` (Movement):** The request to physically transport a part or checked-out tool from the Node to a remote Trust Ring pod.
 
 Layer 6 bundles these intents with cryptographic signatures (proving *who* is asking) and hands them down to Layer 5 for evaluation.
 
@@ -98,6 +100,7 @@ Layer 6 bundles these intents with cryptographic signatures (proving *who* is as
 graph TD
     subgraph Layer 6: Semantic Ontology
         L6_Fab[FabricationIntent]
+        L6_Tool[ToolCheckoutIntent]
         L6_Maint[MaintenanceIntent]
         L6_Proc[ProcurementIntent]
         L6_Log[LogisticsIntent]
@@ -107,20 +110,24 @@ graph TD
         P_Exec{Execution Gate: <br>Energy/Time Budget?}
         P_Maint{Maintenance Gate: <br>Valid Credential?}
         P_Proc{Procurement Gate: <br>Multi-sig Approved?}
-        P_Log{Logistics Gate: <br>Reputation Score?}
+        P_Log{Logistics Gate: <br>Reputation Score & Collateral?}
     end
 
     subgraph Layer 4: BPMN Orchestrators
-        BPMN_Print[Print Job Engine]
+        BPMN_Print[Fabrication Engine]
+        BPMN_Checkout[Tool Checkout Engine]
         BPMN_Fix[Hardware Repair Engine]
         BPMN_Buy[L7 Bulk Purchase Engine]
-        BPMN_Move[Courier / Locker Engine]
+        BPMN_Move[Courier Engine]
     end
 
     %% Routing
     L6_Fab --> P_Exec
     P_Exec -->|Approved| BPMN_Print
     P_Exec -.->|Rejected/Delay| L6_Fab
+    
+    L6_Tool --> P_Log
+    P_Log -->|Collateral Locked| BPMN_Checkout
 
     L6_Maint --> P_Maint
     P_Maint -->|Verified Steward| BPMN_Fix
@@ -136,17 +143,17 @@ graph TD
 ### Layer 7: The Legacy Proxy (Fiat Ingestion & Stewarded Procurement)
 The Fabrication Commons does not exist in a vacuum; it actively interfaces with the legacy capitalist market through the Node's Social Purpose Corporation (SPC) to achieve two vital bootstrapping functions:
 
-**1. Trojan Manufacturing (Inbound Fiat Extraction)**
-To fund the Node’s legacy tethers (property tax, ISP bills, raw filament), the SPC operates a standard, outward-facing Web2 storefront (e.g., integrating the Stripe API). Legacy consumers upload `.stl` files and pay standard legacy market rates ($30+ USD). 
+**1. Trojan Manufacturing & Rental (Inbound Fiat Extraction)**
+To fund the Node’s legacy tethers (property tax, ISP bills, equipment maintenance), the SPC operates a standard, outward-facing Web2 storefront (e.g., integrating the Stripe API). Legacy consumers upload `.stl` files for commercial 3D printing, or pay fiat to rent high-end tools (like a commercial CNC or lawn mower) at legacy market rates.
 *   The Layer 7 API intercepts the fiat payment into the SPC bank account.
-*   The API automatically generates a Layer 6 `FabricationBounty` on the internal mesh.
-*   The local Steward executes the print and is compensated in internal Value Tokens. The fiat is trapped and retained by the Node's treasury, effectively subsidizing the sovereign infrastructure using external legacy consumption.
+*   The API automatically generates a Layer 6 `FabricationBounty` or `ToolCheckoutIntent` on the internal mesh.
+*   The local Steward facilitates the print or tool handover and is compensated in internal Value Tokens. The fiat is trapped and retained by the Node's treasury, effectively subsidizing the sovereign infrastructure using external legacy consumption.
 
 **2. Ecological Leeching (Outbound Stewarded Procurement)**
-When a local citizen needs a component the mesh *cannot* physically manufacture (e.g., a NEMA 17 stepper motor, a silicon IC, or bulk raw PETG pellets), the intent hits a "Fabrication Ceiling" at Layer 4. 
+When a local citizen needs materials the mesh *cannot* physically manufacture (e.g., a NEMA 17 stepper motor, bulk protoboards, specialized woodworking blades, or bulk raw PETG pellets), the intent hits a "Fabrication Ceiling" at Layer 4. 
 *   Instead of the citizen going to Amazon and ordering a single item (incurring massive individual packaging and shipping carbon drag), the request is pushed up to Layer 7.
 *   The SPC acts as a **Decentralized Group Purchasing Organization (GPO)**. It pools all unfulfillable legacy requests across the Node for the week.
-*   The SPC uses its aggregated fiat reserves to execute a single, bulk B2B legacy purchase from vetted, ecologically optimized suppliers, minimizing shipping latency and packaging waste before distributing the parts internally via the mesh.
+*   The SPC uses its aggregated fiat reserves to execute a single, bulk B2B legacy purchase from vetted, ecologically optimized suppliers (e.g., industrial electrical suppliers, lumber yards), minimizing shipping latency and packaging waste before distributing the parts internally via the mesh.
 
 ---
 

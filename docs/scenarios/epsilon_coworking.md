@@ -1,7 +1,7 @@
 # Scenario Epsilon: Sovereign Third Place (Coworking)
 
 *   **Identifier:** `SCN-EPSILON-COWORK`
-*   **System Epic:** Decentralized Workspace, Resource Multiplexing, and Commercial Facade
+*   **System Epic:** Decentralized Workspace, Resource Multiplexing, Serendipity Routing, and Commercial Facade
 *   **Primary Layers Tested:** L2 (Twin), L3 (Ledger), L4 (Orchestrator), L5 (Governance), L6 (Semantic), L7 (Proxy)
 *   **Pass/Fail Metric:** Autonomous spatial booking and access control without human front-desk staff; successful fractional billing of power/bandwidth; seamless ingestion of fiat from legacy non-members to subsidize the lease.
 
@@ -21,14 +21,17 @@ Scenario Epsilon transforms underutilized physical spaces (a retrofitted neighbo
 
 ### Layer 6: Semantic Intent
 *   Citizens emit a `WorkspaceIntent` requesting specific spatial resources (e.g., a standing desk, a soundproof podcast booth, high-bandwidth routing) for a specific time block.
+*   **The Collaboration Beacon:** Intents carry a social state flag. Users can request `DeepWork` (do not disturb) or emit a `SkillBeacon` (e.g., "Working on C++ / Open to chat"), allowing the network to foster serendipitous collisions.
+*   **The Parent-Worker Interleave (Delta Hook):** A parent can emit a bundled `WorkspaceIntent` paired with a `CareIntent` (Scenario Delta), booking a quiet desk for themselves and a slot in the adjacent co-op playroom for their child simultaneously.
 *   The space itself continuously broadcasts a `SpatialOffering` detailing current occupancy and available assets.
 
 ### Layer 5: Policy & Web of Trust
 *   **The Etiquette Gate:** Shared spaces degrade quickly without accountability (the tragedy of the commons). Layer 5 enforces a reputational stake. If a user leaves the podcast booth a mess or violates the acoustic budget (talking loudly in the quiet zone), local Stewards flag their DID. Future `WorkspaceIntents` from that user will require a massive Value Token collateral lock, or be rejected entirely.
 
-### Layer 4: Orchestration (Spatial Multiplexing)
-*   The BPMN engine acts as the invisible front desk manager.
-*   It handles conflict resolution, ensuring a single physical desk cannot be double-booked. Once a booking is confirmed, it queues the Layer 2 actuation sequence for the user's arrival window.
+### Layer 4: Orchestration (Spatial Multiplexing & Seating)
+*   The BPMN engine acts as the invisible front desk manager and community weaver.
+*   **Conflict & Seating Logic:** It handles spatial conflicts to prevent double-booking. It also dynamically groups users physically based on their Layer 6 Intents—routing `DeepWork` intents to the isolated acoustic zones, while seating users with matching `SkillBeacons` near each other in the collaborative hub.
+*   Once a booking is confirmed, it queues the Layer 2 actuation sequence for the user's arrival window.
 
 ### Layer 3: Ledger & Fractional Exergy Billing
 *   Unlike legacy subscriptions, mesh citizens pay purely for the thermodynamic and spatial footprint they consume.
@@ -36,7 +39,8 @@ Scenario Epsilon transforms underutilized physical spaces (a retrofitted neighbo
 
 ### Layer 2 & 1: Digital Twin & Physical Reality
 *   **Telemetry & Actuation (L2):** The mesh utilizes local MQTT. When the user arrives, their mobile device authenticates via BLE (Bluetooth Low Energy) to a localized smart lock, granting physical entry. Smart plugs at the assigned desk activate power. The local router provisions a Wi-Fi VLAN specific to their DID.
-*   **Physical (L1):** Desks, ergonomic chairs, HVAC, photons, and localized acoustic paneling.
+*   **Physical (L1):** Desks, ergonomic chairs, HVAC, photons, and localized acoustic paneling. 
+*   **The Alpha Hook (Maker Space):** This physical hub is not just for laptops; it simultaneously houses the 3D printers, CNCs, and checkout lockers of the **Fabrication Commons** (Scenario Alpha), maximizing the utility of the commercial lease.
 
 ---
 

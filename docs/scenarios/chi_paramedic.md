@@ -22,17 +22,17 @@ Scenario Chi splits into two interconnected workflows: the **Paramedic Mesh** (a
 *   **The FDA Shield (Pharmacopeia):** To protect local bio-hackers and herbalists from federal prosecution, the SPC legally classifies all synthesized compounds and open-source hardware (e.g., 3D printed insulin pumps) as "Experimental Prototypes for Personal/Educational Use Only." There is no commercial fiat sale of drugs, placing the activity outside interstate commerce jurisdiction.
 
 ### Layer 6: Semantic Intent
-*   Citizens or automated L2 wearables emit a `MedicalIntent` with two sub-types: 
-    *   `AcuteTriage` (Paramedic Mesh: "Severe laceration, need immediate bleeding control").
-    *   `SynthesisRequest` (Pharmacopeia: "Requesting batch of open-source anti-inflammatory compound").
+*   **The Triage Hook:** L2 ambient sensors (like the fall-detection radar in **Scenario Phi**) or wearables emit an `AcuteTriage` intent.
+*   **The Synthesis Hook:** Citizens emit a `SynthesisRequest` (e.g., "Requesting batch of open-source anti-inflammatory compound"). If the required compound formula isn't known locally, the Orchestrator routes an R&D bounty to **Scenario Iota (Epistemic Mesh)** to reverse-engineer the legacy patent.
 
 ### Layer 5: Policy & Web of Trust (The "Do No Harm" Gate)
-*   **Proximity & Competency Gating:** When an `AcuteTriage` intent fires, Layer 5 instantly calculates the Trust Ring graph. It bypasses citizens without training and directly pings the closest DIDs holding `Trauma_Care_L2` or `First_Aid_L1` credentials.
-*   **Absolute Data Privacy:** A citizen's biological data is cryptographically locked. Layer 5 utilizes Zero-Knowledge (ZK) proofs. A practitioner can verify a patient is not allergic to a specific synthesized compound without ever gaining access to the patient's decrypted health ledger.
+*   **Proximity & Competency Gating:** When an `AcuteTriage` intent fires, Layer 5 calculates the Trust Ring graph. It directly pings the closest DIDs holding `Trauma_Care_L2` credentials. During an ecological shock (**Scenario Upsilon**), it utilizes offline LoRaWAN to ensure dispatch succeeds even if legacy cell towers are down.
+*   **Absolute Data Privacy:** In legacy systems, health data is commodified. Here, it is cryptographically sovereign. Layer 5 utilizes Zero-Knowledge (ZK) proofs. A Paramedic can mathematically verify a patient is not allergic to a compound without ever gaining decryption access to the patient's lifelong health ledger.
 
-### Layer 4: Orchestration (Dispatch & Bio-Routing)
-*   **Paramedic Dispatch:** The BPMN engine acts as the decentralized 911 dispatcher. It routes the alert via the localized mesh network (even if legacy cell towers are down, per Scenario Upsilon) to the nearest qualified responder, locking their other pending intents.
-*   **Hardware Routing:** If a `SynthesisRequest` requires specialized diagnostic tools, Layer 4 routes a sub-bounty to Scenario Alpha (3D Printing) to assemble the open-source hardware locally.
+### Layer 4: Orchestration (Dispatch, Fabrication & Apprenticeship)
+*   **Paramedic Dispatch:** The BPMN engine acts as a decentralized 911 dispatcher. It routes the alert to the nearest qualified responder, instantly suspending their other pending intents (e.g., pausing their 3D print job or lowering the heat on their forge).
+*   **Hardware Routing:** If a `SynthesisRequest` requires specialized diagnostic tools (e.g., an open-source centrifuge or insulin pump), Layer 4 routes a sub-bounty to **Scenario Alpha (Fabrication)** to print the parts, and **Scenario Theta (Foundry)** to cast the metal chassis.
+*   **The Mentorship Bridge:** To ensure the Node never has a "single point of failure" for bio-synthesis, Layer 4 actively bridges with **Scenario Kappa (Apprenticeship)**, mathematically requiring Master Bio-Hackers to take on apprentices to disseminate the Pharmacopeia knowledge.
 
 ### Layer 3: Ledger (Minting Survival)
 *   Legacy medicine profits from prolonged sickness. The Collective profits from resilience.

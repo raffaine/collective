@@ -1,9 +1,9 @@
 # Scenario Eta: Coppice & Carbon Commons
 
 *   **Identifier:** `SCN-ETA-COPPICE`
-*   **System Epic:** Regenerative Biomass Harvesting, Carbon Sequestration, and Thermal Fuel
+*   **System Epic:** Regenerative Biomass Harvesting, Carbon Sequestration, Bio-Acoustics, and Communal Labor
 *   **Primary Layers Tested:** L1 (Physical), L2 (Twin), L3 (Ledger), L4 (Orchestrator), L5 (Governance), L7 (Proxy)
-*   **Pass/Fail Metric:** Continuous harvesting of biomass (wood fuel/timber) where the harvest rate is mathematically $\le$ the localized regenerative growth rate; verifiable tracking of wood moisture content to ensure zero-creosote combustion.
+*   **Pass/Fail Metric:** Continuous harvesting of biomass (wood/timber) where the harvest rate is strictly $\le$ the localized regenerative growth rate; verifiable tracking of wood moisture content; active bio-acoustic monitoring maintaining biodiversity baselines.
 
 ---
 
@@ -21,7 +21,8 @@ Scenario Eta uses the digital twin to calculate the exact Ecological Replacement
 *   **Trojan Carbon Credits:** If the Node sequesters more carbon than it emits, the SPC can package the L2 cryptographic proofs and sell them on legacy Web2 carbon offset markets, ingesting fiat to pay the remaining taxes.
 
 ### Layer 6: Semantic Intent
-*   Citizens emit a `HarvestIntent` (requesting permission to fell a specific coppice block for winter fuel or building materials).
+*   Citizens or the Maker Space (Scenario Alpha) emit a `HarvestIntent` (requesting permission to fell a specific coppice block for winter fuel or structural timber).
+*   **The "Work Party" Hook:** A `HarvestIntent` inherently triggers a `GatheringIntent`. Heavy forestry labor is culturally transformed into a community event, automatically pinging the Commons Kitchen (Scenario Gamma) to cater a hot meal for the work crew.
 *   The system generates a `CarbonAttestation` whenever new growth reaches a specific biomass threshold.
 
 ### Layer 5: Policy & Web of Trust (The Ecological Gate)
@@ -37,8 +38,10 @@ Scenario Eta uses the digital twin to calculate the exact Ecological Replacement
 *   **Extraction Cost:** When a citizen harvests the wood, they must burn or escrow Value Tokens equal to the Ecological Replacement Cost of that biomass. 
 
 ### Layer 2 & 1: Digital Twin & Physical Reality
-*   **Telemetry (L2):** GIS mapping and drone-assisted photogrammetry generate a 3D point cloud of the local canopy, translating physical tree volume into voxel data. Moisture meters embedded in the drying racks broadcast MQTT data on the wood's curing status.
-*   **Physical (L1):** Alder trees, axes, chainsaws, drying sheds, and the physical act of hauling timber.
+*   **Telemetry (L2):** GIS mapping and drone-assisted photogrammetry generate a 3D point cloud of the local canopy. 
+*   **Bio-Acoustic Monitoring (L2 Enrichment):** Edge-AI microphones continuously monitor bird songs and amphibian calls. If the biodiversity index drops, Layer 5 dynamically tightens the harvest limits, ensuring the ledger responds directly to wildlife health.
+*   Moisture meters embedded in the drying racks broadcast MQTT data on the wood's curing status.
+*   **Physical (L1):** Alder trees, axes, chainsaws, drying sheds, and the physical act of community members hauling timber.
 
 ---
 
@@ -51,18 +54,20 @@ graph TD
     end
 
     subgraph Layer 6: Intent
-        Steward[Forestry Steward]
-        Intent[Emits HarvestIntent]
+        Steward[Forestry Steward / Maker Space]
+        Intent[Emits HarvestIntent <br> + WorkParty Gathering]
     end
 
     subgraph Layer 5: Policy
         ERCCheck{Does Harvest Volume <br> Exceed Net Growth?}
         SeasonCheck{Is it Winter <br> Dormancy?}
+        BioCheck{Are Bio-Acoustic <br> Baselines Healthy?}
     end
 
     subgraph Layer 4: Orchestrator
-        BPMN[Harvest Scheduler]
+        BPMN[Harvest & Work Party Scheduler]
         Seasoning[Seasoning/Drying Queue]
+        MuHook[Route Slash to Scenario Mu]
     end
 
     subgraph Layer 3: Ledger
@@ -71,7 +76,7 @@ graph TD
     end
 
     subgraph Layer 2: Twin & Telemetry
-        GIS[Drone Photogrammetry / LiDAR]
+        GIS[Drone Photogrammetry & Bio-Acoustics]
         Moisture[IoT Wood Moisture Sensors]
     end
 
@@ -82,10 +87,15 @@ graph TD
 
     %% Sovereign Flow
     GIS -->|Logs Biomass Increase| Mint
+    GIS -->|Feeds Health Data| BioCheck
+    
     Steward --> Intent
     Intent --> SeasonCheck
-    SeasonCheck -->|Yes| ERCCheck
+    SeasonCheck -->|Yes| BioCheck
     SeasonCheck -->|No| Reject[Wait for Winter]
+    
+    BioCheck -->|Healthy| ERCCheck
+    BioCheck -->|Degraded| Reject
     
     ERCCheck -->|Valid| BPMN
     ERCCheck -->|Exceeds ERC| Reject
@@ -94,8 +104,9 @@ graph TD
     Deduct --> Action[Layer 1: Physical Harvest]
     
     Action --> Seasoning
+    Action --> MuHook
     Seasoning -.->|Wait 6-12 Months| Moisture
-    Moisture -->|Moisture < 20%| Fuel[Release for Thermal Fuel]
+    Moisture -->|Moisture < 20%| Fuel[Release for Thermal/Timber]
 ```
 
 ---

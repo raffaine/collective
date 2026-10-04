@@ -24,12 +24,15 @@ Scenario Psi establishes a decentralized arbitration and restorative justice pro
 *   A citizen emits a `MediationIntent` (e.g., "DID_02 accidentally destroyed my borrowed power tool and is refusing to replace it," or "Deep interpersonal conflict requiring de-escalation").
 *   The intent defines the nature of the fracture and the desired restitution.
 
-### Layer 5: Policy & Web of Trust (The Neutrality Engine)
-*   **Graph-Calculated Neutrality:** When the intent is filed, Layer 5 analyzes the Trust Ring graph. It mathematically searches for an `Apothecary_L3` or `Mediator` who has the exact same graph distance (degrees of separation and vouch weight) from *both* conflicting parties, ensuring absolute cryptographic neutrality. 
-*   **Temporary Escrow Lock:** To prevent capital flight during a dispute, Layer 5 temporarily freezes the disputed amount of Value Tokens in both parties' CRDT wallets until the mediation concludes.
+### Layer 5: Policy & Web of Trust (Neutrality & The Abuse Bypass)
+*   **Graph-Calculated Neutrality:** When the intent is filed, Layer 5 analyzes the Trust Ring graph. It mathematically searches for a Mediator who has the exact same graph distance (degrees of separation and vouch weight) from *both* conflicting parties, ensuring absolute cryptographic neutrality. 
+*   **Temporary Escrow Lock:** To prevent capital flight, Layer 5 temporarily freezes the disputed Value Tokens in both parties' CRDT wallets.
+*   **The Safe Harbor Bypass:** If the intent flags physical or psychological abuse (Intimate Coercion), Layer 5 bypasses mediation entirely. It immediately bridges to **Scenario Omicron (The Safe Harbor Severance)**, legally and mathematically severing the abuser's access to the victim without requiring the victim to sit in a room with them.
 
-### Layer 4: Orchestration (The Council Fire)
-*   The BPMN engine acts as the bailiff and scheduler. It routes the intent to the selected neutral mediators and schedules a physical "Council Fire" or mediation sit-down (booking a secure, acoustically private space via Scenario Epsilon).
+### Layer 4: Orchestration (The Council Fire & Restitution Routing)
+*   **The Council Fire:** The BPMN engine routes the intent to the neutral mediators and schedules a physical sit-down (booking a secure, acoustically private space via **Scenario Epsilon**).
+*   **Labor Restitution:** If the resolution requires thermodynamic restitution instead of tokens, Layer 4 routes the offender to **Scenario Sigma (Maintenance Commons)**, assigning them low-status cleaning bounties until the kinetic debt is paid.
+*   **The Slashing Bridge:** If a party completely refuses arbitration or acts maliciously, Layer 4 escalates to **Scenario Rho (Adversarial Mesh)**, initiating a cascade that slashes their reputation and exiles them from the Node.
 
 ### Layer 3: Ledger (Thermodynamic Restitution)
 *   Legacy courts extract fiat. The mesh requires thermodynamic restitution. If Alice broke Bob's tool, she doesn't just pay a fine to a central authority; the ledger facilitates a direct transfer of Value Tokens, or orchestrates a `MaintenanceBounty` (Scenario Sigma) where Alice performs physical labor for Bob to make him whole. 

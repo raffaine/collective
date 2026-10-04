@@ -1,20 +1,20 @@
 # Scenario Delta: Mutual Aid Childcare Pod
 
 *   **Identifier:** `SCN-DELTA-CHILD`
-*   **System Epic:** Trust Rings, Invisible Labor Valuation, and Decentralized Scheduling
+*   **System Epic:** Trust Rings, Invisible Labor Valuation, Intergenerational Care, and Decentralized Scheduling
 *   **Primary Layers Tested:** L2 (Twin), L3 (Ledger), L4 (Orchestrator), L5 (Governance), L6 (Semantic), L7 (Proxy)
-*   **Pass/Fail Metric:** Successful decentralized scheduling of care blocks respecting strict adult-to-child ratios; mathematical validation of care-work compensation via Value Tokens; zero legacy state childcare licensure violations.
+*   **Pass/Fail Metric:** Successful decentralized scheduling of care blocks respecting dynamic adult-to-child ratios; mathematical validation of care-work compensation via Value Tokens; zero legacy state childcare licensure violations.
 
 ---
 
 ## 1. Problem Statement & Legacy Failure
 
-In the legacy economy, childcare is simultaneously one of the most expensive services a family can purchase and one of the lowest-paid professions in the market. The legacy state enforces rigid licensure laws that heavily capitalize corporate daycares, while atomizing the nuclear family.
+In the legacy economy, childcare is simultaneously one of the most expensive services a family can purchase and one of the lowest-paid professions in the market. The legacy state enforces rigid licensure laws that heavily capitalize corporate daycares, while atomizing the nuclear family and isolating elders from daily community life.
 Furthermore, informal care work (often performed by mothers or elders) is treated as "invisible labor" with zero recognized economic value. When parents try to form informal "co-ops," the scheduling logistics often collapse under human burnout (Scenario Sigma), and exchanging fiat money triggers state intervention for operating an "unlicensed daycare."
 
 ## 2. The Collective Workflow (7-Layer Traversal)
 
-Scenario Delta utilizes a highly restricted **Trust Ring** to distribute childcare across a trusted pod of families. It mathematically recognizes care work as valuable negentropy (allowing other parents to perform high-exergy tasks) while legally shielding the pod from legacy state interference.
+Scenario Delta utilizes a highly restricted **Trust Ring** to distribute childcare across a trusted pod of families and elders. It mathematically recognizes care work as valuable negentropy (allowing parents to perform high-exergy tasks, and giving elders profound psychological purpose) while legally shielding the pod from legacy state interference.
 
 ### Layer 7: The Legacy Proxy (Liability & Co-op Shielding)
 *   **Regulatory Shield:** In many jurisdictions, caring for children from multiple families in exchange for fiat currency legally constitutes an "unlicensed daycare." Because the mesh utilizes internal Value Tokens (representing thermodynamic work, not fiat), the pod legally operates as a "Babysitting Co-op" or mutual aid group under the Social Purpose Corporation's (SPC) umbrella.
@@ -22,17 +22,20 @@ Scenario Delta utilizes a highly restricted **Trust Ring** to distribute childca
 *   **Fiat Procurement:** The SPC aggregates fiat to bulk-purchase physical supplies (diapers, organic snacks, craft materials) from legacy suppliers, distributing them to host homes.
 
 ### Layer 6: Semantic Intent
-*   Parents emit a `CareIntent` (requesting care for their children for a specific time block).
-*   Hosts emit a `CareOffering` (offering their time and physical space).
-*   Both intents carry critical metadata: allergies, behavioral support needs, and age brackets.
+*   Parents emit a standard `CareIntent` (requesting care for a specific block) or an `EmergencyCareIntent` (a digital "flare" for immediate crisis aid, bypassing normal buffers).
+*   Hosts and Elders emit a `CareOffering` (offering their time, physical space, or specific skill-sharing).
+*   Both intents carry critical metadata: allergies, behavioral support needs (neurodivergence), and age brackets.
+*   **Scenario Gamma Hook:** A successful `CareIntent` automatically emits a `PantryIntent` to the Kitchen, requesting snacks mapped perfectly to the incoming kids' allergies.
 
 ### Layer 5: Policy & Web of Trust (The Trust Ring)
-*   **Absolute Privacy:** Unlike Fabrication Bounties, Childcare intents are *not* broadcast to the general mesh. They are cryptographically locked to a specific `TrustRing` (e.g., "Duvall Pod Alpha"). Only authorized DIDs can decrypt and view the schedule.
-*   **Competency & Background Gates:** To be added to the Trust Ring as a Caregiver, the user's decentralized identity must hold verified attestations (e.g., `Pediatric_CPR_L1`, `Background_Vouch`). Adding a new member to the pod requires an `n-of-m` multi-signature consensus from existing parents.
+*   **Absolute Privacy:** Childcare intents are *not* broadcast to the general mesh. They are cryptographically locked to a specific `TrustRing` (e.g., "Duvall Pod Alpha"). Only authorized DIDs can decrypt and view the schedule.
+*   **Intergenerational Synergy:** Elders (from Scenario Phi) are explicitly integrated into the Trust Ring as preferred hosts or auxiliary storytellers, restoring the Blue Zone dynamic of cross-generational care.
+*   **Competency & Background Gates:** To be added to the Trust Ring as a Caregiver, the user's decentralized identity must hold verified attestations (e.g., `Pediatric_CPR_L1`, `Background_Vouch`). Adding a new member requires an `n-of-m` multi-signature consensus.
 
 ### Layer 4: Orchestration (Ratio & Conflict Engine)
-*   The BPMN engine acts as the strict logistical scheduler.
-*   **Ratio Enforcement:** The state machine mathematically prevents overbooking. If the Trust Ring policy sets a ratio of 1 Adult to 4 Children, the engine will block any `CareIntent` that attempts to push the host's active queue to 5 children, forcing a second adult to accept a `CareOffering` to unlock the slots.
+*   The BPMN engine acts as the logistical scheduler and crisis router.
+*   **Dynamic Ratio Enforcement:** The state machine calculates ratios based on human need, not just headcounts. While the baseline might be 1 Adult to 4 Children, if a child's DID metadata indicates profound neurodivergence or high behavioral support needs, the engine dynamically adjusts the required ratio down to 1:2 or 1:1, protecting the caregiver from burnout.
+*   **Crisis Routing:** If an `EmergencyCareIntent` is emitted, the engine overrides standard 24-hour scheduling buffers and instantly pings the nearest available, highly trusted Ring members for rapid deployment.
 
 ### Layer 3: Ledger & Invisible Labor
 *   Caregiving is thermodynamic labor. Keeping human children safe, fed, and emotionally regulated requires immense caloric and psychological exergy. 
@@ -53,17 +56,18 @@ graph TD
     end
 
     subgraph Layer 6: Intent
-        Parent[Parent emits CareIntent]
-        Host[Host emits CareOffering]
+        Parent[Emits CareIntent / EmergencyFlare]
+        Host[Elder/Host emits CareOffering]
     end
 
     subgraph Layer 5: Policy & Trust Rings
         RingCheck{Are Both DIDs in <br>Duvall Pod Alpha?}
-        RatioPolicy{Is Adult:Child <br>Ratio <= 1:4?}
+        RatioPolicy{Check Dynamic Ratio <br>based on Needs}
     end
 
     subgraph Layer 4: Orchestrator
         Match[BPMN Scheduler Locks Slot]
+        FoodTrigger[Trigger L6 PantryIntent]
         Wait[Wait for Handoff Event]
     end
 
@@ -86,6 +90,7 @@ graph TD
     RatioPolicy -->|Valid| Match
     RatioPolicy -->|Exceeded| Queue[Hold for 2nd Adult]
     
+    Match --> FoodTrigger
     Match --> Escrow
     Escrow --> Wait
     

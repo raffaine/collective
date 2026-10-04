@@ -16,21 +16,24 @@ Simultaneously, this deprives the younger generations of critical context, patie
 
 Scenario Phi operates on the principle of the Golden Ratio: perfect proportionality. It distributes the kinetic burden of physical care across the entire Trust Ring, while channeling the elder's passive wisdom and presence back into the center of the community.
 
-### Layer 7: The Legacy Proxy (Medical & Legal Shielding)
-*   **The Mutual Care Trust:** To avoid being classified by the legacy state as an "unlicensed assisted living facility," the Social Purpose Corporation (SPC) legally structures the living arrangement as a Multi-Generational Housing Cooperative or Mutual Aid Society. 
-*   **Legacy Medical Routing:** The SPC handles the bureaucratic labyrinth of legacy Medicare, Medicaid, and hospice services, translating fiat medical requirements into internal mesh workflows.
+### Layer 7: The Legacy Proxy (Medical, Legal & End-of-Life Shielding)
+*   **The Mutual Care Trust:** To avoid being classified by the legacy state as an "unlicensed assisted living facility," the Social Purpose Corporation (SPC) legally structures the living arrangement as a Multi-Generational Housing Cooperative. 
+*   **Legacy Medical Routing:** The SPC handles the bureaucratic labyrinth of legacy Medicare, Medicaid, and hospice services. When the time comes, it acts as the legal executor, handling legacy death certificates and shielding the community from state probate interference.
 
 ### Layer 6: Semantic Intent
-*   Elders or their advocates emit an `ElderSupportIntent` (requesting specific kinetic assistance: e.g., meal preparation, mobility help, or transportation).
-*   Elders also emit `WisdomOfferings` (e.g., offering to passively monitor sleeping children, tell historical stories, or verbally mentor an apprentice in Scenario Kappa).
+*   Elders or their advocates emit an `ElderSupportIntent` (requesting specific kinetic assistance: e.g., meal preparation, mobility help).
+*   Elders also emit `WisdomOfferings` (e.g., offering to passively monitor sleeping children, tell historical stories, or verbally mentor an apprentice in **Scenario Kappa**).
+*   **The Architectural Retrofit Intent:** If physical mobility declines, the Elder emits a `RetrofitIntent` to **Scenario Xi (Algorithmic Architecture)**, automatically commanding the Orchestrator to generate parametric ramps and handrails to upgrade their existing Micro-Lodge (**Scenario Zeta**).
 
 ### Layer 5: Policy & Web of Trust (The Dignity Gate)
-*   **Vulnerability Safeguards:** Trust Rings are drawn exceptionally tight around vulnerable citizens. Layer 5 requires maximum cryptographic vouching (Scenario Omicron) and verified background attestations before a citizen is allowed to accept an `ElderSupportIntent` involving personal care or medication management.
+*   **Vulnerability Safeguards:** Trust Rings are drawn exceptionally tight around vulnerable citizens. Layer 5 requires maximum cryptographic vouching (**Scenario Omicron**) and verified background attestations before a citizen is allowed to accept an `ElderSupportIntent` involving personal care.
 *   **Privacy & Autonomy:** The elder retains absolute sovereign control over their space. L5 policy strictly dictates that care is consensual, preserving dignity above all efficiency metrics.
 
-### Layer 4: Orchestration (Fractional Caregiving)
+### Layer 4: Orchestration (Fractional Caregiving & Medical Routing)
 *   The BPMN engine solves the caregiver burnout crisis. Instead of one person providing 40 hours of grueling, isolated care per week, the orchestrator fractures the requirement. It schedules 20 different trusted citizens to provide 2 hours of care each, seamlessly integrating eldercare into the daily flow of the Node. 
-*   It routes Scenario Gamma (Meals) and Scenario Sigma (Cleaning) directly to the elder's living space.
+*   It routes **Scenario Gamma** (Meals) and **Scenario Sigma** (Cleaning) directly to the elder's living space.
+*   It explicitly routes medication management and acute physical monitoring to **Scenario Chi (Paramedic Mesh)**, ensuring trained responders handle medical loads.
+*   **The End-of-Life Bridge:** At the end of life, the Orchestrator transitions from care routing to **Scenario Omega (The Terminal Decoupling)**, safely returning the Elder's physical assets to the commons and permanently archiving their cryptographic legacy.
 
 ### Layer 3: Ledger (Valuing Wisdom and Presence)
 *   Physical caregiving is minted as highly valuable thermodynamic labor.

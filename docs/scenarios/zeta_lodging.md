@@ -1,7 +1,7 @@
 # Scenario Zeta: Micro-Lodging Mesh
 
 *   **Identifier:** `SCN-ZETA-LODGE`
-*   **System Epic:** Decentralized Short-Term Housing, Zero-Extraction Hospitality, and Spatial Routing
+*   **System Epic:** Decentralized Short-Term Housing, Zero-Extraction Hospitality, Skill Bartering, and Spatial Routing
 *   **Primary Layers Tested:** L2 (Twin), L3 (Ledger), L4 (Orchestrator), L5 (Governance), L6 (Semantic), L7 (Proxy)
 *   **Pass/Fail Metric:** Successful spatial booking and physical access without centralized platform fees; automated thermodynamic billing of guest utility usage; successful legal insulation from municipal hotel zoning.
 
@@ -23,19 +23,22 @@ Scenario Zeta establishes a peer-to-peer micro-lodging mesh. It mathematically l
 ### Layer 6: Semantic Intent
 *   Hosts emit a `LodgingOffering` detailing the spatial specs (beds, square footage, amenities, house rules).
 *   Travelers emit a `LodgingIntent` requesting shelter for a specific temporal block.
+*   **The Barter Modifier:** A traveler can append a `SkillOffering` to their intent (e.g., "I am a carpenter and can repair the porch during my stay").
+*   **Cross-Scenario Hooks:** A `LodgingIntent` can bundle a `VehicleCheckoutIntent` (Scenario Beta) for a community e-bike, and trigger a `PantryIntent` (Scenario Gamma) for a local welcome basket upon arrival.
 
 ### Layer 5: Policy & Web of Trust (The Safety Gate)
 *   **Cryptographic Vouching:** You do not invite random, untrusted individuals into your sanctuary. Layer 5 evaluates the graph distance between the Host and the Traveler. If the Traveler is an unknown entity (e.g., from a distant bioregional Node), they must present a `Trusted_Traveler` Verifiable Credential signed by a Steward recognized by the local Trust Ring, or lock a massive reputational collateral stake.
 *   **House Rules as Code:** Acoustic budgets and privacy boundaries are cryptographically agreed upon prior to booking.
 
 ### Layer 4: Orchestration (Booking & Maintenance Lifecycle)
-*   The BPMN engine acts as the decentralized property manager.
-*   It handles temporal conflict resolution (preventing double bookings).
-*   **The Maintenance Loop:** Upon guest checkout, the engine automatically emits a `MaintenanceIntent` (linking to Scenario Alpha/Gamma logic) to the local mesh, offering a Value Token bounty for a local citizen to clean the space and reset the linens.
+*   The BPMN engine acts as the decentralized property manager and cultural ambassador.
+*   It handles temporal conflict resolution (preventing double bookings) and synchronizes bundled BLE keys for transit (Scenario Beta).
+*   **The Welcome & Maintenance Loops:** Upon booking confirmation, it emits a `PantryIntent` for the Commons Kitchen to stage a welcome basket. Upon checkout, it emits a `MaintenanceIntent` offering a Value Token bounty for a local citizen to clean the space and reset the linens.
 
 ### Layer 3: Ledger & Exact-Exergy Billing
 *   Zero platform extraction fees. 100% of the Value Tokens escrowed by the guest transfer to the host and the cleaning steward.
 *   **Thermodynamic Fairness:** The baseline token cost covers space and depreciation. However, if a guest cranks the HVAC to 80°F in winter or takes a 45-minute hot shower, Layer 2 telemetry adds the exact exergy cost of the electricity and water to their final ledger settlement.
+*   **Skill Bartering Offset:** If the host accepted a bundled `SkillOffering`, the engine calculates the negentropy value of the traveler's labor and mathematically deducts it from the escrow, enabling historically authentic "work-trade" travel without fiat.
 
 ### Layer 2 & 1: Digital Twin & Physical Reality
 *   **Telemetry & Actuation (L2):** A BLE/NFC smart lock provisions a temporary cryptographic key to the guest's mobile device for the duration of the booking. IoT sensors monitor ambient room temperature, water flow, and decibel levels (without recording audio) to enforce the acoustic budget.
@@ -54,7 +57,7 @@ graph TD
 
     subgraph Layer 6: Intent
         Traveler[Mesh Citizen Traveler]
-        Intent[Emits LodgingIntent]
+        Intent[Emits LodgingIntent <br> + Optional SkillOffering]
     end
 
     subgraph Layer 5: Policy & Safety
@@ -64,11 +67,12 @@ graph TD
 
     subgraph Layer 4: Orchestrator
         BPMN[Booking Engine & Conflict Resolution]
+        Hooks[Trigger L6 Pantry & Transit Hooks]
         CleanBounty[Emit Cleaning & Maintenance Bounty]
     end
 
     subgraph Layer 3: Ledger
-        Escrow[Lock Value Tokens]
+        Escrow[Lock Tokens minus <br> Skill Barter Offset]
         Settle[Base Rate + Exergy Telemetry Cost]
     end
 
@@ -90,6 +94,7 @@ graph TD
     GraphCheck -->|Unknown| Block[Require Credential or Collateral]
     RulesCheck -->|Yes| BPMN
     
+    BPMN --> Hooks
     BPMN --> Escrow
     Escrow --> Lock
     Lock -->|Guest Enters| Sensors

@@ -32,17 +32,19 @@ Scenario Rho outlines the specific attack vectors at each layer of the Sovereign
 *   **The Attack:** An actor spams 10,000 fake `FabricationIntents` to the local BPMN queue, attempting to lock up all the 3D printers and deny service to the rest of the Node.
 *   **The Defense (Economic Throttling):** Submitting an intent to Layer 4 requires locking Value Tokens in escrow. The attacker will instantly drain their wallet on the first few jobs. If they submit intents without escrow, the BPMN engine instantly drops the packets.
 
-### Layer 5: Governance & Policy (Collusion & Sybil Voting)
-*   **The Attack:** A group of five malicious users colludes, creating hundreds of fake DIDs (a Sybil attack) and vouching for each other to falsely inflate their Reputation Weight, attempting to dominate a multi-sig consensus vote (e.g., voting to spend the fiat treasury).
-*   **The Defense (Social Slashing & L2 Grounding):** Reputation cannot be generated in a digital vacuum. Graph distance algorithms mathematically devalue clustered, self-referential vouches. Furthermore, high-level Trust Ring membership requires L2 cryptographic proof of physical proximity (NFC bumps). If the colluding ring acts maliciously, "Social Slashing" cascades through their graph, destroying the reputation of the entire ring and neutralizing their voting power instantly.
+### Layer 5: Governance & Policy (Collusion & Intimate Coercion)
+*   **The Sybil Attack:** Malicious users collude, creating fake DIDs to falsely inflate their Reputation Weight, attempting to dominate a multi-sig vote.
+*   **The Sybil Defense:** Graph distance algorithms mathematically devalue clustered, self-referential vouches. High-level Trust Ring membership requires L2 cryptographic proof of physical proximity (breaking bread in Scenario Gamma). If the ring acts maliciously, "Social Slashing" cascades, destroying the reputation of the entire ring.
+*   **The Coercion Attack:** A high-status Master attempts to hold a vulnerable Apprentice (Scenario Kappa) hostage, threatening a retaliatory reputation slash if the apprentice leaves their guild or romantic relationship.
+*   **The Coercion Defense:** The victim executes a `SeveranceIntent` (Scenario Omicron). The engine executes the "Safe Harbor" protocol, dissolving the graph edge without triggering a slashing penalty, mathematically neutralizing the abuser's social leverage.
 
 ### Layer 6: Semantic Intent (Ontology Poisoning)
 *   **The Attack:** An actor submits malformed JSON-LD payloads designed to execute buffer overflows or poison the semantic parsing engine of the local node.
 *   **The Defense:** Strict schema validation at the edge. Any intent that does not perfectly match the cryptographic hash of the approved W3C ontology is dropped before it reaches the BPMN engine. 
 
 ### Layer 7: The Legacy Proxy (Legal & Financial Warfare)
-*   **The Attack:** The legacy state issues a subpoena targeting the internal activities of a specific citizen, or a legacy corporation attempts to sue the Node for patent infringement regarding an open-source 3D printed part.
-*   **The Defense (The Ablative Shield):** The Social Purpose Corporation (SPC) absorbs the attack. Because internal mesh identities are pseudonymous and protected by Zero-Knowledge proofs (Scenario Pi), the SPC can truthfully comply with the state by stating it holds no legacy records of the citizen's internal actions. For IP attacks, the SPC deploys its Defensive Patent License (DPL) wrapper (Scenario Iota), legally neutralizing corporate enclosure.
+*   **The Attack:** The legacy state issues a subpoena targeting the internal activities of a specific citizen, or a legacy university/corporation attempts to sue the Node for "Reverse Leeching" (Scenario Kappa's institutional extraction of grants/hardware).
+*   **The Defense (The Ablative Shield):** The Social Purpose Corporation (SPC) absorbs the attack. Because internal mesh identities are pseudonymous and protected by Zero-Knowledge proofs (Scenario Pi), the SPC can truthfully comply with the state by stating it holds no legacy records mapping the external legacy identity to the internal mesh actions. For IP/Extraction attacks, the SPC acts as the legal firewall, deploying its Defensive Patent License (DPL) wrapper (Scenario Iota) to legally neutralize corporate enclosure and shield the individual citizens from liability.
 
 ---
 

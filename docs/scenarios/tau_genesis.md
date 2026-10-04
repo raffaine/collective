@@ -9,8 +9,8 @@
 
 ## 1. Problem Statement & Legacy Failure
 
-In the legacy system, "onboarding" into society is coercive and bureaucratic. You are assigned a Social Security Number at birth, and your identity is reduced to extractive metrics: a credit score, a criminal background check, and a corporate resume. When you move to a new neighborhood, your actual utility—your tools, your skills, your willingness to help—is completely invisible to the people living 50 feet away from you.
-To build a highly resilient, decentralized Node, new citizens must be able to securely plug their physical reality into the digital twin. The mesh needs to know if a newcomer has a table saw, a spare bedroom, or a background in permaculture, and the newcomer needs a secure, trust-based pathway to begin trading that exergy without legacy gatekeepers.
+In the legacy system, "onboarding" into society is coercive and bureaucratic. Your identity is reduced to extractive metrics: a credit score, a criminal background check, and a corporate resume. When you move to a new neighborhood, your actual utility—your tools, your skills, your willingness to help—is completely invisible to the people living 50 feet away from you.
+To build a highly resilient, decentralized Node, new citizens must be able to securely plug their physical reality into the digital twin. The challenge is two-fold: First, the "Cold Start" problem. How does the very first Steward birth a new physical Node without a pre-existing Trust Ring? Second, how does a newcomer to an existing Node seamlessly "roll their character," digitizing their physical assets (a table saw, a spare bedroom) and skills (permaculture, coding) into a secure, trust-based pathway to begin trading exergy without legacy gatekeepers.
 
 ## 2. The Collective Workflow (7-Layer Traversal)
 
@@ -20,14 +20,16 @@ Scenario Tau is the "Genesis Protocol." It walks a legacy citizen through the cr
 *   **The Legal Waiver:** Before generating keys, the legacy human signs a standard, legacy-compliant membership agreement or liability waiver with the Social Purpose Corporation (SPC). This legally classifies the mesh interactions as a "Private Mutual Aid Society" or "Private Club," shielding the internal thermodynamic trades from being classified by the legacy state as taxable commercial sales.
 
 ### Layer 6: Semantic Intent
-*   The newcomer emits a `GenesisIntent`. This is the "character sheet." It declares their physical location, their baseline skills, and the physical assets they are willing to plug into the mesh (e.g., "I am bringing a Bambu Lab A1 Mini, a set of metric wrenches, and a 50L biochar retort").
+*   The newcomer emits a `GenesisIntent`. This is their definitive "Character Sheet." It declares their physical location, baseline skills, and physical assets (e.g., "I am bringing a Bambu Lab A1, metric wrenches, and a 50L biochar retort").
+*   **The Cross-Scenario Handshake:** Emitting this intent simultaneously triggers **Scenario Pi (The Sovereign Guild)** to establish their legacy EOR tax shield, and **Scenario Kappa (Apprenticeship)** to register them as an available apprentice/master in their declared skills.
 
-### Layer 5: Policy & Web of Trust (The Sponsorship Gate)
-*   **The Genesis Vouch:** A new DID cannot simply spawn into the network with full privileges. The `GenesisIntent` must be co-signed by an existing Steward (their Sponsor) via a physical Key-Signing Party (Scenario Omicron). The Sponsor stakes a small amount of their own Reputational Weight to grant the newcomer `Trust_Level_1`, opening the lowest-risk mesh gates (e.g., claiming maintenance bounties).
+### Layer 5: Policy & Web of Trust (The Prime vs. Standard Genesis)
+*   **Prime Genesis (Node Birth):** If this is the birth of a brand new physical Node, there is no local Steward to vouch. The founding Steward must undergo a "Prime Genesis," utilizing a multi-sig cryptographic vouch from the global Collective network and heavily staking their own legacy fiat in the SPC to establish the initial trust anchor.
+*   **Standard Genesis (Sponsorship):** For newcomers joining an active Node, the `GenesisIntent` must be co-signed by an existing Steward (their Sponsor) via a physical Key-Signing Party (linked to **Scenario Omicron** and breaking bread in **Scenario Gamma**). The Sponsor stakes their Reputational Weight to grant the newcomer `Trust_Level_1`.
 
 ### Layer 4: Orchestration (The Orientation Quests)
-*   The BPMN engine ingests the `GenesisIntent` and algorithmically generates a personalized "Orientation Queue." 
-*   If the newcomer declared a 3D printer, Layer 4 immediately queues a `CalibrationBounty`—asking them to print a standard 20mm calibration cube and upload the L2 telemetry to prove their hardware is functional. 
+*   The BPMN engine acts as the "Dungeon Master," ingesting the Character Sheet and generating a personalized "Orientation Queue."
+*   If the newcomer declared a 3D printer, Layer 4 immediately queues a `CalibrationBounty` (routing to **Scenario Alpha**) to prove hardware functionality. If they declared a spare room, it queues a `LodgingInspection` (routing to **Scenario Zeta**). 
 
 ### Layer 3: Ledger (The Seed Escrow)
 *   The new DID's CRDT wallet is initialized with zero Value Tokens but holds a "Soulbound" token representing their genesis timestamp.

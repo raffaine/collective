@@ -9,8 +9,9 @@
 
 ## 1. Problem Statement & Legacy Failure
 
-In the legacy system, trust is outsourced to massive, centralized data brokers (Equifax, Experian) and state authorities (KYC laws, passports). These systems are routinely breached, highly exclusionary, and measure financial compliance rather than actual human trustworthiness. 
-Conversely, early "Web3" attempts at decentralization relied on plutocracy (token-voting), which is fundamentally vulnerable to "Sybil attacks"—where a single malicious actor generates thousands of anonymous wallets to overwhelm a network's consensus or drain its resources. To survive, a sovereign Node requires a localized, mathematically rigorous method of establishing who is real and who is trustworthy, without recreating a centralized surveillance state.
+In the legacy system, trust is outsourced to centralized data brokers (Equifax, Experian) and state authorities (KYC). More insidiously, the legacy system deliberately merges human survival with economic and social coercion. Landlords, employers, and even spouses can weaponize their economic power to regulate how vulnerable people love, engage, and survive. If someone leaves an abusive partner or a toxic workplace, they risk homelessness and starvation.
+Conversely, early "Web3" reputation systems (and state-run social credit scores) risk recreating this exact dystopia: a "Black Mirror" panopticon where high-status individuals weaponize their reputation to coerce others. 
+To survive, a sovereign Node requires a mathematically rigorous method of establishing Trust (to prevent Sybil attacks and vandalism) while *cryptographically firewalling* that Trust from basic human survival and intimate autonomy. Reputation must protect the commons, not coerce the individual.
 
 ## 2. The Collective Workflow (7-Layer Traversal)
 
@@ -20,12 +21,14 @@ Scenario Omicron establishes "Trust Rings." You cannot simply create a new digit
 *   **The Fiat Bridge:** To interface with legacy banks, the Social Purpose Corporation (SPC) must comply with federal KYC/AML laws. However, it acts as an anonymizing membrane. The SPC holds the legacy state IDs of its board members, but internally, the citizens operate purely on pseudonymous cryptographic reputation. The state sees a compliant corporation; the citizens see a sovereign Web of Trust.
 
 ### Layer 6: Semantic Intent
-*   Citizens emit a `KinshipVouch` (cryptographically attesting to the real-world identity and character of another DID).
-*   The intent defines the relationship context (e.g., "Coworker", "Family", "Neighbor") and the amount of reputation staked.
+*   Citizens emit a `KinshipVouch` (cryptographically attesting to the real-world identity of another DID). 
+*   **The "Breaking Bread" Hook:** To prevent digital spoofing, the strongest vouches require the system to verify that the two DIDs recently participated in the same `MealIntent` (Scenario Gamma). Breaking bread mathematically authenticates the physical bond.
+*   Citizens can also emit a `SeveranceIntent`, allowing them to safely dissolve a relationship edge without retaliation.
 
-### Layer 5: Policy & Web of Trust (Social Slashing)
-*   **The Kinship Graph:** Layer 5 calculates trust mathematically using graph theory. If Alice wants to borrow Bob's expensive power tool, Bob's node calculates the shortest path between them. If they share a mutual friend (1 degree of separation), the transaction is approved. If they are 4 degrees apart, the system demands a massive Value Token collateral lock.
-*   **Social Slashing:** Trust is not cheap; it carries thermodynamic risk. When Alice vouches for Charlie, she stakes a portion of her own Reputational Weight. If Charlie subsequently vandalizes the Coworking space (Scenario Epsilon), Charlie's reputation is wiped out, *and* Alice's reputation is mathematically slashed for bringing a bad actor into the Trust Ring. This creates intense, localized accountability.
+### Layer 5: Policy & Web of Trust (Slashing vs. Safe Harbor)
+*   **The Basic Needs Firewall:** Trust Rings govern access to *high-risk, high-exergy* assets (e.g., borrowing an E-bike in Scenario Beta, operating industrial tools in Scenario Nu, or booking a Micro-Lodge in Scenario Zeta). If Alice is 4 degrees away from Bob, the Orchestrator demands heavy token collateral to book Bob's lodge. However, Layer 5 strictly prohibits gating *survival resources* (calories from Scenario Gamma, emergency shelter) behind the Trust Ring.
+*   **Social Slashing (Protecting the Commons):** When Alice vouches for Charlie (e.g., a Master vouching for an Apprentice in Scenario Kappa), she stakes her Reputational Weight. If Charlie vandalizes the Foundry (Scenario Theta), Charlie is slashed, *and* Alice is slashed for bringing a bad actor into the high-risk commons. 
+*   **The "Safe Harbor" Severance (Protecting Intimacy):** To prevent reputation from being weaponized in interpersonal abuse, Layer 5 includes a cryptographic Safe Harbor. If an intimate or social relationship turns toxic, a user can execute a `SeveranceIntent`. This severs the graph edge *without* triggering a slashing penalty on the vulnerable party, mathematically preventing a high-reputation user from holding someone's social status or housing access hostage.
 
 ### Layer 4: Orchestration (Graph Propagation)
 *   The BPMN engine does not use a central database. It utilizes Gossipsub to propagate `KinshipVouches` across the localized mesh, allowing individual edge nodes to independently calculate graph distances and update their local adjacency matrices.

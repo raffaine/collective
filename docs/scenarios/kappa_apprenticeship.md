@@ -16,8 +16,9 @@ Local, hands-on skill transfer (Apprenticeship) is the oldest and most efficient
 
 Scenario Kappa digitizes the ancient master-apprentice relationship. It utilizes the Web of Trust (Layer 5) to issue mathematically verifiable, tamper-proof credentials that natively integrate with the Node's operational infrastructure.
 
-### Layer 7: The Legacy Proxy (Translation & Compliance)
-*   **Resume Translation:** The legacy capitalist world does not yet read W3C Verifiable Credentials. The Social Purpose Corporation (SPC) API acts as a translator, allowing a citizen to export their cryptographic mesh credentials into state-recognized formats (e.g., converting a `Forestry_L2` into formal volunteer hours, or translating mesh labor into an official corporate apprenticeship record).
+### Layer 7: The Legacy Proxy (Translation & Institutional Extraction)
+*   **Resume Translation:** The legacy capitalist world does not yet read W3C Verifiable Credentials. The Social Purpose Corporation (SPC) API acts as a translator, allowing a citizen to export their cryptographic mesh credentials into state-recognized formats to secure legacy employment.
+*   **Institutional Extraction (Reverse Leeching):** Many Stewards hold legacy positions (e.g., university professors, corporate engineers). The protocol explicitly incentivizes these "Embedded Stewards" to extract resources from their legacy institutions back into the Node. A Steward who funnels university grant fiat into the SPC, or routes corporate surplus/e-waste to the micro-foundry (Scenario Theta), is rewarded with massive Trust Ring reputational boosts and Value Tokens. The legacy educational and corporate systems are treated as foraging grounds to subsidize the apprenticeship of the mesh.
 
 ### Layer 6: Semantic Intent
 *   A Master (a citizen holding an L3 or higher credential) emits a `MentorshipOffering` (e.g., "Will teach advanced FDM 3D printing in exchange for 20 hours of shop cleanup").

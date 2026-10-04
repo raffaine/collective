@@ -9,19 +9,22 @@
 
 ## 1. Problem Statement & Legacy Failure
 
-Layer 7 is a necessary compromise during the Genesis phase, but it remains a critical vulnerability. As long as the Node relies on a state-sanctioned Social Purpose Corporation to hold land, pay taxes in fiat, or shield its members from liability, it is ultimately subservient to the legacy state. If the state experiences hyperinflation, passes hostile legislation, or weaponizes the banking system, the Node can still be coerced.
-True sovereignty is achieved when the legacy world needs the Node more than the Node needs the legacy world. When the Node produces its own energy, food, medicine, shelter, and culture, fiat currency loses its coercive power. The final step of the Sovereign Stack is to burn the bridge.
+Layer 7 is a necessary compromise during the Genesis phase, but it remains a critical vulnerability. As long as the Node relies on a state-sanctioned Social Purpose Corporation to hold land, pay taxes in fiat, or shield its members from liability, it is subservient to the legacy state. 
+On an individual level, legacy systems treat death as a final extraction event—probate courts, estate taxes, and the privatization of generational knowledge. 
+True sovereignty is achieved when a Node produces its own energy, food, medicine, shelter, and culture, stripping fiat of its coercive power. The final step of the Sovereign Stack is to gracefully shut down the legacy bridge—both for the Node as a whole, and for the individual citizens at the end of their lifecycle.
 
 ## 2. The Collective Workflow (The Dissolution Protocol)
 
-Scenario Omega does not build a new system; it orchestrates the graceful deletion of the old one. The Node shifts from being an isolated lifeboat hiding within a legacy nation-state to becoming an active cell in a global, decentralized Network State.
+Scenario Omega orchestrates the graceful deletion of the old system at two scales: the *Individual Decoupling* (closing the loop started in Scenario Tau) and the *Systemic Decoupling* (the death of Layer 7).
 
 ### Layer 7: The Final Execution (Dissolution)
-*   **Asset Liquidation:** The BPMN engine detects that internal Value Token velocity and physical asset reserves (solar capacity, biochar, food stores) have crossed the "Sovereignty Threshold." The orchestrator autonomously triggers the liquidation of all remaining legacy fiat reserves in the SPC bank account, purchasing final physical hardware (e.g., replacement parts, fiber optic spools).
-*   **Legal Sunsetting:** The Trust Ring executes a multi-sig cryptographic transaction that initiates the formal dissolution of the SPC. The legal entity ceases to exist. The land and physical assets transition to pure cryptographic stewardship (a decentralized commons recognized only by the mesh).
+*   **Asset Liquidation:** The BPMN engine detects that physical asset reserves (solar capacity, biochar) have crossed the "Sovereignty Threshold." The orchestrator autonomously liquidates all remaining legacy fiat in the SPC bank account, purchasing final physical hardware (e.g., fiber optic spools).
+*   **Legal Sunsetting:** The Trust Ring executes a multi-sig transaction initiating the formal dissolution of the SPC. The legal entity ceases to exist. The land and physical assets transition to pure cryptographic stewardship.
+*   **Probate Shielding:** For individual citizens transitioning at the end of life (**Scenario Phi**), the SPC executes its final legal duty: shielding the citizen's mesh contributions from state probate courts before dissolving.
 
 ### Layer 6: Semantic Intent
-*   The Node emits a `SovereignFederationIntent`. It broadcasts to the wider global Gossipsub network that Node 04 (e.g., Cascadia/Duvall) is now fully decoupled and ready to route exergy, data, and citizens directly with other sovereign Nodes (Node 05, Node 06) without fiat intermediation.
+*   **Systemic Decoupling:** The Node emits a `SovereignFederationIntent`, broadcasting to the global network that it is fully decoupled and ready to route exergy and data directly with other Nodes without fiat intermediation.
+*   **Individual Decoupling:** When a citizen passes, a `TerminalDecouplingIntent` is emitted. This acts as a reverse **Scenario Tau (Genesis)**. Instead of injecting physical assets into the mesh, it releases the citizen's physical tools (e.g., their 3D printer, their hand tools) back into the Commons inventory to be routed to a new Apprentice (**Scenario Kappa**). Their cryptographic DID is permanently sealed as a `Legacy_Anchor`, immortalizing their wisdom without allowing their identity to be spoofed.
 
 ### Layer 5: Policy & Web of Trust (Network Diplomacy)
 *   Internal governance shifts to inter-node diplomacy. The Web of Trust expands. Layer 5 policies now negotiate trade agreements with neighboring bioregional Nodes (e.g., trading excess timber from Scenario Eta for advanced microelectronics fabricated in a neighboring Node).

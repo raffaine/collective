@@ -1,16 +1,16 @@
-# Scenario Lambda: Cultural Commons (Morale & Sound)
+# Scenario Lambda: Cultural Commons (Arts, Sound & Somatic Play)
 
 *   **Identifier:** `SCN-LAMBDA-CULTURE`
-*   **System Epic:** Decentralized Arts, Acoustic Budgeting, and Morale as Negentropy
+*   **System Epic:** Decentralized Arts, Acoustic Budgeting, Somatic Play (Sports), and Morale as Negentropy
 *   **Primary Layers Tested:** L2 (Twin), L3 (Ledger), L4 (Orchestrator), L5 (Governance), L6 (Semantic), L7 (Proxy)
-*   **Pass/Fail Metric:** Successful orchestration of a cultural event (live music, tabletop storytelling, or art) where active decibel telemetry remains strictly below the Node's cryptographically agreed-upon Acoustic Budget; Value Tokens minted for the creators without third-party extraction.
+*   **Pass/Fail Metric:** Successful orchestration of a cultural or athletic event (live music, tabletop storytelling, sports) where active decibel telemetry remains strictly below the Node's cryptographically agreed-upon Acoustic Budget; Value Tokens minted for creators and athletes without third-party extraction.
 
 ---
 
 ## 1. Problem Statement & Legacy Failure
 
-In the legacy system, culture is passively consumed rather than actively created. Corporate platforms (Spotify, Netflix) extract maximum fiat rent while artists starve. Locally, the legacy suburban environment actively suppresses cultural creation—Homeowner Associations (HOAs) and municipal noise ordinances weaponize the police against citizens practicing instruments or hosting community gatherings.
-Without active cultural creation, human psychological entropy (demoralization, burnout, isolation) increases, ultimately collapsing the resilience of the community. Morale is not a luxury; it is the psychological negentropy required to sustain the physical mesh.
+In the legacy system, culture is passively consumed rather than actively created. Corporate platforms (Spotify, Netflix) extract maximum fiat rent while artists starve. Similarly, legacy sports have been degraded into hyper-financialized, ad-driven betting vehicles, isolating fans into passive screen-watchers rather than active community participants. Locally, the legacy suburban environment actively suppresses cultural creation—Homeowner Associations (HOAs) and municipal noise ordinances weaponize the police against citizens practicing instruments or hosting neighborhood pickup games.
+Without active cultural creation and somatic play (physical sports), human psychological entropy (demoralization, burnout, isolation) increases, ultimately collapsing the resilience of the community. Morale is not a luxury; it is the psychological negentropy required to sustain the physical mesh.
 
 ## 2. The Collective Workflow (7-Layer Traversal)
 
@@ -21,24 +21,24 @@ Scenario Lambda reclaims culture by treating psychological well-being as a syste
 *   **Fiat Tip Jar:** If a cultural event (e.g., a localized play or concert) is open to the legacy public, the SPC processes Web2 fiat ticket sales or tips, transferring the economic energy into the mesh.
 
 ### Layer 6: Semantic Intent
-*   Creators emit a `CulturalIntent`. This could be a request for collaborators (e.g., "Seeking a cellist and pianist to accompany an electronic drum set for a fusion jam") or an invitation (e.g., "Hosting a 6-player tabletop RPG campaign tonight").
-*   The intent defines the acoustic profile, space requirements, and temporal bounds.
+*   Creators and Athletes emit a `CulturalIntent`. This could be a request for artistic collaborators (e.g., "Seeking a cellist and pianist for a fusion jam") or a call for somatic play (e.g., "Hosting a 3v3 neighborhood basketball game at 6 PM").
+*   The intent defines the acoustic profile, space requirements (e.g., stage, court, field), and temporal bounds.
 
 ### Layer 5: Policy & Web of Trust (The Acoustic Budget)
-*   **Acoustic Zoning:** The Trust Ring defines dynamic acoustic budgets for different physical chunks. A soundproofed garage may have a 90 dBA internal limit, while the outdoor permaculture commons may drop to 40 dBA after 9:00 PM. 
-*   Layer 5 automatically rejects any `CulturalIntent` that attempts to book a loud instrument or PA system in a quiet zone during restricted hours.
+*   **Acoustic Zoning:** The Trust Ring defines dynamic acoustic budgets for different physical chunks. A soundproofed garage may have a 90 dBA internal limit, while the outdoor permaculture commons or the local basketball court may drop to 40 dBA after 9:00 PM. 
+*   Layer 5 automatically rejects any `CulturalIntent` that attempts to book a loud instrument or a noisy sporting event in a quiet zone during restricted hours.
 
 ### Layer 4: Orchestration (Spatial & Temporal Phasing)
-*   The BPMN engine acts as the stage manager. It books the appropriate physical space (linking to Scenario Epsilon's spatial multiplexing) and notifies all participating DIDs. 
+*   The BPMN engine acts as the stage/court manager. It books the appropriate physical space (linking to Scenario Epsilon's spatial multiplexing), ensuring a pickup soccer game doesn't overlap with a quiet acoustic rehearsal. 
 *   It arms the Layer 2 acoustic monitors for the duration of the event.
 
 ### Layer 3: Ledger (Minting Morale)
-*   Generating culture is labor. Citizens who perform, run a complex tabletop campaign, or teach an art class are minted Value Tokens directly from the community's Morale Fund, or via peer-to-peer escrow from attendees. 
-*   There is zero platform extraction; 100% of the energy flows to the creators.
+*   Generating culture and somatic play is labor. Citizens who perform music, run a complex tabletop campaign, or organize/play in a high-intensity neighborhood sports league are minted Value Tokens directly from the community's Morale Fund, or via peer-to-peer escrow from fans and attendees. 
+*   There is zero platform extraction; 100% of the energy flows to the creators and athletes.
 
 ### Layer 2 & 1: Digital Twin & Physical Reality
-*   **Telemetry (L2):** Calibrated IoT decibel meters situated at the boundary lines of the Node continuously stream audio volume (not raw audio recordings, preserving privacy) via MQTT. If the volume spikes near the acoustic budget ceiling, the system triggers a localized visual alert (e.g., pulsing a smart LED bulb red in the rehearsal room) so the musicians can dynamically adjust their volume before a violation occurs.
-*   **Physical (L1):** Cellos, electronic drums, pianos, amplifiers, canvases, dice, human voices, and the physical propagation of soundwaves.
+*   **Telemetry (L2):** Calibrated IoT decibel meters situated at the boundary lines of the Node continuously stream audio volume (not raw audio recordings, preserving privacy) via MQTT. If the volume spikes near the acoustic budget ceiling, the system triggers a localized visual alert (e.g., pulsing a smart LED bulb red on the court/stage) so the participants can dynamically adjust their volume before a violation occurs.
+*   **Physical (L1):** Cellos, electronic drums, basketballs, cleats, canvases, dice, human voices, sweat, and the physical propagation of soundwaves and kinetic energy.
 
 ---
 
@@ -117,10 +117,10 @@ In the C++ Oasis engine, this scenario requires simulating the physics of sound 
   "identifier": "urn:uuid:6a7b8c9d-0e1f-2a3b-4c5d-6e7f8a9b0c1d",
   "issuerDid": "did:mesh:node04:creator_jules",
   "eventProfile": {
-    "title": "Acoustic & Electronic Fusion Rehearsal",
-    "culturalType": "LiveMusic",
-    "requestedAssets": ["Piano_Upright", "Electronic_Drum_Monitor", "Cello_Space"],
-    "expectedParticipants": 3
+    "title": "Neighborhood 3v3 Basketball & Acoustic Jam",
+    "culturalType": "SomaticPlay_and_Music",
+    "requestedAssets": ["Half_Court", "Electronic_Drum_Monitor", "Bleacher_Seating"],
+    "expectedParticipants": 12
   },
   "acousticParameters": {
     "targetZone": "did:mesh:node04:space:soundproof_garage",

@@ -1,43 +1,45 @@
-# Scenario Theta: Neighborhood Micro-Foundry
+# Scenario Theta: The Extraction & Refinement Foundry
 
 *   **Identifier:** `SCN-THETA-FOUNDRY`
-*   **System Epic:** Heavy Exergy Fabrication, Decentralized Metallurgy, and Batch Processing
+*   **System Epic:** Heavy Exergy Processing, Resource Refinement (Metal/Plastic/Silicon/Stone), and Decentralized Industry
 *   **Primary Layers Tested:** L1 (Physical), L2 (Twin), L3 (Ledger), L4 (Orchestrator), L5 (Governance), L6 (Semantic), L7 (Proxy)
-*   **Pass/Fail Metric:** Safe, localized phase-change of scrap metal into functional cast components; strict automated batching to prevent exergy waste; zero violations of municipal fire or emissions codes.
+*   **Pass/Fail Metric:** Safe, localized refinement of raw or scrap materials (smelting metal, extruding plastics, cutting stone, doping silicon) into standardized manufacturing stock; strict automated batching to prevent exergy waste; zero violations of municipal fire or toxic emissions codes.
 
 ---
 
 ## 1. Problem Statement & Legacy Failure
 
-The legacy recycling system is fundamentally broken. Citizens engage in "wish-cycling," throwing aluminum and steel into municipal bins where it is often shipped to other continents burning heavy bunker fuel, or sent straight to landfills due to sorting costs. Meanwhile, if a local citizen needs a custom metal bracket or gear, they must order virgin metal products forged in massive, centralized industrial centers, incurring massive carbon drag.
-Bringing metallurgy back to the neighborhood scale solves this, but introduces severe localized risks: extreme thermal hazards ($>700^\circ\text{C}$), toxic fumes from impure scrap, and massive electrical/fuel exergy requirements that make single-item casting thermodynamically disastrous.
+The legacy supply chain isolates consumers from the horrific thermodynamic and ecological costs of raw material extraction. Stones are quarried in one hemisphere, rare earth magnets are mined in another, crude oil is refined into plastics across oceans, and microelectronics are etched in massive, centralized fabs. All of this relies on catastrophic carbon drag, fragile geopolitical chokepoints, and "wish-cycling" where local waste is shipped abroad only to be landfilled.
+Bringing heavy industrial refinement (smelting, plastic shredding/extrusion, stone cutting, and basic silicon/e-waste processing) back to the neighborhood scale creates true sovereign resilience. However, this introduces severe localized risks: extreme thermal hazards ($>1000^\circ\text{C}$), toxic fumes from melting plastics or etching chemicals, and massive electrical/fuel exergy requirements that make single-item processing thermodynamically disastrous.
 
 ## 2. The Collective Workflow (7-Layer Traversal)
 
-Scenario Theta establishes a localized, closed-loop metal economy. It incentivizes the community to mine their own waste stream (scrap aluminum/copper) and uses strict mathematical batching to make localized smelting thermodynamically viable.
+Scenario Theta establishes a localized, multi-material industrial hub. Crucially, it acknowledges that society cannot survive purely on scavenging and recycling; virgin extraction from the Earth is sometimes necessary. The system mathematically positions virgin extraction as the "Last Resort," heavily incentivizing the community to mine their own waste stream (scrap metal, e-waste) first. When virgin extraction (e.g., quarrying stone, mining raw ore) is required, it is subjected to devastatingly strict Ecological Replacement Cost (ERC) accounting to minimize harm to the local biome.
 
 ### Layer 7: The Legacy Proxy (Fire Codes & Artisan Fiat)
 *   **Regulatory Shield:** A neighborhood foundry triggers aggressive municipal fire codes and zoning laws. The Social Purpose Corporation (SPC) leases a specific, industrially-zoned or appropriately permitted outbuilding. The SPC holds the high-liability commercial insurance policies necessary to protect the Node from bankruptcy in the event of an accident.
 *   **Trojan Casting (Fiat Ingestion):** To pay for the crucible replacements, PPE, and legacy utility costs, the foundry takes on artisan commercial work (e.g., casting custom bronze plaques or bespoke architectural hardware) for the Web2 legacy market. Legacy customers pay fiat via Stripe; the mesh citizens do the work for Value Tokens.
 
 ### Layer 6: Semantic Intent
-*   Citizens emit a `ScrapDeposit` (bringing clean, sorted aluminum cans or broken extrusions to the foundry).
-*   Engineers emit a `CastingBounty` (requesting a specific CAD geometry to be cast in sand or lost-PLA, specifying the required alloy).
+*   Citizens emit a `ScrapDeposit` (bringing clean, sorted aluminum, HDPE plastics, or e-waste to the foundry).
+*   Engineers emit a `RefinementBounty` (requesting specific processing: e.g., casting a bronze gear, extruding 5kg of recycled PETG filament, cutting granite slabs, or recovering neodymium magnets from old hard drives).
 
 ### Layer 5: Policy & Web of Trust (The Safety & Emissions Gate)
+*   **The "Last Resort" Virgin Extraction Gate:** Layer 5 mathematically prioritizes recycling. If an engineer emits a `RefinementBounty` requiring 10kg of copper, the policy engine first searches the local scrap ledger. If virgin ore extraction is requested while sufficient scrap exists, the intent is rejected. If virgin extraction is truly necessary, the required Value Token escrow is multiplied massively to account for the true ecological damage of mining.
 *   **Extreme Competency Gating:** A 3D printer can be run by a novice. A foundry cannot. Layer 5 absolutely restricts access to the kiln. Only Stewards holding a `Foundry_Safety_L3` and `First_Aid_Burn` Verifiable Credential can accept a casting bounty.
 *   **Emissions Budget:** If the local air quality index (AQI) is poor, or if the time is outside the designated industrial noise window, Layer 5 policy suspends all foundry operations to maintain peace with legacy neighbors.
 
 ### Layer 4: Orchestration (The Batching Engine)
-*   **Thermal Aggregation:** Heating a crucible to $750^\circ\text{C}$ costs immense exergy. The BPMN engine will *not* actuate the kiln for a single 100-gram part. It pools `CastingBounty` requests over days or weeks. Only when the queue reaches $85\%$ of the crucible's volumetric capacity does the orchestrator release the job to a Steward.
+*   **Exergy Aggregation:** Heating a crucible to $750^\circ\text{C}$ or running an industrial plastic shredder/extruder costs immense exergy. The BPMN engine will *not* actuate these machines for small, isolated jobs. It pools `RefinementBounty` requests over days. Only when the queue reaches $85\%$ of the machine's optimal capacity (e.g., the crucible is full, or the plastic hopper has 10kg of sorted ABS) does the orchestrator release the job to a Steward.
+*   **The Alpha Hook:** The refined stock (spools of recycled filament, ingots of metal, cut stone) is automatically routed as available inventory to the Fabrication Commons (Scenario Alpha).
 
 ### Layer 3: Ledger (The Waste-to-Value Loop)
 *   **Mining the Suburbs:** Citizens are minted Value Tokens for bringing verified, sorted scrap metal (weighed and spectrographically checked if possible). This turns household waste into local currency.
 *   **Exergy Escrow:** The requester of a cast part locks tokens covering the immense thermodynamic cost of the kiln's electrical draw or biochar fuel consumption.
 
 ### Layer 2 & 1: Digital Twin & Physical Reality
-*   **Telemetry (L2):** Type-K thermocouples inside the kiln broadcast exact temperatures via MQTT. Air quality sensors (VOC and PM2.5) monitor the exhaust ventilation. If toxic off-gassing from impure scrap spikes, L2 cuts the induction power via an automated relay.
-*   **Physical (L1):** Electric induction kilns, graphite crucibles, Petrobond (green sand), safety visors, leather aprons, and liquid metal.
+*   **Telemetry (L2):** Type-K thermocouples broadcast kiln temperatures via MQTT. VOC and PM2.5 sensors monitor exhaust ventilation during plastic extrusion and smelting. Chemical sniffers monitor acid baths for e-waste etching. If toxic off-gassing spikes, L2 cuts the power via automated relays.
+*   **Physical (L1):** Electric induction kilns, plastic shredders, filament extruders, wet stone saws, acid recovery baths, safety visors, respirators, and raw/liquid materials.
 
 ---
 

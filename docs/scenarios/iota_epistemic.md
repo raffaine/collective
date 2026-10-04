@@ -14,7 +14,7 @@ Furthermore, localized, indigenous, or micro-climatic knowledge (e.g., "what spe
 
 ## 2. The Collective Workflow (7-Layer Traversal)
 
-Scenario Iota establishes a peer-to-peer epistemic engine. It treats verifiable data as thermodynamic negentropy, mathematically rewarding citizens who run experiments, replicate findings, and share ground-truth data with the global Gossipsub mesh.
+Scenario Iota establishes a peer-to-peer epistemic engine. Crucially, it recognizes that **Science is material**. It is not just abstract data on a ledger; it is the process of refining how the Collective understands and simulates Nature. Every successful experiment directly upgrades the physical fidelity of the Digital Twin (Layer 2). The system treats verifiable data—including negative results—as thermodynamic negentropy, mathematically rewarding citizens who run experiments, replicate findings, and share ground-truth data with the global Gossipsub mesh.
 
 ### Layer 7: The Legacy Proxy (The Copyleft Shield)
 *   **IP Defense:** To prevent a legacy corporation from scraping the mesh's R&D (e.g., an optimized 3D-printed valve design or a biochar synthesis method) and patenting it, the Social Purpose Corporation (SPC) acts as a legal anchor. All data generated on the mesh is automatically wrapped in a rigorous Copyleft or Defensive Patent License (DPL) structure. This ensures the knowledge remains permanently in the public domain while legally forbidding legacy enclosure.
@@ -25,6 +25,7 @@ Scenario Iota establishes a peer-to-peer epistemic engine. It treats verifiable 
 
 ### Layer 5: Policy & Web of Trust (The Replication Gate)
 *   **Cryptographic Peer Review:** A single dataset is an anecdote. Layer 5 policy demands consensus. A `DataAttestation` is not accepted into the "Canon" (the shared epistemic ledger) until the exact experiment is independently replicated by at least $N$ distinct Trust Rings or nodes.
+*   **The "Failure is Data" Imperative:** Legacy science suppresses failed experiments due to publication bias, causing massive thermodynamic waste as peers repeat mistakes. Layer 5 policy explicitly rewards verifiable *negative* results exactly equal to positive ones. Knowing what *doesn't* work is vital negentropy.
 *   **Sybil Resistance:** To prevent a single user from faking multiple nodes to collect research bounties, the Web of Trust ensures that replicating nodes have distinct physical and cryptographic identities.
 
 ### Layer 4: Orchestration (Experimental Scheduling)
@@ -35,8 +36,10 @@ Scenario Iota establishes a peer-to-peer epistemic engine. It treats verifiable 
 *   This funds the "R&D Department" of The Collective without relying on fiat grants.
 
 ### Layer 2 & 1: Digital Twin & Physical Reality
-*   **Telemetry (L2):** To prevent human falsification, data must be anchored by IoT telemetry. A biochar experiment pulls automated moisture and pH readings from local sensors via MQTT, creating a tamper-proof cryptographic hash of the raw environmental data.
+*   **The Simulation Upgrade (L2):** When the "Canon" accepts a new dataset, it triggers an automated `ProtocolUpdate`. This directly refines the physics or biological cellular automata of the Digital Twin. If Iota proves a new specific heat capacity for a local clay alloy, Layer 2 is literally patched to simulate that reality with higher fidelity. This also automatically pushes machine configuration updates to the Fabrication Commons (Scenario Alpha) or Composting routines (Scenario Mu).
+*   **Telemetry Anchoring:** To prevent human falsification, data must be anchored by IoT telemetry. A biochar experiment pulls automated moisture and pH readings from local sensors via MQTT, creating a tamper-proof cryptographic hash of the raw environmental data.
 *   **Physical (L1):** The actual soil, plants, hardware, 3D printers, and localized physical environment where the experiment occurs.
+*   **The Apprenticeship Hook (Scenario Kappa):** Once the simulation is updated, the orchestrator triggers a `CurriculumIntent`, prompting local Elders/Stewards to teach the new physical protocol to the community.
 
 ---
 

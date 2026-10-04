@@ -25,12 +25,13 @@ Scenario Sigma treats dirt, wear-and-tear, and human fatigue as measurable syste
 *   Citizens can emit a `RestIntent` (signaling they are stepping away from the mesh to recharge, effectively putting their DID in "Do Not Disturb" mode).
 
 ### Layer 5: Policy & Web of Trust (The Burnout Gate)
-*   **The Fatigue Lockout:** Layer 5 monitors the velocity of a citizen's completed bounties. If an individual has claimed 80% of the cleaning bounties this month, the Trust Ring policy assumes they are approaching burnout. The policy mathematically *locks them out* of accepting new maintenance bounties, forcing the rest of the network to step up.
+*   **The Fatigue Lockout:** Layer 5 monitors the velocity of a citizen's completed bounties. If an individual has claimed 80% of the cleaning bounties this month, the Trust Ring policy assumes they are approaching burnout. The policy mathematically *locks them out* of accepting new maintenance bounties, and temporarily suspends their ability to teach in **Scenario Kappa (Apprenticeship)**, forcing the rest of the network to step up and preventing the citizen from self-immolating for the commons.
 *   **Rest Intent Respect:** When a DID broadcasts a `RestIntent`, Layer 5 policy strictly forbids the BPMN engine from routing them requests, messages, or notifications until the temporal block expires.
 
-### Layer 4: Orchestration (Dynamic Escalation)
+### Layer 4: Orchestration (Dynamic Escalation & Morale Routing)
 *   The BPMN engine acts as an algorithmic chore wheel that cannot be ignored.
-*   **Dutch Auction / Escalation:** When a chore is generated (e.g., "Clean the bathroom"), it starts with a base Value Token bounty. If no one claims it within 12 hours, the orchestrator algorithmically increases the bounty by 10%. It continues to escalate the reward until the thermodynamic incentive matches a citizen's willingness to perform the low-status task.
+*   **Dutch Auction / Escalation:** When a chore is generated, it starts with a base Value Token bounty. If no one claims it, the orchestrator algorithmically increases the bounty. It continues to escalate the reward until the thermodynamic incentive matches a citizen's willingness to perform the low-status task.
+*   **Morale Reconstruction Hook:** When a user triggers a Fatigue Lockout, the Orchestrator doesn't just block them; it actively emits suggestions for **Scenario Lambda (Cultural Commons / Somatic Play)** or **Scenario Gamma (Commons Kitchen)**, guiding the exhausted citizen toward psychological and physical restoration without demanding further labor.
 
 ### Layer 3: Ledger (Valuing the Invisible)
 *   The Ledger flips legacy economics upside down. Because maintenance is critical to survival, tasks that legacy society ignores (sweeping, scrubbing, organizing tools) are heavily subsidized by the Node's treasury. A citizen can earn enough Value Tokens to feed themselves for a week simply by maintaining the hygiene of the physical commons.

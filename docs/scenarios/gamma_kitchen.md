@@ -1,7 +1,7 @@
 # Scenario Gamma: The Commons Kitchen
 
 *   **Identifier:** `SCN-GAMMA-KITCH`
-*   **System Epic:** Decentralized Caloric Production, IoT Food Safety, and Zero-Waste Routing
+*   **System Epic:** Decentralized Caloric Production, Meal Preps, Comfort Pantries, and Zero-Waste Routing
 *   **Primary Layers Tested:** L1 (Physical), L2 (Digital Twin), L3 (Ledger), L4 (Orchestrator), L5 (Governance), L6 (Semantic)
 *   **Pass/Fail Metric:** Hyper-local meal production and distribution with 0% legacy platform extraction fees; verifiable continuous thermal telemetry proving food safety without municipal health inspector presence.
 
@@ -11,16 +11,20 @@
 
 The legacy food system suffers from three critical failures:
 1.  **Ecological Drag:** The average meal travels 1,500 miles. Industrial agriculture relies on petrochemical fertilizers, massive cold-chain logistics, and single-use plastics.
-2.  **Gig-Economy Extraction:** Legacy platforms (DoorDash, UberEats) extract up to 30% from the restaurant and charge exorbitant fees to the consumer, while the physical courier is paid a poverty wage.
+2.  **Gig-Economy Extraction & Atomization:** Legacy platforms (DoorDash, UberEats) extract up to 30% while isolating consumers in atomized, solitary dining experiences. This destroys the communal fabric—a hallmark of "Blue Zone" human longevity.
 3.  **Bureaucratic Gatekeeping:** Municipal health departments heavily regulate or outright ban "cottage food" and neighborhood kitchens. They require expensive commercial steel build-outs, effectively monopolizing food production to capitalized corporations while shutting down local community resilience.
 
 ## 2. The Collective Workflow (7-Layer Traversal)
 
-Scenario Gamma replaces the centralized restaurant and gig-economy delivery with a hyper-local, peer-to-peer caloric mesh, using cryptography and IoT sensors to guarantee food safety.
+Scenario Gamma replaces the centralized restaurant and gig-economy delivery with a hyper-local caloric mesh. Crucially, its **preferred routing** prioritizes shared, communal dining to build "Blue Zone" kinship. However, recognizing the pressures of modern life, the system gracefully supports the full spectrum of convenience: from vibrant communal tables, to meal-preps, to morning deliveries.
 
 ### Layer 1: Physical Reality
-*   **The Hub:** A decentralized neighborhood kitchen. This could be a retrofitted garage, a shared community center, or an outdoor permaculture hearth.
-*   **Action:** Harvesting local biomass (vegetables, proteins), applying thermal energy (cooking, fermenting, preserving), and generating bio-waste (which loops into Scenario Mu: Composting/Biochar).
+*   **The Hub (The Hearth):** A decentralized neighborhood kitchen anchored by a large communal dining space (e.g., a shared community center, a retrofitted garage, or an outdoor permaculture hearth). It also features staging lockers for asynchronous pickup.
+*   **Action:** 
+    *   **Communal Dining (Preferred):** Cooking and serving hot meals family-style at the shared table, maximizing social cohesion and minimizing packaging.
+    *   **Hot Meals & Prep (Convenience):** Harvesting local biomass, applying thermal energy, and portioning into reusable glass/stainless containers for batched "premade meals" for the week.
+    *   **Snacks & Baskets:** Assembling shelf-stable comfort foods, local snacks, and fresh morning bakery items into insulated community baskets.
+    *   **Bio-waste:** Generating organic waste which loops into Scenario Mu (Composting/Biochar).
 
 ### Layer 2: Digital Twin & Thermal Telemetry
 *   **The Regulatory Shield:** Instead of a municipal inspector visiting once a year, Layer 2 provides *continuous mathematical proof* of food safety.
@@ -31,17 +35,19 @@ Scenario Gamma replaces the centralized restaurant and gig-economy delivery with
 *   **Exergy Minting:** The creation of a nutrient-dense meal from raw biomass is a thermodynamic negentropy event. The cook’s wallet is minted Value Tokens based on the caloric output and nutritional density of the meal, bounded by the Ecological Replacement Cost (ERC) of the raw ingredients.
 *   **Zero-Extraction Escrow:** Consumers lock Value Tokens to claim a meal. 100% of the tokens are routed to the cook (and the courier, if Scenario Beta is invoked). 
 
-### Layer 4: Orchestration (Supply & Demand Routing)
+### Layer 4: Orchestration (Supply & Demand Routing & Subscriptions)
 *   The BPMN engine acts as the expeditor. It matches `MealOffering` intents from cooks with local demand.
-*   It orchestrates the "Leftover Loop": If meals are unclaimed 2 hours before the L2 thermal safety window expires, the BPMN engine dynamically drops the token cost to zero to prevent caloric waste.
+*   **Morning Deliveries & Subscriptions:** It orchestrates recurring routes for morning delivery services (e.g., fresh bread, coffee, and comfort baskets delivered to neighbor porches via Scenario Beta couriers).
+*   **The Leftover Loop:** If hot meals or perishables are unclaimed 2 hours before the L2 thermal safety window expires, the BPMN engine dynamically drops the token cost to zero to prevent caloric waste.
 
 ### Layer 5: Policy & Web of Trust (Allergy & Competency Gates)
 *   **Competency Gate:** To publish a `MealOffering` to the wider Trust Ring, the cook must hold a `Food_Safety_L1` Verifiable Credential (peer-attested safe handling knowledge).
 *   **Allergy Routing:** Layer 5 strictly filters offerings based on the consumer's decentralized identity. If a user’s DID profile lists a peanut allergy, Layer 5 cryptographically blocks them from locking escrow on any meal produced in a kitchen flagged for peanut cross-contamination.
 
 ### Layer 6: Semantic Intent
-*   Cooks emit `MealOffering` (pushing supply). 
-*   Citizens emit `CaloricBounty` (pulling demand—e.g., requesting a meal prep for the week).
+*   Cooks emit `MealOffering`. The default parameter is `Dine-In` (inviting neighbors to eat together at a specific time), but it can also be flagged for `Take-Away` (batched premade meal-preps). They can also emit a `PantryOffering` (snacks, comfort foods).
+*   Citizens emit a `CaloricBounty` (pulling demand for a specific dish) or a `SubscriptionIntent` (requesting a recurring morning delivery basket of snacks and breakfast items).
+*   **The Kinship Modifier:** Opting into a `CommunalTableIntent` boosts Trust Ring reputational scores, incentivizing social connection over atomized consumption.
 
 ### Layer 7: The Legacy Proxy (Permits, Liability & Bulk Procurement)
 The Commons Kitchen operates physically within legacy municipal zoning. To prevent the local health department or HOA from shutting down the decentralized caloric mesh, the Social Purpose Corporation (SPC) provides a critical ablative shield:
@@ -70,8 +76,8 @@ graph TD
     end
 
     subgraph Layer 6: Intent
-        Cook[Cook emits MealOffering]
-        Eater[Consumer locks Escrow]
+        Cook[Emit MealOffering / PantryOffering]
+        Eater[Consumer locks Escrow / Subscribes]
     end
 
     subgraph Layer 5: Policy & Safety

@@ -1,35 +1,36 @@
-# Scenario Nu: Circular Modular Fashion
+# Scenario Nu: Circular Textiles & Soft Infrastructure
 
-*   **Identifier:** `SCN-NU-FASHION`
-*   **System Epic:** Decentralized Textiles, Modular Garments, and Repair as Negentropy
+*   **Identifier:** `SCN-NU-TEXTILES`
+*   **System Epic:** Decentralized Textiles, Soft Infrastructure Repair, and Material Provenance
 *   **Primary Layers Tested:** L1 (Physical), L3 (Ledger), L4 (Orchestrator), L6 (Semantic), L7 (Proxy)
-*   **Pass/Fail Metric:** Successful routing of a garment repair bounty to a local artisan; mathematical verification that extending garment lifespan requires $< 15\%$ of the exergy/resources of fabricating a new garment; zero waste routing of textile scraps.
+*   **Pass/Fail Metric:** Successful routing of a textile repair bounty to a local artisan; mathematical verification that extending lifespan requires $< 15\%$ of the exergy of fabricating new; zero waste routing of textile scraps to biochar or plastic extrusion.
 
 ---
 
 ## 1. Problem Statement & Legacy Failure
 
-Legacy "fast fashion" is an ecological and humanitarian catastrophe. Supply chains exploit offshore labor to produce petrochemical synthetics (polyester, nylon) that shed microplastics into the watershed. Furthermore, garments are designed for planned obsolescence—when a zipper breaks or a seam tears, the legacy consumer lacks the skills or tools to repair it, resulting in the entire garment being sent to a landfill.
-The legacy state treats clothing as a disposable commodity. In a sovereign Node, clothing is thermodynamic infrastructure. It protects the human entity from the elements. 
+Legacy "fast fashion" is an ecological and humanitarian catastrophe. Beyond the exploitation of offshore labor, the aggressive extraction required to source raw materials (water-intensive cotton monocultures, petrochemical synthetics) strips the Earth of vital resources while shedding microplastics into the watershed. Furthermore, garments are designed for planned obsolescence—when a zipper breaks or a seam tears, the legacy consumer lacks the skills or tools to repair it, resulting in the entire garment being sent to a landfill.
+The legacy state treats textiles as a disposable commodity. In a sovereign Node, textiles are "soft infrastructure" (protecting humans from the elements, housing citizens in tents, transporting goods in canvas bags). Because the initial extraction cost of virgin fabric is so devastating, the Collective treats every yard of fabric as a high-value asset that must be perpetually maintained. 
 
 ## 2. The Collective Workflow (7-Layer Traversal)
 
 Scenario Nu transitions the Node away from disposable fast fashion toward a localized, modular textile hub. It relies on open-source parametric patterns, standardized hardware (so zippers and buttons can be scavenged and reused), and heavily incentivizes repair as a high-value thermodynamic service.
 
-### Layer 7: The Legacy Proxy (Bulk Fibers & Trojan Tailoring)
-*   **Ecological Leeching:** While the Node can produce biochar and 3D printed parts, growing and milling high-quality organic cotton or linen locally requires massive land acreage. The Social Purpose Corporation (SPC) acts as a Decentralized Group Purchasing Organization (GPO). It aggregates citizen demand and uses fiat to bulk-purchase wholesale rolls of natural fibers, avoiding individual packaging waste.
-*   **Trojan Tailoring (Fiat Extraction):** Local tailors can offer bespoke garments or high-end visible mending (e.g., Sashiko repair) to legacy consumers via Web2 storefronts, extracting fiat to fund the Node's textile equipment maintenance.
+### Layer 7: The Legacy Proxy (Ethical Provenance & Bulk Sourcing)
+*   **Provenanced Leeching:** Growing and milling high-quality cotton or linen locally requires massive land and water exergy. The Social Purpose Corporation (SPC) acts as a Group Purchasing Organization (GPO) to source fabric from the legacy world. However, it enforces strict ERC (Ecological Replacement Cost) audits. It leverages fiat to bulk-purchase wholesale rolls only from regenerative agriculture suppliers, refusing to subsidize aggressive extraction monocultures.
+*   **Trojan Tailoring:** Local tailors offer bespoke garments or high-end visible mending (e.g., Sashiko repair) to legacy Web2 consumers, extracting fiat to fund the Node's heavy equipment maintenance.
 
 ### Layer 6: Semantic Intent
-*   Citizens emit a `RepairBounty` (e.g., "My heavy canvas work jacket has a torn left elbow").
-*   Citizens can also emit a `FabricationIntent` using an open-source parametric pattern URI (e.g., requesting a pair of modular work pants scaled precisely to their 3D body scan measurements).
+*   Citizens emit a `RepairBounty` for garments, or for Soft Infrastructure (e.g., "Torn canvas e-bike saddlebag" bridging Scenario Beta, or "Ripped yurt canvas" bridging Scenario Zeta).
+*   Citizens can emit a `FabricationIntent` using an open-source parametric pattern URI.
+*   **The Hardware Hook:** If a repair requires a zipper or buckle, the intent automatically spawns a `ProcurementIntent` sent to Scenario Alpha (3D print a polymer clasp) or Scenario Theta (Cast a bronze button).
 
 ### Layer 5: Policy & Web of Trust (Equipment Gating)
-*   **Machinery Access:** Industrial walking-foot sewing machines or heavy-duty sergers can cause serious physical injury or be easily broken if mistreated. Layer 5 restricts physical power to these Layer 1 tools unless the user holds a `Textile_Machinery_L1` Verifiable Credential.
+*   **Machinery Access:** Industrial walking-foot sewing machines can cause serious physical injury or be easily broken if mistreated. Layer 5 restricts physical power to these Layer 1 tools unless the user holds a `Textile_Machinery_L1` Verifiable Credential.
 
-### Layer 4: Orchestration (The Repair & Scrap Router)
-*   The BPMN engine routes repair bounties to Stewards who hold the appropriate skill attestations (e.g., routing heavy canvas to a Steward with an industrial machine, and delicate knits to a hand-mender).
-*   **Zero-Waste Routing:** The orchestrator manages off-cuts. Textile scraps too small to be sewn are mathematically logged and routed to a stuffing queue (for pillows/insulation) or to Scenario Mu (Biochar) if they are 100% natural fiber.
+### Layer 4: Orchestration (The Synthetic/Organic Fork)
+*   The BPMN engine routes repair bounties to Stewards holding the appropriate skill attestations.
+*   **The Scrap Router (Scenarios Mu & Theta):** The orchestrator manages off-cuts with brutal zero-waste logic. If scraps are 100% natural fiber, they are routed to Scenario Mu (Biochar). If they contain synthetic nylon/polyester, they are explicitly routed to Scenario Theta (The Foundry) to be shredded and extruded into 3D printer filament for Scenario Alpha.
 
 ### Layer 3: Ledger (The Value of Mending)
 *   Repairing a coat stops the entropic decay of a valuable physical asset. 

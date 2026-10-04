@@ -1,16 +1,16 @@
-# Scenario Upsilon: Ecological Shock (Disaster Resilience)
+# Scenario Upsilon: Ecological Shock (Disaster Resilience & Nurture)
 
 *   **Identifier:** `SCN-UPSILON-SHOCK`
-*   **System Epic:** Disaster Response, Microgrid Islanding, Resource Triage, and Autonomous Resilience
+*   **System Epic:** Disaster Response, Microgrid Islanding, Proactive Ecological Nurture, and Autonomous Resilience
 *   **Primary Layers Tested:** L1 (Physical), L2 (Twin), L4 (Orchestrator), L5 (Governance), L7 (Proxy)
-*   **Pass/Fail Metric:** Autonomous shedding of all non-essential electrical loads upon legacy grid failure; successful localized P2P communication without legacy cellular infrastructure; mathematical prioritization of critical biological needs (refrigeration, medical) over standard fabrication bounties.
+*   **Pass/Fail Metric:** Autonomous shedding of non-essential electrical loads upon grid failure; successful localized P2P communication; mathematical prioritization of critical biological needs; algorithmic routing of preventative ecological nurture to mitigate future shocks.
 
 ---
 
 ## 1. Problem Statement & Legacy Failure
 
-Legacy infrastructure is highly centralized and incredibly brittle. When an ecological shock occurs (a severe winter storm, a wildfire, or an earthquake), the legacy power grid collapses, cellular towers go offline, and just-in-time supply chains freeze. Legacy disaster response (FEMA, state emergency services) is often slow, bureaucratic, and physically unable to reach cut-off neighborhoods for days or weeks. 
-In these moments, if a decentralized community is dependent on legacy cloud servers to operate its tools, it is completely paralyzed. Furthermore, regular societal rules (zoning, noise ordinances, property lines) become active impediments to mutual aid and survival.
+Legacy infrastructure is highly centralized, brittle, and deeply adversarial to the natural world. Legacy societies react to ecological shocks (wildfires, winter storms, floods) after the fact. When the shock hits, the legacy power grid collapses, cellular towers go offline, and legacy disaster response (FEMA) is often bureaucratic and physically unable to reach cut-off neighborhoods. 
+A Sovereign Node cannot merely survive these shocks; it must proactively nurture the environment to mitigate them. Furthermore, in the moment of crisis, if a community is dependent on legacy cloud servers, it is paralyzed. The Node must be able to sever itself from the failing legacy grid, shift instantly into an economy of triage, and emerge to heal the ecosystem that surrounds it.
 
 ## 2. The Collective Workflow (7-Layer Traversal)
 
@@ -21,17 +21,16 @@ Scenario Upsilon acts as the "Emergency Override" for the entire Node. It shifts
 *   **Liability Suspension:** Under normal circumstances, clearing a fallen tree from a municipal road requires state permits. During a shock, the SPC legally invokes "Good Samaritan" and emergency doctrine laws, shielding citizens who use mesh-coordinated heavy equipment to restore localized access.
 
 ### Layer 6: Semantic Intent
-*   L2 automated sensors (or human Stewards) emit an `EcologicalShockIntent` (e.g., "Legacy Grid Dropped," "Wildfire Approaching," "Severe Wind Event").
-*   Citizens emit `TriageIntents` indicating acute biological emergencies (e.g., "Need power for CPAP machine," "Insulin refrigeration failing").
+*   **The Shock:** L2 automated sensors (or human Stewards) emit an `EcologicalShockIntent` (e.g., "Legacy Grid Dropped," "Wildfire Approaching"). Citizens emit `TriageIntents` for acute emergencies (e.g., "Insulin refrigeration failing").
+*   **The Nurture:** During stable periods, the system emits `NurtureIntents`—algorithmic directives to heal the local bioregion and prevent future shocks.
 
 ### Layer 5: Policy & Web of Trust (Emergency State Override)
-*   **Protocol Suspension:** When Layer 5 enters `EMERGENCY_STATE`, standard policies are mathematically suspended. The strict Acoustic Budget (Scenario Lambda) is overridden, allowing 110dBA chainsaws to operate at 3:00 AM. 
-*   **Trust Ring Expansion:** The strict Web of Trust barriers (Scenario Omicron) are temporarily lowered for life-saving resources, allowing stranded legacy travelers to receive shelter and food without prior cryptographic vouching.
+*   **Protocol Suspension:** When Layer 5 enters `EMERGENCY_STATE`, standard policies are suspended. The strict Acoustic Budget (**Scenario Lambda**) is overridden, allowing chainsaws to operate at 3:00 AM. 
+*   **Trust Ring Expansion:** The strict Web of Trust barriers (**Scenario Omicron**) are temporarily lowered for life-saving resources, allowing stranded legacy travelers to receive shelter and food without prior cryptographic vouching.
 
-### Layer 4: Orchestration (Islanding & Load Shedding)
-*   The BPMN engine enters "Islanding Mode." 
-*   **Load Shedding:** It immediately sends kill signals to all non-essential L2 smart plugs. Scenario Alpha 3D printers, Scenario Epsilon coworking routers, and Scenario Theta foundries are instantly powered down. 
-*   **Microgrid Routing:** It redirects all available solar and battery surplus strictly to critical `TriageIntents` (e.g., maintaining Scenario Gamma chest freezers to prevent food spoilage, or charging localized medical devices).
+### Layer 4: Orchestration (Triage vs. Prevention)
+*   **Islanding & Load Shedding:** During a shock, the BPMN engine sends kill signals to non-essential L2 smart plugs. **Scenario Alpha** (3D printers) and **Scenario Theta** (Foundry) are instantly powered down. Available solar/battery surplus is redirected to maintain **Scenario Gamma** (kitchen freezers) or medical devices.
+*   **Proactive Ecological Routing:** During peacetime, the Orchestrator reads weather models and routes `NurtureIntents`. It bridges with **Scenario Eta (Coppice)** to direct Citizens to selectively thin dry underbrush (preventing catastrophic wildfires) and routes to **Scenario Mu (Biochar)** to pack that brush into carbon-sequestering soil sinks, drastically improving water retention to mitigate flood shocks.
 
 ### Layer 3: Ledger (Mutual Aid Economics)
 *   The standard thermodynamic market is paused. The ledger algorithmically drops the Value Token cost of critical survival bounties (food, water, fuel) to zero.

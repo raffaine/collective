@@ -1,16 +1,16 @@
-# Scenario Xi: Algorithmic Architecture
+# Scenario Xi: Algorithmic Architecture & Urban Retrofit
 
 *   **Identifier:** `SCN-XI-ARCH`
-*   **System Epic:** Parametric Design, Structural Simulation, and Decentralized Construction
+*   **System Epic:** Parametric Design, Adaptive Urban Reuse, Structural Simulation, and Decentralized Construction
 *   **Primary Layers Tested:** L1 (Physical), L2 (Twin), L3 (Ledger), L4 (Orchestrator), L5 (Governance), L6 (Semantic), L7 (Proxy)
-*   **Pass/Fail Metric:** Successful procedural generation of a load-bearing structure optimized for local material inventory; verifiable structural integrity simulation prior to physical assembly; successful legacy permit ingestion.
+*   **Pass/Fail Metric:** Successful procedural generation of a load-bearing structure (or a thermodynamic retrofit to an existing urban building) optimized for local material inventory; verifiable structural and thermal simulation prior to physical assembly; successful legacy permit ingestion.
 
 ---
 
 ## 1. Problem Statement & Legacy Failure
 
-Legacy construction relies on high-entropy, globalized supply chains (Portland cement, structural steel, mass-produced dimensional lumber) that ignore local microclimates and thermodynamic efficiency. Furthermore, architectural design is gatekept by expensive legacy firms, resulting in standardized, culturally sterile suburban sprawl.
-When a community attempts to build alternative structures (e.g., rammed earth, reciprocal timber roofs, geodesic domes), they hit a bureaucratic wall. Legacy municipal zoning and building departments demand standardized engineering stamps, forcing builders back into the extractive fiat economy.
+Legacy construction relies on high-entropy, globalized supply chains that ignore local microclimates and thermodynamic efficiency. The result is a massive, culturally sterile, and thermodynamically bleeding suburban and urban sprawl. However, the Collective recognizes the deep psychological roots humans have to modern life; we cannot simply abandon the existing urban landscape to build geodesic domes in the woods. 
+The challenge is two-fold: When a community attempts to build alternative ecological structures, they hit a bureaucratic wall of zoning and engineering constraints. More critically, when they attempt to *retrofit* the massive inventory of existing, inefficient legacy buildings, they lack the localized engineering intelligence to do so safely and cheaply. The Collective must algorithmically hack, augment, and retrofit the modern world from within.
 
 ## 2. The Collective Workflow (7-Layer Traversal)
 
@@ -21,17 +21,19 @@ Scenario Xi uses open-source, parametric algorithms to generate structural bluep
 *   **Permit Insulation:** The SPC submits the stamped plans to the legacy building department, absorbing all permit fees and zoning hearings, legally shielding the decentralized labor force from state interference.
 
 ### Layer 6: Semantic Intent
-*   A Citizen or Steward emits a `ParametricBuildIntent` (e.g., requesting a 150 sq-ft greenhouse or a community pavilion).
-*   The intent defines the spatial bounding box, the algorithmic archetype (e.g., "Zome", "Geodesic", "Timber-Frame"), and the load requirements (e.g., "Must withstand 40psf snow load").
+*   A Citizen or Steward emits a `ParametricBuildIntent` for a new structure (e.g., a greenhouse), or a `RetrofitIntent` for an existing urban asset (e.g., scanning a legacy suburban facade to algorithmically generate passive-solar awnings or modular room subdivisions).
+*   The intent defines the spatial bounding box, the archetype (e.g., "Timber-Frame", "Retrofit-Cladding"), and the load requirements.
 
-### Layer 5: Policy & Web of Trust (The Safety & Zoning Gate)
-*   **Structural Integrity Gate:** Layer 5 routes the intent through a local digital twin simulation. If the algorithm detects the structure will collapse under the bioregion's historical wind or snow loads, it mathematically rejects the design.
-*   **Aesthetic & Zoning Consensus:** If the structure is in a shared commons, Layer 5 requires a multi-sig consensus from surrounding neighbors to ensure the design does not violate local solar-rights (blocking a neighbor's solar panels) or aesthetic budgets.
+### Layer 5: Policy & Web of Trust (The Physics & Exergy Gates)
+*   **Structural Integrity Gate:** Layer 5 routes the intent through the L2 digital twin. If the algorithm detects the structure will fail under historical wind/snow loads, it is rejected.
+*   **Thermal Exergy Gate:** The Digital Twin simulates passive solar performance. If the algorithm places massive windows facing the wrong way, leading to immense winter heat loss, the Orchestrator flags a "Thermodynamic Violation" and forces a geometry re-orientation.
+*   **Deconstruction Mandate:** To prevent future landfill waste, Layer 5 mandates modular assembly (bolts/pegs over chemical glues). The design must prove it can be safely deconstructed at end-of-life.
+*   **Zoning Consensus:** If the structure/retrofit affects the commons, Layer 5 requires multi-sig consensus to protect neighborhood solar rights.
 
-### Layer 4: Orchestration (BOM & Sweat Equity Routing)
-*   The BPMN engine breaks the approved algorithm down into a massive Bill of Materials (BOM) and labor sequence.
-*   It routes material bounties across the mesh: requesting Scenarios Alpha and Theta to fabricate the structural brackets, and Scenario Eta to release the seasoned timber.
-*   It schedules "Barn Raising" events, breaking the assembly into modular tasks.
+### Layer 4: Orchestration (BOM & Cross-Scenario Routing)
+*   The BPMN engine breaks the algorithm into a massive Bill of Materials (BOM) and labor sequence.
+*   It routes material bounties across the mesh: requesting Scenarios Alpha and Theta to fabricate structural hardware, Scenario Eta for seasoned timber, and **Scenario Mu** for biochar (used here as an incredible, carbon-negative building insulation).
+*   Upon completion of the physical "Barn Raising", the Orchestrator automatically emits a `LodgingIntent`, seamlessly bridging into **Scenario Zeta** to list the new architectural asset on the mesh.
 
 ### Layer 3: Ledger (Sweat Equity)
 *   Legacy construction requires massive upfront fiat loans (mortgages). In the mesh, the structure is capitalized via thermodynamic "Sweat Equity."
