@@ -1,0 +1,38 @@
+{
+  "@context": {
+    "mesh": "https://collective.network/ontology/v1/thermodynamics/",
+    "schema": "https://schema.org/",
+    "qudt": "http://qudt.org/schema/qudt/",
+    "unit": "http://qudt.org/vocab/unit/"
+  },
+  "@graph": [
+    {
+      "@id": "mesh:Exergy",
+      "@type": "schema:Class",
+      "schema:name": "Exergy",
+      "schema:description": "The maximum useful work possible during a process that brings the system into equilibrium with a heat reservoir. The ultimate anti-cheat currency of the Node."
+    },
+    {
+      "@id": "mesh:joulesSurplus",
+      "@type": "schema:Property",
+      "schema:domainIncludes": "mesh:Node",
+      "schema:rangeIncludes": "schema:Number",
+      "qudt:hasUnit": "unit:J",
+      "schema:description": "The absolute positive energy generation (e.g., from Solar) minus immediate load."
+    },
+    {
+      "@id": "mesh:ThermalMass",
+      "@type": "schema:Class",
+      "schema:name": "Thermal Mass",
+      "schema:description": "A material's resistance to fluctuations in temperature, dictating passive architectural exergy (Scenario Xi)."
+    },
+    {
+      "@id": "mesh:specificHeatCapacity",
+      "@type": "schema:Property",
+      "schema:domainIncludes": "mesh:Material",
+      "schema:rangeIncludes": "schema:Number",
+      "qudt:hasUnit": "unit:J-PER-KG-K",
+      "schema:description": "Joules required to raise 1kg of the material by 1 Kelvin."
+    }
+  ]
+}

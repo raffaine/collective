@@ -1,0 +1,40 @@
+{
+  "@context": {
+    "mesh": "https://collective.network/ontology/v1/materials/",
+    "schema": "https://schema.org/",
+    "qudt": "http://qudt.org/schema/qudt/",
+    "unit": "http://qudt.org/vocab/unit/"
+  },
+  "@graph": [
+    {
+      "@id": "mesh:Material",
+      "@type": "schema:Class",
+      "schema:name": "Material",
+      "schema:description": "The base class for any physical matter represented in a Voxel."
+    },
+    {
+      "@id": "mesh:Biochar",
+      "@type": "schema:Class",
+      "schema:subClassOf": "mesh:Material",
+      "schema:name": "Biochar",
+      "mesh:specificHeatCapacity": 1000.0,
+      "schema:description": "Carbonized biomass. Crucial for water filtration and soil amendment (Scenario Eta/Mu)."
+    },
+    {
+      "@id": "mesh:Steel_A36",
+      "@type": "schema:Class",
+      "schema:subClassOf": "mesh:Material",
+      "schema:name": "Carbon Steel (A36)",
+      "mesh:specificHeatCapacity": 490.0,
+      "schema:description": "Standard structural steel. High embodied energy, requires Scenario Theta (Foundry) to recycle."
+    },
+    {
+      "@id": "mesh:embodiedEnergy",
+      "@type": "schema:Property",
+      "schema:domainIncludes": "mesh:Material",
+      "schema:rangeIncludes": "schema:Number",
+      "qudt:hasUnit": "unit:MJ-PER-KG",
+      "schema:description": "The total Exergy consumed in the extraction and refinement of the material."
+    }
+  ]
+}
