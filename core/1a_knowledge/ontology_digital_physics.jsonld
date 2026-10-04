@@ -1,0 +1,49 @@
+{
+  "@context": {
+    "mesh": "https://collective.network/ontology/v1/digital_physics/",
+    "schema": "https://schema.org/",
+    "qudt": "http://qudt.org/schema/qudt/",
+    "unit": "http://qudt.org/vocab/unit/"
+  },
+  "@graph": [
+    {
+      "@id": "mesh:DigitalMass",
+      "@type": "schema:Class",
+      "schema:name": "Digital Mass",
+      "schema:description": "The fundamental physical footprint of information in Node 0. Measured in Bytes. A source file has mass."
+    },
+    {
+      "@id": "mesh:ComputeExergy",
+      "@type": "schema:Class",
+      "schema:name": "Compute Exergy",
+      "schema:description": "The thermodynamic work required to alter Digital Mass. Measured in CPU Cycles, FLOPs, or LLM Inference Tokens."
+    },
+    {
+      "@id": "mesh:SourceVoxel",
+      "@type": "schema:Class",
+      "schema:name": "Source Voxel (File)",
+      "schema:description": "The physical territory of Node 0. A localized chunk of Digital Mass (e.g., a .cpp or .md file) that can be operated upon by a Steward or Agent."
+    },
+    {
+      "@id": "mesh:EntropyDelta",
+      "@type": "schema:Class",
+      "schema:name": "Entropy Delta (Commit)",
+      "schema:description": "A discrete, measurable change in the state of a Source Voxel. A git commit is not an Intent; it is the physical result of work, altering the cyclomatic complexity and mass of the system."
+    },
+    {
+      "@id": "mesh:byteSize",
+      "@type": "schema:Property",
+      "schema:domainIncludes": "mesh:SourceVoxel",
+      "schema:rangeIncludes": "schema:Number",
+      "qudt:hasUnit": "unit:BYTE",
+      "schema:description": "The static mass of the file."
+    },
+    {
+      "@id": "mesh:inferenceCost",
+      "@type": "schema:Property",
+      "schema:domainIncludes": "mesh:EntropyDelta",
+      "schema:rangeIncludes": "schema:Number",
+      "schema:description": "The Compute Exergy (measured in LLM tokens or Joules) expended by an AI Agent or Human to generate this delta."
+    }
+  ]
+}

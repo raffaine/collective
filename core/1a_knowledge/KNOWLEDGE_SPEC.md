@@ -11,7 +11,7 @@
 The knowledge base in Layer 1a is split into scientific domains:
 1.  **Thermodynamics (`ontology_thermodynamics.jsonld`):** The absolute baseline. Exergy, Joules, Watts, Thermal Mass, Entropy.
 2.  **Materials Science (`ontology_materials.jsonld`):** The physical building blocks. Biochar, Steel, PLA filament, Concrete. Defines structural integrity, density, and specific heat capacity.
-3.  **Biology & Ecology (`ontology_ecology.jsonld`):** The living layer. Fungal loam, moisture retention, biological metabolic rates.
+3.  **Digital Physics (`ontology_digital_physics.jsonld`):** The physical reality of Node 0 itself. Because the codebase acts as the physical territory of the founding Node, we must quantify digital mass (Bytes), Compute Exergy (FLOPs/Tokens), and Entropy Deltas (Git Commits). This is essential for governing the thermodynamic cost of software development.
 
 ## 3. Binding to Layer 1b (The Simulation Engine)
-Layer 1b reads these JSON-LD files to initialize its C++ structs. When Layer 1a defines the `SpecificHeatCapacity` of `mesh:Biochar`, Layer 1b maps that exact floating-point value into the 32-bit Voxel payload for environmental temperature simulation.
+Layer 1b reads these JSON-LD files to initialize its C++ structs. When Layer 1a defines the `SpecificHeatCapacity` of `mesh:Biochar`, Layer 1b maps that exact floating-point value into the 32-bit Voxel payload for environmental temperature simulation. Likewise, when Layer 1a defines `mesh:ComputeExergy`, the engine tracks the actual CPU cycles burned to compile itself.
