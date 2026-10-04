@@ -1,0 +1,102 @@
+\documentclass[11pt,a4paper]{book}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{tgpagella} % Palatino clone, very readable
+\linespread{1.05}      % Slight line spacing increase for Palatino
+\usepackage{microtype} % Improves typography (kerning, protrusion)
+
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+\usepackage{epigraph}
+\usepackage{csquotes}
+\usepackage{xcolor}
+\usepackage[style=authoryear,backend=bibtex]{biblatex}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=teal,
+    citecolor=gray,
+}
+
+% --- Epigraph Setup ---
+\setlength{\epigraphwidth}{0.65\textwidth}
+\renewcommand{\epigraphrule}{0pt}
+
+% --- Bibliography ---
+\addbibresource{collective.bib}
+
+% --- Title Page ---
+\begin{document}
+
+\frontmatter
+\begin{titlepage}
+    % Page 1: Full Bleed Cover
+    \begin{tikzpicture}[remember picture,overlay]
+        \node[inner sep=0pt] at (current page.center) {
+            \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{cover_v2.jpg}
+        };
+        \node[anchor=north, yshift=-3cm] at (current page.north) {
+            \scalebox{2.1}{\Huge \textbf{\textcolor{white}{\fontfamily{qag}\selectfont The Sovereign Stack}}}
+        };
+        \node[anchor=south, yshift=2.5cm] at (current page.south) {
+            \scalebox{2}{\Large \textbf{\textcolor{white}{\fontfamily{qag}\selectfont The Collective}}}
+        };
+    \end{tikzpicture}
+    
+    \clearpage
+    % Page 2: Blank inner cover
+    \thispagestyle{empty}
+    \null
+    \clearpage
+    
+    % Page 3: Inner Title Page
+    \thispagestyle{empty}
+    \begin{center}
+        \vspace*{4cm}
+        {\scalebox{1.6}{\textbf{The Sovereign Stack}}} \\[1cm]
+        {\Large \textit{A Blueprint for Cybernetic Ecology and Mutual Aid}} \\[3cm]
+        {\Large \textbf{The Collective}} \\[3cm]
+        \vfill
+        {\large Version 1.0 (Initial Draft)} \\[0.2cm]
+        {\large Cascadia Bioregion, 2026}
+        \vspace*{3cm}
+    \end{center}
+    \clearpage
+\end{titlepage}
+\tableofcontents
+
+\input{chapters/00_preface}
+
+\mainmatter
+
+\input{chapters/01_anatomy_of_a_node}
+
+\input{chapters/02_layer_1_physical_reality}
+
+\input{chapters/03_layer_2_digital_twin}
+
+\input{chapters/04_layer_3_thermodynamic_ledger}
+
+\input{chapters/05_layer_4_orchestrator}
+
+\input{chapters/06_layer_5_governance}
+
+\input{chapters/07_layer_6_semantic}
+
+\input{chapters/08_layer_7_legacy}
+
+\input{chapters/09_genesis_protocol}
+
+\input{chapters/10_collective_bringup}
+
+\input{chapters/11_mvs_scenarios}
+
+\input{chapters/12_prime_genesis}
+
+\printbibliography
+
+\end{document}
