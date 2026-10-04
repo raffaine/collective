@@ -1,0 +1,40 @@
+{
+  "@context": [
+    "https://schema.org/",
+    "https://collective.network/ontology/v1/"
+  ],
+  "@type": "GenesisIntent",
+  "identifier": "urn:uuid:00000000-0000-0000-0000-000000000000",
+  "issuerDid": "did:key:z6MkhaXgBZDvotDkL5257faiztiCEsJUTCwkNcFaT",
+  "genesisType": "Prime_Genesis",
+  "characterSheet": {
+    "bioregion": "Cascadia_Zone_4",
+    "baseSkills": [
+      {
+        "skill": "Permaculture_L2",
+        "willingToMentor": true
+      },
+      {
+        "skill": "C++_Systems_Architecture",
+        "willingToMentor": true
+      }
+    ],
+    "physicalAssets": [
+      {
+        "type": "3D_Printer",
+        "model": "Bambu_Lab_A1",
+        "status": "Operational",
+        "telemetryCapable": true
+      },
+      {
+        "type": "Solar_Array",
+        "capacityWatts": 5000,
+        "telemetryCapable": true
+      }
+    ]
+  },
+  "trustAnchors": {
+    "spcLegalWaiverSigned": true,
+    "fiatStakedAmount": 1000.00
+  }
+}

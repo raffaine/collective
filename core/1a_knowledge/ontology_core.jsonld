@@ -1,0 +1,33 @@
+{
+  "@context": {
+    "mesh": "https://collective.network/ontology/v1/",
+    "schema": "https://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@graph": [
+    {
+      "@id": "mesh:Steward",
+      "@type": "schema:Class",
+      "schema:name": "Steward",
+      "schema:description": "A human agent who holds a cryptographic DID, maintains a local node, and is integrated into the Trust Ring."
+    },
+    {
+      "@id": "mesh:Voxel",
+      "@type": "schema:Class",
+      "schema:name": "Voxel",
+      "schema:description": "A cubic unit of simulated space holding physical properties (mass, temperature, density) and telemetry links."
+    },
+    {
+      "@id": "mesh:Exergy",
+      "@type": "schema:Property",
+      "schema:name": "Exergy",
+      "schema:description": "The quantified thermodynamic potential of a resource or action (Joules, Watt-hours)."
+    },
+    {
+      "@id": "mesh:GenesisIntent",
+      "@type": "schema:Class",
+      "schema:name": "Genesis Intent",
+      "schema:description": "The prime semantic intent used to bootstrap a Node or onboard a new Steward. Acts as a character sheet."
+    }
+  ]
+}
