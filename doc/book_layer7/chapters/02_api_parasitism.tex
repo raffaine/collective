@@ -9,5 +9,12 @@ A robust Decentralized Oracle Network (DON) must abstract the fragility of the u
 \section{JSON Parsing Fallbacks and Data Extraction}
 Web2 APIs frequently alter their JSON response schemas without notice. A resilient oracle must implement dynamic JSON parsing fallbacks. This involves utilizing fuzzy matching and heuristic analysis to extract critical data fields even when the expected JSON path is broken. By mapping semantic relationships within the data payload, the parser can adapt to structural mutations in real-time.
 
-\section{Specific Web2 API Frailties}
-The inherent weaknesses of Web2 APIs are well-documented. For instance, the infamous Twitter API rate limit changes of 2023 demonstrated the danger of centralized data monopolies. Furthermore, RESTful architectures often lack built-in cryptographic signatures, making them susceptible to man-in-the-middle attacks. By leveraging API Parasitism, decentralized applications can treat these APIs not as trusted partners, but as unreliable sensors in a broader, fault-tolerant network.
+\section{The API as a Semi-Permeable Membrane}
+In Layer 7, legacy REST and GraphQL APIs are not viewed as integrations, but as \textit{Semi-Permeable Membranes}. The Sovereign Stack must leech data (e.g., Open311 municipal transit statuses, legacy banking fiat settlement confirmations) without allowing the state or the corporation to push commands back into the mesh. 
+
+To achieve this, the Edge Oracle Network acts as a unidirectional proxy. When a localized node queries a legacy API, it strips all Web2 metadata, tracking cookies, and identifying IP headers. The raw JSON payload is then parsed, and the specific boolean or integer required (e.g., \texttt{"transit\_status": "delayed"}) is extracted. 
+
+\section{Zero-Knowledge Ingestion of Legacy Payloads}
+Crucially, this data cannot be trusted on its face. The Oracle network takes the Web2 payload and wraps it in a Zero-Knowledge Proof (ZKP) before ingesting it into the Layer 3 ledger. By doing this, the Oracle proves mathematically that the data was indeed pulled from the specific legacy HTTPS endpoint at a specific timestamp, preventing internal bad actors from spoofing municipal data. 
+
+For example, when integrating with legacy Open Banking APIs (like Plaid), the oracle verifies the TLS certificate of the bank's response, generates a cryptographic proof of the fiat balance change, and feeds \textit{only the proof} into the smart contract. The legacy bank's API remains entirely ignorant of the cryptographic machinery, successfully parasitized to trigger sovereign automated workflows.
