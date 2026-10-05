@@ -1,0 +1,16 @@
+\chapter{Cryptographic Routing and Intent Resolution}
+
+\section{The Fragmented Mesh Problem}
+In traditional IP routing, data assumes a reliable, always-on backbone (TCP/IP via fiber optic cables). The Sovereign Stack operates under the assumption of intermittent, fragmented connectivity. During an ecological shock (Scenario Upsilon), the community's communication layer might be reduced to asynchronous LoRaWAN packets bouncing between solar-powered edge nodes and handheld citizen devices. Layer 4 must guarantee that critical intents—such as a Paramedic dispatch (Scenario Chi)—can route through this fragmented graph reliably and securely.
+
+\section{Gossip Protocols and Epidemic Routing}
+Rather than relying on a centralized DNS or static routing tables, Layer 4 employs an epidemic gossip protocol. When a citizen's device generates an intent, it broadcasts the encrypted payload to any peer it can physically reach via Bluetooth Low Energy (BLE) or LoRa. 
+
+To prevent network congestion, the Orchestrator implements a localized Dijkstra pathfinding heuristic combined with Time-To-Live (TTL) decays. For high-priority intents, the TTL is effectively infinite, and edge nodes will actively buffer the intent in non-volatile memory, waiting for a passing citizen (a "data mule" in Scenario Beta) to physically carry the intent to another node in the mesh, bridging the network gap.
+
+\section{Zero-Knowledge Intent Resolution}
+Routing data across untrusted neighbor nodes introduces severe privacy risks. If a citizen is routing a conflict mediation intent (Scenario Psi) or a childcare request (Scenario Delta), intermediary nodes must not be able to read the payload.
+
+Layer 4 solves this via Zero-Knowledge Succinct Non-Interactive Arguments of Knowledge (zk-SNARKs). The intent payload is heavily encrypted, but the routing wrapper contains a ZK-proof. This proof cryptographically guarantees to the intermediary nodes that the sender possesses the required authorization (e.g., they hold the correct Trust Ring SBT) to request the routing bandwidth, without ever revealing \textit{who} the sender is or \textit{what} the payload contains. 
+
+The Orchestrator on the receiving end parses the ZK-proof. If the proof is valid, the Orchestrator accepts the intent into its queueing engine and executes the BPMN transition. If the proof is invalid, the packet is thermodynamically dropped at the hardware edge, preventing Sybil attacks and adversarial flooding (Scenario Rho) from consuming the node's computational exergy.

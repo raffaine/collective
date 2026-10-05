@@ -1,0 +1,16 @@
+\chapter{The Computation Matrix: WASM and Thermodynamic LLMs}
+
+\section{The Dual-Engine Architecture}
+Layer 4 must orchestrate two fundamentally different types of computation: deterministic logic (e.g., verifying a cryptographic signature, advancing a queue) and non-deterministic cognition (e.g., parsing a human's ambiguous voice request to book a coworking space). To support the 25 Sovereign Scenarios, the Orchestrator implements a dual-engine Computation Matrix.
+
+\section{The Deterministic Engine: WebAssembly (WASM)}
+For strict, repeatable processes (such as the PID controllers required in Scenario Mu for biochar extraction, or the Traveling Salesperson routing in Scenario Beta), Layer 4 utilizes a sandboxed WebAssembly (WASM) runtime. 
+
+When a citizen submits a BPMN workflow to the mesh, it is compiled down to WASM bytecode. The Orchestrator engine executes this bytecode with strict deterministic constraints. To prevent infinite loops (the Halting Problem) from draining the community's microgrid battery, the runtime enforces a strict "Instruction Gas Limit." Before a WASM block executes, the Orchestrator queries the L3 Oracle for the node's current physical battery reserve. It calculates exactly how many WASM instructions can be safely executed per Joule of available energy. If the script exceeds its thermodynamic budget, the execution is trapped and halted, placing the intent into a holding queue.
+
+\section{The Cognitive Engine: Localized LLM Inference}
+While WASM handles the rigid physics, localized Large Language Models (LLMs) handle the human interface. In scenarios like the Centaur Code Review (Scenario 0) or Epistemic Knowledge routing (Scenario Iota), the system must process semantic context.
+
+Because the Sovereign Stack operates entirely offline (Scenario Omega compliance), it cannot rely on cloud-hosted API endpoints like OpenAI. The Orchestrator runs quantized models (e.g., 4-bit GGUF formats) directly on edge GPU silicon. However, LLM inference requires massive matrix multiplications, generating immense thermal output and electrical draw.
+
+To compute intents without breaking thermodynamic limits, the Orchestrator utilizes an \texttt{ExergyLock}. When an LLM inference task is requested, the system locks a specific amount of the node's thermal budget. If a citizen requests a semantic dispute resolution summary (Scenario Psi) during a low-solar period, the Orchestrator will artificially throttle the tokens-per-second generation rate, spreading the thermal load over a longer temporal window to keep the edge node's inverter within safe operational limits. If an emergency occurs (Scenario Chi), the Orchestrator will instantly kill the LLM process, preempting the GPU to route all available power back to life-support systems.
