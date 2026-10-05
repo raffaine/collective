@@ -1,0 +1,32 @@
+{
+  "@context": {
+    "mesh": "https://collective.network/ontology/v1/orchestrator/",
+    "schema": "https://schema.org/"
+  },
+  "@graph": [
+    {
+      "@id": "mesh:BPMNProcess",
+      "@type": "schema:Class",
+      "schema:name": "BPMN Process",
+      "schema:description": "A formalized graph of tasks, gateways, and events defining exactly how an Intent is resolved."
+    },
+    {
+      "@id": "mesh:WorkflowTask",
+      "@type": "schema:Class",
+      "schema:name": "Workflow Task",
+      "schema:description": "A discrete unit of work within the Orchestrator, such as pinging Layer 5 for trust validation, or waiting for Layer 2 telemetry."
+    },
+    {
+      "@id": "mesh:ExclusiveGateway",
+      "@type": "schema:Class",
+      "schema:name": "Exclusive Gateway",
+      "schema:description": "A decision node in the workflow (XOR). e.g., 'If Exergy > 1000, route to Actuate; Else, route to Fail'."
+    },
+    {
+      "@id": "mesh:JobQueue",
+      "@type": "schema:Class",
+      "schema:name": "Job Queue",
+      "schema:description": "The decentralized mempool where pending Intents wait to be picked up by an available BPMN runner."
+    }
+  ]
+}
