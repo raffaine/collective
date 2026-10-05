@@ -38,6 +38,13 @@ where $V_{ex}$ is the excitation voltage applied across the bridge, and $R_1, R_
 \subsection{Capacitive Soil Moisture}
 To prevent over-extraction of local aquifers, soil hydration is tracked using capacitive moisture sensors. Rather than exposing conductive probes to the highly corrosive soil (which ruins resistive sensors in weeks), capacitive sensors emit an oscillating electric field ($> 1$ MHz) into the surrounding dielectric medium. Because water has a relative permittivity ($\epsilon_r \approx 80$) vastly higher than dry soil ($\epsilon_r \approx 3$), the capacitance shifts predictably, allowing Layer 2 to autonomously trigger irrigation actuations without human intervention.
 
+\subsection{NDVI Drones and the ERC Denominator}
+To calculate the absolute carrying capacity $C_{max}$ required for the Ecological Replacement Cost (ERC) algorithm (Layer 1), the node cannot rely on manual human surveying. Instead, autonomous edge drones equipped with near-infrared (NIR) and visible red optical sensors compute the Normalized Difference Vegetation Index (NDVI):
+\begin{equation}
+NDVI = \frac{NIR - Red}{NIR + Red}
+\end{equation}
+This index maps directly to the photosynthetic capacity and live biomass of the local canopy. Combined with inline ultrasonic flow meters measuring the exact volumetric extraction $E_{current}$ from the community aquifer, Layer 2 hardware generates the exact physical variables required by the ERC pricing algorithm, pushing undeniably true ecological states to the Layer 3 ledger.
+
 \section{Anaerobic Digestion and NDIR Telemetry (Scenario Mu)}
 When processing biological and human waste (Scenario Mu: Extraction), ensuring the precise thermodynamic conditions for methanogenesis and pathogen destruction is paramount. The system tracks biogenic gas production ($CO_2$ and $CH_4$) using Non-Dispersive Infrared (NDIR) sensors.
 

@@ -1,0 +1,45 @@
+\chapter{Cryptographic Primitives and Zero-Knowledge Privacy}
+
+\section{Elliptic Curve Signatures at the Edge}
+To ensure that all physical data is strictly non-repudiable, every Layer 2 sensor array acts as a cryptographic signer. The Sovereign Stack employs the Ed25519 digital signature scheme over the Twisted Edwards curve:
+\begin{equation}
+-x^2 + y^2 = 1 - \frac{121665}{121666} x^2 y^2 \pmod{p}
+\end{equation}
+where $p = 2^{255} - 19$. Because Ed25519 requires significantly less computational power than legacy RSA, even ultra-low-power microcontrollers running on harvested solar energy can sign telemetry payloads at 100 Hz \cite{bernstein2012high}.
+
+\section{Zero-Knowledge Proofs for Biological Autonomy (Scenarios Phi \& Delta)}
+The primary conflict in decentralized architectures is transparency versus privacy. The public ledger requires absolute transparency to prevent Sybil attacks, but citizen autonomy demands absolute privacy.
+
+In Scenario Phi (Elder Care) and Scenario Delta (Childcare), Layer 2 FMCW radar and BLE Angle of Arrival (AoA) arrays track sensitive biological data (respiration rates, physical location). Transmitting this raw telemetry to the Layer 3 public ledger is an unacceptable breach of privacy. Instead, the edge nodes utilize Zero-Knowledge Succinct Non-Interactive Arguments of Knowledge (zk-SNARKs).
+
+\subsection{Groth16 Polynomial Commitments}
+The local edge node (the Prover) takes the private biological telemetry $w$ (the witness) and runs a localized circuit to prove a specific physical statement (e.g., "The elder citizen's respiration is above $12$ breaths per minute"). The node generates a cryptographic proof $\pi$ using pairing-based cryptography.
+
+The Layer 3 network (the Verifier) checks the proof using a bilinear pairing function $e: \mathbb{G}_1 \times \mathbb{G}_2 \rightarrow \mathbb{G}_T$. The verification equation takes the form:
+\begin{equation}
+e(A, B) = e(\alpha, \beta) \cdot e\left( \frac{\sum_{i=0}^l v_i(x) \gamma_i}{\gamma}, \delta \right) \cdot e(C, \delta)
+\end{equation}
+where $A, B, C$ are the proof elements submitted by the edge node, and $\alpha, \beta, \gamma, \delta$ are the public verification keys \cite{groth2016size}. 
+
+If the equation balances, the Layer 3 ledger records the verified state change (e.g., \texttt{Status: Healthy}) without ever exposing the underlying radar frequency vectors or exact physical coordinates to the mesh. This perfectly bridges the mathematical mandate of Layer 1 (physics must be verified) with the ethical mandate of the Sovereign Stack (the citizen's body is inviolable).
+
+\section{Decentralized Identity and Verifiable Credentials (Scenarios Lambda, Psi, Omicron)}
+Access to cultural gatherings (Scenario Lambda), intense mediation zones (Scenario Psi), or kinship data (Scenario Omicron) requires establishing trust without reliance on a centralized, state-issued ID. The Sovereign Stack employs W3C Decentralized Identifiers (DIDs).
+
+A citizen's DID is mathematically bound to their public key on the ledger, but their physical attributes (age, kinship ties, guild rank) are stored locally in their possession as Verifiable Credentials (VCs). When attempting to access a culturally restricted physical space, the citizen utilizes a Merkle Tree verification system. By providing the cryptographic sibling hashes leading up to the Merkle Root, the citizen can prove they possess a specific attribute (e.g., "Is an initiated member of the guild") without revealing their actual name, exact age, or global transaction history. The verifier confirms the path:
+\begin{equation}
+\text{Root} = \mathcal{H}(\mathcal{H}(\text{Attribute}) \parallel \text{Sibling\_Hash})
+\end{equation}
+This isolates identity into highly contextual, privacy-preserving domains, severing the surveillance architecture of the legacy state \cite{sporny2021w3c}.
+
+\vspace{1cm}
+\begin{thebibliography}{99}
+\bibitem{bernstein2012high}
+Bernstein, D. J., Duif, N., Lange, T., Schwabe, P., \& Yang, B. Y. (2012). \textit{High-speed high-security signatures}. Journal of cryptographic engineering, 2(2), 77-89.
+
+\bibitem{groth2016size}
+Groth, J. (2016). \textit{On the size of pairing-based non-interactive arguments}. In Advances in Cryptology–EUROCRYPT 2016 (pp. 305-326). Springer.
+
+\bibitem{sporny2021w3c}
+Sporny, M., et al. (2021). \textit{Decentralized Identifiers (DIDs) v1.0}. World Wide Web Consortium (W3C).
+\end{thebibliography}

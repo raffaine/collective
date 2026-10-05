@@ -7,6 +7,15 @@ To model sustainable extraction without degrading the substrate (Scenario Eta: C
 In the Oasis engine, the growth of flora (e.g., hardwood coppice) is modeled at the voxel level. A root voxel (e.g., \texttt{HARDWOOD\_STUMP}) acts as a localized growth algorithm. If the voxel is exposed to adequate photosynthetically active radiation (PAR, simulated via raycasting from the sky vector) and localized moisture, it executes a state transition, spawning an adjacent \texttt{HARDWOOD\_TRUNK} voxel. 
 This discrete growth is bounded by the Ecological Replacement Cost (ERC)—a physical limit ensuring that simulated agents cannot harvest more biomass mass than the ecosystem has thermodynamically aggregated over a given temporal window.
 
+\subsection{The ERC Asymptotic Curve}
+The ERC is not a static limit; it is a thermodynamic pricing algorithm designed to prevent ecological overshoot. For any regenerative resource (timber, aquifer water, soil nitrogen), let $C_{max}$ represent the absolute carrying capacity of the local substrate, and $E_{current}$ represent the cumulative extraction over the regeneration period. 
+
+The thermodynamic cost of extraction, $ERC_{cost}$, follows an asymptotic curve that approaches infinity as the extraction approaches the carrying capacity:
+\begin{equation}
+ERC_{cost} = C_0 \left( \frac{1}{1 - \left( \frac{E_{current}}{C_{max}} \right)^\gamma} \right)
+\end{equation}
+where $C_0$ is the base metabolic cost of extraction and $\gamma$ is a steepness parameter dictating the resilience of the ecosystem. As $E_{current} \rightarrow C_{max}$, the exergy required to harvest the resource mathematically trends toward infinity, creating an unbreakable physical barrier against systemic extraction \\cite{odum1996environmental}.
+
 \section{Geospatial Verification of the Physical Layer}
 In a trustless network, the physical state of the ecosystem cannot rely on self-reporting. It requires cryptographic verification grounded in physical measurement.
 
@@ -41,5 +50,8 @@ Lehmann, J., \& Joseph, S. (Eds.). (2015). \textit{Biochar for environmental man
 
 \bibitem{pijanowski2011soundscape}
 Pijanowski, B. C., Villanueva-Rivera, L. J., Dumyahn, S. L., Farina, A., Krause, B., Napoletano, B. M., ... \& Pieretti, N. (2011). \textit{Soundscape ecology: the science of sound in the landscape}. BioScience, 61(3), 203-216.
+
+\bibitem{odum1996environmental}
+Odum, H. T. (1996). \textit{Environmental accounting: emergy and environmental decision making}. John Wiley \& Sons.
 
 \end{thebibliography}

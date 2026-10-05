@@ -1,0 +1,34 @@
+\documentclass[11pt,oneside]{book}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern} % Utilizing robust modern fonts for Sandbox compilation
+\linespread{1.05}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{geometry}
+
+\geometry{a4paper, margin=1in}
+
+\title{
+    \Huge \textbf{Layer 3: The Cryptographic Ledger} \\
+    \vspace{0.5cm}
+    \Large Consensus, Tokenomics, and Zero-Knowledge Physics
+}
+\author{Lead Cryptography \& Distributed Systems Architect}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\part{Foundations of Sovereign Consensus}
+\include{chapters/01_consensus}
+\include{chapters/02_cryptographic_primitives}
+
+\part{Tokenomics and Physical State}
+\include{chapters/03_thermodynamic_tokenomics}
+\include{chapters/04_smart_contracts}
+
+\end{document}
