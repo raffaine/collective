@@ -1,0 +1,15 @@
+\chapter{Appendix: Scenario Theta - Foundry}
+
+\section{The Legacy Paradigm \\\& Its Failures}
+Legacy manufacturing facilities were controlled by proprietary SCADA systems, tethered to fragile central servers and rigid, top-down production schedules. Operators interacted with complex, cluttered HMI (Human-Machine Interface) screens that flooded them with raw data and alarms, leading to cognitive overload during critical safety incidents. The system optimized for continuous extraction and output, disregarding local energy limits.
+
+\section{The Incremental Automation Pathway}
+Phase 1 required operators to manually input tooling parameters and safety checks. Phase 2 introduces ambient E-ink safety placards and basic spatial UI indicating machine states and thermal hazards. Phase 3 achieves zero-click coordination: citizen nodes automatically negotiate access to heavy machinery based on verified skills, material availability, and the microgrid's current power surplus, queuing tasks without manual scheduling.
+
+\section{The Human Boundary (Limits of Automation)}
+The automation of material flows and power allocation stops at the physical safety of the operator. The interface enforces extreme friction for potentially lethal actions. Even if the system determines a machine is safe to run, the interface requires a multi-party physical key-turn or a deliberate, slow-motion confirmation sequence to initiate hazardous processes. The machine cannot start itself; human presence and intent are mathematically required.
+
+\section{Interface Mechanics (The "How")}
+Foundry operations utilize CRDTs to maintain a unified state of material inventory and machine availability across the facility's offline mesh. The Centaur interface employs algorithmic triage to filter out nominal machine data, only breaking the operator's concentration when a dangerous anomaly is detected. High-noise environments necessitate the use of haptic feedback and high-contrast ambient lighting rather than standard audio or screen-based alerts.
+
+% Feedback: Missing UI mechanism for "Haptic/Physical Override and Safety Feedback" in high-risk environments.

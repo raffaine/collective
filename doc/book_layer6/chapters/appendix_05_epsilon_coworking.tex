@@ -1,0 +1,15 @@
+\chapter{Appendix: Scenario Epsilon - Coworking}
+
+\section{The Legacy Paradigm \\\& Its Failures}
+In the legacy paradigm, coworking spaces relied on centralized, cloud-dependent applications for desk booking, access control, and resource management. These systems were prone to single points of failure; an internet outage meant citizens could not enter the building or locate available resources. The interfaces were designed around attention-capture, with constant push notifications for events, billing, and community announcements, leading to severe notification fatigue. 
+
+\section{The Incremental Automation Pathway}
+Phase 1 (Manual Entry) involved citizens actively checking in via centralized web portals. Phase 2 (Ambient Assistance) transitions this to ambient E-ink displays at each desk, indicating availability and upcoming reservations. Phase 3 (Zero-Click Interactions) automates the process entirely: a citizen's local node syncs with the mesh upon entering the building, automatically reserving an optimal desk based on their spatial preferences and current occupancy levels, requiring zero manual input.
+
+\section{The Human Boundary (Limits of Automation)}
+While desk allocation and resource tracking can be fully automated, resolving physical disputes or managing noise complaints must remain a manual, human process. The interface enforces friction here: a citizen cannot algorithmically evict another from a space. Instead, the UI provides context and prompts a face-to-face resolution protocol, ensuring that human empathy and direct communication handle conflict, rather than sterile algorithmic arbitration.
+
+\section{Interface Mechanics (The "How")}
+The coworking interface relies on Conflict-Free Replicated Data Types (CRDTs) to maintain a synchronized state of the building's resources across all local nodes, even if the external network connection is severed. Ambient E-ink screens on desks update locally, drawing minimal power. Spatial AR overlays can guide a citizen to their allocated desk without emitting audible notifications. 
+
+% Feedback: Missing UI mechanism for "Spatial Audio Zoning" or "Haptic Distraction Alerts" in the core chapters.

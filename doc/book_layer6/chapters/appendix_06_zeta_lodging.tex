@@ -1,0 +1,15 @@
+\chapter{Appendix: Scenario Zeta - Lodging}
+
+\section{The Legacy Paradigm \\\& Its Failures}
+Legacy lodging systems utilized cloud-based booking engines and proprietary smart locks that required continuous internet connectivity and centralized identity verification. This approach commodified shelter, prioritized surge pricing, and left users vulnerable to lockouts during network failures. Interfaces used dark patterns to induce scarcity and anxiety, pushing users to book quickly rather than optimally allocating available space.
+
+\section{The Incremental Automation Pathway}
+Phase 1 required manual key exchanges and central database verifications. Phase 2 introduces local-mesh smart locks that verify cryptographic signatures from citizen nodes without phoning home. Phase 3 enables fully ephemeral access: the mesh automatically allocates lodging based on proximity, need, and community agreements, seamlessly granting the citizen's node cryptographic access to the assigned dwelling upon arrival.
+
+\section{The Human Boundary (Limits of Automation)}
+The system draws a strict boundary at eviction or denying access in emergencies. Automation can handle standard access and rotation, but if a citizen overstays or a dispute arises over occupancy, the UI halts algorithmic enforcement. It demands a manual override requiring a quorum of local stewards. The interface forces humans to bear the moral weight of displacement, preventing the machine from executing a cold, automated lockout.
+
+\section{Interface Mechanics (The "How")}
+Lodging state and cryptographic access tokens are distributed via CRDTs across the local mesh network, ensuring robust offline access. During low-power microgrid states, UI rendering on access terminals degrades to basic text or binary LED indicators, preserving energy for the physical locking mechanisms. The Centaur interface quietly updates the citizen's local node with access rights, bypassing the need for intrusive push notifications.
+
+% Feedback: Missing UI mechanism for "Mesh-based Identity \\\& Access Control" in core chapters.
