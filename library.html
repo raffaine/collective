@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collective - The Archives</title>
+    <style>
+        :root {
+            --earth-clay: #2c2b29;
+            --leaf-green: #4f7942;
+            --sun-gold: #cba135;
+            --soft-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Georgia', serif;
+            background: #fdfcf8;
+            color: var(--earth-clay);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Floating Navigation Menu */
+        .floating-nav {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            z-index: 100;
+            display: flex;
+            gap: 20px;
+            width: calc(100% - 60px);
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--earth-clay);
+            font-size: 0.9rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 10px 15px;
+            background: rgba(253, 252, 248, 0.6);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(79, 121, 66, 0.2);
+            transition: 0.3s;
+        }
+
+        .nav-link:hover {
+            color: var(--leaf-green);
+            border-color: var(--sun-gold);
+            background: rgba(253, 252, 248, 0.9);
+        }
+
+        header {
+            margin-top: 150px;
+            text-align: center;
+            max-width: 800px;
+            padding: 0 20px;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+        }
+
+        p.subtitle {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 50px;
+        }
+
+        /* Library Grid */
+        .library-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            width: 100%;
+            max-width: 1000px;
+            padding: 20px;
+            margin-bottom: 100px;
+        }
+
+        .library-card {
+            background: white;
+            padding: 40px;
+            border-bottom: 4px solid transparent;
+            text-decoration: none;
+            color: inherit;
+            transition: transform 0.3s, border-color 0.3s;
+            box-shadow: var(--soft-shadow);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .library-card:hover {
+            border-bottom: 4px solid var(--sun-gold);
+            transform: translateY(-5px);
+        }
+
+        .library-card h2 {
+            color: var(--leaf-green);
+            font-size: 1.8rem;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
+        .library-card p {
+            font-size: 1.1rem;
+            line-height: 1.5;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .tag {
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--sun-gold);
+        }
+        
+        @media (max-width: 768px) {
+            .floating-nav {
+                top: auto;
+                bottom: 20px;
+                right: 50%;
+                transform: translateX(50%);
+                width: 90%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="floating-nav">
+        <img src="images/collective-logo.png" alt="Collective Logo" style="height: 40px; margin-right: auto;">
+        <a href="index.html" class="nav-link">Return to Base</a>
+    </nav>
+
+    <header>
+        <h1>The Archives</h1>
+        <p class="subtitle">A centralized repository of the Sovereign Stack documentation, physics models, and architectural guides. Access the blueprints without needing to navigate the raw source code.</p>
+    </header>
+
+    <div class="library-grid">
+        <!-- Blueprint -->
+        <a href="doc/book_collective/main.pdf" class="library-card" target="_blank">
+            <div>
+                <span class="tag">Theory & Architecture</span>
+                <h2>The Sovereign Stack</h2>
+                <p>Volume 1. The foundational blueprint outlining the 7-layer cybernetic architecture designed to orchestrate physical reality and post-fiat independence.</p>
+            </div>
+        </a>
+
+        <!-- Layer 1 Physics -->
+        <a href="doc/book_layer1/main.pdf" class="library-card" target="_blank">
+            <div>
+                <span class="tag">Mathematics & Physics</span>
+                <h2>Layer 1: Physical Foundations</h2>
+                <p>The companion textbook translating our 24 ecological scenarios into rigorous thermodynamics, classical mechanics, and multiscale equations for the Oasis Engine.</p>
+            </div>
+        </a>
+
+        <!-- Layer 2 Telemetry (Placeholder for next goal) -->
+        <a href="#" class="library-card" style="opacity: 0.6; cursor: not-allowed;">
+            <div>
+                <span class="tag">Hardware & IoT</span>
+                <h2>Layer 2: Sensors & Actuators</h2>
+                <p><em>(In Development)</em> The embedded systems guide for securely bridging Layer 1 physical reality to the Layer 3 cryptographic ledger via telemetry.</p>
+            </div>
+        </a>
+
+        <!-- Mythos -->
+        <a href="book/index.html" class="library-card">
+            <div>
+                <span class="tag">Lore & Narrative</span>
+                <h2>Fault Tolerance</h2>
+                <p>Experience the human element. The narrative mythos and lore of the citizens operating within the sovereign mesh.</p>
+            </div>
+        </a>
+    </div>
+
+</body>
+</html>
