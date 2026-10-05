@@ -1,0 +1,20 @@
+\chapter*{Appendix 06: Micro-Lodging Mesh}
+\addcontentsline{toc}{chapter}{Appendix 06: Micro-Lodging Mesh}
+
+\section*{1. The Legacy Paradigm \& Its Failures}
+Legacy home-sharing platforms extract 15-30\% of transaction value, distort local housing markets, and rely on centralized algorithms for safety and dispute resolution. Hosts lack sovereign control over reputation or rules.
+
+\section*{2. The Incremental Automation Pathway}
+\textbf{Phase 1 (Manual Trust):} Hosts rent directly to friends or friends-of-friends via informal agreements.
+\textbf{Phase 2 (AI-Assisted Policy):} A federated platform matches hosts and guests, but human admins arbitrate disputes and verify IDs manually.
+\textbf{Phase 3 (Autonomous Cryptographic Enforcement):} Layer 5 automatically calculates the Web of Trust graph distance between host and guest. If distance exceeds the threshold, access requires a \texttt{Trusted\_Traveler} Verifiable Credential or a massive escrow, bypassing centralized identity verification entirely.
+
+\section*{3. The Human Boundary (Limits of Automation)}
+While exact-exergy billing (tracking HVAC/water) is automated, the system cannot verify complex physical damage or determine if a guest completed a bartered \texttt{SkillOffering} (e.g., repairing a porch) to a satisfactory standard. Human Stewards must cryptographically sign off on the completion of bartered labor before tokens are released.
+
+\section*{4. Orchestration Mechanics (The ``How'')}
+The Safety Gate algorithm executes a cryptographic graph traversal. 
+\begin{itemize}
+    \item \textbf{Graph Distance:} The node queries the localized Trust Ring to find the shortest path of vouching signatures between the host's DID and the traveler's DID.
+    \item \textbf{Vouching Signatures:} If the path is $\ge 3$ hops, the policy enforces strict requirements, demanding Soulbound Tokens from known external validators before releasing the BLE key.
+\end{itemize}

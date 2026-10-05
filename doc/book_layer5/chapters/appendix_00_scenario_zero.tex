@@ -1,0 +1,16 @@
+\chapter{Appendix 00: Scenario Zero - Building the Sovereign Stack}
+
+\section{The Legacy Paradigm \& Its Failures}
+In the legacy paradigm, network infrastructure and trust are strictly top-down. Establishing a community network relies on ISP monopolies for physical routing, ICANN for namespace resolution, and centralized Certificate Authorities (CAs) for identity validation. This model inherently centralizes power, making localized networks fragile to external severing, censorship, and fiat extraction. Trust is leased from a corporation rather than held by the community.
+
+\section{The Incremental Automation Pathway}
+\textbf{Phase 1: Manual Genesis.} Communities physically deploy edge nodes (routers, compute modules). Trust is established via ``sneakernet''---humans physically scanning QR codes on each other's devices in a room to exchange initial public keys and form the Genesis Trust Ring. \\
+\textbf{Phase 2: AI-Assisted Peering.} The local AI orchestrator detects adjacent hardware via LoRa or BLE, proposing optimal mesh routing pathways and drafting localized peering agreements for human approval. \\
+\textbf{Phase 3: Autonomous Mesh Governance.} The network autonomously negotiates bandwidth allocation, rotates cryptographic keys within secure enclaves, and manages automated failover, isolating compromised nodes without manual intervention.
+
+\section{The Human Boundary (Limits of Automation)}
+AI cannot physicalize the network. Humans must manufacture, purchase, and physically position the hardware nodes. More importantly, the initial injection of trust---the ``Genesis Block'' of social reality---requires human physical presence. An AI cannot mathematically prove that Alice is a trusted community member; Alice's trusted neighbors must physically press a hardware button (or sign with a smart card) to formally invite her DID into the Trust Ring.
+
+\section{Orchestration Mechanics (The "How")}
+When a new node powers on, its Secure Enclave (TPM) generates a master Ed25519 keypair. The node broadcasts its DID over localized ad-hoc Wi-Fi/LoRa. To join the mesh, the node initiates a Multi-sig Governance request (as outlined in Chapter 4). Existing Stewards utilize their physical smart cards to cryptographically sign the inclusion of the new DID. 
+\textit{Architectural Gap Identified:} How does a community recover from a lost master key or destroyed node without centralized CAs? We require a formal Social Key Recovery mechanism (e.g., Shamir's Secret Sharing mapped over the Trust Ring).

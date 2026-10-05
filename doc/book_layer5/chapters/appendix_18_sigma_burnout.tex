@@ -1,0 +1,13 @@
+\chapter{Appendix 18: Scenario Sigma - The Maintenance Commons}
+
+\section{The Legacy Paradigm \& Its Failures}
+Legacy capitalist structures treat maintenance, cleaning, and emotional labor as low-status, low-pay work. In informal communes, this invisible labor falls on a few hyper-conscientious individuals, inevitably leading to psychological entropy and burnout. This fractures the social graph and degrades physical infrastructure. Human beings are thermodynamic engines requiring downtime and psychological safety. Systems that extract labor without measuring and mitigating human fatigue will structurally collapse.
+
+\section{The Incremental Automation Pathway}
+Phase 1 relies on manual chore wheels and human coordination, which often fails due to social friction. Phase 2 introduces digital bounties for maintenance tasks, allowing users to voluntarily claim tasks for fixed rewards. Phase 3 implements dynamic algorithmic escalation (Dutch Auctions) and automated entropy tracking. The orchestrator actively monitors system decay via IoT sensors, escalates rewards to match human reluctance, and mathematically enforces rest locks to prevent any single individual from over-contributing.
+
+\section{The Human Boundary (Limits of Automation)}
+The system respects the biological limits of the human engine. When a citizen emits a \texttt{RestIntent}, Layer 5 policy strictly prohibits the BPMN engine from routing them requests or notifications. The AI cannot override human rest. Furthermore, the orchestrator utilizes a "Fatigue Lockout" to prevent hyper-conscientious individuals from self-immolating; if a citizen performs too much maintenance, the system mathematically locks them out of claiming new chores, forcing the broader community to absorb the thermodynamic load.
+
+\section{Orchestration Mechanics (The "How")}
+Voxel entropy is tracked via a \texttt{dirt\_level} integer that ticks up based on entity traffic. When a threshold is crossed, the engine spawns a \texttt{MaintenanceBounty}. The \texttt{BountyManager} dynamically escalates the token reward over time. Player entities possess a \texttt{fatigue} variable; executing actions increases fatigue, and reaching critical levels forces a \texttt{FORCED\_REST} state. The C++ engine integrates L5 policy checks to mathematically deny chore claims from overworked DIDs. Core Chapter 4 must be updated to include the "Fatigue Lockout" and dynamic bounty escalation mechanisms as critical policy primitives.

@@ -1,0 +1,13 @@
+\chapter{Appendix 19: Scenario Tau - Steward Genesis}
+
+\section{The Legacy Paradigm \& Its Failures}
+Legacy onboarding is coercive and bureaucratic, reducing human identity to extractive metrics like credit scores and criminal backgrounds. True utility and localized trust are invisible. A newcomer's skills and physical assets are illegible to the local community. A decentralized Node must solve the "Cold Start" problem (establishing a node without a pre-existing Trust Ring) and the standard onboarding problem (securely digitizing a newcomer's assets and skills without legacy gatekeepers).
+
+\section{The Incremental Automation Pathway}
+Phase 1 relies on manual introduction, where an existing Steward physically introduces the newcomer and manually records their assets in a shared ledger. Phase 2 digitizes this via a \texttt{GenesisIntent}, allowing the newcomer to self-report assets and skills while a Steward manually approves the application. Phase 3 fully automates the cryptographic handshake: L2 scanners ingest physical assets into the digital twin, and a physical Key-Signing Party with a sponsor autonomously generates the DID, initializes the CRDT wallet, and spawns the personalized orientation BPMN queue.
+
+\section{The Human Boundary (Limits of Automation)}
+Identity instantiation cannot occur entirely in the digital realm. A standard genesis requires a physical human boundary: the cryptographic sponsorship (Key-Signing Party) must happen in physical space, anchored by shared thermodynamic reality (e.g., breaking bread). The AI cannot autonomously generate a trusted DID without the explicit, staked vouch of an existing Steward. This ensures the Web of Trust remains rooted in genuine human connection rather than automated Sybil generation.
+
+\section{Orchestration Mechanics (The "How")}
+The Genesis Protocol ingests a \texttt{GenesisIntent} (Character Sheet) detailing spatial and hardware assets. The C++ core generates a localized Ed25519 keypair and assigns ownership of digital twin voxels/entities to the new DID. A "Prime Genesis" utilizes a global multi-sig vouch for node birth, while a "Standard Genesis" requires an existing Steward to stake their Reputational Weight. Upon successful cryptographic signing, the ledger initializes the wallet (often with a Seed Escrow micro-loan), and the BPMN engine populates the newcomer's orientation queue with calibration and inspection quests. Core Chapter 1 must be refined to detail the Prime vs. Standard Genesis cryptographic pathways.

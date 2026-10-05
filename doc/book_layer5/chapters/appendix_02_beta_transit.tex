@@ -1,0 +1,16 @@
+\chapter{Appendix 02: Scenario Beta - Decentralized Transit}
+
+\section{The Legacy Paradigm \& Its Failures}
+Mobility is monopolized by atomized personal vehicle ownership and rent-extracting gig-economy platforms. Platforms like Uber or Turo extract 30-50\% in fees while outsourcing trust and safety to centralized, opaque background checks. Insurance and liability are individualized, isolating participants.
+
+\section{The Incremental Automation Pathway}
+\textbf{Phase 1: Manual Coordination.} Users negotiate rideshares or vehicle loans via localized chat, manually calculating exergy costs and physically handing over car keys. \\
+\textbf{Phase 2: Algorithmic Matching.} The orchestrator matches spatial-temporal vectors for optimal route detours, proposing matches. A Steward manually verifies the driver's Verifiable Credentials before approving. \\
+\textbf{Phase 3: Autonomous Keyless Handoff.} Layer 5 autonomously validates Kinship graphs, verifies `Vehicle\_Safety\_L1` credentials, locks Value Token escrow, and provisions a time-bounded digital BLE key directly to the borrower's device.
+
+\section{The Human Boundary (Limits of Automation)}
+The orchestrator cannot physically evaluate the soberness or immediate emotional state of a driver, nor can it physically clean a vehicle after use. The Human Boundary requires the community to act as the ultimate safety net. If a driver feels unsafe, they retain the sovereign right to physically refuse a matched rider, overriding the orchestrator.
+
+\section{Orchestration Mechanics (The "How")}
+The system requires deep Graph Traversal algorithms. A `TransitIntent` triggers Layer 5 to calculate the shortest cryptographic trust path between Rider and Driver DIDs (e.g., max 2 degrees of separation). Upon matching, a multi-sig escrow is locked. The vehicle's onboard telematics node acts as a machine oracle, broadcasting GPS and SOC data.
+\textit{Architectural Gap Identified:} Telematics nodes in legacy cars are easily spoofed via OBD2 emulators. Layer 5 requires hardware-rooted attestations (e.g., GPS modules with signed NMEA streams) to prevent malicious actors from spoofing route completion to drain escrow.

@@ -1,0 +1,17 @@
+\chapter{Cryptographic Attestations and Soulbound Tokens}
+
+\section{The Financialization of Credentials}
+In legacy blockchains and fiat economies, assets are highly liquid and financialized. While liquidity is useful for physical resources, financializing human identity or skills is disastrous. If a medical credential or a safety certification could be traded like a standard cryptocurrency token, malicious actors could purchase the right to perform surgery or operate heavy machinery without possessing the actual biological skill (Scenario Rho).
+
+\section{Soulbound Tokens (SBTs) and Proof of Physical Work}
+Layer 5 solves this through Soulbound Tokens (SBTs)—cryptographic attestations that are permanently bound to a specific DID and mathematically impossible to transfer. SBTs represent verified skills, community roles, or completed training.
+
+These tokens are minted via Proof of Physical Work (PoPW). To earn a \texttt{Welding\_Mastery} SBT (Scenario Kappa), the apprentice cannot simply take an online quiz. Their DID must be physically present at the foundry, verified by the hardware enclave in their NFC ring, while the machinery's internal L2 sensors cryptographically sign the exact current draw and thermodynamic work they perform. The Master then signs a multi-sig attestation to finalize the minting.
+
+\section{Zero-Knowledge Attestation Verification}
+When an individual needs to prove they hold an SBT to access a resource, they do not need to expose their entire identity or transaction history. Utilizing Zero-Knowledge Proofs (ZKPs), the citizen's Secure Enclave computes a mathematical proof that they hold the required SBT, broadcasting only the proof to the edge node. 
+
+Generating a ZK-proof is computationally heavy for small wearable devices. To accommodate this physical reality, the Sovereign Stack supports delegated ZK-computation. The wearable device securely offloads the heavy matrix operations to the local edge node's GPU, utilizing a secure multi-party computation protocol, ensuring the privacy of the DID is maintained while preserving the battery life of the citizen's physical hardware.
+
+\section{Iterative Refinement: Dynamic Escrow \& ZK Shielding}
+Through scenario iteration (specifically Paramedic Mesh and Kinship rings), it became evident that certain SBTs contain highly sensitive health or biometric data. Layer 5 extends ZKP functionality to enable \textit{ZK Identity Shielding}—creating localized, private channels where sensitive Trust Rings (e.g., Childcare Pods) can operate and settle L3 transactions without exposing the underlying graph to the global mesh. Furthermore, SBTs directly influence decentralized finance: the architecture introduces \textit{Dynamic Escrow Multipliers}. A citizen's collateral requirement for accessing shared infrastructure (like a 3D printer) scales algorithmically based on their current Trust Ring reputation and any associated social slashing penalties.

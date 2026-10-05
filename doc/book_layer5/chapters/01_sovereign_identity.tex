@@ -1,0 +1,21 @@
+\chapter{The Sovereign Identity: DIDs and Hardware Enclaves}
+
+\section{The Fragility of Legacy PKI and Human Memory}
+In the legacy internet, identity is managed through centralized Public Key Infrastructure (PKI) and Certificate Authorities, authenticated via human-memorized passwords or SMS-based two-factor authentication. This system is fundamentally insecure. Memorized passwords can be phished, forgotten, or coerced. Centralized databases containing hashed passwords represent massive honeypots, leading to inevitable breaches (Scenario Rho). The Sovereign Stack rejects human memory as a secure cryptographic primitive.
+
+\section{Decentralized Identifiers (DIDs)}
+Layer 5 replaces centralized PKI with Decentralized Identifiers (DIDs). A DID is a mathematically generated address anchored to the Layer 3 ledger. It requires no central authority to issue or validate. Citizens interact with the mesh entirely through their DIDs, ensuring cryptographic sovereignty over their actions, assets, and reputation.
+
+\section{The Physical Reality of Keys: Secure Enclaves}
+Because human memory is vulnerable, the Sovereign Identity requires a physical anchor. Private keys associated with a DID are never stored on a general-purpose operating system or typed into a keyboard. They are generated and permanently locked within hardware Secure Enclaves—tamper-proof silicon integrated into physical devices (e.g., NFC smart rings, biometric hardware wallets, or the TPM modules of edge nodes). 
+
+When a citizen wishes to sign a BPMN intent on Layer 4, they do not type a password. They present their NFC ring to an edge scanner or authorize via local biometrics (fingerprint/iris) directly to the Secure Enclave. The Enclave signs the payload internally and outputs only the cryptographic signature. Even if the citizen is physically detained, they cannot surrender the private key because they do not know it, and extracting it from the silicon requires physically destroying the chip.
+
+\section{Thermodynamic Compute Costs of Cryptography}
+Generating and verifying these signatures requires computational exergy. While signing an ECDSA payload inside a Secure Enclave consumes minimal power ($\approx 10-50$ milliwatts), verifying hundreds of signatures per second across a mesh network requires significant CPU cycles. The Orchestrator strictly budgets this thermodynamic cost. During a low-solar event, Layer 5 dynamically raises the signature batching threshold, verifying identities in bulk to conserve the microgrid's battery.
+
+\section{Iterative Refinement: Social Key Recovery}
+Eliminating memorized passwords introduces a severe risk: physical loss of the Secure Enclave (e.g., losing an NFC ring). To solve this, Layer 5 implements Shamir's Secret Sharing (SSS) mapped directly over the citizen's local Trust Rings. When a DID is minted, the private key is mathematically split into $N$ shards. These shards are encrypted and distributed to the citizen's most trusted peers (e.g., their childcare pod or family ring). If the physical hardware is lost, the citizen can acquire a blank Enclave and request a $K$-of-$N$ threshold recovery, restoring their sovereign identity without centralized password resets.
+
+\section{Iterative Refinement: Machine DIDs \& Genesis Pathways}
+Identity is not strictly human. IoT hardware (Layer 2 sensors) possess their own Machine DIDs rooted in their factory-provisioned TPMs. This prevents rogue actors from spoofing a sensor to manipulate Layer 5 policy. Furthermore, identity creation bifurcates into two cryptographic pathways: \textit{Standard Genesis} (a new citizen is sponsored and inducted by an existing Trust Ring) and \textit{Prime Genesis} (the cryptographic birth of a completely isolated, new Sovereign Node from scratch, requiring zero external vouching).

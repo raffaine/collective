@@ -1,0 +1,18 @@
+\chapter{The Web of Trust and Kinship Graphs}
+
+\section{The Limits of Global Reputation Systems}
+Legacy social networks and credit bureaus rely on global reputation scores—a single, objective number attempting to quantify human trustworthiness (e.g., FICO scores, algorithmic upvotes). These systems degrade into gamified dystopias, vulnerable to Sybil attacks and financialized exclusion.
+
+\section{Localized Trust Rings}
+Layer 5 implements a Web of Trust (WoT) based on overlapping, localized Trust Rings. Trust is not a global scalar; it is a vector between specific nodes. A citizen might be highly trusted within the "Duvall Childcare Pod" (Scenario Delta) to watch children, but possess zero trust vectors in the "Community Foundry" (Scenario Theta) to operate a plasma cutter.
+
+\section{Graph Computation and Persistence}
+These kinship graphs are mathematically represented as Directed Acyclic Graphs (DAGs) on the Layer 3 ledger. Nodes represent DIDs, and edges represent cryptographic vouches (e.g., "Node A vouches for Node B in Context X").
+
+Traversing this graph requires significant computational bandwidth. To optimize exergy, Layer 5 employs edge-caching. When a citizen attempts to access a community resource, the local edge node does not query the entire global mesh. It computes a localized subset of the graph (up to 3 degrees of separation) utilizing optimized graph-traversal algorithms running in the Layer 4 WASM matrix. This allows physical gates and software locks to verify trust locally and near-instantly, even if the macro-network is physically severed (Scenario Omega).
+
+\section{Iterative Refinement: Graph Neutrality \& Cross-Ring Sybil Resistance}
+Scenario testing (e.g., Psi Mediation) revealed that evaluating trust requires verifying cryptographic disjointness. To prevent Sybil attacks, a highly trusted identity cannot be vouched for entirely by one interconnected cluster; Layer 5 requires vouches from $N \ge 3$ distinct, non-overlapping Trust Rings. Furthermore, when selecting an impartial mediator, the DAG calculates "Absolute Graph Neutrality"—finding a DID equidistant from both disputing parties with zero overlapping direct vouches.
+
+\section{Iterative Refinement: Social Slashing \& Inter-Node Diplomacy}
+Trust is revocable. The core architecture includes "Safe Harbor Severance" and "Social Slashing" primitives. If a node breaches a critical policy, adjacent Trust Rings can cryptographically sever their edges, instantly isolating the malicious DID from the broader mesh without central admin intervention. Conversely, isolated Sovereign Nodes can bridge their kinship graphs using Inter-Node Diplomacy protocols—establishing zero-trust cryptographic handshakes between two distinct decentralized roots.

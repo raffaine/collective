@@ -1,0 +1,16 @@
+\chapter{Appendix 01: Scenario Alpha - The Fabrication Commons}
+
+\section{The Legacy Paradigm \& Its Failures}
+Legacy hardware fabrication relies on heavily capitalized, centralized factories and global supply chains. When local repairs are needed, humans are blocked by planned obsolescence, proprietary IP, and the extreme latency and carbon drag of shipping single replacement parts across oceans. Alternatively, corporate maker-spaces extract high fiat rents for access to localized tools.
+
+\section{The Incremental Automation Pathway}
+\textbf{Phase 1: Human Moderation.} A Steward manually reviews fabrication bounties (e.g., 3D print requests), checks the user's reputation, and manually hits ``print'' on the machine. \\
+\textbf{Phase 2: AI-Assisted Policy.} Layer 5 automatically filters requests based on local acoustics (e.g., no loud CNC routing at 2 AM) and checks if the requester holds the necessary Soulbound Tokens for advanced tool checkout. \\
+\textbf{Phase 3: Fully Autonomous Enforcement.} The node directly handles escrow locking via smart contracts, actuates the printer without human intervention, monitors for spaghetti failures via edge-AI, and physically opens a smart locker for pickup upon cryptographic BLE verification of the user's presence.
+
+\section{The Human Boundary (Limits of Automation)}
+The system cannot load a new filament spool or fix a jammed extruder. Physical maintenance remains firmly in the human domain. When a physical fault is detected, the AI must halt automation and emit a `MaintenanceIntent`, relying on the Web of Trust to find a cryptographically verified technician to perform the physical repair.
+
+\section{Orchestration Mechanics (The "How")}
+A user emits a `FabricationIntent` (JSON-LD) carrying their DID signature. Layer 5 parses this and cross-references the Trust Graph. For high-value tool checkout, Layer 5 calculates a collateral lock relative to the user's Reputational Weight. The BPMN engine then sequences the hardware via MQTT.
+\textit{Architectural Gap Identified:} The physical locker and printer must sign their own completion telemetry to release escrow. The core chapters must detail Machine DIDs and how IoT endpoints securely store keys to prevent spoofed `COMPLETE` signals.

@@ -1,0 +1,26 @@
+Missing Mechanisms Identified from Scenarios:
+1. Scenario Omicron: "Safe Harbor Severance" and "Social Slashing" primitives are missing from Chapter 2's core definitions.
+2. Scenario Pi: The Algorithmic Treasury, ZK Identity Shielding, and fiat-to-token bridging are absent from Chapters 1 and 4.
+3. Scenario Rho: CRDT Conflict Resolution logic and Multi-Sensor Telemetry Consensus are not detailed in Chapter 4.
+4. Scenario Sigma: "Fatigue Lockout" and dynamic bounty escalation (Dutch Auctions) are missing from Chapter 4's Decentralized Policy.
+5. Scenario Tau: The cryptographic pathways for "Prime Genesis" (Node Birth) versus "Standard Genesis" (Sponsorship) are missing from Chapter 1.
+[Iterative Feedback Loop Triggered]
+Missing Layer 5 Mechanisms identified during Scenario Generation:
+1. Spatial Policy Zoning (Scenario Lambda): Mechanisms for mapping cryptographic policies to specific physical chunks/geometries (e.g., dynamic acoustic budgets).
+2. Decentralized Oracles (Scenario Mu): Mechanisms for safely ingesting external data (e.g., municipal weather APIs for burn bans) without introducing centralized points of failure.
+3. Simulation-based Policy Evaluation (Scenario Xi): How L5 nodes achieve decentralized consensus on complex, computationally heavy deterministic simulations (e.g., structural and thermal physics) as a prerequisite for policy approval.
+- Gap 1: Social Key Recovery mechanisms (Shamir's Secret Sharing mapped over Trust Rings) for lost human keys.
+- Gap 2: Machine DIDs and Hardware-Rooted Attestation for IoT sensors (TPM/HSM requirements) to prevent Layer 2 telemetry spoofing (Scenarios Alpha, Beta, Gamma).
+- Gap 3: Dynamic algorithmic policy configuration (e.g., mathematical decay functions for caloric waste in Scenario Gamma).
+- Gap 4: Localized Zero-Knowledge / Private Channels for sensitive Trust Rings (e.g., shielding Childcare data from the broader mesh while maintaining L3 token settlement).
+
+=== Core Chapter Feedback (From Appendices 20-24) ===
+- Chapter 2 / 4 Gap (Upsilon): Missing mechanisms for dynamic Emergency State Overrides (suspending L5 policies like Acoustic Budgets) and temporary lowering of Trust Ring barriers for unvouched actors during life-saving triage.
+- Chapter 1 / 2 Gap (Phi & Chi): Missing mechanisms for varying Trust Ring strictness for vulnerable citizens, and Zero-Knowledge proofs for biometric/health data to allow verified actions without decrypting the sovereign ledger.
+- Chapter 2 Gap (Psi): Missing algorithms for calculating absolute graph neutrality between two DIDs to find unbiased mediators.
+- Chapter 4 Gap (Psi): Missing CRDT Escrow Freezing mechanics and 3-of-3 Multi-sig execution for dispute resolution sign-offs.
+- Chapter 2 / 4 Gap (Omega): Missing mechanisms for Inter-Node Diplomacy and bridging the Web of Trust securely between two entirely sovereign Nodes without a centralized root.
+[Iterative Feedback Loop - Rule 4] Missing L5 Core Mechanisms Identified:
+1. Dynamic Escrow Multipliers & Reputational Slashing: Core chapters cover n-of-m multi-sig, but lack a mechanism for algorithmically scaling collateral requirements based on Trust Ring reputation or policy penalties (e.g., virgin extraction).
+2. Physical-to-Policy Oracle Bridging (ERC): Core chapters must explain how L2 physical telemetry (drone scans, bio-acoustics) securely anchors L5 policy thresholds (like the Ecological Replacement Cost hard stop) without oracle manipulation.
+3. Cross-Ring Sybil Resistance: Chapter 2 covers localized Web of Trust, but lacks a mechanism for verifying cryptographic disjointness across N >= 3 distinct Trust Rings, which is required for peer-reviewed consensus and stopping Sybil attacks.

@@ -1,0 +1,13 @@
+\chapter{Appendix 16: Scenario Pi - The Sovereign Guild}
+
+\section{The Legacy Paradigm \& Its Failures}
+In legacy capitalism, independent laborers suffer from the "1099 Tax Trap," lack collective bargaining for health insurance, and are denied housing due to "irregular" income. Simultaneously, the legacy state demands total surveillance, tying physical identity (SSN/KYC) to every transaction. Decentralized collectives attempting to pool money without formal structures are often classified as tax evaders. This exposes citizens to massive legal and financial liabilities when interfacing with the old world.
+
+\section{The Incremental Automation Pathway}
+The transition begins (Phase 1) with a manual cooperative where members pool fiat to pay for shared resources and taxes using standard bank accounts. Phase 2 introduces algorithmic tracking, where an internal ledger tracks individual contributions and liabilities while a human administrator manages the fiat proxy. Phase 3 achieves full automation: a Social Purpose Corporation (SPC) acts as a legal Employer of Record (EOR), utilizing an algorithmic CFO (BPMN engine) to autonomously route fiat ingress, pay legacy taxes, and issue W-2 identities, shielding the internal mesh activities.
+
+\section{The Human Boundary (Limits of Automation)}
+The AI is strictly prohibited from leaking internal mesh identities (pseudonymous DIDs) to the legacy state. The system must maintain a rigid Zero-Knowledge (ZK) firewall between the L7 Legal Identity and the L5 Mesh Identity. The orchestrator can calculate tax liabilities and enforce compliance gates (e.g., locking resource draws if the tax reserve is low), but it cannot independently map a W-2 to a specific mesh DID. The human boundary ensures that systemic slashing or internal disputes do not compromise a citizen's legacy survival, health insurance, or external fiat stability.
+
+\section{Orchestration Mechanics (The "How")}
+The Guild operates a dual-ledger CRDT wallet supporting both \texttt{ValueTokens} and \texttt{FiatReserve}. When a \texttt{TreasuryIntent} is emitted via a fiat ingress API webhook, the BPMN engine executes a deterministic split: routing percentages to tax reserves, commons leases, and internal token minting. The engine implements a background daemon for tax state machine compliance and utilizes Zero-Knowledge proofs to attest that a DID has paid its share of property taxes without exposing its identity. This highlights a need to update core Chapter 4 to include the Algorithmic Treasury and Zero-Knowledge identity shielding mechanisms.

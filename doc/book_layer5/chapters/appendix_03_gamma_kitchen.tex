@@ -1,0 +1,16 @@
+\chapter{Appendix 03: Scenario Gamma - The Commons Kitchen}
+
+\section{The Legacy Paradigm \& Its Failures}
+The legacy food system is ecologically devastating (1,500-mile supply chains) and socially isolating (atomized delivery via platforms that extract massive fees). Municipal regulations mandate expensive commercial steel build-outs, destroying hyper-local community resilience and forcing reliance on centralized supermarkets and corporate kitchens.
+
+\section{The Incremental Automation Pathway}
+\textbf{Phase 1: Informal Potlucks.} Neighbors organize meals via manual coordination. Trust relies purely on interpersonal relationships; there is no formal tracking of allergens or food safety telemetry. \\
+\textbf{Phase 2: AI-Assisted Logistics.} The system matches caloric demand (`CaloricBounty`) with supply (`MealOffering`), filtering out known DID allergens. \\
+\textbf{Phase 3: Cryptographic Food Safety.} IoT thermocouples in the kitchen autonomously attest to thermal vectors. If a meal enters the danger zone, Layer 5 invalidates the batch, blocking escrow settlement and redirecting the food to compost, completely bypassing the need for human municipal inspectors.
+
+\section{The Human Boundary (Limits of Automation)}
+Cooking is fundamentally sensory and thermodynamic labor. An AI cannot taste for salt, assess the texture of a dough, or inject love into a communal meal. The system exclusively orchestrates the logistics, supply chain, and safety attestations, leaving the physical art of culinary creation and communal consumption entirely to humans.
+
+\section{Orchestration Mechanics (The "How")}
+Layer 5 enforces a strict Competency Gate: only DIDs holding a `Food\_Safety\_L1` Soulbound Token can publish a `MealOffering`. The orchestration relies on L2 telemetry streams. The thermocouple device holds a Machine DID and signs MQTT temperature payloads. 
+\textit{Architectural Gap Identified:} We need a detailed explanation of dynamic pricing algorithms governed by Layer 5. As thermal expiration approaches, the policy must mathematically dictate how token cost decays to zero to ensure zero caloric waste.
