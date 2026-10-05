@@ -1,0 +1,34 @@
+{
+  "@context": {
+    "mesh": "https://collective.network/ontology/v1/telemetry/",
+    "schema": "https://schema.org/",
+    "qudt": "http://qudt.org/schema/qudt/"
+  },
+  "@graph": [
+    {
+      "@id": "mesh:TelemetryStream",
+      "@type": "schema:Class",
+      "schema:name": "Telemetry Stream",
+      "schema:description": "The normalized data payload ingested by Layer 1b. The engine does not care if this stream originates from a physical IoT device or a virtual mock script."
+    },
+    {
+      "@id": "mesh:ActuatorCommand",
+      "@type": "schema:Class",
+      "schema:name": "Actuator Command",
+      "schema:description": "A state-change instruction output by Layer 1b, mapped by Layer 2 into hardware-specific API calls."
+    },
+    {
+      "@id": "mesh:HardwareInterface",
+      "@type": "schema:Class",
+      "schema:name": "Hardware Interface",
+      "schema:description": "A digital twin representation of a physical machine (e.g., Solar Inverter, 3D Printer, LoRaWAN Node)."
+    },
+    {
+      "@id": "mesh:isVirtual",
+      "@type": "schema:Property",
+      "schema:domainIncludes": "mesh:TelemetryStream",
+      "schema:rangeIncludes": "schema:Boolean",
+      "schema:description": "A flag to denote if the telemetry is simulated (True) or physical (False). Layer 1b ignores this flag; it is used by Layer 4 (Orchestrator) to route outcomes appropriately."
+    }
+  ]
+}
