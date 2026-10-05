@@ -1,0 +1,33 @@
+\chapter{Scenario Eta: Coppice \& Carbon Commons}
+\label{ch:eta}
+
+\section{The Legacy Paradigm \& Its Failures}
+The legacy timber, biomass, and heating industries operate on a catastrophic model of linear extraction and fossil-fuel dependency. Forests are clear-cut for short-term fiat yield, destroying ancient mycelial networks, triggering soil erosion, and annihilating local biodiversity. This harvested biomass is then shipped thousands of miles via diesel-burning freight networks. Concurrently, heating local structures relies heavily on fragile, centralized natural gas grids or legacy electricity, tethering communities to continuous carbon emissions and geopolitical supply shocks.
+
+While the ancient practice of \textit{coppicing}---harvesting fast-growing trees at the base so they regenerate rapidly from an established root system---offers a localized, perpetual source of thermal fuel and structural timber, it is highly susceptible to the tragedy of the commons. Without mathematically rigorous oversight, localized human populations inevitably over-harvest the canopy, operating on subjective estimates rather than strict thermodynamic replacement rates, leading to ecosystem collapse.
+
+\section{The Incremental Automation Pathway}
+Achieving a sustainable Carbon Commons requires a transition from intuitive forestry to rigorous, twin-driven orchestration.
+
+\subsection{Phase 1: Human-in-the-Loop (Manual Orchestration)}
+Initially, the harvest is orchestrated entirely via human consensus. Stewards perform manual surveys of the coppice blocks to estimate growth. \texttt{HarvestIntents} are submitted to a community board, and the Trust Ring debates the ecological impact before manually approving the cut. Moisture content for seasoning wood is checked periodically with handheld analog meters. The accounting of the Ecological Replacement Cost (ERC) is tracked on basic spreadsheets, leaving significant room for human error, bias, and over-extraction.
+
+\subsection{Phase 2: The Centaur (AI-Assisted)}
+The Orchestrator introduces digital twin integration. Drones perform periodic photogrammetry of the canopy, generating a 3D point cloud. The AI analyzes this data, calculating the exact biomass volume increase over the season. When a \texttt{HarvestIntent} is submitted, the Orchestrator automatically cross-references the request against the calculated ERC and drafts a harvest plan. It also monitors incoming bio-acoustic data to assess wildlife health. However, the AI cannot authorize the harvest. A human Steward with advanced forestry credentials must review the AI's models, physically inspect the site, and cryptographically sign the authorization.
+
+\subsection{Phase 3: Full Autonomy}
+The Orchestrator assumes full authority over the timing and volume of the harvest. Layer 2 edge-AI continuously feeds bio-acoustic and volumetric data into the twin. If the Orchestrator determines the net growth for the season is 1,000 kg, it will mathematically reject any set of \texttt{HarvestIntents} exceeding that limit. It autonomously enforces seasonal dormancy constraints, blocking cuts during spring/summer. The Orchestrator continuously monitors IoT moisture sensors in the drying racks, automatically releasing seasoned wood to the community ledger for thermal use only when the moisture content drops below the thermodynamic threshold of $20\%$.
+
+\section{The Human Boundary (Limits of Automation)}
+The strict physical reality of the forest defines the Orchestrator's boundaries. The AI can mathematically calculate the ERC, enforce temporal dormancy, and mint Value Tokens representing sequestered carbon, but it cannot fell the tree. The physical exertion of wielding the axe or chainsaw remains purely within the human domain. 
+
+Furthermore, while the Orchestrator can halt the harvest if bio-acoustic baselines drop (e.g., detecting a decline in amphibian calls), it cannot subjectively determine the \textit{cause} of the ecological degradation. If the forest is suffering from an unforeseen blight or invasive species not modeled in the twin's parameters, human Stewards must physically intervene, diagnose the issue, and manually override the Orchestrator's models through Layer 5 governance protocols.
+
+\section{Orchestration Mechanics (The ``How'')}
+Scenario Eta requires the Orchestrator to manage long-term biological cellular automata and track physical state degradation over thousands of simulated ticks.
+
+\textbf{Biological Cellular Automata and Voxel Growth:} In the Oasis engine, the \texttt{ChunkManager} runs a slow-tick biological algorithm. A voxel designated as \texttt{HARDWOOD\_STUMP} periodically evaluates its environmental state (sunlight raycasts, localized moisture). Under optimal conditions, the engine spawns a \texttt{HARDWOOD\_TRUNK} voxel, incrementing the local biomass ledger. The Orchestrator mathematically ties the minting of Layer 3 Value Tokens to this verified voxel growth, ensuring currency creation is strictly pegged to actual carbon sequestration and negentropy.
+
+\textbf{Topological Sorting of the Harvest and Seasoning Queues:} \texttt{HarvestIntents} are topologically sorted against strict temporal constraints. The BPMN engine utilizes timer events to enforce the \texttt{WINTER\_DORMANCY} state. Once harvested, the resulting \texttt{WOOD\_LOG} entities enter a suspended ``Seasoning Queue.'' The Orchestrator tracks an internal \texttt{moisture} byte for each entity. This byte decays slowly over millions of simulation ticks, modulated by ambient humidity data from Layer 2 sensors. The log is algorithmically locked from being utilized in any \texttt{ThermalIntent} (e.g., firing a stove) until the moisture byte crosses the $<20\%$ threshold. Attempting to bypass this state machine results in a calculated thermodynamic penalty (net-negative heat output) and an \texttt{EMISSION\_WARNING} logged to the actor's DID.
+
+\textbf{Continuous Bio-Acoustic Feedback Loops:} The Orchestrator integrates a high-frequency polling loop listening to Layer 2 edge-microphones. The incoming audio streams are processed to generate a continuous Biodiversity Index. This index acts as a dynamic modifier to the ERC limits in the BPMN engine. If the index drops below the baseline, the Orchestrator automatically tightens the allowable harvest volume, creating a real-time, closed-loop cybernetic system where local wildlife health directly restricts human extraction rates.

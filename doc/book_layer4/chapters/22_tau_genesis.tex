@@ -1,0 +1,28 @@
+\chapter{Scenario Tau: Steward Genesis}
+\label{ch:scenario_tau}
+
+\section{The Legacy Paradigm \& Its Failures}
+In the legacy system, onboarding into society is highly coercive and bureaucratic. A human identity is reduced to extractive, centralized metrics: credit scores, criminal background checks, and corporate resumes stored in proprietary databases. When individuals move to a new neighborhood, their actual utility—their tools, their skills, and their willingness to contribute—is completely invisible to the local community.
+
+This legacy approach fails under thermodynamic scrutiny because it creates massive friction in organizing localized exergy. It relies on subjective gatekeepers and fiat-based proxies rather than objective physical capacity. The Collective must solve the "Cold Start" problem: how to securely instantiate a new decentralized identity (DID) linked to a localized human and accurately map their physical assets into the digital twin, all without relying on a centralized corporate or state authority.
+
+\section{The Incremental Automation Pathway}
+
+\subsection{Phase 1: Human-in-the-Loop (Manual Orchestration)}
+Initially, Genesis is heavily manual. Newcomers physically present themselves and their assets to the Trust Ring. Existing Stewards manually verify the tools, manually create the \texttt{GenesisIntent} on the L3 ledger, and manually orchestrate the orientation process using paper-based or simple digital BPMN workflows. Sponsorship requires extensive human interaction and manual cryptographic signing of every asset.
+
+\subsection{Phase 2: The Centaur (AI-Assisted)}
+As the Node develops, localized LLMs assist the newcomer in drafting their \texttt{GenesisIntent} by parsing natural language descriptions of their skills and scanning images of their tools to categorize them. The AI drafts the digital twin mapping and suggests an orientation queue of tasks. However, the existing Stewards must manually review the AI's drafts and provide the final cryptographic vouch before the identity and assets are committed to the network.
+
+\subsection{Phase 3: Full Autonomy}
+In the final state, the Orchestrator manages the Genesis workflow autonomously. Upon receiving a cryptographically signed \texttt{GenesisIntent} and a Sponsor's vouch, the system autonomously topologically sorts the orientation quests, instantly generates the digital twin representations of physical assets, and initializes the CRDT wallet. The BPMN engine autonomously queues \texttt{CalibrationBounties} based on the ingested asset data without further human input.
+
+\section{The Human Boundary (Limits of Automation)}
+The creation of a human identity is a profound boundary line. The AI is strictly prohibited from autonomously generating or validating human citizenship. A machine cannot vouch for a human. The Genesis protocol absolutely requires a physical Key-Signing Party—a real-world, flesh-and-blood meeting where an existing Steward stakes their Reputational Weight on the newcomer. The Orchestrator can generate the orientation quests and map the assets, but the initial trust anchor must always remain rooted in human cryptographic consensus and physical proximity.
+
+\section{Orchestration Mechanics (The "How")}
+Scenario Tau utilizes a complex initialization DAG where the successful instantiation of a DID serves as the root node. The BPMN workflow for Genesis employs parallel routing gateways to handle asset ingestion, skill verification, and ledger initialization concurrently. The topological sort of this DAG ensures that dependent tasks (like receiving a \texttt{CalibrationBounty} for a 3D printer) cannot execute until the physical asset has been verified and mathematically mapped to the digital twin.
+
+The queueing system utilizes an M/M/c model to dispatch orientation quests, balancing the newcomer's integration load with the broader activities of the Node. For example, if a 3D printer is declared, a discrete BPMN node is instantiated to route a calibration print task to the newcomer, effectively validating their claims against thermodynamic reality.
+
+These discrete BPMN nodes interact asynchronously with L3 state changes via the Seed Escrow mechanism. The Orchestrator cannot unilaterally mint tokens to bypass the Cold Start problem. Instead, it coordinates a multi-signature transaction where the Sponsor or Node Treasury releases a micro-loan to the newcomer's newly initialized CRDT wallet. This maintains the Strict Boundary Theorem by ensuring all economic initialization is mathematically bound by human-approved policies rather than AI discretion.

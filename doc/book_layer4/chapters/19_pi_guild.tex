@@ -1,0 +1,45 @@
+\chapter{Scenario Pi: The Sovereign Guild (Identity \& Treasury)}
+\label{ch:scenario_pi}
+
+This chapter details the Orchestrator's role in \texttt{SCN-PI-GUILD}, managing the Node's function as a Sovereign Guild. It details the algorithmic treasury that bridges external fiat income, enforces legacy state compliance, and provides perfect cryptographic shielding for internal mesh activities.
+
+\section{The Legacy Paradigm \& Its Failures}
+The legacy economic system is hostile to independent, decentralized labor. Freelancers, creators, and gig workers suffer immense friction: they are subjected to the "1099 Tax Trap" (bearing double self-employment taxes), lack the collective bargaining power to secure affordable health insurance, and are structurally discriminated against by legacy financial institutions (banks, landlords) that view gig income as illegible and high-risk. 
+
+Furthermore, the legacy state demands total surveillance capitalism. It requires a citizen's physical identity (SSN, Legal Name, KYC) to be inextricably linked to every financial transaction. If a decentralized collective attempts to pool resources or operate an internal economy without a formal, state-recognized legal structure, legacy authorities aggressively classify these actions as tax evasion, unregistered securities, or money laundering. The failure is the state's inability to comprehend or permit economic cooperation outside of traditional corporate or strictly individualistic structures.
+
+\section{The Incremental Automation Pathway}
+The Node establishes itself as a Sovereign Guild, utilizing an algorithmic treasury to navigate the fiat-to-token transition across three phases.
+
+\subsection{Phase 1: Human-in-the-Loop (Manual Orchestration)}
+Initially, the Social Purpose Corporation (SPC) acts manually as an Employer of Record (EOR) (Layer 7). When a mesh citizen performs freelance work (e.g., coding) for an external Web2 client, the client pays the SPC in fiat USD. Human accountants at the SPC receive this fiat, manually calculate and pay the required IRS payroll taxes, and issue a standard W-2 paycheck to the citizen. This manually shields the citizen, presenting them to legacy landlords as a stable corporate employee, while masking their decentralized lifestyle. Internally, human stewards manually track the generation and allocation of Value Tokens in a basic ledger.
+
+\subsection{Phase 2: The Centaur (AI-Assisted)}
+As transaction volume increases, the Orchestrator assumes the role of an AI-assisted CFO. When citizens emit a \texttt{TreasuryIntent} (e.g., \texttt{FiatIngress}), the AI assists in routing the funds. Secure APIs (e.g., Stripe, Plaid) connect the L4 orchestrator to legacy banking. When a fiat invoice clears, the AI drafts a deterministic split: calculating the exact percentages for the legacy tax reserve, the Node's property lease, the healthcare pool, and the citizen's internal Value Token allocation. However, the actual execution of the fiat transfer and the minting of the tokens requires manual authorization by an SPC board member.
+
+\subsection{Phase 3: Full Autonomy}
+In the fully autonomous state, the BPMN engine acts as an algorithmic split router. The entire lifecycle---from fiat ingestion via API webhook to the automated payment of IRS taxes and the instantaneous minting of internal Value Tokens---is executed autonomously. The Orchestrator runs background daemons that continuously monitor the chunk's \texttt{Legacy\_Tax\_Burden}. It dynamically adjusts the fractional fiat reserves required for every \texttt{FiatIngress} event to ensure the Guild never defaults on its state obligations. The system achieves bidirectional liquidity: a citizen can algorithmically burn internal Value Tokens, triggering the Orchestrator to automatically dispatch fiat USD from the SPC treasury to pay an external legacy vendor (e.g., AWS).
+
+\section{The Human Boundary (Limits of Automation)}
+The Orchestrator operates under strict, cryptographically enforced boundaries regarding identity and legal liability.
+
+The paramount boundary is the "Identity Segregation Firewall." Layer 5 mandates an absolute separation between the L7 Legal Identity (SSN, Legal Name) required by the state and the L5 Mesh Identity (pseudonymous DID). The Orchestrator is strictly forbidden from recording a citizen's legal name on the internal mesh ledger. It must rely entirely on Zero-Knowledge (ZK) proofs to verify compliance. The AI cannot "unmask" a citizen; it can only algorithmically verify the mathematical proof that "DID\_04 belongs to the tax-compliant group."
+
+Secondly, the system enforces the "Omicron Insulation." The Orchestrator cannot cross-contaminate social reputation with legacy survival. If a citizen suffers a massive "Social Slashing" in Scenario Omicron (losing all internal trust ring reputation), the Orchestrator is strictly blocked from altering or terminating that citizen's legacy W-2 employment or health insurance provided by the SPC. The AI is barred from weaponizing the external fiat shield against internal social dynamics.
+
+\section{Orchestration Mechanics (The "How")}
+The technical implementation in the C++ Oasis engine centers on the \texttt{CRDTWallet} class and the integration of Zero-Knowledge proofs.
+
+The \texttt{CRDTWallet} operates as a multi-asset structure supporting both \texttt{ValueTokens} (internal thermodynamic accounting) and \texttt{FiatReserve} (external legacy currency). The BPMN engine orchestrates the exchange across the osmotic membrane of Layer 3.
+
+When a \texttt{FiatIngress} event is triggered via an L7 webhook, the BPMN engine executes a deterministic DAG:
+\begin{enumerate}
+    \item **Ingest:** Receive Webhook (e.g., \$1000 cleared).
+    \item **Calculate Split:** Algorithmically apply the \texttt{algorithmicRouting} parameters (e.g., 22.5\% Tax, 10\% Lease, 7.5\% Healthcare, 60\% Citizen).
+    \item **Allocate Fiat:** Update the chunk's aggregate \texttt{FiatReserve} pools in the database.
+    \item **Mint Tokens:** Issue the equivalent Value Tokens to the citizen's \texttt{CRDTWallet}.
+\end{enumerate}
+
+To enforce the Tax Compliance Gate, the engine runs a continuous background daemon. If the aggregate \texttt{FiatReserve} is mathematically insufficient to cover the upcoming legacy tax liabilities, the BPMN engine automatically suspends all non-essential \texttt{ResourceDraw} intents (fiat egress) until the deficit is cleared, preventing insolvency.
+
+Crucially, the system relies on ZK-SNARK verification functions. When a citizen needs to prove they have paid their share of the property tax to unlock a \texttt{COMMUNITY\_VAULT} voxel, they submit a cryptographic proof. The Orchestrator verifies this proof against the shielded state without ever exposing the entity ID to the vault's access logs. An audit of the C++ engine's internal transaction logs will reveal mathematically zero instances of legacy strings tied to DID token transfers, ensuring perfect cryptographic blinding of internal activities from legacy state surveillance.

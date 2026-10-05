@@ -1,0 +1,29 @@
+\chapter{Scenario Kappa: The Apprenticeship Protocol}
+\label{ch:scenario_kappa}
+
+Scenario Kappa (Identifier: \texttt{SCN-KAPPA-APPRENTICE}) digitizes the ancient master-apprentice relationship within the Sovereign Stack, utilizing the Web of Trust (Layer 5) to issue mathematically verifiable, tamper-proof credentials that natively integrate with the Node's operational infrastructure. Testing layers L1 (Physical), L3 (Ledger), L4 (Orchestrator), L5 (Governance), L6 (Semantic), and L7 (Proxy), its success is defined by the cryptographic issuance of a W3C Verifiable Credential following physical labor verification, immediate unlocking of Layer 5 governance gates for the citizen, and zero legacy fiat debt incurred.
+
+\section{The Legacy Paradigm \& Its Failures}
+The legacy educational system (Layer 7) has devolved into a hyper-financialized debt trap. Centralized universities act as gatekeepers, issuing static, easily forged paper degrees while extracting decades of fiat debt from students. This "credentialism" is entirely disconnected from local thermodynamic reality; a community may be starving for a skilled electrician, permaculture steward, or foundry operator, while legacy institutions mass-produce debt-burdened graduates with no physical survival skills.
+
+Local, hands-on skill transfer---Apprenticeship---is the oldest and most thermodynamically efficient method of human education. However, in the modern era, it lacks the formal "legibility" required to prove competency across a wider network. As a result, valuable tacit knowledge is lost, and citizens remain dependent on centralized institutions that extract value without returning localized resilience.
+
+\section{The Incremental Automation Pathway}
+The transition from legacy credentialism to decentralized apprenticeships requires a phased integration:
+
+\subsection{Phase 1: Human-in-the-Loop (Manual Orchestration)}
+Citizens manually broker mentorship agreements via direct negotiation. An Apprentice and a Master verbally agree to a labor-for-knowledge exchange. Tracking of hours is done manually via physical sign-in sheets or basic shared spreadsheets. Upon completion, the Master and the reviewing Stewards manually sign a digital certificate or issue a basic token. The unlocking of physical mesh privileges (e.g., access to the Foundry) requires an admin to manually update the access control lists based on the newly issued token.
+
+\subsection{Phase 2: The Centaur (AI-Assisted)}
+The Orchestrator assists in pairing \texttt{MentorshipOffering} and \texttt{ApprenticeshipIntent} based on semantic matching and localized proximity. The AI drafts the syllabus and tracks the logging of hours via manual inputs from the Apprentice, reminding the Master when Capstone review phases are approaching. However, the AI strictly requires the Master and the *n-of-m* Stewards to manually input their cryptographic signatures to attest to the completion of the Capstone project. The Value Token escrow is managed by the AI but requires manual authorization to disburse.
+
+\subsection{Phase 3: Full Autonomy}
+The Orchestrator completely automates the tracking and settlement lifecycle. It autonomously monitors L2 BLE/NFC check-ins to verify physical proximity and calculate accumulated hours. Once the threshold is met, the BPMN engine autonomously spawns a Capstone Event. Following successful multi-signature attestation by the Master and peers, the system autonomously mints the W3C Verifiable Credential, attaches it to the Apprentice's DID, automatically routes the Value Tokens from the Apprentice to the Master to settle the thermodynamic exchange, and instantly alters the L5 governance gates to grant the Apprentice physical access to restricted tools without human intervention.
+
+\section{The Human Boundary (Limits of Automation)}
+The Orchestrator is strictly bound to the digital tracking and cryptographic settlement of the apprenticeship. The AI cannot teach the physical skill, nor can it evaluate the quality of the Capstone project. The transfer of tacit knowledge---holding a soldering iron, listening to the pitch of an induction furnace, feeling the moisture of biochar soil---remains exclusively in the physical (L1) human domain. The AI is cryptographically barred from self-signing a Verifiable Credential; it must secure the private key signatures of verified L2 or L3 Masters. Furthermore, the AI cannot forcefully extract resources from legacy institutions (Reverse Leeching); this relies entirely on the ingenuity and social positioning of human "Embedded Stewards."
+
+\section{Orchestration Mechanics (The "How")}
+Scenario Kappa's orchestration heavily utilizes BPMN state machines integrated with spatial L2 telemetry and CRDT ledger updates. When an \texttt{ApprenticeshipIntent} matches a \texttt{MentorshipOffering}, the Orchestrator initiates a state machine tracking \texttt{skill\_progress}. The engine calculates progress by intersecting the physical proximity (via BLE/NFC) of the \texttt{NPC\_APPRENTICE} and the \texttt{NPC\_MASTER} within the identical spatial Chunk over time.
+
+The system requires an *n-of-m* multi-signature threshold (e.g., 2 out of 3 local Stewards) to validate the Capstone event. This is implemented via a distributed threshold signature protocol to ensure cryptographic Sybil defense. Upon successful validation, the Orchestrator executes an atomic transaction on the CRDT ledger: transferring the escrowed Value Tokens (representing the Apprentice's kinetic labor) to the Master, ensuring a zero-debt settlement. Simultaneously, it generates a JSON-LD payload conforming to the W3C Verifiable Credentials Data Model, anchors it to the Apprentice's DID, and dynamically updates the spatial collision and access rules in the L5 Policy layer to grant actuator access (e.g., the \texttt{INDUCTION\_FURNACE} voxel) to the newly credentialed citizen.
