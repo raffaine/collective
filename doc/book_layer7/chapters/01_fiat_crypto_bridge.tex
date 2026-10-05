@@ -1,0 +1,10 @@
+\chapter{The Fiat-Crypto Bridge}
+
+\section{The Necessity of the Fiat Gateway}
+The Sovereign Stack aims for complete thermodynamic and cryptographic independence, but it is born into a world governed by fiat currency. During the bootstrapping phase, communities must purchase physical hardware (solar panels, LoRa antennas, 3D printers) using legacy money. Layer 7 mandates a secure gateway to ingest fiat without surrendering cryptographic sovereignty to legacy banking institutions.
+
+\section{Asymmetric Escrow Integration}
+To achieve this, Layer 7 utilizes \textit{Asymmetric Escrow}. The system interfaces with legacy payment processors (e.g., Stripe, Plaid) purely as a one-way ingestion vector. When a citizen contributes fiat to the community, the legacy bank confirms the transaction. However, the exact moment the fiat is confirmed, a Layer 3 smart contract automatically mints a corresponding cryptographic voucher (an internal utility token) and locks the fiat in a legally isolated treasury.
+
+\section{Defending the Cryptographic Core}
+Crucially, the legacy bank holds no veto power over the internal mesh. Once the fiat is ingested, all subsequent resource allocations, governance decisions, and exergy trading occur entirely on the Layer 3 cryptographic ledger. If a legacy institution attempts to freeze the fiat account, they only freeze the bridge; the internal economy of the Sovereign Stack remains mathematically uninterrupted, trading established resources locally via offline CRDTs.
