@@ -9,7 +9,7 @@ The probability $P(E, N)$ of the Node occupying a specific economic microstate w
 \begin{equation}
 P(E, N) = \frac{1}{\mathcal{Z}} \exp\left(-\frac{E - \mu_{legacy} N}{k_B T_{legacy}}\right)
 \end{equation}
-where $\mathcal{Z}$ is the grand partition function. As the legacy chemical potential $\mu_{legacy}$ drops (e.g., during a fiat recession or supply-chain collapse), the mathematical pressure on the Node to bleed resources into the environment increases massively, perfectly capturing systemic economic extraction without needing to simulate a single external bank or corporation \cite{pathria2011statistical}.
+where $\mathcal{Z}$ is the grand partition function and $k_B$ is the Boltzmann constant mapping economic temperature to energy. As the legacy chemical potential $\mu_{legacy}$ drops (e.g., during a fiat recession or supply-chain collapse), the mathematical pressure on the Node to bleed resources into the environment increases massively, perfectly capturing systemic economic extraction without needing to simulate a single external bank or corporation \cite{pathria2011statistical}.
 
 \section{Stochastic Shocks and the Langevin Equation}
 To model the active, unpredictable pressure exerted by the legacy system on the players and NPCs within the Node, the engine employs stochastic differential equations. At the LOD boundary, the legacy system acts as a fluctuating force field pushing against the kinetic efforts of the citizens.
@@ -18,7 +18,7 @@ The physical exertion required to maintain a node against this pressure is model
 \begin{equation}
 m \frac{d\mathbf{v}}{dt} = -\gamma \mathbf{v} + \boldsymbol{\eta}(t) + \mathbf{F}_{sovereign}
 \end{equation}
-Here, $\mathbf{v}$ represents the velocity of a project's completion or a citizen's progression. The term $-\gamma \mathbf{v}$ represents the deterministic drag or friction of operating within the legacy system (e.g., scheduled property taxes, inevitable zoning compliance delays). The term $\boldsymbol{\eta}(t)$ represents stochastic noise—rapid, unpredictable legacy shocks such as sudden inflation, legal threats, or power grid failures. The sovereign force $\mathbf{F}_{sovereign}$ represents the physical and cryptographic work exerted by the mesh citizens to push back against this decay \cite{lemons2002introduction}.
+Here, $m$ represents the systemic mass or inertia of the project, and $\mathbf{v}$ represents the velocity of its completion or a citizen's progression. The term $-\gamma \mathbf{v}$ represents the deterministic drag or friction of operating within the legacy system (e.g., scheduled property taxes, inevitable zoning compliance delays). The term $\boldsymbol{\eta}(t)$ represents stochastic noise—rapid, unpredictable legacy shocks such as sudden inflation, legal threats, or power grid failures. The sovereign force $\mathbf{F}_{sovereign}$ represents the physical and cryptographic work exerted by the mesh citizens to push back against this decay \cite{lemons2002introduction}.
 
 \section{LOD Boundary Conditions and Kinetic Translation}
 The critical architectural challenge is the LOD Boundary: translating these low-fidelity statistical pressures ($T_{legacy}, \boldsymbol{\eta}(t)$) into high-fidelity kinetic burdens on the voxel grid. The engine accomplishes this via Mean Field approximation translation.

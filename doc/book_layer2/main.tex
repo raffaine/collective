@@ -1,0 +1,34 @@
+\documentclass[11pt,oneside]{book}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\linespread{1.05} % Palatino looks better with slightly increased leading
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{geometry}
+
+\geometry{a4paper, margin=1in}
+
+\title{
+    \Huge \textbf{Layer 2: Sensors and Actuators} \\
+    \vspace{0.5cm}
+    \Large Hardware Telemetry, Signal Processing, and Cryptographic Oracles
+}
+\author{Embedded Systems Architect \& Domain Specialists}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\part{The Physical-Digital Boundary}
+\include{chapters/01_signal_processing}
+\include{chapters/02_sensor_modalities}
+
+\part{Kinetic Control and Decentralized Networks}
+\include{chapters/03_actuation_relays}
+\include{chapters/04_embedded_networking}
+
+\end{document}

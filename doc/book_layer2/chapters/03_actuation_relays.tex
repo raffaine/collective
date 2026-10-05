@@ -1,0 +1,37 @@
+\chapter{Actuation and Kinetic Control}
+
+\section{Cryptographic Actuation (Scenario Zeta: Lodging)}
+Telemetry monitors the world, but actuation alters it. In Scenario Zeta, a traveler gains access to physical lodging through a cryptographic smart lock. The hardware interface consists of a solenoid or motorized deadbolt governed by a local microcontroller.
+
+When the traveler initiates an entry intent, their mobile device transmits a signed JWT (JSON Web Token) via Bluetooth Low Energy (BLE). The microcontroller verifies the signature against the decentralized public key infrastructure (PKI) cached on the edge node. Upon verification, the microcontroller switches a MOSFET to dump current into the solenoid coil. The magnetic force $F$ exerted by the solenoid is proportional to the square of the current $I$:
+\begin{equation}
+F = \frac{\mu_0 N^2 I^2 A}{2g^2}
+\end{equation}
+where $N$ is the number of turns, $A$ is the cross-sectional area, and $g$ is the air gap \cite{griffiths2005introduction}. 
+
+\section{Closed-Loop Motion Control (Scenario Alpha: Fabrication)}
+In autonomous fabrication (3D printing, CNC milling), the Node relies on stepper motors. However, standard "open-loop" stepper control is fragile; if the print head encounters excess physical resistance, it loses steps, corrupting the entire exergy expenditure of the print.
+
+Layer 2 mandates closed-loop control using magnetic rotary encoders (e.g., AS5600). The encoder reads the exact diametric magnetic flux to determine absolute angular position $\theta$. The error $e(t) = \theta_{target} - \theta_{actual}$ is fed into a PID controller. 
+
+To achieve smooth, high-torque motion, the motor drivers employ microstepping and monitor the Back Electromotive Force (Back-EMF). As the motor spins, it acts as a generator, creating a voltage $V_{emf}$ that opposes the driving voltage:
+\begin{equation}
+V_{emf} = -K_e \frac{d\theta}{dt}
+\end{equation}
+By dynamically reading the Back-EMF through the motor driver's integrated ADCs (e.g., TMC2209), the system can detect mechanical stalling before it happens, automatically pausing the \texttt{FabricationIntent} and emitting a \texttt{MaintenanceBounty} without destroying the workpiece \cite{hughes2019electric}.
+
+\section{Microgrid Load Shedding (Scenario Upsilon: Shock)}
+When a macroeconomic or ecological shock hits the legacy grid (Scenario Upsilon), the sovereign microgrid must autonomously "island" itself and shed non-essential loads (e.g., HVAC) to preserve power for critical infrastructure (e.g., refrigeration of medicines).
+
+This high-voltage actuation is executed via Solid-State Relays (SSRs). Unlike mechanical relays, SSRs have no moving parts and do not suffer from contact arcing. To ensure the electrical longevity of the microgrid, the Layer 2 microcontrollers must employ Zero-Crossing Detection circuits. 
+
+Switching an inductive AC load at the peak of the sine wave ($V_{peak}$) generates massive transient voltage spikes ($V = L \frac{di}{dt}$), which can destroy nearby sensor telemetry or corrupt the ledger node's RAM. The microcontroller monitors the AC waveform and exclusively triggers the Triac inside the SSR exactly when the AC voltage crosses $0V$. This completely eliminates electromagnetic interference (EMI) and electrical stress, allowing the microgrid to autonomously reconfigure its thermodynamic topology thousands of times per day without hardware degradation.
+
+\vspace{1cm}
+\begin{thebibliography}{99}
+\bibitem{griffiths2005introduction}
+Griffiths, D. J. (2005). \textit{Introduction to electrodynamics}. American Association of Physics Teachers.
+
+\bibitem{hughes2019electric}
+Hughes, A., \& Drury, B. (2019). \textit{Electric motors and drives: fundamentals, types and applications}. Newnes.
+\end{thebibliography}

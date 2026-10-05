@@ -1,0 +1,65 @@
+\chapter{Embedded Networking and Hardware Security}
+
+\section{Resilient Telemetry (Scenario Omega: Decoupling)}
+The final requirement of Layer 2 is data exfiltration from the physical edge to the L4 Gossipsub mesh. A sovereign node cannot assume the existence of legacy ISP infrastructure (Scenario Omega). Therefore, the IoT sensor arrays must utilize Low-Power Wide-Area Networks (LPWAN), specifically LoRa (Long Range).
+
+LoRa utilizes Chirp Spread Spectrum (CSS) modulation, allowing it to demodulate signals that are up to 20 dB \textit{below} the noise floor. This extreme resilience is mathematically bounded by the Shannon-Hartley theorem, which defines the maximum theoretical channel capacity $C$ (bits per second):
+\begin{equation}
+C = B \log_2(1 + \text{SNR})
+\end{equation}
+where $B$ is the bandwidth and SNR is the signal-to-noise ratio \cite{shannon1949communication}.
+
+\subsection{The Spread Factor Tradeoff}
+In LoRa, citizens can adjust the Spreading Factor (SF), which ranges from SF7 to SF12. A higher Spreading Factor increases the duration of a single chirp, effectively reducing the data rate $C$ but significantly increasing the receiver's sensitivity and the physical transmission range. 
+
+For critical, low-bandwidth telemetry—such as a frantic SOS broadcast or a structural integrity failure alert during a localized shock (Scenario Chi)—the hardware automatically shifts to SF12. The time-on-air (ToA) for the packet increases exponentially:
+\begin{equation}
+T_{packet} = \frac{2^{SF}}{BW} \times N_{symbols}
+\end{equation}
+This physics-enforced delay forces the Oasis engine to ruthlessly compress its network payloads. The sovereign stack strictly forbids bloated JSON payloads on Layer 2; all telemetry is serialized into tightly packed binary structs (e.g., Protocol Buffers or CBOR) to maximize the probability of surviving the atmospheric transit to the nearest LoRaWAN gateway.
+
+\section{Decentralized Supply Chains and RFID (Scenario Nu)}
+In Scenario Nu (Fashion and Textiles), the Sovereign Node seeks to trace the lifecycle and provenance of physical garments from raw biomass to final assembly, entirely bypassing the opaque, exploitative legacy supply chain. This requires tagging physical assets with zero-power, low-cost Layer 2 network identities. 
+
+The architecture deploys Ultra-High Frequency (UHF) Radio Frequency Identification (RFID) tags woven directly into the textiles. These passive tags harvest operating energy from the continuous wave emitted by a local RFID interrogator (reader). The tag communicates its cryptographic asset ID by rapidly modulating its antenna impedance, reflecting the carrier wave back to the reader—a process known as backscatter modulation. 
+
+The received backscatter power $P_r$ at the interrogator is dictated by the bistatic radar equation:
+\begin{equation}
+P_r = \frac{P_t G_t G_r \lambda^2 \sigma}{(4\pi)^3 R^4}
+\end{equation}
+where $P_t$ is the transmitted power, $G_t$ and $G_r$ are the interrogator and tag antenna gains, $\lambda$ is the wavelength, $\sigma$ is the tag's radar cross-section (which it modulates), and $R$ is the distance \cite{dobkin2012rf}. Because the power drops off with $R^4$, UHF RFID enforces strict spatial locality. The ledger can cryptographically guarantee that a citizen was physically adjacent to the garment (within 3 meters) during the scanning event, preventing remote spoofing of the supply chain history.
+
+\section{Acoustic Autonomy and MEMS Microphones (Scenarios Lambda \& Psi)}
+To enforce noise ordinances during cultural gatherings (Scenario Lambda) or mediation settings (Scenario Psi), the network must monitor acoustic pressure without violating citizen privacy (i.e., recording speech). 
+
+Layer 2 utilizes MEMS (Micro-Electro-Mechanical Systems) microphones communicating via the $I^2S$ protocol. The microcontroller executes a DSP block that immediately converts the Pulse Density Modulation (PDM) signal into a generic Sound Pressure Level (SPL) decibel reading ($L_p$). The actual waveform data is permanently destroyed in RAM before it can ever be transmitted over the network:
+\begin{equation}
+L_p = 20 \log_{10} \left( \frac{p_{rms}}{p_{ref}} \right) \text{ dB}
+\end{equation}
+where $p_{ref}$ is the standard reference sound pressure in air ($20 \mu\text{Pa}$).
+
+\section{Geofencing and BLE Direction Finding (Scenarios Delta \& Omicron)}
+For childcare geofencing (Scenario Delta) and kinship proximity alerts (Scenario Omicron), the architecture eschews macroscopic GPS tracking in favor of hyper-localized Bluetooth Low Energy (BLE) Direction Finding.
+
+By equipping the perimeter of the sovereign node with antenna arrays, the gateway nodes use Angle of Arrival (AoA) techniques to calculate the exact spatial vector of a child's BLE tag. By measuring the phase difference ($\Delta \phi$) of the incoming radio wave across multiple antennas separated by distance $d$, the angle $\theta$ is calculated:
+\begin{equation}
+\theta = \arccos \left( \frac{\lambda \Delta \phi}{2\pi d} \right)
+\end{equation}
+This provides sub-meter indoor accuracy while ensuring that the child's location data never leaves the localized mesh.
+
+\section{Physical Tamper Resistance (Scenario Rho: Adversarial)}
+Because Layer 2 hardware exists in physical meatspace, it is subject to adversarial physical attacks (Scenario Rho). If an attacker steals a LoRa sensor node, they might attempt to extract its private keys via Side-Channel Attacks (SCA) or by probing the I2C traces.
+
+To mitigate this, Layer 2 hardware incorporates anti-tamper security. The PCB is enclosed in a chassis wired with normally-closed microswitches. If the enclosure is opened, the switch breaks the circuit. This instantly triggers the microcontroller's Hardware Watchdog Timer (WDT) and an interrupt routine that actively wipes the SRAM containing the cryptographic keys before the attacker can attach a JTAG debugger. The node is effectively "bricked" and cryptographically excommunicated from the mesh, ensuring that a compromised physical boundary never propagates bad data to the Layer 3 ledger.
+
+\section{Genesis Bootstrapping and JTAG Provisioning (Scenario Tau)}
+Finally, before any node can join the mesh (Scenario Tau: Genesis), the silicon itself must be provisioned. The initial flashing of the bootloader and the injection of the asymmetric cryptographic keys is performed via the JTAG or Serial Wire Debug (SWD) interface. Once the Secure Enclave (TrustZone) is provisioned with the Genesis keys, the JTAG fuse is permanently blown, permanently locking the silicon from future firmware tampering. The sovereign node is born.
+
+\vspace{1cm}
+\begin{thebibliography}{99}
+\bibitem{shannon1949communication}
+Shannon, C. E. (1949). \textit{Communication in the presence of noise}. Proceedings of the IRE, 37(1), 10-21.
+
+\bibitem{dobkin2012rf}
+Dobkin, D. M. (2012). \textit{The RF in RFID: UHF RFID in practice}. Newnes.
+\end{thebibliography}
