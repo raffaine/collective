@@ -15,3 +15,4 @@ The knowledge base in Layer 1a is split into scientific domains:
 
 ## 3. Binding to Layer 1b (The Simulation Engine)
 Layer 1b reads these JSON-LD files to initialize its C++ structs. When Layer 1a defines the `SpecificHeatCapacity` of `mesh:Biochar`, Layer 1b maps that exact floating-point value into the 32-bit Voxel payload for environmental temperature simulation. Likewise, when Layer 1a defines `mesh:ComputeExergy`, the engine tracks the actual CPU cycles burned to compile itself.
+4.  **Computational Models (`ontology_computational_models.jsonld`):** The mathematical equations governing exchange. How LLM Inference Tokens translate to Joules, and how cyclomatic complexity acts as friction against future thermodynamic work.
