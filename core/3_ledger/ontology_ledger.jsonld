@@ -1,0 +1,36 @@
+{
+  "@context": {
+    "mesh": "https://collective.network/ontology/v1/ledger/",
+    "schema": "https://schema.org/",
+    "qudt": "http://qudt.org/schema/qudt/",
+    "unit": "http://qudt.org/vocab/unit/"
+  },
+  "@graph": [
+    {
+      "@id": "mesh:ValueToken",
+      "@type": "schema:Class",
+      "schema:name": "Value Token",
+      "schema:description": "The fundamental unit of exchange. Strictly pegged to verifiable physical surplus exergy. It is not money; it is a voucher for thermodynamic work."
+    },
+    {
+      "@id": "mesh:CRDTStateDelta",
+      "@type": "schema:Class",
+      "schema:name": "CRDT State Delta",
+      "schema:description": "A mathematical patch representing a change in the thermodynamic ledger or voxel state, designed to be conflict-free when merged with peers."
+    },
+    {
+      "@id": "mesh:EscrowLock",
+      "@type": "schema:Class",
+      "schema:name": "Escrow Lock",
+      "schema:description": "A temporal and cryptographic freeze on a specific amount of ValueTokens or physical resources, triggered during Mediation (Scenario Psi) or active Fabrication (Scenario Alpha)."
+    },
+    {
+      "@id": "mesh:thermodynamicPeg",
+      "@type": "schema:Property",
+      "schema:domainIncludes": "mesh:ValueToken",
+      "schema:rangeIncludes": "schema:Number",
+      "qudt:hasUnit": "unit:W-HR",
+      "schema:description": "The exact physical Watt-hours of surplus exergy that backs this specific token."
+    }
+  ]
+}
