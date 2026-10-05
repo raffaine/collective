@@ -1,15 +1,26 @@
 \chapter{The Obsolescence Horizon}
+\label{ch:obsolescence_horizon}
 
-\section{The Cybernetic Sunset}
-A parasitic bridge is only successful if it eventually kills its own necessity. Layer 7 is explicitly designed to be temporary. The architecture requires a mathematically defined \textit{Obsolescence Horizon} for every legacy dependency, preventing the Sovereign Stack from permanently tethering itself to the dying world.
+The Obsolescence Horizon represents the definitive thermodynamic and computational tipping point at which legacy institutional structures become strictly inferior to Layer-7 protocols in terms of informational exergy. This horizon is not merely a conceptual metaphor; it is a mathematically rigorous threshold integrated directly into the protocol's core logic, dictating the automated severing of legacy dependencies.
 
-\section{Triggering Decoupling}
-The Layer 4 Orchestrator continuously monitors the internal density of the mesh against its legacy reliance. Decoupling triggers are hardcoded into the Layer 5 Policy matrix:
-\begin{itemize}
-    \item \textbf{Energy Decoupling:} When the community's internal solar and geothermal generation exceeds 120\% of peak thermodynamic load for three consecutive months, the system recommends physically severing the state grid connection (Scenario Omega).
-    \item \textbf{Data Decoupling:} When local sensor density reaches sufficient coverage to predict micro-climates natively, the Edge Oracles automatically terminate their API calls to municipal weather servers, reclaiming the network bandwidth.
-    \item \textbf{Financial Decoupling:} As the internal circular economy establishes itself and Trust Rings begin producing their own food and fabrication materials, the Fiat-Crypto bridge is intentionally throttled, gradually reducing the community's exposure to fiat inflation.
-\end{itemize}
+\section{Informational Exergy and Threshold Triggers}
 
-\section{The Autonomy Threshold}
-When all major legacy bridges cross their Obsolescence Horizons, the community crosses the Autonomy Threshold. Layer 7 effectively goes dormant, having successfully extracted the necessary capital and data to bootstrap a fully sovereign, self-sustaining mesh.
+We model the efficiency of systemic state transitions using the framework of informational exergy ($E_x$). For any given computational, legal, or bureaucratic process, the exergy difference between the legacy state ($S_{legacy}$) and the decentralized Layer-7 state ($S_{layer7}$) is defined as:
+
+\begin{equation}
+    \Delta E_x = T_0 \sum_{i=1}^{N} \left( \mathcal{H}(S_{i}^{legacy}) - \mathcal{H}(S_{i}^{layer7}) \right)
+\end{equation}
+
+where $T_0$ is the ambient friction (or entropy cost) of the surrounding economic environment, and $\mathcal{H}$ denotes the Shannon entropy of the process execution graph. When legacy systems bloat with regulatory compliance, middle-management overhead, and rent-seeking intermediaries, $\mathcal{H}(S_{i}^{legacy})$ approaches criticality.
+
+\section{The Severance Protocol}
+
+The Layer-7 protocol enforces an automated severance policy when the cumulative frictional decay of the legacy system surpasses the energetic cost of migrating and operating purely on-chain. We define the Horizon Trigger condition, $\Phi_{trigger}$, as:
+
+\begin{equation}
+    \Phi_{trigger} = \lim_{\Delta t \to \infty} \int_{t_0}^{t_0 + \Delta t} \left[ \mathcal{C}_{legacy}(\tau) - \mathcal{C}_{layer7}(\tau) \right] d\tau > \mathcal{K}_{severance}
+\end{equation}
+
+where $\mathcal{C}(\tau)$ represents the transaction cost function over time, and $\mathcal{K}_{severance}$ is the activation energy required to port the dependency entirely to the decentralized network. 
+
+Once the inequality evaluates to true ($\Phi_{trigger} > 0$), smart contracts autonomously execute a deterministic, irreversible detachment from the legacy API. This mechanism strands the obsolete institutional apparatus on the far side of the horizon, ensuring that Layer-7 remains unencumbered by the collapsing energetic architecture of the previous era.
