@@ -1,16 +1,18 @@
 \chapter{Appendix Nu: Circular Fashion \\\& Textiles}
 
-\section{The Legacy Paradigm \\\& Its Failures}
+\section{Legacy}
 Fast fashion was driven by e-commerce interfaces designed for frictionless, impulsive consumption. One-click purchasing, hyper-personalized algorithmic targeting, and trend-chasing UI patterns maximized waste. The supply chain interfaces were opaque, hiding the true ecological cost of garment production and disposal.
 
-\section{The Incremental Automation Pathway}
+\section{Incremental}
 \textbf{Phase 1: Transparent Material Ledgers.} Shifting to local-first applications that track the lifecycle and material composition of every garment via offline meshes.
 \textbf{Phase 2: Ambient Wardrobe Management.} E-ink tags and AR mirrors assist users in repairing, modifying, or routing garments for local recycling, visualizing the thermodynamic cost of new vs. repaired items.
 \textbf{Phase 3: Ephemeral Modular Fashion.} Zero-click coordination of shared, communal garment libraries, where the interface seamlessly predicts and fulfills clothing needs based on weather and local events without encouraging ownership.
 
-\section{The Human Boundary (Limits of Automation)}
+\section{Human Boundaries}
 Repair and upcycling are intrinsically human, tactile processes. The interface will provide AR overlays for mending, but it deliberately stops short of automating the aesthetic choices of repair. The friction of physical labor is maintained to foster a deeper connection between the human and their material possessions.
 
-\section{Interface Mechanics (The "How")}
-The interface uses spatial AR for localized fit and repair guidance. It relies on localized CRDTs to track the lifecycle of modular textiles across the community.
-This reveals a missing mechanism: **Physical-Digital Synchronization Failures**. How does the UI handle state reconciliation when a physical garment is altered (e.g., torn or dyed) offline, breaking its digital twin state in the CRDT ledger?
+\section{Semantic NLP Translation}
+When users engage with the communal garment library, they provide informal requests (e.g., "I need something warm for the winter solstice festival"). The local LLM translates this messy intent into a strict Layer 5 cryptographic payload—a \texttt{ResourceAllocationIntent}. This payload identifies precise fabric specifications, sizes, and borrowing duration, which is cryptographically signed and broadcast to the mesh ledger.
+
+\section{Interface Mechanics}
+The interface uses spatial AR for localized fit and repair guidance. It relies on localized CRDTs to track the lifecycle of modular textiles across the community, gracefully handling physical-digital synchronization failures when offline alterations occur.

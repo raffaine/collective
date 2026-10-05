@@ -11,3 +11,6 @@ The meta-scenario forces a hard human boundary at the architectural decision poi
 
 \section{Interface Mechanics (The "How")}
 The interface relies on spatial CRDT trees, allowing developers to visually manipulate code branches in AR space. Triage algorithms filter out non-critical commit notifications. However, a gap emerges: how do developers securely vote on core engine upgrades while completely offline in a local mesh? This reveals the need for an Offline Mesh Governance Voting UI.
+
+\section{Semantic NLP Translation}
+Bridging the gap between a developer's messy intent and the strict cryptographic payloads of Layer 5 is critical. When a developer says, "Roll back the mesh sync protocol to yesterday's stable version," the local LLM parses this natural language into a strict \texttt{StateRevertIntent}. The model operates directly on the edge, pulling local CRDT history into its KV-cache to deduce which specific git hash or state tree is implied, translating the request into a precise JSON payload wrapped in a Zero-Knowledge proof ready for the developer's cryptographic signature.

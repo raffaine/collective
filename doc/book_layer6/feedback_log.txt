@@ -1,17 +1,6 @@
-Missing UI/UX mechanisms identified from Scenario Appendices:
-- Offline Mesh Governance Voting UI for offline engine upgrades (Scenario 00).
-- Real-time haptic feedback interfaces for physical tool deviation warnings (Alpha Fabrication).
-- Physical mesh-node handoff indicators for seamless UI transitions on fast-moving vehicles (Beta Transit).
-- Ambient non-visual cue systems (e.g., auditory/olfactory) to reduce screen reliance entirely (Gamma Kitchen).
-- Privacy-preserving biometric ambient tracking UI that deletes ephemeral state without persistent storage (Delta Childcare).
-Missing Mechanism (Kappa): Haptic Feedback & Somatosensory UIs - essential for physical skill transfer.
-Missing Mechanism (Lambda): Temporal Interface Decay - handling the archival, visual aging, and intentional forgetting of digital cultural artifacts.
-Missing Mechanism (Mu): Emergency Override UIs under Extreme Hardware Degradation - interface functionality when the physical screen is damaged or power is critically low during a crisis.
-Missing Mechanism (Nu): Physical-Digital Synchronization Failures - handling state reconciliation when a physical object is altered offline, breaking its digital twin state in the CRDT ledger.
-Missing Mechanism (Xi): Multi-User Spatial Collision Resolution - managing visual conflicts and cognitive load for multiple users simultaneously interacting with a shared AR spatial model.
-- Missing UI/UX mechanism: Haptic / Physical Override interfaces for high-noise and safety-critical environments (Identified in Theta - Foundry).
-- Missing UI/UX mechanism: Mesh-Based Identity Verification & Cryptographic Access Control UI (Identified in Zeta - Lodging).
-- Missing UI/UX mechanism: Spatial Audio Zoning and non-visual distraction alerts (Identified in Epsilon - Coworking).
-- Missing UI Mechanism (from Rho Adversarial): "Provable Identity Under Duress" / Panic Interface. The core architecture lacks a UI pattern that functions completely offline to verify identity during a network attack or lockdown. Needs to be addressed in the core architecture chapters.
-- Missing UI Mechanism (from Tau Genesis): "Offline-First Setup Wizard". Core chapters do not specify how non-technical users can physically and digitally bootstrap a new instance in a zero-connectivity environment using BLE and spatial AR. Must be integrated into Chapter 1 (Local-First Synchronization).
-Feedback from Scenario Omega: Missing UI/UX mechanism for 'Asynchronous Payload Queuing for Dark-Mesh environments' (how the UI represents data that is queued for physical sneakernet/courier transport when the local mesh is totally partitioned). Please update Core Chapters to include this.
+Missing LLM/Semantic mechanism in Chapter 5: 1) Multimodal Context Translation (parsing deictic/spatial intent like 'this tree' or 'that desk' using AR/sensor data combined with NLP). 2) Multi-Agent LLM Negotiation (where two users' local LLMs negotiate competing intents before submitting a Layer 5 payload).
+Missing in Chapter 5: Intent Verification and Ambiguity Resolution UX loop - handling low-confidence semantic parses and capturing explicit human confirmation before payload signature.
+Missing mechanisms in Chapter 5:
+- Ambiguity Resolution / Interactive Clarification: The LLM should prompt the user for clarification when the intent is underspecified before generating the payload.
+- Intent Validation / Hallucination Mitigation: The generated payload must be checked against local CRDT rules to prevent LLM hallucinations from proposing invalid Layer 5 transactions.
+Missing LLM/Semantic mechanism in Core Chapter 5: Intent Verification/Confirmation UI (preventing LLM hallucination of Layer 5 payload before signature)

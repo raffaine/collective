@@ -11,3 +11,6 @@ Food is inherently cultural and personal. The system will never automate the fin
 
 \section{Interface Mechanics (The "How")}
 Spatial UI is used sparingly to project precise measurements onto cutting boards. The system degrades UI richness during high-energy cooking (e.g., using ovens) to save power. We identified a gap: an ambient non-visual cue system (like localized auditory nudges) for cooking times, reducing screen reliance entirely.
+
+\section{Semantic NLP Translation}
+In communal food preparation, a neighbor might say, "I'm making a big batch of stew tonight and can feed three extra people." The local LLM parses this ambiguous, messy intent and converts it into a strict Layer 5 \texttt{ResourceAllocationIntent}. The edge model queries the neighborhood CRDT ledger to register the meal's availability and required ingredients, transforming casual speech into a strict cryptographic payload that seamlessly updates the local pantry inventory and notifies interested peers without centralized servers.

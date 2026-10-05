@@ -12,4 +12,7 @@ The automation of material flows and power allocation stops at the physical safe
 \section{Interface Mechanics (The "How")}
 Foundry operations utilize CRDTs to maintain a unified state of material inventory and machine availability across the facility's offline mesh. The Centaur interface employs algorithmic triage to filter out nominal machine data, only breaking the operator's concentration when a dangerous anomaly is detected. High-noise environments necessitate the use of haptic feedback and high-contrast ambient lighting rather than standard audio or screen-based alerts.
 
+\section{Semantic NLP Translation}
+In a noisy foundry, an operator may yell, "Queue up the aluminum run and lock out the plasma cutter!" The local LLM, filtering out background noise, translates this messy human command into multiple distinct Layer 5 payloads: a \texttt{MachineAccessIntent} for the mill and a \texttt{SafetyLockoutIntent} for the cutter. The LLM handles the complex formatting, ensuring the zero-knowledge proofs and strict JSON structures are perfectly assembled before broadcasting the transaction to the mesh.
+
 % Feedback: Missing UI mechanism for "Haptic/Physical Override and Safety Feedback" in high-risk environments.

@@ -10,6 +10,9 @@ Phase 1 (Manual Entry) involved citizens actively checking in via centralized we
 While desk allocation and resource tracking can be fully automated, resolving physical disputes or managing noise complaints must remain a manual, human process. The interface enforces friction here: a citizen cannot algorithmically evict another from a space. Instead, the UI provides context and prompts a face-to-face resolution protocol, ensuring that human empathy and direct communication handle conflict, rather than sterile algorithmic arbitration.
 
 \section{Interface Mechanics (The "How")}
-The coworking interface relies on Conflict-Free Replicated Data Types (CRDTs) to maintain a synchronized state of the building's resources across all local nodes, even if the external network connection is severed. Ambient E-ink screens on desks update locally, drawing minimal power. Spatial AR overlays can guide a citizen to their allocated desk without emitting audible notifications. 
+The coworking interface relies on Conflict-Free Replicated Data Types (CRDTs) to maintain a synchronized state of the building's resources across all local nodes, even if the external network connection is severed. Ambient E-ink screens on desks update locally, drawing minimal power. Spatial AR overlays can guide a citizen to their allocated desk without emitting audible notifications.
+
+\section{Semantic NLP Translation}
+When a citizen expresses a messy intent like, "I need a quiet spot near the window for a couple of hours," the local LLM parses this unstructured request. It queries the local CRDT state for available resources and formulates a strict Layer 5 cryptographic payload—a \texttt{DeskReservationIntent}—which is cryptographically signed by the citizen's node and broadcast to the mesh. The LLM translates the qualitative human desire into a deterministic, verifiable machine state.
 
 % Feedback: Missing UI mechanism for "Spatial Audio Zoning" or "Haptic Distraction Alerts" in the core chapters.

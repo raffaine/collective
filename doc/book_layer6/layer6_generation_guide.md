@@ -5,14 +5,17 @@ This document governs the authoring of `doc/book_layer6/`. Layer 6 is the Human-
 
 **Rule 1: Core Technology Chapters.** The book must be structured around core mechanisms rather than a catalog of scenarios. 
 **Rule 2: The Physical Reality of Interfaces.** User Interfaces consume electricity. The core chapters MUST detail the thermodynamic constraints of rendering UI: OLEDs vs. ambient E-ink, GPU power for AR overlays, and the battery constraints of mobile devices running local mesh nodes.
-**Rule 3: The Scenario Appendix.** The 25 Sovereign Scenarios (Scenario 0 through Omega) will be moved to the Appendix. They serve as an exhaustive reference proving that the core UI/UX technologies can handle every possible interaction.
-**Rule 4: The Iterative Feedback Loop.** If a scenario appendix (e.g., Scenario Omega - Complete Decoupling) uncovers a missing interface mechanic (like offline mesh-syncing UI patterns), the agent MUST halt, invent the solution, and **refine the Core Chapters** to implement it before finishing the appendix.
+**Rule 3: The Semantic Translation Layer (LLMs).** The interface is not just buttons; it is a cybernetic translator. The book must explain how local LLMs translate messy human intent into strict Layer 5 cryptographic policy payloads (upstream), and translate complex Layer 4 Actor-Model states back into human-readable narratives (downstream).
+**Rule 4: The Physics of Semantic Compute.** You must explicitly detail the storage and computational realities of running LLMs on edge devices. What are the VRAM limits? How are models quantized (e.g., 4-bit GGUF)? How is the semantic context window stored physically without cloud servers?
+**Rule 5: The Scenario Appendix.** The 25 Sovereign Scenarios (Scenario 0 through Omega) will be moved to the Appendix.
+**Rule 6: The Iterative Feedback Loop.** If a scenario appendix uncovers a missing interface mechanic, the agent MUST halt, invent the solution, and **refine the Core Chapters** to implement it before finishing the appendix.
 
 ## Required Core Chapter Layout (To Be Authored)
-*   **Chapter 1: Local-First Synchronization \& CRDTs** (Bypassing centralized cloud servers. How user devices maintain state locally and sync opportunistically via the offline mesh).
-*   **Chapter 2: Spatial \& Ambient Interfaces** (Interfacing with physical environments. Utilizing low-power E-ink signage for communal resources, and AR overlays for spatial policy zoning).
-*   **Chapter 3: Cognitive Load \& Algorithmic Triage** (How the system shields humans from information overload. Designing the "Centaur" interface for human-agent collaboration without notification fatigue).
-*   **Chapter 4: Thermodynamic Rendering \& Hardware Limits** (The physical cost of pixels. Dynamically degrading UIs from rich graphics to raw text based on microgrid power availability).
+*   **Chapter 1: Local-First Synchronization \& CRDTs** (Bypassing centralized cloud servers. How user devices maintain state locally).
+*   **Chapter 2: Spatial \& Ambient Interfaces** (Interfacing with physical environments via E-ink and AR).
+*   **Chapter 3: Cognitive Load \& Algorithmic Triage** (How the system shields humans from information overload).
+*   **Chapter 4: Thermodynamic Rendering \& Hardware Limits** (The physical cost of pixels and UI degradation).
+*   **Chapter 5: Semantic Translation \& Edge LLMs** (How local Large Language Models act as the upstream/downstream translation bridge to Layer 5 Trust/Policy, and the strict VRAM/compute realities of running them natively on the mesh).
 
 ## Authoring Guidelines for Each Appendix
 When writing the 25 scenario appendices, you must strictly follow this internal structure:

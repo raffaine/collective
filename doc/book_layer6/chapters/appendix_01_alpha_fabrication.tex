@@ -11,3 +11,6 @@ Automation halts at the physical safety boundary. Before a high-energy fabricati
 
 \section{Interface Mechanics (The "How")}
 Spatial interfaces overlay toolpath projections onto raw materials. CRDTs ensure multiple operators can edit a design simultaneously without internet access. Yet, a missing mechanism is identified: real-time haptic feedback interfaces to warn operators of physical tool deviations without relying on visual AR.
+
+\section{Semantic NLP Translation}
+Fabrication environments require interpreting informal human commands like, "Cut three more of the base plates but use the scrap aluminum." The local LLM translates this messy, context-dependent intent into a strict Layer 5 \texttt{FabricationIntent} cryptographic payload. It queries the local CRDT material inventory, matching "scrap aluminum" to specific tracked resources, and outputs a strict JSON payload wrapped in a Zero-Knowledge proof that requests the machine's operation, pending the operator's physical signature.

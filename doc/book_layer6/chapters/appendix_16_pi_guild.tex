@@ -14,3 +14,6 @@ While task routing can be automated, conflict resolution and the establishment o
 
 \subsection{Interface Mechanics (The "How")}
 Guild interfaces utilize specialized CRDTs designed for multi-author, asynchronous coordination without central servers. Reputation and skill verification are handled via zero-knowledge proofs, displayed in the UI only when relevant to a specific task. To manage cognitive load (Chapter 3), members use a "Centaur" interface that aggressively filters non-essential guild chatter, escalating only critical votes or highly relevant tasks to the user's primary attention layer.
+
+\subsection{Semantic NLP Translation}
+When a guild member says, "I'm covering the midnight server maintenance instead of Dave," the local LLM interprets the messy intent by cross-referencing guild schedules and roles within the local state. It generates a strict Layer 5 \texttt{ShiftTransferIntent} and a zero-knowledge proof of qualification for the task. The LLM translates the informal arrangement into a precise cryptographic payload that shifts access rights and compensation without requiring the user to navigate complex bureaucratic menus.

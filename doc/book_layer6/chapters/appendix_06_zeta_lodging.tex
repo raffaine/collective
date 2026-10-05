@@ -12,4 +12,7 @@ The system draws a strict boundary at eviction or denying access in emergencies.
 \section{Interface Mechanics (The "How")}
 Lodging state and cryptographic access tokens are distributed via CRDTs across the local mesh network, ensuring robust offline access. During low-power microgrid states, UI rendering on access terminals degrades to basic text or binary LED indicators, preserving energy for the physical locking mechanisms. The Centaur interface quietly updates the citizen's local node with access rights, bypassing the need for intrusive push notifications.
 
+\section{Semantic NLP Translation}
+A citizen might say, "My family and I need a place to crash for the next two nights near the transit hub." The local LLM processes this messy, conversational intent. It checks the localized CRDT directory for lodging capacity and generates a strict Layer 5 \texttt{LodgingAccessIntent}. Once the network consensus approves, the LLM translates the resulting WASM state dump back into a human-readable confirmation, issuing the cryptographic key silently in the background.
+
 % Feedback: Missing UI mechanism for "Mesh-based Identity \\\& Access Control" in core chapters.

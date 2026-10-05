@@ -14,3 +14,6 @@ The system must never automate the addition or removal of a member from the core
 
 \subsection{Interface Mechanics (The "How")}
 Household state is maintained via a decentralized CRDT lattice, entirely bypassing the cloud. Local devices act as a resilient mesh. The UI relies heavily on ambient E-ink displays within the household for shared state (e.g., microgrid battery levels, communal task completion), minimizing the need for individuals to pull out their personal screens. Trust boundaries are visually represented through spatial AR overlays showing which resources are currently pooled versus private.
+
+\subsection{Semantic NLP Translation}
+When a user expresses a messy intent like "Let my sister use the solar battery for her car," the local LLM parses this natural language against the household's CRDT state. It identifies "sister" and "solar battery," resolving these to specific cryptographic identities and resources. The LLM then formulates a strict Layer 5 \texttt{ResourceDelegationIntent} payload, defining the exact power limits and duration, which is presented to the user for final cryptographic signature.

@@ -14,3 +14,6 @@ The system cannot force a user into isolation or unilaterally decline emergency 
 
 \subsection{Interface Mechanics (The "How")}
 Algorithmic triage (Chapter 3) is implemented through progressive UI dimming. As burnout metrics rise, colors desaturate, AR overlays fade, and notifications are batched into infrequent, low-contrast text summaries. The system relies on local-first processing to ensure biometric data never leaves the device. Ambient interfaces (e.g., E-ink displays) shift to displaying calming, slow-moving natural data (like local weather patterns) rather than task lists.
+
+\subsection{Semantic NLP Translation}
+When an exhausted user mutters, "I can't deal with any more messages today, forward my tasks to Elena," the local LLM parses the colloquial expression of burnout. It evaluates the user's active obligations in the local CRDT and drafts a Layer 5 \texttt{RoleDelegationIntent}. The LLM maps "Elena" to the correct trusted contact and structures the exact cryptographic payload to temporarily transfer permissions and filter incoming communications, acting as a compassionate semantic bridge.

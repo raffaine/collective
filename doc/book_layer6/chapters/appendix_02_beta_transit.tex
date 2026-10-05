@@ -11,3 +11,6 @@ The system cannot force a routing change that significantly alters a passenger's
 
 \section{Interface Mechanics (The "How")}
 Thermodynamic rendering is paramount here; mobile devices default to raw text or low-power maps when the local microgrid is strained. Algorithmic triage ensures passengers only receive alerts for critical delays. A missing mechanism is the integration of physical mesh-node handoff indicators for fast-moving vehicles.
+
+\section{Semantic NLP Translation}
+Transit users communicate in unstructured, urgent terms: "I need to get to the clinic fast, but I can share a ride." The local, edge-based LLM captures this messy intent and parses it into a strict Layer 5 \texttt{TransitRequestIntent} payload. By querying the local mesh network's CRDT state, the LLM maps "the clinic" to exact spatial coordinates and translates the urgency and sharing preference into a cryptographically sound transit bid, cleanly packaged for the Layer 4 Orchestrator without ever sending personal location data to a cloud provider.

@@ -1,0 +1,22 @@
+\chapter{Semantic Translation and Edge LLMs}
+
+\section{The Human-Machine Boundary}
+The fundamental gap between Layer 6 (Interface) and Layer 5 (Policy) is one of legibility. Humans communicate through ambiguous, context-heavy narratives ("I need the kitchen for a bit to make soup for the kids"). Layer 5, however, is a rigid cryptographic environment that requires exact, deterministic JSON payloads wrapped in Zero-Knowledge proofs. Legacy systems force humans to bridge this gap by navigating complex dropdown menus and rigid forms. The Sovereign Stack relies on local Large Language Models (LLMs) to act as the Semantic Translation Layer.
+
+\section{Upstream and Downstream Translation}
+The translation operates bidirectionally:
+\begin{itemize}
+    \item \textbf{Upstream Translation (Intent Generation):} When a citizen speaks into their wearable, the local LLM parses the natural language, queries the local CRDT state for context, and formulates a strict Layer 5 Intent. For example, "I'm covering Sarah's shift at the clinic" is translated into a \texttt{DelegationIntent} proposing a temporary transfer of a specific Soulbound Token, ready for cryptographic signature.
+    \item \textbf{Downstream Translation (State Narration):} When the Layer 4 Orchestrator hits a complex queueing theory bottleneck or a Layer 5 multi-sig threshold fails, it outputs a dense WASM state dump. The local LLM ingests this machine state and translates it into a human-readable narrative: "Your request was delayed because the grid is conserving power; 2 more Trust Ring signatures are required."
+\end{itemize}
+
+\section{The Physics of Semantic Compute}
+Running an LLM is a thermodynamic event. Layer 6 strictly forbids routing semantic translation to cloud providers (e.g., OpenAI) due to latency, privacy, and dependency vulnerabilities. The translation must occur on the edge.
+
+To achieve this within the power constraints of mobile devices and local mesh nodes, Layer 6 mandates aggressive model quantization. 7-billion to 13-billion parameter models are quantized to 4-bit precision (e.g., GGUF format). The Oasis Engine dynamically manages the KV-cache, swapping context into limited mobile VRAM only during active intent resolution, operating entirely within a 10-to-15 watt thermal envelope. During critical power shortages (Scenario Upsilon), the system falls back to highly pruned, 1-billion parameter models capable of running purely on the CPU, trading conversational fluidity for raw thermodynamic survival.
+
+\section{Iterative Refinement: Hallucination Mitigation and Ambiguity Resolution}
+Scenario stress-testing revealed a critical flaw: LLMs hallucinate, and Layer 5 policies are immutable. To prevent an LLM from forging a catastrophic multi-sig payload, Layer 6 introduces the \textit{Intent Verification \& Ambiguity Resolution UX Loop}. When the LLM parses natural language into a JSON payload, it first cross-validates the structure against the local CRDT schema. If the parse confidence is low or parameters are underspecified, the LLM pauses and engages in interactive clarification ("Did you mean 2 hours or 3?"). Most importantly, before the Secure Enclave signs the payload, the UI renders the deterministic intent cleanly and forces a physical \textit{Haptic Confirmation}. The LLM proposes; the human signs.
+
+\section{Iterative Refinement: Multimodal Spatial Translation and Edge Negotiation}
+Citizens interact in physical space (Scenarios Epsilon and Theta). Layer 6 extends the Semantic Translator to be \textit{Multimodal}. When a citizen points at a physical voxel using AR glasses and says, "Book this pod for tomorrow," the NLP model fuses the auditory input with the spatial raycast vector to deterministically identify the exact Layer 5 resource ID. Furthermore, the architecture introduces \textit{Multi-Agent LLM Negotiation}. Two citizens attempting to swap shifts (Scenario Delta) do not argue over the interface; their local Edge LLMs negotiate the scheduling permutations over local BLE, only presenting the final, mathematically valid `SwapIntent` for both humans to simultaneously cryptographically sign.

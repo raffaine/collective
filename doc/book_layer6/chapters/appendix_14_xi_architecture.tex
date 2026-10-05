@@ -1,16 +1,18 @@
 \chapter{Appendix Xi: Dynamic Architecture \\\& Urban Zoning}
 
-\section{The Legacy Paradigm \\\& Its Failures}
+\section{Legacy}
 Legacy urban planning relied on centralized, top-down CAD and GIS software. Citizens were excluded from the interface, interacting with urban planning only through passive, read-only PDF reports or highly restricted town hall portals. The interfaces assumed unlimited energy for rendering massive, cloud-based city models and ignored the localized realities of microgrids.
 
-\section{The Incremental Automation Pathway}
+\section{Incremental}
 \textbf{Phase 1: Participatory Local Models.} Shifting to local-first, peer-to-peer spatial models where citizens can collaboratively edit and propose changes to their immediate physical surroundings.
 \textbf{Phase 2: Ambient Zoning.} Using large-scale E-ink displays in public spaces to dynamically broadcast current zoning rules, microgrid status, and communal resource allocation without requiring personal devices.
 \textbf{Phase 3: Zero-Click Habitat Adaptation.} The interface seamlessly negotiates spatial needs, automatically reconfiguring modular walls and public spaces based on aggregate, ambiently collected usage data.
 
-\section{The Human Boundary (Limits of Automation)}
+\section{Human Boundaries}
 While the system can optimize spatial layouts for thermodynamic efficiency, the destruction or significant alteration of communal gathering spaces requires a "Communal Friction" protocol. The interface mandates in-person, synchronous verification, disabling remote approvals to ensure that architectural changes are grounded in physical community consensus.
 
-\section{Interface Mechanics (The "How")}
-Architectural interfaces utilize heavy spatial and ambient rendering. CRDTs manage the complex, multi-layered state of a dynamic building. Due to the high computational cost of rendering 3D spatial changes, the UI dynamically degrades to simplified 2D wireframes or text-based proposals based on the current microgrid power availability (thermodynamic rendering).
-This reveals a missing mechanism: **Multi-User Spatial Collision Resolution**. When multiple users are simultaneously interacting with a shared AR architectural model, how does the local-first CRDT manage visual conflicts and cognitive load for the users?
+\section{Semantic NLP Translation}
+Citizens propose modifications in natural, descriptive terms (e.g., "Let's turn the old parking lot into a community garden"). The local LLM parses this messy, narrative intent into a strict Layer 5 cryptographic payload—a \texttt{ZoningProposalIntent}. This JSON structure enforces correct geospatial bounds, resource limits, and signature thresholds required by Layer 5, acting as the bridge between human discourse and code.
+
+\section{Interface Mechanics}
+Architectural interfaces utilize heavy spatial and ambient rendering. CRDTs manage the complex, multi-layered state of a dynamic building. Due to the high computational cost of rendering 3D spatial changes, the UI dynamically degrades to simplified 2D wireframes or text-based proposals based on current microgrid power availability (thermodynamic rendering), while managing multi-user spatial collision resolution.

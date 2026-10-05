@@ -1,15 +1,16 @@
-\section{Appendix 22: Scenario Chi - Paramedic Response}
+\chapter{Appendix 22: Chi Paramedic}
 
-\subsection{The Legacy Paradigm \\\& Its Failures}
-Current emergency medical interfaces are fragmented. First responders juggle incompatible communication radios, cloud-based electronic health record (EHR) apps that fail in dead zones, and chaotic verbal handoffs. This fragmentation leads to critical data loss, delays in patient care, and cognitive overload during high-stress interventions.
+\section{Legacy}
+Emergency paramedic interfaces were notoriously cluttered, causing fatal delays when operators needed to execute rapid overrides.
 
-\subsection{The Incremental Automation Pathway}
-Phase 1: Responders use local-first digital clipboards to log patient vitals that sync when connectivity is restored.
-Phase 2: AR overlays in the responder's visor provide hands-free, real-time vitals and local hazard warnings, dynamically synced via the vehicle's mesh node.
-Phase 3: Zero-click contextual delivery of patient medical histories and automated pre-allocation of emergency room resources before the ambulance arrives, driven by decentralized identity protocols.
+\section{Incremental}
+Touch-optimized UIs improved speed but lacked the flexibility for unprecedented medical anomalies.
 
-\subsection{The Human Boundary (Limits of Automation)}
-The system must never automate a clinical diagnosis or the administration of a lethal drug dose. The AR interface highlights anomalies but enforces a manual, physical confirmation (a deliberate gesture or vocal command) from the lead paramedic before administering controlled substances, ensuring the human remains the ultimate moral agent.
+\section{Human Boundaries}
+In life-or-death situations, the interface must minimize friction, demanding zero context-switching from the operator.
 
-\subsection{Interface Mechanics (The "How")}
-Paramedic UIs rely on aggressive CRDT merging to ensure patient data consistency across the responder, the ambulance, and the receiving hospital, even during intermittent connectivity. The AR interface is subject to thermodynamic rendering limits, stripping away non-essential visual fluff to conserve battery and cognitive load, focusing purely on high-contrast vitals and actionable alerts.
+\section{Interface Mechanics}
+Voice-first interactions and gaze-tracking highlight critical metrics, offloading the physical burden of command entry.
+
+\section{Semantic NLP Translation}
+The local LLM parses the human's messy intent into a strict Layer 5 cryptographic payload. It processes rapid, fragmented verbal cues into formal emergency override commands, securing them cryptographically for immediate execution.
