@@ -11,3 +11,32 @@
 *.synctex.gz
 
 .DS_Store
+# Oasis Engine Build Artifacts & Toolchains
+core/1_simulation/src/vcpkg/
+core/1_simulation/src/emsdk/
+core/1_simulation/src/build_native/
+core/1_simulation/src/build_wasm/
+
+# Standard C++ build ignores
+*.o
+*.a
+*.dylib
+*.so
+*.out
+*.app
+
+# CMake generic ignores
+CMakeFiles/
+CMakeCache.txt
+CMakeScripts/
+cmake_install.cmake
+Makefile
+compile_commands.json
+
+# Catch-all for any build directories globally
+build/
+build_native/
+build_wasm/
+vcpkg/
+emsdk/
+vcpkg_installed/

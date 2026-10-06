@@ -1,0 +1,11 @@
+{
+  "name": "oasis-engine",
+  "version": "0.1.0",
+  "description": "Oasis Engine - Sovereign Stack Layer 1b",
+  "dependencies": [
+    "sdl2",
+    "libsodium",
+    "catch2",
+    "pugixml"
+  ]
+}

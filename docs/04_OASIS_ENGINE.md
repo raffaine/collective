@@ -50,6 +50,7 @@ Oasis is a local-first application. There are no central game servers.
 The C++20 core is compiled down to WebAssembly (WASM) using Emscripten. This allows the heavy physical simulation and Vulkan/WebGL graphics to run sandboxed inside any modern web browser or lightweight desktop wrapper. 
 *   **Data Sovereignty:** The player's map, ledger, and blueprints live entirely in an IndexedDB/OPFS (Origin Private File System) local database. 
 *   **Embedded Logic:** Oasis does not hardcode its gameplay rules. The WASM binary embeds a lightweight XML parser. When a player designs an automated system, the engine generates Layer 4 BPMN 2.0 XML, feeds it to the parser, and executes the state machine locally to update the voxel grid.
+*   **Universal Abstraction Layer (SDL2/GLFW):** To maximize portability without sacrificing native performance, the engine uses SDL2 as a cross-platform abstraction layer. For desktop builds, it creates a native OS window for rapid C++ debugging. For browser builds, Emscripten automatically binds SDL2 to the HTML `<canvas>` and maps DOM interactions to the C++ event queue. This exact technique will later be used to render Layer 6 Semantic UIs, ensuring all Collective interfaces remain highly portable and device-friendly.
 
 ---
 
