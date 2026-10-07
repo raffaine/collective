@@ -1,50 +1,248 @@
 \chapter{Layer 6: The Semantic Layer}
 
-As we reach Layer 6, we arrive at the absolute peak of the native Sovereign Stack. Below us lie the rigorous thermodynamics of Layer 1, the deterministic edge-computation of Layer 2, the cryptographic ledgers of Layer 3, the autonomous workflows of Layer 4, and the structural governance graphs of Layer 5. 
+Layer 6 is where people meet the Stack. It translates between human expression and the structured records of Layer 5; it hosts deliberation; and it carries the community's decisions outward to Layer 7, the layer that faces the legacy world.
 
-Layer 6 is where the cold, mathematically absolute reality of those cybernetic systems meets the messy, beautiful, and profoundly complex reality of human consciousness. It is the \textit{Semantic Layer}.
+Layer 6 interfaces only with Layer 5 below it and Layer 7 above it. It does not read the Thermodynamic Ledger, it does not communicate with the Orchestrator, and it has no knowledge of hardware. Everything it knows about the physical world arrives as structured records from Layer 5, which in turn received them from Layer 4.
 
-This layer is the ultimate bridge between human intent and cybernetic reality. It is the space where the Stewards of The Collective actually live, interact, and govern. It holds a unique and radical promise: one day, when the historically derived, exploitative legacy systems of capitalism and the State finally collapse or are entirely superseded, the ablative armor of Layer 7 will be discarded. When that day comes, Layer 6 will become the only interface humanity needs to interact with the world---a pure expression of cooperative intent, entirely free from the coercion of the past.
+Layer 6 is also the only layer in which a machine, a local language model, stands between people and their own governance. A mistranslated proposal can become law, a biased summary can steer a debate, and an injected instruction can impersonate a decision. The chapter is therefore organized around a single rule: \textit{the machine assists, people author, and only people sign}.
 
-\section{Translating Cybernetics into Human Intent}
+Earlier drafts described Layer 6 as the interface that would one day be ``the only interface humanity needs to interact with the world.'' That claim is withdrawn. Layer 6 is the community's interface to its own infrastructure and governance. The land, assemblies, craft, and unmediated human company remain the primary ways people meet the world; Layer 6 serves them and must never replace them. As legacy systems recede, Layer 7 will shrink, but Layer 6 will still be one tool among many, not a total environment.
 
-Machines do not understand philosophy, and humans do not naturally speak in cryptographic hashes or WebAssembly binaries. The primary function of Layer 6 is translation, acting as the semantic interpreter between the cold mechanics of the Node and the conscious intent of the Stewards.
+\section{Design Principles}
 
-\subsection{Semantic and Ontological Protocols}
-To achieve this translation, Layer 6 cannot rely on flat databases. It relies on advanced Semantic Web protocols (such as JSON-LD, RDF, and OWL) to construct a comprehensive \textit{Knowledge Graph} of the bioregion. 
+The following principles apply throughout the chapter.
+\begin{itemize}
+  \item \textit{Human authorship.} Any record entering Layer 5 is authored and signed by a person. The machine may draft; it never signs, and it never submits on anyone's behalf.
+  \item \textit{Read-back before signing.} A person signs only after seeing a plain-language rendering generated deterministically from the exact structured payload they are about to sign.
+  \item \textit{Grounded or silent.} Generated explanations must cite the Layer 5 records they rely on. A claim with no source is not shown.
+  \item \textit{Deterministic where safety matters.} Safety-critical alerts use fixed, tested wording, never generated text.
+  \item \textit{Graceful degradation.} Every function remains usable without a language model.
+  \item \textit{Privacy by construction.} Layer 6 renders each person's own records to that person and public aggregates to everyone. It never assembles a map of who trusts, delegates to, or votes for whom.
+  \item \textit{Plurality.} Vocabularies, interfaces, and deliberative formats can be adapted to each Node's languages and culture.
+  \item \textit{The right to unmediated space.} Any conversation can be held without machine processing.
+\end{itemize}
 
-In Layer 2, a water pump is merely a MAC address emitting raw flow rates. In Layer 6, that pump is ontologically linked to a specific irrigation pipe, which is linked to a greenhouse, which is semantically understood to provide 20\% of the community's winter caloric intake. By structuring data ontologically, Layer 6 ensures that when a failure occurs, the system does not just report a mechanical error code; it reports the contextual, philosophical impact of that failure on human survival. Stewards then use visual standards, primarily BPMN 2.0, to map their semantic responses back into logic that the machines can understand.
+\section{Position in the Stack}
 
-\subsection{Computation and Storage: The Role of Local LLMs}
-Semantic graphs and natural language translation require significant storage and computation. The massive ontological databases are pinned across the community's edge-hardware using IPFS and specialized graph databases. 
+\subsection{Interfaces}
 
-More crucially, to handle the fluid translation between cybernetic data and human linguistics, Layer 6 heavily utilizes local, privacy-preserving Large Language Models (LLMs). These models run entirely on the community's decentralized edge-hardware, entirely air-gapped from legacy corporate APIs. When a complex algorithmic event occurs in the lower layers, the local LLM ingests the raw data and synthesizes it into human-understandable phrasing. It explains \textit{why} an irrigation workflow was autonomously altered by Layer 4, allowing the Stewards to comprehend the machine's actions in fluent natural language rather than parsing lines of raw code. 
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{|p{0.22\textwidth}|p{0.70\textwidth}|}
+\hline
+\textit{Direction} & \textit{Content} \\
+\hline
+Layer 5 to Layer 6 & Task offers for eligible Stewards; alerts with their audience already decided; decisions with rationale records; proposals under deliberation; public tallies and delegate votes; each person's own standing, delegations, and ballot receipts; structured descriptions of the infrastructure needed for explanation; designations under the Protocol of Refusal. \\
+\hline
+Layer 6 to Layer 5 & Signed proposals; ballots; delegations and revocations; task acceptances; challenges and appeals; capacity and care-leave self-reports; testimony from hearings, including from non-members; rationale records and responses to them. \\
+\hline
+Layer 6 to Layer 7 & Instructions for legacy-facing action derived from ratified decisions (purchases, contracts, registrations, legal filings). \\
+\hline
+Layer 7 to Layer 6 & Legacy documents and messages (invoices, contracts, correspondence, legal notices), all treated as untrusted input. \\
+\hline
+\end{tabular}
+\caption{What crosses the boundaries of Layer 6.}
+\label{tab:l6-interfaces}
+\end{table}
 
-\subsection{Interfacing with Layer 5}
-Layer 6 sits directly atop the governance layer, providing a critical two-way semantic interface.
+\subsection{What Layer 6 Does Not Do}
 
-\textbf{Upstream from Layer 5:} Layer 5 offers raw, mathematically absolute trust graphs, delegation weights, and voting tallies. Layer 6 ingests this cold cryptographic data and renders it as semantic social dynamics. It visualizes the Web of Trust, allowing a Steward to intuitively see who holds Reputational Wealth in the Water Council and read the human stories and attestations behind that trust. 
+Layer 6 does not read telemetry or device identifiers, does not explain the Orchestrator by inspecting it, and does not tally votes or store identity. A person's keys live on a device that person controls, and signing happens there. Layer 6 provides the interface to that device but never holds the keys. When Layer 6 explains why an irrigation workflow changed, it is rendering an alert and rationale that Layer 5 passed upward, not inspecting Layer 4.
 
-\textbf{Downstream to Layer 5:} Conversely, Layer 6 is where human intent is formulated. Once the Stewards have debated a problem and used the semantic UI to draw a new BPMN solution, Layer 6 packages that intent. It offers the formalized proposal down to Layer 5, where the relevant Polycentric Council can initiate the rigorous, cryptographic voting process to make it the new autonomous law.
+\subsection{The Semantic Model and Its Provenance}
 
-\section{The Agora of the Stewards}
+To explain events in human terms, Layer 6 maintains a semantic model linking concepts such as ``Greenhouse B,'' ``winter food supply,'' and ``Pump 3,'' and the relationships between them, for example that Greenhouse B supplies a fifth of the community's winter vegetables. Every fact in this model arrives as a structured description from Layer 5. The model contains no telemetry, no device addresses, and nothing Layer 5 did not provide.
 
-Because Layer 5 handles the strict, cryptographic tallying of votes and identity, Layer 6 is free to handle the nuanced, subjective process of human debate. It acts as the digital and physical \textit{Agora} for the Stewards.
+The model is expressed in JSON-LD \parencite{w3c2020jsonld}, which lets each Node publish its own vocabulary while mapping it to a small shared core needed for interoperation. Heavyweight ontology reasoning is avoided on edge hardware. More importantly, a single comprehensive ontology is avoided on principle: whoever defines the categories shapes what can be said. Layer 6 therefore supports several overlapping graphs, so that a river can be described at the same time as an irrigation source in one vocabulary and as a sacred being in another, without either description overriding the other. Vocabularies are governed objects. They are adopted and amended through Layer 5, each with a rationale record.
 
-\subsection{The Messiness of Consensus}
-Before a proposal is ever crystallized into a formal vote in a Layer 5 Council, it must be debated here. Whether the Stewards are discussing the thermodynamic viability of a new solar grid for their eco-village, or the cultural bylaws of a global art guild, the Semantic Layer provides the collaborative infrastructure. It hosts the forums, the real-time communications, and the semantic web linking proposals to historical data. 
+\section{Translation}
 
-Most importantly, Layer 6 embraces the inherent ``messiness'' of human sociology. It does not attempt to force human conversation into rigid algorithmic boxes. It supports the affection, the friction, and the philosophical alignment that is strictly necessary before true consensus can be reached. It ensures that the governance of the Node is driven by empathy and shared understanding, rather than just cold mathematics.
+\subsection{From People to Layer 5: Draft, Read-Back, Sign}
 
-\subsection{Directing the Legacy Proxy (Layer 7)}
-While Layer 6 is the sovereign, native peak of The Collective, the Node does not exist in an isolated vacuum; it is surrounded by the legacy capitalist system. Layer 6 never directly exposes its internal, semantic data to the outside world, but the decisions made in the Agora must frequently direct the management of Layer 7 (The Legacy Proxy).
+Every record a person sends to Layer 5 follows the same sequence.
+\begin{enumerate}
+  \item The person expresses intent in any supported language or modality: typed text, speech, a paper form transcribed by a helper, or a structured form.
+  \item A drafting model converts the intent into a structured payload of the type Layer 5 expects, such as a proposal, delegation, appeal, or self-report. For proposals that change workflows, Stewards with the relevant skills may refine the resulting draft BPMN, as Chapter 6 describes; drawing BPMN is never required to take part.
+  \item If the intent is ambiguous, the drafting model stops and asks. It does not guess. Unresolved ambiguity is referred to a human interpreter.
+  \item The payload is rendered back to the person in plain language by a deterministic renderer: fixed templates driven by the payload's fields, not a language model. The read-back therefore shows what will actually be signed, not what the model believes it wrote.
+  \item The person confirms, edits, or abandons. Confirmation is a signature made on the person's own device.
+  \item The signed payload is sent to Layer 5 with a provenance tag (Section~\ref{sec:l6-provenance}).
+\end{enumerate}
+The deterministic read-back is the most important control in the layer. It defends against model error, mistranslation, and injected instructions alike, because nothing reaches Layer 5 that the signer did not see rendered from the payload itself.
 
-For example, if the Stewards decide they need to purchase advanced medical equipment from a legacy corporation, they cannot pay in Exergy Credits. The Agora formulates the semantic intent to extract fiat currency. This intent is translated upward, ultimately directing Layer 7 to utilize a Special Purpose Company (SPC) to expose a software service to the legacy market, extract the fiat, and execute the purchase. Layer 6 acts as the sovereign intent engine, strategically directing Layer 7's ablative legal and financial responsibilities without ever compromising the Node's internal integrity.
+\subsection{From Layer 5 to People: Rendering Classes}
 
-\section{Oasis: Gamifying the Future}
+Not everything Layer 5 sends upward should pass through a language model. Table~\ref{tab:l6-render} defines three rendering classes.
 
-A central tenet of The Collective is that governance and survival should not be a grueling bureaucratic chore. To refine how humans interface with these complex systems, Layer 6 heavily integrates with \textit{Oasis}, a massively multiplayer simulation engine.
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{|p{0.22\textwidth}|p{0.34\textwidth}|p{0.34\textwidth}|}
+\hline
+\textit{Class} & \textit{Examples} & \textit{Rendering} \\
+\hline
+Safety-critical & Evacuation, fire, flood, gas, water contamination & Fixed templates, pre-translated into every supported language and tested in drills. No language model. \\
+\hline
+Routine & Task offers, decision notices, deadlines, receipts & Templates, with optional model elaboration on request. \\
+\hline
+Explanatory & Why a workflow changed; summaries of proposals and rationale records & Retrieval-grounded generation, citing the Layer 5 records used. Uncited claims are suppressed. \\
+\hline
+\end{tabular}
+\caption{Rendering classes for content arriving from Layer 5.}
+\label{tab:l6-render}
+\end{table}
 
-When the Oasis simulation is released, the User Interface (UI) that players use to govern their simulated agents and bioregions within the game will be identical to the UI used by Stewards in the real world at Layer 6. This creates a profound feedback loop. Millions of players engaging with the game will constantly stress-test and refine the User Experience (UX) of The Collective. 
+Explanatory generation retrieves the relevant Layer 5 records first and generates only from them \parencite{lewis2020rag}. Each sentence links to its sources, and the reader can always open the underlying records directly.
 
-If players find a specific visual workflow editor confusing when trying to allocate water in the simulation, the developers can refine it. That refined, highly intuitive interface is then seamlessly deployed to the real-world Stewards. By merging the UX of a global simulation game with the real-world governance of physical infrastructure, Layer 6 ensures that interacting with The Sovereign Stack is as intuitive, engaging, and frictionless as playing a masterpiece.
+\subsection{Provenance of Text}
+\label{sec:l6-provenance}
+
+Every piece of text in Layer 6 carries one of four provenance tags, and the interface displays each distinctly:
+\begin{itemize}
+  \item \texttt{human\_authored}: written by a person and signed by them;
+  \item \texttt{machine\_drafted\_human\_approved}: drafted by a model, read back, and signed by a person;
+  \item \texttt{machine\_generated}: produced by a model and not approved by anyone, such as explanations and summaries;
+  \item \texttt{system\_authenticated}: issued by Layer 5 and signed, such as alerts, decisions, and tallies.
+\end{itemize}
+System-authenticated content is cryptographically signed, so a participant cannot impersonate a council or the system in a conversation.
+
+\subsection{Languages, Dialects, and Oral Tradition}
+
+Language models are strongest in the languages and registers most common in their training data and weakest in minority languages, dialects, and oral forms. Layer 6 compensates in four ways. Each Node maintains a controlled vocabulary mapping its own terms, including dialect and idiom, to the shared core. Communities may fine-tune their models on local corpora such as recorded speech, local writing, and oral histories, with the consent of those whose words are used. Spoken contributions are transcribed and shown back for correction before they enter any record. And human interpreters are a first-class part of the system, not a fallback of last resort.
+
+\subsection{When Translation Fails or Is Disputed}
+
+Any member may dispute a machine rendering, whether a summary that misstates a position or an explanation that misreads a decision. A disputed rendering is flagged wherever it appears, and the structured Layer 5 record always prevails over any rendering of it. Disputes and failures feed the model evaluations described in Section~\ref{sec:l6-models}.
+
+\section{The Language Models}
+\label{sec:l6-models}
+
+\subsection{Running on Salvaged Hardware}
+
+Layer 6 runs small language models compressed to fit the memory of salvaged hardware; post-training quantization reduces memory requirements severalfold at modest cost in quality \parencite{frantar2023gptq}. A typical arrangement places a small model on ordinary community machines for drafting and transcription, and a larger model on the best-provisioned server for grounded explanation. Responses take seconds rather than milliseconds, and the interface is designed around that.
+
+\subsection{Inference as an Exergy Expenditure}
+
+Every inference consumes electricity. Layer 6 operates within a standing computational allocation that is ratified in Layer 5 and accounted for by Layer 4 like any other computation (Chapter 5). When exergy is scarce, the allocation shrinks and Layer 6 degrades in a fixed order. Optional summaries go first, then elaboration of routine notices. Drafting assistance, deterministic read-back, and safety-critical alerts are always preserved, and the last two never depend on a language model.
+
+\subsection{Graceful Degradation}
+
+With no language model available, every Layer 6 function still works. Structured forms replace free-text drafting, templates replace explanations, raw records remain readable, and human interpreters and paper remain available. A community that loses its models loses convenience, not governance.
+
+\subsection{Model Governance and Supply Chain}
+
+Model weights, system prompts, retrieval corpora, and vocabularies are governed assets. Adopting or updating any of them is a Layer 5 decision with a rationale record. Every adopted asset is identified by a cryptographic hash, and Layer 6 refuses to load anything whose hash does not match a ratified record.
+
+Before adoption, a candidate model is evaluated in public. The evaluation covers translation fidelity on the community's own test set, behavior in its minority languages, a bias audit, and red-team results. Models trained on legacy corpora carry the assumptions of those corpora: their dominant languages, their commercial framing, and their blind spots \parencite{bender2021parrots,noble2018}. Air-gapping a model does not remove what it learned. A corpus provenance registry records what each model was trained and fine-tuned on, and the interface indicates which model produced each generated text.
+
+\section{Security}
+
+\subsection{The Air-Gap Claim, Corrected}
+
+Layer 6's models are not connected to corporate services, but Layer 6 is not isolated from adversarial input. It reads text from people and, through Layer 7, from the legacy world: invoices, contracts, correspondence, and legal notices. Text that a model reads can contain instructions the model may follow, a vulnerability known as indirect prompt injection \parencite{greshake2023injection}. It ranks first among the risks catalogued for language-model applications \parencite{owasp2023llm}.
+
+\subsection{Separation of Reading and Drafting}
+
+Layer 6 therefore separates the model that reads untrusted text from the model that drafts payloads.
+
+The \textit{intake model} processes legacy documents and long deliberation threads. Its output is restricted to fixed schema fields, such as amounts, dates, parties, and the positions raised, and is tagged as derived from untrusted input. It cannot draft payloads.
+
+The \textit{drafting model} receives only the person's own expressed intent and structured fields. It never sees raw untrusted text.
+
+Neither model holds keys, and neither can submit anything. Signing happens only on a person's device after the deterministic read-back, which is the final defense: an injected instruction that somehow altered a draft would appear in the read-back for the signer to see.
+
+\subsection{Private Data and Retrieval}
+
+Records that Chapter 6 makes private are never embedded, indexed, or supplied to any model. These include ballots, delegation edges, care leave, self-reports, task refusals, and the links between a person's pairwise identifiers. Retrieval is scoped to the requesting person and to the council in which they are acting. Conversation logs are end-to-end encrypted, retained according to policy ratified in Layer 5, and never used for training without the explicit consent of every participant.
+
+\subsection{Red-Teaming}
+
+Translation fidelity and security are tested continuously. Adversarial exercises, including injection attempts embedded in simulated legacy documents in Oasis, are run against each adopted model, and the results are reported to Layer 5 as part of the model's record.
+
+\section{Attention and Access}
+
+\subsection{Calm Technology}
+
+Layer 6 follows the principle that technology should inform without demanding attention, moving between the periphery and the center of awareness only as needed \parencite{weiser1996calm}. It does not measure engagement and does not optimize for time spent. It uses no streaks, badges, variable rewards, or infinite feeds, and it never shows reputation as a leaderboard.
+
+\subsection{Notification Classes}
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{|p{0.2\textwidth}|p{0.36\textwidth}|p{0.34\textwidth}|}
+\hline
+\textit{Class} & \textit{Behavior} & \textit{Examples} \\
+\hline
+Emergency & Interrupts on every available channel, including sirens and phone calls where configured & Evacuation, contamination \\
+\hline
+Action needed & Delivered promptly, without repetition & An appeal hearing date; a ballot closing \\
+\hline
+Deliberation & Batched into a digest at times the person chooses & New proposals, hearings, summaries \\
+\hline
+Offers and information & Available on request; never pushed & Task offers, reports \\
+\hline
+\end{tabular}
+\caption{Notification classes. Declining an offer takes one action and triggers no follow-up.}
+\label{tab:l6-notify}
+\end{table}
+
+\subsection{Participation Without a Screen}
+
+Every function of Layer 6 is available without a screen. Proposals and decisions can be heard by voice and printed on paper. Paper ballots are cast and counted at assemblies under procedures that preserve secrecy and allow verification. Testimony can be given in person and transcribed for confirmation. Members may designate a trusted helper to assist them; a helper may read, explain, and transcribe but cannot sign, and assisted voting follows procedures that protect ballot secrecy. Sign-language interpretation is provided at assemblies and hearings.
+
+\subsection{Accessibility}
+
+The Web Content Accessibility Guidelines \parencite{w3c2023wcag} are the minimum standard. Beyond them:
+\begin{itemize}
+  \item every BPMN diagram has an equivalent linear text description;
+  \item every proposal has a plain-language version;
+  \item layouts are predictable, and nothing other than emergencies is time-pressured;
+  \item pacing, density, and modality can be adjusted to the person rather than the person to the interface.
+\end{itemize}
+
+\section{The Agora}
+
+The Agora is the set of deliberative spaces Layer 6 hosts. Which formats a council uses follows from the decision procedure it has ratified in Layer 5 (Chapter 6).
+
+\subsection{Deliberative Formats}
+
+Layer 6 supports open forums for proposals and discussion, and structured argument maps that set claims, evidence, and objections side by side. It hosts deliberative panels drawn by lot, which hear evidence and reason together on behalf of the wider membership \parencite{fishkin1991}, as well as the Future Generations panels and Review Council hearings defined in Chapter 6. It provides hearings for non-members, and support for in-person assemblies: agendas, live captioning and translation, and records.
+
+\subsection{The Machine's Role in Deliberation}
+
+In deliberation, the machine may transcribe, translate, retrieve evidence with citations, help map arguments, and produce summaries. It is bound by four constraints:
+\begin{itemize}
+  \item Summaries are structured, with majority and minority positions in separate fields, each traceable to the contributions it summarizes.
+  \item A summary proposed for a rationale record must be approved by representatives of each position it describes. Dissenters approve the description of their dissent.
+  \item The machine never ranks options, recommends outcomes, or produces persuasive text on its own initiative.
+  \item All generated content carries the \texttt{machine\_generated} tag.
+\end{itemize}
+
+\subsection{Unmediated Spaces and the Protocol of Refusal}
+
+Any member can read the raw transcript behind any summary. Any thread, channel, or meeting can be marked unmediated. In an unmediated space no machine transcribes, summarizes, embeds, links, or retains anything beyond what the participants themselves choose to record. Councils may also place conversations under the Protocol of Refusal defined in Chapter 6, extending it from places and practices to speech.
+
+\subsection{Rendering Governance Without Exposing People}
+
+Layer 6 shows each person their own standing, Reputational Wealth, delegations, and ballot receipts. It shows everyone the public aggregates listed in Chapter 6: proposals, rationale records, tallies, and votes cast with delegated weight. It does not show who holds reputation in a council as a ranked list, and it never displays who trusts, delegates to, or votes for whom.
+
+\section{Non-Members and Neighbours}
+
+Consistent with Chapter 1, people outside the community are neither adversaries nor background. Layer 6 provides non-members with a portal that requires no identity in the Web of Trust. It offers plain-language and voice interaction, the right to petition a council, the right to give testimony at hearings, and delivery of the written responses Chapter 6 requires. Visitors are not profiled and nothing about them is retained beyond what they choose to submit.
+
+\section{Directing Layer 7}
+
+The Node exists within the legacy world and must sometimes act in it. Suppose the community decides, through Layer 5, to buy medical equipment from a legacy supplier. Exergy Credits are worthless to that supplier, so fiat currency must be raised, typically through a Special Purpose Company that sells a service in the legacy market. Layer 6 renders the ratified decision into instructions for Layer 7, which carries them out through its legal and financial instruments. Correspondence, invoices, and contracts returning from the legacy world arrive through Layer 7 and enter Layer 6 only via the intake pipeline described above. Where a Layer 5 decision collides with legacy law, the collision is surfaced through Layer 6 to Layer 7. Layer 6 never exposes the community's internal records to the legacy world.
+
+\section{Oasis: A Shared Interface, Distinct Modes}
+
+The interface players use to govern simulated bioregions in Oasis is built from the same components as the interface Stewards use in the real Node. Skills learned in the game therefore transfer to real governance, and players' difficulties reveal problems in the real interface before they cause harm. Sharing components does not mean sharing modes, and the following rules keep the two apart:
+\begin{itemize}
+  \item reality mode is visually and audibly unmistakable, with a persistent frame and colour that simulation never uses;
+  \item real actions require signing on the person's own device, and the game never holds real keys;
+  \item data produced by simulation is tagged as simulated, as Chapter 3 describes;
+  \item game mechanics such as scores and rewards never appear in reality mode.
+\end{itemize}
+Interface improvements discovered in Oasis are adopted in the real Node only through Layer 5. Each Node may adapt the interface's language, metaphors, and appearance to its own culture while keeping the underlying protocols compatible.
