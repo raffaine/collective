@@ -40,3 +40,14 @@ build_wasm/
 vcpkg/
 emsdk/
 vcpkg_installed/
+
+# Multi-Agent / Autonomous System Logs
+.agents/
+prompt_draft.md
+COUNCIL_TRANSCRIPT.md
+
+# IDEs & OS
+.vscode/
+.idea/
+*.swp
+*~

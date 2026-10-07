@@ -1,8 +1,11 @@
 #pragma once
 #include <vector>
 #include <cstdint>
-#include "sovereign_boundary.hpp"
+#include <string>
 #include <random>
+#include "sovereign_boundary.hpp"
+#include "blueprint_manager.hpp"
+#include "did_crypto_generator.hpp"
 
 namespace oasis {
 
@@ -17,6 +20,7 @@ struct Entity {
     uint8_t hydration;
     uint8_t trust;
     uint8_t fatigue;
+    std::string did; // The Sovereign DID (Empty for NPCs)
 };
 
 class EntityManager {
@@ -24,7 +28,9 @@ public:
     EntityManager();
     void AddNPC(uint16_t x, uint16_t y, uint16_t z);
     void AddCitizen(uint16_t x, uint16_t y, uint16_t z);
-    void Tick(const SovereignBoundary& boundary);
+    
+    // Story 6.2 & 6.3: Tick now requires Blueprints for Layer 7 pathfinding and Crypto for onboarding captures
+    void Tick(const SovereignBoundary& boundary, const BlueprintManager& blueprints, DIDCryptoGenerator& crypto);
 
     std::vector<Entity>& GetEntities() { return entities_; }
     const std::vector<Entity>& GetEntities() const { return entities_; }

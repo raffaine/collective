@@ -22,6 +22,8 @@ add_library(OasisCore
     core/entity_manager.cpp
     core/sdl2_abstraction.cpp
     core/renderer.cpp
+    core/blueprint_manager.cpp
+    core/blueprint_exporter.cpp
 )
 
 target_link_libraries(OasisCore PUBLIC pugixml)
@@ -62,9 +64,13 @@ else()
 
     add_executable(epic4_tests tests/epic4_tests.cpp)
     target_link_libraries(epic4_tests PRIVATE OasisCore Catch2::Catch2WithMain)
+
+    add_executable(epic6_tests tests/epic6_tests.cpp)
+    target_link_libraries(epic6_tests PRIVATE OasisCore Catch2::Catch2WithMain)
     
     add_test(NAME Epic1Tests COMMAND epic1_tests)
     add_test(NAME Epic2Tests COMMAND epic2_tests)
     add_test(NAME Epic3Tests COMMAND epic3_tests)
     add_test(NAME Epic4Tests COMMAND epic4_tests)
+    add_test(NAME Epic6Tests COMMAND epic6_tests)
 endif()
