@@ -3,9 +3,10 @@
   "version": "0.1.0",
   "description": "Oasis Engine - Sovereign Stack Layer 1b",
   "dependencies": [
-    "sdl2",
-    "libsodium",
+    "flecs",
+    "glm",
+    "spdlog",
     "catch2",
-    "pugixml"
+    "sdl2"
   ]
 }

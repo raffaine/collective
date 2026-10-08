@@ -33,7 +33,7 @@ graph TD
 ```
 
 ### Layer 1: Physical Ground Truth
-*   **Hardware Nodes (Stationary Hub):** A shared high-reliability FDM printer (e.g., Bambu Lab A1 Mini with 4-spool AMS) housed in a climate-controlled acoustic enclosure, alongside CNC metal cutters, woodworking stations, and diagnostic benches (oscilloscopes, protoboards).
+*   **Hardware Nodes (Stationary Hub):** A shared high-reliability, open-source FDM printer (e.g., Voron or Prusa running Klipper for local-first autonomy) housed in an actively heated desiccant dry box and acoustic enclosure, alongside CNC metal cutters, woodworking stations, and diagnostic benches (oscilloscopes, protoboards).
 *   **Hardware Nodes (Tool Library):** High-value, portable equipment (e.g., electric lawn mowers, reciprocating saws) housed in secure, electronically latched physical retrieval lockers or garage bays, tracked via embedded RFID or BLE beacons.
 *   **Inventory & Feedstock:** Standardized spools of structural PETG/TPU tagged with optical markers, alongside bins of spare electrical material (resistors, ICs) and standardized lumber/sheet metal.
 *   **Action:** Extruder heating and layer deposition for printing, alongside physical solenoid latch actuation for smart lockers allowing users to check-in/check-out portable tools and materials.
@@ -44,28 +44,33 @@ graph TD
     *   `node/fab/printer_01/telemetry/filament_used_grams` (Continuous integration)
     *   `node/tools/lawnmower_01/telemetry/battery_level` (%)
     *   `node/tools/lawnmower_01/status` (`STOWED`, `IN_USE`, `MAINTENANCE_REQUIRED`)
-*   **Verification:** Edge-AI camera inference flags spaghetti failures for 3D prints. For portable tools, BLE beacon proximity paired with weight sensors in the locker bay verifies the tool has been physically returned.
+*   **Verification:** Edge-AI camera inference flags spaghetti failures for 3D prints. For portable tools, BLE beacon proximity and weight sensors act as a baseline; electronic tools require a functional diagnostic (e.g., measuring battery impedance via charging pins), and mechanical tools require a post-return photo uploaded and validated by Edge-AI before releasing collateral.
 *   **Actuator Control:** Physical solenoid latch on the smart locker triggered via authenticated relay pin for both printed part retrieval and tool check-out.
 
 ### Layer 3: Network & Ledger
 *   **Escrow Lock:** Prior to g-code dispatch or tool check-out, the requester’s wallet locks the estimated thermodynamic fee (for fabrication) or a temporary collateral deposit (for the tool library):
-    $$\Delta V_{est\_fab} = \left( m_{filament} \cdot k_{material} + E_{electrical} \right) \cdot \lambda_{ERC}$$
-*   **Consensus Settlement:** Upon Layer 2 confirmation of `COMPLETE` (print) or `STOWED` (tool return), the locked tokens transfer to the Steward (minus a localized depreciation reserve), or the tool collateral is safely released back to the requester.
+    $$\Delta V_{est\_fab} = \left( m_{filament} \cdot k_{material} + E_{electrical} + C_{wear} \right) \cdot \lambda_{THERMO}$$
+    Where $C_{wear}$ accounts for machine depreciation (e.g., brass nozzle abrasion, end-mill dulling).
+*   **Consensus Settlement:** Upon Layer 2 confirmation of `COMPLETE` (print) or `STOWED` (tool return), the locked tokens transfer to the Steward (with $C_{wear}$ allocated to a maintenance pool for `MaintenanceIntent` bounties), or the tool collateral is safely released back to the requester.
 
 ### Layer 4: Orchestration State Machine
-The workflow is managed deterministically via an embedded BPMN 2.0 engine:
+The workflow is managed deterministically via an embedded BPMN 2.0 engine, incorporating async escrow, automated ejection, timeouts, and salvage paths:
 
 ```mermaid
 stateDiagram-v2
-    [*] --> VerifyFilament: Bounty Received
+    [*] --> PendingEscrow: Bounty Received
+    PendingEscrow --> VerifyFilament: EscrowLockedEvent (Async)
     VerifyFilament --> TriggerSpoolSwap: Insufficient
     TriggerSpoolSwap --> Wait
     VerifyFilament --> PreheatAndSelfTest: Sufficient
     PreheatAndSelfTest --> ExecutePrintJob
     ExecutePrintJob --> EmergencyStop: Spaghetti Detected
-    EmergencyStop --> RefundAndAlert
-    ExecutePrintJob --> LockerBayTransfer: Print Succeeded
+    EmergencyStop --> SalvageIntent: Issue Scrap Bounty
+    SalvageIntent --> RefundAndAlert
+    ExecutePrintJob --> PartEjection: Print Succeeded
+    PartEjection --> LockerBayTransfer: Belt Sweep / Steward Action
     LockerBayTransfer --> NotifyRequester
+    NotifyRequester --> ReturnToInventory: Timeout Boundary Event (Penalty)
     NotifyRequester --> PickupValidated: QR/NFC Auth
     PickupValidated --> SettleLedger
     SettleLedger --> [*]
@@ -77,9 +82,9 @@ Layer 5 acts as the cryptographic traffic cop and judge. It ingests the JSON-LD 
 Layer 5 governs these multiple workflows via **Policy Gates**:
 
 *   **Execution Gate (Acoustic & Energy Budgeting):** If a `FabricationIntent` requests high-temperature ABS printing at 2:00 AM, Layer 5 checks the local acoustic zoning policy. If the Node is in a residential cluster, the policy rejects the intent or queues it for daylight hours, preventing neighbor disputes.
-*   **Maintenance Gate (Competency Gating):** If a `MaintenanceIntent` is generated to replace a 500°C hotend, Layer 5 consults the Web of Trust. It will *only* forward the maintenance bounty to a Steward whose decentralized identity holds a `Hardware_Maintenance_L2` Verifiable Credential. This prevents unskilled users from physically damaging the public utility.
-*   **Procurement Gate (Fiat Capital Allocation):** If a `ProcurementIntent` requires spending legacy fiat (via the Layer 7 SPC) to buy bulk PETG, Layer 5 evaluates the cost. If the cost is $<\$50$, it auto-approves via pre-authorized budget. If it is $>\$50$, Layer 5 suspends the workflow and triggers a multi-sig consensus request, requiring 3-of-5 local Stewards to cryptographically sign off before the fiat is spent.
-*   **Logistics Gate (Reputation Escrow):** If a user requests a tool checkout or delivery, Layer 5 verifies their Reputational Weight on the ledger. If they have a history of returning tools broken, the policy demands a higher Value Token collateral lock before releasing the smart locker latch.
+*   **Maintenance Gate (Competency Gating):** If a `MaintenanceIntent` is generated to replace a 500°C hotend, Layer 5 consults the Web of Trust. It requires a `Hardware_Maintenance_L2` Verifiable Credential. Alternatively, novices can enter "Apprentice Mode" by co-signing the intent with a Master Steward, earning credential fragments (XP) by physically shadowing the repair.
+*   **Procurement Gate (Fiat Capital Allocation):** If a `ProcurementIntent` requires spending legacy fiat, Layer 5 evaluates the cost. If $>\$50$, it triggers a 3-of-5 multi-sig consensus request with an explicit BPMN Timer Boundary (TTL). If the TTL expires before consensus, the intent is rejected to prevent hanging state.
+*   **Logistics Gate (Reputation Escrow):** If a user requests a tool checkout, Layer 5 verifies a Zero-Knowledge Proof (ZKP) derived from their Verifiable Credentials. This proves they meet the safe-return threshold without leaking their entire behavioral history, preserving self-sovereign privacy.
 
 ### Layer 6: Semantic Intent & The Fabrication Ontology
 The network does not understand "I need a part." Layer 6 is responsible for mapping raw human needs into strict, machine-readable JSON-LD Knowledge Artifacts. 
@@ -88,8 +93,9 @@ For the Fabrication Commons, Layer 6 maintains a specific ontology that categori
 1.  **`FabricationIntent` (Execution):** The request to convert digital geometry or CAD paths into physical matter (via FDM printer, CNC, or laser).
 2.  **`ToolCheckoutIntent` (Library Access):** The request to temporarily check out a portable physical asset (e.g., lawn mower, oscilloscope). Contains duration bounds and collateral terms.
 3.  **`MaintenanceIntent` (Hardware Care):** Emitted automatically by Layer 2 (e.g., "extruder clogged" or "mower blade dull") or manually by a user.
-4.  **`ProcurementIntent` (Supply Chain):** Emitted when internal hoppers report low raw materials (filament, protoboards, lumber), requesting replenishment.
-5.  **`LogisticsIntent` (Movement):** The request to physically transport a part or checked-out tool from the Node to a remote Trust Ring pod.
+4.  **`ProcurementIntent` (Supply Chain):** Emitted when internal hoppers report low raw materials, requesting replenishment.
+5.  **`LogisticsIntent` (Movement):** The request to physically transport a part or checked-out tool.
+6.  **`SalvageIntent` (Recycling):** Emitted on hardware failure, generating a "Scrap Bounty" to retrieve failed polymer and feed it into a local recycler.
 
 Layer 6 bundles these intents with cryptographic signatures (proving *who* is asking) and hands them down to Layer 5 for evaluation.
 
@@ -147,7 +153,7 @@ The Fabrication Commons does not exist in a vacuum; it actively interfaces with 
 To fund the Node’s legacy tethers (property tax, ISP bills, equipment maintenance), the SPC operates a standard, outward-facing Web2 storefront (e.g., integrating the Stripe API). Legacy consumers upload `.stl` files for commercial 3D printing, or pay fiat to rent high-end tools (like a commercial CNC or lawn mower) at legacy market rates.
 *   The Layer 7 API intercepts the fiat payment into the SPC bank account.
 *   The API automatically generates a Layer 6 `FabricationBounty` or `ToolCheckoutIntent` on the internal mesh.
-*   The local Steward facilitates the print or tool handover and is compensated in internal Value Tokens. The fiat is trapped and retained by the Node's treasury, effectively subsidizing the sovereign infrastructure using external legacy consumption.
+*   The local Steward facilitates the print or tool handover and is compensated in internal Value Tokens. The fiat is trapped and retained by the Node's treasury. This treasury functions as a "Community Tech Tree"—the Trust Ring pools tokens and uses Layer 5 Governance to vote on the next infrastructure unlock (e.g., "Purchase Resin Printer" or "Upgrade Solar Capacity"), gamifying public utility growth.
 
 **2. Ecological Leeching (Outbound Stewarded Procurement)**
 When a local citizen needs materials the mesh *cannot* physically manufacture (e.g., a NEMA 17 stepper motor, bulk protoboards, specialized woodworking blades, or bulk raw PETG pellets), the intent hits a "Fabrication Ceiling" at Layer 4. 
@@ -309,9 +315,9 @@ void test_scenario_alpha_fabrication() {
         .target_locker_id = 3
     };
 
-    // Assert Escrow Lock
-    bool escrow_success = orchestrator.lock_escrow(requester_wallet, 3.50f);
-    assert(escrow_success);
+    // Assert Escrow Lock (Async Pattern)
+    orchestrator.emit_event(EscrowInitiatedEvent{requester_wallet, 3.50f});
+    orchestrator.await_event<EscrowLockedEvent>();
     assert(requester_wallet.balance() == 96.50f);
 
     // Simulate Layer 2 Telemetry Tick Loop
@@ -326,6 +332,27 @@ void test_scenario_alpha_fabrication() {
     // Ensure physical locker voxel updated to LOCKED_OCCUPIED state
     Voxel locker_voxel = chunk_mgr.get_voxel(16, 9, 16);
     assert(locker_voxel.material_id == 17); // SMART_LOCKER_SECURED
+}
+
+void test_scenario_alpha_fabrication_anomaly() {
+    using namespace oasis;
+    ChunkManager chunk_mgr;
+    chunk_mgr.allocate_chunk(0, 0, 0);
+    BPMNEngine orchestrator;
+    orchestrator.load_schema("schemas/bpmn/fabrication_pipeline.bpmn");
+    CRDTWallet requester_wallet("did:mesh:node04:steward_alice", 100.0f);
+    JobContext job{.bounty_id = "fail-test", .filament_required_grams = 40.0f};
+    
+    orchestrator.emit_event(EscrowInitiatedEvent{requester_wallet, 3.50f});
+    orchestrator.await_event<EscrowLockedEvent>();
+
+    // Inject spaghetti failure at tick 2000
+    SimResult res = orchestrator.step_simulation_ticks(chunk_mgr, job, 2000, true);
+    
+    assert(res.status == ExecutionStatus::EMERGENCY_STOP);
+    assert(orchestrator.current_state() == BPMNState::SALVAGE_INTENT);
+    // Assert partial refund for unextruded filament
+    assert(requester_wallet.balance() > 96.50f && requester_wallet.balance() < 100.0f);
 }
 ```
 
