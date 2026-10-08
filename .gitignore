@@ -51,3 +51,10 @@ COUNCIL_TRANSCRIPT.md
 .idea/
 *.swp
 *~
+
+# Python artifacts
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
