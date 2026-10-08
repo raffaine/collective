@@ -280,13 +280,79 @@ function decodePngRgba(buffer) {
   };
 }
 
+// Suburban Sprawl Material Palette Reference
+const SUBURBAN_MATERIALS = [
+  { id: 1, name: 'Asphalt Roadway', hex: '#222428', baseRgb: [34, 36, 40] },
+  { id: 2, name: 'Yellow Centerline', hex: '#d4af37', baseRgb: [212, 175, 55] },
+  { id: 3, name: 'Concrete Sidewalk / Curb', hex: '#8c8e90', baseRgb: [140, 142, 144] },
+  { id: 4, name: 'Parched Lawn / Dead Grass', hex: '#7a7258', baseRgb: [122, 114, 88] },
+  { id: 5, name: 'Weathered Wood Siding', hex: '#5c6b73', baseRgb: [92, 107, 115] },
+  { id: 6, name: 'Dark Shingle Roof', hex: '#2b2d42', baseRgb: [43, 45, 66] },
+  { id: 7, name: 'Window Glass', hex: '#3d5a80', baseRgb: [61, 90, 128] },
+  { id: 8, name: 'Creosote Utility Pole', hex: '#3e2723', baseRgb: [62, 39, 35] },
+  { id: 9, name: 'Transformer Steel / Wire', hex: '#9e9e9e', baseRgb: [158, 158, 158] },
+  { id: 10, name: 'Boundary Fence Timber', hex: '#6d4c41', baseRgb: [109, 76, 65] },
+  { id: 11, name: 'Atmospheric Sky Gradient', hex: '#4e80d9', baseRgb: [78, 128, 217] },
+];
+
+function classifyMaterial(rgb) {
+  let bestMat = null;
+  let minDistance = Infinity;
+  for (const mat of SUBURBAN_MATERIALS) {
+    const dr = rgb[0] - mat.baseRgb[0];
+    const dg = rgb[1] - mat.baseRgb[1];
+    const db = rgb[2] - mat.baseRgb[2];
+    const dist = Math.sqrt(dr * dr + dg * dg + db * db);
+    if (dist < minDistance) {
+      minDistance = dist;
+      bestMat = mat;
+    }
+  }
+  return bestMat;
+}
+
+// Validate Flecs Cognitive Core Console Logs
+function validateConsoleLogs(logs) {
+  console.log(`\n--- Flecs Cognitive ECS Console Log Verification ---`);
+  console.log(`Total Captured Browser Console Messages: ${logs.length}`);
+
+  const founderMemoryLogs = logs.filter(l => l.includes('[Oasis Cognitive Core] Founder Memory: tick='));
+  const diagnosticSummaryLogs = logs.filter(l => l.includes('[Oasis Cognitive Core] Diagnostic Summary:'));
+
+  console.log(`Founder Memory Event Logs Detected:     ${founderMemoryLogs.length}`);
+  for (const line of founderMemoryLogs.slice(0, 8)) {
+    console.log(`  [Memory Event] ${line.trim()}`);
+  }
+  if (founderMemoryLogs.length > 8) {
+    console.log(`  ... (${founderMemoryLogs.length - 8} more memory events logged)`);
+  }
+
+  console.log(`Diagnostic Summary Logs Detected:       ${diagnosticSummaryLogs.length}`);
+  for (const line of diagnosticSummaryLogs) {
+    console.log(`  [Diagnostic]   ${line.trim()}`);
+  }
+
+  if (founderMemoryLogs.length === 0) {
+    throw new Error('Verification FAILED: No Flecs episodic memory logs found matching "[Oasis Cognitive Core] Founder Memory: tick="');
+  }
+
+  // Validate memory log format
+  const sampleLog = founderMemoryLogs[0];
+  if (!sampleLog.includes('tick=') || !sampleLog.includes('salience=') || !sampleLog.includes('stress=')) {
+    throw new Error(`Verification FAILED: Founder Memory log does not match expected format: "${sampleLog}"`);
+  }
+
+  console.log('Flecs Cognitive Core Memory Logging:   VERIFIED (Genuine ECS Events Captured)');
+}
+
 // 4. Validate Genuine Rendered 3D DDA Pixels
 function validateRenderOutput(renderResult) {
   console.log(`\n--- 3D DDA Visual Verification Pixel Data ---`);
   console.log(`Canvas Dimension:        ${renderResult.w}x${renderResult.h}`);
 
   for (const probe of renderResult.probes) {
-    console.log(`Probe [${probe.id.padEnd(12)} (${String(probe.x).padStart(3)}, ${String(probe.y).padStart(3)})]: RGBA=[${probe.rgba.map(v => String(v).padStart(3)).join(', ')}] - ${probe.label}`);
+    const mat = classifyMaterial(probe.rgba);
+    console.log(`Probe [${probe.id.padEnd(14)} (${String(probe.x).padStart(3)}, ${String(probe.y).padStart(3)})]: RGBA=[${probe.rgba.map(v => String(v).padStart(3)).join(', ')}] -> Mat: [${mat.name}] - ${probe.label}`);
   }
 
   const isNonBlack = (p) => (p[0] > 0 || p[1] > 0 || p[2] > 0) && p[3] > 0;
@@ -322,9 +388,9 @@ function validateRenderOutput(renderResult) {
   const varB = allSamples.reduce((s, p) => s + Math.pow(p[2] - meanB, 2), 0) / allSamples.length;
   const totalStdDev = Math.sqrt(varR + varG + varB);
 
-  console.log(`Spatial Color StdDev:    ${totalStdDev.toFixed(2)}`);
-  if (totalStdDev < 5.0) {
-    throw new Error(`Canvas appears to be flat with zero 3D variance (StdDev=${totalStdDev.toFixed(2)})`);
+  console.log(`Spatial Color StdDev:    ${totalStdDev.toFixed(2)} (Enforced Threshold: >= 15.0)`);
+  if (totalStdDev < 15.0) {
+    throw new Error(`Canvas appears to lack sufficient 3D spatial variance (StdDev=${totalStdDev.toFixed(2)}, expected >= 15.0)`);
   }
 
   // 4. Sample specific points that hit procedural voxels vs background/sky
@@ -338,16 +404,30 @@ function validateRenderOutput(renderResult) {
     throw new Error(`Procedural voxels and sky background lack sufficient contrast (Delta=${skyFloorDelta})`);
   }
 
-  // 5. Unique color count across grid samples (confirming multi-material / multi-angle shading)
+  // 5. Unique color count & material classification across grid samples and probes
   const uniqueColors = new Set(allSamples.map(p => `${p[0]},${p[1]},${p[2]}`));
+  const detectedMaterials = new Map();
+
+  for (const sample of [...allSamples, ...renderResult.probes.map(p => p.rgba)]) {
+    const mat = classifyMaterial(sample);
+    detectedMaterials.set(mat.id, mat.name);
+  }
+
   console.log(`Unique Sampled Colors:   ${uniqueColors.size} distinct colors across 25 grid samples`);
-  if (uniqueColors.size < 3) {
-    throw new Error(`Insufficient color palette in raymarched scene: only ${uniqueColors.size} unique colors detected`);
+  console.log(`Detected Biome Materials: ${detectedMaterials.size} distinct materials detected (${Array.from(detectedMaterials.values()).join(', ')})`);
+
+  if (detectedMaterials.size < 5) {
+    throw new Error(`Insufficient material diversity in Suburban Sprawl biome: only ${detectedMaterials.size} distinct materials detected (expected >= 5)`);
+  }
+  if (uniqueColors.size < 5) {
+    throw new Error(`Insufficient color palette in raymarched scene: only ${uniqueColors.size} unique colors detected (expected >= 5)`);
   }
 
   console.log('\n======================================================');
+  console.log('Visual Verification Passed');
   console.log('Automated Visual Verification Passed');
   console.log('3D DDA Raymarcher Verified');
+  console.log('Procedural Legacy Biome Verified: Suburban Sprawl ("Lot 402 & Cul-de-sac")');
   console.log('======================================================');
 }
 
@@ -488,9 +568,18 @@ async function runHeadlessChromeVerification() {
     const cdp = new ChromeDevToolsClient(targetWsUrl);
     await cdp.waitOpen();
 
+    const capturedConsoleLogs = [];
+
     cdp.on('Runtime.consoleAPICalled', (params) => {
       const line = params.args.map((a) => a.value ?? a.description ?? '').join(' ');
+      capturedConsoleLogs.push(line);
       console.log(`[Browser Console] [${params.type}] ${line}`);
+    });
+
+    cdp.on('Console.messageAdded', (params) => {
+      if (params.message && params.message.text) {
+        capturedConsoleLogs.push(params.message.text);
+      }
     });
 
     cdp.on('Runtime.exceptionThrown', (params) => {
@@ -619,17 +708,21 @@ async function runHeadlessChromeVerification() {
           const w = image.width;
           const h = image.height;
 
-          // Multi-point probe layout across semantic regions
+          // Multi-point probe layout across Suburban Sprawl semantic regions
           const probeDefinitions = [
-            { id: 'center', label: 'Center (Voxel Monolith)', x: Math.floor(w * 0.5), y: Math.floor(h * 0.5) },
-            { id: 'floorCenter', label: 'Floor Center (Voxel Grid)', x: Math.floor(w * 0.5), y: Math.floor(h * 0.85) },
-            { id: 'floorLeft', label: 'Floor Left (Voxel Grid)', x: Math.floor(w * 0.2), y: Math.floor(h * 0.85) },
-            { id: 'floorRight', label: 'Floor Right (Voxel Grid)', x: Math.floor(w * 0.8), y: Math.floor(h * 0.85) },
-            { id: 'skyCenter', label: 'Sky/Zenith Center', x: Math.floor(w * 0.5), y: Math.floor(h * 0.15) },
-            { id: 'skyLeft', label: 'Sky/Horizon Left', x: Math.floor(w * 0.15), y: Math.floor(h * 0.2) },
-            { id: 'skyRight', label: 'Sky/Horizon Right', x: Math.floor(w * 0.85), y: Math.floor(h * 0.2) },
-            { id: 'midLeft', label: 'Mid-Left Flank', x: Math.floor(w * 0.15), y: Math.floor(h * 0.5) },
-            { id: 'midRight', label: 'Mid-Right Flank', x: Math.floor(w * 0.85), y: Math.floor(h * 0.5) },
+            { id: 'center', label: 'Road Vista / Yellow Centerline', x: Math.floor(w * 0.5), y: Math.floor(h * 0.5) },
+            { id: 'floorCenter', label: 'Asphalt Roadway (Foreground)', x: Math.floor(w * 0.5), y: Math.floor(h * 0.85) },
+            { id: 'floorLeft', label: 'Parched Lawn / Dead Grass (Foreground Left)', x: Math.floor(w * 0.2), y: Math.floor(h * 0.85) },
+            { id: 'floorRight', label: 'Parched Lawn / Dead Grass (Foreground Right)', x: Math.floor(w * 0.8), y: Math.floor(h * 0.85) },
+            { id: 'sidewalkLeft', label: 'Concrete Sidewalk / Curb (Left)', x: Math.floor(w * 0.35), y: Math.floor(h * 0.85) },
+            { id: 'sidewalkRight', label: 'Concrete Sidewalk / Curb (Right)', x: Math.floor(w * 0.65), y: Math.floor(h * 0.85) },
+            { id: 'skyCenter', label: 'Sky Zenith (Atmospheric Gradient)', x: Math.floor(w * 0.5), y: Math.floor(h * 0.15) },
+            { id: 'skyLeft', label: 'Sky Horizon / Overhead Grid (Upper Left)', x: Math.floor(w * 0.15), y: Math.floor(h * 0.2) },
+            { id: 'skyRight', label: 'Sky Horizon / Overhead Grid (Upper Right)', x: Math.floor(w * 0.85), y: Math.floor(h * 0.2) },
+            { id: 'midLeft', label: 'Weathered Wood Siding / House (Mid Left)', x: Math.floor(w * 0.15), y: Math.floor(h * 0.5) },
+            { id: 'midRight', label: 'Weathered Wood Siding / House (Mid Right)', x: Math.floor(w * 0.85), y: Math.floor(h * 0.5) },
+            { id: 'roofLeft', label: 'Dark Shingle Roof / Residence Inset (Left)', x: Math.floor(w * 0.22), y: Math.floor(h * 0.40) },
+            { id: 'roofRight', label: 'Dark Shingle Roof / Residence Inset (Right)', x: Math.floor(w * 0.78), y: Math.floor(h * 0.40) }
           ];
 
           const probes = probeDefinitions.map(p => ({
@@ -666,6 +759,20 @@ async function runHeadlessChromeVerification() {
     if (!renderResult) {
       throw new Error(`Timeout: Canvas did not render active pixels within ${CONFIG.timeoutMs}ms. Browser errors: ${consoleErrors.join(', ')}`);
     }
+
+    // Allow engine ticks to accumulate memory events and diagnostic summaries in browser console
+    const memoryWaitStart = Date.now();
+    while (Date.now() - memoryWaitStart < 3500) {
+      const hasFounderMemory = capturedConsoleLogs.some(l => l.includes('[Oasis Cognitive Core] Founder Memory: tick='));
+      const hasDiagnostic = capturedConsoleLogs.some(l => l.includes('[Oasis Cognitive Core] Diagnostic Summary:'));
+      if (hasFounderMemory && hasDiagnostic) {
+        break;
+      }
+      await new Promise((r) => setTimeout(r, 200));
+    }
+
+    // Validate Flecs episodic memory console logs
+    validateConsoleLogs(capturedConsoleLogs);
 
     // Validate genuine pixels and output pass banner
     validateRenderOutput(renderResult);

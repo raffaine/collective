@@ -5,6 +5,8 @@
 #include <memory>
 #include <string_view>
 #include <cstring>
+#include <chrono>
+#include <algorithm>
 
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
@@ -13,16 +15,132 @@
 #endif
 
 #include "shaders/raymarch_wgsl.hpp"
+#include "uhai/uhai_ring_buffer.hpp"
 
 namespace oasis {
 namespace psychology {
-    struct PersonalityFacets {
-        float openness;
-        float conscientiousness;
-        float extraversion;
-        float agreeableness;
-        float neuroticism;
-    };
+
+struct PersonalityFacets {
+    float openness{0.8f};
+    float conscientiousness{0.9f};
+    float extraversion{0.6f};
+    float agreeableness{0.7f};
+    float neuroticism{0.3f};
+};
+
+// Memory Event Type IDs
+enum class MemoryEventType : uint16_t {
+    UNKNOWN = 0,
+    GENESIS_AWAKENING = 1,
+    MUNICIPAL_CODE_RAID = 2,
+    SIPHON_POWER_GRID = 3,
+    FIRST_KILOWATT_GENERATED = 4,
+    WATER_MAIN_TAPPED = 5,
+    SOLAR_INVERTER_REPAIR = 6,
+    TOOL_DROPPED = 7,
+    COMMUNAL_FEAST = 8,
+    STRANGE_MOOD_MASTERWORK = 9,
+    FREEZING_WINTER_NIGHT = 10,
+    HOA_VIOLATION_NOTICE = 11
+};
+
+// Memory Bitfield Flags
+namespace MemoryFlags {
+    constexpr uint8_t NONE             = 0x00;
+    constexpr uint8_t PERMANENT_MEMORY = 0x01; // salience >= 80 root trauma / achievement
+    constexpr uint8_t TRAUMA           = 0x02; // Negative valence severe event
+    constexpr uint8_t EUPHORIA         = 0x04; // Positive valence major breakthrough
+}
+
+#pragma pack(push, 8)
+struct alignas(8) EpisodicMemoryNode {
+    uint64_t timestamp_tick{0};     // Tick when event occurred (8 bytes)
+    uint16_t event_type{0};          // MemoryEventType enum (2 bytes)
+    int16_t  emotional_valence{0};   // Emotional valence [-100..+100] (2 bytes)
+    uint8_t  salience{0};            // Salience score [0..100] (1 byte)
+    uint8_t  flags{0};               // Bitfield flags (1 byte)
+    char     description[8]{};       // Short label (8 bytes)
+    uint16_t reserved{0};            // Alignment padding (2 bytes)
+};
+#pragma pack(pop)
+static_assert(sizeof(EpisodicMemoryNode) == 24, "EpisodicMemoryNode must be exactly 24 bytes packed");
+
+struct EpisodicMemoryRing {
+    static constexpr size_t CAPACITY = 32;
+
+    EpisodicMemoryNode slots[CAPACITY]{};
+    uint32_t head{0};
+    uint32_t count{0};
+    uint32_t total_recorded{0};
+    uint32_t permanent_count{0};
+
+    // Push with DF trauma-protection eviction
+    uint32_t Push(const EpisodicMemoryNode& input_node) {
+        EpisodicMemoryNode node = input_node;
+        total_recorded++;
+
+        // When node.salience >= 80, sets PERMANENT_MEMORY flag
+        if (node.salience >= 80) {
+            node.flags |= MemoryFlags::PERMANENT_MEMORY;
+        }
+
+        uint32_t target_slot = head;
+
+        if (count < CAPACITY) {
+            target_slot = head;
+            slots[target_slot] = node;
+            head = (head + 1) % CAPACITY;
+            count++;
+            if ((node.flags & MemoryFlags::PERMANENT_MEMORY) != 0) {
+                permanent_count++;
+            }
+            return target_slot;
+        }
+
+        // Buffer full (count == CAPACITY): DF trauma protection!
+        // Find lowest-salience slot that is NOT flagged PERMANENT_MEMORY
+        int32_t evict_idx = -1;
+        uint32_t min_salience = 0xFFFFFFFF;
+
+        for (size_t i = 0; i < CAPACITY; ++i) {
+            if ((slots[i].flags & MemoryFlags::PERMANENT_MEMORY) == 0 && slots[i].salience < min_salience) {
+                min_salience = slots[i].salience;
+                evict_idx = static_cast<int32_t>(i);
+            }
+        }
+
+        if (evict_idx != -1) {
+            target_slot = static_cast<uint32_t>(evict_idx);
+            slots[target_slot] = node;
+            if ((node.flags & MemoryFlags::PERMANENT_MEMORY) != 0) {
+                permanent_count++;
+            }
+            return target_slot;
+        }
+
+        // If all are permanent, overwrite head
+        target_slot = head;
+        const bool prev_was_permanent = (slots[head].flags & MemoryFlags::PERMANENT_MEMORY) != 0;
+        slots[head] = node;
+        head = (head + 1) % CAPACITY;
+        const bool new_is_permanent = (node.flags & MemoryFlags::PERMANENT_MEMORY) != 0;
+        if (!prev_was_permanent && new_is_permanent) {
+            permanent_count++;
+        } else if (prev_was_permanent && !new_is_permanent) {
+            if (permanent_count > 0) permanent_count--;
+        }
+        return target_slot;
+    }
+};
+
+struct PsychologyComponent {
+    PersonalityFacets facets{0.8f, 0.9f, 0.6f, 0.7f, 0.3f};
+    float stress{0.25f};
+    float mood{0.50f};
+    float focus{0.75f};
+    EpisodicMemoryRing memory_ring{};
+};
+
 } // namespace psychology
 
 namespace graphics {
@@ -62,6 +180,48 @@ struct RenderState {
 
 // Heap-allocated Flecs world to prevent stack use-after-free before async callbacks fire
 static flecs::world* g_ecs = nullptr;
+
+// Monotonic simulation frame counter
+static uint64_t g_sim_tick = 0;
+
+// Global UHAI Telemetry Channel (Producer mode)
+static oasis::uhai::UhaiTelemetryChannel g_telemetry_channel(oasis::uhai::UhaiTelemetryChannel::ChannelMode::Producer);
+
+// Write telemetry frame sample on each engine tick
+static void TickTelemetry() {
+    auto now = std::chrono::steady_clock::now();
+    uint64_t current_time_ns = std::chrono::duration_cast<std::chrono::nanoseconds>(now.time_since_epoch()).count();
+
+    static auto s_last_frame_time = now;
+    auto frame_delta_us = std::chrono::duration_cast<std::chrono::microseconds>(now - s_last_frame_time).count();
+    s_last_frame_time = now;
+    float calculated_fps = (frame_delta_us > 0) ? (1000000.0f / static_cast<float>(frame_delta_us)) : 60.0f;
+    if (calculated_fps > 300.0f || calculated_fps < 1.0f) {
+        calculated_fps = 60.0f;
+    }
+
+    float founder_stress = 0.25f;
+    uint32_t memory_slot_count = 0;
+    if (g_ecs) {
+        auto founder = g_ecs->entity("Founder");
+        if (founder.has<oasis::psychology::PsychologyComponent>()) {
+            const auto& psych = founder.get<oasis::psychology::PsychologyComponent>();
+            founder_stress = psych.stress;
+            memory_slot_count = psych.memory_ring.count;
+        }
+    }
+
+    oasis::uhai::TelemetrySample sample{};
+    sample.frame_count = g_sim_tick;
+    sample.timestamp_ns = current_time_ns;
+    sample.fps = calculated_fps;
+    sample.founder_stress = founder_stress;
+    sample.memory_slot_count = memory_slot_count;
+    sample.biome_id = 1; // 1 = Suburban Sprawl ("Lot 402 & Cul-de-sac")
+    sample.quality_flags = 0x01; // Bit 0: Valid frame telemetry
+
+    g_telemetry_channel.Push(sample);
+}
 
 #ifdef __EMSCRIPTEN__
 void SetupPipeline(oasis::graphics::RenderState& state) {
@@ -232,6 +392,7 @@ void InitWebGPUAsync(uint32_t width, uint32_t height) {
 void EngineTick(void* arg) {
     if (g_ecs) {
         g_ecs->progress();
+        TickTelemetry();
     }
 }
 #endif
@@ -264,10 +425,152 @@ int main() {
     g_ecs = new flecs::world();
     g_ecs->set_target_fps(60.0f);
 
-    // Register psychological facets
+    // Register psychological components
     g_ecs->component<oasis::psychology::PersonalityFacets>();
+    g_ecs->component<oasis::psychology::PsychologyComponent>();
+
+    oasis::psychology::PsychologyComponent founder_psych{};
+    founder_psych.facets = {0.8f, 0.9f, 0.6f, 0.7f, 0.3f};
+    founder_psych.stress = 0.25f;
+    founder_psych.mood = 0.50f;
+    founder_psych.focus = 0.75f;
+
+    // Seed initial Genesis Awakening formative memory (tick 0)
+    oasis::psychology::EpisodicMemoryNode m0{};
+    m0.timestamp_tick = 0;
+    m0.event_type = static_cast<uint16_t>(oasis::psychology::MemoryEventType::GENESIS_AWAKENING);
+    m0.emotional_valence = 40;
+    m0.salience = 65;
+    m0.flags = oasis::psychology::MemoryFlags::NONE;
+    std::strncpy(m0.description, "Genesis", sizeof(m0.description) - 1);
+    uint32_t initial_slot = founder_psych.memory_ring.Push(m0);
+
+    spdlog::info("[Oasis Cognitive Core] Founder Memory: tick={} event={} salience={} stress={:.2f} (Slot {}/32, Permanent={})",
+                 0ULL, m0.description, m0.salience, founder_psych.stress, initial_slot, founder_psych.memory_ring.permanent_count);
+
     g_ecs->entity("Founder")
-        .set<oasis::psychology::PersonalityFacets>({0.8f, 0.9f, 0.6f, 0.7f, 0.3f});
+        .set<oasis::psychology::PersonalityFacets>(founder_psych.facets)
+        .set<oasis::psychology::PsychologyComponent>(founder_psych);
+
+    // Register FounderPsychologySystem in flecs::OnUpdate phase
+    g_ecs->system<oasis::psychology::PsychologyComponent>("FounderPsychologySystem")
+        .kind(flecs::OnUpdate)
+        .each([](oasis::psychology::PsychologyComponent& psych) {
+            g_sim_tick++;
+            const uint64_t tick = g_sim_tick;
+
+            bool recorded = false;
+            oasis::psychology::EpisodicMemoryNode node{};
+            node.timestamp_tick = tick;
+
+            if (tick == 1) {
+                node.event_type = static_cast<uint16_t>(oasis::psychology::MemoryEventType::MUNICIPAL_CODE_RAID);
+                node.emotional_valence = -90;
+                node.salience = 95; // salience >= 80 -> sets PERMANENT_MEMORY
+                node.flags = oasis::psychology::MemoryFlags::TRAUMA;
+                std::strncpy(node.description, "Raid", sizeof(node.description) - 1);
+                psych.stress = 0.65f;
+                psych.mood = 0.20f;
+                recorded = true;
+            } else if (tick == 10) {
+                node.event_type = static_cast<uint16_t>(oasis::psychology::MemoryEventType::SIPHON_POWER_GRID);
+                node.emotional_valence = 50;
+                node.salience = 75;
+                std::strncpy(node.description, "Power", sizeof(node.description) - 1);
+                psych.stress = 0.55f;
+                psych.mood = 0.40f;
+                recorded = true;
+            } else if (tick == 20) {
+                node.event_type = static_cast<uint16_t>(oasis::psychology::MemoryEventType::WATER_MAIN_TAPPED);
+                node.emotional_valence = 45;
+                node.salience = 65;
+                std::strncpy(node.description, "Water", sizeof(node.description) - 1);
+                psych.stress = 0.45f;
+                psych.mood = 0.50f;
+                recorded = true;
+            } else if (tick == 25) {
+                node.event_type = static_cast<uint16_t>(oasis::psychology::MemoryEventType::FIRST_KILOWATT_GENERATED);
+                node.emotional_valence = 85;
+                node.salience = 90; // salience >= 80 -> sets PERMANENT_MEMORY
+                node.flags = oasis::psychology::MemoryFlags::EUPHORIA;
+                std::strncpy(node.description, "Solar", sizeof(node.description) - 1);
+                psych.stress = 0.30f;
+                psych.mood = 0.70f;
+                recorded = true;
+            } else if (tick == 35) {
+                node.event_type = static_cast<uint16_t>(oasis::psychology::MemoryEventType::SOLAR_INVERTER_REPAIR);
+                node.emotional_valence = 30;
+                node.salience = 55;
+                std::strncpy(node.description, "Invert", sizeof(node.description) - 1);
+                psych.stress = 0.28f;
+                psych.mood = 0.72f;
+                recorded = true;
+            } else if (tick == 45) {
+                node.event_type = static_cast<uint16_t>(oasis::psychology::MemoryEventType::TOOL_DROPPED);
+                node.emotional_valence = -15;
+                node.salience = 25;
+                std::strncpy(node.description, "Tool", sizeof(node.description) - 1);
+                psych.stress = 0.32f;
+                psych.mood = 0.68f;
+                recorded = true;
+            } else if (tick == 55) {
+                node.event_type = static_cast<uint16_t>(oasis::psychology::MemoryEventType::COMMUNAL_FEAST);
+                node.emotional_valence = 80;
+                node.salience = 85; // salience >= 80 -> sets PERMANENT_MEMORY
+                node.flags = oasis::psychology::MemoryFlags::EUPHORIA;
+                std::strncpy(node.description, "Feast", sizeof(node.description) - 1);
+                psych.stress = 0.22f;
+                psych.mood = 0.85f;
+                recorded = true;
+            } else if (tick > 60 && (tick % 15 == 0)) {
+                uint32_t cycle = (tick / 15) % 5;
+                if (cycle == 0) {
+                    node.event_type = static_cast<uint16_t>(oasis::psychology::MemoryEventType::HOA_VIOLATION_NOTICE);
+                    node.emotional_valence = -60;
+                    node.salience = 82; // salience >= 80 -> sets PERMANENT_MEMORY
+                    std::strncpy(node.description, "HOA", sizeof(node.description) - 1);
+                    psych.stress = std::min(1.0f, psych.stress + 0.15f);
+                } else if (cycle == 1) {
+                    node.event_type = static_cast<uint16_t>(oasis::psychology::MemoryEventType::STRANGE_MOOD_MASTERWORK);
+                    node.emotional_valence = 95;
+                    node.salience = 88; // salience >= 80 -> sets PERMANENT_MEMORY
+                    node.flags = oasis::psychology::MemoryFlags::EUPHORIA;
+                    std::strncpy(node.description, "Master", sizeof(node.description) - 1);
+                    psych.mood = std::min(1.0f, psych.mood + 0.20f);
+                } else if (cycle == 2) {
+                    node.event_type = static_cast<uint16_t>(oasis::psychology::MemoryEventType::FREEZING_WINTER_NIGHT);
+                    node.emotional_valence = -40;
+                    node.salience = 70;
+                    std::strncpy(node.description, "Freeze", sizeof(node.description) - 1);
+                    psych.stress = std::min(1.0f, psych.stress + 0.08f);
+                } else if (cycle == 3) {
+                    node.event_type = static_cast<uint16_t>(oasis::psychology::MemoryEventType::TOOL_DROPPED);
+                    node.emotional_valence = -10;
+                    node.salience = 20;
+                    std::strncpy(node.description, "DropTool", sizeof(node.description) - 1);
+                } else {
+                    node.event_type = static_cast<uint16_t>(oasis::psychology::MemoryEventType::SIPHON_POWER_GRID);
+                    node.emotional_valence = 40;
+                    node.salience = 60;
+                    std::strncpy(node.description, "TapGrid", sizeof(node.description) - 1);
+                    psych.stress = std::max(0.1f, psych.stress - 0.05f);
+                }
+                recorded = true;
+            }
+
+            if (recorded) {
+                uint32_t slot = psych.memory_ring.Push(node);
+                spdlog::info("[Oasis Cognitive Core] Founder Memory: tick={} event={} salience={} stress={:.2f} (Slot {}/32, Permanent={})",
+                             tick, node.description, node.salience, psych.stress, slot, psych.memory_ring.permanent_count);
+            }
+
+            // Periodic diagnostic memory summary every 60 ticks
+            if (tick % 60 == 0) {
+                spdlog::info("[Oasis Cognitive Core] Diagnostic Summary: tick={} | Total Recorded: {} | Active Slots: {}/32 | Permanent: {} | Stress: {:.2f} | Mood: {:.2f} | Focus: {:.2f}",
+                             tick, psych.memory_ring.total_recorded, psych.memory_ring.count, psych.memory_ring.permanent_count,
+                             psych.stress, psych.mood, psych.focus);
+            }
+        });
 
     // Register Renderer entity with non-zero size RenderState
     g_ecs->component<oasis::graphics::RenderState>();
@@ -298,6 +601,7 @@ int main() {
 
     int ticks = 0;
     while (g_ecs->progress()) {
+        TickTelemetry();
         ticks++;
         if (ticks >= 60) break;
     }

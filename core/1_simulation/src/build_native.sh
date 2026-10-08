@@ -22,5 +22,8 @@ echo "Compiling natively..."
 make -j4
 
 echo "=== Build Complete ==="
-echo "Run the engine natively:"
-echo "./oasis_engine"
+echo "Executables built:"
+echo "  ./oasis_engine"
+echo "  ./col_telemetryd"
+echo "  ./test_uhai_ring_buffer"
+

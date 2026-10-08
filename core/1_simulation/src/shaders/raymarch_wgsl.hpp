@@ -27,31 +27,79 @@ fn vs_main(@builtin(vertex_index) vertex_index : u32) -> VertexOutput {
     return out;
 }
 
-// Procedural voxel query: returns 0u for empty air, or material ID > 0u
+// Procedural Suburban Sprawl Legacy Biome ("Lot 402 & Cul-de-sac")
+// Returns 0u for empty air, or 1u..10u for distinct procedural materials
 fn get_voxel_material(pos: vec3<i32>) -> u32 {
-    // 1. Checkered floor at y == 0
+    let absX = abs(pos.x);
+    let lotZ = (pos.z % 16 + 16) % 16; // 16-voxel periodic residential lot pitch
+
+    // --- Layer 0: Ground Plane & Road Infrastructure ---
     if (pos.y == 0) {
-        if (abs(pos.x) <= 12 && pos.z >= -6 && pos.z <= 16) {
-            let check = ((pos.x + pos.z) & 1);
-            if (check == 0) {
-                return 1u; // Slate tile
-            } else {
-                return 2u; // Sandstone tile
+        // Central Asphalt Roadway (|x| <= 3)
+        if (absX <= 3) {
+            // Intermittent yellow double centerline
+            if (pos.x == 0 && (pos.z % 4 >= 2 || pos.z % 4 <= -2)) {
+                return 2u; // Material 2: Yellow centerline (#d4af37)
+            }
+            return 1u; // Material 1: Asphalt roadway (#222428)
+        }
+        // Concrete Curbs & Sidewalks (|x| in [4, 5])
+        if (absX == 4 || absX == 5) {
+            return 3u; // Material 3: Concrete sidewalk/curbs (#8c8e90)
+        }
+        // Concrete driveways leading to garages
+        if (absX >= 6 && absX <= 8 && lotZ >= 1 && lotZ <= 3) {
+            return 3u; // Material 3: Concrete driveway
+        }
+        // Parched lawn / dead suburban grass (|x| in [6, 24])
+        if (absX >= 6 && absX <= 24) {
+            return 4u; // Material 4: Parched lawn / dead grass (#7a7258)
+        }
+    }
+
+    // --- Layer 1-8: Legacy Electrical Grid Infrastructure ---
+    if (pos.y >= 1 && pos.y <= 8) {
+        // Wooden utility poles along curb line (x == 5, at lot boundaries lotZ == 0)
+        if (pos.x == 5 && lotZ == 0 && pos.y <= 7) {
+            return 8u; // Material 8: Utility timber pole (#3e2723)
+        }
+        // Crossarm at pole top (y == 7, x in [4, 6], lotZ == 0)
+        if (pos.x >= 4 && pos.x <= 6 && lotZ == 0 && pos.y == 7) {
+            return 8u; // Utility timber crossarm (#3e2723)
+        }
+        // Pole-mounted distribution transformer (x == 5, lotZ == 1, y == 6)
+        if (pos.x == 5 && lotZ == 1 && pos.y == 6) {
+            return 9u; // Material 9: Transformer / grid hardware (#9e9e9e)
+        }
+        // Longitudinal overhead power line wire (x == 4, y == 7, z in [-10, 40])
+        if (pos.x == 4 && pos.y == 7 && pos.z >= -10 && pos.z <= 40) {
+            return 9u; // Material 9: Conductor wire / grid hardware (#9e9e9e)
+        }
+    }
+
+    // --- Layer 1-6: Suburban Residences (Lot 402 & neighbors) ---
+    if (absX >= 9 && absX <= 17 && lotZ >= 2 && lotZ <= 10) {
+        // Front reflective windows facing the street (at facade absX == 9, lotZ in {4, 8}, y == 2)
+        if (absX == 9 && (lotZ == 4 || lotZ == 8) && pos.y == 2) {
+            return 7u; // Material 7: Window glass (#3d5a80)
+        }
+        // Ground & second floor walls (y in [1, 3])
+        if (pos.y >= 1 && pos.y <= 3) {
+            return 5u; // Material 5: Weathered wood siding (#5c6b73)
+        }
+        // Sloped gable roof (y in [4, 6])
+        if (pos.y >= 4 && pos.y <= 6) {
+            let roof_inset = pos.y - 3;
+            if (absX >= (9 + roof_inset) && absX <= (17 - roof_inset) &&
+                lotZ >= (2 + roof_inset) && lotZ <= (10 - roof_inset)) {
+                return 6u; // Material 6: Dark shingle roof (#2b2d42)
             }
         }
     }
 
-    // 2. Central floating monolith structure:
-    // Hovering at y in [1, 2], centered on x in [-1, 1], z in [0, 2]
-    if (pos.y >= 1 && pos.y <= 2 && abs(pos.x) <= 1 && pos.z >= 0 && pos.z <= 2) {
-        return 3u; // Vibrant amber / gold monolith
-    }
-
-    // 3. Four corner decorative pillars at y in [1, 3]
-    if (pos.y >= 1 && pos.y <= 3) {
-        if ((pos.x == -3 || pos.x == 3) && (pos.z == -1 || pos.z == 5)) {
-            return 4u; // Teal pillar
-        }
+    // --- Layer 1: Property Boundary Fences ---
+    if (pos.y == 1 && (lotZ == 15 || lotZ == 1) && absX >= 7 && absX <= 20) {
+        return 10u; // Material 10: Boundary fences (#6d4c41)
     }
 
     return 0u; // Air
@@ -118,7 +166,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
     var hit_normal = vec3<f32>(0.0);
     var hit_mat: u32 = 0u;
 
-    const MAX_STEPS: i32 = 96;
+    const MAX_STEPS: i32 = 128;
     for (var i = 0; i < MAX_STEPS; i++) {
         // Step along axis with minimum distance to next voxel boundary
         if (sideDist.x < sideDist.y) {
@@ -147,8 +195,10 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             }
         }
 
-        // Bounding space early exit: avoid wasted ray steps outside populated scene volume
-        if ((mapPos.y > 4 && step.y > 0) || (mapPos.y < 0 && step.y < 0) || (mapPos.z > 18 && step.z > 0)) {
+        // Bounding space early exit: volume y in [0, 12], z in [-10, 42], |x| <= 28
+        if ((mapPos.y > 12 && step.y > 0) || (mapPos.y < 0 && step.y < 0) ||
+            (mapPos.z > 42 && step.z > 0) || (mapPos.z < -10 && step.z < 0) ||
+            (mapPos.x > 28 && step.x > 0) || (mapPos.x < -28 && step.x < 0)) {
             break;
         }
 
@@ -164,21 +214,33 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         return vec4<f32>(get_sky_color(rd), 1.0);
     }
 
-    // Voxel hit material coloring
+    // 10 distinct procedural materials for Suburban Sprawl biome
     var base_color: vec3<f32>;
     if (hit_mat == 1u) {
-        base_color = vec3<f32>(0.35, 0.38, 0.42); // Slate floor tile
+        base_color = vec3<f32>(0.133, 0.141, 0.157); // Material 1: Asphalt roadway (#222428)
     } else if (hit_mat == 2u) {
-        base_color = vec3<f32>(0.60, 0.55, 0.48); // Sandstone floor tile
+        base_color = vec3<f32>(0.831, 0.686, 0.216); // Material 2: Yellow centerline (#d4af37)
     } else if (hit_mat == 3u) {
-        base_color = vec3<f32>(0.92, 0.68, 0.22); // Amber gold monolith
+        base_color = vec3<f32>(0.549, 0.557, 0.565); // Material 3: Concrete sidewalk/curbs (#8c8e90)
     } else if (hit_mat == 4u) {
-        base_color = vec3<f32>(0.22, 0.78, 0.68); // Teal pillar
+        base_color = vec3<f32>(0.478, 0.447, 0.345); // Material 4: Parched lawn / dead grass (#7a7258)
+    } else if (hit_mat == 5u) {
+        base_color = vec3<f32>(0.361, 0.420, 0.451); // Material 5: Weathered wood siding (#5c6b73)
+    } else if (hit_mat == 6u) {
+        base_color = vec3<f32>(0.169, 0.176, 0.259); // Material 6: Dark shingle roofs (#2b2d42)
+    } else if (hit_mat == 7u) {
+        base_color = vec3<f32>(0.239, 0.353, 0.502); // Material 7: Window glass (#3d5a80)
+    } else if (hit_mat == 8u) {
+        base_color = vec3<f32>(0.243, 0.153, 0.137); // Material 8: Utility timber poles (#3e2723)
+    } else if (hit_mat == 9u) {
+        base_color = vec3<f32>(0.620, 0.620, 0.620); // Material 9: Transformers / grid hardware (#9e9e9e)
+    } else if (hit_mat == 10u) {
+        base_color = vec3<f32>(0.427, 0.298, 0.255); // Material 10: Boundary fences (#6d4c41)
     } else {
         base_color = vec3<f32>(0.50, 0.50, 0.50);
     }
 
-    // Directional light from upper-right-front
+    // Directional lighting from upper-right-front
     let light_dir = normalize(vec3<f32>(0.5, 0.8, -0.4));
     let diff = max(dot(hit_normal, light_dir), 0.0);
     let ambient = 0.32;

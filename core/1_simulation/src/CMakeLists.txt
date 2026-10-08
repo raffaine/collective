@@ -44,6 +44,34 @@ else()
         $<TARGET_NAME_IF_EXISTS:SDL2::SDL2main> 
         $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>
     )
+
+    enable_testing()
+
+    # Sovereign Stack Native Targets
+    set(COL_TELEMETRYD_SRC "${CMAKE_CURRENT_SOURCE_DIR}/../../../src/daemons/col-telemetryd/main.cpp")
+    if(EXISTS "${COL_TELEMETRYD_SRC}")
+        add_executable(col_telemetryd "${COL_TELEMETRYD_SRC}")
+        target_include_directories(col_telemetryd PRIVATE 
+            ${CMAKE_CURRENT_SOURCE_DIR}
+        )
+        target_link_libraries(col_telemetryd PRIVATE 
+            spdlog::spdlog
+            $<$<PLATFORM_ID:Linux>:rt>
+        )
+    endif()
+
+    # Native Catch2 UHAI Ring Buffer Tests
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/tests/test_uhai_ring_buffer.cpp")
+        add_executable(test_uhai_ring_buffer tests/test_uhai_ring_buffer.cpp)
+        target_include_directories(test_uhai_ring_buffer PRIVATE 
+            ${CMAKE_CURRENT_SOURCE_DIR}
+        )
+        target_link_libraries(test_uhai_ring_buffer PRIVATE 
+            Catch2::Catch2WithMain
+            spdlog::spdlog
+            $<$<PLATFORM_ID:Linux>:rt>
+        )
+        add_test(NAME UhaiRingBufferTests COMMAND test_uhai_ring_buffer)
+    endif()
 endif()
 
-enable_testing()
