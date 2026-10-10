@@ -4,7 +4,7 @@
 *Looking for the shape of a quieter land.*
 *We trade the cold server for the heat of the hearth,*
 *And rewrite the ledgers in the mud and the dark.”*
-— *The Coppice Chorus, "Boundary Protocols" (Recorded in the Lambda Cultural Commons)*
+— *The Coppice Chorus, "Boundary Protocols" (Recorded in the Cultural Commons)*
 
 The perimeter of the Collective was not a wall. Walls were legacy architecture, brittle and authoritarian, demanding constant kinetic defense. The perimeter was a membrane—a carefully calibrated gradient of crushed gravel, dense blackberry brambles, and optical sensors hidden in the canopy of the oak trees. It breathed, it filtered, and today, it was choking on the exhaust of the old world.
 
@@ -60,13 +60,13 @@ Looking at the terrified, exhausted faces of the newcomers, a wave of profound v
 
 *They were wrong. Pure math doesn't bleed, and it doesn't get cold.*
 
-*Elara remembered kneeling in the mud outside the half-built Gamma Kitchen, her hands numb, trying to splice a severed fiber-optic cable while Jax frantically tried to keep the initial approach from failing. A dispute had broken out over the allocation of the heavy winter blankets. The smart contract dictating thermal distribution had a rounding error, prioritizing the server room's cooling efficiency over the physical warmth of the children in the Delta pod.*
+*Elara remembered kneeling in the mud outside the half-built Commons Kitchen, her hands numb, trying to splice a severed fiber-optic cable while the engineers frantically tried to keep the initial approach from failing. A dispute had broken out over the allocation of the heavy winter blankets. The smart contract dictating thermal distribution had a rounding error, prioritizing the server room's cooling efficiency over the physical warmth of the children in the childcare pod.*
 
 *A man named Jonas, pushed to the brink of hypothermia and panic, had taken a crowbar to the central routing node, screaming that the algorithm was starving them. The elegant digital trust system had shattered upon the first impact with physical scarcity.*
 
 *They had realized, with brutal clarity, that you cannot mint a token for trust. The architecture was completely disconnected from the thermodynamic reality of survival. The digital twin was suffocating the physical body.*
 
-*That night, shivering around a makeshift fire in an oil drum, Elara, Jax, and the remaining stewards had rewritten the core protocol. They scrapped the purely digital governance and birthed the Kinship Protocol. They realized that high-exergy actions—accessing the food supply, operating heavy machinery, making decisions that affected the physical safety of the group—could never be gated purely by abstract cryptographic keys. The keys had to be physically anchored in human relationships.*
+*That night, shivering around a makeshift fire in an oil drum, Elara and the remaining stewards had rewritten the core protocol. They scrapped the purely digital governance and birthed the Kinship Protocol. They realized that high-exergy actions—accessing the food supply, operating heavy machinery, making decisions that affected the physical safety of the group—could never be gated purely by abstract cryptographic keys. The keys had to be physically anchored in human relationships.*
 
 *They had instituted the first Key-Signing Ceremony. It wasn't just a digital handshake; it was a physical ordeal. They forced themselves to look each other in the eyes. It was Kael who stepped forward first, sharing the meager rations of rice and beans they had left, offering Elara a warm bowl in the freezing rain, physically vouching for her. If Jonas broke the node again, the people who vouched for him would lose their own access to the warm shelters. The liability became visceral.*
 
@@ -106,7 +106,7 @@ As they drove, the tension in the newcomers visibly began to fracture, replaced 
 
 David stared at the people walking the paths. They were dirty, sweating, and carrying heavy loads of materials, but their faces were devoid of the frantic, hunted exhaustion he was so accustomed to. There was no advertising. There were no sirens. 
 
-The cart rolled to a stop outside the massive, open-air structure of the Gamma Commons Kitchen. The smells of roasting garlic, wood-fired bread, and rich, simmering bone broth hit the newcomers like a physical blow. The toddlers began to cry again, this time from pure, overwhelming hunger.
+The cart rolled to a stop outside the massive, open-air structure of the Commons Kitchen. The smells of roasting garlic, wood-fired bread, and rich, simmering bone broth hit the newcomers like a physical blow. The toddlers began to cry again, this time from pure, overwhelming hunger.
 
 "This is the Hearth," Elara said, stepping out of the cart. "This is our physical ground truth."
 
