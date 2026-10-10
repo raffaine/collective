@@ -62,38 +62,52 @@
     *   **Theta:** The Extraction & Refinement Foundry (Heavy industry scaling).
     *   **Pi:** The Sovereign Guild (Coordinating massive collective labor).
 
-## Part III: The Breaking Point
+## Part III: The Cracks in the Utopia
 
-### Chapter 8: Maintenance and Entropy
+### Chapter 8: The Permaculture Dilemma
+*   **Plot:** The narrative shifts to internal conflict, cracking the utopian illusion with a grounding sense of realism. A fierce dispute erupts within the community regarding their relationship with the environment and animals. One faction argues for strict veganism, associating any animal use with the normalized violence of industrial capitalism. Another faction, rooted in deep permaculture design, argues for the ethical integration of animals (for soil management, fiber, and sustenance) in ways that are ecologically consistent and non-exploitative. The debate threatens to fracture the node, exposing the raw difficulty of unlearning legacy morality.
+*   **Characters:** Elara, Silas, Agricultural Stewards, Dissenting Faction.
+*   **Scenarios Showcased:**
+    *   **Psi:** Restorative Justice & Conflict Resolution (Layer 5 meta-governance).
+
+### Chapter 9: The Soil and the Soul
+*   **Plot:** Elara and the stewards work through the messy ethical discussions. They pilot a new holistic grazing and integration system that honors the animals' existence outside of industrial paradigms, proving that permaculture can embrace natural cycles without cruelty. The internal rift heals, grounding the community in a deeper realism.
+*   **Characters:** Elara, Silas, Agricultural Stewards.
+*   **Scenarios Showcased:**
+    *   **Sigma:** The Maintenance Commons (Finding ecological and ideological balance).
+
+## Part IV: The Breaking Point
+
+### Chapter 10: Maintenance and Entropy
 *   **Plot:** The stress of constant adversarial pressure (Legacy utility throttling, drone surveillance) leads to severe burnout. A critical dispute breaks out over resource allocation. Elara steps in to mediate, driven by her love and responsibility for the whole community, rejecting any personalism.
 *   **Characters:** Elara, Silas, Feuding Community Members.
 *   **Scenarios Showcased:**
     *   **Sigma:** The Maintenance Commons (Dealing with burnout and entropy).
     *   **Psi:** Restorative Justice & Conflict Resolution.
 
-### Chapter 9: The Elder Wisdom
+### Chapter 11: The Elder Wisdom
 *   **Plot:** An elder of the community passes away. Their tools and knowledge are seamlessly absorbed into the commons. The community engages in somatic play, art, and music to mourn and heal, avoiding legacy probate systems.
 *   **Characters:** Elara, Silas, Gabe, The Elders.
 *   **Scenarios Showcased:**
     *   **Phi:** The Elder Commons (Passing on wisdom and assets).
     *   **Lambda:** Cultural Commons (Arts, Sound, and Somatic Play).
 
-### Chapter 10: Ecological Shock
+### Chapter 12: Ecological Shock
 *   **Plot:** A severe, climate-driven super-storm hits the bioregion. The Legacy system abandons the area. The Collective must rely entirely on its disaster resilience networks to survive, while hostile Legacy forces attempt to exploit the chaos.
 *   **Characters:** Elara, Silas, Gabe, entire community.
 *   **Scenarios Showcased:**
     *   **Upsilon:** Ecological Shock (Disaster Resilience).
     *   **Rho:** The Adversarial Mesh (Exploiting the storm).
 
-## Part IV: The Sovereign Singularity
+## Part V: The Sovereign Singularity
 
-### Chapter 11: The Brink of Severance
+### Chapter 13: The Brink of Severance
 *   **Plot:** The storm clears, but the Legacy state launches a massive, coordinated legal and physical attack. Elara, Silas, and Gabe mobilize the final defense. They realize the ablative shield is failing; they can no longer exist as a proxy within the old world.
 *   **Characters:** Elara, Silas, Gabe, Node Defenders.
 *   **Scenarios Showcased:**
     *   **Rho:** The Adversarial Mesh (Subpoenas and physical sabotage).
 
-### Chapter 12: Terminal Decoupling (The Climax)
+### Chapter 14: Terminal Decoupling (The Climax)
 *   **Plot:** Elara and the community execute the Sovereign Singularity. It is framed not as magical separation, but as a definitive shift in leverage and a tragic choice, acknowledging the heavy cost of leaving the legacy world (and those trapped within it) behind. They sever municipal utility lines. The Legacy grid goes dark, but the local mesh lights up. The Collective Bioregion permanently detaches.
 *   **Characters:** Elara, Silas, Gabe, The Global Mesh.
 *   **Scenarios Showcased:**
