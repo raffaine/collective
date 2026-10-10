@@ -1,367 +1,924 @@
-\chapter{Layer 5: Governance and the Web of Trust}
+\chapter[Layer 5: Governance and the Federated Mesh]{Layer 5: Governance, the Web of Trust, and the Federated Mesh}
+\label{chap:layer5_governance}
 
-Layer 5 is where the community decides. Layers 1 through 4 describe what is physically true, what is affordable, and how decisions are carried out; Layer 5 determines which decisions are legitimate, who may take part in making them, and how they may later be changed.
+\epigraph{
+    ``Confederation is a network of administrative councils whose members or delegates are elected from popular face-to-face democratic assemblies... Its purpose is to interlink communities into a viable whole without compromising the democratic vitality of the base.''
+}{--- \textit{Murray Bookchin}, \textnormal{The Ecology of Freedom} \parencite{bookchin1982}}
 
-Layer 5 interfaces only with Layer 4 below it and Layer 6 above it. It sets policy and confers legitimacy; it never executes. It does not read the Thermodynamic Ledger, it does not touch hardware, and it does not render language for people. Physical facts reach it only as reports from the Orchestrator, and human intent reaches it only through the Semantic Interface.
+\epigraph{
+    ``A viable system is an organism that survives in an environment of changing complexity. It preserves its identity through autonomy at the operational level, coordinated by cybernetic feedback, not by authoritarian decree.''
+}{--- \textit{Stafford Beer}, \textnormal{Brain of the Firm} \parencite{beer1972}}
 
-Layer 5 is also the only meta-recursive layer in the Stack. It governs at three levels at once:
+\epigraph{
+    ``Nested enterprises: Appropriation, provision, monitoring, enforcement, conflict resolution, and governance activities are organized in multiple layers of nested enterprises.''
+}{--- \textit{Elinor Ostrom}, \textnormal{Governing the Commons} \parencite{ostrom1990}}
+
+If you walk into a room where people are attempting to govern themselves in the legacy world, you will almost certainly encounter an atmosphere of quiet exhaustion.
+
+You will see folding chairs arranged under buzzing fluorescent tubes, tables cluttered with half-eaten takeout and legalistic printouts, and people squinting at spreadsheets. You will see interpersonal friction: the vocal activist who dominates every discussion; the quiet artisan whose essential knowledge goes unheard; the single parent who had to leave early because childcare broke down; the bitter factional dispute over twenty dollars in a petty-cash box. The legacy world taught us to read this misery as human nature. It told us that self-governance is an inefficient vanity, that direct democracy inevitably degenerates into chaos, and that the only practical way to run a human settlement is through the cold hierarchy of the corporate boardroom or the distant machinery of the representative state.
+
+The Sovereign Stack rejects that verdict. The exhaustion of modern organizing is not an innate biological failure; it is an artifact of broken tools. We have forced human beings to hold in their anxious heads what no human mind was built to carry: tracking who worked how many hours, auditing whether the community solar inverter is degrading, calculating whether next month's water reserve can withstand a heatwave, and negotiating mutual trust from scratch at every Tuesday meeting.
+
+Layer~5 exists to lift that administrative weight from the human spirit.
+
+It is the metabolic conscience of the Sovereign Stack. Beneath it, Layers~1 through 4 describe the uncompromising physics of dirt and heat: what is mechanically true, what is thermodynamically affordable, and how deterministic state engines schedule physical work. Layer~5 does not touch the soil, does not read the voltage of an inverter, and does not command a water valve. Its responsibility is social, ethical, and political: it determines which workflows are \textit{legitimate}, who holds the standing to propose them, how labor is recognized, and how sovereign communities federate across valleys, watersheds, and bioregions without recreating the imperial state.
+
+\section{Position in the Stack: The Legislative Membrane}
+\label{sec:l5-position}
+
+\subsection{Strict Adjacency and the Daemon Triad}
+
+The Sovereign Stack enforces absolute separation of concerns. Monolithic threading models and layer-skipping shortcuts are strictly prohibited. Layer~5 does not exist as an amorphous set of scripts; it is instantiated as an autonomous POSIX daemon: \texttt{col-kmsd} (The Key Management and Governance Policy Daemon). 
+
+The governance daemon operates as a strictly bounded \textit{Legislative Membrane}. It sits between Layer~4 below it and Layer~6 above it, maintaining communication exclusively across local Unix Domain Sockets:
 \begin{itemize}
-  \item the layer below it, by ratifying, migrating, and draining Layer 4 workflows and by setting the standing policies the Orchestrator enforces;
-  \item its own domain: identity, Reputational Wealth, delegation, councils, membership, and sanctions;
-  \item itself: the rules by which governance rules are made, amended, and challenged.
+  \item \textbf{Downward Adjacency (\texttt{/run/collective/ipc/l4\_l5.sock}):} \texttt{col-kmsd} interfaces with Layer~4 (\texttt{col-execd}, the Deterministic Orchestrator). Layer~5 ratifies workflows, sets standing policies (such as ecological floors and human capacity ceilings), and issues anonymous claim handles for accepted tasks. In return, \texttt{col-execd} reports aggregated physical facts, alerts, and task completion proofs.
+  \item \textbf{Upward Adjacency (\texttt{/run/collective/ipc/l5\_l6.sock}):} \texttt{col-kmsd} interfaces with Layer~6 (\texttt{col-commonsd}, the Semantic Agora Daemon). Layer~5 delivers task offers, deliberative proposals, and decision explanations. In return, \texttt{col-commonsd} passes structured human intents, ballots, liquid delegations, and trade offers compiled from natural language.
+  \item \textbf{Horizontal Federation (\texttt{col-kmsd} to Peer \texttt{col-kmsd}):} When coordinating with sister Nodes across the bioregion, Layer~5 exchanges capability advertisements, path-vector route updates, and bilateral treaty covenants. Crucially, Layer~5 never touches network physical interfaces directly: horizontal governance payloads are passed down through Layer~4, logged in Layer~3's CRDT store, and physically transmitted over Reticulum mesh links by Layer~2 (\texttt{col-meshd}).
 \end{itemize}
-A defect at the third level can make every other defect permanent, which is why this chapter treats self-governance with particular care.
 
-The original premise of Layer 5 is that work sustains the community, and that those who do the work should guide its evolution. That premise is retained, with a necessary companion: those who are \textit{affected} by a decision must have a voice in it, whether or not they performed the work. Work earns stewardship over \textit{how} things are done; being affected earns a voice in \textit{what} is done and \textit{whether}. The two-chamber structure in Section~\ref{sec:l5-levels} gives each principle its own institution.
+Table~\ref{tab:l5-interfaces} summarizes everything that crosses Layer~5's boundaries.
 
-The chapter proceeds as follows: Layer 5's position in the Stack; identity; standing and Reputational Wealth; the three levels of governance; voting and tallying; culture, memory, and the collective dimension of governance; and finally the concrete data structures.
-
-\section{Position in the Stack}
-
-\subsection{Interfaces}
-
-Table~\ref{tab:l5-interfaces} summarizes everything that crosses Layer 5's two boundaries.
-
-\begin{table}[h]
+\begin{table}[htbp]
 \centering
 \small
-\begin{tabular}{|p{0.22\textwidth}|p{0.70\textwidth}|}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{|p{0.24\textwidth}|p{0.72\textwidth}|}
 \hline
-\textit{Direction} & \textit{Content} \\
+\textbf{Direction} & \textbf{Content} \\
 \hline
-Layer 5 to Layer 4 & Ratified workflows; standing policies (ecological floors, priority order, survival baseline, emergency playbooks, human capacity ceiling); migrations and drains of running workflows; suspensions ordered on appeal; anonymous claim handles for accepted tasks. \\
+\textbf{Layer 5 to Layer 4} & Ratified workflows; standing policies (ecological floors, priority order, survival baseline, emergency playbooks, human capacity ceiling); inter-Node export quotas and peering constraints; migrations and drains of running workflows; suspensions ordered on appeal; anonymous claim handles for accepted tasks. \\
 \hline
-Layer 4 to Layer 5 & Task intents; alerts and exceptions; floor-versus-floor escalations; completion attestations; aggregated physical facts needed for policy (recharge rates, stream flow, reserve levels). \\
+\textbf{Layer 4 to Layer 5} & Task intents; alerts and exceptions; floor-versus-floor escalations; completion attestations; aggregated physical telemetry needed for policy (recharge rates, stream flow, reserve levels, metered physical transfer proofs). \\
 \hline
-Layer 5 to Layer 6 & Task offers to eligible Stewards; alerts with their intended audience; explanations of decisions to the people they affect; proposals and rationale records for deliberation. \\
+\textbf{Layer 5 to Layer 6} & Task offers to eligible Stewards; alerts with their intended audience; explanations of decisions to the people they affect; proposals and rationale records for deliberation; cleared inter-Node resource route announcements for Agora order-book matching. \\
 \hline
-Layer 6 to Layer 5 & Human intent and proposals; ballots; delegations; challenges and appeals; capacity and care-leave self-reports; testimony from hearings. \\
+\textbf{Layer 6 to Layer 5} & Human intent and proposals; encrypted ballots; delegations; challenges and appeals; capacity and care-leave self-reports; testimony from hearings; structured Agora trade intents (JSON-LD bids, asks, and bilateral covenants). \\
+\hline
+\textbf{Layer 5 to Peer Layer 5} & Capability Advertisements; Route Announcements; Resource Request Intents; Bilateral Clearing Channel commitments; Route Withdrawals (\texttt{WITHDRAW}); Bioregional Treaty pacts. \\
 \hline
 \end{tabular}
-\caption{What crosses the boundaries of Layer 5.}
+\caption{What crosses the vertical and horizontal boundaries of Layer 5.}
 \label{tab:l5-interfaces}
 \end{table}
 
-The interfaces a Steward uses to govern in the real Node are the same Layer 6 interfaces a player uses to govern simulated agents in Oasis. Player feedback therefore improves the real governance experience directly.
+The interfaces a Steward uses to govern in the physical Node are identical to the Layer~6 interfaces used to govern simulated agents in Oasis. Player feedback during shadow simulations (Chapter~10) directly tests, stresstests, and refines the real governance experience.
 
-\subsection{What Layer 5 Does Not Do}
+\subsection{What Layer 5 Refuses to Do}
 
-Layer 5 does not enforce anything itself. Enforcement of rules about physical action is performed by the Orchestrator against the Ledger; enforcement of rules about people is performed by people, through the procedures in Section~\ref{sec:l5-sanctions}. Layer 5 does not parse or produce natural language; deliberation, explanation, and testimony are Layer 6 activities whose results reach Layer 5 as structured, signed records. And Layer 5 holds no legacy legal identity. Names, registrations, and legal persons belong to Layer 7, and collisions between community rules and legacy law are surfaced upward through Layer 6 to Layer 7 rather than handled here.
+Architecture is defined as much by what a system refuses to do as by what it performs. Layer~5 enforces three strict operational boundaries:
+\begin{enumerate}
+  \item \textbf{Layer 5 Never Executes Physical Actions:} It holds no drivers, reads no Modbus registers, and energizes no contactors. Enforcement of rules about physical reality is executed deterministically by Layer~4 (\texttt{col-execd}) against Layer~3's Thermodynamic Ledger; enforcement of rules about human conduct is performed by living people through restorative justice.
+  \item \textbf{Layer 5 Never Parses Natural Language:} Deliberation, debate, emotional nuance, and textual explanation are Layer~6 activities. \texttt{col-commonsd} translates natural human language into canonical, signed JSON-LD records before passing them downward. Layer~5 processes only cryptographically signed, typed payloads.
+  \item \textbf{Layer 5 Holds Zero Legacy Legal Identity:} Names, legal corporate forms, tax registrations, and statutory compliance belong exclusively to Layer~7 (\texttt{col-adversaryd}). Collisions between community covenants and legacy municipal laws are surfaced upward through Layer~6 to Layer~7 as policy items, rather than handled within the Web of Trust.
+\end{enumerate}
 
-\section{Identity: The Web of Trust}
+\subsection{The Three Levels of Meta-Recursion}
 
-\subsection{Identity without the State}
+Layer~5 is the only meta-recursive layer in the Sovereign Stack. It governs at three distinct recursive depths simultaneously:
+\begin{itemize}
+  \item \textbf{Level One (Governing the Layer Below):} Ratifying, migrating, and draining Layer~4 workflows; establishing the standing policies, exergy priority orders, and actuation safety envelopes that the Orchestrator enforces.
+  \item \textbf{Level Two (Governing Its Own Domain):} Managing identity, Reputational Wealth, liquid delegation, council namespaces, assembly procedures, and restorative sanctions.
+  \item \textbf{Level Three (Governing Itself):} Establishing the constitutional rules by which governance rules are enacted, amended, audited, and challenged.
+\end{itemize}
+A defect at Level One halts a machine; a defect at Level Two causes social friction; but a defect at Level Three can make injustice permanent. For this reason, Level Three governance is protected by the most rigorous mathematical, procedural, and cultural safeguards in the entire stack.
 
-In the legacy world, identity is issued by a state or a corporation, which can revoke it, freeze the accounts attached to it, or deny access to infrastructure. Layer 5 replaces issued identity with a \textit{Web of Trust}: a Steward's identity is a set of cryptographic keys and the peer attestations bound to them, not a row in someone else's database.
+\section{Identity: The Web of Trust Without the State}
+\label{sec:l5-identity}
+
+\subsection{Identity Without the State}
+
+In the legacy world, human identity is a concession granted by an external authority: a national government issues a passport, a bank issues an account number, or a corporate monopoly issues an OAuth login. What the sovereign state gives, the state can revoke. An administrative decree can freeze a dissident's bank accounts, cancel their travel credentials, or render them an unperson.
+
+Layer~5 replaces issued identity with a \textit{Web of Trust} rooted in physical reality. A Steward's identity is not a row in a centralized database; it is a set of cryptographic keys, secured in hardware, and the living web of peer attestations bound to them.
 
 \subsection{Sybil Resistance and Physical Seeding}
 
-A governance system that counts people must be able to tell one person from many. Identities in Layer 5 are seeded physically. A new identity becomes a member only when established members co-sign it in person, extending the physical web of trust described in Chapter 4. The number of required co-signers and their independence from one another are meta-rules (Section~\ref{sec:l5-tiers}). Uniqueness matters most in the commons chamber, where each member has exactly one vote; a Sybil identity there is a forged ballot.
+A governance system that counts human beings must be able to distinguish one person from many. In purely virtual environments, pseudonymous identity invites Sybil attacks: an adversary can spin up ten thousand software bots to flood an assembly, capture a vote, or exhaust a shared resource.
+
+The Sovereign Stack solves Sybil resistance through \textit{Physical Seeding}. Cryptographic identities cannot be minted over the internet. A new identity achieves membership standing only when existing members co-sign it in person during a physical assembly (the Genesis Protocol, Chapter~9). The co-signers physically attest that they have shared bread, worked side by side, and verified that the applicant is a living human being. The number of required co-signers and their topological independence across the trust graph are meta-rules ratified in the Genesis Compact.
 
 \subsection{Pairwise Identifiers and Selective Disclosure}
 
-Earlier drafts of this architecture argued that splitting attestations across council-specific storage would make surveillance infeasible. It does not: if the same key appears in the Water Council's records and the Energy Council's records, anyone can join them. Privacy has to be built into the identifiers themselves.
+Earlier privacy schemes assumed that storing credentials in separate council databases would prevent correlation. In practice, this is a dangerous illusion: if the same public key appears in the Water Council's ledger and the Healthcare Council's records, an observer can cross-reference the keys and construct a complete behavioral profile.
 
-Each Steward therefore holds a master identity that is never presented to councils. For each council they join, they derive a separate \textit{pairwise identifier} that cannot be linked to their other identifiers without their cooperation. Attestations are issued as Verifiable Credentials \parencite{w3c2022vc} using signature schemes that support selective disclosure. When eligibility must be shown, for example certification for high-voltage work, the Steward presents a zero-knowledge proof that they hold a valid credential of the required type, revealing neither the credential's other contents nor their identity in other councils.
+In Layer~5, privacy is built directly into identity derivation:
+\begin{itemize}
+  \item \textbf{Master Identity \& Hardware Enclaves:} Each Steward holds a master identity key held in an isolated hardware security element (such as an ATECC608A co-processor or hardware TPM). This master key is never exposed to councils, network sockets, or peers.
+  \item \textbf{Pairwise Identifiers (\texttt{did:peer}):} For every council, guild, or peer relationship a Steward joins, \texttt{col-kmsd} deterministically derives a distinct \textit{pairwise decentralized identifier} \parencite{w3c2022vc}. Pairwise identifiers share no public parameters and cannot be linked without the Steward's explicit, cryptographically signed consent.
+  \item \textbf{BBS+ Selective Disclosure Credentials:} Certifications (such as medical licenses, high-voltage electrical authorizations, or food safety qualifications) are issued as BBS+ Verifiable Credentials. Using zero-knowledge proofs, a Steward can prove they hold a valid certification of the required class without revealing their name, other credentials, or identifiers in other councils.
+\end{itemize}
 
-Credentials are verified in Layer 5. The Orchestrator never parses credentials and never learns who performed a task; it receives only the answer that an eligible party has accepted it (Section~\ref{sec:l5-matching}).
+When a task requires high-voltage authorization, the Steward's client proves eligibility to \texttt{col-kmsd} via a zero-knowledge proof. \texttt{col-kmsd} confirms validity and issues an anonymous claim handle to Layer~4. The Orchestrator learns only that an authorized party accepted the task; it never learns who that person is.
 
-\subsection{Key Loss, Recovery, and Revocation}
+\subsection{Key Loss, Social Recovery, and Revocation}
 
-Losing a key must not mean losing one's place in the community. Each Steward splits a recovery secret among trusted people of their choosing, with any $M$ of $N$ shares sufficient to restore it \parencite{shamir1979}. Recovery re-binds the Steward's standing, attestations, and Reputational Wealth to a new key after the recovering parties confirm the request in person.
+Losing a hardware key must not mean losing one's home, standing, or community. Layer~5 implements $M$-of-$N$ social key recovery \parencite{shamir1979}. Each Steward splits their recovery secret into encrypted shares distributed among trusted companions of their choosing. If a key is lost or destroyed, $M$ of the $N$ guardians convene in person with the Steward. After verifying identity face-to-face, the guardians sign a recovery transaction that re-binds the Steward's standing, credentials, and Reputational Wealth to a newly generated hardware key.
 
-Credentials can be revoked: a certification can lapse, an issuer can discover an error, or a credential can be withdrawn as a sanction. Revocation is published through privacy-preserving revocation registries, so that verifiers can confirm a credential is still valid without learning which credential they are checking. Revocation used as a sanction is subject to due process (Section~\ref{sec:l5-dueprocess}).
+Credentials can also be revoked: a professional certification can expire, an issuing guild can discover an inspection error, or a credential may be suspended as a restorative sanction. Revocation is published through cryptographic accumulator registries. Verifiers can mathematically prove that a presented credential has not been revoked without learning which specific credential they are auditing.
 
-\subsection{Storage and Computation}
+\subsection{The Partitioned Governance Store}
 
-Layer 5 maintains its own governance store, partitioned by council namespace and replicated across the Node's edge hardware. It is separate from the Thermodynamic Ledger. Councils, rules, rationale records, encrypted delegations, and ballots live here; exergy, telemetry, and actuation envelopes live in Layer 3. The two never share records, and Layer 5 never writes to the Ledger.
+Layer~5 maintains an isolated governance database, partitioned by council namespace and replicated across edge nodes using SQLCipher and Sparse Merkle Trees (SMT). It is strictly decoupled from the Thermodynamic Ledger:
+\begin{itemize}
+  \item \textbf{Governance Store (Layer 5):} Councils, rules, rationale records, encrypted delegations, and ballots.
+  \item \textbf{Thermodynamic Ledger (Layer 3):} Physical exergy accounts, Proof-of-Thermodynamic-Work, sensor hashes, and actuation logs.
+\end{itemize}
+The two stores never share database foreign keys, and Layer~5 holds zero write privileges over Layer~3.
 
 \section{Standing, Stewardship, and Reputational Wealth}
+\label{sec:l5-standing}
 
 \subsection{Two Kinds of Standing}
 
-Layer 5 distinguishes between two things a person can hold.
+A fatal flaw of both capitalist corporations and early Web3 DAOs is the conflation of wealth with governance voice. In a joint-stock company or token-weighted DAO, one dollar (or one token) equals one vote; power flows inevitably to capital accumulation. Conversely, naive egalitarian systems grant equal voice over every intricate technical detail, allowing vocal non-practitioners to override experienced artisans on complex engineering matters.
 
-\textit{Membership standing} is held equally by every member, cannot be earned or lost through activity, and does not decay. It carries a vote in the commons chamber, the protections of the entrenched core (Section~\ref{sec:l5-tiers}), and an unconditional claim on the survival baseline defined in Chapter 5. It can be affected only through the due process described in Section~\ref{sec:l5-dueprocess}, and never so as to withdraw the baseline.
+Layer~5 resolves this dilemma by bifurcating standing into two orthogonal categories:
+\begin{enumerate}
+  \item \textbf{Membership Standing (The Inalienable Floor):} Held equally by every recognized member of the community (one person = one standing). It cannot be purchased, earned, transferred, or accumulated. It grants one vote in the Commons Chamber, guarantees the protections of the Entrenched Core, and secures an unconditional claim on the survival baseline (clean water, caloric sustenance, shelter, healthcare). It can never be reduced or revoked through lack of labor.
+  \item \textbf{Reputational Wealth (Stewardship Weight):} Domain-specific influence within the Stewardship Chamber of a particular council (such as Agriculture, Microgrid Energy, or Public Health). It reflects verified value contributed to the community in that specific field. It is earned through labor, decays over time, and is bounded by strict sublinear caps.
+\end{enumerate}
 
-\textit{Reputational Wealth} is domain-specific weight in the stewardship chamber of a particular council. It records value delivered to the community in that domain. It is earned, it decays, and it is capped.
-
-Separating the two ensures that a person who cannot work because of illness, disability, age, or caregiving loses influence over technical decisions in a given domain but never loses their voice, their rights, or their means of survival.
+This separation guarantees that a community member who experiences chronic illness, disability, grief, or caregiving obligations loses technical voice in specialized councils but never loses their basic rights, their equal vote in the Commons Chamber, or their means of physical survival.
 
 \subsection{How Reputational Wealth Is Earned}
 
-When a task is completed, the Orchestrator sends a completion attestation upward, keyed to an anonymous claim handle (Section~\ref{sec:l5-matching}). Layer 5, which alone can link that handle to a pairwise identifier, records Reputational Wealth for that Steward in the relevant council. People do not mint exergy; the physical result of their work enters the Ledger through Proof-of-Thermodynamic-Work, as Chapter 4 describes, and accrues to the commons.
+When a physical task is completed, Layer~4 (\texttt{col-execd}) transmits a completion attestation upward across the IPC socket, referenced to an anonymous claim handle. Layer~5, which alone holds the secret key linking that claim handle to the Steward's pairwise identifier, credits Reputational Wealth to the Steward in that council.
 
-Work that the Orchestrator never sees also counts. Caregiving, teaching, mediation, and cultural work are attested by the councils responsible for those domains, so that Reputational Wealth does not systematically reward machine-visible labor over human care.
+Crucially, human beings do not mint exergy currency. The physical work performed enters Layer~3's ledger as Proof-of-Thermodynamic-Work and accrues directly to the \textit{community commons}. The worker earns social trust and governance voice, not private financial debt claims.
 
-Reputational Wealth is not a token. It cannot be transferred, sold, pooled, or exported to govern another Node. Its effects may radiate outward through the Web of Trust as a signal of reliability, but its weight applies only where it was earned.
+Furthermore, Layer~5 recognizes labor that deterministic machines cannot see. Caregiving, early childhood education, conflict mediation, meal preparation, and cultural ritual cannot be verified by Modbus power meters. These essential contributions are attested through Guild Councils and peer attestations, ensuring that domestic and emotional care labor holds equal standing with kinetic engineering.
 
-\subsection{Decay, Caps, and Care Leave}
+Reputational Wealth is strictly non-financial: it cannot be sold, rented, transferred, borrowed against, or exported to govern another Node. Its authority exists exclusively within the domain and community where it was earned.
 
-Without decay, early contributors would accumulate permanent weight and the system would harden into a gerontocracy. With naive decay, it would turn into a treadmill that punishes rest. Layer 5 combines three mechanisms to avoid both failures.
+\subsection{Thermodynamic Decay, Caps, and the Care Leave Shield}
 
-\textit{Decay} is a weighting function applied at tally time, not a deletion. Each contribution's weight follows a half-life measured from the time the work was completed. The half-life is set per council as a meta-rule and is typically measured in years rather than months.
+Without temporal decay, early founders would accumulate permanent governance power, freezing the community into an entrenched gerontocracy. Conversely, aggressive linear decay turns life into a frantic treadmill, punishing reflection, study, and rest.
 
-\textit{Caps} limit concentration. Weight grows sub-linearly with contribution, for example logarithmically, so that ten times the work does not yield ten times the voice. No individual's weight, including delegated weight, may exceed a fixed share of a chamber's total.
-
-\textit{Care leave} pauses decay. A Steward may declare leave for illness, burnout, parenthood, bereavement, or any reason they choose not to state. The declaration is private: it is made through Layer 6, recorded against the Steward's pairwise identifiers, and never published. While leave is active, the decay clock stops.
-
-\subsection{Liquid Delegation with Limits}
-
-No one can follow every decision in every council. A Steward may delegate their stewardship weight in a council to someone they trust, and revoke the delegation at any time. Unbounded delegation, however, reliably concentrates power, and citizens rarely monitor delegates closely enough to revoke in time \parencite{michels1911}. Delegation in Layer 5 is therefore bounded.
+Layer~5 combines three mathematical safeguards to ensure dynamic, humane equilibrium:
 \begin{itemize}
-  \item Delegated weight counts toward the holder's cap.
-  \item Delegated weight cannot be re-delegated. Chains are limited to one hop.
-  \item Delegations expire after a period set as a meta-rule and must be actively renewed.
-  \item A delegate's votes cast with delegated weight are public, because they are exercises of entrusted power. Who delegated to whom remains private.
+  \item \textbf{Half-Life Decay:} Reputational Wealth decays continuously according to an exponential half-life $\tau_{half}$:
+  \begin{equation}
+      \mathcal{R}(t) = \mathcal{R}_0 \, e^{-\frac{\ln(2)}{\tau_{half}} t}
+      \label{eq:reputation_decay}
+  \end{equation}
+  The half-life is established per council as a meta-rule and is measured in seasonal cycles (typically one to three years) rather than days.
+  \item \textbf{Sublinear Caps:} Influence scales logarithmically rather than linearly with labor volume:
+  \begin{equation}
+      \mathcal{W}_{steward} = \min\left( \mathcal{W}_{max}, \, \kappa \cdot \ln(1 + \mathcal{R}) \right)
+      \label{eq:reputation_cap}
+  \end{equation}
+  Ten times the physical work yields only a modest increase in voice, preventing workaholism from monopolizing governance. Furthermore, no single Steward (including delegated weight) may exercise more than a fixed percentage (typically 8\%) of a chamber's total weight.
+  \item \textbf{The Care Leave Shield:} A Steward may declare care leave through Layer~6 for parenting, illness, bereavement, spiritual retreat, or study. The declaration is private: it is recorded against the Steward's pairwise key without publishing the reason. While leave is active, the decay clock freezes completely.
 \end{itemize}
-Membership standing in the commons chamber cannot be delegated at all.
 
-\section{The Three Levels of Governance}
-\label{sec:l5-levels}
+\subsection{Bounded Liquid Delegation}
+
+No citizen possesses the time or inclination to vote on every municipal engineering specification. Stewards may delegate their stewardship weight in a specific council to a trusted peer, and may revoke or redirect that delegation at any time.
+
+However, unconstrained liquid delegation reliably concentrates power into charismatic oligarchs \parencite{michels1911}. Layer~5 bounds delegation through four structural invariants:
+\begin{enumerate}
+  \item \textbf{Strict Hop Limit:} Delegated weight cannot be re-delegated. Chains are limited to exactly one hop ($A \to B$; $B$ cannot delegate $A$'s weight to $C$).
+  \item \textbf{Cap Absorption:} All incoming delegated weight is bounded by the delegate's personal maximum cap $\mathcal{W}_{max}$. Excess weight beyond the cap is discarded from the tally.
+  \item \textbf{Periodic Expiry:} Delegations automatically expire at the end of each seasonal cycle and must be actively renewed.
+  \item \textbf{Public Exercise, Private Source:} A delegate's votes cast with delegated weight are public, because they represent entrusted community power. However, the cryptographic edge identifying who delegated to whom remains zero-knowledge private.
+\end{enumerate}
+Membership standing in the Commons Chamber cannot be delegated under any circumstances.
+
+\section{The Internal Polity: The Three Levels of Governance}
+\label{sec:l5-polity}
 
 \subsection{Level One: Governing the Orchestrator}
+\label{subsec:l5-level-one}
 
 \subsubsection{The Policy Lifecycle}
 
-A change to the logic that runs the Node passes through the following steps.
+A change to the logic that runs the Node passes through six structured phases:
 \begin{enumerate}
-  \item A proposal is raised. It may start as plain-language intent through Layer 6; drawing BPMN is not a precondition for participation. Stewards with the relevant skills, assisted by Layer 6 tooling, translate the intent into a draft workflow.
-  \item Workflows that affect physical reality are simulated in Oasis against historical and stress conditions. Domains under the Protocol of Refusal (Section~\ref{sec:l5-refusal}) are excluded from simulation as a decision input.
-  \item The proposal is deliberated in the responsible council, with hearings for affected parties, including non-members where Section~\ref{sec:l5-neighbours} requires.
-  \item The council decides using its ratified decision procedure and the chamber or chambers the decision requires.
-  \item A rationale record is bound to the decision (Section~\ref{sec:l5-memory}).
-  \item The ratified workflow is handed to Layer 4, whose compiler applies its safety checks. A workflow that fails them returns to the council and is not deployed.
+  \item \textbf{Proposal Formulation:} Initiated as plain-language intent through Layer~6 (\texttt{col-commonsd}); drafting BPMN workflows is not a precondition for human participation. Experienced stewards, assisted by Layer~6 tooling, translate intent into formal workflows.
+  \item \textbf{Simulation \& Stress-Testing:} Workflows that affect physical reality are simulated in Oasis against historical datasets and extreme stress conditions. Domains protected under the Protocol of Refusal (Section~\ref{sec:l5-refusal}) are strictly excluded from simulation as a decision input.
+  \item \textbf{Council Deliberation:} The proposal is deliberated in the responsible council, with open hearings for affected parties, including neighboring non-members (Section~\ref{sec:l5-neighbours}).
+  \item \textbf{Ratification:} The council decides using its ratified decision procedure across the required chambers.
+  \item \textbf{Rationale Binding:} A rationale record is bound by cryptographic hash to the decision (Section~\ref{sec:l5-memory}).
+  \item \textbf{Compilation \& Deployment:} The ratified workflow is handed across \texttt{/run/collective/ipc/l4\_l5.sock} to Layer~4 (\texttt{col-execd}), whose compiler applies deterministic safety checks. A workflow failing validation returns to council and is never deployed.
 \end{enumerate}
 
 \subsubsection{Standing Instruments}
 
-Chapter 5 relies on several policies that Layer 5 ratifies and Layer 4 enforces. Table~\ref{tab:l5-instruments} lists them with the rule tier each belongs to.
+The Orchestrator relies on standing policies that Layer~5 ratifies and Layer~4 enforces against physical actuation envelopes (Table~\ref{tab:l5-instruments}).
 
-\begin{table}[h]
+\begin{table}[htbp]
 \centering
 \small
-\begin{tabular}{|p{0.2\textwidth}|p{0.34\textwidth}|p{0.26\textwidth}|p{0.09\textwidth}|}
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{|p{0.20\textwidth}|p{0.34\textwidth}|p{0.28\textwidth}|p{0.10\textwidth}|}
 \hline
-\textit{Instrument} & \textit{What Layer 5 decides} & \textit{How Layer 4 applies it} & \textit{Tier} \\
+\textbf{Instrument} & \textbf{What Layer 5 Decides} & \textbf{How Layer 4 Applies It} & \textbf{Tier} \\
 \hline
-Ecological floors & That floors exist (core); which resources have them and their values (ordinary, with ecological evidence) & Compiled preconditions on every actuation envelope & Core / Ordinary \\
+\textbf{Ecological floors} & That floors exist (core); which resources have them and their numeric values (ordinary, supported by ecological evidence). & Compiled preconditions on every actuation envelope. & Core / Ordinary \\
 \hline
-Survival baseline & Existence and scope of unconditional provisioning & Funded immediately after floors & Core \\
+\textbf{Survival baseline} & Existence, scope, and caloric/hydration volume of unconditional provisioning. & Funded immediately after ecological floors. & Core \\
 \hline
-Priority order & Ordering of claims under contention & Applied when reservations conflict & Meta \\
+\textbf{Priority order} & Ordering of competing claims under resource contention. & Evaluated when reservation intents conflict. & Meta \\
 \hline
-Emergency playbooks & Triggers, envelopes, maximum duration & Executed on trigger; logged for review & Ordinary, bounded by Meta \\
+\textbf{Emergency playbooks} & Triggers, envelopes, and maximum hardware duration. & Executed automatically on sensor trigger; logged for audit. & Ordinary (bounded by Meta) \\
 \hline
-Human capacity ceiling & Aggregation method for self-reported capacity & Caps human task demand of running workflows & Meta \\
+\textbf{Human capacity ceiling} & Aggregation method for self-reported capacity. & Caps human task demand of running workflows. & Meta \\
 \hline
-Migrations and drains & How running instances move to new versions, or stop & Applied to in-flight workflows & Ordinary \\
+\textbf{Migrations and drains} & How running instances move to new versions, or terminate safely. & Applied to in-flight workflow instances. & Ordinary \\
 \hline
-Export ceiling and fiat needs list & Residual exergy available for export; the ratified list of needs that fiat may be raised for, with targets and stop rules (Chapter 8) & Export reservations ranked last and curtailed first & Ordinary, bounded by Meta \\
+\textbf{Export ceilings \& fiat needs list} & Residual exergy available for export; ratified list of external needs fiat may be raised for (Chapter~8). & Export reservations ranked last and curtailed first. & Ordinary (bounded by Meta) \\
 \hline
 \end{tabular}
 \caption{Standing instruments ratified by Layer 5 and enforced by Layer 4.}
 \label{tab:l5-instruments}
 \end{table}
 
-\subsubsection{In-Flight Workflows}
+\subsubsection{In-Flight Workflows and Escalations}
 
-When a council changes a workflow, running instances continue under the version on which they started, unless the council also ratifies a migration that maps old states to new ones, or orders a drain that sends every running instance to its compensation path. Changes to governance rules themselves (Level Three) never alter running workflows directly. They take effect through the ordinary policies they cause councils to revise.
-
-\subsubsection{Escalations and Alerts}
-
-The Orchestrator escalates decisions it is not permitted to make, chiefly conflicts between two inviolable floors. For each class of escalation, a meta-rule designates who decides, by which procedure, and within what time window. If no decision arrives within the window, the Orchestrator's safest available envelope remains in force. Alerts arriving from Layer 4 are routed by an audience policy that specifies who must be told for each alert class, for example the Stewards of an affected array or all residents of a flooded zone, before they are passed to Layer 6 for presentation.
+When a council amends a workflow, running instances continue under their originating version unless the council explicitly ratifies a migration mapping old states to new ones, or orders a drain routing instances to their compensation path. Conflicts between two inviolable floors are escalated from Layer~4 to designated escalation authorities under strict time windows; if no resolution arrives, the safest fallback envelope remains in force.
 
 \subsubsection{Task Matching}
 \label{sec:l5-matching}
 
-Task intents arrive from Layer 4 without any reference to people. Layer 5 determines eligibility from the required credentials, using the zero-knowledge proofs described above, and passes offers to Layer 6. When an eligible Steward accepts, Layer 5 returns an anonymous claim handle to the Orchestrator, which reserves resources against it. On completion, the Orchestrator's attestation, keyed to the same handle, allows Layer 5 to record Reputational Wealth. Refusal is always free, and no record of it is kept against the Steward.
-
-Self-reported capacity follows the same direction of travel. Stewards report it through Layer 6, Layer 5 aggregates it without exposing individuals, and only the resulting community ceiling is passed down to Layer 4.
+Task intents arrive from Layer~4 without personal identifiers. Layer~5 evaluates eligibility via BBS+ zero-knowledge proofs and delivers offers to Layer~6. When an eligible Steward accepts, Layer~5 returns an anonymous claim handle to Layer~4, which reserves task envelopes. Upon completion, Layer~4 returns an attestation keyed to that handle, allowing Layer~5 to credit Reputational Wealth while preserving total worker privacy. Task refusal is always free and unpenalized.
 
 \subsection{Level Two: Governing Its Own Domain}
+\label{subsec:l5-level-two}
 
-\subsubsection{Boundaries and Membership}
+\subsubsection{Boundaries and the Two Chambers}
 
-Every physically based council declares who belongs to it, normally those who live within or draw from the resource it governs, and how people join and leave. Gravitating toward a council is not enough: clearly defined boundaries are the first condition for a commons that endures \parencite{ostrom1990}. Affection-based councils set their own membership rules but, as described below, cannot bind any physical commons.
+Every physically grounded council operates through two distinct deliberative chambers:
+\begin{itemize}
+  \item \textbf{The Stewardship Chamber (The Chamber of Competence):} Members vote weighted by their decayed, capped Reputational Wealth in that specific domain. This chamber decides questions of \textit{method}: technical implementation, workflow design, maintenance schedules, and engineering trade-offs.
+  \item \textbf{The Commons Chamber (The Chamber of Purpose):} Every recognized resident affected by the council's resources holds exactly one vote. This chamber decides questions of \textit{purpose}: what goals to pursue, what ecological limits apply, how resources are distributed, and whether a proposed project should proceed at all.
+\end{itemize}
 
-\subsubsection{Two Chambers}
-
-Each physically based council has two chambers.
-
-The \textit{stewardship chamber} weights members by Reputational Wealth in that domain. It decides questions of method: how a ratified goal is implemented, which workflow design is sound, and which technical trade-offs to accept.
-
-The \textit{commons chamber} gives one vote to every member affected by the council's resource, regardless of Reputational Wealth. It decides questions of purpose: what the resource is for, how it is shared, what limits apply, and whether a project should proceed.
-
-Ordinary operational changes need only the stewardship chamber, unless a set number of commons members call them up for review. Allocation rules, limits, and new projects need both chambers. Core and meta rules always need both. This arrangement satisfies the principle that those affected by operational rules can take part in modifying them \parencite{ostrom1990}, while preserving the competence of those who do the work.
+Routine operational adjustments require only the Stewardship Chamber, though a petition signed by a threshold of Commons members can call any operational decision up for full assembly review. Allocation rules, resource extractions, and constitutional amendments require concurrent majorities in \textit{both} chambers. This bicameral structure satisfies Ostrom's core design principle \parencite{ostrom1990}: those affected by operational rules actively participate in framing them, while preserving the practical competence of experienced stewards.
 
 \subsubsection{Pluggable Decision Procedures}
 
-Communities reach agreement in different ways, and one protocol must not impose one culture. Each council selects its decision procedure from a set the Stack implements: weighted or equal voting with defined thresholds, consent-based decision-making in which proposals pass unless a member raises a reasoned objection, unanimity for small groups, and deliberative panels drawn by lot. Research on face-to-face consensus shows that unitary and adversarial modes of democracy suit different conditions \parencite{mansbridge1980}; the Stack supports both rather than choosing for the community. A council's choice of procedure is a meta-rule, changeable only at the meta tier's threshold.
+Human communities reach agreement through diverse cultural paths. A monolithic stack must not impose a single decision culture upon the earth. Each council selects its decision procedure from a library of verified protocols:
+\begin{itemize}
+  \item \textbf{Deliberative Supermajority:} Formal voting requiring a defined threshold (e.g., 66\% or 75\%) following structured deliberation.
+  \item \textbf{Consent-Based Sociocracy:} Proposals pass unless a member raises a reasoned, paramount objection grounded in the community's core mission.
+  \item \textbf{Consensus Assembly:} Full unanimous consent, suited for intimate living pods and founding hearths \parencite{mansbridge1980}.
+  \item \textbf{Sortition Review Panels:} Deliberative citizen juries drawn by lot from the membership, charged with evaluating contentious issues free from factional lobbying.
+\end{itemize}
+A council's choice of decision procedure is a meta-rule, modifiable only through the elevated threshold of the Meta tier.
 
-\subsubsection{Nesting and Subsidiarity}
-
-Councils nest by geography: a Node council within a zone council within a bioregional council. Decisions are taken at the smallest level that contains everyone affected. An encompassing council sets constraints, such as ecological floors on a shared watershed, and nested councils customize freely within them. When a nested council's rule conflicts with an encompassing council's constraint, the constraint prevails, and the dispute goes to the encompassing council's review process rather than to the Orchestrator.
-
-Affection-based councils sit outside this geography. A craft guild, a global standards body reconstituted as a Layer 5 council (the IEEE or the ACM, say), a sports federation, a children's play arrangement, or a fan club governs its own namespace, resources, and credentials. It cannot bind any physical commons, and its credentials carry weight in a physical council only if that council chooses to recognize them.
-
-\subsubsection{Enforcement, Sanctions, and Restoration}
+\subsubsection{Enforcement Without Violence: Restorative Justice}
 \label{sec:l5-sanctions}
 
-Earlier drafts claimed that cybernetic enforcement made coercion obsolete. That claim is withdrawn. The Orchestrator can refuse to open a valve that a quota forbids, but it cannot stop someone with a wrench, and an algorithm that cut a person off from resources would itself be coercion. Layer 5 therefore separates two kinds of enforcement.
+Early cybernetic utopians claimed that software automation would make political coercion obsolete. That claim is false. An automated valve can refuse to open when an irrigation quota is reached, but it cannot stop an individual armed with a pipe wrench; and an algorithm that cuts a human being off from drinking water is itself an act of violence.
 
-\textit{Constraints on actions} are enforced automatically. The Orchestrator refuses envelopes that breach floors or quotas, whoever requested them. These constraints never single out a person, and they never touch the survival baseline.
+Layer~5 separates enforcement into two distinct domains:
+\begin{itemize}
+  \item \textbf{Constraints on Actions (Deterministic Machines):} Layer~4 automatically rejects actuation envelopes that violate ratified ecological floors or survival baselines. These constraints apply uniformly to all users, single out no individual, and never compromise life-support baselines.
+  \item \textbf{Responses to People (Restorative Justice):} When an individual breaches community agreements or bypasses physical controls, enforcement is conducted by living people through \textit{Restorative Justice} \parencite{zehr1990}. The initial response is never punitive; it is a facilitated circle bringing together those harmed and the person responsible to understand the context, address underlying needs, and establish concrete terms of repair.
+\end{itemize}
 
-\textit{Responses to people} who break rules, including physical bypasses that the Orchestrator cannot prevent, are handled by people. The first response is always restorative: a facilitated process that brings together those harmed and the person responsible to understand what happened and agree on repair \parencite{zehr1990}. Only if restoration fails or is refused do graduated sanctions apply, escalating in proportion to the seriousness and repetition of the breach, as enduring commons require \parencite{ostrom1990}. Sanctions may include temporary suspension of particular credentials, reduced stewardship weight in the affected domain, or suspension of non-baseline privileges. Every sanction is time-limited and carries a defined path back. No sanction may withdraw the survival baseline. Withdrawing membership standing is a core-tier decision with the full protections of due process.
+Only if restorative processes fail or are refused do graduated sanctions apply \parencite{ostrom1990}. Sanctions may include temporary suspension of specific credentials, reduction of stewardship weight in the affected council, or mandatory peer accompaniment during tool use. Every sanction is strictly time-limited and defines a clear, achievable path back to full standing. \textbf{No sanction may ever withdraw or reduce the survival baseline.} Withdrawing membership standing entirely is an extraordinary measure reserved for unresolvable violence, governed by the full protections of due process.
 
-\subsubsection{Due Process and Appeals}
+\subsubsection{Due Process and Sortition Review Councils}
 \label{sec:l5-dueprocess}
 
-Any sanction against a person, including revocation of a credential, requires notice of the alleged breach, an opportunity to respond, the right to be accompanied by a person of one's choosing, a decision with reasons recorded, and a right of appeal.
+Any disciplinary sanction or credential suspension requires strict due process: written notice of the alleged harm, an opportunity to be heard, the right to accompaniment by chosen advocates, recorded reasons, and an unconditional right of appeal.
 
-Appeals, and challenges to council decisions on the ground that they violate the entrenched core, are heard by a Review Council whose members are drawn by lot from the membership and serve short, staggered terms. Selection by lot keeps review independent of the factions that won the original decision. When a challenge shows a plausible violation of the core, the Review Council may suspend enforcement of an ordinary rule pending decision; the suspension reaches Layer 4 as a policy change. A challenge can never suspend an ecological floor or the survival baseline in a way that permits harm, because those protections exist precisely to hold during disputes.
+Appeals are heard by a \textbf{Review Council} whose members are chosen by \textit{sortition} (lottery) from the general membership for short, staggered terms. Selection by lot insulates the appellate body from the political factions that dominated the original dispute. When an appeal demonstrates a plausible violation of the Entrenched Core, the Review Council can issue a suspensive injunction, pausing enforcement of an ordinary rule while the matter is investigated.
 
 \subsection{Level Three: Governing Itself}
+\label{subsec:l5-level-three}
 
 \subsubsection{The Rule of Recognition and the Genesis Compact}
 
-Every legal order needs an ultimate rule that identifies which other rules are valid \parencite{hart1961}. In Layer 5, that rule is the \textit{Genesis Compact}: the founding agreement ratified unanimously, in person, by the founding Stewards who form the Genesis Council during the Genesis Protocol (Chapter 9). The Compact states the entrenched core, the meta-rules, and the procedure by which each may be amended. A rule is valid in the Node if and only if it was enacted by a procedure the Compact, as amended by its own procedures, recognizes.
+Every enduring constitutional order requires an ultimate rule that identifies which rules are valid \parencite{hart1961}. In Layer~5, that foundation is the \textit{Genesis Compact}: the founding constitutional agreement ratified unanimously, in person, by the founding Stewards who form the Genesis Council during the Genesis Protocol (Chapter~9). The Compact establishes the Entrenched Core, the Meta-rules, and the procedures by which each may be amended. A rule is valid in the Node if and only if it was enacted by a procedure recognized by the Compact.
 
-Unanimity at founding solves the bootstrapping problem: no one is bound by a constitution they did not accept. People who join later accept the Compact as a condition of membership, and their right of exit (below) keeps that acceptance meaningful.
-
-\subsubsection{Three Tiers of Rules}
+\subsubsection{The Three Tiers of Rules and Self-Amendment Safeguards}
 \label{sec:l5-tiers}
 
-\begin{table}[h]
+To protect the legal order from the self-amendment paradox—where an ordinary majority amends the constitution to entrench its own power—rules are stratified into three distinct tiers (Table~\ref{tab:l5-tiers}):
+
+\begin{table}[htbp]
 \centering
 \small
-\begin{tabular}{|p{0.15\textwidth}|p{0.40\textwidth}|p{0.36\textwidth}|}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{|p{0.18\textwidth}|p{0.38\textwidth}|p{0.38\textwidth}|}
 \hline
-\textit{Tier} & \textit{Examples} & \textit{Amendment requirement} \\
+\textbf{Rule Tier} & \textbf{Constitutional Scope} & \textbf{Amendment Requirement} \\
 \hline
-Entrenched core & Survival baseline; existence of ecological floors; right to refuse work; right of exit; privacy of ballots, self-reports and care leave; due process; non-adversarial treatment of non-stewards & Supermajority in both chambers, ratified twice with a cooling-off period between, the second time in an in-person assembly; review of compatibility with the rest of the core \\
+\textbf{Entrenched Core} & Unconditional survival baseline; existence of ecological floors; right of refusal; right of exit; privacy of ballots, health, and care leave; due process; restorative mandate. & Double supermajority in both chambers (typically 80\%), separated by a mandatory 60-day cooling-off period, ratified in an in-person physical assembly. \\
 \hline
-Meta-rules & Decision procedures; thresholds; delegation caps and expiry; decay half-lives; Review Council selection; escalation authorities; priority order; capacity aggregation & Supermajority in both chambers with a cooling-off period \\
+\textbf{Meta-Rules} & Decision procedures; voting thresholds; delegation caps and expiry; decay half-lives; Review Council selection; escalation routes; priority orders. & Supermajority in both chambers (typically 66\%) with a 30-day cooling-off period. \\
 \hline
-Ordinary policy & Workflows; quotas; floor values within evidence; emergency playbooks; migrations and drains & The council's ratified procedure and required chambers \\
+\textbf{Ordinary Policy} & Specific workflow definitions; numeric quotas; seasonal floor values; emergency playbooks; task assignments; bilateral trade pacts. & Ratified decision procedure of the responsible council in its required chambers. \\
 \hline
 \end{tabular}
-\caption{The three tiers of rules and how each is amended. Specific thresholds and periods are set in each Node's Genesis Compact.}
+\caption{The three tiers of rules and their constitutional amendment requirements.}
 \label{tab:l5-tiers}
 \end{table}
 
-\subsubsection{Amendment Safeguards}
+Three constitutional safeguards protect this hierarchy:
+\begin{enumerate}
+  \item \textbf{Threshold Invariant:} An amendment threshold can be modified only by the threshold it currently requires. A 51\% majority can never vote to lower an 80\% supermajority requirement.
+  \item \textbf{Entrenchment of the Entrenchment Clauses:} The clauses that define the Entrenched Core are themselves part of the Entrenched Core.
+  \item \textbf{Mandatory Review Dates (Chesterton's Fence):} Every rule above the ordinary tier carries an expiration review date. On that date, the community must revisit the rule's original rationale record (Section~\ref{sec:l5-culture}). A rule is retained only if the community actively reaffirms why it was built.
+\end{enumerate}
 
-Three safeguards address the self-amendment paradox, in which a rule could be used to weaken the rules that govern its own change. First, a threshold can be changed only by the threshold it currently requires, so a simple majority can never lower a supermajority requirement. Second, the clauses that entrench the core are themselves part of the core. Third, every rule above the ordinary tier carries a review date. At that date its rationale record is revisited and the rule is either reaffirmed or put up for amendment, so that entrenched rules remain understood rather than merely obeyed.
+\subsection{Emergency Powers and Unconditional Exit}
 
-\subsubsection{Emergency Powers}
+Emergency playbooks are ratified in calm assemblies and stored in Layer~5 for deterministic execution when triggers occur (such as flood telemetry or grid disconnects). Layer~5 strictly limits emergency powers: every playbook carries an immutable hardware timer (e.g., 72 hours) after which it automatically lapses unless explicitly re-authorized by council vote. Furthermore, emergency powers can never suspend the Entrenched Core or bypass the Basic Needs Firewall.
 
-Emergency playbooks are ratified in advance and executed by the Orchestrator when their triggers appear. Layer 5 bounds them in three ways. Each playbook has a maximum duration after which it lapses unless the responsible council votes to extend it. No playbook may override the entrenched core. And every activation is reviewed by the council once the emergency ends, with the review recorded alongside the playbook's rationale.
+Finally, every member possesses an unconditional \textbf{Right of Exit} \parencite{hirschman1970}. Any member may depart at any time, carrying their personal records, cryptographic credentials, and tools. A community that can be left freely must persuade rather than coerce; the availability of exit preserves the moral integrity of voice.
 
-\subsubsection{Exit}
+\section{Federated Meshing: Inter-Node Trading and Resource Routing}
+\label{sec:l5-federation}
 
-Every member may leave, taking their personal records and credentials with them. A community that can be left must persuade rather than compel, and the availability of exit disciplines the use of voice \parencite{hirschman1970}. Questions about dividing shared physical assets when a group of members wishes to form a separate Node are resolved by the encompassing council under the bioregion's rules.
+\subsection{The Fallacy of the Walled Garden}
 
-\section{Voting and Tallying}
+There is a recurring pathology that haunts intentional communities and radical ecological movements: the fantasy of the self-contained island.
 
-\subsection{Secret, Verifiable Ballots}
+For over two centuries, utopian experiments have attempted to retreat behind physical property fences or remote mountain valleys, declaring total autarky \parencite{kanter1972, christian2003}. Believing that any interaction with the broader world represents ideological contamination, they attempt to grow all their own food, produce all their own power, and manufacture all their own tools on twenty acres of land. 
 
-Public, signed votes would make every ballot visible to family, neighbors, and anyone seeking to buy or coerce votes. Layer 5 instead uses end-to-end verifiable voting. Each member can confirm that their own encrypted ballot was included, and anyone can confirm that the published tally correctly combines all included ballots, without any individual ballot being revealed \parencite{adida2008helios}. Ballots are tallied homomorphically, under encryption. A voter proves eligibility and, in the stewardship chamber, their weight with a zero-knowledge proof rather than by revealing their identity. To resist coercion, members may re-cast their ballot privately before the close, and only the last valid ballot counts, so a coerced vote can be silently replaced \parencite{juels2005coercion}.
+The historical outcome of these experiments is tragically consistent. No single twenty-acre parcel contains an iron deposit, a silicon foundry, an optical fiber drawing tower, and a diverse botanical pharmacopeia. When a community's sole tractor breaks a hardened steel differential gear, or an unseasonal frost destroys its seed crops, the isolated community faces a brutal trilemma: endure acute deprivation, abandon its principles to buy from corporate suppliers, or dissolve in exhaustion.
 
-\subsection{What Is Public and What Is Private}
+Autarky at the scale of an isolated settlement is a thermodynamic impossibility. True ecological resilience is not monastic; it is \textit{mycelial}.
 
-\begin{table}[h]
+In a mature forest, a solitary Douglas fir cannot survive a severe beetle infestation or five-month drought on its internal stores alone. It survives because beneath the forest floor lies a dense, polycentric mycorrhizal network. Through this fungal mesh, trees trade surplus carbon and sugars with neighboring birch and cedar stands in exchange for nitrogen, phosphorus, and moisture. When an insect attack strikes, warning biochemical signals propagate through the hyphal network, prompting distant trees to synthesize defensive tannins before the pest arrives. There is no master tree directing the forest, and no central fungal bank pricing nutrients. The forest is an anti-fragile commonwealth of sovereign peers federated through localized metabolic reciprocity.
+
+If the Sovereign Stack stopped at the boundary of a single Node, it would build fragile walled gardens. To secure civilizational endurance, Layer~5 provides the protocols through which autonomous Nodes federate their material wealth into an interconnected bioregional mesh.
+
+\subsection{The Cybernetics of Viability: Systems 1 through 5}
+
+The governance of an interconnected network of sovereign communities is governed by \textcite{ashby1956}'s Law of Requisite Variety: a control system can maintain stability only if its internal variety matches or exceeds the variety of the environment it regulates:
+\begin{equation}
+    V_R \ge V_E
+    \label{eq:ashby_law}
+\end{equation}
+In an open bioregion comprising $N$ sovereign Nodes, the combined operational variety—soil microbial dynamics, microclimate rainfall, battery degradation, and human care needs—is combinatorially vast:
+\begin{equation}
+    V_E = \prod_{i=1}^N |\Omega_i|
+    \label{eq:bioregional_variety}
+\end{equation}
+Any centralized system that routes physical resources through a single central planner or global blockchain ledger inevitably suffers from a fatal variety deficit ($V_{central} \ll V_E$). To maintain control, a central planner is mathematically compelled to destroy variety: imposing rigid production quotas, standardizing human needs, and suppressing local autonomy. When an environmental shock exceeds its narrow bandwidth, the central bottleneck collapses.
+
+Layer~5 avoids this trap by implementing Stafford Beer's \textit{Viable System Model} (VSM) across recursive tiers \parencite{beer1972, beer1979}:
+\begin{enumerate}
+    \item \textbf{System 1 (Operational Autonomy):} Each individual Node constitutes an autonomous System~1. In Beer's cybernetics, System~1 units possess complete operational autonomy. The bioregional federation holds zero authority over a Node's internal Orchestrator (\texttt{col-execd}), its local ledger, or its task matching. Variety is absorbed at the source.
+    \item \textbf{System 2 (Anti-Oscillatory Coordination):} Left uncoordinated, independent operating units produce violent boom-bust oscillations—the classical bullwhip effect in distributed supply chains \parencite{forrester1961}. System~2 dampens these oscillations. It is instantiated through the decentralized routing protocol, where Nodes exchange capability vectors and transport schedules to synchronize physical transfers without top-down commands.
+    \item \textbf{System 3 and System 3* (Homeostasis and Zero-Knowledge Audit):} System~3 monitors internal synergy and balances exergy flows across the network. System~3* provides the audit channel. Rather than employing intrusive inspectors or panoptic surveillance, System~3* operates through \textit{Zero-Knowledge Proofs and threshold signatures} \parencite{rose2020zero}. When a Node fulfills an exergy transfer, it proves delivery via cryptographic Proof-of-Thermodynamic-Work without revealing its internal inventory, member rosters, or private telemetry.
+    \item \textbf{System 4 (Foresight and Bioregional Simulation):} System~4 looks outward and forward. It connects the digital twins of peered Nodes in Oasis simulations to forecast long-range watershed hydrology, seasonal droughts, and legacy infrastructure disruptions, feeding these insights into inter-Node Future Generations panels.
+    \item \textbf{System 5 (Normative Identity and Invariant Policy):} System~5 maintains systemic ethos and identity. It is embodied in the Bioregional Federation Pact and the Entrenched Core, ensuring that inter-Node exchange never violates foundational commitments: unconditional survival baselines, ecological floors, and the right of refusal.
+\end{enumerate}
+
+\begin{table}[htbp]
 \centering
 \small
-\begin{tabular}{|p{0.44\textwidth}|p{0.44\textwidth}|}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{|p{0.18\textwidth}|p{0.38\textwidth}|p{0.38\textwidth}|}
 \hline
-\textit{Public} & \textit{Private} \\
+\textbf{VSM Subsystem} & \textbf{Internal Node Role (Layer 1--5)} & \textbf{Bioregional Federation Role} \\
 \hline
-Proposals, rationale records, and dissents & Individual ballots \\
-Tallies and their verification proofs & Who delegated to whom \\
-Votes cast with delegated weight & Self-reported capacity and care leave \\
-Council rules, procedures, and membership boundaries & Which pairwise identifiers belong to one person \\
-Sanction decisions and reasons (with the affected person's identity protected where they request it) & Refusals of tasks \\
+\textbf{System 1} & Autonomous production cells, microgrids, workshops & Autonomous sovereign Nodes \\
+\hline
+\textbf{System 2} & Orchestrator workflow scheduler (\texttt{col-execd}) & Path-vector routing protocol (\texttt{col-kmsd}); Trust Ring damping \\
+\hline
+\textbf{System 3 / 3*} & Local Two-Chamber Assembly; Proof-of-Work & Bilateral peering treaties; Zero-Knowledge delivery audits \\
+\hline
+\textbf{System 4} & Local Oasis simulation; sensor telemetry & Bioregional watershed climate modeling; inter-Node panels \\
+\hline
+\textbf{System 5} & Genesis Compact; entrenched core rights & Bioregional Federation Pact; universal right of refusal \\
 \hline
 \end{tabular}
-\caption{The default division between public and private information in Layer 5.}
+\caption{Stafford Beer's Viable System Model mapped across internal operations and federated meshing.}
+\label{tab:l5-vsm-mapping}
+\end{table}
+
+\subsection{The Dialectic of the Parts and the Whole}
+
+Federated meshing resolves the ancient political tension between the autonomous part and the collective whole. The centralist error subordinates the part to the whole, sacrificing freedom for bureaucratic optimization; the atomist error isolates the part from the whole, producing an autarkic precarity where a single localized failure brings ruin.
+
+The cybernetic synthesis demonstrates that the whole emerges strictly from the voluntary, non-coercive association of free parts. As \textcite{kropotkin1902} demonstrated, mutual aid is not an act of sentimental altruism but an objective evolutionary mechanism for surviving harsh environments. Furthermore, following \textcite{simondon2020}'s philosophy of individuation, a sovereign Node does not surrender its identity through peering; rather, its sovereignty is \textit{actualized} through transindividual relation. An isolated settlement is merely an embattled redoubt. A networked Node enjoys metabolic resilience because its surplus exergy flows outward along lines of mutual trust, creating reciprocal claims that protect it during local adversity.
+
+Crucially, following \textcite{luhmann1995}'s theory of autopoietic systems, inter-Node cooperation requires strict \textit{operational closure}. A Node can open its routing interfaces to neighboring nodes precisely because its internal constitutional boundary—its Genesis Compact, Web of Trust, and Thermodynamic Ledger—is impermeable to external execution. The federation does not penetrate the Node; it interfaces with it.
+
+\subsection{Polycentric Commons Across Trust Rings}
+
+Inter-Node exchange is structured as a polycentric commons, directly translating the institutional design principles of \textcite{ostrom1990, ostrom2010} into cryptographic mechanisms (Table~\ref{tab:l5-ostrom-mapping}).
+
+\begin{table}[htbp]
+\centering
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{|p{0.26\textwidth}|p{0.70\textwidth}|}
+\hline
+\textbf{Ostrom Design Principle} & \textbf{Sovereign Stack Implementation in Layer 5} \\
+\hline
+\textbf{1. Clearly Defined Boundaries} & Physical Community Land Trust surveys; pairwise DIDs; BBS+ verifiable credentials; Trust Rings ($R_0$ to $R_6$) bounding route advertisement propagation. \\
+\hline
+\textbf{2. Congruence with Local Conditions} & Routing policies and export ceilings calibrated to local thermodynamic entropy curves, battery state-of-charge, and watershed carry-capacities. \\
+\hline
+\textbf{3. Collective-Choice Arrangements} & Bilateral treaties, peering agreements, and export ceilings ratified by both the Stewardship and Commons Chambers of participating Nodes. \\
+\hline
+\textbf{4. Accountable Monitoring} & System 3* zero-knowledge delivery audits; cryptographic Proof-of-Thermodynamic-Work receipts; threshold multi-signature escrows. \\
+\hline
+\textbf{5. Graduated Sanctions} & Algorithmic path derating $\to$ route advertisement throttling $\to$ temporary peering suspension $\to$ formal treaty revocation. Zero physical coercion. \\
+\hline
+\textbf{6. Conflict Resolution} & Bioregional sortition review panels drawn by lot from uninvolved peer Nodes; facilitated restorative mediation before treaty review. \\
+\hline
+\textbf{7. Minimal Recognition of Rights} & Absolute internal constitutional autonomy; Genesis Compacts cannot be amended, challenged, or overridden by external federation bodies. \\
+\hline
+\textbf{8. Nested Enterprises (Subsidiarity)} & Polycentric nesting: Living Pod $\to$ Node Council $\to$ Valley Cluster $\to$ Watershed Guild $\to$ Bioregional Federation $\to$ Continental Mesh Backbone. \\
+\hline
+\end{tabular}
+\caption{Translation of Elinor Ostrom's eight commons design principles into Layer 5 Federated Meshing.}
+\label{tab:l5-ostrom-mapping}
+\end{table}
+
+\subsection{The 7-Tier Trust Ring Hierarchy}
+\label{subsec:l5-trust-rings}
+
+Peering relationships, visibility, and routing policies radiate outward across seven concentric \textit{Trust Rings} ($R_0$ through $R_6$), illustrated in Figure~\ref{fig:l5-trust-rings-topology}:
+
+\begin{enumerate}
+  \item \textbf{Ring 0 (The Convivial Sanctuary / The Hearth):} Co-located domestic hearth and unconditional public sanctuary. Clean water, food pantry access, solar device charging, and medical triage open to all humans without keys, registration, or surveillance. Conforms to the Social Immunity doctrine; zero governance voting weight.
+  \item \textbf{Ring 1 (The Settlement / Guild Commons):} The Genesis Node living perimeter ($\le 500$~m), apprentices, and active volunteers. Ephemeral pairwise DIDs (\texttt{did:peer}) and BBS+ safety attestations. Supervised tool access; advisory voice in Stewardship assemblies.
+  \item \textbf{Ring 2 (The Commons / Village Neighbors):} Walking-distance community ($\le 5$~km). Covenant stewards with master keys in hardware enclaves (\texttt{ATECC608A}). Full dual-chamber voting weight. Direct tool sharing, seed libraries, and bilateral clearing channels.
+  \item \textbf{Ring 3 (The Watershed Guild / Physical Neighbors):} Hydrological river basin cluster ($\le 30$~km). Direct LoRa, 802.11s Wi-Fi mesh, microgrid DC interties, and shared electric utility tractors. Bilateral mutual-aid credit lines and real-time power balancing.
+  \item \textbf{Ring 4 (The Bioregional Federation):} Regional river basin federation ($\le 150$~km). Connected via high-voltage direct-current (HVDC) ties, laser dark-fiber transceivers, and canal/rail corridors. Governed by Polycentric River Basin Councils using aggregated threshold signatures (FROST/BLS). Coordinates shared ecological floors, seasonal fish runs, and collective grain reserves.
+  \item \textbf{Ring 5 (The Continental Corridor / Macro-Mesh):} Trans-continental ecological corridors and federations ($\le 1000$~km) communicating via Delay-Tolerant Networking (DTN) \parencite{fall2003} over packet radio, dark fiber, or physical couriers. Mediates non-perishable tool trade, rare metal recycling, and disaster relief.
+  \item \textbf{Ring 6 (The Ecumene / Legacy Perimeter):} Planetary open craft guilds, standards bodies, and the adversarial legacy frontier. Governed strictly within Layer~7 (\texttt{col-adversaryd}) via cold-store DMZs and Irrevocable Purpose Trusts. Fiat leeching strictly against ratified needs lists; zero internal credentials exposed.
+\end{enumerate}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[scale=0.88, every node/.style={transform shape}]
+    % Concentric Trust Rings
+    \draw[fill=teal!5, draw=teal!40, thick, dashed] (0,0) circle (5.4cm);
+    \draw[fill=cyan!8, draw=cyan!50, thick, dashed] (0,0) circle (4.1cm);
+    \draw[fill=blue!8, draw=blue!50, thick, dashed] (0,0) circle (2.8cm);
+    \draw[fill=green!60!black!15, draw=green!60!black!70, thick] (0,0) circle (1.5cm);
+    \draw[fill=orange!50!yellow!25, draw=orange!50!yellow!80, thick] (0,0) circle (0.65cm);
+
+    % Ring Labels
+    \node at (0, 0) {\textbf{\tiny $R_0$}};
+    \node at (0, 1.0) {\textbf{\scriptsize $R_1$: Settlement}};
+    \node at (0, 2.1) {\textbf{\scriptsize $R_2$: Commons / Village}};
+    \node at (0, 3.4) {\textbf{\small $R_3$: Watershed Guild}};
+    \node at (0, 4.7) {\textbf{\small $R_4$: Bioregional Federation}};
+
+    % Nodes in R1
+    \node[circle, fill=green!60!black!80, text=white, inner sep=1.5pt] (N0) at (0.2,-0.2) {\tiny $N_0$};
+
+    % Nodes in R2
+    \node[circle, fill=blue!70, text=white, inner sep=1.5pt] (N1) at (-1.8, 0.8) {\tiny $N_1$};
+    \node[circle, fill=blue!70, text=white, inner sep=1.5pt] (N2) at (1.6, -1.2) {\tiny $N_2$};
+
+    % Nodes in R3
+    \node[circle, fill=cyan!80, text=white, inner sep=1.5pt] (N3) at (-2.8, -1.8) {\tiny $N_3$};
+    \node[circle, fill=cyan!80, text=white, inner sep=1.5pt] (N4) at (3.1, 1.4) {\tiny $N_4$};
+
+    % Nodes in R4
+    \node[circle, fill=teal!90, text=white, inner sep=1.5pt] (N5) at (-4.2, 2.2) {\tiny $N_5$};
+    \node[circle, fill=teal!90, text=white, inner sep=1.5pt] (N6) at (4.0, -2.6) {\tiny $N_6$};
+
+    % Peering Links and Path Vectors
+    \draw[<->, thick, green!60!black!90] (N0) -- node[above, sloped]{\tiny BCC} (N1);
+    \draw[<->, thick, green!60!black!90] (N0) -- node[below, sloped]{\tiny BCC} (N2);
+    \draw[<->, thick, blue!80] (N1) -- node[above, sloped]{\tiny HVDC} (N3);
+    \draw[<->, thick, blue!80] (N2) -- node[below, sloped]{\tiny Cargo} (N4);
+    \draw[<->, thick, cyan!90] (N3) -- node[above, sloped]{\tiny Rail} (N5);
+    \draw[<->, thick, cyan!90] (N4) -- node[below, sloped]{\tiny DarkFiber} (N6);
+
+    % Path Vector Annotation Arrow
+    \draw[->, ultra thick, red!70, dashed] (N5) to[bend left=20] node[midway, above, sloped]{\tiny Path Vector: $[(N_3, R_4), (N_1, R_3), (N_0, R_2)]$} (N0);
+\end{tikzpicture}
+\caption{Concentric Trust Rings ($R_0$ through $R_4$) and path-vector peering topology across a bioregional watershed.}
+\label{fig:l5-trust-rings-topology}
+\end{figure}
+
+\subsection{The Bioregional Path-Vector Protocol (BPVP)}
+
+To route physical resources without a central coordinator, Layer~5 adapts the architecture of the Border Gateway Protocol (BGP-4, RFC~4271) \parencite{rekhter2006} to the conservation of mass and thermodynamics.
+
+In the \textbf{Bioregional Path-Vector Protocol (BPVP)}—also termed the \textbf{Federated Resource Routing Protocol (FRRP)}—each Sovereign Node operates as an \textit{Autonomous Node} ($AN$), the direct socio-technical analog of an Internet Autonomous System (AS).
+
+\begin{table}[htbp]
+\centering
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{|p{0.22\textwidth}|p{0.36\textwidth}|p{0.36\textwidth}|}
+\hline
+\textbf{Architectural Metric} & \textbf{Internet BGP (RFC 4271)} & \textbf{Layer 5 BPVP / FRRP} \\
+\hline
+\textbf{Basic Sovereign Unit} & Autonomous System (AS, ASN) & Autonomous Node ($AN$, Canonical DID) \\
+\hline
+\textbf{Routed Entity} & Stateless IP packet payloads (data) & Physical exergy and material mass (joules, kg, hours) \\
+\hline
+\textbf{Routing Information} & Network Layer Reachability (NLRI) & Capability Advertisements \& Resource Intents \\
+\hline
+\textbf{Routing Daemon} & \texttt{bgpd} / BIRD / FRRouting & \texttt{col-kmsd} (Policy \& Cryptographic Engine) \\
+\hline
+\textbf{Interior Routing} & OSPF / IS-IS (internal packet hops) & \texttt{col-execd} (BPMN 2.0 Wasmtime orchestration) \\
+\hline
+\textbf{Policy Engine} & Route maps, AS-path filters, communities & Trust Rings, Ricardian Treaties, Ecological Floors \\
+\hline
+\textbf{Loop Prevention} & AS-path attribute inspection & Ring-Path Vector ($\mathcal{P}$) inspection; instant discard \\
+\hline
+\textbf{Settlement Rail} & Clearinghouses, transit fees, fiat (\$) & Bilateral Clearing Channels ($3.6\,\mathrm{MJ}$ exergy parity) \\
+\hline
+\end{tabular}
+\caption{Comparative mapping between Internet BGP and Layer 5 Federated Resource Routing.}
+\label{tab:bgp_comparison}
+\end{table}
+
+\subsubsection{Capability Advertisements and the Ring-Path Vector}
+
+Unlike IP routers that advertise address prefixes, Autonomous Nodes announce signed \textit{Capability Advertisements}. An advertisement $\mathcal{A}$ broadcast by Node $u$ across peering links is formally defined as:
+\begin{equation}
+\mathcal{A} = \big\langle \mathrm{adv\_id}, \, v_{\mathrm{orig}}, \, \mathcal{T}_{\mathrm{res}}, \, \mathbf{u}, \, Q_{\mathrm{avail}}, \, [\tau_{\mathrm{start}}, \tau_{\mathrm{end}}], \, \mathcal{P}, \, \mathcal{C}, \, H_{\mathrm{ttl}}, \, \sigma \big\rangle
+\label{eq:capability_advertisement}
+\end{equation}
+where $v_{\mathrm{orig}}$ is the originating Node DID, $\mathcal{T}_{\mathrm{res}} \in \{\mathrm{Exergy}, \mathrm{Mass}, \mathrm{Tool}, \mathrm{Service}\}$ denotes the resource class, $\mathbf{u}$ encodes technical specifications and BBS+ safety credentials, $Q_{\mathrm{avail}}$ is the export quantity, $[\tau_{\mathrm{start}}, \tau_{\mathrm{end}}]$ is the temporal availability window, $\mathcal{P}$ is the Ring-Path Vector, $\mathcal{C}$ is the accumulated thermodynamic cost metric, $H_{\mathrm{ttl}}$ is the remaining hop limit, and $\sigma$ is a cryptographic threshold signature.
+
+Crucially, available export quantity $Q_{\mathrm{avail}}(t)$ cannot be fabricated arbitrarily. Layer~5 strictly enforces that a Node may announce export surplus only from verified physical assets that exceed both its inviolable ecological floor and its survival baseline:
+\begin{equation}
+Q_{\mathrm{avail}}(t) = \max\left(0, \, Q_{\mathrm{inventory}}(t) - F_{\mathrm{eco}}(t) - B_{\mathrm{baseline}}(t)\right) \cdot \mathbf{1}_{\mathrm{export}}
+\label{eq:export_surplus_bound}
+\end{equation}
+where $\mathbf{1}_{\mathrm{export}} \in \{0, 1\}$ is the boolean export authorization ratified by the local Two-Chamber Assembly.
+
+\subsubsection{The Loop-Freedom Invariant}
+
+To guarantee that routing advertisements never circulate in infinite loops, each announcement carries the \textit{Ring-Path Vector} $\mathcal{P}$, recording the sequence of sovereign hops and Trust Ring classifications:
+\begin{equation}
+\mathcal{P} = \big[ (v_k, r_k), \, (v_{k-1}, r_{k-1}), \, \dots, \, (v_0, r_0) \big]
+\label{eq:ring_path_vector}
+\end{equation}
+where $v_0 = v_{\mathrm{orig}}$ and $v_k$ is the immediate forwarding peer. When Node $w$ receives an advertisement, \texttt{col-kmsd} evaluates the loop-freedom invariant:
+\begin{equation}
+\mathrm{LoopCheck}(w, \mathcal{P}) = 
+\left\{ \begin{array}{ll}
+\mathrm{DISCARD}, & \mbox{if } \exists (v_i, r_i) \in \mathcal{P} \mbox{ such that } v_i = w, \\
+\mathrm{ACCEPT}, & \mbox{otherwise}.
+\end{array} \right.
+\label{eq:loop_check}
+\end{equation}
+If the recipient's own Node identifier appears anywhere in the Ring-Path, the announcement is instantly dropped. Multi-hop route discovery terminates deterministically in $O(D)$ time, where $D$ is the network diameter.
+
+\subsubsection{Thermodynamic Path Attenuation Metric}
+
+Classical data networking minimizes hop counts or milliseconds. In physical resource routing, moving mass or transmitting power incurs irreversible thermodynamic dissipation. The protocol evaluates candidate paths using the accumulated \textit{Thermodynamic Cost Functional} $\mathcal{C}(\mathcal{P})$:
+\begin{equation}
+\mathcal{C}(\mathcal{P}) = \sum_{i=1}^{k} \Big( E_{\mathrm{transport}}(v_{i-1}, v_i, m, \Delta h) + \alpha \cdot \Delta t_{i-1, i} + \beta \cdot \Phi(r_i) + \lambda \cdot \mathcal{E}_{\mathrm{demurrage}}(t) \Big)
+\label{eq:thermo_cost}
+\end{equation}
+where:
+\begin{itemize}
+  \item $E_{\mathrm{transport}}$ is the mechanical work required to move mass $m$ across elevation $\Delta h$ and distance $d$ ($m g \Delta h / \eta + m C_{rr} d$), or electrical transmission heat dissipation ($I^2 R \Delta t$);
+  \item $\alpha \cdot \Delta t$ penalizes transport latency for perishable biological foodstuffs;
+  \item $\Phi(r_i)$ represents Trust Ring social friction (zero across intimate rings, non-zero across bioregional boundaries);
+  \item $\lambda \cdot \mathcal{E}_{\mathrm{demurrage}}$ accounts for physical entropy decay during transit (Chapter~4).
+\end{itemize}
+
+The \textbf{Delivered Effective Exergy} $\mathcal{E}_{\mathrm{eff}}(\mathcal{P})$ for an offered initial exergy $\mathcal{E}_0$ is:
+\begin{equation}
+\mathcal{E}_{\mathrm{eff}}(\mathcal{P}) = \mathcal{E}_0 \prod_{k=1}^n (1 - \lambda_k) - \sum_{k=1}^n \mathcal{E}_{\mathrm{transport}}(e_k)
+\label{eq:effective_exergy}
+\end{equation}
+where $\lambda_k$ is the resistive transmission loss factor on link $e_k$.
+
+\textbf{Constitutional Routing Invariant:} Layer~5 policy strictly forbids ratifying any trade route whose net efficiency $\eta_{route}(\mathcal{P}) = \mathcal{E}_{eff}(\mathcal{P}) / \mathcal{E}_0$ falls below the community's ratified threshold $\eta_{min}$ (typically $\ge 0.60$). Physical resources must never be hauled across the mesh if local bioregional substitutes yield superior net exergy utility.
+
+\subsection{Local Information Bases and Decentralized Route Selection}
+
+In strict compliance with local autonomy, no master directory exists. Every Node maintains three routing tables within \texttt{col-kmsd} (Figure~\ref{fig:l5-routing-architecture}):
+\begin{enumerate}
+  \item \textbf{Adj-RIB-In (Adjacent Resource Information Base - Inbound):} Stores raw capability advertisements received from peered neighbors.
+  \item \textbf{Loc-RIB (Local Resource Information Base):} Stores advertisements that have passed local Layer~5 ingress policy filters (verifying ecological compatibility, safety credentials, and absence of sanctions). For each resource class, Loc-RIB computes the optimal path using the decision hierarchy.
+  \item \textbf{FIB (Forwarding Information Base / Physical Dispatch Table):} The compiled active table exported to Layer~4 (\texttt{col-execd}). When a workflow requires an external good, Layer~4 inspects the FIB to obtain the next-hop peer, transport corridor, and reservation channel.
+  \item \textbf{Adj-RIB-Out (Adjacent Resource Information Base - Outbound):} Stores routes selected for re-advertisement to peers, filtered by egress export ceilings and Trust Ring horizon clamps.
+\end{enumerate}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[node distance=1.3cm, auto, >=stealth,
+    box/.style={rectangle, draw=black!70, fill=gray!5, rounded corners=2pt, minimum width=3.8cm, minimum height=0.7cm, font=\small, align=center},
+    rib/.style={rectangle, draw=blue!70, fill=blue!5, rounded corners=2pt, minimum width=3.2cm, minimum height=0.65cm, font=\small, align=center},
+    lbox/.style={rectangle, draw=teal!80, fill=teal!10, thick, rounded corners=3pt, minimum width=10.5cm, minimum height=2.6cm},
+    arrow/.style={->, thick, draw=black!80}]
+
+    % Layer 5 Boundary Container
+    \node[lbox] (L5) at (0, 0) {};
+    \node[anchor=north west, font=\bfseries\small, text=teal!90] at (-5.1, 1.2) {Layer 5: Governance \& Routing Engine (\texttt{col-kmsd})};
+
+    % RIB Tables inside Layer 5
+    \node[rib] (adjin) at (-3.4, 0.1) {Adj-RIB-In\\ \tiny (Peer Advertisements)};
+    \node[rib] (locrib) at (0, 0.1) {Loc-RIB\\ \tiny (Policy-Filtered Best Routes)};
+    \node[rib] (adjout) at (3.4, 0.1) {Adj-RIB-Out\\ \tiny (Egress Announcements)};
+
+    % Policies inside Layer 5
+    \node[font=\scriptsize, text=red!80, align=center] at (-1.7, 0.6) {Ingress Filter\\ \tiny (Floors \& Refusal)};
+    \node[font=\scriptsize, text=blue!80, align=center] at (1.7, 0.6) {Egress Filter\\ \tiny (Export Ceilings)};
+
+    % Flow between RIBs
+    \draw[arrow] (adjin) -- (locrib);
+    \draw[arrow] (locrib) -- (adjout);
+
+    % Upper Layer: Layer 6
+    \node[box, fill=orange!50!yellow!10, draw=orange!50!yellow!80, minimum width=10.5cm] (L6) at (0, 2.2) {Layer 6: Semantic Agora Interface (\texttt{col-commonsd})\\ \footnotesize Human Intents, Deliberated Proposals, Order Books, \& Bilateral Treaties};
+    \draw[arrow, <->] (0, 1.4) -- (0, 1.85);
+
+    % Lower Layer: Layer 4
+    \node[box, fill=green!60!black!10, draw=green!60!black!80, minimum width=10.5cm] (L4) at (0, -2.1) {Layer 4: Deterministic Orchestrator (\texttt{col-execd})\\ \footnotesize Forwarding Information Base (FIB) $\to$ Task \& Kinetic Dispatch};
+    \draw[arrow] (locrib) -- node[right, font=\tiny]{Compile FIB} (0, -1.7);
+
+    % Lowest Layer: Layer 3 & 2
+    \node[box, fill=purple!10, draw=purple!80, minimum width=10.5cm] (L3) at (0, -3.8) {Layer 3 / 2: Thermodynamic Ledger \& Reticulum Mesh\\ \footnotesize Bilateral Clearing Channels ($BCC$), Proof-of-Work, \& P2P Mesh Radios};
+    \draw[arrow, <->] (0, -2.5) -- (0, -3.4);
+
+    % External Peers
+    \draw[arrow] (-4.8, -0.6) -- node[above, font=\tiny, sloped]{Advertisements In} (adjin);
+    \draw[arrow] (adjout) -- node[above, font=\tiny, sloped]{Advertisements Out} (4.8, -0.6);
+\end{tikzpicture}
+\caption{Layer 5 decentralized routing stack: information bases (RIBs), policy filters, and adjacent layer interfaces.}
+\label{fig:l5-routing-architecture}
+\end{figure}
+
+The Route Decision Hierarchy evaluates candidate paths in Loc-RIB deterministically:
+\begin{enumerate}
+  \item \textbf{Policy Preference (Local Pref):} Prioritize bilateral mutual-aid treaties and sister-node alliances ratified by the local Commons Chamber.
+  \item \textbf{Minimum Trust Ring Radius:} Prefer routes with the lowest maximum ring index (local over distant).
+  \item \textbf{Lowest Thermodynamic Cost Metric:} Select path minimizing $\mathcal{C}(\mathcal{P})$.
+  \item \textbf{Shortest Ring-Path Length:} Select path with fewest intermediate node hops $|\mathcal{P}|$.
+  \item \textbf{Deterministic Tie-Break:} Lowest cryptographic hash of originating Node DID.
+\end{enumerate}
+
+\subsection{Dynamic Request Cascading and Anti-Fragile Supply Webs}
+
+When a Node detects an internal deficit (e.g., an irrigation pump motor burns out or unseasonal cold demands supplementary thermal biomass), it generates a signed \textit{Resource Request Intent} (RRI):
+\begin{equation}
+\mathcal{Q} = \langle \mathrm{req\_id}, \, v_{\mathrm{requester}}, \, \mathcal{T}_{\mathrm{res}}, \, \mathbf{u}_{\mathrm{needed}}, \, Q_{\mathrm{req}}, \, \tau_{\mathrm{deadline}}, \, R_{\mathrm{curr}}, \, \sigma \rangle
+\label{eq:resource_request_intent}
+\end{equation}
+Rather than flooding the globe, the request cascades outward across the concentric Trust Rings:
+\begin{enumerate}
+  \item \textbf{Phase 1: Local Settlement ($R_0 / R_1$):} Queries immediate household and settlement reserves. If available, fulfilled instantly at zero transport exergy.
+  \item \textbf{Phase 2: Commons Expansion ($R_2$, $\le 5$~km):} If unsatisfied after timeout $T_1$, expands to adjacent village tool libraries and microgrid peers via EV cargo bikes.
+  \item \textbf{Phase 3: Watershed Federation ($R_3$, $\le 30$~km):} If unsatisfied after timeout $T_2$, reaches the valley cooperative guild, scheduling transfer via shared electric utility trucks or canal barges.
+  \item \textbf{Phase 4: Bioregional Meshing ($R_4$, $\le 150$~km):} If unsatisfied after timeout $T_3$, engages bioregional treaty partners for heavy industrial casting, HVDC power, or rail transport.
+  \item \textbf{Phase 5: Exhaustion \& Compensation Path:} If no route matches before $\tau_{\mathrm{deadline}}$, Layer~5 informs Layer~4, which triggers the workflow's compensation path (e.g., entering low-power conservation or harvesting substitute crops).
+\end{enumerate}
+
+This progressive widening creates true \textit{anti-fragility} \parencite{meadows2008}. Local perturbations are absorbed locally. If a landslide destroys a mountain road or an inverter fails, adjacent Nodes propagate a route withdrawal (\texttt{WITHDRAW}) message. Within seconds, local routing engines re-evaluate their Loc-RIB tables and switch to alternative transport corridors or river barges without central administrative downtime.
+
+\subsection{Bilateral Clearing Channels: Trade Without a Central Ledger}
+
+How do sovereign Nodes settle physical trades without a global fiat currency or universal blockchain?
+
+Adjacent Nodes maintain \textit{Bilateral Clearing Channels} (BCC) on Layer~3. For two peered Nodes $u$ and $v$, the bilateral state obeys strict conservation:
+\begin{equation}
+B_{u \to v}(t) + B_{v \to u}(t) = 0
+\label{eq:channel_conservation}
+\end{equation}
+The balance fluctuates within a \textit{Mutual Aid Credit Window} $[-C_{u \to v}, +C_{v \to u}]$ ratified by each Node's Two-Chamber Assembly:
+\begin{equation}
+-C_{u \to v} \le B_{u \to v}(t) \le C_{v \to u}
+\label{eq:credit_window}
+\end{equation}
+
+When Node $A$ receives physical resources from Node $C$ through intermediate router Node $B$:
+\begin{itemize}
+  \item Node $A$ does not broadcast a payment to a global blockchain.
+  \item $A$ and $B$ adjust their bilateral channel: $\Delta B_{A \to B} = -Q$.
+  \item Simultaneously, $B$ and $C$ adjust their bilateral channel: $\Delta B_{B \to C} = -Q$.
+  \item Atomicity is guaranteed via cryptographic two-phase receipts: the physical recipient signs a sensor-verified delivery receipt upon arrival (Layer~1/2), releasing the escrowed bilateral states along the path.
+\end{itemize}
+
+Inter-Node debt is never financialized, compound interest is mathematically impossible, and bankruptcy does not exist. Clearance occurs through three natural mechanisms:
+\begin{enumerate}
+  \item \textbf{Reciprocal Physical Delivery:} Counter-seasonal exchange (e.g., Node $u$ supplies summer solar power; Node $v$ repays in autumn firewood).
+  \item \textbf{Stewardship Labor Dispatch:} Node $u$ sends skilled maintenance Stewards to assist Node $v$ with harvest or turbine overhaul.
+  \item \textbf{Commons Jubilee:} Periodic mutual aid forgiveness ratified in bioregional assemblies when ecological disasters (droughts, fires) cause structural deficits.
+\end{enumerate}
+
+\subsection{Preserving Node Sovereignty: The Parts vs. The Whole}
+
+A core cybernetic principle of The Sovereign Stack is that the autonomy of individual Nodes (``the parts'') must never be sacrificed to the efficiency of the bioregional network (``the whole''). This is enforced through four constitutional firewalls:
+\begin{itemize}
+  \item \textbf{The Inviolability of Local Floors:} No external request, however urgent or wealthy, can compel a Node to release resources that would breach its internal ecological floors ($F_{\mathrm{eco}}$) or survival baseline ($B_{\mathrm{baseline}}$). The Orchestrator's compiler rejects any actuation envelope violating this invariant.
+  \item \textbf{The Protocol of Refusal Firewall:} Any sacred site, heirloom seed stock, or intimate craft workshop placed under the Protocol of Refusal (Section~\ref{sec:l5-culture}) is cryptographically excised from capability advertisements. The routing daemon is structurally incapable of publishing or routing refused assets.
+  \item \textbf{Autonomous Transit Veto (\texttt{No-Transit}):} A Node retains an absolute right to refuse transit routing across its territory. If a community objects to heavy freight transit through its residential glade, its Layer~5 ingress filter drops the transit route, forcing traffic onto alternative waterways or perimeter bypasses.
+  \item \textbf{Unconditional Right of Exit:} Any Node may unilaterally dissolve a peering treaty at any moment. Route withdrawals propagate across the mesh via signed revocation announcements, and bilateral escrow accounts settle cleanly without punitive indemnity.
+\end{itemize}
+
+\subsection{Algorithmic Specifications}
+
+\paragraph{Algorithm 1: Capability Advertisement Ingress and Loop-Free RIB Processing}
+\begin{enumerate}
+  \item \textbf{Verification:} Verify cryptographic threshold signature $\sigma$ against $v_{\mathrm{orig}}$. Discard if invalid, if $H_{\mathrm{ttl}} \le 0$, or if expired.
+  \item \textbf{Loop Check:} For each $(v_i, r_i) \in \mathcal{P}$, if $v_i == u_{\mathrm{local}}$, discard immediately (routing loop detected).
+  \item \textbf{Policy Filter:} Evaluate local Layer~5 ingress policy. If $v_{\mathrm{orig}}$ is quarantined or resource $\mathcal{T}_{\mathrm{res}}$ violates local ecological standards, discard.
+  \item \textbf{RIB Insertion:} Insert raw advertisement into \texttt{Adj-RIB-In}.
+  \item \textbf{Loc-RIB Compilation:} Compare route against current best route in \texttt{Loc-RIB} using the Decision Hierarchy. If better, update \texttt{Loc-RIB}, compile forwarding entry into \texttt{FIB}, and notify Layer~4 (\texttt{col-execd}).
+  \item \textbf{Egress Propagation:} Apply export policy filters; schedule announcement to eligible peering neighbors via \texttt{Adj-RIB-Out}.
+\end{enumerate}
+
+\paragraph{Algorithm 2: Dynamic Hierarchical Request Cascading}
+\begin{enumerate}
+  \item \textbf{Local Check:} Query local inventory ($R_0 / R_1$). If quantity satisfies deficit, dispatch local actuation immediately.
+  \item \textbf{Cascading Loop:} Set current ring index $r = 2$ (Commons). While $r \le 4$ and deadline not reached:
+  \begin{itemize}
+    \item Check \texttt{Loc-RIB} for existing advertised routes within ring $r$. If found, attempt reservation. If confirmed, initiate bilateral dispatch.
+    \item Broadcast Resource Request Intent (RRI) scoped to ring $r$.
+    \item Await peer offer until timeout $T_r$. If offer arrives, commit bilateral channel and dispatch.
+    \item If timeout expires with no match, widen horizon: $r \gets r + 1$.
+  \end{itemize}
+  \item \textbf{Homeostatic Fallback:} If ring $R_4$ is exhausted without resolution, trip Layer~4 compensation path (conserve, ration, or substitute).
+\end{enumerate}
+
+\section{Cryptographic Scrutiny: Secret, Verifiable Balloting}
+\label{sec:l5-voting}
+
+\subsection{End-to-End Verifiability Under Homomorphic Encryption}
+
+Public voting creates social pressure, bribery, and coercion; purely private paper voting relies on trusting the central ballot counters. Layer~5 adopts end-to-end verifiable cryptographic balloting based on homomorphic encryption \parencite{adida2008helios}.
+
+In this system:
+\begin{itemize}
+  \item \textbf{Individual Verifiability:} Each voter receives a cryptographic receipt allowing them to confirm that their encrypted ballot was included in the ballot box without revealing how they voted.
+  \item \textbf{Universal Verifiability:} Anyone in the community can verify the mathematical proof that the published tally is the exact sum of all valid included ballots.
+  \item \textbf{Homomorphic Tallies:} Ballots are encrypted under the council's threshold public key. The tally is computed by multiplying the encrypted ciphertexts directly ($E(m_1) \cdot E(m_2) = E(m_1 + m_2)$). Decryption is performed only once on the aggregated sum, so individual votes are never decrypted.
+\end{itemize}
+
+Voters prove eligibility and stewardship weight using zero-knowledge proofs.
+
+\subsection{Coercion Resistance: The Silent Re-Cast Invariant}
+
+To resist coercion—where an abusive partner, employer, or faction leader demands to watch a member vote—Layer~5 implements the silent re-cast invariant \parencite{juels2005coercion}. A member may cast a vote under coercion, and subsequently cast a new ballot privately before the voting window closes. Only the final valid ballot is included in the homomorphic tally. The receipt generated under coercion appears mathematically valid to the coercer, but is superseded inside the private tally.
+
+\subsection{The Demarcation of Transparency}
+
+Table~\ref{tab:l5-privacy} establishes the default boundary between public transparency and private sanctuary in Layer~5.
+
+\begin{table}[htbp]
+\centering
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{|p{0.46\textwidth}|p{0.46\textwidth}|}
+\hline
+\textbf{Public Information} & \textbf{Private Information} \\
+\hline
+Proposals, rationale records, and formal dissents & Individual ballots \\
+Tallies and cryptographic verification proofs & Who delegated to whom \\
+Votes cast with delegated stewardship weight & Self-reported capacity and care leave \\
+Council rules, procedures, and boundary maps & Which pairwise identifiers belong to one person \\
+Sanction decisions and reasons (identity protected on request) & Task refusals \\
+\hline
+\end{tabular}
+\caption{The default division between public transparency and private sanctuary in Layer 5.}
 \label{tab:l5-privacy}
 \end{table}
 
-\subsection{The Limits of the Mathematics}
+\subsection{The Limits of Mathematics}
 
-A tally can be computed exactly; legitimacy cannot. A count proves only that a procedure was followed. Whether the procedure deserves allegiance depends on whether people were heard, whether the reasons were understood, and whether the decision fits who the community takes itself to be. The final section deals with these questions.
+A tally can be computed with mathematical perfection; legitimacy cannot. A cryptographic proof demonstrates only that a formal protocol was followed. Whether an outcome deserves allegiance depends on whether human beings were heard, whether minority dissents were recorded, and whether the decision honors the community's living covenant. Mathematics serves the assembly; it never replaces it.
 
-\section{Culture, Memory, and the Collective}
+\section{Culture, Memory, and the Collective Dimension}
+\label{sec:l5-culture}
 
-The individual protections above, such as care leave, restorative process, private ballots, and free refusal, address people as persons. Governance also has a collective dimension, made of shared meaning, memory, obligation across generations, and the things a community will not reduce to numbers. Layer 5 gives each of these a concrete mechanism.
+\subsection{Legitimacy Beyond Procedure: The Living Assembly}
 
-\subsection{Legitimacy Beyond Procedure}
+Some decisions must be made face-to-face, not through glowing glass screens. Ratifying the Genesis Compact, amending the Entrenched Core, and welcoming new members through physical co-signature occur in living physical assemblies. The software records the outcome; the assembly is where the community recognizes its own living soul.
 
-Some decisions should be taken in person, not only on a screen. Ratifying the Genesis Compact, amending the core, and admitting new members by physical co-signature are performed in assemblies, at times and in forms each community chooses. The Stack records the outcome; the assembly is where the community recognizes itself in it.
-
-\subsection{Collective Memory: Rationale Records}
+\subsection{Collective Memory: Rationale Records and Chesterton's Fence}
 \label{sec:l5-memory}
 
-A community that forgets why it made a rule will eventually remove a fence whose purpose it no longer remembers \parencite{chesterton1929}. Every rule ratified in Layer 5 is therefore bound by hash to a \textit{rationale record}. The record states the problem addressed, the evidence considered, the alternatives rejected and why, the dissents raised, and the conditions under which the rule should be revisited. Rationale records are authored by people through Layer 6 and stored in Layer 5 as signed payloads. A proposal to repeal or amend a rule must respond to its rationale record, and the response becomes part of the record.
+A community that forgets why it made a rule will eventually demolish a fence whose protective purpose it no longer remembers \parencite{chesterton1929}. In Layer~5, every enacted rule is bound by cryptographic hash to a \textit{Rationale Record}.
 
-\subsection{Intergenerational Duty}
+The rationale record documents:
+\begin{enumerate}
+  \item The concrete problem that prompted the rule;
+  \item The evidence and thermodynamic data considered;
+  \item The alternative proposals rejected and why;
+  \item The formal dissents raised by the minority;
+  \item The revisit conditions and ecological triggers that should prompt review.
+\end{enumerate}
+A proposal to repeal or amend a rule must explicitly respond to its original rationale record.
 
-Some decisions outlast everyone who makes them: an aquifer drawn down, a food forest planted, a valley flooded. Any proposal whose effects are irreversible, or extend beyond a horizon set as a meta-rule (on the order of decades), is tagged as long-horizon. Long-horizon proposals must be reviewed by a Future Generations panel, drawn by lot and mandated to argue for those not yet born. The panel holds a suspensive veto: it can delay a decision and require reconsideration with its objections answered in the rationale record, but it cannot block indefinitely. Comparable institutions exist in legacy law, for example the statutory duty to consider long-term impacts and the office of a Future Generations Commissioner \parencite{wales2015future}, and the principle echoes the widely cited ethic of considering the seventh generation.
+\subsection{Intergenerational Duty: The Future Generations Panel}
 
-\subsection{The Protocol of Refusal}
+Decisions involving long-term ecological consequences—diverting a river, clearing a mature grove, or burying mine tailings—outlast the humans who make them. Any proposal whose physical effects extend beyond a horizon set in meta-rules (typically twenty-five years) is tagged as \textit{Long-Horizon}.
+
+Long-horizon proposals must be reviewed by a \textbf{Future Generations Panel}, selected by lot from the membership with the explicit mandate to advocate for humans and ecosystems seven generations into the future \parencite{wales2015future}. The panel holds a \textit{suspensive veto}: it cannot block a project permanently, but it can pause enactment for up to one year, requiring the sponsoring council to respond to intergenerational objections within the rationale record.
+
+\subsection{The Protocol of Refusal: Defending the Sacred}
 \label{sec:l5-refusal}
 
-A community may decide that some places, practices, or relationships are not to be measured, simulated, or optimized: a burial ground, a grove, a ceremony, the private life of a household. The \textit{Protocol of Refusal} lets the commons chamber designate such a domain. A designation has the following effects:
+A community may decide that certain places, seed lines, ceremonies, or human relationships must never be measured, simulated, or optimized: a sacred grove, a burial ground, an heirloom cultivar, or the private life of a household.
+
+The \textbf{Protocol of Refusal} allows the Commons Chamber to designate such domains. A designation has four immediate legal and technical effects:
 \begin{itemize}
-  \item the domain cannot appear as an optimization target in any workflow;
-  \item it is excluded from Oasis simulation as an input to decisions;
-  \item no sensors are installed in it beyond those the designation explicitly permits;
-  \item Layer 4 receives it as a floor, so no actuation envelope may affect it except to protect it.
+  \item The domain cannot appear as an optimization target in any workflow;
+  \item It is cryptographically excluded from Oasis simulations;
+  \item No physical sensors may be installed within it;
+  \item Layer~4 compiles it as an absolute floor: no actuation envelope may alter it except to protect it.
 \end{itemize}
-Designation is deliberately asymmetric. Creating one requires the commons chamber's ordinary threshold; removing one requires the meta tier's threshold and a rationale record. It should be easier to protect something from quantification than to expose it.
+Designation is deliberately asymmetric: enacting a refusal requires an ordinary majority; revoking a refusal requires the elevated threshold of the Meta tier. It must always be easier to protect the sacred from quantification than to expose it.
 
-\subsection{Cultural Plurality}
+\subsection{Cultural Plurality and the Right to Informality}
 
-Nodes are not required to share a culture. Beyond the entrenched core and the interfaces between layers, each Node's Genesis Compact, decision procedures, assemblies, and rituals are its own. Interoperation between Nodes depends only on the core and the interfaces, not on any shared way of reaching agreement.
+Nodes are not required to share a uniform culture. Beyond the Entrenched Core and layer interfaces, each Node's rituals, assemblies, and architecture are its own. Furthermore, councils govern infrastructure, not human love. Families, friendships, poetry circles, and informal dinner clubs operate without credentials or software logging. The governance stack is an available tool, never an omnipresent master.
 
-\subsection{Kinship and the Right to Informality}
-
-Councils coordinate; they are not kinship. A Public Health Council can organize care for elders and mediation for disputes, but it does not replace families, friendships, or communities of affection. Any group may exist without a council namespace, without credentials, and without recording anything in Layer 5. The governance protocol is available to relationships that want it and imposes nothing on those that do not.
-
-\subsection{Non-Stewards and Neighbouring Communities}
+\subsection{Non-Stewards and Neighboring Communities}
 \label{sec:l5-neighbours}
 
-Consistent with the commitments of Chapter 1, people outside the community are neither adversaries nor background. Non-members affected by a decision, such as a neighbouring town downstream on a shared river or a non-member household within a Node's boundary, have three channels. They may petition to place an item on a council's agenda. They may give testimony at hearings, which councils must hold before deciding matters that affect them. And they are owed a written response that addresses their testimony and is attached to the decision's rationale record. Their participation is recorded without requiring them to adopt any identity in the Web of Trust. Where a decision collides with the legal rights of legacy neighbours, the matter is surfaced through Layer 6 to Layer 7.
+People outside the community are neither enemies nor invisible background. Downstream towns sharing a watershed or non-member neighbors living along the boundary hold three formal channels:
+\begin{itemize}
+  \item The right to petition items onto council agendas;
+  \item Mandatory public hearings before decisions affecting shared resources are taken;
+  \item The right to a formal written response attached to the decision's rationale record.
+\end{itemize}
+Their participation is welcomed without requiring them to join the Web of Trust. Collisions with legacy property laws are surfaced upward to Layer~7.
 
-\section{Concrete Representation}
+\section{Concrete Representation: Schemas and Daemons}
+\label{sec:l5-representation}
 
-Table~\ref{tab:l5-records} lists the principal records Layer 5 maintains in its governance store.
+\subsection{The Architecture of \texttt{col-kmsd}}
 
-\begin{table}[h]
+The Layer~5 runtime daemon, \texttt{col-kmsd}, is implemented as an asynchronous POSIX service in C++20/Rust. It maintains an encrypted SQLCipher database, a Sparse Merkle Tree (SMT) for cryptographic accumulator proofs, and an in-memory Web of Trust directed acyclic graph (DAG). Master secrets are secured via PKCS\#11 interfaces to the onboard ATECC608A cryptographic element.
+
+\subsection{Principal Governance Data Records}
+
+Table~\ref{tab:l5-records} defines the principal data structures maintained in the Layer~5 governance store.
+
+\begin{table}[htbp]
 \centering
 \small
-\begin{tabular}{|p{0.22\textwidth}|p{0.70\textwidth}|}
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{|p{0.24\textwidth}|p{0.70\textwidth}|}
 \hline
-\textit{Record} & \textit{Contents} \\
+\textbf{Record Type} & \textbf{Data Structure \& Fields} \\
 \hline
-Council namespace & Scope of jurisdiction (geographic or affection-based); encompassing council; membership boundary; decision procedure; chamber rules \\
+\textbf{Council Namespace} & Scope of jurisdiction (geographic or affection-based); parent council; membership boundary; decision procedure; chamber weights. \\
 \hline
-Rule & Content hash; tier; enacting procedure and tally reference; rationale record hash; review date; long-horizon and refusal tags \\
+\textbf{Rule} & Content hash; rule tier; enacting procedure reference; rationale record hash; review date; long-horizon and refusal tags. \\
 \hline
-Rationale record & Problem, evidence, alternatives, dissents, revisit conditions, responses to amendment proposals \\
+\textbf{Rationale Record} & Problem statement; evidence considered; alternatives rejected; minority dissents; revisit triggers; amendment responses. \\
 \hline
-Attestation & Verifiable Credential bound to a pairwise identifier; issuer; revocation registry reference \\
+\textbf{Attestation} & Verifiable Credential bound to pairwise identifier; issuer DID; BBS+ signature; cryptographic accumulator registry reference. \\
 \hline
-Reputational contribution & Council; claim-handle-derived reference; completion time (for decay); weight before caps \\
+\textbf{Reputational Contribution} & Council namespace; anonymous claim handle; completion timestamp (decay clock); raw exergy weight before caps. \\
 \hline
-Delegation & Encrypted delegation edge; expiry; visible only to the delegator and, in aggregate, to the tally \\
+\textbf{Delegation} & Encrypted delegation edge; expiry timestamp; visible only to delegator and aggregate homomorphic tally. \\
 \hline
-Ballot & Encrypted ballot; eligibility and weight proof; inclusion receipt \\
+\textbf{Ballot} & Homomorphic ciphertext $E(v)$; zero-knowledge weight proof; individual receipt nonce; election CID. \\
 \hline
-Sanction & Breach, process followed, decision and reasons, duration, path back, appeal status \\
+\textbf{Sanction} & Harm description; restorative process transcript; sanction terms; duration; path back; Review Council appeal status. \\
+\hline
+\textbf{Trust Ring Definition} & Ring index ($R_0$--$R_6$); topological geofence; cryptographic entry predicate; BBS+ schema; peering capability mask. \\
+\hline
+\textbf{Capability Advertisement} & Resource class $\mathcal{T}_{\mathrm{res}}$; capability vector $\mathbf{u}$; quantity $Q_{\mathrm{avail}}$; availability window; Ring-Path $\mathcal{P}$; cost $\mathcal{C}$; threshold signature $\sigma$. \\
+\hline
+\textbf{Bilateral Peering Treaty} & Peer $AN_{\mathrm{id}}$; mutual credit limit $[-C_1, +C_2]$; clearing channel handle; shared ecological constraints; transit permission bit. \\
+\hline
+\textbf{Thermodynamic Delivery Receipt} & Resource ID; transferred quantity; dual-signed physical sensor telemetry; Layer 3 PoTW hash reference; hop path sequence. \\
 \hline
 \end{tabular}
-\caption{Principal records in the Layer 5 governance store.}
+\caption{Principal records in the Layer 5 governance store (incorporating Federated Meshing structures).}
 \label{tab:l5-records}
 \end{table}
+
+\subsection{The Ricardian Inter-Node Treaty Schema}
+
+Bilateral treaties between peered Nodes are compiled as dual-layered Ricardian contracts \parencite{grigg2004}:
+\begin{equation}
+\mathrm{Treaty\_CID} = \mathrm{SHA256}\left( \mathrm{Text}_{\mathrm{prose}} \parallel \mathrm{Schema}_{\mathrm{JSON-LD}} \parallel \mathrm{Invariants}_{\mathrm{BPMN}} \right)
+\label{eq:treaty_hash}
+\end{equation}
+The human-readable text articulates bioregional friendship, mutual aid intentions, and watershed stewardship; the machine-verifiable JSON-LD specification defines credit limits, exergy conversion ratios, and delivery verification predicates; and the BPMN invariants compile into Layer~4's execution engine.
+
+\section{Crescendo: The Republic of Autonomous Nodes}
+\label{sec:l5-crescendo}
+
+We began this chapter inside the quiet sanctuary of the local Node: examining how pairwise keys shield the human spirit from the panopticon, how two chambers balance engineering competence with communal purpose, and how restorative circles heal the inevitable frictions of shared life. We conclude at the vast horizon of the bioregion.
+
+The ultimate test of any political architecture is whether it can answer the ancient cybernetic riddle formulated by Stafford Beer: \textit{How do you achieve cohesion at the scale of the whole without suffocating liberty at the scale of the part?}
+
+Throughout human history, civilization has swung violently between two catastrophic poles.
+
+On one side lies the \textbf{Leviathan}: the centralized empire, the imperial nation-state, and the monopoly corporate platform. The Leviathan achieves vast logistical coordination, but it buys that coordination at the price of totalitarian standardization. It strips local communities of their self-determination, treats human beings as interchangeable cogs, and exhausts the living ecology of the planet to fuel its central furnace.
+
+On the other side lies the \textbf{Atomized Wilderness}: the fragmented landscape of isolated communes, warring city-states, or competitive market actors. The wilderness celebrates local autonomy, but it is fragile, parochial, and weak. When winter comes, when the harvest fails, or when a predatory neighbor marches across the valley, the isolated settlement is broken and swept away.
+
+The Sovereign Stack breaks this ancient wheel.
+
+Through Layer~5, we construct neither an empire nor an atomized wilderness, but a \textbf{Polycentric Bioregional Commonwealth}.
+
+In this architecture, every Node is an inviolable sanctuary. Its dirt is protected by ecological floors; its people are shielded by the Basic Needs Firewall; its private deliberations are sealed within cryptographic hardware enclaves. No king, no central committee, and no automated planetary algorithm can command its actuators or demand its surrender. The parts remain stubbornly, beautifully autonomous.
+
+Yet, through the Federated Mesh, those sovereign sanctuaries interlock into an unbreakable shield. Like the hyphae of the fungal web running beneath the forest floor, our directional radios and dark-fiber threads weave valley to valley, watershed to watershed, and mountain to coast. When a sister community stumbles, our capability vectors open; when drought strikes a neighboring basin, our exergy flows across the ridge; when external legacy authorities threaten an isolated settlement, the full political and legal weight of the bioregional confederation rallies to its defense.
+
+We do not govern by counting votes on an imperial ledger. We govern by weaving a web of living pacts between free people who stand firmly upon their own soil.
+
+The tools are ready. The protocols are compiled. The web of trust is open.
