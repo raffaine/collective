@@ -1,3 +1,7 @@
+
+**CRITICAL AUTHORING GUIDELINE (LORE):** 
+Kael and Jax are both working nomadically spreading The Collective across the continent. They are legendary founders. They DO NOT appear as everyday workers, apprentices, or drivers in this node. If they ever message or appear in the story, it is because things are incredibly serious (which can be used as a major plot hook). Do not casually name minor characters Kael or Jax.
+
 # Fault Tolerance - Book Structure
 
 **Timeline:** 5 to 10 years after the events of *System Call*.
