@@ -80,38 +80,53 @@ Kael and Jax are both working nomadically spreading The Collective across the co
 *   **Scenarios Showcased:**
     *   **Sigma:** The Maintenance Commons (Finding ecological and ideological balance).
 
-## Part IV: The Breaking Point
+## Part IV: The Bioregional Commonwealth
 
-### Chapter 10: Maintenance and Entropy
+### Chapter 10: The Politics of Collapse
+*   **Plot:** The narrative zooms out to the bioregional level, exploring multinode arrangements and politics. The Legacy system in a nearby major city is entering a crescent decline, resulting in severe resource shortages and a massive refugee crisis. A political fracture erupts across the Polycentric Bioregional Commonwealth. Some nodes argue for an "Atomized Wilderness" approach, wanting to raise their Basic Needs Firewalls and cut off the legacy city completely to protect their own ecological floors. Elara and Silas's node argues for extending the Federated Mesh and mutual aid, testing the limits of their solidarity.
+*   **Characters:** Elara, Silas, Node Delegates across the Bioregion.
+*   **Scenarios Showcased:**
+    *   **Lambda:** Cultural Commons (Navigating bioregional identity and politics).
+    *   **Psi:** Restorative Justice & Conflict Resolution (applied at a multinode scale).
+
+### Chapter 11: The Federated Resolution
+*   **Plot:** The bioregion convenes a massive Layer 5 meta-governance assembly. They resolve the fracture not through central edict, but by weaving bilateral Ricardian contracts and cascading routing protocols. They figure out how to offer managed, conditional aid to the collapsing legacy zones by load-balancing exergy across the entire mesh, proving that their Polycentric Commonwealth can act as a cushion without sacrificing local node sovereignty.
+*   **Characters:** Elara, Silas, Bioregional Delegates.
+*   **Scenarios Showcased:**
+    *   **Pi:** The Sovereign Guild (Cross-node federation).
+
+## Part V: The Breaking Point
+
+### Chapter 12: Maintenance and Entropy
 *   **Plot:** The stress of constant adversarial pressure (Legacy utility throttling, drone surveillance) leads to severe burnout. A critical dispute breaks out over resource allocation. Elara steps in to mediate, driven by her love and responsibility for the whole community, rejecting any personalism.
 *   **Characters:** Elara, Silas, Feuding Community Members.
 *   **Scenarios Showcased:**
     *   **Sigma:** The Maintenance Commons (Dealing with burnout and entropy).
     *   **Psi:** Restorative Justice & Conflict Resolution.
 
-### Chapter 11: The Elder Wisdom
+### Chapter 13: The Elder Wisdom
 *   **Plot:** An elder of the community passes away. Their tools and knowledge are seamlessly absorbed into the commons. The community engages in somatic play, art, and music to mourn and heal, avoiding legacy probate systems.
 *   **Characters:** Elara, Silas, Gabe, The Elders.
 *   **Scenarios Showcased:**
     *   **Phi:** The Elder Commons (Passing on wisdom and assets).
     *   **Lambda:** Cultural Commons (Arts, Sound, and Somatic Play).
 
-### Chapter 12: Ecological Shock
+### Chapter 14: Ecological Shock
 *   **Plot:** A severe, climate-driven super-storm hits the bioregion. The Legacy system abandons the area. The Collective must rely entirely on its disaster resilience networks to survive, while hostile Legacy forces attempt to exploit the chaos.
 *   **Characters:** Elara, Silas, Gabe, entire community.
 *   **Scenarios Showcased:**
     *   **Upsilon:** Ecological Shock (Disaster Resilience).
     *   **Rho:** The Adversarial Mesh (Exploiting the storm).
 
-## Part V: The Sovereign Singularity
+## Part VI: The Sovereign Singularity
 
-### Chapter 13: The Brink of Severance
+### Chapter 15: The Brink of Severance
 *   **Plot:** The storm clears, but the Legacy state launches a massive, coordinated legal and physical attack. Elara, Silas, and Gabe mobilize the final defense. They realize the ablative shield is failing; they can no longer exist as a proxy within the old world.
 *   **Characters:** Elara, Silas, Gabe, Node Defenders.
 *   **Scenarios Showcased:**
     *   **Rho:** The Adversarial Mesh (Subpoenas and physical sabotage).
 
-### Chapter 14: Terminal Decoupling (The Climax)
+### Chapter 16: Terminal Decoupling (The Climax)
 *   **Plot:** Elara and the community execute the Sovereign Singularity. It is framed not as magical separation, but as a definitive shift in leverage and a tragic choice, acknowledging the heavy cost of leaving the legacy world (and those trapped within it) behind. They sever municipal utility lines. The Legacy grid goes dark, but the local mesh lights up. The Collective Bioregion permanently detaches.
 *   **Characters:** Elara, Silas, Gabe, The Global Mesh.
 *   **Scenarios Showcased:**
