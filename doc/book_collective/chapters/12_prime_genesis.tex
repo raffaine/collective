@@ -130,16 +130,16 @@ Zoning is navigated via state Accessory Dwelling Unit (ADU) preemption statutes 
 
 Phase~4 realizes the terminal decoupling codified in Scenario Omega (\ref{subsec:scn_omega}): striking the wooden centering wedges and entering perpetual homeostatic autarky.
 
-\paragraph{Thermodynamic Invariant:} The settlement mathematically satisfies the Autarky Sovereignty Index:
+\paragraph{Thermodynamic Invariant:} The settlement mathematically satisfies the Federated Viability Index:
 \begin{equation}
-\mathcal{S}_{\mathrm{autarky}} = \min\left( 
-    \frac{\Phi_{\mathrm{generation}}}{\Phi_{\mathrm{load}}}, \, 
-    \frac{\mathcal{M}_{\mathrm{yield}}}{\mathcal{M}_{\mathrm{caloric}}}, \, 
-    \frac{\mathcal{W}_{\mathrm{catchment}}}{\mathcal{W}_{\mathrm{consumption}}} 
+\mathcal{S}_{\mathrm{viability}} = \min\left( 
+    \frac{\Phi_{\mathrm{generation}} + \Phi_{\mathrm{BCC}}}{\Phi_{\mathrm{load}}}, \, 
+    \frac{\mathcal{M}_{\mathrm{yield}} + \mathcal{M}_{\mathrm{BCC}}}{\mathcal{M}_{\mathrm{caloric}}}, \, 
+    \frac{\mathcal{W}_{\mathrm{catchment}} + \mathcal{W}_{\mathrm{BCC}}}{\mathcal{W}_{\mathrm{consumption}}} 
 \right) \ge 1.25
 \label{eq:autarky_index}
 \end{equation}
-for twelve consecutive lunar cycles across electrical power, caloric sustenance, and potable water.
+subject to the internal self-sufficiency floor $\min(\Phi_{\mathrm{gen}}/\Phi_{\mathrm{load}}, \mathcal{M}_{\mathrm{yield}}/\mathcal{M}_{\mathrm{cal}}, \mathcal{W}_{\mathrm{catch}}/\mathcal{W}_{\mathrm{cons}}) \ge 0.80$, sustained for twelve consecutive lunar cycles. This invariant reconciles local baseline strength with active mutual aid across Bilateral Clearing Channels ($BCC$), recognizing that long-term resilience requires both internal vitality and bioregional interconnection.
 
 \paragraph{Physical Decoupling (Layers 1 \& 2):} Motorized 400A automatic transfer switches throw with an echoing mechanical clunk, physically isolating the settlement from the municipal electrical grid forever. Direct underground single-mode dark fiber lines (OS2 10~Gbps) establish sovereign inter-node peering across the watershed. Reticulum mesh transceivers shift to 100\% air-gapped bioregional operation.
 \paragraph{Ledger Purity (Layer 3):} Layer~3 permanently erases all fiat currency symbols, foreign exchange APIs, and market price feeds. The currency standard transitions to the absolute thermodynamic standard:
@@ -147,8 +147,8 @@ for twelve consecutive lunar cycles across electrical power, caloric sustenance,
 1.0\,\mathrm{Unit} \equiv 3.6\,\mathrm{MJ}\,(1.0\,\mathrm{kWh}\mbox{ net exergy}) \equiv 2.0\,\mathrm{kg}\,\mathrm{CO}_2\mbox{ sequestered}
 \label{eq:thermo_unit}
 \end{equation}
-\paragraph{Daemon Liquidation (Layer 4):} The state engine executes the terminal dissolution sequence: verifies unanimous multi-signature consensus across all Trust Rings $\to$ unlinks legacy webhooks $\to$ transmits formal corporate dissolution filings $\to$ terminates the \texttt{col-adversaryd} daemon forever with \texttt{SIGTERM}.
-\paragraph{Governance Federation (Layers 5 \& 6):} The Dissolution Consensus Gate is ratified. Layer~5 ratifies the Bioregional Treaty Protocol, federating with sister nodes. Layer~6 Agora routes inter-node intents over libp2p Gossipsub.
+\paragraph{Asymptotic Carapace Transition (Layers 4 \& 7):} The state engine executes the terminal transition sequence: verifies unanimous multi-signature consensus across all Trust Rings $\to$ unlinks commercial webhooks $\to$ transmits formal corporate dissolution filings for commercial trading entities $\to$ transitions the \texttt{col-adversaryd} daemon into an asymptotic, read-mostly watchdog. In strict accordance with Chapter~8 Section~\ref{sec:l7-severance}, \texttt{col-adversaryd} is \textbf{not} killed with \texttt{SIGTERM}. It contracts to a minimal, sandboxed service running on an isolated core, monitoring municipal property tax escrow disbursements and logging official county recorder gazettes.
+\paragraph{Governance Federation (Layers 5 \& 6):} The Dissolution Consensus Gate is ratified. Layer~5 activates the Bioregional Treaty Protocol, establishing active Bilateral Clearing Channels ($BCC$) across Trust Rings~$R_1 \dots R_4$. Layer~6 Agora routes inter-node intents and Ricardian Treaties ($\mathrm{Treaty\_CID}$) via BPVP over the Reticulum Network Stack.
 \paragraph{Terminal Legal Carapace (Layer 7):} The Social Purpose Corporation files formal Articles of Dissolution under Title~23B RCW Chapter~14. One hundred percent of the real estate, water rights, and physical machinery are conveyed via statutory warranty deed into an \textbf{Irrevocable Perpetual Purpose Trust (PPT)} (pursuant to RCW 11.98.015 or Wyoming Stat. \S~4-10-503). The Trust Charter legally binds property custody directly to the Sovereign Stack's thermodynamic bylaws and Ostrom commons principles in perpetuity. An irrevocable, self-liquidating municipal property tax escrow endowment is funded, ensuring county ad valorem taxes are permanently paid by a custodial trustee, stripping the state of its sole physical instrument of eviction: the tax foreclosure auction. Layer~7 shrinks to its true minimal residue: holding bare title in trust, maintaining property tax immunity, and answering legal process.
 
 \begin{table}[htbp]
@@ -159,13 +159,13 @@ for twelve consecutive lunar cycles across electrical power, caloric sustenance,
 \hline
 \textbf{Layer} & \textbf{Phase 1: Shadow} & \textbf{Phase 2: Hybrid} & \textbf{Phase 3: Living Mesh} & \textbf{Phase 4: Omega} \\
 \hline
-\textbf{L7: Legal} & UNA / 501(c)(3) fiscal sponsor; DPL 1.1 IP. & Worker LCA / SPC; non-profit asset lock. & Dual-Chassis: CLT bare title + 99-yr ground lease. & Irrevocable PPT; tax escrow; \texttt{col-adv} dead. \\
+\textbf{L7: Legal} & UNA / 501(c)(3) fiscal sponsor; DPL 1.1 IP. & Worker LCA / SPC; non-profit asset lock. & Dual-Chassis: CLT bare title + 99-yr ground lease. & Irrevocable PPT; tax escrow; \texttt{col-adv} watchdog. \\
 \hline
-\textbf{L6: Intent} & Plaintext issues; Markdown RFCs. & Hybrid JSON-LD embedded in tickets. & Local Agora UI on Cadastral Slates. & Bioregional treaty routing over Gossipsub. \\
+\textbf{L6: Intent} & Plaintext issues; Markdown RFCs. & Hybrid JSON-LD embedded in tickets. & Local Agora UI on Cadastral Slates. & Bioregional treaties over BPVP/Reticulum. \\
 \hline
 \textbf{L5: Trust} & GitHub \texttt{CODEOWNERS}; SSH/GPG commits. & \texttt{did:peer} test keys; Key-Signing parties. & 7 Trust Rings; BBS+ ZK credentials; Refusal. & Unanimous Dissolution Gate; Bioregional Pact. \\
 \hline
-\textbf{L4: Exec} & Corporate GitHub Actions cloud CI/CD. & Local \texttt{col-execd} 10~Hz daemon stubs. & Deterministic local Wasmtime; Nix builds. & 10~Hz BPMN engine; \texttt{SIGTERM} to L7. \\
+\textbf{L4: Exec} & Corporate GitHub Actions cloud CI/CD. & Local \texttt{col-execd} 10~Hz daemon stubs. & Deterministic local Wasmtime; Nix builds. & 10~Hz BPMN engine; L7 to watchdog mode. \\
 \hline
 \textbf{L3: Ledger} & Proto-Ledger sweat logs; zero tokens. & Shadow exergy logging alongside fiat costs. & Live Exergy Credit minting \& demurrage. & Absolute $3.6\,\mathrm{MJ}$ unit; fiat symbols erased. \\
 \hline
@@ -262,13 +262,13 @@ Upon power-on, Node~0 executes an ordered initialization sequence managed by \te
 \end{equation}
 where $\mathcal{L}_0 \equiv \mathrm{HARDWARE\_OK}$. No daemon $\mathcal{L}_i$ may open its IPC listener until daemon $\mathcal{L}_{i-1}$ has verified its underlying invariant:
 \begin{enumerate}
-    \item \textbf{Phase 1 (Layer 1, col-telemetryd):} Connects to \texttt{/dev/ttyUSB0} (RS-485) and \texttt{/dev/can0}. Asserts battery voltage $\ge 48.0\,\mathrm{V}$ and inverter thermal safety. Initializes the \texttt{/dev/shm} UHAI ring buffer and binds \path{/run/collective/ipc/l1.sock}.
-    \item \textbf{Phase 2 (Layer 2, col-meshd):} Attaches to the SX1262 LoRa SPI bus and 802.11s mesh interfaces. Starts the Reticulum Network Stack (RNS) reactor and binds \path{/run/collective/ipc/l2.sock}.
-    \item \textbf{Phase 3 (Layer 3, col-storaged):} Mounts the Automerge/Yrs CRDT state engine and opens the RocksDB append-log at \texttt{/var/lib/}\allowbreak\texttt{collective/}\allowbreak\texttt{ledger/}. Verifies the Genesis Compact CID against the ATECC608A public key and binds \path{/run/collective/ipc/l3.sock}.
-    \item \textbf{Phase 4 (Layer 4, col-execd):} Instantiates the Wasmtime runtime engine with deterministic fuel budgets. Loads approved BPMN 2.0 workflows. Enforces Layer~3 exergy reservation requirements. Starts the 10~Hz deterministic tick loop and binds \path{/run/collective/ipc/l4.sock}.
-    \item \textbf{Phase 5 (Layer 5, col-kmsd):} Unlocks the encrypted vault using Steward threshold quorum. Loads the Web of Trust Sparse Merkle Tree (SMT). Initializes the BBS+ Zero-Knowledge credential verifier and binds \path{/run/collective/ipc/l5.sock}.
-    \item \textbf{Phase 6 (Layer 6, col-commonsd):} Mounts the Oxigraph embedded RDF Quad Store. Loads JSON-LD ontologies and Agora order books. Opens WebSocket/TLS listeners on VLAN~30 for Cadastral Slates and binds \path{/run/collective/ipc/l6.sock}.
-    \item \textbf{Phase 7 (Layer 7, col-adversaryd --- Scaffolding Only):} Binds strictly to VLAN~40 (Legacy WAN). Applies outbound rate-limiting and metadata scrubbers, establishing discrete-event queues for legacy interactions. Binds \path{/run/collective/ipc/l7.sock}.
+    \item \textbf{Phase 1 (Layer 1, col-telemetryd):} Connects to \texttt{/dev/ttyUSB0} (RS-485) and \texttt{/dev/can0}. Asserts battery voltage $\ge 48.0\,\mathrm{V}$ and inverter thermal safety. Initializes the \texttt{/dev/shm} UHAI ring buffer and binds the hardware boundary socket \path{/run/collective/ipc/l1_l2.sock}.
+    \item \textbf{Phase 2 (Layer 2, col-meshd):} Attaches to the SX1262 LoRa SPI bus and 802.11s mesh interfaces. Starts the Reticulum Network Stack (RNS) reactor and binds the ledger boundary socket \path{/run/collective/ipc/l2_l3.sock}.
+    \item \textbf{Phase 3 (Layer 3, col-storaged):} Mounts the Automerge/Yrs CRDT state engine and opens the RocksDB append-log at \texttt{/var/lib/}\allowbreak\texttt{collective/}\allowbreak\texttt{ledger/}. Initializes Bilateral Clearing Channel ($BCC$) tables, verifies the Genesis Compact CID against the ATECC608A public key, and binds \path{/run/collective/ipc/l3_l4.sock}.
+    \item \textbf{Phase 4 (Layer 4, col-execd):} Instantiates the Wasmtime runtime engine with deterministic fuel budgets. Loads approved BPMN 2.0 workflows. Receives Forwarding Information Base (FIB) routing tables pushed downward across the governance boundary socket \path{/run/collective/ipc/l4_l5.sock}, enforcing Strict Adjacency and starting the 10~Hz tick loop.
+    \item \textbf{Phase 5 (Layer 5, col-kmsd):} Unlocks the encrypted vault using Steward threshold quorum. Loads the Web of Trust Sparse Merkle Tree (SMT). Initializes the BPVP routing engine across Trust Rings ($R_0 \dots R_6$), verifies BBS+ Zero-Knowledge credentials, and binds \path{/run/collective/ipc/l5_l6.sock}.
+    \item \textbf{Phase 6 (Layer 6, col-commonsd):} Mounts the Oxigraph embedded RDF Quad Store. Loads JSON-LD ontologies, Ricardian treaty drafting engines, and Agora order books. Opens WebSocket/TLS listeners on VLAN~30 for Cadastral Slates and binds the DMZ boundary socket \path{/run/collective/ipc/l6_l7.sock}.
+    \item \textbf{Phase 7 (Layer 7, col-adversaryd):} Operates strictly across the DMZ firewall into VLAN~40 (Legacy WAN). Connects inward exclusively to \path{/run/collective/ipc/l6_l7.sock}. Applies outbound rate-limiting, semantic camouflage, and metadata scrubbers, establishing discrete-event queues for legacy statutory and tax filings.
 \end{enumerate}
 
 \subsection{Sovereign Edge Services and the Offline Commons}
@@ -317,11 +317,11 @@ To ensure institutional endurance, Node~0 operationalizes Elinor Ostrom's Nobel 
 \label{tab:ostrom_evolution}
 \end{table}
 
-To balance Ostrom's requirement for clear boundaries with Peter Kropotkin's ethic of radical mutual aid \parencite{kropotkin1902}, Node~0 organizes participation into a \textbf{Tri-Centric Boundary Topology} (Figure~\ref{fig:tricentric-topology}):
+To balance Ostrom's requirement for clear boundaries with Peter Kropotkin's ethic of radical mutual aid \parencite{kropotkin1902}, Node~0 organizes on-site participation into \textbf{The Three Tiers of Communal Standing} (Figure~\ref{fig:tricentric-topology}). Crucially, to prevent cognitive and topological confusion with Chapter~6's concentric bioregional \textit{Trust Rings} ($R_0$ through $R_6$, which expand geographically outward from the hearth to the ecumene), these internal standing boundaries are designated as \textit{Standing Tiers}:
 \begin{enumerate}
-    \item \textbf{Ring 0: The Convivial Public Commons (Unconditional Sanctuary):} Open unconditionally to any human being (neighbors, travelers, refugees). Provides clean drinking water, emergency food, solar device charging, tool repair cafes, and medical triage. Conforms to the Social Immunity doctrine (Chapter~9). Holds zero governance voting weight.
-    \item \textbf{Ring 1: The Guild and Apprenticeship Commons (Contributors \& Learners):} Open to active volunteers, remote developers, and workshop participants. Members log hours in the Proto-Ledger, utilize shared machine bays, and participate in community kitchen shifts. Holds advisory voice in Stewardship assemblies.
-    \item \textbf{Ring 2: The Covenant Stewards (Node Operators \& Legal Custodians):} Full physical residents who hold cryptographic keys to physical relays, legal land trusts, and treasury escrows. Bound by the Founding Covenant, shared metabolic risk, and routine chore rotas. Holds full dual-chamber voting weight.
+    \item \textbf{Tier 0: The Convivial Public Sanctuary (Unconditional Hospitality):} Open unconditionally to any human being (neighbors, travelers, refugees). Provides clean drinking water, emergency food, solar device charging, tool repair cafes, and medical triage. Conforms to the Social Immunity doctrine (Chapter~9). Holds zero governance voting weight.
+    \item \textbf{Tier 1: The Guild and Apprenticeship Commons (Contributors \& Learners):} Open to active volunteers, remote developers, and workshop participants. Members log hours in the Proto-Ledger, utilize shared machine bays, and participate in community kitchen shifts. Holds advisory voice in Stewardship assemblies.
+    \item \textbf{Tier 2: The Covenant Stewards (Node Operators \& Custodians):} Full physical residents who hold cryptographic threshold key shares, manage physical relays, and steward land trusts and treasury escrows. Bound by the Founding Covenant, shared metabolic risk, and routine chore rotas. Holds full dual-chamber voting weight. Tier~2 Stewards govern the internal hearth ($R_0$) and federate outward across bioregional Trust Rings ($R_1 \dots R_6$).
 \end{enumerate}
 
 \begin{figure}[htbp]
@@ -329,21 +329,21 @@ To balance Ostrom's requirement for clear boundaries with Peter Kropotkin's ethi
 \begin{tikzpicture}[scale=0.9, auto, >=stealth]
     % Outer Ring
     \draw[fill=blue!10, draw=blue!60, very thick] (0,0) circle (4.2cm);
-    \node at (0, 3.5) {\textbf{\large Ring 0: The Convivial Public Commons}};
+    \node at (0, 3.5) {\textbf{\large Tier 0: Convivial Public Sanctuary}};
     \node[text width=6.5cm, align=center] at (0, 2.7) {\footnotesize Unconditional food shelf, clean water, solar charging, tool repair cafes, public sanctuary. Zero governance weight.};
 
     % Middle Ring
     \draw[fill=green!15, draw=green!60, very thick] (0,-0.3) circle (2.8cm);
-    \node at (0, 1.3) {\textbf{\large Ring 1: Guild \& Apprentices}};
+    \node at (0, 1.3) {\textbf{\large Tier 1: Guild \& Apprentices}};
     \node[text width=4.8cm, align=center] at (0, 0.6) {\footnotesize Active task contributors, timebank earners, workshop participants. Advisory voice in Stewardship assemblies.};
 
     % Inner Core
     \draw[fill=purple!20, draw=purple!70, very thick] (0,-1.1) circle (1.5cm);
-    \node at (0, -0.8) {\textbf{\large Ring 2: Covenant}};
+    \node at (0, -0.8) {\textbf{\large Tier 2: Covenant}};
     \node at (0, -1.2) {\textbf{\large Stewards}};
-    \node[text width=2.6cm, align=center] at (0, -1.8) {\scriptsize Multi-sig keys, CLT trustees, full voting weight.};
+    \node[text width=2.6cm, align=center] at (0, -1.8) {\scriptsize Multi-sig keys, CLT custodians, full voting weight across Trust Rings.};
 \end{tikzpicture}
-\caption{The Tri-Centric Boundary Topology: Reconciling Ostrom's boundaries with radical mutual aid.}
+\caption{The Three Tiers of Communal Standing: Internal social boundaries decoupled from bioregional Trust Rings ($R_0 \to R_6$).}
 \label{fig:tricentric-topology}
 \end{figure}
 
@@ -454,6 +454,10 @@ The Node recognizes the absolute sanctuary of the human mind and body. Psycholog
 \noindent\textbf{ARTICLE VII: RESTORATIVE JUSTICE AND THE RIGHT OF EXIT.} \\
 Disputes between members shall be resolved through facilitated restorative mediation circles seeking reconciliation and restitution. No sanction may withdraw the survival baseline. Every Steward retains the unconditional right to withdraw from the community at any time, carrying their personal records, cryptographic keys, and movable property without penalty or restraint.
 
+\vspace{0.5em}
+\noindent\textbf{ARTICLE VIII: THE ANTI-IMPERIAL INVARIANT AND RADICAL SUBSIDIARITY.} \\
+Node~0 explicitly renounces all claims to hierarchy, central authority, administrative primacy, or tribute over any subsequent node. It exists purely as an initial reference implementation and equal peer within the horizontal Web of Trust. Sovereignty resides strictly within individual Nodes and their freely negotiated bilateral treaties. No centralized capital, master ledger, or regional command post shall ever be established.
+
 \subsection{The Founding Covenant of Node 0}
 \label{subsec:founding_covenant}
 
@@ -472,7 +476,7 @@ We reject the coercion of the kinetic state and the invisible violence of the ma
 We bind our fates together in common risk. While one of us goes cold, none of us is warm. While one of us lacks care, our wealth is an illusion. We pool our burdens, we celebrate our capacities, and we revalue the quiet labor of care with the highest dignity of the Agora. \\[0.4cm]
 
 \textbf{IV. The Pledge of Evolutionary Decoupling} \\
-We take the scaffolding of the old world into our hands without shame, but with clear eyes. We will use their tools, their courts, their currencies, and their wire only to weave our own lifelines. And when the thermodynamic loop is closed, we will cut the cord with steady hands, striking down the scaffolding so that the Sovereign Commons may stand alone upon the living earth.
+We take the scaffolding of the old world into our hands without shame, but with clear eyes. We will use their tools, their courts, their currencies, and their wire only to weave our own lifelines. And when the thermodynamic loop is closed, we will cut the cord with steady hands, striking down the scaffolding so that the Sovereign Commons may stand, unbound and federated, in unbreakable mutual aid upon the living earth.
 \end{quotation}
 
 \subsection{The 120-Day Tactical Bringup Roadmap}
