@@ -48,8 +48,8 @@
     *   **Beta:** Decentralized Transit & Logistics (Coordinating the material transport).
 
 ### Chapter 6: Learning and Unlearning
-*   **Plot:** The newcomers begin formal integration. Tension spikes when the Legacy system uses digital surveillance to try and coerce a young apprentice to return. Elara and the R&D team teach the apprentices how to utilize the Epistemic Mesh to protect themselves, framing it as a high-stakes, visceral defense against surveillance rather than a purely abstract concept.
-*   **Characters:** Elara, Apprentices, R&D Stewards.
+*   **Plot:** The perspective shifts to Gabe. Gabe and his team of friends are deep into formal integration, working as apprentices. Under the supervision of different R&D experts, they are tasked with hardening multiple layers of the Sovereign Stack to increase the protection of the village against the rising, perceived aggressiveness of the Legacy world. The scene showcases youth contributing tangible value to the community's defense against coercion.
+*   **Characters:** Gabe, Gabe's friends (the apprentices), R&D Stewards (Experts).
 *   **Scenarios Showcased:**
     *   **Kappa:** The Apprenticeship Protocol (Skill transfer).
     *   **Iota:** The Epistemic Mesh (R&D efforts to block the surveillance).
