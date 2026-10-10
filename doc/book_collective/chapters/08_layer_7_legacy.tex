@@ -1,317 +1,695 @@
-\chapter{Layer 7: The Legacy Proxy}
+\chapter[Layer 7: The Legacy Interface]{Layer 7: The Legacy Interface: The Protective Carapace, Inter-Node Trade, and Systemic Blinding}
 
-Layer 7 is the outermost layer of the Sovereign Stack and the only one that faces the legacy world. Every Node is built inside a territory claimed by a legacy state and depends, at least at first, on materials made by legacy supply chains. Confronting those systems directly tends to destroy an alternative before it matures; ignoring them leaves a community without solar cells, medicines, or replacement parts. Layer 7 exists so that the community can deal with that world on its own terms without letting that world's logic into the layers beneath.
+\begin{epigraphs}
+  \qitem{The purpose of a system is what it does. If a system is to remain viable, it must adapt to the variety of its environment without surrendering its internal cohesion.}%
+  {Stafford Beer, \textit{Designing Freedom} \parencite{beer1974}}
+  \qitem{Appropriation, provision, monitoring, enforcement, conflict resolution, and governance activities are organized in multiple layers of nested enterprises.}%
+  {Elinor Ostrom, \textit{Governing the Commons} \parencite{ostrom1990}}
+  \qitem{The state's attempt to make society legible is an effort to transform the unruly, varied reality of local life into standardized, manageable units.}%
+  {James C. Scott, \textit{Seeing Like a State} \parencite{scott1998}}
+\end{epigraphs}
 
-It has two roles. The first is \textit{protection}. Layer 7 is an ablative shield: it holds the community's legal identity, files its taxes, signs its contracts, and absorbs the legal and administrative friction that would otherwise fall on the Stack and on individual Stewards. The second is \textit{extraction}. Layer 7 draws from the legacy economy the fiat currency the Node cannot yet do without, by selling surplus goods, services, or energy, and turns that currency into the physical inputs the community has decided it needs.
+Layer~7 is the outermost layer of the Sovereign Stack and the only one that faces the legacy world. Every Node is built inside a territory claimed by a legacy state and depends, at least during its early lifecycle, on physical materials manufactured by legacy supply chains. Confronting those systems directly with hostile polemics tends to destroy an alternative before it matures; ignoring them leaves a community without photovoltaic silicon, essential pharmaceuticals, specialized tooling, or structural replacement parts. Layer~7 exists so that the community can deal with the legacy world on its own terms, absorbing administrative and legal friction without permitting the logic of capital accumulation, private property extraction, or state coercion to penetrate the layers beneath.
 
-One principle governs both roles. Export is a residual, never a target. The amount of exergy, labour, and material the community is willing to export is determined from below: by what Layer 3 measures as physically available, after the ecological floors, the unconditional survival baseline, standing commitments, and the human capacity ceiling of Chapters 5 and 6 have been satisfied. Fiat is raised only against a list of needs the community has ratified, and raising stops when those needs are met. Layer 7 succeeds when the Node depends less on the legacy economy each year, not when it earns more. Extraction is a means the community tolerates while it must, and every mechanism in this chapter is designed so that it can never become an end in itself.
+This structural separation is codified as the \textit{Dual-Membrane Doctrine}, first introduced in Chapter~12 and formalized in this chapter. The doctrine posits two concentric, impermeable operational membranes:
+\begin{enumerate}
+  \item \textit{The External Legal Carapace (Membrane~1):} A lawful, substantively compliant corporate shell facing the legacy state, municipal courts, taxation authorities, and commercial vendors. It acts as an ablative shield, holding title to real property, filing statutory tax returns, entering lawful commercial contracts, and maintaining conventional liability insurance.
+  \item \textit{The Internal Sovereign Core (Membrane~2):} The polycentric, thermodynamic, and cryptographic commons governed by Layers~1 through~6. It operates on physical exergy accounting, pairwise decentralized identifiers (\texttt{did:peer}), zero-knowledge attestations, and direct assembly democracy, completely isolated from legacy jurisprudence.
+\end{enumerate}
 
-\section{Design Principles}
+Layer~7 fulfills two distinct operational mandates. The first is \textit{protection}. As an ablative shield, Layer~7 absorbs the legal, regulatory, and municipal friction that would otherwise fall upon the Stack's technical protocols and individual Stewards. The second is \textit{extraction}. Layer~7 draws from the legacy market the fiat currency the Node cannot yet dispense with, selling genuine surplus goods, services, or exergy to acquire the physical capital inputs ratified on the community's needs list.
+
+One governing axiom constrains both roles: \textit{Export is a residual, never a target.} The volume of exergy, labor, and fabricated mass the community is willing to export is determined strictly from below: by what Layer~3 measures as physically available, after ecological floors, the unconditional survival baseline, standing commons commitments, and human capacity ceilings have been satisfied. Fiat is raised solely against a ratified needs list, and extraction halts the moment those needs are met. Layer~7 succeeds when the Node depends less on the legacy economy each cycle, not when its fiat revenue grows. Extraction is a transitory scaffolding tolerated only while physical autarky matures, and every mechanism in this chapter is designed to prevent extraction from degenerating into an engine of capital accumulation.
+
+\section{The Dual-Membrane Doctrine and Design Principles}
+
+The Dual-Membrane Doctrine rejects the naive cypherpunk fantasy of extraterritorial evasion, as well as the pseudolegal fallacies of sovereign citizenship. The legacy state possesses a territorial monopoly on violence; courts look through superficial paper entities to substantive economic realities. The Sovereign Stack survives not by declaring fictitious immunity, but by erecting a dual membrane that separates substantive legal compliance on the outside from sovereign cybernetics on the inside.
 
 \begin{itemize}
-  \item \textit{Residual export.} Export draws only on what remains after every internal claim is met, ranks last in the Orchestrator's priority order, and is curtailed first.
-  \item \textit{Purpose-bound fiat.} Fiat is raised against a ratified needs list, up to a target, and no further.
-  \item \textit{No initiative.} Layer 7 acts only on instructions from Layer 6 that derive from ratified Layer 5 decisions. It never decides what to sell, what to buy, or whom to deal with.
-  \item \textit{Lawful form.} The legal entities of Layer 7 are real organisations that comply with the law in substance, not masks that comply in appearance.
-  \item \textit{Minimal holdings.} Layer 7 holds only the records the law requires and the fiat that open needs require, and it has no access to the community's internal records.
-  \item \textit{People before contracts.} When an export obligation collides with a person's capacity, health, or care duties, the contract degrades, never the person.
-  \item \textit{Honest dealing.} Customers, suppliers, and neighbours in the legacy world are owed good faith, fair value, and truthful dealing.
-  \item \textit{Designed to shrink.} Every legacy dependency is registered with a plan for its retirement, and the success of Layer 7 is measured by how little of it is needed.
+  \item \textit{Residual export.} Outward export draws exclusively from thermodynamic and human surpluses that remain after every internal claim has been met. Export ranks last in the Orchestrator's priority hierarchy and is curtailed first.
+  \item \textit{Purpose-bound fiat.} Fiat currency is raised exclusively against a ratified, itemized needs list, up to an explicit monetary ceiling, and no further.
+  \item \textit{No initiative.} Layer~7 possesses zero autonomous agency. It acts solely upon cryptographically signed instructions issued downward from Layer~6 that derive from ratified Layer~5 assembly decisions. It never decides what to sell, what to procure, or with whom to deal.
+  \item \textit{Lawful form in substance.} The legal entities of Layer~7 are legitimate organizations that comply with legacy statutes in substance, not fraudulent facades or deceptive shams.
+  \item \textit{Minimal holdings and data non-existence.} Layer~7 holds only the records legacy statutes mandate and the fiat open needs require. It has zero read-access to internal Web of Trust credentials, assembly ballots, or thermodynamic ledgers.
+  \item \textit{People before contracts.} When a commercial export commitment collides with a human Steward's physical health, emotional capacity, or caregiving obligations, the commercial contract degrades; the human never does.
+  \item \textit{Honest dealing.} Legacy customers, suppliers, and municipal neighbors are owed rigorous good faith, fair economic value, and transparent, truthful communication.
+  \item \textit{Designed to shrink.} Every legacy dependency is cataloged in a formal register alongside an engineering obsolescence plan. The historical success of Layer~7 is measured by the asymptotic decline of its dependency ratio.
+  \item \textit{Cellular autonomy.} The federated mesh refuses corporate holding companies, parent foundations, or centralized equity pyramids. Each Node incorporates as an autonomous, legally isolated entity within its home jurisdiction.
+  \item \textit{Protocol federation.} Inter-node resource sharing is governed horizontally by peer-to-peer cryptographic routing protocols rather than centralized corporate consolidation, preserving the legal insulation of each cell.
 \end{itemize}
 
-\section{Position in the Stack}
+\section{Position in the Stack and Daemon Boundaries}
 
-\subsection{Interfaces}
+\subsection{Daemon Architecture: col-adversaryd and the DMZ Boundary}
 
-Layer 7 interfaces with Layer 6 inside the Stack and with the legacy world outside it. Table~\ref{tab:l7-interfaces} lists what crosses each boundary.
+The software implementation of Layer~7 is embodied in the unprivileged POSIX daemon \texttt{col-adversaryd}. Unlike internal daemons that operate within the Node's encrypted local bus, \texttt{col-adversaryd} is architecturally sandboxed within an isolated Demilitarized Zone (DMZ) network namespace, designated as VLAN~40.
+
+The daemon communicates strictly inward with Layer~6 (\texttt{col-commonsd}) across a local Unix domain socket:
+\begin{equation}
+  \texttt{/run/collective/ipc/l6\_l7.sock}
+\end{equation}
+This socket accepts strongly typed, schema-validated JSON-LD operational intents signed by Layer~6's deliberative authority. The daemon maintains a local SQLite database (encrypted at rest via SQLCipher) containing only statutory corporate filings, audited accounting journals, W-2 payroll ledgers, and vendor accounts payable. 
+
+Critically, \texttt{col-adversaryd} possesses zero IPC connections, zero shared-memory segments, and zero RPC channels to Layer~5 (\texttt{col-kmsd}), Layer~4 (\texttt{col-execd}), Layer~3 (\texttt{col-storaged}), Layer~2 (\texttt{col-meshd}), or Layer~1 hardware drivers. It is strictly cut off from the physical fieldbus and cryptographic enclaves. Physical network interfaces assigned to \texttt{col-adversaryd} connect outward to legacy internet gateways and corporate banking APIs, isolated from internal mesh radio transceivers by physical galvanic isolators and dedicated hardware firewalls.
+
+\subsection{Boundary Interfaces}
+
+Layer~7 interfaces inwardly with Layer~6 and outwardly with the legacy apparatus. Table~\ref{tab:l7-interfaces} details the information, documents, and physical flows that cross each perimeter.
 
 \begin{table}[htbp]
 \centering
 \small
-\begin{tabular}{|p{0.22\textwidth}|p{0.70\textwidth}|}
+\begin{tabular}{|p{0.22\textwidth}|p{0.72\textwidth}|}
 \hline
-\textit{Direction} & \textit{Content} \\
+\textbf{Direction} & \textbf{Content Crossing Perimeter} \\
 \hline
-Layer 6 to Layer 7 & Signed instructions, each referencing the Layer 5 ratification record it derives from: purchases, sales within the export ceiling, contract terms, registrations, filings, payments to members. Standing instructions for recurring legal compliance. The current fiat target and stop rule. Curtailment notices when export must be reduced. \\
+Layer~6 to Layer~7 & Cryptographically signed instructions referencing ratified Layer~5 resolution hashes: commercial procurement orders, export delivery authorizations within the residual ceiling, contract execution parameters, statutory corporate filings, member payroll authorizations, and curtailment notifications triggering contract suspension. \\
 \hline
-Layer 7 to Layer 6 & Inbound legacy documents and messages passed through unaltered as untrusted input (invoices, contracts, correspondence, legal notices). Structured reports of fiat received, treasury balance, tax reserve, and legal deadlines. Notice of collisions between ratified decisions and legacy law. \\
+Layer~7 to Layer~6 & Raw inbound legacy documents and communications passed through without interpretation as untrusted input (vendor invoices, commercial contract drafts, correspondence, official legal process, and municipal citations); structured financial audits (fiat balances, tax escrow reserves, banking limits); and alerts regarding statutory collisions. \\
 \hline
-Layer 7 to legacy world & Legal filings and tax returns; contracts and invoices; payments to suppliers; lawful wages to members doing export work; deliveries of exported goods and services. \\
+Layer~7 to legacy world & Statutory corporate articles, annual returns, and tax filings; commercial contracts, bills of lading, and invoices; payments to suppliers; lawful W-2 payroll disbursements to Stewards performing export work; deliveries of physical goods and utility grid power. \\
 \hline
-Legacy world to Layer 7 & Payments; supplier deliveries and documentation; legal process (notices, audits, subpoenas); regulatory correspondence. \\
+Legacy world to Layer~7 & Inbound fiat receipts via commercial banking rails; delivery of purchased capital hardware and raw materials; formal legal process (subpoenas, audit summonses, zoning citations); and regulatory notices. \\
 \hline
 \end{tabular}
-\caption{What crosses the boundaries of Layer 7.}
+\caption{Interfaces crossing the boundaries of Layer~7.}
 \label{tab:l7-interfaces}
 \end{table}
 
 \subsection{What Layer 7 Does Not Do}
 
-Layer 7 does not read the Thermodynamic Ledger and has no means to write to it. It does not communicate with the Orchestrator; when an export must be curtailed, the Orchestrator curtails it physically under its ratified envelope, and the resulting notice reaches Layer 7 through Layers 5 and 6. Layer 7 has no access to Layer 5 records: it cannot see attestations, Reputational Wealth, ballots, delegations, or the pairwise identifiers people use inside the Web of Trust. It does not interpret inbound documents; it passes them to Layer 6's intake pipeline. It does not decide what is exported or purchased, it does not hold speculative assets, and it does not market the Node's goods beyond what the ratified needs list requires.
+To preserve the integrity of the Sovereign Stack, \texttt{col-adversaryd} is subjected to strict operational prohibitions:
+\begin{enumerate}
+  \item \textit{No Ledger Access:} It cannot read the Thermodynamic Ledger and has no cryptographic capability to write to it. It possesses zero access to Proof-of-Thermodynamic-Work pipelines.
+  \item \textit{No Actuation Authority:} It cannot communicate with \texttt{col-execd}. It cannot actuate microgrid contactors, open valves, or dispatch physical tasks. When physical export must be curtailed, the Orchestrator enforces curtailment autonomously at Layer~4, and the notice propagates upward through Layers~5 and~6 before reaching Layer~7.
+  \item \textit{No Identity Visibility:} It cannot access Layer~5 cryptographic key stores or credentials. It cannot view pairwise DIDs, BBS+ credentials, zero-knowledge attestations, Reputational Wealth scores, assembly ballots, liquid delegations, or mutual aid balances.
+  \item \textit{No Semantic Interpretation:} It does not summarize, filter, or interpret inbound legal documents; it forwards them unaltered as raw untrusted payloads to Layer~6's sandboxed intake pipeline.
+  \item \textit{No Speculative Accumulation:} It is legally and programmatically prohibited from holding speculative assets, participating in secondary financial markets, or marketing the Node's productive output beyond ratified needs-list quotas.
+\end{enumerate}
 
 \subsection{Two Value Systems, No Exchange Rate}
 
-Layer 7 sits between two value systems. Outside is the legacy economy of fiat. In this framework, gold and cryptocurrencies are treated as fiat as well: their market value rests on scarcity and shared expectation rather than on the thermodynamic utility of the material. Inside is the Node's thermodynamic accounting: Exergy Credits minted by Layer 3 under Proof-of-Thermodynamic-Work and subject to demurrage, as described in Chapter 4.
+Layer~7 arbitrates between two fundamentally incompatible value paradigms. Outside lies the legacy financial economy of fiat currency, whose accounting units represent debt obligations and speculative claims enforced by state legal systems. Within this framework, gold, commercial commodities, and speculative cryptocurrencies are treated as fiat: their market prices reflect scarcity and speculative expectation rather than thermodynamic utility.
 
-There is no exchange rate between the two. No market, liquidity pool, or conversion function links a unit of fiat to an Exergy Credit, and Layer 3 has no contact with the legacy economy. Fiat never buys credits, and credits never buy fiat. What crosses the boundary is physical: exergy and labour leave as exported goods and services, and hardware and materials arrive as purchased goods. Credits arise only when Layer 3 measures useful work performed by hardware already operating within the Node.
+Inside the Node lies the Thermodynamic Ledger: Exergy Credits minted strictly by Layer~3 under Proof-of-Thermodynamic-Work ($3.6\mathrm{\ MJ}$ baseline) and subject to continuous demurrage, as established in Chapter~4.
 
-\section{The Legal Entity}
+There is no exchange rate between these two systems. No market, liquidity pool, automated market maker, or conversion algorithm links a unit of fiat to an Exergy Credit, and Layer~3 maintains zero contact with legacy banking rails. Fiat never purchases Exergy Credits, and Exergy Credits never purchase fiat. What crosses the boundary is strictly physical: mass, fabricated hardware, and exergy leave the Node as exported goods or power, while capital equipment, tools, and raw materials arrive as purchased commodities. Exergy Credits arise solely when Layer~3 meters useful work performed by physical hardware already integrated within the Node's thermodynamic envelope.
 
-\subsection{Choosing a Form}
+\section{The Legal Carapace: Corporate Evolution and Land Governance}
 
-A Node needs at least one legal person to hold land, sign contracts, open accounts, and employ people. The right form depends on jurisdiction, but it should satisfy four requirements: member control, a purpose beyond profit written into its governing documents, protection of assets against private appropriation, and lawful payment of the people who work for it. Table~\ref{tab:l7-forms} compares common options. Earlier drafts proposed ``Special Purpose Companies'' run by the Stack without human principals. That model is withdrawn: every legal entity has officers and members who are real people with real legal duties, and the Stack's role is to ensure those people act on ratified decisions.
+\subsection{Choosing and Evolving the Legal Form}
+
+A Node requires at least one recognized legal personality to hold real estate, enter binding commercial contracts, maintain bank accounts, and interface with municipal building departments. The appropriate legal vehicle varies across jurisdictions, but it must satisfy four mandatory criteria: democratic member control, an irrevocable purpose beyond profit written into its charter, an indivisible asset lock preventing private appropriation, and lawful protection for Stewards engaged in export labor.
+
+Table~\ref{tab:l7-forms} evaluates the primary candidate legal forms. The Sovereign Stack rejects early conceptions of ``Special Purpose Companies'' operating without human principals. Every legal entity recognized by common or civil law requires real human directors and officers who bear fiduciary duties; the role of the Stack is to bind those fiduciaries to ratified collective decisions through contractual and constitutional covenants.
 
 \begin{table}[htbp]
 \centering
 \small
-\begin{tabular}{|p{0.24\textwidth}|p{0.34\textwidth}|p{0.32\textwidth}|}
+\begin{tabular}{|p{0.24\textwidth}|p{0.34\textwidth}|p{0.34\textwidth}|}
 \hline
-\textit{Form} & \textit{Strengths} & \textit{Cautions} \\
+\textbf{Legal Form} & \textbf{Structural Strengths} & \textbf{Vulnerabilities and Cautions} \\
 \hline
-Worker or multi-stakeholder cooperative & One member, one vote; aligned with cooperative principles \parencite{ica1995}; members can be paid lawfully as worker-owners. & Formation rules and tax treatment vary by jurisdiction; member admission must match the Node's own membership process. \\
+Worker or Multi-Stakeholder Cooperative & One member, one vote; rooted in ICA principles \parencite{ica1995}; worker-owners receive lawful patronage dividends and wages; Subchapter~T tax exemptions. & Incorporation statutes vary by state; member admission rules must synchronize with the Node's assembly ratification process. \\
 \hline
-Limited cooperative association & Admits both worker and investor members in some jurisdictions. & Investor members must never gain control or a claim on surplus beyond a capped return. \\
+Limited Cooperative Association (LCA) & Flexible capital structure; permits non-patron investor members alongside worker patrons under statutory asset locks (e.g., Colorado, Wyoming). & Non-voting capital covenants must strictly bar investors from acquiring governance control or extracting speculative liquidation value. \\
 \hline
-Social Purpose Corporation, benefit corporation, Community Interest Company & Purpose stated in the charter; directors may weigh purpose over profit; some forms (for example the UK Community Interest Company) include an asset lock. & Shareholder-based; requires bylaws that bind control to members. \\
+Social Purpose Corporation (SPC) / Benefit Corp & Statutory charter elevates social and ecological mission above shareholder profit maximization; protects directors from shareholder derivative suits. & Capital structure remains shares-based; bylaws must firmly vest voting equity exclusively in common stewards. \\
 \hline
-Community land trust & Holds land permanently out of the speculative market. & Usually paired with an operating entity for trade. \\
+Community Land Trust (CLT) & Holds bare fee-simple land title permanently out of speculative commercial markets; 99-year ground leases secure residential and productive stewardship. & Requires separation between landholding chassis and commercial operating entities; board structure must prevent capture by outside municipal interests. \\
 \hline
-Nonprofit or fiscal sponsorship & Suits educational and charitable activity; access to grants. & Restrictions on private benefit and on commercial activity unrelated to the charitable purpose. \\
+Unincorporated Nonprofit Association (UNA) & Operates under UUNAA~\S~6 without formal state incorporation; shields members from joint and several liability; ideal for early Phase~1 bootstrapping. & Lacks standing for complex commercial bank accounts in conservative banking jurisdictions; relies on common-law recognition. \\
+\hline
+Perpetual Purpose Trust (PPT) & Irrevocable non-charitable purpose trust (e.g., RCW 11.98.015, Wyo. Stat.~\S~4-10-503); eliminates equity shareholders entirely; holds operating assets in perpetuity. & Advanced legal chassis requiring sophisticated initial trust drafting; trust enforcer must remain independent of operating beneficiaries. \\
 \hline
 \end{tabular}
-\caption{Candidate legal forms for Layer 7. The examples are illustrative; local counsel decides.}
+\caption{Candidate legal forms for Layer~7 across bootstrapping phases.}
 \label{tab:l7-forms}
 \end{table}
 
-A Node may combine forms, for example a community land trust holding land and a cooperative trading on its behalf. The choice of form, its governing documents, and any change to them are Constitutional-tier decisions under Chapter 6.
+As detailed in Chapter~12, the legal carapace evolves across four distinct developmental phases:
+\begin{enumerate}
+  \item \textit{Phase~1 (The Seed Hearth):} The Node organizes as an Unincorporated Nonprofit Association (UNA) under UUNAA~\S~6 or relies on an established 501(c)(3) fiscal sponsor, timestamping software under AGPLv3, hardware under CERN-OHL-S, and data under DPL~1.1.
+  \item \textit{Phase~2 (The Hybrid Bridge):} The Node incorporates as a Limited Cooperative Association (LCA) or Social Purpose Corporation (SPC) with an indivisible asset lock, issuing non-voting, capped-return debt notes under \textcite{reves1990} exemptions.
+  \item \textit{Phase~3 (The Sovereign Interface):} The Node implements the Dual-Chassis Model, separating bare real property held in a Community Land Trust from productive machinery and commercial operations held in a Worker Cooperative via a 99-year ground lease.
+  \item \textit{Phase~4 (Terminal Decoupling):} Operating assets and land merge into an Irrevocable Perpetual Purpose Trust (PPT), capital reserves fund a permanent property tax escrow endowment, and legacy corporate trading entities are formally dissolved.
+\end{enumerate}
 
-\subsection{Members, Not Masks}
+\subsection{Members, Not Masks: Labor Bifurcation and the Alamo Defense}
 
-Inside the Node, Stewards claim tasks without a boss or manager. In legacy law, however, a person who performs work for an organisation's commercial activity is generally that organisation's employee or contractor, whatever either party calls the arrangement. Courts look at substance. In \textcite{alamo1985}, the United States Supreme Court held that workers who staffed a religious foundation's commercial businesses in exchange for food, shelter, and other benefits, rather than wages, were employees under the Fair Labor Standards Act, even though they described themselves as volunteers. Comparable doctrines exist elsewhere.
+Within the Node's sovereign core, Stewards claim physical tasks autonomously without corporate bosses, supervisors, or employment agreements. In legacy jurisprudence, however, any individual performing labor that advances an organization's commercial enterprise is legally presumed to be an employee or statutory contractor, regardless of how the parties label the relationship. Courts evaluate economic substance rather than formal taxonomy.
 
-Layer 7 therefore keeps two categories distinct. Stewards who perform export work, producing goods or services that the entity sells in the legacy market, are members of the entity and are paid lawful wages for that work, with the payroll taxes and protections that follow. Stewards who do not perform export work are not registered as employees, because they are not employed by anyone; their internal work for the commons is not the entity's commercial activity. Registering people as employees who are not, in order to provide proof of income or visas, is fraud and is not a function of Layer 7. Where a Steward needs legacy standing that their actual situation does not provide, the honest options are membership in the entity with real duties and real pay, or ordinary legal advice.
+In \textcite{alamo1985}, the United States Supreme Court ruled that workers staffing commercial service stations and grocery stores on behalf of a religious foundation in exchange for food, shelter, and medical care—rather than cash wages—were statutory employees entitled to minimum wage and overtime under the Fair Labor Standards Act (FLSA), despite their explicit testimony that they considered themselves religious volunteers. Comparable legal doctrines governing statutory employment exist across common-law and civil-law jurisdictions.
 
-\subsection{Taxes and Reserves}
+To defeat FLSA misclassification liability, Layer~7 enforces strict \textit{labor bifurcation}:
+\begin{enumerate}
+  \item \textit{Export Labor:} Stewards who perform work that generates goods or services sold into the legacy market are bona fide members or employees of Layer~7's cooperative entity. They receive lawful W-2 wages meeting or exceeding statutory minimum wage standards, with full payroll tax withholding, workers' compensation insurance, and unemployment contributions.
+  \item \textit{Internal Commons Stewardship:} Stewards engaged in internal agricultural cultivation, ecological restoration, communal meal preparation, or open-source software development are non-commercial residents participating in domestic mutual aid. They perform no work for Layer~7's commercial accounts and are not registered as employees.
+\end{enumerate}
+Registering individuals as employees who perform no commercial export work—whether to manufacture wage stubs for mortgage applications, obtain immigration visas, or launder funds—constitutes criminal fraud and is strictly prohibited by Layer~7.
 
-Fiat earned by the entity is income before it is anything else. Profits are taxed, and hardware purchases do not erase that tax in the year they are made: most capital equipment is depreciated over several years, not deducted at once. Earlier drafts assumed that all fiat raised would flow to the community's purchases; in practice a share is owed to the state. Layer 7 sets aside a tax reserve from each receipt, sized by the entity's accountant, before any fiat counts toward the needs list. Where available, cooperative tax treatment (for example patronage allocations to members) may reduce the burden, but only where it reflects the real economic relationship.
+\subsection{Corporate Taxes, Reserves, and Subchapter T Patronage Allocations}
 
-\subsection{Disclosure Obligations}
+Fiat acquired through commercial sales constitutes gross revenue under legacy tax codes. Legitimate business expenses and capital depreciation deductions mitigate taxable income, but capital investments in microgrid hardware, machine tools, and construction materials cannot be fully expensed in the year of purchase; they must be capitalized and depreciated over multi-year statutory schedules (e.g., MACRS in the United States). 
 
-Banks and regulators require the entity to identify its officers, account signatories, and in many jurisdictions its beneficial owners, as in the United Kingdom's register of people with significant control. These obligations are met fully and truthfully. They are also the reason Layer 7 must be designed so that the identities it is obliged to hold reveal nothing about the community's internal life (Section~\ref{sec:l7-records}).
+Consequently, a Node that generates \$100,000 in fiat to procure solar hardware cannot spend the entire sum on equipment; a predictable fraction is immediately owed to municipal, state, and federal tax authorities. Layer~7 automatically segregates a dedicated tax reserve ($\rho_t$), calculated by the cooperative's certified accountant, from every fiat deposit before any funds are released toward needs-list acquisitions.
 
-\subsection{Asset Lock and Member Control}
+Where structured under Internal Revenue Code Subchapter~T (26 U.S.C. \S\S~1381--1388), a cooperative may deduct patronage dividends paid or allocated to worker-members based on business conducted with or for them. By allocating net earnings to members as qualified or non-qualified written notices of allocation, the cooperative avoids entity-level double taxation while building indivisible reserves.
 
-The entity's governing documents include an asset lock or indivisible reserve, so that its assets cannot be distributed to individuals or sold off if members later decide to convert it into an ordinary business. They admit only outside capital that carries no vote and at most a capped return. They bind officers to act on instructions that derive from ratified decisions and provide for their removal when the community so decides. These provisions are the legal expression of the Stack's adjacency: the entity's board answers to the members, and the members decide through Layer 5.
+\subsection{Land Governance: The Dual-Chassis Model and Partition Immunity}
 
-\section{Protection}
+Informal intentional communities frequently collapse through real property disputes. Purchasing land as joint tenants or tenants-in-common exposes the entire settlement to the lethal threat of partition lawsuits: under common law, any single co-tenant possesses the absolute right to petition a civil court for partition by sale, forcing a public sheriff's auction of the entire estate to liquidate their individual fractional share.
+
+Layer~7 immunizes the community against partition through the \textit{Dual-Chassis Model}:
+\begin{enumerate}
+  \item \textit{The Landholding Chassis:} A Community Land Trust (CLT) or Perpetual Purpose Trust holds sole, undivided fee-simple title to the underlying acreage. Its governing charter contains an absolute restraint against alienation, forbidding the sale, hypothecation, or commercial encumbrance of the land.
+  \item \textit{The Operational Chassis:} An independent Worker Cooperative or Housing Cooperative executes a 99-year Ground Lease with the land trust. The ground lease grants exclusive, inheritable leasehold occupancy rights to specific residential footprints and agricultural commons, while vesting structural improvements in the cooperative.
+\end{enumerate}
+Because individual Stewards hold no fee-simple real property interests, no departing member, judgment creditor, or probate court can compel the judicial partition or foreclosure of the Node's physical territory.
+
+\subsection{Municipal Law, Zoning Navigation, and Building Code Defense}
+\label{sec:l7-municipal}
+
+Municipal land-use regulations, zoning ordinances, and building inspectors represent the state's most immediate physical instruments of suppression. Communities that build without permits face administrative stop-work orders, red-tag evictions, mandatory civil fines, and bulldozer demolition. Layer~7 defends the physical settlement through a comprehensive regulatory navigation strategy:
+
+\begin{enumerate}
+  \item \textit{State ADU Preemption Statutes:} Rather than applying for complex master-planned community variances that invite public hearings and NIMBY opposition, the Node leverages state-level Accessory Dwelling Unit (ADU) and Middle Housing preemption laws (e.g., California SB~9 and SB~10; Washington HB~1110 and HB~1337). These statutes mandate ministerial, by-right approval of detached residential units, secondary suites, and split-lot duplexes, stripping municipal zoning boards of discretionary veto authority.
+  \item \textit{Agricultural and Timber Exemptions:} In peri-urban and rural bioregions, agricultural zoning codes explicitly exempt farm structures, barns, greenhouses, processing facilities, and temporary worker housing from residential building permit requirements. By registering land under bona fide agricultural use classifications (e.g., agroforestry, regenerative permaculture), large communal workshop footprints remain fully compliant without commercial building permits.
+  \item \textit{Parametric Engineering under IRC Appendices:} When constructing permanent dwellings using natural, locally sourced materials, the Node avoids experimental variance applications by building strictly within the model appendices of the International Residential Code (IRC):
+    \begin{itemize}
+      \item \textit{Appendix~AQ:} Tiny Houses (governing ceiling heights, lofts, and egress).
+      \item \textit{Appendix~AR:} Light Straw-Clay Construction (thermal mass and wall assembly fire ratings).
+      \item \textit{Appendix~AS:} Straw-Bale Construction (structural compression and plaster skins).
+    \end{itemize}
+    All architectural drawings are stamped by state-licensed Professional Engineers (PE) and registered architects who are members of the cooperative, rendering structural permits ministerially unassailable.
+  \item \textit{The Irrevocable Municipal Property Tax Escrow Endowment:} The state's sole physical mechanism for involuntary eviction against a debt-free landholding trust is the ad valorem property tax foreclosure auction. Layer~7 neutralizes this vector by capitalizing a ring-fenced, irrevocable property tax escrow endowment funded from early fiat export windfalls. Capitalized to generate perpetual dividend yields matching annual county tax assessments, the escrow automatically disburses tax payments, permanently extinguishing the tax deed sale vector.
+  \item \textit{Internal Dispute Shielding under the Federal Arbitration Act:} To prevent internal interpersonal grievances, governance friction, or member departures from spilling into municipal civil courts, all Stewards execute a Master Membership Agreement upon admission. This agreement incorporates a mandatory, binding dispute resolution covenant governed by the Federal Arbitration Act (9 U.S.C. \S\S~1--16). The covenant stipulates that all civil disputes must be resolved exclusively through the Node's internal restorative justice circles (Chapter~6) or an independent non-adversarial arbitration tribunal, completely divesting state courts of subject-matter jurisdiction.
+\end{enumerate}
+
+\section{The Legal Shielding of Inter-Node Trade}
+\label{sec:l7-trade}
+
+\subsection{The Jurisdictional Problem of Physical Meshing}
+
+Chapter~6 formalizes the Bioregional Path-Vector Protocol (BPVP) and Bilateral Clearing Channels ($BCC$), enabling autonomous Nodes to dynamically route physical exergy, mass, and fabricated components across concentric Trust Rings ($R_1$ through $R_5$). However, when physical trucks transport goods across county highways, microgrid interties cross property lines, or agricultural equipment is shared across a watershed, those assets enter the physical jurisdiction of the legacy state.
+
+If inter-node transfers are left unshielded, legacy authorities apply default statutory taxonomies:
+\begin{enumerate}
+  \item Commercial sales of goods under Uniform Commercial Code (UCC) Article~2, triggering mandatory sales taxes, gross receipts taxes, and implied merchantability warranties.
+  \item Unlicensed commercial freight carriage under Department of Transportation (DOT) motor carrier regulations.
+  \item Taxable commercial barter under 26 U.S.C. \S~6045, triggering mandatory Form 1099-B reporting and income tax liability on fair market valuations.
+  \item Corporate consolidation under antitrust (Sherman Act \S~1) or enterprise liability doctrines, treating the entire federated mesh as an unregistered horizontal cartel or single consolidated enterprise.
+\end{enumerate}
+
+To protect inter-node physical exchange, Layer~7 deploys the \textit{Tripartite Legal Chassis}.
+
+\subsection{The Tripartite Legal Chassis}
+
+Inter-node transfers are legally wrapped within one of three established, substantively compliant frameworks, depending on the physical nature of the flow:
+
+\subsubsection{1. Bilateral Mutual-Aid Agreements (BMAA) under UUNAA \S~6}
+Bilateral Mutual-Aid Agreements govern reciprocal resource sharing, disaster relief, emergency microgrid power, and volunteer maintenance labor between neighboring settlements. Structured under the Uniform Unincorporated Nonprofit Association Act (UUNAA \S~6) and common-law Good Samaritan doctrines (e.g., RCW 4.24.300), these pacts characterize resource flows as non-commercial fraternal mutual assistance. 
+
+Transfers under a BMAA involve zero pecuniary consideration, zero contractual quid pro quo, and zero merchant markup. They represent gratuitous bailments of equipment and non-commercial assistance between civic associations. By expressly disclaiming commercial merchant intent, BMAAs legally exclude the transaction from UCC Article~2 coverage, barring breach-of-contract lawsuits and gross receipts taxation.
+
+\subsubsection{2. Subchapter T Shared Services Agreements (SSAs)}
+When independent cooperatives engage in regular, ongoing economic collaboration—such as sharing a heavy CNC milling center, operating a regional grain processing mill, dispatching a mobile electrical repair truck, or pooling wholesale bulk component purchases—the collaboration is executed via an Inter-Cooperative Shared Services Agreement (SSA).
+
+Authorized under state cooperative corporation statutes and International Co-operative Alliance Principle~6 (``Cooperation among Cooperatives''), SSAs operate under Internal Revenue Code Subchapter~T (26 U.S.C. \S\S~1381--1388). Under an SSA, services and equipment access are provided strictly at cost. Expenses (fuel, machine tooling wear, electricity, driver payroll) are reimbursed without commercial profit markup. Because the providing cooperative earns zero net profit margin on the transfer, the exchange generates zero taxable corporate net income. Transport manifests identify the cargo as inter-cooperative shared property, eliminating commercial freight carrier licensing mandates.
+
+\subsubsection{3. Federated Land Trust Utility Easements and Conservation Covenants}
+Physical utility interties—including low-voltage DC microgrid cables, gravity water flumes, Reticulum fiber-optic runs, and inter-node cargo trails—crossing the boundaries between neighboring Nodes are secured through real property servitudes.
+
+Rather than executing commercial leases or transmission contracts that invite public utility commission regulation and recurring commercial lease taxes, the landholding trusts execute reciprocal Conservation and Utility Easements under the Uniform Conservation Easement Act (UCEA) and the Restatement (Third) of Property (Servitudes). These easements run with the land in perpetuity, granting permanent non-exclusive access for ecological regeneration, water conveyance, and renewable energy distribution. Because an easement constitutes a real property interest rather than an ongoing commercial transaction, it generates zero recurring transaction or excise taxes.
+
+\subsection{Comparison of Inter-Node Trade Legal Structures}
+
+Table~\ref{tab:l7-trade-structures} synthesizes the operational, tax, and liability distinctions across the Tripartite Chassis.
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabular}{|p{0.18\textwidth}|p{0.25\textwidth}|p{0.25\textwidth}|p{0.24\textwidth}|}
+\hline
+\textbf{Dimension} & \textbf{Mutual-Aid Agreements (BMAA)} & \textbf{Shared Services Agreements (SSA)} & \textbf{Federated Land Trust Easements} \\
+\hline
+Statutory Authority & UUNAA~\S~6; Good Samaritan Statutes (e.g., RCW 4.24.300). & IRC Subchapter~T (26 U.S.C. \S\S~1381--1388); State Co-op Acts. & Uniform Conservation Easement Act; Real Property Servitudes. \\
+\hline
+Applicable Resource Flows & Emergency exergy, disaster relief, volunteer labor, seasonal food sharing. & Regional shared compute, machine tools, mobile repair, bulk raw materials. & Microgrid HVDC lines, water flumes, fiber conduits, pedestrian/cargo trails. \\
+\hline
+Tax Treatment & Non-commercial mutual relief; zero gross receipts or sales tax. & Cost-reimbursement pass-through; zero net margin; Subchapter~T patronage. & Real property interest; zero recurring commercial transaction tax. \\
+\hline
+UCC Article 2 Status & Completely excluded; non-commercial gratuitous bailment. & Excluded; service contract at cost; no merchant markup or sale of goods. & Excluded; real property covenant running with the land. \\
+\hline
+Anti-Consolidation Safeguards & Purely bilateral accord; disclaims partnership and agency. & Distinct corporate co-ops; independent boards, EINs, and bank accounts. & Distinct land trusts holding bare title; separate leaseholders. \\
+\hline
+Dispute Forum & Restorative circles; FAA binding arbitration (9 U.S.C. \S\S~1--16). & Mandatory arbitration clause; cooperative mediation council. & Land trust stewardship committee; local property arbitration. \\
+\hline
+\end{tabular}
+\caption{Systematic comparison of legal structures for inter-Node trade.}
+\label{tab:l7-trade-structures}
+\end{table}
+
+\subsection{Non-Pecuniary Settlement and Barter Tax Exemption}
+
+Under 26 U.S.C. \S~6045 and Treasury Regulation \S~1.6045-1, commercial ``barter exchanges'' are legally required to file annual information returns (Form 1099-B) reporting the fair market value of all goods and services exchanged, exposing members to taxable gross income in fiat currency.
+
+Layer~7 legally establishes that inter-node physical clearing via Layer~3 Bilateral Clearing Channels ($BCC$) does not constitute commercial barter under \S~6045:
+\begin{enumerate}
+  \item \textit{Absence of Commercial Brokerage:} Treasury Regulation \S~1.6045-1(a)(4) defines a barter exchange as any person or organization that provides a trading platform and acts as a broker for the purpose of earning fees or commissions. The Sovereign Stack possesses no central exchange, charges zero brokerage fees, and operates no commercial trading platform; it is a decentralized, peer-to-peer cryptographic communications protocol.
+  \item \textit{Non-Pecuniary Exergy Demurrage:} Exergy Credits are physical metrics of expended thermodynamic work ($3.6\mathrm{\ MJ}$ baseline) subject to decay, not stores of speculative value, commercial currency, or general purchasing power.
+  \item \textit{Patronage and Cost Reimbursement:} Bilateral mutual-aid balances represent reciprocal operational cost-allocation pools between independent cooperative producers, explicitly excluded from barter taxation under established IRS rulings governing shared cost-pooling arrangements (e.g., Rev. Rul. 80-52).
+\end{enumerate}
+
+\subsection{Ricardian Dual-Layer Inter-Node Contracts}
+
+To bridge the gap between Layer~5 cybernetic routing and Layer~7 legacy enforceability, inter-node transactions crossing legacy corridors are compiled as Ricardian contracts \parencite{grigg2004}.
+
+When Layer~5 ratifies an inter-node resource route and Layer~6 generates the contract, the operational intent is cryptographically hashed:
+\begin{equation}
+  \mathrm{Treaty\_CID} = \mathrm{SHA256}\left(\mathrm{Text}_{\mathrm{prose}} \parallel \mathrm{Schema}_{\mathrm{JSON-LD}} \parallel \mathrm{Invariants}_{\mathrm{BPMN}}\right)
+  \label{eq:l7_ricardian_hash}
+\end{equation}
+where $\mathrm{Text}_{\mathrm{prose}}$ is human-readable legal prose stipulating mutual-aid or shared-services terms; $\mathrm{Schema}_{\mathrm{JSON-LD}}$ is the structured parameter payload defining physical mass, delivery coordinates, and safety constraints; and $\mathrm{Invariants}_{\mathrm{BPMN}}$ defines the executable state machine.
+
+Layer~7 executes a standard, bilateral legal agreement that incorporates $\mathrm{Treaty\_CID}$ as an opaque cryptographic exhibit. The legacy document identifies only the two participating cooperatives by their legal corporate names and addresses, and names the authorized human transport driver. Layer~7 has zero knowledge of the mesh topology, the underlying cryptographic ballots, or the pairwise DIDs of the participating stewards.
+
+\subsection{Anti-Consolidation and Corporate Veil Firewalls}
+
+In common-law jurisdictions, aggressive creditors and regulatory agencies invoke the ``alter ego'' doctrine or ``single business enterprise'' rule to pierce corporate veils and collapse affiliated entities into a single enterprise bearing joint and several liability.
+
+Layer~7 prevents enterprise consolidation through five mandatory corporate firewalls:
+\begin{enumerate}
+  \item \textit{No Overlapping Governance:} Board members, corporate officers, and bank signatories of Node~$A$ are legally barred from serving as directors, officers, or signatories of Node~$B$.
+  \item \textit{Distinct Corporate Identities:} Each Node maintains its own distinct Articles of Incorporation, unique Employer Identification Number (EIN), independent commercial bank account, and separate general ledger.
+  \item \textit{Prohibition of Cross-Collateralization:} No Node may guarantee the debts, lease obligations, or commercial contracts of another Node. Inter-node financial commingling is strictly prohibited.
+  \item \textit{Arm's-Length Documentation:} Every inter-node physical transfer is memorialized with formal, written bills of lading, equipment custody receipts, and cost-reimbursement invoices referencing the governing SSA or BMAA.
+  \item \textit{Contractual Disclaimer of Partnership:} All inter-node agreements contain explicit boilerplate disclaiming partnership, joint venture, principal-agent, or common enterprise relationships.
+\end{enumerate}
+
+\subsection{Antitrust Insulation: The Capper-Volstead Analogue}
+
+Horizontal agreements between independent economic producers to coordinate production volumes, allocate territories, or engage in collective refusal to deal are susceptible to prosecution under Section~1 of the Sherman Antitrust Act (15 U.S.C. \S~1).
+
+The Sovereign Stack insulates federated trade from antitrust liability by anchoring inter-node coordination in established statutory exemptions:
+\begin{enumerate}
+  \item \textit{The Capper-Volstead Act (7 U.S.C. \S\S~291--292):} Explicitly exempts agricultural producers and resource cooperatives from federal antitrust laws when federating, coordinating processing, and collectively marketing products.
+  \item \textit{Cooperative Shared Marketing Exemptions:} State cooperative statutes expressly authorize cooperatives to enter into mutual contracts, pool logistical infrastructure, and coordinate regional processing without constituting an unlawful restraint of trade.
+  \item \textit{Non-Commercial Scope:} Inter-node mutual-aid pacts and shared services involve non-commercial self-provisioning among consumer-owners rather than commercial price-fixing in public merchant markets.
+\end{enumerate}
+
+\section{Systemic Blinding: Decentralized Camouflage and Legal Modularity}
+\label{sec:l7-blinding}
+
+\subsection{The Principle of Structural Illegibility}
+
+As James C. Scott demonstrates in \textit{Seeing Like a State} \parencite{scott1998}, state administrative power relies upon \textit{legibility}: the capacity to map, standardize, and aggregate complex social phenomena into simplified bureaucratic categories—such as uniform property cadastres, consolidated corporate pyramids, and centralized tax registers. When a social or economic formation refuses those standardized categories, it becomes administratively illegible, blinding the state's centralized surveillance and regulatory apparatus.
+
+The Sovereign Stack exploits this cybernetic vulnerability. The state's regulatory panopticon searches for centralized targets: multinational holding companies, parent non-profit foundations, franchisors, and centralized token registries. By distributing economic coordination across thousands of autonomous, legally isolated, and aesthetically unremarkable local entities, the federated cybernetic economy remains completely invisible in plain sight.
+
+\subsection{Cellular Independence: The Army of Unremarkable Cooperatives}
+
+The primary systemic blinding strategy of the Sovereign Stack is the absolute prohibition of umbrella corporate hierarchies. There is no ``Global Collective Inc.,'' no ``Sovereign Stack Foundation,'' and no international non-profit holding company.
+
+Instead, each Node manifests to the legacy legal system as an ordinary, boring, and hyper-local entity:
+\begin{itemize}
+  \item A small worker cooperative operating an organic greenhouse or community market garden.
+  \item A local housing cooperative managing a clustered residential acreage.
+  \item A modest non-profit educational society teaching open-hardware mechanics and digital fabrication.
+  \item An unremarkable neighborhood tool library or repair workshop.
+\end{itemize}
+To a state tax auditor, county planning commissioner, or corporate intelligence analyst, the landscape appears not as a coordinated planetary alternative to industrial capitalism, but as an unconnected, statistically insignificant archipelago of small, struggling community cooperatives.
+
+\subsection{Asymmetric Legal Heterogeneity}
+
+To prevent a single hostile judicial ruling or legislative amendment from compromising the network, the Sovereign Stack mandates jurisdictional and legal heterogeneity across Nodes:
+\begin{itemize}
+  \item Node~$A$ in California incorporates as a Consumer Cooperative Corporation under Cal. Corp. Code \S\S~12200 et seq.
+  \item Node~$B$ in Washington organizes as a Social Purpose Corporation (RCW 23B.25) paired with a Perpetual Purpose Trust (RCW 11.98.015).
+  \item Node~$C$ in Colorado utilizes the Uniform Limited Cooperative Association Act (C.R.S. \S\S~7-58-101 et seq.).
+  \item Node~$D$ in the United Kingdom registers as a Community Interest Company (CIC) with an indivisible asset lock.
+\end{itemize}
+Because each node utilizes distinct statutory chassis, distinct articles, and distinct legal counsel, no single statutory revision or regulatory enforcement action can execute a systemic sweep of the federation.
+
+\subsection{Mundane Semantic Camouflage in External Filings}
+
+Layer~7 enforces strict \textit{semantic camouflage} in all outward-facing documents. Corporate articles, annual municipal reports, tax returns, and commercial invoices utilize banal, conventional bureaucratic language:
+\begin{itemize}
+  \item Standard NAICS industry codes are applied: NAICS 1114 (Greenhouse, Nursery, and Floriculture Production), NAICS 541512 (Computer Systems Design Services), NAICS 238210 (Electrical Contractors), or NAICS 624210 (Community Food Services).
+  \item Filings are made on standard IRS forms: Form 1120-C (U.S. Income Tax Return for Cooperative Associations) or Form 990-EZ/990-N for non-profits.
+  \item Financial ledgers report modest gross revenues, small local payrolls, and razor-thin net margins that fall well beneath the automated scoring algorithms that trigger state and federal tax audits.
+\end{itemize}
+Internal cybernetic concepts—such as the Web of Trust, Proof-of-Thermodynamic-Work, Bioregional Path-Vector Protocols, or Ashby's Law—never appear in Layer~7 filings. To the state, the entity appears entirely ordinary.
+
+\subsection{Telemetry Obfuscation and the IEEE 1547 Profile}
+
+Physical grid-intertie inverters and smart meters represent a severe vector for pattern-of-life surveillance. High-frequency electrical power metering allows external analysts to infer domestic occupancy, industrial machine utilization, and community activity cycles.
+
+Layer~7 sanitizes physical telemetry at the DMZ perimeter:
+\begin{enumerate}
+  \item \textit{Aggregated Export Profiles:} Inverters export power to legacy electric utilities strictly under standard, aggregated net-metering schedules compliant with IEEE 1547 and California Rule~21. All high-frequency sub-metering, battery cell health metrics, and branch-circuit data terminate at Layer~2/3 and are dropped at the DMZ firewall.
+  \item \textit{Network Traffic Padding:} External internet communications between Nodes traverse encrypted WireGuard and Reticulum tunnels over public IP networks. To prevent traffic-analysis attacks that correlate packet timing with physical shipments or assembly votes, \texttt{col-adversaryd} injects constant-rate dummy packet padding, rendering inter-node telemetry indistinguishable from standard encrypted residential video streaming.
+\end{enumerate}
+
+\subsection{Subpoena Immunity via Data Non-Existence and NAACP v. Alabama}
+
+In \textcite{naacp1958}, the United States Supreme Court established that the First Amendment protects the privacy of an association's internal membership lists against compelled state disclosure, recognizing that forced exposure subjects members to private harassment and state intimidation.
+
+While \textit{NAACP v. Alabama} provides vital constitutional precedent, the Sovereign Stack's ultimate defense against legal subpoenas, grand jury summonses, and civil discovery orders is the \textit{Doctrine of Data Non-Existence}:
+\begin{enumerate}
+  \item \textit{Records Firewall:} As detailed in Section~\ref{sec:l7-records}, \texttt{col-adversaryd} stores zero pairwise DIDs, zero BBS+ verifiable credentials, zero assembly voting tallies, zero rationale records, and zero internal labor logs.
+  \item \textit{Subpoena Response:} When a state regulatory agency or hostile litigant serves a broad subpoena duces tecum demanding ``all membership rosters, communications, and internal records of the network,'' Layer~7 produces its statutory corporate filings, W-2 payroll rosters, and accounting journals. When asked for internal voting records, cryptographic keys, or network topologies, the entity accurately and truthfully responds that such records physically do not exist within its custody, control, or possession.
+  \item \textit{No Epistemic Spoliation:} Because internal data was never created or held within Layer~7, the entity commits no spoliation of evidence, contempt of court, or obstruction of justice. A court cannot compel the production of records that do not exist.
+\end{enumerate}
+
+\section{Protection and the Records Boundary}
 
 \subsection{The Steward's Legal Standing}
 
-Layer 7 protects Stewards in ways the law actually allows. It employs, lawfully, those who do export work. It pays for legal advice when a Steward faces a legacy dispute arising from community activity. It holds the community's land and buildings, so that Stewards' homes are not individually exposed to the entity's commercial risks. It maintains insurance where the law requires it or prudence recommends it. It does not shield anyone from laws that apply to them, and it does not claim immunities that do not exist. Arguments that a private membership association places its members outside regulatory jurisdiction do not survive scrutiny. \textcite{naacp1958} protects the privacy of an association's membership lists against compelled disclosure; it does not exempt an association's commercial activity from labour, tax, health, or safety law.
+Layer~7 protects Stewards through legitimate legal structures:
+\begin{itemize}
+  \item It provides lawful employment, workers' compensation insurance, and statutory protections to those performing export labor.
+  \item It finances competent legal defense when a Steward faces municipal citations or regulatory disputes arising from sanctioned community activity.
+  \item It holds real estate and industrial machinery in trust, ensuring that Stewards' personal homes and private assets remain shielded from corporate commercial liability.
+  \item It maintains commercial general liability, property casualty, and errors-and-omissions insurance where prudent.
+\end{itemize}
+Layer~7 never asserts frivolous legal immunities. It does not claim that private membership associations are exempt from building safety, sanitation, or criminal laws. Real protection rests on impeccable substantive compliance.
 
-\subsection{Licensing Through Real Training}
+\subsection{Licensing Through Conventional Credentials}
 
-Legacy states regulate who may perform certain work: electrical installation, plumbing, structural building, medical care. A Verifiable Credential earned inside the Web of Trust does not satisfy those rules, and an entity cannot automatically convert one into a state licence.
+Regulated activities—such as high-voltage electrical grid interties, commercial plumbing, structural engineering, and clinical healthcare—require state licenses. A Verifiable Credential issued within the Layer~5 Web of Trust holds zero legal standing in municipal building departments.
 
-Layer 7 bridges the gap in the conventional way. When the community decides it needs licensed capacity, the entity pays for the training, apprenticeship hours, examinations, and fees through which a Steward obtains the licence in their own name. Where a jurisdiction licenses contractors as businesses, the entity may hold the business licence through a licensed member who acts as its qualifying individual. Internal credentials never pass to regulators: a Steward decides for themselves whether to seek a licence, and nothing in Layer 7 maps attestations from Layer 5 onto legacy identities. This preserves the privacy model of Chapter 6, in which internal standing is not visible outside the community.
+Layer~7 bridges this divide through conventional vocational training. When the assembly determines that licensed capacity is required, the entity finances the apprenticeships, trade schooling, examination fees, and continuing education required for a Steward to obtain state licenses in their own legal name. Where contractors must be licensed as businesses, the cooperative holds the commercial license through a licensed Steward who acts as its Qualifying Individual. Internal Layer~5 credentials never pass to state licensing boards, preserving the firewall between internal standing and external identity.
 
 \subsection{What Layer 7 Holds, and What It Does Not}
 \label{sec:l7-records}
 
-The strongest defence against compelled disclosure is not to hold the information. Layer 7 is designed so that the records it must keep are as few as the law allows and contain nothing about the community's internal life. Table~\ref{tab:l7-records} sets out the division.
+The most robust defense against compelled disclosure is the absolute refusal to hold sensitive data. Table~\ref{tab:l7-records} defines the strict records boundary enforced by \texttt{col-adversaryd}.
 
 \begin{table}[htbp]
 \centering
 \small
-\begin{tabular}{|p{0.44\textwidth}|p{0.46\textwidth}|}
+\begin{tabular}{|p{0.46\textwidth}|p{0.46\textwidth}|}
 \hline
-\textit{Held by Layer 7} & \textit{Never held by Layer 7} \\
+\textbf{Held by Layer 7 (\texttt{col-adversaryd})} & \textbf{Never Held by Layer 7 (Data Non-Existence)} \\
 \hline
-Legal names and identity documents of officers, account signatories, beneficial owners, and members paid wages & Pairwise identifiers, Verifiable Credentials, attestations, Reputational Wealth \\
+Legal names, tax IDs, and verified addresses of corporate officers, bank signatories, and W-2 export employees. & Pairwise identifiers (\texttt{did:peer}), BBS+ credentials, zero-knowledge proofs, and Reputational Wealth scores. \\
 \hline
-Payroll records for export work & Task histories, capacity and care-leave self-reports \\
+Standard W-2 payroll records and time sheets for commercial export labor. & Internal task claims, peer reviews, care-leave logs, and capacity self-reports. \\
 \hline
-Books of account, tax filings, contracts, invoices & Ballots, delegations, deliberation records, rationale records \\
+Audited books of account, bank statements, tax returns, commercial contracts, and vendor invoices. & Secret assembly ballots, liquid delegations, deliberative transcripts, and rationale records. \\
 \hline
-The ratification reference attached to each instruction & The content of the deliberation behind it \\
+Opaque cryptographic ratification references (\texttt{Treaty\_CID}) attached to specific instructions. & The substance, arguments, or dissent behind internal ratifications. \\
 \hline
-Supplier and customer records required for commerce & Ledger data, telemetry, infrastructure maps \\
+Customer registries and vendor accounts payable required for commercial trade. & Thermodynamic ledgers, proof-of-work telemetry, physical infrastructure blueprints, and mesh topologies. \\
 \hline
 \end{tabular}
-\caption{The records boundary of Layer 7.}
+\caption{The records boundary of Layer~7.}
 \label{tab:l7-records}
 \end{table}
 
-Legal identity is never linked to internal identifiers. No table, key, or log in Layer 7 associates a legal name with a pairwise identifier, and Layer 7 has no read access to Layer 5 or Layer 6 stores. An instruction from Layer 6 identifies the ratification it derives from, not the people who voted for it.
+\subsection{Legal Process, Subpoenas, and Discovery Containment}
 
-\subsection{Legal Process and Discovery}
+When legal process arrives (subpoenas, tax summonses, inspection notices), it enters Layer~6 through the untrusted intake pipeline. The entity engages licensed legal counsel and responds in strict accordance with procedural law. Documents subject to formal legal holds are strictly preserved in Layer~7 storage; destroying existing records constitutes a felony and is an instruction \texttt{col-adversaryd} will reject. 
 
-The records boundary limits what legal process can reach through Layer 7, but it does not place the community's internal records beyond the law. A subpoena or discovery order may be addressed to people, not only to entities, and records kept elsewhere in the Node can be compelled if they exist and are within a court's reach. The real protection is therefore the data minimisation already built into Layers 5 and 6: private ballots, pairwise identifiers, and records that do not exist cannot be produced. When legal process arrives, it enters Layer 6 through the intake pipeline, the community obtains legal advice, and the entity responds lawfully. Records subject to a legal hold are preserved; destroying them would be a crime and is never an instruction Layer 7 will carry out.
+However, because the daemon holds only statutory corporate data, discovery produces only standard, unremarkable business records. Internal cryptographic communications remain physically unreachable.
 
-\subsection{Banking, Payment Rails, and Suppliers}
+\subsection{Banking Architecture, Redundant Payment Rails, and AML Compliance}
 
-A Node that depends on one bank can be cut off by one decision. Layer 7 maintains accounts with more than one institution, preferring credit unions and cooperative banks, and keeps fiat balances low by spending promptly against open needs. It does not route funds through cryptocurrency exchanges or other channels designed to obscure their origin; beyond the legal risk under anti-money-laundering law, such channels invite exactly the scrutiny Layer 7 exists to avoid. The same reasoning applies to suppliers, software services, and legacy APIs: each critical dependency appears in the dependency register (Section~\ref{sec:l7-severance}) with at least one alternative identified.
+A Node dependent on a single commercial bank is vulnerable to arbitrary account freezes or de-banking. Layer~7 mitigates banking risk through structural redundancy:
+\begin{itemize}
+  \item It maintains operating accounts across multiple independent institutions, giving priority to local credit unions, cooperative banks, and mutual community savings institutions.
+  \item It avoids cryptocurrency mixers, unregulated token tumblers, or cross-border shadow rails. Beyond severe anti-money-laundering (AML) and FinCEN penalties, such mechanisms attract the exact forensic surveillance Layer~7 is engineered to avoid.
+  \item It keeps fiat treasury balances low by expending currency promptly against open, ratified needs-list acquisitions.
+\end{itemize}
 
-\subsection{Inbound Documents}
+\subsection{The Inbound Untrusted Document Pipeline}
 
-Everything that arrives from the legacy world, whether invoice, contract draft, email, web page, or legal notice, is untrusted. Layer 7 does not summarise, interpret, or act on it. It passes each item unaltered to Layer 6, where the intake model reads it in isolation from the drafting model and from any signing authority, as described in Chapter 7. Only a human-approved, ratified instruction can cause Layer 7 to act.
+Every inbound payload arriving from the legacy world—including vendor invoices, contracts, legal summonses, municipal citations, and emails—is treated as untrusted. The daemon \texttt{col-adversaryd} executes no automated actions and performs no text parsing.
 
-\subsection{Compromise of the Entity}
+It forwards each document unaltered across \texttt{/run/collective/ipc/l6\_l7.sock} to Layer~6. There, the semantic intake pipeline processes the document in an isolated sandbox, detached from drafting engines and signing authorities (Chapter~7). Only an explicit, cryptographically signed instruction ratified by human stewards can cause Layer~7 to act.
 
-The people who hold legal authority over the entity can misuse it, under pressure or by choice. Layer 7 limits that risk with ordinary controls applied strictly. Payments above a ratified threshold require multiple signatories, and no single officer can move the treasury. Every outbound action must reference a ratification record, and an independent member reconciles actions against ratifications each cycle. Officer roles rotate on a fixed term. At least two officers can act for every critical function, and a written succession plan covers death, incapacity, or departure. Bylaws bind officers to ratified instructions and allow the members to remove them. An officer who acts outside ratified instructions faces the restorative-first process of Chapter 6 and, where the law applies, the remedies available to any organisation against a faithless officer.
+\subsection{Compromise of the Entity and Fiduciary Breach Defense}
 
-\section{Extraction}
+Human officers holding corporate authority over the entity may succumb to external coercion, financial bribery, or ideological betrayal. Layer~7 mitigates officer risk through strict structural controls:
+\begin{enumerate}
+  \item \textit{Multi-Signature Treasury Controls:} Disbursements above a ratified threshold require dual cryptographic authorizations; no single director can unilaterally move treasury funds.
+  \item \textit{Mandatory Instruction References:} Outbound transactions must reference an authentic, verified Layer~5 ratification hash. An independent auditing steward reconciles banking logs against assembly ratifications each cycle.
+  \item \textit{Fixed Rotational Terms:} Legal directorships and corporate officer roles rotate on fixed annual schedules, preventing entrenched managerial oligarchies.
+  \item \textit{Removal Covenants:} Bylaws mandate that officers must act in alignment with ratified assembly instructions, and grant the assembly the legal authority to remove and replace faithless officers immediately. Officers committing breach of fiduciary duty face internal restorative circles and, where necessary, standard civil actions for corporate breach of trust.
+\end{enumerate}
+
+\section{Extraction: The Legacy Market Interface}
 
 \subsection{Export as a Residual}
 
-Chapter 5 established the Orchestrator's priority order: ecological floors and the unconditional survival baseline first, standing commitments next, ordinary community workflows after them, and enhancements last. Export ranks below all of these. It draws only on what is left after every internal claim is met, it is never reserved ahead of those claims, and it is the first to be curtailed when availability falls. The quantity the community may export each cycle is therefore computed, not chosen as a goal.
+Chapter~5 established the Orchestrator's strict priority hierarchy: ecological floors ($F_t$) and the unconditional survival baseline ($B_t$) first; standing commons commitments ($C_t$) second; ordinary community workflows ($O_t$) third; and enhancements ($E_t$) fourth. Outward export ranks strictly below all of these. It draws only from the thermodynamic and human surplus that remains after all internal claims have been met. Export is never reserved ahead of community needs and is the first to be curtailed when physical generation falls.
 
-\subsection{The Export Ceiling}
+\subsection{\texorpdfstring{The Export Ceiling Equations ($R_t, L_t$)}{The Export Ceiling Equations (Rt, Lt)}}
 
-Each cycle, the Orchestrator reports to Layer 5 the forecast quantities from which the ceiling is computed. For cycle $t$, let $A_t$ be the exergy that Layer 3 measures and forecasts as available; $F_t$ the exergy reserved for ecological floors; $B_t$ the unconditional survival baseline; $C_t$ standing commitments; $O_t$ forecast ordinary community workflows; and $M_t$ a ratified safety margin. The exergy residual is
-
+Each operating cycle, the Orchestrator computes forecast generation and reservations. For cycle~$t$, let $A_t$ be the total exergy metered and forecast by Layer~3; $F_t$ the exergy reserved for ecological floors; $B_t$ the unconditional human survival baseline; $C_t$ standing commons commitments; $O_t$ forecast ordinary workflows; and $M_t$ a ratified safety margin. The exergy residual is:
 \begin{equation}
-R_t = A_t - F_t - B_t - C_t - O_t - M_t .
+  R_t = A_t - F_t - B_t - C_t - O_t - M_t
+  \label{eq:exergy_residual}
 \end{equation}
 
-Human time is bounded separately. Let $H_t$ be the aggregate capacity ceiling derived from members' self-reports under Chapter 6, and $H^{\mathrm{int}}_t$ the hours internal work requires. Export exergy $X_t$ and export labour $L_t$ must satisfy
-
+Human export labor is bounded independently. Let $H_t$ be the aggregate labor capacity derived from Stewards' voluntary self-reports under Chapter~6, and $H^{\mathrm{int}}_t$ the hours required for internal commons stewardship. Outward export exergy ($X_t$) and export labor ($L_t$) must satisfy:
 \begin{equation}
-X_t \le \max(0, R_t), \qquad L_t \le \max(0, H_t - H^{\mathrm{int}}_t).
+  X_t \le \max(0, R_t), \qquad L_t \le \max(0, H_t - H^{\mathrm{int}}_t)
+  \label{eq:export_bounds}
 \end{equation}
+Layer~5 ratifies an export ceiling at or below these residuals, never above them. The ceiling constitutes a standing governance instrument enforced by the Orchestrator at Layer~4 as a lowest-priority reservation, reaching Layer~7 solely as a binding constraint via Layer~6.
 
-Layer 5 ratifies an export ceiling at or below these residuals, never above them. It may set the ceiling lower, or at zero, for any reason, including a decision that the community would rather rest. The ceiling is a standing instrument (Chapter 6, Table~\ref{tab:l5-instruments}) enforced by the Orchestrator as the lowest-priority reservation, and it reaches Layer 7 only as a parameter of instructions issued through Layer 6.
+\subsection{\texorpdfstring{The Needs List and the Fiat Target ($\Phi_t$)}{The Needs List and the Fiat Target (Phi)}}
 
-\subsection{The Needs List and the Fiat Target}
+Fiat currency is raised exclusively to procure items cataloged on a ratified needs list. Each entry documents the physical specification, an engineering justification proving that no internal or federated mesh alternative exists (the Meshing-First Rule), estimated fiat cost ($c_i$), and projected operational lifespan.
 
-Fiat is raised only for items on a ratified needs list. Each item records what is needed, why no local or mesh alternative suffices (the Meshing-First rule of Chapter 1), its estimated fiat cost, and its expected service life. For cycle $t$, with item costs $c_i$, a tax and compliance reserve $\rho_t$, and usable treasury balance $T_t$, the fiat target is
-
+For cycle~$t$, with open item costs $c_i$, mandatory tax and compliance reserves $\rho_t$, and usable treasury reserves $T_t$, the fiat target is:
 \begin{equation}
-\Phi_t = \sum_i c_i + \rho_t - T_t .
+  \Phi_t = \sum_i c_i + \rho_t - T_t
+  \label{eq:fiat_target}
 \end{equation}
-
-The fiat target and the export ceiling bound export from two directions: the target from need, the ceiling from physics. Whichever is reached first stops new export.
+The fiat target ($\Phi_t$) and the export ceiling ($R_t, L_t$) bound extraction from opposite directions: the target from genuine need, the ceiling from thermodynamic physics. Whichever threshold is reached first halts new commercial sales.
 
 \subsection{Stop Rules and the Treasury Ceiling}
 
-When cumulative fiat received in a cycle reaches $\Phi_t$, Layer 7 accepts no new orders. Existing contracts are fulfilled or wound down under their terms. Layer 7 does not seek new customers, extend product lines, or advertise beyond what the current target requires.
+When cumulative fiat receipts in a cycle reach $\Phi_t$, \texttt{col-adversaryd} automatically freezes new commercial order intake. Existing contracts are fulfilled or wound down. The entity undertakes zero marketing, seeks no new clients, and refuses purchase orders until a subsequent needs list is ratified.
 
-The treasury has a ceiling equal to the cost of open needs-list items, the tax reserve, and a small ratified operating reserve. Fiat above that ceiling at the end of a cycle is not a windfall to be invested. It reduces the next cycle's fiat target by the same amount, so a successful cycle leads to less export, not more. Any other use of surplus fiat, such as support for a new Node or a reciprocity commitment to neighbours, must itself be ratified as an item on the needs list. Surplus never funds expansion of export capacity.
-
-\subsection{Interruptible Terms}
-
-Physics changes faster than contracts. A drought, a failed inverter, or a run of cloudy days can remove the residual from which an export was drawn. When that happens, the Orchestrator curtails export immediately under its ratified envelope; the paperwork follows, through Layers 5 and 6, to Layer 7. Contracts must be written so that this sequence is lawful. Every export contract therefore contains curtailment terms that suspend or reduce delivery when the Node's availability falls, with notice periods and remedies agreed in advance; avoids exclusivity, penalty clauses, and long minimum commitments that could force export ahead of internal needs; and prefers spot sales, short terms, and products that can be stockpiled (software licences, preserved goods, fabricated parts) over continuous service obligations.
-
-Surplus electricity sold to a legacy grid is the clearest case. The interconnection is physical hardware in Layer 1, and the inverter's export limit is an actuation envelope the Orchestrator enforces. The decision to sell, and the contract with the utility, follow the same path as any other export: ratified in Layer 5, instructed through Layer 6, executed by Layer 7. Grid export is interruptible by nature, which makes it a good fit for residual export.
-
-\subsection{Embodied Exergy and Overhead}
-
-Exported goods and services carry more exergy than the moment of sale suggests. A software service consumes compute and the wear of the hardware it runs on; a crafted object consumes materials, tools, and heat; surplus power consumes battery cycles. Each export line is accounted for at its full embodied exergy, including the entity's own overhead: accounting, legal compliance, transport, and the compute used to issue invoices. Human hours are counted against the labour bound, not converted into exergy.
-
-An export line is worth keeping only if the inputs it pays for return more to the Node over their service life than the line consumes. Lines that fail this test are retired at their next review, however much fiat they raise.
-
-\subsection{What Is Never Exported}
-
-Some things leave the Node only by Constitutional-tier exception, and most never leave at all. Layer 5 maintains a list of prohibited export classes, which at minimum includes: topsoil and subsoil; water beyond ratified flows that are already shared with downstream neighbours; biomass drawn from below ecological floors; seed stock and breeding stock needed for regeneration; any irreplaceable stock whose loss could not be restored within a generation; and any data about members, including telemetry, behaviour, or internal records. The last item is absolute: the Node never sells information about its people.
-
-\subsection{The Exergy Shield and the Progressive Siphon}
-
-The companion volume on Layer 7 formalises two mechanisms that this chapter adopts with adjustments.
-
-The \textit{Exergy Shield} bounds fiat raised by physical contribution: $V \le \kappa \cdot E$, where $V$ is fiat raised and $E$ is verifiably contributed exergy. In this volume, $E$ is the exergy actually exported under the ratified ceiling, and $\kappa$ is a ratified audit ratio, not an exchange rate. It is never applied to Exergy Credits and never published as a price. Its purpose is to flag fiat that has no corresponding export, which would indicate rent, speculation, or error, and to prevent the entity from earning income through financial activity rather than delivered value.
-
-The \textit{Progressive Siphon} bounds what individuals take from extraction. Members paid for export work receive wages up to a \textit{Living Threshold} $\tau_{\mathrm{live}}$, calibrated to local living costs and verified legacy obligations such as debt or dependants. The entity does not pay above it, and what remains after wages, taxes, and costs counts toward the needs list. Members who also earn legacy income independently may commit by voluntary member agreement to contribute income above the threshold on the companion volume's curve,
+The entity's fiat treasury is capped at the sum of open needs-list costs, the tax reserve, and a small ratified operating liquidity buffer. Any surplus fiat remaining at the end of a cycle reduces the subsequent cycle's fiat target dollar-for-dollar:
 \begin{equation}
-S(V_s) = V_s \left( 1 - e^{-\lambda V_s} \right), \qquad V_s = V - \tau_{\mathrm{live}},
+  \Phi_{t+1} \leftarrow \Phi_{t+1} - \Delta T_{\mathrm{surplus}}
 \end{equation}
-where $\lambda$ is a ratified progression rate. Such contributions are lawful gifts or dues made under a revocable agreement, not automatic deductions from private accounts, and they earn no Reputational Wealth. Two adjustments to the companion volume follow from the governing principle: siphoned surplus is subject to the treasury ceiling like all other fiat, and it does not automatically fund expansion.
+A successful extraction cycle results in less export in the following cycle, never more. Fiat surplus is never deployed to expand export production capacity.
 
-\subsection{Guarding Against Degeneration}
+\subsection{Interruptible Commercial Terms and Physical Curtailment}
 
-Cooperatives trading in competitive markets have long been observed to drift toward the behaviour of the firms around them, prioritising revenue, hiring non-member labour, and concentrating control. This is the degeneration thesis, which \textcite{cornforth1995} reviews and qualifies: degeneration is a tendency, not a law, and it can be resisted by deliberate design. Layer 7 resists it as follows. Each export line is authorised for a fixed term and lapses unless re-ratified with its embodied-exergy and dependency figures. Revenue growth is never reported as a measure of success; the entity's financial statements exist for legal compliance only. Non-members are employed only for ratified reasons, at fair wages, with a path to membership, and never to expand export beyond the ceiling. The asset lock prevents conversion into a private firm. Legacy-facing roles rotate, so that no group within the community becomes its permanent earners.
+Thermodynamic reality overrides commercial contracts. Regional cloud cover, microgrid inverter failure, or localized drought can eliminate the exergy residual mid-cycle. When physical availability drops below internal baselines, the Orchestrator instantly curtails export at Layer~4.
 
-\section{The People Who Do Export Work}
+To preserve substantive legal compliance, commercial export contracts must be drafted to anticipate physical curtailment:
+\begin{itemize}
+  \item Every contract contains explicit curtailment clauses permitting delivery reduction or suspension without breach-of-contract penalties.
+  \item Contracts avoid exclusivity clauses, punitive liquidated damages, and continuous service-level agreements (SLAs).
+  \item Outward sales favor batch products (fabricated hardware, preserved produce, consulting deliverables, licensed designs) over continuous utility obligations.
+\end{itemize}
+Surplus electricity exported to the legacy grid under PURPA Qualifying Facility or Net Metering contracts represents the primary exception: utility interties are designed with automated transfer switches that trip instantly during local deficits without legal liability.
 
-Earlier drafts claimed that the legal entity would absorb the friction of the legacy world so that Stewards experience only freedom. That claim is withdrawn. The entity absorbs legal friction; the people who serve customers absorb deadlines, client pressure, and the emotional labour of commercial work. Layer 7 cannot remove that burden, but the Stack can limit and share it.
+\subsection{Embodied Exergy Accounting}
 
-\subsection{Capacity, Refusal, and Care}
+Exported commodities carry significant embodied exergy. Software services consume server electricity, cooling, and hardware depreciation; fabricated tools consume alloy stock, cutting bits, and heat. Layer~3 accounts for every export line at its full embodied exergy, including Layer~7's administrative overhead (accounting, transport fuel, legal compliance).
 
-Export work is subject to the same protections as all work in the Node. It counts against each person's self-reported capacity ceiling. Any member may decline an export task without explanation or penalty. Care leave suspends export obligations as it suspends all others. When honouring a person's limits would put a contract at risk, the curtailment terms are invoked, the customer is told, and the contract degrades; the person does not.
+An export product is retained only if the capital hardware it finances returns demonstrably greater exergy utility to the Node over its service life than the export line consumed to produce it. Products failing this lifecycle test are terminated at their next review.
 
-\subsection{Rotation and Voluntary Participation}
+\subsection{Prohibited Export Classes}
 
-Legacy-facing roles, including customer contact, sales, and officer positions, are held for fixed terms and rotate among willing members. Nobody is assigned to export work against their wishes, and no one becomes a permanent fiat earner. Customer relationships belong to the entity, not to individuals, so that a person can step away without abandoning anyone.
+Certain foundational assets are constitutionally barred from leaving the Node. Layer~5 maintains an inviolable Prohibited Export Register, which at minimum includes:
+\begin{enumerate}
+  \item Topsoil, compost, and living subsoil biology.
+  \item Potable groundwater and surface water beyond natural downstream watershed allocations.
+  \item Biomass drawn from below ecological floors.
+  \item Heritage seed stock, plant cuttings, and breeding genetics essential for community regeneration.
+  \item Irreplaceable machine tooling or equipment lacking verified duplicates.
+  \item Any data concerning members, including telemetry, biometric records, behavioral logs, or internal communications. The prohibition against selling member data is absolute.
+\end{enumerate}
 
-\subsection{No Premium for Fiat}
+\subsection{\texorpdfstring{The Exergy Shield ($V \le \kappa E$) and Progressive Siphon ($S(V_s)$)}{The Exergy Shield and Progressive Siphon}}
 
-Export work earns Reputational Wealth on the same basis as any other work: by the value it delivers to the community, judged as Chapter 6 describes. It earns no more than equivalent internal work, and the fiat it brings in confers no status. A community that rewarded fiat-earners with greater voice would rebuild inside itself the hierarchy it is trying to leave.
+To prevent financialization and speculative rents, Layer~7 integrates two mathematical governors adapted from the companion volume:
 
-\subsection{Support}
+\subsubsection{The Exergy Shield}
+Fiat revenue is strictly bounded by delivered physical exergy:
+\begin{equation}
+  V \le \kappa \cdot E
+  \label{eq:exergy_shield}
+\end{equation}
+where $V$ is total fiat received, $E$ is verifiably exported physical exergy (measured in joules or kilowatt-hours), and $\kappa$ is a ratified thermodynamic calibration parameter. The parameter $\kappa$ is an internal audit ratio, not an exchange rate. It ensures that the entity generates revenue solely through physical work and delivered value, flagging unearned financial income, interest, or speculative rents for rejection.
 
-Moving between a market role and community life can feel like holding two identities. The Node offers regular debriefs for members doing export work, access to the restorative processes of Chapter 6 when commercial pressure causes harm, and the option to withdraw from legacy-facing work after any term without explanation.
+\subsubsection{The Progressive Siphon}
+Stewards engaged in export labor receive wages up to a ratified Living Threshold ($\tau_{\mathrm{live}}$), calibrated to regional living costs and verified personal legacy obligations (e.g., student loans, child support). The cooperative pays no wages above this threshold; remaining revenue funds open needs-list items.
 
-\section{Honest Dealing}
+Stewards who earn independent fiat income in the legacy economy may voluntarily enter an agreement to contribute income exceeding $\tau_{\mathrm{live}}$ according to the progressive siphon curve:
+\begin{equation}
+  S(V_s) = V_s \left( 1 - e^{-\lambda V_s} \right), \qquad V_s = \max(0, V - \tau_{\mathrm{live}})
+  \label{eq:progressive_siphon}
+\end{equation}
+where $\lambda$ is a ratified progression constant. Such contributions represent lawful voluntary gifts or cooperative dues, earn zero Reputational Wealth inside the Web of Trust, and are strictly subject to the cycle's treasury ceiling.
+
+\subsection{Guarding Against Cooperative Degeneration}
+
+In \textit{Patterns of Cooperative Management: Beyond the Degeneration Thesis}, \textcite{cornforth1995} documents the historical tendency of worker cooperatives trading in capitalist markets to degenerate: prioritizing profitability over social purpose, hiring non-member wage laborers to maximize member dividends, and centralizing governance in professional managers.
+
+Layer~7 systematically dismantles the drivers of degeneration:
+\begin{enumerate}
+  \item \textit{Time-Bound Authorizations:} Commercial product lines lapse after fixed terms unless re-ratified alongside updated embodied-exergy and dependency audits.
+  \item \textit{No Growth Metrics:} Revenue expansion is never celebrated; accounting statements exist solely for statutory tax and audit compliance.
+  \item \textit{Non-Member Labor Prohibitions:} Non-members may be hired only under exceptional, ratified circumstances at prevailing union wages, with a mandatory pathway to cooperative membership.
+  \item \textit{Irrevocable Asset Locks:} Charter asset locks prevent members from liquidating or converting the entity into a conventional for-profit corporation.
+  \item \textit{Rotational Carapace:} Legacy-facing roles rotate continuously, preventing the formation of an entrenched managerial caste.
+\end{enumerate}
+
+\section{The People in the Membrane}
+
+Working at the boundary interface imposes severe cognitive and emotional stress. Stewards negotiating with legacy clients, navigating municipal bureaucracy, and managing commercial banking interfaces absorb the alienation and urgency of the market economy. Layer~7 actively mitigates this toll.
+
+\subsection{Capacity Ceilings, Moral Refusal, and Care Leave}
+
+Export work is governed by the human protections articulated in Chapter~6. Export labor hours count against each Steward's voluntary self-reported capacity ceiling. Any Steward possesses the inviolable, unpenalized right to decline an export assignment or invoke conscientious refusal. Care leave, sickness, or bereavement suspends export responsibilities immediately. When honoring a Steward's limits threatens a commercial contract deadline, the curtailment clause is invoked; the commercial contract degrades, never the human.
+
+\subsection{Mandatory Rotation and Shared Customer Accounts}
+
+Legacy-facing roles—including sales, customer support, regulatory liaison, and corporate officer positions—rotate on fixed terms among qualified, willing Stewards. No individual becomes a permanent commercial wage earner. Client accounts, supplier contacts, and institutional communications belong strictly to the cooperative entity rather than individual Stewards, allowing any member to step away without guilt or disruption.
+
+\subsection{Non-Pecuniary Status: Zero Reputational Wealth Premium}
+
+Export labor earns Reputational Wealth strictly on the same footing as internal commons tasks: by the value delivered to the community, evaluated under Chapter~6's peer review mechanisms. Bringing fiat currency into the treasury confers zero additional governance standing or social prestige. A community that rewards fiat earners with enhanced voting weight inevitably reconstructs the capitalist hierarchies it was founded to dismantle.
+
+\subsection{Psychological Decompression and Restorative Circles}
+
+Moving between the competitive urgency of legacy markets and the non-transactional trust of the internal commons induces psychological fragmentation. The Node provides structured peer debriefing circles for Stewards returning from market-facing rotations, access to restorative justice mediators when commercial stress generates interpersonal friction, and the unconditional right to withdraw permanently from legacy-facing work at the conclusion of any term.
+
+\section{Honest Dealing and Neighbourly Reciprocity}
 
 \subsection{The Export Ethics Charter}
 
-Each Node ratifies an export ethics charter as an ordinary-tier instrument bounded by its Meta rules. At minimum it commits the entity to deliver what it sells as described, at the agreed quality, on fair terms; to price honestly and to disclose material limitations, including the curtailment terms; to comply with consumer, labour, and safety law in substance; and to represent itself truthfully. The entity is a real cooperative selling real goods, and it does not pretend to be anything else. Earlier drafts described Layer 7 as a mask worn to deceive the legacy system. That framing is withdrawn: the shield protects the community's internal life, not deception of the people it deals with.
+Every Node ratifies an Export Ethics Charter as an ordinary-tier instrument. The charter binds the entity to deliver goods and services as truthfully described, at high craft quality, on equitable terms; to disclose material limitations, including interruptible curtailment terms; and to comply rigorously with labor, consumer protection, and environmental safety laws in substance. 
 
-\subsection{The Exclusion List}
+Earlier conceptions of Layer~7 as a deceitful mask worn to trick the legacy system are formally rejected. The shield protects the internal integrity of the commons; it does not deceive external partners.
 
-The charter includes a ratified list of customers and sectors the Node will not serve, whatever the price. Typical entries include weapons manufacture, mass surveillance, fossil-fuel extraction, and any buyer whose use of the product would undermine the ecological floors the Node protects at home. The list is reviewed with the needs list.
+\subsection{The Customer Exclusion List}
 
-\subsection{Reciprocity with Neighbours}
+The charter maintains an explicit, ratified Customer Exclusion List. The cooperative will not sell goods or services, at any price, to:
+\begin{itemize}
+  \item Military contractors and weapons manufacturers.
+  \item State or private mass surveillance and forensic intelligence agencies.
+  \item Fossil-fuel extraction and petrochemical refining enterprises.
+  \item Speculative real estate developers engaged in local gentrification and displacement.
+  \item Any client whose operations directly undermine the ecological floors and human dignity protected by the Sovereign Stack.
+\end{itemize}
 
-The communities around a Node are mostly still within the legacy economy. They are neighbours, not markets to be drained. Each Node ratifies reciprocity commitments, which may include preferential terms for local buyers, open publication of designs and software the community has built, shared use of infrastructure such as tool libraries and repair spaces, and mutual aid during emergencies. These commitments rank alongside the needs list, not below it.
+\subsection{Neighbourly Reciprocity and Open Tool Libraries}
 
-\subsection{How the Community Speaks of the Legacy World}
+Surrounding rural and urban neighbors are fellow human beings navigating the exhaustion of late capitalism, not an adversary to be exploited. Each Node establishes formal reciprocity programs:
+\begin{itemize}
+  \item Preferential pricing and trade terms for local residents and family farms.
+  \item Unconditional open-source publication of software, architectural blueprints, and open-hardware CAD models.
+  \item Public access to community infrastructure: tool libraries, seed exchanges, repair cafes, and solar emergency charging stations.
+  \item Rapid mutual-aid mobilization during extreme weather events, grid blackouts, or natural disasters.
+\end{itemize}
 
-Chapter 1 calls the extraction function \textit{leeching}. The word is accurate in one sense: the Node draws from the legacy economy what it needs while declining to join that economy's logic of accumulation. It is inaccurate in another. The Node takes nothing dishonestly from the people it trades with; they receive fair value. A community that comes to describe its neighbours as hosts and their world as dying will find that adversarial story corroding its own culture. Words such as ``toxic,'' ``parasitic,'' and ``Trojan Horse'' are therefore retired from this volume. If the legacy economy shrinks as Nodes multiply, that is a side effect of people choosing better arrangements, not a goal the community pursues against anyone.
+\subsection{Language Discipline: Retiring Adversarial and Parasitic Metaphors}
 
-\section{Two Paths Through the Stack}
+Earlier drafts utilized adversarial metaphors, describing extraction as ``leeching'' or ``parasitism'' and the cooperative carapace as a ``Trojan Horse.'' These terms are formally retired. A community that characterizes its neighbors as hosts and the surrounding world as a corpse inevitably poisons its own internal culture, breeding cynicism and paranoia. 
 
-Because Layer 7 can act only on instructions from Layer 6, every legacy-facing action follows a path that begins in measurement and passes through ratification. Two paths matter most.
+The Sovereign Stack takes nothing dishonestly; legacy partners receive honest craft value. If the legacy market economy contracts as autonomous Nodes proliferate across bioregions, that contraction is the natural consequence of human beings freely choosing superior, convivial arrangements—not the outcome of predatory sabotage.
 
-\subsection{An Export Decision}
+\section{Three Paths Through the Stack}
 
+Every legacy-facing action follows a deterministic, unidirectional traversal through the Stack, originating in physical measurement and passing through deliberative ratification.
+
+\subsection{Path 1: An Outward Export Decision (Legacy Market)}
 \begin{enumerate}
-  \item Layer 3 measures and forecasts available exergy and makes it available to the Orchestrator.
-  \item The Orchestrator (Layer 4) computes floors, baseline, commitments, forecast workflows, and capacity, and reports the residuals to Layer 5.
-  \item Layer 5 ratifies an export ceiling at or below the residuals, together with the needs list, the fiat target, and any export lines up for renewal.
-  \item Layer 6 renders the ratified decision into signed instructions for Layer 7, each referencing its ratification record.
-  \item Layer 7 executes sales within the ceiling and the target, under interruptible terms, and reports fiat received back through Layer 6.
-  \item The Orchestrator performs the physical export work as lowest-priority reservations and curtails it when availability falls; the curtailment notice returns through Layers 5 and 6 to Layer 7.
+  \item \textit{Physical Measurement (Layer~3):} Generation meters forecast exergy availability; the Thermodynamic Ledger verifies that physical stocks exceed baseline thresholds.
+  \item \textit{Residual Calculation (Layer~4):} The Orchestrator computes ecological floors, baseline, and workflow reservations, reporting exergy residual $R_t$ and labor capacity $L_t$ to Layer~5.
+  \item \textit{Governance Ratification (Layer~5):} The assembly ratifies an export ceiling at or below residuals, approving the current needs list and fiat target $\Phi_t$.
+  \item \textit{Semantic Rendering (Layer~6):} The semantic engine compiles ratified policies into signed operational instructions directed to Layer~7, referencing ratification hashes.
+  \item \textit{Legacy Execution (Layer~7):} The cooperative daemon \texttt{col-adversaryd} issues invoices, receives customer fiat into its commercial account, segregates tax reserves, and delivers goods under interruptible terms.
+  \item \textit{Physical Dispatch (Layer~4):} The Orchestrator schedules export work as a lowest-priority task, actuating physical export and curtailing it immediately if local generation drops.
 \end{enumerate}
 
-\subsection{A Purchase}
-
+\subsection{Path 2: A Capital Purchase (Legacy Market)}
 \begin{enumerate}
-  \item Layer 5 ratifies a needs-list item, with its Meshing-First justification.
-  \item Layer 6 issues a signed purchase instruction to Layer 7.
-  \item Layer 7 executes the purchase under multiple signatures and reserves the corresponding funds.
-  \item The goods arrive in the physical world. Supplier documents reach Layer 6 through the intake pipeline, and the receipt is recorded in Layer 5.
-  \item Installation becomes an ordinary workflow: the Orchestrator plans it, Layer 5 matches eligible Stewards, and people install the hardware by hand.
-  \item Once commissioned, the hardware joins Layer 1 and becomes visible to the Stack through Layer 2 telemetry.
-  \item Layer 3 measures the useful work the hardware performs and mints Exergy Credits under Proof-of-Thermodynamic-Work. Fiat never mints credits, and neither does the Orchestrator.
+  \item \textit{Needs Ratification (Layer~5):} The assembly approves a capital equipment acquisition, validating its Meshing-First justification.
+  \item \textit{Instruction Issuance (Layer~6):} Layer~6 compiles a cryptographically signed purchase instruction for Layer~7.
+  \item \textit{Procurement Execution (Layer~7):} Authorized signatories release payment via commercial banking rails, recording supplier invoices.
+  \item \textit{Physical Ingestion (Layers~6 \& 5):} Hardware arrives at the Node. Packing manifests and inspection logs enter Layer~6's untrusted intake pipeline; Layer~5 records the physical receipt.
+  \item \textit{Installation Workflow (Layer~4):} Stewards claim installation tasks through \texttt{col-execd}, physically bolting and wiring the hardware.
+  \item \textit{Mesh Onboarding (Layers~1 \& 2):} The hardware joins the 48V DC bus; sensors connect to RS-485 Modbus networks, broadcasting telemetry over Layer~2.
+  \item \textit{Thermodynamic Minting (Layer~3):} Layer~3 meters useful work performed by the operational hardware and mints Exergy Credits under Proof-of-Thermodynamic-Work. Fiat never mints credits.
 \end{enumerate}
 
-\section{The Severance Protocol}
+\subsection{Path 3: An Inter-Node Resource Transfer (Mesh Exchange)}
+\begin{enumerate}
+  \item \textit{Federation Discovery (Layer~5):} Node~$A$'s \texttt{col-kmsd} receives a Capability Advertisement ($\mathcal{A}$) via BPVP from Node~$B$ across Trust Ring~$R_3$.
+  \item \textit{Treaty Compilation (Layers~5 \& 6):} Layer~5 approves the route; Layer~6 generates a bilateral Ricardian Contract, computing $\mathrm{Treaty\_CID}$ via Equation~(\ref{eq:l7_ricardian_hash}).
+  \item \textit{Legal Wrapping (Layer~7):} If transport traverses legacy highways, \texttt{col-adversaryd} compiles a non-commercial Bill of Lading and Shared Services manifest referencing the governing Subchapter~T SSA and $\mathrm{Treaty\_CID}$.
+  \item \textit{Physical Transport:} Cooperative transport vehicles convey the physical cargo across public highways without UCC Article~2 commercial sale exposure.
+  \item \textit{Physical Ingestion \& Settlement (Layer~3):} Destination sensors verify physical mass and exergy delivery; Layer~3 Bilateral Clearing Channels ($BCC$) adjust pairwise channel balances in 3.6 MJ Exergy Credits without touching fiat currency or legacy banks.
+\end{enumerate}
+
+\section{The Severance Protocol and Asymptotic Shrinkage}
 \label{sec:l7-severance}
 
-Earlier drafts called this section ``Strategic Deprecation'' and said Layer 7 was designed to die. The companion volume names the mechanism the \textit{Severance Protocol}, with an \textit{Obsolescence Horizon} at which a legacy dependency costs more to keep than to replace. This volume adopts that name and states the aim more modestly: Layer 7 is designed to shrink, one dependency at a time, toward the smallest residue the legacy world still requires.
+Layer~7 is engineered with a built-in obsolescence imperative: the \textit{Severance Protocol}. Unlike corporate entities that seek perpetual self-preservation and capital accumulation, Layer~7 is structurally designed to shrink over time, systematically deprecating legacy dependencies until the external carapace atrophies to a minimal residual interface.
 
-\subsection{The Dependency Register}
+\subsection{The Legacy Dependency Register}
 
-Layer 5 maintains a register of every legacy dependency: each supplier, bank, payment rail, software service, licence, and legal obligation the Node relies on. For each it records what depends on it, the alternatives identified (local fabrication, a neighbouring Node, a cooperative provider), and the conditions under which the dependency will be retired. Retiring a dependency is an ordinary decision, taken when an alternative is available at acceptable exergy and human cost.
+Layer~5 maintains an audited Legacy Dependency Register cataloging every external commercial interface:
+\begin{itemize}
+  \item Critical hardware suppliers (photovoltaic wafers, semiconductor chips, copper wire).
+  \item Proprietary software tools, legacy operating systems, and public cloud repositories.
+  \item Commercial utility grid interties, municipal water hookups, and fuel distributors.
+  \item Commercial bank accounts, merchant payment processors, and insurance policies.
+  \item Municipal building permits, licenses, and statutory reporting obligations.
+\end{itemize}
+Each entry records: (1) internal processes dependent on the item; (2) alternative fabrication pathways (local workshop replication, federated mesh procurement from sister Nodes, or open-hardware redesign); and (3) concrete threshold criteria governing retirement of the dependency. Retiring an external dependency is an ordinary assembly decision executed whenever a sovereign alternative achieves acceptable exergy and human parity.
 
-\subsection{Measuring Dependence}
+\subsection{\texorpdfstring{Measuring Dependence: The Dependency Ratio ($D_t$)}{Measuring Dependence: The Dependency Ratio (Dt)}}
 
-The principal measure of Layer 7's success is the dependency ratio
+The principal metric evaluating Layer~7's performance is the \textit{Dependency Ratio}:
 \begin{equation}
-D_t = \frac{E^{\mathrm{fiat}}_t}{E^{\mathrm{in}}_t},
+  D_t = \frac{E^{\mathrm{fiat}}_t}{E^{\mathrm{in}}_t}
+  \label{eq:dependency_ratio}
 \end{equation}
-the share of the embodied exergy of all inputs entering the Node in cycle $t$ that was procured with fiat. Alongside it, Layer 5 reviews the fiat target $\Phi_t$, the share of members' hours spent in export work, and the number of entries in the dependency register. A healthy Node shows all four falling over time. A rising dependency ratio triggers a review of the needs list and the Meshing-First searches behind it, not an increase in export.
+defined as the proportion of total embodied exergy entering the Node in cycle~$t$ that was procured utilizing fiat currency ($E^{\mathrm{fiat}}_t$), relative to total gross exergy inputs from all sources ($E^{\mathrm{in}}_t$).
 
-\subsection{What Remains}
+The assembly concurrently monitors three secondary metrics:
+\begin{enumerate}
+  \item The fiat extraction target ($\Phi_t$).
+  \item The proportion of community labor hours allocated to commercial export ($L_t / H_t$).
+  \item The total number of active entries in the Legacy Dependency Register.
+\end{enumerate}
+A maturing Node exhibits steady, monotonic declines across all four metrics. An upward spike in $D_t$ triggers immediate assembly review of the needs list and automated Meshing-First rediscovery across neighboring Trust Rings, rather than an expansion of commercial export quotas.
 
-As Nodes multiply and Fabrication Nodes produce open hardware, the need to buy from legacy suppliers falls, and with it the need for export. Some functions will remain for as long as legacy states claim territory: holding title to land, filing what the law requires, answering legal process, and dealing honestly with neighbours. Layer 7 shrinks toward those functions. It retires entirely only when nothing outside the mesh remains to interface with. Until then it remains what it was designed to be: a shield for the community, an honest trading partner to the people around it, and a measure of how far the community still has to go.
+\subsection{What Remains: The Terminal Perpetual Purpose Trust}
+
+As autonomous Nodes multiply across watersheds and specialized Fabrication Nodes achieve open-hardware parity, external procurement needs diminish, collapsing the need for commercial export.
+
+However, so long as legacy nation-states enforce territorial sovereignty, certain minimal legal functions remain unavoidable:
+\begin{itemize}
+  \item Holding bare fee-simple title to physical real estate.
+  \item Defending against municipal ad valorem property tax foreclosure.
+  \item Answering official legal process and maintaining statutory records.
+  \item Engaging in peaceful, good-faith legal relationships with non-steward neighbors.
+\end{itemize}
+In Phase~4 (Terminal Decoupling), commercial trading entities are dissolved. Operating assets and land merge permanently into an Irrevocable Perpetual Purpose Trust (PPT), endowed with a perpetual property tax escrow fund. The software daemon \texttt{col-adversaryd} receives a final \texttt{SIGTERM}. Layer~7 shrinks to its ultimate, immutable state: a quiet, unencumbered land trust anchored in the soil, entirely unremarkable to the state, shielding a thriving sovereign commons that has transcended the logic of capital forever.
+
+\section{Crescendo: The Art of the Unremarkable}
+
+The great cathedrals of the medieval world were erected upon timber centering arches—temporary curved wooden frameworks (\textit{le cintre}) that supported tens of thousands of tons of carved stone while masons laid the vaults. When the keystone was hammered into place and the mortar cured, the timber centering was struck: wooden wedges were knocked out, and the timber was dismantled and carried away. The vault stood solely by its own internal geometry, suspended between gravity and compression.
+
+Layer~7 is the timber centering arch of the Sovereign Stack. It is not the cathedral; it is not the sacred commons; it is not the new society. It is the temporary, unglamorous structural scaffolding that holds the weight of legacy state friction while the internal cybernetic commons is assembled stone by stone.
+
+To master Layer~7 is to master the art of the unremarkable. While naive radicals brandish adversarial slogans that invite state suppression, and naive technocrats build centralized crypto-economic empires that invite corporate capture, the Sovereign Stack moves in quiet, disciplined modesty. To the municipal inspector, the county clerk, the tax auditor, and the utility engineer, the Node presents the face of an ordinary, law-abiding local cooperative—small, boring, polite, and scrupulously compliant.
+
+Yet behind that unremarkable legal carapace, shielded from the panopticon of surveillance and the exhaustion of wage labor, an entirely new world takes root. Here, energy is metered as physical work rather than speculative debt; human labor is valued for care and craft rather than market exploitation; land is liberated from speculative alienation; and autonomous settlements interlock across bioregions through an unbreakable mesh of mutual aid.
+
+The shield holds the line. Behind it, the garden grows.
