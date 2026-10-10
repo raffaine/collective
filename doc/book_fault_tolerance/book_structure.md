@@ -97,21 +97,27 @@ Kael and Jax are both working nomadically spreading The Collective across the co
 
 ## Part V: The Breaking Point
 
-### Chapter 12: Maintenance and Entropy
+### Chapter 12: Ignition and Echoes
+*   **Plot:** Following the grueling political battle and the sheer thermodynamic strain of resolving the bioregional fracture, the simmering tension between Elara and Silas finally reaches a boiling point. The narrative focuses deeply on their relationship, moving away from lukewarm waters into intense passion and drama. They stand at a seeming curve at the edge of a precipice, forcing them to confront their shared history and personal demons. The chapter weaves in visceral flashbacks of Elara's and Silas's pasts—their individual traumas from the legacy world, and the scars that make their current intimacy both terrifying and vital.
+*   **Characters:** Elara, Silas.
+*   **Scenarios Showcased:**
+    *   **Zeta:** The Sovereign Third Place (focusing on the intimate, vulnerable spaces built away from the legacy world).
+    
+### Chapter 13: Maintenance and Entropy
 *   **Plot:** The stress of constant adversarial pressure (Legacy utility throttling, drone surveillance) leads to severe burnout. A critical dispute breaks out over resource allocation. Elara steps in to mediate, driven by her love and responsibility for the whole community, rejecting any personalism.
 *   **Characters:** Elara, Silas, Feuding Community Members.
 *   **Scenarios Showcased:**
     *   **Sigma:** The Maintenance Commons (Dealing with burnout and entropy).
     *   **Psi:** Restorative Justice & Conflict Resolution.
 
-### Chapter 13: The Elder Wisdom
+### Chapter 14: The Elder Wisdom
 *   **Plot:** An elder of the community passes away. Their tools and knowledge are seamlessly absorbed into the commons. The community engages in somatic play, art, and music to mourn and heal, avoiding legacy probate systems.
 *   **Characters:** Elara, Silas, Gabe, The Elders.
 *   **Scenarios Showcased:**
     *   **Phi:** The Elder Commons (Passing on wisdom and assets).
     *   **Lambda:** Cultural Commons (Arts, Sound, and Somatic Play).
 
-### Chapter 14: Ecological Shock
+### Chapter 15: Ecological Shock
 *   **Plot:** A severe, climate-driven super-storm hits the bioregion. The Legacy system abandons the area. The Collective must rely entirely on its disaster resilience networks to survive, while hostile Legacy forces attempt to exploit the chaos.
 *   **Characters:** Elara, Silas, Gabe, entire community.
 *   **Scenarios Showcased:**
@@ -120,13 +126,13 @@ Kael and Jax are both working nomadically spreading The Collective across the co
 
 ## Part VI: The Sovereign Singularity
 
-### Chapter 15: The Brink of Severance
+### Chapter 16: The Brink of Severance
 *   **Plot:** The storm clears, but the Legacy state launches a massive, coordinated legal and physical attack. Elara, Silas, and Gabe mobilize the final defense. They realize the ablative shield is failing; they can no longer exist as a proxy within the old world.
 *   **Characters:** Elara, Silas, Gabe, Node Defenders.
 *   **Scenarios Showcased:**
     *   **Rho:** The Adversarial Mesh (Subpoenas and physical sabotage).
 
-### Chapter 16: Terminal Decoupling (The Climax)
+### Chapter 17: Terminal Decoupling (The Climax)
 *   **Plot:** Elara and the community execute the Sovereign Singularity. It is framed not as magical separation, but as a definitive shift in leverage and a tragic choice, acknowledging the heavy cost of leaving the legacy world (and those trapped within it) behind. They sever municipal utility lines. The Legacy grid goes dark, but the local mesh lights up. The Collective Bioregion permanently detaches.
 *   **Characters:** Elara, Silas, Gabe, The Global Mesh.
 *   **Scenarios Showcased:**
