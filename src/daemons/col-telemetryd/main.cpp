@@ -14,6 +14,7 @@
 
 #include <spdlog/spdlog.h>
 #include "uhai/uhai_ring_buffer.hpp"
+#include "airgap_filter.hpp"
 
 static std::atomic<bool> g_running{true};
 
@@ -120,6 +121,7 @@ int main(int argc, char* argv[]) {
     auto last_drain_time = std::chrono::steady_clock::now();
     auto start_time = std::chrono::steady_clock::now();
 
+    oasis::airgap::HardwareAirgapFilter airgap_filter;
     oasis::uhai::TelemetrySample sample{};
 
     // Non-blocking drain loop
@@ -135,6 +137,20 @@ int main(int argc, char* argv[]) {
                          sample.frame_count, sample.fps, sample.founder_stress,
                          sample.memory_slot_count, sample.biome_id, sample.quality_flags,
                          sample.timestamp_ns);
+
+            auto decision = airgap_filter.Evaluate(sample);
+            if (decision == oasis::airgap::AirgapDecision::DROPPED_SIMULATED_SECURITY_VIOLATION) {
+                spdlog::warn("[col-telemetryd] [AIRGAP SECURITY VIOLATION] Frame {:>6} (quality: 0x{:02x}) dropped: synthetic simulation packet barred from physical hardware actuation!",
+                             sample.frame_count, sample.quality_flags);
+                // Physical actuation bypassed for synthetic SITL packets
+            } else if (decision == oasis::airgap::AirgapDecision::ACCEPTED_HARDWARE_ROOT) {
+                spdlog::info("[col-telemetryd] [HARDWARE ROOT] Frame {:>6} (quality: 0x{:02x}) accepted: authentic hardware packet forwarded to physical HAL relays",
+                             sample.frame_count, sample.quality_flags);
+                // Physical actuation pipeline proceeds
+            } else {
+                spdlog::warn("[col-telemetryd] [INVALID QUALITY FLAG] Frame {:>6} (quality: 0x{:02x}) dropped: unrecognized quality flag",
+                             sample.frame_count, sample.quality_flags);
+            }
 
             if (max_frames > 0 && total_drained >= max_frames) {
                 spdlog::info("[col-telemetryd] Reached target frame count ({})", max_frames);
@@ -162,8 +178,11 @@ int main(int argc, char* argv[]) {
     }
 
     uint64_t dropped = header->dropped_frames.load(std::memory_order_relaxed);
+    const auto& stats = airgap_filter.GetStats();
     spdlog::info("[col-telemetryd] Drained {} total samples. Header recorded dropped frames: {}",
                  total_drained, dropped);
+    spdlog::info("[col-telemetryd] Hardware Airgap Filter Summary: Total: {}, Hardware Accepted: {}, Simulated Dropped: {}, Invalid Dropped: {}",
+                 stats.total_inspected, stats.accepted_hardware, stats.dropped_simulated, stats.dropped_invalid);
     spdlog::info("[col-telemetryd] Clean shutdown complete.");
 
     ::munmap(raw_ptr, oasis::uhai::TOTAL_SHM_SIZE);

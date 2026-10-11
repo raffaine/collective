@@ -19,6 +19,16 @@
 
 namespace oasis::uhai {
 
+// Telemetry Sample Quality Flags (Story 7.4 Hardware-in-the-Loop Isolation)
+namespace QualityFlags {
+    constexpr uint8_t QUALITY_SIMULATED     = 0x01; // Emitted by external SITL (e.g. Oasis)
+    constexpr uint8_t QUALITY_HARDWARE_ROOT = 0x02; // Hardware secure element (ATECC608A) verified
+    constexpr uint8_t QUALITY_OUT_OF_BOUNDS = 0x04; // Physical transducer limits breached
+    constexpr uint8_t QUALITY_SPOOF_SUSPECT = 0x08; // Flagged by spatial/thermodynamic cross-check
+}
+constexpr uint8_t QUALITY_SIMULATED     = QualityFlags::QUALITY_SIMULATED;
+constexpr uint8_t QUALITY_HARDWARE_ROOT = QualityFlags::QUALITY_HARDWARE_ROOT;
+
 constexpr size_t CACHE_LINE_SIZE = 64;
 constexpr size_t RING_CAPACITY = 1024; // Power of 2
 constexpr uint32_t UHAI_MAGIC = 0x55484149; // "UHAI" (0x55484149)
@@ -33,11 +43,40 @@ struct alignas(8) TelemetrySample {
     float    founder_stress{0.0f};  // Founder psychological stress accumulator (4 bytes)
     uint32_t memory_slot_count{0};  // Founder episodic memory ring buffer count (4 bytes)
     uint8_t  biome_id{0};           // Active legacy biome: 0=Suburban, 1=Urban, 2=Permaculture (1 byte)
-    uint8_t  quality_flags{0};      // Bit 0: Valid, Bit 1: Simulated (SITL) (1 byte)
+    union {
+        uint8_t quality_flags{0};   // Bitfield flags (legacy/plural name)
+        uint8_t quality_flag;       // Singular name (Story 7.4)
+    };
     uint16_t reserved{0};           // Struct padding for strict 8-byte alignment (2 bytes)
 };
 #pragma pack(pop)
 static_assert(sizeof(TelemetrySample) == 32, "TelemetrySample must be exactly 32 bytes.");
+
+// Story 5.5: Upward Compilation Loop Intent Data Structures (Anti-Bleed Invariant 4)
+enum class IntentType : uint16_t {
+    UNKNOWN             = 0,
+    SPATIAL_AFFORDANCE  = 1, // Cadastral blueprint placement / chore affordance
+    POLICY_REFINEMENT   = 2, // In silico verified policy export (Story 5.5)
+    WORK_TOKEN_DISPATCH = 3, // Layer 4 BPMN VM work token
+    RESOURCE_REBALANCE  = 4  // Microgrid/cistern dispatch rebalance
+};
+
+#pragma pack(push, 8)
+struct alignas(8) SpatialIntentPayload {
+    uint8_t  intent_cid[32]{};     // SHA256 / CID digest of JSON-LD schema or treaty specification (32 bytes)
+    uint8_t  author_did[32]{};     // Opaque 32-byte founder DID handle (Anti-Bleed Inv 2) (32 bytes)
+    uint64_t timestamp_ns{0};      // Nanosecond epoch timestamp (8 bytes)
+    uint16_t intent_type{0};       // IntentType enum (2 bytes)
+    uint8_t  quality_flag{0x01};   // QUALITY_SIMULATED (0x01) or QUALITY_HARDWARE_ROOT (0x02) (1 byte)
+    uint8_t  status{0};            // Lifecycle status: 0=Draft, 1=Validated, 2=Compiled (1 byte)
+    uint32_t payload_bytes{0};     // Byte length of inline JSON-LD payload (4 bytes)
+    float    spatial_origin[3]{};  // 3D Voxel coordinates (x, y, z) for Cadastral anchor (12 bytes)
+    float    spatial_extents[3]{}; // Voxel bounding box extents (dx, dy, dz) (12 bytes)
+    char     schema_uri[32]{};     // JSON-LD schema or target URI (32 bytes)
+    char     payload_jsonld[128]{};// Compact canonical JSON-LD intent payload (128 bytes)
+};
+#pragma pack(pop)
+static_assert(sizeof(SpatialIntentPayload) == 264, "SpatialIntentPayload must be exactly 264 bytes.");
 
 struct alignas(CACHE_LINE_SIZE) TelemetrySlot {
     TelemetrySample sample;
@@ -361,9 +400,13 @@ namespace uhai {
     using oasis::uhai::UHAI_VERSION;
     using oasis::uhai::DEFAULT_SHM_NAME;
     using oasis::uhai::TOTAL_SHM_SIZE;
+    using oasis::uhai::QUALITY_SIMULATED;
+    using oasis::uhai::QUALITY_HARDWARE_ROOT;
     using oasis::uhai::TelemetrySample;
     using oasis::uhai::TelemetrySlot;
     using oasis::uhai::SharedRingHeader;
+    using oasis::uhai::IntentType;
+    using oasis::uhai::SpatialIntentPayload;
     using oasis::uhai::LockFreeSpscRing;
     using oasis::uhai::UhaiTelemetryChannel;
 

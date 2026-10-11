@@ -14,6 +14,10 @@
 #include <webgpu/webgpu_cpp.h>
 #endif
 
+#define GLM_FORCE_DEPTH_ZERO_TO_ONE
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+
 #include "shaders/raymarch_wgsl.hpp"
 #include "uhai/uhai_ring_buffer.hpp"
 #include "core/stochastic_boundary.hpp"
@@ -146,6 +150,19 @@ struct PsychologyComponent {
 
 namespace graphics {
 
+#pragma pack(push, 16)
+struct alignas(16) CameraUniforms {
+    glm::mat4 view_matrix{1.0f};       // 64 bytes (offset 0)
+    glm::mat4 proj_matrix{1.0f};       // 64 bytes (offset 64)
+    glm::mat4 inv_view_proj{1.0f};     // 64 bytes (offset 128)
+    glm::vec4 camera_pos{0.0001f, 2.0001f, -4.9999f, 0.0f}; // 16 bytes (offset 192), xyz = pos, w = mode
+    glm::vec4 camera_target{0.0f, 0.0f, 0.0f, 1.0f};         // 16 bytes (offset 208), xyz = target, w = zoom
+    glm::vec4 viewport_params{800.0f, 600.0f, 800.0f / 600.0f, 0.0f}; // 16 bytes (offset 224), x=w, y=h, z=aspect, w=transition_t
+    glm::vec4 reserved{0.0f};          // 16 bytes (offset 240), padding to exactly 256 bytes
+};
+#pragma pack(pop)
+static_assert(sizeof(CameraUniforms) == 256, "CameraUniforms must be exactly 256 bytes.");
+
 struct RenderState {
 #ifdef __EMSCRIPTEN__
     wgpu::Instance instance{nullptr};
@@ -155,12 +172,23 @@ struct RenderState {
     wgpu::Surface surface{nullptr};
     wgpu::RenderPipeline pipeline{nullptr};
     wgpu::TextureFormat format{wgpu::TextureFormat::Undefined};
+    wgpu::Buffer camera_buffer{nullptr};
+    wgpu::BindGroupLayout bind_group_layout{nullptr};
+    wgpu::BindGroup camera_bind_group{nullptr};
 #else
     void* device{nullptr};
     void* queue{nullptr};
     void* surface{nullptr};
     void* pipeline{nullptr};
+    void* camera_buffer{nullptr};
+    void* bind_group_layout{nullptr};
+    void* camera_bind_group{nullptr};
 #endif
+    CameraUniforms camera_uniforms{};
+    uint32_t active_camera_mode{0}; // 0 = 3rd-Person Perspective, 1 = Cadastral Isometric
+    uint32_t target_camera_mode{0};
+    float transition_elapsed_sec{0.0f};
+    bool is_transitioning{false};
     uint32_t width{800};
     uint32_t height{600};
     bool is_initialized{false};
@@ -169,12 +197,64 @@ struct RenderState {
 
     bool is_ready() const {
 #ifdef __EMSCRIPTEN__
-        return is_initialized && device != nullptr && pipeline != nullptr && surface != nullptr;
+        return is_initialized && device != nullptr && pipeline != nullptr && surface != nullptr && camera_bind_group != nullptr;
 #else
         return is_initialized;
 #endif
     }
 };
+
+inline void UpdateCameraMatrices(RenderState& state, float dt_sec) {
+    if (state.is_transitioning) {
+        state.transition_elapsed_sec += dt_sec;
+        if (state.transition_elapsed_sec >= 0.400f) {
+            state.transition_elapsed_sec = 0.400f;
+            state.is_transitioning = false;
+            state.active_camera_mode = state.target_camera_mode;
+        }
+    }
+
+    float t = 0.0f;
+    if (state.is_transitioning) {
+        float u = std::clamp(state.transition_elapsed_sec / 0.400f, 0.0f, 1.0f);
+        float hermite_t = 3.0f * u * u - 2.0f * u * u * u;
+        if (state.target_camera_mode == 1) {
+            t = hermite_t;
+        } else {
+            t = 1.0f - hermite_t;
+        }
+    } else {
+        t = (state.active_camera_mode == 1) ? 1.0f : 0.0f;
+    }
+
+    const float aspect = (state.height > 0) ? (static_cast<float>(state.width) / static_cast<float>(state.height)) : (800.0f / 600.0f);
+
+    // 1. Mode 0: 3rd-Person Follow Perspective Camera
+    const glm::vec3 eye_persp(0.0001f, 2.0001f, -4.9999f);
+    const glm::vec3 target_persp(0.0f, 0.0f, 0.0f);
+    const glm::vec3 up_persp(0.0f, 1.0f, 0.0f);
+    const glm::mat4 view_persp = glm::lookAt(eye_persp, target_persp, up_persp);
+    const glm::mat4 proj_persp = glm::perspective(glm::radians(53.13f), aspect, 0.1f, 100.0f);
+    const glm::mat4 inv_vp_persp = glm::inverse(proj_persp * view_persp);
+
+    // 2. Mode 1: Cadastral Axonometric / Isometric Projection Camera
+    const float ortho_size = 14.0f;
+    const glm::mat4 proj_iso = glm::ortho(-ortho_size * aspect, ortho_size * aspect, -ortho_size, ortho_size, -50.0f, 50.0f);
+    const glm::vec3 eye_iso(-16.0001f, 20.0001f, -16.0001f);
+    const glm::vec3 target_iso(0.0001f, 0.0001f, 0.0001f);
+    const glm::vec3 up_iso(0.0f, 1.0f, 0.0f);
+    const glm::mat4 view_iso = glm::lookAt(eye_iso, target_iso, up_iso);
+    const glm::mat4 inv_vp_iso = glm::inverse(proj_iso * view_iso);
+
+    // Interpolate camera uniforms across transition parameter t
+    state.camera_uniforms.view_matrix = (1.0f - t) * view_persp + t * view_iso;
+    state.camera_uniforms.proj_matrix = (1.0f - t) * proj_persp + t * proj_iso;
+    state.camera_uniforms.inv_view_proj = (1.0f - t) * inv_vp_persp + t * inv_vp_iso;
+    state.camera_uniforms.camera_pos = glm::mix(glm::vec4(eye_persp, 0.0f), glm::vec4(eye_iso, 1.0f), t);
+    state.camera_uniforms.camera_target = glm::mix(glm::vec4(target_persp, 1.0f), glm::vec4(target_iso, 1.0f), t);
+    state.camera_uniforms.viewport_params = glm::vec4(static_cast<float>(state.width), static_cast<float>(state.height), aspect, t);
+    state.camera_uniforms.reserved = glm::vec4(0.0f);
+}
 
 } // namespace graphics
 } // namespace oasis
@@ -219,9 +299,30 @@ static void TickTelemetry() {
     sample.founder_stress = founder_stress;
     sample.memory_slot_count = memory_slot_count;
     sample.biome_id = 1; // 1 = Suburban Sprawl ("Lot 402 & Cul-de-sac")
-    sample.quality_flags = 0x01; // Bit 0: Valid frame telemetry
+    sample.quality_flag = oasis::uhai::QUALITY_SIMULATED; // 0x01
 
     g_telemetry_channel.Push(sample);
+}
+
+// Poll SDL input events and toggle dual viewport camera mode on TAB keydown
+static void ProcessInputEvents() {
+    SDL_Event event;
+    while (SDL_PollEvent(&event)) {
+        if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_TAB) {
+            if (g_ecs) {
+                auto r = g_ecs->entity("Renderer");
+                if (r.has<oasis::graphics::RenderState>()) {
+                    auto& state_ref = r.get_mut<oasis::graphics::RenderState>();
+                    state_ref.target_camera_mode = (state_ref.active_camera_mode == 0) ? 1 : 0;
+                    state_ref.is_transitioning = true;
+                    state_ref.transition_elapsed_sec = 0.0f;
+                    spdlog::info("[Oasis Viewport System] SDLK_TAB pressed: Toggling camera mode to {} (400ms transition initiated)",
+                                 (state_ref.target_camera_mode == 1) ? "Cadastral Isometric" : "3rd-Person Perspective");
+                    r.modified<oasis::graphics::RenderState>();
+                }
+            }
+        }
+    }
 }
 
 #ifdef __EMSCRIPTEN__
@@ -235,10 +336,21 @@ void SetupPipeline(oasis::graphics::RenderState& state) {
     shaderModuleDesc.nextInChain = &wgslDesc;
     wgpu::ShaderModule shaderModule = state.device.CreateShaderModule(&shaderModuleDesc);
 
-    // Explicit empty pipeline layout (0 bind groups)
+    // Bind group layout with 1 uniform buffer entry at binding 0 for CameraUniforms
+    wgpu::BindGroupLayoutEntry bglEntry{};
+    bglEntry.binding = 0;
+    bglEntry.visibility = wgpu::ShaderStage::Fragment | wgpu::ShaderStage::Vertex;
+    bglEntry.buffer.type = wgpu::BufferBindingType::Uniform;
+    bglEntry.buffer.minBindingSize = sizeof(oasis::graphics::CameraUniforms);
+
+    wgpu::BindGroupLayoutDescriptor bglDesc{};
+    bglDesc.entryCount = 1;
+    bglDesc.entries = &bglEntry;
+    state.bind_group_layout = state.device.CreateBindGroupLayout(&bglDesc);
+
     wgpu::PipelineLayoutDescriptor plDesc{};
-    plDesc.bindGroupLayoutCount = 0;
-    plDesc.bindGroupLayouts = nullptr;
+    plDesc.bindGroupLayoutCount = 1;
+    plDesc.bindGroupLayouts = &state.bind_group_layout;
     wgpu::PipelineLayout pipelineLayout = state.device.CreatePipelineLayout(&plDesc);
 
     wgpu::ColorTargetState colorTarget{};
@@ -266,11 +378,40 @@ void SetupPipeline(oasis::graphics::RenderState& state) {
     pipelineDesc.multisample.mask = 0xFFFFFFFF;
 
     state.pipeline = state.device.CreateRenderPipeline(&pipelineDesc);
-    spdlog::info("WebGPU Render Pipeline created successfully with cullMode = None");
+
+    // Create camera_buffer (Uniform | CopyDst, size 256 bytes)
+    wgpu::BufferDescriptor bufDesc{};
+    bufDesc.label = wgpu::StringView{"CameraUniformBuffer"};
+    bufDesc.size = sizeof(oasis::graphics::CameraUniforms);
+    bufDesc.usage = wgpu::BufferUsage::Uniform | wgpu::BufferUsage::CopyDst;
+    state.camera_buffer = state.device.CreateBuffer(&bufDesc);
+
+    // Create camera_bind_group bound at index 0
+    wgpu::BindGroupEntry bgEntry{};
+    bgEntry.binding = 0;
+    bgEntry.buffer = state.camera_buffer;
+    bgEntry.offset = 0;
+    bgEntry.size = sizeof(oasis::graphics::CameraUniforms);
+
+    wgpu::BindGroupDescriptor bgDesc{};
+    bgDesc.layout = state.bind_group_layout;
+    bgDesc.entryCount = 1;
+    bgDesc.entries = &bgEntry;
+    state.camera_bind_group = state.device.CreateBindGroup(&bgDesc);
+
+    // Initial camera uniform write
+    oasis::graphics::UpdateCameraMatrices(state, 0.0f);
+    state.queue.WriteBuffer(state.camera_buffer, 0, &state.camera_uniforms, sizeof(oasis::graphics::CameraUniforms));
+
+    spdlog::info("WebGPU Render Pipeline and Camera Bind Group created successfully with cullMode = None");
 }
 
 void RenderWebGPUFrame(oasis::graphics::RenderState& state) {
     if (!state.is_ready()) return;
+
+    // Update and upload camera uniform buffer each frame
+    oasis::graphics::UpdateCameraMatrices(state, 1.0f / 60.0f);
+    state.queue.WriteBuffer(state.camera_buffer, 0, &state.camera_uniforms, sizeof(oasis::graphics::CameraUniforms));
 
     wgpu::SurfaceTexture surfaceTexture;
     state.surface.GetCurrentTexture(&surfaceTexture);
@@ -301,6 +442,7 @@ void RenderWebGPUFrame(oasis::graphics::RenderState& state) {
     wgpu::CommandEncoder encoder = state.device.CreateCommandEncoder();
     wgpu::RenderPassEncoder pass = encoder.BeginRenderPass(&renderPassDesc);
     pass.SetPipeline(state.pipeline);
+    pass.SetBindGroup(0, state.camera_bind_group);
     pass.Draw(3, 1, 0, 0); // 3 vertices, 1 instance (full-screen triangle)
     pass.End();
 
@@ -392,6 +534,7 @@ void InitWebGPUAsync(uint32_t width, uint32_t height) {
 
 void EngineTick(void* arg) {
     if (g_ecs) {
+        ProcessInputEvents();
         g_ecs->progress();
         TickTelemetry();
     }
@@ -655,11 +798,13 @@ int main() {
     g_ecs->system<oasis::graphics::RenderState>("NativeStubRenderPass")
         .kind(flecs::OnStore)
         .each([](oasis::graphics::RenderState& state) {
+            oasis::graphics::UpdateCameraMatrices(state, 1.0f / 60.0f);
             state.frame_count++;
         });
 
     int ticks = 0;
     while (g_ecs->progress()) {
+        ProcessInputEvents();
         TickTelemetry();
         ticks++;
         if (ticks >= 60) break;

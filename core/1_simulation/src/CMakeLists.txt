@@ -53,6 +53,7 @@ else()
         add_executable(col_telemetryd "${COL_TELEMETRYD_SRC}")
         target_include_directories(col_telemetryd PRIVATE 
             ${CMAKE_CURRENT_SOURCE_DIR}
+            ${CMAKE_CURRENT_SOURCE_DIR}/../../../src/daemons/col-telemetryd
         )
         target_link_libraries(col_telemetryd PRIVATE 
             spdlog::spdlog
@@ -67,6 +68,18 @@ else()
             ${CMAKE_CURRENT_SOURCE_DIR}
         )
         target_link_libraries(col_execd PRIVATE 
+            spdlog::spdlog
+            $<$<PLATFORM_ID:Linux>:rt>
+        )
+    endif()
+
+    set(COL_COMMONSD_SRC "${CMAKE_CURRENT_SOURCE_DIR}/../../../src/daemons/col-commonsd/main.cpp")
+    if(EXISTS "${COL_COMMONSD_SRC}")
+        add_executable(col_commonsd "${COL_COMMONSD_SRC}")
+        target_include_directories(col_commonsd PRIVATE 
+            ${CMAKE_CURRENT_SOURCE_DIR}
+        )
+        target_link_libraries(col_commonsd PRIVATE 
             spdlog::spdlog
             $<$<PLATFORM_ID:Linux>:rt>
         )
@@ -99,5 +112,21 @@ else()
         )
         add_test(NAME BoundaryMathTests COMMAND test_boundary_math)
     endif()
+
+    # Native Catch2 Hardware Airgap Filter Verification Tests
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/tests/test_airgap_filter.cpp")
+        add_executable(test_airgap_filter tests/test_airgap_filter.cpp)
+        target_include_directories(test_airgap_filter PRIVATE 
+            ${CMAKE_CURRENT_SOURCE_DIR}
+            ${CMAKE_CURRENT_SOURCE_DIR}/../../../src/daemons/col-telemetryd
+        )
+        target_link_libraries(test_airgap_filter PRIVATE 
+            Catch2::Catch2WithMain
+            spdlog::spdlog
+            $<$<PLATFORM_ID:Linux>:rt>
+        )
+        add_test(NAME AirgapFilterTests COMMAND test_airgap_filter)
+    endif()
 endif()
+
 

@@ -22,6 +22,15 @@
 #    - Validates 1,000,000-frame concurrent throughput under contention without false sharing.
 #    - Validates overrun dropped frame accounting and underrun safety.
 #    - Confirms 12,463 assertions in 6 test cases pass and outputs "IPC Verification Passed".
+# 
+# 4. Native Hardware Airgap Verification (Catch2 Test Suite)
+#    - Validates bitwise orthogonality (QUALITY_SIMULATED 0x01 vs QUALITY_HARDWARE_ROOT 0x02).
+#    - Validates exhaustive 256-state mathematical rejection predicate across all 256 uint8_t values.
+#    - Validates adversarial spoofing and collision protection (0x03 = 0x01 | 0x02).
+#    - Validates SPSC ring buffer queue drainage and packet partitioning (500 dropped, 500 accepted).
+#    - Validates circuit breaker actuation protection under 10,000 SITL packets.
+#    - Validates multi-threaded concurrent producer-consumer zero-leakage invariant.
+#    - Confirms Catch2 test assertions pass and outputs "Airgap Verification Passed".
 # ==============================================================================
 
 set -euo pipefail
@@ -51,7 +60,7 @@ echo ""
 # Part 1: Headless WebGPU Visual Verification
 # -----------------------------------------------------------------------------
 echo "================================================================================"
-echo "[Stage 1/3] Headless WebGPU Visual Verification (Suburban Sprawl Biome)"
+echo "[Stage 1/4] Headless WebGPU Visual Verification (Suburban Sprawl Biome)"
 echo "Command: node tests/verify_canvas.js"
 echo "================================================================================"
 
@@ -95,7 +104,7 @@ echo ""
 # Part 2: Native Boundary Math Catch2 Test Suite
 # -----------------------------------------------------------------------------
 echo "================================================================================"
-echo "[Stage 2/3] Native Boundary Math Verification (Genesis Epsilon Guard Catch2)"
+echo "[Stage 2/4] Native Boundary Math Verification (Genesis Epsilon Guard Catch2)"
 echo "Command: ./build_native/test_boundary_math"
 echo "================================================================================"
 
@@ -126,9 +135,10 @@ echo ""
 # Part 3: Native IPC Catch2 Test Suite
 # -----------------------------------------------------------------------------
 echo "================================================================================"
-echo "[Stage 3/3] Native Sovereign Stack IPC Verification (Catch2 Test Suite)"
+echo "[Stage 3/4] Native Sovereign Stack IPC Verification (Catch2 Test Suite)"
 echo "Command: ./build_native/test_uhai_ring_buffer"
 echo "================================================================================"
+
 
 IPC_OUTPUT_FILE=$(mktemp /tmp/oasis_ipc_test_XXXXXX.log 2>/dev/null || mktemp /tmp/oasis_ipc_test_XXXXXX)
 
@@ -154,6 +164,37 @@ rm -f "${IPC_OUTPUT_FILE}"
 echo ""
 
 # -----------------------------------------------------------------------------
+# Part 4: Native Hardware Airgap Catch2 Test Suite
+# -----------------------------------------------------------------------------
+echo "================================================================================"
+echo "[Stage 4/4] Native Hardware Airgap Verification (Catch2 Test Suite)"
+echo "Command: ./build_native/test_airgap_filter"
+echo "================================================================================"
+
+AIRGAP_OUTPUT_FILE=$(mktemp /tmp/oasis_airgap_test_XXXXXX.log 2>/dev/null || mktemp /tmp/oasis_airgap_test_XXXXXX)
+
+if ./build_native/test_airgap_filter 2>&1 | tee "${AIRGAP_OUTPUT_FILE}"; then
+    echo ""
+    if grep -q "All tests passed" "${AIRGAP_OUTPUT_FILE}"; then
+        echo "Airgap Verification Passed"
+        echo ">>> [STAGE 4 SUCCESS] Catch2 hardware airgap tests passed (simulated rejection & hardware root acceptance verified)."
+    else
+        echo ">>> [ERROR] Catch2 hardware airgap test suite did not pass all assertions."
+        rm -f "${AIRGAP_OUTPUT_FILE}"
+        exit 1
+    fi
+else
+    AIRGAP_EXIT=$?
+    echo ""
+    echo ">>> [STAGE 4 FAILED] Native Catch2 hardware airgap test suite exited with code ${AIRGAP_EXIT}."
+    rm -f "${AIRGAP_OUTPUT_FILE}"
+    exit ${AIRGAP_EXIT}
+fi
+
+rm -f "${AIRGAP_OUTPUT_FILE}"
+echo ""
+
+# -----------------------------------------------------------------------------
 # Quality Gate Final Summary
 # -----------------------------------------------------------------------------
 echo "================================================================================"
@@ -162,6 +203,7 @@ echo "==========================================================================
 echo "Visual Verification Passed"
 echo "Math Verification Passed"
 echo "IPC Verification Passed"
+echo "Airgap Verification Passed"
 echo ""
 echo "Quality Gate Status: GREEN"
 echo "- Procedural Legacy Biome:  Suburban Sprawl (\"Lot 402 & Cul-de-sac\") Verified"
@@ -172,6 +214,8 @@ echo "- Genesis Epsilon Guard:    Day 1 NaN prevention mathematically verified (
 echo "- Stochastic Boundary:      Poisson arrival intensity and irreducible threat floor verified"
 echo "- UHAI SPSC Ring Buffer:    12,463 assertions across 6 test cases passed"
 echo "- Concurrency Scale:        1,000,000 frames transferred without false sharing"
+echo "- Hardware Airgap Filter:   Mathematical rejection of 0x01 (SITL) and acceptance of 0x02 (Root)"
 echo "================================================================================"
 
 exit 0
+

@@ -26,7 +26,10 @@ echo "Executables built:"
 echo "  ./oasis_engine"
 echo "  ./col_telemetryd"
 echo "  ./col_execd"
+echo "  ./col_commonsd"
 echo "  ./test_uhai_ring_buffer"
 echo "  ./test_boundary_math"
+echo "  ./test_airgap_filter"
+
 
 

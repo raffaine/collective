@@ -3,6 +3,19 @@
 namespace oasis::shaders {
 
 inline constexpr const char* RAYMARCH_WGSL = R"wgsl(
+struct CameraUniforms {
+    view_matrix : mat4x4<f32>,
+    proj_matrix : mat4x4<f32>,
+    inv_view_proj : mat4x4<f32>,
+    camera_pos : vec4<f32>,
+    camera_target : vec4<f32>,
+    viewport_params : vec4<f32>,
+    reserved : vec4<f32>,
+};
+
+@group(0) @binding(0)
+var<uniform> camera : CameraUniforms;
+
 struct VertexOutput {
     @builtin(position) position : vec4<f32>,
     @location(0) uv : vec2<f32>,
@@ -114,24 +127,29 @@ fn get_sky_color(rd: vec3<f32>) -> vec3<f32> {
 
 @fragment
 fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
-    // Aspect ratio correction (800x600 viewport)
-    let aspect = 800.0 / 600.0;
+    let aspect = camera.viewport_params.z;
     let ndc = in.uv * 2.0 - vec2<f32>(1.0, 1.0);
-    let screen_p = vec2<f32>(ndc.x * aspect, ndc.y);
 
-    // Fixed virtual camera setup:
-    // Origin at (0.0, 2.0, -5.0) with tiny epsilon offset to avoid integer grid boundary singularities
-    let ro = vec3<f32>(0.0001, 2.0001, -4.9999);
-    let cam_target = vec3<f32>(0.0, 0.0, 0.0);
+    // Unproject near plane (z=0.0) and far plane (z=1.0) into world space
+    let near_h = camera.inv_view_proj * vec4<f32>(ndc.x, ndc.y, 0.0, 1.0);
+    let far_h  = camera.inv_view_proj * vec4<f32>(ndc.x, ndc.y, 1.0, 1.0);
+    let p_near = near_h.xyz / near_h.w;
+    let p_far  = far_h.xyz / far_h.w;
 
-    let cam_fwd = normalize(cam_target - ro);
-    let world_up = vec3<f32>(0.0, 1.0, 0.0);
-    let cam_right = normalize(cross(world_up, cam_fwd));
-    let cam_up = cross(cam_fwd, cam_right);
+    // Transition parameter t: 0.0 = 3rd-Person Perspective, 1.0 = Cadastral Isometric
+    let t = camera.viewport_params.w;
 
-    // Camera ray direction with 1.5 focal length (~53 deg vertical FOV)
-    let focal_length = 1.5;
-    let rd = normalize(screen_p.x * cam_right + screen_p.y * cam_up + focal_length * cam_fwd);
+    // Perspective ray origin (camera eye) and direction towards unprojected far plane
+    let ro_persp = camera.camera_pos.xyz;
+    let rd_persp = normalize(p_far - ro_persp);
+
+    // Cadastral/Orthographic ray origin (near plane position) and parallel ray direction
+    let ro_ortho = p_near;
+    let rd_ortho = normalize(p_far - p_near);
+
+    // Blend ray origin and ray direction using transition parameter t
+    var ro = mix(ro_persp, ro_ortho, t);
+    var rd = normalize(mix(rd_persp, rd_ortho, t));
 
     // Amanatides & Woo 3D DDA Initialization
     var mapPos = vec3<i32>(floor(ro));
