@@ -144,3 +144,6 @@ Kael and Jax are both working nomadically spreading The Collective across the co
 *   **Characters:** Elara, Silas, Gabe, Kael, Jax, Native American delegates, state actors, riot police.
 *   **Scenarios Showcased:**
     *   **Omega:** Terminal Decoupling (The final peeling away of Layer 7 and the fortification of Layer 1).
+### Epilogue: The Birth of Civilization
+*   **Plot:** The dust settles. A landmark victory at the US Supreme Court officially recognizes the sovereignty of the polycentric bioregions, laying the foundation for the Collective to flourish. This sets off a global cascade: other countries follow suit, and legacy legal and commercial barriers begin to drop worldwide. Humanity finally wakes up from the brutal pre-history of fiat coercion and looks forward. The narrative invokes the spirit of a famous poet ("Imagine all the people living without countries")—the people of The Collective no longer need to imagine; they are living it. The focus zooms back down to the personal lives of our heroes: Elara, Silas, Gabe, Maya, and little Clara, flourishing in the dirt and the sun, bearing witness to the true birth of human civilization.
+*   **Characters:** Elara, Silas, Gabe, Maya, Clara, Kael, Jax.
