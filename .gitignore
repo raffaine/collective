@@ -58,3 +58,6 @@ __pycache__/
 *.pyo
 *.pyd
 
+
+# Temporary test outputs
+verification/*.json
