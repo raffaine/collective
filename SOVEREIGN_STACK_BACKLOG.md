@@ -1,171 +1,106 @@
 # THE SOVEREIGN STACK — PRODUCT BACKLOG (LAYERS 1–7 & VERIFICATION)
-**Document Version:** 2.0.0-RELEASE  
+**Document Version:** 3.0.0-RELEASE  
 **Status:** Complete, Ratified & Authoritative  
-**Milestone:** Sovereign Stack Autonomous Protocols, Specifications, Runtimes & Layer 7 Adversarial Emulation  
+**Milestone:** Sovereign Stack Autonomous Protocols, Specifications, Runtimes, SDD Scenario Execution & Layer 7 Adversarial Emulation  
 **Target Environments:** Headless Edge Daemons (`collectived`, Linux ARM64 / RISC-V / x86_64, Microcontrollers / Zephyr RTOS) & WebAssembly Sandbox  
-**Architectural Baseline:** Autonomous 7-Daemon Hierarchy, POSIX Process Isolation, Unix Domain Socket IPC, Zero Monolithic Threading, Volume 1 Canonical Fidelity  
-**Consensus Status:** Unanimous Consensus Reached (5-Persona Architectural Council)
+**Architectural Baseline:** Autonomous 7-Daemon Hierarchy, POSIX Process Isolation, Unix Domain Socket IPC, Zero Monolithic Threading, Scenario Driven Development (SDD) Alignment, Volume 1 Canonical Fidelity  
+**Consensus Status:** Unanimous Consensus Reached (5-Persona Strategic Realignment Council)
 
 ---
 
-## 1. Executive Summary & Architectural Council Ratification
+## 1. Executive Summary & Strategic Realignment Council Ratification
 
 ### 1.1. Council Ratification & The 5-Persona Unanimous Consensus
-The Round 2 Architectural Council convened to overhaul the architectural baseline of the Sovereign Stack (`SOVEREIGN_STACK_BACKLOG.md`). Representing all five stakeholder disciplines:
-1. **Product Owner / Orchestrator (`explorer_po_r2`):** Roadmap governance, infrastructure personas, value delivery pacing, and cross-stack acceptance criteria.
-2. **Sovereign Stack Specialist (`explorer_sovereign_r2`):** Canonical fidelity to Volume 1 of the book (*The Sovereign Stack: A Blueprint for Cybernetic Ecology and Mutual Aid*, `doc/book_collective/`), Strict Adjacency, Proof-of-Thermodynamic-Work, demurrage, qualitative friction, and Scenario Omega.
-3. **Quality Engineer (`explorer_qe_r2`):** Eradication of monolithic threading anti-patterns, POSIX process isolation, failure domain containment, cgroups resource enforcement, and consumer-driven contract testing.
-4. **Stack Engineer (`explorer_stack_r2`):** Systems engineering specification of the 7 autonomous daemons (`col-telemetryd`, `col-meshd`, `col-storaged`, `col-execd`, `col-kmsd`, `col-commonsd`, `col-adversaryd`), Unix Domain Socket IPC, and hardware resource bounding.
-5. **Oasis Engineer (`explorer_oasis_r2`):** Complete purge of client-side graphics rendering, volumetric world models, and viewport controls; strict demarcation of the Universal Human-Agent Interface (UHAI) / SITL bridge over IPC.
+The Strategic Realignment Council convened to overhaul the architectural baseline of the Sovereign Stack (`SOVEREIGN_STACK_BACKLOG.md`), aligning all protocols, daemons, and runtimes with Scenario Driven Development (SDD) requirements derived from `docs/COLLECTIVE_GUIDING_PRINCIPLES.md`, `docs/OASIS_GDD.md` (V5.0), and `PRODUCT_BACKLOG_V5.md`. Representing all five stakeholder disciplines:
+
+1. **Product Owner / Orchestrator (`explorer_po_v3`):** Delivery roadmap governance, sprint pacing, epic-level value delivery, cross-stack acceptance criteria, and full synchronization between the 24 canonical SDD scenarios and the underlying daemon architecture.
+2. **Sovereign Stack Specialist (`explorer_sovereign_v3`):** Canonical fidelity to Volume 1 of the book (*The Sovereign Stack: A Blueprint for Cybernetic Ecology and Mutual Aid*, `doc/book_collective/`), Strict Adjacency, Proof-of-Thermodynamic-Work (PoTW) negentropy minting, continuous physical demurrage, Bilateral Clearing Channels (BCC), Bioregional Path-Vector Protocol (BPVP / FRRP), Tripartite Legal Chassis (BMAA, Subchapter T SSAs, UCEA Easements), Systemic Legal Blinding, and the Dual-Membrane doctrine.
+3. **Quality Engineer (`explorer_qe_v3`):** Eradication of monolithic threading anti-patterns, POSIX process isolation, failure domain containment, cgroups resource enforcement, Six Inviolable Quality Gates (G1–G6), and consumer-driven contract testing across all IPC sockets.
+4. **Stack Engineer (`explorer_stack_v3`):** Systems engineering specification of the 7 autonomous POSIX daemons (`col-telemetryd`, `col-meshd`, `col-storaged`, `col-execd`, `col-kmsd`, `col-commonsd`, `col-adversaryd`), Unix Domain Socket IPC bus, lock-free ring buffers, Wasmtime metered execution, Automerge/Yrs CRDT reconciliation, and hardware resource bounding.
+5. **Oasis Engineer (`explorer_oasis_v3`):** Total excision of client-side graphics rendering, voxel raymarching, camera controllers, and gameplay psychology from the stack; strict demarcation of the Universal Human-Agent Interface (UHAI) / SITL bridge over IPC; and enforcement of the physical airgap barring simulated telemetry from physical actuators.
 
 ```
-┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
-│                     ROUND 2 ARCHITECTURAL COUNCIL 5-PERSONA UNANIMOUS CONSENSUS                  │
-├──────────────────────────────┬────────────────────────────────┬──────────────────────────────────┤
-│ Council Persona              │ Core Disciplinary Mandate      │ Key Ratified Contribution        │
-├──────────────────────────────┼────────────────────────────────┼──────────────────────────────────┤
-│ Product Owner (PO)           │ Delivery pacing & SoC          │ 8-Epic structure, infra personas │
-│ Sovereign Stack Specialist   │ Volume 1 Book Canonical Tenets │ L1–L7 alignment, PoTW, demurrage │
-│ Quality Engineer (QE)        │ Anti-monolith & failure bounds │ Process isolation, cgroups, SLOs │
-│ Stack Engineer               │ Autonomous runtime daemons     │ 7 POSIX daemons, UDS IPC bus     │
-│ Oasis Engineer               │ Boundary purity & game purge   │ Purge game mechanics, UHAI SITL  │
-└──────────────────────────────┴────────────────────────────────┴──────────────────────────────────┘
+┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                          STRATEGIC REALIGNMENT COUNCIL 5-PERSONA UNANIMOUS CONSENSUS MATRIX                            │
+├──────────────────────────────┬────────────────────────────────┬────────────────────────────────────────────────────────┤
+│ Council Persona              │ Core Disciplinary Mandate      │ Key Ratified Contribution                              │
+├──────────────────────────────┼────────────────────────────────┼────────────────────────────────────────────────────────┤
+│ Product Owner (PO)           │ Delivery pacing & SDD roadmaps │ 8 Epics, 44 Stories, 310 SP, 6 Sprints, SDD alignment  │
+│ Sovereign Stack Specialist   │ Volume 1 Book Canonical Tenets │ PoTW, ERC Firewall, BCC Channels, BPVP, Legal Chassis   │
+│ Quality Engineer (QE)        │ Anti-monolith & Quality Gates  │ Six Inviolable Gates (G1–G6), cgroups, Zero Leaks      │
+│ Stack Engineer               │ Autonomous runtime daemons     │ 7 POSIX daemons, UDS IPC, Wasmtime, RocksDB, Reticulum │
+│ Oasis Engineer               │ Boundary purity & airgap check │ Strict UHAI IPC, zero game bleed, airgap verification  │
+└──────────────────────────────┴────────────────────────────────┴────────────────────────────────────────────────────────┘
 ```
 
 The council formally confirms that **Unanimous Consensus Reached** has occurred across all technical, architectural, and systemic domains:
-- **Eradication of Monolithic Game-Loop Threading:** All references to monolithic engine threads, in-process shared memory queues, and ludic frame rate ceilings are permanently eliminated.
-- **Autonomous Layer Strategies:** Every layer (1 through 7) possesses its own autonomous computational daemon and independent, isolated storage engine.
-- **Absolute Scope Demarcation:** Client-side graphics rendering loops, compute shaders, viewport modes, volumetric world data models, mortal embodiment physics, player vitality indicators, and psychological states belong exclusively to `PRODUCT_BACKLOG_V3.md` and are 100% purged from this backlog.
-- **Headless Edge Autonomy:** The Sovereign Stack operates 24/7/365 as an autonomous, headless operating system on physical edge nodes (ARM64 Cortex-A72, Rockchip RK3588, RISC-V, ESP32-S3), completely independent of whether any graphical client is connected.
-- **Universal Human-Agent Interface (UHAI):** Oasis interfaces with the Sovereign Stack strictly as an external client and Software-In-The-Loop (SITL) shadow simulator over versioned asynchronous IPC.
+- **Unanimous Consensus Reached on Zero Monolithic Threading:** All Sovereign Stack layers operate as independent, decoupled POSIX daemons or isolated Web Workers, with zero reliance on client engine game loops or monolithic threading pools.
+- **Unanimous Consensus Reached on Pure Scope Isolation:** Zero Oasis visual or gameplay mechanics (rendering passes, camera rigs, Plumbob UI, DDA voxel algorithms, mental breakdown meters) exist within the Sovereign Stack codebase. Oasis is treated strictly as an external client and Software-In-The-Loop (SITL) shadow simulator.
+- **Unanimous Consensus Reached on Strict Physical Airgap:** Telemetry marked `QUALITY_SIMULATED` (`0x01`) emitted by Oasis can never, under any circumstance, actuate real physical edge relays or breakers. Real hardware actuation strictly demands `QUALITY_HARDWARE_ROOT` (`0x02`) signed by Layer 4 execution keys.
+- **Unanimous Consensus Reached on 24-Scenario SDD Execution:** Layers 1 through 7 are fully configured to execute the 24 canonical SDD scenarios across all 5 Developmental Acts, grounded in physical transducers, mesh delay tolerance, thermodynamic ledgers, deterministic BPMN workflows, trust-ring routing, JSON-LD bounties, and legal defense chassis.
 
 ---
 
-### 1.2. The Two Fatal Anti-Patterns of V1 & The V2 Decoupling Resolution
-The V1 release of this backlog suffered from two catastrophic architectural flaws:
-1. **Monolithic Threading Conflation:** Distributed networking, hardware telemetry, cryptographic proof verification, and municipal simulations were collapsed into arbitrary threads of a client-side game engine, subordinated to a rendering tick. If cryptographic pairing or a slow mock HTTP webhook stalled, physical battery telemetry was starved, risking hardware damage.
-2. **Game Mechanic Infiltration:** Gameplay entities (such as volumetric space structures, mortal biological hunger data models, graphical views, and in-game citation callouts) were entangled with distributed protocol definitions.
+### 1.2. The Evolution: V1 Conflation $\to$ V2 Decoupling $\to$ V3 SDD Realignment
+The Sovereign Stack specification has evolved through three distinct evolutionary stages:
 
-**The V2 Resolution:**
-V2 establishes strict Separation of Concerns (SoC). The Sovereign Stack is architected as an ensemble of seven independent system daemons managed by a lightweight supervisor. Communication occurs exclusively over asynchronous Unix Domain Sockets using versioned binary serialization (Cap'n Proto / Protobuf). Failure in higher layers cannot compromise lower-layer physical reflexes.
-
----
-
-### 1.3. The 7-Layer Traversal Protocol ("No Layer Skipping") & Total Encapsulation
-In accordance with Volume 1 Chapter 1 of the book (`doc/book_collective/`), the Sovereign Stack enforces two inviolable cybernetic laws:
-1. **Strict Adjacency ("No Layer Skipping"):** Layer $N$ communicates only with Layer $N-1$ and Layer $N+1$. No semantic command (L6) may actuate a relay (L1) directly; no sensor reading (L2) may directly alter policy (L5). All intent descends through the full validation chain; all state ascends through the full verification chain.
-2. **Total Encapsulation (Domain Isolation):** Each layer operates exclusively within its own domain. Lower layers are blind to semantics and fiat; higher layers never touch physical registers or voltage lines.
-
-$$\text{Layer 7 (Legacy Proxy)} \longleftrightarrow \text{Layer 6 (Semantic Intent)} \longleftrightarrow \text{Layer 5 (Governance/WoT)} \longleftrightarrow \text{Layer 4 (Orchestrator)} \longleftrightarrow \text{Layer 3 (Ledger/PoTW)} \longleftrightarrow \text{Layer 2 (Digital Twin/Mesh)} \longleftrightarrow \text{Layer 1 (Physical Reality)}$$
+1. **Version 1.0 (The Monolithic Conflation):** The initial draft erroneously collapsed distributed networking, hardware telemetry, cryptographic proofs, and municipal simulations into arbitrary threads of a client-side game engine ("Thread 1 rendering", "Thread 3 running Layer 3"). This created fatal coupling: if cryptographic pairing stalled, battery safety telemetry starved.
+2. **Version 2.0 (The Daemon Decoupling):** V2 corrected the threading flaw by establishing seven autonomous POSIX daemons communicating over Unix Domain Sockets (UDS), introducing the Universal Human-Agent Interface (UHAI) and purging client graphics.
+3. **Version 3.0 (The SDD & Cybernetic Realignment — Current Baseline):** V3 elevates the decoupled stack to execute the full civilizational requirements of Scenario Driven Development (SDD):
+   - **Full 24-Scenario Hardware & Runtime Matrix:** Direct mapping of all 24 canonical scenarios across the 5 Developmental Acts (Metabolic Foundation, Spatial/Cultural, Material Closure, Human Fabric, Shocks/Decoupling) into specific hardware drivers, CRDT ledgers, BPMN workflows, and legal wrappers.
+   - **Mathematical Rigor & Formulations:** Complete formalization of Proof-of-Thermodynamic-Work ($\Delta V = \int (\Phi_{in} - \Phi_{out})\lambda_{ERC} dt$), the Asymptotic ERC Firewall ($\lambda_{ERC} \to \infty$), Pairwise Bilateral Clearing Channels (BCC: $B_{u \to v}(t) + B_{v \to u}(t) = 0$), and Bioregional Path-Vector Protocol (BPVP / FRRP) across Concentric Trust Rings ($R_0 \to R_6$).
+   - **Tripartite Legal Chassis & Systemic Blinding:** Operationalization of Layer 7 (`col-adversaryd`) as a dual-membrane protective carapace utilizing Bilateral Mutual-Aid Agreements (BMAA under UUNAA § 6), Subchapter T SSAs (26 U.S.C. §§ 1381–1388), and UCEA Conservation Easements, backed by structural blinding (Cellular Independence, Mundane NAICS Camouflage, IEEE 1547 net-meter profile obfuscation, and Subpoena Immunity via Data Non-Existence).
+   - **Six Inviolable Quality Gates (G1–G6):** Rigorous, verifiable gates establishing mathematical and structural thresholds required prior to deploying any scenario or workflow to bare-metal hardware.
 
 ---
 
-### 1.4. Dual-Runtime Execution & Oasis Demarcation
-The Sovereign Stack supports two deployment targets without code divergence:
-1. **Physical Edge Production (`collectived`):** Native POSIX daemons running on Linux ARM64, RISC-V, or x86_64, interfacing with RS-485 Modbus charge controllers, SocketCAN battery management systems, Semtech SX1262 LoRa transceivers, and Microchip ATECC608A secure elements.
-2. **Headless WebAssembly Sandbox (`sovereign_core.wasm`):** Each daemon compiles to an isolated Web Worker communicating over `MessageChannel` transferables, enabling deterministic headless simulations and browser-based edge nodes.
-
-**Demarcation with Oasis:**
-Oasis is an external 3D virtual environment and shadow simulator. When connected, Oasis simulates the physical environment, feeding synthetic sensor telemetry (`QUALITY_SIMULATED`) into Layer 2 via the UHAI SITL socket and receiving actuator commands. The Sovereign Stack executes its full cryptographic and thermodynamic pipeline completely unaware of 3D graphics.
-
----
-
-## 2. System Architecture, Structural Invariants & Autonomous Layer Strategies
-
-### 2.1. The Autonomous 7-Daemon Architecture & Process Isolation Matrix
-Each layer of the Sovereign Stack operates as an independent POSIX process managed by `collective-supervisor`:
+### 1.3. Strict Separation of Concerns (SoC) & Anti-Bleed Invariants Manifest
+The Sovereign Stack enforces five strict architectural boundary rules, validated via continuous static analysis and CI gating (`scripts/lint_anti_bleed.sh`):
 
 ```
-┌────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│                              THE 7-DAEMON AUTONOMOUS RUNTIME ARCHITECTURE                              │
-├───────┬───────────────────────────┬──────────────────────────────────────┬─────────────────────────────┤
-│ LAYER │ DAEMON / PROCESS          │ AUTONOMOUS COMPUTATIONAL STRATEGY    │ AUTONOMOUS STORAGE STRATEGY │
-├───────┼───────────────────────────┼──────────────────────────────────────┼─────────────────────────────┤
-│ **L7**│ `col-adversaryd`          │ Priority-queue Discrete Event Sim    │ Isolated Adversarial SQLite │
-│       │ (Legacy Proxy & Adversary)│ (DES); mock utilities, zoning, fiat  │ (Zero cross-DB FKs; shred)  │
-├───────┼───────────────────────────┼──────────────────────────────────────┼─────────────────────────────┤
-│ **L6**│ `col-commonsd`            │ JSON-LD Intent compiler; W3C PROV-O  │ Embedded RDF Quad Store     │
-│       │ (Semantic Intent & Agora) │ knowledge graph; double-auction book │ (Oxigraph) / DuckDB graph   │
-├───────┼───────────────────────────┼──────────────────────────────────────┼─────────────────────────────┤
-│ **L5**│ `col-kmsd`                │ W3C DID resolver; BBS+ ZKP engine;   │ Encrypted SQLCipher vault   │
-│       │ (Governance & Web of Trust│ FROST threshold crypto; EigenTrust   │ + Sparse Merkle Tree (SMT)  │
-├───────┼───────────────────────────┼──────────────────────────────────────┼─────────────────────────────┤
-│ **L4**│ `col-execd`               │ Deterministic 10 Hz BPMN 2.0 VM;     │ Durable Saga WAL journal +  │
-│       │ (Orchestrator & Execution)│ Sandboxed Wasmtime; ecological floors│ Task state RocksDB store    │
-├───────┼───────────────────────────┼──────────────────────────────────────┼─────────────────────────────┤
-│ **L3**│ `col-storaged`            │ Automerge/Yrs CRDT engine; HLC causal│ Content-Addressed CAS (IPLD)│
-│       │ (Thermodynamic Ledger)    │ ordering; PoTW negentropy minting    │ + RocksDB CRDT append-log   │
-├───────┼───────────────────────────┼──────────────────────────────────────┼─────────────────────────────┤
-│ **L2**│ `col-meshd`               │ Reticulum Network Stack (RNS) / LoRa │ Persistent DTN spool ring + │
-│       │ (Digital Twin & P2P Mesh) │ async reactor; UHAI telemetry bridge │ LMDB peerstore routing table│
-├───────┼───────────────────────────┼──────────────────────────────────────┼─────────────────────────────┤
-│ **L1**│ `col-telemetryd`          │ Linux epoll / RTOS HAL; RS485 Modbus,│ Flash NVRAM ring buffer +   │
-│       │ (Physical Reality & HAL)  │ CAN-bus, hardware watchdog, ATECC608A│ ATECC608A secure EEPROM     │
-└───────┴───────────────────────────┴──────────────────────────────────────┴─────────────────────────────┘
-  SUPERVISOR & IPC:
-  Managed by `collective-supervisor`. Inter-layer IPC via Unix Domain Sockets (`/run/collective/ipc/l[1-7].sock`).
+┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                                       SOVEREIGN STACK ARCHITECTURAL ANTI-BLEED MANIFEST                                │
+├──────────┬───────────────────────────────┬─────────────────────────────────────────────────────────────────────────────┤
+│ Rule ID  │ Invariant Name                │ Architectural Rule & Enforcement Mechanism                                  │
+├──────────┼───────────────────────────────┼─────────────────────────────────────────────────────────────────────────────┤
+│ **SBR-1**│ **The Headless Rule**         │ The Sovereign Stack compiles and executes 100% headlessly with zero graphics│
+│          │                               │ or windowing dependencies (`SDL2`, `WebGPU`, `Dawn`, `OpenGL`, `Vulkan`).   │
+│          │                               │ Enforcement: CI headless build with no display/GPU packages installed.      │
+├──────────┼───────────────────────────────┼─────────────────────────────────────────────────────────────────────────────┤
+│ **SBR-2**│ **The Frame Rate Rule**       │ Zero references to display frame rates, tick budgets, or render loops       │
+│          │                               │ exist in stack runtimes (no frame ceilings, no `render_ms`, no vsync).      │
+│          │                               │ Enforcement: Grep linter halts CI if render/frame terminology appears.     │
+├──────────┼───────────────────────────────┼─────────────────────────────────────────────────────────────────────────────┤
+│ **SBR-3**│ **The Domain Entity Rule**    │ Zero Oasis gameplay entities (founder avatars, DF psychological stress bars,│
+│          │                               │ Sims hunger/hygiene stats, voxel chunk geometry) exist in stack daemons.    │
+│          │                               │ Enforcement: Clang-tidy AST analysis ensuring game structs stay in `oasis/`.│
+├──────────┼───────────────────────────────┼─────────────────────────────────────────────────────────────────────────────┤
+│ **SBR-4**│ **The Presentation Agnostic** │ Daemons emit structured binary/JSON-LD data events only. Zero styling,      │
+│          │                               │ UI banners, HUD alerts, or 3D coordinate transformations are computed.      │
+│          │                               │ Enforcement: Socket schema review rejects visual representation fields.     │
+├──────────┼───────────────────────────────┼─────────────────────────────────────────────────────────────────────────────┤
+│ **SBR-5**│ **The Airgap & UHAI Rule**    │ All interaction with Oasis occurs across the UHAI IPC boundary. Synthetic   │
+│          │                               │ telemetry (`QUALITY_SIMULATED`) is strictly forbidden from energizing edge  │
+│          │                               │ relays. Real hardware actuation strictly requires `QUALITY_HARDWARE_ROOT`.   │
+│          │                               │ Enforcement: Kernel-level eBPF filter & hardware interlock in L1 HAL.       │
+└──────────┴───────────────────────────────┴─────────────────────────────────────────────────────────────────────────────┘
 ```
+
+#### Strict Adjacency Protocol ("No Layer Skipping")
+In accordance with Volume 1 Chapter 1 of the book (`doc/book_collective/`), inter-layer communication strictly follows adjacent traversal:
+$$\text{L7 (Carapace)} \longleftrightarrow \text{L6 (Intent)} \longleftrightarrow \text{L5 (Governance)} \longleftrightarrow \text{L4 (Orchestrator)} \longleftrightarrow \text{L3 (Ledger)} \longleftrightarrow \text{L2 (Mesh)} \longleftrightarrow \text{L1 (Ground)}$$
+
+- **Downward Adjacency:** Plain language needs (L6) cannot directly actuate water valves (L1). Requests compile down through L5 governance verification, L4 task scheduling, L3 exergy reservation, L2 routing, and L1 hardware safety interlocks. Each intermediate layer possesses full authority to veto the command.
+- **Upward Adjacency:** Physical sensor signals (L1) cannot directly alter governance policies (L5). Telemetry is digitized in L2, causally ordered and verified in L3, orchestrated into state updates in L4, and only then surfaced as governance context in L5.
+- **Deterministic Boundary:** Generative AI / LLM models are strictly confined to Layers 5 and 6 as non-authoritative advisory drafting tools. Layers 1 through 4 are 100% mathematically deterministic.
 
 ---
 
-### 2.2. Autonomous Computational & Storage Strategies (Detailed Matrix)
+### 1.4. Universal Human-Agent Interface (UHAI) Specification
 
-```
-┌────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│                              AUTONOMOUS COMPUTATIONAL & STORAGE SPECIFICATIONS                         │
-├───────┬──────────────────┬────────────────────────────────┬──────────────────────┬─────────────────────┤
-│ Layer │ Daemon           │ Concurrency & Event Loop       │ Storage Engine       │ State Format        │
-├───────┼──────────────────┼────────────────────────────────┼──────────────────────┼─────────────────────┤
-│ **L1**│ `col-telemetryd` │ Epoll reactor + timerfd;       │ Non-volatile flash   │ 24-byte binary      │
-│       │                  │ SCHED_FIFO real-time priority  │ NVRAM ring buffer    │ TelemetrySample     │
-├───────┼──────────────────┼────────────────────────────────┼──────────────────────┼─────────────────────┤
-│ **L2**│ `col-meshd`      │ Async multi-bearer reactor;    │ Embedded LMDB +      │ Bounded DTN packet  │
-│       │                  │ non-blocking socket multiplex  │ Append-only spool    │ spool (max 50 MB)   │
-├───────┼──────────────────┼────────────────────────────────┼──────────────────────┼─────────────────────┤
-│ **L3**│ `col-storaged`   │ 3-worker pipeline: Ingest,     │ RocksDB blockstore + │ IPLD CAR v2 blocks +│
-│       │                  │ Crypto verify, Disk commit     │ Append-only WAL      │ Automerge delta ops │
-├───────┼──────────────────┼────────────────────────────────┼──────────────────────┼─────────────────────┤
-│ **L4**│ `col-execd`      │ Deterministic 10 Hz tick loop; │ RocksDB SMT store +  │ Wasm state root +   │
-│       │                  │ metered Wasmtime fuel budget   │ Transaction WAL      │ BPMN token journal  │
-├───────┼──────────────────┼────────────────────────────────┼──────────────────────┼─────────────────────┤
-│ **L5**│ `col-kmsd`       │ Dedicated crypto worker pool;  │ SQLCipher (AES-256) +│ Sparse Merkle Tree  │
-│       │                  │ mlockall() memory protection   │ In-memory WoT graph  │ + encrypted keys    │
-├───────┼──────────────────┼────────────────────────────────┼──────────────────────┼─────────────────────┤
-│ **L6**│ `col-commonsd`   │ Asynchronous intent compiler;  │ Oxigraph RDF store + │ W3C JSON-LD / OWL   │
-│       │                  │ double-auction matching tick   │ SQLite order book    │ RDF Quads           │
-├───────┼──────────────────┼────────────────────────────────┼──────────────────────┼─────────────────────┤
-│ **L7**│ `col-adversaryd` │ Priority-queue DES event loop; │ Isolated SQLite      │ Municipal citation  │
-│       │                  │ nice +10 background scheduling │ (zero cross-DB FKs)  │ & fiat ledger logs  │
-└───────┴──────────────────┴────────────────────────────────┴──────────────────────┴─────────────────────┘
-```
+The Universal Human-Agent Interface (UHAI) establishes the universal binary IPC boundary between the Sovereign Stack daemons and external consumers (including physical hardware buses, headless CLI runners, steward mobile apps, and the Oasis SITL shadow simulator).
 
----
-
-### 2.3. Inter-Process Communication (IPC) & Async Event Bus Architecture
-All inter-daemon communication is conducted over Unix Domain Sockets (UDS) located in `/run/collective/ipc/`:
-
-1. **Direct Bilateral Sockets:** Adjacent layers maintain dedicated bilateral sockets (`SOCK_SEQPACKET` or `SOCK_STREAM`):
-   - `/run/collective/ipc/l1_l2.sock` (`col-telemetryd` $\longleftrightarrow$ `col-meshd`)
-   - `/run/collective/ipc/l2_l3.sock` (`col-meshd` $\longleftrightarrow$ `col-storaged`)
-   - `/run/collective/ipc/l3_l4.sock` (`col-storaged` $\longleftrightarrow$ `col-execd`)
-   - `/run/collective/ipc/l4_l5.sock` (`col-execd` $\longleftrightarrow$ `col-kmsd`)
-   - `/run/collective/ipc/l5_l6.sock` (`col-kmsd` $\longleftrightarrow$ `col-commonsd`)
-   - `/run/collective/ipc/l6_l7.sock` (`col-commonsd` $\longleftrightarrow$ `col-adversaryd`)
-2. **Broadcast Event Bus (`col-busd`):** A lightweight UDS message broker at `/run/collective/ipc/bus.sock` distributes asynchronous notifications (telemetry alarms, block confirmations, citation issuances).
-3. **Serialization:**
-   - High-throughput telemetry and state streams use **Cap'n Proto** or **Protobuf v3** zero-copy binary schemas.
-   - Control plane RPC utilizes typed Request/Response envelopes over UDS.
-4. **Bounded Backpressure:** Every socket sets `SO_SNDBUF` and `SO_RCVBUF` to 256 KB. Producers use non-blocking I/O (`O_NONBLOCK`). Telemetry drops non-critical frames when downstream queues are full; critical actuation commands employ bounded timeouts with circuit breakers.
-5. **Strict Adjacency Enforcement:** The IPC supervisor enforces socket access controls (`chmod 0660`, user/group separation). `col-commonsd` (L6) possesses no file descriptor or socket path to `col-telemetryd` (L1). Downward commands must encapsulate a cryptographic chain of custody signed by each intermediary layer.
-
----
-
-### 2.4. Universal Human-Agent Interface (UHAI) Specification
-The Universal Human-Agent Interface (UHAI) standardizes the boundaries between the Sovereign Stack and external entities:
-
-#### Channel 1: Sensory Ingress & Actuation Egress (Layer 2 / Digital Twin Boundary)
-Standardized binary wire format (C++20):
-
+#### Binary Wire Format (C++20 Standard Layout)
 ```cpp
 namespace collective::uhai {
 
@@ -177,58 +112,57 @@ enum class UnitType : uint8_t {
     AMPERES        = 4,
     PRESSURE_KPA   = 5,
     PULSE_COUNT    = 6,
-    KILOGRAMS      = 7
+    KILOGRAMS      = 7,
+    CO2_PPM        = 8,
+    DECIBELS       = 9
 };
 
 enum QualityFlags : uint8_t {
     QUALITY_OK             = 0x00,
     QUALITY_SIMULATED      = 0x01, // Emitted by external SITL (e.g. Oasis)
-    QUALITY_HARDWARE_ROOT  = 0x02, // Hardware secure element verified
-    QUALITY_OUT_OF_BOUNDS  = 0x04,
+    QUALITY_HARDWARE_ROOT  = 0x02, // Hardware secure element (ATECC608A) verified
+    QUALITY_OUT_OF_BOUNDS  = 0x04, // Physical transducer limits breached
     QUALITY_SPOOF_SUSPECT  = 0x08  // Flagged by spatial/thermodynamic cross-check
 };
 
-// Exactly 24 bytes, 8-byte aligned: universal sensor wire format
+// Exactly 24 bytes, 8-byte aligned: Universal sensor telemetry wire format
 struct alignas(8) TelemetrySample {
-    uint64_t timestamp_hlc;      // Hybrid Logical Clock timestamp
-    uint32_t channel_id;         // Telemetry register ID
+    uint64_t timestamp_hlc;      // Hybrid Logical Clock monotonic timestamp
+    uint32_t channel_id;         // Unique telemetry register / channel ID
     float    value;              // Calibrated physical quantity
     UnitType unit_type;          // Physical unit enum
-    uint8_t  quality_flags;      // Provenance and validation flags
-    uint16_t sensor_node_id;     // Originating node DID slot
+    uint8_t  quality_flags;      // Provenance and security validation flags
+    uint16_t sensor_node_id;     // Originating node DID identifier slot
 };
 static_assert(sizeof(TelemetrySample) == 24, "TelemetrySample must remain exactly 24 bytes.");
 
-// Exactly 80 bytes, 8-byte aligned: universal actuation command
+// Exactly 80 bytes, 8-byte aligned: Universal actuator command envelope
 struct alignas(8) ActuatorCommand {
     uint64_t command_id;         // Monotonic command UUID
-    uint32_t device_id;          // Actuator register ID (valve, relay, breaker)
+    uint32_t device_id;          // Actuator register ID (valve, contactor, motor)
     float    target_state;       // Setpoint duty cycle (0.0 - 1.0) or target level
-    uint32_t duration_ms;        // Pulse width or timeout limit
+    uint32_t duration_ms;        // Pulse width or timeout limit (watchdog safety)
     uint8_t  auth_signature[64]; // Ed25519 signature from Layer 4 execution key
 };
 static_assert(sizeof(ActuatorCommand) == 80, "ActuatorCommand must remain exactly 80 bytes.");
 
-// Polymorphic bridge interface implemented by Hardware Drivers and SITL
-class IDigitalTwinBridge {
-public:
-    virtual ~IDigitalTwinBridge() = default;
-    virtual bool IngestTelemetry(const TelemetrySample& sample) = 0;
-    virtual bool DispatchActuation(const ActuatorCommand& cmd) = 0;
-    virtual bool ValidateThermodynamicPlausibility(const TelemetrySample& sample) = 0;
+// Lock-free single-producer single-consumer shared memory ring buffer header
+struct alignas(64) UHAIRingBufferHeader {
+    std::atomic<uint64_t> write_index{0};
+    std::atomic<uint64_t> read_index{0};
+    uint32_t              capacity{16384}; // 16,384 samples = 384 KB ring
+    uint32_t              element_size{sizeof(TelemetrySample)};
+    uint8_t               pad[40];
 };
 
 } // namespace collective::uhai
 ```
 
-#### Channel 2: Semantic Intent & Observability Event Stream (Layer 5/6 Boundary)
-- **Intent Ingress:** External clients (stewards, mobile PWAs, Oasis, CLI) submit declarative W3C JSON-LD intent envelopes signed with the steward's `did:key` over WebSocket or UDS.
-- **Observability Egress:** The stack broadcasts structured domain events (`ValuenomicsMintedEvent`, `WorkTokenAvailableEvent`, `MunicipalCitationIssuedEvent`, `ScenarioOmegaDecoupledEvent`) across `/run/collective/ipc/bus.sock`. External graphical clients consume this stream to update their own visualizations.
-
 ---
 
-### 2.5. Infrastructure Service Level Objectives (SLOs) Matrix
-Replacing all legacy frame budgets, the Sovereign Stack is evaluated exclusively against distributed systems and infrastructure SLOs:
+### 1.5. Infrastructure Service Level Objectives (SLOs) Matrix
+
+Replacing all legacy frame budgets, the Sovereign Stack is evaluated exclusively against distributed systems and headless edge performance SLOs:
 
 ```
 ┌────────────────────────────────────────────────────────────────────────────────────────┐
@@ -252,32 +186,188 @@ Replacing all legacy frame budgets, the Sovereign Stack is evaluated exclusively
 
 ---
 
-### 2.6. Strict Anti-Bleed Boundaries & Scope Rules (The 5 Scope Boundary Rules)
-The codebase enforces five architectural boundary rules via CI linters (`scripts/lint_anti_bleed.sh`):
+## 2. SDD Scenario Alignment Matrix (24 Scenarios Across 5 Developmental Acts)
 
-| Rule ID | Rule Name | Core Invariant | Enforced Verification |
-| :---: | :--- | :--- | :--- |
-| **SBR-1** | **The Headless Rule** | The Sovereign Stack compiles and executes 100% headlessly with zero graphics or windowing dependencies (`SDL2`, `WebGPU`, `Dawn`, `OpenGL`, `Vulkan`). | CI build passes in an environment without `DISPLAY`, `WAYLAND_DISPLAY`, or GPU drivers. |
-| **SBR-2** | **The Frame Rate Rule** | Sovereign Stack specifications and runtimes contain zero references to display frame rates, frame budgets, or render loops (no frame rate ceilings, no display tick budgets, no `render_ms`). | CI grep linter fails if frame budgets appear in core stack modules. |
-| **SBR-3** | **The Domain Entity Rule** | Sovereign Stack contains zero Oasis game entities (no game data structures, no player kinematics, no founder avatars, no hunger/hydration/fatigue states, no player vitality markers). | Static analysis ensures game structs exist only within `oasis/`. |
-| **SBR-4** | **The Presentation Agnostic Rule** | Sovereign Stack never dictates visual styling or UI elements (no citation HUD banners, glowing overlays, or viewport angles). It emits structured data events only. | Code review gate rejecting visual rendering descriptions in L1–L7 specs. |
-| **SBR-5** | **The Strict UHAI Rule** | All interaction between Oasis and the Sovereign Stack traverses the UHAI binary IPC protocol (L2) or W3C JSON-LD event streaming (L5/L6). | Zero direct memory sharing between graphics state and stack ledgers. |
+The 24 canonical SDD scenarios from `docs/scenarios/*.md` represent the comprehensive operational verification matrix of the Sovereign Stack. Each scenario exercises the full 7-layer hierarchy:
+
+```
+┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                              THE 24 CANONICAL SDD SCENARIOS ACROSS THE 5 DEVELOPMENTAL ACTS                            │
+├────┬─────────────────┬──────┬──────────────────────────────┬──────────────────────────────┬────────────────────────────┤
+│ #  │ Scenario ID     │ Act  │ Layer 1 Physical Transducers │ Layer 3 Ledger & Valuenomics │ Layer 5/6 Intent & Policy  │
+├────┼─────────────────┼──────┼──────────────────────────────┼──────────────────────────────┼────────────────────────────┤
+│ 1  │ `SCN-ALPHA-FAB` │ I    │ CNC Spindle, 3D hotend, ATECC│ Tool checkout CRDT, melt Wh  │ `FabricationBounty.jsonld`,│
+│    │ Fabrication     │      │ power meter, safety interlock│ minting, depreciation debit  │ PE Machinist BBS+ VC       │
+├────┼─────────────────┼──────┼──────────────────────────────┼──────────────────────────────┼────────────────────────────┤
+│ 2  │ `SCN-BETA-TRANS`│ I    │ CAN-bus BMS, BLE offline NFC,│ Arrhenius battery wear CRDT, │ Transit route request,     │
+│    │ Transit Mesh    │      │ motor controller shunt meter │ seat-km mutual clearing      │ BBS+ Driver VC, zero-broker│
+├────┼─────────────────┼──────┼──────────────────────────────┼──────────────────────────────┼────────────────────────────┤
+│ 3  │ `SCN-GAMMA-KITCH`│ I   │ Induction cooktop, cold chain│ Caloric negentropy minting,  │ `MealBounty.jsonld`,       │
+│    │ Commons Kitchen │      │ PT100 probe, greywater valve │ food preservation ledger     │ Food Safety Steward VC     │
+├────┼─────────────────┼──────┼──────────────────────────────┼──────────────────────────────┼────────────────────────────┤
+│ 4  │ `SCN-DELTA-CHILD`│ I   │ Smart magnetic latches, zero │ Care-hour credit (1:1 with   │ `ChildcareIntent.jsonld`,  │
+│    │ Childcare Pod   │      │ optical cameras, CO2 monitor │ engineering labor), guardian │ Trust Ring R1 pairing multi│
+├────┼─────────────────┼──────┼──────────────────────────────┼──────────────────────────────┼────────────────────────────┤
+│ 5  │ `SCN-EPSILON-COW`│ II  │ HVAC damper relays, power    │ Desk-hour exergy allocation, │ Guest ephemeral voucher,   │
+│    │ Third Place     │      │ sub-meter, ambient light lux │ microgrid surplus sharing    │ Bioregional Commons charter│
+├────┼─────────────────┼──────┼──────────────────────────────┼──────────────────────────────┼────────────────────────────┤
+│ 6  │ `SCN-ZETA-LODGE`│ II   │ Electronic strike locks, NFC │ Thermal mass / water reserve │ WoT guest vouching,        │
+│    │ Micro-Lodging   │      │ door reader, ultrasonic flow │ ledger, seasonal credit pool │ Emergency shelter pact     │
+├────┼─────────────────┼──────┼──────────────────────────────┼──────────────────────────────┼────────────────────────────┤
+│ 7  │ `SCN-ETA-COPPICE`│ II  │ Kiln thermocouples, moisture │ Carbon sequestration CRDT,   │ `CordwoodBatch.jsonld`,    │
+│    │ Coppice Carbon  │      │ pin probes, load cell scale  │ cordwood harvest quota ledger│ Bioregional Forestry VC    │
+├────┼─────────────────┼──────┼──────────────────────────────┼──────────────────────────────┼────────────────────────────┤
+│ 8  │ `SCN-THETA-FOUND`│ II  │ Optical pyrometers, induction│ Heavy exergy escrow, solar   │ Master Pyrometallurgy VC,  │
+│    │ Micro-Foundry   │      │ furnace relays, thermal dump │ surplus lock ($P > 15\text{kW}$)│ OSHA safety compliance wrap│
+├────┼─────────────────┼──────┼──────────────────────────────┼──────────────────────────────┼────────────────────────────┤
+│ 9  │ `SCN-IOTA-EPIST`│ II   │ PCR thermal cycler, optical  │ Proof-of-Reproducibility CAS,│ Blind referee review ring, │
+│    │ Epistemic Mesh  │      │ spectrophotometer, centrifuge│ IPLD open science blockstore │ CERN-OHL-S open patent wrap│
+├────┼─────────────────┼──────┼──────────────────────────────┼──────────────────────────────┼────────────────────────────┤
+│ 10 │ `SCN-KAPPA-APPR`│ II   │ Machine interlock lockout,   │ Mentor/student split ledger, │ Progressive mastery BBS+ VC│
+│    │ Apprenticeship  │      │ torque/speed sensor loggers  │ foundational sweat equity    │ `ApprenticeshipPact.jsonld`│
+├────┼─────────────────┼──────┼──────────────────────────────┼──────────────────────────────┼────────────────────────────┤
+│ 11 │ `SCN-LAMBDA-CULT`│ II  │ Type-1 Class-1 decibel meter,│ Cultural morale negentropy,  │ Acoustic zoning policy,    │
+│    │ Cultural Commons│      │ PA system power interlock    │ commons gathering ledger     │ Municipal noise defense    │
+├────┼─────────────────┼──────┼──────────────────────────────┼──────────────────────────────┼────────────────────────────┤
+│ 12 │ `SCN-MU-BIOCHAR`│ III  │ Retort pyrometer, gas flare  │ $\ge 2.0\text{kg CO}_2e/\text{kg}$ biochar,│ EPA agricultural exemption,│
+│    │ Biochar Sink    │      │ thermocouple, weighbridge    │ soil carbon addition credit  │ Carbon removal cert schema │
+├────┼─────────────────┼──────┼──────────────────────────────┼──────────────────────────────┼────────────────────────────┤
+│ 13 │ `SCN-NU-TEXTILE`│ III  │ CNC laser fabric cutter, loom│ Mending life-extension ledger│ Circular textile steward VC│
+│    │ Circular Textile│      │ servo encoder, shredder motor│ recycled fiber weight escrow │ Thrift salvage bill of sale│
+├────┼─────────────────┼──────┼──────────────────────────────┼──────────────────────────────┼────────────────────────────┤
+│ 14 │ `SCN-XI-ARCH`   │ III  │ CNC timber joinery router,   │ Embodied carbon ledger,      │ Algorithmic frame schema,  │
+│    │ Timber Framing  │      │ beam deflection strain gauges│ structural safety factor 1.5x│ PE structural attestation  │
+├────┼─────────────────┼──────┼──────────────────────────────┼──────────────────────────────┼────────────────────────────┤
+│ 15 │ `SCN-OMICRON-KIN`│ III │ Air-gapped NFC fobs, biometric│ EigenTrust graph CRDT, Trust │ Concentric Trust Rings     │
+│    │ Kinship Trust   │      │ zero-knowledge hardware token│ Ring threshold escrow        │ $R_0 \to R_6$, Sybil slash │
+├────┼─────────────────┼──────┼──────────────────────────────┼──────────────────────────────┼────────────────────────────┤
+│ 16 │ `SCN-PI-GUILD`  │ III  │ Guild hall door strikers,    │ Multi-sig guild treasury,    │ Sovereign Guild Charter,   │
+│    │ Sovereign Guild │      │ tool locker telemetry access │ mutual defense legal escrow  │ EOR / LLC liability shield │
+├────┼─────────────────┼──────┼──────────────────────────────┼──────────────────────────────┼────────────────────────────┤
+│ 17 │ `SCN-SIGMA-MAINT`│ IV  │ Accelerometers, dust sensors,│ Dynamic bounty scaling CRDT, │ Automated chore allocator, │
+│    │ Maintenance     │      │ vibration FFT transducers    │ anti-burnout duty balancer   │ max 25% burden cap per user│
+├────┼─────────────────┼──────┼──────────────────────────────┼──────────────────────────────┼────────────────────────────┤
+│ 18 │ `SCN-TAU-GENESIS`│ IV  │ ATECC608A key generation HAL,│ Soulbound genesis credit,    │ In-person Ed25519 ceremony,│
+│    │ Steward Genesis │      │ hardware entropy source TRNG │ physical tool seed escrow    │ 501(d) club member roll    │
+├────┼─────────────────┼──────┼──────────────────────────────┼──────────────────────────────┼────────────────────────────┤
+│ 19 │ `SCN-PHI-ELDER` │ IV  │ 60 GHz mmWave fall radar, zero│ Wisdom archive IPLD CAS,     │ Advance medical directive, │
+│    │ Elder Commons   │      │ cameras, environmental temps │ eldercare mutual credit fund │ Probate avoidance trust    │
+├────┼─────────────────┼──────┼──────────────────────────────┼──────────────────────────────┼────────────────────────────┤
+│ 20 │ `SCN-CHI-PARAMED`│ IV  │ AED battery monitor, vaccine │ Emergency supply reservation,│ Priority mesh preemption,  │
+│    │ Paramedic Mesh  │      │ fridge PT100 cold chain probe│ mutual aid triage ledger     │ Paramedic BBS+ credential  │
+├────┼─────────────────┼──────┼──────────────────────────────┼──────────────────────────────┼────────────────────────────┤
+│ 21 │ `SCN-PSI-MEDIAT`│ IV  │ Mediation room privacy lock, │ Restitution work bounty CRDT,│ Restorative Justice Treaty,│
+│    │ Restorative Just│      │ audio recording scrambler    │ debt reconciliation ledger   │ Grievance transcript shred │
+├────┼─────────────────┼──────┼──────────────────────────────┼──────────────────────────────┼────────────────────────────┤
+│ 22 │ `SCN-RHO-ADVERS`│ V   │ Chassis tamper microswitches,│ Byzantine fault detector,    │ Threshold emergency re-key,│
+│    │ Adversarial Def │      │ optical enclosure photodiode │ tamper event proof ledger    │ Zeroization within 1 ms    │
+├────┼─────────────────┼──────┼──────────────────────────────┼──────────────────────────────┼────────────────────────────┤
+│ 23 │ `SCN-UPSILON-SHK`│ V   │ Motorized microgrid breaker, │ 72-hour emergency water/kWh  │ Disaster governance policy,│
+│    │ Ecological Shock│      │ inverter black-start contacts│ survival allocation ledger   │ FEMA emergency liaison     │
+├────┼─────────────────┼──────┼──────────────────────────────┼──────────────────────────────┼────────────────────────────┤
+│ 24 │ `SCN-OMEGA-DECP`│ V   │ ATS permanent physical grid  │ 100% pure negentropy currency│ Permanent corporate dissol,│
+│    │ Terminal Decoup │      │ disconnect interlock contact │ Viability $\mathcal{S}\ge1.25$│ Shred all Layer 7 data     │
+└────┴─────────────────┴──────┴──────────────────────────────┴──────────────────────────────┴────────────────────────────┘
+```
 
 ---
 
-## 3. Epic 1: Layer 1 — Physical Reality, Energy Harvesting & Hardware Root-of-Trust
+## 3. Autonomous 7-Daemon POSIX Architecture & IPC Bus
+
+### 3.1. Daemon Process Topology
+Each layer of the Sovereign Stack runs as an independent, isolated POSIX process supervised by `collective-supervisor`:
+
+```
+┌────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                              THE AUTONOMOUS 7-DAEMON SYSTEM ARCHITECTURE                               │
+├───────┬───────────────────────────┬──────────────────────────────────────┬─────────────────────────────┤
+│ LAYER │ DAEMON EXECUTABLE         │ COMPUTATIONAL LOOP & RUNTIME ENGINE  │ DEDICATED STORAGE BACKEND   │
+├───────┼───────────────────────────┼──────────────────────────────────────┼─────────────────────────────┤
+│ **L7**│ `col-adversaryd`          │ Priority-Queue Discrete Event Sim    │ Isolated SQLite (SQLCipher) │
+│       │ (Legacy Proxy & Adversary)│ (DES); mock utilities, zoning, fiat  │ (Zero cross-DB FKs; shred)  │
+├───────┼───────────────────────────┼──────────────────────────────────────┼─────────────────────────────┤
+│ **L6**│ `col-commonsd`            │ W3C JSON-LD compiler; W3C PROV-O     │ Embedded RDF Quad Store     │
+│       │ (Semantic Intent & Agora) │ knowledge graph; double-auction book │ (Oxigraph) / DuckDB graph   │
+├───────┼───────────────────────────┼──────────────────────────────────────┼─────────────────────────────┤
+│ **L5**│ `col-kmsd`                │ W3C DID resolver; BBS+ ZKP engine;   │ Encrypted SQLCipher vault   │
+│       │ (Governance & Web of Trust│ FROST threshold crypto; BPVP router  │ + Sparse Merkle Tree (SMT)  │
+├───────┼───────────────────────────┼──────────────────────────────────────┼─────────────────────────────┤
+│ **L4**│ `col-execd`               │ Deterministic 10 Hz BPMN 2.0 VM;     │ Durable Saga WAL journal +  │
+│       │ (Orchestrator & Execution)│ Sandboxed Wasmtime; ecological floors│ Task state RocksDB store    │
+├───────┼───────────────────────────┼──────────────────────────────────────┼─────────────────────────────┤
+│ **L3**│ `col-storaged`            │ Automerge/Yrs CRDT engine; HLC causal│ Content-Addressed CAS (IPLD)│
+│       │ (Thermodynamic Ledger)    │ ordering; PoTW negentropy minting    │ + RocksDB CRDT append-log   │
+├───────┼───────────────────────────┼──────────────────────────────────────┼─────────────────────────────┤
+│ **L2**│ `col-meshd`               │ Reticulum Network Stack (RNS) / LoRa │ Persistent DTN spool ring + │
+│       │ (Digital Twin & P2P Mesh) │ async reactor; UHAI telemetry bridge │ LMDB peerstore routing table│
+├───────┼───────────────────────────┼──────────────────────────────────────┼─────────────────────────────┤
+│ **L1**│ `col-telemetryd`          │ Linux epoll / RTOS HAL; RS485 Modbus,│ Flash NVRAM ring buffer +   │
+│       │ (Physical Reality & HAL)  │ CAN-bus, hardware watchdog, ATECC608A│ ATECC608A secure EEPROM     │
+└───────┴───────────────────────────┴──────────────────────────────────────┴─────────────────────────────┘
+```
+
+### 3.2. Inter-Process Communication (IPC) Socket Architecture
+All communication occurs over dedicated Unix Domain Sockets located in `/run/collective/ipc/`:
+
+1. **Bilateral Adjacency Sockets:**
+   - `/run/collective/ipc/l1_l2.sock` (`col-telemetryd` $\longleftrightarrow$ `col-meshd`)
+   - `/run/collective/ipc/l2_l3.sock` (`col-meshd` $\longleftrightarrow$ `col-storaged`)
+   - `/run/collective/ipc/l3_l4.sock` (`col-storaged` $\longleftrightarrow$ `col-execd`)
+   - `/run/collective/ipc/l4_l5.sock` (`col-execd` $\longleftrightarrow$ `col-kmsd`)
+   - `/run/collective/ipc/l5_l6.sock` (`col-kmsd` $\longleftrightarrow$ `col-commonsd`)
+   - `/run/collective/ipc/l6_l7.sock` (`col-commonsd` $\longleftrightarrow$ `col-adversaryd`)
+2. **Broadcast Event Bus (`col-busd`):** `/run/collective/ipc/bus.sock` broadcasts domain events (telemetry anomalies, block confirmations, citations, scenario completions).
+3. **Buffer Management & Backpressure:** Every socket sets `SO_SNDBUF = 262144` and `SO_RCVBUF = 262144` (256 KB). All sockets operate in non-blocking mode (`O_NONBLOCK`). Telemetry drops non-critical frames under backpressure; critical actuator commands enforce circuit breakers.
+4. **Permissions:** Socket permissions are enforced strictly via POSIX groups (`collective-ipc`, `chmod 0660`). Layer 6 has no access to Layer 1.
+
+---
+
+## 4. Epic Summary, Story Points & Sprint Allocations
+
+```
+┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                                            EPIC SUMMARY & SPRINT ALLOCATION MATRIX                                     │
+├────────┬────────────────────────────────────────────────────────────────────────┬─────────────┬───────────────┬────────┤
+│ Epic   │ Epic Title                                                             │ Priority    │ Stories Count │ Points │
+├────────┼────────────────────────────────────────────────────────────────────────┼─────────────┼───────────────┼────────┤
+│ **E1** │ Layer 1: Physical Reality, Energy Harvesting & Hardware Root-of-Trust  │ P0 Critical │ 5 Stories     │ 35 SP  │
+│ **E2** │ Layer 2: Delay-Tolerant Mesh, Reticulum Transport & Telemetry Ingress  │ P0 Critical │ 5 Stories     │ 34 SP  │
+│ **E3** │ Layer 3: Thermodynamic Ledger, CRDT Replication & Valuenomics Minting  │ P0 Critical │ 6 Stories     │ 44 SP  │
+│ **E4** │ Layer 4: Deterministic BPMN 2.0 Orchestrator & Ecological Floors       │ P0 Critical │ 5 Stories     │ 36 SP  │
+│ **E5** │ Layer 5: Polycentric Governance, Pairwise DIDs & Web of Trust (BPVP)   │ P0 Critical │ 6 Stories     │ 42 SP  │
+│ **E6** │ Layer 6: Semantic Intent, Knowledge Graphs & The Agora Commons         │ P0 Critical │ 5 Stories     │ 33 SP  │
+│ **E7** │ Layer 7: Legacy Proxy, Tripartite Legal Chassis & Adversarial Emulation│ P0 Critical │ 6 Stories     │ 45 SP  │
+│ **E8** │ Cross-Stack Headless Verification, Chaos Engineering & Quality Gates   │ P0 Critical │ 6 Stories     │ 41 SP  │
+├────────┴────────────────────────────────────────────────────────────────────────┴─────────────┼───────────────┼────────┤
+│ TOTAL (8 Epics, 44 Fully Articulated Stories)                                                 │ 44 Stories    │ 310 SP │
+└───────────────────────────────────────────────────────────────────────────────────────────────┴───────────────┴────────┘
+```
+
+### Sprint Delivery Pacing (6 Sprints to 3.0.0-RELEASE)
+- **Sprint 1 (52 SP):** Epics 1 & 2 Core Daemons (`col-telemetryd`, `col-meshd`), UHAI IPC wire protocol, ATECC608A HAL, Reticulum LoRa mesh.
+- **Sprint 2 (54 SP):** Epic 3 Core Ledger (`col-storaged`), RocksDB append-log, Automerge/Yrs CRDT, PoTW negentropy minting, Asymptotic ERC Firewall.
+- **Sprint 3 (52 SP):** Epic 4 & 5 Deterministic Execution (`col-execd`, `col-kmsd`), 10 Hz BPMN VM, Wasmtime fuel sandbox, W3C DIDs, BBS+ ZKP credentials.
+- **Sprint 4 (50 SP):** Epic 5 Federation & Epic 6 Agora (`col-kmsd`, `col-commonsd`), Bioregional Path-Vector Protocol (BPVP), Bilateral Clearing Channels, JSON-LD intent compiler, Oxigraph RDF.
+- **Sprint 5 (52 SP):** Epic 7 Adversarial Carapace (`col-adversaryd`), Discrete Event Sim, Tripartite Legal Chassis, Mock Fiat APIs, Systemic Legal Blinding.
+- **Sprint 6 (50 SP):** Epic 8 Full-Stack Verification & Quality Gates (G1–G6), Scenario Rho fuzzing, 72-hour partition resilience, Scenario Omega terminal decoupling certification.
+
+---
+
+## 5. Epic 1: Layer 1 — Physical Reality, Energy Harvesting & Hardware Root-of-Trust (`col-telemetryd`)
 
 ### User Story 1.1: Multi-Tier Hardware Root-of-Trust & Chassis Tamper Zeroization Daemon
 **Epic:** Epic 1 (Layer 1: Physical Reality)  
 **Story ID:** SS-EP1-001  
+**Points:** 8 SP | **Sprint:** 1 | **Priority:** P0 Critical  
 **Persona:** As a Sovereign Node Operator,  
-**Goal:** I want the edge node to initialize its cryptographic identity from a physical hardware secure element and immediately zeroize ephemeral keys upon chassis enclosure breach,  
-**Benefit:** So that physical capture of an off-grid node by hostile actors cannot compromise the bioregional Web of Trust.
+**Goal:** I want `col-telemetryd` to initialize its cryptographic identity directly from a hardware secure element (Microchip ATECC608A) and immediately zeroize ephemeral keys upon physical chassis breach,  
+**Benefit:** So that physical capture or theft of an off-grid node by hostile actors cannot compromise the bioregional Web of Trust or forge telemetry proofs.
 
 #### Technical Specifications & Architecture
-- **Daemon:** `col-telemetryd` running with `CAP_SYS_RAWIO`.
-- **Hardware Target:** Microchip ATECC608A / NXP SE050 via I2C (`/dev/i2c-1`) and tamper micro-switches via GPIO edge interrupt (`/dev/gpiochip0`).
-- **Zeroization Pipeline:** Upon interrupt trigger, the daemon issues an atomic hardware command to zeroize volatile key slots within $\le 12\text{ }\mu\text{s}$, writes an immutable tamper flag to NVRAM, and issues `SIGTERM` to `col-kmsd`.
+- **Daemon:** `col-telemetryd` running with Linux capabilities `CAP_SYS_RAWIO` and real-time scheduling priority `SCHED_FIFO` (priority 50).
+- **Hardware Integration:** Communicates with Microchip ATECC608A over I2C (`/dev/i2c-1`) using the CryptoAuthLib HAL. Primary node DID seed is burned into Slot 0 (locked, non-exportable).
+- **Tamper Circuit:** Chassis enclosure microswitch wired to an interrupt-driven GPIO line (`/dev/gpiochip0`, pin 17).
+- **Zeroization Pipeline:** On interrupt trigger, kernel ISR signals daemon to issue atomic hardware command zeroizing volatile keys in $\le 12\text{ }\mu\text{s}$, writes an immutable tamper flag to NVRAM, and sends `SIGTERM` to `col-kmsd`.
 
 ```protobuf
 syntax = "proto3";
@@ -300,285 +390,312 @@ message ZeroizeKeysResponse {
 
 #### Acceptance Criteria (Given / When / Then)
 ```gherkin
-Scenario: Nominal boot with hardware root-of-trust
-  Given an edge node equipped with an ATECC608A secure element
-  When col-telemetryd initializes during system boot
-  Then it retrieves the hardware-anchored did:key identifier without reading private key material into system RAM
-  And it exposes ChassisStatus with tamper_circuit_closed = true over /run/collective/ipc/l1_l2.sock.
-
-Scenario: Physical enclosure breach triggers key zeroization
-  Given a running node with active cryptographic sessions
-  When the physical chassis tamper circuit opens
-  Then a hardware GPIO edge interrupt triggers zeroization in less than 12 microseconds
-  And all volatile session keys in col-kmsd are overwritten with zeros
-  And an immutable tamper event is committed to flash NVRAM before process termination.
+Scenario: Physical enclosure tamper triggers immediate zeroization
+  Given an operational edge node with locked ATECC608A Slot 0
+  When the physical chassis tamper switch is tripped (circuit opened)
+  Then col-telemetryd executes key zeroization within <= 12 microseconds
+  And writes an immutable tamper record to non-volatile EEPROM
+  And all subsequent cryptographic operations return EPERM until in-person re-keying ceremony.
 ```
 
 #### Technical Tasks
-- [ ] Implement Linux GPIO character device edge-detection listener in `col-telemetryd`.
-- [ ] Implement I2C driver for Microchip ATECC608A utilizing PKCS#11 API.
-- [ ] Implement zero-copy atomic zeroization hook communicating with `col-kmsd` over UDS.
-- [ ] Add unit test verifying tamper ISR latency $\le 12\text{ }\mu\text{s}$ using virtual mock GPIO.
+- [ ] Implement ATECC608A I2C driver integration using Microchip CryptoAuthLib.
+- [ ] Configure GPIO edge interrupt handler in Linux sysfs/libgpiod with debouncing ($\le 2\text{ ms}$).
+- [ ] Implement atomic zeroization routine and panic state transition.
+- [ ] Add hardware test fixture asserting sub-millisecond zeroization upon signal trip.
 
 ---
 
 ### User Story 1.2: Asynchronous RS-485 Modbus RTU Energy Telemetry & SocketCAN BMS Drivers
 **Epic:** Epic 1 (Layer 1: Physical Reality)  
 **Story ID:** SS-EP1-002  
-**Persona:** As a Sovereign Node Operator,  
-**Goal:** I want `col-telemetryd` to continuously poll solar MPPT charge controllers and CAN-bus battery management systems without blocking,  
-**Benefit:** So that real-time physical exergy generation and storage are precisely tracked for Proof-of-Thermodynamic-Work accounting.
+**Points:** 8 SP | **Sprint:** 1 | **Priority:** P0 Critical  
+**Persona:** As a Microgrid Electrical Steward,  
+**Goal:** I want `col-telemetryd` to poll solar charge controllers via RS-485 Modbus RTU and battery management systems via SocketCAN asynchronously,  
+**Benefit:** So that real-time voltage, current, state-of-charge, and temperature telemetry are sampled at 10 Hz without blocking system execution.
 
 #### Technical Specifications & Architecture
-- **Protocols:** Modbus RTU over RS-485 (`/dev/ttyUSB0` via `termios2`) and CAN 2.0B via Linux SocketCAN (`can0`).
-- **Concurrency:** Dedicated non-blocking epoll loop with POSIX `timerfd` sampling Modbus registers at 1 Hz and SocketCAN BMS frames at 10 Hz.
-- **Zero-Allocation Hot Path:** Samples are packed directly into 24-byte `TelemetrySample` structs and written to a memory-mapped circular buffer.
-
-```cpp
-struct ModbusRegisterMap {
-    static constexpr uint16_t REG_PV_VOLTAGE       = 0x3100; // 0.01 V
-    static constexpr uint16_t REG_PV_CURRENT       = 0x3101; // 0.01 A
-    static constexpr uint16_t REG_BATTERY_VOLTAGE   = 0x3104; // 0.01 V
-    static constexpr uint16_t REG_BATTERY_CURRENT   = 0x3105; // 0.01 A
-    static constexpr uint16_t REG_LOAD_POWER        = 0x310E; // 0.01 W
-};
-```
+- **Reactor:** Linux `epoll` reactor monitoring non-blocking serial file descriptors (`/dev/ttyUSB0`) and SocketCAN network interface (`can0`).
+- **Protocols Supported:**
+  - Modbus RTU (libmodbus asynchronous wrapper) polling Victron SmartSolar MPPT and Schneider Conext inverters.
+  - SocketCAN (J1939 CAN 2.0B) polling Daly / Seplos LiFePO4 battery management systems at 250 kbps.
+- **Telemetry Packing:** Ingests raw registers, applies scaling factors, validates physical boundaries, and packs into 24-byte `TelemetrySample` structs.
 
 #### Acceptance Criteria (Given / When / Then)
 ```gherkin
-Scenario: Continuous Modbus RTU solar telemetry sampling
-  Given an RS-485 bus connected to an EPEver Tracer MPPT solar charge controller
-  When col-telemetryd executes its 1 Hz timerfd tick
-  Then it queries registers 0x3100 through 0x310E asynchronously without blocking the reactor
-  And it packs the calibrated Wattage and Voltage into 24-byte TelemetrySample structs
-  And it streams the samples across /run/collective/ipc/l1_l2.sock with p99 latency <= 5.0 ms.
-
-Scenario: CAN-bus LiFePO4 battery management alert
-  Given a 16-cell LiFePO4 battery pack reporting over SocketCAN interface can0
-  When any individual cell voltage exceeds 3.65 V or drops below 2.50 V
-  Then col-telemetryd immediately emits a high-priority TelemetrySample with QUALITY_OUT_OF_BOUNDS set
-  And it triggers local hardware protection contacts within 50 ms.
+Scenario: High-frequency Modbus and CAN telemetry sampling
+  Given a 48V LiFePO4 battery bank and 5 kW solar array connected via CAN and RS-485
+  When col-telemetryd executes its 10 Hz epoll loop for 60 seconds
+  Then it records exactly 600 samples per register without dropped frames
+  And p99 telemetry ingest latency from serial read to IPC emission is <= 5.0 ms
+  And corrupted CRC checksum frames are quarantined with QUALITY_OUT_OF_BOUNDS.
 ```
 
 #### Technical Tasks
-- [ ] Implement asynchronous Modbus RTU parser using non-blocking serial I/O.
-- [ ] Implement SocketCAN frame reader listening on `can0` with raw frame filtering.
-- [ ] Implement ring buffer writer with lock-free atomic head/tail pointers.
-- [ ] Bench test on Raspberry Pi CM4 confirming CPU utilization $\le 1.5\%$ under continuous polling.
+- [ ] Implement asynchronous epoll reactor for RS-485 serial ports with custom timeout timers.
+- [ ] Implement SocketCAN frame reader and J1939 PGN parser for battery pack metrics.
+- [ ] Add CRC16 and CAN frame validation tests with simulated bit errors.
 
 ---
 
-### User Story 1.3: Real-Time Thermodynamic Exergy & Thermal Sensor Telemetry Pipeline
+### User Story 1.3: Hardware Actuator Drivers & Safety Interlocks for the 24 Canonical Scenarios
 **Epic:** Epic 1 (Layer 1: Physical Reality)  
 **Story ID:** SS-EP1-003  
-**Persona:** As an Infrastructure Engineer,  
-**Goal:** I want `col-telemetryd` to calculate instantaneous physical exergy flows from raw electrical, thermal, and fluid sensor inputs,  
-**Benefit:** So that higher layers receive thermodynamically validated negentropy measurements rather than raw, uncalibrated numbers.
+**Points:** 8 SP | **Sprint:** 1 | **Priority:** P0 Critical  
+**Persona:** As an Edge Infrastructure Engineer,  
+**Goal:** I want `col-telemetryd` to implement dedicated hardware actuator drivers and fail-safe safety interlocks for all 24 canonical SDD scenarios,  
+**Benefit:** So that physical equipment (CNC spindles, kiln valves, microgrid breakers, medical refrigeration) operates safely and shuts down immediately upon sensor anomaly.
 
 #### Technical Specifications & Architecture
-- **Exergy Equation:** Implements real-time physical exergy rate calculation:
-  $$\dot{E}x = \dot{W} + \dot{Q}\left(1 - \frac{T_0}{T}\right) + \dot{m}\left[\left(h - h_0\right) - T_0\left(s - s_0\right)\right]$$
-  where $T_0$ is local ambient dead-state temperature, $T$ is reservoir temperature, and $\dot{W}$ is electrical power.
-- **Sensors:** I2C ambient temperature/pressure (BME680), DS18B20 1-Wire thermal probes, and pulse-counter flow meters.
+- **Hardware Drivers Configured:**
+  - `SCN-ALPHA-FAB` (CNC Spindle Relays, Stepper Enable Pins)
+  - `SCN-GAMMA-KITCH` (Induction Cooktop Power Limiters, Greywater Valves)
+  - `SCN-DELTA-CHILD` (Magnetic Door Strikes, Zero Camera Hardware)
+  - `SCN-THETA-FOUNDRY` (Induction Furnace Contactors, Emergency Thermal Dump Relays $\le 50\text{ ms}$)
+  - `SCN-ETA-COPPICE` & `SCN-MU-BIOCHAR` (Pyrolysis Retort Thermocouple Valves, Gas Flares)
+  - `SCN-CHI-PARAMEDIC` (Cold Chain Vaccine Compressor Contactors, AED Battery Monitors)
+  - `SCN-UPSILON-SHOCK` & `SCN-OMEGA-DECOUPLING` (Motorized ATS Transfer Switches, Grid Contactor Disconnects)
+- **Hard Safety Interlocks:** Independent firmware watchdog and thermal cutoff relays wired in series with software logic. If thermal threshold is breached, physical power is cut regardless of software state.
 
 #### Acceptance Criteria (Given / When / Then)
 ```gherkin
-Scenario: Thermodynamic exergy stream computation
-  Given an electrical power input of 1200 W and a thermal water reservoir at 65°C with ambient temp at 15°C
-  When col-telemetryd evaluates the exergy equation
-  Then it computes thermal Carnot efficiency (1 - 288.15 / 338.15 = 0.1478)
-  And it outputs an exergy sample reflecting 1200 W electrical plus Carnot-derated thermal Watts
-  And it flags the sample with QUALITY_HARDWARE_ROOT.
+Scenario: Micro-foundry thermal dump triggered on overheating
+  Given col-telemetryd controlling induction furnace contactors for SCN-THETA-FOUNDRY
+  When optical pyrometer reads temperature exceeding 1,450 deg C
+  Then hardware safety interlock fires within <= 50 ms cutting main contactor power
+  And emits an emergency ActuationInterlockTriggered event to Layer 2
+  And requires explicit steward physical reset before contactor can re-energize.
 ```
 
 #### Technical Tasks
-- [ ] Implement Carnot efficiency and fluid enthalpy formulas in fixed-point or IEEE 754 math.
-- [ ] Add 1-Wire Linux kernel driver integration (`/sys/bus/w1/devices/`).
-- [ ] Add unit test verifying thermodynamic calculations against standard steam/water tables.
+- [ ] Implement GPIO relay driver matrix using Linux libgpiod with pulse-width safety clamps.
+- [ ] Implement automated scenario actuator driver profiles for all 24 canonical SDD scenarios.
+- [ ] Add hardware loopback testing verifying contactor trip latency $\le 50\text{ ms}$.
 
 ---
 
-### User Story 1.4: Hardware Watchdog Supervision & Autonomous Low-Power Brownout Recovery
+### User Story 1.4: Real-Time Thermodynamic Exergy & Thermal Transducer Telemetry Pipeline
 **Epic:** Epic 1 (Layer 1: Physical Reality)  
 **Story ID:** SS-EP1-004  
-**Persona:** As a Sovereign Node Operator,  
-**Goal:** I want hardware watchdog integration and low-voltage emergency flush handlers,  
-**Benefit:** So that an unrecoverable power loss or software deadlock automatically recovers the node without human intervention.
+**Points:** 5 SP | **Sprint:** 1 | **Priority:** P0 Critical  
+**Persona:** As a Cybernetics Theorist,  
+**Goal:** I want `col-telemetryd` to compute real-time exergy flows ($\Phi_{in}, \Phi_{out}$) from raw physical sensor transducers,  
+**Benefit:** So that the thermodynamic quality of energy (useful work potential, second law efficiency) is passed directly to the ledger rather than raw scalar kilowatt-hours.
 
 #### Technical Specifications & Architecture
-- **Watchdog:** Interacts with `/dev/watchdog` with a 10-second timeout.
-- **Brownout Sequence:** Monitored via ADC / BMS. When voltage drops below 11.2 V (LiFePO4 12V bank):
-  1. Issues high-priority Brownout signal to all daemons via `/run/collective/ipc/bus.sock`.
-  2. Each daemon flushes uncommitted WAL buffers to non-volatile storage within $\le 2.5\text{ ms}$.
-  3. Node switches system power governor to low-frequency mode (`powersave`).
+- **Transducers:** PT100/PT1000 RTD temperature sensors (SPI interface via MAX31865), mass flow meters (pulse counter GPIO), and DC/AC power meters.
+- **Exergy Formula:** For thermal fluid streams, computes flow exergy:
+  $$ex = \dot{m} \cdot \left[ (h - h_0) - T_0 (s - s_0) \right]$$
+  where $T_0$ is ambient reference temperature ($293.15\text{ K}$), $h$ is enthalpy, and $s$ is entropy.
+- **Wire Tagging:** Ingests samples, sets `unit_type = WATTS`, and populates `quality_flags = QUALITY_HARDWARE_ROOT`.
 
 #### Acceptance Criteria (Given / When / Then)
 ```gherkin
-Scenario: Automatic hardware watchdog ping
-  Given col-telemetryd running nominally
-  When the internal event loop completes its timerfd cycle
-  Then it writes the keep-alive byte to /dev/watchdog every 3 seconds
-  And if the process deadlocks for > 10 seconds, the hardware supervisor resets the system.
-
-Scenario: Low-voltage brownout emergency flush
-  Given a battery pack discharging rapidly during prolonged overcast weather
-  When the measured terminal voltage drops below 11.2 V
-  Then col-telemetryd broadcasts a BrownoutAlert across the IPC event bus
-  And all daemons flush WAL state to non-volatile storage in under 2.5 ms
-  And the node enters deep survival sleep.
+Scenario: Solar thermal exergy computation
+  Given a water flow rate of 10 L/min entering at 20 deg C and exiting at 60 deg C
+  When col-telemetryd evaluates the exergy equation with ambient T0 = 20 deg C
+  Then it calculates net thermal exergy rate of 342.1 Watts (versus 27.9 kW raw enthalpy)
+  And packages the result into a verified TelemetrySample with QUALITY_HARDWARE_ROOT.
 ```
 
 #### Technical Tasks
-- [ ] Implement `/dev/watchdog` keepalive pinger with loop health verification.
-- [ ] Implement system-wide brownout event broadcaster.
-- [ ] Validate emergency flush duration on eMMC storage $\le 2.5\text{ ms}$.
+- [ ] Implement MAX31865 RTD SPI driver with fault detection (open/short circuit).
+- [ ] Implement thermodynamic exergy library in C++20 with polynomial water steam tables.
+- [ ] Add unit test verifying Carnot and flow exergy limits across temperature spans.
 
 ---
 
-## 4. Epic 2: Layer 2 — Delay-Tolerant Mesh, Reticulum Transport & Telemetry Ingress
+### User Story 1.5: Hardware Watchdog Supervision, Brownout Recovery & Strict Physical Airgap Interlock
+**Epic:** Epic 1 (Layer 1: Physical Reality)  
+**Story ID:** SS-EP1-005  
+**Points:** 6 SP | **Sprint:** 1 | **Priority:** P0 Critical  
+**Persona:** As a Quality Engineer,  
+**Goal:** I want `col-telemetryd` to supervise an external hardware watchdog timer, handle brownouts gracefully, and enforce the physical airgap barring simulated telemetry from edge relays,  
+**Benefit:** So that edge nodes recover autonomously from power starvation and synthetic simulator commands can never actuate physical machinery.
+
+#### Technical Specifications & Architecture
+- **Watchdog:** Serviced via `/dev/watchdog` (Linux watchdog API) with an 8-second timeout. If the 10 Hz reactor thread stalls for $> 6$ seconds, the hardware resets the SoC.
+- **Brownout Recovery:** Monitors DC bus voltage. If $V_{bus} < 44.0\text{ V}$ (for 48V LiFePO4), initiates orderly shutdown of non-critical daemons, leaves L1/L2 in ultra-low-power sleep ($< 500\text{ mW}$), and auto-boots when $V_{bus} > 51.2\text{ V}$.
+- **Strict Airgap Interlock:** Ingress filter asserts that incoming `ActuatorCommand` packets must originate from Layer 4 execution keys and target physical relays only when accompanying telemetry carries `QUALITY_HARDWARE_ROOT`. Packets flagged `QUALITY_SIMULATED` are physically dropped at socket ingress.
+
+#### Acceptance Criteria (Given / When / Then)
+```gherkin
+Scenario: Simulated telemetry command rejected at hardware airgap
+  Given an external SITL simulator emitting ActuatorCommand targeting physical relay 0x05
+  When the incoming packet payload carries quality_flags = QUALITY_SIMULATED (0x01)
+  Then col-telemetryd drops the command immediately with EACCES
+  And logs an AirgapSecurityBreachAttemptEvent to the system journal
+  And physical relay 0x05 remains completely unenergized.
+```
+
+#### Technical Tasks
+- [ ] Implement `/dev/watchdog` keep-alive pinger in the reactor event loop.
+- [ ] Implement brownout state machine with hysteretic voltage recovery thresholds.
+- [ ] Implement strict airgap validation filter rejecting `QUALITY_SIMULATED` packets.
+
+---
+
+## 6. Epic 2: Layer 2 — Delay-Tolerant Mesh, Reticulum Transport & Telemetry Ingress (`col-meshd`)
 
 ### User Story 2.1: Reticulum Cryptographic Mesh Routing Engine & 128-Bit Addressing
-**Epic:** Epic 2 (Layer 2: Digital Twin & Mesh)  
+**Epic:** Epic 2 (Layer 2: Delay-Tolerant Mesh)  
 **Story ID:** SS-EP2-001  
-**Persona:** As a Community Steward,  
-**Goal:** I want `col-meshd` to route encrypted packets across off-grid peer-to-peer networks using 128-bit destination hashes without relying on IP addresses, ICANN DNS, or central servers,  
-**Benefit:** So that bioregional nodes maintain autonomous communications even when municipal internet backbones are severed.
+**Points:** 8 SP | **Sprint:** 1 | **Priority:** P0 Critical  
+**Persona:** As a Mesh Infrastructure Steward,  
+**Goal:** I want `col-meshd` to route telemetry and governance envelopes over the Reticulum Network Stack (RNS) using 128-bit truncated SHA-256 destination hashes,  
+**Benefit:** So that nodes communicate securely over untrusted ad-hoc radio links without central IP address assignment, domain name servers, or telecommunication providers.
 
 #### Technical Specifications & Architecture
-- **Daemon:** `col-meshd` running an asynchronous multi-bearer reactor.
-- **Addressing:** Reticulum Network Stack (RNS) destination hashing: 128-bit truncated SHA-256 of the destination public key.
-- **Cryptography:** Curve25519 ECDH key exchange, ChaCha20-Poly1305 AEAD authenticated packet encryption.
-- **Zero-IP Operation:** Operates over raw Ethernet frames, AX.25, LoRa KISS, and serial pipes.
-
-```protobuf
-syntax = "proto3";
-package collective.l2;
-
-message MeshPacket {
-  bytes destination_hash = 1; // 16 bytes (128-bit)
-  bytes sender_hash = 2;      // 16 bytes
-  uint32_t hop_limit = 3;
-  bytes payload = 4;          // AEAD encrypted payload
-  bytes signature = 5;        // Ed25519 signature
-}
-```
+- **Routing Engine:** Embedded C++20 / Rust implementation of the Reticulum Protocol.
+- **Addressing:** Destination addresses derived as $\mathrm{Hash}_{128}(K_{\mathrm{identity}} \parallel \text{"collective.node"})$.
+- **Packet Structure:** 500-byte maximum MTU optimized for low-bandwidth LoRa links. Packets encrypted using ephemeral Curve25519 ECDH + AES-256-CBC with HMAC-SHA256 authentication.
+- **Routing Table:** Next-hop distance-vector table maintaining hop count, roundtrip latency, and SNR per destination.
 
 #### Acceptance Criteria (Given / When / Then)
 ```gherkin
-Scenario: Air-gapped packet routing over 128-bit destination hash
-  Given two off-grid sovereign nodes with zero IP connectivity
-  When Node A sends a packet addressed to Node B's 128-bit destination hash
-  Then col-meshd discovers the route via Reticulum announce beacons
-  And encrypts the payload using ephemeral Curve25519 / ChaCha20-Poly1305 keys
-  And delivers the packet across intermediate LoRa hops without IP routing.
+Scenario: Ad-hoc packet routing across 3-hop mesh
+  Given Node A, Node B, and Node C in a linear mesh topology (A <-> B <-> C)
+  When Node A sends a 128-byte encrypted state update to Node C's Reticulum destination hash
+  Then Node B forwards the packet without inspecting payload contents
+  And Node C decrypts and authenticates the packet within <= 250 ms
+  And zero IP routing or DNS lookups are performed.
 ```
 
 #### Technical Tasks
-- [ ] Implement Reticulum packet framing and 128-bit destination address parser.
-- [ ] Implement Curve25519/ChaCha20-Poly1305 packet cryptor in C++20/Rust.
-- [ ] Add route discovery table with hop-count metrics and announce cache.
+- [ ] Implement Reticulum packet header serializer and deserializer.
+- [ ] Implement Curve25519 ECDH ephemeral key exchange and AES-256-CBC cipher pipeline.
+- [ ] Add multi-hop routing test harness simulating packet forwarding across 5 nodes.
 
 ---
 
-### User Story 2.2: Multi-Bearer Transport Manager with Automatic LoRa / Wi-Fi Failover
-**Epic:** Epic 2 (Layer 2: Digital Twin & Mesh)  
+### User Story 2.2: Multi-Bearer Transport Manager with Automatic LoRa / 802.11s / Ethernet Failover
+**Epic:** Epic 2 (Layer 2: Delay-Tolerant Mesh)  
 **Story ID:** SS-EP2-002  
-**Persona:** As an Infrastructure Engineer,  
-**Goal:** I want `col-meshd` to dynamically route traffic across Semtech SX1262 LoRa, 802.11s Wi-Fi mesh, and physical sneakernet USB transports,  
-**Benefit:** So that network partitions automatically degrade to low-bandwidth radio channels without dropping application packets.
+**Points:** 7 SP | **Sprint:** 1 | **Priority:** P0 Critical  
+**Persona:** As an Edge Infrastructure Engineer,  
+**Goal:** I want `col-meshd` to multiplex traffic seamlessly across Semtech SX1262 LoRa, 802.11s Wi-Fi mesh, and wired dark fiber,  
+**Benefit:** So that nodes utilize high-bandwidth links when available and automatically fall back to long-range radio when fiber cuts occur.
 
 #### Technical Specifications & Architecture
-- **Bearer Interfaces:**
-  - High-bandwidth bearer: 802.11s Wi-Fi mesh / Ethernet (QUIC transport, MTU 1280).
-  - Low-power radio: Semtech SX1262 915 MHz LoRa via SPI (MTU 255 bytes, spread factor SF7–SF12).
-  - Sneakernet bearer: Automated file export/import to removable block storage.
-- **Failover Logic:** Dynamic link quality estimator (LQ) tracking packet loss and RSSI. Switches from Wi-Fi to LoRa in $\le 250\text{ ms}$ upon link drop.
+- **Physical Bearers:**
+  - Semtech SX1262 SPI LoRa transceiver (915 MHz US / 868 MHz EU, spreading factor SF7–SF10, bandwidth 125 kHz).
+  - Linux `wlan0` configured in 802.11s mesh mode with mesh ID `collective-mesh`.
+  - Wired Gigabit Ethernet (`eth0` / dark fiber).
+- **Metric Controller:** Evaluates link quality every 1 second based on Packet Error Rate (PER) and RSSI. Routes bulk data over 802.11s/Ethernet; duplicates critical alarms across LoRa and Ethernet simultaneously.
 
 #### Acceptance Criteria (Given / When / Then)
 ```gherkin
-Scenario: Automatic bearer failover during Wi-Fi link disruption
-  Given a dual-bearer node transmitting mesh state over 802.11s Wi-Fi
-  When the Wi-Fi link experiences 100% packet loss for 3 consecutive intervals
-  Then col-meshd automatically reroutes outbound packets through Semtech SX1262 LoRa
-  And fragments payloads exceeding 255 bytes into indexed packet frames
-  And resumes transmission with zero packet loss in the higher-layer queue.
+Scenario: Automatic bearer failover during fiber disconnection
+  Given an active link streaming state updates over Gigabit Ethernet
+  When the Ethernet cable is physically severed
+  Then col-meshd detects carrier loss within <= 100 ms
+  And shifts routing to Semtech SX1262 LoRa without dropping inflight transactions
+  And rate-limits subsequent frame emissions to match LoRa link capacity (max 5.4 kbps).
 ```
 
 #### Technical Tasks
-- [ ] Implement SPI driver for Semtech SX1262 LoRa transceiver.
-- [ ] Implement packet fragmentation and reassembly engine for 255-byte MTU limits.
-- [ ] Implement dynamic bearer scoring and automatic failover state machine.
+- [ ] Implement SX1262 SPI driver with CAD (Channel Activity Detection).
+- [ ] Implement Linux netlink socket monitor tracking 802.11s and Ethernet link states.
+- [ ] Add failover test simulating sudden cable detachment under active load.
 
 ---
 
-### User Story 2.3: Delay-Tolerant Store-and-Forward Packet Queue & LMDB Peerstore
-**Epic:** Epic 2 (Layer 2: Digital Twin & Mesh)  
+### User Story 2.3: Delay-Tolerant Store-and-Forward Packet Queue (50 MB Ring) & LMDB Peerstore
+**Epic:** Epic 2 (Layer 2: Delay-Tolerant Mesh)  
 **Story ID:** SS-EP2-003  
-**Persona:** As a Community Steward,  
-**Goal:** I want `col-meshd` to buffer undelivered mesh packets in an append-only store-and-forward disk spool during long network partitions,  
-**Benefit:** So that nodes isolated for days or weeks automatically synchronize when connectivity is re-established.
+**Points:** 6 SP | **Sprint:** 1 | **Priority:** P0 Critical  
+**Persona:** As an Off-Grid Node Steward,  
+**Goal:** I want `col-meshd` to store outbound packets in a persistent 50 MB spool when peers are unreachable,  
+**Benefit:** So that mobile data mules or intermittent radio connections guarantee eventual delivery of state without packet loss.
 
 #### Technical Specifications & Architecture
-- **Storage Engine:** Embedded Lightning Memory-Mapped Database (LMDB) at `/var/lib/collective/l2/peerstore.lmdb` for peer identities, plus append-only packet spool `/var/lib/collective/l2/spool.bin` (capped at 50 MB with cryptographic priority eviction).
-- **TTL & Expiry:** Packets carry TTL timestamps; expired non-critical packets are evicted via LRU, while cryptographic ledger sync requests are retained until delivered.
+- **Spool Storage:** Persistent ring buffer at `/var/lib/collective/l2/dtn_spool.dat` capped strictly at 50 MB. Oldest non-critical packets are evicted with an alert if capacity is exceeded.
+- **Peerstore:** Embedded Lightning Memory-Mapped Database (LMDB) storing peer public keys, Reticulum destination hashes, last seen timestamps, and link performance metrics.
+- **Delivery Receipts:** Implements Custody Transfer Protocol where receiving nodes send cryptographically signed receipts before the sender removes the packet from its spool.
 
 #### Acceptance Criteria (Given / When / Then)
 ```gherkin
-Scenario: Store-and-forward packet queuing during 72-hour network partition
-  Given an isolated node disconnected from the bioregional mesh for 72 hours
-  When higher layers generate 500 state update packets
-  Then col-meshd persists the packets to the bounded LMDB delay spool
-  And when a peer node comes within LoRa radio range, col-meshd opportunistically drains the spool
-  And all 500 packets are delivered with verified cryptographic integrity.
+Scenario: Delay-Tolerant Networking store-and-forward delivery
+  Given Node A attempting to send 5 MB of telemetry to Node B while Node B is offline
+  When Node A enqueues packets into col-meshd
+  Then packets are persisted to the 50 MB DTN spool in LMDB
+  When Node B reconnects 12 hours later
+  Then Node A automatically flushes the spooled packets in causal order
+  And both nodes confirm delivery with signed receipts.
 ```
 
 #### Technical Tasks
-- [ ] Implement LMDB-backed peerstore for storing peer public keys and capabilities.
-- [ ] Implement priority-queued persistent disk spool with 50 MB hard ceiling.
-- [ ] Add automated partition test asserting zero dropped packets over simulated link downtime.
+- [ ] Implement bounded 50 MB memory-mapped spool ring buffer.
+- [ ] Integrate LMDB key-value store for Reticulum peer metadata.
+- [ ] Add unit test verifying FIFO spool persistence across sudden daemon restarts.
 
 ---
 
-### User Story 2.4: Universal Hardware Abstraction Interface (UHAI) & SITL Adapter
-**Epic:** Epic 2 (Layer 2: Digital Twin & Mesh)  
+### User Story 2.4: UHAI Asynchronous SITL Adapter & Lock-Free IPC Ring Buffer
+**Epic:** Epic 2 (Layer 2: Delay-Tolerant Mesh)  
 **Story ID:** SS-EP2-004  
-**Persona:** As an External Simulation Client (Oasis Engine),  
-**Goal:** I want `col-meshd` to expose a Software-in-the-Loop (SITL) socket accepting virtual `TelemetrySample` frames and dispatching `ActuatorCommand` frames,  
-**Benefit:** So that Oasis can act as a high-fidelity digital twin and shadow simulator for testing the Sovereign Stack without physical hardware.
+**Points:** 7 SP | **Sprint:** 1 | **Priority:** P0 Critical  
+**Persona:** As a Systems Simulation Engineer,  
+**Goal:** I want `col-meshd` to expose a lock-free shared-memory ring buffer and Unix Domain Socket for external Software-In-The-Loop (SITL) simulator telemetry ingress,  
+**Benefit:** So that external simulators (e.g. Oasis) stream high-throughput synthetic sensor telemetry with sub-50 microsecond roundtrip latency.
 
 #### Technical Specifications & Architecture
-- **Socket:** `/run/collective/ipc/uhai_sitl.sock` (Unix Domain Socket, bidirectional binary stream).
-- **Data Wire Format:** 24-byte `TelemetrySample` and 80-byte `ActuatorCommand` matching `collective::uhai` specification.
-- **Quality Tagging:** Samples injected via SITL are tagged with `QUALITY_SIMULATED (0x01)`. The stack processes them identically to hardware samples while preserving provenance.
+- **Ingress Channels:**
+  - Shared memory file `/dev/shm/collective_uhai_ring.bin` mapped with `UHAIRingBufferHeader` for zero-copy read/write.
+  - Unix Domain Socket `/run/collective/ipc/sitl.sock` (`SOCK_SEQPACKET`).
+- **Telemetry Validation:** Checks 24-byte `TelemetrySample` alignment. Enforces `quality_flags = QUALITY_SIMULATED` on all incoming SITL frames. Forwards validated frames to Layer 3 via `/run/collective/ipc/l2_l3.sock`.
 
 #### Acceptance Criteria (Given / When / Then)
 ```gherkin
-Scenario: Oasis shadow simulator ingests virtual solar telemetry via SITL
-  Given the Sovereign Stack running in simulation mode with col-meshd active
-  When Oasis streams a 24-byte TelemetrySample with channel_id = 0x3100, value = 450.0 W, and QUALITY_SIMULATED
-  Then col-meshd validates sample alignment and forwards it across /run/collective/ipc/l2_l3.sock
-  And Layer 3 processes the exergy calculation with simulated provenance intact.
-
-Scenario: Actuator command dispatch to virtual simulator
-  Given a Layer 4 workflow issuing a command to open an irrigation valve
-  When the actuation envelope reaches Layer 2
-  Then col-meshd formats an 80-byte ActuatorCommand with valid Ed25519 signature
-  And transmits it across the UHAI SITL socket to Oasis
-  And Oasis confirms receipt and applies the valve state change.
+Scenario: SITL high-frequency synthetic telemetry stream
+  Given the Oasis engine connected to /run/collective/ipc/sitl.sock
+  When Oasis streams 10,000 synthetic TelemetrySample structs at 1,000 samples/sec
+  Then col-meshd ingests all samples with p99 latency <= 50 microseconds
+  And all samples are tagged with QUALITY_SIMULATED before forwarding to Layer 3
+  And zero memory allocations or buffer overflows occur.
 ```
 
 #### Technical Tasks
-- [ ] Implement UHAI SITL socket server in `col-meshd` with `SOCK_SEQPACKET`.
-- [ ] Implement binary serialization matching `sizeof(TelemetrySample) == 24` and `sizeof(ActuatorCommand) == 80`.
-- [ ] Implement SITL loopback test verifying roundtrip latency $\le 50\text{ }\mu\text{s}$.
+- [ ] Implement lock-free circular ring buffer with atomic head/tail pointers in C++20.
+- [ ] Implement `SOCK_SEQPACKET` socket server handling SITL connections.
+- [ ] Add latency benchmark test asserting $< 50\text{ }\mu\text{s}$ roundtrip on ARM64.
 
 ---
 
-## 5. Epic 3: Layer 3 — Thermodynamic Ledger, CRDT Replication & Valuenomics Minting
+### User Story 2.5: Telecom Dark Fiber Ingress, Carrier Intertie & Sub-Mesh Bridging
+**Epic:** Epic 2 (Layer 2: Delay-Tolerant Mesh)  
+**Story ID:** SS-EP2-005  
+**Points:** 6 SP | **Sprint:** 1 | **Priority:** P1 High  
+**Persona:** As a Bioregional Network Architect,  
+**Goal:** I want `col-meshd` to interface with telecom dark fiber pairs and commercial transit backbones through encrypted WireGuard tunnels,  
+**Benefit:** So that distant valley sub-meshes bridge together over leased legacy fiber without exposing internal routing topology.
 
-### User Story 3.1: Compact Delta-Based CRDT Engine & HLC Causal Replication
+#### Technical Specifications & Architecture
+- **Carrier Interface:** Integrates with Linux WireGuard kernel module (`wg0`) running ChaCha20-Poly1305.
+- **Traffic Shaping:** Enforces constant-bitrate (CBR) packet padding and dummy traffic generation. External observers analyzing fiber traffic see only constant-size encrypted frames at constant intervals, defeating traffic analysis attacks.
+
+#### Acceptance Criteria (Given / When / Then)
+```gherkin
+Scenario: Dark fiber bridge connects two disconnected mountain valleys
+  Given Valley A mesh and Valley B mesh separated by 50 km of legacy dark fiber
+  When col-meshd establishes a WireGuard carrier tunnel over the dark fiber
+  Then both valleys route Reticulum packets as a unified Layer 2 mesh
+  And dummy traffic padding obscures bursty communication patterns.
+```
+
+#### Technical Tasks
+- [ ] Implement WireGuard control plane manager in C++.
+- [ ] Implement constant-bitrate traffic padding generator for carrier links.
+- [ ] Add integration test verifying sub-mesh bridging across emulated WAN latency.
+
+---
+
+## 7. Epic 3: Layer 3 — Thermodynamic Ledger, CRDT Replication & Valuenomics Minting (`col-storaged`)
+
+### User Story 3.1: Compact Delta-Based CRDT Engine (Automerge/Yrs) & HLC Causal Replication
 **Epic:** Epic 3 (Layer 3: Thermodynamic Ledger)  
 **Story ID:** SS-EP3-001  
+**Points:** 8 SP | **Sprint:** 2 | **Priority:** P0 Critical  
 **Persona:** As a Sovereign Node Operator,  
 **Goal:** I want `col-storaged` to synchronize bioregional ledger state using compact delta-based Conflict-free Replicated Data Types (CRDTs) ordered by Hybrid Logical Clocks (HLC),  
 **Benefit:** So that concurrent, offline edits across disconnected nodes merge deterministically without merge conflicts or central coordinators.
@@ -632,6 +749,7 @@ Scenario: Concurrent offline CRDT mutations merge deterministically
 ### User Story 3.2: Content-Addressed IPLD / RocksDB Storage Engine with Erasure Coding
 **Epic:** Epic 3 (Layer 3: Thermodynamic Ledger)  
 **Story ID:** SS-EP3-002  
+**Points:** 7 SP | **Sprint:** 2 | **Priority:** P0 Critical  
 **Persona:** As an Infrastructure Engineer,  
 **Goal:** I want `col-storaged` to store immutable blueprints, firmware images, and governance artifacts in an IPLD Merkle-DAG backed by RocksDB and Reed-Solomon erasure coding,  
 **Benefit:** So that critical community assets are permanently addressable by CID and survive physical disk sector corruption.
@@ -657,19 +775,21 @@ Scenario: Immutable content retrieval via Content Identifier (CID)
 
 ---
 
-### User Story 3.3: Proof-of-Thermodynamic-Work (PoTW) Minting & Demurrage Decay Engine
+### User Story 3.3: Proof-of-Thermodynamic-Work (PoTW) Negentropy Minting & Demurrage Decay Engine
 **Epic:** Epic 3 (Layer 3: Thermodynamic Ledger)  
 **Story ID:** SS-EP3-003  
+**Points:** 8 SP | **Sprint:** 2 | **Priority:** P0 Critical  
 **Persona:** As a Community Steward,  
-**Goal:** I want `col-storaged` to mint Value Tokens strictly from verified physical exergy additions and apply continuous demurrage decay,  
-**Benefit:** So that community wealth mirrors physical thermodynamics and speculative hoarding is mathematically prevented.
+**Goal:** I want `col-storaged` to mint Exergy Credits strictly from verified physical negentropy additions and apply continuous physical demurrage,  
+**Benefit:** So that community currency mirrors physical thermodynamics and speculative wealth hoarding is mathematically prevented.
 
 #### Technical Specifications & Architecture
-- **Volume 1 Reference:** Volume 1 Chapter 4 (`04_layer_3_thermodynamic_ledger.tex`).
+- **Volume 1 Reference:** Volume 1 Chapter 4 (`04_layer_3_thermodynamic_ledger.tex`) and `docs/02_VALUENOMICS.md`.
 - **Minting Equation:**
-  $$\Delta V = \int_{t_0}^{t_1} \left(\dot{E}x_{in} - \dot{E}x_{out}\right) \cdot \lambda_{ERC}(R) \, dt$$
-  where $\lambda_{ERC}(R)$ is the Ecological Replacement Cost function approaching infinity as local resource extraction approaches ecological carrying capacity ($R \to R_{capacity}$).
-- **Demurrage Decay:** Tokens decay continuously at rate $\delta_{asset}$ calibrated to the physical half-life of underlying storage assets (e.g., battery degradation, heat dissipation):
+  $$\Delta V = \int_{t_0}^{t_1} \left(\Phi_{in}(t) - \Phi_{out}(t)\right) \cdot \lambda_{ERC}(t) \, dt$$
+  where $\Phi_{in}(t)$ is useful exergy delivered, $\Phi_{out}(t)$ is exergy lost or extracted, and $\lambda_{ERC}(t)$ is the Ecological Replacement Cost multiplier.
+- **Canonical Unit:** $1.0\text{ Unit} \equiv 3.6\text{ MJ } (1.0\text{ kWh net exergy}) \equiv 2.0\text{ kg } \mathrm{CO}_2\text{ sequestered}$.
+- **Demurrage Decay:** Ledger balances decay continuously based on the physical degradation of underlying stored assets (battery wear, grain drying, food shelf-life):
   $$V(t) = V_0 \cdot e^{-\delta_{asset}(t - t_0)}$$
 
 #### Acceptance Criteria (Given / When / Then)
@@ -690,21 +810,55 @@ Scenario: Continuous demurrage decay on stored exergy credits
 
 #### Technical Tasks
 - [ ] Implement numerical integration loop for incoming exergy telemetry streams.
-- [ ] Implement $\lambda_{ERC}(R)$ asymptotic pricing formula.
 - [ ] Implement continuous demurrage calculation with daily decay reconciliation.
+- [ ] Add unit test verifying mathematical precision of continuous exponential decay.
 
 ---
 
-### User Story 3.4: Zero-Sum Bioregional Mutual Credit Clearing & Debt Loop Elimination
+### User Story 3.4: Asymptotic Ecological Replacement Cost (ERC) Dynamic Firewall
 **Epic:** Epic 3 (Layer 3: Thermodynamic Ledger)  
 **Story ID:** SS-EP3-004  
-**Persona:** As a Community Steward,  
-**Goal:** I want `col-storaged` to clear circular trade obligations using Johnson’s cycle-canceling algorithm,  
-**Benefit:** So that debts between community members are settled without requiring fiat liquidity or external banking intermediaries.
+**Points:** 7 SP | **Sprint:** 2 | **Priority:** P0 Critical  
+**Persona:** As an Ecological Resource Custodian,  
+**Goal:** I want `col-storaged` to dynamically escalate the resource extraction multiplier $\lambda_{ERC}$ toward infinity as extraction approaches bioregional carrying capacity,  
+**Benefit:** So that physical resource depletion (groundwater drawdown, timber cutting, soil carbon depletion) is stopped by protocol before ecological collapse occurs.
 
 #### Technical Specifications & Architecture
-- **Mutual Credit Invariant:** $\sum_{i=1}^{N} Balance_i \equiv 0$ (Zero-sum bioregional credit).
-- **Cycle Canceling:** Detects directed cycles in the credit graph ($A \to B \to C \to A$) and cancels min-capacity debt loops at periodic clearing intervals.
+- **Asymptotic Formula:**
+  $$\lambda_{ERC}(R) = \lambda_{base} \cdot \left( \frac{1}{1 - \left( \frac{R_{current}}{R_{capacity}} \right)^\gamma} \right)$$
+  where $R_{current}$ is current extracted volume, $R_{capacity}$ is ecological threshold, and $\gamma \ge 2.0$ determines curve steepness.
+- **Firewall Trigger:** When $\lambda_{ERC}(R) > 1,000 \cdot \lambda_{base}$, `col-storaged` refuses all debit authorizations, halting downstream Layer 4 actuation tasks.
+
+#### Acceptance Criteria (Given / When / Then)
+```gherkin
+Scenario: Aquifer over-extraction triggers asymptotic firewall
+  Given an aquifer with capacity 100,000 liters and current drawdown at 98,500 liters
+  When a water extraction request for 1,000 liters is submitted to col-storaged
+  Then lambda_ERC spikes asymptotically exceeding the system threshold
+  And col-storaged refuses the credit debit authorization
+  And halts water pump actuation before ecological carrying capacity is breached.
+```
+
+#### Technical Tasks
+- [ ] Implement asymptotic pricing function $\lambda_{ERC}(R)$ with configurable thresholds.
+- [ ] Implement hard rejection circuit when extraction ratio $R_{curr} / R_{cap} \ge 0.99$.
+- [ ] Add test validating mathematical curve progression and rejection behavior.
+
+---
+
+### User Story 3.5: Pairwise Bilateral Clearing Channels (BCC) & Bioregional Commons Jubilee
+**Epic:** Epic 3 (Layer 3: Thermodynamic Ledger)  
+**Story ID:** SS-EP3-005  
+**Points:** 8 SP | **Sprint:** 2 | **Priority:** P0 Critical  
+**Persona:** As a Bioregional Settlement Steward,  
+**Goal:** I want `col-storaged` to clear trade obligations across nodes using Pairwise Bilateral Clearing Channels (BCC) without a global token or master blockchain,  
+**Benefit:** So that nodes settle inter-node trade peer-to-peer, eliminate circular debt loops, and execute periodic Commons Jubilees to prevent systemic debt peonage.
+
+#### Technical Specifications & Architecture
+- **Zero-Sum Conservation Invariant:** Between any two nodes $u$ and $v$:
+  $$B_{u \to v}(t) + B_{v \to u}(t) = 0 \quad \text{within credit window } [-C_{u \to v}, +C_{v \to u}]$$
+- **Cycle Canceling:** Implements Johnson's cycle-canceling algorithm to prune directed loops in the bioregional credit graph ($A \to B \to C \to A$).
+- **Commons Jubilee:** If structural crises lock a channel beyond its credit window, the bioregional council can ratify a Jubilee transaction resetting bilateral balances to zero without bankruptcy litigation.
 
 #### Acceptance Criteria (Given / When / Then)
 ```gherkin
@@ -717,17 +871,47 @@ Scenario: Automated clearing of circular debt loop
 ```
 
 #### Technical Tasks
-- [ ] Implement directed debt graph in memory using adjacency lists.
+- [ ] Implement Pairwise Bilateral Clearing Channel state machine in C++20.
 - [ ] Implement Johnson's cycle detection algorithm with $O((V+E)(c+1))$ complexity.
-- [ ] Add unit test verifying debt cancellation across multi-party circular chains.
+- [ ] Implement Commons Jubilee council transaction handler.
 
 ---
 
-## 6. Epic 4: Layer 4 — Deterministic BPMN 2.0 Orchestrator & Ecological Floors
+### User Story 3.6: Pre-Partition Cryptographic Sharding & Meshed Spatial Reasoning
+**Epic:** Epic 3 (Layer 3: Thermodynamic Ledger)  
+**Story ID:** SS-EP3-006  
+**Points:** 6 SP | **Sprint:** 2 | **Priority:** P1 High  
+**Persona:** As a Distributed Systems Engineer,  
+**Goal:** I want `col-storaged` to shard asset state roots to local physical microgrid zones and validate incoming sensor claims against spatial thermodynamic laws,  
+**Benefit:** So that partitioned mesh islands continue operating without double-spending, and spoofed sensor readings are detected and quarantined.
+
+#### Technical Specifications & Architecture
+- **State Sharding:** Asset state roots are localized to physical microgrid domains $\mathcal{S}_{\mathrm{local}}(u)$. Operations touching local assets do not require wide-area consensus.
+- **Meshed Spatial Reasoning:** Resolves the Oracle Problem. Cross-checks reported power generation against solar irradiance and adjacent node readings. If a deep borehole pump claims high water output with zero inverter current draw, the claim is flagged `QUALITY_SPOOF_SUSPECT` and quarantined.
+
+#### Acceptance Criteria (Given / When / Then)
+```gherkin
+Scenario: Impossible sensor reading quarantined by spatial reasoning
+  Given a 3 kW solar array claiming 25 kW power output at midnight
+  When the telemetry sample is ingested by col-storaged
+  Then the spatial reasoning validator detects physical law violation
+  And flags the sample as QUALITY_SPOOF_SUSPECT
+  And refuses to mint Exergy Credits for the fraudulent claim.
+```
+
+#### Technical Tasks
+- [ ] Implement localized cryptographic state trie sharding per node.
+- [ ] Implement spatial correlation engine cross-validating solar, wind, and battery physics.
+- [ ] Add unit test verifying that fraudulent sensor injections are quarantined.
+
+---
+
+## 8. Epic 4: Layer 4 — Deterministic BPMN 2.0 Orchestrator & Ecological Floors (`col-execd`)
 
 ### User Story 4.1: Embedded Deterministic BPMN 2.0 Workflow VM & Sandboxed Wasm Runner
 **Epic:** Epic 4 (Layer 4: Orchestrator & Execution)  
 **Story ID:** SS-EP4-001  
+**Points:** 8 SP | **Sprint:** 3 | **Priority:** P0 Critical  
 **Persona:** As an Infrastructure Engineer,  
 **Goal:** I want `col-execd` to compile and deterministically execute BPMN 2.0 workflow state machines inside a metered WebAssembly sandbox,  
 **Benefit:** So that automated municipal and ecological workflows execute identically across all nodes without non-deterministic drift.
@@ -738,159 +922,180 @@ Scenario: Automated clearing of circular debt loop
   - Fuel/gas instruction metering preventing infinite loops.
   - NaN canonicalization forbidding non-deterministic floating-point math.
   - Time virtualization: system time is injected strictly from the block HLC timestamp.
-  - Zero direct host system calls (`seccomp-bpf` isolation).
+- **BPMN Parser:** Compiles BPMN 2.0 XML activity graphs (ServiceTasks, ExclusiveGateways, BoundaryEvents) into bytecode transitions.
 
-```protobuf
-syntax = "proto3";
-package collective.l4;
-
-message WorkflowInstance {
-  string workflow_id = 1;
-  uint64_t instance_id = 2;
-  string current_activity_id = 3;
-  uint64_t fuel_remaining = 4;
-  map<string, bytes> process_variables = 5;
-  uint64_t start_time_hlc = 6;
-}
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" targetNamespace="http://collective.org/bpmn">
+  <process id="IrrigationCycle" isExecutable="true">
+    <startEvent id="Start_SoilMoistureLow"/>
+    <sequenceFlow id="f1" sourceRef="Start_SoilMoistureLow" targetRef="CheckWaterReserve"/>
+    <serviceTask id="CheckWaterReserve" name="Query Layer 3 Water Balances"/>
+    <sequenceFlow id="f2" sourceRef="CheckWaterReserve" targetRef="Gateway_ReserveAdequate"/>
+    <exclusiveGateway id="Gateway_ReserveAdequate" name="Reserve > Floor?"/>
+    <sequenceFlow id="f3_yes" sourceRef="Gateway_ReserveAdequate" targetRef="ActuateValve">
+      <conditionExpression>reserves &gt; 5000</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="f3_no" sourceRef="Gateway_ReserveAdequate" targetRef="End_Abort"/>
+    <serviceTask id="ActuateValve" name="Emit Layer 1 Valve Pulse"/>
+    <sequenceFlow id="f4" sourceRef="ActuateValve" targetRef="End_Success"/>
+    <endEvent id="End_Success"/>
+    <endEvent id="End_Abort"/>
+  </process>
+</definitions>
 ```
 
 #### Acceptance Criteria (Given / When / Then)
 ```gherkin
-Scenario: Deterministic BPMN workflow step execution
-  Given a validated BPMN 2.0 microgrid load-shedding workflow definition
-  When col-execd executes the current task step inside the Wasmtime sandbox
-  Then it consumes instruction fuel proportionally
-  And completes the state transition within the 10 Hz tick window (<= 100 ms)
-  And produces a bit-exact state root hash across ARM64 and x86_64 architectures.
+Scenario: Deterministic BPMN workflow execution
+  Given the IrrigationCycle BPMN workflow compiled into col-execd
+  When soil moisture falls below 20% and water reserves exceed 5,000 liters
+  Then col-execd advances the execution token to ActuateValve
+  And emits an ActuatorCommand pulse of 60 seconds
+  And consumes exactly 42,100 Wasm instructions (fuel) deterministically.
 ```
 
 #### Technical Tasks
-- [ ] Implement BPMN 2.0 XML schema compiler generating deterministic finite state machine bytecode.
-- [ ] Configure Wasmtime runtime with fuel metering and canonical float NaN flags.
-- [ ] Add cross-architecture execution test asserting bit-identical state roots.
+- [ ] Integrate Wasmtime C API with instruction fuel metering.
+- [ ] Implement BPMN 2.0 XML parsing pipeline compiling to state graph.
+- [ ] Add unit test verifying that running out of fuel terminates execution with an error.
 
 ---
 
-### User Story 4.2: WorkToken Cryptographic Escrow & Physical Labor Allocation Lifecycle
+### User Story 4.2: Multi-Tier Priority Hierarchy Scheduler & Inviolable Ecological Floors
 **Epic:** Epic 4 (Layer 4: Orchestrator & Execution)  
 **Story ID:** SS-EP4-002  
-**Persona:** As a Community Steward,  
-**Goal:** I want `col-execd` to dispatch physical maintenance tasks as cryptographic `WorkToken` escrows with caloric limits,  
-**Benefit:** So that human physical labor is coordinated transparently without managerial hierarchy or exploitation.
+**Points:** 7 SP | **Sprint:** 3 | **Priority:** P0 Critical  
+**Persona:** As an Ecological Infrastructure Custodian,  
+**Goal:** I want `col-execd` to enforce the strict six-tier priority scheduling hierarchy,  
+**Benefit:** So that survival baselines and ecological floors are inviolably protected during resource deficits.
 
 #### Technical Specifications & Architecture
-- **Volume 1 Reference:** Volume 1 Chapter 5 ("Freeing Work, Not the Worker").
-- **Qualitative Friction:** Labor allocations enforce caloric burn ceilings ($E_{cal} \le 2,500\text{ kcal/day}$) and mandatory rest periods. Tasks carry cryptographic escrow deposits released upon multi-sig completion attestations.
-
-```protobuf
-syntax = "proto3";
-package collective.l4;
-
-message WorkToken {
-  uint64_t token_id = 1;
-  string task_description = 2;
-  uint32_t estimated_caloric_burn = 3;
-  uint64_t exergy_reward = 4;
-  uint64_t escrow_deadline_hlc = 5;
-  bytes assigned_steward_did = 6;
-  enum State {
-    AVAILABLE = 0;
-    CLAIMED = 1;
-    IN_PROGRESS = 2;
-    ATTESTED = 3;
-    SETTLED = 4;
-    EXPIRED = 5;
-  }
-  State state = 7;
-}
-```
+- **Scheduling Order:**
+  $$F_t \text{ (Ecological Floors)} \longrightarrow B_t \text{ (Basic Needs)} \longrightarrow C_t \text{ (Commons)} \longrightarrow O_t \text{ (Ordinary)} \longrightarrow E_t \text{ (Enhancements)} \longrightarrow R_t \text{ (Export)}$$
+- **Resource Shedding:** If exergy forecast indicates a deficit, $R_t$ (export) is shed first, followed by $E_t$ and $O_t$. $F_t$ (minimum river flow, battery preservation, soil moisture) can never be shed under any circumstance.
 
 #### Acceptance Criteria (Given / When / Then)
 ```gherkin
-Scenario: WorkToken claim and settlement lifecycle
-  Given an available WorkToken for clearing irrigation ditch debris (estimated 800 kcal)
-  When an authenticated steward claims the task using their did:key
-  Then col-execd transitions the token to CLAIMED and locks the exergy reward in escrow
-  When two peer stewards submit cryptographically signed completion attestations
-  Then col-execd releases the escrowed reward to the steward's balance
-  And advances the parent BPMN workflow to the next step.
+Scenario: Automated load shedding during microgrid energy deficit
+  Given a severe storm dropping solar generation by 80%
+  When col-execd evaluates total microgrid load against available reserves
+  Then it immediately sheds Layer 7 commercial export (Rt) and workshop power (Et)
+  While maintaining 100% uninterrupted power to battery thermal management (Ft) and medical refrigeration (Bt).
 ```
 
 #### Technical Tasks
-- [ ] Implement WorkToken state machine with atomic transition locks.
-- [ ] Implement caloric ceiling and labor friction validation rules.
-- [ ] Add multi-signature attestation verifier for task completion.
+- [ ] Implement priority hierarchy queue in C++20.
+- [ ] Implement automated shedding evaluator querying Layer 3 exergy reserves.
+- [ ] Add test asserting that $F_t$ tasks are never dropped under deficit conditions.
 
 ---
 
-### User Story 4.3: Ecological Floors & Actuation Envelopes with Efferent Handshake
+### User Story 4.3: Cryptographically Bounded 80-Byte `ActuatorCommand` Dispatch
 **Epic:** Epic 4 (Layer 4: Orchestrator & Execution)  
 **Story ID:** SS-EP4-003  
+**Points:** 7 SP | **Sprint:** 3 | **Priority:** P0 Critical  
 **Persona:** As an Infrastructure Engineer,  
-**Goal:** I want `col-execd` to issue hardware control commands strictly as bounded *Actuation Envelopes* and verify ecological circuit breakers,  
-**Benefit:** So that no automated or human intent can drain an aquifer below replenishment levels or overload electrical transformers.
+**Goal:** I want `col-execd` to sign and dispatch bounded 80-byte `ActuatorCommand` envelopes to Layer 1,  
+**Benefit:** So that actuators execute strictly with verified Layer 4 cryptographic authorization, bounded duration pulses, and zero runaway mechanical movement.
 
 #### Technical Specifications & Architecture
-- **Volume 1 Reference:** Volume 1 Chapters 3 and 5.
-- **Actuation Envelope Schema:**
-  - Setpoint value, deadband tolerance ($\pm \epsilon$), maximum ramp rate ($d/dt$), ceiling cutoff, exergy quota, expiry timestamp.
-- **Efferent Handshake:** Layer 4 signs the envelope; Layer 3 logs the commitment; Layer 2 validates that the command does not violate hardcoded microcontroller edge reflexes before applying voltage.
-- **Ecological Floor Circuit Breaker:** Hardcoded preconditions (minimum stream flow, maximum battery depth of discharge 80%, topsoil moisture thresholds) that abort actuation if violated.
+- **Envelope Structure:** Conforms to `sizeof(ActuatorCommand) == 80` (64-byte Ed25519 signature, 8-byte command ID, 4-byte device ID, 4-byte duration, target state float).
+- **Signing:** Layer 4 holds the private Ed25519 execution key in locked memory. Layer 1 verifies the signature against Layer 4's public key before pulsing the physical relay.
+- **Pulse Width Clamping:** All commands enforce a hardware safety duration (`duration_ms <= 60000`). If duration exceeds 60 seconds, Layer 1 rejects the command.
 
 #### Acceptance Criteria (Given / When / Then)
 ```gherkin
-Scenario: Actuation command constrained by Actuation Envelope
-  Given an automated irrigation workflow attempting to open a high-capacity pump
-  When the calculated flow rate would exceed the aquifer recharge floor
-  Then col-execd triggers the Ecological Floor circuit breaker
-  And aborts the actuation envelope with ERR_ECOLOGICAL_FLOOR_BREACH
-  And logs the moral dilemma event to the Layer 6 Agora without pulsing hardware.
+Scenario: Actuator command signing and execution pulse
+  Given an authorized irrigation workflow step in col-execd
+  When col-execd dispatches an ActuatorCommand to open water valve 0x12 for 15,000 ms
+  Then the command carries a valid 64-byte Ed25519 signature
+  And Layer 1 verifies the signature and pulses the valve for exactly 15,000 ms
+  And automatically resets the valve to closed state upon timeout.
 ```
 
 #### Technical Tasks
-- [ ] Implement Actuation Envelope data structure and signature verifier.
-- [ ] Implement ecological floor invariant checks for water, energy, and soil bounds.
-- [ ] Add SITL simulation test verifying pump cutoff when aquifer floor is breached.
+- [ ] Implement Ed25519 signature generator using libsodium / ed25519-dalek.
+- [ ] Implement binary command envelope builder matching 80-byte alignment.
+- [ ] Add unit test verifying rejection of commands with invalid signatures.
 
 ---
 
-### User Story 4.4: Task Dependency & Tool Reservation Finite State Machine
+### User Story 4.4: Saga Transaction WAL with Automatic Compensatory Rollbacks
 **Epic:** Epic 4 (Layer 4: Orchestrator & Execution)  
 **Story ID:** SS-EP4-004  
-**Persona:** As a Community Steward,  
-**Goal:** I want `col-execd` to manage shared physical tool reservations and material prerequisites,  
-**Benefit:** So that stewards are not dispatched to field tasks without necessary equipment or materials.
+**Points:** 8 SP | **Sprint:** 3 | **Priority:** P0 Critical  
+**Persona:** As a Quality Engineer,  
+**Goal:** I want `col-execd` to record multi-step distributed operations in a Saga Write-Ahead Log (WAL) with automated compensatory rollbacks upon failure,  
+**Benefit:** So that complex multi-layer tasks (e.g. allocating exergy, locking physical tools, updating inventory) never leave the node in an inconsistent half-completed state.
 
 #### Technical Specifications & Architecture
-- **Dependency Graph:** Directed Acyclic Graph (DAG) of task prerequisites (e.g. trenching requires excavator availability, PVC conduit inventory $\ge 50\text{ m}$, and electrical permit check).
+- **Storage:** Durable append-only WAL at `/var/lib/collective/l4/saga_wal.log`.
+- **Saga Pattern:** Every forward step $S_i$ defines a compensating backward step $C_i$. If step $k$ fails (e.g. tool locker fails to open), the Saga coordinator executes $C_{k-1}, \dots, C_1$ in reverse order to unwind previously committed credits and locks.
 
 #### Acceptance Criteria (Given / When / Then)
 ```gherkin
-Scenario: Task scheduling blocks on tool reservation conflict
-  Given Task B requires the community solar crimping tool
-  When Task A currently holds an active reservation on that tool
-  Then col-execd keeps Task B in PENDING_DEPENDENCY state
-  And immediately transitions Task B to AVAILABLE once Task A checks in the tool.
+Scenario: Saga compensatory rollback upon physical hardware failure
+  Given a 3-step saga: 1) Reserve 10 Exergy Credits, 2) Unlock CNC Tool Locker, 3) Dispatch Task Token
+  When Step 1 succeeds, but Step 2 fails due to a jammed locker solenoid
+  Then col-execd halts forward execution
+  And executes Step 1's compensation action: releasing the 10 Exergy Credits back to the steward
+  And marks the Saga transaction FAILED with zero orphaned state.
 ```
 
 #### Technical Tasks
-- [ ] Implement DAG dependency resolver with cycle detection.
-- [ ] Implement physical tool check-out/check-in state machine.
-- [ ] Add unit test verifying tool reservation release and cascading task unlock.
+- [ ] Implement durable Saga WAL journal in C++20 with fsync guarantees.
+- [ ] Implement forward and backward compensation step state machine.
+- [ ] Add fault injection test simulating crash between steps asserting clean rollback.
 
 ---
 
-## 7. Epic 5: Layer 5 — Polycentric Governance, Pairwise DIDs & Web of Trust
+### User Story 4.5: Automated SDD Scenario Workflow Engine Executing Canonical Acts I–V Workflows
+**Epic:** Epic 4 (Layer 4: Orchestrator & Execution)  
+**Story ID:** SS-EP4-005  
+**Points:** 6 SP | **Sprint:** 3 | **Priority:** P0 Critical  
+**Persona:** As a Scenario Architect,  
+**Goal:** I want `col-execd` to load and execute pre-compiled BPMN workflows for all 24 canonical SDD scenarios across Acts I through V,  
+**Benefit:** So that community operations (apprentice certifications, biochar burns, emergency triage, terminal decoupling) run through verified, automated cybernetic workflows.
+
+#### Technical Specifications & Architecture
+- **Workflows Packaged:**
+  - `act1_fabrication.bpmn`, `act1_transit_mesh.bpmn`, `act1_kitchen.bpmn`, `act1_childcare.bpmn`
+  - `act2_coworking.bpmn`, `act2_lodging.bpmn`, `act2_coppice.bpmn`, `act2_foundry.bpmn`, `act2_epistemic.bpmn`, `act2_apprenticeship.bpmn`, `act2_cultural.bpmn`
+  - `act3_biochar.bpmn`, `act3_textiles.bpmn`, `act3_timber_frame.bpmn`, `act3_kinship.bpmn`, `act3_guild.bpmn`
+  - `act4_maintenance.bpmn`, `act4_genesis.bpmn`, `act4_eldercare.bpmn`, `act4_paramedic.bpmn`, `act4_mediation.bpmn`
+  - `act5_adversarial_def.bpmn`, `act5_microgrid_shock.bpmn`, `act5_terminal_decoupling.bpmn`
+- **Execution Interface:** Workflows are loaded at boot from `/etc/collective/workflows/` and subscribed to domain triggers from Layer 6.
+
+#### Acceptance Criteria (Given / When / Then)
+```gherkin
+Scenario: Execution of SCN-CHI-PARAMEDIC emergency workflow
+  Given the act4_paramedic.bpmn workflow loaded in col-execd
+  When an EmergencyMedicalAlert trigger is received from Layer 2
+  Then col-execd advances the paramedic workflow: 1) Preempts non-critical mesh traffic,
+  2) Queries nearest AED telemetry, 3) Broadcasts location to all Trust Ring R1 stewards
+  And completes execution in <= 50 ms.
+```
+
+#### Technical Tasks
+- [ ] Implement automated XML workflow loader and validator.
+- [ ] Package and verify BPMN definitions for all 24 canonical SDD scenarios.
+- [ ] Add integration test triggering and validating workflow completion.
+
+---
+
+## 9. Epic 5: Layer 5 — Polycentric Governance, Pairwise DIDs & Web of Trust (`col-kmsd`)
 
 ### User Story 5.1: W3C Decentralized Identifiers (`did:key`, `did:peer`, `did:mesh`) & SQLCipher KMS
 **Epic:** Epic 5 (Layer 5: Governance & Web of Trust)  
 **Story ID:** SS-EP5-001  
+**Points:** 7 SP | **Sprint:** 3 | **Priority:** P0 Critical  
 **Persona:** As a Community Steward,  
 **Goal:** I want `col-kmsd` to manage my decentralized identities and sign transactions from a local encrypted vault,  
 **Benefit:** So that I interact with community councils without centralized identity providers, cloud authentication, or state ID cards.
 
 #### Technical Specifications & Architecture
-- **Daemon:** `col-kmsd` with memory locking (`mlockall`), core dumps disabled (`PR_SET_DUMPABLE = 0`), and isolated UNIX user permissions (`collective-kms`).
+- **Daemon:** `col-kmsd` running with memory locking (`mlockall`), core dumps disabled (`PR_SET_DUMPABLE = 0`), and isolated UNIX user permissions (`collective-kms`).
 - **DID Methods:**
   - `did:key`: W3C DID Core 1.0 based on Ed25519 and Curve25519 public keys.
   - `did:peer`: Bilateral, pairwise peer channels preventing cross-council surveillance correlation.
@@ -914,15 +1119,16 @@ Scenario: Pairwise DID derivation for council privacy
 
 ---
 
-### User Story 5.2: W3C Verifiable Credentials, BBS+ ZKP Selective Disclosure & Sparse Merkle Tree
+### User Story 5.2: BBS+ ZKP Selective Disclosure Credentials & Sparse Merkle Tree Revocation Accumulator
 **Epic:** Epic 5 (Layer 5: Governance & Web of Trust)  
 **Story ID:** SS-EP5-002  
+**Points:** 8 SP | **Sprint:** 3 | **Priority:** P0 Critical  
 **Persona:** As a Community Steward,  
 **Goal:** I want to present BBS+ zero-knowledge credentials proving specific qualifications without revealing my real-world identity,  
 **Benefit:** So that I can claim safety-critical tasks (e.g. high-voltage electrical work) while protecting my personal privacy.
 
 #### Technical Specifications & Architecture
-- **Volume 1 Reference:** Volume 1 Chapter 6.
+- **Volume 1 Reference:** Volume 1 Chapter 6 (`06_layer_5_governance.tex`).
 - **Cryptography:** BBS+ multi-message signatures over BLS12-381 pairing-friendly elliptic curve. Supports zero-knowledge selective disclosure proofs.
 - **Revocation:** Cryptographic Sparse Merkle Tree (SMT) accumulator maintaining non-membership proofs for revoked credentials.
 
@@ -946,230 +1152,298 @@ Scenario: Zero-knowledge selective disclosure of electrical certification
 ### User Story 5.3: FROST Threshold Multi-Signatures & Shamir Social Key Recovery
 **Epic:** Epic 5 (Layer 5: Governance & Web of Trust)  
 **Story ID:** SS-EP5-003  
+**Points:** 7 SP | **Sprint:** 3 | **Priority:** P0 Critical  
 **Persona:** As a Community Steward,  
 **Goal:** I want my cryptographic identity to be recoverable through an $(m, n)$ Shamir social recovery ceremony,  
-**Benefit:** So that losing my physical hardware device does not permanently disenfranchise me from the community commons.
+**Benefit:** So that losing a physical key or hardware device does not destroy my identity or reputation in the community.
 
 #### Technical Specifications & Architecture
-- **FROST Protocol:** Flexible Round-Optimized Schnorr Threshold signatures for multi-party council approvals.
-- **Social Recovery:** $(3, 5)$ Shamir's Secret Sharing threshold scheme partitioning master recovery shards among trusted peer guardians.
+- **FROST Protocol:** Flexible Round-Optimized Schnorr Threshold signatures allowing $m$-of-$n$ signers to produce a standard single Ed25519 signature over two rounds.
+- **Social Recovery:** Master identity key is split into $n$ Shamir secret shards distributed to trusted guardians. Reconstructing $m$ shards in an in-person ceremony re-binds the identity to a new hardware key.
 
 #### Acceptance Criteria (Given / When / Then)
 ```gherkin
-Scenario: Social key recovery ceremony restores lost identity
-  Given a steward who lost their physical node key and holds 5 designated guardians
-  When 3 of the 5 guardians sign a recovery challenge with their respective DIDs
-  Then col-kmsd reconstructs the master secret in protected memory
-  And re-binds the steward's reputation and standing to their new hardware key
-  And revokes the old key across the bioregional Sparse Merkle Tree.
+Scenario: Social key recovery re-binds lost hardware key
+  Given a steward with a 3-of-5 social recovery configuration who loses their physical phone
+  When 3 designated community guardians present their recovery shards in person
+  Then col-kmsd reconstructs the master secret and binds it to a new hardware key
+  And all previous historical reputation and Soulbound credentials transfer seamlessly.
 ```
 
 #### Technical Tasks
-- [ ] Implement FROST $(t, n)$ threshold signature protocol.
-- [ ] Implement Shamir's Secret Sharing ($3$-of-$5$) recovery ceremony state machine.
-- [ ] Add recovery simulation test verifying state restoration without central servers.
+- [ ] Implement FROST threshold signature protocol in C++/Rust.
+- [ ] Implement Shamir Secret Sharing $(m, n)$ splitting and reconstruction.
+- [ ] Add unit test verifying identity restoration with $m$ shards and failure with $m-1$ shards.
 
 ---
 
-### User Story 5.4: EigenTrust Web of Trust Graph Centrality & Sybil Botnet Pruning
+### User Story 5.4: Bioregional Path-Vector Protocol (BPVP / FRRP) across Trust Rings ($R_0 \to R_6$)
 **Epic:** Epic 5 (Layer 5: Governance & Web of Trust)  
 **Story ID:** SS-EP5-004  
-**Persona:** As an Infrastructure Engineer,  
-**Goal:** I want `col-kmsd` to calculate reputation centrality across the Web of Trust graph and prune Sybil botnet clusters,  
-**Benefit:** So that malicious actors generating millions of synthetic identities cannot hijack commons governance.
+**Points:** 8 SP | **Sprint:** 4 | **Priority:** P0 Critical  
+**Persona:** As a Bioregional Routing Engineer,  
+**Goal:** I want `col-kmsd` to execute the Bioregional Path-Vector Protocol (BPVP / FRRP) across Concentric Trust Rings,  
+**Benefit:** So that physical resources (exergy, water, timber) are routed efficiently across autonomous nodes with provable loop-freedom and thermodynamic path attenuation.
 
 #### Technical Specifications & Architecture
-- **Algorithm:** EigenTrust power iteration over the local trust graph:
-  $$\vec{t}^{(k+1)} = (1 - \alpha) C^T \vec{t}^{(k)} + \alpha \vec{p}$$
-  where $C$ is the normalized trust matrix, $\vec{p}$ is the pre-trusted seed vector, and $\alpha = 0.15$.
-- **Sybil Resistance:** Graph conductance and min-cut analysis detecting densely connected clusters with sparse exterior edges to authentic stewards.
+- **Capability Advertisement:**
+  $$\mathcal{A} = \big\langle \mathrm{adv\_id}, \, v_{\mathrm{orig}}, \, \mathcal{T}_{\mathrm{res}}, \, \mathbf{u}, \, Q_{\mathrm{avail}}, \, [\tau_{\mathrm{start}}, \tau_{\mathrm{end}}], \, \mathcal{P}, \, \mathcal{C}, \, H_{\mathrm{ttl}}, \, \sigma \big\rangle$$
+- **Loop-Freedom Invariant:** Uses Ring-Path Vector $\mathcal{P} = [(v_k, r_k), \dots, (v_0, r_0)]$. If recipient node $w$ is already present in $\mathcal{P}$, announcement is dropped instantly:
+  $$\mathrm{LoopCheck}(w, \mathcal{P}) = \begin{cases} \mathrm{DISCARD}, & \text{if } \exists (v_i, r_i) \in \mathcal{P} \text{ such that } v_i = w \\ \mathrm{ACCEPT}, & \text{otherwise} \end{cases}$$
+- **Delivered Effective Exergy:**
+  $$\mathcal{E}_{\mathrm{eff}}(\mathcal{P}) = \mathcal{E}_0 \prod_{k=1}^n (1 - \lambda_k) - \sum_{k=1}^n \mathcal{E}_{\mathrm{transport}}(e_k)$$
+  If net route efficiency $\eta_{\mathrm{route}}(\mathcal{P}) < \eta_{\mathrm{min}}$ ($0.60$), the route is rejected.
 
 #### Acceptance Criteria (Given / When / Then)
 ```gherkin
-Scenario: Sybil botnet cluster detection and slashing
-  Given a synthetic cluster of 500 bot accounts mutually endorsing each other
-  When col-kmsd computes the EigenTrust power iteration
-  Then the bot cluster's trust centrality collapses to near zero due to sparse connectivity to seed stewards
-  And col-kmsd flags the cluster for governance review and suppresses their voting weights.
+Scenario: BPVP loop detection discards circulating advertisement
+  Given an advertisement path vector P = [(NodeC, R2), (NodeB, R1), (NodeA, R0)]
+  When Node A receives this advertisement
+  Then col-kmsd detects Node A in the path vector
+  And immediately discards the advertisement, preventing routing loops in O(D) time.
 ```
 
 #### Technical Tasks
-- [ ] Implement sparse-matrix EigenTrust power iteration solver in C++20.
-- [ ] Implement graph cut conductance estimator for Sybil boundary detection.
-- [ ] Add unit test evaluating 1,000-node synthetic graph convergence in $\le 50\text{ ms}$.
+- [ ] Implement BPVP packet format and Ring-Path Vector $\mathcal{P}$ parser.
+- [ ] Implement $O(D)$ loop detection and path attenuation calculation $\mathcal{C}(\mathcal{P})$.
+- [ ] Add test validating route discard when delivery efficiency $\eta_{\mathrm{route}} < 0.60$.
 
 ---
 
-### User Story 5.5: Two-Chamber Polycentric Governance & Cascading Edge Slashing
+### User Story 5.5: Dynamic Request Cascading ($R_0 \to R_4$) & Constitutional Sovereignty Firewalls
 **Epic:** Epic 5 (Layer 5: Governance & Web of Trust)  
 **Story ID:** SS-EP5-005  
-**Persona:** As a Community Steward,  
-**Goal:** I want policy decisions evaluated through two distinct governance chambers,  
-**Benefit:** So that survival baselines are guarded equally while technical decisions require demonstrated domain competence.
+**Points:** 6 SP | **Sprint:** 4 | **Priority:** P0 Critical  
+**Persona:** As a Bioregional Governance Steward,  
+**Goal:** I want `col-kmsd` to cascade resource requests progressively across 7 concentric Trust Rings while enforcing local sovereignty firewalls,  
+**Benefit:** So that local needs are fulfilled locally before seeking external resources, and external demands never breach local survival baselines.
 
 #### Technical Specifications & Architecture
-- **Volume 1 Reference:** Volume 1 Chapter 6.
-- **Two Chambers:**
-  1. *Commons Chamber:* 1 person, 1 vote (equal Membership Standing). Governs baseline resource rights (water, emergency heat) and structural amendments.
-  2. *Stewardship Chamber:* Weighted by domain-specific Reputational Wealth earned through completed tasks. Governs operational parameters and equipment allocation.
-- **Decay & Care Leave:** Reputational Wealth decays with a multi-year half-life and is paused during private Care Leave.
-- **Cascading Slashing:** If an authorized actor commits verifiable malice or negligence, the trust edge between endorser and actor is slashed proportionally.
+- **Concentric Trust Rings:**
+  $$R_0 / R_1 \text{ (Hearth/Hamlet)} \longrightarrow R_2 \text{ (Commons } \le 5\text{km)} \longrightarrow R_3 \text{ (Watershed } \le 30\text{km)} \longrightarrow R_4 \text{ (Bioregion } \le 150\text{km)}$$
+- **Constitutional Sovereignty Firewalls:** Guarantees that external trade or transit requests cannot violate local ecological floors ($F_{\mathrm{eco}}$) or survival baselines ($B_{\mathrm{baseline}}$). Local nodes maintain an absolute Autonomous Transit Veto (`No-Transit`) over sensitive pedestrian and ecological glades.
 
 #### Acceptance Criteria (Given / When / Then)
 ```gherkin
-Scenario: Two-Chamber proposal ratification
-  Given a proposal to upgrade the main water distribution pump
-  When the proposal achieves majority approval in the Commons Chamber (1-person-1-vote)
-  And achieves supermajority weighted approval in the Water Stewardship Chamber
-  Then col-kmsd cryptographically ratifies the policy and passes it to Layer 4 for execution.
+Scenario: Local survival floor blocks external export request
+  Given a severe winter freeze where local heating reserves are near baseline B_baseline
+  When a high-value resource request arrives from a node in Trust Ring R3
+  Then col-kmsd's Constitutional Sovereignty Firewall automatically rejects the request
+  And local heating reserves remain 100% protected for resident survival.
 ```
 
 #### Technical Tasks
-- [ ] Implement Two-Chamber vote tallying engine with quorum verification.
-- [ ] Implement Reputational Wealth half-life decay and Care Leave pause mechanisms.
-- [ ] Add cascading trust edge slashing calculation.
+- [ ] Implement Trust Ring request cascading state machine ($R_0 \to R_4$).
+- [ ] Implement Constitutional Sovereignty Firewall filter blocking baseline breaches.
+- [ ] Add unit test verifying Autonomous Transit Veto drops transit routes.
 
 ---
 
-## 8. Epic 6: Layer 6 — Semantic Intent, Knowledge Graphs & The Agora Commons
-
-### User Story 6.1: W3C JSON-LD Semantic Intent Parser & Multi-Layer Traversal Compiler
-**Epic:** Epic 6 (Layer 6: Semantic Intent)  
-**Story ID:** SS-EP6-001  
-**Persona:** As a Community Steward,  
-**Goal:** I want `col-commonsd` to parse human intents formatted as W3C JSON-LD and compile them down the 7-layer stack,  
-**Benefit:** So that declarative community needs are deterministically translated into cryptographic policies and physical workflows.
+### User Story 5.6: Reputational Wealth Exponential Decay & Logarithmic Anti-Oligopoly Capping
+**Epic:** Epic 5 (Layer 5: Governance & Web of Trust)  
+**Story ID:** SS-EP5-006  
+**Points:** 6 SP | **Sprint:** 4 | **Priority:** P1 High  
+**Persona:** As a Social Cybernetics Theorist,  
+**Goal:** I want `col-kmsd` to apply continuous exponential decay and logarithmic capping to reputational standing ($\mathcal{W}$),  
+**Benefit:** So that governance power requires active, ongoing community stewardship and historical founders cannot entrench themselves as permanent oligarchs.
 
 #### Technical Specifications & Architecture
-- **Daemon:** `col-commonsd` running an asynchronous intent compiler.
-- **Ontology Standards:** W3C JSON-LD 1.1, Schema.org vocabularies, and PROV-O provenance ontology.
-- **Compiler Chain:**
-  $$\text{JSON-LD Intent} \xrightarrow{\text{L6}} \text{Policy Check (L5)} \xrightarrow{\text{L5}} \text{BPMN Workflow (L4)} \xrightarrow{\text{L4}} \text{Ledger Escrow (L3)} \xrightarrow{\text{L3}} \text{UHAI Envelopes (L2)}$$
+- **Exponential Decay:**
+  $$\mathcal{W}(t) = \mathcal{W}_0 \cdot 2^{-\frac{t - t_0}{\tau_{\mathrm{half}}}}$$
+  with calibrated half-life $\tau_{\mathrm{half}} = 180\text{ days}$.
+- **Sublinear Logarithmic Cap:** To prevent extreme influence disparities, effective voting weight $\mathcal{V}$ is capped logarithmically:
+  $$\mathcal{V}(\mathcal{W}) = \mathcal{V}_{\mathrm{base}} + \alpha \cdot \ln(1 + \beta \cdot \mathcal{W})$$
+  ensuring that a steward with 1,000x raw points has only $\le 4\times$ the voting influence of an active novice.
+
+#### Acceptance Criteria (Given / When / Then)
+```gherkin
+Scenario: Founder reputation decays during 6-month inactivity
+  Given a founder with 1,000 Reputational Wealth points who ceases active stewardship
+  When 180 simulated days elapse with tau_half = 180 days
+  Then col-kmsd decays the raw score to exactly 500 points
+  And logarithmic voting weight decreases smoothly according to the sublinear cap.
+```
+
+#### Technical Tasks
+- [ ] Implement continuous exponential decay calculation for reputation scores.
+- [ ] Implement logarithmic voting weight transformation $\mathcal{V}(\mathcal{W})$.
+- [ ] Add unit test verifying mathematical bounds and anti-oligopoly guarantees.
+
+---
+
+## 10. Epic 6: Layer 6 — Semantic Intent, Knowledge Graphs & The Agora Commons (`col-commonsd`)
+
+### User Story 6.1: Semantic Intent Parser, W3C JSON-LD Compiler & Calm Technology Read-Back
+**Epic:** Epic 6 (Layer 6: Semantic Intent & Agora)  
+**Story ID:** SS-EP6-001  
+**Points:** 7 SP | **Sprint:** 4 | **Priority:** P0 Critical  
+**Persona:** As a Human Steward,  
+**Goal:** I want `col-commonsd` to parse my natural language requests into structured W3C JSON-LD schemas and require plain-language confirmation before signing,  
+**Benefit:** So that AI assists me in drafting actions without hallucinating parameters or executing unapproved commands.
+
+#### Technical Specifications & Architecture
+- **Daemon:** `col-commonsd` exposing WebSocket and UDS endpoints.
+- **Calm Technology Boundary:** Edge LLMs draft JSON-LD envelopes, but the daemon enforces **Plain Language Read-Back**: verbatim plain-text summary displayed to the human steward. The command is only signed with the steward's `did:key` upon explicit physical confirmation.
 
 ```json
 {
   "@context": [
-    "https://www.w3.org/ns/did/v1",
-    "https://collective.org/schemas/v1/intent.jsonld"
+    "https://www.w3.org/ns/activitystreams",
+    "https://collective.org/ns/intent/v1"
   ],
-  "type": "ResourceReallocationIntent",
-  "issuer": "did:key:z6MkuV8...steward01",
-  "targetResource": "urn:resource:solar_array_east",
-  "requestedExergy": 2500,
-  "purpose": "EmergencyClinicRefrigeration",
-  "proof": {
-    "type": "Ed25519Signature2020",
-    "signature": "..."
-  }
+  "type": "ResourceRequestIntent",
+  "actor": "did:key:z6MkhaXgBZDvotDkL5257faiztiGiC2QtKLGpbnnEGta2doK",
+  "resourceType": "PotableWater",
+  "quantity": {
+    "value": 500.0,
+    "unit": "Liters"
+  },
+  "maxExergyCredits": 25.0,
+  "requiredBy": "2026-10-15T18:00:00Z"
 }
 ```
 
 #### Acceptance Criteria (Given / When / Then)
 ```gherkin
-Scenario: Valid JSON-LD intent compiles down the sovereign stack
-  Given a signed JSON-LD ResourceReallocationIntent submitted by a certified clinic steward
-  When col-commonsd parses the payload
-  Then it validates schema conformance and passes it to Layer 5 for policy authorization
-  And upon Layer 5 approval, Layer 4 generates the BPMN task tokens without layer skipping.
+Scenario: Intent compilation and plain language confirmation
+  Given a steward speaking "Order 500 liters of drinking water for the south greenhouse"
+  When col-commonsd compiles the input into a ResourceRequestIntent JSON-LD envelope
+  Then it generates a plain-language summary: "Confirm transfer of 25.0 Credits for 500L water"
+  And requires explicit steward cryptographic sign-off before forwarding to Layer 5.
 ```
 
 #### Technical Tasks
-- [ ] Integrate lightweight JSON-LD 1.1 parser in C++20/Rust.
-- [ ] Implement multi-layer downward intent compilation pipeline.
-- [ ] Add negative test verifying rejection of malformed or unauthorized intents.
+- [ ] Implement W3C JSON-LD schema compiler and validator in C++/Rust.
+- [ ] Implement plain-language read-back text generator.
+- [ ] Add test asserting that unconfirmed drafts expire without reaching Layer 5.
 
 ---
 
-### User Story 6.2: Decentralized Knowledge Artifact Publishing & PROV-O Provenance Tracing
-**Epic:** Epic 6 (Layer 6: Semantic Intent)  
+### User Story 6.2: Embedded W3C PROV-O Provenance Engine & Oxigraph RDF Quad Store
+**Epic:** Epic 6 (Layer 6: Semantic Intent & Agora)  
 **Story ID:** SS-EP6-002  
-**Persona:** As an Infrastructure Engineer,  
-**Goal:** I want `col-commonsd` to publish physical blueprints and firmware manifests with W3C PROV-O provenance trails,  
-**Benefit:** So that any node can independently verify the authorship, review history, and physical safety standards of deployed infrastructure.
+**Points:** 7 SP | **Sprint:** 4 | **Priority:** P0 Critical  
+**Persona:** As a Bioregional Auditor,  
+**Goal:** I want `col-commonsd` to track the full lineage of every physical good, task, and transaction using W3C PROV-O stored in an embedded Oxigraph RDF quad store,  
+**Benefit:** So that materials, tools, and food batches possess an immutable, queryable provenance graph.
 
 #### Technical Specifications & Architecture
-- **Knowledge Store:** Embedded RDF Quad Store (Oxigraph) at `/var/lib/collective/l6/commons.db`.
-- **Provenance:** Every blueprint references contributing stewards, review council attestations, and raw sensor test logs via W3C PROV-O RDF triples (`prov:wasGeneratedBy`, `prov:wasAssociatedWith`).
+- **Storage:** Embedded Oxigraph RDF quad store at `/var/lib/collective/l6/prov.oxigraph` supporting SPARQL 1.1 queries.
+- **Ontology:** W3C PROV-O (`prov:wasGeneratedBy`, `prov:wasDerivedFrom`, `prov:wasAssociatedWith`). Every finished good (e.g. biochar, lumber, meal) links to raw materials, energy inputs, and steward DIDs.
 
 #### Acceptance Criteria (Given / When / Then)
 ```gherkin
-Scenario: Provenance verification of open-source inverter firmware
-  Given a firmware binary published with an associated PROV-O knowledge artifact
-  When a node operator inspects the artifact
-  Then col-commonsd traverses the RDF graph and verifies 3 independent council review signatures
-  And links the firmware hash to verified physical test bench exergy logs.
+Scenario: Querying provenance graph for organic biochar batch
+  Given a batch of biochar registered in col-commonsd with PROV-O metadata
+  When an auditor queries via SPARQL for the originating coppice wood batch and kiln telemetry
+  Then Oxigraph returns the complete derivation graph including ATECC608A signed kiln temperatures
+  And confirms that zero uncertified feedstock was mixed into the batch.
 ```
 
 #### Technical Tasks
-- [ ] Integrate embedded Oxigraph RDF quad-store engine.
-- [ ] Implement PROV-O graph constructor for published blueprints.
-- [ ] Add SPARQL/JSON-LD query endpoint for provenance inspection.
+- [ ] Integrate Oxigraph embedded RDF store in C++ via Rust FFI.
+- [ ] Implement W3C PROV-O graph generator for completed tasks.
+- [ ] Add SPARQL query test asserting graph completeness across 10 linked derivation steps.
 
 ---
 
-### User Story 6.3: Continuous Double Auction Order Book & Resource Clearing Engine
-**Epic:** Epic 6 (Layer 6: Semantic Intent)  
+### User Story 6.3: Continuous Double-Auction Matching Engine for Bioregional Agora
+**Epic:** Epic 6 (Layer 6: Semantic Intent & Agora)  
 **Story ID:** SS-EP6-003  
-**Persona:** As a Community Steward,  
-**Goal:** I want `col-commonsd` to match bids and asks for surplus energy, water, and compute in a local continuous double auction,  
-**Benefit:** So that community resources are allocated efficiently without price gouging or centralized broker fees.
+**Points:** 7 SP | **Sprint:** 4 | **Priority:** P0 Critical  
+**Persona:** As a Local Producer,  
+**Goal:** I want `col-commonsd` to match bids and offers for physical goods and labor using a continuous double-auction order book,  
+**Benefit:** So that community resources are allocated transparently without middlemen, speculation, or centralized trading fees.
 
 #### Technical Specifications & Architecture
-- **Auction Model:** Continuous Double Auction (CDA) order book with price-time priority. Bids and asks denominated in Valuenomics Exergy Credits.
-- **Clearing Frequency:** Fixed 1-second matching tick executing in memory with orders committed to SQLite WAL.
+- **Engine:** Continuous double-auction with price-time priority matching.
+- **Clearing Price:** Clears at the midpoint of matching limit orders ($P_{\mathrm{clear}} = \frac{P_{\mathrm{bid}} + P_{\mathrm{ask}}}{2}$).
+- **Currency:** Bids and asks denominated strictly in Exergy Credits ($3.6\text{ MJ}$). Zero fiat trading allowed in Layer 6.
 
 #### Acceptance Criteria (Given / When / Then)
 ```gherkin
-Scenario: Automated energy double auction clearing
-  Given Node A offering 10 kWh of surplus solar power at 1.0 Credit/kWh
-  And Node B bidding for 10 kWh of power at 1.0 Credit/kWh
-  When the continuous double auction executes its 1-second tick
-  Then col-commonsd matches the orders at 1.0 Credit/kWh
-  And dispatches an execution intent to Layer 4 to schedule the physical power transfer.
+Scenario: Double-auction clears matched bids and asks
+  Given a bid for 10 kg of flour at 5.0 Exergy Credits and an ask at 4.0 Exergy Credits
+  When col-commonsd executes its matching tick
+  Then the order clears at 4.5 Exergy Credits for 10 kg of flour
+  And generates matching execution intents sent to Layer 4 for physical locker release.
 ```
 
 #### Technical Tasks
-- [ ] Implement in-memory continuous double auction order book in C++20.
-- [ ] Implement market clearing engine with anti-wash trading validation.
-- [ ] Add unit test verifying matching throughput $\ge 5,000\text{ orders/sec}$.
+- [ ] Implement in-memory order book with price-time priority queue.
+- [ ] Implement midpoint execution matching algorithm.
+- [ ] Add unit test validating fair execution across simultaneous bids and asks.
 
 ---
 
-### User Story 6.4: High-Throughput UHAI Client Bridge & Headless IPC / RPC Gateway
-**Epic:** Epic 6 (Layer 6: Semantic Intent)  
+### User Story 6.4: SDD Scenario Bounty Compiler (`bounty.jsonld`) & Dynamic Sweat-Equity Registry
+**Epic:** Epic 6 (Layer 6: Semantic Intent & Agora)  
 **Story ID:** SS-EP6-004  
-**Persona:** As an External Simulation Client (Oasis Engine),  
-**Goal:** I want `col-commonsd` to provide a WebSocket and IPC gateway streaming system observability events and ingesting steward intents,  
-**Benefit:** So that graphical frontends, mobile PWAs, and the Oasis simulator visualize system state and submit actions without violating stack encapsulation.
+**Points:** 6 SP | **Sprint:** 4 | **Priority:** P0 Critical  
+**Persona:** As a Community Organizer,  
+**Goal:** I want `col-commonsd` to compile work bounties for all 24 canonical SDD scenarios into standard `bounty.jsonld` schemas with dynamic sweat-equity scaling,  
+**Benefit:** So that essential but unglamorous chores (composting, kitchen cleaning, maintenance) dynamically increase in credit value until claimed.
 
 #### Technical Specifications & Architecture
-- **Gateways:**
-  - Local IPC: `/run/collective/ipc/l6.sock` (Unix Domain Socket).
-  - External Network: Localhost WebSocket / gRPC endpoint (`127.0.0.1:9050`) for browser PWAs and Oasis.
-- **Event Streaming:** Publishes typed JSON/Protobuf domain events (`WorkTokenAvailable`, `ValuenomicsMinted`, `MunicipalCitationIssued`).
+- **Schema:** Standardized `bounty.jsonld` defining task requirements, location, safety VCs, and reward credits.
+- **Dynamic Bounty Scaling:**
+  $$\mathrm{Reward}(t) = \mathrm{Reward}_0 \cdot \left(1 + \kappa \cdot \Delta t_{\mathrm{unclaimed}}\right)$$
+  Chore bounties escalate exponentially until claimed, preventing task starvation (`SCN-SIGMA-MAINTENANCE`).
+- **Sweat Equity:** Volunteer foundational hours log into the Proto-Ledger care registry, establishing Reputational Wealth at settlement ignition (`SCN-TAU-GENESIS`).
 
 #### Acceptance Criteria (Given / When / Then)
 ```gherkin
-Scenario: Oasis frontend connects to L6 event stream
-  Given the Sovereign Stack running headlessly on an edge server
-  When Oasis connects to the local WebSocket gateway at 127.0.0.1:9050
-  Then col-commonsd authenticates the client session
-  And streams live domain events with p99 delivery latency <= 2.0 ms
-  And ingests user intent envelopes without blocking internal layer daemons.
+Scenario: Maintenance chore reward escalates when unclaimed
+  Given an unassigned composting chore with base reward 2.0 Exergy Credits
+  When the chore sits unclaimed for 48 hours
+  Then col-commonsd escalates the reward dynamically to 4.8 Exergy Credits
+  When a steward claims and completes the chore, the reward is credited and reset to base.
 ```
 
 #### Technical Tasks
-- [ ] Implement asynchronous WebSocket/gRPC server in `col-commonsd`.
-- [ ] Implement event subscription filter matching topic wildcards.
-- [ ] Add integration test verifying multi-client streaming under heavy load.
+- [ ] Implement `bounty.jsonld` schema validator and task registry.
+- [ ] Implement dynamic reward escalation formula with anti-gaming caps.
+- [ ] Add unit test verifying sweat-equity registration in Proto-Ledger.
 
 ---
 
-## 9. Epic 7: Layer 7 — Legacy Proxy, Adversarial Municipal Emulation & Scenario Omega Decoupling
+### User Story 6.5: Ricardian Treaty Engine ($\mathrm{Treaty\_CID}$) Binding Prose, Schema & BPMN Invariants
+**Epic:** Epic 6 (Layer 6: Semantic Intent & Agora)  
+**Story ID:** SS-EP6-005  
+**Points:** 6 SP | **Sprint:** 4 | **Priority:** P0 Critical  
+**Persona:** As an Inter-Node Diplomat,  
+**Goal:** I want `col-commonsd` to compile multilateral agreements into Ricardian Treaties ($\mathrm{Treaty\_CID}$) cryptographically binding legal prose, JSON-LD schemas, and BPMN invariants,  
+**Benefit:** So that agreements between autonomous nodes are readable by humans and strictly executable by machines without discrepancy.
 
-### User Story 7.1: Discrete Event Simulation (DES) Engine & Configurable Threat Controller
+#### Technical Specifications & Architecture
+- **Ricardian Structure:** Three-part bundle:
+  1. Human-readable markdown legal text.
+  2. Machine-readable JSON-LD parameters (quotas, deadlines, DID signatories).
+  3. Deterministic BPMN 2.0 XML workflow governing automated execution.
+- **Digest:** All three components are hashed together into an immutable 32-byte BLAKE3 digest ($\mathrm{Treaty\_CID}$). Modifying a single character of prose or a single parameter breaks the hash.
+
+#### Acceptance Criteria (Given / When / Then)
+```gherkin
+Scenario: Ricardian treaty cryptographic verification
+  Given a bilateral watershed treaty binding Node A and Node B
+  When both nodes sign the treaty, col-commonsd computes Treaty_CID
+  Then both nodes verify that prose, JSON-LD parameters, and BPMN XML match the digest
+  And any discrepancy between human text and machine code fails signature verification.
+```
+
+#### Technical Tasks
+- [ ] Implement Ricardian treaty bundler combining markdown, JSON-LD, and BPMN XML.
+- [ ] Implement BLAKE3 multi-part digest generator for $\mathrm{Treaty\_CID}$.
+- [ ] Add test asserting that tampering with legal prose invalidates machine execution.
+
+---
+
+## 11. Epic 7: Layer 7 — Legacy Proxy, Tripartite Legal Chassis & Adversarial Municipal Emulation (`col-adversaryd`)
+
+### User Story 7.1: Discrete Event Simulation (DES) Priority-Queue Engine & Configurable Threat Controller (Levels 0–3)
 **Epic:** Epic 7 (Layer 7: Legacy Proxy & Adversary)  
 **Story ID:** SS-EP7-001  
+**Points:** 8 SP | **Sprint:** 5 | **Priority:** P0 Critical  
 **Persona:** As an Infrastructure Engineer,  
 **Goal:** I want `col-adversaryd` to simulate hostile external pressures using a priority-queue Discrete Event Simulation (DES) engine with configurable threat levels (0–3),  
 **Benefit:** So that communities can stress-test their physical and financial resilience against real-world municipal warfare before deploying off-grid.
@@ -1217,9 +1491,10 @@ Scenario: Configurable threat level alters adversarial event frequency
 
 ---
 
-### User Story 7.2: Fictional Utility Monopoly Emulation Suite
+### User Story 7.2: Fictional Utility Monopolies Emulation (*AmeriGrid*, *MetroPower*, *Keystone Gas & Electric*)
 **Epic:** Epic 7 (Layer 7: Legacy Proxy & Adversary)  
 **Story ID:** SS-EP7-002  
+**Points:** 7 SP | **Sprint:** 5 | **Priority:** P0 Critical  
 **Persona:** As a Sovereign Node Operator,  
 **Goal:** I want `col-adversaryd` to emulate the predatory billing and curtailment tactics of three fictional US utility monopolies (*AmeriGrid*, *MetroPower*, *Keystone Gas & Electric*),  
 **Benefit:** So that node microgrids learn to anticipate standby fees, demand charges, and grid-tie disconnects.
@@ -1248,9 +1523,10 @@ Scenario: AmeriGrid peak demand surge and grid-tie curtailment
 
 ---
 
-### User Story 7.3: Hostile Municipal Code & Zoning Enforcement 5-State Finite State Machine
+### User Story 7.3: Hostile Municipal Code & Zoning Enforcement 5-State Finite State Machine (NFPA 855, UPC, NEC)
 **Epic:** Epic 7 (Layer 7: Legacy Proxy & Adversary)  
 **Story ID:** SS-EP7-003  
+**Points:** 8 SP | **Sprint:** 5 | **Priority:** P0 Critical  
 **Persona:** As a Sovereign Node Operator,  
 **Goal:** I want `col-adversaryd` to model municipal code enforcement through a 5-state finite state machine enforcing NFPA 855 battery limits, UPC greywater rules, and NEC electrical codes,  
 **Benefit:** So that nodes navigate inspections, cure periods, and stop-work orders through legal defense mechanisms.
@@ -1284,9 +1560,10 @@ Scenario: NFPA 855 battery distance violation citation lifecycle
 
 ---
 
-### User Story 7.4: Predatory Fiat Banking & Payment Gateway Mock Microservice
+### User Story 7.4: Predatory Fiat Banking, Stripe/Plaid Mock Microservice & Algorithmic Freezes
 **Epic:** Epic 7 (Layer 7: Legacy Proxy & Adversary)  
 **Story ID:** SS-EP7-004  
+**Points:** 7 SP | **Sprint:** 5 | **Priority:** P0 Critical  
 **Persona:** As a Community Steward,  
 **Goal:** I want `col-adversaryd` to simulate predatory fiat banking gateways (Stripe, Plaid, ACH) with realistic account freezes and reserves,  
 **Benefit:** So that the community's legal umbrella anticipates cash-flow shocks and accelerates the untethering of capital.
@@ -1315,77 +1592,91 @@ Scenario: Algorithmic payment gateway freeze simulation
 
 ---
 
-### User Story 7.5: Tactical Countermeasure Suite & Legal Defense Wrapper
+### User Story 7.5: Tripartite Inter-Node Legal Chassis & Anti-Consolidation Firewalls
 **Epic:** Epic 7 (Layer 7: Legacy Proxy & Adversary)  
 **Story ID:** SS-EP7-005  
-**Persona:** As a Community Steward,  
-**Goal:** I want `col-adversaryd` to provide automated legal defense wrappers (Special Purpose Corporation appeals, Perpetual Purpose Trust easements, inverter cloaking),  
-**Benefit:** So that the community shields its human stewards from personal regulatory liability while exhausting bureaucratic delays.
+**Points:** 8 SP | **Sprint:** 5 | **Priority:** P0 Critical  
+**Persona:** As a Legal Engineering Specialist,  
+**Goal:** I want `col-adversaryd` to wrap inter-node trade in the Tripartite Legal Chassis and enforce Five Anti-Consolidation Firewalls,  
+**Benefit:** So that physical resource sharing between nodes is legally recognized as non-taxable mutual aid, and single-enterprise liability piercing across nodes is prevented.
 
 #### Technical Specifications & Architecture
-- **Ablative Countermeasures:**
-  - *SPC Administrative Appeal:* Generates procedural administrative appeal filings, extending citation cure periods by 60 days.
-  - *Perpetual Purpose Trust (PPT) Easement:* Restructures land parcels into non-charitable trusts, asserting religious or agricultural exemptions.
-  - *Inverter Grid-Zero Cloaking:* Commands inverters to match instantaneous household load within $\pm 5\text{ W}$, preventing net-metering backfeed detection on smart meters.
+- **Volume 1 Reference:** Volume 1 Chapter 8 (`08_layer_7_legacy.tex`).
+- **Tripartite Legal Chassis:**
+  1. *Bilateral Mutual-Aid Agreements (BMAA):* Under Uniform Unincorporated Nonprofit Association Act (UUNAA § 6) and Good Samaritan statutes (gratuitous bailments, UCC Article 2 excluded).
+  2. *Subchapter T Shared Services Agreements (SSAs):* Under 26 U.S.C. §§ 1381–1388 (cost-pooling, zero net taxable margin, exemption from commercial carrier licenses under 49 U.S.C. § 13505).
+  3. *Federated Land Trust Utility Easements:* Under Uniform Conservation Easement Act (UCEA) (real property servitudes running with the land, zero recurring commercial lease excise tax).
+- **Five Anti-Consolidation Firewalls:** Severed boards of directors, separate EINs and bank accounts, absolute ban on cross-collateralization, written arm's-length SSAs, and statutory partnership disclaimers defeating "alter ego" lawsuits.
 
 #### Acceptance Criteria (Given / When / Then)
 ```gherkin
-Scenario: SPC appeal delays municipal enforcement
-  Given an outstanding Stop-Work Order on an unpermitted community greenhouse
-  When the community legal proxy files an automated SPC Administrative Appeal
-  Then col-adversaryd pauses the municipal enforcement clock for 60 virtual calendar days
-  And unlocks temporary maintenance WorkTokens in Layer 4 during the appeal pendency.
+Scenario: Inter-node timber trade shielded under Subchapter T SSA
+  Given Node A shipping 5 tons of milled cedar timber to Node B across public highways
+  When state highway patrol or tax auditor inspects the transport manifest
+  Then col-adversaryd generates an automated Subchapter T SSA cost-reimbursement manifest
+  And confirms zero commercial brokerage or barter tax liability under 26 U.S.C. § 6045
+  And defeats commercial carrier license requirements under 49 U.S.C. § 13505.
 ```
 
 #### Technical Tasks
-- [ ] Implement legal document templating engine for SPC appeals and PPT easements.
-- [ ] Implement Inverter Grid-Zero control algorithm matching household load within $\pm 5\text{ W}$.
-- [ ] Add unit test verifying that filing an appeal halts the citation clock.
+- [ ] Implement automated legal manifest generator for BMAA and Subchapter T SSAs.
+- [ ] Implement Five Anti-Consolidation Firewall validation rules in database schemas.
+- [ ] Add legal audit test asserting that inter-node transfers carry valid tripartite chassis tags.
 
 ---
 
-### User Story 7.6: Scenario Omega (Terminal Decoupling) Lifecycle Engine & Ablative Shredding
+### User Story 7.6: Systemic Legal Blinding, Telemetry Obfuscation, Subpoena Immunity & Scenario Omega Decoupling
 **Epic:** Epic 7 (Layer 7: Legacy Proxy & Adversary)  
 **Story ID:** SS-EP7-006  
+**Points:** 7 SP | **Sprint:** 5 | **Priority:** P0 Critical  
 **Persona:** As a Sovereign Node Operator,  
-**Goal:** I want `col-adversaryd` to execute the Scenario Omega Terminal Decoupling routine when the node reaches 100% autarky,  
-**Benefit:** So that the legacy capitalist membrane is permanently severed, its data shredded, and the node operates perpetually on Layers 1 through 6.
+**Goal:** I want `col-adversaryd` to enforce Systemic Legal Blinding, obfuscate external telemetry, maintain Subpoena Immunity via Data Non-Existence, and execute Scenario Omega terminal shredding,  
+**Benefit:** So that macro-surveillance cannot map the internal collective, subpoenas yield zero internal records, and terminal autarky completely erases the legacy membrane.
 
 #### Technical Specifications & Architecture
-- **Volume 1 Reference:** Volume 1 Chapter 8 and Chapter 11 (Scenario Omega).
-- **Autarky Criteria:** 100% self-sufficiency across energy generation, water harvesting, local food baseline, and maintenance tooling for 30 consecutive days.
-- **Terminal Decoupling Sequence:**
-  1. Issues formal corporate dissolution notice and closes fiat bank accounts.
-  2. Disconnects physical grid-tie contactors permanently.
-  3. Closes and unlinks `/run/collective/ipc/l7.sock`.
-  4. Executes secure cryptographic wiping (`shred -u`) of `/var/lib/collective/l7/adversary.db`.
-  5. Terminates `col-adversaryd` process (`SIGTERM` $\to$ `SIGKILL`).
-  6. `collective-supervisor` permanently unregisters Layer 7. Layers 1–6 continue executing indefinitely.
+- **Systemic Blinding:**
+  - *Cellular Independence:* An "army of unremarkable local co-ops" with banal NAICS codes (1114 agricultural greenhouses, 5415 IT facilities, 2382 electrical contractors).
+  - *Telemetry Obfuscation:* Sanitizes external utility reporting to standard IEEE 1547 net-meter profiles; domestic sub-circuits and battery cell logs are blocked at VLAN 40.
+  - *Subpoena Immunity via Data Non-Existence:* Layer 7 holds zero DIDs, cryptographic keys, voting records, or exergy balances (*NAACP v. Alabama* defense).
+- **Residual Export Ceiling:**
+  $$R_t = \max\left(0, \, A_t - F_t - B_t - C_t - O_t - M_t\right)$$
+- **Scenario Omega Decoupling:** Sustaining $\mathcal{S}_{\mathrm{viability}} \ge 1.25$ for 30 consecutive days triggers permanent disconnection:
+  1. Trips motorized ATS breaker, permanently disconnecting grid interties.
+  2. Closes and unlinks `/run/collective/ipc/l6_l7.sock`.
+  3. Cryptographically shreds `/var/lib/collective/l7/adversary.db` via `shred -u`.
+  4. Unregisters process from `collective-supervisor`. Layers 1–6 execute perpetually.
 
 #### Acceptance Criteria (Given / When / Then)
 ```gherkin
+Scenario: Subpoena immunity via data non-existence
+  Given a state regulatory subpoena demanding production of internal member identity keys
+  When the legal compliance officer queries Layer 7 (col-adversaryd)
+  Then col-adversaryd produces statutory corporate filings and payroll logs
+  And truthfully certifies that member DIDs, private keys, and exergy ledgers do not exist in L7 storage.
+
 Scenario: Scenario Omega terminal decoupling sequence
-  Given an edge node verifying 100% thermodynamic autarky for 30 consecutive days
+  Given an edge node verifying 100% thermodynamic autarky (S_viability >= 1.25) for 30 consecutive days
   When the steward council confirms the Scenario Omega execution intent
-  Then col-adversaryd disconnects external utility contactors
+  Then col-adversaryd permanently disconnects external utility contactors
   And securely shreds its local database file in <= 100 ms
-  And unlinks /run/collective/ipc/l7.sock and terminates
+  And unlinks /run/collective/ipc/l6_l7.sock and terminates
   And Layers 1 through 6 continue executing autonomously with zero memory leaks or crashes.
 ```
 
 #### Technical Tasks
-- [ ] Implement autarky metric evaluator querying Layers 1, 3, and 4.
-- [ ] Implement atomic database shredding routine (`shred -u` / zeroization).
-- [ ] Implement clean IPC socket unmount and supervisor deregistration.
-- [ ] Add integration test verifying that Layers 1–6 run continuously following Layer 7 termination.
+- [ ] Implement IEEE 1547 net-meter profile sanitizer at VLAN 40 DMZ boundary.
+- [ ] Implement Residual Export Ceiling calculator in C++20.
+- [ ] Implement atomic cryptographic shredding routine (`shred -u` / memory wipe).
+- [ ] Add integration test verifying that Layers 1–6 continue executing following Layer 7 termination.
 
 ---
 
-## 10. Epic 8: Cross-Stack Headless Verification, Chaos Engineering & Edge CI/CD Harness
+## 12. Epic 8: Cross-Stack Headless Verification, Chaos Engineering & Six Inviolable Quality Gates (G1–G6)
 
-### User Story 8.1: Headless Deterministic Multi-Node Test Runner & State Hash Parity
+### User Story 8.1: Headless Deterministic Multi-Node Test Runner & Cross-Platform State Hash Parity
 **Epic:** Epic 8 (Cross-Stack Headless Verification)  
 **Story ID:** SS-EP8-001  
+**Points:** 7 SP | **Sprint:** 6 | **Priority:** P0 Critical  
 **Persona:** As an Infrastructure Engineer,  
 **Goal:** I want a high-speed headless CLI test harness (`col-test-runner`) executing multi-node topologies across thousands of ticks,  
 **Benefit:** So that distributed protocol behavior and cross-platform state hash parity are validated without graphics or manual testing.
@@ -1410,9 +1701,43 @@ Scenario: Bit-exact cross-platform state hash parity
 
 ---
 
-### User Story 8.2: Scenario Rho Adversarial Full-Stack Attack & Fuzzing Suite
+### User Story 8.2: Automated Six Inviolable Quality Gates (G1–G6) Verification Test Suite
 **Epic:** Epic 8 (Cross-Stack Headless Verification)  
 **Story ID:** SS-EP8-002  
+**Points:** 8 SP | **Sprint:** 6 | **Priority:** P0 Critical  
+**Persona:** As a Quality Engineer,  
+**Goal:** I want an automated test suite verifying compliance with the Six Inviolable Quality Gates (G1–G6) across all 24 canonical SDD scenarios,  
+**Benefit:** So that no code or workflow can be deployed to physical edge nodes without passing all mathematical, physical, and legal invariants.
+
+#### Technical Specifications & Architecture
+- **The Six Quality Gates:**
+  - **G1: Thermodynamic Conservation & Physical Grounding:** Verifies $\Delta E \ge \text{work}$, mass/energy balance, and ATECC608A hardware signature.
+  - **G2: Asynchronous Delay-Tolerant Convergence:** Verifies that partitioned nodes merge deterministically within $\le 5.0\text{ seconds}$ post-healing.
+  - **G3: Provable Ecological & Resource Ceilings:** Verifies that $\lambda_{ERC} \to \infty$ prevents over-extraction and preserves $F_{\mathrm{eco}}$ floors.
+  - **G4: Zero-Knowledge & Web of Trust Boundary:** Verifies BBS+ selective disclosure, pairwise DIDs, and $O(D)$ loop-free BPVP routing.
+  - **G5: Tripartite Legal Chassis & Subpoena Immunity:** Verifies that inter-node transfers carry BMAA/SSA tags and Layer 7 holds zero internal member data.
+  - **G6: Strict Physical Airgap & Anti-Bleed Purity:** Verifies that `QUALITY_SIMULATED` frames are dropped at edge relays and zero game mechanics bleed into daemons.
+
+#### Acceptance Criteria (Given / When / Then)
+```gherkin
+Scenario: Automated Six Quality Gates validation on release candidate
+  Given the complete Sovereign Stack test harness running against the 24 canonical scenarios
+  When scripts/verify_quality_gates.sh executes in CI
+  Then Gates G1 through G6 return 100% PASS across all 24 scenarios
+  And any single gate failure blocks binary release generation.
+```
+
+#### Technical Tasks
+- [ ] Implement `scripts/verify_quality_gates.sh` automated test orchestrator.
+- [ ] Implement specific verification probes for Gates G1 through G6.
+- [ ] Integrate Quality Gates as mandatory blocking step in edge CI/CD pipeline.
+
+---
+
+### User Story 8.3: Scenario Rho Adversarial Full-Stack Attack, Fuzzing & RF Jamming Suite
+**Epic:** Epic 8 (Cross-Stack Headless Verification)  
+**Story ID:** SS-EP8-003  
+**Points:** 7 SP | **Sprint:** 6 | **Priority:** P0 Critical  
 **Persona:** As a Quality Engineer,  
 **Goal:** I want an automated adversarial stress suite injecting sensor spoofing, RF jamming, double-spends, and Sybil attacks simultaneously,  
 **Benefit:** So that vulnerabilities and protocol edge cases are identified and eliminated before live bioregional deployment.
@@ -1441,9 +1766,10 @@ Scenario: Scenario Rho full-stack defense verification
 
 ---
 
-### User Story 8.3: 72-Hour Network Partition & Delay-Tolerant Re-Sync Verifier
+### User Story 8.4: 72-Hour Network Partition & Netem Delay-Tolerant Resynchronization Test
 **Epic:** Epic 8 (Cross-Stack Headless Verification)  
-**Story ID:** SS-EP8-003  
+**Story ID:** SS-EP8-004  
+**Points:** 6 SP | **Sprint:** 6 | **Priority:** P0 Critical  
 **Persona:** As a Quality Engineer,  
 **Goal:** I want an automated test harness simulating a 72-hour mesh network partition using Linux network namespaces and netem,  
 **Benefit:** So that delay-tolerant packet queues and CRDT reconciliation are rigorously validated against real-world radio blackouts.
@@ -1463,15 +1789,16 @@ Scenario: 72-hour network partition recovery
 ```
 
 #### Technical Tasks
-- [ ] Implement bash/Python test script setting up `ip netns` and `tc netem` partitions.
+- [ ] Implement test script setting up `ip netns` and `tc netem` partitions.
 - [ ] Implement state hash comparison probe verifying post-healing convergence.
 - [ ] Add CI test gate ensuring memory usage does not exceed 320 MB RSS during partitions.
 
 ---
 
-### User Story 8.4: Scenario Omega End-to-End Autarky Verification Gate
+### User Story 8.5: Scenario Omega End-to-End Autarky Verification Gate & Memory Leak Audit
 **Epic:** Epic 8 (Cross-Stack Headless Verification)  
-**Story ID:** SS-EP8-004  
+**Story ID:** SS-EP8-005  
+**Points:** 6 SP | **Sprint:** 6 | **Priority:** P0 Critical  
 **Persona:** As a Quality Engineer,  
 **Goal:** I want an automated end-to-end test asserting that Scenario Omega unmounts Layer 7 cleanly without degrading Layers 1 through 6,  
 **Benefit:** So that the permanent decoupling of the legacy membrane is proven crash-safe and leak-free.
@@ -1493,22 +1820,23 @@ Scenario: Clean unmount and memory leak verification during Scenario Omega
 
 ---
 
-### User Story 8.5: Continuous Anti-Bleed Linter, Memory Footprint & Resource Bounding CI Gate
+### User Story 8.6: Continuous Anti-Bleed CI Linter (`scripts/lint_anti_bleed.sh`) & cgroups Enforcement
 **Epic:** Epic 8 (Cross-Stack Headless Verification)  
-**Story ID:** SS-EP8-005  
+**Story ID:** SS-EP8-006  
+**Points:** 7 SP | **Sprint:** 6 | **Priority:** P0 Critical  
 **Persona:** As a Quality Engineer,  
-**Goal:** I want a compile-time static analysis tool and CI linter enforcing the 5 Scope Boundary Rules (SBR-1 through SBR-5),  
-**Benefit:** So that no developer or agent can inadvertently re-introduce game mechanics, monolithic threading, or layer-skipping dependencies.
+**Goal:** I want a compile-time static analysis tool and CI linter enforcing the Scope Boundary Rules (SBR-1 through SBR-5) and Linux cgroups memory ceilings,  
+**Benefit:** So that no developer or agent can inadvertently re-introduce game mechanics, monolithic threading, or unbounded memory leaks.
 
 #### Technical Specifications & Architecture
 - **Script:** `scripts/lint_anti_bleed.sh` executing in CI:
   1. Forbids imports of `oasis/*`, `SDL2/*`, `webgpu/*`, `dawn/*` inside `src/core/` and `src/daemons/`.
-  2. Forbids occurrences of game engine threading, frame budget ceilings, volumetric world types, player kinematics, and game UI markers in stack documentation and headers.
-  3. Validates that Layers 1–4 contain zero references to fiat currencies or Layer 7 headers.
-  4. Enforces compile-time static assertions on memory layouts:
+  2. Forbids occurrences of game engine threading, frame budget ceilings, volumetric world types, and player kinematics in stack documentation and headers.
+  3. Validates compile-time static assertions on memory layouts:
      - `static_assert(sizeof(TelemetrySample) == 24)`
      - `static_assert(sizeof(ActuatorCommand) == 80)`
      - `static_assert(sizeof(StateDeltaOp) == 24)`
+  4. Enforces Linux systemd / cgroups ceilings: total stack $\le 320\text{ MB}$ RSS, Layer 7 $\le 24\text{ MB}$ RSS.
 
 #### Acceptance Criteria (Given / When / Then)
 ```gherkin
@@ -1522,13 +1850,24 @@ Scenario: CI linter catches prohibited game mechanic import
 #### Technical Tasks
 - [ ] Implement `scripts/lint_anti_bleed.sh` using `ripgrep` and AST regexes.
 - [ ] Add static assertions to core C++20 header files.
-- [ ] Integrate linter as a mandatory blocking gate in GitHub Actions / local CI.
+- [ ] Configure cgroups v2 resource ceiling profiles for systemd units.
 
 ---
 
-## 11. Quality Assurance Matrix, Definition of Done & Ratification Sign-Off
+## 13. Quality Assurance Matrix, Definition of Ready, Definition of Done & Ratification Sign-Off
 
-### 11.1. Infrastructure Definition of Done (DoD) — 10 Strict Invariants
+### 13.1. Infrastructure Definition of Ready (DoR) — 6 Criteria
+A user story in the Sovereign Stack is marked **READY** for sprint backlog ingestion if and only if it satisfies all 6 criteria:
+1. **Mathematical / Protocol Formulation:** All equations (minting, decay, routing, clearing) are explicitly stated with defined units and variable constraints.
+2. **Interface Alignment:** Inter-layer IPC messages and binary wire formats (Cap'n Proto / Protobuf / C++20 standard layout) are defined with explicit byte alignments.
+3. **Hardware / OS Specificity:** Target hardware registers, serial baud rates, Linux kernel subsystems (`epoll`, `netlink`, `cgroups`), or RTOS APIs are specified.
+4. **Hermetic Test Scenario:** A Gherkin acceptance scenario (Given / When / Then) is articulated with quantitative pass/fail thresholds.
+5. **Anti-Bleed Boundary Conformance:** Verified free of client-side graphics rendering, game loop threads, and Oasis gameplay semantics.
+6. **SDD Scenario Tracing:** Direct link to one of the 24 canonical SDD scenarios in `docs/scenarios/` establishing end-to-end provenance.
+
+---
+
+### 13.2. Infrastructure Definition of Done (DoD) — 10 Strict Invariants
 A user story or pull request in the Sovereign Stack is marked **DONE** if and only if it satisfies all 10 invariants:
 1. **Autonomous Daemon Conformance:** Operates within an autonomous daemon (`col-*d`) with its own event loop; zero coupling to monolithic thread pools or game loops.
 2. **Dedicated Storage Strategy:** State is persisted to the layer's dedicated storage engine; zero unauthorized cross-database foreign keys.
@@ -1543,7 +1882,7 @@ A user story or pull request in the Sovereign Stack is marked **DONE** if and on
 
 ---
 
-### 11.2. Edge Deployment Hardware Qualification Matrix
+### 13.3. Edge Hardware Deployment Qualification Matrix
 
 ```
 ┌────────────────────────────────────────────────────────────────────────────────────────────────────────┐
@@ -1564,8 +1903,38 @@ A user story or pull request in the Sovereign Stack is marked **DONE** if and on
 
 ---
 
-### 11.3. Architectural Council Ratification Sign-Off
-The Round 2 Architectural Council hereby concludes its deliberations. All debate points have been resolved, all critiques incorporated, and all five stakeholder disciplines have verified the complete decoupling of the Sovereign Stack from client-side game mechanics.
+### 13.4. Six Inviolable Quality Gates (G1–G6) Acceptance Specification
+
+```
+┌────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                                SIX INVIOLABLE QUALITY GATES SPECIFICATION                              │
+├──────┬───────────────────────────────┬──────────────────────────────────┬──────────────────────────────┤
+│ Gate │ Gate Title & Focus            │ Inviolable Verification Rule     │ Automated Gate Test Method   │
+├──────┼───────────────────────────────┼──────────────────────────────────┼──────────────────────────────┤
+│ **G1**│ **Thermodynamic Grounding**   │ Work tokens minted only with net │ Mass/energy balance assert:  │
+│      │ (Physical Conservation)       │ exergy addition & ATECC608A sig  │ Delta E >= work performed    │
+├──────┼───────────────────────────────┼──────────────────────────────────┼──────────────────────────────┤
+│ **G2**│ **Asynchronous Convergence**  │ Partitioned nodes merge state    │ 72-hr netem partition healing│
+│      │ (Delay-Tolerant Resilience)   │ deterministically via CRDTs      │ converges to identical hash  │
+├──────┼───────────────────────────────┼──────────────────────────────────┼──────────────────────────────┤
+│ **G3**│ **Ecological Ceilings**       │ Extraction halted by protocol    │ lambda_ERC -> inf blocks     │
+│      │ (Carrying Capacity Defense)   │ before carrying capacity breach  │ Layer 4 task execution       │
+├──────┼───────────────────────────────┼──────────────────────────────────┼──────────────────────────────┤
+│ **G4**│ **Web of Trust Boundary**     │ Identities pairwise & verifiable │ BBS+ selective disclosure in │
+│      │ (Zero-Knowledge Privacy)      │ without leaking real identity    │ <= 15 ms; BPVP loop-free     │
+├──────┼───────────────────────────────┼──────────────────────────────────┼──────────────────────────────┤
+│ **G5**│ **Tripartite Legal Shield**   │ Inter-node trade wrapped in BMAA │ L7 database inspection: zero │
+│      │ (Subpoena Immunity)           │ and SSAs; L7 holds zero DIDs     │ internal keys/ballots exist  │
+├──────┼───────────────────────────────┼──────────────────────────────────┼──────────────────────────────┤
+│ **G6**│ **Airgap & Anti-Bleed Purity**│ Simulated telemetry cannot drive │ Simulated packets dropped at │
+│      │ (Domain Isolation)            │ physical relays; zero game bleed │ edge; anti-bleed linter zero │
+└──────┴───────────────────────────────┴──────────────────────────────────┴──────────────────────────────┘
+```
+
+---
+
+### 13.5. Strategic Realignment Council Ratification Sign-Off
+The Strategic Realignment Council concludes its deliberations. All debate points have been resolved, all SDD requirements incorporated, and all five stakeholder disciplines have verified the complete alignment of the Sovereign Stack with civilizational resilience and strict domain isolation.
 
 ```
 ┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
@@ -1573,21 +1942,21 @@ The Round 2 Architectural Council hereby concludes its deliberations. All debate
 ├────────────────────────────────┬───────────────────────────────┬─────────────────┬───────────────┤
 │ Persona                        │ Document / Milestone          │ Disciplinary OK │ Final Ballot  │
 ├────────────────────────────────┼───────────────────────────────┼─────────────────┼───────────────┤
-│ Product Owner (`explorer_po`)  │ Roadmap, Personas & Epics 1–8 │ APPROVED        │ UNANIMOUS YES │
-│ Sovereign Specialist (`sov_r2`)│ Volume 1 Fidelity, L1–L7, PoTW│ APPROVED        │ UNANIMOUS YES │
-│ Quality Engineer (`qe_r2`)     │ Anti-Monolith, Isolation, SLOs│ APPROVED        │ UNANIMOUS YES │
-│ Stack Engineer (`stack_r2`)    │ 7 Daemons, UDS IPC, Bounded   │ APPROVED        │ UNANIMOUS YES │
-│ Oasis Engineer (`oasis_r2`)    │ Purge Game Mechanics, UHAI   │ APPROVED        │ UNANIMOUS YES │
+│ Product Owner (`explorer_po_v3`) Roadmap, SDD Epics & Sprints  │ APPROVED        │ UNANIMOUS YES │
+│ Sovereign Specialist (`sov_v3`)  Volume 1 Fidelity, PoTW, BPVP │ APPROVED        │ UNANIMOUS YES │
+│ Quality Engineer (`qe_v3`)       Anti-Monolith, Gates G1–G6    │ APPROVED        │ UNANIMOUS YES │
+│ Stack Engineer (`stack_v3`)      7 Daemons, UDS IPC, Wasmtime  │ APPROVED        │ UNANIMOUS YES │
+│ Oasis Engineer (`oasis_v3`)      Purge Game Mechanics, Airgap  │ APPROVED        │ UNANIMOUS YES │
 ├────────────────────────────────┴───────────────────────────────┴─────────────────┴───────────────┤
 │                                  # Unanimous Consensus Reached                                   │
 └──────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-**Ratified:** 2026-10-07  
-**Effective Baseline:** Version 2.0.0-RELEASE (`SOVEREIGN_STACK_BACKLOG.md`)  
+**Ratified:** 2026-10-10  
+**Effective Baseline:** Version 3.0.0-RELEASE (`SOVEREIGN_STACK_BACKLOG.md`)  
 **Signed by:**
-- *Product Owner / Orchestrator (`explorer_po_r2`)*
-- *Sovereign Stack Specialist (`explorer_sovereign_r2`)*
-- *Quality Engineer (`explorer_qe_r2`)*
-- *Stack Engineer (`explorer_stack_r2`)*
-- *Oasis Engineer (`explorer_oasis_r2`)*
+- *Product Owner / Orchestrator (`explorer_po_v3`)*
+- *Sovereign Stack Specialist (`explorer_sovereign_v3`)*
+- *Quality Engineer (`explorer_qe_v3`)*
+- *Stack Engineer (`explorer_stack_v3`)*
+- *Oasis Engineer (`explorer_oasis_v3`)*
