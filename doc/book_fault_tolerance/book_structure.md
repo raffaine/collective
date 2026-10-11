@@ -126,13 +126,19 @@ Kael and Jax are both working nomadically spreading The Collective across the co
 
 ## Part VI: The Sovereign Singularity
 
-### Chapter 16: The Brink of Severance
+### Chapter 16: New Growth
+*   **Plot:** Before the final confrontation, the narrative shifts to a moment of pure joy and hope to charge the reader up for the final stretch. Told from Gabe's perspective, the chapter explores the organic growth of the Collective from within as he welcomes the birth of a new baby sister. Interwoven with this celebration of new life is the story of a former drug addict recovering within the community. It explores how the Collective handles addiction through radical empathy and harm reduction rather than prejudice and prohibition (acknowledging that substances like alcohol, cannabis, and psilocybin are integrated responsibly, even as they carefully navigate the legal realities of Layer 7). It’s a chapter about healing, new beginnings, and the quiet beauty of a supportive social fabric.
+*   **Characters:** Gabe, his family, a recovering addict.
+*   **Scenarios Showcased:**
+    *   **Omicron:** Kinship Protocol (Expanding the definition of family and support networks).
+
+### Chapter 17: The Brink of Severance
 *   **Plot:** The storm clears, but the Legacy state launches a massive, coordinated legal and physical attack. Elara, Silas, and Gabe mobilize the final defense. They realize the ablative shield is failing; they can no longer exist as a proxy within the old world.
 *   **Characters:** Elara, Silas, Gabe, Node Defenders.
 *   **Scenarios Showcased:**
     *   **Rho:** The Adversarial Mesh (Subpoenas and physical sabotage).
 
-### Chapter 17: Terminal Decoupling (The Climax)
+### Chapter 18: Terminal Decoupling (The Climax)
 *   **Plot:** Elara and the community execute the Sovereign Singularity. It is framed not as magical separation, but as a definitive shift in leverage and a tragic choice, acknowledging the heavy cost of leaving the legacy world (and those trapped within it) behind. They sever municipal utility lines. The Legacy grid goes dark, but the local mesh lights up. The Collective Bioregion permanently detaches.
 *   **Characters:** Elara, Silas, Gabe, The Global Mesh.
 *   **Scenarios Showcased:**
