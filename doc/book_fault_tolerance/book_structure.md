@@ -117,12 +117,12 @@ Kael and Jax are both working nomadically spreading The Collective across the co
     *   **Phi:** The Elder Commons (Passing on wisdom and assets).
     *   **Lambda:** Cultural Commons (Arts, Sound, and Somatic Play).
 
-### Chapter 15: Ecological Shock
-*   **Plot:** A severe, climate-driven super-storm hits the bioregion. The Legacy system abandons the area. The Collective must rely entirely on its disaster resilience networks to survive, while hostile Legacy forces attempt to exploit the chaos.
-*   **Characters:** Elara, Silas, Gabe, entire community.
+### Chapter 15: The Anatomy of Conflict
+*   **Plot:** The story takes a dark, gruesome turn to explore how a post-fiat society handles severe internal violence. A tense interpersonal dispute between members escalates into sudden, physical violence resulting in severe injuries. The chapter explores the immediate, coordinated response of the paramedic mesh, and deeply examines how the Collective deals with such trauma. Instead of legacy punitive justice, we see preemptive governance on Layer 5 in action. Crucially, the chapter highlights that because the economy, law, and politics have been structurally stripped of their ability to be used as weapons, the conflict cannot metastasize into systemic oppression—it is treated as a tragic, acute failure of the social fabric requiring restorative and medical intervention.
+*   **Characters:** Elara, Silas, Paramedic Guild, aggrieved community members.
 *   **Scenarios Showcased:**
-    *   **Upsilon:** Ecological Shock (Disaster Resilience).
-    *   **Rho:** The Adversarial Mesh (Exploiting the storm).
+    *   **Chi:** The Care Mesh (Paramedic response and decentralized care).
+    *   **Layer 5 Restorative Justice:** (From Volume 1: the web of trust, reputational algorithms, and restorative protocols).
 
 ## Part VI: The Sovereign Singularity
 
