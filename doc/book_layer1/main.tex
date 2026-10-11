@@ -1,13 +1,41 @@
 \documentclass[11pt,oneside]{book}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage{lmodern}
+\usepackage{tgpagella}
+\usepackage{tgcursor}
+\linespread{1.05}
+\usepackage{microtype}
 \usepackage{amsmath, amssymb, amsthm}
 \usepackage{graphicx}
-\usepackage{hyperref}
 \usepackage{geometry}
-
 \geometry{a4paper, margin=1in}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{csquotes}
+\usepackage{xcolor}
+\usepackage{hyperref}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    citecolor=teal,
+    urlcolor=cyan,
+    pdfencoding=auto,
+    plainpages=false,
+}
+
+% --- Epigraph Definition ---
+\newcommand{\epigraph}[2]{%
+  \begin{flushright}
+  \begin{minipage}{0.75\textwidth}
+    \raggedleft
+    \textit{#1} \\
+    \vspace{0.2em}
+    \textnormal{--- #2}
+  \end{minipage}
+  \end{flushright}
+  \vspace{1em}
+}
 
 \title{
     \Huge \textbf{Layer 1: Physical Foundations} \\
@@ -19,9 +47,13 @@
 
 \begin{document}
 
+\frontmatter
+\hypersetup{pageanchor=false}
 \maketitle
+\hypersetup{pageanchor=true}
 \tableofcontents
 
+\mainmatter
 \part{Foundations of the Physical Simulation}
 \include{chapters/01_introduction}
 \include{chapters/02_classical_mechanics}
@@ -39,5 +71,12 @@
 \include{chapters/10_ecology_geospatial}
 \include{chapters/11_information_epistemology}
 \include{chapters/12_multiscale_legacy}
+
+\backmatter
+\cleardoublepage
+\phantomsection
+\addcontentsline{toc}{chapter}{Bibliography}
+\bibliographystyle{plain}
+\bibliography{references}
 
 \end{document}

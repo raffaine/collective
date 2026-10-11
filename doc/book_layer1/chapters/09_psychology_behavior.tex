@@ -1,92 +1,346 @@
 \chapter{Psychology, Behavior, and Social Entropy}
+\label{chap:psychology_behavior}
 
-\section{The Physics of Social Behavior}
-To model the uncertainties of legacy existence and simulate human interactions, Layer 1 extends classical thermodynamics into the realm of psychology and behavioral economics. The "Tragedy of the Commons" observed in shared spaces (Scenario Epsilon) is modeled not merely as an ethical failing, but as a predictable increase in social entropy.
+\epigraph{
+    ``The commons is not an open-access free-for-all; it is a community of stewards bound by shared norms, mutual monitoring, and graduated sanctions rooted in dialogue rather than coercion.''
+}{--- \textit{Elinor Ostrom}, \textnormal{Governing the Commons} \cite{ostrom1990}}
 
-\subsection{Reputation as Potential Energy}
-In a decentralized mesh, reputation acts as a form of social potential energy $U_{soc}$. To occupy a shared resource (like a coworking desk or a fabrication node) requires crossing an activation energy threshold. If a user acts destructively (e.g., damaging equipment, violating acoustic budgets), they increase the local entropy $S_{local}$ of the environment.
+\epigraph{
+    ``Mutual aid is as much a law of animal life as mutual struggle... in the long run the practice of solidarity proves to be far more advantageous to the species than the practice of ruthless self-assertion.''
+}{--- \textit{Peter Kropotkin}, \textnormal{Mutual Aid: A Factor of Evolution} \cite{kropotkin1902}}
 
-The network mathematically penalizes this behavior by depleting the user's $U_{soc}$. If $U_{soc}$ drops below a critical threshold, the user's \texttt{WorkspaceIntent} will lack the required "energy" to actuate physical locks or secure reservations, effectively modeling social ostracization through purely mathematical physics.
+\epigraph{
+    ``The society of achievement is a society of self-exploitation. The achievement-subject exploits itself until it burns out... Freedom proves to have been an illusion, yielding to a compulsive imperative to perform.''
+}{--- \textit{Byung-Chul Han}, \textnormal{The Burnout Society} \cite{han2015}}
 
-\subsection{Behavioral Game Theory and Thermodynamics}
-Human behavior in the simulation is modeled using evolutionary game theory constrained by thermodynamic costs. The probability $P_i$ of an agent choosing strategy $i$ (e.g., cleaning up a shared desk vs. leaving it messy) is modeled using a Boltzmann-like distribution:
+\section{Purging Cybernetic Taylorism: Commons Stewardship vs. Algorithmic Control}
+\label{sec:purging_taylorism}
+
+In the twentieth century, industrial capitalism perfected the doctrine of Taylorism: the mechanical decomposition of human bodily exertion into discrete, timed micro-movements, stripping the craftsperson of intuitive discretion in pursuit of raw physical throughput. When digital computing and cybernetics collided with industrial process control in the late legacy era, an even more insidious mutation emerged: \textbf{Cybernetic Taylorism}. Under this paradigm, human beings were formally demoted to biological actuators embedded within automated feedback control loops, labeled by cybernetic theorists as ``The Human Actuator'' and modeled as biological servos receiving an external control signal $u(t)$:
 \begin{equation}
-P_i = \frac{1}{Z} e^{-\beta (C_i - R_i)}
+u(t) = K_p \, e(t) + K_i \int_0^t e(\tau) \, d\tau + K_d \, \frac{de(t)}{dt}
+\label{eq:pid_human_fallacy}
 \end{equation}
-where $C_i$ is the exergy cost of the action (the physical effort of cleaning), $R_i$ is the reputational reward (increase in $U_{soc}$), and $\beta$ represents the inverse "social temperature" (the baseline cooperativeness of the Trust Ring). By tuning these parameters, Oasis can simulate varying degrees of social cohesion and test the resilience of hard representations against adversarial behavior \cite{nowak2006evolutionary}.
+where human muscles, spatial perception, and nervous systems were treated as linear force transducers dispatched to minimize error $e(t)$ between a centralized computational setpoint and physical state variables.
 
+The Sovereign Stack decisively and permanently repudiates this dehumanizing formulation. Human beings are not biological servos, solenoids, or ``localized Maxwell's demons'' tasked with expelling thermodynamic entropy to balance an automated ledger. A sovereign node is not an authoritarian factory floor wrapped in algorithmic telemetry; it is a convivial habitat, an intentional community, and an ecological commons designed for sovereign human flourishing, mutual aid, and self-determination.
 
+Earlier drafts of the physical simulation companion volume regressed into the very technocratic pathologies the Sovereign Stack was engineered to destroy:
+\begin{enumerate}
+    \item \textbf{The Gating of Physical Space by Potential Energy ($U_{\mathrm{soc}}$):} In earlier formulations, individual reputation was formalized as a scalar potential energy $U_{\mathrm{soc}}$, where an infraction depleted the scalar and caused physical door locks to refuse entry to workshops or kitchens. This represents the archetype of a digital social-credit panopticon, substituting algorithmic lockouts for human dialogue, restorative justice, and community healing.
+    \item \textbf{The Commercialization of Craft Pedagogy:} Pedagogy was erroneously modeled as an exergy debt settlement, wherein an apprentice swept floors to generate kinetic exergy $\dot{W}_{\mathrm{kinetic}}$ matching the cognitive exergy expended by a master. Such crude barter destroys the relational bond of mentorship, reducing intergenerational craft transmission to transactional debt.
+    \item \textbf{Culture and Play as Labor Lubricants:} Art, somatic sports, and music were evaluated solely as ``psychological negentropy generators'' whose only function was to amplify physical labor efficiency $\eta_{\mathrm{work}} = \eta_0 + k_m \ln M(t)$. Treating culture as machine oil for labor throughput degrades the highest expressions of human freedom into instrumental economic variables.
+    \item \textbf{Elders as Passive Area-of-Effect Buffs:} Senior community members were instrumentalized as ambient thermodynamic stabilizers who lowered surrounding workers' morale decay rates. Elders are living repositories of oral memory, ecological history, and conflict de-escalation, not passive proximity sensors.
+    \item \textbf{Dutch-Auction Chores and Fatigue Lockouts:} Maintenance was reduced to algorithmic Dutch auctions escalating in ``Value Tokens,'' paired with automated ``fatigue lockouts'' that barred exhausted neighbors from bidding. This mechanization turns domestic life into a hyper-financialized gig-economy workhouse.
+\end{enumerate}
 
-\section{The Thermodynamics of Pedagogy}
-In Layer 1, the transfer of tacit knowledge (e.g., Scenario Kappa: Apprenticeship) is quantified as a strict exchange of exergy between biological entities, eliminating the legacy construct of fiat educational debt.
+To build a genuinely sovereign substrate, Layer~1 replaces algorithmic coercion with uncoerced human stewardship, convivial engineering limits, and Elinor Ostrom's proven design principles for stable common-pool resources.
 
-\subsection{Cognitive vs. Kinetic Exergy Exchange}
-The transmission of complex skills requires a highly ordered state of cognitive exergy from the Master entity. To balance the local thermodynamic equation without relying on external fiat currency, the Apprentice entity must perform equivalent work in the form of low-level kinetic exergy (e.g., sweeping, material preparation, thermal management).
+\section{Elinor Ostrom's Core Design Principles for Physical Infrastructure}
+\label{sec:ostrom_principles}
 
-The net exergy flow $\Delta B$ of the pedagogical interaction is balanced by the coupled equation:
+Shared physical infrastructure---whether a $14.34\,\mathrm{kWh}$ battery storage bank, a microgrid inverter, a gravity-fed water cistern, or an autothermal biochar retort---constitutes a Common-Pool Resource (CPR). Such resources are subject to subtractability of use (a kilowatt-hour consumed by one workshop cannot be consumed by another) and high exclusion costs. In legacy economics, Garrett Hardin's flawed ``Tragedy of the Commons'' hypothesis argued that CPRs inevitably collapse unless enclosed by private property rights or subjected to centralized state coercion.
+
+Elinor Ostrom dismantled Hardin's thesis through decades of empirical fieldwork, demonstrating that communities of appropriators routinely manage CPRs sustainably over generations without markets or state intervention \cite{ostrom1990}. The Oasis engine and the Sovereign Stack operationalize Ostrom's eight core design principles directly into node governance and physical coordination:
+
+\subsection{1. Clearly Defined Boundaries}
+The perimeter of the physical commons and the identities of eligible stewards must be transparent and legible. Rather than enforcing boundaries through video-game collision forcefields or automated cryptographic lockouts, sovereign nodes define physical boundaries through clear territorial demarcation and shared social covenants. Trust Rings ($R_0$ through $R_6$) delineate nested physical perimeters:
+\begin{itemize}
+    \item \textbf{Ring 0 ($R_0$, Public Commons):} Unconditional access to public life support---gravity water fountains, pedestrian rights-of-way, and open charging kiosks.
+    \item \textbf{Ring 1 ($R_1$, Guild Commons):} Workshop machine tools, solar kilns, and cistern manifolds governed by guild apprenticeship and collective responsibility.
+    \item \textbf{Ring 2 ($R_2$, Covenant Enclosure):} Mission-critical core infrastructure---the 2U compute cluster, 16S $\mathrm{LiFePO}_4$ battery enclosure, and high-voltage automatic transfer switch cabinet.
+\end{itemize}
+
+\subsection{2. Congruence Between Appropriation Rules and Local Conditions}
+Operational rules governing water withdrawal, microgrid power draw, and timber harvesting cannot be dictated by rigid top-down equations. They must reflect local hydrology, seasonal weather variations, and community customs. A harvest rate that is sustainable during wet winter months may be disastrous during an August drought. Rules are dynamic agreements crafted by human assemblies informed by telemetry, rather than autonomous code executing arbitrary limits.
+
+\subsection{3. Collective-Choice Arrangements}
+Individuals affected by operational resource rules must participate in crafting and modifying them. In a sovereign node, all permanent residents participate in the weekly physical circle or governance assembly (Layer~5). Telemetry from Layer~2 provides empirical ground truth, but human deliberation decides policy thresholds.
+
+\subsection{4. Accountable Peer Monitoring}
+Stewards who monitor physical conditions and resource use are either the appropriators themselves or accountable directly to the appropriators. Surveillance drones and edge-AI audio classifiers must never act as autonomous judges. Monitoring is conducted through direct human inspection, communal meter-reading rounds, and visible physical gauges.
+
+\subsection{5. Graduated Sanctions}
+When a community member violates a shared covenant---such as running a heavy ceramic kiln during peak battery depletion or failing to secure a water valve---the community does not deploy automated lockouts or algorithmic slashing. Sanctions begin with informal peer conversations, advance to mediated circles of restorative justice (Scenario $\Psi$: Mediation), and escalate only upon persistent bad faith to supervised probation or voluntary separation.
+
+\subsection{6. Rapid, Low-Cost Conflict Resolution Mechanisms}
+Disputes over shared tools, acoustic levels, or resource allocations are resolved through accessible local forums. Peer mediation circles de-escalate friction before grievances fester into systemic alienation.
+
+\subsection{7. Minimal Recognition of Rights to Organize}
+The community's right to devise its own internal institutions must be recognized by external authorities or shielded from them. The Sovereign Stack's Layer~7 adversary daemon (\texttt{col-adversaryd}) and legal shielding structures insulate the node's internal practices from legacy municipal overreach.
+
+\subsection{8. Nested Polycentric Enterprises}
+For infrastructure systems that span multiple nodes---such as bioregional $\pm 380\,\mathrm{V}$ HVDC inter-ties or watershed irrigation canals---governance is organized in nested tiers. Local nodes retain cellular autarky over internal operations while federating through bilateral Ricardian treaties for regional coordination.
+
+\subsection{Game-Theoretic Formalization of Commons Assurance}
+In classical non-cooperative game theory, a two-player resource extraction dilemma is frequently modeled as a Prisoner's Dilemma, where defection dominates cooperation. If player $A$ harvests conservatively ($C$) while player $B$ extracts aggressively ($D$), the payoff matrix satisfies $T > R > P > S$:
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabular}{r|cc}
+ & \textbf{Cooperate ($C$)} & \textbf{Defect ($D$)} \\
+\hline
+\textbf{Cooperate ($C$)} & $(R, R)$ & $(S, T)$ \\
+\textbf{Defect ($D$)} & $(T, S)$ & $(P, P)$ \\
+\end{tabular}
+\caption{Classical Dilemma Payoff Matrix: $T$ (Temptation), $R$ (Reward), $P$ (Punishment), $S$ (Sucker).}
+\label{tab:commons_dilemma}
+\end{table}
+
+However, in an Ostrom commons characterized by repeated interactions, mutual monitoring, and strong social affinity (Dunbar-scale Trust Rings $R_1 \dots R_2$), the game undergoes a profound mathematical transformation. Let $\delta \in [0, 1)$ denote the inter-temporal discount factor representing the probability and valuation of future communal interactions. Under the Folk Theorem for repeated games, mutual cooperation is a subgame-perfect Nash equilibrium whenever:
 \begin{equation}
-\Delta B_{Master \to Apprentice} \approx \eta_{transfer} \int \dot{W}_{kinetic} dt
+\delta \ge \frac{T - R}{T - P}
+\label{eq:folk_theorem_commons}
 \end{equation}
-where $\eta_{transfer}$ represents the efficiency of the tacit knowledge transfer (strongly correlated with spatial proximity $1/r^2$ between the entities) and $\dot{W}_{kinetic}$ is the rate of kinetic work provided by the apprentice. If the integral of the kinetic work matches the cognitive exergy expended, the system orchestrates a zero-debt settlement \cite{adams1988energy}.
+In a cohesive sovereign node where neighbors share water, microgrid power, and food production, $\delta \to 1.0$. The temptation to defect ($T - R$) is tiny compared to the catastrophic loss of communal trust and social exile ($T - P$). Ostrom's graduated sanctions and communal visibility transform the destructive Prisoner's Dilemma into an \textbf{Assurance Game} (Stag Hunt), where mutual stewardship is both the socially optimal and individually rational equilibrium.
 
+\section{The Convivial Work Bee: Collective Barn-Raising vs. Algorithmic Bounties}
+\label{sec:convivial_work_bee}
 
+In legacy societies, physical maintenance (cleaning drains, mending roofs, turning compost, weeding swales) is systematically devalued because it produces no novel exchange value. Attempting to solve this through gamified Dutch auctions---where cleaning tasks escalate in token bounty until someone bids---creates a toxic micro-economy. Neighbors eye dirty dishes and clogged filters as speculative assets, waiting for the bounty to rise before intervening, while exhausted participants face punitive algorithmic lockouts.
 
-\section{Psychological Negentropy and Morale Dynamics}
-In Legacy environments, cultural creation and somatic play (sports, music) are often treated as economically tertiary. In Layer 1, they are classified as generators of psychological negentropy. 
+The Sovereign Stack replaces transactional chore auctions with the ancient and convivial tradition of the \textbf{Work Bee} or \textbf{Barn-Raising} (\textit{Minga}, \textit{Frolic}, \textit{Meithal}):
+\begin{enumerate}
+    \item \textbf{Festive Collective Mobilization:} Physical maintenance is organized as a scheduled communal event. Neighbors gather to clear storm runoff ditches, overhaul the photovoltaic racking, or harvest the coppice forest together. Labor is accompanied by shared meals, acoustic music, and celebration.
+    \item \textbf{Equal Honor for Care and Provisioning:} The work bee explicitly honors reproductive labor. Preparing nourishing food, brewing tea, supervising young children, and tending the comfort of elders are recognized as equal in dignity and energetic necessity to swinging sledgehammers or running conduit.
+    \item \textbf{Elimination of Monetary Friction:} No tokens, credits, or debts change hands during a barn-raising. The economic foundation is generalized reciprocity: today we raise our neighbor's roof; tomorrow our neighbor joins in repairing our greenhouse foundation.
+    \item \textbf{Psychological Negentropy of Fellowship:} Working side-by-side dissolves alienation and learned helplessness. Participants experience the immediate, visceral joy of transforming their physical environment with their own hands in the company of friends.
+\end{enumerate}
 
-\subsection{Morale as an Efficiency Multiplier}
-The internal state of an agent includes a Morale variable, $M(t)$. Engaging in collaborative somatic play or consuming cultural outputs decreases the agent's internal psychological entropy. The Oasis engine directly couples $M(t)$ to the physical work efficiency $\eta_{work}$ of the agent in other scenarios (like forestry or fabrication):
+\subsection{Energetics of the Communal Feast and Reproductive Care}
+A common failure mode in technocratic energy accounting is the total omission of reproductive labor. In legacy analysis, the exergy of a construction project counts only the kilowatt-hours drawn by power tools and the kinetic foot-pounds exerted by carpenters. 
+
+In a sovereign node, the thermodynamic accounting of a Work Bee begins in the community kitchen. Preparing a feast for thirty neighbors requires substantial, predictable thermal exergy inputs:
 \begin{equation}
-\eta_{work}(t) = \eta_{baseline} + k_m \ln(M(t))
+Q_{\mathrm{kitchen}} = \sum_{j} m_j \, c_{p,j} \, \Delta T_j + Q_{\mathrm{sensible}} + Q_{\mathrm{latent}}
+\label{eq:kitchen_exergy}
 \end{equation}
-where $k_m$ is the morale coupling constant. Without periodic influxes of cultural negentropy (Scenario Lambda), $M(t)$ decays toward zero, driving $\eta_{work}$ down and increasing the thermodynamic cost of all physical labor performed by the agent. Thus, the system economically rewards musicians and athletes not as entertainers, but as critical thermodynamic maintainers of the mesh's operational efficiency.
+Supplying this heat through the 4-Stage Thermal Exergy Cascade (using Stage~0 waste heat from compute clusters for hot water pre-heating and Stage~1 hydronic loops or direct biomass rocket stoves) cuts primary electrical load by over $80\%$. 
 
-\section{Small-World Topology and Dunbar Constraints}
-The Oasis engine governs social organization (Scenario Omicron: The Trust Ring) using the physics of complex networks, specifically small-world topology and the cognitive limitations of hominins.
+Each participant in heavy labor burns approximately $12.5 - 16.5\,\mathrm{MJ}$ ($3{,}000 - 4{,}000\,\mathrm{kcal}$) over an intensive workday. The nutritious communal meal replenishes glycogen stores, restores fluid and electrolyte balance via fermented beverages and mineral broths, and stimulates oxytocin release through shared laughter. Caring for children during the work bee allows parents to focus deeply on hazardous mechanical tasks without divided attention, dramatically reducing the probability of industrial accidents. Reproductive care is not an overhead cost; it is the primary thermodynamic driver that makes all physical infrastructure possible.
 
-\subsection{Graph Distance and Bandwidth Limits}
-Human neurological architecture imposes a hard limit on the number of stable social relationships an individual can maintain, known as Dunbar's number ($N \approx 150$). Attempting to scale trust beyond this limit via centralized fiat institutions inevitably leads to systemic alienation and high social entropy. 
+\section{The Oasis Cognitive Core: Episodic Memory and Psychological Resilience}
+\label{sec:oasis_cognitive_core}
 
-In Layer 1, social trust is formalized as a cryptographic graph $G(V, E)$. The system optimizes for a small-world network topology, where the average path length $L$ between any two nodes scales logarithmically with the number of nodes $N$:
+To simulate human agents and social resilience with genuine psychological depth rather than shallow scalar approximations, the Oasis simulation engine incorporates a cognitive architecture inspired by \textit{Dwarf Fortress} and \textit{The Sims}. In the Oasis C++20 ECS framework (operating within \texttt{core/1\_simulation/}), human psychological state is governed by discrete, cache-aligned data structures that capture lived experience, permanent trauma, and emotional resilience.
+
+\subsection{The 24-Byte Episodic Memory Node}
+Human memory does not record a continuous, uncompressed stream of sensory data. Biological memory is episodic: it captures salient, discrete events that alter an agent's internal worldview, emotional appraisal, and future behavior. Oasis formalizes this as the \texttt{EpisodicMemoryNode}, packed into exactly 24 bytes and aligned to an 8-byte boundary:
+\begin{verbatim}
+#pragma pack(push, 8)
+struct alignas(8) EpisodicMemoryNode {
+    uint64_t timestamp_tick{0};     // Simulation tick of event (8 bytes)
+    uint16_t event_type{0};          // MemoryEventType enum (2 bytes)
+    int16_t  emotional_valence{0};   // Valence [-100..+100] (2 bytes)
+    uint8_t  salience{0};            // Psychological salience [0..100] (1 byte)
+    uint8_t  flags{0};               // Bitfield flags (1 byte)
+    char     description[8]{};       // Short human-readable tag (8 bytes)
+    uint16_t reserved{0};            // Alignment padding (2 bytes)
+};
+#pragma pack(pop)
+static_assert(sizeof(EpisodicMemoryNode) == 24, "Must be exactly 24 bytes packed");
+\end{verbatim}
+
+The \texttt{flags} field encodes critical psychological metadata via bitwise operations:
+\begin{verbatim}
+namespace MemoryFlags {
+    constexpr uint8_t NONE             = 0x00;
+    constexpr uint8_t PERMANENT_MEMORY = 0x01; // salience >= 80 root event
+    constexpr uint8_t TRAUMA           = 0x02; // Severe negative valence
+    constexpr uint8_t EUPHORIA         = 0x04; // Major positive breakthrough
+}
+\end{verbatim}
+
+\subsection{Memory Layout and Packing Specifications}
+Table~\ref{tab:episodic_memory_layout} details the precise memory layout, byte offsets, and alignment characteristics of the \texttt{EpisodicMemoryNode}. Every field is explicitly budgeted to eliminate compiler-inserted padding gaps, ensuring cache coherence when streaming millions of agent memories across multi-threaded simulation ticks.
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabular}{|l|c|c|p{0.45\textwidth}|}
+\hline
+\textbf{Field Name} & \textbf{Type} & \textbf{Offset (Bytes)} & \textbf{Cognitive \& Simulation Function} \\
+\hline
+\texttt{timestamp\_tick} & \texttt{uint64\_t} & 0 & Monotonic simulation tick when event occurred; anchors episodic chronology. \\
+\hline
+\texttt{event\_type} & \texttt{uint16\_t} & 8 & Categorical event identifier (e.g., harvest feast, frost, equipment breakdown). \\
+\hline
+\texttt{emotional\_valence} & \texttt{int16\_t} & 10 & Affective polarity: $[-100, -1]$ painful/distressing, $[+1, +100]$ joyful/empowering. \\
+\hline
+\texttt{salience} & \texttt{uint8\_t} & 12 & Cognitive impact $[0, 100]$; determines retention priority and permanent trauma. \\
+\hline
+\texttt{flags} & \texttt{uint8\_t} & 13 & Bitfield: \texttt{0x01} Permanent, \texttt{0x02} Trauma, \texttt{0x04} Euphoria. \\
+\hline
+\texttt{description} & \texttt{char[8]} & 14 & Compact ASCII label (e.g., \texttt{"Harvest\textbackslash 0"}, \texttt{"Outage\textbackslash 0"}). \\
+\hline
+\texttt{reserved} & \texttt{uint16\_t} & 22 & Zero-initialized alignment padding restoring 8-byte word boundary. \\
+\hline
+\end{tabular}
+\caption{Memory Layout and Field Specification of the 24-Byte \texttt{EpisodicMemoryNode}.}
+\label{tab:episodic_memory_layout}
+\end{table}
+
+\subsection{The 32-Slot Ring Buffer and Dwarf Fortress Trauma Retention}
+Each agent maintains an \texttt{EpisodicMemoryRing} containing 32 memory slots ($32 \times 24\,\text{bytes} = 768\,\text{bytes}$), fitting comfortably within a modern CPU cache hierarchy:
+\begin{verbatim}
+struct EpisodicMemoryRing {
+    static constexpr size_t CAPACITY = 32;
+    EpisodicMemoryNode slots[CAPACITY]{};
+    uint32_t head{0};
+    uint32_t count{0};
+    uint32_t total_recorded{0};
+    uint32_t permanent_count{0};
+
+    uint32_t Push(const EpisodicMemoryNode& input_node);
+};
+\end{verbatim}
+
+The ring buffer implements a \textbf{Trauma-Protected Eviction Policy} directly adapted from \textit{Dwarf Fortress}:
+\begin{enumerate}
+    \item When a new memory node is pushed, if its salience satisfies $\text{salience} \ge 80$, the engine automatically sets the \texttt{PERMANENT\_MEMORY} flag.
+    \item While the ring buffer is not full ($\text{count} < 32$), new memories are inserted sequentially at the head index.
+    \item When the buffer is saturated ($\text{count} == 32$), routine circular overwriting is strictly prohibited. Instead, the engine scans the ring to locate the slot with the \textbf{lowest salience score that does not possess the \texttt{PERMANENT\_MEMORY} flag}.
+    \item If all 32 slots hold permanent memories, the event with the oldest timestamp among the lowest salience tier is replaced, but under normal operational conditions, foundational life experiences---a structural fire, the birth of a child, a communal harvest feast, or a municipal raid---remain permanently etched in the agent's cognitive matrix.
+\end{enumerate}
+
+For routine (non-permanent) memories, cognitive salience experiences natural temporal attenuation governed by exponential decay:
 \begin{equation}
-L \propto \ln(N)
+S_{\mathrm{eff}}(t) = S_0 \cdot \exp\left(-\lambda_{\mathrm{decay}} (t - t_0)\right) \cdot \left[1 - \mathbb{I}_{\mathrm{perm}}\right] + S_0 \cdot \mathbb{I}_{\mathrm{perm}}
+\label{eq:salience_decay}
 \end{equation}
-Rather than forcing all agents to trust a central authority, the Web of Trust calculates the physical graph distance between agents. Economic and social privileges (e.g., access to heavy machinery or childcare) are gated by this distance. To bridge isolated clusters, the system explicitly incentivizes agents who span "structural holes," treating network bridging as a high-value thermodynamic service that lowers the overall transaction friction of the collective \cite{watts1998collective}.
+where $\mathbb{I}_{\mathrm{perm}} \in \{0, 1\}$ is an indicator variable signaling whether \texttt{MemoryFlags::PERMANENT\_MEMORY} is asserted. Routine memories fade into background noise, but traumatic shocks or profound achievements maintain invariant salience $S_0$, permanently shaping the agent's future behavioral appraisals.
 
-\section{Lifecycle Thermodynamics and Passive Negentropy}
-The biological lifecycle (Scenario Phi: Elder Autonomy) dictates a shift in the way entities process exergy. As an agent enters late-stage lifecycle phases, their maximum kinetic power output $\dot{W}_{max}$ decreases due to cellular senescence.
-
-\subsection{Informational Density and Burden Dispersion}
-However, while kinetic capacity decays, the entity's informational density (tacit knowledge, behavioral stabilization) reaches its peak. Legacy systems treat the loss of $\dot{W}_{max}$ as an economic failure. Layer 1 treats it as a phase transition. The engine models "passive negentropy"—where the mere spatial presence of an Elder entity in a chunk applies a stabilizing gradient to the morale decay rate of surrounding entities, increasing the global $\eta_{work}$.
-
-Furthermore, to prevent localized entropy spikes (caregiver burnout), the orchestrator applies fractional burden dispersion. A massive care load $Q_{care}$ is mathematically fractured into discrete temporal micro-tasks and distributed across a localized subgraph of $k$ trusted peers, ensuring that the individual stress $\sigma_i = Q_{care}/k$ never exceeds the psychological yield strength of a single caregiver \cite{burt2004structural}.
-
-
-
-\section{Behavioral Economics and Thermodynamic Auctions}
-In legacy systems, maintenance labor (cleaning, organizing) is assigned low economic value because it does not produce novel commodities. In Layer 1 (Scenario Sigma: Maintenance and Burnout), maintenance is correctly recognized as the most critical thermodynamic function: reversing localized entropy.
-
-\subsection{Algorithmic Price Discovery}
-To ensure maintenance is consistently performed without relying on coercion, the BPMN orchestrator employs an algorithmic auction (a dynamic escalation model). When a task (e.g., \texttt{DEEP\_CLEAN}) is generated, it possesses a base thermodynamic reward $R_0$. If the local Trust Ring ignores the bounty, the orchestrator increases the reward at discrete time intervals $\Delta t$:
+\subsection{Stress, Focus, and Affordance Dynamics}
+Agent psychology evolves dynamically through the interplay of stress, focus, and environmental affordances:
 \begin{equation}
-R(t) = R_0 (1 + r)^{\frac{t}{\Delta t}}
+\frac{d S_{\mathrm{psych}}}{dt} = \kappa_{\mathrm{phys}} \, \Delta E_{\mathrm{exertion}} + \kappa_{\mathrm{env}} \, \Phi_{\mathrm{cold}} + \kappa_{\mathrm{soc}} \, \Psi_{\mathrm{conflict}} - \sum_{k} \Gamma_k \, \delta(t - t_k)
+\label{eq:stress_dynamics}
 \end{equation}
-where $r$ is the escalation rate. This mathematically guarantees that the Value Token reward will eventually match the psychological friction of the least-fatigued citizen. Furthermore, to prevent "burnout" (where a single citizen absorbs too much psychological entropy for the collective), the Web of Trust applies a strict fatigue lockout. If a citizen's recent task velocity exceeds the healthy psychological threshold, they are mathematically barred from claiming the bounty, forcing the auction to clear at a higher price with a different citizen, thereby enforcing equitable thermodynamic load distribution \cite{kahneman1979prospect}.
+where stress $S_{\mathrm{psych}} \in [0, 100]$ accumulates from physical overexertion ($\Delta E_{\mathrm{exertion}}$), environmental discomfort ($\Phi_{\mathrm{cold}}$, drafts, noise), and interpersonal friction ($\Psi_{\mathrm{conflict}}$). Relief occurs through discrete restorative events $\Gamma_k$: enjoying a warm communal meal, resting near a radiant hearth, crafting an object of beauty, or conversing with a trusted friend.
 
-\begin{thebibliography}{99}
-\bibitem{burt2004structural}
-Burt, R. S. (2004). \textit{Structural holes and good ideas}. American journal of sociology, 110(2), 349-399.
+Following the design philosophy of \textit{The Sims}, node stewards exercise \textbf{Indirect Autonomy}. The system does not issue direct pathfinding commands to human agents. Stewards shape the physical environment by creating affordances: installing an insulated masonry stove, arranging dining tables for conversation, placing hand tools within easy reach, and ensuring clean acoustic zones for sleep. Agents autonomously seek affordances that satisfy biological, psychological, and social needs according to their personal traits and episodic memories.
 
-\bibitem{nowak2006evolutionary}
-Nowak, M. A. (2006). \textit{Evolutionary dynamics: exploring the equations of life}. Harvard university press.
+\subsection{Affective Appraisal and Emotional Valencing}
+In human psychological cognition, memory encoding is not a passive data-logging operation; it is mediated by somatic marker appraisal. Following the dimensional emotion models of cognitive psychology, Oasis maps environmental occurrences into an affective state vector $\mathbf{A} \in [-100, +100]^3$ representing Valence ($V$, hedonic pleasure vs. pain), Arousal ($A$, physiological activation level), and Dominance ($D$, sense of personal agency vs. helplessness):
+\begin{equation}
+\mathbf{A}(t) = \mathbf{A}_0 + \mathbf{W}_{\mathrm{env}} \cdot \mathbf{x}_{\mathrm{stimulus}}(t) - \boldsymbol{\Gamma}_{\mathrm{homeostasis}} \cdot (\mathbf{A}(t) - \mathbf{A}_{\mathrm{baseline}})
+\label{eq:affective_tensor}
+\end{equation}
+where $\mathbf{W}_{\mathrm{env}}$ is a sensory weight matrix calibrated by the agent's historical traits, and $\boldsymbol{\Gamma}_{\mathrm{homeostasis}}$ represents somatic emotional regulation damping runaway affective excursions.
 
-\bibitem{watts1998collective}
-Watts, D. J., \& Strogatz, S. H. (1998). \textit{Collective dynamics of ‘small-world’ networks}. nature, 393(6684), 440-442.
+When an unexpected shock occurs---such as an emergency microgrid trip during a winter sub-zero freeze---the arousal coordinate spikes ($A \to +90$) while valence plunges ($V \to -70$). If the community responds cooperatively and restores power through collective troubleshooting, the dominance coordinate rises ($D \to +80$), converting what would have been an isolating trauma into an empowering episodic achievement. The salience metric $S$ recorded in the 24-byte \texttt{EpisodicMemoryNode} is computed as the Euclidean norm of the affective perturbation:
+\begin{equation}
+S = \min\left(100, \; \left\lfloor \sqrt{V^2 + A^2 + D^2} \cdot \frac{1}{\sqrt{3}} \right\rfloor \right)
+\label{eq:salience_norm}
+\end{equation}
+If $S \ge 80$, the event permanently alters the agent's baseline worldview, modifying future behavioral thresholds across all subsequent simulation cycles.
 
-\bibitem{adams1988energy}
-Adams, R. N. (1988). \textit{The eighth day: Social evolution as the self-organization of energy}. University of Texas Press.
+\subsection{Codebase Drift Concern 5: Scripted Mocks vs. Emergent Appraisal}
+A forensic audit of the Oasis simulation codebase in \texttt{core/1\_simulation/src/main.cpp} (lines 609--703) reveals an active \textbf{Codebase Drift Concern}. In current development sprints, the Founder's memory ring buffer is populated by a hardcoded tick-based script:
+\begin{verbatim}
+if (tick == 1) {
+    node.event_type = static_cast<uint16_t>(MemoryEventType::MUNICIPAL_CODE_RAID);
+    node.salience = 95; // permanent
+} else if (tick == 10) {
+    node.event_type = static_cast<uint16_t>(MemoryEventType::SIPHON_POWER_GRID);
+}
+\end{verbatim}
+This rigid scripting is a temporary unit-test fixture, not the canonical cognitive architecture. The true architectural mandate requires decoupling memory formation from tick counters. Memory nodes must be instantiated dynamically by Flecs event observers monitoring real physical voxel state transitions, microgrid fluctuations, and interpersonal interactions.
 
-\bibitem{kahneman1979prospect}
-Kahneman, D., \& Tversky, A. (1979). \textit{Prospect theory: An analysis of decision under risk}. Econometrica, 47(2), 263-291.
+\section{Calm Physicality, Somatic Epistemology, and Zero-Noise Alarm Hygiene}
+\label{sec:calm_physicality}
 
-\end{thebibliography}
+\subsection{Mark Weiser's Calm Technology}
+Legacy ``smart environments'' inflict acute cognitive distress through constant auditory pings, flashing LEDs, smartphone push notifications, and intrusive data dashboards. In a sovereign node, computational support adheres to Mark Weiser's foundational principle of \textbf{Calm Technology} \cite{weiser1996calm}: tools must inform without demanding center-stage attention, receding gracefully into the ambient periphery of human consciousness.
+
+The node maintains rigorous \textbf{Zero-Noise Alarm Hygiene}:
+\begin{itemize}
+    \item Living, resting, and dining quarters are absolute quiet zones: no digital chimes, no audible telemetry alerts, and no flashing digital displays.
+    \item Status information is conveyed through ambient physical indicators: a soft, indirect status glow indicating battery state of charge (amber for conservation, warm green for surplus); the rhythmic sound of a hydronic circulation pump; or the visible water level in an external sight glass.
+    \item Audible alarms are reserved exclusively for life-safety emergency thresholds (e.g., carbon monoxide detection, thermal runaway interlocks, or rapid hydraulic line rupture).
+\end{itemize}
+
+\subsection{Somatic Epistemology}
+A profound hazard of digital sensor fetishism is the atrophy of human bodily discernment. In the Sovereign Stack, human biological senses are recognized as primary, irreplaceable epistemic instruments:
+\begin{itemize}
+    \item \textbf{Olfaction:} The earthy, rich aroma of geosmin signaling a thriving aerobic thermophilic compost pile ($T > 55^\circ\mathrm{C}$), contrasted with the sharp, sour sting of anaerobic volatile fatty acids or ammonia ($NH_3$) that signals insufficient aeration or a depressed carbon-to-nitrogen ratio.
+    \item \textbf{Tactile Vibration and Thermoreception:} Touching a bearing housing with the palm to detect anomalous frictional heating or high-frequency mechanical vibration before a motor fails; feeling the temperature differential across the inlet and outlet of a hydronic manifold. In the field, tactile discernment of soil moisture via the ball-and-ribbon test enables farmers to assess plastic and liquid consistency limits ($w_P, w_L$) without waiting for laboratory hydrometer results.
+    \item \textbf{Acoustic Discernment and Resonance Testing:} Listening to the low $60\,\mathrm{Hz}$ hum of a loaded toroidal inverter, the distinct cavitation rattle of an under-fed centrifugal pump, or the wind shear rustling through an agroforestry windbreak. In timber framing, carpenters strike heavy white-oak bents with a wooden mallet, listening to the fundamental resonant frequency:
+    \begin{equation}
+    f_0 = \frac{1}{2 L} \sqrt{\frac{E}{\rho}}
+    \label{eq:timber_acoustic_resonance}
+    \end{equation}
+    where $E$ is Young's modulus and $\rho$ is density. A clear, ringing tone indicates tight, un-compromised mortise-and-tenon joinery and sound fiber; a dull thud warns of internal fungal rot, grain checks, or loose trunnel pins long before structural displacement manifests.
+\end{itemize}
+Telemetry digitized at Layer~2 provides quantitative confirmation, but somatic epistemology provides qualitative understanding and grounded intuition.
+
+\subsection{The Three Convivial Engineering Rules}
+Following Ivan Illich's *Tools for Conviviality* \cite{illich1973}, all physical infrastructure in Layer~1 must satisfy three non-negotiable convivial rules:
+\begin{enumerate}
+    \item \textbf{Sensory and Mechanical Legibility:} System state must be decipherable through direct biological observation without electronic instruments. Cisterns must feature clear sight glasses or mechanical float flags; hydronic loops must include analog Bourdon tube pressure gauges; electrical cabinets must incorporate visible air-gap disconnects.
+    \item \textbf{The ``Red Lever'' Rule:} Every motorized valve, high-voltage contactor, and automatic transfer switch must possess a physical manual mechanical override. A human steward must always be capable of physically grabbing a mechanical lever to open a valve, drop a contactor, or isolate a circuit, completely bypassing software and microcontrollers.
+    \item \textbf{The ``One-Wrench'' Rule:} Fasteners, mechanical unions, and structural assemblies across the node must be standardized on universal metric dimensions (primarily M6 and M8 hex bolts) and standard plumbing unions (NPT/BSP). A steward equipped with a single adjustable wrench and a standard metric hand set can disassemble, inspect, and repair the physical plant without proprietary tools.
+\end{enumerate}
+
+\subsection{Small-World Network Topology and Dunbar Constraints}
+Human neurological architecture imposes hard cognitive constraints on the scale of un-mediated social cohesion, famously quantified by Robin Dunbar as an upper ceiling of approximately $150$ stable personal relationships ($N_{\mathrm{Dunbar}} \approx 150$). Attempting to organize human cooperation beyond this scale through centralized bureaucratic diktat inevitably generates institutional alienation, communication bottlenecks, and systemic social entropy.
+
+In the Sovereign Stack, social connectivity is formalized as a cryptographic graph $G(V, E)$ embedded within a small-world network topology (Watts \& Strogatz model). Let $N$ be the total population of stewards across a federated bioregion. A small-world network is characterized by two defining topological properties:
+\begin{enumerate}
+    \item \textbf{High Local Clustering Coefficient ($C \gg C_{\mathrm{random}}$):} Stewards within a primary living cluster (Trust Ring $R_1$, comprising $12$ to $30$ individuals, or a complete node of $\le 150$ individuals) exhibit dense, interconnected bonds of daily mutual aid and face-to-face accountability:
+    \begin{equation}
+    C_i = \frac{2 E_i}{k_i (k_i - 1)}
+    \label{eq:clustering_coefficient}
+    \end{equation}
+    where $k_i$ is the degree of node $i$ and $E_i$ is the number of edges connecting its immediate neighbors.
+    \item \textbf{Short Average Path Length ($L \sim \ln N$):} Despite the lack of a central coordinator, information, technical skills, and mutual aid can propagate across the entire multi-node bioregion with logarithmic scaling:
+    \begin{equation}
+    L = \frac{1}{N(N - 1)} \sum_{i \ne j} d(v_i, v_j) \propto \ln(N)
+    \label{eq:small_world_path}
+    \end{equation}
+\end{enumerate}
+Rather than flattening human social life into a globalized, hyper-connected market where every interaction carries transactional friction, the Sovereign Stack respects the biological scale of human empathy. High-trust, non-monetary gift and commons economies flourish within the dense local cluster ($C_i \to 1.0$), while inter-node collaboration across long graph distances ($d(v_i, v_j) > 2$) is mediated by formal Ricardian treaties and bilateral clearing channels.
+
+\subsection{Variational Free Energy and Cognitive Recovery}
+To understand cognitive fatigue without falling into the mechanistic trap of treating humans as batteries, Layer~1 draws upon Karl Friston's \textbf{Free Energy Principle} \cite{friston2010free}. Under this formulation, the human brain is a non-equilibrium self-organizing system that maintains its structural integrity by minimizing variational free energy $F$:
+\begin{equation}
+F = \mathbb{E}_{q(\theta)} \left[ \ln q(\theta) - \ln p(s, \theta) \right] = D_{\mathrm{KL}}\left(q(\theta) \,\parallel\, p(\theta \mid s)\right) - \ln p(s)
+\label{eq:free_energy_principle}
+\end{equation}
+where $s$ denotes sensory observations from the physical environment, $\theta$ represents latent environmental causes, $q(\theta)$ is the agent's internal recognition density, and $p(s, \theta)$ is the generative model of the world.
+
+When an individual operates in an unpredictable, noisy, or hostile environment---surrounded by flickering fluorescent lights, erratic legacy utility cuts, or bureaucratic precarity---the divergence between sensory inputs and internal models spikes, driving $F$ to exhausting heights. Chronic cognitive exhaustion (``burnout'') is not an exergy debt on a ledger; it is the neurological toll of sustained, unresolvable prediction error.
+
+A sovereign convivial habitat minimizes ambient free energy by design:
+\begin{itemize}
+    \item Physical environments provide stable, predictable, legible sensory feedback (natural daylighting, thermal inertia from rammed earth, visible water levels).
+    \item Social covenants eliminate existential financial terror and arbitrary eviction.
+    \item Restorative practices---unstructured leisure, deep communal feasts, artistic creation, and unhurried sleep---provide the essential neurological downtime required for synaptic renormalization and the Bayesian updating of internal models.
+\end{itemize}
+
+\section{The Biophysical Safety Floor and Unconditional Mutual Aid}
+\label{sec:biophysical_safety_floor}
+
+Human physiological capacity is not an elastic resource that can be optimized toward infinite efficiency. The human body is subject to immutable biophysical boundaries:
+\begin{itemize}
+    \item \textbf{Basal Metabolic Rate (BMR):} The baseline thermal power dissipated by a resting adult human organism is $80\,\mathrm{W}$ to $100\,\mathrm{W}$ ($\approx 1{,}650 - 2{,}060\,\mathrm{kcal/day}$).
+    \item \textbf{Sustained Kinetic Work Output:} A conditioned human worker can sustain an average mechanical power output of $75\,\mathrm{W}$ to $150\,\mathrm{W}$ over an 8-hour workday, corresponding to an exergy expenditure of $2.16 - 4.32\,\mathrm{MJ/day}$. Peak sprint exertion may reach $400 - 800\,\mathrm{W}$ for mere minutes before lactic acidosis forces cessation.
+    \item \textbf{Environmental Heat Stress (WBGT):} When ambient humidity and solar radiation push the Wet-Bulb Globe Temperature (WBGT) above $28^\circ\mathrm{C}$, the human body's evaporative cooling capacity is severely impaired. At $\text{WBGT} \ge 28^\circ\mathrm{C}$, the node protocols mandate automated task throttling (50\% rest-to-work ratios). At $\text{WBGT} \ge 32^\circ\mathrm{C}$, all strenuous physical labor is unconditionally halted to prevent fatal heat stroke.
+\end{itemize}
+
+\subsection{The Inviolable Protocol of Refusal}
+The cornerstone of social physics in the Sovereign Stack is the \textbf{Protocol of Refusal}. Every resident of a sovereign node possesses an absolute, inalienable right to refuse physical labor, to step away from tasks, and to rest.
+
+Access to life-support infrastructure---nourishing caloric sustenance, potable water, thermal shelter, medical care, and community safety---is an unconditional birthright guaranteed by the commons. It is never contingent on labor performance, task completion velocity, or balance-sheet calculations. In the words of Peter Kropotkin: ``All belongs to all. All things are for all men, since all men have need of them, since all men have worked in the measure of their strength to produce them'' \cite{kropotkin1902}.
+
+\subsection{Multi-Generational Stewardship and The Living Human Archive}
+A resilient commons cannot exist as a monoculture of prime-age laborers. A living community encompasses infants, children, adolescents, adults, and elders. In the Sovereign Stack, the biological lifecycle is understood not as an economic rise and fall, but as an evolving continuum of gifts and responsibilities:
+\begin{itemize}
+    \item \textbf{Children as the Living Heart of the Node:} Children are not entropic liabilities or dependents to be segregated into state institutions; they are the vibrant living purpose of the commons. Growing up surrounded by gardens, workshops, and solar arrays, they absorb ecological and mechanical literacy through playful participation.
+    \item \textbf{Elders as Living Archives and De-Escalators:} While an elder's maximum kinetic exertion $\dot{W}_{\max}$ naturally declines with age, their informational density and wisdom reach their peak. Elders are the custodians of tacit agricultural memory, masters of craft nuance, and natural conciliators whose calm presence de-escalates interpersonal friction in assembly circles.
+    \item \textbf{Intergenerational Tacit Continuity:} The transmission of complex craft skills---timber joinery, herbal medicine, seed saving, stone masonry---occurs through patient, multi-generational relational presence, cementing the enduring autonomy of the sovereign node across the centuries.
+\end{itemize}
+
+When catastrophic legacy failures disrupt centralized supply lines or sever grid telecommunications, a community that relies exclusively on fragile digital storage is blinded by civilizational amnesia. But a sovereign node whose memory lives embodied within its elders, whose children know where the wild springs flow and which clay beds fire into waterproof tile, possesses an unbreakable biological resilience. In the living assembly of generations, human psychology finds its ultimate sanctuary: not in isolated self-optimization, but in the enduring, convivial embrace of the commons.
+
+By anchoring human psychology in genuine biological needs, convivial tool limits, and Ostrom commons stewardship, Layer~1 provides the indispensable social foundation upon which post-fiat sovereign autonomy is built.

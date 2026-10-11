@@ -1,103 +1,351 @@
 \chapter{Simulation Methods and Architecture}
+\label{chap:simulation_methods}
 
-\section{Spatial Discretization: Voxel Mechanics}
-To manage the computational complexity of the continuous physical world, Layer 1 employs a discrete, voxel-based spatial representation. The environment is partitioned into $32^3$ voxel chunks, an architecture heavily inspired by cellular automata and sparse voxel octrees (SVOs) \cite{laine2010efficient}.
+\providecommand{\epigraph}[2]{%
+  \begin{quote}
+    \textit{#1} \\
+    \raggedleft--- #2
+  \end{quote}
+}
 
-\subsection{Voxel State and Material Properties}
-Each voxel encapsulates the localized physical state, rather than relying on continuous meshes. A voxel state tensor includes:
+\epigraph{
+    ``The traversal algorithm for ray tracing through a uniform grid requires no floating point divisions per step once initialized. By tracking the distance to the next voxel boundary along each coordinate axis and incrementing the nearest boundary index, spatial traversal reduces to integer comparisons and additions.''
+}{--- \textit{John Amanatides and Andrew Woo}, \textnormal{A Fast Voxel Traversal Algorithm for Ray Tracing} \cite{amanatides1987fast}}
+
+\epigraph{
+    ``The best material model of a cat is another, or preferably the same, cat. When we desire to study a system by means of a computational model, we must never confuse the formal representation of reality with the physical territory itself.''
+}{--- \textit{Norbert Wiener and Arturo Rosenblueth}, \textnormal{The Role of Models in Science} \cite{wiener1945role}}
+
+\epigraph{
+    ``In cellular automata, macroscopic physical behaviors---from fluid vortices to diffusion fronts---emerge spontaneously from the deterministic application of local transition rules on discrete spatial lattices.''
+}{--- \textit{Stephen Wolfram}, \textnormal{Statistical Mechanics of Cellular Automata} \cite{wolfram1983statistical}}
+
+\section{The Digital Twin as Thermodynamic Rehearsal}
+
+In conventional game engines, simulation is an engine of illusion. Its objective is perceptual believability at minimal computational cost: visual geometry is hollow polygon meshes without internal mass, physical collisions are coarse bounding capsules, and environmental interactions are scripted animations designed for entertainment.
+
+In the Sovereign Stack, simulation serves a fundamentally different purpose. The Oasis engine is not an escape from reality; it is a high-fidelity cybernetic digital twin designed for \textbf{Scenario Driven Development (ScDD)}. Before a sovereign settlement pours concrete foundations, trenches hydronic heating lines, or bolts expensive monocrystalline solar panels to a sub-zero roof, it must test its designs against the thermodynamic realities of the physical world. 
+
+A settlement cannot afford trial-and-error with real survival infrastructure. A miscalculated battery bank capacity means frozen greenhouses during a three-day winter blizzard; an undersized greywater reed bed means toxic anaerobic pooling and pathogen exposure; an uninsulated rammed-earth dwelling means excessive firewood consumption that strips local coppice forests. The simulation provides an in-silico sandbox where physical layouts, building thermal mass, rainwater catchment sizing, and electrical microgrid resilience can be subjected to decades of simulated weather, macro-economic shocks, and equipment degradation in mere minutes of compute time.
+
+Crucially, the simulation must never succumb to ``virtual magic.'' In early drafts of the Layer~1 representation, developers introduced game-like hacks: claiming that cryptographic permissions could generate physical ``force fields'' preventing access through tent fabric, or using acoustic decibel meters to dynamically slash social credit scores. The Sovereign Stack rejects these authoritarian shortcuts. A tent is governed by the shear strength of canvas, zipper tensile limits, and lock latches; social peace is maintained by Ostrom covenants and restorative justice circles, not by artificial collision barriers. The digital twin must honor the laws of continuum mechanics, thermodynamics, and soil physics with unflinching fidelity.
+
+\section{The Decimeter 3D DDA Voxel Lattice: Cache-Coherent Physical Discretization}
+
+To simulate the continuous physical world on digital hardware without the intractable computational overhead of finite element meshes, the Oasis engine discretizes physical space into a uniform, three-dimensional voxel grid.
+
+\subsection{The 1-Decimeter Spatial Invariant}
+
+The engine establishes a universal spatial resolution:
+\begin{equation}
+\Delta x = \Delta y = \Delta z = 0.1\,\mathrm{m} = 1.0\,\mathrm{dm}
+\label{eq:voxel_resolution}
+\end{equation}
+Every voxel represents a discrete physical cube with a volume of exactly one cubic decimeter:
+\begin{equation}
+V_{\mathrm{voxel}} = (0.1\,\mathrm{m})^3 = 10^{-3}\,\mathrm{m}^3 = 1.0\,\mathrm{dm}^3 = 1.0\,\mathrm{liter}
+\label{eq:voxel_volume}
+\end{equation}
+
+This decimeter scale is a deliberate engineering compromise chosen across three design dimensions:
+\begin{enumerate}
+    \item \textbf{Human Ergonomic Fidelity:} A $10\,\mathrm{cm}$ grid aligns naturally with human architecture and tooling. Standard rammed-earth and strawbale wall thicknesses ($30$--$50\,\mathrm{cm}$), trench depths ($60$--$100\,\mathrm{cm}$), raised garden beds, solar panel dimensions ($1.0 \times 2.0\,\mathrm{m}$), and standard plumbing runs can be expressed without sub-voxel fractional approximations.
+    \item \textbf{Hydrological and Fluid Invariance:} Because $1.0\,\mathrm{dm}^3$ of liquid water has a mass of exactly $1.0\,\mathrm{kg}$ at standard temperature and pressure ($4^\circ\mathrm{C}$), the decimeter grid couples fluid volume, hydraulic head pressure, and thermal capacitance into direct integer relationships ($1\,\mathrm{L} = 1\,\mathrm{kg} = 4,184\,\mathrm{J/K}$).
+    \item \textbf{Computational Cache Feasibility:} Discretizing a sovereign settlement's core operational zone ($64\,\mathrm{m} \times 64\,\mathrm{m} \times 16\,\mathrm{m}$) generates $640 \times 640 \times 160 \approx 6.55 \times 10^7$ voxels. By packing voxel state into a compact 4-byte representation, the entire active settlement fits within approximately $262\,\mathrm{MB}$ of host memory, fitting easily within the LPDDR4x memory of the Node 0 Rockchip RK3588 compute cluster.
+\end{enumerate}
+
+\subsection{The 32-Bit DOD Voxel Data Structure}
+
+In \texttt{core/1\_simulation/src/core/voxel.hpp}, Oasis defines the fundamental physical atom of the world:
+\begin{verbatim}
+namespace oasis {
+struct Voxel {
+    uint8_t material_id;  // 8 bits: Physical material identity [0..255]
+    uint8_t moisture;     // 8 bits: Volumetric moisture saturation [0..255]
+    uint8_t temperature;  // 8 bits: Quantized temperature [-20C..+107.5C]
+    uint8_t metadata;     // 8 bits: Actuator, conduit, and boundary flags
+};
+static_assert(sizeof(Voxel) == 4, 
+    "Voxel must be exactly 32 bits (4 bytes) to ensure cache coherency.");
+}
+\end{verbatim}
+
+By restricting \texttt{struct Voxel} to exactly 4 bytes, memory accesses achieve perfect cache line alignment. On modern ARM64 and x86\_64 processors with 64-byte cache lines, a single memory fetch loads exactly 16 contiguous voxels into L1 data cache, enabling SIMD vectorization across physical updates.
+
+The 32 bits are allocated as follows:
 \begin{itemize}
-    \item \textbf{Material ID:} Defines the atomic or molecular composition (e.g., \texttt{HARDWARE\_FAB\_NODE}, \texttt{POLYMER\_SPOOL}).
-    \item \textbf{Intensive Properties:} Temperature, moisture (relative humidity), and chemical potential.
-    \item \textbf{Metadata Bitmask:} Encodes actuator properties, sensor presence, and network states.
+    \item \textbf{Material ID (8 bits):} Indexes an immutable physical materials lookup table containing intrinsic physical properties: bulk density $\rho$ [$\mathrm{kg/m^3}$], specific heat capacity $c_p$ [$\mathrm{J/kg\cdot K}$], thermal conductivity $k$ [$\mathrm{W/m\cdot K}$], saturated hydraulic conductivity $K_{\mathrm{sat}}$ [$\mathrm{m/s}$], structural yield stress $\sigma_y$ [$\mathrm{MPa}$], and optical albedo $\alpha$. Material 0 represents empty atmospheric air; Material 1 is compacted basalt gravel; Material 15 is an active edge fabrication node.
+    \item \textbf{Moisture Content (8 bits):} Represents quantized volumetric water content $\theta$. A value of 0 indicates bone-dry material ($\theta = 0.0$); a value of 255 indicates full pore saturation ($\theta = \theta_{\mathrm{sat}}$). For water voxels, this byte tracks dissolved solute concentrations.
+    \item \textbf{Temperature (8 bits):} Quantizes thermodynamic temperature over an operational range from $-20.0^\circ\mathrm{C}$ to $+107.5^\circ\mathrm{C}$ with a resolution of $\Delta T = 0.5^\circ\mathrm{C}/\mathrm{LSB}$:
+    \begin{equation}
+    T_{\mathrm{actual}} = -20.0^\circ\mathrm{C} + (\mathrm{temperature} \times 0.5^\circ\mathrm{C})
+    \label{eq:temp_quantization}
+    \end{equation}
+    Temperatures outside this envelope saturate at 0 or 255 and trigger phase change events (water freezing at $\le 0^\circ\mathrm{C}$ or boiling at $\ge 100^\circ\mathrm{C}$).
+    \item \textbf{Metadata (8 bits):} A bitmask encoding localized systemic states: Bit 0 indicates conduit presence (electrical busbar or hydronic pipe); Bit 1 indicates mechanical actuator activity; Bit 2 indicates boundary sensor instrumentation; Bits 3--7 encode topological orientation and structural load flags.
 \end{itemize}
 
-\subsection{Local Thermal Propagation}
-Thermal exchange between voxels is simulated using a discrete approximation of Fourier's law of thermal conduction. For a voxel $i$ adjacent to voxel $j$, the heat transfer rate $\dot{q}$ is evaluated across the discrete boundary:
+\subsection{Chunk Partitioning and Spatial Sparsity}
+
+Voxels are grouped into cubic \textbf{chunks} of $32 \times 32 \times 32 = 32,768$ voxels, managed by \texttt{ChunkManager} (\texttt{core/1\_simulation/src/core/chunk\_manager.hpp}). Each chunk occupies:
 \begin{equation}
-\dot{q}_{i \to j} = \frac{k_{ij} A}{d} (T_i - T_j)
+\mathrm{Chunk\ Size} = 32,768 \times 4\,\mathrm{bytes} = 131,072\,\mathrm{bytes} = 128\,\mathrm{KiB}
+\label{eq:chunk_memory}
 \end{equation}
-where $k_{ij}$ is the effective thermal conductivity at the interface, $A$ is the voxel face area, and $d$ is the voxel width. This cellular automata approach ensures that thermodynamic operations (like heat dissipation from an FDM printer) remain localized to the chunk, allowing for highly parallelized $O(1)$ state updates \cite{wolfram1983statistical}.
+Because a single chunk is only $128\,\mathrm{KiB}$, it comfortably resides within the $512\,\mathrm{KiB}$ L2 cache of an ARM Cortex-A76 core. Homogeneous chunks (such as empty air above the settlement canopy or deep bedrock beneath the root zone) are stored as compressed sparse run-length pointers, avoiding memory allocation for uniform volumes \cite{laine2010efficient}.
 
+\section{Screen-Space 3D DDA Raymarching: The Amanatides \& Woo Algorithm}
 
+To visualize the decimeter voxel lattice without generating millions of triangle polygons, the Oasis engine implements a screen-space 3D Digital Differential Analyzer (DDA) raymarcher executing entirely within WebGPU fragment shaders (\texttt{shaders/raymarch.wgsl}).
 
-\section{Acoustic Wave Propagation and Attenuation}
-In modeling communal physical spaces (such as the environments described in Scenario Epsilon: Coworking), the simulation must account for the propagation of longitudinal mechanical waves (sound). An "acoustic budget" is not a mere social construct; it is a physical parameter tracked by the voxel engine.
+\subsection{Mathematical Derivation of the 3D DDA Stepping Loop}
 
-\subsection{Discrete Acoustic Modeling}
-Sound propagation through the $32^3$ chunk grid is modeled using a simplified wave equation. For a scalar acoustic pressure field $p(\vec{r}, t)$, the propagation is governed by:
+The algorithm, derived by John Amanatides and Andrew Woo in 1987, traverses a uniform grid along a ray with zero floating-point multiplications or divisions inside the inner stepping loop \cite{amanatides1987fast}.
+
+Consider a camera ray defined in world coordinates by origin $\mathbf{r}_0 = (x_0, y_0, z_0)$ and normalized direction vector $\mathbf{d} = (d_x, d_y, d_z)$. The initial voxel coordinate containing the ray origin is:
 \begin{equation}
-\frac{1}{c^2} \frac{\partial^2 p}{\partial t^2} - \nabla^2 p = 0
+\mathbf{u}_0 = \lfloor \mathbf{r}_0 \rfloor = (\lfloor x_0 \rfloor, \lfloor y_0 \rfloor, \lfloor z_0 \rfloor)
+\label{eq:initial_voxel}
 \end{equation}
-where $c$ is the speed of sound in the local voxel medium. To model soundproofing (e.g., a podcast booth), the voxel metadata includes an acoustic impedance factor $Z = \rho c$ (where $\rho$ is density). When an acoustic wave transitions between voxels of differing impedance $Z_1$ and $Z_2$, the transmission coefficient $T$ dictates the attenuation of the wave:
+
+The step direction along each axis is an integer sign:
 \begin{equation}
-T = \frac{4 Z_1 Z_2}{(Z_1 + Z_2)^2}
+s_k = \begin{cases} +1, & \text{if } d_k \ge 0 \\ -1, & \text{if } d_k < 0 \end{cases} \quad \text{for } k \in \{x, y, z\}
+\label{eq:step_direction}
 \end{equation}
-This allows the orchestrator to physically verify if a user in a "DeepWork" zone is subjected to acoustic energy exceeding their threshold, dynamically adjusting reputational trust scores if a user violates the physical acoustic budget of the space \cite{kinsler2000fundamentals}.
 
-
-
-\subsection{Algorithmic Propagation and Boundary Conditions}
-To compute acoustic transmission across large voxel grids efficiently (e.g., Scenario Lambda: Cultural Events and Somatic Play), the engine employs a modified breadth-first search (BFS) algorithm. The sound intensity $I$ at distance $r$ strictly follows the inverse square law in uniform media, but is further attenuated by the cumulative absorption coefficient $\alpha$ of intersected voxels:
+The parametric distance $\Delta t_k$ the ray must travel along direction $\mathbf{d}$ to cross an entire voxel along axis $k$ is constant:
 \begin{equation}
-I(r) = \frac{I_0}{4\pi r^2} e^{-\sum \alpha_i \Delta x_i}
+\Delta t_k = \left| \frac{1}{d_k} \right| \quad \text{for } k \in \{x, y, z\}
+\label{eq:delta_t}
 \end{equation}
-By continuously mapping $I(r)$ to the boundary layer of the chunk grid (the \texttt{PROPERTY\_LINE}), the simulation can autonomously actuate visual feedback loops (warning lights) if the intensity approaches municipal legal limits, thereby modeling civil acoustic compliance as a rigid boundary value problem.
 
-\section{Network Physics and Percolation Federation}
-When individual nodes sever their connections to centralized legacy servers (Scenario Omega), the simulation must route telemetry and state syncs across a purely decentralized physical mesh (e.g., LoRaWAN, dark fiber). The resilience of this Gossipsub federation is modeled using percolation theory.
-
-\subsection{Topological Phase Transitions}
-The mesh network is represented as a graph $G(V, E)$, where $V$ are the physical nodes and $E$ are the active P2P connections. As nodes federate, the probability $p$ of a connection existing between any two adjacent nodes dictates the macro-state of the network. According to percolation theory, there exists a critical threshold $p_c$. When $p > p_c$, a topological phase transition occurs, and a giant connected component spans the entire network, ensuring that physical telemetry and epistemic data can propagate globally with near certainty, despite the absence of centralized infrastructure \cite{stauffer2014introduction}.
-
-
-
-\subsection{High-Gradient Thermal Diffusion and Ignition}
-In high-temperature industrial scenarios (e.g., Scenario Theta: The Foundry), the discrete approximation of Fourier's law must accommodate extreme thermal gradients. When a voxel (such as an induction kiln) reaches $T > 1000^\circ\text{C}$, the radiative heat transfer $\dot{q}_{rad}$ dominates, scaling with the fourth power of temperature via the Stefan-Boltzmann law:
+The distance $t_{\mathrm{side}, k}$ from the origin $\mathbf{r}_0$ to the very first voxel boundary along axis $k$ is:
 \begin{equation}
-\dot{q}_{rad} = \varepsilon \sigma A (T_{kiln}^4 - T_{adj}^4)
+t_{\mathrm{side}, k} = \begin{cases}
+(\lfloor r_{0,k} \rfloor + 1 - r_{0,k}) \cdot \Delta t_k, & \text{if } s_k > 0 \\
+(r_{0,k} - \lfloor r_{0,k} \rfloor) \cdot \Delta t_k, & \text{if } s_k < 0
+\end{cases}
+\label{eq:side_t}
 \end{equation}
-where $\varepsilon$ is emissivity and $\sigma$ is the Stefan-Boltzmann constant. The simulation engine dynamically calculates this radiative flux against the specific ignition threshold of adjacent voxels. If the kiln is placed adjacent to a voxel with low thermal mass and a low ignition point (e.g., \texttt{WOOD\_WALL}), the thermal bleed rapidly forces the adjacent voxel into a \texttt{FIRE} state, mathematically punishing spatial designs that ignore foundational thermodynamics \cite{incropera2007fundamentals}.
 
+In the fragment shader (\texttt{fs\_main}), the inner traversal loop executes up to 128 steps:
+\begin{verbatim}
+for (var i = 0; i < MAX_STEPS; i++) {
+    if (sideDist.x < sideDist.y) {
+        if (sideDist.x < sideDist.z) {
+            hit_dist = sideDist.x;
+            sideDist.x += deltaDist.x;
+            mapPos.x += step.x;
+            hit_normal = vec3<f32>(-f32(step.x), 0.0, 0.0);
+        } else {
+            hit_dist = sideDist.z;
+            sideDist.z += deltaDist.z;
+            mapPos.z += step.z;
+            hit_normal = vec3<f32>(0.0, 0.0, -f32(step.z));
+        }
+    } else {
+        if (sideDist.y < sideDist.z) {
+            hit_dist = sideDist.y;
+            sideDist.y += deltaDist.y;
+            mapPos.y += step.y;
+            hit_normal = vec3<f32>(0.0, -f32(step.y), 0.0);
+        } else {
+            hit_dist = sideDist.z;
+            sideDist.z += deltaDist.z;
+            mapPos.z += step.z;
+            hit_normal = vec3<f32>(0.0, 0.0, -f32(step.z));
+        }
+    }
+    // Sample voxel material at mapPos...
+}
+\end{verbatim}
 
+Whenever the ray steps across a boundary, the surface normal $\mathbf{n}$ is recovered with zero vector calculations, directly corresponding to $-\mathrm{sgn}(s_k)$ along the stepped axis.
 
-\section{Microgrid Islanding and Power Shedding}
-In modeling catastrophic shocks to the legacy system (Scenario Upsilon), the Oasis engine must transition the electrical simulation from an infinite-supply model (grid connected) to a closed-system microgrid.
+\subsection{Astronomical Solar Vector Occlusion}
 
-\subsection{Dynamic Load Balancing}
-When a grid failure is detected, the simulation strictly enforces the conservation of energy across the local electrical network. The total power consumed $P_{load}$ must be perfectly matched by the local generation $P_{gen}$ and battery discharge $P_{batt}$:
+Beyond primary camera visibility, the 3D DDA engine calculates dynamic shadow casting and solar insolation. Given the geographic latitude $\phi$, longitude $\lambda_{\mathrm{geo}}$, day of year $n$, and solar hour angle $\omega$, the astronomical solar position vector $\vec{S}_{\mathrm{sun}}(t) = (S_x, S_y, S_z)$ is computed in world space.
+
+For each exposed surface voxel, secondary shadow rays are cast toward $\vec{S}_{\mathrm{sun}}(t)$. If the DDA marcher intercepts any solid voxel ($M_{\mathrm{id}} \neq 0$) before exiting the chunk boundary, the target voxel is marked as fully shadowed:
 \begin{equation}
-P_{load}(t) = P_{gen}(t) + P_{batt}(t)
+I_{\mathrm{solar}}(\mathbf{u}, t) = I_{\mathrm{AM1.5}} \cdot \max(0, \mathbf{n} \cdot \vec{S}_{\mathrm{sun}}) \cdot (1 - \mathcal{O}(\mathbf{u}, \vec{S}_{\mathrm{sun}}))
+\label{eq:solar_occlusion}
 \end{equation}
-Because $P_{gen}$ (e.g., solar) is highly variable and $P_{batt}$ is finite, the BPMN engine acts as an autonomous shedding controller. It iterates through all active voxels, reading their metadata. Voxels with a \texttt{priority\_tier} below the critical threshold are mathematically severed from the power bus ($P_{load, i} \to 0$). This extends the $dt$ (time differential) of the battery lifespan before $P_{batt} \to 0$, ensuring critical survival states (like medical refrigeration) are maintained through the shock \cite{lasseter2002microgrids}.
+where $\mathcal{O} \in \{0, 1\}$ is the discrete occlusion predicate. This allows sovereign designers to accurately simulate self-shading between adjacent buildings, tree canopy growth, and seasonal roof overhang shading on south-facing windows.
 
+\subsection{Smoothstep Viewport Transition Mathematics}
 
+To balance operational inspection with high-level spatial planning, Oasis implements a dynamic dual-viewport system (\texttt{main.cpp}). The camera transitions seamlessly between an egocentric third-person perspective projection and an orthographic cadastral projection.
 
-\section{Spatial Semaphores and Temporal Voxel Locking}
-To model the private allocation of space (Scenario Zeta: Lodging), the Oasis engine applies the computer science principles of mutual exclusion (mutex) directly to physical coordinates.
+The transition parameter $u \in [0.0, 1.0]$ is smoothed using a $C^1$-continuous Hermite smoothstep polynomial:
+\begin{equation}
+h(u) = 3u^2 - 2u^3, \quad \frac{dh}{du} = 6u(1 - u)
+\label{eq:hermite_smoothstep}
+\end{equation}
+In \texttt{shaders/raymarch.wgsl}, the ray origin and direction are blended between perspective unprojection ($\mathbf{r}_{\mathrm{persp}}, \mathbf{d}_{\mathrm{persp}}$) and orthographic parallel rays ($\mathbf{r}_{\mathrm{ortho}}, \mathbf{d}_{\mathrm{ortho}}$):
+\begin{equation}
+\mathbf{r}_0 = (1 - h(u))\mathbf{r}_{\mathrm{persp}} + h(u)\mathbf{r}_{\mathrm{ortho}}, \quad \mathbf{d} = \mathrm{normalize}\left( (1 - h(u))\mathbf{d}_{\mathrm{persp}} + h(u)\mathbf{d}_{\mathrm{ortho}} \right)
+\label{eq:camera_blend}
+\end{equation}
+This guarantees zero visual jumping, maintaining mathematical continuity across coordinate transformations.
 
-\subsection{Physical Locking Mechanisms}
-When a chunk of space is designated for private use (e.g., a micro-lodge or a reserved mediation room from Scenario Psi), the \texttt{ChunkManager} treats the bounding box as a critical section. A spatial semaphore is applied to the voxels. During the temporal block of the occupancy state, any entity lacking the cryptographic key (the active tenant or the neutral mediator) will experience an absolute pathfinding collision against the boundary voxels, even if the material is physically permeable (like a tent). This ensures that cryptographic privacy is perfectly enforced as a rigid physical law within the simulation boundaries \cite{dijkstra1965solution}.
+\section{The Flecs Entity Component System: Thermodynamic Asset Modeling}
 
-\begin{thebibliography}{99}
-\bibitem{kinsler2000fundamentals}
-Kinsler, L. E., Frey, A. R., Coppens, A. B., \& Sanders, J. V. (2000). \textit{Fundamentals of acoustics}. John Wiley \& Sons.
+While the voxel lattice models the continuous spatial substrate, discrete physical equipment---such as hybrid inverters, battery banks, pumps, and water tanks---is modeled using the \textbf{Flecs Entity Component System (ECS)}.
 
-\bibitem{incropera2007fundamentals}
-Incropera, F. P., Lavine, A. S., Bergman, T. L., \& DeWitt, D. P. (2007). \textit{Fundamentals of heat and mass transfer}. John Wiley \& Sons.
+\subsection{Data-Oriented Separation of State and Execution}
 
-\bibitem{lasseter2002microgrids}
-Lasseter, R. H. (2002). \textit{Microgrids}. In 2002 IEEE Power Engineering Society Winter Meeting. Conference Proceedings (Vol. 1, pp. 305-308). IEEE.
+In object-oriented programming (OOP), physical devices are represented as polymorphic class hierarchies (\texttt{class Inverter : public Device}). This anti-pattern fragments memory across pointers, causing severe cache thrashing.
 
-\bibitem{stauffer2014introduction}
-Stauffer, D., \& Aharony, A. (2014). \textit{Introduction to percolation theory}. Taylor \& Francis.
+Flecs enforces strict Data-Oriented Design (DOD). Entities are simple 64-bit integer identifiers ($e \in \mathbb{N}$). Components are pure, plain-old-data (POD) structs containing zero member functions:
+\begin{itemize}
+    \item \texttt{BatteryStorageComponent}: \texttt{\{ uint32\_t capacity\_wh; uint32\_t charge\_uj; int32\_t current\_ma; int32\_t voltage\_mv; \}}
+    \item \texttt{SolarInsolationComponent}: \texttt{\{ uint32\_t area\_cm2; uint16\_t efficiency\_q16; uint32\_t output\_mw; \}}
+    \item \texttt{FluidStorageComponent}: \texttt{\{ uint32\_t capacity\_ml; uint32\_t volume\_ml; int16\_t head\_pressure\_kpa; \}}
+    \item \texttt{ThermalDissipationComponent}: \texttt{\{ uint32\_t heat\_capacity\_j\_k; int32\_t temperature\_mc; uint32\_t surface\_area\_cm2; \}}
+\end{itemize}
 
-\bibitem{dijkstra1965solution}
-Dijkstra, E. W. (1965). \textit{Solution of a problem in concurrent programming control}. Communications of the ACM, 8(9), 569.
+Flecs stores all entities sharing the exact same component set in contiguous memory tables called \textbf{archetypes}. When a physical simulation system executes, it iterates sequentially over flat memory buffers, allowing the CPU prefetcher to load component data with zero cache misses.
 
-\bibitem{wolfram1983statistical}
-Wolfram, S. (1983). \textit{Statistical mechanics of cellular automata}. Reviews of modern physics, 55(3), 601.
+\subsection{Decoupled Tick Scheduling}
 
-\bibitem{laine2010efficient}
-Laine, S., \& Karras, T. (2010). \textit{Efficient sparse voxel octrees}. IEEE Transactions on Visualization and Computer Graphics, 17(8), 1048-1059.
+Oasis runs two decoupled execution loops:
+\begin{enumerate}
+    \item \textbf{The Visual Render Pass (60 Hz):} Governed by the browser's \texttt{requestAnimationFrame} or the WebGPU presentation cadence. It handles camera movement, user input, raymarching, and visual smoothstep transitions.
+    \item \textbf{The Physical Integration Tick (10 Hz, $\Delta t = 100\,\mathrm{ms}$):} Executes deterministic thermodynamic, hydraulic, and electrical state integrations. This 10 Hz cadence is synchronized with Layer 4 execution daemons (\texttt{col-execd}), guaranteeing that physical simulation steps remain numerically identical across different graphics hardware.
+\end{enumerate}
 
-\end{thebibliography}
+\section{Cellular Conduction, Discrete Richards Equation, and Fluid Advection}
+
+Continuous physical laws are evaluated across voxel chunk boundaries using discrete stencil operators.
+
+\subsection{Discrete Fourier Conduction}
+
+Thermal conduction between adjacent voxels $i$ and $j$ sharing a face of area $A = (0.1\,\mathrm{m})^2 = 0.01\,\mathrm{m}^2$ and center-to-center distance $d = 0.1\,\mathrm{m}$ is evaluated via:
+\begin{equation}
+\dot{q}_{i \to j} = \frac{k_{ij} A}{d} (T_i - T_j) = k_{ij} \cdot (0.1\,\mathrm{m}) \cdot (T_i - T_j)
+\label{eq:fourier_discrete}
+\end{equation}
+where the effective interface thermal conductivity $k_{ij}$ is the harmonic mean of the adjacent voxel materials:
+\begin{equation}
+k_{ij} = \frac{2 k_i k_j}{k_i + k_j}
+\label{eq:harmonic_mean}
+\end{equation}
+The temperature update over integration timestep $\Delta t$ is:
+\begin{equation}
+T_i(t + \Delta t) = T_i(t) + \frac{\Delta t}{C_{\mathrm{th}, i}} \sum_{j \in \mathcal{N}(i)} \dot{q}_{j \to i}
+\label{eq:temp_update}
+\end{equation}
+where $C_{\mathrm{th}, i} = \rho_i V_i c_{p,i}$ is the voxel thermal capacitance and $\mathcal{N}(i)$ is the 6-neighbor von Neumann neighborhood.
+
+\subsection{Discrete Richards Equation for Unsaturated Soil Moisture}
+
+Water infiltration through living soil voxels is governed by Richards' equation:
+\begin{equation}
+\frac{\partial \theta}{\partial t} = \nabla \cdot \left[ K(\theta) \nabla (\psi_m + z) \right]
+\label{eq:richards_eq}
+\end{equation}
+where $\theta$ is volumetric water content, $K(\theta)$ is unsaturated hydraulic conductivity, $\psi_m$ is matric suction potential, and $z$ is elevation head.
+
+In the discrete voxel lattice, the unsaturated hydraulic flux $q_{i \to j}$ along the vertical axis is:
+\begin{equation}
+q_{z} = -K(\bar{\theta}) \left( \frac{\psi_{m, j} - \psi_{m, i}}{\Delta z} + 1 \right)
+\label{eq:discrete_richards}
+\end{equation}
+The engine models matric potential $\psi_m(\theta)$ using the van Genuchten soil water retention curve:
+\begin{equation}
+\Theta = \frac{\theta - \theta_r}{\theta_s - \theta_r} = \left[ 1 + (\alpha |\psi_m|)^n \right]^{-m}
+\label{eq:van_genuchten}
+\end{equation}
+This allows agricultural planners to simulate water drainage after torrential rains, capillary rise during droughts, and root-zone water absorption in permaculture guilds.
+
+\section{Twin-Loop Cybernetics: Feedforward ScDD Rehearsal and Signed Telemetry Calibration}
+
+The Oasis digital twin operates as part of a closed cybernetic loop comprising two distinct operational phases.
+
+\subsection{Loop 1: Feedforward In-Silico Rehearsal}
+
+In Loop 1, the digital twin runs faster than real time. Operating entirely within memory, it evaluates proposed actions (such as switching from legacy municipal water to rainwater harvesting) under simulated stochastic disturbances.
+
+The engine injects Monte Carlo weather files, simulated grid outages, and boundary shocks to test settlement survivability. If a proposed design causes water tanks to run dry during a 100-year drought scenario, the design fails in software before a single dollar of community funds is spent.
+
+\subsection{Loop 2: Ground-Truth Signed Telemetry Calibration}
+
+Once physical infrastructure is built, Loop 2 takes over. Real physical transducers (INA226 current shunts, PT100 temperature sensors, flow meters) sample physical reality in Layer 1. Layer 2 microcontrollers digitize and sign these readings, passing them upward into the digital twin.
+
+The simulation compares real physical telemetry against its predicted state:
+\begin{equation}
+\mathbf{e}(t) = \mathbf{y}_{\mathrm{hardware}}(t) - \hat{\mathbf{y}}_{\mathrm{sim}}(t)
+\label{eq:telemetry_error}
+\end{equation}
+If the error $\mathbf{e}(t)$ diverges, the engine uses Bayesian parameter estimation to calibrate its physical constants (e.g., updating soil infiltration rates to account for biochar amendments or adjusting battery internal resistance to reflect calendar aging).
+
+\section{The Hardware Airgap Filter and Codebase Drift Concern 1}
+
+To ensure complete safety when running digital twin simulations alongside live physical hardware, the Sovereign Stack implements strict cryptographic isolation.
+
+\subsection{The Hardware Airgap Filter}
+
+In \texttt{src/daemons/col-telemetryd/airgap\_filter.hpp}, the stack defines the \texttt{HardwareAirgapFilter}:
+\begin{verbatim}
+enum class AirgapDecision : uint8_t {
+    ACCEPTED_HARDWARE_ROOT = 0,               // 0x02: Authentic hardware root
+    DROPPED_SIMULATED_SECURITY_VIOLATION = 1, // 0x01: Synthetic simulation packet
+    DROPPED_INVALID_FLAG = 2                  // Corrupted or unrecognized
+};
+\end{verbatim}
+
+Every telemetry packet arriving across the UHAI shared memory bus carries a mandatory \texttt{quality\_flag}. When Oasis is running in simulation or rehearsal mode, it emits packets marked with \texttt{QUALITY\_SIMULATED = 0x01}. 
+
+When \texttt{col-telemetryd} receives a packet marked \texttt{0x01}, the filter immediately drops the packet and logs a security violation:
+\begin{verbatim}
+if (quality_flag == oasis::uhai::QUALITY_SIMULATED) {
+    stats_.dropped_simulated++;
+    return AirgapDecision::DROPPED_SIMULATED_SECURITY_VIOLATION;
+}
+\end{verbatim}
+This mathematical filter guarantees that simulated runaway states (e.g., a simulated fire or high-voltage test in the digital twin) can \textbf{never} accidentally trigger physical contactors or relays in real hardware. Only packets signed by the ATECC608A secure element with \texttt{QUALITY\_HARDWARE\_ROOT = 0x02} are permitted to affect physical actuation.
+
+\subsection{Codebase Drift Concern 1: The Disconnected Raymarcher}
+
+An exhaustive audit of the Oasis engine codebase reveals a critical gap between theoretical architecture and current implementation, designated as \textbf{Codebase Drift Concern 1}.
+
+\subsubsection{The Observation}
+In \texttt{core/1\_simulation/src/shaders/raymarch.wgsl} (lines 38--114), voxel materials are computed using a hardcoded procedural mathematical function:
+\begin{verbatim}
+fn get_voxel_material(pos: vec3<i32>) -> u32 {
+    let absX = abs(pos.x);
+    let lotZ = (pos.z % 16 + 16) % 16;
+    if (pos.y == 0) {
+        if (absX <= 3) { return 1u; } // Asphalt
+        // ...
+    }
+    return 0u;
+}
+\end{verbatim}
+In \texttt{core/1\_simulation/src/main.cpp}, the WebGPU render pipeline binds only a single uniform buffer (\texttt{CameraUniforms}) at group 0 binding 0. There is \textbf{zero storage buffer or 3D texture bound for voxel data}.
+
+\subsubsection{The Forensic Logic Chain}
+\begin{enumerate}
+    \item Theoretical architecture specifies that the raymarcher must visualize the live 32-bit \texttt{struct Voxel} data managed by \texttt{ChunkManager} and modified by Flecs systems.
+    \item However, \texttt{raymarch.wgsl} does not read from any voxel buffer in GPU or host memory. It evaluates a static procedural equation in the fragment shader.
+    \item Furthermore, neither \texttt{chunk\_manager.cpp} nor \texttt{voxel.hpp} is linked into the main WebGPU render pass in \texttt{main.cpp}.
+    \item \textbf{Conclusion:} The visual rendering engine is currently disconnected from the underlying thermodynamic voxel lattice. A user constructing a solar panel or digging an irrigation swale cannot see their modifications in the raymarched viewport because the shader renders only hardcoded procedural suburban streets.
+\end{enumerate}
+
+\subsubsection{The Architectural Remediation Roadmap}
+To resolve Drift Concern 1, the Oasis development roadmap mandates the following structural upgrade:
+\begin{enumerate}
+    \item In \texttt{main.cpp}, create a WebGPU Storage Buffer (\texttt{wgpu::BufferUsage::Storage | wgpu::BufferUsage::CopyDst}) sized to hold the active chunk's packed 32-bit voxel words.
+    \item Bind this storage buffer in the shader layout at \texttt{@group(0) @binding(1) var\textless storage, read\textgreater{} voxel\_grid : array\textless u32\textgreater{};}.
+    \item In \texttt{raymarch.wgsl}, replace \texttt{get\_voxel\_material(mapPos)} with an array index lookup into \texttt{voxel\_grid}:
+\begin{verbatim}
+let chunk_idx = (mapPos.x & 31) + (mapPos.y & 31) * 32 + (mapPos.z & 31) * 1024;
+let packed_voxel = voxel_grid[chunk_idx];
+let mat_id = (packed_voxel >> 24u) & 0xFFu;
+\end{verbatim}
+    \item Hook the Flecs \texttt{ThermodynamicSystem} to continuously upload modified voxel regions to the GPU buffer via \texttt{wgpuQueueWriteBuffer}.
+\end{enumerate}
+
+By candidly identifying and documenting this drift, the Sovereign Stack maintains absolute engineering integrity. The digital twin is not a marketing facade; it is an active, evolving codebase anchored in the unyielding laws of physical reality.
