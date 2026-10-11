@@ -133,10 +133,11 @@ Kael and Jax are both working nomadically spreading The Collective across the co
     *   **Omicron:** Kinship Protocol (Expanding the definition of family and support networks).
 
 ### Chapter 17: The Brink of Severance
-*   **Plot:** The storm clears, but the Legacy state launches a massive, coordinated legal and physical attack. Elara, Silas, and Gabe mobilize the final defense. They realize the ablative shield is failing; they can no longer exist as a proxy within the old world.
-*   **Characters:** Elara, Silas, Gabe, Node Defenders.
+*   **Plot:** The bioregion and its neighboring growing bioregions are surrounded by a dying beast—the legacy system. Feeling the weight of its own death, the legacy political landscape reflects that accumulated entropy and becomes a raging monster in turmoil. In the midst of this escalating threat, the legendary nomadic founders, Kael and Jax, finally arrive. They return from their long journey propagating the mesh across the country and internationally. Elara immediately recognizes the extreme urgency of their arrival and the intelligence they bring. The community realizes that the horizon is fracturing: this is the final turning point. It will either be the end of the Collective, or the final breaking of the legacy grip over their land.
+*   **Characters:** Elara, Silas, Gabe, Kael, Jax.
 *   **Scenarios Showcased:**
-    *   **Rho:** The Adversarial Mesh (Subpoenas and physical sabotage).
+    *   **The Dying Beast:** The collapse and violent flailing of legacy politics.
+    *   **The Return of the Founders:** Kael and Jax bringing global context to the local struggle.
 
 ### Chapter 18: Terminal Decoupling (The Climax)
 *   **Plot:** Elara and the community execute the Sovereign Singularity. It is framed not as magical separation, but as a definitive shift in leverage and a tragic choice, acknowledging the heavy cost of leaving the legacy world (and those trapped within it) behind. They sever municipal utility lines. The Legacy grid goes dark, but the local mesh lights up. The Collective Bioregion permanently detaches.
