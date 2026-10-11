@@ -3,7 +3,7 @@
 *   **Identifier:** `SCN-PHI-ELDERCARE`
 *   **System Epic:** Multi-Generational Integration, Wisdom Exchange, and Distributed Care
 *   **Primary Layers Tested:** L1 (Physical), L2 (Digital Twin), L3 (Ledger), L4 (Orchestration), L5 (Governance), L6 (Semantic), L7 (Proxy)
-*   **Pass/Fail Metric:** Algorithmic dispersion of 24-hour eldercare load across the local Trust Ring ensuring no caregiver exceeds 20% of the total temporal burden; zero-optical mmWave radar fall detection with zero privacy leakage; continuous minting of passive negentropy for elder mentorship; 100% legal exemption from institutional nursing regulations under a Multi-Generational Housing Cooperative charter.
+*   **Pass/Fail Metric:** Algorithmic dispersion of 24-hour eldercare load across the local Trust Ring ensuring no caregiver exceeds 20% of the total weekly burden; zero-optical mmWave FMCW radar kinematic fall detection with zero privacy leakage; non-financial Reputational Wealth recognition in Layer 5 Care Councils with Care Leave Shield; 100% legal exemption from institutional nursing regulations under a Multi-Generational Housing Cooperative charter; zero floating-point math; zero tokenization of elder care or wisdom presence.
 
 ---
 
@@ -13,104 +13,129 @@ This scenario specification has been ratified by unanimous consensus of the 5-Pe
 
 | Council Persona | Disciplinary Representative | Core Contribution to Scenario |
 | :--- | :--- | :--- |
-| **Game Designer** | Lead Systems & Gameplay Designer | Dwarf Fortress lifecycle simulation: aging curves, thoughts like `"Found deep peace watching toddlers play in the solar commons (+40 mood)"` or `"Felt respected when sharing woodworking lore with apprentices (+35 mood)"`; passive `COMMUNITY_ANCHOR` aura slowing stress decay and boosting skill acquisition in nearby agents; The Sims Founder 01 indirect care scheduling via interpersonal affordance queues. |
-| **Game Engineer** | Principal C++ Simulation & Engine Architect | Flecs ECS data model: cache-aligned `LifecycleStage`, `KineticCapacity`, `WisdomAura`, and `MicroCareQueue` components; 32-bit compact voxel representation (`material_id = 48`, `ELDER_SUITE_SANCTUARY`); 10 Hz deterministic BPMN state engine with Wasmtime fuel limits; compilable C++20 test harness validating task dispersion and radar-triggered emergency dispatch. |
-| **Sovereign Stack Specialist** | Sovereign Stack Systems Architect | 7-layer stack mapping across autonomous POSIX daemons (`col-telemetryd` to `col-adversaryd`); zero monolithic threading; strict inter-layer adjacency; local-first Reticulum/LoRa mesh routing; zero-knowledge credential verification (`col-kmsd`); CRDT dual-ledger minting kinetic care and passive wisdom negentropy. |
-| **Solarpunk Thinker** | Bioregional Regenerative Ecologist | Intergenerational care replaces the massive carbon drag, pharmaceutical waste, and disposable plastic supply chains of commercial institutionalized nursing; elders act as bioregional memory keepers, preserving oral histories of local soil microbiomes, historic drought cycles, and native seed banks. |
-| **Scenario Specialist** | Gerontological Systems & Ambient Assisted Living (AAL) Specialist | Non-invasive ambient sensor architectures (60 GHz FMCW mmWave radar, micro-Doppler gait Fourier transform $\mathcal{F}\{s(t)\}$); mathematical formulation of micro-respite distribution ($\tau_{fatigue} < 0.20 \cdot T_{total}$); legal structuring of Multi-Generational Housing Cooperatives under state assisted-living exemption statutes (e.g., California Health & Safety Code § 1569.145). |
+| **Game Designer** | Lead Systems & Gameplay Designer | Dwarf Fortress lifecycle simulation: aging curves, venerated elder thoughts like "Found deep peace watching toddlers play in the solar commons (+40 mood)" or "Felt respected when sharing woodworking lore with apprentices (+35 mood)"; passive `COMMUNITY_ANCHOR` aura stabilizing morale and social cohesion in adjacent agents; The Sims interpersonal affordance queues coordinating shared meals and companion walks without chore gig-markets. |
+| **Game Engineer** | Principal C++ Simulation & Engine Architect | Flecs ECS DOD architecture: cache-aligned `LifecycleStageComponent`, `KineticCapacityComponent`, `WisdomAuraComponent`, and `MicroCareQueueComponent`; 32-bit compact voxel representation (`material_id = 48`, `ELDER_SUITE_SANCTUARY`); deterministic 10 Hz BPMN state engine; compilable C++20 test harness validating rotational burden dispersion and radar-triggered emergency door actuation exclusively using fixed-point SI integer arithmetic (milligrams, millimeters per second, millikelvin, milliseconds). |
+| **Sovereign Stack Specialist** | Sovereign Stack Systems Architect | 7-layer strict adjacency without layer skipping; zero software, microcontrollers, or keys in Layer 1; Zephyr RTOS Layer 2 membrane (`col-sensord`, `col-membraned`, `col-actuated`); local-first Reticulum/LoRa mesh routing; Layer 3 Pairwise Bilateral Clearing Channels ($BCC$) with zero-sum conservation $B_{u \to v}(t) + B_{v \to u}(t) = 0$ and multi-hop HTLCs for specialized assistive equipment sharing; zero-knowledge credential verification; Layer 5 boundary socket `/run/collective/ipc/l4_l5.sock`; Tripartite Ricardian Treaties ($\mathrm{Treaty\_CID}$). |
+| **Solarpunk Thinker** | Bioregional Regenerative Ecologist | Intergenerational solidarity replaces the massive carbon drag, pharmaceutical waste, and disposable plastic supply chains of commercial nursing homes; elders act as bioregional memory keepers, preserving oral histories of local soil microbiomes, historical watershed drought cycles, and heirloom seed lines; passive hydronic solar heating ensures thermal comfort. |
+| **Scenario Specialist** | Gerontological Systems & Ambient Assisted Living Specialist | Non-invasive ambient sensor architectures (60 GHz FMCW mmWave radar micro-Doppler kinematic point cloud detecting vertical velocity drops); mathematical formulation of caregiver respite distribution ($\tau_{\mathrm{caregiver}} \le 2000\text{ bps}$ of weekly care hours); legal structuring of Multi-Generational Housing Cooperatives under state assisted-living exemption statutes (e.g., California Health and Safety Code Section 1569-145). |
+
+**Council Consensus Statement:** Unanimous Consensus Reached. The council affirms that bodily eldercare, emotional support, and wisdom presence are sacred non-commensurable dimensions of human life within the Convivial Sanctuary ($R_0$). All pricing, tokenization, gig bounties, and biometric surveillance of elders are permanently abolished. Elders receive unconditional survival baselines ($B_{\mathrm{baseline}}$), and caregivers earn non-financial Reputational Wealth protected by the Care Leave Shield.
 
 ---
 
 ## 1. Problem Statement & Legacy Failure
 
-In late-stage capitalist infrastructure (Layer 7), human beings are valued exclusively through their immediate capacity to generate taxable fiat revenue or industrial output. The moment an individual ages, acquires chronic physical vulnerabilities, or transitions out of the wage-labor force, the legacy system classifies them as an "unproductive economic liability."
+In late-stage capitalist infrastructure (Layer 7), human beings are valued exclusively through their immediate capacity to generate taxable fiat revenue or industrial output. The moment an individual ages, acquires chronic physical vulnerabilities, or transitions out of the wage-labor market, the legacy system classifies them as an unproductive economic liability.
 
 This structural flaw produces catastrophic human and societal failures:
-*   **Predatory Institutional Warehousing:** Legacy society responds to aging by institutionalizing elders in for-profit nursing homes. These facilities extract life savings, liquidating generational real estate and family assets through predatory daily billing ($8,000–$14,000/month) while subjecting residents to chemical restraints, physical neglect, and profound psychological alienation.
-*   **Catastrophic Primary Caregiver Burnout:** When families attempt to care for elders within the isolated nuclear household, the burden falls almost entirely on a single individual (overwhelmingly women or adult daughters). Providing 40 to 80 hours per week of unassisted, grueling kinetic care causes severe chronic stress, depression, financial ruin, and physical exhaustion.
+*   **Predatory Institutional Warehousing:** Legacy society responds to aging by institutionalizing elders in for-profit nursing homes. These facilities extract life savings, liquidating generational real estate and family assets through predatory daily billing (often 8,000 to 14,000 units of fiat per month) while subjecting residents to chemical restraints, physical neglect, and profound psychological alienation.
+*   **Catastrophic Primary Caregiver Burnout:** When families attempt to care for elders within the isolated nuclear household, the burden falls almost entirely on a single individual (overwhelmingly women or adult daughters). Providing 40 to 80 hours per week of unassisted kinetic care causes severe chronic stress, depression, financial ruin, and physical exhaustion.
 *   **Epistemic Severance & Generational Erasure:** Institutional segregation deprives young people and children of living history, elder patience, and somatic grounding. Society loses invaluable practical wisdom—such as centuries of agricultural survival knowledge, craft patience, and conflict de-escalation skills—while children grow up in sterile, age-segregated silos.
+*   **Coercive Asset Stripping:** Legacy state healthcare programs (Medicaid) enforce estate recovery mandates, demanding that elders surrender their family homes and savings to the state upon death to repay institutional care debts.
 
-A sovereign Genesis Node cannot achieve resilience without an intergenerational cybernetic architecture where physical vulnerability is met with absolute dignity, kinetic labor is distributed across the community, and elder presence is recognized as a vital source of ecological and social negentropy.
+A sovereign Genesis Node cannot achieve resilience without an intergenerational cybernetic architecture where physical vulnerability is met with absolute dignity, kinetic labor is distributed across the community, and elder presence is recognized as an invaluable cultural anchor.
 
 ---
 
 ## 2. The Collective Workflow (7-Layer Traversal)
 
-The Elder Commons operates on the "Golden Ratio" of shared mutual care: dividing heavy physical care burdens into lightweight micro-tasks across the Trust Ring, while weaving the elder's passive wisdom directly into daily commons life. The workflow traverses canonically from Layer 1 up to Layer 7:
+The Elder Commons operates on the "Golden Ratio" of shared mutual care: dividing physical assistance into lightweight rotational shifts across the Trust Ring, while weaving the elder's wisdom directly into daily commons life. Care is an unconditional right under the Tier 2 Human Survival Baseline ($B_{\mathrm{baseline}}$). The workflow traverses canonically from Layer 1 up to Layer 7:
 
 ```mermaid
 graph TD
-    L6[Layer 6: Semantic Intent] -->|Elder emits ElderSupportIntent| L5[Layer 5: Polycentric Policy]
-    L5 -->|Evaluate Dignity & Caregiver Credentials| L4[Layer 4: BPMN Orchestrator]
-    L4 -->|Fracture into Micro-Tasks & Schedule| L3[Layer 3: Thermodynamic Ledger]
-    L3 -->|Escrow Care Tokens & Mint Wisdom Value| L2[Layer 2: Twin & Telemetry]
-    L2 -->|mmWave Radar Point Cloud & Door Actuation| L1[Layer 1: Physical Reality]
+    L7[Layer 7: Legacy Interface - Dual-Membrane Carapace] -->|l6_l7.sock: Housing Co-op Charters & Pharmacy Orders| L6[Layer 6: Semantic Intent - Agora Knowledge Artifacts]
+    L6 -->|l5_l6.sock: ElderSupportIntents & Ricardian Treaties| L5[Layer 5: Polycentric Governance - Trust Rings & Refusal]
+    L5 -->|l4_l5.sock: Ratified Rotational Schedules & Dignity Gates| L4[Layer 4: Deterministic Orchestration - 10 Hz BPMN VM]
+    L4 -->|l3_l4.sock: Exergy Metering & Channel Reservations| L3[Layer 3: Thermodynamic Ledger - BCC & PoTW]
+    L3 -->|l2_l3.sock: Sensor Delivery Proofs & Actuation Orders| L2[Layer 2: Cybernetic Membrane - Zephyr RTOS]
+    L2 -->|Modbus / ADC / GPIO: Physical Telemetry & Relays| L1[Layer 1: Physical Reality - Pure Matter & Energy]
     L1 -->|Physical Care Handoff & Courtyard Storytelling| End((Intergenerational Care Complete))
 ```
 
 ### Layer 1: Physical Ground Truth
-*   **Hardware Nodes (Elder Sanctuary Suite):** Universal Design residential units located at ground level or connected via zero-threshold ramps. Features include wide sliding doors with magnetic latches, non-slip cork/bamboo flooring, zero-entry curbless roll-in showers, height-adjustable kitchen counters, and radiant hydronic floor heating.
-*   **Ambient Sensors & Actuators:** Ceiling-mounted 60 GHz mmWave FMCW radar transceivers, door reed switches, solid-state hydronic thermostatic valves, and smart lock solenoid latches with physical manual overrides.
+*   **Pure Physical Substrate:** Layer 1 contains exclusively physical living suites, ramps, hydronic pipes, and passive transducers. It contains **zero software, zero microcontrollers, zero firmware, zero cryptographic keys, and zero network daemons.**
+*   **Hardware Nodes (Elder Sanctuary Suite):** Universal Design residential units located at ground level or connected via zero-threshold ramps. Features include wide sliding doors with mechanical latches, non-slip cork and bamboo flooring, curbless roll-in showers, height-adjustable kitchen counters, and radiant hydronic floor heating loops.
+*   **Hardware Nodes (Sensory & Actuation Hardware):** Ceiling-mounted 60 GHz mmWave FMCW radar transceiver antennas, magnetic reed door switches, solid-state hydronic thermostatic valves, and spring-loaded smart door solenoid latches with physical manual turn-knobs.
 *   **Somatic Presence & Actions:** Physical transfers, assistance with meal preparation (Scenario Gamma), bathing support, oral storytelling, joint seed-sorting, and sitting quietly in sunny common courtyards monitoring children.
 
 ### Layer 2: Digital Twin & Telemetry
-*   **Ingress Telemetry (MQTT Topics via `col-meshd`):**
-    *   `node/elder/radar_01/telemetry/gait_velocity` (Micro-Doppler gait speed m/s)
-    *   `node/elder/radar_01/telemetry/respiration_bpm` (Sub-millimeter chest wall displacement)
-    *   `node/elder/radar_01/status` (`NORMAL`, `RESTING`, `PROLONGED_INACTIVITY`, `FALL_CONFIRMED`)
-    *   `node/elder/suite_01/telemetry/ambient_temp_c` (Continuous target vs actual temperature)
-*   **Verification:** Non-invasive ambient radar DSP. The mmWave radar extracts point-cloud velocity vectors. Micro-Doppler signature analysis identifies sudden vertical velocity drops followed by prolonged stillness on the floor plane. **Strict Privacy Invariant:** Zero optical cameras and zero acoustic microphones are installed in private quarters.
-*   **Actuator Control:** Emergency smart door solenoid unlocks automatically upon `FALL_CONFIRMED` to allow rapid entry by designated emergency responders.
+*   **Membrane Architecture:** Executed by Zephyr RTOS microcontrollers (`col-sensord`, `col-membraned`, `col-actuated`) converting analog sensor voltages into dimensionally typed, fixed-point integer packets.
+*   **Convivial Anti-Panopticon Shield:** Non-invasive ambient radar DSP. The 60 GHz mmWave FMCW radar extracts strictly kinematic point-cloud velocity vectors. Micro-Doppler signature analysis identifies sudden vertical velocity drops followed by prolonged stillness on the floor plane. **Strict Invariant: Absolute ban on optical cameras, microphones, wearable biometric monitors, and chest-wall respiration tracking in elder quarters.**
+*   **Ingress Telemetry Topics (Fixed-Point SI Integers via `col-membraned`):**
+    *   `node/elder/radar_01/telemetry/gait_velocity_mms` (`uint32_t`, micro-Doppler gait speed in millimeters per second)
+    *   `node/elder/radar_01/status` (`enum uint8_t`: `0=NORMAL`, `1=RESTING`, `2=PROLONGED_INACTIVITY`, `3=FALL_CONFIRMED`)
+    *   `node/elder/suite_01/telemetry/ambient_temp_mk` (`uint32_t`, continuous suite temperature in millikelvin; nominal 295,150 mK = 22 C)
+    *   `node/elder/suite_01/telemetry/door_contact` (`enum uint8_t`: `0=CLOSED`, `1=OPEN`)
+*   **Actuator Control:** Emergency smart door solenoids unlock automatically upon `FALL_CONFIRMED` to allow rapid entry by designated emergency responders, executed only after Layer 2 verifies actuation invariants $\mathbf{\Phi}$ across `/run/collective/ipc/l3_l2.sock`.
 
-### Layer 3: Network & Ledger
-*   **Thermodynamic Care Valuation:** Physical care tasks are minted on the CRDT ledger as high-priority thermodynamic work based on exergy expenditure and emotional labor:
-    $$\Delta V_{care} = \left( t_{kinetic} \cdot k_{effort} + \Delta E_{biomass} \right) \cdot \lambda_{THERMO}$$
-*   **Passive Negentropy Valuation:** The ledger formally compensates elders for passive community care (e.g., monitoring toddlers in Scenario Delta, teaching apprentices in Scenario Kappa, resolving social grudges in Scenario Psi):
-    $$\Delta V_{wisdom} = t_{presence} \cdot k_{anchor} \cdot \lambda_{THERMO}$$
-    Where $k_{anchor}$ reflects the measured reduction in stress decay across adjacent workers.
-*   **Algorithmic Burden Cap:** The ledger verifies that no single caregiver's cumulative weekly time allocation exceeds the fatigue threshold:
-    $$\tau_{caregiver, k} \le 0.20 \cdot T_{total\_care}$$
+### Layer 3: Thermodynamic Ledger
+*   **Constitutional Non-Commensurability of Eldercare & Wisdom:** Physical eldercare, emotional presence, storytelling, and intergenerational companionship are declared qualitative human care and mutual aid (`sec:l3-friction`). Layer 3 **structurally refuses to mint tokens, credits, or currency for eldercare or wisdom presence.** No care bounties, no hourly rates, and no passive wisdom tokens exist.
+*   **Inalienable Tier 2 Human Survival Baseline ($B_{\mathrm{baseline}}$):** Wholesome meals from Scenario Gamma, warm accessible shelter, radiant heating, laundry services, and clinical healthcare are guaranteed to all elders as an inalienable constitutional right of living membership ($B_{\mathrm{baseline}}$). Access to care is never conditioned upon signing over pensions, labor hours, or token balances.
+*   **Proof-of-Thermodynamic-Work (PoTW):** Physical electricity and thermal exergy consumed by radiant floor heating pumps and ventilation fans is metered in microjoules ($\mu\mathrm{J}$):
+    $$\text{1 Exergy Credit} \equiv 3{,}600{,}000{,}000{,}000\text{ }\mu\mathrm{J}$$
+    Exergy accounting measures energy drawn from the settlement microgrid, undergoing physical demurrage to reflect battery and equipment entropy.
+*   **Pairwise Bilateral Clearing Channels (BCC) & Multi-Hop HTLCs:** When specialized assistive equipment (e.g., an electric standing wheelchair or therapeutic hydronic tub) is shared with an adjacent node $v$, accounting settles across inter-node Bilateral Clearing Channels:
+    $$B_{u \to v}(t) + B_{v \to u}(t) = 0$$
+    Subject to mutual aid credit windows $[-C_{u \to v}, +C_{v \to u}]$. Multi-hop equipment sharing across the watershed settles via chained Hashed Timelock Contracts:
+    $$\mathrm{HTLC} = \langle H(S), \Delta t, Q, u, v \rangle$$
+    where $Q$ is denominated in microjoules of embodied exergy, releasing upon signed delivery receipts $\sigma_{\mathrm{delivery}}$ and cascading backward balance updates without global tokens or external market conversion.
 
-### Layer 4: Orchestration State Machine
-The workflow is managed deterministically by the embedded BPMN 2.0 engine (`col-execd`) running at 10 Hz with metered Wasmtime fuel budgets:
+### Layer 4: Deterministic Orchestration State Machine
+The eldercare workflow is managed deterministically by the embedded 10 Hz BPMN engine (`col-execd`):
 
 ```mermaid
 stateDiagram-v2
     [*] --> ScheduleInit: ElderSupportIntent Received
-    ScheduleInit --> FractureTasks: Split 120min into 4x 30min Blocks
-    FractureTasks --> MatchCaregivers: Filter Trust Ring & Credentials
-    MatchCaregivers --> Dispatched: Caregiver Accepts Micro-Task
-    Dispatched --> ActiveCareSession: NFC Check-in at Suite Voxel
+    ScheduleInit --> PartitionShifts: Split into 30-Minute Rotational Blocks
+    PartitionShifts --> MatchCaregivers: Filter Trust Ring & Vouched Peers
+    MatchCaregivers --> ShiftDispatched: Volunteer Accepts Rotational Block
+    ShiftDispatched --> ActiveCareSession: NFC Touch at Suite Threshold
     ActiveCareSession --> VerifySessionComplete: Dwell Time Reached
-    VerifySessionComplete --> SettleLedger: Mint Value Tokens
-    SettleLedger --> [*]
+    VerifySessionComplete --> AttestationFiled: Log Session Attestation
+    AttestationFiled --> [*]
 
     %% Emergency Branch
     ActiveCareSession --> FallDetected: mmWave Micro-Doppler Anomaly
     FallDetected --> EmergencyTriage: Broadcast High-Priority Alert
-    EmergencyTriage --> ActuateDoorLock: Disengage Solenoid Latch
+    EmergencyTriage --> ActuateDoorLock: Disengage Solenoid Mechanical Latch
     ActuateDoorLock --> ParamedicDispatch: Route to Scenario Chi
-    ParamedicDispatch --> Resolved: Responder Attestation Filed
-    Resolved --> [*]
+    ParamedicDispatch --> EmergencyResolved: First Responder Attestation Filed
+    EmergencyResolved --> [*]
 ```
 
 ### Layer 5: Policy & Polycentric Governance
-Layer 5 (`col-kmsd`) enforces strict protection, privacy, and sovereignty for vulnerable elders:
-
-*   **Dignity & Absolute Sovereignty Gate:** The elder maintains absolute veto authority over their living quarters. Automated care tasks cannot enter the room without explicit verbal or tactile consent, preventing benevolent paternalism.
-*   **Vulnerability & Trust Shield Gate:** Citizens accepting personal physical care intents must possess an active `Trust_Level_3` vouch from Scenario Omicron, plus a verified `Caregiver_Somatic_L1` credential. Unknown or unvouched DIDs are mathematically rejected from accepting private suite tasks.
-*   **Micro-Respite Equity Gate:** If a user attempts to accept a caregiving task that would push their weekly total above 20% of the elder's aggregate care hours, the policy engine rejects the claim and routes the bounty to the next candidate in the Trust Ring.
-*   **Zero-Optical Guarantee Gate:** Policy strictly forbids ingesting raw video or audio telemetry streams into the digital twin; any device attempting to register an optical sensor in an elder suite is immediately revoked from the mesh.
+Layer 5 (`col-kmsd`) enforces absolute dignity, privacy, and sovereignty for elders:
+*   **The 7-Tier Concentric Trust Rings ($R_0 \dots R_6$):**
+    *   **$R_0$ (The Hearth Sanctuary):** The elder's private residential sanctuary. Social immunity: unconditional food, shelter, heat, medical triage, zero keys, zero registration, zero surveillance, zero governance voting weight.
+    *   **$R_1$ (Settlement Commons):** Universal Design residential cluster ($\le 500\text{ m}$), rotational care circles, communal dining courtyard.
+    *   **$R_2$ (Village Commons):** Shared elder gardens, oral history archives, craft workshops ($\le 5\text{ km}$).
+    *   **$R_3$ (Watershed Guild):** Peering with neighboring elder clusters ($\le 30\text{ km}$); inter-node BCC channels for specialized assistive mobility devices.
+    *   **$R_4$ (Bioregional Federation):** Regional geriatric health circles, accessible transit networks ($\le 150\text{ km}$).
+    *   **$R_5$ (Continental Corridor):** Universal design architectural blueprints, open medical hardware schematics.
+    *   **$R_6$ (Ecumene / Legacy Perimeter):** Multi-Generational Housing Cooperative charter, legacy trust carapace.
+*   **Cellular Autonomy & Subsidiarity:** Every elder sanctuary suite maintains absolute autopoietic closure and cellular autonomy. Elders maintain absolute personal sovereignty over their living quarters.
+*   **Bioregional Path-Vector Protocol (BPVP):** Specialized assistive mobility hardware and geriatric care devices cascade across Trust Rings via BPVP capability advertisements $\mathcal{A}$ bounded by cellular autonomy and the Export Surplus Bound:
+    $$Q_{\mathrm{avail}}(t) = \max\left(0, Q_{\mathrm{inventory}}(t) - F_{\mathrm{eco}}(t) - B_{\mathrm{baseline}}(t)\right) \cdot \mathbf{1}_{\mathrm{export}}$$
+    Assistive devices are never exported if local elder needs are unfulfilled.
+*   **Dignity & Absolute Sovereignty Gate:** The elder maintains absolute veto authority over their living quarters. Automated care tasks cannot schedule suite access without explicit verbal or tactile consent from the elder, barring paternalistic overreach.
+*   **Vulnerability & Trust Shield Gate:** Community members accepting personal physical assistance shifts must hold an active `Trust_Level_3` vouch from Scenario Omicron, plus a verified BBS+ Verifiable Credential (`Caregiver_Somatic_Steward_L1`). Unknown or unvouched DIDs are mathematically rejected from accepting private suite tasks.
+*   **Rotational Burden Cap Policy Gate:** To prevent caregiver burnout, no single volunteer caregiver may be scheduled for more than 2,000 basis points (20%) of an elder's aggregate weekly care hours:
+    $$\tau_{\mathrm{caregiver}, k} \le 2000\text{ bps} \cdot T_{\mathrm{total\_care}}$$
+    If a volunteer attempts to claim a shift exceeding this limit, the orchestrator automatically re-routes the task to other members of the care circle.
+*   **Reputational Wealth ($\mathcal{R}$) & Care Leave Shield:** Caregiving hours are recognized through qualitative peer attestations contributing to non-financial Reputational Wealth ($\mathcal{R}$) in the Stewardship Chamber. Reputational Wealth decays exponentially ($\tau_{\mathrm{half}} = 2\text{ years}$) and is sublinearly capped ($\le 8\%$ chamber weight). When an elder or caregiver declares personal care leave, the **Care Leave Shield** completely freezes the decay clock.
+*   **The Protocol of Refusal (`sec:l5-refusal`):** Elder private quarters, personal memoirs, and end-of-life wishes can be declared Refused Domains, completely barring digital-twin simulation, sensor ingress, and algorithmic optimization.
+*   **Autonomous Transit Veto (`No-Transit`):** Elder residences, convalescent sensory gardens, and accessible pedestrian boardwalks maintain absolute authority to declare a `No-Transit` attribute, deterministically banning high-speed cargo delivery, motorized transit, and industrial equipment transport from entering calm eldercare zones.
+*   **Boundary IPC Socket:** Layer 5 policies compile into deterministic constraints pushed to Layer 4 across `/run/collective/ipc/l4_l5.sock`.
 
 ### Layer 6: Semantic Intent & Domain Ontology
-The Agora Commons (`col-commonsd`) parses requests into W3C JSON-LD Knowledge Artifacts across six typed branches:
-
-1.  **`ElderSupportIntent` (Kinetic Care):** Request for mobility, nutritional, or household assistance, specifying physical constraints and duration blocks.
-2.  **`WisdomOfferingIntent` (Passive Contribution):** Elder's declaration offering childcare supervision, historical context, craft mentorship, or conversational presence.
-3.  **`RetrofitIntent` (Universal Access):** Emitted to trigger Scenario Xi (Algorithmic Architecture) to adjust doorway widths, fabricate custom grab bars, or install ramps.
-4.  **`RespiteRequestIntent` (Caregiver Relief):** Automatically emitted when a caregiver's stress accumulator exceeds safety limits, forcing task re-routing.
-5.  **`EmergencyFallAlertIntent` (Urgent Telemetry):** Synthesized automatically by Layer 2 upon mmWave radar anomaly confirmation.
-6.  **`LegacyArchiveIntent` (End-of-Life):** Intent capturing oral histories, tool bequests, and land stewardship designations for permanent IPLD archival.
+The Agora Commons (`col-commonsd`) parses requests into W3C JSON-LD Knowledge Artifacts across typed branches:
+1.  **`ElderSupportIntent`:** Request for mobility, nutritional, or household assistance, specifying physical constraints and duration blocks.
+2.  **`WisdomOfferingIntent`:** Elder's declaration offering childcare supervision, historical context, craft mentorship, or conversational presence.
+3.  **`UniversalRetrofitIntent` (Scenario Xi Bridge):** Emitted to trigger living architecture retrofits (doorway widening, ramp installation, custom grab bars).
+4.  **`RespiteRequestIntent`:** Emitted when a caregiver's cumulative weekly hours approach the safety cap, prompting auxiliary circle dispatch.
+5.  **`EmergencyFallAlertIntent`:** Synthesized automatically by Layer 2 upon mmWave radar kinematic anomaly confirmation.
+6.  **`OralHistoryArchiveIntent`:** Intent capturing oral memoirs, craft blueprints, and land stewardship histories for permanent IPLD archival.
+7.  **`RicardianTreaty` ($\mathrm{Treaty\_CID}$):** Tripartite covenant binding natural-language mutual aid eldercare pacts, machine-readable JSON-LD schemas, and formal BPMN state machines governing inter-node assistive device sharing.
 
 ### The Governance Router Flowchart
 
@@ -119,29 +144,27 @@ graph TD
     subgraph Layer 6: Semantic Ontology
         L6_Care[ElderSupportIntent]
         L6_Wisdom[WisdomOfferingIntent]
-        L6_Retro[RetrofitIntent]
+        L6_Retro[UniversalRetrofitIntent]
         L6_Emerg[EmergencyFallAlertIntent]
-        L6_Arch[LegacyArchiveIntent]
+        L6_Treaty[RicardianTreaty Treaty_CID]
     end
 
-    subgraph Layer 5: Polycentric Policy Gates
-        P_Trust{Vulnerability Gate: <br>Trust_Level_3 & Credential?}
-        P_Cap{Respite Gate: <br>Caregiver Burden < 20%?}
-        P_Dignity{Dignity Gate: <br>Consensual & Zero-Camera?}
-        P_Fast{Emergency Gate: <br>Immediate Bypass?}
+    subgraph Layer 5: Polycentric Governance & Policy
+        P_Trust{Vulnerability Gate: <br>Trust_Level_3 & Somatic Credential?}
+        P_Cap{Respite Gate: <br>Caregiver Burden <= 2000 bps?}
+        P_Dignity{Dignity Gate: <br>Elder Consent & Zero-Optical?}
+        P_Fast{Emergency Gate: <br>Immediate Fall Bypass?}
     end
 
     subgraph Layer 4: BPMN Orchestrators
-        BPMN_Care[Fractional Care Routing Engine]
-        BPMN_Wisdom[Wisdom Negentropy Engine]
+        BPMN_Care[Rotational Care Routing Engine]
+        BPMN_Wisdom[Wisdom Gathering Engine]
         BPMN_Build[Parametric Retrofit Engine]
         BPMN_Triage[Emergency Paramedic Dispatch]
-        BPMN_Archive[IPLD Historical Archive Engine]
     end
 
-    %% Routing
     L6_Care --> P_Trust
-    P_Trust -->|Approved| P_Cap
+    P_Trust -->|Approved Peer| P_Cap
     P_Cap -->|Under Burden Cap| BPMN_Care
     P_Cap -.->|Exceeds Cap| L6_Care
 
@@ -152,68 +175,65 @@ graph TD
     P_Dignity -->|Approved| BPMN_Build
 
     L6_Emerg --> P_Fast
-    P_Fast -->|Emergency Confirmed| BPMN_Triage
-
-    L6_Arch --> P_Dignity
-    P_Dignity -->|Ratified| BPMN_Archive
+    P_Fast -->|Fall Confirmed| BPMN_Triage
 ```
 
-### Layer 7: The Legacy Proxy (Housing Coop Charter & Medicare Shield)
-Operating through the Node's Social Purpose Corporation (SPC), Layer 7 insulates the elder community from hostile legacy bureaucracy:
+### Layer 7: The Legacy Interface (Dual-Membrane Carapace)
+The Elder Commons interfaces with the legacy state through the Dual-Membrane Doctrine, presenting an honest, lawful, and legally unremarkable entity:
 
-**1. Trojan Ingestion (Healthcare & Pension Pooling):**
-Elder citizens retain legal entitlements to legacy state pensions (Social Security, Railroad Retirement) and healthcare programs (Medicare, Medicaid). The SPC operates a specialized legal trust membrane:
-*   Pensions and Medicare Part B/C payments are deposited into the SPC's custodial trust account.
-*   The SPC interfaces directly with legacy insurance providers, pharmaceutical suppliers, and visiting nurses, absorbing 100% of the billing friction.
-*   Internally, the elder is credited with comprehensive housing, food, and healthcare without touching legacy currency, transforming external fiat into collective community infrastructure.
+1.  **Multi-Generational Housing Cooperative & Assisted Living Exemption:**
+    Legacy state health departments heavily penalize informal communal care as an unlicensed commercial assisted living facility. The living community is organized as a **Multi-Generational Housing Cooperative**, where elders hold proprietary equity leases. Under statutory exemptions (e.g., California Health and Safety Code Section 1569-145), mutual assistance provided by bona fide housing co-owners and neighbors without commercial per-service fee models is strictly exempt from residential care licensing.
+2.  **Bounded Custodial Trust Carapace:**
+    Elders retain legal entitlements to legacy state pensions and healthcare programs (Medicare, Railroad Retirement). The cooperative operates a specialized custodial trust carapace:
+    *   Legacy pension disbursements are deposited into the cooperative's custodial trust bank account.
+    *   External fiat is allocated strictly to satisfy the settlement's itemized fiat needs target ($\Phi_t$) for property taxes, commercial facility insurance, and external prescription pharmaceuticals.
+    *   **Strict Inconvertibility:** Legacy pension fiat **never** converts into internal Exergy Credits or tokens. Internal housing, meals, and care are provided unconditionally under the Tier 2 Human Survival Baseline ($B_{\mathrm{baseline}}$).
+3.  **Regenerative Wholesale Medical Procurement:**
+    The cooperative acts as a Group Purchasing Organization (GPO), using custodial fiat reserves to purchase specialized prescription pharmaceuticals, surgical dressings, and diagnostic supplies directly from wholesale institutional suppliers, slashing retail markups.
 
-**2. Ecological Leeching & Assisted Living Exemption Shield:**
-Legacy state health departments heavily fine or shut down informal communal eldercare, classifying it as an "unlicensed commercial assisted living facility." The SPC overcomes this regulatory barrier:
-*   The living community is legally organized as a **Multi-Generational Housing Cooperative**, where elders hold proprietary equity leases.
-*   Under statutory exemptions (e.g., California Health & Safety Code § 1569.145), mutual assistance provided by bona fide housing co-owners and friends without commercial per-service fee models is strictly exempt from residential care licensing.
-*   The SPC legal team provides an impenetrable liability shield against municipal code harassment.
-
-### Layer 7 Bidirectional Flowchart
+### Layer 7 Dual-Membrane Bidirectional Flowchart
 
 ```mermaid
 graph TD
     subgraph Legacy Environment [Layer 7: State & Healthcare Bureaucracy]
-        Med[Medicare / Medicaid Bureau]
-        Reg[State Health Licensing Agency]
-        Pharma[Commercial Medical Wholesaler]
+        PensionBureau[Legacy Pension / Medicare Bureau]
+        HealthRegulator[State Health Licensing Agency]
+        PharmaWholesale[Institutional Medical Wholesaler]
+        TrustBank[Cooperative Custodial Trust Bank - Fiat Ceiling Phi_t]
     end
 
-    subgraph Sovereign Genesis Node [The Collective]
-        SPC[Social Purpose Corporation / Housing Coop]
-        L5[Layer 5: col-kmsd Identity & Policy]
-        L4[Layer 4: col-execd Care Orchestrator]
+    subgraph Sovereign Genesis Node [Layer 1 - Layer 6 Elder Commons]
+        Carapace[Multi-Generational Housing Co-op Carapace]
+        L6[Layer 6: Agora Semantic Intent Queue]
+        L5[Layer 5: Polycentric Governance col-kmsd]
+        L4[Layer 4: BPMN Care Orchestrator col-execd]
         L1[Layer 1: Elder Sanctuary Suite & Stewards]
     end
 
     %% Inbound Funding & Legal Shield
-    Med -->|Disburses Pension / Medicare| SPC
-    SPC -->|Absorbs Compliance Friction| Med
-    Reg -.->|Inspects for Unlicensed Facility| SPC
-    SPC -->|Presents Multi-Gen Housing Coop Exemption| Reg
+    PensionBureau -->|Disburses Legacy Pension to Custodial Account| TrustBank
+    TrustBank -->|Pays Property Taxes & Facility Insurance| HealthRegulator
+    TrustBank -->|Pays Lawful External Pharmacy Bills| PharmaWholesale
+
+    HealthRegulator -.->|Audits Blocked by Multi-Gen Co-op Exemption| Carapace
     
     %% Internal Care Flow
-    SPC -->|Funds Shared Medical Supplies| Pharma
-    Pharma -->|Delivers Specialized Feedstock| L1
-    L1 -->|Emits Care Attestation| L4
-    L4 -->|Settles Care Tokens| L5
-    L5 -->|Updates Trust Ledger| SPC
+    PharmaWholesale -->|Delivers Specialized Medical Supplies| L1
+    L1 -->|Emits Care Session Attestation| L4
+    L4 -->|l4_l5.sock: Updates Non-Financial Reputational Wealth| L5
+    L5 -->|Maintains Dignity & Sovereignty Policies| Carapace
 
     classDef legacy fill:#ffebee,stroke:#c62828,stroke-width:2px;
     classDef sovereign fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px;
-    class Med,Reg,Pharma legacy;
-    class SPC,L5,L4,L1 sovereign;
+    class PensionBureau,HealthRegulator,PharmaWholesale,TrustBank legacy;
+    class Carapace,L6,L5,L4,L1 sovereign;
 ```
 
 ---
 
 ## 3. Machine-Readable Schemas
 
-### 3.1 Layer 6 Knowledge Artifact: Elder Support Intent Schema (`support.jsonld`)
+### Subsection 3A: Layer 6 Knowledge Artifact - Elder Support Intent (`elder_support_intent.jsonld`)
 
 ```json
 {
@@ -224,61 +244,58 @@ graph TD
   "@type": "ElderSupportIntent",
   "identifier": "urn:uuid:8f9a0b1c-2d3e-4f5a-6b7c-8d9e0f1a2b3c",
   "issuerDid": "did:mesh:node04:elder_marcus",
+  "creationEpochMs": 1791460800000,
   "supportRequirements": {
     "kineticTasks": [
       "Meal_Preparation_Scenario_Gamma",
       "Physical_Mobility_Transfer"
     ],
-    "targetVoxelCoordinate": [16, 8, 16],
-    "temporalBlock": "2026-10-27T08:00:00Z",
-    "totalDurationMinutes": 120,
-    "maxMicroTaskMinutes": 30
+    "targetLocationVoxel": [16, 8, 16],
+    "targetChunk": [16, 8, 16],
+    "totalDurationMs": 7200000,
+    "maxShiftDurationMs": 1800000
   },
   "reciprocalOfferings": {
-    "passiveTasks": [
-      "Child_Monitoring_Scenario_Delta",
+    "passiveContributions": [
+      "Child_Supervision_Scenario_Delta",
       "Oral_History_Mentorship"
-    ],
-    "offeringDurationMinutes": 240
+    ]
   },
   "trustConstraints": {
-    "requiredCredentials": [
-      "First_Aid_L1",
-      "Caregiver_Somatic_L1"
-    ],
-    "minimumTrustGraphLevel": 3
+    "requiredCredential": "Caregiver_Somatic_Steward_L1",
+    "requiredTrustLevel": 3,
+    "maxCaregiverBurdenBps": 2000
   },
-  "telemetryIntegration": {
-    "ambientFallDetectionActive": true,
-    "privacyMode": "Absolute_Zero_Optical"
+  "distributionPolicy": {
+    "trustRing": "R0_Hearth_Sanctuary",
+    "survivalBaselineEligible": true,
+    "exergyTransferMicrojoules": 0
   }
 }
 ```
 
-### 3.2 Layer 2 Telemetry Attestation: mmWave Radar Fall Proof Schema (`fall_attestation.json`)
+### Subsection 3B: Layer 2 Telemetry Attestation - Ambient Safety Proof (`elder_safety_attestation.json`)
 
 ```json
 {
   "@context": "https://collective.network/ontology/v1/",
-  "@type": "ElderTelemetryAttestation",
-  "attestationId": "urn:uuid:7b8c9d0e-1f2a-3b4c-5d6e-7f8a9b0c1d2e",
-  "deviceNode": "did:mesh:node04:device:radar_suite_01",
-  "sensorType": "60GHz_FMCW_mmWave_Radar",
-  "eventMetrics": {
-    "timestamp": "2026-10-27T09:14:22Z",
-    "preImpactGaitVelocityMps": 0.42,
-    "fallImpactVelocityMps": 2.85,
-    "postImpactDwellSeconds": 45,
-    "respirationBpm": 14.2,
-    "opticalSensorPresent": false,
-    "acousticMicrophonePresent": false
+  "@type": "ElderSafetyAttestation",
+  "intentRef": "urn:uuid:8f9a0b1c-2d3e-4f5a-6b7c-8d9e0f1a2b3c",
+  "suiteDid": "did:mesh:node04:space:elder_suite_sanctuary_01",
+  "elderDid": "did:mesh:node04:elder_marcus",
+  "executionMetrics": {
+    "observationStartEpochMs": 1791460800000,
+    "observationEndEpochMs": 1791468000000,
+    "meanGaitVelocityMms": 850,
+    "meanAmbientTempMillikelvin": 295150,
+    "fallAnomalyDetected": false,
+    "zeroOpticalSensorsVerified": true,
+    "doorActuationCount": 2,
+    "rotationalCaregiversCount": 4,
+    "maxSingleCaregiverDurationMs": 1800000,
+    "burdenCapRespected": true
   },
-  "status": "FALL_CONFIRMED",
-  "actuatorState": {
-    "smartDoorSolenoidUnlocked": true,
-    "corridorEmergencyLedColorHex": "#FF8C00"
-  },
-  "telemetryProofDigestSha256": "3e4b7c1a9f0d8e2b6a5c4d3e2f1a0b9c8d7e6f5a4b3c2d1e0f9a8b7c6d5e4f3a"
+  "edgeAttestationSignature": "0x7a2b4c6e8f0a1c3e5b7d9f1a3c5e7b9d1f3a5c7e9b1d3f5a7c9e1b3d5f7a9c1e"
 }
 ```
 
@@ -286,78 +303,102 @@ graph TD
 
 ## 4. Oasis Engine Implementation Specification
 
-### 4.1 Memory Allocation & Voxel State
+### Subsection 4A: Memory Allocation & Voxel State
 
-The elder sanctuary suite occupies designated space within the $32^3$ chunk grid:
-*   The primary suite anchor voxel is initialized with `material_id = 48` (`ELDER_SUITE_SANCTUARY`).
-*   Metadata bitmask `0b00001011` sets `Is_Universal_Access` (bit 0), `Is_Radar_Sensor` (bit 1), and `Is_Actuator_Latch` (bit 3).
-*   Adjacent communal garden voxels (`material_id = 49`, `HEARTH_COURTYARD`) register elder dwell time to broadcast the `COMMUNITY_ANCHOR` aura.
+In the Oasis simulation grid, elder sanctuary suites and courtyard gathering spaces occupy designated coordinates within the 32x32x32 chunk space:
+*   The elder sanctuary suite voxel is initialized with `material_id = 48` (`ELDER_SUITE_SANCTUARY`).
+*   The courtyard intergenerational gathering space voxel is initialized with `material_id = 49` (`COURTYARD_COMMONS`).
+*   The `Is_Actuator` bit is set in `metadata` (bit 1) for the emergency smart door solenoid latch and hydronic valves.
+*   The `Is_Sensor` bit is set in `metadata` (bit 2) for mmWave radar antennas and temperature probes.
+*   All state values, timers, velocities, and durations are strictly defined as fixed-point SI integers (`uint64_t`, `uint32_t`, `int64_t`, `uint16_t`).
 
 ```cpp
-// Cache-aligned Flecs ECS Components
+// engine/components/elder_components.hpp
+#pragma once
+#include <cstdint>
+
+namespace oasis {
+
 enum class LifecycleStage : uint8_t {
-    CHILD,
+    INFANT,
     YOUTH,
     ADULT,
     ELDER
 };
 
-struct alignas(8) KineticCapacity {
-    float max_lifting_kg;       // Declines gracefully with age
-    float walking_speed_mps;    // [0.1f, 1.5f]
-    float daily_exergy_budget;  // Megajoules
+struct alignas(8) KineticCapacityComponent {
+    uint32_t max_lifting_mg;        // Maximum lifting capacity in milligrams
+    uint32_t walking_speed_mms;     // Speed in millimeters per second
+    uint64_t daily_exergy_budget_uj;// Budget in microjoules
 };
 
-struct alignas(8) WisdomAura {
-    float broadcast_radius_m;   // Radius in simulation meters
-    float stress_reduction_rate;// Morale stabilization per tick
-    float teaching_multiplier;  // Skill acquisition booster (Scenario Kappa)
+struct alignas(8) WisdomAuraComponent {
+    uint32_t broadcast_radius_mm;   // Radius in millimeters
+    uint32_t stress_reduction_permille; // Morale stabilization in permille per tick
+    uint32_t mentorship_boost_bps;  // Learning boost in basis points
 };
 
-struct alignas(8) MicroCareTask {
+struct alignas(8) RotationalCareTask {
     uint32_t task_id;
     uint32_t assigned_caregiver_id;
-    uint16_t duration_minutes;
+    uint32_t duration_ms;
     bool completed;
 };
 
-struct alignas(8) MicroCareQueue {
-    MicroCareTask tasks[8];
+struct alignas(8) MicroCareQueueComponent {
+    RotationalCareTask tasks[8];
     uint8_t count;
     uint8_t completed_count;
 };
+
+} // namespace oasis
 ```
 
-### 4.2 C++20 Test Harness Structure
+### Subsection 4B: C++20 Test Harness Code
 
 ```cpp
 // engine/tests/scenario_phi_test.cpp
 #include <cassert>
-#include <vector>
+#include <cstdint>
 #include <string>
+#include <vector>
+#include <unordered_map>
 #include "oasis/chunk_manager.hpp"
 #include "oasis/orchestration/bpmn_engine.hpp"
-#include "oasis/ledger/crdt_wallet.hpp"
 
 namespace oasis {
 
 struct CareScheduler {
-    static bool schedule_fractional_care(
-        uint16_t total_minutes, 
+    static bool schedule_rotational_care(
+        uint32_t total_duration_ms,
         const std::vector<std::string>& available_caregivers,
-        std::vector<std::pair<std::string, uint16_t>>& schedule_out
+        std::vector<std::pair<std::string, uint32_t>>& schedule_out
     ) {
         if (available_caregivers.empty()) return false;
-        uint16_t micro_task_len = 30;
-        uint16_t num_tasks = total_minutes / micro_task_len;
-        
-        // Ensure no single caregiver gets > 20% of aggregate weekly load
+        uint32_t shift_len_ms = 1800000; // 30 minutes in milliseconds
+        uint32_t num_tasks = total_duration_ms / shift_len_ms;
+
+        // Ensure no single caregiver receives > 20% of weekly load
         size_t cg_idx = 0;
-        for (uint16_t i = 0; i < num_tasks; ++i) {
-            schedule_out.push_back({available_caregivers[cg_idx], micro_task_len});
+        for (uint32_t i = 0; i < num_tasks; ++i) {
+            schedule_out.push_back({available_caregivers[cg_idx], shift_len_ms});
             cg_idx = (cg_idx + 1) % available_caregivers.size();
         }
         return true;
+    }
+};
+
+// Bilateral Clearing Channel for specialized assistive equipment
+struct BilateralClearingChannel {
+    int64_t balance_uj{0};                  // B_{u -> v}(t) in microjoules
+    int64_t credit_headroom_uj{36000000000000}; // 36000000000000 microjoules headroom
+
+    bool can_reserve(int64_t amount_uj) const {
+        return (balance_uj + amount_uj) <= credit_headroom_uj;
+    }
+
+    void execute_transfer(int64_t amount_uj) {
+        balance_uj += amount_uj;
     }
 };
 
@@ -372,13 +413,12 @@ void test_scenario_phi_eldercare_fractional_routing() {
     Voxel suite_voxel{
         .material_id = 48, // ELDER_SUITE_SANCTUARY
         .moisture = 5,
-        .temperature = 22,
+        .temperature = 22, // 22 C ambient
         .metadata = 0b00001011 // Universal Access + Radar + Actuator Latch
     };
     chunk_mgr.set_voxel(16, 8, 16, suite_voxel);
 
-    // 2. Setup Identities, Wallets & Psychological States
-    CRDTWallet elder_wallet("did:mesh:node04:elder_marcus", 50.0f);
+    // 2. Setup Identities & Caregiver Circle
     std::vector<std::string> caregivers = {
         "did:mesh:caregiver_01",
         "did:mesh:caregiver_02",
@@ -387,30 +427,32 @@ void test_scenario_phi_eldercare_fractional_routing() {
         "did:mesh:caregiver_05"
     };
 
-    // 3. Load BPMN Engine & Execute Task Fracturing
+    // 3. Load BPMN Engine & Execute Shift Partitioning
     BPMNEngine orchestrator;
     orchestrator.load_schema("schemas/bpmn/elder_care_routing.bpmn");
 
-    std::vector<std::pair<std::string, uint16_t>> scheduled_tasks;
-    bool success = CareScheduler::schedule_fractional_care(120, caregivers, scheduled_tasks);
+    std::vector<std::pair<std::string, uint32_t>> scheduled_tasks;
+    // 7,200,000 ms = 120 minutes of daily care
+    bool success = CareScheduler::schedule_rotational_care(7200000, caregivers, scheduled_tasks);
     assert(success);
     assert(scheduled_tasks.size() == 4);
 
-    // Verify burden dispersion (each caregiver has <= 30 mins out of 120, which is <= 25% daily and < 20% weekly)
-    std::unordered_map<std::string, uint16_t> load_map;
+    // Verify burden dispersion (each caregiver has <= 1,800,000 ms out of 7,200,000 ms)
+    std::unordered_map<std::string, uint32_t> load_map;
     for (const auto& task : scheduled_tasks) {
         load_map[task.first] += task.second;
-        assert(task.second <= 30);
+        assert(task.second <= 1800000);
     }
     for (const auto& entry : load_map) {
-        assert(entry.second <= 30);
+        assert(entry.second <= 1800000);
     }
 
-    // 4. Simulate Passive Negentropy Minting
-    WisdomAura aura{.broadcast_radius_m = 15.0f, .stress_reduction_rate = 0.5f, .teaching_multiplier = 1.4f};
-    assert(aura.teaching_multiplier == 1.4f);
-    elder_wallet.credit(5.0f); // 5 Value Tokens minted for 4 hours of courtyard presence
-    assert(elder_wallet.balance() == 55.0f);
+    // 4. Verify Bilateral Clearing Channel for assistive mobility devices
+    BilateralClearingChannel channel;
+    int64_t transfer_uj = 3600000000000; // 3600000000000 microjoules (1 Exergy Credit)
+    assert(channel.can_reserve(transfer_uj));
+    channel.execute_transfer(transfer_uj);
+    assert(channel.balance_uj == 3600000000000);
 }
 
 void test_scenario_phi_eldercare_fall_emergency() {
@@ -431,7 +473,7 @@ void test_scenario_phi_eldercare_fall_emergency() {
     if (fall_detected) {
         // Enforce strict zero-optical invariant
         assert(!optical_payload_present);
-        
+
         // Actuate emergency solenoid latch
         smart_door_unlocked = true;
         emergency_broadcast_sent = true;
@@ -456,9 +498,9 @@ void test_scenario_phi_eldercare_fall_emergency() {
 
 | Checkpoint | Validation Method | Pass Condition |
 | :--- | :--- | :--- |
-| **G1: Fractional Burden Dispersion** | Caregiver Queue Simulation | A 120-minute daily care schedule is partitioned into $\le 30$-minute blocks across at least 4 independent caregivers; no individual provides $>20\%$ of weekly hours. |
-| **G2: Offline Autonomy** | Local Mesh Telemetry Audit | Ambient mmWave radar processing, fall detection state transitions, and P2P local emergency alerts execute with 100% WAN isolation over Reticulum/LoRa. |
-| **G3: Privacy & Zero Optical Exposure** | Payload Wire Inspection | Wire analysis of telemetry attestation payloads confirms zero bytes of RGB video, infrared images, or acoustic audio data; only micro-Doppler kinematic vectors are transmitted. |
-| **G4: Passive Negentropy Minting** | CRDT Ledger Verification | Verifies that an elder logging 4 hours of passive courtyard dwell time receives automated Value Token minting for social stabilization and mentorship without physical kinetic exertion. |
-| **G5: Trojan Ingestion (L7)** | Trust Treasury Ingress | Inbound Medicare Part B and state pension remittances are successfully absorbed into the SPC custodial health trust, providing external medicine while shielding internal operations. |
-| **G6: Housing Cooperative Legal Shield** | Statutory Exemption Audit | When a simulated municipal health inspector challenges the facility, the SPC automatically serves the Multi-Generational Housing Cooperative charter, successfully asserting exemption from institutional licensing. |
+| **G1: Fractional Burden Dispersion** | Caregiver Queue Simulation | A 7,200,000 ms (120-minute) daily care schedule is partitioned into at most 1,800,000 ms (30-minute) blocks across at least 4 independent caregivers; no single volunteer provides greater than 2000 bps (20%) of weekly hours. |
+| **G2: Offline Local Mesh Autonomy** | Local Mesh Telemetry Audit | Ambient mmWave radar processing, fall detection state transitions, and P2P local emergency alerts execute with 100% WAN isolation over the local-first mesh. |
+| **G3: Zero-Optical Privacy & FMCW Fall Detection** | Telemetry Wire Payload Inspection | Wire analysis of telemetry attestation payloads confirms zero bytes of RGB video, infrared frames, or acoustic audio data; only micro-Doppler kinematic velocity vectors are transmitted. |
+| **G4: Inalienable Survival Baseline & Care Leave Shield** | Governance Policy Audit | Verifies that elders receive unconditional food, warmth, and clinic access under $B_{\mathrm{baseline}}$ without spending tokens; caregiver care leaves freeze the Reputational Wealth decay clock. |
+| **G5: Dual-Membrane Pension Trust Carapace** | Custodial Account Ingress | Inbound Medicare Part B and legacy state pension remittances are absorbed into the cooperative custodial trust to cover external pharmacy bills and taxes up to ceiling $\Phi_t$; zero internal tokens minted; zero conversion into internal credits. |
+| **G6: Housing Cooperative Legal Shield** | Statutory Exemption Audit | When a simulated municipal health inspector challenges the facility, the cooperative serves the Multi-Generational Housing Cooperative charter under statutory exemptions (e.g., California Health and Safety Code Section 1569-145), asserting full exemption from institutional licensing. |

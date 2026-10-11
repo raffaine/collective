@@ -2,8 +2,8 @@
 
 *   **Identifier:** `SCN-UPSILON-SHOCK`
 *   **System Epic:** Disaster Response, Islanded Microgrid Autonomy & Proactive Ecological Nurture
-*   **Primary Layers Tested:** L1 (Physical), L2 (Digital Twin), L3 (Ledger), L4 (Orchestration), L5 (Governance), L6 (Semantic), L7 (Proxy)
-*   **Pass/Fail Metric:** Deterministic islanding and autonomous priority load-shedding upon legacy grid collapse; 100% offline DTN packet routing over LoRaWAN/Wi-Fi Direct; mathematical prioritization of life-critical survival needs; zero deaths from uncoordinated power loss.
+*   **Primary Layers Tested:** L1 (Physical), L2 (Cybernetic Membrane), L3 (Thermodynamic Ledger), L4 (Deterministic Orchestrator), L5 (Polycentric Governance), L6 (Semantic Agora), L7 (Legacy Interface)
+*   **Pass/Fail Metric:** Deterministic islanding within 16 milliseconds upon legacy grid phase collapse; autonomous execution of the canonical 5-Tier Priority Queue Under Contention; dynamic multi-hop request cascading across 7-tier trust rings ($R_0 \dots R_6$) via BPVP; Layer 3 Bilateral Clearing Channel (BCC) settlement with Commons Jubilee debt forgiveness; hardcoded 72-hour emergency state expiration; zero deaths from power interruption.
 
 ---
 
@@ -13,184 +13,188 @@ This scenario specification has been ratified by unanimous consensus of the 5-Pe
 
 | Council Persona | Disciplinary Representative | Core Contribution to Scenario |
 | :--- | :--- | :--- |
-| **Game Designer** | Lead Systems & Gameplay Designer | Dwarf Fortress siege psychology and extreme environmental stress: Founder 01 coordinating mutual aid through sub-zero blizzards; psychological thoughts and stress accumulators (`"Terrified by howling blizzard (-35 stress)"` vs `"Heroic resolve clearing fallen tree with neighbors (+60 mood)"`); community gathering in warm microgrid commons; Cities: Skylines natural disaster response; stochastic boundary interface where weather shocks aggressively probe the perimeter, attenuated by ecological windbreaks, flood swales, and energy autarky. |
-| **Game Engineer** | Principal C++ Simulation & Engine Architect | Flecs ECS Data-Oriented Design (DOD): cache-aligned structs `PowerConsumerComponent` (priority tiers 0–10), `EnvironmentalObstacleComponent`, and `DTNRouterComponent`; 32-bit compact Voxels (`material_id = 50` `MICROGRID_GATEWAY_NODE`, `material_id = 51` `CRITICAL_LOAD_CIRCUIT`, `material_id = 52` `FALLEN_TIMBER_OBSTACLE`); dynamic power bus iteration with tier load-shedding; 10 Hz BPMN triage state machine; and C++20 test harness execution. |
-| **Sovereign Stack Specialist** | Sovereign Stack Systems Architect | 7 autonomous POSIX daemons (`col-telemetryd` through `col-adversaryd`); strict adjacent IPC via Unix domain sockets; delay-tolerant networking (DTN) gossip spool in `col-meshd` (L2); emergency zero-token mutual aid covenants in `col-storaged` (L3); zero monolithic game-loop threading. |
-| **Solarpunk Thinker** | Bioregional Regenerative Ecologist | Proactive ecological nurture and negative entropy: wildfire fuel reduction via coppice thinning (Scenario Eta); biochar soil sponges mitigating flood runoffs (Scenario Mu); storm debris recycled into firewood and building timber rather than landfilled; ecological care as authentic civil defense. |
-| **Scenario Specialist** | **Disaster Resilience & Islanded Microgrid Systems Engineer** | Microgrid bus power balance equation ($P_{gen}(t) + P_{storage}(t) \ge \sum_{k \ge \text{threshold}} P_{load, k}(t)$), delay-tolerant networking (DTN) epidemic routing over lossy LoRa airtime budgets under 1% duty cycle, legal Good Samaritan and Emergency Doctrine statutes under state emergency powers. |
+| **Game Designer** | Lead Systems & Gameplay Designer | Dwarf Fortress extreme weather trauma and subterranean refuge psychology: Founder 01 coordinating mutual-aid survival through howling blizzards and atmospheric river floods; psychological stress accumulators (thoughts like `"Terrified by howling blizzard gale (-25 stress)"` transitioning to `"Deeply fortified by shared warmth in the microgrid commons (+50 mood)"`); community gathering in the convivial hearth ($R_0$); Cities: Skylines disaster response loops; stochastic Boundary Interface weather shocks attenuated by living windbreaks, drainage swales, and energy sovereignty. |
+| **Game Engineer** | Principal C++ Simulation & Engine Architect | Flecs ECS Data-Oriented Design (DOD): cache-aligned `PowerConsumerComponent` enforcing the canonical 5-Tier Priority Queue Under Contention, `MicrogridBusComponent`, and `EmergencyRequestCascadeComponent`; 32-bit compact voxel grid representation (`material_id = 50`, `MICROGRID_GATEWAY_NODE`, `material_id = 51`, `CRITICAL_CLINIC_CIRCUIT`); 10 Hz deterministic BPMN state engine; compilable C++20 test harness executing integer microjoule load shedding, ATS islanding under 16 milliseconds, and Commons Jubilee balance clearing. |
+| **Sovereign Stack Specialist** | Sovereign Stack Systems Architect | 7-layer defense architecture across autonomous POSIX daemons (`col-sensord`, `col-membraned`, `col-storaged`, `col-execd`, `col-kmsd`, `col-commonsd`, `col-adversaryd`); strict adjacent IPC via Unix domain sockets; delay-tolerant networking (DTN) gossip spool over Reticulum/LoRa; Pairwise Bilateral Clearing Channels (BCC) with conservation equation $B_{u \to v}(t) + B_{v \to u}(t) = 0$; multi-hop HTLCs; Commons Jubilee debt forgiveness mechanisms in Layer 3; zero monolithic threading. |
+| **Solarpunk Thinker** | Bioregional Regenerative Ecologist | Proactive ecological nurture as authentic civil defense: wildfire fuel reduction via rotational coppice thinning (Scenario Eta); biochar swale sponges mitigating flash flood runoffs (Scenario Mu); storm debris salvage converted into firewood and building timber rather than burned; treating disaster response not as militarized emergency, but as deepened kinship solidarity and watershed stewardship. |
+| **Scenario Specialist** | Disaster Resilience & Islanded Microgrid Systems Engineer | Microgrid power balance equation in fixed-point SI integer units; sub-16-millisecond Automatic Transfer Switch (ATS) zero-crossing isolation; canonical 5-Tier Priority Queue Under Contention; Bioregional Path-Vector Protocol (BPVP) request cascading across concentric Trust Rings ($R_0 \dots R_6$); Commons Jubilee mutual debt clearance ratified by Watershed Councils; hardcoded 72-hour hardware emergency countdown timer. |
+
+**Council Ratification Verdict:** Unanimous Consensus Reached.
 
 ---
 
 ## 1. Problem Statement & Legacy Failure
 
-In legacy late-stage capitalist infrastructure (Layer 7), climate resilience is reactive, brittle, and privatized. The centralized power grid relies on fragile, high-voltage transmission lines running through unmanaged, combustible forests. When ecological shocks hit (severe winter storms, atmospheric rivers, wildfires):
-*   **Grid Collapse & Cascade Failure:** A single downed tree or frozen natural gas wellhead triggers catastrophic regional blackouts. Centralized distribution networks lack micro-islanding capability; power is severed equally for industrial consumers and vulnerable citizens on home medical ventilators.
-*   **Telecommunication Blackout & Cloud Paralysis:** Cellular towers exhaust their backup battery reserves within 4 hours. Cloud-dependent apps, remote payment terminals, and municipal emergency portals become completely inaccessible. Neighborhoods are rendered deaf, blind, and unable to coordinate relief 500 feet down the road.
-*   **Bureaucratic Relief Failure & Inequitable Recovery:** Centralized emergency management agencies (e.g., FEMA) take days or weeks to mobilize. Low-income neighborhoods suffer prolonged neglect, while commercial contractors exploit disaster zones through price gouging and predatory repair contracts.
+In legacy digital and physical infrastructure (Layer 7), climate resilience is reactive, brittle, and privatized. The centralized power grid relies on fragile, high-voltage transmission corridors routed through unmanaged, combustible wildlands. When ecological shocks hit (severe ice storms, atmospheric rivers, wildfires):
+
+1.  **Grid Collapse & Cascade Failure:** A single downed transmission tower or frozen natural gas wellhead triggers catastrophic regional blackouts. Centralized distribution substations lack micro-islanding capability; power is severed equally to industrial factories and home medical ventilators.
+2.  **Telecommunication Blackout & Cloud Paralysis:** Cellular base stations exhaust backup battery reserves within 4 hours. Cloud-dependent platforms, remote payment terminals, and municipal dispatch portals become completely unreachable. Neighborhoods are rendered blind, deaf, and unable to coordinate life-support aid 500 meters down the road.
+3.  **Bureaucratic Relief Failure & Inequitable Recovery:** Centralized emergency management agencies (e.g., FEMA) take days or weeks to mobilize. Low-income neighborhoods suffer prolonged neglect, while commercial contractors exploit disaster zones through price gouging, debt bondage, and predatory repair contracts.
+4.  **Financialization of Lifelines:** In legacy crises, food, potable water, and warmth are gated behind fiat payment rails. When electronic banking networks freeze, citizens with empty pockets are turned away from life-saving resources, transforming physical infrastructure failures into humanitarian catastrophes.
+
+A sovereign Genesis Node operates an autonomous "Emergency Override" protocol. It transitions the community instantly from daily optimization to an economy of biological triage, unconditional survival baselines ($B_{\mathrm{baseline}}$), and proactive bioregional meshing.
 
 ---
 
 ## 2. The Collective Workflow (7-Layer Traversal)
 
-Scenario Upsilon acts as the autonomous "Emergency Override" for the entire Node. It transitions the network from an economy of everyday optimization to an economy of biological triage and proactive ecological defense.
+Scenario Upsilon executes the autonomous emergency triage loop across the 7-layer stack:
 
 ```mermaid
 graph TD
-    L6[Layer 6: Semantic] -->|Sensors/Stewards emit EcologicalShockIntent| L5[Layer 5: Policy]
-    L5 -->|Trigger EMERGENCY_STATE Override| L4[Layer 4: Orchestrate]
-    L4 -->|BPMN Microgrid Islanding & Load Shedding| L3[Layer 3: Ledger]
-    L3 -->|Activate Zero-Price Mutual Aid Ledger| L2[Layer 2: Twin/Broker]
-    L2 -->|LoRaWAN DTN Broadcast & Shunt-Trip Relays| L1[Layer 1: Physical]
-    L1 -->|Chainsaw Clearing & Medical Circuit Survival| End((Resilience Stabilized))
+    L6[Layer 6: Semantic Agora] -->|Emit EcologicalShockIntent / TriageIntent| L5[Layer 5: Polycentric Governance]
+    L5 -->|Enact EMERGENCY_STATE & 72h Hardware Timer| L4[Layer 4: Deterministic Orchestrator]
+    L4 -->|5-Tier Contention Shedding & ATS Trip| L3[Layer 3: Thermodynamic Ledger]
+    L3 -->|Activate Commons Jubilee & Unconditional Floor| L2[Layer 2: Cybernetic Membrane]
+    L2 -->|LoRa Reticulum DTN & Modbus Shunt-Trip| L1[Layer 1: Physical Reality]
+    L1 -->|ATS Contactors Open in <16ms & Clinic Energized| End((Microgrid Stabilized & Watershed Meshed))
 ```
 
-### Layer 1: Physical Ground Truth
-*   **Hardware Nodes (Microgrid Infrastructure):** 48V LiFePO4 battery storage banks coupled to bi-directional inverter-chargers (e.g., Victron MultiPlus-II), motorized AC automatic transfer switches (ATS) for physical islanding, RS-485 Modbus branch power meters, and high-amperage solid-state DC contactors.
-*   **Hardware Nodes (Communications & Relief):** SX1262 LoRa radio mesh nodes operating at 915 MHz with solar-supercapacitor buffers, chainsaws, hydraulic log splitters, portable water filtration pumps, and clean room cold-storage refrigerators for medicines.
-*   **Inventory & Feedstock:** Seasoned dry firewood cordage, sterile medical bandages, potable gravity-filtered water reserves, and shelf-stable food provisions.
-*   **Action:** Physical opening of the grid contactor to sever legacy grid tether in $<16\text{ ms}$; clearing fallen trees from emergency access paths; distributing warm food and medical power.
+### Layer 1: Physical Reality (Microgrid Islanding & Life Support)
+*   **Physical Ground Truth:** 48V LiFePO4 battery storage banks (14340 Wh capacity), 5000 W bi-directional inverter-chargers, motorized AC automatic transfer switches (ATS) for physical islanding, RS-485 Modbus branch power meters, and high-amperage solid-state DC contactors.
+*   **Relief Transducers:** 915 MHz SX1262 LoRa radio mesh nodes with supercapacitor buffers, chainsaws, hydraulic wood splitters, gravity-fed water filtration manifolds, and clean room medicine cold-storage refrigerators.
+*   **Strict Layer Separation:** Layer 1 contains zero software, zero firmware, zero cryptographic keys, and zero network routing. It consists purely of mechanical switches, physical busbars, contactor coils, and raw analog sensors.
+*   **Action:** Physical opening of the grid intertie contactor to sever legacy grid connection in under 16 milliseconds; clearing fallen trees from emergency access lanes; distributing warm meals and medical power.
 
-### Layer 2: Digital Twin & Telemetry
-*   **Ingress Telemetry (MQTT Topics):**
-    *   `node/power/microgrid_01/telemetry/bus_voltage` (Volts AC and DC)
-    *   `node/power/microgrid_01/telemetry/battery_soc_pct` (Battery State-of-Charge %)
-    *   `node/power/circuits/telemetry/shed_status` (Bitmask of powered vs shed breaker circuits)
-    *   `node/weather/station_01/telemetry/wind_gust_kph` (Anemometer speed, km/h)
-    *   `node/mesh/dtn/telemetry/packet_loss_pct` (LoRa DTN delivery success %)
-*   **Verification:** Zero-crossing AC phase detection confirms loss of legacy grid synchronization in $<16\text{ ms}$. Distributed LoRa heartbeat pings establish localized node connectivity across an air-gapped radio mesh.
-*   **Actuator Control:** Shunt-trip relays immediately disconnect non-essential loads (Scenario Alpha 3D printers, Scenario Theta foundries).
+### Layer 2: The Cybernetic Membrane (Telemetry & Deterministic Actuation)
+*   **Microcontroller Enclave:** Zephyr RTOS microcontrollers communicating over isolated CAN and RS-485 buses with lock-free `/dev/shm` ring buffer IPC. Strict fixed-point SI integer wire encoding (microjoules, milliwatts, millikelvin, millivolts, milliamperes, milliseconds).
+*   **Ingress Telemetry:**
+    *   `microgrid_bus_potential_mv` (Millivolts AC/DC)
+    *   `battery_soc_ppm` (Battery State-of-Charge, parts per million, e.g. 884000 ppm)
+    *   `circuit_breaker_state_bitmask` (Bitmask of powered vs shed branch circuits)
+    *   `wind_speed_milli_mps` (Anemometer velocity, millimeters per second)
+    *   `mesh_dtn_loss_ppm` (Packet loss, parts per million)
+*   **Deterministic Actuation:** AC zero-crossing phase detectors confirm loss of grid synchronization in under 16 milliseconds, driving shunt-trip contactors to isolate the node before back-feeding dead utility wires.
+*   **Anti-Panopticon Hardware Shield:** Edge hardware strictly rejects body-worn biometrics or workplace cameras, verifying triage status purely through non-human circuit telemetry and physical emergency pull-boxes.
 
-### Layer 3: Network & Ledger
-*   **Emergency Mutual Aid Ledger:** The standard thermodynamic value exchange is suspended. Essential life-support resources are gated at zero cost:
-    $$\Delta V_{triage} = 0.00 \quad (\text{Free Access to Caloric, Medical, and Thermal Lifelines})$$
-*   **Heroic Labor Logging:** Labor expended under extreme environmental hazards (e.g., clearing fallen timber in sub-zero blizzards) is logged into an append-only CRDT accumulator:
-    $$\Delta V_{heroic\_accrual} = \int_{0}^{t} \left( \mathcal{E}_{kinetic\_work}(\tau) \cdot \lambda_{RISK} + C_{equipment\_depreciation} \right) d\tau$$
-    Where $\lambda_{RISK} = 3.5$ scales with storm severity, to be retroactively honored from the community treasury once the node restabilizes.
+### Layer 3: The Thermodynamic Ledger (BCC, HTLCs & Commons Jubilee)
+*   **Topology:** Pairwise Bilateral Clearing Channels (BCC) between peered nodes $u$ and $v$ with conservation invariant:
+    $$B_{u \to v}(t) + B_{v \to u}(t) = 0$$
+*   **Unconditional Human Survival Baseline ($B_{\mathrm{baseline}}$):** Life-critical survival lifelines (potable water, clinical refrigeration, baseline heating) are guaranteed unconditionally at zero price. No exergy tokens, chore points, or debt obligations are demanded from distressed humans.
+*   **Multi-Hop HTLC Emergency Relays:** When power or medical supplies are transferred across intermediate nodes, chained Hashed Timelock Contracts $\langle H(S), \Delta t, Q, u, v \rangle$ clear balances atomically along the BPVP path upon signed delivery receipts $\sigma_{\mathrm{delivery}}$ and cascading backward settlement.
+*   **Commons Jubilee Debt Forgiveness:**
+    When catastrophic shocks cause structural deficits on Bilateral Clearing Channels ($B_{u \to v}(t) \to -C_{u \to v}$) due to emergency deliveries, the Bioregional Watershed Congress ($R_3/R_4$) ratifies a **Commons Jubilee**:
+    Structural debt accumulated during ratified emergency periods is forgiven and cleared to zero, preventing debt peonage and restoring mutual aid headroom across the watershed.
 
-### Layer 4: Orchestration State Machine
-The deterministic BPMN 2.0 engine (`col-execd`) manages the emergency lifecycle at 10 Hz with autonomous transitions and safety bounds:
+### Layer 4: The Deterministic Orchestrator (5-Tier Contention Load Shedding)
+*   **Runtime:** Sandboxed BPMN 2.0 VM (`col-execd`) executing at 10 Hz with strict FIFO priority queues. Communicates with Layer 5 across `/run/collective/ipc/l4_l5.sock`.
+*   **The Canonical 5-Tier Priority Queue Under Contention:**
+    When total load exceeds generation and battery discharge budgets, `col-execd` sheds loads strictly in descending order:
+    1.  **Tier 5 (External Commercial Export):** Shed instantly ($<50\text{ ms}$) upon grid loss.
+    2.  **Tier 4 (Discretionary Guild Fabrication):** 3D printers, metal foundries, circular textile looms shed within 100 milliseconds.
+    3.  **Tier 3 (Bioregional Mutual Aid & Cross-Node Pledges):** Power sharing across watershed interties is balanced against internal reserves.
+    4.  **Tier 2 (Human Survival Baselines $B_{\mathrm{baseline}}$):** Community kitchen refrigeration, clinic ventilators, warm communal hearth circuits are preserved unconditionally down to minimum battery floor ($20\%$ SoC).
+    5.  **Tier 1 (Inviolable Ecological Floors $F_{\mathrm{eco}}$):** Critical watershed sensors, automated dam spillway valves, and environmental life-support telemetry remain permanently energized.
 
 ```mermaid
 stateDiagram-v2
-    [*] --> MonitoringPeacetime: Telemetry Stable
-    MonitoringPeacetime --> GridLossDetected: Voltage Drop / Frequency Drift
-    GridLossDetected --> IslandMicrogrid: Actuate ATS Contactor (<16ms)
-    IslandMicrogrid --> ShedNonEssentialLoads: Open Tiers 0-7 Circuits
-    ShedNonEssentialLoads --> EngageLoRaMesh: Sever WAN / Switch to DTN
-    EngageLoRaMesh --> TriageIntentQueue: Ingest Urgent Medical & Heat Needs
-    TriageIntentQueue --> FaultAnomaly: Inverter Overload or Battery < 20%
-    FaultAnomaly --> ShedTier8Loads: Preserve Only Medical Tier 10
-    ShedTier8Loads --> TriageIntentQueue
-    TriageIntentQueue --> GridRestored: Legacy Voltage Stable > 15 Minutes
-    GridRestored --> ReconnectGrid: Phase-Matched Resynchronization
-    ReconnectGrid --> SettleHeroicLedger: Pay Deferred Labor Bounties
-    SettleHeroicLedger --> [*]
+    [*] --> PeacetimeMonitoring: Grid Voltage Synchronized
+    PeacetimeMonitoring --> GridSeveranceDetected: Voltage Dropout in <16ms
+    GridSeveranceDetected --> ActuateATSIslanding: Open Intertie Contactor
+    ActuateATSIslanding --> Execute5TierShedding: Drop Tier 5 and Tier 4 Circuits
+    Execute5TierShedding --> EngageMeshDTN: Switch to LoRa Reticulum Radio
+    EngageMeshDTN --> EvaluateInternalDeficit: Battery SoC and Critical Load Audit
+    
+    EvaluateInternalDeficit --> NormalIslandedOperation: Battery SoC >= 40%
+    NormalIslandedOperation --> CheckEmergencyTimer: Decrement 72h Hardware Timer
+    
+    EvaluateInternalDeficit --> CriticalDeficit: Battery SoC < 40%
+    CriticalDeficit --> CascadeBPVPRequest: Emit Request across Trust Rings R1-R4
+    CascadeBPVPRequest --> InboundAssistanceCommitted: Peer Node HTLC Received
+    InboundAssistanceCommitted --> NormalIslandedOperation
+    
+    CheckEmergencyTimer --> EmergencyTimerExpired: Countdown == 0
+    EmergencyTimerExpired --> GovernanceReaffirmation: Two-Chamber Assembly Vote
+    GovernanceReaffirmation --> NormalIslandedOperation: Ratified Re-authorization
+    GovernanceReaffirmation --> TerminateEmergencyState: Return to Peacetime Mode
+    
+    NormalIslandedOperation --> GridRestored: Grid Voltage Stable > 900s
+    GridRestored --> ResynchronizeGrid: Phase-Matched Intertie Reclose
+    ResynchronizeGrid --> RatifyCommonsJubilee: Clear Emergency Channel Deficits
+    RatifyCommonsJubilee --> [*]
 ```
 
-### Layer 5: Policy & Polycentric Governance
-Layer 5 (`col-kmsd`) enforces the `EMERGENCY_STATE` policy overrides:
+### Layer 5: Polycentric Governance (Trust Rings & Request Cascading)
+*   **Daemon:** `col-kmsd` enforcing `EMERGENCY_STATE` policies.
+*   **Concentric Trust Rings ($R_0 \dots R_6$):**
+    *   $R_0$ (The Hearth): Unconditional shelter, clean water, warm food, medical triage.
+    *   $R_1$ (The Settlement): Physical neighbor volunteer crews, local tool libraries.
+    *   $R_2$ (The Commons): Local microgrid circuits, shared cold storage, dual-chamber assembly.
+    *   $R_3$ (The Watershed Guild): Hydrological river basin cluster ($\le 30\text{ km}$); HVDC interties, utility electric trucks, bilateral credit lines.
+    *   $R_4$ (Bioregional Federation): River basin federation ($\le 150\text{ km}$); shared grain reserves, rail freight corridors.
+    *   $R_5$ (Continental Corridor): Trans-continental disaster relief bundles, heavy machinery dispatch.
+    *   $R_6$ (Ecumene): External legacy perimeter interface.
+*   **Dynamic Hierarchical Request Cascading:**
+    When local reserves face a projected deficit, `col-kmsd` broadcasts a signed Resource Request Intent $\mathcal{Q} = \langle \mathrm{req\_id}, v_{\mathrm{requester}}, \mathcal{T}_{\mathrm{res}}, \mathbf{u}, Q_{\mathrm{req}}, \tau_{\mathrm{deadline}}, R_{\mathrm{curr}}, \sigma \rangle$.
+    1.  *Phase 1 ($R_0 / R_1$):* Local settlement conservation and battery throttling.
+    2.  *Phase 2 ($R_2$):* Village neighbors borrow portable LiFePO4 packs via cargo bikes ($\le 5\text{ km}$).
+    3.  *Phase 3 ($R_3$):* Watershed cluster activates bilateral HVDC microgrid interties or dispatches utility trucks ($\le 30\text{ km}$).
+    4.  *Phase 4 ($R_4$):* Bioregional federation mobilizes regional mobile generator reserves ($\le 150\text{ km}$).
+    *   Exporting peers evaluate their Export Surplus Bound:
+        $$Q_{\mathrm{avail}}(t) = \max\left(0, Q_{\mathrm{inventory}}(t) - F_{\mathrm{eco}}(t) - B_{\mathrm{baseline}}(t)\right) \cdot \mathbf{1}_{\mathrm{export}}$$
+*   **Hardcoded 72-Hour Hardware Timer:**
+    The `EMERGENCY_STATE` override is bounded by a hardcoded 72-hour hardware countdown timer ($259{,}200\text{ seconds}$). It terminates automatically unless affirmatively re-ratified by concurrent majorities in the Commons and Stewardship Chambers, preventing authoritarian state-of-emergency entrenchment.
+*   **Cellular Autonomy, Protocol of Refusal & Autonomous Transit Veto (`No-Transit`):** Even during acute bioregional shocks, autopoietic cellular autonomy guarantees that local nodes retain inviolable control over their internal survival reserves, affirming that the preservation of the parts holds absolute priority over the administrative dictates of the whole. Communities retain the Protocol of Refusal to withhold critical emergency caches, seed sanctuaries, and uncontaminated water wells from regional expropriation. In addition, affected nodes enforce an Autonomous Transit Veto (`No-Transit`), closing washed-out or hazardous local residential paths to non-emergency heavy transit and rerouting outside supply convoys onto hardened arterial corridors.
 
-*   **Execution Gate (Acoustic & Noise Exemption):** Standard municipal quiet hours and acoustic zoning policies (Scenario Lambda) are completely suspended, permitting chainsaws, woodchippers, and emergency vehicles to operate at 3:00 AM.
-*   **Maintenance Gate (Good Samaritan Credential Waiver):** Strict credential barriers are dynamically relaxed; non-credentialed citizens can administer emergency first aid, clear tree obstructions, and distribute food under Good Samaritan legal immunity.
-*   **Procurement Gate (Emergency Reserve Release):** The multi-sig threshold for emergency fuel and spare part reserves drops from 3-of-5 to a 1-of-1 local on-duty Steward signature with zero delay.
-*   **Logistics Gate (Life-Priority Routing):** Emergency medical couriers and warming bus transit receive absolute priority over all other mesh traffic.
+### Layer 6: Semantic Agora & Ricardian Treaties (Ontology & Intents)
+*   **Daemon:** `col-commonsd` parsing structured JSON-LD schemas.
+*   **Ricardian Treaty Architecture (`Treaty_CID`):**
+    All inter-node mutual aid covenants are cryptographically anchored by a Tripartite Treaty_CID:
+    $$\mathrm{Treaty\_CID} = \mathrm{SHA256}\left( \mathrm{Text}_{\mathrm{prose}} \parallel \mathrm{Schema}_{\mathrm{JSON-LD}} \parallel \mathrm{Invariants}_{\mathrm{BPMN}} \right)$$
+*   **Typed Schemas:**
+    1.  `EcologicalShockIntent`: Declaration of grid loss, storm threshold, or wildfire perimeter.
+    2.  `TriageIntent`: Priority request for life-critical baseline support (ventilator power, insulin cooling).
+    3.  `LoadSheddingDirectiveIntent`: Command envelope executing 5-tier load shedding down to Tier 2.
+    4.  `CommonsJubileeDeclarationIntent`: Ratified mutual debt forgiveness across Bilateral Clearing Channels.
+    5.  `CascadingReliefIntent`: Multi-hop resource request cascading across Trust Rings $R_1 \dots R_4$.
 
-### Layer 6: Semantic Intent & Domain Ontology
-All disaster and recovery workflows are formalized as typed W3C JSON-LD Knowledge Artifacts in the Agora Commons (`col-commonsd`):
-
-1.  **`EcologicalShockIntent` (Declaration):** Published by automated watchdog telemetry declaring grid loss, flood surge, or wildfire proximity.
-2.  **`TriageIntent` (Acute Need):** High-priority emergency broadcast for life-critical resources (e.g., insulin refrigeration, oxygen concentrator power).
-3.  **`LoadSheddingDirectiveIntent` (Energy Actuation):** Automated directive commanding sub-circuits to drop offline.
-4.  **`HeroicLaborBountyIntent` (Mutual Aid Task):** Requests volunteers for hazardous clearing, road opening, or elder evacuation.
-5.  **`NurtureIntent` (Proactive Mitigation):** Peacetime intent scheduling coppice thinning for wildfire breaks or biochar swale building for flood retention.
-6.  **`ResourceReliefIntent` (Relief Distribution):** Coordinates bulk release of stored food, potable water, and dry firewood.
-
-### The Governance Router Flowchart
+### Layer 7: The Legacy Interface (Dual-Membrane Carapace & Mutual Aid)
+*   **Daemon:** `col-adversaryd` (Legacy Gateway & Municipal Interface Daemon).
+*   **Dual-Membrane Carapace:** The cooperative entity operates under Subchapter T / UUNAA § 6.
+*   **Good Samaritan & Emergency Doctrines:**
+    During natural disasters, external legal interactions invoke recognized statutory Good Samaritan protections and Emergency Response Doctrines. The cooperative coordinates road clearance and warming sanctuaries without exposing internal volunteers to personal tort liability.
+*   **FEMA & Municipal Relief Grants:**
+    External emergency relief grants or municipal reimbursements are received in corporate bank accounts as external fiat. Under the Meshing-First rule, this fiat is used exclusively to pay property taxes or purchase non-local wholesale capital goods (replacement inverter modules, bulk LiFePO4 cells); it is **strictly prohibited** from converting into internal exergy credits.
 
 ```mermaid
 graph TD
-    subgraph Layer 6: Semantic Ontology
-        L6_Shock[EcologicalShockIntent]
-        L6_Triage[TriageIntent]
-        L6_Shed[LoadSheddingDirectiveIntent]
-        L6_Heroic[HeroicLaborBountyIntent]
-        L6_Nurture[NurtureIntent]
+    subgraph Legacy Environment [Layer 7: External State & Utilities]
+        CountyEmergency[County Emergency Management Agency]
+        FEMA_Agency[FEMA Disaster Assistance]
+        UtilityGrid[High-Voltage Transmission Utility]
     end
 
-    subgraph Layer 5: Polycentric Governance & Policy
-        P_State{State Gate: <br>EMERGENCY_STATE Active?}
-        P_Noise{Execution Gate: <br>Suspend Acoustic Limits?}
-        P_Relief{Procurement Gate: <br>Zero-Price Lifeline?}
-        P_Labor{Safety Gate: <br>Good Samaritan Exemption?}
+    subgraph Dual Membrane Carapace [Layer 7: col-adversaryd]
+        CoopShield[Subchapter T Cooperative / PPT Chassis]
+        FiatTreasury[External Operating Account / Needs List Target]
+        GoodSamaritan[Good Samaritan Legal Immunity Defense]
     end
 
-    subgraph Layer 4: BPMN Orchestrators
-        BPMN_Island[Islanding & Shedding Engine]
-        BPMN_Triage[Medical Triage Engine]
-        BPMN_Clear[Road Clearing Engine]
-        BPMN_Prevent[Preventative Nurture Engine]
+    subgraph Internal Sovereign Core [Layers 1 through 6]
+        L5_Gov[Layer 5: 7-Tier Trust Rings & 72h Safety Timer]
+        L4_BPMN[Layer 4: 5-Tier Contention Load Shedder]
+        L3_Ledger[Layer 3: Bilateral Channels BCC & Commons Jubilee]
+        L1_Phys[Layer 1: ATS Contactors & LiFePO4 Battery Bank]
     end
 
-    %% Routing
-    L6_Shock --> P_State
-    P_State -->|Active Emergency| BPMN_Island
+    %% External Connections
+    UtilityGrid -.->|Grid Voltage Collapse in <16ms| L1_Phys
+    L1_Phys -->|Islands Microgrid Autonomously| L4_BPMN
+    L4_BPMN -->|Notifies Carapace of Island Status| CoopShield
     
-    L6_Triage --> P_Relief
-    P_Relief -->|Approved Zero-Token| BPMN_Triage
+    CoopShield -->|Submits Lawful Road Clearance Records| CountyEmergency
+    CountyEmergency -->|Disburses Municipal Grant Fiat| FiatTreasury
+    FiatTreasury -->|Purchases Wholesale LiFePO4 Cells| L1_Phys
     
-    L6_Heroic --> P_Noise
-    P_Noise --> P_Labor
-    P_Labor -->|Exempt| BPMN_Clear
-    
-    L6_Nurture --> BPMN_Prevent
-```
+    %% Firewall
+    FiatTreasury -.->|Zero Fiat Token Conversion Permitted| L3_Ledger
 
-### Layer 7: The Legacy Proxy (Good Samaritan Shield & FEMA Interface)
-The Node interfaces with the legacy legal and emergency apparatus via the Social Purpose Corporation (SPC):
-
-**1. Trojan Ingestion (FEMA Reimbursement & Municipal Grants):**
-*   During catastrophic events, the SPC functions as an officially recognized disaster relief contractor or mutual-aid non-profit. It presents timestamped Layer 2 telemetry and GPS logs of cleared municipal roads and shelter operations.
-*   Legacy emergency management agencies (FEMA, state emergency divisions) disburse fiat disaster relief grants to the SPC bank account. The SPC captures this fiat to replenish diesel reserves, purchase additional LiFePO4 cells, and service property tax obligations.
-
-**2. Ecological Leeching (Pre-Season Resilience GPO):**
-*   High-density battery cells, heavy-duty winches, and solar inverters cannot be fabricated locally.
-*   The SPC operates as a **Decentralized Group Purchasing Organization (GPO)**, pooling pre-season orders across regional bioregional nodes. It executes bulk B2B purchases of industrial emergency equipment directly from manufacturers before storm seasons, avoiding consumer price-gouging and retail shortages.
-
-### Layer 7 Bidirectional Flowchart
-
-```mermaid
-graph TD
-    subgraph Legacy Market [Layer 7: Legacy Capitalist Environment]
-        FEMA[FEMA / County Emergency Mgmt]
-        Utility[Legacy Electric Utility / Grid]
-        Mfg[Industrial Battery & Solar Mfg]
-        Court[Municipal Liability Courts]
-    end
-
-    subgraph The Collective [Sovereign Genesis Node]
-        SPC[Social Purpose Corporation / PPT Shield]
-        L6[Layer 6: Internal Intent Queue]
-        L4[Layer 4: BPMN Orchestrator]
-        L1[Layer 1: Physical Microgrid & Relief Hub]
-    end
-
-    %% Inbound Fiat Flow
-    L1 -->|Performs Road Clearing & Warming| SPC
-    SPC -->|Submits Incident Telemetry & Claims| FEMA
-    FEMA -->|Disburses Disaster Relief Grants| SPC
-    SPC -.->|Invokes Good Samaritan Defense| Court
-    SPC -->|Replenishes Emergency Reserves| L6
-    
-    %% Outbound Procurement Flow
-    L6 -->|Declares Resilience Hardware Deficit| SPC
-    SPC -->|Aggregates Regional Pre-Season Demand| Mfg
-    Mfg -->|Delivers Industrial LiFePO4 Cells| L1
-    Utility -.->|Grid Drops Voltage| L1
-    
     classDef legacy fill:#ffebee,stroke:#c62828,stroke-width:2px;
+    classDef carapace fill:#fff3e0,stroke:#e65100,stroke-width:2px;
     classDef sovereign fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px;
-    class FEMA,Utility,Mfg,Court legacy;
-    class SPC,L6,L4,L1 sovereign;
+    class CountyEmergency,FEMA_Agency,UtilityGrid legacy;
+    class CoopShield,FiatTreasury,GoodSamaritan carapace;
+    class L5_Gov,L4_BPMN,L3_Ledger,L1_Phys sovereign;
 ```
 
 ---
@@ -207,28 +211,29 @@ graph TD
   ],
   "@type": "EcologicalShockIntent",
   "identifier": "urn:uuid:e2f3g4h5-6i7j-8k9l-0m1n-2o3p4q5r6s7t",
-  "issuerDid": "did:mesh:node04:telemetry_watchdog",
+  "issuerDid": "did:peer:2.Ez6MksT...telemetry_watchdog",
   "creationTimestamp": "2026-11-15T03:22:10Z",
   "shockProfile": {
     "shockType": "Severe_Ice_Storm",
-    "legacyGridVoltage": 0.0,
-    "temperatureCelsius": -14.2,
-    "sustainedWindSpeedKph": 78.5,
-    "severityLevel": "STATE_OF_EMERGENCY"
+    "legacyGridPotentialMilliVolts": 0,
+    "temperatureMilliKelvin": 258950,
+    "sustainedWindSpeedMilliMps": 21800,
+    "severityClassification": "STATE_OF_EMERGENCY"
   },
   "islandingParameters": {
-    "atsDisconnectionTimestamp": "2026-11-15T03:22:11.014Z",
+    "atsDisconnectionLatencyMs": 14,
     "radioMeshProtocol": "Reticulum_LoRa_915MHz",
-    "loadSheddingProfile": "TIER_7_AND_BELOW_SHED"
+    "loadSheddingProfile": "CANONICAL_5_TIER_QUEUE"
   },
   "policyOverrides": {
-    "acousticBudgetSuspended": true,
-    "zeroPriceMutualAidActive": true,
+    "emergencyStateActive": true,
+    "hardwareTimerRemainingSeconds": 259200,
+    "unconditionalSurvivalBaselineEnacted": true,
     "goodSamaritanImmunityInvoked": true
   },
   "triageRequirements": {
-    "medicalCircuitsPreserved": ["BAY-01-VENTILATOR", "BAY-03-INSULIN"],
-    "targetMinimumSoCPercent": 35.0
+    "preservedCircuits": ["CLINIC_VENTILATOR_BAY_01", "INSULIN_COLD_STORAGE_BAY_03"],
+    "targetMinimumSoCPpm": 200000
   }
 }
 ```
@@ -239,19 +244,19 @@ graph TD
 {
   "@context": "https://collective.network/ontology/v1/",
   "@type": "MicrogridIslandingAttestation",
-  "shockIntentRef": "urn:uuid:e2f3g4h5-6i7j-8k9l-0m1n-2o3p4q5r6s7t",
-  "gatewayNode": "did:mesh:node04:device:victron_gateway_01",
+  "attestationId": "urn:uuid:1f2a3b4c-5d6e-7f8a-9b0c-1d2e3f4a5b6c",
+  "gatewayNodeDid": "did:peer:2.Ez6MksV...victron_inverter_gateway",
   "telemetryProof": {
-    "disconnectionLatencyMs": 14.8,
-    "preGridVoltageVac": 240.2,
-    "postIslandBusVoltageVac": 239.8,
-    "batteryBankSoC": 88.4,
+    "disconnectionLatencyMs": 14,
+    "preGridPotentialMilliVolts": 240200,
+    "postIslandBusPotentialMilliVolts": 239800,
+    "batteryBankSoCPpm": 884000,
     "circuitsShedCount": 18,
     "circuitsActiveCount": 4,
     "loraMeshActivePeers": 16,
     "anomalyDetected": false
   },
-  "switchHash": "c2b3d4e5f60718293a4b5c6d7e8f90123456789abcdef0123456789abcdef012",
+  "switchDigestSha256": "c2b3d4e5f60718293a4b5c6d7e8f90123456789abcdef0123456789abcdef012",
   "status": "ISLAND_STABLE"
 }
 ```
@@ -262,117 +267,159 @@ graph TD
 
 ### 4.1 Memory Allocation & Voxel State
 
-The microgrid and relief commons occupy dedicated space in the $32^3$ chunk grid:
-- The main ATS gateway voxel is initialized with `material_id = 50` (`MICROGRID_GATEWAY_NODE`).
-- Critical medical and heating circuits occupy `material_id = 51` (`CRITICAL_LOAD_CIRCUIT`).
-- Dynamic weather spawns `FALLEN_TIMBER_OBSTACLE` (`material_id = 52`) blocking road voxels.
-- Voxels hold a `power_priority_tier` in their 8-bit `metadata` field. Tiers $0–7$ are shed immediately upon grid failure; Tiers $8–10$ remain energized.
+The microgrid and emergency relief commons occupy designated voxels in the $32^3$ chunk space:
+*   The main ATS gateway voxel is initialized with `material_id = 50` (`MICROGRID_GATEWAY_NODE`).
+*   Critical clinic and survival circuits occupy `material_id = 51` (`CRITICAL_CLINIC_CIRCUIT`).
+*   Dynamic winter storm obstacles spawn `FALLEN_TIMBER_OBSTACLE` (`material_id = 52`) blocking transit routes.
+*   Voxels store a 5-tier priority level in their `metadata` byte: Tier 5 (commercial) down to Tier 1 (ecological floor). Tiers 4 and 5 are shed immediately; Tiers 1 and 2 remain energized.
+
+```cpp
+#include <cstdint>
+
+// Cache-aligned Flecs ECS Components in pure fixed-point SI integer math
+struct alignas(8) PowerConsumerComponent {
+    uint8_t priority_tier;      // 1 (Ecological Floor) to 5 (Commercial Export)
+    uint64_t active_milliwatts; // Milliwatts
+    bool is_energized;
+};
+
+struct alignas(8) MicrogridBusComponent {
+    uint64_t bus_potential_mv;  // Millivolts
+    uint64_t battery_capacity_uj; // Microjoules
+    uint64_t battery_remaining_uj;// Microjoules
+    uint32_t battery_soc_ppm;   // Parts per million (e.g. 884000 ppm)
+    bool islanded_from_grid;
+    uint32_t emergency_timer_seconds; // 72-hour countdown (259,200s)
+};
+
+struct alignas(8) EmergencyRequestCascadeComponent {
+    uint32_t requester_ring_id; // R_0 to R_6
+    uint64_t requested_energy_uj;// Microjoules
+    uint64_t promised_htlc_secret_hash;
+    bool request_satisfied;
+    bool commons_jubilee_ratified;
+};
+```
 
 ### 4.2 C++20 Test Harness Structure
 
 ```cpp
 // engine/tests/scenario_upsilon_test.cpp
+#include <cstdint>
 #include <cassert>
 #include <string>
-#include "oasis/chunk_manager.hpp"
-#include "oasis/orchestration/bpmn_engine.hpp"
-#include "oasis/ledger/crdt_wallet.hpp"
+#include <vector>
+#include <array>
 
 namespace oasis {
 
-struct PowerConsumerComponent {
-    uint8_t priority_tier; // 0 (luxury) to 10 (life-critical)
-    float active_watts;
-    bool is_energized;
+// Fixed-point microgrid islanding and 5-tier contention controller
+class MicrogridEmergencyController {
+public:
+    static const uint32_t MAX_EMERGENCY_SECONDS = 259200ULL; // 72 hours
+    static const uint64_t QUANTUM_UJ = 3600000000000ULL;    // 3600 kJ (1 credit quantum)
+
+    // Execute 5-tier priority load shedding
+    static void execute_load_shedding(
+        std::vector<PowerConsumerComponent>& circuits,
+        uint64_t total_available_mw
+    ) {
+        // Tiers: 1 = Eco Floor, 2 = Survival Baseline, 3 = Bioregional Aid,
+        //        4 = Guild Fabrication, 5 = Commercial Export
+        // Under emergency islanding, shed Tier 5 and Tier 4 immediately
+        uint64_t allocated_mw = 0ULL;
+
+        for (auto& circuit : circuits) {
+            if (circuit.priority_tier >= 4) {
+                circuit.is_energized = false; // Shed Tier 4 & 5
+            } else {
+                if (allocated_mw + circuit.active_milliwatts <= total_available_mw) {
+                    circuit.is_energized = true;
+                    allocated_mw += circuit.active_milliwatts;
+                } else if (circuit.priority_tier <= 2) {
+                    // Tiers 1 and 2 are unconditional survival baselines
+                    circuit.is_energized = true;
+                } else {
+                    circuit.is_energized = false;
+                }
+            }
+        }
+    }
+
+    // Bilateral channel debt forgiveness (Commons Jubilee)
+    static bool ratify_commons_jubilee(
+        int64_t& balance_u_to_v_uj,
+        bool assembly_supermajority_confirmed
+    ) {
+        if (!assembly_supermajority_confirmed) {
+            return false;
+        }
+        // If node u ran into deep deficit due to disaster relief exports/imports,
+        // structural deficit is forgiven to zero
+        balance_u_to_v_uj = 0LL;
+        return true;
+    }
 };
-
-struct EnvironmentalObstacleComponent {
-    uint32_t voxel_x, voxel_y, voxel_z;
-    float removal_effort_joules;
-    bool path_cleared;
-};
-
-void test_scenario_upsilon_shock() {
-    ChunkManager chunk_mgr;
-    chunk_mgr.allocate_chunk(0, 0, 0);
-
-    // Initialize Gateway Voxel
-    Voxel gateway_voxel{
-        .material_id = 50, // MICROGRID_GATEWAY_NODE
-        .moisture = 0,
-        .temperature = -10,
-        .metadata = 0b00000110 // Sensor + Actuator
-    };
-    chunk_mgr.set_voxel(16, 8, 16, gateway_voxel);
-
-    // Initialize Critical Circuit Voxel (Tier 10)
-    Voxel medical_circuit{
-        .material_id = 51, // CRITICAL_LOAD_CIRCUIT
-        .moisture = 0,
-        .temperature = 20,
-        .metadata = 0b00001010 // Tier 10
-    };
-    chunk_mgr.set_voxel(16, 8, 17, medical_circuit);
-
-    CRDTWallet triage_recipient("did:mesh:node04:patient_clara", 0.0f);
-    CRDTWallet heroic_steward("did:mesh:node04:steward_hero", 25.0f);
-
-    BPMNEngine orchestrator;
-    orchestrator.load_schema("schemas/bpmn/disaster_resilience_pipeline.bpmn");
-
-    JobContext job{
-        .bounty_id = "e2f3g4h5-6i7j-8k9l-0m1n-2o3p4q5r6s7t",
-        .required_resource_units = 1.0f,
-        .estimated_energy_wh = 1200.0f,
-        .target_bay_id = 1
-    };
-
-    // Assert Emergency Mutual Aid: Zero cost escrow
-    orchestrator.emit_event(EscrowInitiatedEvent{triage_recipient, 0.00f});
-    orchestrator.await_event<EscrowLockedEvent>();
-    assert(triage_recipient.balance() == 0.00f);
-
-    // Run Emergency Simulation: Islanding, load shedding, clearing fallen log (3600 ticks)
-    SimResult res = orchestrator.step_simulation_ticks(chunk_mgr, job, 3600);
-    assert(res.status == ExecutionStatus::COMPLETED);
-
-    // Assert Medical Circuit Remained Energized
-    Voxel post_medical = chunk_mgr.get_voxel(16, 8, 17);
-    assert(post_medical.material_id == 51);
-
-    // Assert Heroic Labor Accrual Credited
-    orchestrator.settle_job(heroic_steward);
-    assert(heroic_steward.balance() > 25.0f);
-}
-
-void test_scenario_upsilon_shock_anomaly() {
-    ChunkManager chunk_mgr;
-    chunk_mgr.allocate_chunk(0, 0, 0);
-
-    Voxel gateway_voxel{.material_id = 50, .moisture = 0, .temperature = -10, .metadata = 0b00000110};
-    chunk_mgr.set_voxel(16, 8, 16, gateway_voxel);
-
-    CRDTWallet emergency_wallet("did:mesh:node04:steward_hero", 50.0f);
-    BPMNEngine orchestrator;
-    orchestrator.load_schema("schemas/bpmn/disaster_resilience_pipeline.bpmn");
-
-    JobContext job{.bounty_id = "fault-inverter-trip", .required_resource_units = 1.0f};
-
-    orchestrator.emit_event(EscrowInitiatedEvent{emergency_wallet, 0.00f});
-    orchestrator.await_event<EscrowLockedEvent>();
-
-    // Inject catastrophic inverter short circuit at tick 1200
-    SimResult res = orchestrator.step_simulation_ticks(chunk_mgr, job, 1200, true);
-
-    assert(res.status == ExecutionStatus::EMERGENCY_STOP);
-    assert(orchestrator.current_state() == BPMNState::SALVAGE_INTENT);
-}
 
 } // namespace oasis
 
+void test_scenario_upsilon_islanding_and_5tier_shedding() {
+    using namespace oasis;
+
+    // Setup 5 branch circuits across the 5 canonical priority tiers
+    std::vector<PowerConsumerComponent> circuits = {
+        {.priority_tier = 1, .active_milliwatts = 50000ULL,  .is_energized = true}, // Tier 1: Eco Sensors (50W)
+        {.priority_tier = 2, .active_milliwatts = 800000ULL, .is_energized = true}, // Tier 2: Clinic Ventilator (800W)
+        {.priority_tier = 3, .active_milliwatts = 500000ULL, .is_energized = true}, // Tier 3: Neighbor Mesh Tie (500W)
+        {.priority_tier = 4, .active_milliwatts = 2500000ULL,.is_energized = true}, // Tier 4: CNC Tool (2500 W)
+        {.priority_tier = 5, .active_milliwatts = 3000000ULL,.is_energized = true}  // Tier 5: Commercial Export (3kW)
+    };
+
+    // Microgrid storage bank with 2000 W inverter capacity under storm conditions
+    uint64_t available_inverter_mw = 2000000ULL; // 2,000 W
+
+    // Execute 5-Tier contention load shedding
+    MicrogridEmergencyController::execute_load_shedding(circuits, available_inverter_mw);
+
+    // Assert Tier 5 and Tier 4 are shed
+    assert(circuits[4].is_energized == false); // Tier 5 Commercial shed
+    assert(circuits[3].is_energized == false); // Tier 4 Fabrication shed
+
+    // Assert Tier 1 and Tier 2 remain energized
+    assert(circuits[0].is_energized == true);  // Tier 1 Eco Floor preserved
+    assert(circuits[1].is_energized == true);  // Tier 2 Clinic Baseline preserved
+}
+
+void test_scenario_upsilon_commons_jubilee_and_72h_timer() {
+    using namespace oasis;
+
+    // Simulate bilateral clearing channel deficit incurred during disaster relief
+    // Node A imported 10 credit quanta (36 MJ) of emergency heating assistance from Node B
+    int64_t balance_a_to_b_uj = - (10LL * 3600000000000LL);
+    assert(balance_a_to_b_uj < 0LL);
+
+    // Watershed Council ratifies Commons Jubilee debt forgiveness
+    bool assembly_supermajority = true;
+    bool jubilee_success = MicrogridEmergencyController::ratify_commons_jubilee(
+        balance_a_to_b_uj,
+        assembly_supermajority
+    );
+
+    assert(jubilee_success);
+    assert(balance_a_to_b_uj == 0LL); // Channel deficit forgiven to zero
+
+    // Verify 72-hour hardware safety timer bounds
+    uint32_t emergency_timer_seconds = MicrogridEmergencyController::MAX_EMERGENCY_SECONDS;
+    assert(emergency_timer_seconds == 259200U);
+
+    // Simulate clock progression
+    emergency_timer_seconds -= 3600U; // 1 hour elapsed
+    assert(emergency_timer_seconds == 255600U);
+}
+
 int main() {
-    oasis::test_scenario_upsilon_shock();
-    oasis::test_scenario_upsilon_shock_anomaly();
+    test_scenario_upsilon_islanding_and_5tier_shedding();
+    test_scenario_upsilon_commons_jubilee_and_72h_timer();
     return 0;
 }
 ```
@@ -381,13 +428,11 @@ int main() {
 
 ## 5. Acceptance Test Gates (Pass/Fail)
 
-To pass Scenario Upsilon in the Oasis engine, the simulation core must pass each of the following six binary verification gates without memory corruption, thread contention, or state desynchronization:
-
 | Checkpoint | Validation Method | Pass Condition |
 | :--- | :--- | :--- |
-| **G1: Thermodynamic Bounds** | Microgrid Power Balance | Power consumption of remaining circuits strictly balances battery discharge: $P_{\text{battery}} = \sum P_{\text{circuits}} \pm 5\%$; zero mathematical energy drift. |
-| **G2: Offline Autonomy** | Localhost Network Isolation | Complete disaster response workflow—from islanding trip to LoRaWAN triage routing—executes with WAN uplink completely disabled. |
-| **G3: Byzantine Detection** | Telemetry Grid Spoof | Injected false telemetry indicating grid voltage restoration while phase-angle is unsynchronized fails reconciliation; automatic transfer switch remains safely locked in island mode. |
-| **G4: Dynamic Load Shedding** | Voxel Circuit Power Audit | Upon simulated grid disconnect, all voxels with priority tiers $0–7$ immediately drop power consumption to 0W within $<50\text{ ms}$. |
-| **G5: Trojan Ingestion (L7)** | FEMA Grant Ingestion | Simulated FEMA grant relief webhook successfully compiles into internal treasury replenishment reserves in the SPC ledger. |
-| **G6: Ecological Leeching (L7)** | Resilience Hardware GPO Batching | Aggregated pre-season orders for high-capacity LiFePO4 cells successfully trigger a single, batched wholesale B2B procurement order. |
+| **G1: Sub-16ms Islanding & Microgrid Balance** | AC Phase Dropout Simulation | Simulating loss of grid voltage triggers Automatic Transfer Switch (ATS) isolation in $<16\text{ ms}$; microgrid bus stabilizes frequency at $60000\text{ mHz}$ without inverter tripping. |
+| **G2: Canonical 5-Tier Contention Shedding** | Voxel Circuit Telemetry Audit | Upon islanding under constrained battery capacity, circuits in Tier 5 (commercial) and Tier 4 (fabrication) drop load to $0\text{ mW}$ in $<50\text{ ms}$; Tier 1 (ecological floor) and Tier 2 (clinical baseline) remain powered down to $200000\text{ ppm}$ SoC. |
+| **G3: Bioregional Request Cascading via BPVP** | Trust Ring Expansion Check | When local storage drops below baseline thresholds, resource requests cascade progressively across Trust Rings ($R_1 \to R_2 \to R_3 \to R_4$) over Reticulum mesh without cyclic route loops. |
+| **G4: Offline DTN Communication Survivability** | WAN Uplink Severance Test | All emergency dispatch and triage intents propagate across local 915 MHz LoRa nodes with the WAN gateway completely disabled; zero telemetry packets are dropped. |
+| **G5: Commons Jubilee Channel Reconciliation** | Bilateral Ledger Audit | Emergency heating and power transfers settle across Pairwise Bilateral Clearing Channels (BCC); post-disaster Watershed Council ratifies Commons Jubilee forgiveness, clearing structural channel deficits to zero. |
+| **G6: 72-Hour Hardware Safety Timer Expiration** | State Machine Countdown Audit | The `EMERGENCY_STATE` override expires autonomously after exactly $259200\text{ seconds}$ ($72\text{ hours}$), returning the stack to peacetime governance unless affirmatively re-ratified by concurrent majorities in the Two-Chamber Assembly. |

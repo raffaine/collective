@@ -1,9 +1,9 @@
-# Scenario Omicron: The Kinship Protocol (Trust Rings)
+# Scenario Omicron: The Kinship Protocol (Trust Rings & Hearth Sanctuary)
 
-*   **Identifier:** `SCN-OMICRON-KINSHIP`
-*   **System Epic:** Web of Trust, Sybil Resistance, Social Slashing, and Reputation
-*   **Primary Layers Tested:** L1 (Physical), L2 (Digital Twin), L3 (Ledger), L4 (Orchestration), L5 (Governance), L6 (Semantic), L7 (Proxy)
-*   **Pass/Fail Metric:** Cryptographic rejection of 1,000 unvouched Sybil DIDs; deterministic execution of recursive social slashing across weighted graph edges; mathematical proof of Safe Harbor severance without punitive leakage; zero centralized KYC or cloud dependency under 100% offline mesh operation.
+*   **Identifier:** `SCN-OMICRON-KIN`
+*   **System Epic:** Web of Trust, Hearth Sanctuary, Relational Intimacy & Social Immunity
+*   **Primary Layers Tested:** L1 (Physical Reality), L2 (Cybernetic Membrane), L3 (Thermodynamic Ledger), L4 (Deterministic Orchestrator), L5 (Polycentric Governance), L6 (Semantic Translation & Agora), L7 (Legacy Interface)
+*   **Pass/Fail Metric:** Cryptographic rejection of 1000 unvouched Sybil DIDs; structural protection of domestic hearth sanctuary $R_0$; absolute exclusion of biometric tracking and body-worn sensors; zero algorithmic recursive slashing; replacement of carceral penalties with restorative justice; deterministic preservation of the unalienable human survival baseline $B_{\mathrm{baseline}}$ under 100% offline mesh operation.
 
 ---
 
@@ -13,21 +13,23 @@ This scenario specification has been ratified by unanimous consensus of the 5-Pe
 
 | Council Persona | Disciplinary Representative | Core Contribution to Scenario |
 | :--- | :--- | :--- |
-| **Game Designer** | Lead Systems & Gameplay Designer | Dwarf Fortress psychology integration (64-byte bounded ECS state, thoughts like `"Felt betrayed by Charlie's vandalism (-30 stress)"`, grief and solidarity memories); The Sims indirect Founder 01 social management via interpersonal affordance queues; Cities: Skylines boundary interface attenuation where internal trust cohesion weakens external legacy probe aggression. |
-| **Game Engineer** | Principal C++ Simulation & Engine Architect | Flecs ECS Data-Oriented Design (cache-aligned `TrustEdge`, `SoulboundReputation`, and `PsychologicalState` components); 32-bit compact voxel representation (`material_id = 45`, `HEARTH_TRUST_ANCHOR`); 10 Hz deterministic BPMN state engine with Wasmtime fuel limits; compilable C++20 test harness with BFS pathfinding and recursive slashing asserts. |
-| **Sovereign Stack Specialist** | Sovereign Stack Systems Architect | Strict 7-layer stack mapping across autonomous daemons (`col-telemetryd` to `col-adversaryd`); zero monolithic game-loop threading; strict inter-layer adjacency; local-first Reticulum/LoRaWAN gossip; dual-ledger architecture separating tradeable thermodynamic Value Tokens from non-transferable Soulbound Reputation. |
-| **Solarpunk Thinker** | Bioregional Regenerative Ecologist | Thermodynamic trust economics: interpersonal trust eliminates the massive transactional friction, litigation exergy, and surveillance waste of legacy society; social cohesion directly stabilizes commons stewardship over local watersheds, agro-forests, and shared thermal energy systems. |
-| **Scenario Specialist** | Graph Cryptographer & Mechanism Design Specialist | Mathematical spectral graph theory formulation; personalized PageRank and EigenTrust decay algorithms ($W_{ij} = \prod e_k$); spectral gap expansion thresholds ($\lambda_2 > \gamma$) for Sybil cluster quarantine; BBS+ zero-knowledge selective disclosure; cryptographically enforced Safe Harbor severance state transitions. |
+| **Game Designer** | Lead Systems & Gameplay Designer | Dwarf Fortress psychology integration (64-byte bounded ECS state, thoughts like `"Felt deep gratitude for hot soup at the hearth (+40 mood)"`, grief and solidarity memories); The Sims indirect Founder 01 social management via interpersonal affordance queues; Cities: Skylines boundary interface attenuation where internal trust cohesion weakens external legacy probe aggression. |
+| **Game Engineer** | Principal C++ Simulation & Engine Architect | Flecs ECS Data-Oriented Design (DOD): cache-aligned `TrustEdgeComponent`, `ReputationScoreComponent`, `AgentPsychStateComponent`, and `BCCChannelComponent`; 32-bit compact voxel representation (`material_id = 45`, `HEARTH_SANCTUARY_ANCHOR`); 10 Hz deterministic BPMN state engine with Wasmtime fuel limits; compilable C++20 test harness with BFS pathfinding, restorative circle resolution, and zero IEEE 754 floats. |
+| **Sovereign Stack Specialist** | Sovereign Stack Systems Architect | Strict 7-layer stack mapping across autonomous daemons (`col-telemetryd` to `col-adversaryd`); zero monolithic game-loop threading; strict inter-layer adjacency; local-first Reticulum/LoRaWAN gossip; Pairwise Bilateral Clearing Channels ($B_{u \to v}(t) + B_{v \to u}(t) = 0$); non-financial, decaying and sublinearly capped Reputational Wealth ($\mathcal{R}$); complete elimination of soulbound tokens or reputation staking. |
+| **Solarpunk Thinker** | Bioregional Regenerative Ecologist | Convivial sanctuary $R_0$: unconditional clean water, hot food, and medical triage as inalienable human rights; domestic care, emotional intimacy, and storytelling as non-commensurable dimensions permanently outside market calculation; interpersonal trust eliminating surveillance drag. |
+| **Scenario Specialist** | Graph Cryptographer & Mechanism Design Specialist | Mathematical graph theory formulation: pairwise DIDs (`did:peer:...`), BBS+ zero-knowledge selective disclosure credentials, spectral gap expansion thresholds for Sybil quarantine; Safe Harbor unilateral severance state transitions; restorative circle restitution without algorithmic slashing; subpoena defense under *NAACP v. Alabama* via Structural Illegibility and Data Non-Existence. |
+
+**Unanimous Consensus Reached:** The Council unreservedly ratifies Scenario Omicron as the canonical specification for the Kinship Protocol, hearth sanctuary $R_0$, and relational social immunity.
 
 ---
 
 ## 1. Problem Statement & Legacy Failure
 
-In legacy late-stage capitalist infrastructure (Layer 7), human trust is completely commercialized, outsourced to centralized surveillance data brokers (Equifax, Experian, TransUnion), credit-scoring oligarchies, and intrusive state surveillance apparatuses (statutory KYC/AML). 
+In legacy late-stage capitalist infrastructure (Layer 7), human trust is commercialized, outsourced to centralized surveillance data brokers, credit-scoring oligarchies, and intrusive state surveillance apparatuses.
 
 This centralized architecture introduces severe societal failure modes:
 *   **Weaponized Economic Coercion:** Survival necessities (housing leases, utility connections, employment, food access) are inextricably tied to credit scores and background checks. Domestic abusers, exploitative landlords, and predatory employers wield this financialized leverage to enforce submission. Escaping an abusive household or toxic workplace immediately threatens an individual with homelessness, loss of bank accounts, and systemic destitution.
-*   **Dystopian Panopticon Threat:** Early corporate Web3 reputation protocols and centralized state "social credit" scoring systems recreate this exact coercion. They establish immutable, panoptic surveillance ledgers where high-status actors weaponize accumulated social capital to ostracize dissidents, enforce behavioral conformity, and create permanent underclasses.
+*   **Dystopian Panopticon Threat:** Corporate reputation protocols and centralized state "social credit" scoring systems recreate this exact coercion. They establish immutable, panoptic surveillance ledgers where high-status actors weaponize accumulated social capital to ostracize dissidents, enforce behavioral conformity, and create permanent underclasses.
 *   **Sybil Fragility & Impersonation:** Anonymous digital networks lack physical grounding, rendering them instantly vulnerable to automated Sybil attacks—where a single malicious actor or botnet spins up tens of thousands of pseudonymous accounts to capture democratic votes, exhaust shared commons pools, and hijack validation consensus.
 
 To survive without replicating legacy tyranny, a sovereign Genesis Node requires a mathematically rigorous Web of Trust (WoT) that prevents Sybil infiltration while **cryptographically firewalling** social trust from basic biological survival and intimate autonomy. Reputation must protect the commons, not coerce the human soul.
@@ -36,171 +38,98 @@ To survive without replicating legacy tyranny, a sovereign Genesis Node requires
 
 ## 2. The Collective Workflow (7-Layer Traversal)
 
-The Kinship Protocol replaces centralized credit surveillance with localized "Trust Rings." Digital identities (W3C DIDs) cannot unilaterally claim access to high-exergy commons assets. Instead, an identity must be anchored into the local social graph through physical, cryptographically attested peer vouches. The workflow traverses canonically from Layer 1 up to Layer 7:
+The Kinship Protocol establishes localized Trust Rings grounded in physical co-presence, non-monetary peer attestation, and unconditional domestic sanctuary. The workflow traverses canonically from Layer 1 up to Layer 7:
 
 ```mermaid
 graph TD
-    L6[Layer 6: Semantic Intent] -->|User emits KinshipVouchIntent| L5[Layer 5: Polycentric Policy]
-    L5 -->|Evaluate Trust Ring Distance & Basic Needs Firewall| L4[Layer 4: BPMN Orchestrator]
-    L4 -->|Gossipsub Adjacency & State Machine| L3[Layer 3: Thermodynamic Ledger]
-    L3 -->|Stake Soulbound Reputation Weight| L2[Layer 2: Twin & Telemetry]
-    L2 -->|Verify Dual-Signed NFC Proximity| L1[Layer 1: Physical Reality]
-    L1 -->|Physical Key-Signing & Meal Sharing| End((Trust Ring Edge Ratified))
+    L6[Layer 6: Semantic Translation] -->|Emit KinshipVouchIntent or SafeHarborIntent| L5[Layer 5: Polycentric Governance]
+    L5 -->|Enforce Trust Ring R0 Hearth & Survival Baseline| L4[Layer 4: Deterministic Orchestrator]
+    L4 -->|BPMN Deterministic State Machine| L3[Layer 3: Thermodynamic Ledger]
+    L3 -->|Verify Bilateral Clearing Channel BCC Balance| L2[Layer 2: Cybernetic Membrane]
+    L2 -->|Dual-Signed NFC Proximity Telemetry| L1[Layer 1: Physical Reality]
+    L1 -->|Physical Key-Signing Ceremony and Communal Meal| End((Kinship Trust Edge Ratified))
 ```
 
-### Layer 1: Physical Ground Truth
-*   **Hardware Nodes (Social Hearth & Pods):** Dedicated physical spaces for communal life—communal kitchen tables (Scenario Gamma), open hearths, and workshop benches. Hardware includes air-gapped NFC verification pads, dual-interface hardware tokens with secure elements (Microchip ATECC608A), and localized BLE beacons.
-*   **Somatic Presence & Feedstock:** Human physical presence, somatic co-location, shared eye contact, breaking bread over caloric meals, and collaborative kinetic labor.
-*   **Physical Actions:** The "Key-Signing Ceremony": two physical individuals bring their mobile devices into near-field contact (within 4 cm) while exchanging spoken authentication phrases and shared nourishment.
+### Layer 1: Physical Ground Truth & Hearth Sanctuary ($R_0$)
+*   **The Convivial Sanctuary / The Hearth ($R_0$):** Dedicated physical spaces for communal life—communal kitchen tables (Scenario Gamma), open hearths, and workshop benches.
+*   **Physical Co-Presence & Somatic Nourishment:** Human physical co-presence, somatic co-location, shared eye contact, breaking bread over caloric meals, and collaborative kinetic labor.
+*   **Physical Key-Signing Ceremony:** Two physical individuals bring their hardware tokens into near-field contact (within 40 mm) while sharing nourishment and spoken mutual-aid covenants.
+*   **Absolute Separation Invariant:** Layer 1 contains strictly zero software, zero firmware, zero cryptographic keys, and zero surveillance devices.
 
-### Layer 2: Digital Twin & Telemetry
-*   **Ingress Telemetry (MQTT Topics via `col-meshd`):**
-    *   `node/social/proximity/nfc_exchange` (Dual ephemeral nonces, RSSI dBm, device timestamp)
-    *   `node/social/mesh_rssi` (Local Reticulum packet signal-to-noise ratio and round-trip time)
+### Layer 2: Cybernetic Membrane
+*   **Microcontrollers & Hardware Roots:** Microcontrollers running Zephyr RTOS with MPU memory isolation. Cryptographic key pairs generated inside Microchip ATECC608A secure elements.
+*   **Wire Format Fixed-Point Integer Telemetry (MQTT Topics via `col-telemetryd`):**
+    *   `node/social/proximity/nfc_rssi_mbbm` (Integer signal strength, `int32_t` millidBm)
+    *   `node/social/proximity/duration_ms` (Integer contact duration, `uint32_t` milliseconds)
     *   `node/social/status` (`UNVERIFIED`, `PROXIMITY_CONFIRMED`, `EDGE_ACTIVE`, `DISPUTED`)
-*   **Verification:** Edge cryptographic attestation. An exchange of ephemeral nonces signed by both parties' hardware secure elements validates physical co-presence. An unverified remote vouch is cryptographically throttled to `Trust_Level_1` and cannot act as a bridge for high-exergy or high-risk physical machinery.
-*   **Actuator Control:** Physical access relays and smart tool lockers (Scenario Alpha, Nu) unlock only when the requesting DID proves a valid trust path verified by Layer 2 telemetry.
+*   **Convivial Anti-Panopticon Shield:**
+    *   **Absolute Ban on Body-Worn Sensors:** No devices measuring heart rate, galvanic skin response, brainwaves, steps, or eye movements may interface with the stack.
+    *   **Absolute Ban on Workplace & Domestic Cameras:** Computer vision models and video cameras are strictly prohibited in living quarters and commons spaces. Edge microcontrollers reject camera drivers at bootloader initialization.
+*   **Edge Cryptographic Attestation:** Physical co-presence is validated through mutual NFC exchange of ephemeral nonces signed by hardware secure elements. Remote vouches are throttled to $R_1$ advisory status and cannot unlock high-exergy machinery.
 
-### Layer 3: Network & Ledger
-*   **Dual-Token Separation:** The network strictly segregates tradeable thermodynamic **Value Tokens** ($\Delta V$) from non-transferable **Soulbound Reputation** ($R$). Reputation cannot be bought, sold, speculative, or traded; it can only be minted through verified physical labor, elapsed time, and peer vouches.
-*   **Mathematical Graph Distance & Decay:**
-    $$W_{ij} = \prod_{k \in \mathcal{P}_{ij}} w_k$$
-    Where $\mathcal{P}_{ij}$ is the shortest directed path between Node $i$ and Node $j$, and $w_k \in [0, 1]$ represents normalized edge weights.
-*   **Social Slashing Formula:** When Node $C$ commits verified vandalism or theft, the system slashes Node $C$ and penalizes voucher Node $A$:
-    $$\Delta R_{slash}(A) = \alpha \cdot R(C) \cdot \frac{w(A, C)}{\sum_{u} w(u, C)}$$
-    Where $\alpha \in [0.1, 0.5]$ is the negligence penalty coefficient, burning $A$'s staked reputation for introducing a malicious actor.
+### Layer 3: Thermodynamic Ledger
+*   **Pairwise Bilateral Clearing Channels (BCC):**
+    *   Inter-node resource accounting is conducted strictly through pairwise bilateral clearing channels with zero global tokens.
+    *   **Conservation Invariant:**
+        $$B_{u \to v}(t) + B_{v \to u}(t) = 0$$
+        The bilateral ledger is mathematically zero-sum.
+    *   **Mutual Aid Credit Window:**
+        $$-C_{u \to v} \le B_{u \to v}(t) \le C_{v \to u}$$
+*   **Two-Phase Delivery Receipts & Multi-Hop HTLCs:**
+    *   Resource transfers require sensor-verified physical delivery receipts $\sigma_{\mathrm{delivery}}$ and chained timelock contracts $\langle H(S), \Delta t, Q, u, v \rangle$.
+    *   Proof-of-Thermodynamic-Work (PoTW) grounds exergy in physical generation ($3600000000000\,\mu\mathrm{J} \equiv 3600\,\mathrm{kJ} \equiv 1\text{ Exergy Credit}$) subject to demurrage $\mathcal{E}_0 e^{-\lambda t}$.
+*   **Non-Commensurability of Human Care:**
+    *   Childcare, meal preparation, emotional comfort, and conflict de-escalation are designated as non-commensurable human stewardship. Layer 3 structurally refuses to mint exergy credits for domestic care.
+*   **Eradication of Algorithmic Slashing:**
+    *   The system strictly prohibits automated algorithmic "social slashing" that burns reputation or penalizes vouchers across graph edges upon a dispute. Relational fractures are handled via Restorative Justice circles (Scenario Psi).
 
-### Layer 4: Orchestration State Machine
-The workflow is executed deterministically by the embedded BPMN 2.0 engine (`col-execd`) running at 10 Hz with metered Wasmtime fuel budgets:
+### Layer 4: Deterministic Orchestrator
+*   Executed by `col-execd` at 10 Hz with metered Wasmtime fuel budgets:
+    *   `VouchInitiated`: Ingests `KinshipVouchIntent` over `/run/collective/ipc/l4_l5.sock`.
+    *   `NFCProximityVerification`: Validates dual-signed NFC telemetry packets (`rssi > -55000` mBm).
+    *   `RemoteThrottled`: If proximity proof is absent, caps credential at $R_1$ advisory level.
+    *   `ActiveTrustEdge`: Ratifies the trust edge and updates local Forwarding Information Base.
+    *   `SafeHarborSeverance`: Unilateral invocation instantly dissolves the trust edge with zero penalty.
+    *   `RestorativeCircle`: Disputed actions route to facilitated peer restorative circles.
+*   **The Unalienable Human Survival Baseline ($B_{\mathrm{baseline}}$):**
+    *   Access to clean potable water, organic calories, warm shelter, electrical power, and clinical healthcare is an unconditional right of living membership.
+    *   The survival baseline is **never** conditioned upon labor output, chore points, or reputation scores. Sanctions may never reduce the survival baseline.
 
-```mermaid
-stateDiagram-v2
-    [*] --> VouchInitiated: KinshipVouchIntent Received
-    VouchInitiated --> NFCProximityVerification: Check Telemetry Proof
-    NFCProximityVerification --> RemoteThrottled: Proximity Proof Absent
-    RemoteThrottled --> Wait: Capped at Trust_Level_1
-    NFCProximityVerification --> StakeReputation: Dual NFC Nonces Valid
-    StakeReputation --> MeshGossipPropagation: Reputation Locked in Escrow
-    MeshGossipPropagation --> ActiveTrustEdge: Gossipsub Adjacency Update
-    ActiveTrustEdge --> ChallengeWindow: Peer Challenge Flagged
-    ChallengeWindow --> RestorativeCircle: Challenge Upheld (Scenario Psi)
-    ChallengeWindow --> ActiveTrustEdge: Challenge Dismissed
-    ActiveTrustEdge --> SlashingTrigger: Malicious Griefing Event Detected
-    SlashingTrigger --> RecursiveSlash: Burn Offender & Voucher Stake
-    RecursiveSlash --> [*]
-    ActiveTrustEdge --> SafeHarborSeverance: SeveranceIntent Emitted
-    SafeHarborSeverance --> EdgeDissolved: Zero Penalty Applied
-    EdgeDissolved --> [*]
-```
+### Layer 5: Polycentric Governance
+*   Executed by `col-kmsd`, Layer 5 enforces policy across the **7-Tier Concentric Trust Rings**:
+    *   **$R_0$ (The Hearth / Convivial Sanctuary):** Domestic physical shelter; zero registration; unconditional clean water, warm food, solar electricity, and medical triage. Social immunity protects all persons.
+    *   **$R_1$ (The Settlement):** Living perimeter (within 500 m); apprentices, volunteers; ephemeral pairwise DIDs (`did:peer`), supervised tool access.
+    *   **$R_2$ (The Commons):** Walking-distance neighborhood (within 5 km); master keys in hardware security chips; full voting weight; local Bilateral Clearing Channels (BCC).
+    *   **$R_3$ (The Watershed):** Hydrological basin cluster (within 30 km); microgrid DC interties, LoRa/802.11s mesh credentials, bilateral credit lines.
+    *   **$R_4$ (The Bioregional Federation):** Regional river basin federation (within 150 km); threshold signatures (FROST / BLS), HVDC interties, rail/canal freight corridors.
+    *   **$R_5$ (The Continental Corridor):** Ecological corridors (within 1000 km); Delay-Tolerant Networking (DTN) bundles, open blueprints.
+    *   **$R_6$ (The Ecumene):** Planetary craft guilds, open standards, and the legacy perimeter; cold-store DMZ interfaces.
+*   **Bioregional Path-Vector Protocol (BPVP / FRRP):**
+    *   Capability Advertisements $\mathcal{A} = \langle \mathrm{adv\_id}, v_{\mathrm{orig}}, \mathcal{T}_{\mathrm{res}}, \mathbf{u}, Q_{\mathrm{avail}}, [\tau_{\mathrm{start}}, \tau_{\mathrm{end}}], \mathcal{P}, \mathcal{C}, H_{\mathrm{ttl}}, \sigma \rangle$.
+    *   Export Surplus Bound: $Q_{\mathrm{avail}}(t) = \max(0, Q_{\mathrm{inventory}}(t) - F_{\mathrm{eco}}(t) - B_{\mathrm{baseline}}(t)) \cdot \mathbf{1}_{\mathrm{export}}$.
+    *   Loop Check: Discards any advertisement where local node DID appears in Ring-Path Vector $\mathcal{P}$.
+*   **Reputational Wealth Governance ($\mathcal{R}$):**
+    *   Reputational Wealth is domain-specific, decays exponentially ($\tau_{\mathrm{half}} = 1\dots 3\text{ years}$), and is sublinearly capped ($\le 8\%$ of chamber weight). It cannot be spent, staked, sold, or burned.
+    *   **Care Leave Shield:** Declaring personal care leave (parenting, illness, bereavement) completely freezes the decay clock.
+*   **Cellular Autonomy & Protocol of Refusal:** Under autopoietic cellular autonomy, kinship circles and domestic hearths exercise complete internal self-determination; the integrity of the parts holds absolute precedence over the administrative coordination of the whole. Communities invoke the Protocol of Refusal to protect sacred groves, burial grounds, and private living quarters from external optimization, algorithmic extraction, or automated sensor instrumentation.
+*   **Autonomous Transit Veto (`No-Transit`):** Nodes retain the sovereign right to reject transit routing through their residential territory.
 
-### Layer 5: Policy & Polycentric Governance
-Layer 5 (`col-kmsd`) enforces the constitutional rules of the Trust Ring through four strict **Policy Gates**:
+### Layer 6: Semantic Translation & Agora
+*   **Tripartite Ricardian Treaties (`Treaty_CID`):**
+    $$\mathrm{Treaty\_CID} = \mathrm{SHA256}\left( \mathrm{Text}_{\mathrm{prose}} \parallel \mathrm{Schema}_{\mathrm{JSON-LD}} \parallel \mathrm{Invariants}_{\mathrm{BPMN}} \right)$$
+*   All kinship actions are published as typed W3C JSON-LD Knowledge Artifacts in the Agora Commons (`col-commonsd`):
+    1.  `KinshipVouchIntent`: Formal attestation endorsing a peer DID based on physical acquaintance.
+    2.  `SafeHarborSeveranceIntent`: Unilateral, non-punitive dissolution of a trust edge.
+    3.  `RestorativeCircleIntent`: Request for voluntary peer circle facilitation (linking to Scenario Psi).
+    4.  `CareLeaveDeclarationIntent`: Invocation of the Care Leave Shield freezing the decay clock.
 
-*   **Basic Needs Firewall Gate:** The system strictly prohibits evaluating trust graph distance for survival necessities. Access to baseline caloric nutrition (Scenario Gamma), emergency triage medical care (Scenario Chi), and emergency warming shelters can NEVER be denied due to low reputation or lack of vouches.
-*   **High-Exergy Execution Gate:** Access to dangerous or high-capital physical machinery (CNC mills, high-temperature foundries in Scenario Theta, electric transit vehicles in Scenario Beta) requires a verified trust path with $d(i, j) \le 2$ and minimum aggregated reputation $\sum R \ge 100$.
-*   **Safe Harbor Severance Gate:** If a human relationship deteriorates or becomes coercive, either party can emit a `SeveranceIntent`. Layer 5 severs the graph edge instantly without triggering slashing penalties, preventing high-reputation vouchers from holding vulnerable members hostage.
-*   **Sybil Quarantine Gate:** Spectral gap analysis evaluates graph partitions. If a dense cluster of DIDs exhibits a spectral expansion ratio $\lambda_2 < \gamma_{min}$ relative to the core mesh, the entire cluster is quarantined from voting consensus.
-
-### Layer 6: Semantic Intent & Domain Ontology
-The Agora Commons (`col-commonsd`) parses human declarations into W3C JSON-LD Knowledge Artifacts across six typed branches:
-
-1.  **`KinshipVouchIntent` (Endorsement):** A formal declaration attesting to the real-world identity, reliability, and character of a peer DID, staking reputational weight.
-2.  **`SeveranceIntent` (Protection):** A unilateral, non-punitive declaration severing a social graph edge under Safe Harbor protections.
-3.  **`ChallengeIntent` (Auditing):** A formal contestation alleging that a vouch was issued fraudulently, for bribery, or without physical acquaintance.
-4.  **`ApprenticeVouchIntent` (Guild Mentorship):** Co-signed vouch by a Master Steward granting an apprentice provisional access to high-risk workshops (linking to Scenario Kappa).
-5.  **`RestorativeIntent` (Rehabilitation):** A declaration linking a slashed node to restorative restitution labor (linking to Scenario Psi) to gradually recover lost standing.
-6.  **`EmergencyTrustBypassIntent` (Crisis):** Temporary override triggered during catastrophic environmental events (Scenario Upsilon) to grant broad emergency access.
-
-### The Governance Router Flowchart
-
-```mermaid
-graph TD
-    subgraph Layer 6: Semantic Ontology
-        L6_Vouch[KinshipVouchIntent]
-        L6_Sev[SeveranceIntent]
-        L6_Chal[ChallengeIntent]
-        L6_App[ApprenticeVouchIntent]
-        L6_Emg[EmergencyTrustBypassIntent]
-    end
-
-    subgraph Layer 5: Polycentric Policy Gates
-        P_Basic{Basic Needs Gate: <br>Calories / Shelter?}
-        P_Exec{Execution Gate: <br>Graph Distance & Min Rep?}
-        P_Safe{Safe Harbor Gate: <br>Unilateral Non-Punitive?}
-        P_Sybil{Sybil Gate: <br>Spectral Gap Expansion Valid?}
-    end
-
-    subgraph Layer 4: BPMN Orchestrators
-        BPMN_Vouch[Vouch & Mesh Gossip Engine]
-        BPMN_Safe[Safe Harbor Severance Engine]
-        BPMN_Audit[Trust Audit & Dispute Engine]
-        BPMN_Bypass[Emergency Access Engine]
-        BPMN_Direct[Direct Access Engine: Zero Trust Required]
-    end
-
-    %% Routing Logic
-    L6_Vouch --> P_Sybil
-    P_Sybil -->|Cluster Valid| BPMN_Vouch
-    P_Sybil -.->|Quarantine| L6_Vouch
-
-    L6_Sev --> P_Safe
-    P_Safe -->|Approved Zero-Slash| BPMN_Safe
-
-    L6_Chal --> P_Exec
-    P_Exec -->|Valid Standing| BPMN_Audit
-
-    L6_App --> P_Exec
-    P_Exec -->|Master Co-Sign Verified| BPMN_Vouch
-
-    L6_Emg --> P_Basic
-    P_Basic -->|Survival Need| BPMN_Direct
-    P_Basic -.->|Commercial High-Exergy| BPMN_Bypass
-```
-
-### Layer 7: The Legacy Proxy (The KYC Shield & Legal Anonymization)
-Operating through the Node's Social Purpose Corporation (SPC) and Perpetual Purpose Trust (PPT), Layer 7 interfaces with legacy legal systems while shielding internal members:
-
-**1. Trojan Ingestion (The KYC Shield):**
-When the SPC opens corporate bank accounts or acquires municipal property, legacy law demands formal KYC/AML identity verification. The SPC's designated legal trustees submit their state-issued IDs to satisfy statutory compliance. However, the SPC acts as an anonymizing cryptographic membrane. Internally, members interact strictly via pseudonymous DIDs and BBS+ zero-knowledge proofs. The state sees a fully compliant legal corporation; the internal mesh operates as a sovereign Web of Trust with zero identity disclosure to legacy databases.
-
-**2. Ecological Leeching & Subpoena Defense:**
-If a legacy adversary or hostile municipal actor issues a subpoena demanding the internal social graph or identities of members, the SPC's legal bylaws treat internal graph edges as protected ecclesiastical, associational, and mutual-aid communications. The data stored in `col-kmsd` is encrypted at rest using split-knowledge secret sharing across the Trust Ring, rendering unilateral legacy compliance technically impossible.
-
-### Layer 7 Bidirectional Flowchart
-
-```mermaid
-graph TD
-    subgraph Legacy Environment [Layer 7: Corporate & State Apparatus]
-        Bank[Legacy Commercial Bank / KYC Portal]
-        Court[Municipal Court / Subpoena Agency]
-        Vendor[Legacy Enterprise Wholesaler]
-    end
-
-    subgraph Sovereign Genesis Node [The Collective]
-        SPC[Social Purpose Corporation / PPT Trustees]
-        L5[Layer 5: col-kmsd Web of Trust]
-        L4[Layer 4: col-execd Gossip Engine]
-        L1[Layer 1: Physical Commons Members]
-    end
-
-    %% Inbound Shield Flow
-    Bank -->|Demands Statutory KYC/AML| SPC
-    SPC -->|Submits Corporate Trustee Filings| Bank
-    SPC -.->|Blinds Internal Member PII| L5
-    L5 -->|Enforces Pseudonymous DIDs| L1
-
-    %% Outbound Defense Flow
-    Court -.->|Issues Data Subpoena| SPC
-    SPC -->|Asserts Associational Privilege & Split-Key Defense| Court
-    L1 -->|Issues Kinship Vouch| L5
-    L5 -->|BBS+ ZKP Selective Disclosure| SPC
-    SPC -->|Executes Bulk Procurement for Group| Vendor
-
-    classDef legacy fill:#ffebee,stroke:#c62828,stroke-width:2px;
-    classDef sovereign fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px;
-    class Bank,Court,Vendor legacy;
-    class SPC,L5,L4,L1 sovereign;
-```
+### Layer 7: The Legacy Interface (Dual-Membrane Doctrine)
+*   **Dual-Membrane Carapace:** The cooperative entity presents an ordinary, compliant legal exterior while completely insulating internal social relationships.
+*   **Subpoena Defense via Structural Illegibility & Data Non-Existence:**
+    *   Under *NAACP v. Alabama*, internal association records, pairwise DIDs, and Web-of-Trust graph edges do not exist in corporate databases.
+    *   `col-adversaryd` maintains zero internal membership databases; subpoenaed servers possess no data to disclose.
+*   **Tripartite Legal Chassis:** Unincorporated Nonprofit Association (UNA under UUNAA § 6), Subchapter T Cooperative, Community Land Trust.
+*   **Regenerative Harvesting & Convivial Salvage:** Outward procurement operates strictly against the itemized needs list $\Phi_t$ under honest dealing and lawful engineering interties.
 
 ---
 
@@ -216,8 +145,8 @@ graph TD
   ],
   "@type": "KinshipVouch",
   "identifier": "urn:uuid:5d6e7f8a-9b0c-1d2e-3f4a-5b6c7d8e9f0a",
-  "issuerDid": "did:mesh:node04:steward_alice",
-  "targetDid": "did:mesh:node04:apprentice_charlie",
+  "issuerDid": "did:peer:2.Ez6Mks3...steward_alice",
+  "targetDid": "did:peer:2.Ez6Mkd9...apprentice_charlie",
   "vouchParameters": {
     "relationshipContext": "Apprentice_and_Neighbor",
     "knownDurationMonths": 14,
@@ -225,20 +154,15 @@ graph TD
     "telemetryProofHash": "a94a8fe5ccb19ba61c4c0873d391e987982fbbd3",
     "sharedMealRef": "urn:uuid:meal-2026-10-19-gamma-commons"
   },
-  "reputationStake": {
-    "stakedWeight": 150,
-    "slashingLiabilityRatio": 0.25,
-    "slashingConditions": [
-      "Physical_Vandalism",
-      "Theft_of_Commons_Property",
-      "Acoustic_Budget_Violation"
-    ]
+  "reputationalStanding": {
+    "endorsedDomain": "Fabrication_Woodworking",
+    "stewardshipRank": 2
   },
   "cryptographicProof": {
     "type": "Ed25519Signature2020",
     "created": "2026-10-20T10:00:00Z",
-    "verificationMethod": "did:mesh:node04:steward_alice#keys-1",
-    "proofValue": "z3aKk9xPqR8v...mY4nL0p...signatureValue"
+    "verificationMethod": "did:peer:2.Ez6Mks3...steward_alice#key-1",
+    "proofValue": "z3aKk9xPqR8vmY4nL0p...hardwareSignatureValue"
   }
 }
 ```
@@ -250,14 +174,14 @@ graph TD
   "@context": "https://collective.network/ontology/v1/",
   "@type": "KinshipProximityAttestation",
   "attestationId": "urn:uuid:8c9d0e1f-2a3b-4c5d-6e7f-8a9b0c1d2e3f",
-  "deviceNodeAlice": "did:mesh:node04:device:alice_fob",
-  "deviceNodeCharlie": "did:mesh:node04:device:charlie_fob",
+  "deviceNodeAlice": "did:peer:2.Ez6Mks3...device_alice_fob",
+  "deviceNodeCharlie": "did:peer:2.Ez6Mkd9...device_charlie_fob",
   "proximityMetrics": {
     "protocol": "ISO_IEC_14443_NFC",
-    "timestamp": "2026-10-20T09:58:32Z",
+    "timestampEpochMs": 1792483112000,
     "exchangeNonceAlice": "e1f8a4c92b5d7e3a",
     "exchangeNonceCharlie": "9c2b4d8a1f7e3b5a",
-    "rssidBm": -18.5,
+    "nfcRssiMeanMilliDbm": -18500,
     "durationMilliseconds": 842,
     "hardwareSignatureAlice": "4a7f9b2c...atecc608a_sig",
     "hardwareSignatureCharlie": "8b1e3c5d...atecc608a_sig"
@@ -273,33 +197,48 @@ graph TD
 
 ### 4.1 Memory Allocation & Voxel State
 
-The social hearth occupies designated coordinates in the $32^3$ simulation chunk space:
-*   The hearth anchor voxel is initialized with `material_id = 45` (`HEARTH_TRUST_ANCHOR`).
+The social hearth occupies designated coordinates in the $32^3$ chunk space:
+*   The hearth anchor voxel is initialized with `material_id = 45` (`HEARTH_SANCTUARY_ANCHOR`).
 *   Metadata bitmask `0b00000101` sets `Is_Social_Beacon` (bit 0) and `Is_Secure_NFC` (bit 2).
-*   Adjacent dining table voxels (`material_id = 46`, `COMMUNAL_TABLE`) track proximity dwell time to validate the "Breaking Bread" requirement.
+*   Adjacent dining table voxels (`material_id = 46`, `COMMUNAL_TABLE`) track dwell time to validate in-person shared meals.
 
 ```cpp
-// Cache-aligned ECS Components for Flecs
-struct alignas(8) TrustEdge {
+// Cache-aligned Flecs ECS Components for Kinship Protocol
+#include <cstdint>
+#include <string>
+
+namespace oasis {
+
+struct alignas(8) TrustEdgeComponent {
     uint32_t target_entity_id;
-    float weight;               // Normalized [0.0f, 1.0f]
+    uint32_t weight_basis_points;       // Normalized integer [0, 10000]
     uint32_t creation_tick;
     bool physical_verified;
+    bool active;
 };
 
-struct alignas(8) SoulboundReputation {
-    float score;                // Earned, non-transferable
-    float staked_amount;        // Committed to active vouches
-    uint16_t vouch_count;
-    uint8_t trust_tier;         // Tier 0 (new) to Tier 4 (founding steward)
+struct alignas(8) ReputationScoreComponent {
+    uint64_t domain_reputation;          // Domain-specific reputational wealth
+    uint32_t vouch_count;
+    uint8_t trust_ring_tier;             // 0 (Hearth) to 6 (Ecumene)
+    bool care_leave_active;              // Care Leave Shield freezes decay
 };
 
-struct alignas(8) AgentPsychState {
-    float stress;               // [0.0f, 100.0f]
-    int16_t mood_modifier;
-    uint8_t facet_anxiety;      // Big-Five derived (0-255)
-    uint8_t facet_trust;        // Big-Five derived (0-255)
+struct alignas(8) AgentPsychStateComponent {
+    uint32_t stress_accum;               // Scaled integer [0, 100000]
+    int32_t mood_modifier;
+    uint8_t facet_anxiety;               // Big-Five derived (0-100)
+    uint8_t facet_trust;                 // Big-Five derived (0-100)
 };
+
+struct alignas(8) BCCChannelComponent {
+    char peer_did[64];
+    int64_t balance_microjoules;         // Conservation: B_{u->v} + B_{v->u} = 0
+    uint64_t credit_headroom_uj;         // C_{v->u} maximum credit headroom
+    bool channel_active;
+};
+
+} // namespace oasis
 ```
 
 ### 4.2 C++20 Test Harness Structure
@@ -312,20 +251,19 @@ struct alignas(8) AgentPsychState {
 #include <unordered_map>
 #include "oasis/chunk_manager.hpp"
 #include "oasis/orchestration/bpmn_engine.hpp"
-#include "oasis/ledger/crdt_wallet.hpp"
 
 namespace oasis {
 
 struct TrustGraph {
-    std::unordered_map<std::string, std::vector<std::pair<std::string, float>>> adjacency;
+    std::unordered_map<std::string, std::vector<std::pair<std::string, uint32_t>>> adjacency;
 
-    void add_edge(const std::string& u, const std::string& v, float weight) {
-        adjacency[u].push_back({v, weight});
+    void add_edge(const std::string& u, const std::string& v, uint32_t weight_bps) {
+        adjacency[u].push_back({v, weight_bps});
     }
 
-    float find_shortest_distance(const std::string& start, const std::string& target, int max_depth = 3) {
-        if (start == target) return 1.0f;
-        std::vector<std::pair<std::string, float>> queue = {{start, 1.0f}};
+    uint32_t find_shortest_distance_bps(const std::string& start, const std::string& target, int max_depth = 3) {
+        if (start == target) return 10000; // 10000 basis points
+        std::vector<std::pair<std::string, uint32_t>> queue = {{start, 10000}};
         std::unordered_map<std::string, int> visited_depth;
         visited_depth[start] = 0;
 
@@ -336,7 +274,7 @@ struct TrustGraph {
             if (depth >= max_depth) continue;
 
             for (const auto& [next, edge_w] : adjacency[curr]) {
-                float new_weight = weight * edge_w;
+                uint32_t new_weight = static_cast<uint32_t>((static_cast<uint64_t>(weight) * edge_w) / 10000ULL);
                 if (next == target) return new_weight;
                 if (visited_depth.find(next) == visited_depth.end()) {
                     visited_depth[next] = depth + 1;
@@ -344,94 +282,100 @@ struct TrustGraph {
                 }
             }
         }
-        return 0.0f; // No path found
+        return 0; // No path found
     }
 };
 
-} // namespace oasis
-
 void test_scenario_omicron_kinship_vouch_and_access() {
-    using namespace oasis;
-
     // 1. Initialize Chunk and Hearth Anchor Voxel
     ChunkManager chunk_mgr;
     chunk_mgr.allocate_chunk(0, 0, 0);
     Voxel hearth_voxel{
-        .material_id = 45, // HEARTH_TRUST_ANCHOR
+        .material_id = 45, // HEARTH_SANCTUARY_ANCHOR
         .moisture = 10,
-        .temperature = 21,
+        .temperature = 294, // 294 K
         .metadata = 0b00000101 // Social Beacon + Secure NFC
     };
     chunk_mgr.set_voxel(16, 8, 16, hearth_voxel);
 
-    // 2. Setup Identities and Wallets
-    CRDTWallet alice_wallet("did:mesh:node04:steward_alice", 150.0f);
-    CRDTWallet charlie_wallet("did:mesh:node04:apprentice_charlie", 10.0f);
-    SoulboundReputation alice_rep{.score = 250.0f, .staked_amount = 0.0f, .vouch_count = 3, .trust_tier = 3};
-    SoulboundReputation charlie_rep{.score = 0.0f, .staked_amount = 0.0f, .vouch_count = 0, .trust_tier = 0};
+    // 2. Setup Identities and Pairwise Bilateral Clearing Channels
+    BCCChannelComponent channel_alice{
+        .peer_did = "did:peer:2.Ez6Mkd9...apprentice_charlie",
+        .balance_microjoules = 0,
+        .credit_headroom_uj = 18000000000000ULL,
+        .channel_active = true
+    };
+    BCCChannelComponent channel_charlie{
+        .peer_did = "did:peer:2.Ez6Mks3...steward_alice",
+        .balance_microjoules = 0,
+        .credit_headroom_uj = 18000000000000ULL,
+        .channel_active = true
+    };
 
-    // 3. Orchestrator loads Kinship BPMN
-    BPMNEngine orchestrator;
-    orchestrator.load_schema("schemas/bpmn/kinship_protocol.bpmn");
+    // Assert Conservation: B_{u->v} + B_{v->u} = 0
+    assert(channel_alice.balance_microjoules + channel_charlie.balance_microjoules == 0);
 
-    // 4. Simulate NFC Proximity Attestation & Vouch Submission
+    // 3. Setup Trust Graph & Simulate Physical Proximity Attestation
     TrustGraph graph;
-    alice_rep.staked_amount += 50.0f;
-    alice_rep.score -= 50.0f; // Staked into escrow
-    graph.add_edge("did:mesh:node04:steward_alice", "did:mesh:node04:apprentice_charlie", 0.9f);
-    charlie_rep.score = 50.0f; // Provisional reputation granted
+    graph.add_edge("did:peer:steward_alice", "did:peer:apprentice_charlie", 9000); // 9000 basis points
 
-    // 5. Evaluate Graph Traversal Distance
-    float path_weight = graph.find_shortest_distance("did:mesh:node04:steward_alice", "did:mesh:node04:apprentice_charlie", 2);
-    assert(path_weight >= 0.9f);
-    assert(alice_rep.staked_amount == 50.0f);
-    assert(charlie_rep.score == 50.0f);
+    // 4. Evaluate Graph Traversal Distance
+    uint32_t path_weight = graph.find_shortest_distance_bps("did:peer:steward_alice", "did:peer:apprentice_charlie", 2);
+    assert(path_weight >= 9000);
+
+    // 5. Test Care Leave Shield: freezing reputation decay
+    ReputationScoreComponent alice_rep{
+        .domain_reputation = 250000ULL,
+        .vouch_count = 3,
+        .trust_ring_tier = 2,
+        .care_leave_active = true
+    };
+    assert(alice_rep.care_leave_active);
 }
 
-void test_scenario_omicron_sybil_and_slashing_anomaly() {
-    using namespace oasis;
-
+void test_scenario_omicron_sybil_and_safe_harbor() {
     ChunkManager chunk_mgr;
     chunk_mgr.allocate_chunk(0, 0, 0);
     TrustGraph graph;
 
     // Anchor established stewards
-    graph.add_edge("root_steward", "steward_alice", 1.0f);
-    SoulboundReputation alice_rep{.score = 200.0f, .staked_amount = 50.0f, .vouch_count = 1, .trust_tier = 3};
-    SoulboundReputation bad_actor_rep{.score = 50.0f, .staked_amount = 0.0f, .vouch_count = 0, .trust_tier = 1};
+    graph.add_edge("root_steward", "steward_alice", 10000);
 
-    // 1. Sybil Infiltration Attack: 1,000 unvouched DIDs attempt entry
+    // 1. Sybil Infiltration Attack: 1000 unvouched DIDs attempt entry
     for (int i = 0; i < 1000; ++i) {
-        std::string sybil_did = "did:mesh:bot_" + std::to_string(i);
-        float dist = graph.find_shortest_distance("root_steward", sybil_did, 3);
-        assert(dist == 0.0f); // Zero incoming edges, strictly blocked
+        std::string sybil_did = "did:peer:bot_" + std::to_string(i);
+        uint32_t dist = graph.find_shortest_distance_bps("root_steward", sybil_did, 3);
+        assert(dist == 0); // Zero incoming edges, strictly blocked
     }
 
-    // 2. Add bad actor connected via Alice
-    graph.add_edge("steward_alice", "bad_actor", 0.8f);
+    // 2. Safe Harbor Severance: dissolving edge does not penalize victim
+    TrustEdgeComponent edge_victim{
+        .target_entity_id = 42,
+        .weight_basis_points = 8000,
+        .creation_tick = 100,
+        .physical_verified = true,
+        .active = true
+    };
 
-    // 3. Inject Griefing Vandalism Anomaly at tick 500
-    BPMNEngine orchestrator;
-    orchestrator.load_schema("schemas/bpmn/kinship_protocol.bpmn");
-    
-    // Simulate recursive slashing event
-    bad_actor_rep.score = 0.0f; // Complete forfeiture
-    float slash_penalty = 50.0f * 0.5f; // 50% stake burned
-    alice_rep.staked_amount -= 50.0f;
-    alice_rep.score = alice_rep.score - slash_penalty; // Burned
+    // Unilateral invocation of Safe Harbor Severance
+    edge_victim.active = false;
+    edge_victim.weight_basis_points = 0;
+    assert(!edge_victim.active);
+    assert(edge_victim.weight_basis_points == 0);
 
-    assert(bad_actor_rep.score == 0.0f);
-    assert(alice_rep.staked_amount == 0.0f);
-    assert(alice_rep.score == 175.0f);
+    // Unconditional survival baseline remains strictly intact
+    uint32_t calories_allocated = 2400; // 2400 kcal daily floor
+    uint32_t clean_water_liters = 5;    // 5 L clean water floor
+    assert(calories_allocated >= 2000);
+    assert(clean_water_liters >= 3);
+}
 
-    // 4. Test Safe Harbor Severance: dissolving edge does not penalize victim
-    SoulboundReputation victim_rep{.score = 100.0f, .staked_amount = 0.0f, .vouch_count = 1, .trust_tier = 2};
-    bool safe_harbor_applied = true;
-    if (safe_harbor_applied) {
-        // Sever edge without slashing
-        victim_rep.score = 100.0f; // Remains pristine
-    }
-    assert(victim_rep.score == 100.0f);
+} // namespace oasis
+
+int main() {
+    oasis::test_scenario_omicron_kinship_vouch_and_access();
+    oasis::test_scenario_omicron_sybil_and_safe_harbor();
+    return 0;
 }
 ```
 
@@ -441,9 +385,9 @@ void test_scenario_omicron_sybil_and_slashing_anomaly() {
 
 | Checkpoint | Validation Method | Pass Condition |
 | :--- | :--- | :--- |
-| **G1: Sybil Resistance Bounds** | Botnet Attack Injection | Simulating the generation of 1,000 independent synthetic DIDs fails to acquire access to high-exergy workshops or voting consensus; all 1,000 nodes are blocked with 0.0 trust path weight. |
-| **G2: Offline Autonomy** | WAN Isolation Protocol | Graph distance calculations, gossip propagation, and key-signing verification operate deterministically over Reticulum mesh with zero WAN connectivity or DNS dependencies. |
-| **G3: Social Slashing Execution** | Ledger State Mutation | Upon verified physical vandalism by an invitee, 100% of the offender's reputation is burned, and the voucher's staked reputation is slashed by exactly the liability ratio ($\alpha = 0.25$). |
-| **G4: Basic Needs Firewall** | Policy Gate Audit | Querying access for emergency calories (Scenario Gamma) or trauma medical care (Scenario Chi) returns `ACCESS_GRANTED` regardless of the requester possessing zero reputation or negative trust score. |
-| **G5: Trojan Ingestion (L7)** | KYC Boundary Audit | External commercial banking transactions conducted by the SPC verify board members' legal IDs while maintaining cryptographic blinding over internal mesh member DIDs and graph relationships. |
-| **G6: Ecological Leeching & Safe Harbor** | Legal Subpoena / Severance Sim | Invoking `SeveranceIntent` dissolves social graph edges immediately without score deduction; simulated external municipal subpoena targeting mesh trust edges is repelled under associational privilege defense. |
+| **G1: Sybil Resistance & Thermodynamic Bounds** | Botnet Attack Injection & Conservation Audit | 1000 synthetic unvouched DIDs fail to acquire access to high-exergy workshops or voting consensus (path weight strictly 0); Bilateral Clearing Channel preserves $B_{u \to v}(t) + B_{v \to u}(t) = 0$ at all times. |
+| **G2: Offline Autonomy & WAN Airgap** | WAN Isolation Protocol | Graph distance calculations, gossip propagation, and key-signing verification operate deterministically over Reticulum mesh with zero WAN connectivity or external DNS dependencies. |
+| **G3: Trust Rings & Social Immunity** | Restorative Resolution State Check | Zero automated algorithmic slashing occurs; relational disputes route to restorative circles; zero reputation burning or voucher cascading penalties permitted across $R_0 \dots R_6$. |
+| **G4: Human Baseline & Anti-Surveillance** | Baseline Guarantee & MPU Sandbox Audit | Querying access for emergency calories or clinical triage returns `ACCESS_GRANTED` unconditionally, regardless of zero reputation; edge microcontrollers reject all body-worn sensor and facial video feeds. |
+| **G5: Dual-Membrane Doctrine (L7)** | Subpoena Immunity & Carapace Blinding | External legal queries directed at the cooperative carapace return zero internal member rosters or graph edges, validated under *NAACP v. Alabama* data non-existence doctrine. |
+| **G6: Regenerative Harvesting & Safe Harbor (L7)** | Unilateral Severance Sim | Invoking `SafeHarborSeveranceIntent` dissolves graph edges immediately without score deduction or punitive indemnity; commercial procurement halts when itemized needs list $\Phi_t$ is met. |

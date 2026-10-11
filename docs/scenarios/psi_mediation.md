@@ -1,9 +1,9 @@
-# Scenario Psi: Restorative Justice & Conflict Resolution
+# Scenario Psi: Restorative Justice & Conflict Resolution (Peer Circles & Voluntary Reconciliation)
 
 *   **Identifier:** `SCN-PSI-MEDIATION`
-*   **System Epic:** Restorative Justice, Conflict De-escalation, and Thermodynamic Restitution
-*   **Primary Layers Tested:** L1 (Physical), L2 (Digital Twin), L3 (Ledger), L4 (Orchestration), L5 (Governance), L6 (Semantic), L7 (Proxy)
-*   **Pass/Fail Metric:** Algorithmic identification of a provably neutral mediator ($\epsilon_{neutrality} \le 0.05$) from the Trust Ring; multi-sig cryptographic release of frozen escrow upon circle consensus; logging of thermodynamic kinetic labor restitution; 100% legal enforceability of Binding Arbitration under the Federal Arbitration Act (9 U.S.C. § 1) dismissing legacy civil lawsuits.
+*   **System Epic:** Restorative Circles, Non-Adversarial Conflict Resolution, Non-Monetary Restitution & Right of Exit
+*   **Primary Layers Tested:** L1 (Physical Reality), L2 (Cybernetic Membrane), L3 (Thermodynamic Ledger), L4 (Deterministic Orchestrator), L5 (Polycentric Governance), L6 (Semantic Translation & Agora), L7 (Legacy Interface)
+*   **Pass/Fail Metric:** Voluntary assembly of restorative circles; sortition-based peer facilitator selection; multi-sig cryptographic ratification of non-monetary restitution agreements; zero state carceral or civil sheriff enforcement; constitutional protection of the Unconditional Right of Exit; absolute non-tokenization of emotional care; zero algorithmic social credit scoring; settlement via Pairwise Bilateral Clearing Channels (BCC) with conservation equation $B_{u \to v}(t) + B_{v \to u}(t) = 0$ and multi-hop HTLCs; zero global tokens, zero fiat conversions, zero deprecated rhetoric, and zero floating-point math.
 
 ---
 
@@ -13,197 +13,131 @@ This scenario specification has been ratified by unanimous consensus of the 5-Pe
 
 | Council Persona | Disciplinary Representative | Core Contribution to Scenario |
 | :--- | :--- | :--- |
-| **Game Designer** | Lead Systems & Gameplay Designer | Founder 01 restorative de-escalation: mediating bitter interpersonal fractures between craftspeople before supply chains break; Dwarf Fortress psychological grudge dynamics (thoughts like `"Deep relief and mutual respect after honest circle restitution (+50 mood)"` versus `"Bitter grudge simmering over broken tool (-45 mood)"`); dynamic entity `AffinityMatrix` where fractured relations lock out cooperative crafting; boundary interface stability impacted by internal community friction. |
-| **Game Engineer** | Principal C++ Simulation & Engine Architect | Flecs ECS data model: cache-aligned `AffinityMatrix`, `DisputeEscrowLock`, and `NeutralMediatorFinder` components; 32-bit compact voxel representation (`material_id = 56`, `PEACE_HEARTH_CHAMBER`); 10 Hz deterministic BPMN state engine with Wasmtime fuel limits; compilable C++20 test harness validating graph neutrality search, 3-of-3 multi-sig unlock, and intimate coercion bypass. |
-| **Sovereign Stack Specialist** | Sovereign Stack Systems Architect | 7-layer stack mapping across autonomous POSIX daemons (`col-telemetryd` to `col-adversaryd`); zero monolithic threading; L7 `col-adversaryd` deploying binding arbitration legal shields against municipal courts; L5 `col-kmsd` graph centrality and neutrality calculations; L3 `col-storaged` Automerge CRDT escrow freezing; local-first Reticulum mesh operation. |
-| **Solarpunk Thinker** | Bioregional Regenerative Ecologist | Interpersonal conflict is viewed as thermodynamic entropy (wasted exergy and social friction); restorative justice converts destructive social heat into regenerative physical work—directing restitution labor into communal ecological repair (e.g., digging permaculture water swales, repairing shared orchards) rather than punitive isolation. |
-| **Scenario Specialist** | Restorative Justice & Algorithmic Dispute Resolution (ADR) Jurisprudent | Restorative circle procedural jurisprudence; mathematical formulation of graph-theoretic neutrality margins ($\Delta d \le \epsilon$, $\Delta W \le \epsilon$); kinetic labor restitution equivalence formulas; legal drafting of mandatory binding arbitration covenants enforceable under the Federal Arbitration Act (9 U.S.C. § 1 et seq.) and state Uniform Arbitration Acts. |
+| **Game Designer** | Lead Systems & Gameplay Designer | Founder 01 restorative de-escalation: mediating interpersonal frictions before collective crafting breaks down; Dwarf Fortress psychological grudge dynamics (thoughts like `"Deep relief and mutual respect after honest circle restitution (+50 mood)"` versus `"Bitter grudge simmering over broken tool (-45 mood)"`); dynamic entity `AffinityMatrixComponent` where fractured relations lock out cooperative crafting; boundary interface stability impacted by internal community friction. |
+| **Game Engineer** | Principal C++ Simulation & Engine Architect | Flecs ECS Data-Oriented Design (DOD): cache-aligned component structs `AffinityEdgeComponent`, `DisputeRecordComponent`, `RestitutionQueueComponent`, and `BCCChannelComponent`; 32-bit compact voxels (`material_id = 56`, `PEACE_HEARTH_CHAMBER`); 10 Hz deterministic BPMN state engine with Wasmtime fuel limits; compilable C++20 test harness validating sortition circle selection, 3-of-3 multi-sig unlock, and zero IEEE 754 floats. |
+| **Sovereign Stack Specialist** | Sovereign Stack Systems Architect | 7 autonomous POSIX daemons (`col-telemetryd` to `col-adversaryd`); zero monolithic threading; strict adjacent IPC via Unix domain sockets; Layer 7 `col-adversaryd` deploying binding arbitration legal shields strictly defensively against legacy civil courts; Layer 5 `col-kmsd` managing sortition pools and Safe Harbor bypass; Layer 3 `col-storaged` Bilateral Clearing Channels (BCC) with zero-sum conservation $B_{u \to v}(t) + B_{v \to u}(t) = 0$; local-first Reticulum mesh operation. |
+| **Solarpunk Thinker** | Bioregional Regenerative Ecologist | Transformative justice: interpersonal conflict is understood as social friction and metabolic entropy; restorative justice converts destructive friction into regenerative physical work—directing restitution into communal ecological repair (e.g. planting hedgerows, repairing shared micro-hydro conduits, maintaining shared orchards) rather than punitive isolation or carceral violence. |
+| **Scenario Specialist** | Restorative Justice & Consensual ADR Jurisprudent | Restorative circle procedural jurisprudence; voluntary non-adversarial resolution; sortition review panels; constitutional protection of the Entrenched Core guarantee of the Unconditional Right of Exit; complete eradication of outbound sheriff or court debt enforcement; defensive Federal Arbitration Act (FAA) arbitration covenants dismissing external legacy civil lawsuits without submitting internal members to state violence. |
+
+**Unanimous Consensus Reached:** The Council unreservedly ratifies Scenario Psi as the canonical specification for restorative justice circles, voluntary non-adversarial resolution, and social harmony.
 
 ---
 
 ## 1. Problem Statement & Legacy Failure
 
-In late-stage capitalist infrastructure (Layer 7), justice is punitive, deeply adversarial, and violently extractive. The legacy legal system relies on a state monopoly on physical violence, weaponized incarceration, and prohibitively expensive legal gatekeepers (lawyers, commercial court fees, process servers).
+In legacy late-stage capitalist infrastructure (Layer 7), justice is punitive, deeply adversarial, and violently extractive. The legacy legal system relies on a state monopoly on physical violence, weaponized incarceration, and expensive legal gatekeepers.
 
 This centralized model introduces systemic failure modes:
-*   **Destructive Adversarial Warfare:** When a dispute arises—whether over damaged property, a broken trade contract, or interpersonal conflict—legacy civil litigation focuses entirely on assigning binary guilt, extracting punitive damages, and generating massive billable hours for attorneys ($400–$800/hour). The process inflames hostility, destroying human relationships, families, and neighborhood trust networks.
-*   **Carceral Brutality & Zero Restitution:** Legacy criminal justice warehouses offenders in punitive prisons that generate multi-generational trauma while offering zero healing, restitution, or practical recovery to victims. The victim receives neither compensation nor closure, while the state extracts billions for private carceral contractors.
+*   **Destructive Adversarial Warfare:** When a dispute arises—whether over damaged tools, a broken trade contract, or interpersonal friction—legacy civil litigation focuses entirely on assigning binary guilt, extracting punitive damages, and generating massive billable hours for attorneys. The process inflames hostility, destroying human relationships, families, and neighborhood trust networks.
+*   **Carceral Brutality & Zero Restitution:** Legacy criminal justice warehouses offenders in punitive prisons that generate multi-generational trauma while offering zero healing, restitution, or practical recovery to victims. The victim receives neither compensation nor closure, while the carceral state extracts billions.
 *   **Systemic Friction (Thermal Drag):** In an interdependent, decentralized Genesis Node, unresolved social conflict acts as thermodynamic friction. If two lead stewards in the Fabrication Commons (Scenario Alpha) or Kitchen (Scenario Gamma) enter a bitter personal grudge, collaborative work halts, shared tool maintenance lapses, and the entire node suffers metabolic degradation.
 
-A sovereign Genesis Node requires an algorithmic restorative justice architecture: mathematically discovering neutral community mediators, freezing contested escrow to prevent capital flight, channeling restitution into tangible physical labor, and shielding the community from predatory legacy litigation.
+A sovereign Genesis Node requires an algorithmic restorative justice architecture: voluntary peer circles, sortition-selected facilitators, non-monetary physical restitution, absolute protection of the Unconditional Right of Exit, and total shielding from state court violence.
 
 ---
 
 ## 2. The Collective Workflow (7-Layer Traversal)
 
-Scenario Psi establishes a decentralized restorative mediation protocol. It resolves disputes within the local Trust Ring, converts punitive penalties into healing thermodynamic restitution, and insulates members from legacy lawsuits. The workflow traverses canonically from Layer 1 up to Layer 7:
+Scenario Psi establishes a decentralized restorative mediation protocol: resolving disputes within the local Trust Ring, converting social friction into healing kinetic labor, and shielding members from legacy lawsuits. The workflow traverses canonically from Layer 1 up to Layer 7:
 
 ```mermaid
 graph TD
-    L6[Layer 6: Semantic Intent] -->|Citizen emits MediationIntent| L5[Layer 5: Polycentric Policy]
-    L5 -->|Calculate Graph Neutrality & Freeze Escrow| L4[Layer 4: BPMN Orchestrator]
-    L4 -->|Schedule Restorative Circle & Space| L3[Layer 3: Thermodynamic Ledger]
-    L3 -->|Escrow Disputed Tokens & Compensate Mediator| L2[Layer 2: Twin & Telemetry]
-    L2 -->|3-of-3 Multi-Sig NFC Attestation| L1[Layer 1: Physical Reality]
-    L1 -->|Physical Dialogue & Kinetic Restitution Labor| End((Social Graph Healed))
+    L6[Layer 6: Semantic Translation] -->|Emit MediationIntent or RestitutionIntent| L5[Layer 5: Polycentric Governance]
+    L5 -->|Sortition Pool Selection and Safe Harbor Check| L4[Layer 4: Deterministic Orchestrator]
+    L4 -->|Schedule Peace Hearth Voxel and Session Budget| L3[Layer 3: Thermodynamic Ledger]
+    L3 -->|Verify Bilateral Clearing Channel BCC Balance| L2[Layer 2: Cybernetic Membrane]
+    L2 -->|3-of-3 Multi-Sig Hardware NFC Attestation| L1[Layer 1: Physical Reality]
+    L1 -->|Physical Dialogue and Kinetic Restitution Labor| End((Restorative Agreement Ratified))
 ```
 
-### Layer 1: Physical Ground Truth
-*   **Hardware Nodes (Peace Hearth & Mediation Sanctuary):** Acoustically isolated physical chambers (Scenario Epsilon) equipped with cork wall dampening, circular bench seating (ensuring spatial equality), and air-gapped NFC verification stations.
+### Layer 1: Physical Ground Truth & The Peace Hearth
+*   **Physical Ground Truth:** The Peace Hearth & Mediation Sanctuary (Scenario Epsilon), an acoustically isolated circular room equipped with cork wall acoustic dampening, circular bench seating (ensuring spatial equality), tea ceremony table, and air-gapped NFC verification stations.
 *   **Feedstock & Tangible Restitution:** Physical tools requiring repair or replacement, agricultural implements, and physical materials (lumber, seeds, replacement machine parts).
-*   **Somatic Presence & Actions:** Physical eye contact, active listening, non-violent communication dialogue, shared ceremonial tea, and physical labor (e.g., 20 hours repairing a damaged community hedgerow).
+*   **Somatic Presence & Actions:** Physical eye contact, active listening, non-violent communication dialogue, shared ceremonial tea, and physical labor (e.g. 20 hours repairing a damaged community hedgerow or machining replacement motor mounts).
+*   **Absolute Separation Invariant:** Layer 1 contains strictly zero software, zero firmware, zero cryptographic keys, and zero surveillance devices.
 
-### Layer 2: Digital Twin & Telemetry
-*   **Ingress Telemetry (MQTT Topics via `col-meshd`):**
-    *   `node/mediation/session_01/status` (`SCHEDULED`, `IN_PROGRESS`, `TERMS_RATIFIED`, `ABUSE_BYPASS`)
-    *   `node/mediation/escrow_lock/telemetry` (Frozen token balances and asset IDs)
-    *   `node/mediation/acoustic_db` (Sound-isolation telemetry proving session confidentiality)
-*   **Verification:** Cryptographic multi-sig attestation. A resolution is ratified only when all three parties (Aggrieved Party, Accused Party, and Neutral Mediator) tap physical hardware tokens (ATECC608A secure elements) to an NFC terminal within a 60-second window, generating a composite Schnorr/Ed25519 signature.
-*   **Actuator Control:** Solenoid locks on disputed tool bays (Scenario Alpha) or lodging suites (Scenario Zeta) automatically unlock upon verification of the multi-sig resolution payload.
+### Layer 2: Cybernetic Membrane
+*   **Microcontrollers & Sandboxed MPUs:** Dedicated microcontrollers running Zephyr RTOS with MPU isolation separating communication radios from physical door relays.
+*   **Wire Format Fixed-Point Integer Telemetry (MQTT Topics via `col-telemetryd`):**
+    *   `node/mediation/session_01/status` (`SCHEDULED`, `IN_PROGRESS`, `RATIFIED`, `SAFE_HARBOR_BYPASS`)
+    *   `node/mediation/session_01/ambient_noise_milli_db` (Sound-isolation telemetry, `uint32_t` millidecibels)
+    *   `node/mediation/session_01/session_duration_ms` (Contact time, `uint32_t` milliseconds)
+*   **Convivial Anti-Panopticon Shield:** Absolute prohibition of audio recording, body-worn sensors, or video surveillance cameras in the Peace Hearth. Session confidentiality is guaranteed through physical isolation and cryptographic data non-existence.
+*   **Multi-Sig Hardware NFC Attestation:** A restorative agreement is ratified only when all three participants (Aggrieved Party, Accused Party, and Neutral Facilitator) tap physical hardware tokens (ATECC608A secure elements) within a 60-second window, generating a composite Ed25519 signature.
 
-### Layer 3: Network & Ledger
-*   **CRDT Escrow Freeze:** Upon filing of a verified dispute, `col-storaged` freezes the disputed Value Tokens ($\Delta V_{disputed}$) in both parties' CRDT wallets, preventing bad-faith capital flight or asset burning.
-*   **Thermodynamic Restitution Accounting:** The ledger calculates the total restitution debt:
-    $$R_{total} = \Delta V_{damage} + \Delta V_{friction}$$
-    Where $\Delta V_{damage}$ represents the replacement exergy of the broken asset, and $\Delta V_{friction}$ compensates the victim for downtime.
-*   **Kinetic Labor Conversion:** An offender without liquid Value Tokens can discharge their debt through physical labor bounties (Scenario Sigma):
-    $$t_{labor\_hours} = \frac{R_{total}}{k_{labor\_rate} \cdot \lambda_{THERMO}}$$
-*   **Mediator Emotional Labor Compensation:** The node treasury mints Value Tokens to compensate the mediator for the rigorous emotional labor of dispute facilitation:
-    $$\Delta V_{mediator} = t_{session} \cdot k_{facilitation} \cdot \lambda_{THERMO}$$
+### Layer 3: Thermodynamic Ledger
+*   **Pairwise Bilateral Clearing Channels (BCC):**
+    *   Material restitution between disputants is cleared strictly through Pairwise Bilateral Clearing Channels with zero global tokens.
+    *   **Conservation Invariant:**
+        $$B_{u \to v}(t) + B_{v \to u}(t) = 0$$
+        The bilateral ledger is mathematically zero-sum.
+    *   **Mutual Aid Credit Window:**
+        $$-C_{u \to v} \le B_{u \to v}(t) \le C_{v \to u}$$
+*   **Two-Phase Delivery Receipts & Multi-Hop HTLCs:**
+    *   Physical tool transfers or replacement materials require sensor-verified delivery receipts $\sigma_{\mathrm{delivery}}$ and chained timelock contracts $\langle H(S), \Delta t, Q, u, v \rangle$.
+    *   Proof-of-Thermodynamic-Work (PoTW) grounds exergy in physical generation ($3600000000000\,\mu\mathrm{J} \equiv 3600\,\mathrm{kJ} \equiv 1\text{ Exergy Credit}$) subject to physical demurrage $\mathcal{E}_0 e^{-\lambda t}$.
+*   **Non-Commensurability of Emotional Labor:**
+    *   Circle facilitation, emotional counseling, and active listening are non-commensurable human care; Layer 3 structurally refuses to mint exergy credits for mediation.
+    *   Facilitators are recognized qualitatively through non-financial Reputational Wealth ($\mathcal{R}$) within the Layer 5 Stewardship Chamber, never spendable tokens.
+*   **Non-Monetary Restitution:**
+    *   Restitution is discharged through voluntary physical repair, tool replacement, or agricultural stewardship labor bees (Scenario Sigma), never through financialized debt extraction.
 
-### Layer 4: Orchestration State Machine
-The workflow is managed deterministically by the embedded BPMN 2.0 engine (`col-execd`) running at 10 Hz with metered Wasmtime fuel budgets:
+### Layer 4: Deterministic Orchestrator
+*   Executed by `col-execd` at 10 Hz with metered Wasmtime execution budgets:
+    *   `DisputeReported`: Ingests `MediationIntent` over `/run/collective/ipc/l4_l5.sock`.
+    *   `CheckSafeHarborBypass`: Inspects intent for domestic violence, physical assault, or intimate coercion.
+    *   `SafeHarborBypass`: If abuse is flagged, mandatory mediation is strictly prohibited; immediate relational severance is executed with zero forced contact.
+    *   `AssembleSortitionPanel`: In standard disputes, selects a pool of qualified facilitators from the sortition pool.
+    *   `SchedulePeaceHearth`: Allocates Peace Hearth voxel and prepares the physical circle.
+    *   `FacilitateCircle`: Disputants engage in facilitated dialogue and construct consensus restitution terms.
+    *   `MultiSigRatification`: Parties exchange hardware signatures confirming consensual resolution.
+    *   `ExecuteRestitution`: Monitors fulfillment of agreed repair or labor hours.
+    *   `HealAffinityState`: Resets mutual affinity edge in `col-kmsd`.
+*   **Inviolability of Survival Baseline:** Sanctions or disputes may never reduce or withhold the survival baseline $B_{\mathrm{baseline}}$ (food, potable water, warmth, clinic access).
+*   **Boundary Socket Contract (`l4_l5.sock`):** POSIX non-blocking sequenced-packet Unix Domain Socket (`SOCK_SEQPACKET`) located at `/run/collective/ipc/l4_l5.sock`. Downward traffic passes ratified workflows; upward traffic passes dispute alerts and task completion proofs.
 
-```mermaid
-stateDiagram-v2
-    [*] --> DisputeLogged: MediationIntent Received
-    DisputeLogged --> CheckAbuseBypass: Check Coercion Flag
-    CheckAbuseBypass --> SafeHarborBypass: Abuse Flagged
-    SafeHarborBypass --> SeverGraphEdge: Route to Scenario Omicron
-    SeverGraphEdge --> [*]
+### Layer 5: Polycentric Governance
+*   Executed by `col-kmsd`, Layer 5 governs restorative justice across the **7-Tier Concentric Trust Rings**:
+    *   **$R_0$ (Hearth):** Intimate domestic sanctuary; unconditional survival baseline.
+    *   **$R_1$ (Settlement):** Living perimeter; peer circle accompaniment.
+    *   **$R_2$ (Commons):** Local peace hearth chamber; bilateral clearing adjustments.
+    *   **$R_3$ (Watershed):** Cross-node conflict resolution panels; shared equipment treaties.
+    *   **$R_4$ (Bioregional Federation):** Regional restorative council; inter-watershed boundary covenants.
+    *   **$R_5$ (Continental Corridor):** Trans-regional arbitration standards; open mediation blueprints.
+    *   **$R_6$ (Ecumene):** Planetary craft guilds, defensive legal Carapace.
+*   **Bioregional Path-Vector Protocol (BPVP / FRRP):**
+    *   Governs capability and facilitator discovery across watershed federation boundaries. Originating nodes broadcast Capability Advertisements $\mathcal{A} = \langle \mathrm{adv\_id}, v_{\mathrm{orig}}, \mathcal{T}_{\mathrm{res}}, \mathbf{u}, Q_{\mathrm{avail}}, [\tau_{\mathrm{start}}, \tau_{\mathrm{end}}], \mathcal{P}, \mathcal{C}, H_{\mathrm{ttl}}, \sigma \rangle$.
+    *   **Export Surplus Bound:**
+        $$Q_{\mathrm{avail}}(t) = \max\left(0, \, Q_{\mathrm{inventory}}(t) - F_{\mathrm{eco}}(t) - B_{\mathrm{baseline}}(t)\right) \cdot \mathbf{1}_{\mathrm{export}}$$
+        Resource transfers are strictly prohibited unless inventory exceeds both the ecological floor $F_{\mathrm{eco}}$ and the survival baseline $B_{\mathrm{baseline}}$.
+    *   **Loop-Freedom Invariant:** Ingress filters inspect Ring-Path Vector $\mathcal{P} = [(v_k, r_k), \dots, (v_0, r_0)]$. If local node DID is present, the packet is instantly discarded during loop check.
+*   **Sortition-Based Facilitator Selection:**
+    *   Facilitators are chosen via sortition (citizen review panels selected by lot from the general assembly) or mutual consensual selection by circle participants.
+    *   Zero algorithmic social distance formulas or social credit scores are permitted.
+*   **Autopoietic Cellular Autonomy:** Every node retains absolute internal constitutional sovereignty ("the parts" over "the whole"); external federation councils cannot override local assemblies.
+*   **Unconditional Right of Exit:**
+    *   Members retain the absolute constitutional right to exit the community at any time without forfeiture of personal survival assets.
+    *   Unsettled material claims are absorbed by community loss reserves or mutual restorative covenants, NEVER through state police, sheriff asset seizures, or carceral enforcement.
+*   **Protocol of Refusal:** Protects private domestic living quarters and family relations from automated monitoring.
+*   **Autonomous Transit Veto (`No-Transit`):** Disputants can assert boundary separation during healing periods to prevent accidental physical encounters.
+*   **Reputational Wealth Governance ($\mathcal{R}$):** Facilitator standing decays exponentially ($\tau_{\mathrm{half}} = 1\dots 3\text{ years}$) and is sublinearly capped ($\le 8\%$). Care Leave Shield freezes decay during parenting, illness, or bereavement.
 
-    CheckAbuseBypass --> FreezeEscrow: Standard Dispute
-    FreezeEscrow --> SearchNeutralMediator: Execute Graph Neutrality
-    SearchNeutralMediator --> MediatorAssigned: Candidate Found (eps <= 0.05)
-    MediatorAssigned --> ScheduleCircle: Book Peace Hearth Voxel
-    ScheduleCircle --> CircleInSession: Parties Present
-    CircleInSession --> DraftRestitution: Agreement Reached
-    DraftRestitution --> MultiSigSigning: 3-of-3 NFC Bump
-    MultiSigSigning --> ReleaseEscrow: Settle CRDT Ledger
-    ReleaseEscrow --> RestoreAffinity: Reset Graph Affinity
-    RestoreAffinity --> [*]
-```
+### Layer 6: Semantic Translation & Agora
+*   **Tripartite Ricardian Treaties (`Treaty_CID`):**
+    $$\mathrm{Treaty\_CID} = \mathrm{SHA256}\left( \mathrm{Text}_{\mathrm{prose}} \parallel \mathrm{Schema}_{\mathrm{JSON-LD}} \parallel \mathrm{Invariants}_{\mathrm{BPMN}} \right)$$
+*   All restorative actions are published as typed W3C JSON-LD Knowledge Artifacts in the Agora Commons (`col-commonsd`):
+    1.  `MediationIntent`: Formal request detailing disputed tool damage or contract misunderstanding.
+    2.  `RestitutionAgreementIntent`: Consensual terms negotiated during the circle, defining labor hours or tool repair.
+    3.  `SafeHarborBypassIntent`: Emergency declaration bypassing circle mediation to protect against intimate coercion.
+    4.  `AffinityHealedIntent`: Mutual attestation confirming restitution completion and restoring cooperative standing.
 
-### Layer 5: Policy & Polycentric Governance
-Layer 5 (`col-kmsd`) enforces strict mathematical neutrality, constitutional protections, and restorative integrity:
-
-*   **Graph Neutrality Policy Gate:** The engine evaluates candidate mediators across the Trust Ring graph. To be certified as neutral, candidate $M$ must satisfy:
-    $$|d(M, A) - d(M, B)| \le \epsilon_{dist}, \quad \text{and} \quad |W(M, A) - W(M, B)| \le \epsilon_{weight}$$
-    Where $\epsilon \le 0.05$, ensuring the mediator has zero asymmetric relational bias toward either disputant.
-*   **Intimate Coercion & Abuse Bypass Gate:** If an intent contains verified allegations of domestic violence, physical assault, or intimate coercion, Layer 5 **strictly prohibits** mandatory restorative mediation. It triggers the Safe Harbor Bypass (Scenario Omicron), immediately severing the abuser's access to the victim with zero forced dialogue.
-*   **Restitution Proportionality Gate:** The agreed restitution cannot exceed 200% of the actual physical damage exergy, preventing predatory debt-bondage or vindictive over-punishment within the commons.
-*   **Binding Arbitration Finality Gate:** Once ratified by 3-of-3 multi-sig, the resolution is cryptographically sealed, barring either party from re-litigating the claim within the mesh.
-
-### Layer 6: Semantic Intent & Domain Ontology
-The Agora Commons (`col-commonsd`) parses dispute actions into W3C JSON-LD Knowledge Artifacts across six typed branches:
-
-1.  **`MediationIntent` (Initiation):** A formal declaration specifying the disputed incident, damage estimate, accused party, and requested restitution.
-2.  **`RestitutionAgreementIntent` (Terms):** The consensus terms negotiated during the circle, defining payment schedules, labor hours, or tool transfers.
-3.  **`AbuseBypassIntent` (Emergency Protection):** Unilateral emergency invocation bypassing circle mediation and triggering immediate relational severance.
-4.  **`ArbitrationDefenseIntent` (Legal Shield):** Issued to Layer 7 to compel external civil litigation back into the internal sovereign arbitration framework.
-5.  **`LaborRestitutionIntent` (Kinetic Service):** Offender's commitment to fulfill specific maintenance or agricultural bounties to discharge debt.
-6.  **`AffinityHealedIntent` (Reconciliation):** Formal attestation signaling that restitution is complete and resetting mutual relationship affinity to baseline.
-
-### The Governance Router Flowchart
-
-```mermaid
-graph TD
-    subgraph Layer 6: Semantic Ontology
-        L6_Med[MediationIntent]
-        L6_Abuse[AbuseBypassIntent]
-        L6_Rest[RestitutionAgreementIntent]
-        L6_Def[ArbitrationDefenseIntent]
-        L6_Labor[LaborRestitutionIntent]
-    end
-
-    subgraph Layer 5: Polycentric Policy Gates
-        P_Abuse{Abuse Check Gate: <br>Intimate Coercion Flagged?}
-        P_Neut{Neutrality Gate: <br>Graph Margin eps <= 0.05?}
-        P_Prop{Proportionality Gate: <br>Restitution <= 200%?}
-        P_Final{Finality Gate: <br>3-of-3 Multi-Sig Valid?}
-    end
-
-    subgraph Layer 4: BPMN Orchestrators
-        BPMN_Safe[Safe Harbor Severance Engine]
-        BPMN_Match[Mediator Matching Engine]
-        BPMN_Circle[Restorative Circle Scheduler]
-        BPMN_Settle[Ledger Restitution Engine]
-        BPMN_Court[L7 Court Defense Engine]
-    end
-
-    %% Routing
-    L6_Med --> P_Abuse
-    P_Abuse -->|Abuse Detected| BPMN_Safe
-    P_Abuse -->|Standard Dispute| P_Neut
-
-    P_Neut -->|Neutral Match Found| BPMN_Circle
-    P_Neut -.->|Candidate Biased| BPMN_Match
-
-    L6_Rest --> P_Prop
-    P_Prop -->|Fair Terms| P_Final
-    P_Final -->|Signed 3-of-3| BPMN_Settle
-
-    L6_Abuse --> BPMN_Safe
-    L6_Def --> BPMN_Court
-    L6_Labor --> BPMN_Settle
-```
-
-### Layer 7: The Legacy Proxy (Binding Arbitration Shield)
-Operating through the Node's Social Purpose Corporation (SPC), Layer 7 insulates the mesh from extractive state courts:
-
-**1. The Federal Arbitration Act (FAA) Shield:**
-When an individual joins the Sovereign Genesis Node, they sign the SPC Membership Agreement. This covenant contains an explicit, state-recognized **Mandatory Binding Dispute Resolution Clause** governed by the Federal Arbitration Act (9 U.S.C. § 1 et seq.) and state Uniform Arbitration Acts.
-*   If a disgruntled member violates community compacts and attempts to file a lawsuit in a municipal small claims or superior court (e.g., alleging property loss or breach of verbal contract), the SPC's legal team immediately files a **Motion to Compel Arbitration and Stay Judicial Proceedings**.
-*   Because the member executed a signed cryptographic agreement agreeing to private community mediation, state courts are legally mandated to dismiss or suspend the lawsuit, compelling the dispute back into the sovereign mesh.
-
-**2. Outbound Enforcement of Restitution Deeds:**
-In the rare event an offender absconds from the community while holding heavy physical debt, the multi-sig resolution signed by the mediator qualifies as a legally binding arbitration award. Under 9 U.S.C. § 9, the SPC can enter the award into legacy court for summary confirmation and enforcement against the absconder's external legacy assets, neutralizing bad-faith flight.
-
-### Layer 7 Bidirectional Flowchart
-
-```mermaid
-graph TD
-    subgraph Legacy Environment [Layer 7: State Court System]
-        Court[Municipal Civil Court / Judge]
-        Lawyer[Adversarial Legacy Attorney]
-        Sheriff[County Civil Enforcement Office]
-    end
-
-    subgraph Sovereign Genesis Node [The Collective]
-        SPC[Social Purpose Corporation / Legal Counsel]
-        L5[Layer 5: col-kmsd Identity & Policy]
-        L4[Layer 4: col-execd Restorative State Machine]
-        L1[Layer 1: Disputants & Neutral Mediator]
-    end
-
-    %% Inbound Lawsuit Repulsion
-    Lawyer -->|Files Civil Lawsuit against Peer| Court
-    Court -.->|Issues Civil Summons| L1
-    L1 -->|Escalates Summons| SPC
-    SPC -->|Files 9 U.S.C. § 3 Motion to Compel Arbitration| Court
-    Court -->|Dismisses Lawsuit; Compels Arbitration| SPC
-    SPC -->|Routes Dispute to Internal Mesh| L4
-
-    %% Outbound Award Confirmation Flow
-    L1 -->|Signs 3-of-3 Resolution Agreement| L4
-    L4 -->|Compiles Binding Arbitration Award| SPC
-    SPC -.->|Enforces Judgment against Defector| Sheriff
-
-    classDef legacy fill:#ffebee,stroke:#c62828,stroke-width:2px;
-    classDef sovereign fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px;
-    class Court,Lawyer,Sheriff legacy;
-    class SPC,L5,L4,L1 sovereign;
-```
+### Layer 7: The Legacy Interface (Dual-Membrane Doctrine)
+*   **Defensive Federal Arbitration Act (FAA) Shield:**
+    *   When an individual joins the sovereign node, they sign the consensual membership covenant containing a mandatory binding dispute resolution clause governed by the Federal Arbitration Act (9 U.S.C. § 1 et seq.).
+    *   If a disgruntled party attempts to initiate a lawsuit in a municipal court, the cooperative carapace legal counsel files a 9 U.S.C. § 3 Motion to Compel Arbitration strictly defensively, causing the court to dismiss or remand the dispute back to consensual community mediation.
+    *   **Strict Ban on Outbound Carceral Enforcement:** The node structurally refuses to invoke 9 U.S.C. § 9 or county sheriffs to seize assets or incarcerate departing members.
+*   **Subpoena Immunity via Data Non-Existence:** Under *NAACP v. Alabama*, mediation dialogue, restorative circle notes, and internal dispute records do not exist in corporate databases. `col-adversaryd` enforces data non-existence.
+*   **Regenerative Harvesting & Convivial Salvage:** Outward commercial activity operates strictly against the itemized needs list $\Phi_t$ under lawful engineering interties.
 
 ---
 
@@ -219,26 +153,27 @@ graph TD
   ],
   "@type": "MediationIntent",
   "identifier": "urn:uuid:5d6e7f8a-9b0c-1d2e-3f4a-5b6c7d8e9f0a",
-  "issuerDid": "did:mesh:node04:steward_alice",
-  "accusedDid": "did:mesh:node04:apprentice_charlie",
+  "issuerDid": "did:peer:2.Ez6Mks3...steward_alice",
+  "accusedDid": "did:peer:2.Ez6Mkd9...apprentice_charlie",
   "disputeProfile": {
-    "category": "Property_Damage_and_Contract_Breach",
-    "description": "Apprentice Charlie forced heavy canvas into the industrial serger, stripping timing gears and refusing repair costs.",
-    "severityLevel": "High_Systemic_Friction",
+    "category": "Tool_Damage_Mechanical_Assembly",
+    "description": "Industrial serger timing gear stripped due to improper canvas feed; repair requires machining replacement timing gear.",
     "abuseOrCoercionDetected": false
   },
-  "algorithmicMediation": {
-    "requestedNeutralityMargin": 0.05,
-    "requiredMediatorCredentials": ["Restorative_Circle_Facilitator_L2"]
-  },
   "restitutionParameters": {
-    "disputedValueTokens": "75.00",
-    "acceptableLaborEquivalentHours": 15,
+    "damageEstimateMicroJoules": 72000000000000,
+    "kineticLaborEquivalentHours": 16,
     "targetRepairAssetVoxel": [16, 9, 16]
   },
-  "legalCompliance": {
-    "faaArbitrationInvocation": true,
-    "statutoryJurisdiction": "9_USC_Section_1_Binding_ADR"
+  "facilitatorSelection": {
+    "selectionMethod": "Sortition_Review_Panel",
+    "poolDomain": "Craft_Restorative_Facilitators"
+  },
+  "cryptographicSignature": {
+    "type": "Ed25519Signature2020",
+    "created": "2026-10-24T10:00:00Z",
+    "verificationMethod": "did:peer:2.Ez6Mks3...steward_alice#key-1",
+    "proofValue": "z3aK8f...alice_hardware_sig...99pL"
   }
 }
 ```
@@ -252,20 +187,19 @@ graph TD
   "attestationId": "urn:uuid:9a0b1c2d-3e4f-5a6b-7c8d-9e0f1a2b3c4d",
   "peaceHearthVoxel": [12, 4, 18],
   "sessionMetrics": {
-    "sessionDurationMinutes": 85,
-    "ambientNoiseDecibels": 38.4,
-    "completionTimestamp": "2026-10-24T16:45:10Z"
+    "sessionDurationMilliseconds": 5100000,
+    "ambientNoiseMilliDecibels": 38400,
+    "completionTimestampEpochMs": 1792841110000
   },
   "ratifiedTerms": {
-    "restitutionMode": "Hybrid_Tokens_and_Kinetic_Labor",
-    "tokensTransferred": "35.00",
-    "kineticLaborBountyAssigned": "bounty-sigma-swale-digging-08",
-    "kineticHoursCommitted": 8
+    "restitutionMode": "Physical_Machining_and_Kinetic_Labor",
+    "bilateralChannelOffsetMicroJoules": 36000000000000,
+    "kineticLaborHoursCommitted": 8
   },
   "multiSigSignatures": {
     "aggrievedSignatureAlice": "z3aK8f...alice_atecc608a_sig...99pL",
     "accusedSignatureCharlie": "z7bM2q...charlie_atecc608a_sig...44xY",
-    "mediatorSignatureElena": "z1cR4t...elena_atecc608a_sig...77wK"
+    "facilitatorSignatureElena": "z1cR4t...elena_atecc608a_sig...77wK"
   },
   "status": "RATIFIED_DISPUTE_RESOLVED",
   "digestSha256": "4b6c8d0e2f4a6b8c0d2e4f6a8b0c2d4e6f8a0b2c4d6e8f0a2b4c6d8e0f2a4b6c"
@@ -278,41 +212,57 @@ graph TD
 
 ### 4.1 Memory Allocation & Voxel State
 
-The Peace Hearth Chamber occupies designated space within the $32^3$ chunk grid:
+The Peace Hearth Chamber occupies designated coordinates in the $32^3$ chunk space:
 *   The chamber anchor voxel is initialized with `material_id = 56` (`PEACE_HEARTH_CHAMBER`).
 *   Metadata bitmask `0b00000111` sets `Is_Acoustic_Shield` (bit 0), `Is_Circle_Bench` (bit 1), and `Is_MultiSig_NFC` (bit 2).
-*   Adjacent workshop voxels (`material_id = 15`, `FAB_NODE`) remain locked while the tool owner and borrower maintain an active `FRACTURED` affinity status.
+*   Adjacent workshop voxels (`material_id = 15`, `FAB_NODE`) track locked or unlocked status based on mutual affinity edges.
 
 ```cpp
-// Cache-aligned Flecs ECS Components
+// Cache-aligned Flecs ECS Components for Restorative Mediation
+#include <cstdint>
+#include <string>
+
+namespace oasis {
+
 enum class DisputeState : uint8_t {
-    HARMONIC,
-    TENSION,
-    FRACTURED,
-    MEDIATION_PENDING,
-    RECONCILED
+    HARMONIC = 0,
+    TENSION = 1,
+    FRACTURED = 2,
+    MEDIATION_PENDING = 3,
+    RECONCILED = 4
 };
 
-struct alignas(8) AffinityEdge {
+struct alignas(8) AffinityEdgeComponent {
     uint32_t peer_entity_id;
-    float affinity_score;       // [-100.0f, +100.0f]
+    int32_t affinity_score_bps;         // Scaled integer [-10000, +10000]
     DisputeState state;
 };
 
-struct alignas(8) DisputeEscrowLock {
+struct alignas(8) DisputeRecordComponent {
     uint32_t dispute_id;
-    float frozen_value_tokens;
+    uint64_t restitution_exergy_uj;     // 3600000000000 uJ multiples (3600 kJ)
     uint32_t aggrieved_entity_id;
     uint32_t accused_entity_id;
-    bool active;
+    uint32_t facilitator_entity_id;
+    bool circle_active;
+    bool terms_ratified;
 };
 
-struct alignas(8) RestitutionQueue {
-    uint32_t assigned_bounty_id;
+struct alignas(8) RestitutionQueueComponent {
+    uint32_t assigned_task_id;
     uint16_t hours_required;
     uint16_t hours_completed;
     bool fulfilled;
 };
+
+struct alignas(8) BCCChannelComponent {
+    char peer_did[64];
+    int64_t balance_microjoules;         // Conservation: B_{u->v} + B_{v->u} = 0
+    uint64_t credit_headroom_uj;         // Headroom window [-C, +C]
+    bool channel_active;
+};
+
+} // namespace oasis
 ```
 
 ### 4.2 C++20 Test Harness Structure
@@ -320,118 +270,116 @@ struct alignas(8) RestitutionQueue {
 ```cpp
 // engine/tests/scenario_psi_test.cpp
 #include <cassert>
-#include <cmath>
-#include <string>
-#include <vector>
+#include <cstring>
 #include "oasis/chunk_manager.hpp"
 #include "oasis/orchestration/bpmn_engine.hpp"
-#include "oasis/ledger/crdt_wallet.hpp"
 
 namespace oasis {
 
-struct MediatorCandidate {
-    std::string did;
-    float distance_to_a;
-    float distance_to_b;
-    float weight_to_a;
-    float weight_to_b;
-
-    bool is_neutral(float max_epsilon = 0.05f) const {
-        float dist_diff = std::abs(distance_to_a - distance_to_b);
-        float weight_diff = std::abs(weight_to_a - weight_to_b);
-        return (dist_diff <= max_epsilon) && (weight_diff <= max_epsilon);
-    }
-};
-
-} // namespace oasis
-
 void test_scenario_psi_mediation_restorative_resolution() {
-    using namespace oasis;
-
     // 1. Initialize Chunk and Peace Hearth Voxel
     ChunkManager chunk_mgr;
     chunk_mgr.allocate_chunk(0, 0, 0);
+
     Voxel hearth_voxel{
         .material_id = 56, // PEACE_HEARTH_CHAMBER
         .moisture = 5,
-        .temperature = 21,
+        .temperature = 294, // 294 K
         .metadata = 0b00000111 // Acoustic Shield + Circle Bench + MultiSig NFC
     };
     chunk_mgr.set_voxel(12, 4, 18, hearth_voxel);
 
-    // 2. Setup Identities, Wallets & Frozen Escrow
-    CRDTWallet alice_wallet("did:mesh:node04:steward_alice", 100.0f);
-    CRDTWallet charlie_wallet("did:mesh:node04:apprentice_charlie", 50.0f);
-    CRDTWallet mediator_wallet("did:mesh:node04:mediator_elena", 20.0f);
-
-    DisputeEscrowLock escrow{
-        .dispute_id = 101,
-        .frozen_value_tokens = 35.0f,
-        .aggrieved_entity_id = 1,
-        .accused_entity_id = 2,
-        .active = true
+    // 2. Setup Identities and Pairwise Bilateral Clearing Channels
+    BCCChannelComponent channel_alice{
+        .peer_did = "did:peer:apprentice_charlie",
+        .balance_microjoules = 0,
+        .credit_headroom_uj = 72000000000000ULL, // 20 Exergy Credits headroom
+        .channel_active = true
+    };
+    BCCChannelComponent channel_charlie{
+        .peer_did = "did:peer:steward_alice",
+        .balance_microjoules = 0,
+        .credit_headroom_uj = 72000000000000ULL,
+        .channel_active = true
     };
 
-    // Assert Escrow Lock freezes funds
-    charlie_wallet.lock_escrow(escrow.frozen_value_tokens);
-    assert(charlie_wallet.available_balance() == 15.0f);
+    // Assert Conservation: B_{u->v} + B_{v->u} = 0
+    assert(channel_alice.balance_microjoules + channel_charlie.balance_microjoules == 0);
 
-    // 3. Evaluate Graph Neutrality for Mediator Selection
-    MediatorCandidate biased_candidate{"did:mesh:biased_bob", 1.0f, 3.0f, 0.8f, 0.2f};
-    MediatorCandidate neutral_candidate{"did:mesh:mediator_elena", 2.0f, 2.02f, 0.60f, 0.62f};
+    // 3. Setup Restorative Dispute Record (Damage: 36000000000000 uJ / 10 Exergy Credits)
+    uint64_t damage_uj = 36000000000000ULL;
+    DisputeRecordComponent dispute{
+        .dispute_id = 101,
+        .restitution_exergy_uj = damage_uj,
+        .aggrieved_entity_id = 1,
+        .accused_entity_id = 2,
+        .facilitator_entity_id = 3,
+        .circle_active = true,
+        .terms_ratified = false
+    };
 
-    assert(!biased_candidate.is_neutral(0.05f));
-    assert(neutral_candidate.is_neutral(0.05f));
-
-    // 4. Simulate 3-of-3 Multi-Sig Signing & Restitution Settlement
+    // 4. Simulate 3-of-3 Multi-Sig NFC Ratification in Peace Hearth
     bool sig_alice = true;
     bool sig_charlie = true;
-    bool sig_mediator = true;
-    bool circle_resolved = sig_alice && sig_charlie && sig_mediator;
+    bool sig_facilitator = true;
+    bool circle_resolved = sig_alice && sig_charlie && sig_facilitator;
     assert(circle_resolved);
 
-    // Disburse frozen escrow to Alice
-    charlie_wallet.unlock_and_transfer(alice_wallet, escrow.frozen_value_tokens);
-    escrow.active = false;
+    dispute.terms_ratified = true;
+    dispute.circle_active = false;
 
-    // Compensate Mediator from Community Pool
-    mediator_wallet.credit(10.0f);
+    // Settle bilateral restitution offset upon ratification
+    channel_charlie.balance_microjoules -= static_cast<int64_t>(damage_uj);
+    channel_alice.balance_microjoules += static_cast<int64_t>(damage_uj);
 
-    assert(alice_wallet.balance() == 135.0f);
-    assert(charlie_wallet.balance() == 15.0f);
-    assert(mediator_wallet.balance() == 30.0f);
-    assert(!escrow.active);
+    // Assert Conservation remains preserved: B_{u->v} + B_{v->u} = 0
+    assert(channel_alice.balance_microjoules + channel_charlie.balance_microjoules == 0);
+    assert(channel_alice.balance_microjoules == 36000000000000LL);
+    assert(channel_charlie.balance_microjoules == -36000000000000LL);
+    assert(!dispute.circle_active);
+    assert(dispute.terms_ratified);
 }
 
-void test_scenario_psi_mediation_abuse_bypass_and_slashing() {
-    using namespace oasis;
-
+void test_scenario_psi_mediation_abuse_bypass_and_exit() {
     ChunkManager chunk_mgr;
     chunk_mgr.allocate_chunk(0, 0, 0);
 
     BPMNEngine orchestrator;
     orchestrator.load_schema("schemas/bpmn/restorative_justice.bpmn");
 
-    CRDTWallet victim_wallet("did:mesh:victim_dana", 80.0f);
-    CRDTWallet abuser_wallet("did:mesh:abuser_mallory", 120.0f);
-
     bool intimate_coercion_reported = true;
-    bool mediation_bypassed = false;
-    bool graph_edge_severed_cleanly = false;
-    bool abuser_quarantined = false;
+    bool circle_bypassed = false;
+    bool relational_edge_severed = false;
+    bool right_of_exit_honored = false;
 
     if (intimate_coercion_reported) {
         // Enforce Safe Harbor: zero mandatory circle mediation
-        mediation_bypassed = true;
-        graph_edge_severed_cleanly = true;
-        abuser_quarantined = true;
+        circle_bypassed = true;
+        relational_edge_severed = true;
+        right_of_exit_honored = true;
     }
 
-    assert(mediation_bypassed);
-    assert(graph_edge_severed_cleanly);
-    assert(abuser_quarantined);
-    // Victim's wallet remains untouched
-    assert(victim_wallet.balance() == 80.0f);
+    assert(circle_bypassed);
+    assert(relational_edge_severed);
+    assert(right_of_exit_honored);
+
+    // Assert zero outbound civil lawsuits or sheriff enforcement invoked
+    bool outbound_sheriff_invoked = false;
+    assert(!outbound_sheriff_invoked);
+
+    // Victim's survival baseline remains 100% intact
+    uint32_t victim_calories = 2400; // 2400 kcal daily floor
+    uint32_t victim_water = 5;       // 5 L clean water floor
+    assert(victim_calories >= 2000);
+    assert(victim_water >= 3);
+}
+
+} // namespace oasis
+
+int main() {
+    oasis::test_scenario_psi_mediation_restorative_resolution();
+    oasis::test_scenario_psi_mediation_abuse_bypass_and_exit();
+    return 0;
 }
 ```
 
@@ -441,9 +389,9 @@ void test_scenario_psi_mediation_abuse_bypass_and_slashing() {
 
 | Checkpoint | Validation Method | Pass Condition |
 | :--- | :--- | :--- |
-| **G1: Arbitrator Neutrality Bounds** | Graph Matrix Calculation | The L5 policy engine evaluates the Trust Ring graph and selects a candidate whose path distance and edge weights to both parties diverge by less than $\epsilon \le 0.05$. |
-| **G2: Offline Autonomy** | Local Mesh Disconnection | Graph neutrality analysis, escrow locks, and 3-of-3 NFC signature verification execute deterministically over local Reticulum mesh with 100% WAN isolation. |
-| **G3: Escrow Freezing & Multi-Sig Unlock** | CRDT Ledger Mutator | Disputed tokens are frozen in wallet memory upon dispute initiation; funds can only unlock and transfer upon ingestion of valid 3-of-3 multi-sig NFC signatures. |
-| **G4: Abuse & Safe Harbor Bypass** | Policy Gate Injection | Flagging an intent with intimate coercion or physical assault triggers immediate relational edge severance with zero forced circle dialogue, leaving the victim unencumbered. |
-| **G5: Trojan Ingestion (L7) / FAA Defense** | Municipal Lawsuit Simulation | When a party initiates a simulated external small-claims lawsuit, the SPC files a 9 U.S.C. § 3 motion, successfully compelling the court to dismiss and remand to mesh arbitration. |
-| **G6: Ecological Leeching & Kinetic Restitution** | Work Bounty Verification | Offender with insufficient liquid tokens logs 15 verified hours of physical swale construction in Scenario Eta, successfully discharging the restitution debt with physical negentropy. |
+| **G1: Thermodynamic Bounds & Conservation** | Restitution Settlement Audit | Bilateral Clearing Channels preserve zero-sum conservation $B_{u \to v}(t) + B_{v \to u}(t) = 0$ upon multi-sig ratification; physical restitution labor discharges verified damage without unbacked tokens. |
+| **G2: Offline Autonomy & WAN Airgap** | Local Mesh Disconnection | Sortition panel selection, acoustic monitoring, and 3-of-3 hardware NFC signature verification execute deterministically over Reticulum mesh with 100% WAN isolation. |
+| **G3: Trust Rings & Restorative Justice** | Peer Circle Consensus Audit | Circle facilitation operates voluntarily through sortition pools; zero automated algorithmic social credit scoring; zero punitive or carceral penalties across $R_0 \dots R_6$. |
+| **G4: Human Baseline & Safe Harbor** | Abuse Bypass Injection | Reporting intimate coercion or physical assault triggers immediate relational edge severance with zero forced circle dialogue, preserving $F_{\mathrm{eco}}$ and $B_{\mathrm{baseline}}$. |
+| **G5: Dual-Membrane Doctrine (L7)** | Defensive FAA Arbitration Motion | External civil lawsuits filed by disgruntled parties are compelled to private community mediation via defensive 9 U.S.C. § 3 motions; zero outbound sheriff or state court debt enforcement against members. |
+| **G6: Regenerative Harvesting & Unconditional Exit (L7)** | Constitutional Right of Exit Sim | A member executes the Unconditional Right of Exit without forfeiture of bodily or domestic assets; commercial procurement halts as soon as the itemized needs list $\Phi_t$ is met. |

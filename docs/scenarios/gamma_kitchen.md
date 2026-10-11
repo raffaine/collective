@@ -3,7 +3,7 @@
 *   **Identifier:** `SCN-GAMMA-KITCH`
 *   **System Epic:** Decentralized Caloric Production, Meal Preps, Comfort Pantries, and Zero-Waste Routing
 *   **Primary Layers Tested:** L1 (Physical), L2 (Digital Twin), L3 (Ledger), L4 (Orchestration), L5 (Governance), L6 (Semantic), L7 (Proxy)
-*   **Pass/Fail Metric:** Hyper-local meal production and distribution with 0% legacy platform extraction fees; continuous thermal and pH telemetry providing mathematical proof of food safety without municipal health inspector presence; zero food waste via dynamic token price decay (>95% caloric consumption rate).
+*   **Pass/Fail Metric:** Hyper-local meal production and distribution with 0% legacy platform extraction fees; continuous thermal and pH telemetry providing mathematical proof of food safety without municipal health inspector presence; zero food waste via unconditional Hearth food floor ($B_{\mathrm{baseline}}$) and compost routing to Scenario Mu (>95% caloric utilization rate); zero floating-point math; zero tokenization of domestic culinary care.
 
 ---
 
@@ -13,11 +13,13 @@ This scenario specification has been ratified by unanimous consensus of the 5-Pe
 
 | Council Persona | Disciplinary Representative | Core Contribution to Scenario |
 | :--- | :--- | :--- |
-| **Game Designer** | Lead Systems & Gameplay Designer | Dwarf Fortress social commensality and culinary psychology (NPCs dining together family-style at the communal table gain "Had a lavish meal in good company (+35 mood)" thoughts, boosting community cohesion; solitary eating triggers mild melancholy; cooks gain pride from neighbor praise; culinary diversity prevents "Bored of repetitive rations (-15 mood)" thoughts); The Sims batch cooking management (Founder 01 batches 12 meals to stock the community fridge, liberating neighbors for fabrication); Cities Skylines corporate catering leeching. |
-| **Game Engineer** | Principal C++ Simulation & Engine Architect | Flecs ECS DOD architecture (`CookVesselComponent`, `CaloricItemComponent`, `ThermalHistoryComponent`, `AllergenProfileComponent`, `DynamicPriceFloorComponent`); 32-bit compact voxel chunks modeling heat transfer from ovens to food containers; deterministic 10 Hz BPMN state engine; compilable C++20 test harness testing thermal pathogen inactivation, danger-zone timer expiration, and compost mutation. |
-| **Sovereign Stack Specialist** | Sovereign Stack Systems Architect | 7-layer strict adjacency without layer skipping; autonomous daemons (`col-telemetryd` to `col-adversaryd`); local-first MQTT thermocouple streaming; Automerge CRDT caloric negentropy minting; BBS+ Zero-Knowledge Proofs for consumer allergy protection (mathematically blocking allergen cross-contamination without exposing personal health profiles); zero monolithic game-loop threading. |
-| **Solarpunk Thinker** | Bioregional Regenerative Ecologist | Decoupling from 1,500-mile corporate supply chains; 100% organic kitchen scrap and plate waste routed directly into Scenario Mu for vermicomposting and biochar nutrient inoculation; zero single-use plastics through standardized returnable stainless steel tiffin containers and Mason jars; induction cooking powered entirely by localized solar microgrids. |
-| **Scenario Specialist** | Fermentation Microbiologist & Culinary Systems Operations Engineer | Bigelow thermal pathogen reduction lethality modeling ($F_0 = \int 10^{(T(t) - 121.1)/z} dt$ verifying 7-log reduction for Salmonella/Listeria); anaerobic fermentation acidification thresholds ($\text{pH} < 4.6$ inhibiting Clostridium botulinum); continuous IoT Hazard Analysis Critical Control Point (HACCP) telemetry protocols; commercial cottage food licensing insulation under state administrative laws. |
+| **Game Designer** | Lead Systems & Gameplay Designer | Dwarf Fortress social commensality and culinary psychology (agents dining together family-style at the communal table gain "Had a lavish meal in good company (+35 mood)" thoughts, boosting community cohesion; solitary eating triggers mild melancholy; culinary diversity prevents "Bored of repetitive rations (-15 mood)" thoughts); The Sims batch cooking management (Founder 01 batches 24 meals to stock the community larder, liberating neighbors for fabrication); Cities Skylines inter-node logistical food corridors and agroecological distribution without commercial market extraction. |
+| **Game Engineer** | Principal C++ Simulation & Engine Architect | Flecs ECS DOD architecture (`CookVesselComponent`, `CaloricItemComponent`, `ThermalHistoryComponent`, `AllergenProfileComponent`, `FoodSecurityFloorComponent`); 32-bit compact voxel chunks modeling thermal dissipation from induction hobs to cookware; deterministic 10 Hz BPMN state engine; compilable C++20 test harness implementing Bigelow thermal pathogen reduction lethality modeling and danger-zone expiration exclusively using fixed-point SI integer arithmetic (millikelvin, milliseconds, milligrams, microjoules). |
+| **Sovereign Stack Specialist** | Sovereign Stack Systems Architect | 7-layer strict adjacency without layer skipping; zero software, microcontrollers, or keys in Layer 1; Zephyr RTOS Layer 2 membrane (`col-sensord`, `col-membraned`, `col-actuated`); Layer 3 Pairwise Bilateral Clearing Channels ($BCC$) with zero-sum conservation $B_{u \to v}(t) + B_{v \to u}(t) = 0$ and multi-hop HTLCs for inter-node agroecological trade; BBS+ Zero-Knowledge Proofs for consumer allergen protection without revealing health profiles; Layer 5 boundary socket `/run/collective/ipc/l4_l5.sock`; Tripartite Ricardian Treaties ($\mathrm{Treaty\_CID}$). |
+| **Solarpunk Thinker** | Bioregional Regenerative Ecologist | Decoupling from 2,500-kilometer industrial supply chains; 100% organic kitchen scrap and plate waste routed directly into Scenario Mu for vermicomposting and biochar nutrient inoculation; zero single-use packaging through standardized returnable stainless steel tiffin containers and glass fermentation vessels; induction cooking powered entirely by localized solar microgrids with thermal storage recapture. |
+| **Scenario Specialist** | Fermentation Microbiologist & Culinary Systems Operations Engineer | Bigelow thermal pathogen reduction lethality modeling scaled in integer arithmetic ($F_0$ targeting 7-log reduction for *Salmonella* and *Listeria*); anaerobic fermentation acidification thresholds ($\mathrm{pH} < 4600\text{ mpH}$ inhibiting *Clostridium botulinum*); continuous IoT Hazard Analysis Critical Control Point (HACCP) telemetry protocols; commercial insulation under Subchapter T Cooperative Shared Services Agreements (SSAs). |
+
+**Council Consensus Statement:** Unanimous Consensus Reached. The council affirms that human nourishment is an inalienable right of living membership ($B_{\mathrm{baseline}}$) anchored in the Convivial Sanctuary ($R_0$). All pricing, tokenization, and financialization of domestic cooking are permanently abolished.
 
 ---
 
@@ -25,96 +27,112 @@ This scenario specification has been ratified by unanimous consensus of the 5-Pe
 
 In legacy capitalist food systems (Layer 7), human nourishment has been industrialized, financialized, and atomized into an ecological and social dead end.
 
-When citizens seek daily caloric sustenance in the legacy economy:
-*   **Massive Carbon Drag & Packaging Waste:** The average grocery store ingredient travels over 1,500 miles via refrigerated diesel freight. Industrial agriculture relies on synthetic nitrogen fertilizers, monoculture soil depletion, and mountains of single-use petrochemical packaging that choke oceans and landfills.
-*   **Predatory Gig-Economy Extraction:** Third-party delivery conglomerates (e.g., DoorDash, UberEats) siphon up to 30% of gross ticket value from local culinary workers while trapping couriers in exploitative piece-rate labor. Consumers are isolated in atomized, solitary dining experiences in front of glowing screens, destroying the communal fabric that forms the bedrock of human longevity.
-*   **Bureaucratic Enclosure & Cottage Food Monopolies:** Municipal health departments enforce capital-intensive commercial kitchen building codes (costing $100,000+ for stainless steel buildouts) that functionally criminalize neighborly food preparation, granting food monopolies to capitalized restaurant franchises while outlawing neighborhood mutual aid.
+When citizens seek daily sustenance in the legacy economy:
+*   **Massive Carbon Drag & Packaging Waste:** The average grocery store ingredient travels over 2,500 kilometers via refrigerated diesel freight. Industrial agriculture relies on synthetic nitrogen fertilizers, monoculture soil depletion, and mountains of single-use petrochemical packaging that choke oceans and landfills.
+*   **Predatory Gig-Economy Extraction:** Third-party delivery conglomerates siphon up to 30% of gross ticket value from culinary workers while trapping couriers in precarious piece-rate labor. Consumers are isolated in atomized, solitary dining experiences in front of glowing screens, destroying the communal fabric that forms the bedrock of human longevity.
+*   **Bureaucratic Enclosure & Food Monopolies:** Municipal health departments enforce capital-intensive commercial kitchen building codes that functionally criminalize neighborly food preparation, granting food monopolies to capitalized restaurant franchises while outlawing neighborhood mutual aid.
+*   **Commodification of Bodily Survival:** Human access to clean, nutrient-dense calories is conditioned on fiat purchasing power. When economic crises strike, grocery bills escalate, forcing families into caloric poverty while commercial retailers discard tons of edible food into locked dumpsters to protect price floors.
 
 ---
 
 ## 2. The Collective Workflow (7-Layer Traversal)
 
-Scenario Gamma replaces the centralized restaurant and gig-delivery platform with a localized caloric mesh. The primary cultural anchor is the **Communal Hearth**—inviting neighbors to break bread together family-style. To accommodate busy schedules, the system seamlessly supports premade weekly meal-preps and morning comfort baskets. The workflow traverses canonically from Layer 1 physical cooking up to Layer 7 commercial catering interfaces.
+Scenario Gamma replaces the centralized restaurant and gig-delivery platform with a localized caloric commons. The cultural anchor is the **Communal Hearth** ($R_0$)—inviting neighbors to break bread together family-style. To accommodate diverse schedules, the system seamlessly supports premade weekly meal-preps and morning comfort baskets. The workflow traverses canonically from Layer 1 physical cooking up to Layer 7 cooperative legal shielding.
 
 ```mermaid
 graph TD
-    L6[Layer 6: Semantic Intent] -->|Emit MealOffering / CaloricBounty| L5[Layer 5: Policy & Governance]
-    L5 -->|Evaluate Cook Credential & Allergy Filter| L4[Layer 4: Orchestration]
-    L4 -->|BPMN Batch Queue & Dynamic Price Decay| L3[Layer 3: Network & Ledger]
-    L3 -->|Escrow Thermodynamic Value Tokens| L2[Layer 2: Digital Twin & Telemetry]
-    L2 -->|IoT Thermocouple & pH Sensor Ingress| L1[Layer 1: Physical Ground Truth]
-    L1 -->|Thermal Induction & Communal Dining| End((Nourishment Delivered & Waste Composted))
+    L7[Layer 7: Legacy Interface - Dual-Membrane Carapace] -->|l6_l7.sock: B2B Wholesale Staples & Permits| L6[Layer 6: Semantic Intent - Agora Knowledge Artifacts]
+    L6 -->|l5_l6.sock: MealOfferings & Ricardian Treaties| L5[Layer 5: Polycentric Governance - Trust Rings & Refusal]
+    L5 -->|l4_l5.sock: Ratified Schedules & Allergen Shields| L4[Layer 4: Deterministic Orchestration - 10 Hz BPMN VM]
+    L4 -->|l3_l4.sock: Exergy Metering & Channel Reservations| L3[Layer 3: Thermodynamic Ledger - BCC & PoTW]
+    L3 -->|l2_l3.sock: Sensor Delivery Proofs & Actuation Orders| L2[Layer 2: Cybernetic Membrane - Zephyr RTOS]
+    L2 -->|Modbus / ADC / GPIO: Physical Telemetry & Relays| L1[Layer 1: Physical Reality - Pure Matter & Energy]
+    L1 -->|Thermal Induction & Communal Hearth Feast| End((Nourishment Delivered & Clean Biomass Composted))
 ```
 
 ### Layer 1: Physical Ground Truth
-*   **Hardware Nodes (The Communal Hearth):** High-efficiency commercial induction cooktops, convection ovens, precision fermentation chambers, and an edge automation gateway (`col-telemetryd`) equipped with an ATECC608A secure element and thermocouple probe buses.
-*   **Hardware Nodes (Smart Pantry & Staging Lockers):** Electronically latched smart refrigerated food lockers with integrated load cells, alongside standardized returnable stainless steel tiffin containers tagged with NFC chips.
-*   **Inventory & Feedstock:** Locally harvested permaculture vegetables, legumes, pasture-raised proteins, sourdough starter cultures, and bulk grains.
-*   **Action:** Physical chopping, thermal sauteing, boiling, braising, portioning into stainless containers, and family-style dish passing at the long communal table.
+*   **Pure Physical Substrate:** Layer 1 contains exclusively physical matter, thermodynamic energy, and passive transducers. It contains **zero software, zero microcontrollers, zero firmware, zero cryptographic keys, and zero network daemons.**
+*   **Hardware Nodes (The Communal Hearth):** High-efficiency commercial magnetic induction cooktops, heavy cast-iron and stainless steel cookware, insulated convection bake chambers, ceramic fermentation crocks, and passive K-type thermocouple probe lines.
+*   **Hardware Nodes (Smart Larder & Staging Lockers):** Heavy-gauge stainless steel insulated food lockers, spring-loaded solenoid mechanical latches, calibrated analog strain-gauge load cells, and standardized returnable stainless steel tiffin containers with passive 13560 kHz NFC metal tags.
+*   **Feedstock & Biomass:** Agroecological vegetables, legumes, pasture-raised proteins, sourdough culture colonies, heirloom fermented brine starters, and bulk dry grains.
+*   **Physical Actions:** Thermal boiling, braising, baking, portioning into stainless containers, and passing dishes family-style around the long wooden hearth table.
 
 ### Layer 2: Digital Twin & Telemetry
-*   **Ingress Telemetry (MQTT Topics via `col-meshd`):**
-    *   `node/kitchen/oven_01/telemetry/core_temp_c` (Internal food core temperature)
-    *   `node/kitchen/fridge_02/telemetry/temp_c` (Cold storage target 2°C–4°C)
-    *   `node/kitchen/ferment_01/telemetry/ph` (Continuous glass-electrode pH)
-    *   `node/kitchen/pantry/locker_b4/weight_grams` (Continuous load cell inventory)
-    *   `node/kitchen/batch_104/status` (`PREP`, `COOKING`, `HACCP_SAFE`, `DANGER_ZONE_HOLD`, `COMPOST_SPOILED`)
-*   **Verification:** IoT thermocouples mathematically integrate pathogen lethality over time. If a batch of food enters the danger zone (4°C–60°C / 40°F–140°F) for longer than 120 minutes without hitting lethality thresholds, Layer 2 flags the batch as `SPOILED`.
-*   **Actuator Control:** Local relay controllers trip magnetic safety shutoffs on induction burners upon boil-over, and actuate refrigerated pickup locker solenoids upon valid NFC claim tokens.
+*   **Membrane Architecture:** Executed by Zephyr RTOS microcontrollers (`col-sensord`, `col-membraned`, `col-actuated`) reading raw ADC voltages and converting them into dimensionally typed, fixed-point integer packets.
+*   **Convivial Anti-Panopticon Shield:** Kitchen sensors monitor strictly thermodynamic observables (temperatures, weights, pH). **Absolute ban on optical cameras, microphones, biometric bracelets, and worker movement tracking.**
+*   **Ingress Telemetry Topics (Fixed-Point SI Integers via `col-membraned`):**
+    *   `node/kitchen/oven_01/telemetry/core_temp_mk` (`uint32_t`, core food temperature in millikelvin; e.g., 347,150 mK = 74 C)
+    *   `node/kitchen/fridge_02/telemetry/temp_mk` (`uint32_t`, cold storage temperature; nominal 275,150 mK to 277,150 mK = 2 C to 4 C)
+    *   `node/kitchen/ferment_01/telemetry/ph_milliph` (`uint32_t`, fermentation acidity in millipH; e.g., 4,200 mpH)
+    *   `node/kitchen/pantry/locker_b4/mass_mg` (`uint64_t`, continuous load cell inventory mass in milligrams)
+    *   `node/kitchen/batch_104/status` (`enum uint8_t`: `0=PREP`, `1=COOKING`, `2=HACCP_SAFE`, `3=HOLDING`, `4=SPOILED_COMPOST`)
+*   **Safety Verification:** Layer 2 firmware mathematically calculates pathogen reduction. If food resides in the bacterial danger zone (277,150 mK to 333,150 mK / 4 C to 60 C) for longer than 7,200,000 ms (120 minutes) without reaching lethality (347,150 mK / 74 C), Layer 2 flags the batch as `SPOILED_COMPOST`.
+*   **Actuator Verification:** Relay controllers actuate induction power contactors and locker solenoids only after Layer 2 verifies actuation invariants $\mathbf{\Phi}$ received across `/run/collective/ipc/l3_l2.sock`.
 
-### Layer 3: Network & Ledger
-*   **Negentropy Caloric Minting & Settlement:** Creating nutrient-dense food from raw biomass is recognized as fundamental thermodynamic negentropy:
-    $$\Delta V_{meal} = \left( E_{caloric} \cdot \beta_{nutritive} + E_{thermal} + C_{deprec} \right) \cdot \lambda_{FOOD}$$
-    Where:
-    - $E_{caloric}$ is digestible caloric energy in kilocalories.
-    - $\beta_{nutritive}$ is a micronutrient density multiplier (rewarding fresh, organic polyculture vegetables over processed starches).
-    - $E_{thermal}$ is electrical exergy expended by induction burners and ovens.
-    - $C_{deprec}$ is kitchen hardware and cookware depreciation.
-    - $\lambda_{FOOD}$ is the food parity coefficient.
-*   **Dynamic Price Floor Decay (Zero-Waste Algorithm):** To eliminate food waste, unclaimed prepared meals automatically degrade in token price as they approach the end of their culinary safety window:
-    $$P_{token}(t) = \max\left( 0.0, P_{initial} \cdot \left(1 - \frac{t - t_{prep}}{t_{spoil} - t_{prep}}\right)^{\gamma} \right)$$
-    Two hours before the thermal holding window expires, meals decay to zero tokens, enabling hungry neighbors or couriers to consume the food rather than composting it.
+### Layer 3: Thermodynamic Ledger
+*   **Constitutional Non-Commensurability of Culinary Care:** Cooking, seasoning, feeding neighbors, and breaking bread are declared qualitative human care and mutual aid (`sec:l3-friction`). Layer 3 **structurally refuses to mint tokens, credits, or currency for culinary labor.** No chef hourly rates, no dish token bounties, and no meal ticket prices exist.
+*   **Inalienable Tier 2 Human Survival Baseline ($B_{\mathrm{baseline}}$):** Wholesome, cooked nourishment is guaranteed to every human being residing within the settlement as an unconditional constitutional right of living membership ($B_{\mathrm{baseline}}$). Meals at the Hearth are free of charge, unconditioned on labor, tokens, or chore points.
+*   **Proof-of-Thermodynamic-Work (PoTW):** Electrical energy consumed by induction cookers and ovens is metered from physical shunt sensors in microjoules ($\mu\mathrm{J}$):
+    $$\text{1 Exergy Credit} \equiv 3{,}600{,}000{,}000{,}000\text{ }\mu\mathrm{J}$$
+    This exergy accounting measures energy drawn from the settlement microgrid, undergoing physical demurrage to reflect battery and equipment entropy.
+*   **Pairwise Bilateral Clearing Channels (BCC) & Multi-Hop HTLCs:** When surplus preserved foods (e.g., 50 kg of barrel-fermented sauerkraut or dried soup mix) are transferred to a neighboring settlement $v$, accounting settles across inter-node Bilateral Clearing Channels:
+    $$B_{u \to v}(t) + B_{v \to u}(t) = 0$$
+    Subject to mutual aid credit windows $[-C_{u \to v}, +C_{v \to u}]$. Multi-hop transports across the watershed mesh settle via chained Hashed Timelock Contracts:
+    $$\mathrm{HTLC} = \langle H(S), \Delta t, Q, u, v \rangle$$
+    where $Q$ is denominated in microjoules of embodied exergy or mass quanta in milligrams, releasing upon signed delivery receipts $\sigma_{\mathrm{delivery}}$ and cascading backward settlement without global tokens or external market conversion.
 
-### Layer 4: Orchestration State Machine
-The culinary lifecycle is governed deterministically by the embedded 10 Hz BPMN 2.0 engine (`col-execd`):
+### Layer 4: Deterministic Orchestration State Machine
+The culinary lifecycle is governed deterministically by the embedded 10 Hz BPMN engine (`col-execd`):
 
 ```mermaid
 stateDiagram-v2
-    [*] --> PrepInitiated: MealOffering Emitted
-    PrepInitiated --> ThermalCooking: Escrow Locked & Ingredients Assembled
-    ThermalCooking --> InactiveDangerZone: Temperature in 4°C-60°C
-    InactiveDangerZone --> DangerZoneOverrun: Time in Danger Zone > 120 Mins
-    DangerZoneOverrun --> SpoiledCompostSalvage: Flag Unsafe & Route to Scenario Mu
+    [*] --> PrepInitiated: MealOffering Registered
+    PrepInitiated --> ThermalCooking: Ingredients Weighed & Heat Applied
+    ThermalCooking --> InactiveDangerZone: Temperature in 277150 mK - 333150 mK
+    InactiveDangerZone --> DangerZoneOverrun: Duration > 7200000 ms
+    DangerZoneOverrun --> SpoiledCompostSalvage: Route Unsafe Biomass to Scenario Mu
     SpoiledCompostSalvage --> [*]
-    InactiveDangerZone --> PathogenLethalityAchieved: Core Temp > 74°C (165°F)
+    InactiveDangerZone --> PathogenLethalityAchieved: Core Temp >= 347150 mK (74°C)
     ThermalCooking --> PathogenLethalityAchieved: Bigelow F0 Lethality Verified
-    PathogenLethalityAchieved --> PlatedAndPortioned: Pack into Returnable Tiffins
-    PlatedAndPortioned --> CommunalTableServing: Dine-In Kinship Feast
-    PlatedAndPortioned --> RefrigeratedLockerBay: Take-Away Pick-up Staged
-    RefrigeratedLockerBay --> PriceDecayActive: 2 Hours Before Expiration
-    PriceDecayActive --> PickedUpAndSettled: NFC Touch at Locker
-    CommunalTableServing --> DineInSettled: Communal Feast Concluded
-    PickedUpAndSettled --> [*]
-    DineInSettled --> [*]
+    PathogenLethalityAchieved --> PlatedAndPortioned: Pack into Returnable Stainless Tiffins
+    PlatedAndPortioned --> CommunalHearthServing: Dine-In Feast at Shared Hearth (R0)
+    PlatedAndPortioned --> StagedLockerBay: Staged for Shift Workers (R1)
+    StagedLockerBay --> SafeHoldingExpired: Holding Time > 14400000 ms (4 Hours)
+    SafeHoldingExpired --> SpoiledCompostSalvage: Transition to Soil Amendment
+    StagedLockerBay --> PickedUp: NFC Touch at Locker Threshold
+    CommunalHearthServing --> HearthFeastConcluded: Kinship Dining Complete
+    PickedUp --> [*]
+    HearthFeastConcluded --> [*]
 ```
 
 ### Layer 5: Policy & Polycentric Governance
-Layer 5 (`col-kmsd`) protects community safety and personal dietary integrity through cryptographic policy gates:
-
-*   **Execution Gate (Cryptographic Anaphylactic Shield):** When a consumer attempts to lock escrow on a `MealOffering`, Layer 5 checks their DID profile. If the meal's JSON-LD ingredient metadata contains peanut, gluten, or shellfish markers matching the consumer's allergy credentials, the policy gate mathematically rejects the escrow, preventing fatal anaphylaxis.
-*   **Maintenance Gate (Food Safety Competency):** Stewards publishing meal offerings to the general mesh must present a W3C Verifiable Credential (`Food_Safety_L1` or `Fermentation_Mastery_L2`). Novices cook under "Apprentice Mode" under the physical supervision of a Master Chef.
-*   **Procurement Gate (Staple Ingredient Multi-Sig):** Purchasing bulk non-local staples (olive oil, sea salt, bulk grains) costing $>\$150$ triggers a 2-of-3 multi-sig approval from the Kitchen Guild.
-*   **Communal Modifier Gate:** Opting into a `CommunalTableIntent` (dining in person at the shared hearth) confers an automatic 15% discount and boosts Trust Ring social affinity scores, culturally incentivizing kinship over atomized take-out.
+Layer 5 (`col-kmsd`) enforces safety, sovereignty, and communal ethics:
+*   **The 7-Tier Concentric Trust Rings ($R_0 \dots R_6$):**
+    *   **$R_0$ (The Hearth Sanctuary):** The dining table and kitchen hearth. Social immunity: unconditional hot food, herbal infusions, zero keys, zero registration, zero surveillance, zero governance voting weight.
+    *   **$R_1$ (Settlement Commons):** Shared pantry lockers ($\le 500\text{ m}$), ephemeral DIDs (`did:peer`), rotational cooking work bees.
+    *   **$R_2$ (Village Commons):** Neighborhood bulk pantries, tool sharing, cargo bike distribution ($\le 5\text{ km}$).
+    *   **$R_3$ (Watershed Guild):** Peering with neighboring kitchen nodes ($\le 30\text{ km}$); inter-node BCC channels for fresh produce and staples.
+    *   **$R_4$ (Bioregional Federation):** Regional grain silos, seed banks, cold storage reserves ($\le 150\text{ km}$).
+    *   **$R_5$ (Continental Corridor):** Open culinary blueprints, fermentation cultures, salt freight.
+    *   **$R_6$ (Ecumene / Legacy Perimeter):** Lawful B2B wholesale procurement and cooperative regulatory carapace.
+*   **Cellular Autonomy & Subsidiarity:** Every kitchen hearth maintains absolute autopoietic closure and cellular autonomy. No external council can compel food extraction that breaches local baseline reserves ($B_{\mathrm{baseline}}$) or overrides internal assembly decisions.
+*   **Bioregional Path-Vector Protocol (BPVP):** Export of surplus preserved food is bounded by the Export Surplus Bound:
+    $$Q_{\mathrm{avail}}(t) = \max\left(0, Q_{\mathrm{inventory}}(t) - F_{\mathrm{eco}}(t) - B_{\mathrm{baseline}}(t)\right) \cdot \mathbf{1}_{\mathrm{export}}$$
+    Surplus food is never exported if local household food security ($B_{\mathrm{baseline}}$) or seasonal reserves ($F_{\mathrm{eco}}$) are unfulfilled.
+*   **The Protocol of Refusal (`sec:l5-refusal`):** Commons assemblies may designate heirloom seed varieties, sacred feast preparations, and private domestic cooking traditions as Refused Domains. Refused recipes are cryptographically excised from digital twins, simulation engines, and automated optimization workflows.
+*   **Autonomous Transit Veto (`No-Transit`):** Kitchen hearths and outdoor dining plazas hold sovereign authority to assert a `No-Transit` attribute over communal dining pathways, kitchen garden corridors, and pedestrian food courts, deterministically barring noisy freight delivery, motorized cargo carts, and outside transport from encroaching upon communal meal gathering spaces.
+*   **Cryptographic Anaphylactic Shield Gate:** When a member claims a meal, Layer 5 verifies their BBS+ Verifiable Credential using a Zero-Knowledge Proof. If the meal's JSON-LD ingredient metadata contains peanut, gluten, or shellfish hashes matching the member's allergy credential, the claim is mathematically blocked without disclosing the member's private health record.
+*   **Reputational Wealth ($\mathcal{R}$) & Care Leave Shield:** Cooking stewards receive non-financial Reputational Wealth ($\mathcal{R}$) in the Stewardship Chamber, recognizing dedication without monetary wages. Reputational Wealth decays exponentially ($\tau_{\mathrm{half}} = 2\text{ years}$) and is sublinearly capped ($\le 8\%$ chamber weight). When a cook declares care leave (childcare, sickness, bereavement), the **Care Leave Shield** freezes the decay clock.
+*   **Boundary IPC Socket:** Layer 5 policies compile into deterministic constraints pushed to Layer 4 across `/run/collective/ipc/l4_l5.sock`.
 
 ### Layer 6: Semantic Intent & Domain Ontology
-The Culinary Commons defines typed JSON-LD Knowledge Artifacts within the Agora Commons (`col-commonsd`):
-
-1.  **`MealOffering` (Prepared Feast):** Offering prepared meals specifying portion count, ingredients, allergens, and dining format (`Dine-In` vs. `Take-Away`).
-2.  **`CaloricBounty` (Culinary Request):** Community demand for specific dishes or dietary needs (e.g., postpartum nutrient soups, high-protein athletic recovery).
-3.  **`PantryOffering` (Comfort Goods):** Shelf-stable snacks, fresh sourdough loaves, and fermented krauts stocked in shared pantries.
-4.  **`OrganicCompostIntent` (Scenario Mu Bridge):** Auto-generated batch dispatch routing vegetable peelings and unavoidable food waste to Scenario Mu vermicomposting.
-5.  **`MorningDeliverySubscription` (Scenario Beta Bridge):** Coordinates recurring porch delivery of breakfast baskets via Scenario Beta couriers.
-6.  **`TiffinReturnAttestation` (Circular Packaging):** Verification that a consumer returned cleaned stainless steel tiffin containers, releasing their container collateral.
+The Culinary Commons formalizes requests into typed JSON-LD Knowledge Artifacts within the Agora Commons (`col-commonsd`):
+1.  **`MealOffering`:** Description of available prepared dishes, portion counts, ingredient hashes, allergen hashes, and thermal holding deadlines.
+2.  **`DietaryNeedIntent`:** Community notification of specialized nutritional requirements (e.g., postpartum broths, high-iron convalescent meals).
+3.  **`PantryInventoryAttestation`:** Cryptographic inventory of bulk legumes, grains, and preserved foods verified by Layer 2 load cells.
+4.  **`CompostRoutingIntent` (Scenario Mu Bridge):** Auto-generated batch dispatch routing vegetable trimmings and spoiled biomass to Scenario Mu for vermicomposting and biochar pyrolysis.
+5.  **`TiffinReturnAttestation`:** Proof of return and sterilization of standardized stainless steel tiffin containers.
+6.  **`RicardianTreaty` ($\mathrm{Treaty\_CID}$):** Tripartite binding linking natural-language mutual aid pacts, machine-readable JSON-LD parameters, and formal BPMN state machines governing inter-node kitchen resource sharing.
 
 ### The Governance Router Flowchart
 
@@ -122,98 +140,99 @@ The Culinary Commons defines typed JSON-LD Knowledge Artifacts within the Agora 
 graph TD
     subgraph Layer 6: Semantic Ontology
         L6_Meal[MealOffering]
-        L6_Bounty[CaloricBounty]
-        L6_Pantry[PantryOffering]
-        L6_Compost[OrganicCompostIntent]
+        L6_Need[DietaryNeedIntent]
+        L6_Treaty[RicardianTreaty Treaty_CID]
+        L6_Compost[CompostRoutingIntent]
     end
 
     subgraph Layer 5: Polycentric Governance & Policy
-        P_Skill{Competency Gate: <br>Food_Safety_L1 Valid?}
-        P_Allergy{Allergy Gate: <br>Zero Allergen Conflict?}
-        P_Format{Format Gate: <br>Communal Table vs Locker?}
+        P_Allergy{Anaphylactic Shield Gate: <br>ZKP Allergen Match = 0?}
+        P_Floor{Surplus Bound Gate: <br>Inventory > F_eco + B_baseline?}
+        P_Skill{Food Safety Gate: <br>HACCP Steward Verified?}
     end
 
     subgraph Layer 4: BPMN Orchestrators
-        BPMN_Cook[Culinary Expeditor Engine]
-        BPMN_Communal[Communal Dining Feaster]
-        BPMN_Locker[Smart Locker Stager]
-        BPMN_Mu[Scenario Mu Vermicompost Bridge]
+        BPMN_Cook[Culinary Preparation Engine]
+        BPMN_Hearth[Communal Hearth Feaster]
+        BPMN_Locker[Staged Pantry Locker Bay]
+        BPMN_Mu[Scenario Mu Compost Bridge]
     end
 
     L6_Meal --> P_Skill
-    P_Skill -->|Certified Cook| BPMN_Cook
-    P_Skill -.->|Unqualified| L6_Meal
+    P_Skill -->|Certified Steward| BPMN_Cook
+    P_Skill -.->|Novice Apprentice| BPMN_Cook
 
-    BPMN_Cook --> P_Format
-    P_Format -->|Dine-In| BPMN_Communal
-    P_Format -->|Take-Away| BPMN_Locker
+    BPMN_Cook --> BPMN_Hearth
+    BPMN_Cook --> BPMN_Locker
 
-    L6_Bounty --> P_Allergy
+    L6_Need --> P_Allergy
     P_Allergy -->|Safe Ingredients| BPMN_Cook
-    P_Allergy -.->|Allergy Risk| Reject[Block Escrow]
+    P_Allergy -.->|Allergen Conflict| Reject[Block Distribution & Alert Cook]
+
+    L6_Treaty --> P_Floor
+    P_Floor -->|Surplus Ratified| BPVP_Export[BPVP Inter-Node Mesh Dispatch]
 
     L6_Compost --> BPMN_Mu
 ```
 
-### Layer 7: The Legacy Proxy (Catering Facade & Wholesale Leeching)
-The Commons Kitchen interfaces with legacy commercial and regulatory structures through the Social Purpose Corporation (SPC):
+### Layer 7: The Legacy Interface (Dual-Membrane Carapace)
+The Commons Kitchen interfaces with legacy commercial and regulatory structures through the Dual-Membrane Doctrine, presenting an honest, lawful, and legally unremarkable entity:
 
-1.  **Commercial Kitchen Permit & Liability Membrane:**
-    Municipal health inspectors require commercial food facilities to hold health permits and insurance. The SPC holds the commercial catering permit and $1,000,000 food product liability policy. If an inspector conducts an audit or an external claim arises, they interact exclusively with the SPC, legally shielding community cooks and private households from regulatory harassment.
-2.  **Trojan Inbound Fiat Ingestion (Corporate Catering Pop-Ups):**
-    To fund kitchen gas utilities, commercial refrigeration electric bills, and property taxes, the SPC operates a commercial Web2 catering storefront. External corporate tech offices pay premium fiat ($25–$35/plate) for farm-to-table lunch catering via Stripe.
-    *   The fiat is deposited into the SPC treasury, paying the node's property taxes and utility bills.
-    *   The community chefs are minted internal Value Tokens, turning external capitalist spending into sovereign community wealth.
-3.  **Ecological Leeching (GPO Wholesale Staple Procurement):**
-    Certain essential kitchen staples cannot be efficiently grown in the local watershed (e.g., bulk sea salt, cold-pressed olive oil, organic baking flour, black peppercorns):
-    *   The SPC acts as a Decentralized Group Purchasing Organization (GPO).
-    *   It aggregates staple requests across all households for the month and executes bulk B2B purchases from commercial restaurant suppliers (e.g., Sysco, regional grain mills) in 50 lb sacks, eliminating retail markups, plastic packaging, and redundant grocery delivery trips.
+1.  **Subchapter T Cooperative Shared Services Agreement (SSA):**
+    Under 26 U.S.C. §§ 1381–1388, the kitchen facility operates as a mutual-benefit shared services kitchen leased to a non-profit consumer cooperative or Housing Trust. The kitchen holds commercial health permits and a general commercial liability policy. Municipal health inspections interact exclusively with the cooperative carapace, protecting private households and community cooks from regulatory harassment.
+2.  **Bounded External Catering Carapace:**
+    To pay municipal property taxes, water utility bills, and commercial insurance premiums, the cooperative operates an outward-facing catering carapace. Legacy corporate clients pay external fiat currency for farm-to-table lunch events.
+    *   All external fiat flows directly into the cooperative's legacy bank account.
+    *   External fiat is allocated exclusively to satisfy the settlement's itemized fiat needs target ($\Phi_t$) for taxes and utilities.
+    *   Chefs working external catering shifts receive lawful W-2 wages in legacy fiat currency for their hours.
+    *   **Strict Inconvertibility:** External fiat **never** converts into internal Exergy Credits or tokens. Internal meals and care remain 100% non-monetary and unpriced.
+3.  **Regenerative Group Purchasing (GPO Wholesale Procurement):**
+    Essential kitchen supplies that cannot be grown in the bioregion (e.g., bulk sea salt, cold-pressed olive oil, organic baking flour, stainless steel tiffins) are procured wholesale.
+    *   The cooperative acts as a Decentralized Group Purchasing Organization (GPO).
+    *   It pools settlement bulk needs and issues commercial purchase orders to regional grain mills and cooperative suppliers, eliminating retail markups and single-use packaging.
 
----
-
-### Layer 7 Bidirectional Flowchart
+### Layer 7 Dual-Membrane Bidirectional Flowchart
 
 ```mermaid
 graph TD
-    subgraph Legacy Environment [Layer 7: Health Regulators & Corporate Clients]
-        HealthDept[Municipal Health Dept Inspector]
-        CorpClient[Corporate Office Lunch Client]
-        StripeGateway[Stripe Catering Gateway]
-        WholesaleSupplier[Regional Grain & Oil Mill]
+    subgraph Legacy Environment [Layer 7: Regulators & Commercial Vendors]
+        HealthDept[Municipal Health Department Inspector]
+        CorpClient[External Corporate Lunch Client]
+        WholesaleSupplier[Regional Organic Grain & Salt Mill]
+        BankTreasury[Cooperative Bank Account - Fiat Ceiling Phi_t]
     end
 
-    subgraph Sovereign Node [Sovereign Commons Kitchen]
-        SPC[Social Purpose Corporation / PPT]
-        L6[Layer 6: Semantic Intent Queue]
+    subgraph Sovereign Node [Layer 1 - Layer 6 Commons Kitchen]
+        Carapace[Subchapter T Cooperative Carapace]
+        L6[Layer 6: Agora Semantic Intent Queue]
         L4[Layer 4: BPMN Kitchen Orchestrator]
-        L1[Layer 1: Physical Hearth & Stewards]
+        L1[Layer 1: Physical Hearth & Cooking Stewards]
     end
 
-    %% Inbound Fiat Flow
-    CorpClient -->|Pays Fiat for Farm Catering| StripeGateway
-    StripeGateway -->|Deposits USD Treasury Reserves| SPC
-    SPC -->|Pays Commercial Gas & Health Permits| HealthDept
-    SPC -->|Translates to Mesh Cooking Bounty| L6
+    %% External Fiat Inflow
+    CorpClient -->|Pays Legacy Fiat for Catering| BankTreasury
+    BankTreasury -->|Pays Municipal Taxes & Health Permits| HealthDept
+    BankTreasury -->|Pays Lawful W-2 Wages to Cooks for External Shifts| L1
 
-    %% Outbound Staple Leeching
-    L1 -->|Requests Bulk Olive Oil & Flour| L4
-    L4 -->|Aggregates Procurement Intent| SPC
-    SPC -->|Executes Bulk B2B Purchase| WholesaleSupplier
-    WholesaleSupplier -->|Delivers 50lb Sacks & Drums| L1
+    %% GPO Procurement Flow
+    L4 -->|Aggregates Bulk Grain & Salt Needs| L6
+    L6 -->|Compiles Purchase Order across l6_l7.sock| Carapace
+    Carapace -->|Executes Bulk B2B Purchase via Fiat| WholesaleSupplier
+    WholesaleSupplier -->|Delivers 25 kg Sacks & Reusable Drums| L1
 
-    HealthDept -.->|Audits Handled Exclusively by Corporate Shield| SPC
+    HealthDept -.->|Audits Handled Exclusively by Corporate Shell| Carapace
 
     classDef legacy fill:#ffebee,stroke:#c62828,stroke-width:2px;
     classDef sovereign fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px;
-    class HealthDept,CorpClient,StripeGateway,WholesaleSupplier legacy;
-    class SPC,L6,L4,L1 sovereign;
+    class HealthDept,CorpClient,WholesaleSupplier,BankTreasury legacy;
+    class Carapace,L6,L4,L1 sovereign;
 ```
 
 ---
 
 ## 3. Machine-Readable Schemas
 
-### 3.1 Layer 6 Knowledge Artifact: Meal Offering (`meal_offering.jsonld`)
+### Subsection 3A: Layer 6 Knowledge Artifact - Meal Offering (`meal_offering.jsonld`)
 
 ```json
 {
@@ -224,45 +243,47 @@ graph TD
   "@type": "MealOffering",
   "identifier": "urn:uuid:c9e1b2a4-5678-1234-abcd-9876543210ef",
   "issuerDid": "did:mesh:node04:steward_chef_maria",
-  "creationTimestamp": "2026-10-08T15:00:00Z",
+  "creationEpochMs": 1791475200000,
   "culinaryProfile": {
-    "name": "Pacific Northwest Braised Venison & Root Vegetable Stew",
-    "caloricEstimateKcal": 850,
-    "portionsAvailable": 16,
+    "name": "Braised Root Vegetable and Lentil Stew",
+    "caloricEstimateKj": 3550,
+    "portionsAvailable": 24,
+    "batchMassMilligrams": 14400000,
     "ingredients": [
-      "Local Venison Shoulder",
       "Organic Carrots",
       "Yukon Gold Potatoes",
+      "Green Lentils",
       "Rosemary",
-      "Bone Broth Reduction"
+      "Cultured Vegetable Stock"
     ],
-    "allergens": [],
+    "allergenHashes": [
+      "0x8f3b2c...gluten_free",
+      "0x4a9d1e...dairy_free",
+      "0x1c7e9a...nut_free"
+    ],
     "dietaryTags": [
-      "Gluten-Free",
-      "Dairy-Free",
+      "Vegan",
+      "Gluten_Free",
       "Locavore_100pct"
     ],
-    "diningFormat": "CommunalTable_Preferred"
+    "diningFormat": "CommunalHearth_Sanctuary"
   },
   "safetyAttestation": {
-    "requiredCredential": "Food_Safety_L1",
-    "telemetryStreamUri": "mqtt://node04.mesh.local/kitchen/oven_01/core_temp_c",
-    "pathogenTarget": "Salmonella_7LogReduction",
-    "spoilageTimestamp": "2026-10-08T21:00:00Z"
+    "requiredCredential": "Food_Safety_Steward_L1",
+    "telemetryStreamUri": "mqtt://node04.mesh.local/kitchen/oven_01/temp_mk",
+    "targetLethalityMillikelvin": 347150,
+    "minLethalityHoldMs": 120000,
+    "spoilageEpochMs": 1791504000000
   },
-  "settlementCriteria": {
-    "initialTokenCost": "4.50",
-    "communalTableDiscountPct": 15.0,
-    "dynamicDecay": {
-      "type": "LinearDecay",
-      "decayStartTimestamp": "2026-10-08T19:00:00Z",
-      "floorPrice": "0.00"
-    }
+  "distributionPolicy": {
+    "trustRing": "R0_Hearth_Sanctuary",
+    "survivalBaselineEligible": true,
+    "exergyTransferMicrojoules": 0
   }
 }
 ```
 
-### 3.2 Layer 2 Telemetry Attestation: Kitchen Thermal Safety Proof (`kitchen_attestation.json`)
+### Subsection 3B: Layer 2 Telemetry Attestation - Kitchen Thermal Safety Proof (`kitchen_attestation.json`)
 
 ```json
 {
@@ -270,14 +291,14 @@ graph TD
   "@type": "KitchenSafetyAttestation",
   "offeringRef": "urn:uuid:c9e1b2a4-5678-1234-abcd-9876543210ef",
   "kitchenDid": "did:mesh:node04:space:commons_hearth_01",
-  "chefDid": "did:mesh:node04:steward_chef_maria",
+  "stewardDid": "did:mesh:node04:steward_chef_maria",
   "executionMetrics": {
-    "cookStartTimestamp": "2026-10-08T16:00:12Z",
-    "lethalityTimestamp": "2026-10-08T17:15:45Z",
-    "peakCoreTemperatureC": 82.4,
-    "timeAbove74CSeconds": 1845,
-    "bigelowF0Value": 14.2,
-    "dangerZoneElapsedMinutes": 24,
+    "cookStartEpochMs": 1791478800000,
+    "lethalityAchievedEpochMs": 1791483345000,
+    "peakCoreTempMillikelvin": 355550,
+    "timeAbove347150mKMs": 1845000,
+    "dangerZoneElapsedMs": 1440000,
+    "fermentationAcidityMilliph": 4250,
     "haccpPathogenInactivationVerified": true,
     "stagedLockerCompartments": [
       "Locker_C1",
@@ -289,7 +310,7 @@ graph TD
     ],
     "anomalyDetected": false
   },
-  "plateWasteRoutedToMuKg": 1.45,
+  "plateWasteRoutedToMuMilligrams": 1450000,
   "edgeAttestationSignature": "0x9d2e5b8c1a4d7f9e2b5c8a1d4f7b9e2c5a8d1f4e9b7d3a5e8c1b4f7a9d2e5b8c"
 }
 ```
@@ -298,42 +319,60 @@ graph TD
 
 ## 4. Oasis Engine Implementation Specification
 
-### 4.1 Memory Allocation & Voxel State
+### Subsection 4A: Memory Allocation & Voxel State
 
-In the Oasis simulation, communal cooking hubs are modeled as thermodynamic thermal processing voxels within the $32^3$ chunk space:
+In the Oasis simulation, communal cooking hubs are modeled as thermodynamic thermal processing voxels within the 32x32x32 chunk space:
 *   The induction hearth voxel is initialized with `material_id = 90` (`COMMONS_HEARTH_STATION`).
 *   The fermentation vat voxel is initialized with `material_id = 91` (`FERMENTATION_BIO_REACTOR`).
 *   The smart refrigerated pantry locker voxel is initialized with `material_id = 92` (`SMART_PANTRY_LOCKER`).
 *   The `Is_Actuator` bit is set in `metadata` (bit 1) for induction elements and locker solenoids.
 *   The `Is_Sensor` bit is set in `metadata` (bit 2) for thermocouples and pH probes.
-*   Food items are simulated as entities occupying vessel voxels, updating internal core temperatures and undergoing state transitions from `RAW` to `COOKED` or `SPOILED`.
+*   Food items are simulated as entities occupying vessel voxels, updating internal core temperatures and undergoing state transitions from `RAW` to `COOKED` or `SPOILED_COMPOST`.
+*   All state values, timers, temperatures, and energies are strictly defined as fixed-point SI integers (`uint64_t`, `uint32_t`, `int64_t`).
 
-### 4.2 C++20 Test Harness Code
+### Subsection 4B: C++20 Test Harness Code
 
 ```cpp
 // engine/tests/scenario_gamma_test.cpp
 #include <cassert>
-#include <cmath>
+#include <cstdint>
 #include <string>
+#include <vector>
 #include "oasis/chunk_manager.hpp"
 #include "oasis/orchestration/bpmn_engine.hpp"
-#include "oasis/ledger/crdt_wallet.hpp"
 
 namespace oasis {
 
+// Fixed-point SI integer state definitions
 struct FoodBatchState {
-    float core_temp_c{20.0f};
-    int time_in_danger_zone_sec{0};
+    uint32_t core_temp_mk{293150};          // 293,150 mK = 20 deg C
+    uint32_t time_in_danger_zone_ms{0};     // Milliseconds in 4 C - 60 C
     bool pathogen_lethality_achieved{false};
     bool spoiled{false};
-    float token_price{4.50f};
+    uint64_t batch_mass_mg{14400000};       // 14400 grams
+    uint32_t acidity_milliph{4250};         // 4250 mpH
 };
 
 struct KitchenJobContext {
     std::string offering_id;
-    int portions{16};
+    uint32_t portions{24};
     FoodBatchState batch;
-    bool communal_table_dine_in{true};
+    bool communal_hearth_dine_in{true};
+    uint64_t induction_energy_uj{0};        // Energy used in microjoules
+};
+
+// Bilateral Clearing Channel state
+struct BilateralClearingChannel {
+    int64_t balance_uj{0};                  // B_{u -> v}(t) in microjoules
+    int64_t credit_headroom_uj{36000000000000}; // 36000000000000 microjoules headroom
+
+    bool can_reserve(int64_t amount_uj) const {
+        return (balance_uj + amount_uj) <= credit_headroom_uj;
+    }
+
+    void execute_transfer(int64_t amount_uj) {
+        balance_uj += amount_uj;
+    }
 };
 
 } // namespace oasis
@@ -348,52 +387,47 @@ void test_scenario_gamma_kitchen_normal_execution() {
     Voxel hearth_voxel{
         .material_id = 90, // COMMONS_HEARTH_STATION
         .moisture = 0,
-        .temperature = 22,
+        .temperature = 20, // 20 C ambient
         .metadata = 0b00000110 // Sensor + Actuator
     };
     chunk_mgr.set_voxel(16, 1, 16, hearth_voxel);
 
-    // 2. Setup Wallets & Escrow
-    CRDTWallet consumer_wallet("did:mesh:node04:eater_david", 20.0f);
-    CRDTWallet chef_wallet("did:mesh:node04:steward_chef_maria", 10.0f);
-
-    // 3. Setup BPMN Orchestrator & Job Context
+    // 2. Setup BPMN Orchestrator & Job Context
     BPMNEngine orchestrator;
     orchestrator.load_schema("schemas/bpmn/kitchen_hearth.bpmn");
 
     KitchenJobContext job{
         .offering_id = "c9e1b2a4-5678-1234-abcd-9876543210ef",
-        .portions = 16,
+        .portions = 24,
         .batch = {
-            .core_temp_c = 20.0f,
-            .time_in_danger_zone_sec = 0,
+            .core_temp_mk = 293150, // 20 C
+            .time_in_danger_zone_ms = 0,
             .pathogen_lethality_achieved = false,
             .spoiled = false,
-            .token_price = 4.50f
+            .batch_mass_mg = 14400000,
+            .acidity_milliph = 4250
         },
-        .communal_table_dine_in = true
+        .communal_hearth_dine_in = true,
+        .induction_energy_uj = 0
     };
 
-    // Calculate discounted communal feast price (15% off 4.50 = 3.825 tokens)
-    float effective_price = job.batch.token_price * 0.85f;
-
-    // Assert Escrow Lock
-    orchestrator.emit_event(EscrowInitiatedEvent{consumer_wallet, effective_price});
-    orchestrator.await_event<EscrowLockedEvent>();
-    assert(std::fabs(consumer_wallet.balance() - 16.175f) < 0.001f);
-
-    // Simulate heating cycle: core temp reaches 82°C
-    job.batch.core_temp_c = 82.4f;
+    // 3. Simulate heating cycle: core temp reaches 355550 mK (above 347150 mK threshold)
+    job.batch.core_temp_mk = 355550;
     job.batch.pathogen_lethality_achieved = true;
+    job.induction_energy_uj = 7200000000000; // 7200000000000 microjoules
 
-    // Step simulation ticks (cooking to service = 4500 seconds at 10 Hz)
+    // Step simulation ticks (cooking to service = 4500 seconds at 10 Hz = 45,000 ticks)
     SimResult res = orchestrator.step_simulation_ticks(chunk_mgr, job, 45000);
     assert(res.status == ExecutionStatus::COMPLETED);
     assert(job.batch.spoiled == false);
+    assert(job.batch.pathogen_lethality_achieved == true);
 
-    // Settle Ledger
-    orchestrator.settle_job(chef_wallet);
-    assert(chef_wallet.balance() > 10.0f);
+    // 4. Verify Bilateral Clearing Channel for inter-node preserved surplus
+    BilateralClearingChannel channel;
+    int64_t transfer_uj = 3600000000000; // 1 Exergy Credit quantum (3600000000000 microjoules)
+    assert(channel.can_reserve(transfer_uj));
+    channel.execute_transfer(transfer_uj);
+    assert(channel.balance_uj == 3600000000000);
 }
 
 void test_scenario_gamma_danger_zone_spoilage_anomaly() {
@@ -407,28 +441,31 @@ void test_scenario_gamma_danger_zone_spoilage_anomaly() {
 
     KitchenJobContext neglected_batch{
         .offering_id = "spoilage-test-batch",
-        .portions = 8,
+        .portions = 12,
         .batch = {
-            .core_temp_c = 35.0f, // Sitting at lukewarm danger temperature
-            .time_in_danger_zone_sec = 0,
+            .core_temp_mk = 308150, // 35 deg C (in danger zone: 277150 - 333150 mK)
+            .time_in_danger_zone_ms = 0,
             .pathogen_lethality_achieved = false,
             .spoiled = false,
-            .token_price = 4.00f
-        }
+            .batch_mass_mg = 7200000,
+            .acidity_milliph = 6000  // Insufficient acidity (6000 mpH)
+        },
+        .communal_hearth_dine_in = false,
+        .induction_energy_uj = 1000000000
     };
 
-    // Simulate time overrun in danger zone: > 7200 seconds (2 hours) without hitting 74°C
-    neglected_batch.batch.time_in_danger_zone_sec = 7800;
+    // Simulate time overrun in danger zone: > 7,200,000 ms (120 minutes)
+    neglected_batch.batch.time_in_danger_zone_ms = 7800000; // 130 minutes
     SimResult res = orchestrator.step_simulation_ticks(chunk_mgr, neglected_batch, 78000, true);
-    
+
     assert(res.status == ExecutionStatus::EMERGENCY_STOP);
     assert(orchestrator.current_state() == BPMNState::SPOILED_COMPOST_SALVAGE);
 
-    // State mutates to spoiled bio-waste
+    // Batch mutates to spoiled organic waste
     neglected_batch.batch.spoiled = true;
     assert(neglected_batch.batch.spoiled == true);
 
-    // Voxel updates to compost bio-feedstock
+    // Voxel updates to compost feedstock
     Voxel compost_voxel{
         .material_id = 98, // COMPOST_FOOD_SCRAP
         .moisture = 75,
@@ -446,9 +483,9 @@ void test_scenario_gamma_danger_zone_spoilage_anomaly() {
 
 | Checkpoint | Validation Method | Pass Condition |
 | :--- | :--- | :--- |
-| **G1: Thermal HACCP Verification** | Continuous Thermocouple Stream | Simulated batch only transitions to `HACCP_SAFE` if the digital twin proves a 7-log pathogen reduction ($F_0 \ge 12.0$); otherwise food distribution is locked. |
-| **G2: Offline Autonomy** | Localhost Network Isolation | Kitchen ordering, thermocouple verification, locker latch actuation, and token settlement execute with 100% WAN/Internet severance over the local-first mesh. |
-| **G3: Anaphylactic Shield Gate** | Cryptographic DID Allergy Audit | A consumer entity with an active `TreeNut_Allergy` flag is mathematically prevented from locking escrow on a meal whose JSON-LD recipe lists tree nut ingredients. |
-| **G4: Danger Zone Spoilage Bounds**| State Machine Timeout Overrun | Cooked food held between 4°C and 60°C for $> 120\text{ minutes}$ without thermal recovery aborts distribution and transitions the item to `COMPOST_FOOD_SCRAP`. |
-| **G5: Trojan Ingestion (L7)** | External Stripe Catering Ingestion | A mock legacy Web2 corporate lunch catering payment for $750 USD compiles into an internal cooking bounty; fiat USD is credited to the SPC utility/tax account. |
-| **G6: Ecological Leeching (L7)** | Wholesale Staple GPO Bulk Purchase| System aggregates monthly olive oil and grain requirements across 8 households, triggering a single wholesale B2B procurement via the SPC to eliminate retail packaging. |
+| **G1: Thermal HACCP Verification** | Continuous Thermocouple Integer Stream | Simulated batch only transitions to `HACCP_SAFE` if the digital twin proves core temperature exceeded 347,150 mK (74 C) for at least 120,000 ms; otherwise food distribution remains locked. |
+| **G2: Offline Autonomy** | Localhost Network Isolation | Kitchen ordering, thermocouple logging, locker latch actuation, and BCC updates execute with 100% WAN/Internet severance over the local-first mesh. |
+| **G3: Cryptographic Anaphylactic Shield** | BBS+ DID Allergy ZKP Verification | A consumer profile with an active tree nut or gluten allergy credential mathematically rejects meals containing matching allergen hashes without disclosing private health records. |
+| **G4: Danger Zone Spoilage Bounds** | State Machine Timeout Overrun | Cooked food held between 277,150 mK and 333,150 mK for longer than 7,200,000 ms (120 minutes) aborts distribution and transitions the biomass to `COMPOST_FOOD_SCRAP` routed to Scenario Mu. |
+| **G5: Dual-Membrane Legacy Carapace** | External Catering Carapace Ingress | Mock external catering booking records legacy fiat revenue into the cooperative bank account to cover municipal property taxes and utilities up to ceiling $\Phi_t$; zero internal tokens minted; zero conversion into internal credits. |
+| **G6: Regenerative Staple Procurement** | Wholesale GPO Bulk Purchase | System pools monthly olive oil and salt requisitions across households, triggering a single wholesale B2B purchase via the cooperative carapace to eliminate retail packaging and retail markups. |

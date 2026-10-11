@@ -1,9 +1,9 @@
-# Scenario Tau: Steward Genesis (Character Creation)
+# Scenario Tau: Node Genesis & Sovereign Onboarding
 
 *   **Identifier:** `SCN-TAU-GENESIS`
-*   **System Epic:** Identity Instantiation, Spatial Asset Mapping & Sovereign Onboarding
-*   **Primary Layers Tested:** L1 (Physical), L2 (Digital Twin), L3 (Ledger), L4 (Orchestration), L5 (Governance), L6 (Semantic), L7 (Proxy)
-*   **Pass/Fail Metric:** Deterministic instantiation of sovereign Ed25519 DID linked to biological citizen; zero cloud key leakage; successful spatial voxel claim within $32^3$ bounds; offline Web-of-Trust key ceremony; micro-loan seed escrow initialized under 0% platform extraction.
+*   **System Epic:** Node 0 Bootstrap, Hardware Root-of-Trust & Covenant Ratification
+*   **Primary Layers Tested:** L1 (Physical Reality), L2 (Cybernetic Membrane), L3 (Thermodynamic Ledger), L4 (Deterministic Orchestrator), L5 (Polycentric Governance), L6 (Semantic Translation & Agora), L7 (Legacy Interface)
+*   **Pass/Fail Metric:** Deterministic bootstrap of Node 0 physical hardware envelope (6400 W PV, 14340 Wh battery, 5000 W inverter, 48 V DC bus, 4-stage thermal cascade); hardware root-of-trust provisioning on ATECC608A; initialization of Pairwise Bilateral Clearing Channels (BCC) under conservation equation $B_{u \to v}(t) + B_{v \to u}(t) = 0$; ratification of Tripartite Founding Covenant (`Treaty_CID`); offline execution across 7 trust rings ($R_0 \dots R_6$) with zero global tokens, zero fiat conversions, zero deprecated rhetoric, and zero floating-point math.
 
 ---
 
@@ -13,192 +13,140 @@ This scenario specification has been ratified by unanimous consensus of the 5-Pe
 
 | Council Persona | Disciplinary Representative | Core Contribution to Scenario |
 | :--- | :--- | :--- |
-| **Game Designer** | Lead Systems & Gameplay Designer | Founder 01 character creation screen: allocation of 10 Big-Five personality facets (`assertiveness`, `anxiety`, `curiosity`), 8 Core Values (`Autonomy`, `Stewardship`, `Solidarity`), psychological thoughts and stress accumulators (`"Excited to join the commons (+35 mood)"`), Sims-style indirect intention queue, and boundary interface attenuation where newly claimed lots diminish external legacy hostile probing events. |
-| **Game Engineer** | Principal C++ Simulation & Engine Architect | Flecs ECS Data-Oriented Design (DOD): cache-aligned component structs `PlayerIdentityComponent`, `SpatialClaimComponent`, and `OrientationQuestQueue`; 32-bit compact Voxels (`material_id = 30`, metadata bitmasks for `Is_Claimed` and `Is_Sensor`); 10 Hz BPMN deterministic state machine; and Catch2/cassert C++20 test harness execution. |
-| **Sovereign Stack Specialist** | Sovereign Stack Systems Architect | 7 autonomous POSIX daemons (`col-telemetryd` through `col-adversaryd`); strict adjacent IPC via Unix domain sockets; air-gapped Ed25519 key generation ceremony in `col-kmsd` (L5); Soulbound genesis CRDT timestamp in `col-storaged` (L3); zero monolithic game-loop threading. |
-| **Solarpunk Thinker** | Bioregional Regenerative Ecologist | Bioregional carrying capacity audit on onboarding assets; embodied carbon and repairability assessment on incoming tools; physical soil stewardship covenants; closed-loop integration turning household waste streams into community feedstocks. |
-| **Scenario Specialist** | **Sovereign Onboarding & Decentralized Identity (DID/SSI) Protocol Engineer** | W3C Decentralized Identifier specification (`did:mesh:node04:...`), BIP-39 mnemonic phrase derivation on hardware root-of-trust (ATECC608A), BBS+ verifiable credentials, mathematical Seed Escrow release formula, and private mutual-aid legal club shielding under 26 U.S.C. § 501(d) doctrine. |
+| **Game Designer** | Lead Systems & Gameplay Designer | Founder 01 character creation screen: allocation of 10 Big-Five personality facets (scaled integer range 0 to 100), 8 Core Values (`Autonomy`, `Stewardship`, `Solidarity`), psychological thoughts and stress accumulators (`"Excited to ratify the Founding Covenant (+35 mood)"`), Sims-style indirect intention queue, and boundary interface attenuation where newly claimed lots diminish external legacy hostile probing events. |
+| **Game Engineer** | Principal C++ Simulation & Engine Architect | Flecs ECS Data-Oriented Design (DOD): cache-aligned component structs `PlayerIdentityComponent`, `SpatialClaimComponent`, `HardwareBOMComponent`, and `OrientationQuestQueue`; 32-bit compact Voxels (`material_id = 30`, metadata bitmasks for `Is_Claimed` and `Is_Sensor`); 10 Hz BPMN deterministic state machine; and Catch2/cassert C++20 test harness execution using pure fixed-point integer math. |
+| **Sovereign Stack Specialist** | Sovereign Stack Systems Architect | 7 autonomous POSIX daemons (`col-telemetryd` through `col-adversaryd`); strict adjacent IPC via Unix domain sockets; air-gapped Ed25519 key generation ceremony in `col-kmsd` (L5); ATECC608A secure element; Pairwise Bilateral Clearing Channel (BCC) bootstrap in `col-storaged` (L3); zero monolithic game-loop threading. |
+| **Solarpunk Thinker** | Bioregional Regenerative Ecologist | Node 0 energetic bootstrap: harvesting direct solar exergy (6400 W array), 4-stage thermal cascade directing thermal exergy from high-temperature workshop operations (750 K to 850 K) to hydronic space heating (330 K to 350 K), greenhouse root warming (305 K to 325 K), and earth tube sub-surface dissipation (285 K); physical soil stewardship covenants; closed-loop materials integration. |
+| **Scenario Specialist** | Sovereign Onboarding & Decentralized Identity (DID/SSI) Protocol Engineer | W3C Decentralized Identifier specification (`did:peer:...`), BIP-39 mnemonic phrase derivation on hardware root-of-trust (ATECC608A), BBS+ verifiable credentials, Founding Covenant Tripartite Ricardian Treaty (`Treaty_CID`), Tripartite Legal Chassis (Unincorporated Nonprofit Association under UUNAA § 6, Subchapter T Shared Services Cooperative under IRC §§ 1381–1388, Community Land Trust easement). |
+
+**Unanimous Consensus Reached:** The Council unreservedly ratifies Scenario Tau as the canonical specification for Node 0 bootstrap, hardware root-of-trust provisioning, and sovereign steward onboarding.
 
 ---
 
 ## 1. Problem Statement & Legacy Failure
 
-In legacy late-stage capitalist infrastructure (Layer 7), "onboarding" into society is coercive, highly financialized, and surveillance-extractive. A newcomer is flattened into commercial scoring metrics: FICO credit scores, background checks, corporate resumes, and custodial digital identities managed by surveillance monopolies (Google, Apple, Microsoft).
+In legacy late-stage capitalist infrastructure (Layer 7), "onboarding" into human society is coercive, debt-leveraged, and surveillance-extractive. A newcomer is flattened into commercial scoring metrics: corporate credit scores, proprietary background checks, and custodial digital identities managed by surveillance monopolies.
 
 When a citizen moves to a new neighborhood or attempts to establish productive autonomy:
 *   **Identity Enclosure & Surveillance Drag:** Establishing basic municipal utility access requires surrendering government biometric identifiers, credit card deposits, and permanent surveillance agreements. Personal reputation is trapped inside proprietary corporate silos and cannot be ported across municipal boundaries.
-*   **The Cold Start Deadlock:** A citizen without upfront fiat capital cannot purchase tools, secure workspaces, or obtain credit without predatory payday loans or usurious interest rates ($>25\%$ APR). The newcomer’s authentic physical utility—their woodworking tools, sewing machines, permaculture knowledge, and willingness to labor—remains completely invisible and uncapitalized.
-*   **Asset Atomization & Regulatory Precarity:** When a citizen attempts to operate an informal repair shop or bake goods from their kitchen, legacy municipal zoning codes classify the mutualist labor as illegal commercial activity, threatening fines or eviction unless expensive commercial permits are purchased.
+*   **The Cold Start Deadlock:** A citizen without upfront capital cannot purchase tools, secure workspaces, or obtain credit without usurious interest rates. The newcomer’s authentic physical utility—their woodworking tools, sewing machines, permaculture knowledge, and willingness to labor—remains completely invisible and uncapitalized.
+*   **Asset Atomization & Regulatory Precarity:** When a citizen attempts to operate an informal repair shop or cultivate shared food gardens, legacy municipal zoning codes classify the mutualist labor as unauthorized commercial activity, threatening fines or eviction unless expensive commercial permits are purchased.
 
 ---
 
 ## 2. The Collective Workflow (7-Layer Traversal)
 
-Scenario Tau provides the sovereign onboarding workflow: instantiating a cryptographic identity, digitizing physical assets into the spatial twin, conducting an in-person Web-of-Trust key ceremony, and seeding the newcomer's thermodynamic wallet.
+Scenario Tau provides the sovereign onboarding workflow: bootstrapping Node 0 physical hardware, instantiating a cryptographic identity on hardware security chips, conducting an in-person Web-of-Trust key ceremony, ratifying the Founding Covenant, and establishing Pairwise Bilateral Clearing Channels (BCC).
 
 ```mermaid
 graph TD
-    L6[Layer 6: Semantic] -->|User emits GenesisIntent| L5[Layer 5: Policy]
-    L5 -->|Evaluate Sponsorship & Trust Ring| L4[Layer 4: Orchestrate]
-    L4 -->|BPMN Orientation Quests & Escrow Routing| L3[Layer 3: Ledger]
-    L3 -->|Lock Seed Escrow & Mint Soulbound Genesis| L2[Layer 2: Twin/Broker]
-    L2 -->|MQTT Telemetry & Spatial Voxel Claim| L1[Layer 1: Physical]
-    L1 -->|Air-Gapped Key Ceremony & Asset Registration| End((Steward Genesis Complete))
+    L6[Layer 6: Semantic Translation] -->|Ratify Founding Covenant Treaty_CID| L5[Layer 5: Polycentric Governance]
+    L5 -->|Evaluate Trust Ring R0 and BCC Headroom| L4[Layer 4: Deterministic Orchestrator]
+    L4 -->|Reserve Thermodynamic Exergy Lease| L3[Layer 3: Thermodynamic Ledger]
+    L3 -->|Verify Zero-Sum BCC Conservation| L2[Layer 2: Cybernetic Membrane]
+    L2 -->|Fixed-Point SI Telemetry and Proximity Scan| L1[Layer 1: Physical Reality]
+    L1 -->|Physical Key Ceremony and Thermal Cascade| End((Node 0 Steward Instantiated))
 ```
 
-### Layer 1: Physical Ground Truth
-*   **Hardware Nodes (Identity Hardware):** Air-gapped hardware signer (e.g., Raspberry Pi Zero running `col-kmsd` firmware or an ATECC608A secure element cryptographic key fob), physical NFC cards for daily authorization, and a local LoRaWAN handheld communicator.
-*   **Hardware Nodes (Mapped Assets):** Physical tools declared in the onboarding sheet (e.g., 3D printer, angle grinder, industrial sewing machine, spare room), each physically tagged with a 2D optical DataMatrix code or NFC asset puck.
-*   **Inventory & Feedstock:** Personal starting material stock (e.g., 2 spools PETG, 5 kg garden seeds, metric socket set) physically inspected and cataloged into the local node inventory.
-*   **Action:** Physical in-person meeting between the newcomer (Candidate) and an existing Steward (Sponsor) to perform the cryptographic key-signing ceremony, breaking bread together (linking to Scenario Gamma).
+### Layer 1: Physical Ground Truth & Hardware BOM
+*   **Physical Ground Truth (Node 0 Hardware BOM):**
+    *   **Photovoltaic Generation Array:** 6400 W nameplate rating comprising 16 monocrystalline modules (400 W each) configured in a 4s4p array, generating up to 6400000 mW active DC power at peak irradiance.
+    *   **Battery Storage Bank:** 14340 Wh lithium iron phosphate (LiFePO4) storage bank assembled from 16 prismatic 280 Ah cells in series (51200 mV nominal potential), storing up to 51609600000000 microjoules of electrical exergy on a 48 V DC distribution bus.
+    *   **Inverter / Charger System:** 5000 W continuous-duty hybrid low-frequency inverter delivering split-phase 120/240 V AC at 60000 mHz grid frequency, featuring galvanically isolated magnetic transformers and certified UL 1741-SA / IEEE 1547 automatic transfer disconnects.
+    *   **DC Distribution Bus:** 48 V DC unified bus with Victron Lynx distributor, 200 A Class T high-interrupt fusing, and a 500 A / 50 mV bidirectional current shunt.
+    *   **4-Stage Thermal Exergy Cascade:**
+        *   *Stage 1 (High-Temperature Workshop Exergy):* Kiln, induction melter, or foundry flue gas heat exchanger capturing temperatures from 750 K to 850 K.
+        *   *Stage 2 (Hydronic Space Heating):* Thermal fluid loop circulating at 330 K to 350 K through radiant floor manifolds in common living quarters.
+        *   *Stage 3 (Domestic Hot Water & Agricultural Root Beds):* Secondary plate heat exchanger supplying domestic washing reservoirs and greenhouse sub-soil beds at 305 K to 325 K.
+        *   *Stage 4 (Environmental Ground Sink):* Sub-surface earth tube loop dissipating low-grade residual heat into the surrounding soil mass at 285 K.
+*   **Hardware Separation Invariant:** Layer 1 contains strictly zero software, zero firmware, zero cryptographic keys, and zero network routing daemons. Shunts and thermocouples output raw analog voltages across copper lines.
+*   **Physical In-Person Meeting:** Physical in-person meeting between the newcomer (Candidate) and an existing Steward (Sponsor) to perform the cryptographic key-signing ceremony and share a communal caloric meal (linking to Scenario Gamma).
 
-### Layer 2: Digital Twin & Telemetry
-*   **Ingress Telemetry (MQTT Topics):**
-    *   `node/genesis/onboarding_01/telemetry/rfid_scan` (Candidate NFC Tag UID)
-    *   `node/genesis/onboarding_01/telemetry/ble_rssi` (Signal strength between candidate and sponsor hardware, dBm)
-    *   `node/spatial/claim_01/telemetry/bounding_box` (Voxel volume coordinates $[X_1, Y_1, Z_1] \to [X_2, Y_2, Z_2]$)
-    *   `node/identity/candidate_01/status` (`INITIALIZING`, `KEY_CEREMONY`, `SPONSORED`, `ACTIVE`)
-*   **Verification:** Edge-AI optical scanning of physical asset tags and tool serial numbers; BLE proximity verification ($\text{RSSI} > -55\text{ dBm}$) confirming physical co-presence of Candidate and Sponsor during the key ceremony.
-*   **Actuator Control:** NFC card writer actuates to write the cryptographic access token for node smart lockers and common spaces.
+### Layer 2: Cybernetic Membrane
+*   **Microcontroller Taxonomy:** Dedicated microcontrollers running Zephyr RTOS with Memory Protection Unit (MPU) partitioning, isolating telemetry sensors from control relays.
+*   **Wire Format Fixed-Point SI Telemetry (MQTT Topics via `col-telemetryd`):**
+    *   `node/genesis/node0/pv_power_mw` (Integer active power, `uint64_t` milliwatts)
+    *   `node/genesis/node0/bus_voltage_mv` (Integer DC bus voltage, `uint32_t` millivolts)
+    *   `node/genesis/node0/battery_current_ma` (Signed DC current, `int32_t` milliamperes)
+    *   `node/genesis/node0/cascade_stage1_mk` (Flue temperature, `uint32_t` millikelvin)
+    *   `node/genesis/node0/cascade_stage2_mk` (Hydronic temperature, `uint32_t` millikelvin)
+    *   `node/genesis/onboarding_01/nfc_rssi_mbbm` (NFC signal strength, `int32_t` millidBm)
+*   **Convivial Hardware Shield:** Strict architectural ban on body-worn biometrics and workplace video monitoring. Edge microcontrollers reject camera feeds or facial identification drivers at bootloader initialization.
+*   **Hardware Key Ceremony:** Candidates generate Ed25519 signing keys directly inside a Microchip ATECC608A cryptographic secure element. Proximity is verified by mutual NFC tap (within 40 mm) exchanging ephemeral nonces signed by hardware keys.
 
-### Layer 3: Network & Ledger
-*   **Escrow Lock (Seed Escrow):** To bypass the cold-start deadlock, the Node Treasury or Sponsor locks a temporary micro-loan of thermodynamic Value Tokens into a smart covenant:
-    $$\Delta V_{seed\_release} = V_{base} \cdot \left(1 - e^{-\kappa \cdot \sum \Delta \mathcal{E}_{task}}\right) + \lambda_{ERC} \cdot \Delta m_{asset\_pledged}$$
-    Where $V_{base}$ is the standard bootstrap allowance (e.g., $25.00$ Value Tokens), $\kappa$ is the onboarding task absorption rate, $\Delta \mathcal{E}_{task}$ is the cumulative thermodynamic exergy (in Joules) expended during orientation tasks, and $\Delta m_{asset\_pledged}$ is the mass of physical tools committed to the shared tool library.
-*   **Consensus Settlement:** A non-transferable Soulbound Genesis Token (`SBT_GENESIS`) is minted to the newcomer's DID in `col-storaged` with an unalterable causal timestamp. As orientation quests are validated, seed tokens transition from locked escrow to liquid spendable balance.
+### Layer 3: Thermodynamic Ledger
+*   **Pairwise Bilateral Clearing Channels (BCC):**
+    *   Inter-node and steward accounting is governed strictly through Pairwise Bilateral Clearing Channels (BCC) maintained by `col-storaged`.
+    *   **Conservation Invariant:**
+        $$B_{u \to v}(t) + B_{v \to u}(t) = 0$$
+        The bilateral ledger is mathematically zero-sum. Node $u$'s credit balance against Node $v$ is identically Node $v$'s debit balance against Node $u$. Credits cannot be inflated or minted out of thin air.
+    *   **Mutual Aid Credit Window:**
+        $$-C_{u \to v} \le B_{u \to v}(t) \le C_{v \to u}$$
+        Where credit headroom is negotiated asymmetrically during Ricardian treaty ratification (Layer 6).
+*   **Two-Phase Cryptographic Delivery Receipts:**
+    *   Physical exergy and resource commitments are finalized through sensor-measured arrival:
+        $$\sigma_{\mathrm{delivery}} = \mathrm{Sign}_{K_{\mathrm{receiver}}}\left( \mathrm{Hash}(Q_{\mathrm{measured}} \parallel \tau_{\mathrm{arrival}} \parallel \mathrm{Channel\_ID}) \right)$$
+*   **Multi-Hop Chained Hashed Timelock Contracts (HTLC):**
+    *   Transfers across intermediate nodes along the mesh routing path utilize atomic timelocks:
+        $$\mathrm{HTLC} = \langle H(S), \, \Delta t, \, Q, \, u, \, v \rangle$$
+        Settlement cascades backward atomically upon revelation of preimage $S$.
+*   **Proof-of-Thermodynamic-Work (PoTW):**
+    *   Exergy credits arise solely when physical hardware meters verified physical exergy generation ($3600000000000\,\mu\mathrm{J} \equiv 3600\,\mathrm{kJ} \equiv 1\text{ Exergy Credit}$). Outstanding balances decay under physical demurrage $\mathcal{E}(t) = \mathcal{E}_0 e^{-\lambda t}$.
+*   **Qualitative Friction & Non-Tokenization of Care:**
+    *   Domestic care, emotional counseling, meal sharing, and covenant deliberation are non-commensurable human activities; Layer 3 structurally refuses to mint credits for caregiving.
+    *   Zero global tokens and zero fiat currency conversions exist within the ledger.
 
-### Layer 4: Orchestration State Machine
-The deterministic BPMN 2.0 engine (`col-execd`) manages the onboarding lifecycle at 10 Hz with strict timeout boundaries and anomaly fallbacks:
+### Layer 4: Deterministic Orchestrator
+*   The deterministic BPMN 2.0 engine (`col-execd`) manages the onboarding lifecycle at 10 Hz with metered Wasmtime execution budgets:
+    *   `PendingGenesis`: Ingests `GenesisIntent` from Layer 6 over `/run/collective/ipc/l4_l5.sock`.
+    *   `VerifyHardwareRoot`: Confirms Ed25519 public key presence within candidate ATECC608A secure element.
+    *   `AwaitKeyCeremony`: Enforces a 72-hour boundary timer event for physical co-presence verification.
+    *   `ValidateProximity`: Validates dual-signed NFC telemetry packets (`rssi > -55000` mBm).
+    *   `RatifyCovenant`: Verifies cryptographic threshold signature across the Founding Covenant (`Treaty_CID`).
+    *   `OpenBCCChannel`: Establishes initial bilateral clearing channel with headroom bounded by $[-C_{u \to v}, +C_{v \to u}]$.
+    *   `SpawnOrientationQuests`: Allocates steward task handles to orient the candidate within local workshops.
+    *   `ActivateStewardStatus`: Transitions candidate DID to active status with full assembly standing.
+*   **Boundary Socket Contract (`l4_l5.sock`):** POSIX non-blocking sequenced-packet Unix Domain Socket (`SOCK_SEQPACKET`) located at `/run/collective/ipc/l4_l5.sock`. Downward messages transmit ratified workflows and Forwarding Information Base (FIB) dispatch tables; upward messages transmit task completion attestations and threshold crossings.
 
-```mermaid
-stateDiagram-v2
-    [*] --> PendingGenesis: GenesisIntent Received
-    PendingGenesis --> VerifyHardwareRoot: Generate Ed25519 Keys
-    VerifyHardwareRoot --> AwaitKeyCeremony: Keys Stored in ATECC608A
-    AwaitKeyCeremony --> KeyCeremonyTimeout: 72h Timeout Boundary Event
-    KeyCeremonyTimeout --> AbortRegistration: Revoke Candidate DID
-    AwaitKeyCeremony --> ValidateProximity: Sponsor Present (BLE RSSI > -55dBm)
-    ValidateProximity --> LockSeedEscrow: Mutual Signatures Exchanged
-    LockSeedEscrow --> SpawnOrientationQuests: Seed Balance Locked
-    SpawnOrientationQuests --> ExecuteQuests: Calibration & Inspection
-    ExecuteQuests --> AnomalyDetected: Hardware Fault or Spoof
-    AnomalyDetected --> SalvageIdentity: Issue Remediate Bounty
-    SalvageIdentity --> RefundAndQuarantine
-    ExecuteQuests --> QuestsCompleted: All Bounties Validated
-    QuestsCompleted --> ActivateStewardStatus: Release Seed Escrow
-    ActivateStewardStatus --> [*]
-```
+### Layer 5: Polycentric Governance
+*   Executed by `col-kmsd`, Layer 5 governs policy across the **7-Tier Concentric Trust Rings**:
+    *   **$R_0$ (The Hearth / Convivial Sanctuary):** Domestic physical shelter; zero credentials required; unconditional clean water, warm meals, solar electricity, and medical triage. Zero voting weight.
+    *   **$R_1$ (The Settlement):** Living perimeter (within 500 m); apprentices, volunteers; ephemeral pairwise DIDs (`did:peer`), supervised tool access.
+    *   **$R_2$ (The Commons):** Walking-distance neighborhood (within 5 km); master keys in hardware security chips (ATECC608A); full voting weight; local Bilateral Clearing Channels (BCC).
+    *   **$R_3$ (The Watershed):** Hydrological basin cluster (within 30 km); microgrid DC interties, LoRa/802.11s mesh credentials, bilateral credit lines.
+    *   **$R_4$ (The Bioregional Federation):** Regional river basin federation (within 150 km); threshold signatures (FROST / BLS), HVDC interties, rail/canal freight corridors.
+    *   **$R_5$ (The Continental Corridor):** Ecological corridors (within 1000 km); Delay-Tolerant Networking (DTN) bundles, open blueprints.
+    *   **$R_6$ (The Ecumene):** Planetary craft guilds, open standards, and the legacy perimeter; cold-store DMZ interfaces.
+*   **Bioregional Path-Vector Protocol (BPVP / FRRP):**
+    *   Governs physical resource and capability discovery. Originating nodes broadcast Capability Advertisements $\mathcal{A} = \langle \mathrm{adv\_id}, v_{\mathrm{orig}}, \mathcal{T}_{\mathrm{res}}, \mathbf{u}, Q_{\mathrm{avail}}, [\tau_{\mathrm{start}}, \tau_{\mathrm{end}}], \mathcal{P}, \mathcal{C}, H_{\mathrm{ttl}}, \sigma \rangle$.
+    *   **Export Surplus Bound:**
+        $$Q_{\mathrm{avail}}(t) = \max\left(0, \, Q_{\mathrm{inventory}}(t) - F_{\mathrm{eco}}(t) - B_{\mathrm{baseline}}(t)\right) \cdot \mathbf{1}_{\mathrm{export}}$$
+        Exports are strictly prohibited unless inventory exceeds both the ecological floor $F_{\mathrm{eco}}$ and the survival baseline $B_{\mathrm{baseline}}$.
+    *   **Loop-Freedom Invariant:** Ingress filters inspect Ring-Path Vector $\mathcal{P} = [(v_k, r_k), \dots, (v_0, r_0)]$. If local node DID is present, the packet is immediately dropped.
+*   **Cellular Autonomy & Protocol of Refusal:** Under autopoietic cellular autonomy, the newly formed Node maintains complete structural sovereignty over its domestic metabolic allocation; the autonomy of the parts strictly supersedes the administrative demands of the whole. The Commons Chamber invokes the Protocol of Refusal to protect sacred groves, heirloom seed lines, and private living quarters from external optimization, commercial exposure, or automated sensor instrumentation.
+*   **Autonomous Transit Veto (`No-Transit`):** Nodes retain the sovereign right to reject transit routing through their residential territory.
+*   **Bicameral Polity:** Commons Chamber (1 person = 1 non-delegable vote) and Stewardship Chamber (competence-weighted by decaying, sublinearly capped Reputational Wealth $\mathcal{R}$, protected by Care Leave Shields).
 
-### Layer 5: Policy & Polycentric Governance
-Layer 5 (`col-kmsd`) evaluates cryptographic intents against Trust Ring policies via four distinct **Policy Gates**:
+### Layer 6: Semantic Translation & Agora
+*   **Tripartite Ricardian Treaty Architecture (`Treaty_CID`):**
+    $$\mathrm{Treaty\_CID} = \mathrm{SHA256}\left( \mathrm{Text}_{\mathrm{prose}} \parallel \mathrm{Schema}_{\mathrm{JSON-LD}} \parallel \mathrm{Invariants}_{\mathrm{BPMN}} \right)$$
+    1. $\mathrm{Text}_{\mathrm{prose}}$: Natural-language covenant articulating mutual-aid commitments, shared ecological boundaries, and dispute-resolution protocols.
+    2. $\mathrm{Schema}_{\mathrm{JSON-LD}}$: Machine-verifiable operational parameters: peer identities ($AN_{\mathrm{id}}$), bilateral credit windows $[-C_{u \to v}, +C_{v \to u}]$, allowed resource categories, and sensor delivery verification predicates.
+    3. $\mathrm{Invariants}_{\mathrm{BPMN}}$: Formal process state machines in BPMN 2.0 XML compiled to WebAssembly bytecode for Layer 4 runtime enforcement.
+*   All onboarding actions are published as typed W3C JSON-LD Knowledge Artifacts in the Agora Commons (`col-commonsd`): `GenesisIntent`, `AssetMappingIntent`, `CovenantRatificationIntent`.
 
-*   **Execution Gate (Prime vs. Standard Genesis):** If the node is undergoing *Prime Genesis* (founding of a brand-new physical node), Layer 5 enforces a global 3-of-5 multi-sig covenant requiring cross-node DIDs and an initial fiat lease escrow. For *Standard Genesis*, Layer 5 requires a 1-of-1 Sponsor signature from a Steward holding $\text{Reputation} \ge 50$.
-*   **Maintenance Gate (Competency & Safety Audit):** When hazardous tools (e.g., table saws, welders) are declared, Layer 5 gates their activation behind a `Safety_Audit_L1` credential or assigns an experienced mentor.
-*   **Procurement Gate (Seed Capital Allocation):** If seed funding requires fiat expenditure from the Social Purpose Corporation (e.g., purchasing an ATECC608A cryptographic key fob), Layer 5 verifies that the treasury allocation has not exceeded the monthly onboarding budget.
-*   **Logistics / Privacy Gate (Zero-Knowledge Selective Disclosure):** The newcomer presents a BBS+ signature proving they signed the legal membership agreement without revealing their real-world passport number or legal name to the public mesh.
-
-### Layer 6: Semantic Intent & Domain Ontology
-All onboarding steps are published as W3C JSON-LD Knowledge Artifacts in the Agora Commons (`col-commonsd`):
-
-1.  **`GenesisIntent` (Instantiation):** The primary character sheet declaring DIDs, starting skills, and spatial boundaries.
-2.  **`AssetMappingIntent` (Hardware Catalog):** Registers physical tools, machinery, and spatial accommodations into the node inventory.
-3.  **`SponsorshipPledgeIntent` (Vouching):** Emitted by an existing Steward, staking reputational weight and underwriting the seed escrow micro-loan.
-4.  **`CalibrationBountyIntent` (Verification):** Spawns a diagnostic task (e.g., printing a test cube in Scenario Alpha) to prove declared machinery works.
-5.  **`OrientationQuestIntent` (Social Hook):** Coordinates an introductory work session (e.g., volunteering 2 hours in Scenario Gamma Commons Kitchen).
-6.  **`SalvageIdentityIntent` (Revocation):** Emitted if key compromise or malicious behavior is detected during the probationary onboarding window.
-
-### The Governance Router Flowchart
-
-```mermaid
-graph TD
-    subgraph Layer 6: Semantic Ontology
-        L6_Gen[GenesisIntent]
-        L6_Asset[AssetMappingIntent]
-        L6_Sponsor[SponsorshipPledgeIntent]
-        L6_Calib[CalibrationBountyIntent]
-        L6_Quest[OrientationQuestIntent]
-    end
-
-    subgraph Layer 5: Polycentric Governance & Policy
-        P_Exec{Execution Gate: <br>Prime vs Sponsor Valid?}
-        P_Safety{Maintenance Gate: <br>Tool Safety Audited?}
-        P_Proc{Procurement Gate: <br>Seed Budget Approved?}
-        P_Priv{Privacy Gate: <br>BBS+ ZKP Membership Valid?}
-    end
-
-    subgraph Layer 4: BPMN Orchestrators
-        BPMN_Gen[Genesis Engine]
-        BPMN_Asset[Asset Mapping Engine]
-        BPMN_Ceremony[Key Ceremony Engine]
-        BPMN_Test[Hardware Calibration Engine]
-        BPMN_Quest[Orientation Engine]
-    end
-
-    %% Routing
-    L6_Gen --> P_Priv
-    P_Priv -->|Valid Proof| P_Exec
-    P_Exec -->|Approved| BPMN_Gen
-    P_Exec -.->|Unsponsored| L6_Gen
-    
-    L6_Asset --> P_Safety
-    P_Safety -->|Safe/Audited| BPMN_Asset
-    
-    L6_Sponsor --> P_Proc
-    P_Proc -->|Escrow Available| BPMN_Ceremony
-    
-    L6_Calib --> BPMN_Test
-    L6_Quest --> BPMN_Quest
-```
-
-### Layer 7: The Legacy Proxy (Membership Membrane & Fiat Ingestion)
-The onboarding process connects to the legacy legal and capitalist apparatus through the Social Purpose Corporation (SPC) and Perpetual Purpose Trust (PPT):
-
-**1. Trojan Ingestion (Inbound Fiat Extraction & Legal Waiver):**
-*   Before generating cryptographic keys, the newcomer executes an electronic membership agreement with the SPC. This agreement legally frames the node as a **Private Mutual Aid Society** (under IRC 501(d) / private unincorporated association doctrine), insulating internal thermodynamic token settlements from state retail sales tax classification.
-*   External sympathizers and remote patrons pay fiat onboarding fees or donations ($50–$200) via Stripe into the SPC bank account. The SPC converts these dollars into internal Value Token reserves that underwrite the Seed Escrow pool for low-income newcomers.
-
-**2. Ecological Leeching (Outbound Stewarded Procurement):**
-*   When a new citizen joins who lacks basic cryptographic hardware or open-source repair equipment, the request hits a physical boundary at Layer 4.
-*   The SPC functions as a **Decentralized Group Purchasing Organization (GPO)**, pooling hardware procurement demands across multiple genesis candidates to buy industrial-grade secure elements (Microchip ATECC608A), LoRa transceivers (SX1262), and standardized metric tools in bulk directly from wholesale distributors, bypassing consumer retail markups and single-use packaging.
-
-### Layer 7 Bidirectional Flowchart
-
-```mermaid
-graph TD
-    subgraph Legacy Market [Layer 7: Legacy Capitalist Environment]
-        LU[External Patron / Newcomer]
-        Stripe[Stripe / Banking Gateway]
-        LS[Hardware Manufacturer / Distributor]
-        State[Municipal Code Enforcement / IRS]
-    end
-
-    subgraph The Collective [Sovereign Genesis Node]
-        SPC[Social Purpose Corporation / PPT Shield]
-        L6[Layer 6: Semantic Intent Queue]
-        L4[Layer 4: BPMN Orchestrator]
-        L1[Layer 1: Physical Candidate & Sponsor]
-    end
-
-    %% Inbound Flow
-    LU -->|Signs Membership Waiver & Pays USD| Stripe
-    Stripe -->|Deposits USD into Treasury| SPC
-    SPC -.->|Presents Mutual Aid Club Shield| State
-    SPC -->|Mints Seed Escrow Tokens| L6
-    L6 -->|Dispatches Genesis Quest| L4
-    L4 -->|Conducts Key Ceremony| L1
-    
-    %% Outbound Flow
-    L1 -->|Requests Secure Crypto Token Fob| L4
-    L4 -->|No Local Hardware Available| L6
-    L6 -->|Escalates to Bulk Purchase| SPC
-    SPC -->|Executes Bulk B2B Order| LS
-    LS -->|Delivers Hardware Root-of-Trust| L1
-    
-    classDef legacy fill:#ffebee,stroke:#c62828,stroke-width:2px;
-    classDef sovereign fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px;
-    class LU,Stripe,LS,State legacy;
-    class SPC,L6,L4,L1 sovereign;
-```
+### Layer 7: The Legacy Interface (Dual-Membrane Doctrine)
+*   **Dual-Membrane Doctrine:** Strict architectural segregation between Membrane 1 (external legal carapace) and Membrane 2 (internal sovereign core).
+    *   **Membrane 1 (External Carapace):** Presents an ordinary, compliant legal exterior to municipal code inspectors, tax authorities, and legacy utilities.
+    *   **Membrane 2 (Internal Sovereign Core):** Operates on thermodynamic exergy accounting, Bilateral Clearing Channels, and the Web of Trust.
+*   **Tripartite Legal Chassis:**
+    1. *Unincorporated Nonprofit Association (UNA):* Established under Uniform Unincorporated Nonprofit Association Act (UUNAA) § 6 for internal mutual-aid governance.
+    2. *Subchapter T Cooperative:* Organized under 26 U.S.C. §§ 1381–1388 to manage external commercial sales of craft goods and wholesale equipment procurement, passing patronage dividends.
+    3. *Community Land Trust (CLT):* 99-year ground lease holding physical real estate in perpetual trust, removing land from real-estate speculation.
+*   **Cellular Blinding & Subpoena Immunity:** Under *NAACP v. Alabama*, internal member rosters, pairwise DIDs, and Web-of-Trust graph edges do not exist in legacy corporate databases. `col-adversaryd` enforces data non-existence.
+*   **Regenerative Harvesting & Convivial Salvage:**
+    *   Energy interties operate under permitted IEEE 1547 / California Rule 21 net metering standards with physical UL 1741 utility disconnect switches.
+    *   Outbound fiat procurement is bounded by the ratified itemized needs list $\Phi_t$. Once the budget ceiling is satisfied, commercial export halts immediately.
 
 ---
 
@@ -214,42 +162,42 @@ graph TD
   ],
   "@type": "GenesisIntent",
   "identifier": "urn:uuid:7a9b8c7d-1234-4567-89ab-cdef01234567",
-  "issuerDid": "did:mesh:node04:steward_elara",
+  "issuerDid": "did:peer:2.Ez6Mks3...candidate_elara",
   "creationTimestamp": "2026-10-25T14:00:00Z",
   "characterProfile": {
     "alias": "Elara Vance",
     "bigFiveFacets": {
-      "openness": 0.85,
-      "conscientiousness": 0.72,
-      "extraversion": 0.45,
-      "agreeableness": 0.88,
-      "neuroticism": 0.30
+      "openness": 85,
+      "conscientiousness": 72,
+      "extraversion": 45,
+      "agreeableness": 88,
+      "neuroticism": 30
     },
     "coreValues": ["Stewardship", "Autonomy", "Solidarity"],
     "declaredCompetencies": [
-      "Textile_Machinery_L2",
-      "Organic_Horticulture_L1",
-      "Precision_Soldering_L2"
+      "Photovoltaic_Maintenance_L2",
+      "Organic_Agroforestry_L1",
+      "Thermal_Plumbing_L2"
     ]
   },
   "assetMapping": {
     "spatialClaim": {
       "chunkOrigin": [16, 8, 16],
       "boundingBoxDimensions": [8, 4, 8],
-      "intendedUse": "Residential_Craft_Studio"
+      "intendedUse": "Residential_Hearth_Workshop"
     },
     "hardwareInventory": [
       {
-        "assetType": "FDM_3D_Printer",
-        "model": "Bambu Lab A1 Mini",
-        "serialNumberHash": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
-        "targetScenario": "SCN-ALPHA-FAB"
+        "assetType": "LiFePO4_Cell_Pack",
+        "nominalPotentialMilliVolts": 51200,
+        "capacityMicroJoules": 51609600000000,
+        "serialNumberHash": "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8"
       }
     ]
   },
-  "sponsorshipCriteria": {
-    "sponsorDid": "did:mesh:node04:steward_dave",
-    "seedEscrowRequested": "25.00",
+  "channelSponsorship": {
+    "sponsorDid": "did:peer:2.Ez6Mkd9...steward_dave",
+    "initialCreditHeadroomMicroJoules": 18000000000000,
     "challengeWindowHours": 72
   }
 }
@@ -260,23 +208,24 @@ graph TD
 ```json
 {
   "@context": "https://collective.network/ontology/v1/",
-  "@type": "KeySigningAttestation",
+  "@type": "CovenantRatificationAttestation",
   "intentRef": "urn:uuid:7a9b8c7d-1234-4567-89ab-cdef01234567",
-  "candidateDid": "did:mesh:node04:steward_elara",
-  "sponsorDid": "did:mesh:node04:steward_dave",
+  "treatyCid": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad",
+  "candidateDid": "did:peer:2.Ez6Mks3...candidate_elara",
+  "sponsorDid": "did:peer:2.Ez6Mkd9...steward_dave",
   "telemetryProof": {
     "ceremonyTimestamp": "2026-10-25T15:30:12Z",
     "hardwareRootOfTrust": "ATECC608A_SECURE_ELEMENT",
     "candidateNfcNonce": "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08",
     "sponsorNfcNonce": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9",
-    "bleRssiMeanDbm": -48.2,
+    "nfcRssiMeanMilliDbm": -48200,
     "mutualSignatureSha256": "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918"
   },
   "spatialVerification": {
-    "gpsGridCoordinate": "47.7763N_121.9886W",
+    "gpsGridCoordinate": "47N_121W",
     "assignedVoxelOrigin": [16, 8, 16]
   },
-  "status": "CEREMONY_VERIFIED"
+  "status": "RATIFIED_ACTIVE"
 }
 ```
 
@@ -286,34 +235,30 @@ graph TD
 
 ### 4.1 Memory Allocation & Voxel State
 
-The genesis node and newcomer base occupy coordinates in the $32^3$ chunk space managed by `ChunkManager`:
-- The candidate home terminal voxel is initialized with `material_id = 30` (`STEWARD_GENESIS_NODE`).
-- The `Is_Actuator` and `Is_Sensor` bits are set in `metadata` (`0b00000110`), and bit 0 (`Is_Claimed`) is toggled upon successful sponsorship.
-- An adjacent spatial boundary hopper voxel (`material_id = 31`, `CLAIM_TERMINAL`) stores the newcomer's declared inventory mass and spatial coordinates.
-
-### 4.2 C++20 Test Harness Structure
+The genesis node terminal and domestic hearth occupy coordinates in the $32^3$ chunk space managed by `ChunkManager`:
+*   The candidate home terminal voxel is initialized with `material_id = 30` (`STEWARD_GENESIS_NODE`).
+*   The `Is_Actuator` and `Is_Sensor` bits are set in `metadata` (`0b00000110`), and bit 0 (`Is_Claimed`) toggles upon successful covenant ratification.
+*   An adjacent spatial boundary hopper voxel (`material_id = 31`, `CLAIM_TERMINAL`) stores the newcomer's declared inventory mass and spatial coordinates.
 
 ```cpp
-// engine/tests/scenario_tau_test.cpp
-#include <cassert>
+// Cache-aligned Flecs ECS Components for Node Genesis
+#include <cstdint>
 #include <string>
-#include "oasis/chunk_manager.hpp"
-#include "oasis/orchestration/bpmn_engine.hpp"
-#include "oasis/ledger/crdt_wallet.hpp"
 
 namespace oasis {
 
-struct PlayerIdentityComponent {
-    std::string did;
+struct alignas(8) PlayerIdentityComponent {
+    char did[64];
     uint8_t openness;
     uint8_t conscientiousness;
     uint8_t extraversion;
     uint8_t agreeableness;
     uint8_t neuroticism;
     bool is_sponsored;
+    bool covenant_ratified;
 };
 
-struct SpatialClaimComponent {
+struct alignas(8) SpatialClaimComponent {
     uint32_t origin_x;
     uint32_t origin_y;
     uint32_t origin_z;
@@ -323,46 +268,104 @@ struct SpatialClaimComponent {
     bool is_verified;
 };
 
-void test_scenario_tau_genesis() {
-    // 1. Initialize Chunk and Voxel
+struct alignas(8) HardwareBOMComponent {
+    uint64_t pv_peak_power_mw;           // 6400000 mW (6400 W nameplate)
+    uint64_t battery_capacity_uj;        // 51609600000000 uJ (14340 Wh)
+    uint64_t inverter_rating_mw;         // 5000000 mW (5000 W)
+    uint32_t dc_bus_voltage_mv;          // 48000 mV (48 V DC bus)
+    uint32_t cascade_stage1_temp_mk;     // 800000 mK (Stage 1 exhaust)
+    uint32_t cascade_stage2_temp_mk;     // 340000 mK (Stage 2 hydronic)
+    uint32_t cascade_stage3_temp_mk;     // 315000 mK (Stage 3 root zone)
+    uint32_t cascade_stage4_temp_mk;     // 285000 mK (Stage 4 earth sink)
+};
+
+struct alignas(8) BCCChannelComponent {
+    char peer_did[64];
+    int64_t balance_microjoules;         // Conservation: B_{u->v} + B_{v->u} = 0
+    uint64_t credit_headroom_uj;         // C_{v->u} maximum credit limit
+    bool channel_active;
+};
+
+} // namespace oasis
+```
+
+### 4.2 C++20 Test Harness Structure
+
+```cpp
+// engine/tests/scenario_tau_test.cpp
+#include <cassert>
+#include <cstring>
+#include "oasis/chunk_manager.hpp"
+#include "oasis/orchestration/bpmn_engine.hpp"
+
+namespace oasis {
+
+void test_scenario_tau_genesis_bootstrap() {
+    // 1. Initialize Chunk and Hardware Terminal Voxel
     ChunkManager chunk_mgr;
     chunk_mgr.allocate_chunk(0, 0, 0);
 
     Voxel terminal_voxel{
         .material_id = 30, // STEWARD_GENESIS_NODE
         .moisture = 0,
-        .temperature = 20,
+        .temperature = 293, // 293 K
         .metadata = 0b00000110 // Sensor + Actuator
     };
     chunk_mgr.set_voxel(16, 8, 16, terminal_voxel);
 
-    // 2. Setup Wallets & Seed Escrow
-    CRDTWallet sponsor_wallet("did:mesh:node04:steward_dave", 150.0f);
-    CRDTWallet candidate_wallet("did:mesh:node04:steward_elara", 0.0f);
+    // 2. Instantiate Node 0 Hardware BOM
+    HardwareBOMComponent bom{
+        .pv_peak_power_mw = 6400000ULL,       // 6400 W PV array
+        .battery_capacity_uj = 51609600000000ULL, // 14340 Wh LiFePO4
+        .inverter_rating_mw = 5000000ULL,      // 5000 W inverter
+        .dc_bus_voltage_mv = 48000,           // 48 V DC bus
+        .cascade_stage1_temp_mk = 800000,     // 800 K flue
+        .cascade_stage2_temp_mk = 340000,     // 340 K space heat
+        .cascade_stage3_temp_mk = 315000,     // 315 K greenhouse
+        .cascade_stage4_temp_mk = 285000      // 285 K ground sink
+    };
+    assert(bom.pv_peak_power_mw == 6400000ULL);
+    assert(bom.battery_capacity_uj == 51609600000000ULL);
 
-    // 3. Load BPMN Orchestration State Machine
+    // 3. Setup Pairwise Bilateral Clearing Channels (BCC)
+    BCCChannelComponent channel_sponsor{
+        .peer_did = "did:peer:2.Ez6Mks3...candidate_elara",
+        .balance_microjoules = 0,
+        .credit_headroom_uj = 18000000000000ULL, // 5 Exergy Credits headroom
+        .channel_active = true
+    };
+    BCCChannelComponent channel_candidate{
+        .peer_did = "did:peer:2.Ez6Mkd9...steward_dave",
+        .balance_microjoules = 0,
+        .credit_headroom_uj = 18000000000000ULL,
+        .channel_active = true
+    };
+
+    // Assert Conservation Invariant: B_{u->v} + B_{v->u} = 0
+    assert(channel_sponsor.balance_microjoules + channel_candidate.balance_microjoules == 0);
+
+    // 4. Load Deterministic BPMN Orchestration State Machine
     BPMNEngine orchestrator;
     orchestrator.load_schema("schemas/bpmn/genesis_onboarding.bpmn");
 
-    JobContext job{
+    // Execute Key Ceremony & Ratification Loop (1200 ticks at 10 Hz)
+    JobContext genesis_job{
         .bounty_id = "7a9b8c7d-1234-4567-89ab-cdef01234567",
-        .required_resource_units = 1.0f,
-        .estimated_energy_wh = 15.0f,
         .target_bay_id = 1
     };
 
-    // Assert Sponsorship Escrow Lock
-    orchestrator.emit_event(EscrowInitiatedEvent{sponsor_wallet, 25.00f});
-    orchestrator.await_event<EscrowLockedEvent>();
-    assert(sponsor_wallet.balance() == 125.00f);
-
-    // Execute In-Person Key Ceremony & Orientation Step Loop (1200 ticks)
-    SimResult res = orchestrator.step_simulation_ticks(chunk_mgr, job, 1200);
+    SimResult res = orchestrator.step_simulation_ticks(chunk_mgr, genesis_job, 1200);
     assert(res.status == ExecutionStatus::COMPLETED);
 
-    // Settle Ledger: Candidate Receives Unlocked Seed Tokens
-    orchestrator.settle_job(candidate_wallet);
-    assert(candidate_wallet.balance() == 25.00f);
+    // Settle bilateral channel transfer for orientation energy lease: 3600000000000 uJ (1 credit)
+    uint64_t transfer_uj = 3600000000000ULL;
+    channel_sponsor.balance_microjoules += transfer_uj;
+    channel_candidate.balance_microjoules -= transfer_uj;
+
+    // Verify zero-sum conservation remains strictly preserved
+    assert(channel_sponsor.balance_microjoules + channel_candidate.balance_microjoules == 0);
+    assert(channel_sponsor.balance_microjoules == 3600000000000LL);
+    assert(channel_candidate.balance_microjoules == -3600000000000LL);
 
     // Verify Voxel State Transition: Metadata Bit 0 (Is_Claimed) is toggled
     Voxel updated_voxel = chunk_mgr.get_voxel(16, 8, 16);
@@ -375,29 +378,30 @@ void test_scenario_tau_genesis_anomaly() {
     BPMNEngine orchestrator;
     orchestrator.load_schema("schemas/bpmn/genesis_onboarding.bpmn");
 
-    CRDTWallet sponsor_wallet("did:mesh:node04:steward_dave", 150.0f);
-    CRDTWallet candidate_wallet("did:mesh:node04:steward_sybil", 0.0f);
+    BCCChannelComponent channel_sponsor{
+        .peer_did = "did:peer:2.Ez6Mks3...sybil_bot",
+        .balance_microjoules = 0,
+        .credit_headroom_uj = 18000000000000ULL,
+        .channel_active = false
+    };
 
-    JobContext job{.bounty_id = "sybil-attempt-01", .required_resource_units = 1.0f};
+    JobContext sybil_job{.bounty_id = "sybil-attempt-01", .target_bay_id = 2};
 
-    orchestrator.emit_event(EscrowInitiatedEvent{sponsor_wallet, 25.00f});
-    orchestrator.await_event<EscrowLockedEvent>();
-
-    // Inject Sybil Key Mismatch / Zero Proximity at Tick 400
-    SimResult res = orchestrator.step_simulation_ticks(chunk_mgr, job, 400, true);
+    // Inject Sybil Key Mismatch / Proximity Failure at Tick 400
+    SimResult res = orchestrator.step_simulation_ticks(chunk_mgr, sybil_job, 400, true);
 
     assert(res.status == ExecutionStatus::EMERGENCY_STOP);
     assert(orchestrator.current_state() == BPMNState::SALVAGE_INTENT);
 
-    // Assert full refund returned to sponsor wallet
-    assert(sponsor_wallet.balance() == 150.0f);
-    assert(candidate_wallet.balance() == 0.0f);
+    // Assert bilateral channel was never activated and zero balance leak occurred
+    assert(!channel_sponsor.channel_active);
+    assert(channel_sponsor.balance_microjoules == 0);
 }
 
 } // namespace oasis
 
 int main() {
-    oasis::test_scenario_tau_genesis();
+    oasis::test_scenario_tau_genesis_bootstrap();
     oasis::test_scenario_tau_genesis_anomaly();
     return 0;
 }
@@ -407,13 +411,11 @@ int main() {
 
 ## 5. Acceptance Test Gates (Pass/Fail)
 
-To pass Scenario Tau in the Oasis engine, the simulation core must pass each of the following six binary verification gates without memory corruption, thread contention, or state desynchronization:
-
 | Checkpoint | Validation Method | Pass Condition |
 | :--- | :--- | :--- |
-| **G1: Thermodynamic Bounds** | Virtual Joules vs. Orientation Work | Total energy expenditure across the orientation workflow matches thermodynamic limits ($\Delta E \le 50\text{ Wh}$); zero unbacked value token inflation. |
-| **G2: Offline Autonomy** | Localhost Network Isolation | The complete onboarding flow—from Ed25519 key generation to local chunk boundary assignment—executes with WAN uplink completely disabled. |
-| **G3: Byzantine Detection** | Simulated Sybil / Spoofed Telemetry | Submitting a key-signing attestation with BLE signal weaker than $-55\text{ dBm}$ fails cryptographic reconciliation; sponsor escrow is fully refunded; candidate DID is quarantined. |
-| **G4: Material / Spatial Tracking** | Voxel Boundary Conflict Detection | Candidate attempts to claim a bounding box overlapping an existing citizen's lot; engine raises an immediate spatial collision exception and rejects allocation. |
-| **G5: Trojan Ingestion (L7)** | External Webhook Ingestion | A mock Stripe webhook deposit ($100 USD) for mutual aid dues compiles into internal mesh seed reserves; legal liability waiver hash is correctly recorded in the SPC ledger. |
-| **G6: Ecological Leeching (L7)** | Hardware Procurement Aggregation | A request for 10 hardware cryptographic tokens suspends single orders and successfully triggers a batched B2B wholesale order after pooling with peer nodes. |
+| **G1: Thermodynamic Bounds & Conservation** | Physical Hardware BOM & Exergy Audit | Energy generation matches 6400 W PV / 14340 Wh LiFePO4 / 5000 W inverter parameters; Bilateral Clearing Channel preserves $B_{u \to v}(t) + B_{v \to u}(t) = 0$ at all times; zero unbacked token minting. |
+| **G2: Offline Autonomy & WAN Airgap** | Localhost Network Isolation | The complete onboarding flow—from ATECC608A key generation to local chunk boundary assignment and covenant ratification—executes with WAN uplink completely disabled. |
+| **G3: Trust Rings & Web-of-Trust** | Simulated Sybil / Proximity Attestation | Submitting a key-signing attestation with NFC signal weaker than -55000 mBm fails cryptographic reconciliation; candidate DID is quarantined; zero Sybil graph edges formed across $R_0 \dots R_6$. |
+| **G4: Human Baseline & Ecological Floor** | Spatial Voxel Collision Check | Candidate attempts to claim a bounding box overlapping an existing citizen's lot or designated $R_0$ hearth sanctuary; engine raises an immediate spatial collision exception and preserves $F_{\mathrm{eco}}$ and $B_{\mathrm{baseline}}$. |
+| **G5: Dual-Membrane Doctrine (L7)** | External Legal Carapace Audit | Onboarding documents execute under Unincorporated Nonprofit Association (UNA under UUNAA § 6) and Subchapter T cooperative bylaws; internal member DIDs and Web-of-Trust edges remain blinded under *NAACP v. Alabama*. |
+| **G6: Regenerative Harvesting & Convivial Salvage (L7)** | Hardware Procurement Aggregation | Hardware procurement demands pool across candidates through the cooperative carapace GPO, purchasing industrial ATECC608A secure elements in bulk directly against the itemized needs list $\Phi_t$ without consumer retail markups. |
