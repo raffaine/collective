@@ -1,0 +1,69 @@
+% =========================================================================
+% --- Back Cover (Absolute Placement) ---
+% =========================================================================
+\newpage
+\thispagestyle{empty}
+\mbox{} % Ensure the page exists
+
+% 1. Place the Background Image
+\AddToShipoutPictureBG*{
+    \AtPageLowerLeft{
+        \includegraphics[width=\paperwidth, height=\paperheight]{backcover.png}
+    }
+}
+
+% 2. Place the Text Overlay
+\AddToShipoutPictureFG*{
+    \AtPageLowerLeft{
+        % Nudged to 0.15\paperheight and using [b] for bottom-anchor to keep it from climbing
+        \put(\LenToUnit{0.1\paperwidth},\LenToUnit{0.15\paperheight}){
+            \begin{minipage}[b][0.7\paperheight][c]{0.8\paperwidth}
+                \color{signalGold}\setstretch{1.2}\headerfont
+
+                \begin{center}
+                    \fontsize{18}{22}\selectfont\textbf{THE BEAST IS DYING} \\
+                    \fontsize{18}{22}\selectfont\textbf{THE LAND BREATHES AGAIN}
+                \end{center}
+                
+                \vspace{4ex}
+
+                \fontsize{10.5}{13}\selectfont
+                The legacy world of fiat coercion, artificial scarcity, and bureaucratic violence is collapsing under its own thermodynamic weight. From the ashes of the old nation-state, a massive Polycentric Bioregional Commonwealth is rising.
+                
+                \vspace{2ex}
+                Elara and Silas are stewards of the Foundry—a beating heart of steel and fire in a decentralized mesh of mutual aid. But when the dying beast of the legacy system lashes out to reclaim its lost territory through blockades, lawyers, and riot police, the true test of their society begins.
+                
+                \vspace{2ex}
+                They must defend the physical reality of Layer 1 against the suffocating legalese of Layer 7, relying on the radical trust and restorative justice of the Sovereign Stack to hold the line. They will not be broken. They are building a civilization designed with \textbf{Fault Tolerance}.
+                
+                \vspace{4ex}
+
+                \begin{center}
+                    \begin{tikzpicture}
+                        \node[draw=collectiveBlue, fill=blue!5, rounded corners, inner sep=10pt, text width=0.6\paperwidth, align=left] 
+                        {\monofont\footnotesize\color{collectiveBlue} 
+                            STATUS: TERMINAL DECOUPLING \\
+                            ACTION: SEVER LEGACY TIES \\
+                            PROTOCOL: INVIOLABILITY OF LOCAL FLOORS
+                        };
+                    \end{tikzpicture}
+                \end{center}
+                
+                \vspace{4ex}
+
+                \begin{center}
+                    \fontsize{11}{14}\selectfont\textbf{A visceral, dirt-under-the-fingernails solarpunk epic.} \\
+                    \fontsize{11}{14}\selectfont\textbf{The sequel to \textit{System Call}.}
+                \end{center}
+
+                \vspace{8ex}
+
+                \begin{center}
+                    \fontsize{10}{12}\selectfont
+                    J.C. NOVAIS RAFFAINE \\ \url{github.com/raffaine/collective}
+                \end{center}
+            \end{minipage}
+        }
+    }
+}
+\newpage

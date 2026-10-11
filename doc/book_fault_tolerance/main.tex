@@ -92,6 +92,8 @@
 
 
 
+
+
 \usepackage{titlesec}
 \usepackage{enumitem}
 \usepackage{xcolor}
@@ -167,6 +169,46 @@
 
 \begin{document}
 
+% --- Front Cover ---
+\includepdf[pages={1}, width=\paperwidth, height=\paperheight, keepaspectratio=false]{cover.png}
+
+% --- Copyright Page (Verso) ---
+\newpage
+\thispagestyle{empty}
+\vspace*{\fill}
+
+\begin{flushleft}
+    {\headerfont\large\textbf{FAULT TOLERANCE}} \\
+    {\headerfont\small A Solarpunk Epic of the Polycentric Bioregional Commonwealth} \\
+    \vspace{2ex}
+    
+    {\small \copyright\ 2026 J.C. NOVAIS RAFFAINE. All rights reserved.} \\
+    \vspace{2ex}
+    
+    {\small This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.} \\
+    \vspace{2ex}
+
+    {\footnotesize 
+    This is a work of fiction. Names, characters, places, and incidents are products of the author's imagination or are used fictitiously. Any resemblance to actual persons, living or dead, or actual events is entirely coincidental. \\
+    \vspace{1ex}
+    
+    The protocols and technical specifications described herein are released under the Collective Open Source License. For more information, visit: \\
+    \headerfont\color{collectiveBlue} github.com/raffaine/collective
+    }
+    
+    \vspace{4ex}
+    
+    {\headerfont\scriptsize FIRST EDITION} \\
+    {\headerfont\scriptsize PRINTED IN THE POLYCENTRIC COMMONWEALTH} \\
+    \vspace{2ex}
+    
+    {\headerfont\tiny 10 9 8 7 6 5 4 3 2 1}
+\end{flushleft}
+\vspace{2ex}
+
+% --- Title Page (Recto) and TOC ---
+\frontmatter
+
 % --- Title Page (Recto) and TOC ---
 \frontmatter
 \maketitle
@@ -195,4 +237,5 @@
 \input{chapters/17_the_brink_of_severance.tex}
 \input{chapters/18_terminal_decoupling.tex}
 \input{chapters/19_epilogue.tex}
+\input{chapters/99_backcover.tex}
 \end{document}
