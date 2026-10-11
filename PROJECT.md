@@ -1,57 +1,37 @@
-# Project: Oasis Game Engine (V4) — Sprint 1
+# Project: The Sovereign Stack — Cross-Chapter Impact Analysis & Drift Audit (Layers 5 & 7 Integration)
 
 ## Architecture
-- **Language & Standards**: C++20, WebAssembly (Emscripten 4.0.10+ / Dawn C++), WebGPU, Flecs ECS.
-- **Graphics Pipeline**:
-  - WebGPU asynchronous device acquisition via `--use-port=emdawnwebgpu` (`<webgpu/webgpu_cpp.h>`).
-  - Surface configuration via `wgpu::EmscriptenSurfaceSourceCanvasHTMLSelector("#canvas")` with `wgpu::TextureUsage::RenderAttachment | wgpu::TextureUsage::CopySrc`.
-  - Shader pipeline: Full-screen triangle WGSL shader embedded as C++ string literal in `shaders/raymarch_wgsl.hpp` rendering a multi-color gradient across UV coordinates with `cullMode = wgpu::CullMode::None`.
-- **Simulation & ECS**:
-  - Flecs world dynamically managed on the heap to avoid stack use-after-free before asynchronous browser callbacks fire.
-  - `oasis::graphics::RenderState` component with non-zero size holding WebGPU device, queue, surface, pipeline, format, width, and height handles, preventing Flecs empty-struct assertions.
-  - WebGPU render pass integrated into Flecs system (`OnStore` phase) executed every tick of the main loop via `emscripten_set_main_loop_arg`.
-- **Automated Verification**:
-  - Zero-dependency headless browser test harness (`tests/verify_canvas.js`) utilizing Node 22 native `WebSocket` and Chrome DevTools Protocol (CDP).
-  - Connects to Google Chrome, loads `oasis_engine.html`, captures real compositor frames via `Page.captureScreenshot`, decodes PNG scanlines via native `zlib.inflateSync`, and samples genuine rasterized pixels (Center `[128, 127, 127, 255]`, gradient variation `deltaR=204, deltaG=204`).
-  - Enforces strict fail-clean semantics (exits 1 on error, zero mock fallbacks).
+- Context: Integration of Chapter 6 (Layer 5: Federated Meshing / BPVP / FRRP) and Chapter 8 (Layer 7: Legal Blinding / Dual-Membrane Carapace / Tripartite Chassis).
+- Scope: Cross-chapter impact analysis of 7 affected chapters (Interfacing: Ch 4, Ch 5, Ch 7; Foundational & Genesis: Ch 1, Ch 9, Ch 10, Ch 12).
+- Council Structure: Sovereign Stack Architect, Continuity Architect, Cybernetics Theorist.
+- Deliverable: Definitive drift audit artifact `vol1_impact_analysis_status.md` detailing architectural impacts, narrative/foundational impacts, verbatim quotes/conflicts, and exact fixes across all 7 chapters without modifying LaTeX files.
 
 ## Feature Inventory
 | # | Feature | Description | Milestone | Source |
 |---|---------|-------------|-----------|--------|
-| 1 | Toolchain & Build Fixes | Update CMakeLists.txt and build_wasm.sh with modern Emscripten WebGPU flags (`--use-port=emdawnwebgpu`, `-sEXIT_RUNTIME=0`, remove `-sASYNCIFY`), vcpkg Flecs linking | M1 | Survey (Build Explorer) |
-| 2 | Shader 404 Resolution | Embed WGSL shader as C++ string literal (`shaders/raymarch_wgsl.hpp`) and update `shaders/raymarch.wgsl` to eliminate runtime 404s and filesystem dependencies | M1 | Survey (Build & Graphics Explorers) |
-| 3 | WebGPU Graphics Pipeline | Async adapter/device acquisition, surface configuration, pipeline creation, and WGSL color gradient rendering without culling | M1 | Survey (Graphics Explorer) |
-| 4 | Flecs ECS Integration | Define non-zero-sized `RenderState` component, avoid empty-struct assertion, manage heap ECS lifecycle, and integrate render pass into tick loop | M1 | Survey (Systems Explorer) |
-| 5 | Automated Visual Verification | Implement authentic automated visual test proving canvas renders non-black pixels without mock facades or synthetic fallbacks | M1 | Survey (Quality Engineer Explorer) |
+| 1 | Interfacing Layers Audit (Ch 4, 5, 7) | Deep technical analysis of Layer 3 (BCC, 3.6 MJ, col-storaged), Layer 4 (FIB, col-execd, kinetic dispatch, priority re-tiering), Layer 6 (Ricardian Treaty_CID, col-commonsd, bioregional Agora). | M1 | Explorers 1, 2, 3 |
+| 2 | Foundational & Genesis Audit (Ch 1, 9, 10, 12) | Analysis of Ch 1 (rhetorical hygiene, cellular framing), Ch 9 (Vector 3 cellular independence, federation bring-up), Ch 10 (parasitic scavenging purge, node mitosis), Ch 12 (topological ring harmonization, daemon asymptotic watchdog, federated resilience). | M1 | Explorers 1, 2, 3 |
+| 3 | Comprehensive Drift Report Artifact Synthesis | Production of `vol1_impact_analysis_status.md` capturing all 3 expert perspectives, delineating architectural vs foundational impacts, verbatim quotes, and actionable fixes. | M2 | Worker |
+| 4 | Multi-Agent Review & Challenge Verification | Rigorous independent verification by 2 Reviewers, 2 Challengers, and Forensic Auditor. | M3 | Reviewers / Challengers / Auditor |
 
 ## Milestones
 | # | Name | Scope | Dependencies | Status |
 |---|------|-------|-------------|--------|
-| 1 | Sprint 1: Engine Build, WebGPU Rendering & Automated QE Verification | Full engine codebase fixes (`main.cpp`, `CMakeLists.txt`, `shaders/`, `build_wasm.sh`) and headless browser test harness (`tests/verify_canvas.js`) | none | DONE |
-
-## Key Milestone Outputs
-- **Build Target**: `core/1_simulation/src/build_wasm/oasis_engine.wasm` (3,024,152 bytes, clean exit code 0).
-- **Embedded Shader**: `core/1_simulation/src/shaders/raymarch_wgsl.hpp` (`oasis::shaders::RAYMARCH_WGSL`).
-- **Engine Entry**: `core/1_simulation/src/main.cpp` (Heap Flecs lifecycle, async WebGPU, non-zero `RenderState`, `CopySrc` enabled).
-- **Automated Visual Test**: `core/1_simulation/src/tests/verify_canvas.js` (Clean exit code 0, 100% pass rate, authentic CDP screenshot decode, "Automated Visual Verification Passed").
-- **Gate Evaluation**: Unanimous PASS (Reviewer 1 APPROVE, Reviewer 2 APPROVE, Challenger 1 APPROVE, Challenger 2 APPROVE, Forensic Auditor CLEAN).
+| 1 | Multi-Expert Council Survey & Drift Analysis | 3-expert investigation into 7 affected chapters | none | DONE |
+| 2 | Synthesis & Drafting of vol1_impact_analysis_status.md | Comprehensive drift audit report artifact drafting | M1 | DONE |
+| 3 | Independent Multi-Agent Review & Forensic Audit | Verification and gating by Reviewers, Challengers, and Auditor | M2 | DONE |
+| 4 | Final Reporting & Sentinel Victory Notification | Completion reporting to Sentinel | M3 | IN_PROGRESS |
 
 ## Interface Contracts
-### Main Loop ↔ Flecs ECS
-- `flecs::world* g_ecs`: Heap-allocated ECS instance persisting beyond `main()` return.
-- `emscripten_set_main_loop_arg`: Ticks `g_ecs->progress()` each animation frame.
-
-### WebGPU ↔ Flecs Component
-- `struct RenderState`: Non-zero size struct holding WebGPU device, queue, surface, pipeline, format, width, and height.
-
-### Build & Link Contracts
-- Compiler & Linker: `--use-port=emdawnwebgpu`, `-std=c++20`, `-sEXIT_RUNTIME=0`.
-- Target: `core/1_simulation/src/build_wasm/oasis_engine.html` and `.wasm`.
+- Input Sources:
+  - `doc/book_collective/chapters/06_layer_5_governance.tex` & `vol1_ch6_federation_status.md`
+  - `doc/book_collective/chapters/08_layer_7_legacy.tex` & `vol1_ch8_blinding_status.md`
+  - Target Chapters: `04_layer_3_thermodynamic_ledger.tex`, `05_layer_4_orchestrator.tex`, `07_layer_6_semantic.tex`, `01_anatomy_of_a_node.tex`, `09_genesis_protocol.tex`, `10_collective_bringup.tex`, `12_prime_genesis.tex`
+- Output Deliverables:
+  - Primary Status Artifact: `doc/book_collective/vol1_impact_analysis_status.md` (and mirrored at `/Users/raffaine/dev/collective/vol1_impact_analysis_status.md`)
+- Constraint: Read-only on LaTeX files; NO LaTeX files rewritten.
 
 ## Code Layout
-- `core/1_simulation/src/CMakeLists.txt`: Build specification and Emscripten flags
-- `core/1_simulation/src/build_wasm.sh`: WASM compilation script
-- `core/1_simulation/src/shaders/raymarch_wgsl.hpp`: Embedded WGSL shader header
-- `core/1_simulation/src/shaders/raymarch.wgsl`: Standalone WGSL shader source
-- `core/1_simulation/src/main.cpp`: Engine entry point, async WebGPU setup, Flecs ECS integration
-- `core/1_simulation/src/tests/verify_canvas.js`: Automated headless browser test runner
+- Documents: `doc/book_collective/`
+- Target Artifact: `doc/book_collective/vol1_impact_analysis_status.md`
+- Teamwork Coordination: `.agents/teamwork/orchestrator_14/`
