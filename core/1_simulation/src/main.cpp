@@ -18,9 +18,13 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
+
+
 #include "shaders/raymarch_wgsl.hpp"
 #include "uhai/uhai_ring_buffer.hpp"
 #include "core/stochastic_boundary.hpp"
+#include "core/fabrication.hpp"
+#include "core/raycaster.hpp"
 
 namespace oasis {
 namespace psychology {
@@ -158,7 +162,7 @@ struct alignas(16) CameraUniforms {
     glm::vec4 camera_pos{0.0001f, 2.0001f, -4.9999f, 0.0f}; // 16 bytes (offset 192), xyz = pos, w = mode
     glm::vec4 camera_target{0.0f, 0.0f, 0.0f, 1.0f};         // 16 bytes (offset 208), xyz = target, w = zoom
     glm::vec4 viewport_params{800.0f, 600.0f, 800.0f / 600.0f, 0.0f}; // 16 bytes (offset 224), x=w, y=h, z=aspect, w=transition_t
-    glm::vec4 reserved{0.0f};          // 16 bytes (offset 240), padding to exactly 256 bytes
+    glm::vec4 cursor_highlight{0.0f};  // 16 bytes (offset 240), xyz = cursor voxel pos, w = active flag (>0.5)
 };
 #pragma pack(pop)
 static_assert(sizeof(CameraUniforms) == 256, "CameraUniforms must be exactly 256 bytes.");
@@ -253,7 +257,7 @@ inline void UpdateCameraMatrices(RenderState& state, float dt_sec) {
     state.camera_uniforms.camera_pos = glm::mix(glm::vec4(eye_persp, 0.0f), glm::vec4(eye_iso, 1.0f), t);
     state.camera_uniforms.camera_target = glm::mix(glm::vec4(target_persp, 1.0f), glm::vec4(target_iso, 1.0f), t);
     state.camera_uniforms.viewport_params = glm::vec4(static_cast<float>(state.width), static_cast<float>(state.height), aspect, t);
-    state.camera_uniforms.reserved = glm::vec4(0.0f);
+    // cursor_highlight is preserved across frame transitions
 }
 
 } // namespace graphics
@@ -304,8 +308,12 @@ static void TickTelemetry() {
     g_telemetry_channel.Push(sample);
 }
 
-// Poll SDL input events and toggle dual viewport camera mode on TAB keydown
+static oasis::fabrication::InfrastructureType g_active_blueprint_type = oasis::fabrication::InfrastructureType::SOLAR_PANEL;
+
+// Poll SDL input events: TAB camera toggle, mouse motion cursor highlight, mouse button construction
 static void ProcessInputEvents() {
+
+
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
         if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_TAB) {
@@ -320,6 +328,72 @@ static void ProcessInputEvents() {
                                  (state_ref.target_camera_mode == 1) ? "Cadastral Isometric" : "3rd-Person Perspective");
                     r.modified<oasis::graphics::RenderState>();
                 }
+            }
+        } else if (event.type == SDL_MOUSEMOTION) {
+            if (g_ecs) {
+                auto r = g_ecs->entity("Renderer");
+                if (r.has<oasis::graphics::RenderState>()) {
+                    auto& state_ref = r.get_mut<oasis::graphics::RenderState>();
+                    auto hit = oasis::graphics::ScreenToWorldRaycast(
+                        event.motion.x, event.motion.y,
+                        state_ref.width, state_ref.height,
+                        state_ref.camera_uniforms.inv_view_proj,
+                        state_ref.camera_uniforms.camera_pos,
+                        state_ref.camera_uniforms.viewport_params
+                    );
+                    if (hit.hit) {
+                        state_ref.camera_uniforms.cursor_highlight = glm::vec4(glm::vec3(hit.voxel_pos), 1.0f);
+                    } else {
+                        state_ref.camera_uniforms.cursor_highlight = glm::vec4(0.0f);
+                    }
+                }
+            }
+        } else if (event.type == SDL_MOUSEBUTTONDOWN) {
+            if (event.button.button == SDL_BUTTON_LEFT) {
+                if (g_ecs) {
+                    auto r = g_ecs->entity("Renderer");
+                    auto founder = g_ecs->entity("Founder");
+                    if (r.has<oasis::graphics::RenderState>() && founder.has<oasis::fabrication::FounderCommandComponent>()) {
+                        auto& state_ref = r.get_mut<oasis::graphics::RenderState>();
+                        auto hit = oasis::graphics::ScreenToWorldRaycast(
+                            event.button.x, event.button.y,
+                            state_ref.width, state_ref.height,
+                            state_ref.camera_uniforms.inv_view_proj,
+                            state_ref.camera_uniforms.camera_pos,
+                            state_ref.camera_uniforms.viewport_params
+                        );
+                        if (hit.hit) {
+                            glm::ivec3 target_pos = hit.placement_pos;
+                            auto bp_type = g_active_blueprint_type;
+                            if (hit.voxel_pos.y >= 4) {
+                                bp_type = oasis::fabrication::InfrastructureType::SOLAR_PANEL;
+                            }
+
+                            auto bp_entity = g_ecs->entity()
+                                .set<oasis::fabrication::BlueprintComponent>({
+                                    bp_type,
+                                    target_pos.x, target_pos.y, target_pos.z,
+                                    100.0, 0.0, 500.0, false, 0.20f
+                                });
+
+                            auto& cmd = founder.get_mut<oasis::fabrication::FounderCommandComponent>();
+                            cmd.state = oasis::fabrication::FounderActionState::NAVIGATING;
+                            cmd.target_voxel = target_pos;
+                            cmd.target_blueprint = bp_entity;
+
+                            spdlog::info("[Oasis Input] Left click at ({},{}) -> Voxel hit ({},{},{}). Queued {} blueprint at ({},{},{}). Dispatching Founder.",
+                                         event.button.x, event.button.y, hit.voxel_pos.x, hit.voxel_pos.y, hit.voxel_pos.z,
+                                         (bp_type == oasis::fabrication::InfrastructureType::SOLAR_PANEL ? "Solar Panel" : "Rainwater Catchment"),
+                                         target_pos.x, target_pos.y, target_pos.z);
+                        }
+                    }
+                }
+            } else if (event.button.button == SDL_BUTTON_RIGHT) {
+                g_active_blueprint_type = (g_active_blueprint_type == oasis::fabrication::InfrastructureType::SOLAR_PANEL)
+                    ? oasis::fabrication::InfrastructureType::RAINWATER_CATCHMENT
+                    : oasis::fabrication::InfrastructureType::SOLAR_PANEL;
+                spdlog::info("[Oasis Input] Right click: Toggled active blueprint type to {}",
+                             (g_active_blueprint_type == oasis::fabrication::InfrastructureType::SOLAR_PANEL ? "Solar Panel (Mat 11)" : "Rainwater Catchment (Mat 12)"));
             }
         }
     }
@@ -543,6 +617,7 @@ void EngineTick(void* arg) {
 
 int main() {
     spdlog::info("Oasis V4 Engine Starting...");
+    spdlog::set_level(spdlog::level::warn); // Silence the tick spam
 
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
         spdlog::error("SDL_Init Error: {}", SDL_GetError());
@@ -573,6 +648,13 @@ int main() {
     g_ecs->component<oasis::psychology::PersonalityFacets>();
     g_ecs->component<oasis::psychology::PsychologyComponent>();
 
+    // Register fabrication and somatic components
+    g_ecs->component<oasis::fabrication::SomaticStateComponent>();
+    g_ecs->component<oasis::fabrication::SpatialPositionComponent>();
+    g_ecs->component<oasis::fabrication::FounderCommandComponent>();
+    g_ecs->component<oasis::fabrication::BlueprintComponent>();
+    g_ecs->component<oasis::fabrication::VoxelPlacedComponent>();
+
     oasis::psychology::PsychologyComponent founder_psych{};
     founder_psych.facets = {0.8f, 0.9f, 0.6f, 0.7f, 0.3f};
     founder_psych.stress = 0.25f;
@@ -592,9 +674,151 @@ int main() {
     spdlog::info("[Oasis Cognitive Core] Founder Memory: tick={} event={} salience={} stress={:.2f} (Slot {}/32, Permanent={})",
                  0ULL, m0.description, m0.salience, founder_psych.stress, initial_slot, founder_psych.memory_ring.permanent_count);
 
+    oasis::fabrication::SomaticStateComponent founder_somatic{};
+    founder_somatic.caloric_reserve = 2500.0;
+    founder_somatic.focus = 1.0f;
+    founder_somatic.stamina = 1.0f;
+    founder_somatic.is_exhausted = false;
+
+    oasis::fabrication::SpatialPositionComponent founder_pos{};
+    founder_pos.pos = glm::vec3(0.0f, 1.0f, 0.0f);
+    founder_pos.move_speed = 3.0f;
+
+    oasis::fabrication::FounderCommandComponent founder_cmd{};
+    founder_cmd.state = oasis::fabrication::FounderActionState::IDLE;
+
     g_ecs->entity("Founder")
         .set<oasis::psychology::PersonalityFacets>(founder_psych.facets)
-        .set<oasis::psychology::PsychologyComponent>(founder_psych);
+        .set<oasis::psychology::PsychologyComponent>(founder_psych)
+        .set<oasis::fabrication::SomaticStateComponent>(founder_somatic)
+        .set<oasis::fabrication::SpatialPositionComponent>(founder_pos)
+        .set<oasis::fabrication::FounderCommandComponent>(founder_cmd);
+
+    // Register FounderMovementSystem in flecs::OnUpdate phase
+    g_ecs->system<oasis::fabrication::SpatialPositionComponent,
+                  oasis::fabrication::FounderCommandComponent,
+                  oasis::fabrication::SomaticStateComponent>("FounderMovementSystem")
+        .kind(flecs::OnUpdate)
+        .each([](oasis::fabrication::SpatialPositionComponent& pos,
+                 oasis::fabrication::FounderCommandComponent& cmd,
+                 oasis::fabrication::SomaticStateComponent& somatic) {
+            if (cmd.state != oasis::fabrication::FounderActionState::NAVIGATING) return;
+
+            glm::vec3 target_pos = glm::vec3(cmd.target_voxel.x, cmd.target_voxel.y, cmd.target_voxel.z);
+            glm::vec3 to_target = target_pos - pos.pos;
+            float dist = glm::length(to_target);
+
+            constexpr float dt = 1.0f / 60.0f;
+
+            if (dist > 1.5f) {
+                glm::vec3 dir = to_target / dist;
+                pos.pos += dir * pos.move_speed * dt;
+                somatic.caloric_reserve = std::max(0.0, somatic.caloric_reserve - 0.10 * dt);
+            } else {
+                cmd.state = oasis::fabrication::FounderActionState::CONSTRUCTING;
+                spdlog::info("[Oasis Movement] Founder arrived at construction site ({},{},{}). Starting fabrication.",
+                             cmd.target_voxel.x, cmd.target_voxel.y, cmd.target_voxel.z);
+            }
+        });
+
+    // Register ConstructionSystem in flecs::OnUpdate phase
+    g_ecs->system<oasis::fabrication::SpatialPositionComponent,
+                  oasis::fabrication::FounderCommandComponent,
+                  oasis::fabrication::SomaticStateComponent,
+                  oasis::psychology::PsychologyComponent>("ConstructionSystem")
+        .kind(flecs::OnUpdate)
+        .each([](flecs::entity e,
+                 oasis::fabrication::SpatialPositionComponent& pos,
+                 oasis::fabrication::FounderCommandComponent& cmd,
+                 oasis::fabrication::SomaticStateComponent& somatic,
+                 oasis::psychology::PsychologyComponent& psych) {
+            if (cmd.state != oasis::fabrication::FounderActionState::CONSTRUCTING) return;
+            if (!cmd.target_blueprint.is_alive() || !cmd.target_blueprint.has<oasis::fabrication::BlueprintComponent>()) {
+                cmd.state = oasis::fabrication::FounderActionState::IDLE;
+                return;
+            }
+
+            auto& bp = cmd.target_blueprint.get_mut<oasis::fabrication::BlueprintComponent>();
+            if (bp.is_completed) {
+                cmd.state = oasis::fabrication::FounderActionState::IDLE;
+                return;
+            }
+
+            // Caloric exhaustion guard (<= 500.0 kcal or focus <= 0.05)
+            if (somatic.caloric_reserve <= 500.0 || psych.focus <= 0.05f) {
+                somatic.is_exhausted = true;
+                cmd.state = oasis::fabrication::FounderActionState::EXHAUSTED;
+                spdlog::warn("[Oasis Fabrication] Founder exhausted! Calories={:.1f}, Focus={:.2f}. Halting construction.",
+                             somatic.caloric_reserve, psych.focus);
+                oasis::psychology::EpisodicMemoryNode exhaust_mem{};
+                exhaust_mem.timestamp_tick = g_sim_tick;
+                exhaust_mem.event_type = static_cast<uint16_t>(oasis::psychology::MemoryEventType::TOOL_DROPPED);
+                exhaust_mem.salience = 60;
+                exhaust_mem.emotional_valence = -50;
+                std::strncpy(exhaust_mem.description, "Exhaust", sizeof(exhaust_mem.description) - 1);
+                psych.memory_ring.Push(exhaust_mem);
+                return;
+            }
+
+            // Incremental fabrication progress
+            constexpr float dt = 1.0f / 60.0f;
+            constexpr double work_rate = 25.0;
+            double delta_w = std::min(work_rate * dt, bp.required_work_ticks - bp.invested_work_ticks);
+            double progress_fraction = (bp.required_work_ticks > 0.0) ? (delta_w / bp.required_work_ticks) : 1.0;
+
+            double cal_burn = bp.caloric_cost_total * progress_fraction;
+            float focus_drain = bp.focus_cost * static_cast<float>(progress_fraction);
+
+            somatic.caloric_reserve = std::max(0.0, somatic.caloric_reserve - cal_burn);
+            psych.focus = std::max(0.0f, psych.focus - focus_drain);
+            somatic.focus = psych.focus;
+            somatic.stamina = std::max(0.0f, somatic.stamina - 0.005f);
+            bp.invested_work_ticks += delta_w;
+
+            if (bp.invested_work_ticks >= bp.required_work_ticks) {
+                bp.is_completed = true;
+                cmd.state = oasis::fabrication::FounderActionState::IDLE;
+
+                auto placed_type = bp.type;
+                int px = bp.x, py = bp.y, pz = bp.z;
+                cmd.target_blueprint.destruct();
+
+                e.world().entity()
+                    .set<oasis::fabrication::VoxelPlacedComponent>({placed_type, px, py, pz, g_sim_tick});
+
+                uint8_t mat_id = (placed_type == oasis::fabrication::InfrastructureType::SOLAR_PANEL) ? 11 : 12;
+                oasis::graphics::SetDynamicVoxel(px, py, pz, mat_id);
+
+                auto boundary = e.world().entity("SettlementBoundary");
+                if (boundary.is_alive() && boundary.has<oasis::boundary::InfrastructureAutarkyComponent>()) {
+                    auto& infra = boundary.get_mut<oasis::boundary::InfrastructureAutarkyComponent>();
+                    if (placed_type == oasis::fabrication::InfrastructureType::SOLAR_PANEL) {
+                        infra.solar_stored_kwh += 5.0;
+                    } else {
+                        infra.rain_stored_liters += 250.0;
+                    }
+                }
+
+                oasis::psychology::EpisodicMemoryNode ach_mem{};
+                ach_mem.timestamp_tick = g_sim_tick;
+                ach_mem.salience = 85; // PERMANENT memory!
+                ach_mem.emotional_valence = 75;
+                ach_mem.flags = oasis::psychology::MemoryFlags::EUPHORIA;
+                if (placed_type == oasis::fabrication::InfrastructureType::SOLAR_PANEL) {
+                    ach_mem.event_type = static_cast<uint16_t>(oasis::psychology::MemoryEventType::FIRST_KILOWATT_GENERATED);
+                    std::strncpy(ach_mem.description, "SolarFab", sizeof(ach_mem.description) - 1);
+                } else {
+                    ach_mem.event_type = static_cast<uint16_t>(oasis::psychology::MemoryEventType::WATER_MAIN_TAPPED);
+                    std::strncpy(ach_mem.description, "RainFab", sizeof(ach_mem.description) - 1);
+                }
+                psych.memory_ring.Push(ach_mem);
+                psych.mood = std::min(1.0f, psych.mood + 0.15f);
+
+                spdlog::info("[Oasis Fabrication] Infrastructure {} completed at ({},{},{})! Remaining Calories={:.1f}, Focus={:.2f}",
+                             (placed_type == oasis::fabrication::InfrastructureType::SOLAR_PANEL ? "Solar Panel" : "Rainwater Catchment"),
+                             px, py, pz, somatic.caloric_reserve, psych.focus);
+            }
+        });
 
     // Register FounderPsychologySystem in flecs::OnUpdate phase
     g_ecs->system<oasis::psychology::PsychologyComponent>("FounderPsychologySystem")

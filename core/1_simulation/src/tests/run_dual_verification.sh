@@ -60,7 +60,7 @@ echo ""
 # Part 1: Headless WebGPU Visual Verification
 # -----------------------------------------------------------------------------
 echo "================================================================================"
-echo "[Stage 1/4] Headless WebGPU Visual Verification (Suburban Sprawl Biome)"
+echo "[Stage 1/6] Headless WebGPU Visual Verification (Suburban Sprawl Biome)"
 echo "Command: node tests/verify_canvas.js"
 echo "================================================================================"
 
@@ -104,7 +104,7 @@ echo ""
 # Part 2: Native Boundary Math Catch2 Test Suite
 # -----------------------------------------------------------------------------
 echo "================================================================================"
-echo "[Stage 2/4] Native Boundary Math Verification (Genesis Epsilon Guard Catch2)"
+echo "[Stage 2/6] Native Boundary Math Verification (Genesis Epsilon Guard Catch2)"
 echo "Command: ./build_native/test_boundary_math"
 echo "================================================================================"
 
@@ -135,7 +135,7 @@ echo ""
 # Part 3: Native IPC Catch2 Test Suite
 # -----------------------------------------------------------------------------
 echo "================================================================================"
-echo "[Stage 3/4] Native Sovereign Stack IPC Verification (Catch2 Test Suite)"
+echo "[Stage 3/6] Native Sovereign Stack IPC Verification (Catch2 Test Suite)"
 echo "Command: ./build_native/test_uhai_ring_buffer"
 echo "================================================================================"
 
@@ -167,7 +167,7 @@ echo ""
 # Part 4: Native Hardware Airgap Catch2 Test Suite
 # -----------------------------------------------------------------------------
 echo "================================================================================"
-echo "[Stage 4/4] Native Hardware Airgap Verification (Catch2 Test Suite)"
+echo "[Stage 4/6] Native Hardware Airgap Verification (Catch2 Test Suite)"
 echo "Command: ./build_native/test_airgap_filter"
 echo "================================================================================"
 
@@ -195,6 +195,68 @@ rm -f "${AIRGAP_OUTPUT_FILE}"
 echo ""
 
 # -----------------------------------------------------------------------------
+# Part 5: Native Flecs Construction Caloric Burn Catch2 Test Suite
+# -----------------------------------------------------------------------------
+echo "================================================================================"
+echo "[Stage 5/6] Native Flecs Construction Caloric Burn (Catch2 Test Suite)"
+echo "Command: ./build_native/test_construction_caloric_burn"
+echo "================================================================================"
+
+CALORIE_OUTPUT_FILE=$(mktemp /tmp/oasis_calorie_test_XXXXXX.log 2>/dev/null || mktemp /tmp/oasis_calorie_test_XXXXXX)
+
+if ./build_native/test_construction_caloric_burn 2>&1 | tee "${CALORIE_OUTPUT_FILE}"; then
+    echo ""
+    if grep -q "All tests passed" "${CALORIE_OUTPUT_FILE}"; then
+        echo "Caloric Burn Verification Passed"
+        echo ">>> [STAGE 5 SUCCESS] Catch2 fabrication & somatic caloric burn tests passed."
+    else
+        echo ">>> [ERROR] Catch2 caloric burn test suite did not pass all assertions."
+        rm -f "${CALORIE_OUTPUT_FILE}"
+        exit 1
+    fi
+else
+    CALORIE_EXIT=$?
+    echo ""
+    echo ">>> [STAGE 5 FAILED] Native Catch2 caloric burn test suite exited with code ${CALORIE_EXIT}."
+    rm -f "${CALORIE_OUTPUT_FILE}"
+    exit ${CALORIE_EXIT}
+fi
+
+rm -f "${CALORIE_OUTPUT_FILE}"
+echo ""
+
+# -----------------------------------------------------------------------------
+# Part 6: Native Layer 7 DES Adversary Catch2 Test Suite
+# -----------------------------------------------------------------------------
+echo "================================================================================"
+echo "[Stage 6/6] Native Layer 7 DES Adversary Verification (Catch2 Test Suite)"
+echo "Command: ./build_native/test_adversary_des"
+echo "================================================================================"
+
+ADVERSARY_OUTPUT_FILE=$(mktemp /tmp/oasis_adversary_test_XXXXXX.log 2>/dev/null || mktemp /tmp/oasis_adversary_test_XXXXXX)
+
+if ./build_native/test_adversary_des 2>&1 | tee "${ADVERSARY_OUTPUT_FILE}"; then
+    echo ""
+    if grep -q "All tests passed" "${ADVERSARY_OUTPUT_FILE}"; then
+        echo "Adversary Siege Verification Passed"
+        echo ">>> [STAGE 6 SUCCESS] Catch2 DES Threat Level 3 event frequency and siege firing verified."
+    else
+        echo ">>> [ERROR] Catch2 adversary DES test suite did not pass all assertions."
+        rm -f "${ADVERSARY_OUTPUT_FILE}"
+        exit 1
+    fi
+else
+    ADV_EXIT=$?
+    echo ""
+    echo ">>> [STAGE 6 FAILED] Native Catch2 adversary DES test suite exited with code ${ADV_EXIT}."
+    rm -f "${ADVERSARY_OUTPUT_FILE}"
+    exit ${ADV_EXIT}
+fi
+
+rm -f "${ADVERSARY_OUTPUT_FILE}"
+echo ""
+
+# -----------------------------------------------------------------------------
 # Quality Gate Final Summary
 # -----------------------------------------------------------------------------
 echo "================================================================================"
@@ -204,17 +266,21 @@ echo "Visual Verification Passed"
 echo "Math Verification Passed"
 echo "IPC Verification Passed"
 echo "Airgap Verification Passed"
+echo "Caloric Burn Verification Passed"
+echo "Adversary Siege Verification Passed"
 echo ""
 echo "Quality Gate Status: GREEN"
-echo "- Procedural Legacy Biome:  Suburban Sprawl (\"Lot 402 & Cul-de-sac\") Verified"
-echo "- Material Diversity:       >= 5 distinct materials detected"
-echo "- Spatial Variance:         StdDev >= 15.0 confirmed"
-echo "- Cognitive Core Logging:   Flecs Episodic Memory verified"
-echo "- Genesis Epsilon Guard:    Day 1 NaN prevention mathematically verified (epsilon=0.001)"
-echo "- Stochastic Boundary:      Poisson arrival intensity and irreducible threat floor verified"
-echo "- UHAI SPSC Ring Buffer:    12,463 assertions across 6 test cases passed"
-echo "- Concurrency Scale:        1,000,000 frames transferred without false sharing"
-echo "- Hardware Airgap Filter:   Mathematical rejection of 0x01 (SITL) and acceptance of 0x02 (Root)"
+echo "- Procedural Legacy Biome:    Suburban Sprawl (\"Lot 402 & Cul-de-sac\") Verified"
+echo "- Material Diversity:         >= 5 distinct materials detected"
+echo "- Spatial Variance:           StdDev >= 15.0 confirmed"
+echo "- Cognitive Core Logging:     Flecs Episodic Memory verified"
+echo "- Genesis Epsilon Guard:      Day 1 NaN prevention mathematically verified (epsilon=0.001)"
+echo "- Stochastic Boundary:        Poisson arrival intensity and irreducible threat floor verified"
+echo "- UHAI SPSC Ring Buffer:      12,463 assertions across 6 test cases passed"
+echo "- Concurrency Scale:          1,000,000 frames transferred without false sharing"
+echo "- Hardware Airgap Filter:     Mathematical rejection of 0x01 (SITL) and acceptance of 0x02 (Root)"
+echo "- Physical Fabrication Loop:  Founder caloric burn and blueprint transition verified"
+echo "- Layer 7 col-adversaryd:     DES Threat Level 3 (LEVEL_3_SIEGE) frequency & firing verified"
 echo "================================================================================"
 
 exit 0

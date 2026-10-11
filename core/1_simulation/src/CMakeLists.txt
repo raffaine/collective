@@ -127,6 +127,51 @@ else()
         )
         add_test(NAME AirgapFilterTests COMMAND test_airgap_filter)
     endif()
+
+    # Sovereign Stack Layer 7 Adversarial Proxy Daemon (col-adversaryd)
+    set(COL_ADVERSARYD_SRC "${CMAKE_CURRENT_SOURCE_DIR}/../../../src/daemons/col-adversaryd/main.cpp")
+    if(EXISTS "${COL_ADVERSARYD_SRC}")
+        add_executable(col_adversaryd "${COL_ADVERSARYD_SRC}")
+        target_include_directories(col_adversaryd PRIVATE 
+            ${CMAKE_CURRENT_SOURCE_DIR}
+            ${CMAKE_CURRENT_SOURCE_DIR}/../../../src/daemons/col-adversaryd
+        )
+        target_link_libraries(col_adversaryd PRIVATE 
+            spdlog::spdlog
+            $<$<PLATFORM_ID:Linux>:rt>
+        )
+    endif()
+
+    # Native Catch2 Construction Caloric Burn Tests (Dual Sprint 5)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/tests/test_construction_caloric_burn.cpp")
+        add_executable(test_construction_caloric_burn tests/test_construction_caloric_burn.cpp)
+        target_include_directories(test_construction_caloric_burn PRIVATE 
+            ${CMAKE_CURRENT_SOURCE_DIR}
+        )
+        target_link_libraries(test_construction_caloric_burn PRIVATE 
+            Catch2::Catch2WithMain
+            $<IF:$<TARGET_EXISTS:flecs::flecs>,flecs::flecs,flecs::flecs_static>
+            glm::glm
+            spdlog::spdlog
+            $<$<PLATFORM_ID:Linux>:rt>
+        )
+        add_test(NAME ConstructionCaloricBurnTests COMMAND test_construction_caloric_burn)
+    endif()
+
+    # Native Catch2 Layer 7 DES Adversary Tests (Dual Sprint 5)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/tests/test_adversary_des.cpp")
+        add_executable(test_adversary_des tests/test_adversary_des.cpp)
+        target_include_directories(test_adversary_des PRIVATE 
+            ${CMAKE_CURRENT_SOURCE_DIR}
+            ${CMAKE_CURRENT_SOURCE_DIR}/../../../src/daemons/col-adversaryd
+        )
+        target_link_libraries(test_adversary_des PRIVATE 
+            Catch2::Catch2WithMain
+            spdlog::spdlog
+            $<$<PLATFORM_ID:Linux>:rt>
+        )
+        add_test(NAME AdversaryDesTests COMMAND test_adversary_des)
+    endif()
 endif()
 
 

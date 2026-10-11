@@ -5,7 +5,7 @@ struct CameraUniforms {
     camera_pos : vec4<f32>,
     camera_target : vec4<f32>,
     viewport_params : vec4<f32>,
-    reserved : vec4<f32>,
+    cursor_highlight : vec4<f32>,
 };
 
 @group(0) @binding(0)
@@ -249,6 +249,10 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         base_color = vec3<f32>(0.620, 0.620, 0.620); // Material 9: Transformers / grid hardware (#9e9e9e)
     } else if (hit_mat == 10u) {
         base_color = vec3<f32>(0.427, 0.298, 0.255); // Material 10: Boundary fences (#6d4c41)
+    } else if (hit_mat == 11u) {
+        base_color = vec3<f32>(0.102, 0.137, 0.494); // Material 11: Solar Panel photovoltaic (#1a237e)
+    } else if (hit_mat == 12u) {
+        base_color = vec3<f32>(0.000, 0.412, 0.361); // Material 12: Rainwater Catchment cistern (#00695c)
     } else {
         base_color = vec3<f32>(0.50, 0.50, 0.50);
     }
@@ -271,7 +275,15 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         face_tint = 0.95; // Z-axis front/back faces
     }
 
-    let lit_color = base_color * lighting * face_tint;
+    var lit_color = base_color * lighting * face_tint;
+
+    // Holographic cursor selection highlight when active
+    if (camera.cursor_highlight.w > 0.5) {
+        let cursor_voxel = vec3<i32>(floor(camera.cursor_highlight.xyz + 0.5));
+        if (all(mapPos == cursor_voxel)) {
+            lit_color = mix(lit_color, vec3<f32>(0.2, 0.9, 1.0), 0.55);
+        }
+    }
 
     // Distance fog blend into horizon
     let sky = get_sky_color(rd);
