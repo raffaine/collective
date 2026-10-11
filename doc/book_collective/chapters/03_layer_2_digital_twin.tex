@@ -509,21 +509,22 @@ Communication across the cybernetic membrane is strictly mediated by POSIX Unix 
 \begin{enumerate}
     \item \textbf{\path{/run/col/l1_l2.sock} (Layer 1 $\to$ Layer 2):} Microcontroller bridges stream serialized binary frames (\texttt{RawHardwareFrame}) into \texttt{col-sensord}.
     \item \textbf{\path{/run/col/l2_l3.sock} (Layer 2 $\to$ Layer 3):} \texttt{col-membraned} pushes signed Merkle epoch batches (\texttt{AttestedTelemetryBatch}) directly into the RocksDB write-ahead log of Layer~3 (\texttt{col-storaged}).
-    \item \textbf{\path{/run/col/l4_l2.sock} (Layer 4 $\to$ Layer 2 Kinetic Ingress):} The Orchestrator (\texttt{col-execd}) transmits validated actuation orders (\texttt{KineticDispatchOrder}) containing Layer~3 Exergy Lease Vouchers.
+    \item \textbf{\path{/run/col/l3_l2.sock} (Layer 3 $\to$ Layer 2 Kinetic Ingress):} The Ledger (\texttt{col-storaged}) passes down validated actuation orders (\texttt{KineticDispatchOrder}) from Layer~4.
 \end{enumerate}
 
 \subsubsection{Reconciling Strict Adjacency with Kinetic Dispatch}
-A naive reading of Strict Adjacency might assume that Layer~4 must write kinetic commands into the Layer~3 ledger, and that Layer~2 must continuously poll Layer~3 to execute them. In real-time cybernetic engineering, this is a catastrophic anti-pattern: forcing sub-100ms actuation commands through an append-only LSM-tree (RocksDB) introduces disk write amplification, flash wear, and compaction stalls.
+A naive reading of Strict Adjacency might assume that Layer~4 writing kinetic commands into the Layer~3 ledger means forcing sub-100ms actuation commands through an append-only LSM-tree (RocksDB), introducing catastrophic disk write amplification, flash wear, and compaction stalls.
 
-The Sovereign Stack resolves this through the \textbf{Cryptographic Lease Handshake}:
+The Sovereign Stack resolves this through the \textbf{Cryptographic Lease Handshake} and Layer 3's \textbf{In-Memory Actuation Ring Buffer}:
 \begin{enumerate}
     \item Layer~4 requests an exergy reservation lease from Layer~3 over \path{/run/col/l3_l4.sock}.
-    \item Layer~3 locks the exergy in escrow and issues a cryptographic \textbf{Exergy Lease Voucher} ($\mathrm{Lease\_CID}$ signed by Layer~3).
-    \item Layer~4 transmits the \texttt{KineticDispatchOrder} directly to Layer~2 over \path{/run/col/l4_l2.sock}, embedding the signed $\mathrm{Lease\_CID}$.
-    \item Layer~2 (\texttt{col-membraned} / \texttt{col-actuated}) verifies Layer~3's signature on the lease voucher, checks the order against its physical hardware safety envelope, and executes the physical actuation.
-    \item The resulting physical state transition is measured at Layer~1, sampled by Layer~2, and reported up to Layer~3 over \path{/run/col/l2_l3.sock} to close the loop and settle the lease.
+    \item Layer~3 locks the exergy in escrow, commits the hold to the LSM-tree, and issues a cryptographic \textbf{Exergy Lease Voucher}.
+    \item Layer~4 writes the \texttt{KineticDispatchOrder} to Layer~3, embedding the signed voucher.
+    \item Crucially, Layer~3 does \textit{not} wait for disk I/O to process this dispatch. It pushes the order into a zero-latency, lock-free in-memory ring buffer, forwarding it immediately to Layer~2 over \path{/run/col/l3_l2.sock}.
+    \item Layer~2 (\texttt{col-membraned}) verifies the cryptographic envelope, checks the order against its physical hardware safety limits, and executes the actuation.
+    \item The resulting physical state transition is measured at Layer~1, sampled by Layer~2, and reported up to Layer~3 over \path{/run/col/l2_l3.sock} to permanently settle the lease on disk.
 \end{enumerate}
-This architecture preserves strict thermodynamic integrity while guaranteeing sub-millisecond kinetic dispatch latency.
+This architecture strictly enforces Sovereign Stack adjacencies while guaranteeing sub-millisecond kinetic dispatch latency.
 
 \subsection{Local-First Physical Autonomy and Baseline Survival Mode}
 
@@ -547,7 +548,7 @@ Crash containment is enforced across three concentric watchdog tiers:
 \begin{itemize}
     \item \textbf{Tier 0: Silicon Independent Watchdog (IWDG):} Embedded on the STM32H7 / ESP32-S3 microcontrollers, the IWDG is clocked by an internal low-speed RC oscillator ($32\,\mathrm{kHz}$ LSI) entirely independent of the main system PLL. If firmware execution hangs for longer than $1,500\,\mathrm{ms}$, the silicon triggers a hard hardware reset, reinitializing all output GPIO pins to high-impedance safe states. In addition, an external supervisory IC (Texas Instruments TPS3823) requires an active edge on its \texttt{WDI} line every 1.6~seconds; if firmware hangs, it pulls the master $\overline{\mathrm{RESET}}$ pin low for $200\,\mathrm{ms}$, enforcing a non-maskable cold restart.
     \item \textbf{Tier 1: Host Operating System Watchdog (\path{/dev/watchdog}):} The Linux kernel on the RK3588 cluster interfaces with an onboard hardware watchdog. The \texttt{systemd} process supervisor must service this timer every $5\,\mathrm{s}$. If the host kernel panics or enters an unrecoverable scheduler lock, the hardware resets the SBC cluster within $15\,\mathrm{s}$.
-    \item \textbf{Tier 2: Inter-Daemon Heartbeat Lease:} \texttt{col-membraned} requires a continuous heartbeat ping from the Layer~4 orchestrator (\texttt{col-execd}) across \path{/run/col/l4_l2.sock} every $1,000\,\mathrm{ms}$. If no heartbeat is received within a $3,000\,\mathrm{ms}$ sliding window, \texttt{col-membraned} flags an \textbf{Upper-Stack Partition Event}, immediately halts active kinetic dispatches, and falls back to baseline autonomous reflexes.
+    \item \textbf{Tier 2: Inter-Daemon Heartbeat Lease:} \texttt{col-membraned} requires a continuous heartbeat ping from the Layer~3 ledger (\texttt{col-storaged}) across \path{/run/col/l3_l2.sock} every $1,000\,\mathrm{ms}$. If no heartbeat is received within a $3,000\,\mathrm{ms}$ sliding window, \texttt{col-membraned} flags an \textbf{Upper-Stack Partition Event}, immediately halts active kinetic dispatches, and falls back to baseline autonomous reflexes.
 \end{itemize}
 
 Furthermore, all high-power microgrid interties and battery contactors are wired in a \textbf{Normally-Open (NO)} configuration. The contactor coils require continuous electrical energization to remain closed against heavy internal return springs. In the event of logic power collapse, blown fuses, or MCU reset, the magnetic holding field collapses, and physical springs force the contacts open within $12\,\mathrm{ms}$, establishing an infinite-impedance physical air gap. Force-guided safety relays (IEC 61810-3) \parencite{iec61810_3} ensure that if contacts weld, mechanical interlocks prevent false state signaling. A hardwired dual-channel analog Emergency Stop loop cuts coil power directly, completely bypassing software.
