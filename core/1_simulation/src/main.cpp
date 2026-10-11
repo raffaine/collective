@@ -16,6 +16,7 @@
 
 #include "shaders/raymarch_wgsl.hpp"
 #include "uhai/uhai_ring_buffer.hpp"
+#include "core/stochastic_boundary.hpp"
 
 namespace oasis {
 namespace psychology {
@@ -569,6 +570,64 @@ int main() {
                 spdlog::info("[Oasis Cognitive Core] Diagnostic Summary: tick={} | Total Recorded: {} | Active Slots: {}/32 | Permanent: {} | Stress: {:.2f} | Mood: {:.2f} | Focus: {:.2f}",
                              tick, psych.memory_ring.total_recorded, psych.memory_ring.count, psych.memory_ring.permanent_count,
                              psych.stress, psych.mood, psych.focus);
+            }
+        });
+
+    // Register boundary components
+    g_ecs->component<oasis::boundary::InfrastructureAutarkyComponent>();
+    g_ecs->component<oasis::boundary::SocialMutualAidComponent>();
+    g_ecs->component<oasis::boundary::PeerMeshComponent>();
+    g_ecs->component<oasis::boundary::BoundaryInterfaceComponent>();
+
+    // Instantiate SettlementBoundary entity with default components
+    g_ecs->entity("SettlementBoundary")
+        .set<oasis::boundary::InfrastructureAutarkyComponent>({})
+        .set<oasis::boundary::SocialMutualAidComponent>({})
+        .set<oasis::boundary::PeerMeshComponent>({})
+        .set<oasis::boundary::BoundaryInterfaceComponent>({});
+
+    // Register BoundaryInterfaceSystem in flecs::OnUpdate phase
+    g_ecs->system<oasis::boundary::BoundaryInterfaceComponent,
+                  const oasis::boundary::InfrastructureAutarkyComponent,
+                  const oasis::boundary::SocialMutualAidComponent,
+                  const oasis::boundary::PeerMeshComponent>("BoundaryInterfaceSystem")
+        .kind(flecs::OnUpdate)
+        .each([](oasis::boundary::BoundaryInterfaceComponent& b,
+                 const oasis::boundary::InfrastructureAutarkyComponent& infra,
+                 const oasis::boundary::SocialMutualAidComponent& social,
+                 const oasis::boundary::PeerMeshComponent& mesh) {
+            const double phi_infra = infra.EvaluatePhi();
+            const double phi_social = social.EvaluatePhi();
+            const double phi_mesh = mesh.EvaluatePhi();
+
+            b.psi = oasis::boundary::CalculateSovereignAttenuation(
+                phi_infra, phi_social, phi_mesh, b.alpha, b.beta, b.gamma, b.delta);
+
+            b.lambda = oasis::boundary::CalculatePoissonArrivalIntensity(
+                b.regime, b.psi, oasis::boundary::IRREDUCIBLE_THREAT_FLOOR);
+
+            if (g_sim_tick % 10 == 0 || g_sim_tick == 1) {
+                spdlog::info("[Oasis Boundary Interface] Poisson arrival intensity lambda={:.6f} s^-1 (regime={}, Psi={:.4f}, Phi_infra={:.4f}, floor={:.4f})",
+                             b.lambda, static_cast<int>(b.regime), b.psi, phi_infra,
+                             oasis::boundary::IRREDUCIBLE_THREAT_FLOOR);
+            }
+
+            constexpr double dt = 1.0 / 60.0;
+            b.countdown_timer -= dt;
+            b.time_to_next_shock = b.countdown_timer;
+            if (b.countdown_timer <= 0.0) {
+                b.total_shocks++;
+                switch (b.total_shocks % 4) {
+                    case 1: b.last_shock_type = oasis::boundary::BoundaryShockType::MunicipalCodeRaid; break;
+                    case 2: b.last_shock_type = oasis::boundary::BoundaryShockType::UtilityShutoff; break;
+                    case 3: b.last_shock_type = oasis::boundary::BoundaryShockType::TaxLien; break;
+                    case 0: b.last_shock_type = oasis::boundary::BoundaryShockType::EpaWaterInspection; break;
+                }
+                b.last_shock = b.last_shock_type;
+                b.countdown_timer = (b.lambda > 0.0) ? (1.0 / b.lambda) : 50.0;
+                b.time_to_next_shock = b.countdown_timer;
+                spdlog::info("[Oasis Boundary Interface] Boundary shock event triggered: count={} lambda={:.6f} s^-1",
+                             b.total_shocks, b.lambda);
             }
         });
 

@@ -25,5 +25,8 @@ echo "=== Build Complete ==="
 echo "Executables built:"
 echo "  ./oasis_engine"
 echo "  ./col_telemetryd"
+echo "  ./col_execd"
 echo "  ./test_uhai_ring_buffer"
+echo "  ./test_boundary_math"
+
 

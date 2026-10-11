@@ -60,6 +60,18 @@ else()
         )
     endif()
 
+    set(COL_EXECD_SRC "${CMAKE_CURRENT_SOURCE_DIR}/../../../src/daemons/col-execd/main.cpp")
+    if(EXISTS "${COL_EXECD_SRC}")
+        add_executable(col_execd "${COL_EXECD_SRC}")
+        target_include_directories(col_execd PRIVATE 
+            ${CMAKE_CURRENT_SOURCE_DIR}
+        )
+        target_link_libraries(col_execd PRIVATE 
+            spdlog::spdlog
+            $<$<PLATFORM_ID:Linux>:rt>
+        )
+    endif()
+
     # Native Catch2 UHAI Ring Buffer Tests
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/tests/test_uhai_ring_buffer.cpp")
         add_executable(test_uhai_ring_buffer tests/test_uhai_ring_buffer.cpp)
@@ -72,6 +84,20 @@ else()
             $<$<PLATFORM_ID:Linux>:rt>
         )
         add_test(NAME UhaiRingBufferTests COMMAND test_uhai_ring_buffer)
+    endif()
+
+    # Native Catch2 Boundary Math Verification Tests
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/tests/test_boundary_math.cpp")
+        add_executable(test_boundary_math tests/test_boundary_math.cpp)
+        target_include_directories(test_boundary_math PRIVATE 
+            ${CMAKE_CURRENT_SOURCE_DIR}
+        )
+        target_link_libraries(test_boundary_math PRIVATE 
+            Catch2::Catch2WithMain
+            spdlog::spdlog
+            $<$<PLATFORM_ID:Linux>:rt>
+        )
+        add_test(NAME BoundaryMathTests COMMAND test_boundary_math)
     endif()
 endif()
 
