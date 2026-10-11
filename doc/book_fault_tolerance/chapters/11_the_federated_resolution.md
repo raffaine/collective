@@ -1,8 +1,5 @@
 # Chapter 11: The Federated Resolution
 
-*“The anchors pull, the tethers fray, / the cold wind strips the warmth away. / But weave the fibers thick and tight, / and hold the line against the night.”*
-— *Apocryphal work song, “The Weaver's Knot”*
-
 The mud at the perimeter was a living, ravenous thing. It was not the rich, loamy soil of the valley’s permaculture terraces, nor was it the sterile, packed dirt of a legacy construction site. It was a freezing, viscous slurry of trampled earth, sleet, and human desperation. It sucked at boots, swallowed dropped wrenches, and seemed to drain the heat directly from the marrow of anyone standing in it. 
 
 For four agonizing days and four freezing nights, the valley mesh had been absorbing the kinetic shockwave of the legacy city's final, violent collapse. The triage camps, hastily erected along the southern ridgeline where the valley met the old municipal highway, were a chaotic, sprawling archipelago of canvas tents, salvaged shipping containers, and geodesic frames wrapped in translucent thermal polymer. Inside those fragile bubbles of warmth huddled thousands of refugees, their faces hollowed by starvation and their clothes reeking of the burning synthetic polymers that now defined the city’s skyline.
@@ -131,7 +128,7 @@ Elara stood at the central terminal, acting as the primary weaver. As two nodes 
 
 *Contract 0x8F2A: Northern Ridge guarantees 500 kWh daily baseline to Riverine Node 4. Condition: Riverine Node 4 delivers 200kg fermented compost weekly.*
 
-*Contract 0x9B1C: Coastal Syndicate Alpha-7 trades 50 liters marine lubricant for 100 hours of heavy fabrication from Valley Foundry.*
+*Contract 0x9B1C: Coastal Syndicate Sector 7 trades 50 liters marine lubricant for 100 hours of heavy fabrication from Valley Foundry.*
 
 One by one, the contracts were cryptographically signed by the delegates' local keys. As each contract locked in, the Layer 6 visualization above them shifted. The angry red lines of severed connections turned to a flowing, vibrant amber, then a steady, resilient green. 
 

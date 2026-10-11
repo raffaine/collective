@@ -1,8 +1,5 @@
 # Chapter 9: The Soil and the Soul
 
-*“We are the dirt that we walk upon, / We are the mud and the bone and the dawn.”*
-— *The Mountain Goats, “Blood of Angels” (Apocryphal variation)*
-
 The morning after the assembly, the rain had finally stopped, but the dampness remained, clinging to everything like a second skin. A thick, grey mist rolled off the eastern ridgeline, settling into the valley basin and swallowing the lower pastures. Elara stood at the edge of the ruined winter root gardens, her breath pluming in the frigid air. The devastation was absolute. The earth, once meticulously shaped into raised beds of dark, friable loam, was now a churned, unrecognizable slurry of mud, punctuated by the jagged, half-eaten remains of carrots, beets, and winter squash. 
 
 This was the thermodynamic cost of ideological purity. It was one thing to debate the ethics of animal integration in the warm, dry air of the Commons Kitchen; it was entirely another to stand in the freezing mud and stare at the caloric deficit that would haunt them until the spring thaw. 

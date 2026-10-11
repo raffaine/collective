@@ -105,7 +105,7 @@ Elara felt the chill spread from her chest to her extremities. The stories they 
 
 Jax slammed his hand against the hood of the truck. "We didn't drive three thousand miles through a collapsing civilization to check on your compost piles. We came to tell you that the grace period is over. The slow transition is dead."
 
-Gabe, standing near the front, tightened his grip on his pitchfork. He thought of Clara, sleeping in the care mesh facility. He thought of Bram, finding his peace in the soil. He thought of everything they had built with their bare hands, the beautiful, messy, resilient fabric of their society. 
+Gabe, standing near the front, tightened his grip on his pitchfork. He thought of Clara, sleeping in the care mesh facility. He thought of Jace, finding his peace in the soil. He thought of everything they had built with their bare hands, the beautiful, messy, resilient fabric of their society. 
 
 "So what do we do?" Gabe asked, his voice ringing out, clear and steady, betraying none of the fear that was gripping the older members of the collective. 
 

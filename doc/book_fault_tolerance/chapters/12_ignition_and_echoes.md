@@ -1,8 +1,5 @@
 # Chapter 12: Ignition and Echoes
 
-*“The hammer strikes, the anvil rings, / We forge our hearts from broken things. / Let the old world burn its hollow lies, / In the ash and dirt, we finally rise.”*
-— *Apocryphal work song, "The Forger's Breath"*
-
 The roar of the Foundry faded into a dull, rhythmic thrum as Elara and Silas pushed through the heavy canvas thermal doors and stepped out into the biting night. The freezing sleet had shifted to a dense, driving snow, coating the trampled mud of the valley perimeter in a deceivingly pristine layer of white. It was a vicious cold, the kind that bypassed the layers of salvaged wool and thermal polymer to sink directly into the marrow.
 
 They walked in silence. The sheer thermodynamic strain of the Layer 5 meta-governance assembly—the hours of haggling, routing, and balancing the survival of the entire bioregional mesh—had stripped them down to their rawest, most elemental components. There was no bandwidth left for words. Elara felt hollowed out, her muscles aching with a profound, bone-deep fatigue. Yet, beneath the exhaustion, a strange, electric current vibrated through her nervous system. 

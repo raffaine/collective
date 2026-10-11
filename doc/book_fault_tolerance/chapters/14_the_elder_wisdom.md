@@ -1,8 +1,5 @@
 # Chapter 14: The Elder Wisdom
 
-*“The hands that plant the orchard / Seldom live to taste the wine. / But we leave the soil sweeter / For the ones at the end of the line.”*
-— *“Orchard Song,” standard transmission across the local mesh*
-
 The storm that had nearly broken them finally shattered against the ridge, dissolving into a bitter, crystalline cold that left the valley floor glittering like crushed glass. The river, no longer choked with ice and timber, ran with a dark, muscular urgency, spinning the turbine that pulsed a steady, triumphant rhythm into the heart of the settlement. The power was stable. The micro-lodgings glowed with amber warmth. The physical machinery of their survival held firm.
 
 But within the enclave, a different kind of stillness had settled, heavy and profound, cutting through the mechanical hum.

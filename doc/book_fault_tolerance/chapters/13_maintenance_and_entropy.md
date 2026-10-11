@@ -1,8 +1,5 @@
 # Chapter 13: Maintenance and Entropy
 
-*“The rust will come, the wires will fray, / The winter steals the light of day. / But pull the wrench and hold the line, / The beating heart is yours and mine.”*
-— *Apocryphal work song, "The Engine's Prayer"*
-
 Elara woke to the deep, resonant hum of the hydronic heating loop and the heavy weight of Silas’s arm draped across her waist. Outside the thick mycelium walls of the retrofitted textile mill, the winter storm howled with a feral, sustained intensity, rattling the salvaged corrugated roofing and throwing sheets of ice against the reinforced glass. The cold out there was a physical predator, an ambient force pressing against the enclave, seeking any micro-fissure to exploit. 
 
 Entropy was always waiting. It was the fundamental law of the universe, the constant, grinding pressure that sought to return all organized matter to dust and all warmth to the void. 

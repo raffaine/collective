@@ -1,11 +1,5 @@
 # Chapter 5: Re-architecting the Space
 
-*“We break the concrete to find the soil,*
-*We trade the fiat for the honest toil.*
-*When the old world rusts in the acid rain,*
-*We raise the timber and we break the chain.”*
-— *The Coppice Chorus, "Ballad of the Broken Brick" (Recorded in the Cultural Commons)*
-
 The abandoned industrial block in Sector Seven was a graveyard of late-stage capitalist ambition. It was a massive, sprawling complex of tilt-up concrete walls, shattered skylights, and rusting corrugated steel roofing. For two decades, it had sat empty, a monument to a forgotten logistics company that had collapsed under the weight of its own leveraged debt. Now, it belonged to the Collective. And they were going to tear it apart from the inside out to build the Sovereign Third Place.
 
 The air inside the massive warehouse was thick with the acrid, metallic tang of vaporized steel and the ancient, settled dust of a thousand forgotten delivery trucks. The ambient temperature was easily thirty-five degrees Celsius, a stifling, stagnant heat that pressed down on the assembly crews. The sound was deafening—a chaotic symphony of high-torque battery impact drivers, the shrieking grind of angle grinders cutting through rusty rebar, and the heavy, rhythmic thud of sledgehammers shattering unreinforced concrete. 
@@ -72,9 +66,9 @@ The heavy blast of an air horn echoed through the warehouse, snapping Elara out 
 
 She turned to see a convoy of three heavy duty electric cargo vans rolling slowly through the massive loading bay doors. The vehicles were battle scarred and heavily modified, their original corporate logos sanded off and replaced with the subtle, geometric insignia of the transit guild. The tires crunched over the concrete dust as they pulled into the staging area, their electric motors whining softly. 
 
-The lead driver, a stout, heavily tattooed driver named Bram, killed the engine and hopped out of the cab. She tossed a heavy ring of mechanical keys to one of the riggers, though the keys were purely symbolic—the actual vehicle authorization had already been cryptographically verified and settled on the ledger via an ephemeral bluetooth handshake. 
+The lead driver, a stout, heavily tattooed driver named Sari, killed the engine and hopped out of the cab. She tossed a heavy ring of mechanical keys to one of the riggers, though the keys were purely symbolic—the actual vehicle authorization had already been cryptographically verified and settled on the ledger via an ephemeral bluetooth handshake. 
 
-"Delivery from the industrial forge!" Bram yelled, slapping the side of the cargo van. "Three tons of biochar thermal insulation blocks, and enough acoustic felt baffles to soundproof a jet engine testing facility. Where do you want it, boss?"
+"Delivery from the industrial forge!" Sari yelled, slapping the side of the cargo van. "Three tons of biochar thermal insulation blocks, and enough acoustic felt baffles to soundproof a jet engine testing facility. Where do you want it, boss?"
 
 "Stack the biochar along the northern exterior wall," Elara directed, pointing toward the coldest side of the warehouse. "We need to pack the wall cavities before we seal the interior paneling. The acoustic baffles go to the central atrium. We’re hanging them from the timber trusses today."
 

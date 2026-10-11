@@ -1,8 +1,5 @@
 # Chapter 8: The Permaculture Dilemma
 
-*“And the salt in my sweat is the salt of the earth, / And the blood on my hands is the cost of my birth.”*
-— *The Mountain Goats, “Autoclave” (Apocryphal variation)*
-
 The rain had been falling for three days straight, a relentless, drumming sheet that turned the perimeter pathways into a treacherous slurry of mud and decomposing leaves. Inside the Commons Kitchen, the air was thick with the smell of wet wool, damp earth, and the nervous, radiating heat of eighty bodies packed too tightly together. The woodstoves were roaring, fed by the Coppice Commons, but they couldn't burn away the tension that hung in the room.
 
 Elara stood at the front, her boots caked in a grey-brown clay that seemed to have permeated the very fibers of her clothing. She wiped a streak of grime from her forehead, feeling the grit against her skin. The assembly had been called in emergency session. There were no smiles tonight. No shared songs to open the gathering, no passing of warm cider. Just the raw, jagged edges of a community fracturing under the weight of its own unlearned morality. 

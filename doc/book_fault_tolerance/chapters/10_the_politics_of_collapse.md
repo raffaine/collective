@@ -1,11 +1,8 @@
 # Chapter 10: The Politics of Collapse
 
-*“The concrete is cracking, the water is rising / We built our walls, but the world is still outside.”*
-— *Apocryphal folk song, “The Perimeter”*
-
 The wind blowing off the eastern ridge did not smell like pine needles or damp earth, as it had for the past five years. It smelled of burning synthetic polymers, exhaust fumes, and the sharp, metallic tang of oxidized copper. It was the scent of a dying civilization, carried on the thermals from the legacy city thirty miles down the valley. 
 
-Elara stood at the edge of the perimeter watchtower—a rugged, timber-framed platform anchored into the side of the mountain—and stared through a salvaged pair of analog binoculars. Beside her, Silas leaned against the heavy oak railing, his massive shoulders hunched against the biting cold. They were wrapped in thick, lanolin-heavy wool coats woven in the Nu textile commons, their boots caked in the freezing mud of late autumn. The physical weight of the garments was a constant reminder of the labor that produced them; every thread represented a thermodynamic cost, an hour of human life spun into survival.
+Elara stood at the edge of the perimeter watchtower—a rugged, timber-framed platform anchored into the side of the mountain—and stared through a salvaged pair of analog binoculars. Beside her, Silas leaned against the heavy oak railing, his massive shoulders hunched against the biting cold. They were wrapped in thick, lanolin-heavy wool coats woven in the textile commons, their boots caked in the freezing mud of late autumn. The physical weight of the garments was a constant reminder of the labor that produced them; every thread represented a thermodynamic cost, an hour of human life spun into survival.
 
 Through the lenses, the legacy city was a sprawling wound against the landscape. It was caught in the vicious, unrelenting grip of a crescent decline. This wasn’t a sudden, cinematic apocalypse. It was a slow, agonizing strangulation. The city’s power grid was failing in fractal patterns, entire districts plunging into darkness for days at a time as municipal substations blew and were never repaired. Plumes of thick, oily black smoke rose from the dense urban center, evidence of uncontrolled fires burning through abandoned commercial zones. The supply chains that had once force-fed the city millions of calories a day had calcified, then shattered. 
 

@@ -7,47 +7,47 @@ The heat radiating from the core of the thermophilic compost mound was a living,
 
 Gabe wiped a mixture of sweat and condensation from his forehead with the back of a canvas-gloved hand, leaving a streak of dark loam across his skin. He was sixteen now, his body lengthening out, the soft edges of his childhood burned away by years of physical labor in the permaculture terraces. The muscles in his shoulders and forearms bunched as he fell into the rhythmic, meditative exertion of turning the pile. 
 
-Across the mound, moving with a steady, metronomic efficiency, was Bram. 
+Across the mound, moving with a steady, metronomic efficiency, was Jace. 
 
-Bram was a man built entirely of sharp angles and old scars. His forearms, exposed below the rolled-up sleeves of a faded linen work shirt, were a map of a different lifetime. Faded, jagged ink from legacy-world prison stints mingled with the unmistakable, collapsed architecture of old track marks—a brutal topography of addiction, desperation, and the systemic violence of the dying system outside their perimeter. 
+Jace was a man built entirely of sharp angles and old scars. His forearms, exposed below the rolled-up sleeves of a faded linen work shirt, were a map of a different lifetime. Faded, jagged ink from legacy-world prison stints mingled with the unmistakable, collapsed architecture of old track marks—a brutal topography of addiction, desperation, and the systemic violence of the dying system outside their perimeter. 
 
-But here, deep in the maintenance commons, Bram’s face was calm. The frantic, hunted look that had defined his arrival at the node three years ago had slowly been replaced by the quiet, grounded focus of a man who had finally found the earth beneath his feet. 
+But here, deep in the maintenance commons, Jace’s face was calm. The frantic, hunted look that had defined his arrival at the node three years ago had slowly been replaced by the quiet, grounded focus of a man who had finally found the earth beneath his feet. 
 
-"You're rushing the turn, kid," Bram said, his voice a low, gravelly rumble that barely carried over the hiss of the escaping steam. He didn't stop moving, his own pitchfork sliding effortlessly into the pile and flipping a massive section of compost with a flick of his wrists. "You don't fight the pile. You let the heat do the work. You're just giving it oxygen. Breathe with it."
+"You're rushing the turn, kid," Jace said, his voice a low, gravelly rumble that barely carried over the hiss of the escaping steam. He didn't stop moving, his own pitchfork sliding effortlessly into the pile and flipping a massive section of compost with a flick of his wrists. "You don't fight the pile. You let the heat do the work. You're just giving it oxygen. Breathe with it."
 
 Gabe chuckled, leaning on his fork to catch his breath. "Easy for you to say. You've got the leverage of a giant. My arms feel like lead. Besides, my head isn't in the compost today."
 
-Bram paused, resting his forearms on the handle of his tool. A rare, genuine smile cracked the weathered lines around his eyes. "Yeah. I imagine it isn't. Care mesh pinged you yet?"
+Jace paused, resting his forearms on the handle of his tool. A rare, genuine smile cracked the weathered lines around his eyes. "Yeah. I imagine it isn't. Care mesh pinged you yet?"
 
 "Not yet," Gabe said, his eyes darting to the worn communication device strapped to his wrist. "Maya’s labor started early this morning. We've been preparing for this since we bonded last year. The midwives said it could be hours. But I can't stop checking. Every time the wind changes, I think it's a notification."
 
-Bram nodded slowly, looking out over the terraced hillside. Below them, the node sprawled out in a vibrant, chaotic mosaic of algorithmic architecture and natural growth. Solar arrays glittered on the rooftops of the retrofitted industrial blocks. The wind turbines spun lazily in the afternoon breeze. The air was filled with the sounds of fabrication, the distant laughter of the mutual aid childcare pods, and the low hum of electric cargo bikes navigating the dirt paths. 
+Jace nodded slowly, looking out over the terraced hillside. Below them, the node sprawled out in a vibrant, chaotic mosaic of algorithmic architecture and natural growth. Solar arrays glittered on the rooftops of the retrofitted industrial blocks. The wind turbines spun lazily in the afternoon breeze. The air was filled with the sounds of fabrication, the distant laughter of the mutual aid childcare pods, and the low hum of electric cargo bikes navigating the dirt paths. 
 
 It was a world alive, completely detached from the suffocating, artificial scarcity that was slowly crushing the legacy cities beyond their bioregional perimeter. 
 
-"A new life," Bram murmured, almost to himself. "Born entirely on this side of the line. She’ll never know what the old world felt like. She’ll never know the cages."
+"A new life," Jace murmured, almost to himself. "Born entirely on this side of the line. She’ll never know what the old world felt like. She’ll never know the cages."
 
-Gabe looked at Bram. The older man’s history was not a secret in the collective. In the legacy world, Bram had been discarded. He had been ground down by an economy that monetized his trauma and a legal system that criminalized his coping mechanisms. He had spent a decade cycling through the brutal machinery of the state—arrests, mandatory minimum sentences in private prisons, and state-mandated rehabilitation clinics that operated on rigid, punitive dogmas of absolute purity and shame. 
+Gabe looked at Jace. The older man’s history was not a secret in the collective. In the legacy world, Jace had been discarded. He had been ground down by an economy that monetized his trauma and a legal system that criminalized his coping mechanisms. He had spent a decade cycling through the brutal machinery of the state—arrests, mandatory minimum sentences in private prisons, and state-mandated rehabilitation clinics that operated on rigid, punitive dogmas of absolute purity and shame. 
 
-"They used to tell me," Bram said, his eyes unfocused, staring into the steam rising from the compost, "that I was broken. A moral failure. The rehabs out there... they were just softer prisons. They demanded absolute abstinence. A single slip, a single moment of weakness, and they cast you out. They'd throw you back on the street, tell you that you didn't want it enough. It was a binary system. You were either perfectly clean, or you were absolute garbage."
+"They used to tell me," Jace said, his eyes unfocused, staring into the steam rising from the compost, "that I was broken. A moral failure. The rehabs out there... they were just softer prisons. They demanded absolute abstinence. A single slip, a single moment of weakness, and they cast you out. They'd throw you back on the street, tell you that you didn't want it enough. It was a binary system. You were either perfectly clean, or you were absolute garbage."
 
 Gabe listened quietly, the pitchfork forgotten in his hands. The apprenticeship protocol had taught him how to build water filters, how to code routing algorithms, and how to splice fiber optic cables. But his real education came from these moments, absorbing the raw, unfiltered history of the people who had fled the dying world to build this new one.
 
-"When I crossed the perimeter," Bram continued, his voice softening, "I was terrified. I was going through withdrawals. I fully expected the collective to lock me in a room, to treat me like a contagion. But they didn't."
+"When I crossed the perimeter," Jace continued, his voice softening, "I was terrified. I was going through withdrawals. I fully expected the collective to lock me in a room, to treat me like a contagion. But they didn't."
 
 Gabe knew the history. The node's approach to addiction was rooted in radical empathy and structural harm reduction. There were no moral judgments cast upon the chemical dependencies forged in the fires of legacy-world trauma. The care mesh recognized that addiction was a predictable, rational biological response to a profoundly sick society.
 
-"I remember the first time I met the pharmacopeia stewards," Bram said, turning back to the pile and gently working the tines into the earth. "I was shaking. Sweating out the poisons. They didn't demand I sign a pledge. They didn't force a twelve-step dogma down my throat. They gave me a clean bed. They gave me nutrient-dense food. And they gave me time."
+"I remember the first time I met the pharmacopeia stewards," Jace said, turning back to the pile and gently working the tines into the earth. "I was shaking. Sweating out the poisons. They didn't demand I sign a pledge. They didn't force a twelve-step dogma down my throat. They gave me a clean bed. They gave me nutrient-dense food. And they gave me time."
 
 The collective did not operate under the puritanical, restrictive drug-free mandates of the legacy state. They understood the realities of Layer Seven—the physical and legal layer where state violence occurred—and they took the perimeter defense incredibly seriously. But inside the mesh, autonomy was absolute. 
 
 Alcohol, cannabis, and psilocybin were integrated responsibly into the cultural and medical commons. They were recognized as tools, social lubricants, and medicines, managed by the community, entirely stripped of their black-market violence and corporate exploitation. 
 
-"They asked me what I needed to survive the night," Bram recalled, a profound gratitude coloring his tone. "Not what I needed to achieve some abstract state of spiritual purity. Just what I needed to survive. They used cannabis to manage the nausea. They used low-dose psilocybin therapy, guided by the elders, to help me map out the trauma that drove the needle into my arm in the first place. They treated me like a neighbor who was injured, not a criminal who needed to be punished."
+"They asked me what I needed to survive the night," Jace recalled, a profound gratitude coloring his tone. "Not what I needed to achieve some abstract state of spiritual purity. Just what I needed to survive. They used cannabis to manage the nausea. They used low-dose psilocybin therapy, guided by the elders, to help me map out the trauma that drove the needle into my arm in the first place. They treated me like a neighbor who was injured, not a criminal who needed to be punished."
 
 He looked at Gabe, the intensity in his eyes burning bright. "They didn't cure me, Gabe. There is no magic cure. Some days, the ghost still scratches at the inside of my skull. But the difference is, when I have a bad day here, the web of trust doesn't isolate me. The community doesn't fire me from my job or throw me in a cell. They pull me closer. They put a pitchfork in my hands and tell me that the soil needs me. They gave me leverage over my own life."
 
-Gabe felt a tightness in his chest, a profound, swelling pride in the social fabric they had woven. The incident with Vane and Aris had proven that their system was not immune to violence, that human darkness still existed. But Bram was the proof of their incredible capacity for healing. The collective was a living organism that absorbed the broken pieces of the old world and metabolized them into something strong, resilient, and deeply rooted.
+Gabe felt a tightness in his chest, a profound, swelling pride in the social fabric they had woven. The incident with Vane and Aris had proven that their system was not immune to violence, that human darkness still existed. But Jace was the proof of their incredible capacity for healing. The collective was a living organism that absorbed the broken pieces of the old world and metabolized them into something strong, resilient, and deeply rooted.
 
 Suddenly, a sharp, trilling chime broke the quiet of the terrace. 
 
@@ -59,9 +59,9 @@ Gabe jerked his wrist up. The screen of his communication device flashed with a 
 
 Gabe’s heart hammered against his ribs. The breath caught in his throat. It was happening. Right now. 
 
-He looked at Bram, his eyes wide, a massive, irrepressible grin breaking across his face. 
+He looked at Jace, his eyes wide, a massive, irrepressible grin breaking across his face. 
 
-Bram laughed, a deep, booming sound that echoed across the terraces. He reached out and clapped a heavy, soil-stained hand on Gabe’s shoulder. "Go. Drop the fork and run, kid. The compost will be here tomorrow. Go meet your daughter."
+Jace laughed, a deep, booming sound that echoed across the terraces. He reached out and clapped a heavy, soil-stained hand on Gabe’s shoulder. "Go. Drop the fork and run, kid. The compost will be here tomorrow. Go meet your daughter."
 
 Gabe didn't need to be told twice. He let the heavy wooden handle of the pitchfork fall against the mound and took off at a dead sprint down the terraced path.
 
@@ -91,7 +91,7 @@ At the foot of the bed, two midwives from the care mesh moved with quiet, practi
 
 "Gabe," Maya gasped, catching sight of him in the doorway. A strained, exhausted smile touched her lips. "You made it. You smell like... compost."
 
-Gabe laughed, a breathless, wet sound, moving quickly to the other side of the bed and taking her free hand. "Bram says hi. I ran the whole way."
+Gabe laughed, a breathless, wet sound, moving quickly to the other side of the bed and taking her free hand. "Jace says hi. I ran the whole way."
 
 "Good," Maya breathed out, her eyes closing as another wave of pressure hit her. She tightened her grip on his hand, her body tensing like a coiled spring. 
 
@@ -121,7 +121,7 @@ Gabe leaned in, his heart expanding in his chest until he felt it might shatter 
 
 This was it. This was the point of all the struggle, all the endless hours in the foundry, the terrifying political fractures, the constant, draining battle against the legacy code enforcers. They had built a fortress, a basic needs firewall, not just to survive the collapse of the old world, but to carve out a space for this exact moment. 
 
-To create a world where a child could take her first breath completely free of debt, completely free of artificial scarcity, and completely free of the systemic violence that had crushed people like Bram.
+To create a world where a child could take her first breath completely free of debt, completely free of artificial scarcity, and completely free of the systemic violence that had crushed people like Jace.
 
 Silas reached over and rested his heavy hand on the back of Gabe’s neck, a silent transmission of overwhelming pride and love. The giant of the fabrication commons was weeping openly, tears catching in his thick beard. 
 
@@ -139,9 +139,9 @@ Later that evening, as the golden hour sunlight slanted through the windows of t
 
 The door to the room creaked open softly. 
 
-Gabe looked up. Bram stood in the doorway, his massive frame silhouetted against the light from the hallway. He had washed the compost dirt from his hands and arms. In his massive, scarred hands, he held a small, beautifully carved wooden toy—a kinetic sculpture of a bird in flight, fashioned from reclaimed cherry wood, the grain sanded incredibly smooth. 
+Gabe looked up. Jace stood in the doorway, his massive frame silhouetted against the light from the hallway. He had washed the compost dirt from his hands and arms. In his massive, scarred hands, he held a small, beautifully carved wooden toy—a kinetic sculpture of a bird in flight, fashioned from reclaimed cherry wood, the grain sanded incredibly smooth. 
 
-Bram didn't say anything. He just looked at the sleeping baby in the bassinet, his eyes shimmering with a quiet, profound reverence. He stepped forward gently, moving with the careful grace of a man who knew exactly how fragile life could be, and placed the wooden bird on the small table next to the bed. 
+Jace didn't say anything. He just looked at the sleeping baby in the bassinet, his eyes shimmering with a quiet, profound reverence. He stepped forward gently, moving with the careful grace of a man who knew exactly how fragile life could be, and placed the wooden bird on the small table next to the bed. 
 
 He looked at Gabe, gave a small, slow nod of acknowledgment, and then stepped back out into the hallway, leaving the new family to their peace. 
 
