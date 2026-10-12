@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Oasis Engine - Sovereign Simulation</title>
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        margin: 0;
+        padding: 16px;
+        background-color: #0b0f14;
+        color: #e2e8f0;
+      }
+      .emscripten { display: block; margin: 0 auto; }
+      div.emscripten { text-align: center; }
+
+      /* Viewport Wrapper holding WebGPU canvas and HUD overlay */
+      .oasis-viewport-container {
+        position: relative;
+        display: inline-block;
+        border: 2px solid #1e293b;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+      }
+
+      /* WebGPU Canvas */
+      canvas.emscripten {
+        border: 0px none;
+        background-color: #000000;
+        display: block;
+        width: 800px;
+        height: 600px;
+      }
+
+      /* =========================================================================
+         SOLARPUNK / CYBERPUNK VITALS HUD OVERLAY
+         CRITICAL: pointer-events: none ensures all mouse clicks/drags pass
+         directly to the WebGPU canvas underneath for raycasting & camera panning!
+         ========================================================================= */
+      #vitals-hud {
+        position: absolute;
+        top: 14px;
+        left: 14px;
+        width: 240px;
+        background: rgba(10, 20, 18, 0.85);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border: 1px solid rgba(52, 211, 153, 0.45);
+        border-radius: 8px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6), 0 0 12px rgba(16, 185, 129, 0.25);
+        padding: 10px 14px;
+        z-index: 100;
+        pointer-events: none !important;
+        user-select: none;
+        box-sizing: border-box;
+      }
+
+      #vitals-hud * {
+        pointer-events: none !important;
+      }
+
+      .hud-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 8px;
+        border-bottom: 1px solid rgba(52, 211, 153, 0.2);
+        padding-bottom: 4px;
+      }
+
+      .hud-title {
+        font-family: 'SF Mono', 'Fira Code', 'Roboto Mono', Menlo, monospace;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        color: #34d399;
+        text-shadow: 0 0 8px rgba(52, 211, 153, 0.6);
+      }
+
+      .hud-badge {
+        font-family: monospace;
+        font-size: 9px;
+        color: #10b981;
+        background: rgba(16, 185, 129, 0.15);
+        border: 1px solid rgba(16, 185, 129, 0.4);
+        border-radius: 4px;
+        padding: 1px 5px;
+      }
+
+      .hud-metric {
+        margin-bottom: 7px;
+      }
+
+      .hud-metric:last-child {
+        margin-bottom: 2px;
+      }
+
+      .hud-label-row {
+        display: flex;
+        justify-content: space-between;
+        font-family: 'SF Mono', 'Fira Code', monospace;
+        font-size: 10px;
+        margin-bottom: 3px;
+      }
+
+      .hud-metric-label {
+        color: #94a3b8;
+        font-weight: 600;
+      }
+
+      .hud-metric-val {
+        color: #f1f5f9;
+        font-weight: 700;
+      }
+
+      .hud-bar-track {
+        background: rgba(15, 23, 42, 0.85);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 4px;
+        height: 7px;
+        overflow: hidden;
+      }
+
+      .hud-bar-fill {
+        height: 100%;
+        width: 100%;
+        border-radius: 3px;
+        transition: width 0.15s ease-out;
+      }
+
+      /* Calories: Warm Amber / Solar Energy Glow */
+      .hud-bar-calories {
+        background: linear-gradient(90deg, #d97706, #fbbf24);
+        box-shadow: 0 0 8px rgba(251, 191, 36, 0.6);
+      }
+
+      /* Stress: Crimson / Hazard Warning Glow */
+      .hud-bar-stress {
+        background: linear-gradient(90deg, #ef4444, #f87171);
+        box-shadow: 0 0 8px rgba(239, 68, 68, 0.6);
+      }
+
+      /* Focus: Cyan / Bio-cyber Neural Glow */
+      .hud-bar-focus {
+        background: linear-gradient(90deg, #06b6d4, #10b981);
+        box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
+      }
+
+      /* Emscripten Status & Console Area */
+      #status {
+        margin-top: 8px;
+        font-weight: bold;
+        color: #94a3b8;
+        font-size: 12px;
+      }
+
+      #output {
+        width: 800px;
+        height: 120px;
+        margin: 12px auto 0 auto;
+        display: block;
+        background-color: #05080c;
+        color: #38bdf8;
+        font-family: 'SF Mono', Monaco, monospace;
+        font-size: 11px;
+        border: 1px solid #1e293b;
+        border-radius: 6px;
+        padding: 8px;
+        box-sizing: border-box;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="emscripten">
+      <div class="oasis-viewport-container">
+        <!-- WebGPU Surface Canvas -->
+        <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" tabindex="-1"></canvas>
+
+        <!-- Solarpunk / Cyberpunk Vitals HUD Overlay -->
+        <div id="vitals-hud">
+          <div class="hud-header">
+            <span class="hud-title">FOUNDER VITALS</span>
+            <span class="hud-badge">ONLINE</span>
+          </div>
+
+          <!-- Calories -->
+          <div class="hud-metric">
+            <div class="hud-label-row">
+              <span class="hud-metric-label">CALORIES</span>
+              <span id="hud-calories-val" class="hud-metric-val">2500 / 2500 kcal</span>
+            </div>
+            <div class="hud-bar-track">
+              <div id="hud-calories-bar" class="hud-bar-fill hud-bar-calories" style="width: 100%;"></div>
+            </div>
+          </div>
+
+          <!-- Stress -->
+          <div class="hud-metric">
+            <div class="hud-label-row">
+              <span class="hud-metric-label">STRESS</span>
+              <span id="hud-stress-val" class="hud-metric-val">25%</span>
+            </div>
+            <div class="hud-bar-track">
+              <div id="hud-stress-bar" class="hud-bar-fill hud-bar-stress" style="width: 25%;"></div>
+            </div>
+          </div>
+
+          <!-- Focus -->
+          <div class="hud-metric">
+            <div class="hud-label-row">
+              <span class="hud-metric-label">FOCUS</span>
+              <span id="hud-focus-val" class="hud-metric-val">75%</span>
+            </div>
+            <div class="hud-bar-track">
+              <div id="hud-focus-bar" class="hud-bar-fill hud-bar-focus" style="width: 75%;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="emscripten" id="status">Initializing WebAssembly & WebGPU...</div>
+    <textarea id="output" rows="6"></textarea>
+
+    <script type="text/javascript">
+      // -----------------------------------------------------------------------
+      // Vitals HUD Animation and State Update Function
+      // Invoked directly from C++ Flecs ECS loop via EM_ASM!
+      // -----------------------------------------------------------------------
+      function updateHUD(caloric_reserve, stress, focus) {
+        var cal = Math.max(0, Math.min(2500, Number(caloric_reserve) || 0));
+        var str = Math.max(0, Math.min(1.0, Number(stress) || 0));
+        var foc = Math.max(0, Math.min(1.0, Number(focus) || 0));
+
+        var calPct = (cal / 2500.0 * 100.0).toFixed(1);
+        var strPct = (str * 100.0).toFixed(1);
+        var focPct = (foc * 100.0).toFixed(1);
+
+        var calBar = document.getElementById('hud-calories-bar');
+        var calVal = document.getElementById('hud-calories-val');
+        if (calBar) calBar.style.width = calPct + '%';
+        if (calVal) calVal.textContent = Math.round(cal) + ' / 2500 kcal';
+
+        var strBar = document.getElementById('hud-stress-bar');
+        var strVal = document.getElementById('hud-stress-val');
+        if (strBar) {
+          strBar.style.width = strPct + '%';
+          if (str > 0.70) {
+            strBar.style.background = 'linear-gradient(90deg, #dc2626, #ff0000)';
+            strBar.style.boxShadow = '0 0 12px #ff0000';
+          } else {
+            strBar.style.background = 'linear-gradient(90deg, #ef4444, #f87171)';
+            strBar.style.boxShadow = '0 0 8px rgba(239, 68, 68, 0.6)';
+          }
+        }
+        if (strVal) strVal.textContent = Math.round(strPct) + '%';
+
+        var focBar = document.getElementById('hud-focus-bar');
+        var focVal = document.getElementById('hud-focus-val');
+        if (focBar) focBar.style.width = focPct + '%';
+        if (focVal) focVal.textContent = Math.round(focPct) + '%';
+
+        // Global audit telemetry for headless test harnesses
+        window._oasisLastHUD = {
+          calories: cal,
+          stress: str,
+          focus: foc,
+          tick: (window._oasisLastHUD ? window._oasisLastHUD.tick + 1 : 1),
+          timestamp: Date.now()
+        };
+      }
+      window.updateHUD = updateHUD;
+
+      // -----------------------------------------------------------------------
+      // Emscripten Module Setup
+      // -----------------------------------------------------------------------
+      var statusElement = document.getElementById('status');
+      var outputElement = document.getElementById('output');
+      var canvasElement = document.getElementById('canvas');
+
+      var Module = {
+        canvas: canvasElement,
+        print: function(...args) {
+          var text = args.join(' ');
+          console.log(text);
+          if (outputElement) {
+            outputElement.value += text + "\n";
+            outputElement.scrollTop = outputElement.scrollHeight;
+          }
+        },
+        setStatus: function(text) {
+          if (statusElement) statusElement.innerHTML = text;
+        }
+      };
+
+      window.onerror = function(event) {
+        if (statusElement) statusElement.innerHTML = 'Exception thrown, see JavaScript console';
+      };
+    </script>
+    {{{ SCRIPT }}}
+  </body>
+</html>

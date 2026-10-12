@@ -18,6 +18,15 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
+static float g_cam_offset_x = 0.0f;
+static float g_cam_offset_z = 0.0f;
+static bool g_is_dragging = false;
+static int g_last_mouse_x = 0;
+static int g_last_mouse_y = 0;
+static bool g_shift_pressed = false;
+
+
+
 
 
 #include "shaders/raymarch_wgsl.hpp"
@@ -25,6 +34,7 @@
 #include "core/stochastic_boundary.hpp"
 #include "core/fabrication.hpp"
 #include "core/raycaster.hpp"
+#include "core/camera_uniforms.hpp"
 
 namespace oasis {
 namespace psychology {
@@ -154,6 +164,8 @@ struct PsychologyComponent {
 
 namespace graphics {
 
+#ifndef OASIS_CAMERA_UNIFORMS_DEFINED
+#define OASIS_CAMERA_UNIFORMS_DEFINED
 #pragma pack(push, 16)
 struct alignas(16) CameraUniforms {
     glm::mat4 view_matrix{1.0f};       // 64 bytes (offset 0)
@@ -163,9 +175,13 @@ struct alignas(16) CameraUniforms {
     glm::vec4 camera_target{0.0f, 0.0f, 0.0f, 1.0f};         // 16 bytes (offset 208), xyz = target, w = zoom
     glm::vec4 viewport_params{800.0f, 600.0f, 800.0f / 600.0f, 0.0f}; // 16 bytes (offset 224), x=w, y=h, z=aspect, w=transition_t
     glm::vec4 cursor_highlight{0.0f};  // 16 bytes (offset 240), xyz = cursor voxel pos, w = active flag (>0.5)
+    glm::vec4 avatar_pos{0.0f, 1.0f, 0.0f, 0.0f}; // 16 bytes (offset 256), xyz = Founder 3D pos, w = animation time (seconds)
+    glm::vec4 avatar_params{0.0f};     // 16 bytes (offset 272), x = action_state, y = stress, z = focus, w = active flag (>0.5)
 };
 #pragma pack(pop)
-static_assert(sizeof(CameraUniforms) == 256, "CameraUniforms must be exactly 256 bytes.");
+#endif
+static_assert(sizeof(CameraUniforms) == 288, "CameraUniforms must be exactly 288 bytes.");
+static_assert(alignof(CameraUniforms) == 16, "CameraUniforms must be 16-byte aligned.");
 
 struct RenderState {
 #ifdef __EMSCRIPTEN__
@@ -177,6 +193,7 @@ struct RenderState {
     wgpu::RenderPipeline pipeline{nullptr};
     wgpu::TextureFormat format{wgpu::TextureFormat::Undefined};
     wgpu::Buffer camera_buffer{nullptr};
+    wgpu::Buffer voxel_storage_buffer{nullptr};
     wgpu::BindGroupLayout bind_group_layout{nullptr};
     wgpu::BindGroup camera_bind_group{nullptr};
 #else
@@ -185,14 +202,17 @@ struct RenderState {
     void* surface{nullptr};
     void* pipeline{nullptr};
     void* camera_buffer{nullptr};
+    void* voxel_storage_buffer{nullptr};
     void* bind_group_layout{nullptr};
     void* camera_bind_group{nullptr};
 #endif
     CameraUniforms camera_uniforms{};
+    oasis::graphics::GpuDynamicVoxelBuffer voxel_data{};
     uint32_t active_camera_mode{0}; // 0 = 3rd-Person Perspective, 1 = Cadastral Isometric
     uint32_t target_camera_mode{0};
     float transition_elapsed_sec{0.0f};
     bool is_transitioning{false};
+    glm::vec3 camera_offset{0.0f, 0.0f, 0.0f}; // Mac-friendly panning offset (ground plane locked)
     uint32_t width{800};
     uint32_t height{600};
     bool is_initialized{false};
@@ -201,12 +221,19 @@ struct RenderState {
 
     bool is_ready() const {
 #ifdef __EMSCRIPTEN__
-        return is_initialized && device != nullptr && pipeline != nullptr && surface != nullptr && camera_bind_group != nullptr;
+        return is_initialized && device != nullptr && pipeline != nullptr && surface != nullptr && camera_bind_group != nullptr && voxel_storage_buffer != nullptr;
 #else
         return is_initialized;
 #endif
     }
 };
+
+inline void ApplyCameraPan(RenderState& state, float delta_x, float delta_y, bool is_wheel) {
+    oasis::graphics::ApplyCameraPan(state.camera_offset, state.active_camera_mode, state.target_camera_mode,
+                                   state.transition_elapsed_sec, state.is_transitioning, delta_x, delta_y, is_wheel);
+    g_cam_offset_x = state.camera_offset.x;
+    g_cam_offset_z = state.camera_offset.z;
+}
 
 inline void UpdateCameraMatrices(RenderState& state, float dt_sec) {
     if (state.is_transitioning) {
@@ -233,9 +260,16 @@ inline void UpdateCameraMatrices(RenderState& state, float dt_sec) {
 
     const float aspect = (state.height > 0) ? (static_cast<float>(state.width) / static_cast<float>(state.height)) : (800.0f / 600.0f);
 
+    // Sync state.camera_offset with legacy globals if modified externally
+    if (g_cam_offset_x != state.camera_offset.x || g_cam_offset_z != state.camera_offset.z) {
+        state.camera_offset.x = g_cam_offset_x;
+        state.camera_offset.z = g_cam_offset_z;
+    }
+    const glm::vec3 offset = state.camera_offset;
+
     // 1. Mode 0: 3rd-Person Follow Perspective Camera
-    const glm::vec3 eye_persp(0.0001f, 2.0001f, -4.9999f);
-    const glm::vec3 target_persp(0.0f, 0.0f, 0.0f);
+    const glm::vec3 eye_persp = offset + glm::vec3(0.0001f, 2.0001f, -4.9999f);
+    const glm::vec3 target_persp = offset + glm::vec3(0.0f, 0.0f, 0.0f);
     const glm::vec3 up_persp(0.0f, 1.0f, 0.0f);
     const glm::mat4 view_persp = glm::lookAt(eye_persp, target_persp, up_persp);
     const glm::mat4 proj_persp = glm::perspective(glm::radians(53.13f), aspect, 0.1f, 100.0f);
@@ -244,8 +278,8 @@ inline void UpdateCameraMatrices(RenderState& state, float dt_sec) {
     // 2. Mode 1: Cadastral Axonometric / Isometric Projection Camera
     const float ortho_size = 14.0f;
     const glm::mat4 proj_iso = glm::ortho(-ortho_size * aspect, ortho_size * aspect, -ortho_size, ortho_size, -50.0f, 50.0f);
-    const glm::vec3 eye_iso(-16.0001f, 20.0001f, -16.0001f);
-    const glm::vec3 target_iso(0.0001f, 0.0001f, 0.0001f);
+    const glm::vec3 eye_iso = offset + glm::vec3(-16.0001f, 20.0001f, -16.0001f);
+    const glm::vec3 target_iso = offset + glm::vec3(0.0001f, 0.0001f, 0.0001f);
     const glm::vec3 up_iso(0.0f, 1.0f, 0.0f);
     const glm::mat4 view_iso = glm::lookAt(eye_iso, target_iso, up_iso);
     const glm::mat4 inv_vp_iso = glm::inverse(proj_iso * view_iso);
@@ -310,46 +344,95 @@ static void TickTelemetry() {
 
 static oasis::fabrication::InfrastructureType g_active_blueprint_type = oasis::fabrication::InfrastructureType::SOLAR_PANEL;
 
-// Poll SDL input events: TAB camera toggle, mouse motion cursor highlight, mouse button construction
+// Poll SDL input events: TAB camera toggle, Mac trackpad wheel/Shift-drag camera panning, blueprint placement
 static void ProcessInputEvents() {
-
-
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
-        if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_TAB) {
+        if (event.type == SDL_KEYDOWN) {
+            if (event.key.keysym.sym == SDLK_TAB) {
+                if (g_ecs) {
+                    auto r = g_ecs->entity("Renderer");
+                    if (r.has<oasis::graphics::RenderState>()) {
+                        auto& state_ref = r.get_mut<oasis::graphics::RenderState>();
+                        state_ref.target_camera_mode = (state_ref.active_camera_mode == 0) ? 1 : 0;
+                        state_ref.is_transitioning = true;
+                        state_ref.transition_elapsed_sec = 0.0f;
+                        spdlog::info("[Oasis Viewport System] SDLK_TAB pressed: Toggling camera mode to {} (400ms transition initiated)",
+                                     (state_ref.target_camera_mode == 1) ? "Cadastral Isometric" : "3rd-Person Perspective");
+                        r.modified<oasis::graphics::RenderState>();
+                    }
+                }
+            } else if (event.key.keysym.sym == SDLK_LSHIFT || event.key.keysym.sym == SDLK_RSHIFT) {
+                g_shift_pressed = true;
+            }
+        } else if (event.type == SDL_KEYUP) {
+            if (event.key.keysym.sym == SDLK_LSHIFT || event.key.keysym.sym == SDLK_RSHIFT) {
+                g_shift_pressed = false;
+            }
+        } else if (event.type == SDL_MOUSEWHEEL) {
+            float wheel_x = (event.wheel.preciseX != 0.0f) ? event.wheel.preciseX : static_cast<float>(event.wheel.x);
+            float wheel_y = (event.wheel.preciseY != 0.0f) ? event.wheel.preciseY : static_cast<float>(event.wheel.y);
+
+            if (event.wheel.direction == SDL_MOUSEWHEEL_FLIPPED) {
+                wheel_x = -wheel_x;
+                wheel_y = -wheel_y;
+            }
+
             if (g_ecs) {
                 auto r = g_ecs->entity("Renderer");
                 if (r.has<oasis::graphics::RenderState>()) {
                     auto& state_ref = r.get_mut<oasis::graphics::RenderState>();
-                    state_ref.target_camera_mode = (state_ref.active_camera_mode == 0) ? 1 : 0;
-                    state_ref.is_transitioning = true;
-                    state_ref.transition_elapsed_sec = 0.0f;
-                    spdlog::info("[Oasis Viewport System] SDLK_TAB pressed: Toggling camera mode to {} (400ms transition initiated)",
-                                 (state_ref.target_camera_mode == 1) ? "Cadastral Isometric" : "3rd-Person Perspective");
+                    oasis::graphics::ApplyCameraPan(state_ref, wheel_x, -wheel_y, true);
                     r.modified<oasis::graphics::RenderState>();
                 }
             }
         } else if (event.type == SDL_MOUSEMOTION) {
-            if (g_ecs) {
-                auto r = g_ecs->entity("Renderer");
-                if (r.has<oasis::graphics::RenderState>()) {
-                    auto& state_ref = r.get_mut<oasis::graphics::RenderState>();
-                    auto hit = oasis::graphics::ScreenToWorldRaycast(
-                        event.motion.x, event.motion.y,
-                        state_ref.width, state_ref.height,
-                        state_ref.camera_uniforms.inv_view_proj,
-                        state_ref.camera_uniforms.camera_pos,
-                        state_ref.camera_uniforms.viewport_params
-                    );
-                    if (hit.hit) {
-                        state_ref.camera_uniforms.cursor_highlight = glm::vec4(glm::vec3(hit.voxel_pos), 1.0f);
-                    } else {
-                        state_ref.camera_uniforms.cursor_highlight = glm::vec4(0.0f);
+            if (g_is_dragging) {
+                float dx = static_cast<float>(event.motion.x - g_last_mouse_x);
+                float dy = static_cast<float>(event.motion.y - g_last_mouse_y);
+                g_last_mouse_x = event.motion.x;
+                g_last_mouse_y = event.motion.y;
+
+                if (g_ecs) {
+                    auto r = g_ecs->entity("Renderer");
+                    if (r.has<oasis::graphics::RenderState>()) {
+                        auto& state_ref = r.get_mut<oasis::graphics::RenderState>();
+                        oasis::graphics::ApplyCameraPan(state_ref, dx, dy, false);
+                        state_ref.camera_uniforms.cursor_highlight = glm::vec4(0.0f); // suppress during drag
+                        r.modified<oasis::graphics::RenderState>();
+                    }
+                }
+            } else {
+                if (g_ecs) {
+                    auto r = g_ecs->entity("Renderer");
+                    if (r.has<oasis::graphics::RenderState>()) {
+                        auto& state_ref = r.get_mut<oasis::graphics::RenderState>();
+                        auto hit = oasis::graphics::ScreenToWorldRaycast(
+                            event.motion.x, event.motion.y,
+                            state_ref.width, state_ref.height,
+                            state_ref.camera_uniforms.inv_view_proj,
+                            state_ref.camera_uniforms.camera_pos,
+                            state_ref.camera_uniforms.viewport_params
+                        );
+                        if (hit.hit) {
+                            state_ref.camera_uniforms.cursor_highlight = glm::vec4(glm::vec3(hit.voxel_pos), 1.0f);
+                        } else {
+                            state_ref.camera_uniforms.cursor_highlight = glm::vec4(0.0f);
+                        }
                     }
                 }
             }
         } else if (event.type == SDL_MOUSEBUTTONDOWN) {
-            if (event.button.button == SDL_BUTTON_LEFT) {
+            const SDL_Keymod mod = SDL_GetModState();
+            const bool is_shift_down = ((mod & KMOD_SHIFT) != 0) || g_shift_pressed;
+
+            if (event.button.button == SDL_BUTTON_MIDDLE ||
+                (event.button.button == SDL_BUTTON_LEFT && is_shift_down)) {
+                g_is_dragging = true;
+                g_last_mouse_x = event.button.x;
+                g_last_mouse_y = event.button.y;
+            } else if (event.button.button == SDL_BUTTON_LEFT) {
+                // Blueprint placement raycast (only when not Shift-panning)
                 if (g_ecs) {
                     auto r = g_ecs->entity("Renderer");
                     auto founder = g_ecs->entity("Founder");
@@ -395,6 +478,15 @@ static void ProcessInputEvents() {
                 spdlog::info("[Oasis Input] Right click: Toggled active blueprint type to {}",
                              (g_active_blueprint_type == oasis::fabrication::InfrastructureType::SOLAR_PANEL ? "Solar Panel (Mat 11)" : "Rainwater Catchment (Mat 12)"));
             }
+        } else if (event.type == SDL_MOUSEBUTTONUP) {
+            if (event.button.button == SDL_BUTTON_MIDDLE || event.button.button == SDL_BUTTON_LEFT) {
+                g_is_dragging = false;
+            }
+        } else if (event.type == SDL_WINDOWEVENT) {
+            if (event.window.event == SDL_WINDOWEVENT_LEAVE || 
+                event.window.event == SDL_WINDOWEVENT_FOCUS_LOST) {
+                g_is_dragging = false;
+            }
         }
     }
 }
@@ -410,16 +502,23 @@ void SetupPipeline(oasis::graphics::RenderState& state) {
     shaderModuleDesc.nextInChain = &wgslDesc;
     wgpu::ShaderModule shaderModule = state.device.CreateShaderModule(&shaderModuleDesc);
 
-    // Bind group layout with 1 uniform buffer entry at binding 0 for CameraUniforms
-    wgpu::BindGroupLayoutEntry bglEntry{};
-    bglEntry.binding = 0;
-    bglEntry.visibility = wgpu::ShaderStage::Fragment | wgpu::ShaderStage::Vertex;
-    bglEntry.buffer.type = wgpu::BufferBindingType::Uniform;
-    bglEntry.buffer.minBindingSize = sizeof(oasis::graphics::CameraUniforms);
+    // Bind group layout with 2 entries:
+    // Binding 0: CameraUniforms (Uniform, Fragment | Vertex)
+    // Binding 1: DynamicVoxels (ReadOnlyStorage, Fragment)
+    wgpu::BindGroupLayoutEntry bglEntries[2]{};
+    bglEntries[0].binding = 0;
+    bglEntries[0].visibility = wgpu::ShaderStage::Fragment | wgpu::ShaderStage::Vertex;
+    bglEntries[0].buffer.type = wgpu::BufferBindingType::Uniform;
+    bglEntries[0].buffer.minBindingSize = sizeof(oasis::graphics::CameraUniforms);
+
+    bglEntries[1].binding = 1;
+    bglEntries[1].visibility = wgpu::ShaderStage::Fragment;
+    bglEntries[1].buffer.type = wgpu::BufferBindingType::ReadOnlyStorage;
+    bglEntries[1].buffer.minBindingSize = sizeof(oasis::graphics::GpuDynamicVoxelBuffer);
 
     wgpu::BindGroupLayoutDescriptor bglDesc{};
-    bglDesc.entryCount = 1;
-    bglDesc.entries = &bglEntry;
+    bglDesc.entryCount = 2;
+    bglDesc.entries = bglEntries;
     state.bind_group_layout = state.device.CreateBindGroupLayout(&bglDesc);
 
     wgpu::PipelineLayoutDescriptor plDesc{};
@@ -460,24 +559,39 @@ void SetupPipeline(oasis::graphics::RenderState& state) {
     bufDesc.usage = wgpu::BufferUsage::Uniform | wgpu::BufferUsage::CopyDst;
     state.camera_buffer = state.device.CreateBuffer(&bufDesc);
 
-    // Create camera_bind_group bound at index 0
-    wgpu::BindGroupEntry bgEntry{};
-    bgEntry.binding = 0;
-    bgEntry.buffer = state.camera_buffer;
-    bgEntry.offset = 0;
-    bgEntry.size = sizeof(oasis::graphics::CameraUniforms);
+    // Create voxel_storage_buffer (Storage | CopyDst)
+    wgpu::BufferDescriptor voxelBufDesc{};
+    voxelBufDesc.label = wgpu::StringView{"DynamicVoxelStorageBuffer"};
+    voxelBufDesc.size = sizeof(oasis::graphics::GpuDynamicVoxelBuffer);
+    voxelBufDesc.usage = wgpu::BufferUsage::Storage | wgpu::BufferUsage::CopyDst;
+    state.voxel_storage_buffer = state.device.CreateBuffer(&voxelBufDesc);
+
+    // Create camera_bind_group bound at index 0 and 1
+    wgpu::BindGroupEntry bgEntries[2]{};
+    bgEntries[0].binding = 0;
+    bgEntries[0].buffer = state.camera_buffer;
+    bgEntries[0].offset = 0;
+    bgEntries[0].size = sizeof(oasis::graphics::CameraUniforms);
+
+    bgEntries[1].binding = 1;
+    bgEntries[1].buffer = state.voxel_storage_buffer;
+    bgEntries[1].offset = 0;
+    bgEntries[1].size = sizeof(oasis::graphics::GpuDynamicVoxelBuffer);
 
     wgpu::BindGroupDescriptor bgDesc{};
     bgDesc.layout = state.bind_group_layout;
-    bgDesc.entryCount = 1;
-    bgDesc.entries = &bgEntry;
+    bgDesc.entryCount = 2;
+    bgDesc.entries = bgEntries;
     state.camera_bind_group = state.device.CreateBindGroup(&bgDesc);
 
     // Initial camera uniform write
     oasis::graphics::UpdateCameraMatrices(state, 0.0f);
     state.queue.WriteBuffer(state.camera_buffer, 0, &state.camera_uniforms, sizeof(oasis::graphics::CameraUniforms));
 
-    spdlog::info("WebGPU Render Pipeline and Camera Bind Group created successfully with cullMode = None");
+    // Initial dynamic voxel buffer write
+    state.queue.WriteBuffer(state.voxel_storage_buffer, 0, &state.voxel_data, sizeof(oasis::graphics::GpuDynamicVoxelBuffer));
+
+    spdlog::info("WebGPU Render Pipeline and Camera Bind Group created successfully with cullMode = None and Dynamic Voxel SSBO");
 }
 
 void RenderWebGPUFrame(oasis::graphics::RenderState& state) {
@@ -485,7 +599,78 @@ void RenderWebGPUFrame(oasis::graphics::RenderState& state) {
 
     // Update and upload camera uniform buffer each frame
     oasis::graphics::UpdateCameraMatrices(state, 1.0f / 60.0f);
+
+    // Extract Founder avatar position and somatic/psych state from Flecs ECS
+    if (g_ecs) {
+        auto founder = g_ecs->entity("Founder");
+        if (founder.is_alive() && founder.has<oasis::fabrication::SpatialPositionComponent>()) {
+            const auto& pos = founder.get<oasis::fabrication::SpatialPositionComponent>();
+            const float anim_time = static_cast<float>(state.frame_count) * (1.0f / 60.0f);
+            state.camera_uniforms.avatar_pos = glm::vec4(pos.pos.x, pos.pos.y, pos.pos.z, anim_time);
+
+            float action_state = 0.0f;
+            float stress = 0.25f;
+            float focus = 0.75f;
+
+            if (founder.has<oasis::fabrication::FounderCommandComponent>()) {
+                action_state = static_cast<float>(founder.get<oasis::fabrication::FounderCommandComponent>().state);
+            }
+            if (founder.has<oasis::psychology::PsychologyComponent>()) {
+                const auto& psych = founder.get<oasis::psychology::PsychologyComponent>();
+                stress = psych.stress;
+                focus = psych.focus;
+            }
+
+            state.camera_uniforms.avatar_params = glm::vec4(action_state, stress, focus, 1.0f);
+        }
+    }
+
     state.queue.WriteBuffer(state.camera_buffer, 0, &state.camera_uniforms, sizeof(oasis::graphics::CameraUniforms));
+
+    // Sync and upload dynamic voxels to WebGPU SSBO
+    const auto& store = oasis::graphics::GetDynamicVoxelStore();
+    uint32_t count = 0;
+    int32_t min_x = 999999, min_y = 999999, min_z = 999999;
+    int32_t max_x = -999999, max_y = -999999, max_z = -999999;
+
+    for (const auto& [packed, mat_id] : store) {
+        if (count >= oasis::graphics::MAX_GPU_DYNAMIC_VOXELS) break;
+        int vx = 0, vy = 0, vz = 0;
+        oasis::graphics::UnpackVoxelCoord(packed, vx, vy, vz);
+        state.voxel_data.voxels[count].x = vx;
+        state.voxel_data.voxels[count].y = vy;
+        state.voxel_data.voxels[count].z = vz;
+        state.voxel_data.voxels[count].material_id = static_cast<uint32_t>(mat_id);
+
+        min_x = std::min(min_x, vx);
+        min_y = std::min(min_y, vy);
+        min_z = std::min(min_z, vz);
+        max_x = std::max(max_x, vx);
+        max_y = std::max(max_y, vy);
+        max_z = std::max(max_z, vz);
+        count++;
+    }
+
+    state.voxel_data.count = count;
+    if (count > 0) {
+        state.voxel_data.min_x = min_x;
+        state.voxel_data.min_y = min_y;
+        state.voxel_data.min_z = min_z;
+        state.voxel_data.max_x = max_x;
+        state.voxel_data.max_y = max_y;
+        state.voxel_data.max_z = max_z;
+    } else {
+        state.voxel_data.min_x = 0;
+        state.voxel_data.min_y = 0;
+        state.voxel_data.min_z = 0;
+        state.voxel_data.max_x = 0;
+        state.voxel_data.max_y = 0;
+        state.voxel_data.max_z = 0;
+    }
+
+    size_t upload_size = 32 + count * sizeof(oasis::graphics::GpuDynamicVoxel);
+    upload_size = std::min(upload_size, sizeof(oasis::graphics::GpuDynamicVoxelBuffer));
+    state.queue.WriteBuffer(state.voxel_storage_buffer, 0, &state.voxel_data, upload_size);
 
     wgpu::SurfaceTexture surfaceTexture;
     state.surface.GetCurrentTexture(&surfaceTexture);
@@ -617,7 +802,7 @@ void EngineTick(void* arg) {
 
 int main() {
     spdlog::info("Oasis V4 Engine Starting...");
-    spdlog::set_level(spdlog::level::warn); // Silence the tick spam
+    spdlog::set_level(spdlog::level::info);
 
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
         spdlog::error("SDL_Init Error: {}", SDL_GetError());
@@ -996,6 +1181,25 @@ int main() {
                 spdlog::info("[Oasis Boundary Interface] Boundary shock event triggered: count={} lambda={:.6f} s^-1",
                              b.total_shocks, b.lambda);
             }
+        });
+
+    // Register FounderVitalsHUDSystem in flecs::PostUpdate phase
+    g_ecs->system<const oasis::fabrication::SomaticStateComponent,
+                  const oasis::psychology::PsychologyComponent>("FounderVitalsHUDSystem")
+        .kind(flecs::PostUpdate)
+        .each([](flecs::entity e,
+                 const oasis::fabrication::SomaticStateComponent& somatic,
+                 const oasis::psychology::PsychologyComponent& psych) {
+            if (e != e.world().entity("Founder")) return;
+#ifdef __EMSCRIPTEN__
+            EM_ASM({
+                if (typeof updateHUD === 'function') {
+                    updateHUD($0, $1, $2);
+                } else if (typeof window !== 'undefined' && typeof window.updateHUD === 'function') {
+                    window.updateHUD($0, $1, $2);
+                }
+            }, somatic.caloric_reserve, static_cast<double>(psych.stress), static_cast<double>(psych.focus));
+#endif
         });
 
     // Register Renderer entity with non-zero size RenderState

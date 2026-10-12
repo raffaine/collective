@@ -664,6 +664,41 @@ async function runHeadlessChromeVerification() {
 
     console.log(`Canvas located: ${canvasRect.width}x${canvasRect.height} at (${canvasRect.x}, ${canvasRect.y})`);
 
+    // Validate HTML Vitals HUD Overlay and Pointer-Events Pass-Through (Sprint 7)
+    try {
+      const hudValidation = await cdp.send('Runtime.evaluate', {
+        expression: `
+          (() => {
+            const hud = document.getElementById('vitals-hud');
+            if (!hud) return { error: 'Element #vitals-hud missing from DOM' };
+            const style = window.getComputedStyle(hud);
+            if (style.pointerEvents !== 'none') {
+              return { error: 'HUD pointerEvents must be "none", found: ' + style.pointerEvents };
+            }
+            const hitElement = document.elementFromPoint(20, 20);
+            if (hitElement && hitElement.id !== 'canvas') {
+              return { error: 'elementFromPoint(20, 20) hit #' + hitElement.id + ' instead of #canvas' };
+            }
+            return {
+              success: true,
+              pointerEvents: style.pointerEvents,
+              hitElementId: hitElement ? hitElement.id : null,
+              lastHUD: window._oasisLastHUD || null
+            };
+          })()
+        `,
+        returnByValue: true
+      });
+
+      if (hudValidation?.result?.value?.error) {
+        console.warn(`[HUD Diagnostic Notice] ${hudValidation.result.value.error}`);
+      } else if (hudValidation?.result?.value?.success) {
+        console.log('HTML Vitals HUD Overlay:              VERIFIED (pointer-events: none, pass-through confirmed)');
+      }
+    } catch (e) {
+      console.warn(`[HUD Diagnostic Warning] ${e.message}`);
+    }
+
     // Poll for genuine non-black frame rendering via CDP compositor screenshot
     let renderResult = null;
     const renderPollStart = Date.now();

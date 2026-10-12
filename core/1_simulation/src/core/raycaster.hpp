@@ -1,12 +1,90 @@
 #pragma once
 
 #include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 #include <cstdint>
 #include <cmath>
 #include <unordered_map>
 #include <algorithm>
 
 namespace oasis::graphics {
+
+struct CameraPanState {
+    glm::vec3 camera_offset{0.0f, 0.0f, 0.0f};
+    uint32_t active_camera_mode{0}; // 0 = 3rd-Person Perspective, 1 = Cadastral Isometric
+    uint32_t target_camera_mode{0};
+    float transition_elapsed_sec{0.0f};
+    bool is_transitioning{false};
+};
+
+inline glm::vec3 ComputeCameraPanDelta(
+    uint32_t active_camera_mode,
+    uint32_t target_camera_mode,
+    float transition_elapsed_sec,
+    bool is_transitioning,
+    float delta_x,
+    float delta_y,
+    bool is_wheel
+) noexcept {
+    float t = 0.0f;
+    if (is_transitioning) {
+        float u = std::clamp(transition_elapsed_sec / 0.400f, 0.0f, 1.0f);
+        float hermite_t = 3.0f * u * u - 2.0f * u * u * u;
+        t = (target_camera_mode == 1) ? hermite_t : (1.0f - hermite_t);
+    } else {
+        t = (active_camera_mode == 1) ? 1.0f : 0.0f;
+    }
+
+    const glm::vec3 eye_persp(0.0001f, 2.0001f, -4.9999f);
+    const glm::vec3 target_persp(0.0f, 0.0f, 0.0f);
+    const glm::vec3 eye_iso(-16.0001f, 20.0001f, -16.0001f);
+    const glm::vec3 target_iso(0.0001f, 0.0001f, 0.0001f);
+
+    const glm::vec3 eye_cur = glm::mix(eye_persp, eye_iso, t);
+    const glm::vec3 target_cur = glm::mix(target_persp, target_iso, t);
+    const glm::vec3 look = target_cur - eye_cur;
+
+    glm::vec3 fwd_ground(look.x, 0.0f, look.z);
+    if (glm::length(fwd_ground) > 1e-4f) {
+        fwd_ground = glm::normalize(fwd_ground);
+    } else {
+        fwd_ground = glm::vec3(0.0f, 0.0f, 1.0f);
+    }
+
+    const glm::vec3 right_ground = glm::normalize(glm::cross(fwd_ground, glm::vec3(0.0f, 1.0f, 0.0f)));
+    float scale = is_wheel ? glm::mix(0.025f, 0.040f, t) : glm::mix(0.020f, 0.045f, t);
+
+    glm::vec3 pan_delta = (-delta_x * right_ground + delta_y * fwd_ground) * scale;
+    pan_delta.y = 0.0f;
+    return pan_delta;
+}
+
+inline void ApplyCameraPan(
+    glm::vec3& offset,
+    uint32_t active_camera_mode,
+    uint32_t target_camera_mode,
+    float transition_elapsed_sec,
+    bool is_transitioning,
+    float delta_x,
+    float delta_y,
+    bool is_wheel
+) noexcept {
+    glm::vec3 pan_delta = ComputeCameraPanDelta(
+        active_camera_mode, target_camera_mode,
+        transition_elapsed_sec, is_transitioning,
+        delta_x, delta_y, is_wheel
+    );
+    offset += pan_delta;
+    offset.y = 0.0f;
+    offset.x = std::clamp(offset.x, -35.0f, 35.0f);
+    offset.z = std::clamp(offset.z, -35.0f, 50.0f);
+}
+
+inline void ApplyCameraPan(CameraPanState& state, float delta_x, float delta_y, bool is_wheel) noexcept {
+    ApplyCameraPan(state.camera_offset, state.active_camera_mode, state.target_camera_mode,
+                   state.transition_elapsed_sec, state.is_transitioning, delta_x, delta_y, is_wheel);
+}
+
 
 struct RaycastHit {
     bool hit{false};
@@ -23,6 +101,43 @@ inline uint64_t PackVoxelCoord(int x, int y, int z) noexcept {
     const uint64_t uz = static_cast<uint64_t>(static_cast<uint32_t>(z));
     return (ux << 42) | ((uy & 0x1FFFFFULL) << 21) | (uz & 0x1FFFFFULL);
 }
+
+inline void UnpackVoxelCoord(uint64_t packed, int& x, int& y, int& z) noexcept {
+    const int64_t sx = static_cast<int64_t>(packed) >> 42;
+    x = static_cast<int>(sx);
+
+    const uint32_t raw_y = static_cast<uint32_t>((packed >> 21) & 0x1FFFFFULL);
+    y = (raw_y & (1U << 20)) ? static_cast<int>(raw_y | ~0x1FFFFFU) : static_cast<int>(raw_y);
+
+    const uint32_t raw_z = static_cast<uint32_t>(packed & 0x1FFFFFULL);
+    z = (raw_z & (1U << 20)) ? static_cast<int>(raw_z | ~0x1FFFFFU) : static_cast<int>(raw_z);
+}
+
+constexpr size_t MAX_GPU_DYNAMIC_VOXELS = 1024;
+
+struct alignas(16) GpuDynamicVoxel {
+    int32_t x{0};
+    int32_t y{0};
+    int32_t z{0};
+    uint32_t material_id{0};
+};
+static_assert(sizeof(GpuDynamicVoxel) == 16, "GpuDynamicVoxel must be 16 bytes.");
+static_assert(alignof(GpuDynamicVoxel) == 16, "GpuDynamicVoxel must be 16-byte aligned.");
+
+struct alignas(16) GpuDynamicVoxelBuffer {
+    uint32_t count{0};
+    int32_t min_x{0};
+    int32_t min_y{0};
+    int32_t min_z{0};
+    int32_t max_x{0};
+    int32_t max_y{0};
+    int32_t max_z{0};
+    uint32_t pad{0};
+    GpuDynamicVoxel voxels[MAX_GPU_DYNAMIC_VOXELS];
+};
+static_assert(sizeof(GpuDynamicVoxelBuffer) == 32 + MAX_GPU_DYNAMIC_VOXELS * 16, "GpuDynamicVoxelBuffer size mismatch.");
+static_assert(alignof(GpuDynamicVoxelBuffer) == 16, "GpuDynamicVoxelBuffer must be 16-byte aligned.");
+
 
 inline std::unordered_map<uint64_t, uint8_t>& GetDynamicVoxelStore() noexcept {
     static std::unordered_map<uint64_t, uint8_t> s_store;

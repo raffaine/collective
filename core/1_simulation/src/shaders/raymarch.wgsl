@@ -6,10 +6,53 @@ struct CameraUniforms {
     camera_target : vec4<f32>,
     viewport_params : vec4<f32>,
     cursor_highlight : vec4<f32>,
+    avatar_pos : vec4<f32>,
+    avatar_params : vec4<f32>,
 };
 
 @group(0) @binding(0)
 var<uniform> camera : CameraUniforms;
+
+struct DynamicVoxel {
+    pos : vec3<i32>,
+    material_id : u32,
+};
+
+struct DynamicVoxelStore {
+    count : u32,
+    min_x : i32,
+    min_y : i32,
+    min_z : i32,
+    max_x : i32,
+    max_y : i32,
+    max_z : i32,
+    _pad : u32,
+    voxels : array<DynamicVoxel, 1024>,
+};
+
+@group(0) @binding(1)
+var<storage, read> dynamic_voxels : DynamicVoxelStore;
+
+fn get_dynamic_voxel_material(pos : vec3<i32>) -> u32 {
+    let count = dynamic_voxels.count;
+    if (count == 0u) {
+        return 0u;
+    }
+    // Fast AABB early rejection
+    if (pos.x < dynamic_voxels.min_x || pos.x > dynamic_voxels.max_x ||
+        pos.y < dynamic_voxels.min_y || pos.y > dynamic_voxels.max_y ||
+        pos.z < dynamic_voxels.min_z || pos.z > dynamic_voxels.max_z) {
+        return 0u;
+    }
+    let limit = min(count, 1024u);
+    for (var i = 0u; i < limit; i = i + 1u) {
+        let v = dynamic_voxels.voxels[i];
+        if (v.pos.x == pos.x && v.pos.y == pos.y && v.pos.z == pos.z) {
+            return v.material_id;
+        }
+    }
+    return 0u;
+}
 
 struct VertexOutput {
     @builtin(position) position : vec4<f32>,
@@ -38,6 +81,11 @@ fn vs_main(@builtin(vertex_index) vertex_index : u32) -> VertexOutput {
 // Procedural Suburban Sprawl Legacy Biome ("Lot 402 & Cul-de-sac")
 // Returns 0u for empty air, or 1u..10u for distinct procedural materials
 fn get_voxel_material(pos: vec3<i32>) -> u32 {
+    let dyn_mat = get_dynamic_voxel_material(pos);
+    if (dyn_mat != 0u) {
+        return dyn_mat;
+    }
+
     let absX = abs(pos.x);
     let lotZ = (pos.z % 16 + 16) % 16; // 16-voxel periodic residential lot pitch
 
@@ -118,6 +166,21 @@ fn get_sky_color(rd: vec3<f32>) -> vec3<f32> {
     let sky_horizon = vec3<f32>(0.55, 0.70, 0.85);
     let t = clamp(rd.y * 0.5 + 0.5, 0.0, 1.0);
     return mix(sky_horizon, sky_top, t);
+}
+
+fn intersect_sphere(ro: vec3<f32>, rd: vec3<f32>, center: vec3<f32>, radius: f32) -> f32 {
+    let oc = ro - center;
+    let b = dot(oc, rd);
+    let c = dot(oc, oc) - radius * radius;
+    let disc = b * b - c;
+    if (disc < 0.0) {
+        return -1.0;
+    }
+    let t = -b - sqrt(disc);
+    if (t < 0.0) {
+        return -1.0;
+    }
+    return t;
 }
 
 @fragment
@@ -222,6 +285,56 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         }
     }
 
+    let voxel_dist = select(1e9, hit_dist, hit_mat != 0u);
+
+    // Founder Avatar: Hovering Plumbob Sphere
+    if (camera.avatar_params.w > 0.5) {
+        let hover_offset = 0.40 + sin(camera.avatar_pos.w * 3.5) * 0.08;
+        let avatar_center = camera.avatar_pos.xyz + vec3<f32>(0.0, hover_offset, 0.0);
+        let avatar_radius = 0.32;
+
+        let t_avatar = intersect_sphere(ro, rd, avatar_center, avatar_radius);
+
+        if (t_avatar > 0.0 && t_avatar < voxel_dist) {
+            let hit_pos = ro + rd * t_avatar;
+            let norm = normalize(hit_pos - avatar_center);
+            let view_dir = -rd;
+            let light_dir = normalize(vec3<f32>(0.5, 0.8, -0.4));
+
+            let diff = max(dot(norm, light_dir), 0.0);
+            let view_dot = max(dot(norm, view_dir), 0.0);
+            let fresnel = pow(1.0 - view_dot, 2.5);
+
+            // State-driven Sims Plumbob color:
+            // 0 = IDLE (Emerald #00e676)
+            // 1 = NAVIGATING (Cyan #00b0ff)
+            // 2 = CONSTRUCTING (Amber #ffd600)
+            // 4 = EXHAUSTED / High Stress (Crimson #ff1744)
+            let action_state = u32(round(camera.avatar_params.x));
+            var base_color = vec3<f32>(0.00, 0.90, 0.45); // Emerald Green
+            var glow_color = vec3<f32>(0.35, 1.00, 0.65);
+
+            if (action_state == 1u) {
+                base_color = vec3<f32>(0.00, 0.65, 0.95); // Cyan
+                glow_color = vec3<f32>(0.40, 0.85, 1.00);
+            } else if (action_state == 2u) {
+                base_color = vec3<f32>(0.95, 0.75, 0.05); // Amber Gold
+                glow_color = vec3<f32>(1.00, 0.90, 0.40);
+            } else if (action_state == 4u || camera.avatar_params.y > 0.75) {
+                base_color = vec3<f32>(0.95, 0.10, 0.15); // Crimson Warning
+                glow_color = vec3<f32>(1.00, 0.40, 0.45);
+            }
+
+            let pulse = 0.85 + 0.15 * sin(camera.avatar_pos.w * 5.0);
+            let lit_avatar = base_color * (0.35 + 0.65 * diff) + glow_color * pulse * (fresnel * 0.85 + 0.25);
+
+            let sky = get_sky_color(rd);
+            let fog = 1.0 - exp(-t_avatar * 0.035);
+            let final_avatar = mix(lit_avatar, sky, fog);
+            return vec4<f32>(final_avatar, 1.0);
+        }
+    }
+
     // Sky miss
     if (hit_mat == 0u) {
         return vec4<f32>(get_sky_color(rd), 1.0);
@@ -276,6 +389,16 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
     }
 
     var lit_color = base_color * lighting * face_tint;
+
+    // Contact shadow cast by Founder avatar onto terrain
+    if (camera.avatar_params.w > 0.5) {
+        let voxel_pos_hit = ro + rd * hit_dist;
+        let ground_dist = length(voxel_pos_hit.xz - camera.avatar_pos.xz);
+        if (ground_dist < 0.65 && voxel_pos_hit.y <= camera.avatar_pos.y + 0.1) {
+            let shadow_factor = smoothstep(0.65, 0.15, ground_dist) * 0.45;
+            lit_color = lit_color * (1.0 - shadow_factor);
+        }
+    }
 
     // Holographic cursor selection highlight when active
     if (camera.cursor_highlight.w > 0.5) {

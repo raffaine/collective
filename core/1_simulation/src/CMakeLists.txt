@@ -37,7 +37,9 @@ if(EMSCRIPTEN)
         "-sSTACK_SIZE=2097152"
         "-sEXIT_RUNTIME=0"
         "-sASSERTIONS=1"
+        "--shell-file" "${CMAKE_CURRENT_SOURCE_DIR}/shell_minimal.html"
     )
+    set_property(TARGET oasis_engine APPEND PROPERTY LINK_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/shell_minimal.html")
     set_target_properties(oasis_engine PROPERTIES SUFFIX ".html")
 else()
     target_link_libraries(oasis_engine PRIVATE 
@@ -172,6 +174,53 @@ else()
         )
         add_test(NAME AdversaryDesTests COMMAND test_adversary_des)
     endif()
+
+    # Native Catch2 Camera & Dynamic Voxel SSBO Tests (Dual Sprint 6)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/tests/test_camera_ssbo.cpp")
+        add_executable(test_camera_ssbo tests/test_camera_ssbo.cpp)
+        target_include_directories(test_camera_ssbo PRIVATE 
+            ${CMAKE_CURRENT_SOURCE_DIR}
+        )
+        target_link_libraries(test_camera_ssbo PRIVATE 
+            Catch2::Catch2WithMain
+            glm::glm
+            spdlog::spdlog
+            $<$<PLATFORM_ID:Linux>:rt>
+        )
+        add_test(NAME CameraSsboTests COMMAND test_camera_ssbo)
+    endif()
+
+    # Adversarial Catch2 Camera & SSBO Stress Tests (Dual Sprint 6 Challenger)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/tests/test_sprint6_adversarial.cpp")
+        add_executable(test_sprint6_adversarial tests/test_sprint6_adversarial.cpp)
+        target_include_directories(test_sprint6_adversarial PRIVATE 
+            ${CMAKE_CURRENT_SOURCE_DIR}
+        )
+        target_link_libraries(test_sprint6_adversarial PRIVATE 
+            Catch2::Catch2WithMain
+            glm::glm
+            spdlog::spdlog
+            $<$<PLATFORM_ID:Linux>:rt>
+        )
+        add_test(NAME Sprint6AdversarialTests COMMAND test_sprint6_adversarial)
+    endif()
+
+    # Native Catch2 Avatar & Vitals HUD Tests (Dual Sprint 7)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/tests/test_avatar_vitals.cpp")
+        add_executable(test_avatar_vitals tests/test_avatar_vitals.cpp)
+        target_include_directories(test_avatar_vitals PRIVATE 
+            ${CMAKE_CURRENT_SOURCE_DIR}
+        )
+        target_link_libraries(test_avatar_vitals PRIVATE 
+            Catch2::Catch2WithMain
+            $<IF:$<TARGET_EXISTS:flecs::flecs>,flecs::flecs,flecs::flecs_static>
+            glm::glm
+            spdlog::spdlog
+            $<$<PLATFORM_ID:Linux>:rt>
+        )
+        add_test(NAME AvatarVitalsTests COMMAND test_avatar_vitals)
+    endif()
 endif()
+
 
 

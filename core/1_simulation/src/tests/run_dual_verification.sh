@@ -60,7 +60,7 @@ echo ""
 # Part 1: Headless WebGPU Visual Verification
 # -----------------------------------------------------------------------------
 echo "================================================================================"
-echo "[Stage 1/6] Headless WebGPU Visual Verification (Suburban Sprawl Biome)"
+echo "[Stage 1/8] Headless WebGPU Visual Verification (Suburban Sprawl Biome)"
 echo "Command: node tests/verify_canvas.js"
 echo "================================================================================"
 
@@ -104,7 +104,7 @@ echo ""
 # Part 2: Native Boundary Math Catch2 Test Suite
 # -----------------------------------------------------------------------------
 echo "================================================================================"
-echo "[Stage 2/6] Native Boundary Math Verification (Genesis Epsilon Guard Catch2)"
+echo "[Stage 2/8] Native Boundary Math Verification (Genesis Epsilon Guard Catch2)"
 echo "Command: ./build_native/test_boundary_math"
 echo "================================================================================"
 
@@ -135,7 +135,7 @@ echo ""
 # Part 3: Native IPC Catch2 Test Suite
 # -----------------------------------------------------------------------------
 echo "================================================================================"
-echo "[Stage 3/6] Native Sovereign Stack IPC Verification (Catch2 Test Suite)"
+echo "[Stage 3/8] Native Sovereign Stack IPC Verification (Catch2 Test Suite)"
 echo "Command: ./build_native/test_uhai_ring_buffer"
 echo "================================================================================"
 
@@ -167,7 +167,7 @@ echo ""
 # Part 4: Native Hardware Airgap Catch2 Test Suite
 # -----------------------------------------------------------------------------
 echo "================================================================================"
-echo "[Stage 4/6] Native Hardware Airgap Verification (Catch2 Test Suite)"
+echo "[Stage 4/8] Native Hardware Airgap Verification (Catch2 Test Suite)"
 echo "Command: ./build_native/test_airgap_filter"
 echo "================================================================================"
 
@@ -198,7 +198,7 @@ echo ""
 # Part 5: Native Flecs Construction Caloric Burn Catch2 Test Suite
 # -----------------------------------------------------------------------------
 echo "================================================================================"
-echo "[Stage 5/6] Native Flecs Construction Caloric Burn (Catch2 Test Suite)"
+echo "[Stage 5/8] Native Flecs Construction Caloric Burn (Catch2 Test Suite)"
 echo "Command: ./build_native/test_construction_caloric_burn"
 echo "================================================================================"
 
@@ -229,7 +229,7 @@ echo ""
 # Part 6: Native Layer 7 DES Adversary Catch2 Test Suite
 # -----------------------------------------------------------------------------
 echo "================================================================================"
-echo "[Stage 6/6] Native Layer 7 DES Adversary Verification (Catch2 Test Suite)"
+echo "[Stage 6/8] Native Layer 7 DES Adversary Verification (Catch2 Test Suite)"
 echo "Command: ./build_native/test_adversary_des"
 echo "================================================================================"
 
@@ -257,6 +257,68 @@ rm -f "${ADVERSARY_OUTPUT_FILE}"
 echo ""
 
 # -----------------------------------------------------------------------------
+# Part 7: Native Camera & Dynamic Voxel SSBO Catch2 Test Suite (Dual Sprint 6)
+# -----------------------------------------------------------------------------
+echo "================================================================================"
+echo "[Stage 7/8] Native Camera & SSBO Verification (Catch2 Test Suite)"
+echo "Command: ./build_native/test_camera_ssbo"
+echo "================================================================================"
+
+CAMERA_SSBO_OUTPUT_FILE=$(mktemp /tmp/oasis_camera_ssbo_test_XXXXXX.log 2>/dev/null || mktemp /tmp/oasis_camera_ssbo_test_XXXXXX)
+
+if ./build_native/test_camera_ssbo 2>&1 | tee "${CAMERA_SSBO_OUTPUT_FILE}"; then
+    echo ""
+    if grep -q "All tests passed" "${CAMERA_SSBO_OUTPUT_FILE}"; then
+        echo "Camera SSBO Verification Passed"
+        echo ">>> [STAGE 7 SUCCESS] Catch2 Camera Panning & Dynamic Voxel SSBO tests passed."
+    else
+        echo ">>> [ERROR] Catch2 camera SSBO test suite did not pass all assertions."
+        rm -f "${CAMERA_SSBO_OUTPUT_FILE}"
+        exit 1
+    fi
+else
+    CAM_EXIT=$?
+    echo ""
+    echo ">>> [STAGE 7 FAILED] Native Catch2 camera SSBO test suite exited with code ${CAM_EXIT}."
+    rm -f "${CAMERA_SSBO_OUTPUT_FILE}"
+    exit ${CAM_EXIT}
+fi
+
+rm -f "${CAMERA_SSBO_OUTPUT_FILE}"
+echo ""
+
+# -----------------------------------------------------------------------------
+# Part 8: Native Avatar & Vitals Catch2 Test Suite (Dual Sprint 7)
+# -----------------------------------------------------------------------------
+echo "================================================================================"
+echo "[Stage 8/8] Native Avatar & Vitals Verification (Catch2 Test Suite)"
+echo "Command: ./build_native/test_avatar_vitals"
+echo "================================================================================"
+
+AVATAR_VITALS_OUTPUT_FILE=$(mktemp /tmp/oasis_avatar_vitals_test_XXXXXX.log 2>/dev/null || mktemp /tmp/oasis_avatar_vitals_test_XXXXXX)
+
+if ./build_native/test_avatar_vitals 2>&1 | tee "${AVATAR_VITALS_OUTPUT_FILE}"; then
+    echo ""
+    if grep -q "All tests passed" "${AVATAR_VITALS_OUTPUT_FILE}"; then
+        echo "Avatar & Vitals Verification Passed"
+        echo ">>> [STAGE 8 SUCCESS] Catch2 CameraUniforms 288B layout and Founder vitals/position tests passed."
+    else
+        echo ">>> [ERROR] Catch2 avatar & vitals test suite did not pass all assertions."
+        rm -f "${AVATAR_VITALS_OUTPUT_FILE}"
+        exit 1
+    fi
+else
+    AVATAR_EXIT=$?
+    echo ""
+    echo ">>> [STAGE 8 FAILED] Native Catch2 avatar & vitals test suite exited with code ${AVATAR_EXIT}."
+    rm -f "${AVATAR_VITALS_OUTPUT_FILE}"
+    exit ${AVATAR_EXIT}
+fi
+
+rm -f "${AVATAR_VITALS_OUTPUT_FILE}"
+echo ""
+
+# -----------------------------------------------------------------------------
 # Quality Gate Final Summary
 # -----------------------------------------------------------------------------
 echo "================================================================================"
@@ -268,6 +330,8 @@ echo "IPC Verification Passed"
 echo "Airgap Verification Passed"
 echo "Caloric Burn Verification Passed"
 echo "Adversary Siege Verification Passed"
+echo "Camera SSBO Verification Passed"
+echo "Avatar & Vitals Verification Passed"
 echo ""
 echo "Quality Gate Status: GREEN"
 echo "- Procedural Legacy Biome:    Suburban Sprawl (\"Lot 402 & Cul-de-sac\") Verified"
@@ -281,7 +345,11 @@ echo "- Concurrency Scale:          1,000,000 frames transferred without false s
 echo "- Hardware Airgap Filter:     Mathematical rejection of 0x01 (SITL) and acceptance of 0x02 (Root)"
 echo "- Physical Fabrication Loop:  Founder caloric burn and blueprint transition verified"
 echo "- Layer 7 col-adversaryd:     DES Threat Level 3 (LEVEL_3_SIEGE) frequency & firing verified"
+echo "- Mac Camera Panning:         Ground-locked Perspective & Cadastral Isometric panning verified"
+echo "- Dynamic Voxel SSBO:         16-byte alignment, 1024 clamping, bijective packing & AABB verified"
+echo "- Avatar & Vitals HUD:        CameraUniforms 288B layout, Founder vitals & position verified"
 echo "================================================================================"
 
 exit 0
+
 
