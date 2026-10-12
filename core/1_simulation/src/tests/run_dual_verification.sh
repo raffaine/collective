@@ -60,7 +60,7 @@ echo ""
 # Part 1: Headless WebGPU Visual Verification
 # -----------------------------------------------------------------------------
 echo "================================================================================"
-echo "[Stage 1/9] Headless WebGPU Visual Verification (Suburban Sprawl Biome)"
+echo "[Stage 1/10] Headless WebGPU Visual Verification (Suburban Sprawl Biome)"
 echo "Command: node tests/verify_canvas.js"
 echo "================================================================================"
 
@@ -104,7 +104,7 @@ echo ""
 # Part 2: Native Boundary Math Catch2 Test Suite
 # -----------------------------------------------------------------------------
 echo "================================================================================"
-echo "[Stage 2/9] Native Boundary Math Verification (Genesis Epsilon Guard Catch2)"
+echo "[Stage 2/10] Native Boundary Math Verification (Genesis Epsilon Guard Catch2)"
 echo "Command: ./build_native/test_boundary_math"
 echo "================================================================================"
 
@@ -135,7 +135,7 @@ echo ""
 # Part 3: Native IPC Catch2 Test Suite
 # -----------------------------------------------------------------------------
 echo "================================================================================"
-echo "[Stage 3/9] Native Sovereign Stack IPC Verification (Catch2 Test Suite)"
+echo "[Stage 3/10] Native Sovereign Stack IPC Verification (Catch2 Test Suite)"
 echo "Command: ./build_native/test_uhai_ring_buffer"
 echo "================================================================================"
 
@@ -167,7 +167,7 @@ echo ""
 # Part 4: Native Hardware Airgap Catch2 Test Suite
 # -----------------------------------------------------------------------------
 echo "================================================================================"
-echo "[Stage 4/9] Native Hardware Airgap Verification (Catch2 Test Suite)"
+echo "[Stage 4/10] Native Hardware Airgap Verification (Catch2 Test Suite)"
 echo "Command: ./build_native/test_airgap_filter"
 echo "================================================================================"
 
@@ -198,7 +198,7 @@ echo ""
 # Part 5: Native Flecs Construction Caloric Burn Catch2 Test Suite
 # -----------------------------------------------------------------------------
 echo "================================================================================"
-echo "[Stage 5/9] Native Flecs Construction Caloric Burn (Catch2 Test Suite)"
+echo "[Stage 5/10] Native Flecs Construction Caloric Burn (Catch2 Test Suite)"
 echo "Command: ./build_native/test_construction_caloric_burn"
 echo "================================================================================"
 
@@ -229,7 +229,7 @@ echo ""
 # Part 6: Native Layer 7 DES Adversary Catch2 Test Suite
 # -----------------------------------------------------------------------------
 echo "================================================================================"
-echo "[Stage 6/9] Native Layer 7 DES Adversary Verification (Catch2 Test Suite)"
+echo "[Stage 6/10] Native Layer 7 DES Adversary Verification (Catch2 Test Suite)"
 echo "Command: ./build_native/test_adversary_des"
 echo "================================================================================"
 
@@ -260,7 +260,7 @@ echo ""
 # Part 7: Native Camera & Dynamic Voxel SSBO Catch2 Test Suite (Dual Sprint 6)
 # -----------------------------------------------------------------------------
 echo "================================================================================"
-echo "[Stage 7/9] Native Camera & SSBO Verification (Catch2 Test Suite)"
+echo "[Stage 7/10] Native Camera & SSBO Verification (Catch2 Test Suite)"
 echo "Command: ./build_native/test_camera_ssbo"
 echo "================================================================================"
 
@@ -291,7 +291,7 @@ echo ""
 # Part 8: Native Avatar & Vitals Catch2 Test Suite (Dual Sprint 7)
 # -----------------------------------------------------------------------------
 echo "================================================================================"
-echo "[Stage 8/9] Native Avatar & Vitals Verification (Catch2 Test Suite)"
+echo "[Stage 8/10] Native Avatar & Vitals Verification (Catch2 Test Suite)"
 echo "Command: ./build_native/test_avatar_vitals"
 echo "================================================================================"
 
@@ -322,7 +322,7 @@ echo ""
 # Part 9: Native Homeostasis Loop Catch2 Test Suite (Dual Sprint 8)
 # -----------------------------------------------------------------------------
 echo "================================================================================"
-echo "[Stage 9/9] Native Homeostasis Loop Verification (Catch2 Test Suite)"
+echo "[Stage 9/10] Native Homeostasis Loop Verification (Catch2 Test Suite)"
 echo "Command: ./build_native/test_homeostasis_loop"
 echo "================================================================================"
 
@@ -350,6 +350,37 @@ rm -f "${HOMEOSTASIS_OUTPUT_FILE}"
 echo ""
 
 # -----------------------------------------------------------------------------
+# Part 10: Native Temporal Flow Contracts Catch2 Test Suite (Dual Sprint 9)
+# -----------------------------------------------------------------------------
+echo "================================================================================"
+echo "[Stage 10/10] Native Temporal Flow Contracts Verification (Catch2 Test Suite)"
+echo "Command: ./build_native/test_temporal_flow_mesh"
+echo "================================================================================"
+
+FLOW_OUTPUT_FILE=$(mktemp /tmp/oasis_flow_test_XXXXXX.log 2>/dev/null || mktemp /tmp/oasis_flow_test_XXXXXX)
+
+if ./build_native/test_temporal_flow_mesh 2>&1 | tee "${FLOW_OUTPUT_FILE}"; then
+    echo ""
+    if grep -q "All tests passed" "${FLOW_OUTPUT_FILE}"; then
+        echo "Temporal Flow Verification Passed"
+        echo ">>> [STAGE 10 SUCCESS] Catch2 Temporal Flow Mesh (100x Ghost vs 1x Local, contract termination, UHAI SPSC) passed."
+    else
+        echo ">>> [ERROR] Catch2 temporal flow mesh test suite did not pass all assertions."
+        rm -f "${FLOW_OUTPUT_FILE}"
+        exit 1
+    fi
+else
+    FLOW_EXIT=$?
+    echo ""
+    echo ">>> [STAGE 10 FAILED] Native Catch2 temporal flow mesh test suite exited with code ${FLOW_EXIT}."
+    rm -f "${FLOW_OUTPUT_FILE}"
+    exit ${FLOW_EXIT}
+fi
+
+rm -f "${FLOW_OUTPUT_FILE}"
+echo ""
+
+# -----------------------------------------------------------------------------
 # Quality Gate Final Summary
 # -----------------------------------------------------------------------------
 echo "================================================================================"
@@ -364,6 +395,7 @@ echo "Adversary Siege Verification Passed"
 echo "Camera SSBO Verification Passed"
 echo "Avatar & Vitals Verification Passed"
 echo "Homeostasis Loop Verification Passed"
+echo "Temporal Flow Verification Passed"
 echo ""
 echo "Quality Gate Status: GREEN"
 echo "- Procedural Legacy Biome:    Suburban Sprawl (\"Lot 402 & Cul-de-sac\") Verified"
@@ -381,6 +413,7 @@ echo "- Mac Camera Panning:         Ground-locked Perspective & Cadastral Isomet
 echo "- Dynamic Voxel SSBO:         16-byte alignment, 1024 clamping, bijective packing & AABB verified"
 echo "- Avatar & Vitals HUD:        CameraUniforms 288B layout, Founder vitals & position verified"
 echo "- Homeostasis Thermal Loop:   Sub-15°C caloric burn acceleration and focus drain mathematically verified"
+echo "- Temporal Flow Contracts:    100x Ghost rate decoupling, abrupt termination & SPSC IPC verified"
 echo "================================================================================"
 
 exit 0

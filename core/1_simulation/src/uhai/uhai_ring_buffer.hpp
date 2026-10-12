@@ -1,6 +1,7 @@
 #pragma once
 
 #include <atomic>
+#include <cmath>
 #include <cstddef>
 #include <cstdint>
 #include <cstdlib>
@@ -84,6 +85,43 @@ struct alignas(CACHE_LINE_SIZE) TelemetrySlot {
 };
 static_assert(sizeof(TelemetrySlot) == 64, "TelemetrySlot must be exactly 64 bytes.");
 
+// Dual Sprint 9: Temporal Flow Contracts (Story 2.4, Anti-Bleed Invariant 3)
+enum class FlowResourceType : uint16_t {
+    UNKNOWN        = 0,
+    ELECTRICITY    = 1, // kWh per tick (accrues to solar_stored_kwh)
+    WATER          = 2, // Liters per tick (accrues to rain_stored_liters)
+    CALORIES       = 3, // kcal per tick (accrues to somatic caloric_reserve)
+    DATA_BANDWIDTH = 4  // Routing exergy
+};
+
+enum class FlowContractStatus : uint8_t {
+    ACTIVE     = 0, // Contract is active / fulfilling
+    TERMINATED = 1, // Revoked / cancelled early by sender
+    COMPLETED  = 2  // Completed at end_logical_tick
+};
+
+#pragma pack(push, 8)
+struct alignas(8) FlowContract {
+    uint64_t contract_id{0};          // 8 bytes
+    uint64_t sender_node_id{0};       // 8 bytes
+    uint64_t consumer_node_id{0};     // 8 bytes
+    uint64_t start_logical_tick{0};   // 8 bytes
+    uint64_t end_logical_tick{0};     // 8 bytes
+    double   rate_per_tick{0.0};      // 8 bytes
+    uint16_t resource_type{0};        // 2 bytes
+    uint8_t  status{0};               // 1 byte
+    uint8_t  quality_flags{0x01};     // 1 byte (0x01 = QUALITY_SIMULATED)
+    uint32_t reserved{0};             // 4 bytes
+    uint8_t  auth_signature[8]{0};    // 8 bytes
+};
+#pragma pack(pop)
+static_assert(sizeof(FlowContract) == 64, "FlowContract must be exactly 64 bytes.");
+
+struct alignas(CACHE_LINE_SIZE) FlowContractSlot {
+    FlowContract contract;
+};
+static_assert(sizeof(FlowContractSlot) == 64, "FlowContractSlot must be exactly 64 bytes.");
+
 struct alignas(CACHE_LINE_SIZE) SharedRingHeader {
     // Cache Line 0 (offset 0..63): Producer write state & overrun accounting
     alignas(CACHE_LINE_SIZE) std::atomic<uint64_t> write_index{0};
@@ -105,6 +143,10 @@ static_assert(sizeof(SharedRingHeader) == 192, "SharedRingHeader must occupy exa
 
 constexpr size_t TOTAL_SHM_SIZE = sizeof(SharedRingHeader) + RING_CAPACITY * sizeof(TelemetrySlot);
 static_assert(TOTAL_SHM_SIZE == 65728, "Total UHAI shared memory size must be 65728 bytes.");
+
+constexpr const char* DEFAULT_FLOW_SHM_NAME = "/uhai_flow";
+constexpr size_t TOTAL_FLOW_SHM_SIZE = sizeof(SharedRingHeader) + RING_CAPACITY * sizeof(FlowContractSlot);
+static_assert(TOTAL_FLOW_SHM_SIZE == 65728, "Total UHAI flow SHM size must be 65728 bytes.");
 
 template <typename SlotT = TelemetrySlot, size_t Capacity = RING_CAPACITY>
 class LockFreeSpscRing {
@@ -132,6 +174,8 @@ public:
 
         if constexpr (requires { buffer_[0].sample = item; }) {
             buffer_[w & (Capacity - 1)].sample = item;
+        } else if constexpr (requires { buffer_[0].contract = item; }) {
+            buffer_[w & (Capacity - 1)].contract = item;
         } else {
             buffer_[w & (Capacity - 1)] = item;
         }
@@ -155,6 +199,8 @@ public:
 
         if constexpr (requires { item = buffer_[0].sample; }) {
             item = buffer_[r & (Capacity - 1)].sample;
+        } else if constexpr (requires { item = buffer_[0].contract; }) {
+            item = buffer_[r & (Capacity - 1)].contract;
         } else {
             item = buffer_[r & (Capacity - 1)];
         }
@@ -168,6 +214,8 @@ public:
         return Pop(item);
     }
 
+    template <typename T = SlotT>
+    requires requires(T s) { s.sample; }
     std::optional<TelemetrySample> Pop() {
         TelemetrySample s;
         if (Pop(s)) {
@@ -176,7 +224,25 @@ public:
         return std::nullopt;
     }
 
+    template <typename T = SlotT>
+    requires requires(T s) { s.sample; }
     std::optional<TelemetrySample> pop() {
+        return Pop();
+    }
+
+    template <typename T = SlotT>
+    requires requires(T s) { s.contract; }
+    std::optional<FlowContract> Pop() {
+        FlowContract c;
+        if (Pop(c)) {
+            return c;
+        }
+        return std::nullopt;
+    }
+
+    template <typename T = SlotT>
+    requires requires(T s) { s.contract; }
+    std::optional<FlowContract> pop() {
         return Pop();
     }
 
@@ -390,6 +456,340 @@ private:
     std::unique_ptr<LockFreeSpscRing<TelemetrySlot, RING_CAPACITY>> ring_{nullptr};
 };
 
+template <typename SlotT = FlowContractSlot, size_t Capacity = RING_CAPACITY>
+class UhaiChannel {
+public:
+    enum class ChannelMode {
+        Producer,
+        Consumer,
+        VirtualInMemory
+    };
+
+    static const char* DefaultShmName() {
+        if constexpr (std::is_same_v<SlotT, TelemetrySlot>) {
+            return DEFAULT_SHM_NAME;
+        } else {
+            return DEFAULT_FLOW_SHM_NAME;
+        }
+    }
+
+    explicit UhaiChannel(ChannelMode mode = ChannelMode::Consumer)
+        : UhaiChannel(mode, DefaultShmName()) {}
+
+    UhaiChannel(ChannelMode mode, const std::string& shm_name)
+        : mode_(mode), shm_name_(shm_name) {
+        Initialize();
+    }
+
+    ~UhaiChannel() {
+        Close();
+    }
+
+    UhaiChannel(const UhaiChannel&) = delete;
+    UhaiChannel& operator=(const UhaiChannel&) = delete;
+
+    UhaiChannel(UhaiChannel&& other) noexcept
+        : mode_(other.mode_),
+          shm_name_(std::move(other.shm_name_)),
+          raw_ptr_(other.raw_ptr_),
+          shm_size_(other.shm_size_),
+          fd_(other.fd_),
+          is_posix_shm_(other.is_posix_shm_),
+          ring_(std::move(other.ring_)) {
+        other.raw_ptr_ = nullptr;
+        other.shm_size_ = 0;
+        other.fd_ = -1;
+        other.is_posix_shm_ = false;
+    }
+
+    UhaiChannel& operator=(UhaiChannel&& other) noexcept {
+        if (this != &other) {
+            Close();
+            mode_ = other.mode_;
+            shm_name_ = std::move(other.shm_name_);
+            raw_ptr_ = other.raw_ptr_;
+            shm_size_ = other.shm_size_;
+            fd_ = other.fd_;
+            is_posix_shm_ = other.is_posix_shm_;
+            ring_ = std::move(other.ring_);
+
+            other.raw_ptr_ = nullptr;
+            other.shm_size_ = 0;
+            other.fd_ = -1;
+            other.is_posix_shm_ = false;
+        }
+        return *this;
+    }
+
+    [[nodiscard]] bool IsValid() const noexcept {
+        return raw_ptr_ != nullptr && ring_ != nullptr;
+    }
+
+    template <typename ItemT>
+    bool Push(const ItemT& item) {
+        if (!IsValid()) return false;
+        return ring_->Push(item);
+    }
+
+    template <typename ItemT>
+    bool push(const ItemT& item) {
+        return Push(item);
+    }
+
+    template <typename ItemT>
+    bool Pop(ItemT& item) {
+        if (!IsValid()) return false;
+        return ring_->Pop(item);
+    }
+
+    template <typename ItemT>
+    bool pop(ItemT& item) {
+        return Pop(item);
+    }
+
+    template <typename T = SlotT>
+    requires requires(T s) { s.contract; }
+    std::optional<FlowContract> Pop() {
+        if (!IsValid()) return std::nullopt;
+        return ring_->Pop();
+    }
+
+    template <typename T = SlotT>
+    requires requires(T s) { s.contract; }
+    std::optional<FlowContract> pop() {
+        return Pop();
+    }
+
+    template <typename T = SlotT>
+    requires requires(T s) { s.sample; }
+    std::optional<TelemetrySample> Pop() {
+        if (!IsValid()) return std::nullopt;
+        return ring_->Pop();
+    }
+
+    template <typename T = SlotT>
+    requires requires(T s) { s.sample; }
+    std::optional<TelemetrySample> pop() {
+        return Pop();
+    }
+
+    [[nodiscard]] SharedRingHeader* GetHeader() noexcept {
+        return ring_ ? ring_->GetHeader() : nullptr;
+    }
+
+    [[nodiscard]] const SharedRingHeader* GetHeader() const noexcept {
+        return ring_ ? ring_->GetHeader() : nullptr;
+    }
+
+    [[nodiscard]] LockFreeSpscRing<SlotT, Capacity>* GetRing() noexcept {
+        return ring_.get();
+    }
+
+    void Close() {
+#ifndef __EMSCRIPTEN__
+        if (is_posix_shm_ && raw_ptr_) {
+            ::munmap(raw_ptr_, shm_size_);
+            raw_ptr_ = nullptr;
+        }
+        if (fd_ >= 0) {
+            ::close(fd_);
+            fd_ = -1;
+        }
+#endif
+        if (!is_posix_shm_ && raw_ptr_) {
+            std::free(raw_ptr_);
+            raw_ptr_ = nullptr;
+        }
+        ring_.reset();
+        shm_size_ = 0;
+        is_posix_shm_ = false;
+    }
+
+    static bool Unlink(const std::string& shm_name = DefaultShmName()) {
+#ifndef __EMSCRIPTEN__
+        return (::shm_unlink(shm_name.c_str()) == 0);
+#else
+        (void)shm_name;
+        return true;
+#endif
+    }
+
+private:
+    void Initialize() {
+        shm_size_ = sizeof(SharedRingHeader) + Capacity * sizeof(SlotT);
+
+#ifndef __EMSCRIPTEN__
+        if (mode_ != ChannelMode::VirtualInMemory) {
+            int flags = (mode_ == ChannelMode::Producer) ? (O_CREAT | O_RDWR) : (O_CREAT | O_RDWR);
+            fd_ = ::shm_open(shm_name_.c_str(), flags, 0666);
+            if (fd_ >= 0) {
+                struct stat sb;
+                if (::fstat(fd_, &sb) == 0 && sb.st_size < static_cast<off_t>(shm_size_)) {
+                    if (::ftruncate(fd_, static_cast<off_t>(shm_size_)) != 0) {
+                        ::close(fd_);
+                        fd_ = -1;
+                    }
+                }
+            }
+
+            if (fd_ >= 0) {
+                void* ptr = ::mmap(nullptr, shm_size_, PROT_READ | PROT_WRITE, MAP_SHARED, fd_, 0);
+                if (ptr != MAP_FAILED) {
+                    raw_ptr_ = ptr;
+                    is_posix_shm_ = true;
+
+                    auto* hdr = reinterpret_cast<SharedRingHeader*>(raw_ptr_);
+                    if (hdr->magic_signature != UHAI_MAGIC || hdr->version != UHAI_VERSION) {
+                        hdr->write_index.store(0, std::memory_order_relaxed);
+                        hdr->dropped_frames.store(0, std::memory_order_relaxed);
+                        hdr->read_index.store(0, std::memory_order_relaxed);
+                        hdr->capacity = static_cast<uint32_t>(Capacity);
+                        hdr->element_size = static_cast<uint32_t>(sizeof(SlotT));
+                        hdr->magic_signature = UHAI_MAGIC;
+                        hdr->version = UHAI_VERSION;
+                    }
+                    ring_ = std::make_unique<LockFreeSpscRing<SlotT, Capacity>>(raw_ptr_);
+                    return;
+                } else {
+                    ::close(fd_);
+                    fd_ = -1;
+                }
+            }
+        }
+#endif
+
+        // In-memory fallback (WASM or POSIX failure fallback)
+        void* ptr = nullptr;
+        if (posix_memalign(&ptr, CACHE_LINE_SIZE, shm_size_) == 0 && ptr != nullptr) {
+            std::memset(ptr, 0, shm_size_);
+            raw_ptr_ = ptr;
+            is_posix_shm_ = false;
+
+            auto* hdr = reinterpret_cast<SharedRingHeader*>(raw_ptr_);
+            hdr->write_index.store(0, std::memory_order_relaxed);
+            hdr->dropped_frames.store(0, std::memory_order_relaxed);
+            hdr->read_index.store(0, std::memory_order_relaxed);
+            hdr->capacity = static_cast<uint32_t>(Capacity);
+            hdr->element_size = static_cast<uint32_t>(sizeof(SlotT));
+            hdr->magic_signature = UHAI_MAGIC;
+            hdr->version = UHAI_VERSION;
+
+            ring_ = std::make_unique<LockFreeSpscRing<SlotT, Capacity>>(raw_ptr_);
+        }
+    }
+
+    ChannelMode mode_{ChannelMode::Producer};
+    std::string shm_name_{DefaultShmName()};
+    void* raw_ptr_{nullptr};
+    size_t shm_size_{0};
+    int fd_{-1};
+    bool is_posix_shm_{false};
+    std::unique_ptr<LockFreeSpscRing<SlotT, Capacity>> ring_{nullptr};
+};
+
+using UhaiFlowChannel = UhaiChannel<FlowContractSlot, RING_CAPACITY>;
+
+} // namespace oasis::uhai
+
+namespace oasis::flow {
+
+struct TemporalFlowContractComponent {
+    static constexpr size_t MAX_CONTRACTS = 64;
+    oasis::uhai::FlowContract contracts[MAX_CONTRACTS]{};
+    size_t active_count{0};
+    double total_electricity_received{0.0};
+    double total_water_received{0.0};
+    double total_calories_received{0.0};
+
+    bool AddOrUpdateContract(const oasis::uhai::FlowContract& incoming, uint64_t current_tick = 0) {
+        if (std::isnan(incoming.rate_per_tick) || std::isinf(incoming.rate_per_tick) || incoming.rate_per_tick < 0.0) {
+            return false;
+        }
+
+        for (size_t i = 0; i < active_count; ++i) {
+            if (contracts[i].contract_id == incoming.contract_id) {
+                // Prevent out-of-order resurrection of terminated contract
+                if (contracts[i].status == static_cast<uint8_t>(oasis::uhai::FlowContractStatus::TERMINATED)) {
+                    if (incoming.status != static_cast<uint8_t>(oasis::uhai::FlowContractStatus::TERMINATED)) {
+                        return false; // Reject resurrection to ACTIVE
+                    }
+                    if (incoming.end_logical_tick > 0 && incoming.end_logical_tick < contracts[i].end_logical_tick) {
+                        contracts[i].end_logical_tick = incoming.end_logical_tick;
+                    } else if (incoming.end_logical_tick == 0 || incoming.end_logical_tick <= current_tick) {
+                        contracts[i].end_logical_tick = current_tick;
+                    }
+                    return true;
+                }
+
+                if (incoming.status == static_cast<uint8_t>(oasis::uhai::FlowContractStatus::TERMINATED)) {
+                    contracts[i].status = incoming.status;
+                    if (incoming.end_logical_tick > 0 && incoming.end_logical_tick < contracts[i].end_logical_tick) {
+                        contracts[i].end_logical_tick = incoming.end_logical_tick;
+                    } else {
+                        // Clamp end tick immediately to current_tick
+                        contracts[i].end_logical_tick = current_tick;
+                    }
+                } else {
+                    contracts[i] = incoming;
+                }
+                return true;
+            }
+        }
+        if (active_count < MAX_CONTRACTS) {
+            if (incoming.status == static_cast<uint8_t>(oasis::uhai::FlowContractStatus::TERMINATED)) {
+                if (incoming.end_logical_tick > current_tick) {
+                    contracts[active_count++] = incoming;
+                    return true;
+                }
+                return false;
+            } else if (incoming.status != static_cast<uint8_t>(oasis::uhai::FlowContractStatus::COMPLETED)) {
+                contracts[active_count++] = incoming;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    void StepTick(uint64_t current_tick, double& out_solar_kwh, double& out_rain_liters, double& out_calories) {
+        for (size_t i = 0; i < active_count; ) {
+            auto& c = contracts[i];
+            if (current_tick >= c.end_logical_tick ||
+                (c.status == static_cast<uint8_t>(oasis::uhai::FlowContractStatus::TERMINATED) && current_tick >= c.end_logical_tick)) {
+                // Expired or reached termination tick: retire without leak
+                contracts[i] = contracts[--active_count];
+                continue;
+            }
+
+            if (current_tick >= c.start_logical_tick && current_tick < c.end_logical_tick) {
+                if (c.resource_type == static_cast<uint16_t>(oasis::uhai::FlowResourceType::ELECTRICITY)) {
+                    out_solar_kwh += c.rate_per_tick;
+                    total_electricity_received += c.rate_per_tick;
+                } else if (c.resource_type == static_cast<uint16_t>(oasis::uhai::FlowResourceType::WATER)) {
+                    out_rain_liters += c.rate_per_tick;
+                    total_water_received += c.rate_per_tick;
+                } else if (c.resource_type == static_cast<uint16_t>(oasis::uhai::FlowResourceType::CALORIES)) {
+                    out_calories += c.rate_per_tick;
+                    total_calories_received += c.rate_per_tick;
+                }
+            }
+            ++i;
+        }
+    }
+
+    [[nodiscard]] const oasis::uhai::FlowContract* FindContract(uint64_t contract_id) const noexcept {
+        for (size_t i = 0; i < active_count; ++i) {
+            if (contracts[i].contract_id == contract_id) {
+                return &contracts[i];
+            }
+        }
+        return nullptr;
+    }
+};
+
+} // namespace oasis::flow
+
+namespace oasis::uhai {
+    using oasis::flow::TemporalFlowContractComponent;
 } // namespace oasis::uhai
 
 // Alias namespace for backwards compatibility
@@ -409,6 +809,16 @@ namespace uhai {
     using oasis::uhai::SpatialIntentPayload;
     using oasis::uhai::LockFreeSpscRing;
     using oasis::uhai::UhaiTelemetryChannel;
+
+    using oasis::uhai::FlowResourceType;
+    using oasis::uhai::FlowContractStatus;
+    using oasis::uhai::FlowContract;
+    using oasis::uhai::FlowContractSlot;
+    using oasis::uhai::DEFAULT_FLOW_SHM_NAME;
+    using oasis::uhai::TOTAL_FLOW_SHM_SIZE;
+    using oasis::uhai::UhaiChannel;
+    using oasis::uhai::UhaiFlowChannel;
+    using oasis::uhai::TemporalFlowContractComponent;
 
     template <typename T = TelemetrySample, size_t Capacity = RING_CAPACITY>
     using SPSCRingBuffer = oasis::uhai::LockFreeSpscRing<TelemetrySlot, Capacity>;

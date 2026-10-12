@@ -307,6 +307,9 @@ static uint64_t g_sim_tick = 0;
 // Global UHAI Telemetry Channel (Producer mode)
 static oasis::uhai::UhaiTelemetryChannel g_telemetry_channel(oasis::uhai::UhaiTelemetryChannel::ChannelMode::Producer);
 
+// Global UHAI Flow Channel (Consumer mode) - Dual Sprint 9 Temporal Flow
+static oasis::uhai::UhaiFlowChannel g_flow_channel(oasis::uhai::UhaiFlowChannel::ChannelMode::Consumer);
+
 // Write telemetry frame sample on each engine tick
 static void TickTelemetry() {
     auto now = std::chrono::steady_clock::now();
@@ -1126,18 +1129,48 @@ int main() {
             }
         });
 
-    // Register boundary components
+    // Register boundary and flow components
     g_ecs->component<oasis::boundary::InfrastructureAutarkyComponent>();
     g_ecs->component<oasis::boundary::SocialMutualAidComponent>();
     g_ecs->component<oasis::boundary::PeerMeshComponent>();
     g_ecs->component<oasis::boundary::BoundaryInterfaceComponent>();
+    g_ecs->component<oasis::flow::TemporalFlowContractComponent>();
 
     // Instantiate SettlementBoundary entity with default components
     g_ecs->entity("SettlementBoundary")
         .set<oasis::boundary::InfrastructureAutarkyComponent>({})
+        .set<oasis::fabrication::SomaticStateComponent>({})
         .set<oasis::boundary::SocialMutualAidComponent>({})
         .set<oasis::boundary::PeerMeshComponent>({})
-        .set<oasis::boundary::BoundaryInterfaceComponent>({});
+        .set<oasis::boundary::BoundaryInterfaceComponent>({})
+        .set<oasis::flow::TemporalFlowContractComponent>({});
+
+    // Register TemporalFlowSystem in flecs::OnUpdate phase (Dual Sprint 9 Anti-Bleed Invariant 3)
+    // Consumes FlowContract packets from UHAI shared memory at 1x local sim_tick pace,
+    // completely decoupling simulation time from remote agents running at 100x wall-clock speed.
+    g_ecs->system<oasis::boundary::InfrastructureAutarkyComponent,
+                  oasis::fabrication::SomaticStateComponent,
+                  oasis::flow::TemporalFlowContractComponent>("TemporalFlowSystem")
+        .kind(flecs::OnUpdate)
+        .each([](flecs::entity e,
+                 oasis::boundary::InfrastructureAutarkyComponent& infra,
+                 oasis::fabrication::SomaticStateComponent& somatic,
+                 oasis::flow::TemporalFlowContractComponent& flow) {
+            // 1. Drain incoming FlowContract packets from UHAI flow ring
+            oasis::uhai::FlowContract incoming{};
+            while (g_flow_channel.Pop(incoming)) {
+                flow.AddOrUpdateContract(incoming, g_sim_tick);
+            }
+
+            // 2. Resolve active contracts against current local tick g_sim_tick
+            flow.StepTick(g_sim_tick, infra.solar_stored_kwh, infra.rain_stored_liters, somatic.caloric_reserve);
+
+            // Sync somatic caloric accrual to Founder entity if separate
+            auto founder = e.world().entity("Founder");
+            if (founder.is_alive() && founder != e && founder.has<oasis::fabrication::SomaticStateComponent>()) {
+                founder.get_mut<oasis::fabrication::SomaticStateComponent>().caloric_reserve = somatic.caloric_reserve;
+            }
+        });
 
     // Register BoundaryInterfaceSystem in flecs::OnUpdate phase
     g_ecs->system<oasis::boundary::BoundaryInterfaceComponent,

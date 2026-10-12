@@ -144,6 +144,27 @@ else()
         )
     endif()
 
+    # Sovereign Stack Layer 2/3 Mesh Daemon (col-meshd)
+    set(COL_MESHD_SRC "${CMAKE_CURRENT_SOURCE_DIR}/../../../src/daemons/col-meshd/main.cpp")
+    if(EXISTS "${COL_MESHD_SRC}")
+        add_executable(col_meshd "${COL_MESHD_SRC}")
+        target_include_directories(col_meshd PRIVATE 
+            ${CMAKE_CURRENT_SOURCE_DIR}
+            ${CMAKE_CURRENT_SOURCE_DIR}/../../../src/daemons/col-meshd
+        )
+        target_link_libraries(col_meshd PRIVATE 
+            spdlog::spdlog
+            $<$<PLATFORM_ID:Linux>:rt>
+        )
+        # Create col-meshd symlink so both hyphenated and underscored names work
+        add_custom_command(TARGET col_meshd POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E create_symlink
+                $<TARGET_FILE_NAME:col_meshd>
+                ${CMAKE_CURRENT_BINARY_DIR}/col-meshd
+            COMMENT "Creating col-meshd symlink"
+        )
+    endif()
+
     # Native Catch2 Construction Caloric Burn Tests (Dual Sprint 5)
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/tests/test_construction_caloric_burn.cpp")
         add_executable(test_construction_caloric_burn tests/test_construction_caloric_burn.cpp)
@@ -235,6 +256,40 @@ else()
             $<$<PLATFORM_ID:Linux>:rt>
         )
         add_test(NAME HomeostasisLoopTests COMMAND test_homeostasis_loop)
+    endif()
+
+    # Native Catch2 Temporal Flow Mesh Tests (Dual Sprint 9)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/tests/test_temporal_flow_mesh.cpp")
+        add_executable(test_temporal_flow_mesh tests/test_temporal_flow_mesh.cpp)
+        target_include_directories(test_temporal_flow_mesh PRIVATE 
+            ${CMAKE_CURRENT_SOURCE_DIR}
+            ${CMAKE_CURRENT_SOURCE_DIR}/../../../src/daemons/col-meshd
+        )
+        target_link_libraries(test_temporal_flow_mesh PRIVATE 
+            Catch2::Catch2WithMain
+            $<IF:$<TARGET_EXISTS:flecs::flecs>,flecs::flecs,flecs::flecs_static>
+            glm::glm
+            spdlog::spdlog
+            $<$<PLATFORM_ID:Linux>:rt>
+        )
+        add_test(NAME TemporalFlowMeshTests COMMAND test_temporal_flow_mesh)
+    endif()
+
+    # Adversarial Catch2 SPSC Concurrency & Abrupt Termination Stress Tests (Dual Sprint 9 Challenger)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/tests/test_sprint9_adversarial_concurrency.cpp")
+        add_executable(test_sprint9_adversarial_concurrency tests/test_sprint9_adversarial_concurrency.cpp)
+        target_include_directories(test_sprint9_adversarial_concurrency PRIVATE 
+            ${CMAKE_CURRENT_SOURCE_DIR}
+            ${CMAKE_CURRENT_SOURCE_DIR}/../../../src/daemons/col-meshd
+        )
+        target_link_libraries(test_sprint9_adversarial_concurrency PRIVATE 
+            Catch2::Catch2WithMain
+            $<IF:$<TARGET_EXISTS:flecs::flecs>,flecs::flecs,flecs::flecs_static>
+            glm::glm
+            spdlog::spdlog
+            $<$<PLATFORM_ID:Linux>:rt>
+        )
+        add_test(NAME Sprint9AdversarialConcurrencyTests COMMAND test_sprint9_adversarial_concurrency)
     endif()
 endif()
 
