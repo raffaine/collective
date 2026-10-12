@@ -165,6 +165,30 @@ else()
         )
     endif()
 
+    # Sovereign Stack Layer 6 Gateway Daemon (col-gatewayd)
+    set(COL_GATEWAYD_SRC "${CMAKE_CURRENT_SOURCE_DIR}/../../../src/daemons/col-gatewayd/main.cpp")
+    if(NOT EXISTS "${COL_GATEWAYD_SRC}")
+        set(COL_GATEWAYD_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/daemons/col-gatewayd/main.cpp")
+    endif()
+    if(EXISTS "${COL_GATEWAYD_SRC}")
+        add_executable(col_gatewayd "${COL_GATEWAYD_SRC}")
+        target_include_directories(col_gatewayd PRIVATE 
+            ${CMAKE_CURRENT_SOURCE_DIR}
+            ${CMAKE_CURRENT_SOURCE_DIR}/../../../src/daemons/col-gatewayd
+        )
+        target_link_libraries(col_gatewayd PRIVATE 
+            spdlog::spdlog
+            $<$<PLATFORM_ID:Linux>:rt>
+        )
+        # Create col-gatewayd symlink so both hyphenated and underscored names work
+        add_custom_command(TARGET col_gatewayd POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E create_symlink
+                $<TARGET_FILE_NAME:col_gatewayd>
+                ${CMAKE_CURRENT_BINARY_DIR}/col-gatewayd
+            COMMENT "Creating col-gatewayd symlink"
+        )
+    endif()
+
     # Native Catch2 Construction Caloric Burn Tests (Dual Sprint 5)
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/tests/test_construction_caloric_burn.cpp")
         add_executable(test_construction_caloric_burn tests/test_construction_caloric_burn.cpp)
@@ -290,6 +314,22 @@ else()
             $<$<PLATFORM_ID:Linux>:rt>
         )
         add_test(NAME Sprint9AdversarialConcurrencyTests COMMAND test_sprint9_adversarial_concurrency)
+    endif()
+
+    # Native Catch2 col-gatewayd Layer 6 Gateway Tests (Dual Sprint 10)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/tests/test_col_gatewayd.cpp")
+        add_executable(test_col_gatewayd tests/test_col_gatewayd.cpp)
+        target_include_directories(test_col_gatewayd PRIVATE 
+            ${CMAKE_CURRENT_SOURCE_DIR}
+            ${CMAKE_CURRENT_SOURCE_DIR}/../../../src/daemons/col-gatewayd
+            ${CMAKE_CURRENT_SOURCE_DIR}/src/daemons/col-gatewayd
+        )
+        target_link_libraries(test_col_gatewayd PRIVATE 
+            Catch2::Catch2WithMain
+            spdlog::spdlog
+            $<$<PLATFORM_ID:Linux>:rt>
+        )
+        add_test(NAME ColGatewaydTests COMMAND test_col_gatewayd)
     endif()
 endif()
 

@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>The Collective Companion App — Cadastral Slate</title>
+  <meta name="description" content="Mobile-responsive Sovereign Stack Companion App dashboard with diagnostic decks and Layer 6 Agora intent boundary.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app" class="app-container">
+    <!-- Top Status Bar & System Header -->
+    <header class="top-status-bar" id="top-status-bar">
+      <div class="status-row status-primary">
+        <div class="node-identity">
+          <span class="did-label">DID:</span>
+          <span class="did-value" id="node-did" title="did:peer:z6MkhaXgBZDvotDkL5257faiz4YzPXWy2nd6Vd4u">did:peer:z6Mk...9x2A</span>
+        </div>
+        <div class="status-badges">
+          <button class="badge badge-provenance" id="badge-provenance" title="Click to toggle Root / SITL simulation perspective">
+            <span class="badge-icon">🛡️</span> <span id="provenance-text">0x02 ROOT</span>
+          </button>
+          <div class="badge badge-status" id="badge-connection">
+            <span class="status-indicator-dot online"></span>
+            <span id="connection-text">● ONLINE</span>
+          </div>
+        </div>
+      </div>
+      <div class="status-row status-telemetry">
+        <div class="vital-chip" title="Battery State of Charge">
+          <span class="chip-label">SOC</span>
+          <span class="chip-val" id="vital-soc">88%</span>
+          <span class="chip-unit">48.2V</span>
+        </div>
+        <div class="vital-chip" title="Net Exergy Power Flux">
+          <span class="chip-label">FLUX</span>
+          <span class="chip-val positive" id="vital-flux">+3.42 kW</span>
+        </div>
+        <div class="vital-chip" title="Potable Rainwater Cistern">
+          <span class="chip-label">H2O</span>
+          <span class="chip-val" id="vital-cistern">8,450 L</span>
+          <span class="chip-unit">84%</span>
+        </div>
+        <div class="vital-chip" title="Hybrid Logical Clock">
+          <span class="chip-label">HLC</span>
+          <span class="chip-val mono" id="vital-hlc">1782390441.00</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Navigation Hub Banner / Breadcrumb -->
+    <nav class="hub-subnav" id="hub-subnav">
+      <button class="hub-home-btn" id="btn-nav-hub" title="Return to Main Cadastral Overview">
+        <span class="icon">⌂</span> <span class="label">CADASTRAL SLATE</span>
+      </button>
+      <div class="active-deck-title" id="active-deck-title">MAIN NODE OVERVIEW</div>
+      <div class="active-mode-tag" id="active-mode-tag">READ-ONLY OVERVIEW</div>
+    </nav>
+
+    <!-- Main View Decks Container -->
+    <main class="main-content" id="main-content">
+
+      <!-- ============================================================== -->
+      <!-- DECK 0: MAIN CADASTRAL HUB OVERVIEW                            -->
+      <!-- ============================================================== -->
+      <section class="deck deck-visible" id="deck-hub">
+        <!-- Morning Circle Announcement Banner -->
+        <div class="card alert-card notice-amber">
+          <div class="card-header-compact">
+            <span class="badge-tag">🔔 DIURNAL CIRCLE BRIEFING</span>
+            <span class="timestamp-tag">06:14 HLC</span>
+          </div>
+          <p class="announcement-text">
+            Community Morning Circle active for Bioregional Lot 402. Two civic governance actions are currently pending in Layer 5.
+          </p>
+        </div>
+
+        <!-- Node Vitals Hero Card -->
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">CADASTRAL NODE VITALS: LOT 402</h2>
+            <span class="card-subtitle">VLAN 30 LOCAL MESH</span>
+          </div>
+          <div class="vitals-grid">
+            <div class="vital-box">
+              <span class="vital-title">STORAGE SOC</span>
+              <div class="vital-metric">
+                <span class="metric-num" id="hub-metric-soc">88%</span>
+              </div>
+              <span class="vital-sub">14.8 kWh / 16.8 kWh</span>
+              <span class="vital-note">48.2V DC Microgrid</span>
+            </div>
+            <div class="vital-box">
+              <span class="vital-title">EXERGY FLUX</span>
+              <div class="vital-metric positive">
+                <span class="metric-num" id="hub-metric-flux">+3.42 kW</span>
+              </div>
+              <span class="vital-sub">Net PoTW Minting</span>
+              <span class="vital-note">Peak Solar: 4.80 kW</span>
+            </div>
+            <div class="vital-box">
+              <span class="vital-title">WATER CISTERN</span>
+              <div class="vital-metric">
+                <span class="metric-num" id="hub-metric-h2o">8,450 L</span>
+              </div>
+              <span class="vital-sub">84.5% Full</span>
+              <span class="vital-note">Inflow: +420 L/day</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ecological Carrying Capacity Card -->
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">ECOLOGICAL FLOORS & CARRYING CAPACITY</h2>
+            <span class="badge badge-emerald">EQUILIBRIUM OK</span>
+          </div>
+          <div class="bar-metric-group">
+            <div class="bar-metric-label">
+              <span>Instream Water Floor (F_eco)</span>
+              <span class="mono">84% Margin [OK]</span>
+            </div>
+            <div class="progress-bar-bg">
+              <div class="progress-bar-fill fill-emerald" style="width: 84%;"></div>
+            </div>
+          </div>
+          <div class="bar-metric-group">
+            <div class="bar-metric-label">
+              <span>Human Survival Baseline (B)</span>
+              <span class="mono">100% Secure [OK]</span>
+            </div>
+            <div class="progress-bar-bg">
+              <div class="progress-bar-fill fill-cyan" style="width: 100%;"></div>
+            </div>
+          </div>
+          <div class="bar-metric-group">
+            <div class="bar-metric-label">
+              <span>Aquifer ERC Multiplier (λ_ERC)</span>
+              <span class="mono">1.08x Base [LOW EXTRACTION]</span>
+            </div>
+            <div class="progress-bar-bg">
+              <div class="progress-bar-fill fill-amber" style="width: 18%;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 7-Layer Cybernetic Health Deck -->
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">SOVEREIGN STACK 7-LAYER HEALTH MATRIX</h2>
+            <span class="badge badge-indigo">10 Hz POSIX CYBERNETICS</span>
+          </div>
+          <ul class="layer-matrix-list">
+            <li class="layer-matrix-item" data-goto="l2">
+              <div class="layer-item-lead">
+                <span class="layer-pill pill-l2">L2: HW</span>
+                <span class="layer-item-name">Cybernetic Membrane</span>
+              </div>
+              <span class="layer-item-state mono">Homeostasis (d_M² = 0.042σ)</span>
+            </li>
+            <li class="layer-matrix-item" data-goto="l3">
+              <div class="layer-item-lead">
+                <span class="layer-pill pill-l3">L3: LEDGER</span>
+                <span class="layer-item-name">Thermodynamic Ledger</span>
+              </div>
+              <span class="layer-item-state mono">CRDT Synced (Demurrage: -0.012%/d)</span>
+            </li>
+            <li class="layer-matrix-item" data-goto="l4">
+              <div class="layer-item-lead">
+                <span class="layer-pill pill-l4">L4: EXEC</span>
+                <span class="layer-item-name">Deterministic VM</span>
+              </div>
+              <span class="layer-item-state mono">10 Hz Wasmtime (Read-Only)</span>
+            </li>
+            <li class="layer-matrix-item" data-goto="l5">
+              <div class="layer-item-lead">
+                <span class="layer-pill pill-l5">L5: GOV</span>
+                <span class="layer-item-name">Polycentric Governance</span>
+              </div>
+              <span class="layer-item-state mono">Active: 2 Pending Approvals</span>
+            </li>
+            <li class="layer-matrix-item" data-goto="l6">
+              <div class="layer-item-lead">
+                <span class="layer-pill pill-l6">L6: INTENT</span>
+                <span class="layer-item-name">Semantic Agora</span>
+              </div>
+              <span class="layer-item-state mono">Double-Auction (Mid: 3.55 MJ/kWh)</span>
+            </li>
+            <li class="layer-matrix-item" data-goto="l7">
+              <div class="layer-item-lead">
+                <span class="layer-pill pill-l7">L7: PROXY</span>
+                <span class="layer-item-name">Corporate Carapace</span>
+              </div>
+              <span class="layer-item-state mono">Shield OK │ Grid Curtailed (0.0 kW)</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Quick Jump "Pop the Hood" Diagnostic Launchpad -->
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">POP THE HOOD: READ-ONLY DIAGNOSTIC DECKS</h2>
+            <span class="badge badge-muted">DIAGNOSTIC TELEMETRY</span>
+          </div>
+          <p class="card-explainer">
+            Inspect the underlying POSIX cybernetics, Wasmtime bytecodes, Kalman innovations, and Carapace legal shields. All diagnostic decks are strictly read-only.
+          </p>
+          <div class="pop-hood-grid">
+            <button class="btn-pop-hood btn-l2" data-jump="l2">
+              <span class="btn-icon">🔍</span>
+              <span class="btn-text">Pop Hood: L2 Hardware</span>
+            </button>
+            <button class="btn-pop-hood btn-l3" data-jump="l3">
+              <span class="btn-icon">🔍</span>
+              <span class="btn-text">Pop Hood: L3 Ledger</span>
+            </button>
+            <button class="btn-pop-hood btn-l4" data-jump="l4">
+              <span class="btn-icon">🔍</span>
+              <span class="btn-text">Pop Hood: L4 Execution</span>
+            </button>
+            <button class="btn-pop-hood btn-l5" data-jump="l5">
+              <span class="btn-icon">🔍</span>
+              <span class="btn-text">Pop Hood: L5 Governance</span>
+            </button>
+            <button class="btn-pop-hood btn-l7" data-jump="l7">
+              <span class="btn-icon">🔍</span>
+              <span class="btn-text">Pop Hood: L7 Carapace</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- High-Priority Call to Action for Layer 6 -->
+        <div class="card cta-card-l6">
+          <div class="cta-inner">
+            <div class="cta-header">
+              <span class="badge badge-amber">EXCLUSIVE CIVIC BOUNDARY</span>
+              <h3 class="cta-title">LAYER 6 INTENT & AGORA DECK</h3>
+            </div>
+            <p class="cta-desc">
+              Author semantic resource intents, participate in the continuous double-auction energy market, or claim active community chore bounties.
+            </p>
+            <button class="btn-cta-l6" id="btn-enter-l6">
+              <span>⚡ ENTER AGORA & INTENT DECK (L6)</span>
+              <span class="arrow">──►</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================== -->
+      <!-- DECK 1: LAYER 2 HARDWARE / CYBERNETIC MEMBRANE (READ-ONLY)    -->
+      <!-- ============================================================== -->
+      <section class="deck deck-hidden" id="deck-l2">
+        <div class="deck-banner banner-l2">
+          <div class="banner-title-group">
+            <span class="banner-tag">LAYER 2 DIAGNOSTICS</span>
+            <h2 class="banner-title">CYBERNETIC MEMBRANE & HAL TELEMETRY</h2>
+          </div>
+          <span class="badge badge-emerald">100% READ-ONLY</span>
+        </div>
+
+        <!-- 48V Microgrid Bus Readout -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">48V DC MICROGRID BUS TELEMETRY (FIXED-POINT SI)</h3>
+            <span class="mono text-muted">VLAN 10 FIELDBUS</span>
+          </div>
+          <div class="telemetry-readout-grid">
+            <div class="readout-cell">
+              <span class="readout-label">Bus Voltage</span>
+              <span class="readout-value mono text-emerald" id="l2-val-voltage">48.24 V DC</span>
+            </div>
+            <div class="readout-cell">
+              <span class="readout-label">Bus Current</span>
+              <span class="readout-value mono text-emerald" id="l2-val-current">+70.8 A</span>
+            </div>
+            <div class="readout-cell">
+              <span class="readout-label">Power Output</span>
+              <span class="readout-value mono text-emerald" id="l2-val-power">3,415 W</span>
+            </div>
+            <div class="readout-cell">
+              <span class="readout-label">Inverter Efficiency</span>
+              <span class="readout-value mono text-cyan" id="l2-val-eff">96.8 %</span>
+            </div>
+            <div class="readout-cell">
+              <span class="readout-label">AC Ripple</span>
+              <span class="readout-value mono text-muted" id="l2-val-ripple">18 mV RMS</span>
+            </div>
+            <div class="readout-cell">
+              <span class="readout-label">UHAI Dropped</span>
+              <span class="readout-value mono text-emerald" id="l2-val-dropped">0 pkts</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Power Flux Sparkline Simulation Deck -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">REAL-TIME 10 Hz POWER FLUX (60s SAMPLES)</h3>
+            <span class="mono text-emerald">● REALTIME</span>
+          </div>
+          <div class="sparkline-container" id="l2-sparkline-box">
+            <!-- Simulated ASCII/SVG waveform visualizer -->
+            <svg class="flux-svg" viewBox="0 0 400 80" preserveAspectRatio="none">
+              <path class="flux-grid-line" d="M 0,20 L 400,20 M 0,40 L 400,40 M 0,60 L 400,60" />
+              <path class="flux-wave" id="l2-flux-wave" d="M 0,55 Q 50,20 100,35 T 200,25 T 300,45 T 400,30" />
+            </svg>
+            <div class="sparkline-labels">
+              <span>0s</span>
+              <span>15s</span>
+              <span>30s</span>
+              <span>45s</span>
+              <span>60s (Now)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quality Gate G6 Airgap Defense Table -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">TRANSDUCER PROVENANCE & QUALITY GATE G6 DEFENSE</h3>
+            <span class="badge badge-emerald">AIRGAP FILTER ACTIVE</span>
+          </div>
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Transducer Source</th>
+                  <th>Provenance</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="l2-g6-table-body">
+                <tr>
+                  <td>Solar Pyranometer</td>
+                  <td><span class="mono text-emerald">0x02 ATECC608A</span></td>
+                  <td><span class="status-tag status-ok">ACCEPTED_ROOT</span></td>
+                </tr>
+                <tr>
+                  <td>Shunt Ammeter #1</td>
+                  <td><span class="mono text-emerald">0x02 ATECC608A</span></td>
+                  <td><span class="status-tag status-ok">ACCEPTED_ROOT</span></td>
+                </tr>
+                <tr>
+                  <td>Cistern Ultrasonic Level</td>
+                  <td><span class="mono text-emerald">0x02 ATECC608A</span></td>
+                  <td><span class="status-tag status-ok">ACCEPTED_ROOT</span></td>
+                </tr>
+                <tr>
+                  <td>Oasis SITL Shadow Vector</td>
+                  <td><span class="mono text-amber">0x01 SIMULATED</span></td>
+                  <td><span class="status-tag status-warn">DROPPED_AIRGAP</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Kalman Innovation Residuals and 5 Safety Predicates -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">KALMAN RESIDUALS & 5 SAFETY PREDICATES (Φ)</h3>
+            <span class="badge badge-emerald">ALL PASSING</span>
+          </div>
+          <div class="predicate-grid">
+            <div class="predicate-chip">
+              <span class="p-name">d_M² Residual</span>
+              <span class="p-val mono text-emerald" id="l2-val-dm2">0.042 σ</span>
+              <span class="p-state">[PASS]</span>
+            </div>
+            <div class="predicate-chip">
+              <span class="p-name">Φ_bound</span>
+              <span class="p-val mono text-emerald">48.2V ∈ [44, 54]</span>
+              <span class="p-state">[OK]</span>
+            </div>
+            <div class="predicate-chip">
+              <span class="p-name">Φ_slew</span>
+              <span class="p-val mono text-emerald">ΔV &lt; 0.5V/s</span>
+              <span class="p-state">[OK]</span>
+            </div>
+            <div class="predicate-chip">
+              <span class="p-name">Φ_dwell</span>
+              <span class="p-val mono text-emerald">t_over = 0 ms</span>
+              <span class="p-state">[OK]</span>
+            </div>
+            <div class="predicate-chip">
+              <span class="p-name">Φ_safe</span>
+              <span class="p-val mono text-emerald">Interlock TRUE</span>
+              <span class="p-state">[OK]</span>
+            </div>
+            <div class="predicate-chip">
+              <span class="p-name">Watchdog</span>
+              <span class="p-val mono text-emerald">STM32 + Linux</span>
+              <span class="p-state">[ACTIVE]</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Read-Only Notice -->
+        <div class="card alert-card notice-muted">
+          <div class="card-header-compact">
+            <span class="badge-tag">ⓘ HARDWARE AIRGAP DEFENSE</span>
+          </div>
+          <p class="announcement-text">
+            Layer 2 telemetry is read directly from isolated fieldbus sensors and UHAI shared memory. Breaker disconnects and hardware safeties are physically interlocked. No software mutations or write commands are accepted from the web dashboard.
+          </p>
+        </div>
+      </section>
+
+      <!-- ============================================================== -->
+      <!-- DECK 2: LAYER 3 THERMODYNAMIC LEDGER & MESH (READ-ONLY)       -->
+      <!-- ============================================================== -->
+      <section class="deck deck-hidden" id="deck-l3">
+        <div class="deck-banner banner-l3">
+          <div class="banner-title-group">
+            <span class="banner-tag">LAYER 3 DIAGNOSTICS</span>
+            <h2 class="banner-title">THERMODYNAMIC LEDGER & MESH CLEARING</h2>
+          </div>
+          <span class="badge badge-cyan">100% READ-ONLY</span>
+        </div>
+
+        <!-- PoTW & Demurrage Balance Card -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">PROOF-OF-THERMODYNAMIC-WORK & DEMURRAGE</h3>
+            <span class="mono text-cyan">ROCKSDB CRDT</span>
+          </div>
+          <div class="telemetry-readout-grid">
+            <div class="readout-cell">
+              <span class="readout-label">Exergy Credit Balance</span>
+              <span class="readout-value mono text-cyan" id="l3-val-balance">248.50 MJ</span>
+              <span class="readout-sub">≈ 69.03 kWh Value Tokens</span>
+            </div>
+            <div class="readout-cell">
+              <span class="readout-label">Today's Net Mint</span>
+              <span class="readout-value mono text-emerald" id="l3-val-mint">+12.31 MJ</span>
+              <span class="readout-sub">Φ_in: 44.1 - Φ_out: 31.8</span>
+            </div>
+            <div class="readout-cell">
+              <span class="readout-label">Demurrage Decay Rate</span>
+              <span class="readout-value mono text-amber" id="l3-val-demurrage">-0.012 %/day</span>
+              <span class="readout-sub">E(t) = E₀ · e^(-λt)</span>
+            </div>
+            <div class="readout-cell">
+              <span class="readout-label">Physical Invariant</span>
+              <span class="readout-value mono text-cyan">3.6 MJ / Credit</span>
+              <span class="readout-sub">1 Exergy Credit ≡ 1 kWh</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bilateral Clearing Channels Table -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">PAIRWISE BILATERAL CLEARING CHANNELS</h3>
+            <span class="badge badge-cyan">ZERO-SUM CONSERVED</span>
+          </div>
+          <div class="channel-list" id="l3-channel-list">
+            <div class="channel-item">
+              <div class="channel-info">
+                <span class="channel-peer">Valley Hearth (0x100A)</span>
+                <span class="channel-balance mono text-emerald">+42.5 MJ / [±100.0 MJ]</span>
+              </div>
+              <div class="channel-bar-wrap">
+                <div class="channel-bar-fill" style="left: 50%; width: 21%;"></div>
+              </div>
+            </div>
+            <div class="channel-item">
+              <div class="channel-info">
+                <span class="channel-peer">Ridge Cistern (0x084F)</span>
+                <span class="channel-balance mono text-amber">-15.0 MJ / [±50.0 MJ]</span>
+              </div>
+              <div class="channel-bar-wrap">
+                <div class="channel-bar-fill fill-amber" style="left: 35%; width: 15%;"></div>
+              </div>
+            </div>
+            <div class="channel-item">
+              <div class="channel-info">
+                <span class="channel-peer">North Mill (0x022C)</span>
+                <span class="channel-balance mono text-emerald">+8.2 MJ / [±30.0 MJ]</span>
+              </div>
+              <div class="channel-bar-wrap">
+                <div class="channel-bar-fill" style="left: 50%; width: 14%;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Asymptotic Ecological Replacement Cost Firewall -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">ASYMPTOTIC ECOLOGICAL REPLACEMENT COST (ERC)</h3>
+            <span class="badge badge-emerald">SAFE EQUILIBRIUM</span>
+          </div>
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Resource Harvest</th>
+                  <th>Extraction / Cap</th>
+                  <th>Multiplier (λ_ERC)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Solar Photovoltaic</td>
+                  <td>12.4% / 100% Cap</td>
+                  <td><span class="mono text-emerald">1.01x [SUSTAINABLE]</span></td>
+                </tr>
+                <tr>
+                  <td>Deep Groundwater</td>
+                  <td>41.0% / 100% Cap</td>
+                  <td><span class="mono text-emerald">1.08x [SAFE]</span></td>
+                </tr>
+                <tr>
+                  <td>River Flume Draw</td>
+                  <td>88.2% / 100% Cap</td>
+                  <td><span class="mono text-amber">4.82x [ELEVATED]</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================== -->
+      <!-- DECK 3: LAYER 4 DETERMINISTIC EXECUTION (READ-ONLY DIAGNOSTIC)-->
+      <!-- ============================================================== -->
+      <section class="deck deck-hidden" id="deck-l4">
+        <div class="deck-banner banner-l4">
+          <div class="banner-title-group">
+            <span class="banner-tag">LAYER 4 DIAGNOSTICS</span>
+            <h2 class="banner-title">DETERMINISTIC WASMTIME EXECUTION</h2>
+          </div>
+          <span class="badge badge-indigo">100% READ-ONLY</span>
+        </div>
+
+        <!-- Prominent Invariant 7 Notice Banner -->
+        <div class="card alert-card notice-indigo">
+          <div class="card-header-compact">
+            <span class="badge-tag">ⓘ ARCHITECTURAL LAW: INVARIANT 7</span>
+            <span class="mono text-indigo">SANDBOXED VM</span>
+          </div>
+          <p class="announcement-text">
+            <strong>NOTICE:</strong> Layer 4 is deterministic, sandboxed, and read-only. It has zero knowledge of the outside world, zero network sockets, zero fiat variables, and zero communication with Layer 7. Players CANNOT accept or approve tasks in Layer 4. Approvals and payout occur exclusively within Layer 5 Governance (see <a href="#l5" class="inline-link" data-jump="l5">[ L5: GOV ]</a>).
+          </p>
+        </div>
+
+        <!-- Wasmtime VM Status & Fuel Meter -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">WASMTIME 10 Hz VM TICK & FUEL METER</h3>
+            <span class="badge badge-indigo">col-execd</span>
+          </div>
+          <div class="fuel-meter-group">
+            <div class="fuel-meter-header">
+              <span>Instruction Fuel Remaining</span>
+              <span class="mono text-indigo" id="l4-fuel-text">4,200 / 10,000 instructions</span>
+            </div>
+            <div class="progress-bar-bg">
+              <div class="progress-bar-fill fill-indigo" id="l4-fuel-bar" style="width: 42%;"></div>
+            </div>
+            <div class="fuel-meta mono">
+              <span>Tick Rate: 10.0 Hz</span>
+              <span>IPC: /uhai_telemetry</span>
+              <span>Memory: 64 MB Linear</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Active BPMN 2.0 DAG Token Track -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">ACTIVE BPMN 2.0 WORKFLOW DAG</h3>
+            <span class="mono text-indigo">prc-fab-gear-aquaponics</span>
+          </div>
+          <div class="dag-pipeline">
+            <div class="dag-node completed">
+              <span class="dag-dot">✓</span>
+              <span class="dag-label">[START]</span>
+            </div>
+            <div class="dag-connector completed"></div>
+            <div class="dag-node completed">
+              <span class="dag-dot">✓</span>
+              <span class="dag-label">[ZONING]</span>
+            </div>
+            <div class="dag-connector active"></div>
+            <div class="dag-node running">
+              <span class="dag-dot pulse">●</span>
+              <span class="dag-label">[*FAB_PRINT_3D* (68%)]</span>
+            </div>
+            <div class="dag-connector yielded"></div>
+            <div class="dag-node yielded">
+              <span class="dag-dot">▲</span>
+              <span class="dag-label">[GATE_QUALITY (YIELDED_L5)]</span>
+            </div>
+            <div class="dag-connector pending"></div>
+            <div class="dag-node pending">
+              <span class="dag-dot">○</span>
+              <span class="dag-label">[RELEASE_ESCROW]</span>
+            </div>
+            <div class="dag-connector pending"></div>
+            <div class="dag-node pending">
+              <span class="dag-dot">○</span>
+              <span class="dag-label">[END]</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Canonical 5-Tier Priority Queue -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">CANONICAL 5-TIER PRIORITY QUEUE (RESOURCE SCHEDULER)</h3>
+            <span class="badge badge-indigo">SCHEDULER ENFORCED</span>
+          </div>
+          <div class="tier-queue-list">
+            <div class="tier-item tier-1">
+              <span class="tier-badge">TIER 1</span>
+              <span class="tier-name">Ecological Floors (F_eco)</span>
+              <span class="tier-status mono text-emerald">[100% UNTOUCHED] [PROTECTED]</span>
+            </div>
+            <div class="tier-item tier-2">
+              <span class="tier-badge">TIER 2</span>
+              <span class="tier-name">Human Survival Baseline (B)</span>
+              <span class="tier-status mono text-emerald">[100% UNTOUCHED] [SECURED]</span>
+            </div>
+            <div class="tier-item tier-3">
+              <span class="tier-badge">TIER 3</span>
+              <span class="tier-name">Bioregional Mutual Aid (R_1-4)</span>
+              <span class="tier-status mono text-cyan">[STANDBY] [READY]</span>
+            </div>
+            <div class="tier-item tier-4">
+              <span class="tier-badge">TIER 4</span>
+              <span class="tier-name">Discretionary Workflows (O_loc)</span>
+              <span class="tier-status mono text-indigo">[3 ACTIVE TASKS] [RUNNING]</span>
+            </div>
+            <div class="tier-item tier-5">
+              <span class="tier-badge">TIER 5</span>
+              <span class="tier-name">Commercial Export (R_t)</span>
+              <span class="tier-status mono text-amber">[CURTAILED 0.0 kW] [R_t &le; 0]</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Upward Yield Status Inspector -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">UPWARD YIELD INSPECTOR: TASK GATE YIELDED TO LAYER 5</h3>
+            <span class="badge badge-amber">HALTED_WAIT</span>
+          </div>
+          <div class="yield-details mono">
+            <p><strong>Yield ID:</strong> y_8492_01 across <code>/run/collective/ipc/l4_l5.sock</code></p>
+            <p><strong>Task Gate:</strong> Gate_Quality_Inspection (5x PETG Gears for Valve)</p>
+            <p><strong>VM State:</strong> [STATE_YIELDED_L5] Awaiting L5 Ratification</p>
+            <p><strong>Rollback Saga:</strong> Armed (Expires in 3h 48m &rarr; Reverses Escrow)</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================== -->
+      <!-- DECK 4: LAYER 5 GOVERNANCE & CONSENSUS REVIEW (READ-ONLY)      -->
+      <!-- ============================================================== -->
+      <section class="deck deck-hidden" id="deck-l5">
+        <div class="deck-banner banner-l5">
+          <div class="banner-title-group">
+            <span class="banner-tag">LAYER 5 DIAGNOSTICS</span>
+            <h2 class="banner-title">POLYCENTRIC GOVERNANCE & CIVIC BRAIN</h2>
+          </div>
+          <span class="badge badge-purple">100% READ-ONLY</span>
+        </div>
+
+        <!-- Pending Upward-Yielded Task Gates -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">PENDING UPWARD-YIELD TASK GATES AWAITING REVIEW</h3>
+            <span class="badge badge-purple">col-governanced</span>
+          </div>
+          <div class="approval-card">
+            <div class="approval-header">
+              <span class="approval-id">Chore Token #8492</span>
+              <span class="badge badge-amber">PENDING CIVIC REVIEW</span>
+            </div>
+            <div class="approval-body">
+              <p><strong>Task Gate:</strong> Gate_Quality_Inspection (5x PETG Printed Gears)</p>
+              <p><strong>Claiming Steward:</strong> <code>did:peer:node04:steward77</code></p>
+              <p><strong>Credential Verified:</strong> SkillCredential: CNC/Fab Lv3 (BBS+ ZKP)</p>
+              <p><strong>Escrow Locked:</strong> 12.5 Exergy Credits (PoTW Locked in L3 Ledger)</p>
+            </div>
+            <div class="approval-read-only-note">
+              <span>ⓘ Ratification and vote dispatch occur strictly via Layer 6 Signed Intent.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Polycentric Trust Rings Inspector -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">POLYCENTRIC TRUST RING & BPVP ROUTING</h3>
+            <span class="badge badge-purple">6-TIER RING TOPOLOGY</span>
+          </div>
+          <div class="trust-ring-pills">
+            <span class="trust-pill">[ R0: Home ]</span>
+            <span class="trust-pill">[ R1: Node ]</span>
+            <span class="trust-pill active">[►R2: Valley◄]</span>
+            <span class="trust-pill">[ R3: Water ]</span>
+            <span class="trust-pill">[ R4: Region ]</span>
+            <span class="trust-pill">[ R5: Biome ]</span>
+          </div>
+          <div class="trust-meta mono">
+            <p><strong>Dijkstra Graph Distance:</strong> 2 hops │ RTT: 48 ms</p>
+            <p><strong>Route Path:</strong> Node04 &rarr; Node02 &rarr; Local Node 402</p>
+            <p><strong>BPVP Rule:</strong> PASSED (Bioregional peer available; zero fiat invoked)</p>
+          </div>
+        </div>
+
+        <!-- Tripartite Ricardian Treaty Registry Review -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">TRIPARTITE RICARDIAN TREATY REGISTRY</h3>
+            <span class="badge badge-emerald">SHA-256 VERIFIED</span>
+          </div>
+          <div class="treaty-box">
+            <h4 class="treaty-title">Bioregional Seasonal Water Intertie Pact</h4>
+            <div class="treaty-prose">
+              <em>"Stewards of Lot 402 and Valley Hearth agree to share gravity water during summer drawdowns up to 150 MJ mutual credit without fiat."</em>
+            </div>
+            <div class="treaty-schema mono">
+              {"@type":"WaterPact","creditLimit":150.0,"unit":"MJ"}
+            </div>
+            <div class="treaty-hash mono">
+              HASH: 0x9a8f...4b12 (Cryptographic Match: Prose || JSON-LD || BPMN)
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================== -->
+      <!-- DECK 5: LAYER 6 EXCLUSIVE SOCIETAL & CIVIC DECK (INTERACTIVE!) -->
+      <!-- ============================================================== -->
+      <section class="deck deck-hidden" id="deck-l6">
+        <div class="deck-banner banner-l6">
+          <div class="banner-title-group">
+            <span class="banner-tag">LAYER 6 CIVIC INTERACTION BOUNDARY</span>
+            <h2 class="banner-title">SEMANTIC AGORA & INTENT DISPATCH</h2>
+          </div>
+          <span class="badge badge-amber">MUTATIONS PERMITTED (POST)</span>
+        </div>
+
+        <!-- Section 1: Continuous Double-Auction Order Book -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">CONTINUOUS DOUBLE-AUCTION AGORA ORDER BOOK</h3>
+            <span class="badge badge-amber">3.6 MJ / kWh EXERGY</span>
+          </div>
+
+          <div class="orderbook-stats mono">
+            <span>Spread: <strong class="text-amber" id="cda-spread">0.10 MJ</strong></span>
+            <span>Clearing Midpoint: <strong class="text-emerald" id="cda-midpoint">3.55 MJ/kWh</strong></span>
+          </div>
+
+          <div class="orderbook-columns">
+            <div class="ob-col ob-bids">
+              <div class="ob-col-title text-emerald">BID DEPTH (BUYERS)</div>
+              <table class="ob-table" id="table-bids">
+                <thead>
+                  <tr><th>Qty (kWh)</th><th>Price (MJ)</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>40.0</td><td class="text-emerald">3.50</td></tr>
+                  <tr><td>25.0</td><td class="text-emerald">3.45</td></tr>
+                  <tr><td>100.0</td><td class="text-emerald">3.30</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="ob-col ob-asks">
+              <div class="ob-col-title text-amber">ASK DEPTH (SELLERS)</div>
+              <table class="ob-table" id="table-asks">
+                <thead>
+                  <tr><th>Price (MJ)</th><th>Qty (kWh)</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td class="text-amber">3.60</td><td>15.0</td></tr>
+                  <tr><td class="text-amber">3.65</td><td>30.0</td></tr>
+                  <tr><td class="text-amber">3.80</td><td>80.0</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Limit Order Entry Form -->
+          <div class="form-container">
+            <div class="form-title">PLACE AGORA LIMIT ORDER (INTENT DISPATCH)</div>
+            <form id="form-agora-order" class="interactive-form">
+              <div class="form-row-side">
+                <label class="side-btn active" id="btn-side-buy">
+                  <input type="radio" name="order-side" value="BUY" checked> BUY (BID)
+                </label>
+                <label class="side-btn" id="btn-side-sell">
+                  <input type="radio" name="order-side" value="SELL"> SELL (ASK)
+                </label>
+              </div>
+              <div class="form-grid-2">
+                <div class="input-field">
+                  <label for="order-qty">Quantity (kWh):</label>
+                  <input type="number" id="order-qty" min="0.1" step="0.5" value="25.0" required>
+                </div>
+                <div class="input-field">
+                  <label for="order-price">Limit Price (MJ):</label>
+                  <input type="number" id="order-price" min="0.1" step="0.05" value="3.50" required>
+                </div>
+              </div>
+              <button type="submit" class="btn-action btn-submit-order" id="btn-submit-order">
+                <span>[ SUBMIT AGORA ORDER INTENT ]</span>
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Section 2: Natural Language Semantic Intent Builder -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">NATURAL LANGUAGE SEMANTIC INTENT BUILDER</h3>
+            <span class="badge badge-amber">JSON-LD COMPILER</span>
+          </div>
+          <form id="form-intent-builder" class="interactive-form">
+            <div class="input-field">
+              <label for="intent-type">Intent Type:</label>
+              <select id="intent-type" class="select-field">
+                <option value="ResourceRequestIntent">ResourceRequestIntent (Energy / Water Exchange)</option>
+                <option value="PolicyRefinement">PolicyRefinement (Ecological Threshold Update)</option>
+                <option value="TreatyRatificationIntent">TreatyRatificationIntent (Ricardian Water Pact)</option>
+                <option value="ChoreBountyIntent">ChoreBountyIntent (Civic Work Escrow)</option>
+              </select>
+            </div>
+            <div class="input-field">
+              <label for="intent-prompt">Semantic Prompt / Human Intent:</label>
+              <textarea id="intent-prompt" rows="3" class="textarea-field" placeholder="Describe sovereign intent in natural language...">Transfer 15 kWh surplus solar to Ridge Cistern if battery > 85%</textarea>
+            </div>
+            <div class="quick-prompts-group">
+              <span class="quick-prompt-label">Quick Templates:</span>
+              <button type="button" class="btn-quick-chip" data-template="solar">Solar Transfer</button>
+              <button type="button" class="btn-quick-chip" data-template="water">Water Reserve</button>
+              <button type="button" class="btn-quick-chip" data-template="treaty">Valley Treaty</button>
+            </div>
+
+            <!-- Plain-Language Read-Back Preview -->
+            <div class="readback-box">
+              <span class="readback-label">DETERMINISTIC PLAIN-LANGUAGE READ-BACK:</span>
+              <p class="readback-text" id="readback-preview">
+                "Dispatch 15.0 kWh to Node 0x084F (Ridge Cistern) conditioned on Storage SoC > 85% at Agora spread midpoint."
+              </p>
+              <div class="readback-meta mono">
+                <span>Provenance: [machine_drafted_human_signed]</span>
+                <span>Algorithm: Ed25519</span>
+              </div>
+            </div>
+
+            <button type="submit" class="btn-action btn-dispatch-intent" id="btn-dispatch-intent">
+              <span>[ DISPATCH SIGNED INTENT (POST /api/v1/l6/intent) ──► ]</span>
+            </button>
+          </form>
+        </div>
+
+        <!-- Section 3: Chore Work Bounty Cards with Claim Buttons -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">CHORE WORK BOUNTIES & MUTUAL AID</h3>
+            <span class="badge badge-amber">PoTW ESCROW LOCKED</span>
+          </div>
+          <div class="chore-cards-container" id="chore-cards-container">
+            <!-- Chore #8492 -->
+            <div class="chore-card" id="chore-8492">
+              <div class="chore-header">
+                <span class="chore-id">CHORE BOUNTY #8492</span>
+                <span class="badge badge-cyan">12.5 MJ ESCROW</span>
+              </div>
+              <h4 class="chore-title">5x PETG Gears for Aquaponics Valve Housing</h4>
+              <p class="chore-desc">
+                Physically inspect and fit 3D printed PETG gears to ensure smooth mechanical engagement with zero backlash.
+              </p>
+              <div class="chore-action">
+                <button class="btn-action btn-claim-chore" data-chore-id="8492" data-chore-title="5x PETG Gears" data-escrow="12.5">
+                  <span>[ CLAIM CHORE INTENT ]</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Chore #8495 -->
+            <div class="chore-card" id="chore-8495">
+              <div class="chore-header">
+                <span class="chore-id">CHORE BOUNTY #8495</span>
+                <span class="badge badge-cyan">8.0 MJ ESCROW</span>
+              </div>
+              <h4 class="chore-title">Clean Solar PV Array Strings 1-4</h4>
+              <p class="chore-desc">
+                Clear dust and pollen from upper solar string array to restore peak insolation efficiency before 11:00 peak.
+              </p>
+              <div class="chore-action">
+                <button class="btn-action btn-claim-chore" data-chore-id="8495" data-chore-title="Clean Solar Array" data-escrow="8.0">
+                  <span>[ CLAIM CHORE INTENT ]</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Chore #8501 -->
+            <div class="chore-card" id="chore-8501">
+              <div class="chore-header">
+                <span class="chore-id">CHORE BOUNTY #8501</span>
+                <span class="badge badge-cyan">5.0 MJ ESCROW</span>
+              </div>
+              <h4 class="chore-title">Inspect Swale Infiltration Berm</h4>
+              <p class="chore-desc">
+                Survey swale sediment level and gravel weir to verify unimpeded gravity drainage along Lot 402 contour.
+              </p>
+              <div class="chore-action">
+                <button class="btn-action btn-claim-chore" data-chore-id="8501" data-chore-title="Inspect Swale Berm" data-escrow="5.0">
+                  <span>[ CLAIM CHORE INTENT ]</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 4: Real-Time Intent Dispatch Terminal & Activity Log -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">INTENT DISPATCH LOG (POST /api/v1/l6/intent)</h3>
+            <span class="mono text-muted">TERMINAL FEED</span>
+          </div>
+          <div class="terminal-log" id="intent-terminal-log">
+            <div class="log-entry log-system">[06:00:00 HLC] Sovereign Intent Gateway Initialized on VLAN 30.</div>
+            <div class="log-entry log-system">[06:00:01 HLC] Ready for signed intent payloads on POST /api/v1/l6/intent.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================== -->
+      <!-- DECK 6: LAYER 7 LEGACY PROXY & CARAPACE (READ-ONLY DIAGNOSTIC) -->
+      <!-- ============================================================== -->
+      <section class="deck deck-hidden" id="deck-l7">
+        <div class="deck-banner banner-l7">
+          <div class="banner-title-group">
+            <span class="banner-tag">LAYER 7 DIAGNOSTICS</span>
+            <h2 class="banner-title">LEGACY PROXY & CARAPACE MONITOR</h2>
+          </div>
+          <span class="badge badge-slate">100% READ-ONLY</span>
+        </div>
+
+        <!-- Corporate Carapace Health & Legal Shield -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">CORPORATE CARAPACE & LEGAL SHIELD</h3>
+            <span class="badge badge-emerald">SHIELD ACTIVE</span>
+          </div>
+          <div class="carapace-info-grid mono">
+            <p><strong>Legal Entity Chassis:</strong> Cascadia Resilient Commons SPC (RCW 23B)</p>
+            <p><strong>Land Trust Chassis:</strong> Community Land Trust + Co-op 99-Yr Lease</p>
+            <p><strong>Labor Bifurcation:</strong> 2 W-2 Export Staff ($21.50/hr) │ 18 Mutual Aid Stewards</p>
+            <p><strong>Subpoena Immunity:</strong> NAACP v. Alabama Doctrine of Data Non-Existence [ACTIVE]</p>
+            <p><strong>Internal Keys/DIDs:</strong> 0 bytes stored in DMZ VLAN 40</p>
+            <p><strong>Tax Reserve Escrow:</strong> $4,120.50 USD locked in statutory reserve (ρ_t)</p>
+          </div>
+        </div>
+
+        <!-- Utility Grid Intertie Curtailment Monitor -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">AUTONOMOUS UTILITY GRID INTERTIE CURTAILMENT</h3>
+            <span class="badge badge-amber" id="l7-curtail-badge">CURTAILED (0.0 kW)</span>
+          </div>
+          <div class="intertie-status-box">
+            <div class="intertie-readout-grid">
+              <div class="readout-cell">
+                <span class="readout-label">Contactor State</span>
+                <span class="readout-value mono text-amber" id="l7-contactor-state">OPEN [0.0V / 0.0A]</span>
+              </div>
+              <div class="readout-cell">
+                <span class="readout-label">Live Export Power</span>
+                <span class="readout-value mono text-amber" id="l7-export-power">0.0 kW</span>
+              </div>
+              <div class="readout-cell">
+                <span class="readout-label">Actuation Trigger</span>
+                <span class="readout-value mono text-cyan">Autonomous 10 Hz (R_t &le; 0)</span>
+              </div>
+              <div class="readout-cell">
+                <span class="readout-label">Physical Hardware</span>
+                <span class="readout-value mono text-muted">ABB OTM400 3-Pole DC Disconnect</span>
+              </div>
+            </div>
+            <div class="curtail-override-locked">
+              <span>[ OVERRIDE LOCKED: CONTROLLED BY L4/L5 REFLEX ONLY ]</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- DES Municipal Radar & Citation Tracker -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">DES MUNICIPAL REGULATORY RADAR</h3>
+            <span class="badge badge-amber">LEVEL 1: ELEVATED</span>
+          </div>
+          <div class="radar-meta mono">
+            <p><strong>Threat Score:</strong> 0.28 / 1.0 (Elevated Zoning Inquiry)</p>
+            <p><strong>Recent Event:</strong> 2026-10-10 DES Notice of Inspection &rarr; Resolved via BMAA precedent</p>
+            <p><strong>Statutory Tariff:</strong> Mandatory Interruptible Tariff Section D cited</p>
+          </div>
+        </div>
+
+        <!-- Progressive Siphon & Terminal Decoupling Autonomy Progress -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">TERMINAL DECOUPLING AUTONOMY PROGRESS (SCENARIO OMEGA)</h3>
+            <span class="badge badge-cyan">84.2% INDEPENDENT</span>
+          </div>
+          <div class="decoupling-group">
+            <div class="decoupling-header mono">
+              <span>Dependency Ratio (D_t = E_fiat / E_in)</span>
+              <span class="text-emerald">D_t = 0.082 (Target &lt; 0.05)</span>
+            </div>
+            <div class="progress-bar-bg">
+              <div class="progress-bar-fill fill-emerald" style="width: 84%;"></div>
+            </div>
+            <div class="decoupling-notes mono">
+              <span>Progressive Siphon: $312.40 USD siphoned above Living Baseline to Commons</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Universal Pinned 6-Layer Navigation Dock -->
+    <nav class="pinned-nav-dock" id="pinned-nav-dock" aria-label="6-Layer Sovereign Stack Navigation">
+      <button class="dock-tab" data-layer="l2" id="tab-l2">
+        <span class="dock-label">[ L2: HW ]</span>
+      </button>
+      <button class="dock-tab" data-layer="l3" id="tab-l3">
+        <span class="dock-label">[ L3: LEDGER ]</span>
+      </button>
+      <button class="dock-tab" data-layer="l4" id="tab-l4">
+        <span class="dock-label">[ L4: EXEC ]</span>
+      </button>
+      <button class="dock-tab" data-layer="l5" id="tab-l5">
+        <span class="dock-label">[ L5: GOV ]</span>
+      </button>
+      <button class="dock-tab active" data-layer="l6" id="tab-l6">
+        <span class="dock-label">[►L6: INTENT◄]</span>
+      </button>
+      <button class="dock-tab" data-layer="l7" id="tab-l7">
+        <span class="dock-label">[ L7: PROXY ]</span>
+      </button>
+    </nav>
+
+    <!-- Toast Notification Container -->
+    <div class="toast-container" id="toast-container" aria-live="polite"></div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

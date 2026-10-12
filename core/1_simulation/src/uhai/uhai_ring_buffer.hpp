@@ -35,6 +35,7 @@ constexpr size_t RING_CAPACITY = 1024; // Power of 2
 constexpr uint32_t UHAI_MAGIC = 0x55484149; // "UHAI" (0x55484149)
 constexpr uint32_t UHAI_VERSION = 1;
 constexpr const char* DEFAULT_SHM_NAME = "/uhai_telemetry";
+constexpr const char* DEFAULT_GATEWAY_SHM_NAME = "/uhai_telemetry_gateway";
 
 #pragma pack(push, 8)
 struct alignas(8) TelemetrySample {
@@ -122,6 +123,155 @@ struct alignas(CACHE_LINE_SIZE) FlowContractSlot {
 };
 static_assert(sizeof(FlowContractSlot) == 64, "FlowContractSlot must be exactly 64 bytes.");
 
+// ============================================================================
+// Dual Sprint 10: Sovereign Stack Layer 4/5 Companion Telemetry & Governance
+// ============================================================================
+
+enum class YieldReason : uint8_t {
+    HUMAN_TASK_GATE_COMPLETION   = 0x01,
+    RESOURCE_DEFICIT_CURTAILMENT = 0x02,
+    UNRESOLVABLE_MORAL_CONFLICT  = 0x03,
+    TREATY_BREACH_EXCEPTION      = 0x04
+};
+
+enum class ApprovalStatus : uint8_t {
+    PENDING_REVIEW       = 0x00,
+    RATIFIED_APPROVED    = 0x01,
+    REJECTED_COMPENSATED = 0x02,
+    ESCALATED_ASSEMBLY   = 0x03
+};
+
+#pragma pack(push, 8)
+struct alignas(8) L4ExecutionTelemetry {
+    uint64_t tick_count{0};                  // Monotonic 10 Hz execution VM tick
+    uint64_t timestamp_ns{0};                // Nanosecond timestamp of sample
+    uint64_t instruction_fuel_remaining{0};  // Wasmtime instruction fuel remaining
+    uint64_t instruction_fuel_budget{0};     // Instruction fuel allocated per tick
+    uint64_t memory_fuel_bytes_used{0};      // Linear memory bytes committed
+    uint64_t memory_fuel_bytes_limit{0};     // Max linear memory budget
+    uint32_t active_workflow_count{0};       // Active BPMN 2.0 DAG instances
+    uint32_t active_token_count{0};          // Executing Wasmtime tokens across DAGs
+    uint32_t queue_depth[5]{0};              // 5-Tier Priority Queue load (Tier 1..5)
+    uint32_t queue_dropped[5]{0};            // 5-Tier Priority Queue dropped/shed count
+    float    vm_tick_rate_hz{10.0f};         // Nominal VM tick rate (10 Hz)
+    uint8_t  shedding_active{0};             // 1 if load shedding is engaged
+    uint8_t  sandbox_flags{0x01};            // 0x01 = Sandboxed, 0x02 = Deterministic
+    uint16_t reserved{0};                    // 8-byte alignment padding
+};
+#pragma pack(pop)
+static_assert(sizeof(L4ExecutionTelemetry) == 104, "L4ExecutionTelemetry must be exactly 104 bytes.");
+static_assert(alignof(L4ExecutionTelemetry) == 8, "L4ExecutionTelemetry must align to 8 bytes.");
+static_assert(std::is_standard_layout_v<L4ExecutionTelemetry>, "L4ExecutionTelemetry must be standard layout.");
+static_assert(std::is_trivially_copyable_v<L4ExecutionTelemetry>, "L4ExecutionTelemetry must be trivially copyable.");
+
+struct alignas(CACHE_LINE_SIZE) L4WorkflowSlot {
+    L4ExecutionTelemetry telemetry;
+    uint8_t pad[24]; // 104 + 24 = 128 bytes (2 cache lines)
+};
+static_assert(sizeof(L4WorkflowSlot) == 128, "L4WorkflowSlot must occupy exactly 2 cache lines (128 bytes).");
+static_assert(std::is_standard_layout_v<L4WorkflowSlot>, "L4WorkflowSlot must be standard layout.");
+static_assert(std::is_trivially_copyable_v<L4WorkflowSlot>, "L4WorkflowSlot must be trivially copyable.");
+
+#pragma pack(push, 8)
+struct alignas(8) UpwardYieldPacket {
+    uint64_t yield_id{0};                  // Monotonic yield identifier
+    uint64_t workflow_token_id{0};         // BPMN execution token ID in col-execd
+    uint64_t timestamp_hlc{0};             // Hybrid Logical Clock of yield event
+    YieldReason reason{YieldReason::HUMAN_TASK_GATE_COMPLETION}; // Reason for upward yield
+    uint8_t priority_tier{1};              // 1 to 5
+    uint8_t reserved[6]{0};                // Alignment padding
+    char task_gate_id[64]{0};              // BPMN activity ID (e.g. "Gate_Quality_Inspect")
+    char claimant_did[64]{0};              // Claiming steward's DID
+    int64_t required_exergy_mj{0};         // Escrow amount (in 3.6 MJ Exergy Credits * 1000)
+    char description[256]{0};              // Human-readable task description
+    uint8_t sha256_spec_digest[32]{0};     // Hash of task specification
+};
+#pragma pack(pop)
+static_assert(sizeof(UpwardYieldPacket) == 456, "UpwardYieldPacket must be exactly 456 bytes.");
+static_assert(alignof(UpwardYieldPacket) == 8, "UpwardYieldPacket must align to 8 bytes.");
+static_assert(std::is_standard_layout_v<UpwardYieldPacket>, "UpwardYieldPacket must be standard layout.");
+static_assert(std::is_trivially_copyable_v<UpwardYieldPacket>, "UpwardYieldPacket must be trivially copyable.");
+
+struct alignas(CACHE_LINE_SIZE) UpwardYieldSlot {
+    UpwardYieldPacket packet;
+    uint8_t pad[56]; // 456 + 56 = 512 bytes (8 cache lines)
+};
+static_assert(sizeof(UpwardYieldSlot) == 512, "UpwardYieldSlot must occupy exactly 8 cache lines (512 bytes).");
+static_assert(std::is_standard_layout_v<UpwardYieldSlot>, "UpwardYieldSlot must be standard layout.");
+static_assert(std::is_trivially_copyable_v<UpwardYieldSlot>, "UpwardYieldSlot must be trivially copyable.");
+
+#pragma pack(push, 8)
+struct alignas(8) GovernanceResolutionPacket {
+    uint64_t yield_id{0};                  // Matching yield identifier
+    uint64_t resolution_hlc{0};            // Timestamp of resolution
+    ApprovalStatus status{ApprovalStatus::PENDING_REVIEW}; // RATIFIED_APPROVED or REJECTED
+    uint8_t trust_ring{0};                 // R0 through R6
+    uint8_t reserved[6]{0};                // Alignment padding
+    char steward_approver_did[64]{0};      // DID of approving steward
+    uint8_t ed25519_signature[64]{0};      // Web Crypto / ATECC608A signature
+    int64_t released_escrow_mj{0};         // Exergy credit amount released from escrow
+    char resolution_rationale[256]{0};     // Deliberative justification
+};
+#pragma pack(pop)
+static_assert(sizeof(GovernanceResolutionPacket) == 416, "GovernanceResolutionPacket must be exactly 416 bytes.");
+static_assert(alignof(GovernanceResolutionPacket) == 8, "GovernanceResolutionPacket must align to 8 bytes.");
+static_assert(std::is_standard_layout_v<GovernanceResolutionPacket>, "GovernanceResolutionPacket must be standard layout.");
+static_assert(std::is_trivially_copyable_v<GovernanceResolutionPacket>, "GovernanceResolutionPacket must be trivially copyable.");
+
+struct alignas(CACHE_LINE_SIZE) GovernanceResolutionSlot {
+    GovernanceResolutionPacket packet;
+    uint8_t pad[32]; // 416 + 32 = 448 bytes (7 cache lines)
+};
+static_assert(sizeof(GovernanceResolutionSlot) == 448, "GovernanceResolutionSlot must occupy exactly 7 cache lines (448 bytes).");
+static_assert(std::is_standard_layout_v<GovernanceResolutionSlot>, "GovernanceResolutionSlot must be standard layout.");
+static_assert(std::is_trivially_copyable_v<GovernanceResolutionSlot>, "GovernanceResolutionSlot must be trivially copyable.");
+
+#pragma pack(push, 8)
+struct alignas(8) L5GovernanceTelemetry {
+    uint64_t timestamp_ns{0};                // Nanosecond timestamp of sample
+    uint32_t pending_approval_count{0};      // Pending upward-yielded task gates
+    uint32_t active_treaty_count{0};         // Active Ricardian treaties in deliberation
+    uint32_t ratified_treaty_count{0};       // Ratified treaties in effect
+    uint32_t active_referendum_count{0};     // Open assembly ballots / referendums
+    int64_t  bilateral_credit_limit_mj{0};   // Upper bound on bilateral mutual credit channel
+    int64_t  net_credit_balance_mj{0};       // Live mutual credit net balance
+    int64_t  escrow_locked_mj{0};            // Exergy credits held in active escrows
+    uint8_t  steward_trust_ring{0};          // Node steward trust ring tier (R0..R6)
+    uint8_t  governance_flags{0x01};         // 0x01 = Bicameral Quorum Met
+    uint8_t  reserved[14]{0};                // Struct padding to 64 bytes
+};
+#pragma pack(pop)
+static_assert(sizeof(L5GovernanceTelemetry) == 64, "L5GovernanceTelemetry must be exactly 64 bytes.");
+static_assert(alignof(L5GovernanceTelemetry) == 8, "L5GovernanceTelemetry must align to 8 bytes.");
+static_assert(std::is_standard_layout_v<L5GovernanceTelemetry>, "L5GovernanceTelemetry must be standard layout.");
+static_assert(std::is_trivially_copyable_v<L5GovernanceTelemetry>, "L5GovernanceTelemetry must be trivially copyable.");
+
+struct alignas(CACHE_LINE_SIZE) L5GovernanceSlot {
+    L5GovernanceTelemetry telemetry;
+};
+static_assert(sizeof(L5GovernanceSlot) == 64, "L5GovernanceSlot must be exactly 64 bytes.");
+static_assert(std::is_standard_layout_v<L5GovernanceSlot>, "L5GovernanceSlot must be standard layout.");
+static_assert(std::is_trivially_copyable_v<L5GovernanceSlot>, "L5GovernanceSlot must be trivially copyable.");
+
+#pragma pack(push, 8)
+struct alignas(8) TreatyRatificationPayload {
+    char treaty_cid[65]{0};             // SHA-256 hex string (64 chars + null)
+    uint8_t trust_ring_scope{0};        // Maximum ring boundary (e.g. R3)
+    uint8_t bicameral_tier{0};          // 1 = Core (80%), 2 = Meta (66%), 3 = Ordinary (50%)
+    uint8_t reserved_byte{0};           // Natural alignment padding to offset 68
+    uint32_t cooloff_seconds_remaining{0};// Mandatory cooloff countdown (offset 68..71)
+    int64_t bilateral_credit_limit_mj{0}; // Credit channel bound (+/- C) (offset 72..79)
+    char counterparty_node_did[64]{0};  // Peered Node DID (offset 80..143)
+    uint8_t initiator_signature[64]{0}; // Ed25519 signature of initiating steward (offset 144..207)
+    uint8_t peer_signature[64]{0};      // Ed25519 signature of counterparty steward (offset 208..271)
+    uint8_t tail_padding[8]{0};         // 8-byte tail alignment padding (offset 272..279)
+};
+#pragma pack(pop)
+static_assert(sizeof(TreatyRatificationPayload) == 280, "TreatyRatificationPayload must be exactly 280 bytes.");
+static_assert(alignof(TreatyRatificationPayload) == 8, "TreatyRatificationPayload must align to 8 bytes.");
+static_assert(std::is_standard_layout_v<TreatyRatificationPayload>, "TreatyRatificationPayload must be standard layout.");
+static_assert(std::is_trivially_copyable_v<TreatyRatificationPayload>, "TreatyRatificationPayload must be trivially copyable.");
+
 struct alignas(CACHE_LINE_SIZE) SharedRingHeader {
     // Cache Line 0 (offset 0..63): Producer write state & overrun accounting
     alignas(CACHE_LINE_SIZE) std::atomic<uint64_t> write_index{0};
@@ -147,6 +297,9 @@ static_assert(TOTAL_SHM_SIZE == 65728, "Total UHAI shared memory size must be 65
 constexpr const char* DEFAULT_FLOW_SHM_NAME = "/uhai_flow";
 constexpr size_t TOTAL_FLOW_SHM_SIZE = sizeof(SharedRingHeader) + RING_CAPACITY * sizeof(FlowContractSlot);
 static_assert(TOTAL_FLOW_SHM_SIZE == 65728, "Total UHAI flow SHM size must be 65728 bytes.");
+
+constexpr size_t TOTAL_GATEWAY_SHM_SIZE = sizeof(SharedRingHeader) + RING_CAPACITY * sizeof(TelemetrySlot);
+static_assert(TOTAL_GATEWAY_SHM_SIZE == 65728, "Total UHAI gateway SHM size must be 65728 bytes.");
 
 template <typename SlotT = TelemetrySlot, size_t Capacity = RING_CAPACITY>
 class LockFreeSpscRing {
@@ -176,6 +329,10 @@ public:
             buffer_[w & (Capacity - 1)].sample = item;
         } else if constexpr (requires { buffer_[0].contract = item; }) {
             buffer_[w & (Capacity - 1)].contract = item;
+        } else if constexpr (requires { buffer_[0].telemetry = item; }) {
+            buffer_[w & (Capacity - 1)].telemetry = item;
+        } else if constexpr (requires { buffer_[0].packet = item; }) {
+            buffer_[w & (Capacity - 1)].packet = item;
         } else {
             buffer_[w & (Capacity - 1)] = item;
         }
@@ -201,6 +358,10 @@ public:
             item = buffer_[r & (Capacity - 1)].sample;
         } else if constexpr (requires { item = buffer_[0].contract; }) {
             item = buffer_[r & (Capacity - 1)].contract;
+        } else if constexpr (requires { item = buffer_[0].telemetry; }) {
+            item = buffer_[r & (Capacity - 1)].telemetry;
+        } else if constexpr (requires { item = buffer_[0].packet; }) {
+            item = buffer_[r & (Capacity - 1)].packet;
         } else {
             item = buffer_[r & (Capacity - 1)];
         }
@@ -243,6 +404,38 @@ public:
     template <typename T = SlotT>
     requires requires(T s) { s.contract; }
     std::optional<FlowContract> pop() {
+        return Pop();
+    }
+
+    template <typename T = SlotT>
+    requires requires(T s) { s.telemetry; }
+    auto Pop() -> std::optional<decltype(std::declval<T>().telemetry)> {
+        decltype(std::declval<T>().telemetry) t{};
+        if (Pop(t)) {
+            return t;
+        }
+        return std::nullopt;
+    }
+
+    template <typename T = SlotT>
+    requires requires(T s) { s.telemetry; }
+    auto pop() -> std::optional<decltype(std::declval<T>().telemetry)> {
+        return Pop();
+    }
+
+    template <typename T = SlotT>
+    requires requires(T s) { s.packet; }
+    auto Pop() -> std::optional<decltype(std::declval<T>().packet)> {
+        decltype(std::declval<T>().packet) p{};
+        if (Pop(p)) {
+            return p;
+        }
+        return std::nullopt;
+    }
+
+    template <typename T = SlotT>
+    requires requires(T s) { s.packet; }
+    auto pop() -> std::optional<decltype(std::declval<T>().packet)> {
         return Pop();
     }
 
@@ -468,6 +661,12 @@ public:
     static const char* DefaultShmName() {
         if constexpr (std::is_same_v<SlotT, TelemetrySlot>) {
             return DEFAULT_SHM_NAME;
+        } else if constexpr (std::is_same_v<SlotT, L4WorkflowSlot>) {
+            return "/uhai_l4_execution";
+        } else if constexpr (std::is_same_v<SlotT, L5GovernanceSlot>) {
+            return "/uhai_l5_governance";
+        } else if constexpr (std::is_same_v<SlotT, UpwardYieldSlot>) {
+            return "/uhai_l5_yields";
         } else {
             return DEFAULT_FLOW_SHM_NAME;
         }
@@ -570,6 +769,32 @@ public:
     template <typename T = SlotT>
     requires requires(T s) { s.sample; }
     std::optional<TelemetrySample> pop() {
+        return Pop();
+    }
+
+    template <typename T = SlotT>
+    requires requires(T s) { s.telemetry; }
+    auto Pop() -> std::optional<decltype(std::declval<T>().telemetry)> {
+        if (!IsValid()) return std::nullopt;
+        return ring_->Pop();
+    }
+
+    template <typename T = SlotT>
+    requires requires(T s) { s.telemetry; }
+    auto pop() -> std::optional<decltype(std::declval<T>().telemetry)> {
+        return Pop();
+    }
+
+    template <typename T = SlotT>
+    requires requires(T s) { s.packet; }
+    auto Pop() -> std::optional<decltype(std::declval<T>().packet)> {
+        if (!IsValid()) return std::nullopt;
+        return ring_->Pop();
+    }
+
+    template <typename T = SlotT>
+    requires requires(T s) { s.packet; }
+    auto pop() -> std::optional<decltype(std::declval<T>().packet)> {
         return Pop();
     }
 
@@ -688,6 +913,11 @@ private:
 };
 
 using UhaiFlowChannel = UhaiChannel<FlowContractSlot, RING_CAPACITY>;
+using UhaiGatewayChannel = UhaiChannel<TelemetrySlot, RING_CAPACITY>;
+using UhaiL4Channel = UhaiChannel<L4WorkflowSlot, RING_CAPACITY>;
+using UhaiL5Channel = UhaiChannel<L5GovernanceSlot, RING_CAPACITY>;
+using UhaiYieldChannel = UhaiChannel<UpwardYieldSlot, RING_CAPACITY>;
+using UhaiResolutionChannel = UhaiChannel<GovernanceResolutionSlot, RING_CAPACITY>;
 
 } // namespace oasis::uhai
 
@@ -816,10 +1046,41 @@ namespace uhai {
     using oasis::uhai::FlowContractSlot;
     using oasis::uhai::DEFAULT_FLOW_SHM_NAME;
     using oasis::uhai::TOTAL_FLOW_SHM_SIZE;
+    using oasis::uhai::DEFAULT_GATEWAY_SHM_NAME;
+    using oasis::uhai::TOTAL_GATEWAY_SHM_SIZE;
     using oasis::uhai::UhaiChannel;
     using oasis::uhai::UhaiFlowChannel;
+    using oasis::uhai::UhaiGatewayChannel;
+    using oasis::uhai::UhaiL4Channel;
+    using oasis::uhai::UhaiL5Channel;
+    using oasis::uhai::UhaiYieldChannel;
+    using oasis::uhai::UhaiResolutionChannel;
     using oasis::uhai::TemporalFlowContractComponent;
+
+    using oasis::uhai::YieldReason;
+    using oasis::uhai::ApprovalStatus;
+    using oasis::uhai::L4ExecutionTelemetry;
+    using oasis::uhai::L4WorkflowSlot;
+    using oasis::uhai::UpwardYieldPacket;
+    using oasis::uhai::UpwardYieldSlot;
+    using oasis::uhai::GovernanceResolutionPacket;
+    using oasis::uhai::GovernanceResolutionSlot;
+    using oasis::uhai::L5GovernanceTelemetry;
+    using oasis::uhai::L5GovernanceSlot;
+    using oasis::uhai::TreatyRatificationPayload;
 
     template <typename T = TelemetrySample, size_t Capacity = RING_CAPACITY>
     using SPSCRingBuffer = oasis::uhai::LockFreeSpscRing<TelemetrySlot, Capacity>;
 } // namespace uhai
+
+namespace collective::governance {
+    using oasis::uhai::YieldReason;
+    using oasis::uhai::ApprovalStatus;
+    using oasis::uhai::UpwardYieldPacket;
+    using oasis::uhai::UpwardYieldSlot;
+    using oasis::uhai::GovernanceResolutionPacket;
+    using oasis::uhai::GovernanceResolutionSlot;
+    using oasis::uhai::L5GovernanceTelemetry;
+    using oasis::uhai::L5GovernanceSlot;
+    using oasis::uhai::TreatyRatificationPayload;
+} // namespace collective::governance

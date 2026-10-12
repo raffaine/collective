@@ -27,9 +27,13 @@ echo "  ./oasis_engine"
 echo "  ./col_telemetryd"
 echo "  ./col_execd"
 echo "  ./col_commonsd"
+echo "  ./col_adversaryd"
+echo "  ./col_meshd (and symlink ./col-meshd)"
 echo "  ./test_uhai_ring_buffer"
 echo "  ./test_boundary_math"
 echo "  ./test_airgap_filter"
+echo "  ./test_temporal_flow_mesh"
+
 
 
 
