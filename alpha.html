@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Alpha Release | Collective</title>
+    <style>
+        :root {
+            --leaf-green: #4F7942;
+            --sun-gold: #E4C025;
+            --earth-clay: #8B5A2B;
+            --soft-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            --bg-color: #fdfcf8;
+            --text-dark: #2c3e2d;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Courier New', Courier, monospace;
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* Floating Navigation Menu */
+        .floating-nav {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            z-index: 100;
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--earth-clay);
+            font-size: 0.9rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 10px 15px;
+            background: rgba(253, 252, 248, 0.9);
+            border: 1px solid rgba(79, 121, 66, 0.2);
+            transition: 0.3s;
+        }
+
+        .nav-link:hover {
+            color: var(--leaf-green);
+            border-color: var(--sun-gold);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 150px 20px 50px;
+            text-align: center;
+            background: linear-gradient(to bottom, rgba(228, 192, 37, 0.1), var(--bg-color));
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            color: var(--leaf-green);
+            margin-bottom: 10px;
+            letter-spacing: -1px;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            color: var(--earth-clay);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Split Architecture Layout */
+        .architecture-split {
+            display: flex;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 50px auto;
+            gap: 40px;
+            padding: 0 20px;
+        }
+
+        .arch-card {
+            flex: 1;
+            min-width: 300px;
+            background: white;
+            padding: 40px;
+            border-top: 4px solid var(--sun-gold);
+            box-shadow: var(--soft-shadow);
+        }
+
+        .arch-card h2 {
+            font-size: 2.2rem;
+            color: var(--leaf-green);
+            margin-top: 0;
+            border-bottom: 2px solid rgba(79, 121, 66, 0.1);
+            padding-bottom: 10px;
+        }
+
+        .arch-card h3 {
+            color: var(--earth-clay);
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Terminal Block */
+        .terminal {
+            background: #1a1a1a;
+            color: #4af626;
+            padding: 20px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            max-width: 800px;
+            margin: 40px auto;
+            border-left: 4px solid var(--sun-gold);
+        }
+
+        .center-block {
+            max-width: 800px;
+            margin: 0 auto 100px;
+            padding: 0 20px;
+        }
+
+        @media (max-width: 768px) {
+            .floating-nav {
+                top: auto;
+                bottom: 20px;
+                right: 50%;
+                transform: translateX(50%);
+                width: 90%;
+                justify-content: center;
+                background: rgba(253, 252, 248, 0.95);
+            }
+            .hero h1 { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="floating-nav">
+        <a href="index.html" class="nav-link">← Return to Root</a>
+        <a href="https://github.com/raffaine/collective" class="nav-link">GitHub Source</a>
+    </nav>
+
+    <div class="hero">
+        <h1>The Alpha Release</h1>
+        <p>A dual-interface architecture bridging a simulated physical world with a real-world decentralized mesh network.</p>
+    </div>
+
+    <div class="architecture-split">
+        <!-- Oasis Card -->
+        <div class="arch-card">
+            <h2>Oasis Engine</h2>
+            <h3>Layer 1: The Physical Sandbox</h3>
+            <p>Oasis is a WASM-compiled C++20 voxel simulation that runs directly in your desktop browser. It acts as the physical digital twin for the Sovereign Stack.</p>
+            <p><strong>Mechanics:</strong> You are Founder 01. You must navigate brutal thermodynamic realities, construct physical infrastructure (solar panels, water catchments), and manage your caloric burn. It is entirely isolated from the outside world, acting purely as a mechanical testbed for infrastructure layouts.</p>
+        </div>
+
+        <!-- Companion App Card -->
+        <div class="arch-card">
+            <h2>Cadastral Slate</h2>
+            <h3>Layer 6: The Mobile Companion</h3>
+            <p>The Companion App is the true "Trojan Horse". It is a mobile-responsive web dashboard that connects to native POSIX daemons running on your machine.</p>
+            <p><strong>Mechanics:</strong> While your desktop runs the physical game, your phone runs the societal interface. You use the Companion App to sign mutual aid treaties, monitor Layer 4 execution telemetry, and trade Exergy Credits on the Agora. The app trains you to operate a real decentralized network.</p>
+        </div>
+    </div>
+
+    <div class="center-block">
+        <h2 style="color: var(--leaf-green);">Accessing the Software</h2>
+        <p>The Alpha relies on two interconnected systems: the WASM WebGL frontend and the native C++ POSIX daemons (`col-gatewayd`, `col-meshd`, etc.) that handle networking and state.</p>
+        
+        <p>To launch the development environment locally on a Mac or Linux machine, clone the repository and run the dev script. This will compile the engine and spin up local servers for both Oasis (Desktop) and the Companion App (Mobile).</p>
+
+        <div class="terminal">
+            $ git clone https://github.com/raffaine/collective.git<br>
+            $ cd collective<br>
+            $ ./scripts/start_dev.sh<br>
+            <br>
+            > [3/4] Starting Sovereign Stack Daemons...<br>
+            >   -> col-gatewayd running on port 8443<br>
+            > [4/4] Starting Local Web Servers...<br>
+            >   -> Oasis Engine (Layer 1) running at: http://localhost:8080<br>
+            >   -> Companion App (Layer 6) running at: http://localhost:8081<br>
+        </div>
+
+        <p><em>Packaged alpha release binaries are generated automatically via <code>./scripts/build_release.sh</code>.</em></p>
+    </div>
+</body>
+</html>
