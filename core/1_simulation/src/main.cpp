@@ -33,6 +33,7 @@ static bool g_shift_pressed = false;
 #include "uhai/uhai_ring_buffer.hpp"
 #include "core/stochastic_boundary.hpp"
 #include "core/fabrication.hpp"
+#include "core/homeostasis.hpp"
 #include "core/raycaster.hpp"
 #include "core/camera_uniforms.hpp"
 
@@ -1183,6 +1184,21 @@ int main() {
             }
         });
 
+    // Register FounderHomeostasisSystem in flecs::OnUpdate phase
+    g_ecs->system<oasis::fabrication::SpatialPositionComponent,
+                  oasis::fabrication::SomaticStateComponent,
+                  oasis::psychology::PsychologyComponent>("FounderHomeostasisSystem")
+        .kind(flecs::OnUpdate)
+        .each([](flecs::entity e,
+                 oasis::fabrication::SpatialPositionComponent& pos,
+                 oasis::fabrication::SomaticStateComponent& somatic,
+                 oasis::psychology::PsychologyComponent& psych) {
+            if (e != e.world().entity("Founder")) return;
+            constexpr float dt = 1.0f / 60.0f;
+            float amb_temp = oasis::homeostasis::ResolveVoxelAmbientTemperature(pos.pos, g_sim_tick);
+            oasis::homeostasis::StepHomeostasis(somatic, psych, amb_temp, dt);
+        });
+
     // Register FounderVitalsHUDSystem in flecs::PostUpdate phase
     g_ecs->system<const oasis::fabrication::SomaticStateComponent,
                   const oasis::psychology::PsychologyComponent>("FounderVitalsHUDSystem")
@@ -1194,11 +1210,11 @@ int main() {
 #ifdef __EMSCRIPTEN__
             EM_ASM({
                 if (typeof updateHUD === 'function') {
-                    updateHUD($0, $1, $2);
+                    updateHUD($0, $1, $2, $3);
                 } else if (typeof window !== 'undefined' && typeof window.updateHUD === 'function') {
-                    window.updateHUD($0, $1, $2);
+                    window.updateHUD($0, $1, $2, $3);
                 }
-            }, somatic.caloric_reserve, static_cast<double>(psych.stress), static_cast<double>(psych.focus));
+            }, somatic.caloric_reserve, static_cast<double>(psych.stress), static_cast<double>(psych.focus), static_cast<double>(somatic.ambient_temp_c));
 #endif
         });
 

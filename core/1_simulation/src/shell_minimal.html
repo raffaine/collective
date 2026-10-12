@@ -148,6 +148,39 @@
         box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
       }
 
+      /* =========================================================================
+         Ambient Temperature Thermal States:
+         - Ice Blue (< 15°C): Sub-optimal cold penalty
+         - Goldilocks Green (15°C - 30°C): Homeostasis comfort zone
+         - Crimson Red (> 30°C): Heatwave exhaustion penalty
+         ========================================================================= */
+      .hud-temp-cold {
+        color: #38bdf8 !important;
+        text-shadow: 0 0 8px rgba(56, 189, 248, 0.7);
+      }
+      .hud-bar-temp-cold {
+        background: linear-gradient(90deg, #0284c7, #38bdf8);
+        box-shadow: 0 0 8px rgba(56, 189, 248, 0.6);
+      }
+
+      .hud-temp-goldilocks {
+        color: #34d399 !important;
+        text-shadow: 0 0 8px rgba(52, 211, 153, 0.7);
+      }
+      .hud-bar-temp-goldilocks {
+        background: linear-gradient(90deg, #059669, #34d399);
+        box-shadow: 0 0 8px rgba(52, 211, 153, 0.6);
+      }
+
+      .hud-temp-hot {
+        color: #ef4444 !important;
+        text-shadow: 0 0 8px rgba(239, 68, 68, 0.8);
+      }
+      .hud-bar-temp-hot {
+        background: linear-gradient(90deg, #dc2626, #ef4444);
+        box-shadow: 0 0 8px rgba(239, 68, 68, 0.8);
+      }
+
       /* Emscripten Status & Console Area */
       #status {
         margin-top: 8px;
@@ -217,6 +250,17 @@
               <div id="hud-focus-bar" class="hud-bar-fill hud-bar-focus" style="width: 75%;"></div>
             </div>
           </div>
+
+          <!-- Ambient Temperature -->
+          <div class="hud-metric">
+            <div class="hud-label-row">
+              <span class="hud-metric-label">AMBIENT TEMP</span>
+              <span id="hud-temp-val" class="hud-metric-val hud-temp-goldilocks">22.5 °C</span>
+            </div>
+            <div class="hud-bar-track">
+              <div id="hud-temp-bar" class="hud-bar-fill hud-bar-temp-goldilocks" style="width: 65%;"></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -229,14 +273,18 @@
       // Vitals HUD Animation and State Update Function
       // Invoked directly from C++ Flecs ECS loop via EM_ASM!
       // -----------------------------------------------------------------------
-      function updateHUD(caloric_reserve, stress, focus) {
+      function updateHUD(caloric_reserve, stress, focus, ambient_temp) {
         var cal = Math.max(0, Math.min(2500, Number(caloric_reserve) || 0));
         var str = Math.max(0, Math.min(1.0, Number(stress) || 0));
         var foc = Math.max(0, Math.min(1.0, Number(focus) || 0));
+        var temp = (ambient_temp !== undefined && ambient_temp !== null && !isNaN(Number(ambient_temp)))
+                   ? Number(ambient_temp)
+                   : 22.5;
 
         var calPct = (cal / 2500.0 * 100.0).toFixed(1);
         var strPct = (str * 100.0).toFixed(1);
         var focPct = (foc * 100.0).toFixed(1);
+        var tempBarPct = Math.max(0, Math.min(100, ((temp - (-10.0)) / 50.0) * 100.0)).toFixed(1);
 
         var calBar = document.getElementById('hud-calories-bar');
         var calVal = document.getElementById('hud-calories-val');
@@ -262,11 +310,47 @@
         if (focBar) focBar.style.width = focPct + '%';
         if (focVal) focVal.textContent = Math.round(focPct) + '%';
 
+        var tempVal = document.getElementById('hud-temp-val');
+        var tempBar = document.getElementById('hud-temp-bar');
+        if (tempVal) {
+          tempVal.textContent = temp.toFixed(1) + ' °C';
+          if (temp < 15.0) {
+            tempVal.style.color = '#38bdf8';
+            tempVal.style.textShadow = '0 0 8px rgba(56, 189, 248, 0.7)';
+            tempVal.className = 'hud-metric-val hud-temp-cold';
+          } else if (temp <= 30.0) {
+            tempVal.style.color = '#34d399';
+            tempVal.style.textShadow = '0 0 8px rgba(52, 211, 153, 0.7)';
+            tempVal.className = 'hud-metric-val hud-temp-goldilocks';
+          } else {
+            tempVal.style.color = '#ef4444';
+            tempVal.style.textShadow = '0 0 8px rgba(239, 68, 68, 0.8)';
+            tempVal.className = 'hud-metric-val hud-temp-hot';
+          }
+        }
+        if (tempBar) {
+          tempBar.style.width = tempBarPct + '%';
+          if (temp < 15.0) {
+            tempBar.style.background = 'linear-gradient(90deg, #0284c7, #38bdf8)';
+            tempBar.style.boxShadow = '0 0 8px rgba(56, 189, 248, 0.6)';
+            tempBar.className = 'hud-bar-fill hud-bar-temp-cold';
+          } else if (temp <= 30.0) {
+            tempBar.style.background = 'linear-gradient(90deg, #059669, #34d399)';
+            tempBar.style.boxShadow = '0 0 8px rgba(52, 211, 153, 0.6)';
+            tempBar.className = 'hud-bar-fill hud-bar-temp-goldilocks';
+          } else {
+            tempBar.style.background = 'linear-gradient(90deg, #dc2626, #ef4444)';
+            tempBar.style.boxShadow = '0 0 8px rgba(239, 68, 68, 0.8)';
+            tempBar.className = 'hud-bar-fill hud-bar-temp-hot';
+          }
+        }
+
         // Global audit telemetry for headless test harnesses
         window._oasisLastHUD = {
           calories: cal,
           stress: str,
           focus: foc,
+          temperature: temp,
           tick: (window._oasisLastHUD ? window._oasisLastHUD.tick + 1 : 1),
           timestamp: Date.now()
         };

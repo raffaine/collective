@@ -175,18 +175,20 @@ console.log('\n--- [TEST 3] updateHUD Boundary, Extreme & Corrupt Input Stress T
 
 // Extract the exact updateHUD function from shell_minimal.html
 const shellContent = fs.readFileSync(SHELL_HTML_PATH, 'utf-8');
-const scriptMatch = shellContent.match(/function\s+updateHUD\s*\(caloric_reserve,\s*stress,\s*focus\)\s*\{([\s\S]*?)\n\s*\}\s*\n\s*window\.updateHUD\s*=\s*updateHUD;/);
+const scriptMatch = shellContent.match(/function\s+updateHUD\s*\(caloric_reserve,\s*stress,\s*focus(?:,\s*ambient_temp)?\)\s*\{([\s\S]*?)\n\s*\}\s*\n\s*window\.updateHUD\s*=\s*updateHUD;/);
 assert(scriptMatch !== null, 'Must extract updateHUD implementation from shell_minimal.html');
 
 // Create isolated DOM VM context
 function createHudContext() {
   const elements = {
-    'hud-calories-bar': { style: {}, textContent: '' },
-    'hud-calories-val': { style: {}, textContent: '' },
-    'hud-stress-bar': { style: {}, textContent: '' },
-    'hud-stress-val': { style: {}, textContent: '' },
-    'hud-focus-bar': { style: {}, textContent: '' },
-    'hud-focus-val': { style: {}, textContent: '' }
+    'hud-calories-bar': { style: {}, textContent: '', className: '' },
+    'hud-calories-val': { style: {}, textContent: '', className: '' },
+    'hud-stress-bar': { style: {}, textContent: '', className: '' },
+    'hud-stress-val': { style: {}, textContent: '', className: '' },
+    'hud-focus-bar': { style: {}, textContent: '', className: '' },
+    'hud-focus-val': { style: {}, textContent: '', className: '' },
+    'hud-temp-bar': { style: {}, textContent: '', className: '' },
+    'hud-temp-val': { style: {}, textContent: '', className: '' }
   };
 
   const sandbox = {
@@ -202,7 +204,7 @@ function createHudContext() {
   sandbox.window = sandbox;
 
   const code = `
-    function updateHUD(caloric_reserve, stress, focus) {
+    function updateHUD(caloric_reserve, stress, focus, ambient_temp) {
       ${scriptMatch[1]}
     }
     window.updateHUD = updateHUD;
@@ -360,7 +362,7 @@ function createHudContext() {
   sandbox.window = sandbox;
 
   const code = `
-    function updateHUD(caloric_reserve, stress, focus) {
+    function updateHUD(caloric_reserve, stress, focus, ambient_temp) {
       ${scriptMatch[1]}
     }
     window.updateHUD = updateHUD;
@@ -371,12 +373,47 @@ function createHudContext() {
 
   // Must not throw when DOM elements are null
   try {
-    sandbox.updateHUD(1500, 0.4, 0.8);
+    sandbox.updateHUD(1500, 0.4, 0.8, 22.5);
     assert(sandbox.window._oasisLastHUD.calories === 1500, 'Telemetry updated even when DOM elements are missing');
+    assert(sandbox.window._oasisLastHUD.temperature === 22.5, 'Telemetry temperature updated with null DOM');
     console.log('[PASS] DOM absence resilience verified: updateHUD did not throw when getElementById returns null.');
   } catch (err) {
     throw new Error(`updateHUD crashed with null DOM elements: ${err.message}`);
   }
+}
+
+// Subtest 3.9: Ambient Temperature Thermal States & Styling (Cold, Goldilocks, Hot)
+{
+  const { sandbox, elements } = createHudContext();
+
+  // Cold (< 15°C, e.g. 5.0°C) -> Ice Blue (#38bdf8)
+  sandbox.updateHUD(2500, 0.2, 0.8, 5.0);
+  assert(elements['hud-temp-val'].textContent === '5.0 °C', 'Cold temp formatted correctly');
+  assert(elements['hud-temp-val'].style.color === '#38bdf8', 'Cold temp text color must be Ice Blue (#38bdf8)');
+  assert(elements['hud-temp-val'].className.includes('hud-temp-cold'), 'Cold temp value has hud-temp-cold class');
+  assert(elements['hud-temp-bar'].style.background.includes('#38bdf8'), 'Cold temp bar has Ice Blue gradient');
+  assert(elements['hud-temp-bar'].className.includes('hud-bar-temp-cold'), 'Cold temp bar has hud-bar-temp-cold class');
+  assert(sandbox.window._oasisLastHUD.temperature === 5.0, 'Telemetry records cold temperature');
+
+  // Goldilocks (15°C - 30°C, e.g. 22.5°C) -> Emerald Green (#34d399)
+  sandbox.updateHUD(2500, 0.2, 0.8, 22.5);
+  assert(elements['hud-temp-val'].textContent === '22.5 °C', 'Goldilocks temp formatted correctly');
+  assert(elements['hud-temp-val'].style.color === '#34d399', 'Goldilocks temp text color must be Green (#34d399)');
+  assert(elements['hud-temp-val'].className.includes('hud-temp-goldilocks'), 'Goldilocks temp value has hud-temp-goldilocks class');
+  assert(elements['hud-temp-bar'].style.background.includes('#34d399'), 'Goldilocks temp bar has Green gradient');
+  assert(elements['hud-temp-bar'].className.includes('hud-bar-temp-goldilocks'), 'Goldilocks temp bar has hud-bar-temp-goldilocks class');
+  assert(sandbox.window._oasisLastHUD.temperature === 22.5, 'Telemetry records goldilocks temperature');
+
+  // Hot (> 30°C, e.g. 35.0°C) -> Hazard Red (#ef4444)
+  sandbox.updateHUD(2500, 0.2, 0.8, 35.0);
+  assert(elements['hud-temp-val'].textContent === '35.0 °C', 'Hot temp formatted correctly');
+  assert(elements['hud-temp-val'].style.color === '#ef4444', 'Hot temp text color must be Hazard Red (#ef4444)');
+  assert(elements['hud-temp-val'].className.includes('hud-temp-hot'), 'Hot temp value has hud-temp-hot class');
+  assert(elements['hud-temp-bar'].style.background.includes('#ef4444'), 'Hot temp bar has Red gradient');
+  assert(elements['hud-temp-bar'].className.includes('hud-bar-temp-hot'), 'Hot temp bar has hud-bar-temp-hot class');
+  assert(sandbox.window._oasisLastHUD.temperature === 35.0, 'Telemetry records hot temperature');
+
+  console.log('[PASS] Ambient temperature thermal states (Cold <15°C Ice Blue, Goldilocks 15-30°C Green, Hot >30°C Red) verified.');
 }
 
 console.log('\n================================================================================');

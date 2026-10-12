@@ -220,6 +220,22 @@ else()
         )
         add_test(NAME AvatarVitalsTests COMMAND test_avatar_vitals)
     endif()
+
+    # Native Catch2 Homeostasis Loop Tests (Dual Sprint 8)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/tests/test_homeostasis_loop.cpp")
+        add_executable(test_homeostasis_loop tests/test_homeostasis_loop.cpp)
+        target_include_directories(test_homeostasis_loop PRIVATE 
+            ${CMAKE_CURRENT_SOURCE_DIR}
+        )
+        target_link_libraries(test_homeostasis_loop PRIVATE 
+            Catch2::Catch2WithMain
+            $<IF:$<TARGET_EXISTS:flecs::flecs>,flecs::flecs,flecs::flecs_static>
+            glm::glm
+            spdlog::spdlog
+            $<$<PLATFORM_ID:Linux>:rt>
+        )
+        add_test(NAME HomeostasisLoopTests COMMAND test_homeostasis_loop)
+    endif()
 endif()
 
 

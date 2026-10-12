@@ -34,6 +34,7 @@ struct SomaticStateComponent {
     bool is_exhausted{false};
     float hydration{1.0f};                      // [0.0 .. 1.0]
     float body_temp_c{37.0f};                   // Core body temperature in °C
+    float ambient_temp_c{22.5f};                // Ambient environment temperature in °C
 
     [[nodiscard]] double calories() const noexcept { return caloric_reserve; }
 };
