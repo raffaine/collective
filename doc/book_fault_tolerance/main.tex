@@ -4,8 +4,8 @@
 \usepackage[paperwidth=5.5in, paperheight=8.5in, margin=0.75in]{geometry} % Standard Trade Paperback
 \usepackage[T1]{fontenc}
 \usepackage{ebgaramond}
-\usepackage{FiraMono}
-\usepackage[scale=0.9]{inter}
+%\usepackage{FiraMono}
+%\usepackage[scale=0.9]{inter}
 
 
 
@@ -41,7 +41,13 @@
 % --- Chapter Styling ---
 \titleformat{\chapter}[display]
   {\headerfont\bfseries\huge\color{legacyGrey}}
-  {\filleft\headerfont\fontsize{60}{60}\selectfont\color{gray!20}\thechapter}
+  {\begin{center}\includegraphics[width=0.8\textwidth]{images/chapters/ch\thechapter.jpg}\end{center}\vspace{1ex}\filleft\headerfont\fontsize{60}{60}\selectfont\color{gray!20}\thechapter}
+  {1ex}
+  {\titlerule\vspace{1ex}\filright}
+
+\titleformat{name=\chapter, numberless}[display]
+  {\headerfont\bfseries\huge\color{legacyGrey}}
+  {\begin{center}\includegraphics[width=0.8\textwidth]{images/chapters/ch19.jpg}\end{center}\vspace{1ex}}
   {1ex}
   {\titlerule\vspace{1ex}\filright}
 
