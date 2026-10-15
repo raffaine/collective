@@ -1,56 +1,62 @@
-# THE SOVEREIGN STACK — PRODUCT BACKLOG (LAYERS 1–7 & VERIFICATION)
-**Document Version:** 3.0.0-RELEASE  
+# THE SOVEREIGN STACK — PRODUCT BACKLOG (LAYERS 1–7, GATEWAY & VERIFICATION)
+**Document Version:** 4.0.0-RELEASE (Companion V2.0, Migration Waves & Arcadia Epoch Sync Edition)  
 **Status:** Complete, Ratified & Authoritative  
-**Milestone:** Sovereign Stack Autonomous Protocols, Specifications, Runtimes, SDD Scenario Execution & Layer 7 Adversarial Emulation  
+**Milestone:** Sovereign Stack Autonomous Protocols, Companion App V2.0 Semantic Gateway (`col-gatewayd`), Intent U-Turn Enforcement, Legacy Migration Waves & `Arcadia (server-01)` Mandatory Milestone Epoch Synchronization  
 **Target Environments:** Headless Edge Daemons (`collectived`, Linux ARM64 / RISC-V / x86_64, Microcontrollers / Zephyr RTOS) & WebAssembly Sandbox  
-**Architectural Baseline:** Autonomous 7-Daemon Hierarchy, POSIX Process Isolation, Unix Domain Socket IPC, Zero Monolithic Threading, Scenario Driven Development (SDD) Alignment, Volume 1 Canonical Fidelity  
-**Consensus Status:** Unanimous Consensus Reached (5-Persona Strategic Realignment Council)
+**Architectural Baseline:** Autonomous 8-Daemon Hierarchy, POSIX Process Isolation, Unix Domain Socket IPC, Strict Intent U-Turn (Zero `l4_l7.sock`), Zero Monolithic Threading, Scenario Driven Development (SDD) Alignment, Volume 1 Canonical Fidelity & `BOOK_TEAM_DRIFT_REPORT.md` Compliance  
+**Consensus Status:** Unanimous Consensus Reached (6-Persona Horizon & Strategic Realignment Council)
 
 ---
 
 ## 1. Executive Summary & Strategic Realignment Council Ratification
 
-### 1.1. Council Ratification & The 5-Persona Unanimous Consensus
-The Strategic Realignment Council convened to overhaul the architectural baseline of the Sovereign Stack (`SOVEREIGN_STACK_BACKLOG.md`), aligning all protocols, daemons, and runtimes with Scenario Driven Development (SDD) requirements derived from `docs/COLLECTIVE_GUIDING_PRINCIPLES.md`, `docs/OASIS_GDD.md` (V5.0), and `PRODUCT_BACKLOG_V5.md`. Representing all five stakeholder disciplines:
+### 1.1. Council Ratification & Unanimous Consensus
+The Strategic Realignment & Horizon Council convened to upgrade the authoritative architectural baseline of the Sovereign Stack (`SOVEREIGN_STACK_BACKLOG.md`) from Version 3.0.0-RELEASE to **Version 4.0.0-RELEASE**, reconciling Sprints 1–10 and integrating the Companion App V2.0 architecture (`docs/COMPANION_APP_ARCHITECTURE.md`), the narrative drift remediations (`docs/BOOK_TEAM_DRIFT_REPORT.md`), and the 6 Horizon Pillars (`HORIZON_ROADMAP.md` / `PRODUCT_BACKLOG_V6.md`). Representing all stakeholder disciplines:
 
-1. **Product Owner / Orchestrator (`explorer_po_v3`):** Delivery roadmap governance, sprint pacing, epic-level value delivery, cross-stack acceptance criteria, and full synchronization between the 24 canonical SDD scenarios and the underlying daemon architecture.
-2. **Sovereign Stack Specialist (`explorer_sovereign_v3`):** Canonical fidelity to Volume 1 of the book (*The Sovereign Stack: A Blueprint for Cybernetic Ecology and Mutual Aid*, `doc/book_collective/`), Strict Adjacency, Proof-of-Thermodynamic-Work (PoTW) negentropy minting, continuous physical demurrage, Bilateral Clearing Channels (BCC), Bioregional Path-Vector Protocol (BPVP / FRRP), Tripartite Legal Chassis (BMAA, Subchapter T SSAs, UCEA Easements), Systemic Legal Blinding, and the Dual-Membrane doctrine.
-3. **Quality Engineer (`explorer_qe_v3`):** Eradication of monolithic threading anti-patterns, POSIX process isolation, failure domain containment, cgroups resource enforcement, Six Inviolable Quality Gates (G1–G6), and consumer-driven contract testing across all IPC sockets.
-4. **Stack Engineer (`explorer_stack_v3`):** Systems engineering specification of the 7 autonomous POSIX daemons (`col-telemetryd`, `col-meshd`, `col-storaged`, `col-execd`, `col-kmsd`, `col-commonsd`, `col-adversaryd`), Unix Domain Socket IPC bus, lock-free ring buffers, Wasmtime metered execution, Automerge/Yrs CRDT reconciliation, and hardware resource bounding.
-5. **Oasis Engineer (`explorer_oasis_v3`):** Total excision of client-side graphics rendering, voxel raymarching, camera controllers, and gameplay psychology from the stack; strict demarcation of the Universal Human-Agent Interface (UHAI) / SITL bridge over IPC; and enforcement of the physical airgap barring simulated telemetry from physical actuators.
+1. **Product Owner / Orchestrator (`explorer_po_v4`):** Delivery roadmap governance across Sprints 1–10 (completed baseline) and Dual Sprints 11–14 (Horizon roadmap), epic-level value delivery, cross-stack acceptance criteria, and synchronization between the 24 canonical SDD scenarios, the 6 Horizon Pillars, and the underlying daemon architecture.
+2. **Sovereign Stack Specialist (`explorer_sovereign_v4`):** Canonical fidelity to Volume 1 of the book (*The Sovereign Stack: A Blueprint for Cybernetic Ecology and Mutual Aid*, `doc/book_collective/`) and `docs/BOOK_TEAM_DRIFT_REPORT.md`: Strict Adjacency, Proof-of-Thermodynamic-Work (PoTW) negentropy minting, continuous physical demurrage, Bilateral Clearing Channels (BCC), Bioregional Path-Vector Protocol (BPVP / FRRP), Cooperative Tripartite Legal Carapace (BMAA, Subchapter T SSAs, UCEA Easements), Systemic Legal Blinding, and the Strict Intent U-Turn doctrine.
+3. **Quality Engineer (`explorer_qe_v4`):** Eradication of monolithic threading anti-patterns, POSIX process isolation, failure domain containment, cgroups resource enforcement, Six Inviolable Quality Gates (G1–G6), consumer-driven contract testing across all IPC sockets, and deterministic cross-peer Epoch Merkle reconciliation.
+4. **Stack Engineer (`explorer_stack_v4`):** Systems engineering specification of the 8 autonomous POSIX daemons (`col-telemetryd`, `col-meshd`, `col-storaged`, `col-execd`, `col-kmsd`, `col-commonsd`, `col-adversaryd`, and `col-gatewayd`), Unix Domain Socket IPC bus, dedicated 1:1 lock-free SPSC ring buffers, Wasmtime metered execution, Automerge/Yrs CRDT reconciliation, and HLC-paced `FlowContract` epoch barriers.
+5. **Oasis Boundary Architect (`explorer_oasis_v4`):** Total excision of client-side graphics rendering, voxel raymarching, orbital camera controllers, and gameplay psychology from the stack; strict demarcation of Oasis as a non-transitionary SITL shadow simulator and strictly an **outward producer** of simulated telemetry (`QUALITY_SIMULATED = 0x01`) that never ingests live physical telemetry; and enforcement of the physical hardware airgap.
 
 ```
 ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│                          STRATEGIC REALIGNMENT COUNCIL 5-PERSONA UNANIMOUS CONSENSUS MATRIX                            │
+│                      STRATEGIC REALIGNMENT & HORIZON COUNCIL UNANIMOUS CONSENSUS MATRIX (V4.0)                         │
 ├──────────────────────────────┬────────────────────────────────┬────────────────────────────────────────────────────────┤
 │ Council Persona              │ Core Disciplinary Mandate      │ Key Ratified Contribution                              │
 ├──────────────────────────────┼────────────────────────────────┼────────────────────────────────────────────────────────┤
-│ Product Owner (PO)           │ Delivery pacing & SDD roadmaps │ 8 Epics, 44 Stories, 310 SP, 6 Sprints, SDD alignment  │
-│ Sovereign Stack Specialist   │ Volume 1 Book Canonical Tenets │ PoTW, ERC Firewall, BCC Channels, BPVP, Legal Chassis   │
-│ Quality Engineer (QE)        │ Anti-monolith & Quality Gates  │ Six Inviolable Gates (G1–G6), cgroups, Zero Leaks      │
-│ Stack Engineer               │ Autonomous runtime daemons     │ 7 POSIX daemons, UDS IPC, Wasmtime, RocksDB, Reticulum │
-│ Oasis Engineer               │ Boundary purity & airgap check │ Strict UHAI IPC, zero game bleed, airgap verification  │
+│ Product Owner (PO)           │ Delivery pacing & Horizon plan │ 9 Epics, 50 Stories, 358 SP, Sprints 1–14 roadmap      │
+│ Sovereign Stack Specialist   │ Book Fidelity & Drift Align    │ PoTW, ERC, BCC, BPVP, Cooperative Carapace, U-Turn     │
+│ Quality Engineer (QE)        │ Anti-monolith & Quality Gates  │ Six Inviolable Gates (G1–G6), cgroups, Epoch Parity    │
+│ Stack Engineer               │ Autonomous runtime daemons     │ 8 POSIX daemons (+col-gatewayd), UDS IPC, HLC Barrier  │
+│ Oasis Boundary Architect     │ Boundary purity & airgap check │ Outward-only SITL producer (0x01), non-transitionary   │
 └──────────────────────────────┴────────────────────────────────┴────────────────────────────────────────────────────────┘
 ```
 
 The council formally confirms that **Unanimous Consensus Reached** has occurred across all technical, architectural, and systemic domains:
 - **Unanimous Consensus Reached on Zero Monolithic Threading:** All Sovereign Stack layers operate as independent, decoupled POSIX daemons or isolated Web Workers, with zero reliance on client engine game loops or monolithic threading pools.
-- **Unanimous Consensus Reached on Pure Scope Isolation:** Zero Oasis visual or gameplay mechanics (rendering passes, camera rigs, Plumbob UI, DDA voxel algorithms, mental breakdown meters) exist within the Sovereign Stack codebase. Oasis is treated strictly as an external client and Software-In-The-Loop (SITL) shadow simulator.
-- **Unanimous Consensus Reached on Strict Physical Airgap:** Telemetry marked `QUALITY_SIMULATED` (`0x01`) emitted by Oasis can never, under any circumstance, actuate real physical edge relays or breakers. Real hardware actuation strictly demands `QUALITY_HARDWARE_ROOT` (`0x02`) signed by Layer 4 execution keys.
-- **Unanimous Consensus Reached on 24-Scenario SDD Execution:** Layers 1 through 7 are fully configured to execute the 24 canonical SDD scenarios across all 5 Developmental Acts, grounded in physical transducers, mesh delay tolerance, thermodynamic ledgers, deterministic BPMN workflows, trust-ring routing, JSON-LD bounties, and legal defense chassis.
+- **Unanimous Consensus Reached on Pure Scope Isolation & Non-Transitionary Simulation Demarcation (`BOOK_TEAM_DRIFT_REPORT.md`):** Zero Oasis visual or gameplay mechanics (rendering passes, POI arcball camera rigs, spatial context menus, DDA voxel algorithms, psychological stress/burnout bars) exist within the Sovereign Stack codebase. Oasis is strictly a non-transitionary Software-In-The-Loop (SITL) shadow simulator—never a "game that transitions into a real-world orchestrator."
+- **Unanimous Consensus Reached on Outward-Only Simulated Telemetry & Strict Physical Airgap:** Oasis is strictly an **outward producer** of simulated Layer 2 telemetry (`QUALITY_SIMULATED = 0x01`) for stress-testing downstream protocols and **never ingests live physical telemetry**. Telemetry marked `QUALITY_SIMULATED` (`0x01`) can never, under any circumstance, actuate real physical edge relays or breakers, which strictly demand `QUALITY_HARDWARE_ROOT` (`0x02`) signed by hardware secure elements and Layer 4 execution keys.
+- **Unanimous Consensus Reached on Cooperative Legal Carapace Terminology:** All deprecated adversarial or subversive framing flagged in `docs/BOOK_TEAM_DRIFT_REPORT.md` is permanently stripped across the specification. The Sovereign Stack is a cooperative, structural, and legal mutual-aid architecture; `col-adversaryd` models external utility, municipal, and demographic stresses in good faith via Discrete Event Simulation (DES).
+- **Unanimous Consensus Reached on Companion V2.0 Gateway & Strict Intent U-Turn:** `col-gatewayd` exposes human-authored intent submission exclusively at Layer 6 (`POST /api/v1/l6/intent`), while Layers 2, 3, 4, 5, and 7 on the gateway diagnostic hood are strictly read-only (`403 Forbidden` / `405 Method Not Allowed` on write attempts), enforcing the Intent U-Turn (`Human -> L6 -> L5 -> L4 -> [Upward Yield] -> L5 -> L6 -> L7`) with zero `l4_l7.sock`.
+- **Unanimous Consensus Reached on Migration Waves & `Arcadia (server-01)` Epoch Synchronization:** Layer 7 schedules macroscopic demographic migration waves (`SS-EP7-007`) assimilated via Layer 5 progressive Trust Ring ($R_6 \to R_1$) onboarding (`SS-EP5-007`), while Epic 9 (`SS-EP9`) synchronizes voluntary shared landscape deltas and bounds HLC `FlowContract` time-warp ($1\times$ to $100\times$) at monthly **Mandatory Milestone Barriers**.
 
 ---
 
-### 1.2. The Evolution: V1 Conflation $\to$ V2 Decoupling $\to$ V3 SDD Realignment
-The Sovereign Stack specification has evolved through three distinct evolutionary stages:
+### 1.2. The Evolution: V1 Conflation $\to$ V2 Decoupling $\to$ V3 SDD Realignment $\to$ V4 Companion V2.0 & Arcadia Epoch Sync
+The Sovereign Stack specification has evolved through four distinct evolutionary stages:
 
 1. **Version 1.0 (The Monolithic Conflation):** The initial draft erroneously collapsed distributed networking, hardware telemetry, cryptographic proofs, and municipal simulations into arbitrary threads of a client-side game engine ("Thread 1 rendering", "Thread 3 running Layer 3"). This created fatal coupling: if cryptographic pairing stalled, battery safety telemetry starved.
 2. **Version 2.0 (The Daemon Decoupling):** V2 corrected the threading flaw by establishing seven autonomous POSIX daemons communicating over Unix Domain Sockets (UDS), introducing the Universal Human-Agent Interface (UHAI) and purging client graphics.
-3. **Version 3.0 (The SDD & Cybernetic Realignment — Current Baseline):** V3 elevates the decoupled stack to execute the full civilizational requirements of Scenario Driven Development (SDD):
+3. **Version 3.0 (The SDD & Cybernetic Realignment):** V3 elevated the decoupled stack to execute the full civilizational requirements of Scenario Driven Development (SDD):
    - **Full 24-Scenario Hardware & Runtime Matrix:** Direct mapping of all 24 canonical scenarios across the 5 Developmental Acts (Metabolic Foundation, Spatial/Cultural, Material Closure, Human Fabric, Shocks/Decoupling) into specific hardware drivers, CRDT ledgers, BPMN workflows, and legal wrappers.
    - **Mathematical Rigor & Formulations:** Complete formalization of Proof-of-Thermodynamic-Work ($\Delta V = \int (\Phi_{in} - \Phi_{out})\lambda_{ERC} dt$), the Asymptotic ERC Firewall ($\lambda_{ERC} \to \infty$), Pairwise Bilateral Clearing Channels (BCC: $B_{u \to v}(t) + B_{v \to u}(t) = 0$), and Bioregional Path-Vector Protocol (BPVP / FRRP) across Concentric Trust Rings ($R_0 \to R_6$).
-   - **Tripartite Legal Chassis & Systemic Blinding:** Operationalization of Layer 7 (`col-adversaryd`) as a dual-membrane protective carapace utilizing Bilateral Mutual-Aid Agreements (BMAA under UUNAA § 6), Subchapter T SSAs (26 U.S.C. §§ 1381–1388), and UCEA Conservation Easements, backed by structural blinding (Cellular Independence, Mundane NAICS Camouflage, IEEE 1547 net-meter profile obfuscation, and Subpoena Immunity via Data Non-Existence).
+   - **Tripartite Legal Chassis & Systemic Blinding:** Operationalization of Layer 7 (`col-adversaryd`) as a dual-membrane cooperative legal carapace utilizing Bilateral Mutual-Aid Agreements (BMAA under UUNAA § 6), Subchapter T SSAs (26 U.S.C. §§ 1381–1388), and UCEA Conservation Easements, backed by structural blinding (Cellular Independence, Mundane NAICS Classification, IEEE 1547 net-meter profile standardization, and Subpoena Immunity via Data Non-Existence).
    - **Six Inviolable Quality Gates (G1–G6):** Rigorous, verifiable gates establishing mathematical and structural thresholds required prior to deploying any scenario or workflow to bare-metal hardware.
+4. **Version 4.0 (Companion V2.0, Migration Waves & Arcadia Epoch Sync Edition — Current Baseline):** V4 integrates the 8th daemon (`col-gatewayd`), remediates narrative drift (`docs/BOOK_TEAM_DRIFT_REPORT.md`), and builds the backend protocols for the 6 Horizon Pillars (`HORIZON_ROADMAP.md`):
+   - **Companion V2.0 Semantic Gateway (`col-gatewayd`) & Strict Intent U-Turn (`SS-EP6-006`):** Adds the VLAN 30 TLS 1.3 / WSS gateway on port 8443. Enforces that member interactions enter **exclusively at Layer 6** (`POST /api/v1/l6/intent`), which assumes Layer 7 does not exist internally, while Layers 2, 3, 4, 5, and 7 exposed on the gateway diagnostic hood remain strictly **read-only** (`403 Forbidden` / `405 Method Not Allowed` on any write attempt). Enforces the **Intent U-Turn** (`Human -> L6 -> L5 -> L4 -> [Upward Yield] -> L5 -> L6 -> L7`) with zero `l4_l7.sock`.
+   - **Demographic Shocks & Progressive Trust Ring ($R_6 \to R_1$) Assimilation (`SS-EP7-007` & `SS-EP5-007`):** Expands `col-adversaryd` to generate macroscopic `MigrationWaveArrivalEvent` packets during legacy inflation or grid failures, and expands `col-kmsd` to manage probationary pairwise DIDs (`Ring R6: Unverified Migrant` $\to$ `Ring R3: Probationary Resident` $\to$ `Ring R1: Vouched Steward`) as shelter, water, and caloric mutual-aid milestones are attested in Layer 3.
+   - **Shared Virtual Landscape (`Arcadia server-01`) & Mandatory Milestone Epoch Synchronization (`SS-EP9-001` to `SS-EP9-003`):** Introduces Epic 9 across `col-meshd`, `col-storaged`, and `col-execd` to relay voluntary coarse terrain/infrastructure CRDT deltas, pace `FlowContract` streams by HLC logical ticks across $1\times$–$100\times$ local time-warp multipliers, and enforce a hard cryptographic **Mandatory Milestone Barrier** at `EPOCH_BOUNDARY_TICKS` (e.g., 1 simulated month) with delay-tolerant Merkle reconciliation and straggler quorum grace windows.
 
 ---
 
@@ -64,7 +70,7 @@ The Sovereign Stack enforces five strict architectural boundary rules, validated
 │ Rule ID  │ Invariant Name                │ Architectural Rule & Enforcement Mechanism                                  │
 ├──────────┼───────────────────────────────┼─────────────────────────────────────────────────────────────────────────────┤
 │ **SBR-1**│ **The Headless Rule**         │ The Sovereign Stack compiles and executes 100% headlessly with zero graphics│
-│          │                               │ or windowing dependencies (`SDL2`, `WebGPU`, `Dawn`, `OpenGL`, `Vulkan`).   │
+│          │                               │ or windowing dependencies (`SDL2`, `SDL3`, `WebGPU`, `Dawn`, `Vulkan`).     │
 │          │                               │ Enforcement: CI headless build with no display/GPU packages installed.      │
 ├──────────┼───────────────────────────────┼─────────────────────────────────────────────────────────────────────────────┤
 │ **SBR-2**│ **The Frame Rate Rule**       │ Zero references to display frame rates, tick budgets, or render loops       │
@@ -72,88 +78,154 @@ The Sovereign Stack enforces five strict architectural boundary rules, validated
 │          │                               │ Enforcement: Grep linter halts CI if render/frame terminology appears.     │
 ├──────────┼───────────────────────────────┼─────────────────────────────────────────────────────────────────────────────┤
 │ **SBR-3**│ **The Domain Entity Rule**    │ Zero Oasis gameplay entities (founder avatars, DF psychological stress bars,│
-│          │                               │ Sims hunger/hygiene stats, voxel chunk geometry) exist in stack daemons.    │
-│          │                               │ Enforcement: Clang-tidy AST analysis ensuring game structs stay in `oasis/`.│
+│          │                               │ Sims hunger/hygiene stats, voxel chunk geometry, arcball cameras) exist in  │
+│          │                               │ stack daemons. Enforcement: Clang-tidy AST check keeping game structs out.  │
 ├──────────┼───────────────────────────────┼─────────────────────────────────────────────────────────────────────────────┤
 │ **SBR-4**│ **The Presentation Agnostic** │ Daemons emit structured binary/JSON-LD data events only. Zero styling,      │
 │          │                               │ UI banners, HUD alerts, or 3D coordinate transformations are computed.      │
 │          │                               │ Enforcement: Socket schema review rejects visual representation fields.     │
 ├──────────┼───────────────────────────────┼─────────────────────────────────────────────────────────────────────────────┤
-│ **SBR-5**│ **The Airgap & UHAI Rule**    │ All interaction with Oasis occurs across the UHAI IPC boundary. Synthetic   │
-│          │                               │ telemetry (`QUALITY_SIMULATED`) is strictly forbidden from energizing edge  │
-│          │                               │ relays. Real hardware actuation strictly requires `QUALITY_HARDWARE_ROOT`.   │
-│          │                               │ Enforcement: Kernel-level eBPF filter & hardware interlock in L1 HAL.       │
+│ **SBR-5**│ **The Airgap & Outward-Only** │ All interaction with Oasis occurs across the UHAI IPC boundary. Oasis is a  │
+│          │ **SITL Producer Rule**        │ non-transitionary shadow simulator and strictly an **outward producer** of  │
+│          │                               │ simulated telemetry (`QUALITY_SIMULATED = 0x01`) for SITL testing; it       │
+│          │                               │ **never ingests live physical telemetry**. `QUALITY_SIMULATED` packets can  │
+│          │                               │ never energize physical edge relays, which require `QUALITY_HARDWARE_ROOT`  │
+│          │                               │ (`0x02`). Enforcement: Kernel eBPF filter & L1 HAL hardware interlock.      │
 └──────────┴───────────────────────────────┴─────────────────────────────────────────────────────────────────────────────┘
 ```
 
-#### Strict Adjacency Protocol ("No Layer Skipping")
-In accordance with Volume 1 Chapter 1 of the book (`doc/book_collective/`), inter-layer communication strictly follows adjacent traversal:
+#### Strict Adjacency Protocol ("No Layer Skipping") & The Strict Intent U-Turn
+In accordance with Volume 1 Chapter 1 of the book (`doc/book_collective/`) and `docs/COMPANION_APP_ARCHITECTURE.md` (V2.0), inter-layer communication strictly follows adjacent traversal:
 $$\text{L7 (Carapace)} \longleftrightarrow \text{L6 (Intent)} \longleftrightarrow \text{L5 (Governance)} \longleftrightarrow \text{L4 (Orchestrator)} \longleftrightarrow \text{L3 (Ledger)} \longleftrightarrow \text{L2 (Mesh)} \longleftrightarrow \text{L1 (Ground)}$$
 
 - **Downward Adjacency:** Plain language needs (L6) cannot directly actuate water valves (L1). Requests compile down through L5 governance verification, L4 task scheduling, L3 exergy reservation, L2 routing, and L1 hardware safety interlocks. Each intermediate layer possesses full authority to veto the command.
 - **Upward Adjacency:** Physical sensor signals (L1) cannot directly alter governance policies (L5). Telemetry is digitized in L2, causally ordered and verified in L3, orchestrated into state updates in L4, and only then surfaced as governance context in L5.
+- **The Strict Intent U-Turn & Read-Only Cybernetic Hood (`col-gatewayd` on VLAN 30 Port `8443`):**
+  - `col-gatewayd` serves the Companion App on **VLAN 30 exclusively over TLS 1.3 HTTPS/WSS on port `8443`** (`https://collective.local:8443` / `wss://collective.local:8443/ws/v1`; never unencrypted HTTP `8080`). Member mutations enter **exclusively at Layer 6** (`POST /api/v1/l6/intent`), which assumes Layer 7 does not exist internally. Layers 2, 3, 4, 5, and 7 exposed on the `col-gatewayd` diagnostic hood are strictly **read-only** (`403 Forbidden` / `405 Method Not Allowed` on any write attempt, superseding any direct `/api/v1/l5/*` POST mutations).
+  - Layer 4 (`col-execd`) is a deterministic, blind Wasmtime sandbox with **zero `l4_l7.sock` connection**. Whenever a Layer 4 `FlowContract` or workflow requires human governance ratification or external legacy interaction, it executes the **Intent U-Turn**:
+    $$\text{Downward Intent \& Ratification:} \quad \text{Human} \xrightarrow[\text{POST /api/v1/l6/intent}]{\text{col-gatewayd (:8443)}} \text{L6 (\texttt{col-commonsd})} \xrightarrow{\text{l5\_l6.sock}} \text{L5 (\texttt{col-kmsd})} \xrightarrow{\text{l4\_l5.sock}} \text{L4 (\texttt{col-execd})}$$
+    $$\text{Upward Yield:} \quad \text{L4 (\texttt{col-execd})} \xrightarrow[\text{YIELD\_UPWARD\_L5}]{\text{l4\_l5.sock}} \text{L5 (Hold / Notify via WSS :8443)} \xrightarrow{\text{l5\_l6.sock}} \text{L6 (Camouflage Translate)} \xrightarrow{\text{l6\_l7.sock}} \text{L7 (\texttt{col-adversaryd})}$$
 - **Deterministic Boundary:** Generative AI / LLM models are strictly confined to Layers 5 and 6 as non-authoritative advisory drafting tools. Layers 1 through 4 are 100% mathematically deterministic.
 
 ---
 
 ### 1.4. Universal Human-Agent Interface (UHAI) Specification
 
-The Universal Human-Agent Interface (UHAI) establishes the universal binary IPC boundary between the Sovereign Stack daemons and external consumers (including physical hardware buses, headless CLI runners, steward mobile apps, and the Oasis SITL shadow simulator).
+The Universal Human-Agent Interface (UHAI) establishes the canonical binary IPC boundary (`core/1_simulation/src/uhai/uhai_ring_buffer.hpp`) between the Sovereign Stack daemons and external consumers (including physical hardware buses, headless CLI runners, steward mobile apps via `col-gatewayd`, and the outward-only Oasis SITL shadow simulator). All UHAI wire structs are compiled under `-Wpadded -Werror` with explicit padding and `alignas(64)` cache-line isolation to prevent false sharing across cores.
 
-#### Binary Wire Format (C++20 Standard Layout)
+#### Binary Wire Format (C++20 Standard Layout — `uhai_ring_buffer.hpp`)
 ```cpp
 namespace collective::uhai {
 
-enum class UnitType : uint8_t {
-    WATTS          = 0,
-    CELSIUS        = 1,
-    LITERS_PER_MIN = 2,
-    VOLTS          = 3,
-    AMPERES        = 4,
-    PRESSURE_KPA   = 5,
-    PULSE_COUNT    = 6,
-    KILOGRAMS      = 7,
-    CO2_PPM        = 8,
-    DECIBELS       = 9
-};
+inline constexpr uint32_t UHAI_MAGIC          = 0x55484149; // "UHAI"
+inline constexpr uint16_t UHAI_SCHEMA_VERSION = 1;
+inline constexpr uint32_t RING_CAPACITY       = 1024;       // Power-of-2 slot count
 
 enum QualityFlags : uint8_t {
     QUALITY_OK             = 0x00,
-    QUALITY_SIMULATED      = 0x01, // Emitted by external SITL (e.g. Oasis)
+    QUALITY_SIMULATED      = 0x01, // Emitted outward-only by external SITL (e.g. Oasis)
     QUALITY_HARDWARE_ROOT  = 0x02, // Hardware secure element (ATECC608A) verified
     QUALITY_OUT_OF_BOUNDS  = 0x04, // Physical transducer limits breached
     QUALITY_SPOOF_SUSPECT  = 0x08  // Flagged by spatial/thermodynamic cross-check
 };
 
-// Exactly 24 bytes, 8-byte aligned: Universal sensor telemetry wire format
+// 1. TelemetrySample: Exactly 32 bytes (alignas(8)), wrapped in a 64-byte cache-line TelemetrySlot
 struct alignas(8) TelemetrySample {
-    uint64_t timestamp_hlc;      // Hybrid Logical Clock monotonic timestamp
-    uint32_t channel_id;         // Unique telemetry register / channel ID
-    float    value;              // Calibrated physical quantity
-    UnitType unit_type;          // Physical unit enum
-    uint8_t  quality_flags;      // Provenance and security validation flags
-    uint16_t sensor_node_id;     // Originating node DID identifier slot
+    uint64_t frame_count;        // 8B: Monotonic frame / tick counter
+    uint64_t timestamp_ns;       // 8B: HLC / monotonic nanosecond timestamp
+    float    fps;                // 4B: Sample rate or SITL frame pacing metric
+    float    founder_stress;     // 4B: Aggregate physiological / homeostatic stress [0.0 - 1.0]
+    uint32_t memory_slot_count;  // 4B: Active ledger / memory slot count
+    uint8_t  biome_id;           // 1B: Bioregional zone identifier
+    union {
+        uint8_t quality_flags;   // 1B: Provenance & security validation flags (QUALITY_*)
+        uint8_t quality_flag;
+    };
+    uint16_t reserved;           // 2B: Explicit alignment padding (zero implicit padding)
 };
-static_assert(sizeof(TelemetrySample) == 24, "TelemetrySample must remain exactly 24 bytes.");
+static_assert(sizeof(TelemetrySample) == 32, "TelemetrySample must remain exactly 32 bytes.");
 
-// Exactly 80 bytes, 8-byte aligned: Universal actuator command envelope
+struct alignas(64) TelemetrySlot {
+    TelemetrySample sample;      // 32B payload
+    uint8_t         pad[32];     // 32B explicit cache-line padding
+};
+static_assert(sizeof(TelemetrySlot) == 64, "TelemetrySlot must occupy exactly 1 cache line (64 bytes).");
+
+// 2. SpatialIntentPayload: Exactly 264 bytes (alignas(8)), wrapped in a 320-byte (5-cache-line) SpatialIntentSlot
+struct alignas(8) SpatialIntentPayload {
+    uint64_t intent_id;          // 8B: Monotonic intent identifier
+    uint64_t timestamp_ns;       // 8B: HLC nanosecond timestamp
+    float    world_x;            // 4B: Cadastral X coordinate (meters)
+    float    world_y;            // 4B: Cadastral Y elevation (meters)
+    float    world_z;            // 4B: Cadastral Z coordinate (meters)
+    uint8_t  intent_type;        // 1B: SpatialIntentType enum
+    uint8_t  quality_flags;      // 1B: Provenance bitmask
+    uint16_t reserved;           // 2B: Explicit alignment padding
+    char     json_ld_payload[232]; // 232B: Null-terminated W3C JSON-LD fragment
+};
+static_assert(sizeof(SpatialIntentPayload) == 264, "SpatialIntentPayload must remain 264 bytes.");
+
+struct alignas(64) SpatialIntentSlot {
+    SpatialIntentPayload payload; // 264B payload
+    uint8_t              pad[56]; // 56B explicit padding -> 320 bytes (5 cache lines)
+};
+static_assert(sizeof(SpatialIntentSlot) == 320, "SpatialIntentSlot must be 320 bytes.");
+
+// 3. FlowContract: Exactly 64 bytes (alignas(8)), wrapped in a 64-byte FlowContractSlot
+struct alignas(8) FlowContract {
+    uint64_t contract_id;        // 8B: Unique bilateral FlowContract UUID
+    uint64_t sender_node_id;     // 8B: Originating peer slot on Arcadia (server-01)
+    uint64_t consumer_node_id;   // 8B: Counterparty peer slot on Arcadia (server-01)
+    uint64_t start_logical_tick; // 8B: Starting HLC logical tick
+    uint64_t end_logical_tick;   // 8B: Ending HLC logical tick (bounded at EPOCH_BOUNDARY_TICKS)
+    double   rate_per_tick;      // 8B: Continuous exergy/resource flow rate per logical tick
+    uint16_t resource_type;      // 2B: FlowResourceType enum (Exergy, Water, Caloric, Biomass)
+    uint8_t  status;             // 1B: FlowContractStatus (Proposed, Active, Settled, Yielded)
+    uint8_t  quality_flags;      // 1B: Provenance bitmask (QUALITY_SIMULATED = 0x01)
+    uint32_t reserved;           // 4B: Explicit alignment padding
+    uint8_t  auth_signature[8];  // 8B: Truncated capability MAC / Ed25519 tag
+};
+static_assert(sizeof(FlowContract) == 64, "FlowContract must remain exactly 64 bytes.");
+
+struct alignas(64) FlowContractSlot {
+    FlowContract contract;       // 64B payload (exactly 1 cache line)
+};
+static_assert(sizeof(FlowContractSlot) == 64, "FlowContractSlot must occupy 64 bytes.");
+
+// 4. ActuatorCommand: Exactly 80 bytes (alignas(8)) universal hardware actuator envelope
 struct alignas(8) ActuatorCommand {
-    uint64_t command_id;         // Monotonic command UUID
-    uint32_t device_id;          // Actuator register ID (valve, contactor, motor)
-    float    target_state;       // Setpoint duty cycle (0.0 - 1.0) or target level
-    uint32_t duration_ms;        // Pulse width or timeout limit (watchdog safety)
-    uint8_t  auth_signature[64]; // Ed25519 signature from Layer 4 execution key
+    uint64_t command_id;         // 8B: Monotonic command UUID
+    uint32_t device_id;          // 4B: Actuator register ID (valve, contactor, motor)
+    float    target_state;       // 4B: Setpoint duty cycle (0.0 - 1.0) or target level
+    uint32_t duration_ms;        // 4B: Pulse width or timeout limit (watchdog safety)
+    uint32_t reserved;           // 4B: Explicit alignment padding
+    uint8_t  auth_signature[56]; // 56B: Hardware capability signature envelope
 };
-static_assert(sizeof(ActuatorCommand) == 80, "ActuatorCommand must remain exactly 80 bytes.");
+static_assert(sizeof(ActuatorCommand) == 80, "ActuatorCommand must remain 80 bytes.");
 
-// Lock-free single-producer single-consumer shared memory ring buffer header
-struct alignas(64) UHAIRingBufferHeader {
-    std::atomic<uint64_t> write_index{0};
-    std::atomic<uint64_t> read_index{0};
-    uint32_t              capacity{16384}; // 16,384 samples = 384 KB ring
-    uint32_t              element_size{sizeof(TelemetrySample)};
-    uint8_t               pad[40];
+// 5. SharedRingHeader: Exactly 192 bytes (3 cache lines, alignas(64)) SPSC lock-free ring header
+struct alignas(64) SharedRingHeader {
+    // Cache Line 0: Immutable Ring Metadata (64 bytes)
+    uint32_t magic;              // 0x55484149 ("UHAI")
+    uint16_t schema_version;     // 1
+    uint16_t reserved_flags;     // 0
+    uint32_t capacity;           // 1024 slots
+    uint32_t slot_size;          // 64 bytes
+    uint8_t  pad0[48];
+
+    // Cache Line 1: Producer-Owned Atomic Write Cursor (64 bytes)
+    alignas(64) std::atomic<uint64_t> write_index;
+    uint8_t  pad1[56];
+
+    // Cache Line 2: Consumer-Owned Atomic Read Cursor (64 bytes)
+    alignas(64) std::atomic<uint64_t> read_index;
+    uint8_t  pad2[56];
 };
+static_assert(sizeof(SharedRingHeader) == 192, "SharedRingHeader must be 192 bytes (3 cache lines).");
+
+inline constexpr size_t TOTAL_SHM_SIZE =
+    sizeof(SharedRingHeader) + (RING_CAPACITY * sizeof(TelemetrySlot));
+static_assert(TOTAL_SHM_SIZE == 65728, "Total SHM mapping must be exactly 65,728 bytes.");
 
 } // namespace collective::uhai
 ```
@@ -176,9 +248,11 @@ Replacing all legacy frame budgets, the Sovereign Stack is evaluated exclusively
 │ BBS+ Zero-Knowledge Proof Verification Latency  │ p99 ≤ 15.0 ms                        │
 │ Orchestration Logic Tick Drift (10 Hz Tick)     │ ≤ 0.5 ms maximum jitter              │
 │ Local IPC Roundtrip Overhead (Unix Domain Sock) │ p99 ≤ 50 µs                          │
+│ Companion Gateway (`col-gatewayd`) WSS Push     │ p99 ≤ 10.0 ms (TLS 1.3 over VLAN 30) │
+│ `Arcadia (server-01)` Epoch Barrier Settlement  │ p99 ≤ 2.5 s across active quorum     │
 │ Daemon Crash Recovery Time Objective (RTO)      │ ≤ 500 ms                             │
 │ Memory Leak Tolerance (Continuous 72-Hour Load) │ 0 bytes leaked (Valgrind / ASan)     │
-│ Total Headless Stack Memory Ceiling (L1–L7 RSS) │ ≤ 320 MB total RSS on Linux ARM64    │
+│ Total Headless Stack Memory Ceiling (8 Daemons) │ ≤ 320 MB total RSS on Linux ARM64    │
 │ Layer 7 Memory Envelope                         │ ≤ 24 MB RSS                          │
 │ Layer 7 Terminal Decoupling Execution Time      │ ≤ 100 ms total shutdown and wipe     │
 └─────────────────────────────────────────────────┴──────────────────────────────────────┘
@@ -272,53 +346,62 @@ The 24 canonical SDD scenarios from `docs/scenarios/*.md` represent the comprehe
 
 ---
 
-## 3. Autonomous 7-Daemon POSIX Architecture & IPC Bus
+## 3. Autonomous 8-Daemon POSIX Architecture & IPC Bus
 
 ### 3.1. Daemon Process Topology
-Each layer of the Sovereign Stack runs as an independent, isolated POSIX process supervised by `collective-supervisor`:
+Each layer of the Sovereign Stack—plus the dedicated Layer 6 Semantic HTTP/WebSocket Gateway (`col-gatewayd`)—runs as an independent, isolated POSIX process supervised by `collective-supervisor`:
 
 ```
 ┌────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│                              THE AUTONOMOUS 7-DAEMON SYSTEM ARCHITECTURE                               │
+│                              THE AUTONOMOUS 8-DAEMON SYSTEM ARCHITECTURE                               │
 ├───────┬───────────────────────────┬──────────────────────────────────────┬─────────────────────────────┤
 │ LAYER │ DAEMON EXECUTABLE         │ COMPUTATIONAL LOOP & RUNTIME ENGINE  │ DEDICATED STORAGE BACKEND   │
 ├───────┼───────────────────────────┼──────────────────────────────────────┼─────────────────────────────┤
+│ **GW**│ `col-gatewayd`            │ TLS 1.3 / WSS 10 Hz Multiplexor      │ Ephemeral `/dev/shm` pairing│
+│       │ (L6 Semantic Gateway:8443)│ Exclusive L6 write; L2-L5/L7 RO hood │ + Dedicated SPSC readers    │
+├───────┼───────────────────────────┼──────────────────────────────────────┼─────────────────────────────┤
 │ **L7**│ `col-adversaryd`          │ Priority-Queue Discrete Event Sim    │ Isolated SQLite (SQLCipher) │
-│       │ (Legacy Proxy & Adversary)│ (DES); mock utilities, zoning, fiat  │ (Zero cross-DB FKs; shred)  │
+│       │ (Cooperative Carapace/DES)│ (DES); utilities, zoning, migrations │ (Zero cross-DB FKs; shred)  │
 ├───────┼───────────────────────────┼──────────────────────────────────────┼─────────────────────────────┤
 │ **L6**│ `col-commonsd`            │ W3C JSON-LD compiler; W3C PROV-O     │ Embedded RDF Quad Store     │
 │       │ (Semantic Intent & Agora) │ knowledge graph; double-auction book │ (Oxigraph) / DuckDB graph   │
 ├───────┼───────────────────────────┼──────────────────────────────────────┼─────────────────────────────┤
 │ **L5**│ `col-kmsd`                │ W3C DID resolver; BBS+ ZKP engine;   │ Encrypted SQLCipher vault   │
-│       │ (Governance & Web of Trust│ FROST threshold crypto; BPVP router  │ + Sparse Merkle Tree (SMT)  │
+│       │ (Governance & Web of Trust│ FROST threshold; R6->R1 onboarding   │ + Sparse Merkle Tree (SMT)  │
 ├───────┼───────────────────────────┼──────────────────────────────────────┼─────────────────────────────┤
 │ **L4**│ `col-execd`               │ Deterministic 10 Hz BPMN 2.0 VM;     │ Durable Saga WAL journal +  │
-│       │ (Orchestrator & Execution)│ Sandboxed Wasmtime; ecological floors│ Task state RocksDB store    │
+│       │ (Orchestrator & Execution)│ Blind Wasmtime; Intent U-Turn yield  │ Task state RocksDB store    │
 ├───────┼───────────────────────────┼──────────────────────────────────────┼─────────────────────────────┤
 │ **L3**│ `col-storaged`            │ Automerge/Yrs CRDT engine; HLC causal│ Content-Addressed CAS (IPLD)│
-│       │ (Thermodynamic Ledger)    │ ordering; PoTW negentropy minting    │ + RocksDB CRDT append-log   │
+│       │ (Thermodynamic Ledger)    │ ordering; PoTW; Epoch Merkle Barrier │ + RocksDB CRDT append-log   │
 ├───────┼───────────────────────────┼──────────────────────────────────────┼─────────────────────────────┤
 │ **L2**│ `col-meshd`               │ Reticulum Network Stack (RNS) / LoRa │ Persistent DTN spool ring + │
-│       │ (Digital Twin & P2P Mesh) │ async reactor; UHAI telemetry bridge │ LMDB peerstore routing table│
+│       │ (Digital Twin & P2P Mesh) │ async reactor; Arcadia delta relay   │ LMDB peerstore routing table│
 ├───────┼───────────────────────────┼──────────────────────────────────────┼─────────────────────────────┤
 │ **L1**│ `col-telemetryd`          │ Linux epoll / RTOS HAL; RS485 Modbus,│ Flash NVRAM ring buffer +   │
 │       │ (Physical Reality & HAL)  │ CAN-bus, hardware watchdog, ATECC608A│ ATECC608A secure EEPROM     │
 └───────┴───────────────────────────┴──────────────────────────────────────┴─────────────────────────────┘
 ```
 
-### 3.2. Inter-Process Communication (IPC) Socket Architecture
-All communication occurs over dedicated Unix Domain Sockets located in `/run/collective/ipc/`:
+### 3.2. Inter-Process Communication (IPC) Socket Architecture & Strict Intent U-Turn
+All inter-daemon communication occurs over dedicated Unix Domain Sockets located in `/run/collective/ipc/` and isolated 1:1 Single-Producer Single-Consumer (`LockFreeSpscRing`) shared-memory rings mapped with the 192-byte `SharedRingHeader` (`RING_CAPACITY = 1024`, `TOTAL_SHM_SIZE = 65728` for 64-byte slots):
 
-1. **Bilateral Adjacency Sockets:**
+1. **Bilateral Adjacency Sockets (Strict Adjacency — Zero `l4_l7.sock`):**
    - `/run/collective/ipc/l1_l2.sock` (`col-telemetryd` $\longleftrightarrow$ `col-meshd`)
    - `/run/collective/ipc/l2_l3.sock` (`col-meshd` $\longleftrightarrow$ `col-storaged`)
    - `/run/collective/ipc/l3_l4.sock` (`col-storaged` $\longleftrightarrow$ `col-execd`)
-   - `/run/collective/ipc/l4_l5.sock` (`col-execd` $\longleftrightarrow$ `col-kmsd`)
+   - `/run/collective/ipc/l4_l5.sock` (`col-execd` $\longleftrightarrow$ `col-kmsd` — includes `YIELD_UPWARD_L5` U-Turn channel)
    - `/run/collective/ipc/l5_l6.sock` (`col-kmsd` $\longleftrightarrow$ `col-commonsd`)
    - `/run/collective/ipc/l6_l7.sock` (`col-commonsd` $\longleftrightarrow$ `col-adversaryd`)
-2. **Broadcast Event Bus (`col-busd`):** `/run/collective/ipc/bus.sock` broadcasts domain events (telemetry anomalies, block confirmations, citations, scenario completions).
-3. **Buffer Management & Backpressure:** Every socket sets `SO_SNDBUF = 262144` and `SO_RCVBUF = 262144` (256 KB). All sockets operate in non-blocking mode (`O_NONBLOCK`). Telemetry drops non-critical frames under backpressure; critical actuator commands enforce circuit breakers.
-4. **Permissions:** Socket permissions are enforced strictly via POSIX groups (`collective-ipc`, `chmod 0660`). Layer 6 has no access to Layer 1.
+   - `/run/collective/ipc/gw_l6.sock` (`col-gatewayd` $\longrightarrow$ `col-commonsd` — exclusive write path for `POST /api/v1/l6/intent`)
+   - *Topological Prohibition:* There is **NO `l4_l7.sock`**. `col-execd` executes inside a restricted Linux network/AppArmor sandbox (`PrivateNetwork=yes`) that aborts on any socket call outside `l3_l4.sock` and `l4_l5.sock`. Furthermore, `col-adversaryd` (isolated in DMZ VLAN 40) connects **only** to `/run/collective/ipc/l6_l7.sock` and never accesses `bus.sock` or `/dev/shm/uhai_*` directly; any Layer 7 event (such as `MigrationWaveArrivalEvent`) propagates strictly inward across adjacent layers (`L7 -> L6 -> L5 -> L4 -> L3 -> L2 -> UHAI`).
+2. **Dedicated 1:1 SPSC Shared Memory Rings (Zero Reader Contention):**
+   - `/dev/shm/uhai_telemetry` (`TOTAL_SHM_SIZE = 65728`, bridging Layer 2 `col-meshd` and Layer 1b SITL / Oasis with `QUALITY_SIMULATED = 0x01`).
+   - `/dev/shm/uhai_telemetry_execd` and `/dev/shm/uhai_flow_execd` (consumed exclusively by `col-execd`).
+   - `/dev/shm/uhai_telemetry_gateway` and `/dev/shm/uhai_flow_gateway` (consumed exclusively by `col-gatewayd` on port `8443`).
+3. **Broadcast Event Bus (`col-busd`):** `/run/collective/ipc/bus.sock` broadcasts non-destructive read-only copies of internal VLAN 10/20 domain events (telemetry anomalies, block confirmations, epoch barrier alerts, scenario completions) to `col-gatewayd` and subscribed internal daemons (excluding DMZ VLAN 40 `col-adversaryd`).
+4. **Buffer Management & Backpressure:** Every socket sets `SO_SNDBUF = 262144` and `SO_RCVBUF = 262144` (256 KB). All sockets operate in non-blocking mode (`O_NONBLOCK`). Telemetry drops non-critical frames under backpressure; critical actuator commands enforce circuit breakers.
+5. **Permissions:** Socket permissions are enforced strictly via POSIX groups (`collective-ipc`, `chmod 0660`). Layer 6 and `col-gatewayd` have zero direct write access to Layer 1 (`col-telemetryd`) or Layer 4 (`col-execd`).
 
 ---
 
@@ -326,7 +409,7 @@ All communication occurs over dedicated Unix Domain Sockets located in `/run/col
 
 ```
 ┌────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-│                                            EPIC SUMMARY & SPRINT ALLOCATION MATRIX                                     │
+│                                       EPIC SUMMARY & SPRINT ALLOCATION MATRIX (V4.0)                                   │
 ├────────┬────────────────────────────────────────────────────────────────────────┬─────────────┬───────────────┬────────┤
 │ Epic   │ Epic Title                                                             │ Priority    │ Stories Count │ Points │
 ├────────┼────────────────────────────────────────────────────────────────────────┼─────────────┼───────────────┼────────┤
@@ -334,22 +417,36 @@ All communication occurs over dedicated Unix Domain Sockets located in `/run/col
 │ **E2** │ Layer 2: Delay-Tolerant Mesh, Reticulum Transport & Telemetry Ingress  │ P0 Critical │ 5 Stories     │ 34 SP  │
 │ **E3** │ Layer 3: Thermodynamic Ledger, CRDT Replication & Valuenomics Minting  │ P0 Critical │ 6 Stories     │ 44 SP  │
 │ **E4** │ Layer 4: Deterministic BPMN 2.0 Orchestrator & Ecological Floors       │ P0 Critical │ 5 Stories     │ 36 SP  │
-│ **E5** │ Layer 5: Polycentric Governance, Pairwise DIDs & Web of Trust (BPVP)   │ P0 Critical │ 6 Stories     │ 42 SP  │
-│ **E6** │ Layer 6: Semantic Intent, Knowledge Graphs & The Agora Commons         │ P0 Critical │ 5 Stories     │ 33 SP  │
-│ **E7** │ Layer 7: Legacy Proxy, Tripartite Legal Chassis & Adversarial Emulation│ P0 Critical │ 6 Stories     │ 45 SP  │
+│ **E5** │ Layer 5: Polycentric Governance, Pairwise DIDs & Trust Ring Onboarding │ P0 Critical │ 7 Stories     │ 50 SP  │
+│ **E6** │ Layer 6: Semantic Intent, Agora Commons & Companion Gateway (`:8443`)  │ P0 Critical │ 6 Stories     │ 41 SP  │
+│ **E7** │ Layer 7: Legacy Proxy, Cooperative Legal Carapace & Migration Waves    │ P0 Critical │ 7 Stories     │ 53 SP  │
 │ **E8** │ Cross-Stack Headless Verification, Chaos Engineering & Quality Gates   │ P0 Critical │ 6 Stories     │ 41 SP  │
+│ **E9** │ Shared Virtual Landscape (`Arcadia server-01`) & Epoch Synchronization │ P0 Critical │ 3 Stories     │ 24 SP  │
 ├────────┴────────────────────────────────────────────────────────────────────────┴─────────────┼───────────────┼────────┤
-│ TOTAL (8 Epics, 44 Fully Articulated Stories)                                                 │ 44 Stories    │ 310 SP │
+│ TOTAL (9 Epics, 50 Fully Articulated Stories)                                                 │ 50 Stories    │ 358 SP │
 └───────────────────────────────────────────────────────────────────────────────────────────────┴───────────────┴────────┘
 ```
 
-### Sprint Delivery Pacing (6 Sprints to 3.0.0-RELEASE)
-- **Sprint 1 (52 SP):** Epics 1 & 2 Core Daemons (`col-telemetryd`, `col-meshd`), UHAI IPC wire protocol, ATECC608A HAL, Reticulum LoRa mesh.
-- **Sprint 2 (54 SP):** Epic 3 Core Ledger (`col-storaged`), RocksDB append-log, Automerge/Yrs CRDT, PoTW negentropy minting, Asymptotic ERC Firewall.
-- **Sprint 3 (52 SP):** Epic 4 & 5 Deterministic Execution (`col-execd`, `col-kmsd`), 10 Hz BPMN VM, Wasmtime fuel sandbox, W3C DIDs, BBS+ ZKP credentials.
-- **Sprint 4 (50 SP):** Epic 5 Federation & Epic 6 Agora (`col-kmsd`, `col-commonsd`), Bioregional Path-Vector Protocol (BPVP), Bilateral Clearing Channels, JSON-LD intent compiler, Oxigraph RDF.
-- **Sprint 5 (52 SP):** Epic 7 Adversarial Carapace (`col-adversaryd`), Discrete Event Sim, Tripartite Legal Chassis, Mock Fiat APIs, Systemic Legal Blinding.
-- **Sprint 6 (50 SP):** Epic 8 Full-Stack Verification & Quality Gates (G1–G6), Scenario Rho fuzzing, 72-hour partition resilience, Scenario Omega terminal decoupling certification.
+### Sprint Delivery Pacing (Sprints 1–10 Completed Baseline & Dual Sprints 11–14 Horizon Roadmap)
+
+#### Phase I: Core Sovereign Stack & Tactical "Flesh & Fabrication" Baseline (Sprints 1–10 — COMPLETED)
+- **Sprint 1 (52 SP — Completed):** Epics 1 & 2 Core Daemons (`col-telemetryd`, `col-meshd`), UHAI IPC wire protocol, ATECC608A HAL, Reticulum LoRa mesh.
+- **Sprint 2 (54 SP — Completed):** Epic 3 Core Ledger (`col-storaged`), RocksDB append-log, Automerge/Yrs CRDT, PoTW negentropy minting, Asymptotic ERC Firewall.
+- **Sprint 3 (52 SP — Completed):** Epic 4 & 5 Deterministic Execution (`col-execd`, `col-kmsd`), 10 Hz BPMN VM, Wasmtime fuel sandbox, W3C DIDs, BBS+ ZKP credentials.
+- **Sprint 4 (50 SP — Completed):** Epic 5 Federation & Epic 6 Agora (`col-kmsd`, `col-commonsd`), Bioregional Path-Vector Protocol (BPVP), Bilateral Clearing Channels, JSON-LD intent compiler, Oxigraph RDF.
+- **Sprint 5 (52 SP — Completed):** Epic 7 Cooperative Legal Carapace (`col-adversaryd`), Discrete Event Sim, Tripartite Legal Chassis, Mock Fiat APIs, Systemic Legal Blinding, plus Dual Sprint 5 10 Hz POSIX Lock-Free UHAI IPC integration.
+- **Sprint 6 (50 SP — Completed):** Epic 8 Full-Stack Verification & Quality Gates (G1–G6), Scenario Rho fuzzing, 72-hour partition resilience, Scenario Omega terminal decoupling certification, and `BOOK_TEAM_DRIFT_REPORT.md` alignment.
+- **Dual Sprints 7–10 (Tactical "Flesh & Fabrication" Overrides — Completed):** Dynamic infrastructure work-order ingestion in `col-execd`, thermal & somatic telemetry grounding in `col-telemetryd`/`col-storaged`, Temporal `FlowContract` SPSC ring buffers (`/uhai_flow`), and initial Companion App V2.0 Gateway (`col-gatewayd` on port 8443).
+
+#### Phase II: Horizon & Playable Environment Roadmap (Dual Sprints 11–14 — ACTIVE)
+- **Dual Sprint 11 (8 SP Stack + Oasis Tactile UX — Tactile Mastery, Time Control & Layer 6 Gateway Hardening):**
+  - *Stack Deliverables:* **User Story 6.6 (`SS-EP6-006`)** — `col-gatewayd` Read-Only Cybernetic Hood (`403`/`405` on L2/L3/L4/L5/L7 writes), exclusive Layer 6 intent ingress (`POST /api/v1/l6/intent`), Strict Intent U-Turn enforcement, and UHAI `SpatialIntentPayload` & `TimeScaleState` synchronization with `col-execd`.
+- **Dual Sprint 12 (Homeostatic Grounding — The Chill Loop & Shelter/Kitchen Telemetry):**
+  - *Stack Deliverables:* Microgrid enclosed-room thermal telemetry ($>18^\circ\text{C}$ shelter boundary verification in `SCN-ZETA-LODGE`) and Commons Kitchen caloric/hydration reserve accounting (`SCN-GAMMA-KITCH`) across `col-telemetryd`, `col-storaged`, and `col-commonsd`.
+- **Dual Sprint 13 (16 SP Stack — Migration Waves & Legacy NPC Trust Ring Assimilation):**
+  - *Stack Deliverables:* **User Story 7.7 (`SS-EP7-007`)** — Layer 7 Demographic Shock & Legacy Migration Wave Generator in `col-adversaryd`; **User Story 5.7 (`SS-EP5-007`)** — Progressive Migrant Onboarding & Trust Ring ($R_6 \to R_1$) Assimilation Protocol in `col-kmsd`.
+- **Dual Sprint 14 (24 SP Stack — `Arcadia (server-01)` Shared Virtual Landscape & Mandatory Milestone Epoch Sync):**
+  - *Stack Deliverables:* **Epic 9 (`SS-EP9`)** — **User Story 9.1 (`SS-EP9-001`)** Voluntary Shared Landscape Delta Relay (`col-meshd` & `col-storaged`), **User Story 9.2 (`SS-EP9-002`)** Temporal Flow Contract HLC Pacing & Mandatory Milestone Barrier (`col-execd` & `col-storaged`), and **User Story 9.3 (`SS-EP9-003`)** Asynchronous Epoch Merkle Reconciliation & Straggler Quorum Grace Protocol.
 
 ---
 
@@ -419,7 +516,7 @@ Scenario: Physical enclosure tamper triggers immediate zeroization
 - **Protocols Supported:**
   - Modbus RTU (libmodbus asynchronous wrapper) polling Victron SmartSolar MPPT and Schneider Conext inverters.
   - SocketCAN (J1939 CAN 2.0B) polling Daly / Seplos LiFePO4 battery management systems at 250 kbps.
-- **Telemetry Packing:** Ingests raw registers, applies scaling factors, validates physical boundaries, and packs into 24-byte `TelemetrySample` structs.
+- **Telemetry Packing:** Ingests raw registers, applies scaling factors, validates physical boundaries, and packs into 32-byte `TelemetrySample` structs (wrapped in 64-byte cache-line-isolated `TelemetrySlot` ring entries).
 
 #### Acceptance Criteria (Given / When / Then)
 ```gherkin
@@ -641,9 +738,9 @@ Scenario: Delay-Tolerant Networking store-and-forward delivery
 
 #### Technical Specifications & Architecture
 - **Ingress Channels:**
-  - Shared memory file `/dev/shm/collective_uhai_ring.bin` mapped with `UHAIRingBufferHeader` for zero-copy read/write.
+  - Shared memory file `/dev/shm/uhai_telemetry` (`TOTAL_SHM_SIZE = 65728`) mapped with the 192-byte `SharedRingHeader` (`RING_CAPACITY = 1024`) and 64-byte `TelemetrySlot` entries for zero-copy read/write (`core/1_simulation/src/uhai/uhai_ring_buffer.hpp`).
   - Unix Domain Socket `/run/collective/ipc/sitl.sock` (`SOCK_SEQPACKET`).
-- **Telemetry Validation:** Checks 24-byte `TelemetrySample` alignment. Enforces `quality_flags = QUALITY_SIMULATED` on all incoming SITL frames. Forwards validated frames to Layer 3 via `/run/collective/ipc/l2_l3.sock`.
+- **Telemetry Validation:** Checks 32-byte `TelemetrySample` (`alignas(8)`) and 64-byte `TelemetrySlot` (`alignas(64)`) layout invariants (`-Wpadded -Werror`). Enforces `quality_flags = QUALITY_SIMULATED` on all incoming SITL frames. Forwards validated frames to Layer 3 via `/run/collective/ipc/l2_l3.sock`.
 
 #### Acceptance Criteria (Given / When / Then)
 ```gherkin
@@ -1271,7 +1368,68 @@ Scenario: Founder reputation decays during 6-month inactivity
 
 ---
 
-## 10. Epic 6: Layer 6 — Semantic Intent, Knowledge Graphs & The Agora Commons (`col-commonsd`)
+### User Story 5.7: Progressive Migrant Onboarding & Trust Ring ($R_6 \to R_1$) Assimilation Protocol
+**Epic:** Epic 5 (Layer 5: Governance & Web of Trust)  
+**Story ID:** SS-EP5-007  
+**Points:** 8 SP | **Sprint:** Dual Sprint 13 | **Priority:** P0 Critical  
+**Persona:** As a Community Steward & Membership Guardian,  
+**Goal:** I want `col-kmsd` to manage probationary pairwise DIDs (`Ring R6: Unverified Migrant` $\to$ `Ring R3: Probationary Resident` $\to$ `Ring R1: Vouched Steward`) as thermodynamic mutual-aid milestones (shelter, potable water, caloric security, and cooperative work contributions) are attested in Layer 3,  
+**Benefit:** So that newcomers arriving during Legacy Migration Waves (`SS-EP7-007`) are safely assimilated into the mutual-credit commonwealth without exposing the enclave to Sybil governance capture or credit-pool exhaustion.
+
+#### Technical Specifications & Architecture
+- **SDD & Horizon Alignment:** `SCN-TAU-GENESIS`, `SCN-OMICRON-KIN`, `SCN-ZETA-LODGE`, and Horizon Pillar 5 (*Migration Waves & Legacy NPCs*).
+- **Strict Layer Adjacency Propagation (`L7 -> L6 -> L5 -> L4 -> L3 -> L2 -> UHAI`):**
+  - When `col-adversaryd` (L7, isolated in DMZ VLAN 40) emits a `MigrationWaveArrivalEvent` over `/run/collective/ipc/l6_l7.sock`, `col-commonsd` (L6) compiles a humanitarian intake intent and forwards it over `/run/collective/ipc/l5_l6.sock` to `col-kmsd` (L5).
+  - `col-kmsd` initializes the newcomer's ephemeral `Ring R6` guest credential and forwards the authorized survival baseline intent over `/run/collective/ipc/l4_l5.sock` to `col-execd` (L4) $\to$ `/run/collective/ipc/l3_l4.sock` to `col-storaged` (L3) $\to$ `/run/collective/ipc/l2_l3.sock` to `col-meshd` (L2) $\to$ UHAI shared-memory ring (`/dev/shm/uhai_telemetry`, `QUALITY_SIMULATED = 0x01`) for Layer 1b (Oasis) consumption. Zero layers are ever skipped.
+- **Probationary Trust Ring State Machine ($R_6 \to R_3 \to R_1$):**
+  1. **`Ring R6 (Unverified Migrant)`:** Upon receiving the intake intent from Layer 6 (`col-commonsd`) over `/run/collective/ipc/l5_l6.sock`, `col-kmsd` provisions an ephemeral, rate-limited `did:peer` credential in `Ring R6`. The newcomer receives unconditional humanitarian access to survival baselines ($B_t$: emergency shelter thermal envelope $>18^\circ\text{C}$, potable water, and daily caloric rations from `SCN-GAMMA-KITCH`), but holds **zero** Bilateral Clearing Channel (BCC) credit overdraft authority ($C_{u \to v} = 0$) and zero governance voting weight ($\mathcal{V} = 0$).
+  2. **`Ring R3 (Probationary Resident)`:** Transitioned automatically when Layer 3 (`col-storaged`, relayed via Layer 4 `col-execd`) attests $\ge 7\text{ consecutive days}$ of verified homeostatic stability (enclosed shelter assignment + caloric/water allocation) and $\ge 36.0\text{ MJ}$ ($10.0\text{ Exergy Credits}$) of verified cooperative sweat-equity contributions (`bounty.jsonld` completions). Unlocks bounded local BCC mutual credit ($[-25.0, +25.0]\text{ Exergy Credits}$) and apprentice task claiming (`SCN-KAPPA-APPR`).
+  3. **`Ring R1 (Vouched Steward)`:** Requires cryptographic co-signing by a $2\text{-of-}3$ FROST threshold quorum of existing `Ring R1` stewards (`SCN-TAU-GENESIS` ceremony) after $\ge 30\text{ simulated days}$ in `Ring R3` with zero unresolved restorative justice mediations (`SCN-PSI-MEDIAT`). Issues a full BBS+ Steward Verifiable Credential and unlocks full governance participation.
+- **Regression & Sybil Safeguard:** If enclave infrastructure fails to meet basic shelter/caloric baselines during a demographic shock and a probationary `R6`/`R3` identity triggers resource hoarding or conflict mediation events, `col-kmsd` freezes credit expansion and routes a `RestorativeTriageIntent` upward to Layer 6 (`col-commonsd`) without revoking basic humanitarian survival floors ($B_t$).
+- **Build & Test Scaffolding (`core/1_simulation/src/CMakeLists.txt`):** Scaffolds standalone C++20 daemon target `col_kmsd` (`col-kmsd`) alongside the 6 existing daemon targets (`col_telemetryd`, `col_execd`, `col_commonsd`, `col_adversaryd`, `col_meshd`, `col_gatewayd`) and `col_storaged`, plus Catch2 verification target `test_migration_waves.cpp`.
+
+```protobuf
+syntax = "proto3";
+package collective.l5;
+
+enum AssimilationRing {
+  RING_R6_UNVERIFIED_MIGRANT = 0;
+  RING_R3_PROBATIONARY_RESIDENT = 1;
+  RING_R1_VOUCHED_STEWARD = 2;
+}
+
+message MigrantAssimilationState {
+  string migrant_pairwise_did = 1;
+  AssimilationRing current_ring = 2;
+  double verified_sweat_equity_mj = 3;
+  uint32_t sheltered_days_consecutive = 4;
+  repeated string vouching_steward_dids = 5;
+  uint64_t last_transition_hlc = 6;
+}
+```
+
+#### Acceptance Criteria (Given / When / Then)
+```gherkin
+Scenario: Progressive migrant onboarding from Ring R6 to Ring R3 and Ring R1 across strict layer adjacency
+  Given a MigrationWaveArrivalEvent emitted by col-adversaryd (L7) over l6_l7.sock to col-commonsd (L6) and forwarded over l5_l6.sock to col-kmsd (L5)
+  Then col-kmsd registers the newly arrived migrant in Ring R6 (Unverified Migrant) with unconditional access to Bt survival rations and shelter but 0.0 Exergy Credit overdraft and 0 voting weight
+  And propagates the Ring R6 onboarding state inward via l4_l5.sock -> l3_l4.sock -> l2_l3.sock -> /dev/shm/uhai_telemetry (QUALITY_SIMULATED = 0x01)
+  When Layer 3 attests 7 consecutive days of sheltered homeostasis and 36.0 MJ of completed work bounties
+  Then col-kmsd transitions the migrant's pairwise DID to Ring R3 (Probationary Resident) with a 25.0 Exergy Credit BCC window
+  When 2-of-3 existing Ring R1 stewards co-sign a FROST genesis attestation after 30 days
+  Then col-kmsd issues a BBS+ Steward Credential promoting the resident to Ring R1 (Vouched Steward).
+```
+
+#### Technical Tasks
+- [ ] Scaffold standalone CMake executable target `col_kmsd` (`col-kmsd`) in `core/1_simulation/src/CMakeLists.txt` alongside the 6 existing daemons (`col_telemetryd`, `col_execd`, `col_commonsd`, `col_adversaryd`, `col_meshd`, `col_gatewayd`).
+- [ ] Implement `MigrantAssimilationState` FSM in `col-kmsd` persisted in the encrypted SQLCipher vault, enforcing strict `L7 -> L6 -> L5 -> L4 -> L3 -> L2 -> UHAI` adjacency.
+- [ ] Implement Layer 3 attestation listener (via `l3_l4.sock` $\to$ `l4_l5.sock`) verifying shelter (`SCN-ZETA-LODGE`), kitchen (`SCN-GAMMA-KITCH`), and sweat-equity (`bounty.jsonld`) milestones.
+- [ ] Implement $2\text{-of-}3$ FROST steward vouching ceremony promoting `Ring R3` to `Ring R1`.
+- [ ] Implement Catch2 test suite `test_migration_waves.cpp` asserting zero Sybil voting power for `Ring R6` arrivals, $B_t$ humanitarian floor guarantees, and full `L7 -> L6 -> L5 -> L4 -> L3 -> L2 -> UHAI` traversal.
+
+---
+
+## 10. Epic 6: Layer 6 — Semantic Intent, Knowledge Graphs, The Agora Commons & Companion Gateway (`col-commonsd` & `col-gatewayd`)
 
 ### User Story 6.1: Semantic Intent Parser, W3C JSON-LD Compiler & Calm Technology Read-Back
 **Epic:** Epic 6 (Layer 6: Semantic Intent & Agora)  
@@ -1438,24 +1596,72 @@ Scenario: Ricardian treaty cryptographic verification
 
 ---
 
-## 11. Epic 7: Layer 7 — Legacy Proxy, Tripartite Legal Chassis & Adversarial Municipal Emulation (`col-adversaryd`)
+### User Story 6.6: Layer 6 Semantic Gateway (`col-gatewayd`), Read-Only Cybernetic Hood & Strict Intent U-Turn Enforcement
+**Epic:** Epic 6 (Layer 6: Semantic Intent, Agora & Companion Gateway)  
+**Story ID:** SS-EP6-006  
+**Points:** 8 SP | **Sprint:** Dual Sprint 11 | **Priority:** P0 Critical  
+**Persona:** As a Sovereign Node Steward using the Cadastral Slate Companion App,  
+**Goal:** I want `col-gatewayd` to terminate TLS 1.3 HTTPS/WSS exclusively on port `8443` on VLAN 30, accept signed human intent and governance ratification mutations exclusively at Layer 6 (`POST /api/v1/l6/intent`), enforce strictly read-only diagnostic endpoints across Layers 2, 3, 4, 5, and 7, and guarantee the Strict Intent U-Turn across the daemon mesh,  
+**Benefit:** So that human authorship and `FlowContract` ratifications enter cleanly through Layer 6 semantic translation while preserving Layer 4's blind sandbox, Layer 5's governance supremacy, and total isolation between Layer 4 and Layer 7.
 
-### User Story 7.1: Discrete Event Simulation (DES) Priority-Queue Engine & Configurable Threat Controller (Levels 0–3)
-**Epic:** Epic 7 (Layer 7: Legacy Proxy & Adversary)  
+#### Technical Specifications & Architecture
+- **Reference Specification:** `docs/COMPANION_APP_ARCHITECTURE.md` (V2.0 Authoritative Sovereign Stack Specification).
+- **Daemon & Network (`VLAN 30`, TLS 1.3 Port `8443`):** `col-gatewayd` listens on VLAN 30 (`https://collective.local:8443` and `wss://collective.local:8443/ws/v1`, TLS 1.3 + mDNS `_collective._tcp.local`; unencrypted HTTP port `8080` is permanently disabled), reading dedicated 1:1 SPSC shared-memory rings (`/dev/shm/uhai_telemetry_gateway`, `/dev/shm/uhai_flow_gateway`) mapped with the 192-byte `SharedRingHeader` (`TOTAL_SHM_SIZE = 65728`) to eliminate consumer cursor contention with `col-execd`.
+- **Exclusive Layer 6 Write Ingress (`POST /api/v1/l6/intent`):**
+  - All member interactions—including Agora order placement, spatial work-order designations (`SpatialIntentPayload`), bounty claims, treaty signatures, and human governance ratifications of held Layer 4 `FlowContract` / `[upward-yield]` requests—enter **exclusively at Layer 6** (`POST /api/v1/l6/intent`), authenticated with a Web Crypto Ed25519 signature (`X-Collective-Signature`) and monotonic sequence header (`X-Collective-Sequence`).
+  - Layer 6 (`col-commonsd`) strictly assumes Layer 7 does not exist internally.
+- **Read-Only Cybernetic Hood (Layers 2, 3, 4, 5 & 7 — Superseding Direct `/api/v1/l5/*` Writes):**
+  - `GET /api/v1/l2/telemetry`, `GET /api/v1/l3/ledger`, `GET /api/v1/l4/diagnostics`, `GET /api/v1/l5/governance`, and `GET /api/v1/l7/carapace` (plus 10 Hz `wss://collective.local:8443/ws/v1` streams) are **strictly read-only diagnostic inspection endpoints**.
+  - Any `POST`, `PUT`, `PATCH`, or `DELETE` request targeting `/api/v1/l2/*`, `/api/v1/l3/*`, `/api/v1/l4/*`, `/api/v1/l5/*`, or `/api/v1/l7/*` is immediately rejected by `col-gatewayd` with HTTP `403 Forbidden` / `405 Method Not Allowed`.
+- **The Strict Intent U-Turn & Human Ratification Loop (Zero `l4_l7.sock`):**
+  1. **Downward Intent Flow:** `Human (Web Crypto)` $\to$ `col-gatewayd (:8443)` (`POST /api/v1/l6/intent`) $\to$ `L6 (col-commonsd)` $\to$ `L5 (col-kmsd Governance Validation)` $\to$ `L4 (col-execd Sandboxed Execution)`.
+  2. **Upward Yield & Human Ratification U-Turn:** When a deterministic workflow or `FlowContract` in `L4 (col-execd)` requires human steward ratification or external legacy interaction, it **NEVER** communicates with `L7 (col-adversaryd)`. Instead, `L4` emits a `YIELD_UPWARD_L5` token (`FlowContractStatus::Yielded`) over `/run/collective/ipc/l4_l5.sock` to `L5 (col-kmsd)`. `L5` holds the contract, streams a read-only notification to the Companion App over `wss://collective.local:8443/ws/v1`, and awaits the steward's signed ratification via `POST /api/v1/l6/intent` (`Human -> L6 -> L5`). Once `L6 (col-commonsd)` validates and forwards the signed approval inward to `L5 (col-kmsd)` over `/run/collective/ipc/l5_l6.sock`, `L5` either releases the held `L4` contract (`L5 -> L4`) or, for external statutory/utility actions, yields upward over `/run/collective/ipc/l5_l6.sock` $\to$ `L6 (col-commonsd)` (which applies the Mundane Semantic Camouflage Filter) $\to$ `/run/collective/ipc/l6_l7.sock` $\to$ `L7 (col-adversaryd)` (`Human -> L6 -> L5 -> L4 -> [yield] -> L5 -> L6 -> L7`).
+
+#### Acceptance Criteria (Given / When / Then)
+```gherkin
+Scenario: Read-only Cybernetic Hood rejects direct mutation attempts on Layers 2, 3, 4, 5, and 7
+  Given an authenticated Cadastral Slate session connected to col-gatewayd via TLS 1.3 on port 8443
+  When a client sends a POST, PUT, PATCH, or DELETE request to /api/v1/l4/diagnostics, /api/v1/l5/governance, or /api/v1/l7/carapace
+  Then col-gatewayd immediately rejects the request with HTTP 403 Forbidden or 405 Method Not Allowed
+  And logs an ImmutableHoodViolationAttempt to the security journal
+  And only signed W3C JSON-LD payloads sent to POST /api/v1/l6/intent are forwarded to col-commonsd.
+
+Scenario: Strict Intent U-Turn and L6->L5 human ratification when Layer 4 yields a FlowContract or legacy action
+  Given a steward submitting a signed intent via POST /api/v1/l6/intent on port 8443 that compiles down through L6 -> L5 -> L4
+  When col-execd (L4) reaches a workflow step or FlowContract requiring steward ratification or external statutory filing action
+  Then col-execd never opens a socket to Layer 7 (zero l4_l7.sock exists)
+  And col-execd yields upward (YIELD_UPWARD_L5) over l4_l5.sock to col-kmsd (L5), which notifies the Companion App over WSS :8443
+  When the steward ratifies the held action by submitting a signed approval to POST /api/v1/l6/intent
+  Then col-commonsd (L6) validates and forwards the ratification inward over l5_l6.sock to col-kmsd (L5)
+  And col-kmsd releases the held Layer 4 contract (or yields upward via l5_l6.sock -> col-commonsd -> l6_l7.sock -> col-adversaryd for external legacy filings).
+```
+
+#### Technical Tasks
+- [ ] Implement `col-gatewayd` TLS 1.3 HTTPS/WSS server on VLAN 30 port `8443` with `/dev/shm/uhai_telemetry_gateway` and `/dev/shm/uhai_flow_gateway` SPSC readers (`SharedRingHeader`, `TOTAL_SHM_SIZE = 65728`).
+- [ ] Implement strict HTTP method router enforcing `403 Forbidden` / `405 Method Not Allowed` on any non-`GET`/`HEAD` request to `/api/v1/l2/*`, `/api/v1/l3/*`, `/api/v1/l4/*`, `/api/v1/l5/*`, and `/api/v1/l7/*`.
+- [ ] Implement `POST /api/v1/l6/intent` Web Crypto Ed25519 signature verifier and `/run/collective/ipc/gw_l6.sock` forwarder supporting both new intents and `L6 -> L5` governance ratifications of yielded `FlowContract` records.
+- [ ] Implement `YIELD_UPWARD_L5` state machine (`Human -> L6 -> L5 -> L4 -> [yield] -> L5 -> L6 -> L7`) and add CI test asserting zero `l4_l7.sock` descriptor existence.
+
+---
+
+## 11. Epic 7: Layer 7 — Legacy Proxy, Cooperative Legal Carapace & Demographic Shock Simulation (`col-adversaryd`)
+
+### User Story 7.1: Discrete Event Simulation (DES) Priority-Queue Engine & Configurable Stress Controller (Levels 0–3)
+**Epic:** Epic 7 (Layer 7: Legacy Proxy & Cooperative Legal Carapace)  
 **Story ID:** SS-EP7-001  
 **Points:** 8 SP | **Sprint:** 5 | **Priority:** P0 Critical  
 **Persona:** As an Infrastructure Engineer,  
-**Goal:** I want `col-adversaryd` to simulate hostile external pressures using a priority-queue Discrete Event Simulation (DES) engine with configurable threat levels (0–3),  
-**Benefit:** So that communities can stress-test their physical and financial resilience against real-world municipal warfare before deploying off-grid.
+**Goal:** I want `col-adversaryd` to model external legacy system conditions in good faith using a priority-queue Discrete Event Simulation (DES) engine with configurable stress levels (0–3),  
+**Benefit:** So that cooperative communities can stress-test their physical, legal, and financial resilience against real-world regulatory, tariff, and macroeconomic pressures before deploying off-grid.
 
 #### Technical Specifications & Architecture
-- **Daemon:** `col-adversaryd` scheduled with `nice +10` background priority.
+- **Daemon:** `col-adversaryd` scheduled with `nice +10` background priority (`BOOK_TEAM_DRIFT_REPORT.md` compliant: cooperative, structural, and legal carapace framing; zero malicious or parasitic mechanics).
 - **Simulation Engine:** Temporal event loop using a priority queue sorted by simulated calendar timestamps, driven by a seedable deterministic PRNG (PCG-XSH-RR).
-- **Threat Levels:**
+- **Stress Levels:**
   - `LEVEL_0 (Benign/Subsidized)`: Favorable utility net-metering, minimal building inspections, low banking fees.
   - `LEVEL_1 (Standard Bureaucracy)`: Real-world utility rates, standard commercial bank fees, triennial municipal inspections.
-  - `LEVEL_2 (Hostile Predation)`: Aggressive utility rate spikes (300%), building code compliance orders with 30-day cure periods, merchant payment holds.
-  - `LEVEL_3 (Scorched Earth Municipal Siege)`: Utility disconnect threats, civil injunctions, tax liens, bank account freezes, unannounced multi-agency regulatory raids.
+  - `LEVEL_2 (Acute Regulatory & Tariff Friction)`: Aggressive utility rate spikes (300%), building code compliance orders with 30-day cure periods, merchant payment holds.
+  - `LEVEL_3 (Severe Macroeconomic & Municipal Crisis)`: Utility disconnect notices, civil injunctions, tax liens, bank account freezes, unannounced multi-agency regulatory audits.
 
 ```protobuf
 syntax = "proto3";
@@ -1477,7 +1683,7 @@ message AdversaryConfig {
 
 #### Acceptance Criteria (Given / When / Then)
 ```gherkin
-Scenario: Configurable threat level alters adversarial event frequency
+Scenario: Configurable stress level alters external event frequency deterministically
   Given col-adversaryd configured with ThreatLevel = LEVEL_2_HOSTILE and seed = 1337
   When the simulation advances through 90 virtual calendar days
   Then the DES engine emits exactly 3 surprise utility rate adjustments, 2 building code inspections, and 1 merchant reserve hold
@@ -1486,23 +1692,23 @@ Scenario: Configurable threat level alters adversarial event frequency
 
 #### Technical Tasks
 - [ ] Implement priority-queue Discrete Event Simulation core with PCG-XSH-RR PRNG.
-- [ ] Implement threat level parameter controller (Levels 0–3).
+- [ ] Implement stress level parameter controller (Levels 0–3).
 - [ ] Add unit test verifying bit-exact identical event sequences given identical random seeds.
 
 ---
 
-### User Story 7.2: Fictional Utility Monopolies Emulation (*AmeriGrid*, *MetroPower*, *Keystone Gas & Electric*)
-**Epic:** Epic 7 (Layer 7: Legacy Proxy & Adversary)  
+### User Story 7.2: Legacy Utility Tariff & Curtailment Emulation (*AmeriGrid*, *MetroPower*, *Keystone Gas & Electric*)
+**Epic:** Epic 7 (Layer 7: Legacy Proxy & Cooperative Legal Carapace)  
 **Story ID:** SS-EP7-002  
 **Points:** 7 SP | **Sprint:** 5 | **Priority:** P0 Critical  
 **Persona:** As a Sovereign Node Operator,  
-**Goal:** I want `col-adversaryd` to emulate the predatory billing and curtailment tactics of three fictional US utility monopolies (*AmeriGrid*, *MetroPower*, *Keystone Gas & Electric*),  
-**Benefit:** So that node microgrids learn to anticipate standby fees, demand charges, and grid-tie disconnects.
+**Goal:** I want `col-adversaryd` to emulate the tariff structures, standby fees, and curtailment policies of three fictional regional utility providers (*AmeriGrid*, *MetroPower*, *Keystone Gas & Electric*),  
+**Benefit:** So that node microgrids learn to anticipate standby fees, peak demand charges, and grid-tie disconnects structurally.
 
 #### Technical Specifications & Architecture
-- **Monopoly Behaviors:**
-  - *AmeriGrid:* Imposes high standby/grid-access fees ($50/kW of installed solar), smart meter remote disconnects, and zero net-metering credits.
-  - *MetroPower:* Enforces extreme peak-demand pricing ($1.85/kWh during 4 PM–9 PM) and punitive power-factor surcharges.
+- **Utility Tariff Profiles:**
+  - *AmeriGrid:* Imposes high standby/grid-access fees (\$50/kW of installed solar), smart meter remote disconnects, and zero net-metering credits.
+  - *MetroPower:* Enforces extreme peak-demand pricing (\$1.85/kWh during 4 PM–9 PM) and power-factor surcharges.
   - *Keystone Gas & Electric:* Mandatory fixed delivery charges and natural gas pipeline maintenance riders regardless of zero consumption.
 - **Storage:** Historical billing statements logged to isolated SQLite database at `/var/lib/collective/l7/adversary.db`.
 
@@ -1523,16 +1729,16 @@ Scenario: AmeriGrid peak demand surge and grid-tie curtailment
 
 ---
 
-### User Story 7.3: Hostile Municipal Code & Zoning Enforcement 5-State Finite State Machine (NFPA 855, UPC, NEC)
-**Epic:** Epic 7 (Layer 7: Legacy Proxy & Adversary)  
+### User Story 7.3: Municipal Code & Zoning Compliance 5-State Finite State Machine (NFPA 855, UPC, NEC)
+**Epic:** Epic 7 (Layer 7: Legacy Proxy & Cooperative Legal Carapace)  
 **Story ID:** SS-EP7-003  
 **Points:** 8 SP | **Sprint:** 5 | **Priority:** P0 Critical  
 **Persona:** As a Sovereign Node Operator,  
-**Goal:** I want `col-adversaryd` to model municipal code enforcement through a 5-state finite state machine enforcing NFPA 855 battery limits, UPC greywater rules, and NEC electrical codes,  
-**Benefit:** So that nodes navigate inspections, cure periods, and stop-work orders through legal defense mechanisms.
+**Goal:** I want `col-adversaryd` to model municipal code compliance through a 5-state finite state machine enforcing NFPA 855 battery limits, UPC greywater rules, and NEC electrical codes,  
+**Benefit:** So that nodes navigate inspections, cure periods, and stop-work orders through cooperative legal compliance and physical engineering remedies.
 
 #### Technical Specifications & Architecture
-- **5-State Enforcement FSM:**
+- **5-State Compliance FSM:**
   1. `STATE_INSPECTION_SCHEDULED`: Randomized or complaint-driven notice of inspection.
   2. `STATE_CITATION_ISSUED`: Formal violation notice with 30-day cure clock and civil fines.
   3. `STATE_STOP_WORK_ORDER`: Active red-tag freezing physical construction.
@@ -1540,7 +1746,7 @@ Scenario: AmeriGrid peak demand surge and grid-tie curtailment
   5. `STATE_LEGAL_SEVERANCE`: Civil injunction or property lien issued.
 - **Regulatory Codes:**
   - *NFPA 855:* Stationary Energy Storage Systems (mandating 3-foot clearance from property lines and residential separation).
-  - *Uniform Plumbing Code (UPC):* Prohibitions on gravity-fed unpermitted greywater systems.
+  - *Uniform Plumbing Code (UPC):* Permitting requirements on gravity-fed greywater systems.
   - *National Electrical Code (NEC):* Section 690 rapid shutdown and certified contractor requirements.
 
 #### Acceptance Criteria (Given / When / Then)
@@ -1554,33 +1760,33 @@ Scenario: NFPA 855 battery distance violation citation lifecycle
 ```
 
 #### Technical Tasks
-- [ ] Implement 5-state municipal enforcement FSM with timer triggers.
+- [ ] Implement 5-state municipal compliance FSM with timer triggers.
 - [ ] Implement code validation rulebooks for NFPA 855, UPC, and NEC.
 - [ ] Add integration test verifying stop-work order freezing corresponding Layer 4 WorkTokens.
 
 ---
 
-### User Story 7.4: Predatory Fiat Banking, Stripe/Plaid Mock Microservice & Algorithmic Freezes
-**Epic:** Epic 7 (Layer 7: Legacy Proxy & Adversary)  
+### User Story 7.4: Legacy Fiat Banking Gateway, Stripe/Plaid Mock Microservice & Reserve Holds
+**Epic:** Epic 7 (Layer 7: Legacy Proxy & Cooperative Legal Carapace)  
 **Story ID:** SS-EP7-004  
 **Points:** 7 SP | **Sprint:** 5 | **Priority:** P0 Critical  
 **Persona:** As a Community Steward,  
-**Goal:** I want `col-adversaryd` to simulate predatory fiat banking gateways (Stripe, Plaid, ACH) with realistic account freezes and reserves,  
-**Benefit:** So that the community's legal umbrella anticipates cash-flow shocks and accelerates the untethering of capital.
+**Goal:** I want `col-adversaryd` to simulate legacy commercial banking gateways (Stripe, Plaid, ACH) with realistic algorithmic account holds and rolling reserves,  
+**Benefit:** So that the community's cooperative legal carapace anticipates cash-flow shocks and insulates internal mutual-credit operations from external banking friction.
 
 #### Technical Specifications & Architecture
 - **Mock Microservice:** Embedded HTTP server or direct IPC handler exposing mock Stripe / Plaid endpoints.
-- **Predatory Behaviors:**
-  - 20% rolling reserve holds lasting 180 days on new commercial accounts.
-  - Algorithmic merchant account freezes triggered by rapid transaction volume surges.
-  - 3.5% + $0.30 interchange fees and $15.00 dispute chargeback penalties.
+- **Simulated Banking Friction:**
+  - 20% rolling reserve holds lasting 180 days on new cooperative accounts.
+  - Algorithmic merchant account holds triggered by rapid transaction volume surges.
+  - 3.5% + \$0.30 interchange fees and \$15.00 dispute chargeback penalties.
 
 #### Acceptance Criteria (Given / When / Then)
 ```gherkin
-Scenario: Algorithmic payment gateway freeze simulation
+Scenario: Algorithmic payment gateway reserve hold simulation
   Given a community cooperative selling surplus agricultural produce via the legacy proxy
   When daily fiat revenue exceeds $2,500 across 3 consecutive days
-  Then col-adversaryd triggers a mock Stripe algorithmic freeze holding 100% of fiat funds
+  Then col-adversaryd triggers a mock Stripe algorithmic hold retaining 100% of external fiat funds
   And emits an AccountFreezeEvent with a 14-day document demand notice
   And the sovereign stack maintains internal exergy trading with zero operational impact.
 ```
@@ -1588,17 +1794,17 @@ Scenario: Algorithmic payment gateway freeze simulation
 #### Technical Tasks
 - [ ] Implement mock Stripe / Plaid JSON API responder with configurable failure injection.
 - [ ] Implement rolling reserve and chargeback dispute logic.
-- [ ] Add test asserting that internal Layer 3 ledger balances are 100% insulated from fiat freezes.
+- [ ] Add test asserting that internal Layer 3 ledger balances are 100% insulated from fiat holds.
 
 ---
 
 ### User Story 7.5: Tripartite Inter-Node Legal Chassis & Anti-Consolidation Firewalls
-**Epic:** Epic 7 (Layer 7: Legacy Proxy & Adversary)  
+**Epic:** Epic 7 (Layer 7: Legacy Proxy & Cooperative Legal Carapace)  
 **Story ID:** SS-EP7-005  
 **Points:** 8 SP | **Sprint:** 5 | **Priority:** P0 Critical  
 **Persona:** As a Legal Engineering Specialist,  
 **Goal:** I want `col-adversaryd` to wrap inter-node trade in the Tripartite Legal Chassis and enforce Five Anti-Consolidation Firewalls,  
-**Benefit:** So that physical resource sharing between nodes is legally recognized as non-taxable mutual aid, and single-enterprise liability piercing across nodes is prevented.
+**Benefit:** So that physical resource sharing between nodes is legally recognized as non-taxable cooperative mutual aid, and single-enterprise liability piercing across nodes is prevented.
 
 #### Technical Specifications & Architecture
 - **Volume 1 Reference:** Volume 1 Chapter 8 (`08_layer_7_legacy.tex`).
@@ -1625,18 +1831,18 @@ Scenario: Inter-node timber trade shielded under Subchapter T SSA
 
 ---
 
-### User Story 7.6: Systemic Legal Blinding, Telemetry Obfuscation, Subpoena Immunity & Scenario Omega Decoupling
-**Epic:** Epic 7 (Layer 7: Legacy Proxy & Adversary)  
+### User Story 7.6: Systemic Legal Blinding, Telemetry Standardization, Subpoena Immunity & Scenario Omega Decoupling
+**Epic:** Epic 7 (Layer 7: Legacy Proxy & Cooperative Legal Carapace)  
 **Story ID:** SS-EP7-006  
 **Points:** 7 SP | **Sprint:** 5 | **Priority:** P0 Critical  
 **Persona:** As a Sovereign Node Operator,  
-**Goal:** I want `col-adversaryd` to enforce Systemic Legal Blinding, obfuscate external telemetry, maintain Subpoena Immunity via Data Non-Existence, and execute Scenario Omega terminal shredding,  
-**Benefit:** So that macro-surveillance cannot map the internal collective, subpoenas yield zero internal records, and terminal autarky completely erases the legacy membrane.
+**Goal:** I want `col-adversaryd` to enforce Systemic Legal Blinding, standardize external utility telemetry, maintain Subpoena Immunity via Data Non-Existence, and execute Scenario Omega terminal decoupling,  
+**Benefit:** So that external reporting remains structurally standard, subpoenas yield zero internal member records, and full thermodynamic autarky cleanly retires the legacy membrane.
 
 #### Technical Specifications & Architecture
 - **Systemic Blinding:**
-  - *Cellular Independence:* An "army of unremarkable local co-ops" with banal NAICS codes (1114 agricultural greenhouses, 5415 IT facilities, 2382 electrical contractors).
-  - *Telemetry Obfuscation:* Sanitizes external utility reporting to standard IEEE 1547 net-meter profiles; domestic sub-circuits and battery cell logs are blocked at VLAN 40.
+  - *Cellular Independence:* A federated network of independent local co-ops with standard NAICS classifications (1114 agricultural greenhouses, 5415 IT facilities, 2382 electrical contractors).
+  - *Telemetry Standardization:* Sanitizes external utility reporting to standard IEEE 1547 net-meter profiles; domestic sub-circuits and battery cell logs remain strictly inside VLAN 10/20 and are never replicated to VLAN 40.
   - *Subpoena Immunity via Data Non-Existence:* Layer 7 holds zero DIDs, cryptographic keys, voting records, or exergy balances (*NAACP v. Alabama* defense).
 - **Residual Export Ceiling:**
   $$R_t = \max\left(0, \, A_t - F_t - B_t - C_t - O_t - M_t\right)$$
@@ -1668,6 +1874,70 @@ Scenario: Scenario Omega terminal decoupling sequence
 - [ ] Implement Residual Export Ceiling calculator in C++20.
 - [ ] Implement atomic cryptographic shredding routine (`shred -u` / memory wipe).
 - [ ] Add integration test verifying that Layers 1–6 continue executing following Layer 7 termination.
+
+---
+
+### User Story 7.7: Layer 7 Demographic Shock & Legacy Migration Wave Generator
+**Epic:** Epic 7 (Layer 7: Legacy Proxy & Cooperative Legal Carapace)  
+**Story ID:** SS-EP7-007  
+**Points:** 8 SP | **Sprint:** Dual Sprint 13 | **Priority:** P0 Critical  
+**Persona:** As a Bioregional Resilience Planner,  
+**Goal:** I want `col-adversaryd`'s Discrete Event Simulation (DES) engine to schedule macroscopic demographic migration waves triggered by simulated external fiat inflation, housing displacement, and regional grid failure events, emitting `MigrationWaveArrivalEvent` packets strictly inward across the Layer 6 boundary (`/run/collective/ipc/l6_l7.sock`),  
+**Benefit:** So that sovereign enclaves can stress-test their physical shelter capacity (`SCN-ZETA-LODGE`), commons kitchen caloric reserves (`SCN-GAMMA-KITCH`), and progressive Trust Ring ($R_6 \to R_1$) onboarding protocols (`SS-EP5-007`) under realistic population shocks without violating DMZ VLAN 40 isolation or layer adjacency.
+
+#### Technical Specifications & Architecture
+- **SDD & Horizon Alignment:** `SCN-ZETA-LODGE`, `SCN-GAMMA-KITCH`, `SCN-UPSILON-SHOCK`, and Horizon Pillar 5 (*Migration Waves & Legacy NPCs*).
+- **Macroeconomic Trigger Model in `col-adversaryd`:**
+  - The DES priority queue tracks a regional **Legacy Distress Index** $\mathcal{D}_{\mathrm{legacy}}(t) \in [0.0, 1.0]$ driven by simulated fiat CPI inflation spikes, regional utility blackouts (*AmeriGrid* / *MetroPower* load shedding), and Stress Level settings (`LEVEL_1` through `LEVEL_3`).
+  - When $\mathcal{D}_{\mathrm{legacy}}(t)$ crosses configurable thresholds (or at deterministic PRNG intervals seeded by `random_seed`), `col-adversaryd` schedules a `MigrationWaveArrivalEvent` containing cohort count $N_{\mathrm{migrants}} \in [1, 12]$, baseline physiological caloric/water deficit metadata, initial stress index, and probationary trust ring tag (`RING_R6_UNVERIFIED_MIGRANT`).
+- **Strict Layer Adjacency Boundary Propagation (`L7 -> L6 -> L5 -> L4 -> L3 -> L2 -> UHAI`):**
+  - Because `col-adversaryd` is isolated in DMZ VLAN 40, it **never** accesses `/run/collective/ipc/bus.sock`, `/dev/shm/uhai_*`, `col-kmsd`, or Oasis directly.
+  - Instead, `col-adversaryd` (L7) emits `MigrationWaveArrivalEvent` **exclusively** inward to Layer 6 (`col-commonsd`) over `/run/collective/ipc/l6_l7.sock` $\to$ Layer 6 compiles the humanitarian intake intent and forwards over `/run/collective/ipc/l5_l6.sock` to Layer 5 (`col-kmsd`, which initializes ephemeral `Ring R6` guest credentials per `SS-EP5-007`) $\to$ Layer 4 (`col-execd` over `/run/collective/ipc/l4_l5.sock`, scheduling baseline $B_t$ shelter/ration workflows) $\to$ Layer 3 (`col-storaged` over `/run/collective/ipc/l3_l4.sock`, logging provisional homeostatic reserves) $\to$ Layer 2 (`col-meshd` over `/run/collective/ipc/l2_l3.sock`) $\to$ UHAI shared-memory ring (`/dev/shm/uhai_telemetry`, `QUALITY_SIMULATED = 0x01`) for Layer 1b (Oasis) consumption.
+
+```cpp
+namespace collective::uhai {
+
+// 32-byte payload (alignas(8)) with zero implicit compiler padding (-Wpadded -Werror)
+struct alignas(8) MigrationWaveArrivalEvent {
+    uint64_t timestamp_hlc;          // 8B: HLC timestamp of wave arrival
+    uint32_t wave_id;                // 4B: Monotonic wave sequence identifier
+    uint32_t deterministic_seed;     // 4B: PRNG sub-seed for reproducible cohort traits
+    float    legacy_distress_index;  // 4B: Macro distress scalar [0.0 - 1.0]
+    float    initial_stress_mean;    // 4B: Baseline cohort stress scalar [0.50 - 0.85]
+    float    caloric_deficit_kcal;   // 4B: Immediate per-capita caloric need upon arrival
+    uint16_t cohort_size;            // 2B: Number of arriving migrants (e.g., 1..12)
+    uint8_t  initial_trust_ring;     // 1B: Defaults to 6 (Ring R6: Unverified Migrant)
+    uint8_t  trigger_reason_code;    // 1B: 1=FiatInflation, 2=GridBlackout, 3=ClimateShock
+};
+static_assert(sizeof(MigrationWaveArrivalEvent) == 32,
+              "MigrationWaveArrivalEvent must remain exactly 32 bytes.");
+
+// 64-byte cache-line-isolated UHAI / IPC slot wrapper (alignas(64))
+struct alignas(64) MigrationWaveSlot {
+    MigrationWaveArrivalEvent event; // 32B payload
+    uint8_t                   pad[32]; // 32B explicit cache-line padding
+};
+static_assert(sizeof(MigrationWaveSlot) == 64,
+              "MigrationWaveSlot must occupy exactly 1 cache line (64 bytes).");
+
+} // namespace collective::uhai
+```
+
+#### Acceptance Criteria (Given / When / Then)
+```gherkin
+Scenario: Regional grid failure and fiat inflation spike trigger a deterministic Migration Wave across strict layer adjacency
+  Given col-adversaryd running in DMZ VLAN 40 with ThreatLevel = LEVEL_2_HOSTILE and random_seed = 42
+  When a simulated regional utility blackout and fiat inflation event pushes Legacy Distress Index >= 0.65
+  Then col-adversaryd schedules and emits a 32-byte MigrationWaveArrivalEvent (wrapped in a 64-byte MigrationWaveSlot) with initial_trust_ring = 6 (R6)
+  And dispatches the event exclusively over l6_l7.sock to col-commonsd (L6) with zero direct access to bus.sock or /dev/shm/uhai_telemetry
+  And the event propagates strictly inward across L6 (col-commonsd) -> L5 (col-kmsd, provisioning Ring R6 DIDs per SS-EP5-007) -> L4 (col-execd) -> L3 (col-storaged) -> L2 (col-meshd) -> UHAI (/dev/shm/uhai_telemetry, QUALITY_SIMULATED = 0x01) for Layer 1b SITL consumption.
+```
+
+#### Technical Tasks
+- [ ] Implement `LegacyDistressIndex` accumulator and stochastic wave scheduler inside `col-adversaryd`'s DES priority queue.
+- [ ] Define and serialize the 32-byte `MigrationWaveArrivalEvent` (`alignas(8)`) and 64-byte `MigrationWaveSlot` (`alignas(64)`) in `core/1_simulation/src/uhai/uhai_ring_buffer.hpp` verified under `-Wpadded -Werror`.
+- [ ] Wire strict inward adjacency handlers across `l6_l7.sock` (`col-commonsd`) $\to$ `l5_l6.sock` (`col-kmsd` `SS-EP5-007`) $\to$ `l4_l5.sock` (`col-execd`) $\to$ `l3_l4.sock` (`col-storaged`) $\to$ `l2_l3.sock` (`col-meshd`) $\to$ `/dev/shm/uhai_telemetry`.
+- [ ] Add deterministic Catch2 unit and integration tests in `test_migration_waves.cpp` verifying bit-exact `MigrationWaveArrivalEvent` emission for a fixed PRNG seed and full `L7 -> L6 -> L5 -> L4 -> L3 -> L2 -> UHAI` traversal.
 
 ---
 
@@ -1825,64 +2095,244 @@ Scenario: Clean unmount and memory leak verification during Scenario Omega
 **Story ID:** SS-EP8-006  
 **Points:** 7 SP | **Sprint:** 6 | **Priority:** P0 Critical  
 **Persona:** As a Quality Engineer,  
-**Goal:** I want a compile-time static analysis tool and CI linter enforcing the Scope Boundary Rules (SBR-1 through SBR-5) and Linux cgroups memory ceilings,  
-**Benefit:** So that no developer or agent can inadvertently re-introduce game mechanics, monolithic threading, or unbounded memory leaks.
+**Goal:** I want a compile-time static analysis tool and CI linter enforcing the Scope Boundary Rules (SBR-1 through SBR-5), `-Wpadded -Werror` cache-line isolation, and Linux cgroups memory ceilings,  
+**Benefit:** So that no developer or agent can inadvertently re-introduce game mechanics, monolithic threading, false-sharing memory layouts, or unbounded memory leaks.
 
 #### Technical Specifications & Architecture
 - **Script:** `scripts/lint_anti_bleed.sh` executing in CI:
-  1. Forbids imports of `oasis/*`, `SDL2/*`, `webgpu/*`, `dawn/*` inside `src/core/` and `src/daemons/`.
-  2. Forbids occurrences of game engine threading, frame budget ceilings, volumetric world types, and player kinematics in stack documentation and headers.
-  3. Validates compile-time static assertions on memory layouts:
-     - `static_assert(sizeof(TelemetrySample) == 24)`
-     - `static_assert(sizeof(ActuatorCommand) == 80)`
-     - `static_assert(sizeof(StateDeltaOp) == 24)`
-  4. Enforces Linux systemd / cgroups ceilings: total stack $\le 320\text{ MB}$ RSS, Layer 7 $\le 24\text{ MB}$ RSS.
+  1. Forbids imports of `oasis/*`, `SDL2/*`, `SDL3/*`, `webgpu/*`, `dawn/*` inside `src/core/` and `src/daemons/`.
+  2. Forbids occurrences of game engine threading, frame budget ceilings, volumetric world types, and player kinematics in stack documentation and headers, as well as deprecated adversarial lore terminology flagged in `docs/BOOK_TEAM_DRIFT_REPORT.md`.
+  3. Validates compile-time static assertions and `-Wpadded -Werror` cache-line-isolated memory layouts in `core/1_simulation/src/uhai/uhai_ring_buffer.hpp`:
+     - `static_assert(sizeof(TelemetrySample) == 32)` & `static_assert(sizeof(TelemetrySlot) == 64)`
+     - `static_assert(sizeof(SharedRingHeader) == 192)` & `static_assert(TOTAL_SHM_SIZE == 65728)`
+     - `static_assert(sizeof(SpatialIntentPayload) == 264)` & `static_assert(sizeof(SpatialIntentSlot) == 320)`
+     - `static_assert(sizeof(FlowContract) == 64)` & `static_assert(sizeof(FlowContractSlot) == 64)`
+     - `static_assert(sizeof(MigrationWaveArrivalEvent) == 32)` & `static_assert(sizeof(MigrationWaveSlot) == 64)`
+     - `static_assert(sizeof(ActuatorCommand) == 80)` & `static_assert(sizeof(StateDeltaOp) == 24)`
+  4. Enforces Linux systemd / cgroups ceilings: total 8-daemon stack $\le 320\text{ MB}$ RSS, Layer 7 $\le 24\text{ MB}$ RSS, and zero `l4_l7.sock` descriptor existence.
 
 #### Acceptance Criteria (Given / When / Then)
 ```gherkin
-Scenario: CI linter catches prohibited game mechanic import
-  Given a pull request introducing client graphics or frame rate constraints into src/core/
-  When scripts/lint_anti_bleed.sh runs in CI
-  Then the build immediately fails with a descriptive boundary violation error
-  And blocks merge until the code conforms to the Scope Boundary Rules.
+Scenario: CI linter catches prohibited game mechanic import or UHAI struct padding drift
+  Given a pull request introducing client graphics or breaking -Wpadded -Werror alignment in uhai_ring_buffer.hpp
+  When scripts/lint_anti_bleed.sh and the CMake build run in CI
+  Then the build immediately fails with a descriptive boundary or static_assert violation error
+  And blocks merge until the code conforms to the Scope Boundary Rules and cache-line layout invariants.
 ```
 
 #### Technical Tasks
 - [ ] Implement `scripts/lint_anti_bleed.sh` using `ripgrep` and AST regexes.
-- [ ] Add static assertions to core C++20 header files.
-- [ ] Configure cgroups v2 resource ceiling profiles for systemd units.
+- [ ] Verify all `static_assert` and `alignas(64)` slot invariants in `core/1_simulation/src/uhai/uhai_ring_buffer.hpp` under `-Wpadded -Werror`.
+- [ ] Configure cgroups v2 resource ceiling profiles for all 8 systemd units (`col-telemetryd`, `col-meshd`, `col-storaged`, `col-execd`, `col-kmsd`, `col-commonsd`, `col-adversaryd`, `col-gatewayd`).
 
 ---
 
-## 13. Quality Assurance Matrix, Definition of Ready, Definition of Done & Ratification Sign-Off
+## 13. Epic 9: Shared Virtual Landscape (`Arcadia server-01`) & Mandatory Milestone Epoch Synchronization (`col-meshd`, `col-storaged`, `col-execd`)
 
-### 13.1. Infrastructure Definition of Ready (DoR) — 6 Criteria
+### User Story 9.1: Voluntary Shared Landscape Delta Relay (`col-meshd` & `col-storaged`)
+**Epic:** Epic 9 (Shared Virtual Landscape & Mandatory Milestone Epoch Synchronization)  
+**Story ID:** SS-EP9-001  
+**Points:** 8 SP | **Sprint:** Dual Sprint 14 | **Priority:** P0 Critical  
+**Persona:** As a Federated Enclave Steward on `Arcadia (server-01)`,  
+**Goal:** I want `col-meshd` and `col-storaged` to synchronize signed coarse terrain and infrastructure CRDT deltas across peers voluntarily opted into the `Arcadia (server-01)` federation namespace while maintaining 100% headless domain purity,  
+**Benefit:** So that autonomous nodes can collaboratively reshape a shared persistent bioregional landscape (swales, microgrid interties, coppice zones, timber frames) without introducing a single line of rendering, shader, or camera code into the Sovereign Stack daemons.
+
+#### Technical Specifications & Architecture
+- **SDD & Horizon Alignment:** `SCN-ETA-COPPICE`, `SCN-XI-ARCH`, `SCN-BETA-TRANS`, and Horizon Pillar 6 (*The Shared Virtual Landscape & Epoch Synchronization*).
+- **Voluntary Federation Namespace (`collective.arcadia.server-01`):**
+  - Participation is strictly opt-in based on willing voluntariness. Nodes subscribe to the Reticulum multicast group hash $\mathrm{Hash}_{128}(\text{"collective.arcadia.server-01"})$ in `col-meshd`.
+  - Local-only (`SOLO_AUTARKIC`) enclaves that do not opt in experience zero external state synchronization overhead.
+- **Headless Coarse Cadastral CRDT Deltas (SBR-1 & SBR-3 Compliant):**
+  - `col-storaged` stores and replicates only **abstract cadastral/thermodynamic infrastructure state** via 24-byte `StateDeltaOp` CRDT operations (e.g., hydrological swale retention capacity in liters, solar array nameplate watts, timber shelter thermal conductance $U$-value, coppice biomass inventory).
+  - Zero GPU meshes, shader uniforms, texture coordinates, or camera matrices ever cross `l2_l3.sock` or Reticulum radio packets; external SITL clients (Oasis) independently project these headless CRDT state records into their local 3D visualizers across the UHAI ring buffer.
+- **Build & Test Scaffolding (`core/1_simulation/src/CMakeLists.txt`):** Scaffolds standalone C++20 daemon target `col_storaged` (`col-storaged`) alongside `col_kmsd` and the 6 existing daemons in `core/1_simulation/src/CMakeLists.txt`, plus Catch2 verification target `test_arcadia_epoch_sync.cpp`.
+
+```protobuf
+syntax = "proto3";
+package collective.arcadia;
+
+message LandscapeCadastralDelta {
+  string federation_namespace = 1; // e.g. "arcadia.server-01"
+  uint64_t epoch_id = 2;
+  uint64_t hlc_timestamp = 3;
+  uint32_t parcel_region_id = 4;
+  bytes crdt_delta_ops = 5;        // Packed 24-byte StateDeltaOp array
+  bytes steward_ed25519_sig = 6;   // Originating node signature
+}
+```
+
+#### Acceptance Criteria (Given / When / Then)
+```gherkin
+Scenario: Voluntary shared landscape delta replication across Arcadia (server-01) peers
+  Given Node A and Node B voluntarily subscribed to the "arcadia.server-01" namespace in col-meshd
+  And Node C operating in SOLO_AUTARKIC local-only standalone mode
+  When Node A commits a hydrological swale infrastructure mutation (+5,000L water retention capacity) in col-storaged
+  Then col-meshd relays the signed LandscapeCadastralDelta to Node B within <= 250 ms
+  And Node B's col-storaged merges the CRDT delta deterministically and notifies its local UHAI ring buffer
+  And Node C receives zero packets from the arcadia.server-01 namespace
+  And scripts/lint_anti_bleed.sh confirms zero graphics or rendering symbols in col-meshd and col-storaged.
+```
+
+#### Technical Tasks
+- [ ] Scaffold standalone CMake executable target `col_storaged` (`col-storaged`) in `core/1_simulation/src/CMakeLists.txt` alongside `col_kmsd` and the 6 existing daemons (`col_telemetryd`, `col_execd`, `col_commonsd`, `col_adversaryd`, `col_meshd`, `col_gatewayd`).
+- [ ] Implement opt-in Reticulum group subscription for `arcadia.server-01` in `col-meshd`.
+- [ ] Implement `LandscapeCadastralDelta` serializer/deserializer wrapping 24-byte `StateDeltaOp` batches in `col-storaged`.
+- [ ] Implement UHAI `/dev/shm/uhai_flow_execd` and `/dev/shm/uhai_flow_gateway` projection feed for verified peer cadastral deltas.
+- [ ] Add multi-node Catch2 test in `test_arcadia_epoch_sync.cpp` verifying CRDT convergence across opted-in peers and total isolation of standalone `SOLO_AUTARKIC` nodes.
+
+---
+
+### User Story 9.2: Temporal Flow Contract HLC Pacing & Mandatory Milestone Barrier (`col-execd` & `col-storaged`)
+**Epic:** Epic 9 (Shared Virtual Landscape & Mandatory Milestone Epoch Synchronization)  
+**Story ID:** SS-EP9-002  
+**Points:** 8 SP | **Sprint:** Dual Sprint 14 | **Priority:** P0 Critical  
+**Persona:** As a Distributed Simulation & Systems Architect,  
+**Goal:** I want `col-execd` and `col-storaged` to evaluate canonical 64-byte `FlowContract` streams (`uhai_ring_buffer.hpp`) using HLC logical tick timestamps across arbitrary local time-warp multipliers ($1\times$, $10\times$, $100\times$) while enforcing a hard cryptographic **Mandatory Milestone Barrier** at `EPOCH_BOUNDARY_TICKS = 864,000` (30 simulated days) with a $\le 1\text{ tick}$ **`SOLO_AUTARKIC` Zero-Peer Fast-Path**,  
+**Benefit:** So that stewards can accelerate local simulation time to complete multi-day infrastructural tasks without breaking causal economic reality across the multi-player `Arcadia (server-01)` mesh, while solo autarkic players never stall at end-of-month boundaries.
+
+#### Technical Specifications & Architecture
+- **Horizon Alignment:** Horizon Pillar 4 (*Simulation Temporal Controls / Time Warp*) and Horizon Pillar 6 (*Mandatory Milestone Epoch Synchronization*).
+- **Time-Warp Relativity Resolution via Canonical 64-Byte `FlowContract` & HLC Logical Ticks:**
+  - All bilateral resource flows use the canonical 64-byte `FlowContract` struct (`alignas(8)`, `static_assert(sizeof(FlowContract) == 64)`) wrapped in a 64-byte cache-line-isolated `FlowContractSlot` (`alignas(64)`) in `core/1_simulation/src/uhai/uhai_ring_buffer.hpp` (`start_logical_tick`, `end_logical_tick`, `rate_per_tick`).
+  - When a local SITL client (Oasis) adjusts its simulation speed (`[ || Pause ]`, `[ > 1x ]`, `[ >> 10x ]`, `[ >>> 100x ]`), `col-execd` and `col-storaged` integrate resource flows ($\Delta V = \int (\Phi_{in} - \Phi_{out}) \lambda_{ERC} \, d\tau_{\mathrm{logical}}$) strictly over logical HLC ticks $\tau_{\mathrm{logical}}$, dynamically batching UHAI ring buffer reads so a node running at $100\times$ produces the exact same thermodynamic integral over 30 simulated days as a node running at $1\times$.
+- **The Mandatory Milestone Barrier (`EPOCH_BOUNDARY_TICKS = 864,000`):**
+  - Each Epoch $E_k$ spans exactly **`EPOCH_BOUNDARY_TICKS = 864,000`** logical ticks ($30\text{ simulated days} \times 28,800\text{ logical ticks/day}$ at $20\text{ ticks/sim-minute}$).
+  - When a fast-forwarded node's logical clock reaches $E_k \cdot 864,000$, `col-execd` locks the epoch barrier and **halts further logical HLC tick advancement** into Epoch $E_{k+1}$ until `col-storaged` settles `FlowContract` obligations and emits an `EpochReconciledAckPayload` / `EpochBarrierReleaseToken`.
+- **The `SOLO_AUTARKIC` Zero-Peer Fast-Path ($\le 1\text{ tick}$):**
+  - When a node operates in `SOLO_AUTARKIC` mode (`active_peer_count == 0`, or zero federated peers in the `arcadia.server-01` lease set), reaching `EPOCH_BOUNDARY_TICKS = 864,000` **immediately self-signs** its local `EpochMerkleCommit` and emits `EpochReconciledAckPayload` (`BARRIER_RELEASED`) within **$\le 1\text{ tick}$**, completely bypassing `BARRIER_AWAITING_PEERS` and the straggler grace timer $\Delta t_{\mathrm{grace}}$ so solo players never freeze at the end of a month.
+
+```cpp
+namespace collective::epoch {
+
+inline constexpr uint64_t EPOCH_BOUNDARY_TICKS = 864000ULL; // 30 simulated days (28,800 ticks/day)
+
+enum class BarrierStatus : uint8_t {
+    EPOCH_RUNNING            = 0,
+    BARRIER_AWAITING_PEERS   = 1,
+    BARRIER_RECONCILING_CRDT = 2,
+    BARRIER_RELEASED         = 3
+};
+
+struct alignas(8) TimeScaleAndBarrierState {
+    uint64_t current_epoch_id;        // 8B: Active simulated month / epoch index
+    uint64_t current_logical_tick;    // 8B: Monotonic logical tick within current epoch
+    uint64_t epoch_boundary_ticks;    // 8B: Hard ceiling per epoch (864,000 logical ticks)
+    uint32_t time_warp_multiplier;    // 4B: 0 (Paused), 1, 10, or 100
+    BarrierStatus barrier_status;     // 1B: Current Mandatory Milestone state
+    uint8_t  quorum_peers_ready;      // 1B: Count of Arcadia peers at the barrier
+    uint16_t active_peer_count;       // 2B: 0 = SOLO_AUTARKIC fast-path (<= 1 tick release)
+};
+static_assert(sizeof(TimeScaleAndBarrierState) == 32, "TimeScaleAndBarrierState must remain 32 bytes.");
+
+} // namespace collective::epoch
+```
+
+#### Acceptance Criteria (Given / When / Then)
+```gherkin
+Scenario: Node running at 100x Time Warp on Arcadia (server-01) halts at EPOCH_BOUNDARY_TICKS = 864,000
+  Given Node A running local simulation at 100x time-warp and Node B running at 1x real-time on Arcadia (server-01) (active_peer_count = 2)
+  And an active 64-byte FlowContract streaming 500 Watts of solar exergy from Node A to Node B
+  When Node A's logical HLC clock reaches EPOCH_BOUNDARY_TICKS = 864,000 (End of Month 1) ahead of Node B
+  Then col-execd on Node A immediately transitions BarrierStatus to BARRIER_AWAITING_PEERS
+  And halts Node A's simulation advancement into Month 2 while buffering outbound FlowContract slots in col-meshd
+  When Node B reaches 864,000 logical ticks and both nodes reconcile their Month 1 Merkle roots
+  Then col-storaged emits EpochReconciledAckPayload and unlocks Epoch 2 for both nodes simultaneously.
+
+Scenario: SOLO_AUTARKIC Zero-Peer Fast-Path releases the epoch barrier in <= 1 tick
+  Given a standalone node operating in SOLO_AUTARKIC mode (active_peer_count == 0) at 100x time-warp
+  When the node's logical HLC clock reaches EPOCH_BOUNDARY_TICKS = 864,000
+  Then col-storaged immediately self-signs its EpochMerkleCommit without waiting for delta_t_grace
+  And emits EpochReconciledAckPayload transitioning BarrierStatus to BARRIER_RELEASED within <= 1 tick.
+```
+
+#### Technical Tasks
+- [ ] Implement HLC logical-tick integrator for canonical 64-byte `FlowContract` (`FlowContractSlot`) in `col-storaged` decoupled from wall-clock frame rate.
+- [ ] Implement `TimeScaleAndBarrierState` shared-memory control block with `EPOCH_BOUNDARY_TICKS = 864,000` and the `SOLO_AUTARKIC` Zero-Peer Fast-Path (`active_peer_count == 0` $\to$ $\le 1\text{ tick}$ release).
+- [ ] Implement hard HLC tick gate in `col-execd` blocking workflow and tick progression past `864,000` ticks until `BARRIER_RELEASED`.
+- [ ] Add Catch2 tests in `test_arcadia_epoch_sync.cpp` verifying identical PoTW exergy integrals at $1\times$, $10\times$, and $100\times$ multipliers, multi-peer barrier halting, and $\le 1\text{ tick}$ `SOLO_AUTARKIC` fast-path release.
+
+---
+
+### User Story 9.3: Asynchronous Epoch Merkle Reconciliation & Straggler Quorum Grace Protocol
+**Epic:** Epic 9 (Shared Virtual Landscape & Mandatory Milestone Epoch Synchronization)  
+**Story ID:** SS-EP9-003  
+**Points:** 8 SP | **Sprint:** Dual Sprint 14 | **Priority:** P0 Critical  
+**Persona:** As a Bioregional Settlement Steward,  
+**Goal:** I want `col-storaged` and `col-meshd` to execute an end-of-month (`EPOCH_BOUNDARY_TICKS = 864,000`) CRDT state Merkle root consensus and Pairwise Bilateral Clearing Channel (BCC) settlement across `Arcadia (server-01)` with delay-tolerant straggler grace windows and a `SOLO_AUTARKIC` zero-peer fast-path,  
+**Benefit:** So that active federated nodes achieve communal economic alignment at every Mandatory Milestone while offline or intermittent nodes are gracefully isolated into delay-tolerant escrows without stalling the bioregional server, and solo autarkic enclaves advance instantaneously.
+
+#### Technical Specifications & Architecture
+- **SDD & Horizon Alignment:** `SCN-BETA-TRANS`, `SCN-OMICRON-KIN`, Quality Gate G2 (*Asynchronous Convergence*), and Horizon Pillar 6 (*Epoch Sync*).
+- **Epoch Barrier Reconciliation Protocol (`EPOCH_BOUNDARY_TICKS = 864,000`):**
+  1. **`SOLO_AUTARKIC` Zero-Peer Fast-Path (`active_peer_count == 0`):** If the node has zero active federated peers in `arcadia.server-01`, `col-storaged` applies continuous exponential demurrage ($V(t) = V_0 e^{-\delta \Delta \tau}$), self-signs the `EpochMerkleCommit` for `boundary_hlc_tick = E_k * 864,000`, persists the checkpoint to RocksDB/IPLD, and emits `EpochReconciledAckPayload` in **$\le 1\text{ tick}$** with zero network wait.
+  2. **Phase 1 — Federated Milestone Arrival & Merkle Broadcast (`active_peer_count >= 1`):** When a federated node reaches `EPOCH_BOUNDARY_TICKS = 864,000` for Epoch $E_k$, `col-storaged` freezes Epoch $E_k$ ledger mutations, applies continuous exponential demurrage and Johnson's BCC cycle-canceling pass (`SS-EP3-005`) over settled 64-byte `FlowContract` records, and broadcasts a signed `EpochMerkleCommit` over `col-meshd`.
+  3. **Phase 2 — Active Quorum Settlement ($\le 2.5\text{ s}$):** Once all active online peers in the `arcadia.server-01` lease set publish matching CRDT state roots (or exchange missing `StateDeltaOp` ranges to converge), `col-storaged` finalizes the Epoch $E_k$ checkpoint block in RocksDB/IPLD and emits `EpochReconciledAckPayload`.
+  4. **Phase 3 — Straggler Quorum Grace Window & Escrow Isolation:** If an opted-in peer $u_{\mathrm{offline}}$ has not reached `EPOCH_BOUNDARY_TICKS = 864,000` after the configurable grace window $\Delta t_{\mathrm{grace}}$ (e.g., disconnected radio link or dormant player), `col-storaged` freezes $u_{\mathrm{offline}}$'s bilateral 64-byte `FlowContract` streams at their last cryptographically attested HLC tick, escrows any pending credit balances in a non-punitive **Dormant Epoch Escrow**, and allows the active $\ge 2/3$ quorum to advance into Epoch $E_{k+1}$. When $u_{\mathrm{offline}}$ reconnects, it replays Epoch $E_k$ deltas deterministically via `col-meshd`'s DTN spool (`SS-EP2-003`) before joining the active epoch.
+
+```protobuf
+syntax = "proto3";
+package collective.epoch;
+
+message EpochMerkleCommit {
+  string federation_namespace = 1;  // "arcadia.server-01" or "solo.autarkic"
+  uint64_t epoch_id = 2;
+  uint64_t boundary_hlc_tick = 3;   // E_k * 864,000
+  bytes crdt_state_merkle_root = 4; // 32-byte BLAKE3 Merkle root of L3 ledger + landscape
+  bytes bcc_clearing_digest = 5;    // 32-byte digest of settled bilateral channel balances
+  string node_did = 6;
+  bytes ed25519_signature = 7;
+}
+```
+
+#### Acceptance Criteria (Given / When / Then)
+```gherkin
+Scenario: 4-of-5 Arcadia peers reconcile Epoch 1 at 864,000 ticks while 1 offline straggler is gracefully escrowed
+  Given 5 nodes opted into "arcadia.server-01" where Nodes 1..4 reach Epoch 1 EPOCH_BOUNDARY_TICKS = 864,000
+  And Node 5 is offline due to a simulated radio blackout
+  When the straggler grace window expires on Nodes 1..4
+  Then col-storaged on Nodes 1..4 escrows Node 5's bilateral 64-byte FlowContract balances at Node 5's last attested HLC tick
+  And Nodes 1..4 exchange EpochMerkleCommit messages, converge to an identical 32-byte BLAKE3 Merkle root within <= 2.5 seconds, and advance to Epoch 2
+  When Node 5 comes back online 24 hours later
+  Then col-meshd flushes the spooled Epoch 1 deltas to Node 5 and reconciles its state without ledger fork or credit loss.
+```
+
+#### Technical Tasks
+- [ ] Implement `EpochMerkleCommit` BLAKE3 state-trie accumulator and gossip handler across `col-storaged` and `col-meshd`.
+- [ ] Implement end-of-epoch (`EPOCH_BOUNDARY_TICKS = 864,000`) automated demurrage + BCC cycle-canceling settlement trigger over 64-byte `FlowContract` records, including the $\le 1\text{ tick}$ `SOLO_AUTARKIC` Zero-Peer Fast-Path (`active_peer_count == 0`).
+- [ ] Implement Straggler Grace Timer and Dormant Epoch Escrow isolation logic so offline nodes never permanently deadlock active `server-01` peers.
+- [ ] Add 5-node partition/straggler and `SOLO_AUTARKIC` fast-path tests in `test_arcadia_epoch_sync.cpp` asserting $\le 2.5\text{ s}$ quorum settlement, $\le 1\text{ tick}$ solo release, and deterministic straggler catch-up.
+
+---
+
+## 14. Quality Assurance Matrix, Definition of Ready, Definition of Done & Ratification Sign-Off
+
+### 14.1. Infrastructure Definition of Ready (DoR) — 6 Criteria
 A user story in the Sovereign Stack is marked **READY** for sprint backlog ingestion if and only if it satisfies all 6 criteria:
-1. **Mathematical / Protocol Formulation:** All equations (minting, decay, routing, clearing) are explicitly stated with defined units and variable constraints.
+1. **Mathematical / Protocol Formulation:** All equations (minting, decay, routing, clearing, HLC epoch pacing) are explicitly stated with defined units and variable constraints.
 2. **Interface Alignment:** Inter-layer IPC messages and binary wire formats (Cap'n Proto / Protobuf / C++20 standard layout) are defined with explicit byte alignments.
 3. **Hardware / OS Specificity:** Target hardware registers, serial baud rates, Linux kernel subsystems (`epoll`, `netlink`, `cgroups`), or RTOS APIs are specified.
 4. **Hermetic Test Scenario:** A Gherkin acceptance scenario (Given / When / Then) is articulated with quantitative pass/fail thresholds.
-5. **Anti-Bleed Boundary Conformance:** Verified free of client-side graphics rendering, game loop threads, and Oasis gameplay semantics.
-6. **SDD Scenario Tracing:** Direct link to one of the 24 canonical SDD scenarios in `docs/scenarios/` establishing end-to-end provenance.
+5. **Anti-Bleed & Drift Boundary Conformance:** Verified free of client-side graphics rendering, game loop threads, Oasis gameplay semantics, and deprecated adversarial lore terminology flagged in `docs/BOOK_TEAM_DRIFT_REPORT.md`.
+6. **SDD & Horizon Scenario Tracing:** Direct link to one of the 24 canonical SDD scenarios in `docs/scenarios/` or the 6 Horizon Pillars in `HORIZON_ROADMAP.md` establishing end-to-end provenance.
 
 ---
 
-### 13.2. Infrastructure Definition of Done (DoD) — 10 Strict Invariants
+### 14.2. Infrastructure Definition of Done (DoD) — 10 Strict Invariants
 A user story or pull request in the Sovereign Stack is marked **DONE** if and only if it satisfies all 10 invariants:
 1. **Autonomous Daemon Conformance:** Operates within an autonomous daemon (`col-*d`) with its own event loop; zero coupling to monolithic thread pools or game loops.
 2. **Dedicated Storage Strategy:** State is persisted to the layer's dedicated storage engine; zero unauthorized cross-database foreign keys.
-3. **Strict Adjacency Enforced:** State transitions communicate exclusively with adjacent layers ($L_{N \pm 1}$) across Unix Domain Sockets; zero layer skipping.
+3. **Strict Adjacency & Intent U-Turn Enforced:** State transitions communicate exclusively with adjacent layers ($L_{N \pm 1}$) across Unix Domain Sockets; zero `l4_l7.sock`; external human intents enter exclusively via Layer 6 (`POST /api/v1/l6/intent`).
 4. **Hermetic Unit Test Coverage:** $\ge 90\%$ branch test coverage with 100% mocked hardware and network dependencies.
-5. **Consumer-Driven Contract Testing:** All IPC interfaces verified against versioned Protobuf / Cap'n Proto schemas with zero breaking changes.
-6. **Zero Graphics / Headless Compliance:** Compiles and executes cleanly without display servers, WebGPU, SDL2, or windowing libraries.
-7. **Strict Memory & CPU Bounding:** Conforms to cgroups resource ceilings (total stack $\le 320\text{ MB}$ RSS; steady-state CPU $\le 8\%$ on ARM64 Cortex-A72).
+5. **Consumer-Driven Contract Testing:** All IPC interfaces verified against versioned Protobuf / Cap'n Proto / C++20 wire schemas with zero breaking changes.
+6. **Zero Graphics / Headless Compliance:** Compiles and executes cleanly without display servers, WebGPU, SDL2/SDL3, or windowing libraries.
+7. **Strict Memory & CPU Bounding:** Conforms to cgroups resource ceilings (total 8-daemon stack $\le 320\text{ MB}$ RSS; steady-state CPU $\le 8\%$ on ARM64 Cortex-A72).
 8. **Crash Consistency & RTO $\le 500\text{ ms}$:** Recovers state from WAL upon abrupt `SIGKILL` in under 500 ms with zero corruption.
 9. **Zero Memory Leaks:** 0 bytes leaked over 72 hours of continuous synthetic traffic verified via AddressSanitizer and Valgrind.
-10. **Anti-Bleed Verification:** Passes `scripts/lint_anti_bleed.sh` with zero violations of Scope Boundary Rules SBR-1 through SBR-5.
+10. **Anti-Bleed & Outward-Only SITL Verification:** Passes `scripts/lint_anti_bleed.sh` with zero violations of Scope Boundary Rules SBR-1 through SBR-5, confirming Oasis is strictly an outward-only producer of `QUALITY_SIMULATED (0x01)` telemetry.
 
 ---
 
-### 13.3. Edge Hardware Deployment Qualification Matrix
+### 14.3. Edge Hardware Deployment Qualification Matrix
 
 ```
 ┌────────────────────────────────────────────────────────────────────────────────────────────────────────┐
@@ -1890,8 +2340,8 @@ A user story or pull request in the Sovereign Stack is marked **DONE** if and on
 ├──────────────────────┬──────────────────────────────┬──────────────────────────┬───────────────────────┤
 │ Target Platform      │ Hardware Specifications      │ Operating System         │ Primary Daemons Run   │
 ├──────────────────────┼──────────────────────────────┼──────────────────────────┼───────────────────────┤
-│ **Tier 1: Master     │ Raspberry Pi CM4 / Rockchip  │ Alpine Linux / Debian 12 │ All 7 Daemons (L1–L7);│
-│ Bioregional Hub**    │ RK3588 (4-8 Core ARM64, 4GB) │ (kernel 6.6+ PREEMPT_RT) │ Full node supervisor  │
+│ **Tier 1: Master     │ Raspberry Pi CM4 / Rockchip  │ Alpine Linux / Debian 12 │ All 8 Daemons (L1–L7  │
+│ Bioregional Hub**    │ RK3588 (4-8 Core ARM64, 4GB) │ (kernel 6.6+ PREEMPT_RT) │ + `col-gatewayd`:8443)│
 ├──────────────────────┼──────────────────────────────┼──────────────────────────┼───────────────────────┤
 │ **Tier 2: Off-Grid   │ Allwinner H616 / BCM2711     │ Buildroot Minimal Linux  │ Daemons L1–L4;        │
 │ Solar / Shed Node**  │ (Quad ARM64, 1GB RAM, eMMC)  │ (Read-only rootfs)       │ Headless microgrid hub│
@@ -1903,7 +2353,7 @@ A user story or pull request in the Sovereign Stack is marked **DONE** if and on
 
 ---
 
-### 13.4. Six Inviolable Quality Gates (G1–G6) Acceptance Specification
+### 14.4. Six Inviolable Quality Gates (G1–G6) Acceptance Specification
 
 ```
 ┌────────────────────────────────────────────────────────────────────────────────────────────────────────┐
@@ -1914,49 +2364,50 @@ A user story or pull request in the Sovereign Stack is marked **DONE** if and on
 │ **G1**│ **Thermodynamic Grounding**   │ Work tokens minted only with net │ Mass/energy balance assert:  │
 │      │ (Physical Conservation)       │ exergy addition & ATECC608A sig  │ Delta E >= work performed    │
 ├──────┼───────────────────────────────┼──────────────────────────────────┼──────────────────────────────┤
-│ **G2**│ **Asynchronous Convergence**  │ Partitioned nodes merge state    │ 72-hr netem partition healing│
-│      │ (Delay-Tolerant Resilience)   │ deterministically via CRDTs      │ converges to identical hash  │
+│ **G2**│ **Asynchronous Convergence**  │ Partitioned nodes & Epoch walls  │ 72-hr netem + Epoch Barrier  │
+│      │ (Delay-Tolerant & Epoch Sync) │ merge deterministically via CRDT │ converges to identical hash  │
 ├──────┼───────────────────────────────┼──────────────────────────────────┼──────────────────────────────┤
 │ **G3**│ **Ecological Ceilings**       │ Extraction halted by protocol    │ lambda_ERC -> inf blocks     │
 │      │ (Carrying Capacity Defense)   │ before carrying capacity breach  │ Layer 4 task execution       │
 ├──────┼───────────────────────────────┼──────────────────────────────────┼──────────────────────────────┤
-│ **G4**│ **Web of Trust Boundary**     │ Identities pairwise & verifiable │ BBS+ selective disclosure in │
-│      │ (Zero-Knowledge Privacy)      │ without leaking real identity    │ <= 15 ms; BPVP loop-free     │
+│ **G4**│ **Web of Trust & U-Turn**     │ Pairwise DIDs, R6->R1 onboarding │ BBS+ ZKP <= 15 ms; zero      │
+│      │ (Governance Supremacy)        │ & strict Intent U-Turn enforced  │ l4_l7.sock; L2-L5/L7 RO hood │
 ├──────┼───────────────────────────────┼──────────────────────────────────┼──────────────────────────────┤
-│ **G5**│ **Tripartite Legal Shield**   │ Inter-node trade wrapped in BMAA │ L7 database inspection: zero │
+│ **G5**│ **Cooperative Legal Shield**  │ Inter-node trade wrapped in BMAA │ L7 database inspection: zero │
 │      │ (Subpoena Immunity)           │ and SSAs; L7 holds zero DIDs     │ internal keys/ballots exist  │
 ├──────┼───────────────────────────────┼──────────────────────────────────┼──────────────────────────────┤
-│ **G6**│ **Airgap & Anti-Bleed Purity**│ Simulated telemetry cannot drive │ Simulated packets dropped at │
-│      │ (Domain Isolation)            │ physical relays; zero game bleed │ edge; anti-bleed linter zero │
+│ **G6**│ **Airgap & Outward-Only SITL**│ Oasis is outward-only producer   │ Simulated packets (0x01)     │
+│      │ (Domain Isolation)            │ (0x01); cannot drive edge relays │ dropped at HAL; linter zero  │
 └──────┴───────────────────────────────┴──────────────────────────────────┴──────────────────────────────┘
 ```
 
 ---
 
-### 13.5. Strategic Realignment Council Ratification Sign-Off
-The Strategic Realignment Council concludes its deliberations. All debate points have been resolved, all SDD requirements incorporated, and all five stakeholder disciplines have verified the complete alignment of the Sovereign Stack with civilizational resilience and strict domain isolation.
+### 14.5. Strategic Realignment & Horizon Council Ratification Sign-Off
+The Strategic Realignment & Horizon Council concludes its deliberations for **Version 4.0.0-RELEASE**. All Sprints 1–10 baseline capabilities, Companion App V2.0 (`col-gatewayd`) Intent U-Turn invariants, `BOOK_TEAM_DRIFT_REPORT.md` cooperative carapace alignments, Legacy Migration Wave onboarding protocols (`SS-EP7-007`, `SS-EP5-007`), and `Arcadia (server-01)` Mandatory Milestone Epoch Synchronization protocols (`SS-EP9-001` through `SS-EP9-003`) have been ratified across all stakeholder disciplines.
 
 ```
 ┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
-│                             ARCHITECTURAL COUNCIL RATIFICATION VOTE                              │
+│                        ARCHITECTURAL COUNCIL RATIFICATION VOTE (V4.0.0-RELEASE)                  │
 ├────────────────────────────────┬───────────────────────────────┬─────────────────┬───────────────┤
 │ Persona                        │ Document / Milestone          │ Disciplinary OK │ Final Ballot  │
 ├────────────────────────────────┼───────────────────────────────┼─────────────────┼───────────────┤
-│ Product Owner (`explorer_po_v3`) Roadmap, SDD Epics & Sprints  │ APPROVED        │ UNANIMOUS YES │
-│ Sovereign Specialist (`sov_v3`)  Volume 1 Fidelity, PoTW, BPVP │ APPROVED        │ UNANIMOUS YES │
-│ Quality Engineer (`qe_v3`)       Anti-Monolith, Gates G1–G6    │ APPROVED        │ UNANIMOUS YES │
-│ Stack Engineer (`stack_v3`)      7 Daemons, UDS IPC, Wasmtime  │ APPROVED        │ UNANIMOUS YES │
-│ Oasis Engineer (`oasis_v3`)      Purge Game Mechanics, Airgap  │ APPROVED        │ UNANIMOUS YES │
+│ Product Owner (`explorer_po_v4`) 9 Epics, 50 Stories, Sprints  │ APPROVED        │ UNANIMOUS YES │
+│ Sovereign Specialist (`sov_v4`)  Book Fidelity, U-Turn, R6->R1 │ APPROVED        │ UNANIMOUS YES │
+│ Quality Engineer (`qe_v4`)       Gates G1–G6, Epoch Parity     │ APPROVED        │ UNANIMOUS YES │
+│ Stack Engineer (`stack_v4`)      8 Daemons (+gatewayd), HLC    │ APPROVED        │ UNANIMOUS YES │
+│ Oasis Architect (`oasis_v4`)     Outward-Only SITL (0x01), SoC │ APPROVED        │ UNANIMOUS YES │
 ├────────────────────────────────┴───────────────────────────────┴─────────────────┴───────────────┤
 │                                  # Unanimous Consensus Reached                                   │
 └──────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-**Ratified:** 2026-10-10  
-**Effective Baseline:** Version 3.0.0-RELEASE (`SOVEREIGN_STACK_BACKLOG.md`)  
+**Ratified:** 2026-10-14  
+**Effective Baseline:** Version 4.0.0-RELEASE (`SOVEREIGN_STACK_BACKLOG.md`)  
 **Signed by:**
-- *Product Owner / Orchestrator (`explorer_po_v3`)*
-- *Sovereign Stack Specialist (`explorer_sovereign_v3`)*
-- *Quality Engineer (`explorer_qe_v3`)*
-- *Stack Engineer (`explorer_stack_v3`)*
-- *Oasis Engineer (`explorer_oasis_v3`)*
+- *Product Owner / Orchestrator (`explorer_po_v4`)*
+- *Sovereign Stack Specialist (`explorer_sovereign_v4`)*
+- *Quality Engineer (`explorer_qe_v4`)*
+- *Stack Engineer (`explorer_stack_v4`)*
+- *Oasis Boundary Architect (`explorer_oasis_v4`)*
+

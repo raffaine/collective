@@ -1,33 +1,33 @@
 # OASIS GAME DESIGN DOCUMENT (GDD)
-**Document Identifier:** `OASIS-GDD-V5.0`  
-**Milestone:** Strategic Realignment Council Ratification (Scenario Driven Development Realignment)  
-**Classification:** Authoritative Game Design Specification & Digital Twin Blueprint  
+**Document Identifier:** `OASIS-GDD-V6.0`  
+**Milestone:** Horizon & Playability Council Ratification (The Horizon & Playability Edition)  
+**Classification:** Authoritative Game Design Specification & SITL Shadow Simulator Blueprint  
 **Engine Baseline:** C++20 (`-std=c++20`) / WebGPU (WGSL) / Flecs ECS / UHAI IPC  
 **Status:** Council Approved (Unanimous Consensus Reached)  
-**Date of Enactment:** 2026-10-10  
+**Date of Enactment:** 2026-10-14  
 
 ---
 
-## Strategic Realignment Council Ratification & Roll
+## Horizon & Playability Council Ratification & Roll
 
-This document embodies the synthesized, legally and architecturally binding consensus of the Strategic Realignment Council. Convened following the ratification of `docs/COLLECTIVE_GUIDING_PRINCIPLES.md`, the Council's mandate is to establish **Scenario Driven Development (SDD)** as the primary cybernetic engine driving emergent gameplay, dynamic scenario ingestion, and physical-world protocol compilation within the Oasis Simulation Layer.
+This document embodies the synthesized, legally and architecturally binding consensus of the Oasis GDD & Strategic Realignment Council. Building upon `docs/COLLECTIVE_GUIDING_PRINCIPLES.md` and `docs/BOOK_TEAM_DRIFT_REPORT.md`, Version 6.0 establishes **The Six Horizon Playability Pillars**, enforces the **Companion App Interaction Boundary (V2.0 Law)**, codifies strict **Outward-Only Telemetry Demarcation (`QUALITY_SIMULATED = 0x01`)**, and grounds **Scenario Driven Development (SDD)** as the primary cybernetic engine driving emergent gameplay within the Oasis Simulation Layer.
 
 ### Council Roll & Formal Ratification Statements
 
-1. **Game Designer (Council Lead):**  
-   > *"Modern video games have become extractive cognitive pacifiers: Skinner boxes with colored motive bars, god-mode cursors, and sanitized corporate fantasy worlds. Oasis stands as the Trojan Horse Simulator. By fusing the historical psychological trauma of Dwarf Fortress, the empathetic, indirect agency of The Sims, and the macroscopic infrastructure siphoning of Cities: Skylines onto a local-first WebGPU 3D voxel engine, we build a game where every ludic mechanic compiles into real-world survival competence. Scenario Driven Development (SDD) is our breakthrough: rather than hardcoding static quests or bloated branching scripts, the 24 canonical MVS scenarios ingest dynamically as Flecs ECS components, spatial voxel tags, and Gibsonian affordance trees. I ratify this document unconditionally as our foundational ludic constitution."*
+1. **Expert Game Designer (Oasis GDD Council Lead):**  
+   > *"Modern video games have become extractive cognitive pacifiers: Skinner boxes with colored motive bars, god-mode cursors, and sanitized corporate fantasy worlds. Oasis stands as the Shadow Simulator and Cooperative Bioregional Onboarding Engine. By fusing the historical psychological trauma of Dwarf Fortress, the empathetic, indirect agency of The Sims, and the macroscopic infrastructure reclamation of Cities: Skylines onto a local-first WebGPU 3D voxel engine, we build a simulation where every ludic mechanic compiles into real-world stewardship competence. In V6.0, we introduce the Six Horizon Playability Pillars—tactile Spatial Context Menus, Orbital POI Camera kinematics, Psychological Homeostasis ('The Chill Loop'), Temporal Time-Warp controls, Legacy NPC Migration Waves, and the shared `Arcadia (server-01)` MMO mesh synchronized by Mandatory Epoch Milestones. I ratify this V6.0 specification unconditionally as our foundational ludic constitution."*
 
 2. **Gamer Expert (Dwarf Fortress / The Sims / Cities: Skylines Specialist):**  
-   > *"Gamers possess zero tolerance for fake mechanics. If an agent does not remember their frostbitten toes from a winter power outage, if an intention queue behaves like an obedient RTS puppet instead of a stressed human with moral boundaries, or if an electrical grid does not obey real impedance and phase balance, the simulation fails. In this GDD, we have achieved true fidelity: 64-byte bounded Dwarf Fortress psychology with Lyapunov stress homeostasis and permanent trauma retention; Sims-style indirect intention queues with logistic moral rejection curves; and Cities: Skylines macro-infrastructure leeching solved via Successive Over-Relaxation (SOR). By grounding all 24 scenarios across the 5 Developmental Acts into these three pillars, players will experience authentic emergent drama. I ratify this document with utmost enthusiasm."*
+   > *"Gamers possess zero tolerance for fake mechanics or clunky controls. If an agent cannot recover from freezing cold in an insulated room above $18^\circ\text{C}$, if selecting voxel actions requires memorizing arcane keyboard shortcuts instead of tactile right-click spatial menus, or if 3D navigation lacks a true Point-of-Interest Arcball camera, playability suffers. In V6.0, we pair our 64-byte bounded Dwarf Fortress psychology, Sims-style indirect intention queues, and Successive Over-Relaxation (SOR) electrical physics with the 'Chill Loop' recovery systems, involuntary 100% Stress Burnout states, Legacy NPC assimilation waves, and $1\times\text{–}100\times$ Time Warp. Players will experience authentic emergent drama with razor-sharp strategy UX. I ratify this document with utmost enthusiasm."*
 
-3. **Sovereign Stack Architect:**  
-   > *"The boundary between simulation and bare-metal reality must remain sacred. The Five Anti-Bleed Invariants are maintained without compromise: Oasis contains zero embedded daemons, zero in-engine private keys, zero custom P2P networking, zero BPMN XML parsers, and zero fiat ledgers. Through the Universal Human-Agent Interface (UHAI) lock-free shared memory ring buffer, Oasis serves as Stafford Beer's System 4 Intelligence Vanguard—a Software-In-The-Loop (SITL) digital twin that stress-tests edge protocols in silico before physical bringup. SDD bridges the dual architecture perfectly: a single markdown scenario compiles downwards to game voxels and upwards to POSIX daemons. I ratify this specification unconditionally."*
+3. **Sovereign Stack Specialist:**  
+   > *"The boundary between simulation and bare-metal reality must remain sacred and unmistakable. In full alignment with `docs/BOOK_TEAM_DRIFT_REPORT.md`, V6.0 eradicates any narrative ambiguity: Oasis is strictly an outward producer of `QUALITY_SIMULATED (0x01)` telemetry into the Sovereign Stack for Software-In-The-Loop (SITL) stress-testing, and never ingests live physical telemetry to recalibrate the simulator. Furthermore, V6.0 ratifies the V2.0 Companion App Interaction Boundary Law: Layer 1 (Oasis Desktop) governs all 3D spatial actuation and voxel designations, whereas Layer 6 (Mobile Companion App via `col-gatewayd`) serves as the exclusive Agora/societal interface following the `L6 -> L5 -> L4 -> [yield] -> L5 -> L6 -> L7` Intent U-Turn, with Layers 2–5 and 7 acting strictly as read-only cybernetic diagnostics. I ratify this specification unconditionally."*
 
-4. **Tech Engineer:**  
-   > *"Our technical commitments are absolute. The Oasis engine operates within a strict 256.00 MB WASM linear memory partition with zero heap allocations on the simulation tick. Rendering is executed by an Amanatides & Woo 3D DDA compute raymarcher in WebGPU WGSL, accelerated by a two-level hierarchical macro-chunk occupancy grid that guarantees 60 FPS well within our 10.60 ms frame budget. The SOR electrical flow solver converges in under 20 iterations with virtual earth grounding, and the UHAI data plane delivers sub-50 µs IPC latency over cache-aligned SPSC ring buffers in `/dev/shm`. Every gameplay system described herein is implementable, testable, and mathematically bounded. I ratify this specification."*
+4. **Oasis C++ Engine Architect:**  
+   > *"Our technical commitments are absolute. The Oasis engine operates within a strict 256.00 MB WASM linear memory partition with zero heap allocations on the simulation tick. Rendering is executed by an Amanatides & Woo 3D DDA compute raymarcher in WebGPU WGSL at a locked 60 FPS ($< 10.60\text{ ms}$ frame budget), now completely decoupled from the variable simulation timestep ($\Delta t_{\text{sim}}$) to support $1\times$, $10\times$, and $100\times$ Time Warp with deterministic log throttling. DDA raycasting directly powers our dynamic POI Orbital Camera and Spatial Context Menu evaluator, while Sprint 9 Temporal `FlowContract` ring buffers and Mandatory Milestone Epoch barriers keep multi-node `Arcadia (server-01)` state causally consistent. I ratify this specification."*
 
 5. **Quality Engineer (Automation & Gatekeeper):**  
-   > *"An unverified design is merely wishful thinking. This GDD establishes Six Inviolable Quality Gates (G1 through G6) spanning thermodynamic conservation, offline local-first resilience, Byzantine and Sybil immunity, psychological anti-livelock equilibrium, pedagogical Trojan Horse equivalence, and hardware-in-the-loop isolation. All 24 canonical scenarios must pass automated headless simulation harnesses before feature completion is declared. Cowboy coding and manual testing are prohibited. I ratify this specification."*
+   > *"An unverified design is merely wishful thinking. This V6.0 GDD enforces Six Inviolable Quality Gates (G1 through G6) spanning thermodynamic conservation, offline local-first resilience, Byzantine and Sybil immunity, psychological homeostasis & anti-burnout recovery, cooperative bioregional pedagogical equivalence, and outward-only `0x01` hardware airgap isolation. All 24 canonical MVS scenarios and all 6 Horizon Playability Pillars must pass automated headless simulation harnesses before feature completion is declared. I ratify this specification."*
 
 ---
 
@@ -35,18 +35,18 @@ This document embodies the synthesized, legally and architecturally binding cons
 
 ```
 ════════════════════════════════════════════════════════════════════════════════════════
-                        STRATEGIC REALIGNMENT COUNCIL
-                               RATIFICATION LOG
+                      HORIZON & PLAYABILITY COUNCIL (V6.0)
+                                RATIFICATION LOG
 ════════════════════════════════════════════════════════════════════════════════════════
-[VOTE] Game Designer (Lead)            : AYE (Unconditional)
+[VOTE] Expert Game Designer (Lead)     : AYE (Unconditional)
 [VOTE] Gamer Expert (DF/Sims/Cities)   : AYE (Unconditional)
-[VOTE] Sovereign Stack Architect       : AYE (Unconditional)
-[VOTE] Tech Engineer                   : AYE (Unconditional)
+[VOTE] Sovereign Stack Specialist      : AYE (Unconditional)
+[VOTE] Oasis C++ Engine Architect      : AYE (Unconditional)
 [VOTE] Quality Engineer                : AYE (Unconditional)
 
 STATUS: Unanimous Consensus Reached
-DATE: 2026-10-10T23:30:00Z
-ACTION: ENACTED AS CANONICAL GAME DESIGN SPECIFICATION (V5.0)
+DATE: 2026-10-14T23:30:00Z
+ACTION: ENACTED AS CANONICAL GAME DESIGN SPECIFICATION (V6.0 — HORIZON EDITION)
 ════════════════════════════════════════════════════════════════════════════════════════
 ```
 
@@ -54,40 +54,40 @@ ACTION: ENACTED AS CANONICAL GAME DESIGN SPECIFICATION (V5.0)
 
 ## 1. Executive Vision & Foundational Philosophy
 
-### 1.1. The Trojan Horse Simulator
-Oasis is not an escapist digital distraction, an idle clicker, or an idealized greenfield sandbox. It is the **Trojan Horse Simulator** for physical-world sovereign resilience.
+### 1.1. The Shadow Simulator & Cooperative Bioregional Onboarding Engine
+Oasis is not an escapist digital distraction, an idle clicker, or an idealized greenfield sandbox. It is the **Shadow Simulator** and **Cooperative Bioregional Onboarding Engine** for physical-world sovereign resilience.
 
 Modern game design reinforces comfortable, detached fallacies that disarm the human intellect:
 * **The Sims Fallacy (Mechanical Puppetry):** Human consciousness is reduced to six colored motive bars. Grief, existential terror, and community betrayal are instantly remedied by thirty seconds of microwave pizza or a television program. Characters have no historical memory, no lived trauma, and no ethical conviction.
 * **The Cities: Skylines Fallacy (The Magic Greenfield):** Settlements sprout ex nihilo upon pristine, virgin greenfields. Infinite electrical power and pure potable water flow from the edges of the map in exchange for abstract fiat currency, supported by a benevolent, invisible municipal state.
 * **The Colony Sim Fallacy (The Authoritarian God-Cursor):** In titles like *RimWorld* or *Banished*, the player is an omnipotent floating despot. A single click forces an exhausted, freezing mortal pawn to march into lethal hypothermia, industrial radiation, or suicidal combat without friction, moral hesitation, or psychological collapse.
 
-Oasis rejects every one of these fallacies. The real Anthropocene offers no pristine greenfield, no benevolent municipal utility, and no obedient digital pawns. Humanity exists within the crumbling, predatory infrastructure of late-stage industrial civilization: cracked suburban asphalt, failing 12kV grid lines, lead-corroded water mains, arbitrary municipal code enforcement, and surging inflationary fiat bills.
+Oasis rejects every one of these fallacies. The real Anthropocene offers no pristine greenfield, no infallible municipal utility, and no obedient digital pawns. Humanity exists within the aging, fragile infrastructure of late-stage industrial civilization: cracked suburban asphalt, overloaded 12kV distribution lines, decaying cast-iron water mains, rigid municipal zoning codes, and volatile inflationary fiat tariffs.
 
-Oasis simulates the authentic, gritty, and exhilarating physics of **emancipatory sovereignty**:
-1. **Parasitic Scavenging:** You do not begin with an off-grid permaculture haven; you start as an economically vulnerable enclave **leeching parasitically** from decaying legacy infrastructure.
-2. **Embodied Indirect Stewardship:** You do not command obedient pawns; you guide **Founder 01**, a mortal human steward with circadian fatigue, ethical convictions, and an emergent psychological inner life.
-3. **Progressive Severance & Mesh Federation:** You do not win through imperial map painting; you systematically **sever the legacy umbilical cord**, regenerate depleted soil, form local Web-of-Trust mutual aid circles, and mesh with physical peers to dissolve the hostile legacy frontier.
+Oasis simulates the authentic, gritty, and exhilarating physics of **cooperative bioregional sovereignty**:
+1. **Metabolic Scavenging & Infrastructure Reclamation:** You do not begin with an off-grid permaculture haven; you start as an economically vulnerable enclave **structurally bridging and reclaiming** materials and utility flows from aging legacy infrastructure while building regenerative capacity.
+2. **Embodied Indirect Stewardship:** You do not command obedient pawns; you guide **Founder 01**, a mortal human steward with circadian fatigue, thermal homeostasis needs, ethical convictions, and an emergent psychological inner life, who must later welcome and assimilate **Migration Waves** of stressed Legacy NPCs.
+3. **Progressive Autarky & Voluntary Mesh Federation:** You do not win through imperial map painting; you systematically **achieve thermodynamic autarky**, regenerate depleted soil, form local Web-of-Trust mutual-credit circles, and voluntarily federate with peers across shared virtual landscapes like **`Arcadia (server-01)`**.
 
-Every gameplay system in Oasis acts as a **cybernetic compiler**: player mastery over thermal mass, rocket mass heaters, photovoltaic charge controllers, biochar filtration, and horizontal governance mirrors the exact engineering blueprints required to construct autonomous physical nodes in the physical world.
+Every gameplay system in Oasis acts as a **cybernetic compiler**: player mastery over insulated room envelopes, rocket mass heaters, photovoltaic charge controllers, keyline swales, biochar filtration, and horizontal governance mirrors the exact engineering blueprints required to steward autonomous physical nodes in the real world.
 
 ```
 ┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
 │                                 THE FOUR HERITAGE PILLARS OF OASIS                               │
 ├────────────────────────────────┬────────────────────────────────┬────────────────────────────────┤
-│ D1: Dwarf Fortress Psychology  │ D2: The Sims Indirect Founder  │ D3: Macro Legacy Leeching      │
-│ - 64-byte bounded ECS state    │ - Mortal Founder 01 embodiment │ - 12kV grid siphoning & clamps │
-│ - 32-slot episodic memory ring │ - Advisory intention queue     │ - Ductile iron water tapping   │
-│ - Big-Five facets & 8 Values   │ - Spontaneous whims & desires  │ - Urbanite & rebar quarrying   │
+│ D1: Dwarf Fortress Psychology  │ D2: The Sims Indirect Founder  │ D3: Metabolic Reclamation      │
+│ - 64-byte bounded ECS state    │ - Mortal Founder 01 embodiment │ - 12kV utility bridging        │
+│ - 32-slot episodic memory ring │ - Spatial Designator menus     │ - Ductile iron water tapping   │
+│ - Big-Five facets & 8 Values   │ - Chill Loop & 100% Burnout    │ - Urbanite & rebar quarrying   │
 │ - Lyapunov stress homeostasis  │ - Logistic moral rejection     │ - Suburban, Urban & Eco biomes │
-│ - Breakdowns & Strange Moods   │ - Trust Ring social delegation │ - Parasitic -> Sovereign arc   │
+│ - Breakdowns & Strange Moods   │ - Legacy NPC Wave assimilation │ - Dependent -> Sovereign arc   │
 ├────────────────────────────────┴────────────────────────────────┴────────────────────────────────┤
-│ D4: Sovereign Stack Multiplayer & Stochastic Boundary Interface                                  │
-│ - Local-first deterministic simulation (zero centralized cloud servers)                          │
-│ - Stochastic Boundary Interface: Inhomogeneous Poisson process for legacy pressure shocks       │
+│ D4: Sovereign Stack Multiplayer, Temporal Flow Contracts & Stochastic Boundary Interface         │
+│ - Local-first deterministic simulation scaling to voluntary MMO (`Arcadia server-01`)            │
+│ - Mandatory Milestone (End-of-Month Epoch Sync) resolving 1x–100x Time-Warp relativity           │
+│ - Stochastic Boundary Interface: Good-faith DES (`col-adversaryd`) inhomogeneous Poisson shocks  │
 │ - 3 Attenuation Pillars: Physical autarky, social NPC integration, cryptographic mesh proximity  │
-│ - Multiplayer executed EXCLUSIVELY via Sovereign Stack (Layers 2–7) over UHAI IPC               │
-│ - Cryptographic speed-of-light geo-proximity proofs & shared boundary perimeter consolidation     │
+│ - Outward-only `QUALITY_SIMULATED (0x01)` telemetry production over UHAI IPC ring buffers        │
 └──────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -104,8 +104,8 @@ As ratified in `docs/COLLECTIVE_GUIDING_PRINCIPLES.md`, Oasis does not exist in 
 │         │ Constitutional Invariants     │ & Layer 6 (`col-commonsd` JSON-LD Constitutions)       │
 ├─────────┼───────────────────────────────┼────────────────────────────────────────────────────────┤
 │ System 4│ Intelligence & Simulation     │ OASIS ENGINE (Layer 1b Flecs ECS / WebGPU DDA)         │
-│         │ Environmental Exploration     │ Shadow Simulator, Trojan Horse Onboarding,             │
-│         │ Future Shock Rehearsal        │ SITL Stress-Testing, Dynamic Scenario Ingestion Lab    │
+│         │ Environmental Exploration     │ Shadow Simulator, Cooperative Bioregional Onboarding,  │
+│         │ Future Shock Rehearsal        │ Outward SITL Stress-Testing, Dynamic Scenario Lab      │
 ├─────────┼───────────────────────────────┼────────────────────────────────────────────────────────┤
 │ System 3│ Control, Operations & Audit   │ Sovereign Stack L4 Orchestration (`col-execd` BPMN VM) │
 │         │ Internal Resource Balance     │ & Layer 3 Ledger (`col-storaged` PoTW / CRDT)          │
@@ -118,7 +118,17 @@ As ratified in `docs/COLLECTIVE_GUIDING_PRINCIPLES.md`, Oasis does not exist in 
 └─────────┴───────────────────────────────┴────────────────────────────────────────────────────────┘
 ```
 
-Oasis provides the high-variety exploratory sandbox where catastrophic failure costs zero human lives and zero physical kilowatt-hours. In Oasis, communities stress-test microgrid black-starts, childcare co-op schedules, and mutual-credit clearing networks at $10\times$ to $1000\times$ real-time clock speeds. When a governance or engineering policy proves stable in Oasis, it compiles upwards into production daemon configurations for real-world deployment.
+Oasis provides the high-variety exploratory sandbox where catastrophic failure costs zero human lives and zero physical kilowatt-hours. In Oasis, communities stress-test microgrid black-starts, childcare co-op schedules, and mutual-credit clearing networks at $1\times$, $10\times$, and $100\times$ real-time clock speeds. When a governance or engineering policy proves stable in Oasis, it compiles upwards into production daemon configurations for real-world deployment.
+
+### 1.3. Strict Simulation Demarcation & Outward-Only Telemetry Law (`BOOK_TEAM_DRIFT_REPORT.md` Alignment)
+To prevent narrative and architectural drift between the C++ engine and the broader Sovereign Stack documentation, Oasis enforces three absolute cybernetic demarcation invariants:
+
+1. **Outward-Only Telemetry Production (`QUALITY_SIMULATED = 0x01`):**  
+   Oasis (Layer 1b) is strictly an **outward producer** of synthetic Layer 2 telemetry into the Sovereign Stack (Layers 2–7) for Software-In-The-Loop (SITL) stress-testing. Oasis **never ingests live physical telemetry** from real-world hardware sensors to recalibrate the simulation. Every telemetry packet emitted by Oasis across the UHAI ring buffer is stamped with the hardware airgap flag `quality_flag = 0x01` (`QUALITY_SIMULATED`). The Sovereign Stack's Hardware Airgap Filter mathematically drops any `0x01` packet from actuating physical relays, inverters, or valves.
+2. **Unmistakable Context Demarcation (Shadow Simulator, Not Transitionary UI):**  
+   Oasis is a dedicated **Shadow Simulator**, never a "game that transitions into a real-world Orchestrator." Blurring simulated gameplay with live physical actuation violates fundamental UHAI safety invariants. Simulated contexts (`Layer 1b`) and physical orchestration contexts (`Layer 1a` / `Layer 6`) remain permanently airgapped and unmistakably distinct.
+3. **Cooperative & Structural Modeling (Rejection of Malicious/Parasitic Framing):**  
+   The Sovereign Stack and Oasis are built upon *willing voluntariness*, structural resilience, and cooperative mutual aid—never malicious subversion or "parasitic" exploitation. The Layer 7 Adversary daemon (`col-adversaryd`) is engineered on **Discrete Event Simulation (DES)** to model legacy municipal, regulatory, and utility systems in structural good faith, allowing communities to rehearse supply-chain shocks, tariff shifts, and migration waves constructively.
 
 ---
 
@@ -225,7 +235,7 @@ The Minimum Viable Society (MVS) comprises 24 canonical scenarios organized into
 * **Founder Affordances:** `[Calibrate Nozzle]`, `[Slice Blueprint]`, `[Pick Up Tool from Locker]`, `[Service Linear Rails]`.
 * **Voxel Interactions:** Voxel `material_id = 15` (`FAB_NODE`) and `16` (`FILAMENT_SPOOL`). Extruder heats adjacent air voxels ($+15^\circ\text{C}$ in $1\text{ dm}$ radius).
 * **DF Psychology:** Crafting a masterwork tool grants $+30$ Mood (`THOUGHT_CRAFTED_MASTERWORK`); printer nozzle clogging triggers $+15$ Stress and frustration thoughts.
-* **Test Gates:** **G1 (Thermo):** Extrusion energy balances within $\pm 10\%$ of thermodynamic melt enthalpy. **G5 (Trojan):** Stripe-funded filament purchase compiles to local mesh bounty.
+* **Test Gates:** **G1 (Thermo):** Extrusion energy balances within $\pm 10\%$ of thermodynamic melt enthalpy. **G5 (Onboarding):** Stripe-funded filament purchase compiles to local mesh bounty.
 
 #### Scenario 2: `beta_transit.md` (`SCN-BETA-TRANS`) — Decentralized Transit & Logistics
 * **Ludic Mechanics:** Maintaining an electric cargo van; balancing battery state-of-charge against cargo weight; coordinating multi-stop carpool routes across suburban sprawl.
@@ -327,7 +337,7 @@ The Minimum Viable Society (MVS) comprises 24 canonical scenarios organized into
 * **Test Gates:** **G1 (Structural):** Load paths satisfy $1.5\times$ engineering safety factor. **G5 (Building Code):** Structure footprint stays within municipal permit-exempt square footage limits.
 
 #### Scenario 15: `omicron_kinship.md` (`SCN-OMICRON-KINSHIP`) — Kinship Protocol & Trust Rings
-* **Ludic Mechanics:** Establishing Web-of-Trust rings (Ring 0 Core, Ring 1 Stewards, Ring 2 Guests); vouching for new members with personal reputation; defending against Sybil attacks.
+* **Ludic Mechanics:** Establishing Web-of-Trust rings ($R_0 \to R_6$: `Ring R0` Core, `Ring R1` Vouched Stewards, `Ring R3` Probationary Residents, `Ring R6` Unverified Migrants); vouching for members via 2-of-3 FROST ceremonies; defending against Sybil attacks.
 * **Founder Affordances:** `[Conduct Trust Vouching Circle]`, `[Review Vouch Request]`, `[Sign Mutual Credit Covenant]`, `[Initiate Social Slashing Dispute]`.
 * **Voxel Interactions:** Physical proximity is validated via in-person NFC tap interactions between character entities.
 * **DF Psychology:** Belonging to a tight-knit kinship ring provides an impenetrable psychological buffer against external stress; betrayal by a vouched peer causes acute grief.
@@ -653,62 +663,62 @@ To prevent AI livelocks and erratic whim oscillation:
 As Lot 402 grows into an ecovillage, the player **never gains god-mode control over incoming NPCs**:
 * **The Morning Circle (06:00):** Founder 01 rings the bell; open BPMN WorkTokens are displayed on the bulletin board.
 * **Voluntary Task Claiming:** NPCs evaluate open tokens against their facets and skills.
-* **Trust Rings:** Founder 01 delegates critical infrastructure (inverters, seed vaults) only to citizens in **Ring 1**. Commanding a **Ring 2** newcomer without trust causes friction and token refusal.
+* **Trust Rings ($R_0 \to R_6$):** Founder 01 delegates critical infrastructure (inverters, seed vaults) only to citizens in **Trust Ring R1 (Vouched Stewards)**. Commanding a **Trust Ring R6 (Unverified Migrant)** or **Ring R3 (Probationary Resident)** newcomer without trust causes friction and token refusal.
 
 ---
 
-### 4.3. Directive 3: Cities: Skylines Macro Infrastructure Leeching
+### 4.3. Directive 3: Cities: Skylines Macro Infrastructure Reclamation & Bridging
 
 #### 4.3.1. The Omnipresent Legacy Reality
-Traditional city builders isolate the player within an empty paradise where utilities flow infinitely from map borders. In Oasis, the player exists within the decaying, predatory reality of late-stage industrial infrastructure. 
+Traditional city builders isolate the player within an empty paradise where utilities flow infinitely from map borders. In Oasis, the player exists within the aging, fragile reality of late-stage industrial infrastructure.
 
-Our core macroscopic gameplay loop is **"Leeching the Legacy"**: you survive by parasitically tapping, siphoning, intercepting, and scavenging the dying infrastructure of the old world.
+Our core macroscopic gameplay loop is **"Metabolic Scavenging & Infrastructure Reclamation"**: you survive by structurally bridging, reclaiming, intercepting, and upcycling the decaying material and utility flows of the legacy world while progressively building regenerative autarky.
 
 ```
 ┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
-│                                 THE LEGACY INFRASTRUCTURE MATRIX                                 │
+│                              THE LEGACY INFRASTRUCTURE RECLAMATION MATRIX                        │
 ├─────────────────────────┬───────────────────────────────┬────────────────────────────────────────┤
-│ Target Legacy System    │ Siphoning / Scavenging Method │ Catastrophic Failure / Retaliation Risk│
+│ Target Legacy System    │ Bridging / Reclamation Method │ Operational Hazard / Regulatory Friction│
 ├─────────────────────────┼───────────────────────────────┼────────────────────────────────────────┤
-│ High-Voltage Power Grid │ Inductive line clamps, meter  │ Arc flash explosion, transformer fire, │
-│ (12kV / 240V drops)     │ bypasses, pirate solar inject │ smart-meter automated tamper alarm     │
+│ High-Voltage Power Grid │ Inductive line couplers, peak │ Arc flash hazard, transformer overload,│
+│ (12kV / 240V drops)     │ shaving bridges, PV buffer    │ smart-meter phase imbalance alert      │
 ├─────────────────────────┼───────────────────────────────┼────────────────────────────────────────┤
-│ Municipal Water & Sewer │ Hot-tap saddle valves on cast │ Water pressure drop alert, backflow    │
-│ (Cast-iron mains)       │ iron, storm runoff diversion  │ contamination, municipal cutoff squad  │
+│ Municipal Water & Sewer │ Saddle-valve branch junctions,│ Water pressure drop alert, backflow    │
+│ (Cast-iron mains)       │ stormwater bioswale catchment │ contamination, municipal shutoff order │
 ├─────────────────────────┼───────────────────────────────┼────────────────────────────────────────┤
-│ Asphalt, Concrete &     │ Jackhammering roads, cutting  │ Heavy fine citations, structural slab  │
-│ Structural Rebar        │ bridge rebar, crushing rubble │ collapse, toxic coal-tar runoff        │
+│ Asphalt, Concrete &     │ Depaving driveways, cutting   │ Municipal zoning citations, slab shear │
+│ Structural Rebar        │ salvaged rebar, crushing rock │ collapse, silica & coal-tar dust hazard│
 ├─────────────────────────┼───────────────────────────────┼────────────────────────────────────────┤
-│ Fiber & Copper Telecom  │ Inductive telephone taps,     │ Carrier line fault detection, FCC/ISP  │
-│ (Roadside punch blocks) │ splicing roadside fiber lines │ signal sweep, cellular triangulation   │
+│ Fiber & Copper Telecom  │ Roadside terminal bridging,   │ Carrier line fault detection, ISP      │
+│ (Roadside punch blocks) │ dark-fiber community uplinks  │ signal sweep, unshielded traffic audit │
 └─────────────────────────┴───────────────────────────────┴────────────────────────────────────────┘
 ```
 
-#### 4.3.2. Detailed Siphoning Mechanics
+#### 4.3.2. Detailed Utility Bridging & Material Reclamation Mechanics
 
-##### 1. Power Grid Siphoning & Smart Meter Anomaly Counter:
-* **The Siphon:** Founder 01 climbs a utility pole at night to attach inductive line clamps to a 240V drop before the municipal meter.
-* **Exergy Yield:** Delivers up to $7.2\text{ kW}$ directly into pirate battery banks.
-* **Smart Meter Anomaly Counter:** Drawing $> 30\text{ A}$ creates a localized thermal signature and grid-phase imbalance. The utility's smart anomaly counter rises by $+1\%$ per 100 ticks. At $100\%$, an armed inspection crew accompanied by code enforcement raids the parcel. Drawing $< 10\text{ A}$ safely dissipates the counter at $-0.5\%$ per 100 ticks.
+##### 1. Power Grid Bridging & Smart Meter Anomaly Counter:
+* **The Bridge:** Founder 01 couples an auxiliary transfer bridge to a 240V utility drop to stabilize early-stage microgrid battery banks before sufficient solar capacity is erected.
+* **Exergy Yield:** Delivers up to $7.2\text{ kW}$ directly into local LFP battery storage.
+* **Smart Meter Anomaly Counter:** Drawing $> 30\text{ A}$ unbuffered creates a localized thermal signature and grid-phase imbalance. The utility's smart anomaly counter (modeled by Layer 7 `col-adversaryd` DES) rises by $+1\%$ per 100 ticks. At $100\%$, a municipal inspection crew accompanied by code enforcement audits the parcel. Drawing $< 10\text{ A}$ safely dissipates the counter at $-0.5\%$ per 100 ticks.
 * **Successive Over-Relaxation (SOR) Electrical Flow Solver:**
-  Current propagation across tapped 12kV distribution lines and 240V drops is modeled via **SOR ($\omega = 1.6$)**:
+  Current propagation across 12kV distribution lines and 240V drops is modeled via **SOR ($\omega = 1.6$)**:
   $$\mathbf{G}\mathbf{V} = \mathbf{I}$$
-  Because low-impedance copper distribution lines ($R \approx 0.005\ \Omega, g \approx 200\text{ S}$) connect directly to high-impedance pirate battery drops ($R \approx 8.0\ \Omega, g \approx 0.125\text{ S}$), extreme conductance contrast stalls unrelaxed solvers. SOR contracts spectral error rapidly, converging in $< 20$ iterations ($\epsilon < 10^{-4}$). To prevent singular floating matrices ($\det(\mathbf{G}) = 0$) during islanding, the microgrid incorporates a virtual earth ground node ($g_{\text{virtual\_earth}} = 10^{-6}\text{ S}$), backed by a direct Sparse Cholesky fallback ($< 0.12\text{ ms}$) during topology splices.
+  Because low-impedance copper distribution lines ($R \approx 0.005\ \Omega, g \approx 200\text{ S}$) connect directly to high-impedance local battery drops ($R \approx 8.0\ \Omega, g \approx 0.125\text{ S}$), extreme conductance contrast stalls unrelaxed solvers. SOR contracts spectral error rapidly, converging in $< 20$ iterations ($\epsilon < 10^{-4}$). To prevent singular floating matrices ($\det(\mathbf{G}) = 0$) during islanding, the microgrid incorporates a virtual earth ground node ($g_{\text{virtual\_earth}} = 10^{-6}\text{ S}$), backed by a direct Sparse Cholesky fallback ($< 0.12\text{ ms}$) during topology splices.
 
-##### 2. Municipal Water & Sewage Interception:
-* **The Siphon:** Excavating $2\text{ m}$ to expose a 4-inch ductile iron municipal main and clamping a stealth saddle tap with a manual ball valve.
-* **Exergy Yield:** Abundant pressurized water for crops and domestic living.
-* **Retaliation Risk:** Sudden pressure drops alert municipal SCADA systems. Storm runoff siphoning brings heavy metals and oils that require biochar filtration beds and mycelium bio-filtration.
+##### 2. Municipal Water Interception & Bioswale Catchment:
+* **The Reclamation:** Excavating $2\text{ m}$ to service a 4-inch ductile iron main or grading keyline bioswales to harvest sheet-flow stormwater runoff.
+* **Exergy Yield:** Pressurized water and gravity-fed retention ponds for cover crops and domestic living.
+* **Operational Hazard:** Sudden municipal pressure drops alert SCADA systems. Storm runoff interception carries road oils and heavy metals that require biochar filtration beds and mycelium bio-filtration before potable or agricultural use.
 
-##### 3. Asphalt, Concrete & Rebar Quarrying (Urbanite):
-* **The Siphon:** Jackhammering degraded asphalt streets and parking lots; cutting high-tensile steel rebar with oxy-acetylene torches.
-* **Exergy Yield:** Produces **Urbanite** (broken concrete blocks) for building foundations, rocket stoves, and retaining walls.
-* **Retaliation Risk:** Generates toxic silica dust and bitumen fumes; unmasked workers suffer rapid lung irritation thoughts and physical fatigue.
+##### 3. Asphalt Depaving, Concrete & Rebar Quarrying (Urbanite):
+* **The Reclamation:** Jackhammering impervious asphalt driveways and parking lots to expose living subsoil; cutting salvaged steel rebar with oxy-acetylene torches.
+* **Exergy Yield:** Produces **Urbanite** (reclaimed concrete blocks) for insulated building foundations, rocket mass heaters, and terrace retaining walls, while restoring soil permeability.
+* **Operational Hazard:** Generates silica dust and bitumen fumes; unmasked workers suffer rapid lung irritation thoughts and physical fatigue.
 
-##### 4. Fiber & Copper Telecom Tapping:
-* **The Siphon:** Splicing roadside punch blocks or stripping dark fiber lines.
-* **Exergy Yield:** Downloads open-source CAD blueprints, firmware, and weather data into the local Layer 6 semantic cache.
-* **Retaliation Risk:** Unencrypted legacy traffic triggers municipal surveillance sweeps.
+##### 4. Fiber & Copper Telecom Bridging:
+* **The Reclamation:** Bridging roadside terminal blocks or lighting community dark-fiber links.
+* **Exergy Yield:** Synchronizes open-hardware CAD blueprints, firmware, and meteorological datasets into the local Layer 6 semantic cache.
+* **Operational Hazard:** Unencrypted legacy traffic triggers automated ISP rate-limiting or regulatory audits.
 
 #### 4.3.3. Multi-Environment Biome Profiles
 Oasis simulates three radically distinct biomes:
@@ -723,7 +733,7 @@ Oasis simulates three radically distinct biomes:
 │                   │ (128x128x16 dm)          │ (64x64x64 dm)            │ (96x96x32 dm)          │
 ├───────────────────┼──────────────────────────┼──────────────────────────┼────────────────────────┤
 │ Legacy Tethers    │ Overhead power lines,    │ High-voltage conduits,   │ Scavenged storm drains,│
-│ (Layer 7 Pressure)│ shallow water mains,     │ steam tunnels, subway    │ boundary fence lines,  │
+│ (Layer 7 DES)     │ shallow water mains,     │ steam tunnels, subway    │ boundary fence lines,  │
 │                   │ residential meters       │ vaults, fiat property tax│ off-grid well taps     │
 ├───────────────────┼──────────────────────────┼──────────────────────────┼────────────────────────┤
 │ Primary Materials │ Asphalt, Pine Siding,    │ Structural Steel,        │ Fungal Loam, Cob,      │
@@ -732,11 +742,11 @@ Oasis simulates three radically distinct biomes:
 │ Hydrology Loop    │ Lawn runoff, impervious  │ Sump pumps, stormwater   │ Keyline swales, ponds, │
 │                   │ asphalt gutter routing   │ retention vaults, sewage │ greywater reed beds    │
 ├───────────────────┼──────────────────────────┼──────────────────────────┼────────────────────────┤
-│ Leeching Vector   │ Tapping grid lines for   │ Siphoning waste heat,    │ Restoring dead topsoil,│
-│                   │ microgrid battery charge │ scavenging structural rebar│ capturing runoff water │
+│ Reclamation Vector│ Bridging grid drops &    │ Capturing waste heat,    │ Restoring dead topsoil,│
+│                   │ depaving suburban lots   │ upcycling structural rebar│ harvesting rain runoff │
 ├───────────────────┼──────────────────────────┼──────────────────────────┼────────────────────────┤
-│ Adversarial Focus │ HOA bylaws, drone lawn   │ Building inspectors,     │ Downstream senior water│
-│                   │ inspections ($150/day)   │ FLIR thermal sweeps      │ rights enforcement     │
+│ Regulatory Focus  │ HOA bylaws, drone lawn   │ Building inspectors,     │ Downstream senior water│
+│ (DES Modeling)    │ inspections ($150/day)   │ FLIR thermal sweeps      │ rights enforcement     │
 └───────────────────┴──────────────────────────┴──────────────────────────┴────────────────────────┘
 ```
 
@@ -745,51 +755,51 @@ To render expansive biomes without exceeding WASM's 256.00 MB linear memory ceil
 
 #### 4.3.5. The Macro Progression Arc: Three Epochs of Sovereignty
 The journey of Lot 402 spans three historical epochs:
-1. **Epoch 1: Parasitic Entanglement:** Complete dependency on legacy utilities. Rapid fiat escrow drain ($1,450 starting balance). Constant vulnerability to utility rate hikes and smart-meter surveillance.
-2. **Epoch 2: Systematic Scavenging (Symbiotic Dual-Membrane):** Siphoning power, tapping water, depaving driveways into food forests, quarrying urbanite, establishing compost toilets and greywater bioswales.
-3. **Epoch 3: Sovereign Severance (Singularity):** Physical utility drops cut. Solar microgrid and rain catchment achieve $100\%$ autarky. The municipal meter stops spinning. Monthly fiat drain drops to zero.
+1. **Epoch 1: Legacy Utility Dependency:** High reliance on municipal utilities. Rapid fiat escrow drain ($\$1,450$ starting balance). Vulnerability to tariff rate hikes, supply-chain bottlenecks, and smart-meter audits.
+2. **Epoch 2: Metabolic Scavenging & Regenerative Transition (Symbiotic Dual-Membrane):** Bridging auxiliary power, harvesting rainwater in keyline swales, depaving driveways into cover-crop food forests, quarrying urbanite for insulated rooms, and establishing compost toilets and greywater reed beds.
+3. **Epoch 3: Sovereign Severance (Singularity):** Physical utility drops voluntarily disconnected. Solar microgrid and rain catchment achieve $\ge 125\%$ autarky. The municipal meter stops spinning, and monthly fiat drain drops to zero.
 
 ---
 
 ### 4.4. Directive 4: Sovereign Stack Multiplayer & Stochastic Boundary Interface
 
-#### 4.4.1. Local-First Simulation Philosophy
-Oasis rejects the extractive, fragile cloud-server architecture:
-* **Zero Centralized Game Servers:** The simulation executes $100\%$ locally on the user's hardware.
-* **Zero Cloud Lock-in:** World voxel state, character psychology, and event logs reside in local storage (SQLite/LMDB or browser OPFS).
-* **Total Offline Resilience:** If the global internet goes down, your Oasis simulation continues running deterministically without interruption.
+#### 4.4.1. Local-First Simulation Philosophy & Voluntary MMO Scaling
+Oasis rejects extractive, fragile cloud-server dependencies while enabling voluntary communal federation:
+* **100% Local-First Execution:** The simulation executes deterministically on the user's local hardware with zero mandatory cloud lock-in. World voxel state, character psychology, and event logs reside in local storage (SQLite/LMDB or browser OPFS).
+* **Total Offline Resilience:** If WAN connectivity drops, your Oasis simulation continues running deterministically without interruption.
+* **Voluntary Shared Landscapes (`Arcadia server-01`):** Based strictly on *willing voluntariness*, local nodes can federate over the Sovereign Stack mesh (Layers 2–5) to co-inhabit persistent shared virtual landscapes such as **`Arcadia (server-01)`**, synchronized via Sprint 9 Temporal `FlowContract` streams and Mandatory Milestone Epoch barriers (detailed in Section 6.6).
 
-#### 4.4.2. The Stochastic Boundary Interface
-The perimeter of the simulated parcel is not an invisible wall. It is an active **Stochastic Boundary Interface** modeling the pressure of the unmanaged legacy fiat world:
+#### 4.4.2. The Stochastic Boundary Interface & Good-Faith DES Modeling
+The perimeter of the simulated parcel is not an invisible wall. It is an active **Stochastic Boundary Interface** driven by Layer 7 (`col-adversaryd`), which uses **Discrete Event Simulation (DES)** to model the structural, economic, and demographic pressures of the surrounding legacy fiat world in good faith:
 
 ```
                   ┌──────────────────────────────────────────────────┐
-                  │          THE UNMANAGED LEGACY FIAT WORLD         │
-                  │   - Evictions, tax liens, police code raids      │
-                  │   - Utility shutoffs, EPA fines, market shocks   │
+                  │       THE LEGACY WORLD (`col-adversaryd` DES)    │
+                  │   - Tariff shifts, tax assessments, code audits  │
+                  │   - Grid brownouts, drought shocks, NPC waves    │
                   └─────────────────────────┬────────────────────────┘
                                             │
-                                            ▼  Stochastic Pressure Vectors
+                                            ▼  Stochastic DES Pressure & Migration Vectors
                   ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
                   ░░░░░░░░░░░ STOCHASTIC BOUNDARY INTERFACE ░░░░░░░░░░
                   ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
                                             │
-                                            ▼  Filtered & Attenuated Stress
+                                            ▼  Filtered & Attenuated Stress / Assimilation
                   ┌──────────────────────────────────────────────────┐
                   │           SOVEREIGN OASIS SANCTUARY              │
                   │   - Regenerated living soil & micro-grid exergy  │
-                  │   - Integrated, healed citizens & low stress     │
-                  │   - Physical P2P Proximity Mesh to Peer Nodes    │
+                  │   - Insulated rooms (>18°C) & Recreation Zones   │
+                  │   - Assimilated Legacy NPCs & Arcadia Mesh Ties  │
                   └──────────────────────────────────────────────────┘
 ```
 
 ##### Inhomogeneous Poisson Arrival Process:
-Hostile legacy shocks arrive according to an inhomogeneous Poisson process with time-varying intensity $\lambda(t)$:
+External legacy pressure shocks and migration events arrive according to an inhomogeneous Poisson process with time-varying intensity $\lambda(t)$:
 $$\lambda(t) = \max\left(\lambda_{\min}, \lambda_{\mathcal{R}} \cdot \exp(-\Psi(t))\right)$$
 
 Where:
-* $\lambda_{\mathcal{R}}$ is the baseline arrival intensity governed by current geopolitical regime $\mathcal{R}(t) \in \{\text{Sub-Radar}, \text{Under-Scrutiny}, \text{Adversarial}, \text{Active-Siege}\}$.
-* $\lambda_{\min} = 0.001\text{ s}^{-1}$ is the **irreducible legacy threat floor** (approx. 1 event per 16.6 minutes), ensuring off-grid vigilance is never extinguished.
+* $\lambda_{\mathcal{R}}$ is the baseline arrival intensity governed by current regulatory/macroeconomic regime $\mathcal{R}(t) \in \{\text{Sub-Radar}, \text{Under-Scrutiny}, \text{Regulatory-Friction}, \text{Systemic-Crisis}\}$.
+* $\lambda_{\min} = 0.001\text{ s}^{-1}$ is the **irreducible legacy friction floor** (approx. 1 event per 16.6 minutes), ensuring off-grid resilience is continuously verified.
 * $\Psi(t)$ is the **Sovereign Attenuation Potential** driven by the three attenuation pillars.
 
 #### 4.4.3. The Three Attenuation Pillars
@@ -799,15 +809,15 @@ $$\Psi(t) = \alpha \cdot \Phi_{\text{infrastructure}}(t) + \beta \cdot \Phi_{\te
    $$\Phi_{\text{infrastructure}}(t) = \frac{1}{3} \left[ \min\left(1.0, \frac{E_{\text{solar\_stored}} + \epsilon}{E_{\text{consumed}} + \epsilon}\right) + \min\left(1.0, \frac{W_{\text{rain\_stored}} + \epsilon}{W_{\text{consumed}} + \epsilon}\right) + \frac{A_{\text{depaved\_loam}}}{A_{\text{total\_lot}}} \right]$$
    At Day 1 start, consumption is zero ($E_{\text{consumed}} = 0, W_{\text{consumed}} = 0$). To prevent catastrophic $0/0 \implies \text{NaN}$ singularities, all evaluations include the **Genesis Autarky Epsilon Guard** ($\epsilon = 0.001\text{ kWh/L}$):
    $$\eta = \frac{E_{\text{self}} + \epsilon}{E_{\text{legacy}} + E_{\text{self}} + \epsilon}$$
-2. **Social NPC Integration ($\Phi_{\text{social}}$):**
+2. **Social NPC Assimilation ($\Phi_{\text{social}}$):**
    $$\Phi_{\text{social}}(t) = \ln\left(1 + \sum_{k=1}^{N_{\text{agents}}} \frac{\text{Trust}_k \cdot \text{MutualAidHours}_k}{100}\right)$$
-   Welcoming refugees and integrating them into Trust Ring 1 transforms them into vigilant defenders who patrol the perimeter.
+   Welcoming Legacy NPC Migration Waves with warm shelter, clean water, and caloric security—and integrating them into Trust Ring 1—transforms stressed newcomers into capable stewards who strengthen the enclave.
 3. **Peer Proximity Mesh Ties ($\Phi_{\text{mesh}}$) & Bounded Weighting:**
    $$\Phi_{\text{mesh}}(t) = \frac{1}{|\mathcal{P}|_{\max}} \sum_{j \in \mathcal{P}} \frac{\text{TrustScore}_{ij}}{1 + \left(\frac{d_{ij}}{d_0}\right)^2}$$
-   Where $\mathcal{P}$ is the set of mesh peer nodes connected via Reticulum radio, $d_{ij}$ is distance (km), and $d_0 = 1.0\text{ km}$. Bounded via $\tanh(\delta \cdot \Phi_{\text{mesh}}) \in [0, 1.0)$, preventing IEEE-754 floating-point underflow.
+   Where $\mathcal{P}$ is the set of mesh peer nodes connected via Reticulum radio or `Arcadia (server-01)` relays, $d_{ij}$ is distance (km), and $d_0 = 1.0\text{ km}$. Bounded via $\tanh(\delta \cdot \Phi_{\text{mesh}}) \in [0, 1.0)$, preventing IEEE-754 floating-point underflow.
 
 #### 4.4.4. Sovereign Stack Exclusive Multiplayer Protocol Matrix
-Oasis contains zero custom P2P networking code. All multiplayer coordination routes through the Sovereign Stack via the UHAI IPC boundary:
+Oasis contains zero custom P2P networking code. All multiplayer coordination routes through the Sovereign Stack via the UHAI IPC boundary, with strict layer separation:
 
 ```
 ┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
@@ -816,19 +826,23 @@ Oasis contains zero custom P2P networking code. All multiplayer coordination rou
 │ LAYER │ SOVEREIGN STACK SUBSYSTEM    │ MULTIPLAYER FUNCTIONALITY & PROTOCOL SPECIFICATION        │
 ├───────┼──────────────────────────────┼───────────────────────────────────────────────────────────┤
 │ **L2**│ Physical/Mesh Radio &        │ Reticulum Network Stack (RNS), LoRa (SX1262), 802.11s     │
-│       │ Delay-Tolerant Transport     │ Wi-Fi Mesh; Cryptographic Distance Bounding PHY           │
+│       │ Delay-Tolerant Transport     │ Wi-Fi Mesh; Cryptographic Distance Bounding PHY; UHAI IPC │
 ├───────┼──────────────────────────────┼───────────────────────────────────────────────────────────┤
-│ **L3**│ Distributed State Ledger &   │ Kademlia DHT, Sphinx Onion Routing, libp2p Gossipsub;     │
-│       │ Encrypted Gossip Pub/Sub     │ Automerge/Yrs CRDT state replication, IPLD blockstore     │
+│ **L3**│ Distributed State Ledger,    │ Kademlia DHT, Sphinx Onion Routing, libp2p Gossipsub;     │
+│       │ PoTW & Mutual Credit Clearing│ Automerge/Yrs CRDT (`StateDeltaOp` 24B cadastral records);│
+│       │ (`col-storaged`)             │ **Zero-Sum Mutual Credit Clearing (BCC / Johnson's Cycle- │
+│       │                              │ Canceling)**, **Exponential Demurrage**, & `FlowContract` │
 ├───────┼──────────────────────────────┼───────────────────────────────────────────────────────────┤
-│ **L4**│ Identity, Credentials &      │ W3C DID Core (`did:key`, `did:peer`), Ed25519 Keypairs;   │
-│       │ Collaborative Orchestration  │ Verifiable Credentials (VCs); Metered WASM BPMN 2.0 VM    │
+│ **L4**│ Keyless Deterministic BPMN   │ **Keyless Deterministic 10 Hz Wasmtime BPMN Execution     │
+│       │ Execution Engine             │ Engine**; 5-Tier Priority Queue, instruction-fuel metering│
+│       │ (`col-execd`)                │ ecological floor enforcement, `WorkToken` & `[YIELD]`     │
 ├───────┼──────────────────────────────┼───────────────────────────────────────────────────────────┤
-│ **L5**│ Mutual Credit, Barter &      │ Zero-Sum Mutual Credit Clearing (Hawala/Ripple loops);     │
-│       │ Smart Covenants              │ Bilateral/Multilateral Smart Covenants; Two-Chamber WoT   │
+│ **L5**│ Cryptographic Identity, VCs  │ **W3C DID Core (`did:key`, `did:peer`)**, **Ed25519 /     │
+│       │ & FROST Governance Engine    │ FROST Threshold Keypairs** (`mlockall()`), **BBS+ ZKP     │
+│       │ (`col-kmsd`)                 │ Verifiable Credentials**, **Trust Rings ($R_0 \to R_6$)** │
 ├───────┼──────────────────────────────┼───────────────────────────────────────────────────────────┤
-│ **L7**│ Adversarial Municipal        │ Discrete Event Simulation (`col-adversaryd`); Municipal   │
-│       │ Emulation & Boundary Drivers │ Code Enforcement, Zoning Raids, Utility Monopoly Strikes │
+│ **L7**│ Legacy World DES Emulation & │ Good-Faith Discrete Event Simulation (`col-adversaryd`);  │
+│       │ Migration Wave Generators    │ Tariff Modeling, Code Audits, `MigrationWaveArrivalEvent` │
 └───────┴──────────────────────────────┴───────────────────────────────────────────────────────────┘
 ```
 
@@ -839,23 +853,24 @@ $$d_{AB} \le \frac{c \cdot (\Delta t - t_d)}{2}$$
 Where $c \approx 3 \times 10^8\text{ m/s}$, $\Delta t$ is round-trip time, and $t_d \le 1.0\text{ ns}$ is hardware turnaround.
 
 ##### Isoperimetric Perimeter Consolidation:
-Two independent square parcels of area $A$ have a perimeter of $8\sqrt{A}$. When merged along a shared property edge, their interior border dissolves, reducing exposed perimeter to $6\sqrt{A}$—an immediate **$25\%$ reduction in hostile surface area**.
+Two independent square parcels of area $A$ have a perimeter of $8\sqrt{A}$. When merged along a shared property edge, their interior border dissolves, reducing exposed perimeter to $6\sqrt{A}$—an immediate **$25\%$ reduction in exposed boundary surface area**.
 
 ##### Bounded Boundary Friction Coefficient ($\kappa$):
 $$\kappa = \kappa_{\text{base}} \cdot \prod_{j \in \text{Peers}} \max\left(0.0, 1 - \alpha \cdot \frac{R_j}{\max(d_j, d_{\min})}\right) \cdot (1 - \beta \cdot P_{\text{buffer}}) \cdot \left(1 - \tanh\left(\gamma \cdot N_{\text{citizens}}\right)\right)$$
-Strictly bounded to $\kappa \in [0.05, 1.0]$. The bounded term $\left(1 - \tanh(\gamma \cdot N_{\text{citizens}})\right)$ eliminates negative friction coefficient sign-inversion bugs. As $\kappa$ drops to $0.05$, municipal raid frequency drops by $95\%$, dissolving the Fog of Legacy along the shared line into an open **Commons Corridor**.
+Strictly bounded to $\kappa \in [0.05, 1.0]$. The bounded term $\left(1 - \tanh(\gamma \cdot N_{\text{citizens}})\right)$ eliminates negative friction coefficient sign-inversion bugs. As $\kappa$ drops to $0.05$, external regulatory friction drops by $95\%$, dissolving the Fog of Legacy along the shared line into an open **Commons Corridor**.
 
 ---
 
 ## 5. Inviolable Architectural & Anti-Bleed Invariants
 
-### 5.1. The 5 Anti-Bleed Invariants
-To preserve strict Separation of Concerns (SoC), Oasis enforces five inviolable architectural boundaries:
+### 5.1. The 6 Anti-Bleed & Airgap Invariants
+To preserve strict Separation of Concerns (SoC) and hardware safety, Oasis enforces six inviolable architectural boundaries:
 1. **Zero Embedded Daemons:** Oasis never compiles, links, or embeds Sovereign Stack daemons (`col-telemetryd` through `col-adversaryd`).
-2. **Zero In-Engine Private Keys:** Oasis never touches raw Ed25519 or BBS+ private keys. Keys reside exclusively in `col-kmsd` (Layer 5) under `mlockall()` memory protection. Oasis holds only an opaque 32-byte `founder_did_handle`.
+2. **Zero In-Engine Private Keys:** Oasis never touches raw Ed25519, FROST, or BBS+ private keys. Keys reside exclusively in `col-kmsd` (Layer 5) under `mlockall()` memory protection. Oasis holds only an opaque 32-byte `author_did` handle.
 3. **Zero Custom P2P Networking:** Oasis contains zero libp2p, zero WebRTC sockets, zero LoRa packet decoders, and zero P2P mesh code. All multiplayer routes through Layer 2 (`col-meshd`) and Layer 3 (`col-storaged`).
-4. **Zero In-Engine BPMN XML Parsers:** Oasis emits compact binary `SpatialIntentPayload` structs; Layer 4 (`col-execd`) compiles BPMN 2.0 schemas, enforces ecological floors, and returns `WorkToken` packets.
-5. **Zero In-Engine Fiat Accounting:** Oasis simulates physical exergy (watts, liters, joules); Layer 7 (`col-adversaryd`) calculates fiat tariffs and municipal citations.
+4. **Zero In-Engine BPMN XML Parsers:** Oasis emits canonical 264-byte binary `SpatialIntentPayload` structs; Layer 4 (`col-execd` Keyless Deterministic 10 Hz Wasmtime BPMN Engine) executes BPMN 2.0 workflows, enforces ecological floors, and returns `WorkToken` packets.
+5. **Zero In-Engine Fiat Accounting:** Oasis simulates physical exergy (watts, liters, joules); Layer 7 (`col-adversaryd`) models fiat tariffs and municipal citations via DES.
+6. **Outward-Only Simulated Telemetry (`QUALITY_SIMULATED = 0x01`):** Oasis is strictly an **outward producer** of synthetic 32-byte `TelemetrySample` frames into the Sovereign Stack for SITL stress-testing and **never ingests live physical telemetry** to recalibrate the simulator. Every outbound telemetry frame is stamped with `quality_flag = 0x01` (`QUALITY_SIMULATED`), guaranteeing that Sprint 4's Hardware Airgap Filter mathematically drops simulated packets before they can ever actuate physical hardware.
 
 ### 5.2. 256.00 MB WASM Linear Memory Partitioning
 The WebAssembly runtime memory is strictly partitioned to 268,435,456 bytes ($256.00\text{ MB}$):
@@ -890,80 +905,620 @@ Zero heap allocation (`malloc`/`new`) occurs on the simulation tick.
   * CPU Uniform Prep: $1.20\text{ ms}$
   * DDA Compute Raymarch: $3.80\text{ ms}$
   * Two-Phase Deferred PBR: $1.80\text{ ms}$
-  * Cadastral CAD / Fog Pass: $0.60\text{ ms}$
+  * Cadastral CAD / Fog / `F1–F4` Info-View Pass: $0.60\text{ ms}$
   * **Total Active Frame Time:** $7.40\text{ ms}$ ($10.60\text{ ms}$ hard budget cap), leaving $> 36\%$ safety headroom.
 
-### 5.4. UHAI IPC Bridge & Shared Memory Data Plane
-* **High-Frequency Data Plane:** POSIX SPSC shared memory ring buffer (`/dev/shm/uhai_telemetry.ring`, $< 50\ \mu\text{s}$ latency).
-* **Cache-Line Isolation:** `SharedRingHeader` occupies 3 cache lines (192 bytes): Cache line 0 (producer write index & dropped frames counter); Cache line 1 (consumer read index); Cache line 2 (static config). Slots padded to 64 bytes (1 cache line), total SHM size 65,728 bytes.
-* **Asynchronous Control Plane:** Unix Domain Sockets (`/var/run/collective/uhai.sock`) transporting FlatBuffers RPC, BPMN tokens, and BBS+ verifiable credentials.
+### 5.4. UHAI IPC Bridge & Canonical Binary Struct Layouts (`uhai_ring_buffer.hpp`)
+* **High-Frequency Outward Data Plane:** POSIX SPSC shared memory ring buffer (`/dev/shm/uhai_telemetry.ring`, $< 50\ \mu\text{s}$ latency) carrying outward 32-byte `TelemetrySample` payloads (packed inside 64-byte cache-aligned `TelemetrySlot` lines) stamped with `QUALITY_SIMULATED (0x01)` from Layer 1b (Oasis) into Layer 2/3 daemons.
+* **Cache-Line Isolation:** `SharedRingHeader` occupies 3 cache lines (192 bytes): Cache line 0 (producer write index & dropped frames counter); Cache line 1 (consumer read index); Cache line 2 (static config). Total SHM size is 65,728 bytes.
+* **Asynchronous Control Plane:** Unix Domain Sockets (`/var/run/collective/uhai.sock`) and lock-free SPSC rings transporting 264-byte `SpatialIntentPayload` designations, 64-byte Sprint 9 `FlowContract` packets, BPMN `WorkToken` packets, and BBS+ verifiable credentials.
+
+```cpp
+namespace oasis::uhai {
+
+// Canonical 32-Byte Outward Telemetry Sample (`uhai_ring_buffer.hpp`)
+#pragma pack(push, 8)
+struct alignas(8) TelemetrySample {
+    uint64_t frame_count{0};        // 8B: Monotonic engine simulation/render frame count
+    uint64_t timestamp_ns{0};       // 8B: Nanosecond timestamp (HLC or steady_clock)
+    float    fps{0.0f};             // 4B: Current WebGPU render frame rate (60.0 Hz target)
+    float    founder_stress{0.0f};  // 4B: Founder psychological stress accumulator [0..100,000]
+    uint32_t memory_slot_count{0};  // 4B: Active slots in 32-slot episodic memory ring
+    uint8_t  biome_id{0};           // 1B: 0=Suburban, 1=Urban, 2=Permaculture
+    union {
+        uint8_t quality_flags{0x01};// 1B: Strictly 0x01 (QUALITY_SIMULATED)
+        uint8_t quality_flag;
+    };
+    uint16_t reserved{0};           // 2B: Padding for strict 8-byte alignment
+};
+#pragma pack(pop)
+static_assert(sizeof(TelemetrySample) == 32, "TelemetrySample must be exactly 32 bytes.");
+
+// Canonical 264-Byte Spatial Intent Payload (`uhai_ring_buffer.hpp`)
+#pragma pack(push, 8)
+struct alignas(8) SpatialIntentPayload {
+    uint8_t  intent_cid[32]{};      // 32B: SHA256 / CID digest of JSON-LD schema or treaty spec
+    uint8_t  author_did[32]{};      // 32B: Opaque 32-byte founder DID handle (Anti-Bleed Inv 2)
+    uint64_t timestamp_ns{0};       // 8B:  Nanosecond epoch timestamp
+    uint16_t intent_type{0};        // 2B:  IntentType enum (1=SPATIAL_AFFORDANCE, etc.)
+    uint8_t  quality_flag{0x01};    // 1B:  Strictly 0x01 (QUALITY_SIMULATED)
+    uint8_t  status{0};             // 1B:  0=Draft, 1=Validated, 2=Compiled
+    uint32_t payload_bytes{0};      // 4B:  Byte length of inline JSON-LD payload
+    float    spatial_origin[3]{};   // 12B: 3D Voxel coordinates (x, y, z) for Cadastral anchor
+    float    spatial_extents[3]{};  // 12B: Voxel bounding box extents (dx, dy, dz)
+    char     schema_uri[32]{};      // 32B: JSON-LD schema or target URI (e.g., "oasis:dig_swale")
+    char     payload_jsonld[128]{}; // 128B: Compact canonical JSON-LD intent parameters
+};
+#pragma pack(pop)
+static_assert(sizeof(SpatialIntentPayload) == 264, "SpatialIntentPayload must be exactly 264 bytes.");
+
+} // namespace oasis::uhai
+```
+
+### 5.5. The Sovereign Companion App Interaction Boundary & Intent U-Turn (V2.0 Law)
+To eliminate UI bloat and preserve strict cybernetic isolation between 3D spatial simulation and societal governance, Version 6.0 codifies the **Dual-Surface Interaction Boundary Law (V2.0 Law)**:
+
+1. **Layer 1 (Oasis WebGPU Desktop Client — Spatial Actuation Surface):**  
+   The Oasis desktop client is the **exclusive human interface for physical-world spatial actuation**. All 3D Orbital/Arcball camera navigation, voxel raycasting, tactile Right-Click/Left-Click spatial designations (`[Dig Swale]`, `[Build Wall: Cob / Urbanite]`, `[Install Hardware: Inverter]`, `[Designate Sleep/Recreation Zone]`), and somatic character stewardship occur strictly inside Layer 1.
+2. **Layer 6 (Mobile Companion App via `col-gatewayd` on `TLS 1.3 HTTPS/WSS :8443 (VLAN 30)` — Exclusive Societal/Agora Interface):**  
+   The Mobile Companion App—connected exclusively over mTLS/TLS 1.3 **`HTTPS/WSS :8443` on isolated `VLAN 30`** to `col-gatewayd`—is the **exclusive human interface for societal, economic, and Agora interactions** within The Collective (`POST /api/v1/l6/intent`), designed under the pure commons postulate that Layer 7 (the legacy fiat world) does not exist inside the Agora.
+3. **Read-Only "Pop-the-Hood" Cybernetic Diagnostics (Layers 2–5 & Layer 7):**  
+   Within the Companion App, inspection panels for **Layers 2, 3, 4, 5, and 7** are **strictly read-only "pop-the-hood" cybernetic telemetry views** (inspecting Reticulum RNS link SNR, Layer 3 BCC mutual-credit clearings and CRDT Merkle DAGs, Layer 4 Wasmtime BPMN token traces, Layer 5 FROST/DID key handles and Trust Rings $R_0 \to R_6$, and Layer 7 `col-adversaryd` DES boundary pressure). Users never mutate Layers 2–5 or Layer 7 directly from diagnostic views; every societal mutation must enter through Layer 6 and traverse the canonical **Intent U-Turn**:
+   * **Downward Execution (`L6 -> L5 -> L4 -> L3 -> L2 -> L1 UHAI`):** Societal intents submitted at Layer 6 (`POST /api/v1/l6/intent`) pass to Layer 5 (`col-kmsd`) for DID/FROST signature verification and Trust Ring authorization, compile into deterministic BPMN tokens in Layer 4 (`col-execd`), **settle exergy and mutual-credit balances in Layer 3 (`col-storaged`)**, and actuate downward through **`L2 -> L1 (UHAI)`**.
+   * **Upward Yield (`[YIELD] -> L5 -> L6 -> L7`):** When Layer 4 hits a human task gate, moral conflict, or covenant milestone (`[YIELD]`), it yields upward to **`L5: Governance & FROST Policy Evaluation (col-kmsd)`** (ratified by stewards via `POST /api/v1/l6/intent -> L5`), which yields upward to **`L6: Mundane Semantic Camouflage (col-commonsd)`**, and finally to **`L7: Legacy Bridge & DES (col-adversaryd)`** for external regulatory/tariff translation.
+
+```
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                 THE V2.0 COMPANION APP INTERACTION BOUNDARY & INTENT U-TURN                      │
+├──────────────────────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                                  │
+│  [SURFACE A: LAYER 1 OASIS DESKTOP CLIENT]         [SURFACE B: LAYER 6 MOBILE COMPANION APP]     │
+│  ┌───────────────────────────────────────┐         ┌──────────────────────────────────────────┐  │
+│  │ - 3D WebGPU Voxel World & Arcball Cam │         │ - Connected via `TLS 1.3 HTTPS/WSS :8443`│  │
+│  │ - Right-Click Spatial Designator      │         │   on isolated `VLAN 30` (`col-gatewayd`) │  │
+│  │ - Physical Actuation & Chill Loop     │         │ - Exclusive Societal / Agora Interface   │  │
+│  │ - Emits 32B `TelemetrySample (0x01)`  │         │ - Read-Only Diagnostics for L2–L5 & L7   │  │
+│  └───────────────────┬───────────────────┘         └────────────────────┬─────────────────────┘  │
+│                      │                                                  │                        │
+│                      │ Outward `0x01` Telemetry                         │ `POST /api/v1/l6/intent`
+│                      ▼                                                  ▼                        │
+│              ┌───────────────┐                                  ┌───────────────────────────┐    │
+│              │ L1b -> L2/L3  │                                  │ L6: Agora & Commons Engine│    │
+│              │ Outward Only  │                                  │     (`col-commonsd`)      │    │
+│              │ (`0x01` Flag) │                                  └─────────────┬─────────────┘    │
+│              └───────────────┘                                                │ 1. Auth & Sign   │
+│                                                                               ▼                  │
+│                                                                 ┌───────────────────────────┐    │
+│                                                                 │ L5: DID, FROST & Trust    │    │
+│                                                                 │  Rings R0..R6 (`col-kmsd`)│    │
+│                                                                 └─────────────┬─────────────┘    │
+│                                                                               │ 2. Compile BPMN  │
+│                                                                               ▼                  │
+│   ┌──────────────────────────────────────────────────────────┐  ┌───────────────────────────┐    │
+│   │ Downward Ledger Settlement & Physical/Sim Actuation:     │  │ L4: Keyless 10Hz Wasmtime │    │
+│   │ L4 ──► L3 (`col-storaged` Exergy & BCC Mutual Credit)    │◄─┤   BPMN VM (`col-execd`)   │    │
+│   │    ──► L2 (`col-meshd`) ──► L1 (UHAI Ring Actuation)     │  └─────────────┬─────────────┘    │
+│   └──────────────────────────────────────────────────────────┘                │                  │
+│                                                                         [ Y I E L D ]            │
+│                                                                    (Human Gate / Exception)      │
+│                                                                               │                  │
+│                                                                               ▼                  │
+│                                                                 ┌───────────────────────────┐    │
+│                                                                 │ L5: Governance & FROST    │    │
+│                                                                 │ Policy Eval (`col-kmsd`)  │    │
+│                                                                 │ (Ratified via L6 -> L5)   │    │
+│                                                                 └─────────────┬─────────────┘    │
+│                                                                               │ 3. Upward Camo   │
+│                                                                               ▼                  │
+│                                                                 ┌───────────────────────────┐    │
+│                                                                 │ L6: Mundane Semantic      │    │
+│                                                                 │ Camouflage (`col-commonsd`)    │
+│                                                                 └─────────────┬─────────────┘    │
+│                                                                               │ 4. DES Bridge    │
+│                                                                               ▼                  │
+│                                                                 ┌───────────────────────────┐    │
+│                                                                 │ L7: Legacy Bridge & DES   │    │
+│                                                                 │    (`col-adversaryd`)     │    │
+│                                                                 └───────────────────────────┘    │
+│                                                                                                  │
+│     CANONICAL INTENT U-TURN:  L6 ──► L5 ──► L4 (──► L3 ──► L2 ──► L1)                            │
+│                                             └─► [YIELD] ──► L5 ──► L6 ──► L7                     │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+```
 
 ---
 
-## 6. Core Gameplay Loops & Systems Progression
+## 6. The Six Horizon Playability Pillars (V6.0 Specification)
 
-### 6.1. The Daily Diurnal Simulation Rhythm
+To transform Oasis from an uncompromising thermodynamic simulation into a deeply tactile, playable, and responsive strategy experience on par with *Dwarf Fortress*, *The Sims*, and *Cities: Skylines*, Version 6.0 establishes **The Six Horizon Playability Pillars**, anchored to unified numerical simulation constants across the C++ engine and Sovereign Stack.
+
 ```
 ┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
-│                                   THE DAILY SIMULATION RHYTHM                                    │
+│                     UNIFIED V6.0 SIMULATION & HOMEOSTASIS CONSTANTS TABLE                        │
+├─────────────────────────────────────────┬────────────────────────────────────────────────────────┤
+│ Parameter / Invariant                   │ Canonical Value & Mathematical Specification           │
+├─────────────────────────────────────────┼────────────────────────────────────────────────────────┤
+│ **Base Simulation Tick Rate ($1\times$)**│ **`30 Hz` fixed step** ($\Delta t_{\text{fixed}} = 33.333\text{ ms}$, $28,800\text{ ticks/day}$)│
+├─────────────────────────────────────────┼────────────────────────────────────────────────────────┤
+│ **Mandatory Milestone Epoch Length**    │ **`EPOCH_BOUNDARY_TICKS = 864,000` ticks** ($30\text{ simulated days}$)│
+├─────────────────────────────────────────┼────────────────────────────────────────────────────────┤
+│ **Insulated Room Sleep Recovery**       │ $T_{\text{room}} > 18.0^\circ\text{C}$ enclosed: **`+45 Focus/hr`**, $\dot{C}_{\text{thermal}} = 0\text{ kcal/hr}$│
+├─────────────────────────────────────────┼────────────────────────────────────────────────────────┤
+│ **Recreation Zone Stress Drainage**     │ **`-25%/hr`** ($-25,000/\text{hr}$) solo; **`-40%/hr`** ($-40,000/\text{hr}$) social; **`-10%/hr`** `AutonomousSelfSooth`│
+├─────────────────────────────────────────┼────────────────────────────────────────────────────────┤
+│ **Burnout Entry / Exit Hysteresis**     │ Entry at **`100%` Stress** ($100,000$); Exit below **`< 40%` Stress** ($40,000$)│
+├─────────────────────────────────────────┼────────────────────────────────────────────────────────┤
+│ **Migrant Trust Ring Progression**      │ **`R6 (Unverified Migrant)`** $\xrightarrow{7\text{d} + 36\text{ MJ PoTW}}$ **`R3`** $\xrightarrow{30\text{d} + \text{2-of-3 FROST}}$ **`R1`**│
+└─────────────────────────────────────────┴────────────────────────────────────────────────────────┘
+```
+
+---
+
+### 6.1. Pillar 1: Orbital / Arcball Camera Controls (Dynamic POI Spherical Kinematics)
+
+#### 6.1.1. Playability Rationale
+While `Shift + Left Click (Drag)` provides rapid 2D planar panning across the cardinal axes (North, East, South, West), navigating complex 3D voxel structures—such as multi-story urban canyons, subterranean root cellars, and interior rocket-heater flues—requires an intuitive 3D orbit camera anchored to the exact geometry the player is inspecting, complete with automatic roof/wall cutaway so interior rooms are never occluded.
+
+#### 6.1.2. Interaction, Reticle & Cutaway Kinematics
+1. **Dynamic Point-of-Interest (POI) Lock (`Shift + Right Click`) & 3D Wireframe Reticle:**  
+   On the rising edge of `Shift + Right Mouse Button`, the engine casts a screen-space ray $\mathbf{R}(t) = \mathbf{O}_{\text{cam}} + t \cdot \hat{\mathbf{d}}_{\text{mouse}}$ through the Amanatides & Woo 3D DDA voxel grid. The intersected voxel center $\mathbf{P}_{\text{POI}} = (x_{\text{vox}} + 0.5, y_{\text{vox}} + 0.5, z_{\text{vox}} + 0.5)$ becomes the spherical orbit origin, immediately highlighted in-world by a **3D Wireframe POI Reticle** (pulsing cyan $1.02\times$ bounding cube).
+2. **Spherical Orbit (`Shift + Right Drag`):**  
+   Dragging the cursor by screen-space deltas $(\Delta x_{\text{px}}, \Delta y_{\text{px}})$ updates the azimuth angle $\theta \in [0, 2\pi)$ and clamped elevation pitch angle $\phi \in [5.0^\circ, 85.0^\circ]$ ($[0.0873\text{ rad}, 1.4835\text{ rad}]$, preventing both ground-plane clipping and zenith gimbal lock):
+   $$\theta_{t+1} = (\theta_t - s_\theta \cdot \Delta x_{\text{px}}) \bmod 2\pi, \qquad \phi_{t+1} = \text{clamp}\left(\phi_t + s_\phi \cdot \Delta y_{\text{px}},\, 5.0^\circ,\, 85.0^\circ\right)$$
+3. **Radial Zoom (`Shift + Mouse Wheel`):**  
+   Scrolling the mouse wheel while holding `Shift` scales the radial distance $r \in [r_{\min}, r_{\max}]$ ($r_{\min} = 1.5\text{ m}$ for intimate interior room inspection, $r_{\max} = 180.0\text{ m}$ for macro enclave overview):
+   $$r_{t+1} = \text{clamp}\left(r_t \cdot (1.0 - \kappa_{\text{zoom}} \cdot \Delta w_{\text{wheel}}),\, 1.5\text{ m},\, 180.0\text{ m}\right)$$
+4. **Automatic & Manual Roof/Wall Cutaway (`z_cutaway_level` WGSL Uniform):**  
+   To prevent roofs and upper floors from blocking the player's view of interior furniture, sleeping zones, and agents, the DDA raymarcher uniform buffer exposes `z_cutaway_level`:
+   * **Automatic Interior Cutaway:** Whenever the locked POI voxel $\mathbf{P}_{\text{POI}}$ resides inside an enclosed room (`RoomEnclosureID > 0`) OR radial zoom $r < 12.0\text{ m}$, `z_cutaway_level` automatically clamps to $y_{\text{POI}} + 2\text{ voxels}$, slicing away overhead roof voxels and camera-facing front walls along the ray path while preserving floor-level wall silhouettes.
+   * **Manual Slice Override (`PageUp` / `PageDown`):** Players can manually step `z_cutaway_level` up or down voxel-by-voxel (*Dwarf Fortress* Z-slice style) at any zoom distance.
+5. **Cartesian Camera Reconstruction:**  
+   The eye position $\mathbf{O}_{\text{cam}}$ is reconstructed each render frame (60 Hz) around $\mathbf{P}_{\text{POI}}$ with exponential critically damped smoothing ($\alpha_{\text{cam}} = 1 - \exp(-18.0 \cdot \Delta t_{\text{render}})$):
+   $$\mathbf{O}_{\text{cam}} = \mathbf{P}_{\text{POI}} + \begin{bmatrix} r \cos(\phi) \cos(\theta) \\ r \sin(\phi) \\ r \cos(\phi) \sin(\theta) \end{bmatrix}$$
+
+#### 6.1.3. C++20 Orbital Camera Component Layout
+```cpp
+namespace oasis::camera {
+
+struct alignas(32) OrbitalCameraState {
+    float    poi_origin[3];         // 12B: Locked voxel POI world coordinates (x, y, z)
+    float    radial_distance;       // 4B:  Distance r from POI [1.5m .. 180.0m]
+    float    azimuth_theta;         // 4B:  Horizontal orbit angle [0 .. 2*pi]
+    float    elevation_phi;         // 4B:  Vertical pitch angle [5.0 deg (0.0873 rad) .. 85.0 deg (1.4835 rad)]
+    uint16_t locked_voxel[3];       // 6B:  Discrete voxel coordinate (vx, vy, vz) for 3D Wireframe Reticle
+    uint8_t  z_cutaway_level;       // 1B:  Active WGSL Z-slice height (auto-clamped when r < 12m or indoor POI)
+    uint8_t  flags;                 // 1B:  Bit 0: POI Reticle Active, Bit 1: Auto-Cutaway, Bit 2: Manual Z-Slice
+};
+static_assert(sizeof(OrbitalCameraState) == 32, "OrbitalCameraState must be 32 bytes.");
+
+} // namespace oasis::camera
+```
+
+---
+
+### 6.2. Pillar 2: Spatial Context Menus (The Designator & `SpatialIntentPayload`)
+
+#### 6.2.1. Playability Rationale
+Memorizing dozens of abstract keyboard hotkeys alienates players and obscures the rich affordances of the voxel world. Inspired by *Dwarf Fortress* and *RimWorld*, Oasis implements **The Designator**—a tactile, two-step spatial interaction model driven by `Right-Click (Evaluate)` and `Left-Click (Execute)`, complete with upfront metabolic cost badges, Cyan/Crimson validity previews, and full structural enclosure construction so players can build insulated rooms from the ground up.
+
+#### 6.2.2. Tactile Two-Step Interaction & Material Loop
+1. **Right-Click (Evaluate Voxel & Open Context Menu with Upfront Cost Badges):**  
+   Right-clicking without `Shift` casts a DDA ray into the 3D voxel grid, inspects the target voxel's `material_id`, structural support state, and spatial tags, and opens a tactile **Spatial Context Menu** anchored to the 3D block. Every menu item displays upfront **Metabolic & Material Badges** (`[Cost: kcal | Focus | Material]`):
+   * **Dirt / Topsoil / Clay Voxel (`MAT_SOIL`, `MAT_LOAM`, `MAT_CLAY`):**
+     * `[Dig Swale]` — (`120 kcal | 15 Focus / vox`) Excavates contoured keyline water trench and **automatically drops loose `MAT_CLAY_COB_LUMP` / `MAT_URBANITE_CHUNK` resource items** onto adjacent voxels.
+     * `[Plant Cover Crop]` — (`45 kcal | 10 Focus / vox`) Seeds nitrogen-fixing clover/vetch/daikon radish.
+     * `[Designate Haul Zone]` — (`0 kcal | Paint-Only`) Creates a `StockpileZoneComponent` that automatically pulls dropped `MAT_CLAY_COB_LUMP`, `MAT_URBANITE_CHUNK`, `MAT_WOOD_CORD`, and harvest crates via autonomous hauling tasks.
+     * `[Designate Sleep/Recreation Zone]` — (`0 kcal | Paint-Only`) Marks a sleeping or leisure zone (remains $100\%$ usable even during `STATE_BURNOUT`).
+   * **Foundation / Structural Voxel (`MAT_URBANITE_SLAB`, `MAT_TIMBER_FLOOR`, `MAT_COB`, `MAT_SOIL` perimeter):**
+     * `[Build Wall: Cob / Urbanite]` — (`180 kcal | 20 Focus | 2x MAT_CLAY_COB_LUMP or MAT_URBANITE_CHUNK`) Erects high-thermal-mass structural wall ($R\text{-value} = 24$).
+     * `[Install Door: Insulated Timber]` — (`140 kcal | 25 Focus | 2x MAT_WOOD_CORD`) Installs a `MAT_DOOR` voxel (passable by agents for pathfinding, airtight $R\text{-value} = 12$ for thermal enclosure).
+     * `[Build Roof: Timber & Shingle]` — (`160 kcal | 25 Focus | 2x MAT_WOOD_CORD`) Seals overhead room envelope against rain and winter heat loss.
+     * `[Build Hearth: Rocket Mass Heater]` — (`350 kcal | 45 Focus | 4x MAT_URBANITE_CHUNK + 2x MAT_CLAY_COB_LUMP`) Constructs a high-efficiency thermal mass heater that heats enclosed rooms above $18.0^\circ\text{C}$.
+     * `[Install Hardware: Inverter]` — (`250 kcal | 60 Focus | 1x Salvaged Inverter`) Mounts hybrid MPPT/split-phase inverter node.
+     * `[Erect Solar Blueprint]` — (`220 kcal | 50 Focus | 1x PV Panel Array`) Places tilted photovoltaic rack assembly.
+     * `[Designate Sleep/Recreation Zone]` — (`0 kcal | Paint-Only`) Defines indoor insulated dormitory or hearth/reading lounge.
+   * **Loose Item / Salvage Voxel (`MAT_CLAY_COB_LUMP`, `MAT_URBANITE_CHUNK`, `MAT_SCRAP_METAL`, `MAT_WOOD_CORD`):**
+     * `[Haul to Storage]` — (`35 kcal | 5 Focus`) Enqueues immediate transport of loose item to the nearest `StockpileZoneComponent`.
+   * **Active Designation Voxel (Any Voxel with Pending Intent):**
+     * `[Cancel Designation]` — (`0 kcal | Instant`) Aborts pending designation, refunds reserved material locks, and clears holographic overlay.
+2. **Left-Click (Cyan/Crimson Volume Preview & `SpatialIntentPayload` Dispatch):**  
+   Once an action is selected from the context menu, dragging with `Left-Click` renders a live volumetric bounding box $(x_{\min}..x_{\max}, y_{\min}..y_{\max}, z_{\min}..z_{\max})$:
+   * **Valid Placement (Translucent Holographic Cyan):** Structural support, terrain grade, and required stockpile materials are satisfied.
+   * **Invalid Placement (Pulsing Holographic Crimson):** Missing structural foundation, obstructed voxel, or insufficient material in `StockpileZoneComponent` (displays tooltip explaining the exact blocker).
+   Releasing `Left-Click` on a valid volume instantiates a `VoxelDesignationComponent` in Flecs ECS and serializes a canonical **264-byte `SpatialIntentPayload`** (`alignas(8)`, defined in Section 5.4 and `uhai_ring_buffer.hpp`) onto the UHAI ring buffer.
+
+---
+
+### 6.3. Pillar 3: Psychological & Biological Homeostasis (The Chill Loop & Day 1 Genesis Camp Kit)
+
+#### 6.3.1. Playability Rationale & The Day 1 Genesis Survival Camp Kit
+In early prototypes (Sprints 1–5), dropping Founder 01 onto an empty, freezing parcel with zero shelter or leisure affordances caused an inescapable Day 1 hypothermia and burnout death spiral before a single room could be built. Version 6.0 resolves this by pairing **The Chill Loop** recovery ECS systems with the **Day 1 Genesis Survival Camp Kit** (`SCN-TAU-GENESIS`).
+
+```
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                         DAY 1 GENESIS SURVIVAL CAMP KIT (LOT 402 SPAWN)                          │
+├──────────────────────────────┬───────────────────────────────────────────────────────────────────┤
+│ Pre-Spawned Asset            │ Thermodynamic & Gameplay Function at `Tick 0`                     │
+├──────────────────────────────┼───────────────────────────────────────────────────────────────────┤
+│ **1. 3×3 Canvas Bell Tent +  │ Pre-enclosed (`MAT_DOOR` flap + insulated canvas) starter shelter │
+│    Woodstove + 12 Cordwood** │ with `[Sleep Zone]`; maintains $>18.0^\circ\text{C}$ for 72h.     │
+├──────────────────────────────┼───────────────────────────────────────────────────────────────────┤
+│ **2. 60 L Potable Water Tote**│ Provides 15–20 days of clean solo drinking water while keyline    │
+│                              │ swales and biochar filtration beds are excavated.                 │
+├──────────────────────────────┼───────────────────────────────────────────────────────────────────┤
+│ **3. 12-Meal Ration Crate**  │ $24,000\text{ kcal}$ high-density dry rations preventing starvation│
+│                              │ while cover crops and the Commons Kitchen are established.        │
+├──────────────────────────────┼───────────────────────────────────────────────────────────────────┤
+│ **4. Stone Ring Campfire**   │ Pre-designated outdoor `[Recreation Zone]` providing immediate    │
+│    (`RECREATION_ZONE`)       │ **`-25%/hr` solo** (`-40%/hr` social) Stress drainage on Day 1.   │
+├──────────────────────────────┼───────────────────────────────────────────────────────────────────┤
+│ **5. Genesis Tool Locker**   │ Contains Mattock (`[Dig Swale]`), Trowel (`[Build Wall: Cob]`),   │
+│                              │ Timber Saw, Inductive Line Coupler, and Ed25519 DID Handle.       │
+└──────────────────────────────┴───────────────────────────────────────────────────────────────────┘
+```
+
+#### 6.3.2. Mathematical Specification of the Recovery ECS Systems
+
+```
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                     PSYCHOLOGICAL & BIOLOGICAL HOMEOSTASIS ("THE CHILL LOOP")                    │
+├──────────────────────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                                  │
+│   [THERMAL & WORK STRESSORS]                            [THE CHILL LOOP RECOVERY SYSTEMS]        │
+│   - Ambient Cold (<10°C) / Heat (>32°C)                 - Enclosed Insulated Room (>18°C Sleep)  │
+│   - Heavy Excavation / Asphalt Depaving                 - Ration Crate / Commons Kitchen + Water │
+│   - Uninsulated Exposure & Hunger                       - Recreation Zones & Self-Sooth Fallback │
+│                 │                                                       │                        │
+│                 ▼                                                       ▼                        │
+│   ┌───────────────────────────┐                           ┌───────────────────────────────────┐  │
+│   │ +Caloric Burn Penalty     │◄─────── Counteracts ──────│ Halts Thermal Kcal Burn (0 kcal/h)│  │
+│   │ +Cumulative Stress Drift  │         & Restores        │ +45 Focus/hr Insulated Sleep Regen│  │
+│   │ -Short-Term Focus Drain   │                           │ -25%/hr Solo | -40%/hr Social     │  │
+│   └─────────────┬─────────────┘                           │ -10%/hr AutonomousSelfSooth       │  │
+│                 │                                         └───────────────────────────────────┘  │
+│                 ▼  If Unmitigated (Stress reaches 100% / 100,000 units)                          │
+│   ┌───────────────────────────────────────────────────────────────────────────────────────────┐  │
+│   │                     INVOLUNTARY BURNOUT STATE (`STATE_BURNOUT`)                           │  │
+│   │  - Emergency Warp Brake auto-downshifts `10x/100x -> 1x` immediately                      │  │
+│   │  - Agent drops all active tools and aborts current physical `SpatialIntentPayload`        │  │
+│   │  - Paint-only `[Designate Sleep/Recreation Zone]` remains 100% usable by player           │  │
+│   │  - Clears only when Stress drains below hysteresis exit threshold (< 40% / 40,000 units)  │  │
+│   └───────────────────────────────────────────────────────────────────────────────────────────┘  │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+1. **Dirty-Flag Cached `ThermalEnclosureSolver` & `MAT_DOOR` Semantics:**  
+   * **Passable-Yet-Airtight `MAT_DOOR` Voxels:** Agents pathfind seamlessly through `MAT_DOOR` voxels (`cost = 1.0`), whereas the 3D flood-fill `ThermalEnclosureSolver` treats closed `MAT_DOOR` voxels as airtight insulated barriers ($R\text{-value} \ge 12$).
+   * **Zero-Cost Dirty-Flag Caching:** Flood-fill enclosure evaluation runs **only** when a structural voxel (`MAT_COB`, `MAT_URBANITE_SLAB`, `MAT_DOOR`, `MAT_ROOF`) is added or removed (`chunk_topology_dirty = true`), caching the resulting `RoomEnclosureID` and leak coordinates so steady-state 30 Hz ticks incur **$0.00\text{ ms}$** flood-fill overhead.
+   * **`F1–F4` Info-View Shader Overlays:** Pressing `F1` activates the **Thermal Envelope Shader Overlay**, rendering enclosed $>18.0^\circ\text{C}$ rooms in warm amber and highlighting unsealed roof/wall gap voxels in **pulsing icy-blue** so players can immediately spot and patch drafts (`F2` = SOR Electrical Bus; `F3` = Keyline Hydrology & Moisture; `F4` = Stress, Trust Rings $R_0 \to R_6$ & Designations).
+2. **Insulated Sleep Recovery (`RoomHomeostasisSystem`):**  
+   When an agent sleeps inside an enclosed room with interior ambient temperature $T_{\text{room}} > 18.0^\circ\text{C}$ ($291.15\text{ K}$):
+   * **Thermal Caloric Penalty Halted:** $\dot{C}_{\text{thermal}} = 0.0\text{ kcal/hr}$ (metabolic burn locks to basal resting $\dot{C}_{\text{basal}} = 70\text{ kcal/hr}$).
+   * **Canonical Focus Regeneration (`+45 Focus/hr`):**
+     $$\frac{dF}{dt} = \begin{cases} +45.0\text{ Focus/hr}, & \text{if } T_{\text{room}} > 18.0^\circ\text{C} \text{ and Enclosed} \\ +12.0\text{ Focus/hr}, & \text{otherwise (Uninsulated / Cold Exposure)} \end{cases}$$
+3. **Recreation Zones & Three-Tier Active Stress Drainage (`LeisureChillSystem`):**  
+   Cumulative `Stress` ($\mathcal{S} \in [0, 100,000]$, where $100,000 = 100\%$) drains according to three canonical recovery tiers:
+   $$\left(\frac{d\mathcal{S}}{dt}\right)_{\text{chill}} = \begin{cases} -40,000\text{ units/hr } (-40\%/\text{hr}), & \text{in } \text{RECREATION\_ZONE} \text{ with } N_{\text{peers}} \ge 1 \text{ (Social Hearth/Music)} \\ -25,000\text{ units/hr } (-25\%/\text{hr}), & \text{in } \text{RECREATION\_ZONE} \text{ solo (Campfire / Reading)} \\ -10,000\text{ units/hr } (-10\%/\text{hr}), & \text{via } \texttt{AutonomousSelfSooth} \text{ (In-Place Breathing/Sitting Fallback)} \end{cases}$$
+   If no `RECREATION_ZONE` is reachable or designated, a stressed agent automatically invokes `AutonomousSelfSooth` in-place (`-10%/hr`), guaranteeing that the simulation can never permanently deadlock even if the campfire goes out.
+4. **The 100% Stress Involuntary Burnout State (`STATE_BURNOUT`) & `< 40%` Hysteresis Exit:**  
+   When cumulative `Stress` reaches $100\%$ ($\mathcal{S} \ge 100,000$), the agent enters `STATE_BURNOUT`:
+   * The **Emergency Warp Auto-Downshift Brake** immediately drops Time Warp from `10x`/`100x` to `1x` (`30 Hz`).
+   * The agent drops all held tools and aborts active physical labor.
+   * **Paint-Only Designation Exemption:** While physical build/dig orders are rejected until recovery, zero-kcal paint-only designations (`[Designate Sleep/Recreation Zone]`, `[Cancel Designation]`) remain **$100\%$ usable by the player** so they can always designate a recovery zone during an active Burnout.
+   * **Hysteresis Exit (`< 40%` Stress):** The agent exits `STATE_BURNOUT` and resumes normal task evaluation only after `Stress` drains strictly below **$40\%$ ($\mathcal{S} < 40,000$ units)**.
+
+---
+
+### 6.4. Pillar 4: Simulation Temporal Controls (Time Warp, Auto-Downshift Brake & `FlowContract` Harmonization)
+
+#### 6.4.1. Playability Rationale
+Binding simulation time 1:1 to the 60 FPS render loop makes multi-day ecological processes—such as waiting for rainwater to fill a keyline swale, curing cob walls, or growing cover crops—tedious, while generating excessive per-frame telemetry logs. Oasis decouples the **`30 Hz` base simulation step** from the **locked `60 Hz` WebGPU render loop** via **Simulation Temporal Controls (Time Warp)**.
+
+#### 6.4.2. HUD Controls, Live Net Trajectory Ticker & Auto-Downshift Brake
+The top-right Cadastral HUD provides four tactile temporal state controls paired with a live **Net Metabolic Trajectory Ticker**:
+* **Live Net Trajectory HUD Ticker:** Continuously displays **`[ Net: +4.2 kWh/d | +18.0 L/d | -450 kcal/d ]`** (color-coded Emerald for surplus, Amber for <48h reserve, Crimson for <24h deficit) so the player knows their exact survival runway before accelerating time.
+* **`[ || Pause ]` (`Space`):** $M_{\text{warp}} = 0\times$ ($0\text{ Hz}$ simulation, $60\text{ Hz}$ WebGPU rendering). Orbital Camera, `F1–F4` overlays, and Spatial Context Designator remain $100\%$ interactive for blueprint planning.
+* **`[ > 1x ]` (`Key 1`):** $M_{\text{warp}} = 1\times$. Canonical **`30 Hz` fixed simulation step** ($\Delta t_{\text{fixed}} = 33.333\text{ ms}$, $28,800\text{ logical ticks/day}$).
+* **`[ >> 10x ]` (`Key 2`):** $M_{\text{warp}} = 10\times$ (**`300 Hz`** logical step rate; $5$ sub-steps of `g_ecs->progress()` per $60\text{ Hz}$ render frame).
+* **`[ >>> 100x ]` (`Key 3`):** $M_{\text{warp}} = 100\times$ (**`3,000 Hz`** logical step rate; $50$ sub-steps of `g_ecs->progress()` per $60\text{ Hz}$ render frame).
+
+```
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                 DECOUPLED 30Hz TIME-WARP ENGINE & SPRINT 9 FLOW-CONTRACT HARMONIZATION           │
+├──────────────────────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                                  │
+│  [WebGPU Render Loop: Locked 60 FPS (16.66 ms)]   [Flecs Simulation: 30 Hz Base * M_warp]        │
+│  - Orbital Camera, Cutaway & DDA Raymarcher       - M_warp in { 0x, 1x(30Hz), 10x, 100x(3kHz) }  │
+│  - Right-Click Designator & Net Trajectory HUD    - Sub-steps `g_ecs->progress(33.33ms)`         │
+│  - Emits 1 aggregated 32B `TelemetrySample`       - Emergency Auto-Downshift Brake -> `1x`       │
+│    per 60 Hz frame boundary to UHAI ring          - Wall-clock Log Decimator (max 2 Hz stdout)   │
+│                                                                  │                               │
+│                                                                  ▼                               │
+│                                       ┌──────────────────────────────────────────────────────┐   │
+│                                       │      UHAI SPSC RING BUFFER & SPRINT 9 HARMONIZER     │   │
+│                                       │  - Steps `TemporalFlowContractComponent::StepTick()` │   │
+│                                       │    on every logical tick (28,800 ticks/day)          │   │
+│                                       │  - Halts at `EPOCH_BOUNDARY_TICKS = 864,000` (30d)   │   │
+│                                       └──────────────────────────────────────────────────────┘   │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+#### 6.4.3. Emergency Warp Auto-Downshift Brake & Frame-Boundary UHAI Aggregation
+1. **Emergency Warp Auto-Downshift Brake (`10x/100x -> 1x`):**  
+   To prevent players from accidentally fast-forwarding into a lethal catastrophe at $100\times$, the engine automatically disengages `10x`/`100x` warp and drops immediately to **`1x` (`30 Hz`)** with a resonant acoustic warning chime whenever any of the following triggers fire:
+   * **Trigger A (Migration Wave Arrival):** A `MigrationWaveArrivalEvent` crosses the parcel boundary.
+   * **Trigger B (Burnout or Regression):** Founder 01 or any NPC enters `STATE_BURNOUT` ($100\%$ Stress) or a Legacy Behavioral Regression (`HOARDING`, `CONFLICT`, `MESH_DEGRADATION`).
+   * **Trigger C (Critical Survival Reserve `< 24h`):** Potable water or caloric reserves fall below $24\text{ simulated hours}$ ($28,800\text{ ticks}$) of consumption at current metabolic burn rates.
+   * **Trigger D (Mandatory Milestone Wall):** `current_tick` reaches `EPOCH_BOUNDARY_TICKS` ($864,000\text{ ticks}$).
+2. **Frame-Boundary UHAI Telemetry Aggregation & Log Decimation:**  
+   During $10\times$ ($5$ sub-steps/frame) and $100\times$ ($50$ sub-steps/frame), `g_ecs->progress(dt_fixed)` advances deterministically without pushing $3,000\text{ samples/sec}$ onto `/dev/shm/uhai_telemetry.ring`. Instead, Oasis emits **exactly one aggregated 32-byte `TelemetrySample` per 60 Hz render frame boundary**, and throttles stdout logs via a $500\text{ ms}$ wall-clock token bucket.
+3. **Sprint 9 Temporal `FlowContract` Harmonization:**  
+   Each logical tick ($28,800\text{ ticks/day}$, $864,000\text{ ticks/month}$) invokes `TemporalFlowContractComponent::StepTick(current_tick, ...)`, integrating `rate_per_tick` across `FlowContract` slots so total conserved exergy $\sum \text{rate\_per\_tick} \times \Delta \text{ticks}$ is bit-exact across $1\times$, $10\times$, and $100\times$ warp speeds.
+
+---
+
+### 6.5. Pillar 5: Migration Waves & Legacy NPCs (Adjacency Routing & `R6 -> R3 -> R1` Pipeline)
+
+#### 6.5.1. Playability Rationale & Strict Layer Adjacency (`L7 -> L6 -> L5 -> L4 -> L3 -> L2 -> L1b`)
+A solitary survivor loop plateaus once basic shelter and calories are secured. To drive mid- and late-game emergent drama, Layer 7 (`col-adversaryd` DES) periodically generates **Migration Waves** in response to macroscopic legacy crises.
+
+In strict compliance with Sovereign Stack layer adjacency, `MigrationWaveArrivalEvent` **never** jumps directly from Layer 7 to Layer 1b; it traverses adjacent daemon sockets downward:
+$$\text{L7 (`col-adversaryd`)} \longrightarrow \text{L6 (`col-commonsd`)} \longrightarrow \text{L5 (`col-kmsd` assigns `Ring R6` DID)} \longrightarrow \text{L4 (`col-execd`)} \longrightarrow \text{L3 (`col-storaged`)} \longrightarrow \text{L2 (`col-meshd`)} \longrightarrow \text{L1b (Oasis UHAI Ring)}$$
+
+#### 6.5.2. Dramatic Arrival UX & Legacy Migrant Profile
+1. **12-Hour Pre-Wave Horizon Warning (`-14,400 Ticks`):**  
+   Exactly $12\text{ simulated hours}$ ($14,400\text{ ticks}$ at $30\text{ Hz}$) before a wave reaches the gate, a visual dust plume / signal flare appears on the parcel horizon outside the Fog of Legacy, accompanied by a HUD early-warning banner:
+   > `"[HORIZON ALERT] Migration Wave detected: 2 Displaced Legacy Citizens approaching South Gate in 12h 00m. Prepare insulated beds (>18°C), water, and rations."`
+2. **Arrival Auto-Downshift, Camera Snap & Migrant Dossier Card:**  
+   At arrival (`Tick T_arrival`), the Emergency Warp Brake auto-downshifts simulation speed to `1x` (`30 Hz`), a one-click `[Snap Camera to Gate]` pill appears, and a **Migrant Arrival Card** presents each newcomer's psychological facets, skills, displacement trauma memory, high baseline `Stress` ($\mathcal{S}_{\text{init}} \in [45,000 \dots 65,000]$), entrenched Fiat Mindset score, and initial cryptographic assignment to **`Trust Ring R6 (Unverified Migrant)`**.
+3. **4-Needs Assimilation Checklist UI:**  
+   Selecting any migrant displays a live **4-Needs Assimilation Checklist** in their Cognitive Dossier:
+   * `[ ] 1. Insulated Sleeping Quarters (> 18.0°C Enclosed)`
+   * `[ ] 2. Clean Potable Water Access (>= 3.0 L/day)`
+   * `[ ] 3. Nourished Caloric Security (>= 2,200 kcal/day)`
+   * `[ ] 4. Recreation Zone Leisure Access (Stress < 40%)`
+
+```
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│           MIGRATION WAVE ADJACENCY & TWO-STAGE PoTW + FROST ASSIMILATION (`SS-EP5-007`)          │
+├──────────────────────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                                  │
+│  [L7 `col-adversaryd` DES] ──► L6 ──► L5 ──► L4 ──► L3 ──► L2 ──► [L1b Oasis UHAI Ring]          │
+│  (12h Horizon Warning -> Arrival Auto-Downshift to 1x -> Migrant Arrival Card)                   │
+│                                                │                                                 │
+│                                                ▼                                                 │
+│        ┌───────────────────────────────────────────────────────────────────────────────┐         │
+│        │ STAGE 0: `Trust Ring R6 (Unverified Migrant)`                                 │         │
+│        │ - Baseline Stress: 45%–65% | Fiat Mindset Active | Zero Grid/Vault Access     │         │
+│        └───────────────────┬───────────────────────────────────────┬───────────────────┘         │
+│                            │                                       │                             │
+│     [4-Needs Checklist Met: >18°C Bed, Water,               [Infrastructure Overwhelmed:         │
+│      Calories & Chill Loop + Sweat-Equity Labor]             Cold, Hungry, Unhoused Shock]       │
+│                            │                                       │                             │
+│                            ▼                                       ▼                             │
+│        ┌───────────────────────────────────────┐   ┌───────────────────────────────────────┐     │
+│        │ STAGE 1 (`R6 -> R3` Promotion):       │   │ LEGACY BEHAVIORAL REGRESSION PATH     │     │
+│        │ **`Trust Ring R3 (Probationary)`**    │   │ - Stress cascades to 100% (Burnout)   │     │
+│        │ - Requires L3 (`col-storaged`) proof: │   │ - `HOARDING`: Locks food/tools        │     │
+│        │   >= 7 consecutive sheltered days AND │   │ - `CONFLICT`: Mess hall brawls (-45)  │     │
+│        │   >= 36.0 MJ (10.0 Exergy Credits)    │   │ - `MESH_DEGRADATION`: Unauthorized    │     │
+│        │   of verified PoTW sweat-equity work  │   │   grid draw / relay sabotage          │     │
+│        └───────────────────┬───────────────────┘   └───────────────────────────────────────┘     │
+│                            │                                                                     │
+│                            ▼  >= 30 Simulated Days in R3 + Zero Active Ostrom Sanctions          │
+│        ┌───────────────────────────────────────────────────────────────────────────────┐         │
+│        │ STAGE 2 (`R3 -> R1` Promotion via `SS-EP5-007` & `SCN-TAU-GENESIS`):          │         │
+│        │ **`Trust Ring R1 (Vouched Steward)`**                                         │         │
+│        │ - Requires **2-of-3 FROST Threshold Multi-Signature Ceremony** initiated by   │         │
+│        │   existing `Ring R1` stewards via Layer 6 (`POST /api/v1/l6/intent -> L5`)    │         │
+│        │ - Unlocks full inverter, seed vault, and mutual-credit co-stewardship         │         │
+│        └───────────────────────────────────────────────────────────────────────────────┘         │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+#### 6.5.3. Two-Stage PoTW + FROST Web-of-Trust Graduation Pipeline (`SS-EP5-007`)
+Migrants **never** jump directly from unverified arrival to full infrastructure stewardship. Graduation follows the two-stage cryptographic protocol enforced jointly by Layer 3 (`col-storaged`) and Layer 5 (`col-kmsd`):
+1. **Stage 1 (`Trust Ring R6 [Unverified Migrant] -> Trust Ring R3 [Probationary Resident]`):**  
+   Requires Layer 3 (`col-storaged`) cryptographic attestation of:
+   * $\ge 7$ consecutive simulated days ($201,600\text{ ticks}$) of sheltered homeostasis (all 4 Assimilation Checklist needs satisfied, zero regression events), **AND**
+   * $\ge 36.0\text{ MJ}$ (**$10.0\text{ Exergy Credits}$**) of verified Proof-of-Thermodynamic-Work (PoTW) sweat-equity labor contributed to enclave designations (digging swales, hauling cob, tending crops).
+2. **Stage 2 (`Trust Ring R3 [Probationary Resident] -> Trust Ring R1 [Vouched Steward]`):**  
+   Requires:
+   * $\ge 30$ simulated days ($864,000\text{ ticks}$, 1 full Epoch) in `Trust Ring R3` with **zero active Ostrom graduated sanctions**, **AND**
+   * A **2-of-3 FROST Threshold Multi-Signature Vouching Ceremony (`SCN-TAU-GENESIS`)** initiated by existing `Ring R1` stewards via the Layer 6 Companion App (`POST /api/v1/l6/intent -> L5 col-kmsd`).
+
+#### 6.5.4. C++20 Migrant Assimilation Component Layout
+```cpp
+namespace oasis::migration {
+
+enum class TrustRingLevel : uint8_t {
+    R0_FOUNDER_CORE         = 0, // Genesis Founder / airgapped root steward
+    R1_VOUCHED_STEWARD      = 1, // 2-of-3 FROST vouched steward (full infra authority)
+    R2_FEDERATED_ALLY       = 2, // Neighboring Arcadia (server-01) peer steward
+    R3_PROBATIONARY_RESIDENT= 3, // >= 7d sheltered + >= 36.0 MJ (10 Exergy) PoTW verified
+    R6_UNVERIFIED_MIGRANT   = 6  // Newly arrived Layer 7 DES migration wave NPC
+};
+
+enum class RegressionState : uint8_t {
+    NONE                = 0,
+    HOARDING            = 1, // Seizes and locks communal calories/tools
+    CONFLICT            = 2, // Initiates arguments/brawls, spikes peer stress
+    MESH_DEGRADATION    = 3  // Disrupts microgrid / mesh relays
+};
+
+struct alignas(32) MigrantAssimilationComponent {
+    uint64_t arrival_tick;              // 8B: Simulation tick when migrant wave arrived
+    float    potw_sweat_equity_mj;      // 4B: Verified PoTW work contributed (target >= 36.0 MJ)
+    uint32_t sheltered_homeostasis_ticks;// 4B: Consecutive ticks with 4-Needs Checklist met (target >= 201,600)
+    uint32_t r3_probationary_ticks;     // 4B: Ticks spent in Ring R3 without sanction (target >= 864,000)
+    int16_t  fiat_mindset_index;        // 2B: [1000 = Pure Fiat Hoarder .. 0 = Mutualist Steward]
+    uint16_t wave_id;                   // 2B: Originating Layer 7 DES migration wave ID
+    TrustRingLevel trust_ring;          // 1B: Starts at R6_UNVERIFIED_MIGRANT (6) -> R3 (3) -> R1 (1)
+    RegressionState regression;         // 1B: Active legacy regression behavior
+    uint8_t  four_needs_checklist_mask; // 1B: Bit 0: Bed(>18C), Bit 1: Water, Bit 2: Kcal, Bit 3: Leisure
+    uint8_t  frost_vouch_signatures;    // 1B: Count of Ring R1 FROST signatures collected (target >= 2 of 3)
+    uint8_t  active_ostrom_sanctions;   // 1B: Must be 0 for R3 -> R1 promotion
+    uint8_t  padding[3];                // 3B: Alignment to exactly 32 bytes
+};
+static_assert(sizeof(MigrantAssimilationComponent) == 32, "MigrantAssimilationComponent must be 32 bytes.");
+
+} // namespace oasis::migration
+```
+
+---
+
+### 6.6. Pillar 6: The Shared Virtual Landscape (`Arcadia server-01`) & Mandatory Milestone (Epoch Sync)
+
+#### 6.6.1. Playability Rationale & Headless 24-Byte `StateDeltaOp` Replication
+While Oasis is a $100\%$ local-first deterministic simulation, sovereign enclaves are meant to federate. Based on *willing voluntariness*, players can connect their local simulation to a shared, persistent virtual bioregion—canonically **`Arcadia (server-01)`**—collaborating with neighboring players to reshape a contiguous multi-parcel landscape, trade surplus exergy, and build bioregional Commons Corridors.
+
+To preserve the Anti-Bleed Invariants, Oasis never replicates raw GPU meshes over the network: **Layer 3 (`col-storaged`)** replicates strictly headless **24-byte `StateDeltaOp` cadastral CRDT records** across the mesh, which are projected downward (`L3 -> L2 -> L1b` over UHAI) to update neighboring parcel topography.
+
+#### 6.6.2. The Mandatory Milestone (`EPOCH_BOUNDARY_TICKS = 864,000`), Straggler Grace Window & `SOLO_AUTARKIC` Fast-Path
+Oasis resolves the $100\times$ vs. $1\times$ Time-Warp relativity paradox through **The Mandatory Milestone (`SS-EP9-003`)**:
+
+1. **Free Local Intra-Epoch Acceleration (`864,000 Ticks / 30 Days`):**  
+   Within any 30-day calendar month (**`EPOCH_BOUNDARY_TICKS = 864,000` logical ticks at `30 Hz`**), each player on `Arcadia (server-01)` may freely modulate their local Time-Warp multiplier ($0\times, 1\times, 10\times, 100\times$). Inter-parcel resource transfers operate via asynchronous Sprint 9 **Temporal `FlowContract` envelopes** buffered in the UHAI ring buffers.
+2. **The Hard Causal Wall & Interactive Blueprint Planning Mode:**  
+   When a player reaches `current_tick == k * 864,000` (`End of Month k`), Time Warp automatically disengages to $0\times$ and the engine enters `MILESTONE_WALL_LOCKED`:
+   * **Zero Dead-Screen Waiting (Interactive Blueprint Planning Mode):** While waiting for `Arcadia (server-01)` peers to synchronize, the 60 FPS WebGPU Orbital Camera, Roof Cutaway, `F1–F4` Info-Views, and Right-Click/Left-Click Spatial Context Designator remain **$100\%$ interactive in Blueprint Planning Mode**. Players can inspect their enclave and pre-paint Month $k+1$ designations, which queue in a staging buffer and dispatch automatically the instant the Epoch barrier lifts.
+3. **`SOLO_AUTARKIC` Zero-Peer Fast-Path ($\le 1\text{ Tick}$):**  
+   If a player is running offline or solo (`active_peer_count == 0`), the engine executes the **`SOLO_AUTARKIC` Fast-Path**: local `FlowContract` integrals and demurrage self-reconcile in **$\le 1\text{ logical tick}$ ($< 33.3\text{ ms}$)** with zero network wait, immediately unlocking Month $k+1$.
+4. **Three-Phase Mesh Reconciliation & `SS-EP9-003` Straggler Quorum Grace Window:**  
+   When connected to `Arcadia (server-01)` (`active_peer_count > 0`), the mesh executes a deterministic three-phase commit governed by the **`SS-EP9-003` Straggler Quorum Protocol**:
+   * **Phase A (Layer 3 `StateDeltaOp` CRDT Merge):** Layer 3 (`col-storaged`) merges 24-byte `StateDeltaOp` cadastral voxel deltas, keyline hydrology tables, and Commons Corridor expansions.
+   * **Phase B (Layer 3 Bounded Cycle Clearing & Demurrage):** **Layer 3 (`col-storaged`)** executes **Bounded Cycle Clearing (BCC via Johnson's cycle-canceling algorithm)** and applies **Exponential Demurrage** across all Sprint 9 `FlowContract` integrals ($\sum \Phi_{\text{out}} + \sum \Phi_{\text{in}} + \Delta E_{\text{storage}} = 0$).
+   * **Phase C (Straggler Quorum Grace Window, Dormant Epoch Escrow & Layer 5 FROST Commit):** Once **$\ge 2/3$ of active `Ring R1` stewards** reach the Mandatory Milestone, a bounded **Straggler Grace Window ($\Delta t_{\text{grace}}$)** begins. If a slow/disconnected peer fails to reach the wall before $\Delta t_{\text{grace}}$ expires, their unfinished `FlowContract` obligations are safely placed into **Dormant Epoch Escrow** (preventing both server stalls and unfair slashing), **Layer 5 (`col-kmsd`)** signs the **2-of-3 FROST `EpochMerkleCommit`**, and a **3D Holographic Horizon Wave** sweeps across the `Arcadia (server-01)` terrain in WebGPU, visually materializing all peers' newly synced Month $k$ structures as Month $k+1$ unlocks!
+
+```
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│        ARCADIA (`server-01`) MANDATORY MILESTONE (`864,000` TICKS) & `SS-EP9-003` PROTOCOL       │
+├──────────────────────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                                  │
+│  Epoch 1 (864,000 Ticks: Days 1..30 at 30 Hz)                     Epoch 2 (Days 31..60)          │
+│                                                                   ║                              │
+│  Player A (100x Warp): ══════════════► [HITS 864k WALL EARLY]    ═╬═► [Blueprint Planning Mode]  │
+│                                        (Pre-paints Month 2 zones) ║              │               │
+│  Player B (10x Warp) : ══════════════════════════► [HITS WALL]   ═╬═► (>= 2/3 Quorum Reached!    │
+│                                                                   ║    Starts Delta t_grace)     │
+│  Player C (Straggler): ═══════════════════ (Offline / Slow 1x) ───╬─► [Placed in Dormant Escrow] │
+│                                                                   ║              │               │
+│  [If `active_peer_count == 0`: `SOLO_AUTARKIC` Fast-Path          ║              ▼               │
+│   reconciles locally in <= 1 tick with zero wait!]                ║   - L3 Merges 24B StateDeltaOp│
+│                                                                   ║   - L3 Runs BCC & Demurrage  │
+│                                                                   ║   - L5 Signs FROST Commit    │
+│                                                                   ║   - 3D Holographic Wave      │
+│                                                                   ║     Reveals Month 2!         │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+#### 6.6.3. C++20 `StateDeltaOp` & `ArcadiaEpochSyncState` Structs
+```cpp
+namespace oasis::epoch {
+
+// Canonical 24-Byte Headless Cadastral CRDT Record Replicated by Layer 3 (`col-storaged`)
+struct alignas(8) StateDeltaOp {
+    uint64_t hlc_timestamp;         // 8B: Hybrid Logical Clock timestamp of voxel/cadastral mutation
+    uint32_t parcel_id;             // 4B: Originating Arcadia (server-01) parcel identifier
+    uint16_t voxel_coord[3];        // 6B: Local parcel voxel coordinates (vx, vy, vz)
+    uint16_t material_id;           // 2B: Updated voxel material_id (e.g., MAT_COB, MAT_SWALE)
+    uint16_t op_flags;              // 2B: Bit 0: Creation, Bit 1: Deletion, Bit 2: Corridor Merge
+    uint16_t crc16_digest;          // 2B: Fast integrity checksum
+};
+static_assert(sizeof(StateDeltaOp) == 24, "StateDeltaOp must be exactly 24 bytes.");
+
+enum class EpochBarrierState : uint8_t {
+    INTRA_EPOCH_FREE_RUN    = 0, // Free local warp (0x, 1x, 10x, 100x) up to 864,000 ticks
+    SOLO_AUTARKIC_FAST_PATH = 1, // active_peer_count == 0: <= 1 tick local self-reconciliation
+    MILESTONE_WALL_LOCKED   = 2, // Interactive Blueprint Planning Mode active while waiting
+    STRAGGLER_GRACE_WINDOW  = 3, // >= 2/3 quorum reached; Delta t_grace countdown active
+    L3_BCC_AND_L5_FROST     = 4, // L3 running Johnson's BCC + Demurrage; L5 signing FROST commit
+    HOLOGRAPHIC_WAVE_REVEAL = 5  // 3D Horizon Wave sweeping terrain; unlocking Month k+1
+};
+
+struct alignas(32) ArcadiaEpochSyncState {
+    uint64_t current_epoch_id;          // 8B: Monotonic calendar month index (Month 1, 2, ...)
+    uint64_t epoch_boundary_tick;       // 8B: Multiples of EPOCH_BOUNDARY_TICKS (864,000 ticks)
+    uint8_t  frost_epoch_commit[8];     // 8B: Truncated L5 FROST EpochMerkleCommit signature digest
+    uint16_t active_peer_count;         // 2B: 0 triggers SOLO_AUTARKIC <= 1-tick fast-path
+    uint16_t synced_steward_count;      // 2B: Stewards at wall (>= 2/3 triggers grace window)
+    uint16_t grace_ticks_remaining;     // 2B: Countdown for SS-EP9-003 Straggler Grace Window
+    EpochBarrierState barrier_state;    // 1B: Current synchronization state machine phase
+    uint8_t  staged_blueprint_count;    // 1B: Designations pre-painted in Blueprint Planning Mode
+};
+static_assert(sizeof(ArcadiaEpochSyncState) == 32, "ArcadiaEpochSyncState must be 32 bytes.");
+
+} // namespace oasis::epoch
+```
+
+---
+
+## 7. Core Gameplay Loops & Systems Progression
+
+### 7.1. The Daily Diurnal Simulation Rhythm (`28,800 Ticks/Day` at `30 Hz`)
+```
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                         THE DAILY SIMULATION RHYTHM (28,800 TICKS @ 30 Hz)                       │
 ├─────────────────────┬────────────────────────────────────────────────────────────────────────────┤
 │ Time Window         │ Gameplay Phase & Systems Activity                                          │
 ├─────────────────────┼────────────────────────────────────────────────────────────────────────────┤
 │ **06:00 — Dawn**    │ **The Morning Circle:** Bell rings; Founder 01 convenes community. Open    │
-│                     │ BPMN WorkTokens are posted on the slate; citizens claim tasks.             │
+│                     │ BPMN WorkTokens & Spatial Designations are posted; citizens claim tasks.   │
 ├─────────────────────┼────────────────────────────────────────────────────────────────────────────┤
 │ **07:00 — 12:00**   │ **Morning Production Sprint:** High focus period. Heavy physical labor     │
-│                     │ (asphalt quarrying, solar mounting, ditch excavation, keyline trenching).  │
+│                     │ (swale digging dropping cob/urbanite, wall/roof building, solar mounting). │
 ├─────────────────────┼────────────────────────────────────────────────────────────────────────────┤
-│ **12:00 — Midday**  │ **Communal Nourishment:** Shared lunch in the mess tent. Thermal resting.  │
-│                     │ Need satiation; social thought exchange; hydration replenishment.          │
+│ **12:00 — Midday**  │ **Communal Nourishment:** Shared lunch from Ration Crate / Commons Kitchen;│
+│                     │ potable water hydration; `Ring R6 -> R3` migrant assimilation check-ins.   │
 ├─────────────────────┼────────────────────────────────────────────────────────────────────────────┤
-│ **13:00 — 17:00**   │ **Afternoon Maintenance & Craft:** Precision crafting (circuit wiring,     │
-│                     │ seed sorting, biochar inoculation, tool sharpening, whim execution).       │
+│ **13:00 — 17:00**   │ **Afternoon Maintenance & Craft:** Precision crafting (rocket mass heater  │
+│                     │ masonry, inverter wiring, cover crop seeding, hauling to stockpiles).      │
 ├─────────────────────┼────────────────────────────────────────────────────────────────────────────┤
-│ **17:00 — 20:00**   │ **Evening Governance & Social Bonding:** Dinner around the rocket heater;  │
-│                     │ storytelling, acoustic music, reviewing boundary threat reports.           │
+│ **17:00 — 20:00**   │ **Evening Chill Loop & Governance:** Recreation Zone leisure (`-25%/hr`    │
+│                     │ solo, `-40%/hr` social); L6 Companion App FROST vouching (`:8443 VLAN 30`).│
 ├─────────────────────┼────────────────────────────────────────────────────────────────────────────┤
-│ **20:00 — 06:00**   │ **Night Rest & Memory Consolidation:** Sleep cycle. Diurnal memory decay;  │
-│                     │ episodic ring buffer consolidation into core beliefs; stress damping.      │
+│ **20:00 — 06:00**   │ **Insulated Night Sleep & Memory Consolidation:** Sleeping in $>18.0^\circ\text{C}$│
+│                     │ enclosed rooms halts thermal burn ($0\text{ kcal/hr}$) & restores `+45 Focus/hr`.│
 └─────────────────────┴────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### 6.2. Seasonal Dynamics & Ecological Friction
-* **Spring (The Thaw):** Mud challenges transportation; stormwater swales fill; code enforcement begins property inspections.
-* **Summer (The Heat & Drought):** Solar exergy at maximum ($> 8.0\text{ kWh/m}^2/\text{day}$); high evaporation demands water conservation; transformer overheat risks.
-* **Autumn (The Harvest & Scavenging):** Intensive canning, drying, and root cellar storage; final push to scavenge structural timber and rebar before snow.
-* **Winter (The Deep Freeze & Survival):** Low solar yield; high heating exergy demand; pipe burst hazards; social solidarity tested against altruism fatigue.
+### 7.2. Seasonal Dynamics, Migration Waves & `864,000`-Tick Epoch Milestones
+* **Spring (The Thaw):** Bootstrapping from the **Day 1 Genesis Survival Camp Kit**; digging keyline swales to harvest clay/cob and rainwater; first 12h Pre-Wave Horizon Warning announces `Trust Ring R6` migrants.
+* **Summer (The Heat & Drought):** Solar exergy at maximum ($> 8.0\text{ kWh/m}^2/\text{day}$); high evaporation demands water conservation; graduating `R6` migrants to `R3 (Probationary Resident)` via $\ge 7\text{d}$ shelter + $\ge 36.0\text{ MJ}$ PoTW.
+* **Autumn (The Harvest & Enclosure):** Using `F1` Thermal Overlay to patch pulsing icy-blue thermal leaks before frost; completing 2-of-3 FROST ceremonies (`SCN-TAU-GENESIS`) to promote `R3` residents into `Ring R1 (Vouched Stewards)`.
+* **Winter (The Deep Freeze & Survival):** Low solar yield; rocket mass heaters keep cob dormitories $> 18.0^\circ\text{C}$ (`+45 Focus/hr`); hearth Recreation Zones (`-40%/hr` social stress drain) prevent $100\%$ Stress `STATE_BURNOUT`, while `864,000`-tick Mandatory Milestone Epoch syncs reconcile `Arcadia (server-01)` via Layer 3 BCC and Layer 5 FROST commits.
 
 ---
 
-## 7. HUD, UI/UX Design & Sensory Telemetry
+## 8. HUD, UI/UX Design & Sensory Telemetry
 
-### 7.1. Dual Viewport System
-Oasis features a seamless dual camera architecture:
-* **Direct 3rd-Person View:** Over-the-shoulder perspective; tactile kinematics, tool swings, facial expressions, and dynamic weather.
-* **Cadastral Axonometric Slate:** Orthographic blueprint view; exergy and water flow overlays, boundary threat vectors, and architectural planning.
-* **Transition:** Smooth 400ms Hermite curve preserves spatial orientation.
+### 8.1. Dual Viewport, Orbital Cutaway & Spatial Designator System
+Oasis features a seamless camera and spatial interaction architecture:
+* **Dynamic POI Orbital / Arcball View (`Shift + Right Click`):** Locks onto any clicked voxel with a **3D Wireframe POI Reticle**, orbits smoothly in clamped spherical coordinates $(\theta, \phi \in [5^\circ, 85^\circ])$, scales radial zoom $r$ via `Shift + Mouse Wheel`, and automatically slices roofs/walls via `z_cutaway_level` when indoors or $r < 12.0\text{ m}$.
+* **Tactile Spatial Context Menus (The Designator):** `Right-Click` evaluates any voxel and opens its contextual menu with upfront `kcal`/`Focus`/material badges (including `[Build Wall: Cob / Urbanite]`, `[Install Door: Insulated Timber]`, `[Build Roof]`, `[Build Hearth: Rocket Mass Heater]`, `[Cancel Designation]`); `Left-Click` renders Cyan (valid) / Crimson (invalid) drag previews and dispatches a 264-byte `SpatialIntentPayload`.
+* **`F1–F4` Info-View Shader Overlays:** `F1` Thermal Envelope (pulsing icy-blue leak highlights & warm amber $>18.0^\circ\text{C}$ rooms), `F2` SOR Electrical Bus, `F3` Keyline Hydrology, `F4` Stress & Trust Rings ($R_0 \to R_6$).
+* **Cadastral Temporal Bar & Live Net Trajectory Ticker:** Displays `[ || Pause ] [ > 1x (30Hz) ] [ >> 10x ] [ >>> 100x ]`, the **Emergency Warp Auto-Downshift Brake** indicator, the live **`[ ±kWh/d | ±L/d | ±kcal/d ]`** Net Trajectory Ticker, and the `864,000`-tick Epoch Milestone progress bar.
+* **Companion App Surface Separation (V2.0 Law):** All societal/Agora workflows live exclusively on the Layer 6 Mobile Companion App (`col-gatewayd` on **`TLS 1.3 HTTPS/WSS :8443, VLAN 30`**), keeping the Oasis desktop HUD clean, spatial, and diegetic.
 
-### 7.2. The Volumetric Plumbob 2.0
+### 8.2. The Volumetric Plumbob 2.0
 Hovering over Founder 01’s head is a 3D volumetric faceted gemstone—**The Plumbob 2.0**:
-* **Calm Emerald Pulse (0.5 Hz):** High focus ($\ge 180$), low stress ($< 20,000$).
-* **Warm Amber Flicker (1.5 Hz):** Strained focus ($50 \dots 100$), moderate stress, physiological fatigue.
-* **Jagged Crimson Strobing (4.0 Hz):** Acute breakdown, tantrum, melancholy, or moral defiance.
+* **Calm Emerald Pulse (0.5 Hz):** High focus ($\ge 180$), low stress ($< 20,000$), thermal homeostasis satisfied ($>18.0^\circ\text{C}$ rest).
+* **Warm Amber Flicker (1.5 Hz):** Strained focus ($50 \dots 100$), moderate stress, thermal caloric penalty active.
+* **Jagged Crimson Strobing (4.0 Hz):** Acute breakdown, $100\%$ Stress **Involuntary Burnout** (`STATE_BURNOUT`, clears at $< 40\%$ Stress), legacy regression, or moral defiance.
 * **Prismatic Iridescent Shimmer:** Strange Mood / Creative Burst in progress.
 
-### 7.3. Cognitive Dossier & Empathetic Narrative Stream
-Selecting any character opens their **Cognitive Dossier**, presented as an intimate narrative:
-> *"Founder 01 feels deeply unsettled. She is haunted by the memory of the municipal code raid at the south gate last Autumn. She felt quiet pride while laying cob around the rocket stove yesterday. She values ecological harmony above all else and is frustrated by Adam's reluctance to share salvaged copper wire. Her thoughts are scattered."*
+### 8.3. Cognitive Dossier, 4-Needs Assimilation Checklist & Narrative Stream
+Selecting any character opens their **Cognitive Dossier**, including the **4-Needs Assimilation Checklist** and `R6 -> R3 -> R1` PoTW/FROST tracker for migrants:
+> *"Founder 01 feels deeply rested (+45 Focus/hr) after sleeping in a warm cob room above 20°C. She felt quiet pride while digging the north keyline swale yesterday, and her stress melted away (-40%/hr) while sharing stories by the campfire. She is reviewing a 2-of-3 FROST vouching ceremony on the Companion App to promote Marcus from Trust Ring R3 to Ring R1 Steward."*
 
-### 7.4. Volumetric Fog of Legacy & Commons Corridors
-Outside the player’s active parcel boundary, the world is shrouded in the **Fog of Legacy**—a dense, volumetric atmospheric smog illuminated by distant emergency sirens, surveillance drones, and flickering sodium-vapor streetlights. As the player regenerates soil and establishes peer proximity ties, the fog recedes, revealing clean skies and verdant **Commons Corridors**.
+### 8.4. Volumetric Fog of Legacy, Pre-Wave Horizon Flares & 3D Epoch Wave Reveal
+Outside the player’s active parcel boundary, the world is shrouded in the **Fog of Legacy**. Twelve simulated hours before a Migration Wave arrives, a **Pre-Wave Horizon Flare** illuminates the boundary approach. At the end of each `864,000`-tick month, lifting the Mandatory Milestone barrier triggers a **3D Holographic Horizon Wave** that sweeps across `Arcadia (server-01)`, revealing neighboring peers' newly reconciled structures and expanding verdant **Commons Corridors**.
 
 ---
 
-## 8. The Six Inviolable Quality Gates (G1–G6)
+## 9. The Six Inviolable Quality Gates (G1–G6)
 
-To prevent simulation drift and guarantee pedagogical validity, every scenario and feature in Oasis must satisfy Six Inviolable Quality Gates:
+To prevent simulation drift and guarantee pedagogical and safety validity, every scenario and Horizon Playability Pillar in Oasis must satisfy Six Inviolable Quality Gates:
 
 ```
 ┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
@@ -971,49 +1526,49 @@ To prevent simulation drift and guarantee pedagogical validity, every scenario a
 ├───────┬───────────────────────────────┬──────────────────────────────────────────────────────────┤
 │ Gate  │ Domain                        │ Acceptance Criteria & Validation Method                  │
 ├───────┼───────────────────────────────┼──────────────────────────────────────────────────────────┤
-│ **G1**│ Thermodynamic & Exergy        │ Energy and mass balances obey conservation laws (1st/2nd │
-│       │ Conservation Gate             │ laws). Power draw matches physical enthalpy and Joule    │
-│       │                               │ losses. Zero free-energy exploits. SOR solver error < 1e-4│
+│ **G1**│ Thermodynamic, Exergy &       │ Energy and mass balances obey conservation laws across   │
+│       │ `864,000`-Tick Epoch Gate     │ 30 Hz (1x–100x) Time Warp and Layer 3 BCC / Demurrage    │
+│       │                               │ Epoch Syncs. SOR solver error < 1e-4. Zero free exergy.  │
 ├───────┼───────────────────────────────┼──────────────────────────────────────────────────────────┤
-│ **G2**│ Offline Local-First Partition │ 100% deterministic execution with zero WAN connectivity. │
-│       │ & Privacy Gate                │ Zero central server pings. BLE/NFC checkouts and peer    │
-│       │                               │ distance bounding execute purely on local hardware.       │
+│ **G2**│ Offline Local-First (`SOLO_   │ `SOLO_AUTARKIC` Zero-Peer Fast-Path reconciles in <= 1   │
+│       │ AUTARKIC`) & Arcadia CRDT Gate│ tick offline. Voluntary `Arcadia (server-01)` MMO syncs  │
+│       │                               │ 24B `StateDeltaOp` CRDTs with `SS-EP9-003` Grace Window. │
 ├───────┼───────────────────────────────┼──────────────────────────────────────────────────────────┤
-│ **G3**│ Byzantine & Sybil Immunity    │ Malicious mesh packet floods dropped at physical layer.  │
-│       │ Gate                          │ Sybil nodes > 3 hops receive zero mutual credit. Social  │
-│       │                               │ defection slashes voucher reputation by exactly 50%.     │
+│ **G3**│ Byzantine, Sybil & `R6->R3->R1`│ Migration waves traverse `L7->L6->L5->L4->L3->L2->L1b`. │
+│       │ PoTW + FROST Assimilation Gate│ Migrants start in `Ring R6`; `R6->R3` requires 7d + 36MJ │
+│       │                               │ PoTW; `R3->R1` requires 30d + 2-of-3 L5 FROST ceremony.  │
 ├───────┼───────────────────────────────┼──────────────────────────────────────────────────────────┤
-│ **G4**│ Psychological Stability &     │ Dual-timescale Lyapunov damping prevents infinite stress │
-│       │ Anti-Livelock Gate            │ death spirals. Clinical recovery attractor triggers at   │
-│       │                               │ stress > 80k. 30-tick watchdog with exponential backoff. │
+│ **G4**│ Psychological Homeostasis &   │ >18.0°C enclosed sleep halts thermal burn & restores     │
+│       │ Chill Loop Anti-Burnout Gate  │ `+45 Focus/hr`. Leisure drains `-25%/-40%/-10%/hr` Stress│
+│       │                               │ 100% Burnout auto-downshifts to 1x & exits at `< 40%`.   │
 ├───────┼───────────────────────────────┼──────────────────────────────────────────────────────────┤
-│ **G5**│ Trojan Horse Pedagogical      │ In-game blueprints match real-world open hardware specs  │
-│       │ Validity Gate                 │ (CERN-OHL, permaculture keyline math). Ludic skills      │
-│       │                               │ compile directly to physical node stewardship blueprints.│
+│ **G5**│ Cooperative Bioregional       │ Day 1 Genesis Camp Kit prevents cold-start deadlock.     │
+│       │ Onboarding & Designator Gate  │ Spatial Context Designator emits canonical 264-byte      │
+│       │                               │ `SpatialIntentPayload` & supports full room enclosure.   │
 ├───────┼───────────────────────────────┼──────────────────────────────────────────────────────────┤
-│ **G6**│ SITL Hardware-in-the-Loop &   │ Zero embedded daemons in engine. Synthetic telemetry tagged│
-│       │ Anti-Bleed Invariant Gate     │ QUALITY_SIMULATED cannot actuate real physical hardware. │
-│       │                               │ UHAI SPSC ring buffer latency < 50 µs in /dev/shm.       │
+│ **G6**│ Outward-Only `0x01` Airgap &  │ Oasis emits 32B `TelemetrySample (0x01)` outward only &  │
+│       │ V2.0 `:8443 VLAN 30` Gate     │ never ingests live telemetry. Companion App uses TLS 1.3 │
+│       │                               │ `:8443 (VLAN 30)` & `L6->L5->L4->L3->L2->L1` / `[YIELD]`.│
 └───────┴───────────────────────────────┴──────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## 9. Audio & Narrative Themes
+## 10. Audio & Narrative Themes
 
-### 9.1. Acoustic Landscape & Somatic Cues
-* **The Living Hearth vs. The Dying Machine:** Inside Lot 402, soundscapes feature the gentle bubbling of bio-swales, the crackle of seasoned oak in rocket stoves, acoustic guitars, and rhythmic hand sawing. Outside the perimeter hums the oppressive, industrial drone of 60 Hz high-voltage transformers, diesel engines, and police sirens.
-* **Somatic Audio Feedback:** Fatigued characters breathe heavily; high-stress agents mutter under their breath or slam tools with excessive force; harmonious community meals produce warm, resonant vocal murmurs.
+### 10.1. Acoustic Landscape & Somatic Cues
+* **The Living Hearth vs. The Stressed Metropolis:** Inside Lot 402, soundscapes feature the gentle bubbling of rainwater swales, the crackle of seasoned oak in insulated rocket heaters, acoustic guitars in Recreation Zones, and rhythmic hand sawing. Outside the perimeter hums the industrial drone of 60 Hz high-voltage transformers, highway traffic, and distant sirens modeled by Layer 7 DES.
+* **Somatic & Temporal Audio Feedback:** Cold, uninsulated characters shiver audibly; the **Emergency Warp Auto-Downshift Brake** sounds a warm brass singing-bowl chime when dropping from $100\times$ to $1\times$; agents entering $100\%$ Stress Burnout let out an exhausted sigh as their tools clatter to the ground; harmonious community meals and evening fire-pit sessions produce warm, restorative vocal murmurs.
 
-### 9.2. Thematic Narrative Tone
-Oasis is serious, grounded, and defiantly optimistic. It avoids both cynical post-apocalyptic despair and naive utopian fantasy. It honors the dignity of physical labor, the reality of human psychological friction, and the transformative power of organized mutual aid.
+### 10.2. Thematic Narrative Tone
+Oasis is serious, cooperative, grounded, and defiantly constructive. In full alignment with `docs/BOOK_TEAM_DRIFT_REPORT.md`, it rejects malicious or "parasitic" framing in favor of structural resilience, good-faith modeling, and *willing voluntariness*. It honors the dignity of physical labor, the necessity of psychological rest and warmth ("The Chill Loop"), the compassionate assimilation of displaced neighbors (`R6 -> R3 -> R1`), and the transformative power of organized mutual aid.
 
 ---
 
-## 10. Conclusion & Handoff Directives
+## 11. Conclusion & Handoff Directives
 
-With the unanimous ratification of `OASIS-GDD-V5.0`, the game design specification for Oasis is fully realigned with **Scenario Driven Development (SDD)**. The engine is established as the interactive vanguard and Software-In-The-Loop digital twin of The Collective, grounded in Dwarf Fortress psychology, Sims indirect agency, Cities: Skylines infrastructure leeching, and Sovereign Stack local-first multiplayer.
+With the unanimous Round 2 ratification of `OASIS-GDD-V6.0 (The Horizon & Playability Edition)`, all five Council domains are aligned without veto:
+1. **The Six Horizon Playability Pillars (`HORIZON_ROADMAP.md`):** Orbital/Arcball POI Camera with 3D Wireframe Reticle & Roof Cutaway, Tactile Spatial Context Designator (emitting 264-byte `SpatialIntentPayload` with full wall/door/roof/hearth enclosure actions), Psychological & Biological Homeostasis (Day 1 Genesis Camp Kit, `+45 Focus/hr` insulated $>18.0^\circ\text{C}$ sleep, `-25%/-40%/-10%/hr` Stress drainage, and $100\% \to <40\%$ Burnout hysteresis), `30 Hz` Simulation Temporal Controls ($1\times\text{–}100\times$ Time Warp with Emergency Auto-Downshift Brake and Live Net Trajectory Ticker), Legacy NPC Migration Waves (`L7->...->L1b` adjacency and `R6 -> R3 -> R1` PoTW + 2-of-3 FROST graduation), and the Shared Virtual Landscape (`Arcadia server-01`) governed by `864,000`-tick Mandatory Milestone Epoch Synchronization (`SS-EP9-003` Straggler Grace Window, Dormant Epoch Escrow, and `SOLO_AUTARKIC` $\le 1\text{-tick}$ fast-path).
+2. **Narrative & Safety Demarcation (`docs/BOOK_TEAM_DRIFT_REPORT.md`):** Cooperative bioregional onboarding terminology, strict outward-only 32-byte `TelemetrySample` (`QUALITY_SIMULATED = 0x01`) production, zero ingestion of live physical telemetry, and unmistakable demarcation between the Shadow Simulator (Layer 1b) and physical orchestration.
+3. **The V2.0 Companion App Interaction Boundary Law:** Layer 1 (Oasis Desktop) as the exclusive surface for 3D spatial actuation, and Layer 6 (Mobile Companion App via `col-gatewayd` on **`TLS 1.3 HTTPS/WSS :8443, VLAN 30`**) as the exclusive Agora/societal interface with read-only diagnostic visibility into Layers 2–5 and 7 following the canonical `L6 -> L5 -> L4 -> L3 -> L2 -> L1 (UHAI)` downward execution and `[YIELD] -> L5 -> L6 -> L7` upward governance trajectory.
 
-This document serves as the authoritative blueprint for:
-1. **Phase 3 (`PRODUCT_BACKLOG_V5.md`):** Direct translation of these SDD mechanics into actionable engineering epics and user stories.
-2. **Phase 4 (`SOVEREIGN_STACK_BACKLOG.md` V3):** Alignment of the 7-layer headless daemon stack to support dynamic scenario ingestion and UHAI IPC contracts without violating domain isolation.
