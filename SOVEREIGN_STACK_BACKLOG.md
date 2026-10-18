@@ -2127,180 +2127,83 @@ Scenario: CI linter catches prohibited game mechanic import or UHAI struct paddi
 
 ---
 
-## 13. Epic 9: Shared Virtual Landscape (`Arcadia server-01`) & Mandatory Milestone Epoch Synchronization (`col-meshd`, `col-storaged`, `col-execd`)
+## 13. Epic 9: Asynchronous Node Proxy Federation, Standardized Temporal Scaling (`1x/2x/5x/10x`) & Layer 4/5 BPMN Workflow Scheduling (`col-meshd`, `col-storaged`, `col-execd`, `col-kmsd`)
 
-### User Story 9.1: Voluntary Shared Landscape Delta Relay (`col-meshd` & `col-storaged`)
-**Epic:** Epic 9 (Shared Virtual Landscape & Mandatory Milestone Epoch Synchronization)  
+### User Story 9.1: Asynchronous Node Proxy State Synchronization & Phase 1/2 Storage Horizon (`col-meshd` & `col-storaged`)
+**Epic:** Epic 9 (Asynchronous Node Proxy Federation & Layer 4/5 BPMN Orchestration)  
 **Story ID:** SS-EP9-001  
 **Points:** 8 SP | **Sprint:** Dual Sprint 14 | **Priority:** P0 Critical  
 **Persona:** As a Federated Enclave Steward on `Arcadia (server-01)`,  
-**Goal:** I want `col-meshd` and `col-storaged` to synchronize signed coarse terrain and infrastructure CRDT deltas across peers voluntarily opted into the `Arcadia (server-01)` federation namespace while maintaining 100% headless domain purity,  
-**Benefit:** So that autonomous nodes can collaboratively reshape a shared persistent bioregional landscape (swales, microgrid interties, coppice zones, timber frames) without introducing a single line of rendering, shader, or camera code into the Sovereign Stack daemons.
+**Goal:** I want real-time lockstep multiplayer deprecated in favor of an **Asynchronous Node Proxy architecture** where every peer player on the server is represented locally as an autonomous NPC Node Proxy whose configuration parameters, production outputs, and thermodynamic states synchronize asynchronously (via Phase 1 GitHub/static JSON feeds `core/3_ledger/node_proxies.json` and Phase 2 Layer 3 `col-storaged` CRDT `StateDeltaOp` replication),  
+**Benefit:** So that players inhabit a deeply populated, consistent world driven by real human exergy without real-time latency, collision-resolution nightmares, or hard-wall epoch freezes.
 
 #### Technical Specifications & Architecture
-- **SDD & Horizon Alignment:** `SCN-ETA-COPPICE`, `SCN-XI-ARCH`, `SCN-BETA-TRANS`, and Horizon Pillar 6 (*The Shared Virtual Landscape & Epoch Synchronization*).
-- **Voluntary Federation Namespace (`collective.arcadia.server-01`):**
-  - Participation is strictly opt-in based on willing voluntariness. Nodes subscribe to the Reticulum multicast group hash $\mathrm{Hash}_{128}(\text{"collective.arcadia.server-01"})$ in `col-meshd`.
-  - Local-only (`SOLO_AUTARKIC`) enclaves that do not opt in experience zero external state synchronization overhead.
+- **SDD & Horizon Alignment:** `SCN-ETA-COPPICE`, `SCN-XI-ARCH`, `SCN-BETA-TRANS`, `core/3_ledger/LEDGER_SPEC.md`, and Sprint 14 Pillar 1 (*The Asynchronous Node Proxy*).
+- **Two-Phase Storage Horizon (Phase 1 Legacy Bridge $\to$ Phase 2 Layer 3 CRDT Distributed Storage):**
+  - **Phase 1 (Immediate Bridge):** Peer Node Proxy configurations, thermodynamic trajectories (`net_kwh_per_day`, `net_water_l_per_day`, `net_kcal_per_day`), W3C DIDs (`did:mesh:*`), and resource deficits are published and ingested via `core/3_ledger/node_proxies.json` (leveraging GitHub / static JSON hosting from the legacy world).
+  - **Phase 2 (Sovereign Horizon):** Transitions seamlessly to **Layer 3 (`col-storaged`, `core/3_ledger/LEDGER_SPEC.md`)** local-first CRDT distributed storage (`StateDeltaOp`, `CRDTEscrowLock`, and `mesh:ValueToken` 1:1 surplus exergy reflection) replicated over Layer 2 (`col-meshd`).
 - **Headless Coarse Cadastral CRDT Deltas (SBR-1 & SBR-3 Compliant):**
-  - `col-storaged` stores and replicates only **abstract cadastral/thermodynamic infrastructure state** via 24-byte `StateDeltaOp` CRDT operations (e.g., hydrological swale retention capacity in liters, solar array nameplate watts, timber shelter thermal conductance $U$-value, coppice biomass inventory).
-  - Zero GPU meshes, shader uniforms, texture coordinates, or camera matrices ever cross `l2_l3.sock` or Reticulum radio packets; external SITL clients (Oasis) independently project these headless CRDT state records into their local 3D visualizers across the UHAI ring buffer.
-- **Build & Test Scaffolding (`core/1_simulation/src/CMakeLists.txt`):** Scaffolds standalone C++20 daemon target `col_storaged` (`col-storaged`) alongside `col_kmsd` and the 6 existing daemons in `core/1_simulation/src/CMakeLists.txt`, plus Catch2 verification target `test_arcadia_epoch_sync.cpp`.
-
-```protobuf
-syntax = "proto3";
-package collective.arcadia;
-
-message LandscapeCadastralDelta {
-  string federation_namespace = 1; // e.g. "arcadia.server-01"
-  uint64_t epoch_id = 2;
-  uint64_t hlc_timestamp = 3;
-  uint32_t parcel_region_id = 4;
-  bytes crdt_delta_ops = 5;        // Packed 24-byte StateDeltaOp array
-  bytes steward_ed25519_sig = 6;   // Originating node signature
-}
-```
+  - Zero GPU meshes, shader uniforms, or camera matrices ever cross `l2_l3.sock`; SITL clients (Oasis) independently project peer Node Proxy parameters into local autonomous NPC Node Proxies.
 
 #### Acceptance Criteria (Given / When / Then)
 ```gherkin
-Scenario: Voluntary shared landscape delta replication across Arcadia (server-01) peers
-  Given Node A and Node B voluntarily subscribed to the "arcadia.server-01" namespace in col-meshd
-  And Node C operating in SOLO_AUTARKIC local-only standalone mode
-  When Node A commits a hydrological swale infrastructure mutation (+5,000L water retention capacity) in col-storaged
-  Then col-meshd relays the signed LandscapeCadastralDelta to Node B within <= 250 ms
-  And Node B's col-storaged merges the CRDT delta deterministically and notifies its local UHAI ring buffer
-  And Node C receives zero packets from the arcadia.server-01 namespace
-  And scripts/lint_anti_bleed.sh confirms zero graphics or rendering symbols in col-meshd and col-storaged.
+Scenario: Asynchronous Node Proxy synchronization without lockstep multiplayer stalls
+  Given Node 0 operating in its localized instance alongside Asynchronous Node Proxies Node 01 (Lot 404), Node 02 (Lot 406), and Node 03 (Lot 408)
+  When peer Node Proxy snapshots update via core/3_ledger/node_proxies.json (Phase 1) or 24-byte StateDeltaOp CRDT records (Phase 2)
+  Then Node 0's local simulation updates the production outputs and resource deficits of those autonomous NPC Node Proxies deterministically
+  And zero real-time multiplayer lockstep barriers or rendering symbols enter col-meshd or col-storaged.
 ```
-
-#### Technical Tasks
-- [ ] Scaffold standalone CMake executable target `col_storaged` (`col-storaged`) in `core/1_simulation/src/CMakeLists.txt` alongside `col_kmsd` and the 6 existing daemons (`col_telemetryd`, `col_execd`, `col_commonsd`, `col_adversaryd`, `col_meshd`, `col_gatewayd`).
-- [ ] Implement opt-in Reticulum group subscription for `arcadia.server-01` in `col-meshd`.
-- [ ] Implement `LandscapeCadastralDelta` serializer/deserializer wrapping 24-byte `StateDeltaOp` batches in `col-storaged`.
-- [ ] Implement UHAI `/dev/shm/uhai_flow_execd` and `/dev/shm/uhai_flow_gateway` projection feed for verified peer cadastral deltas.
-- [ ] Add multi-node Catch2 test in `test_arcadia_epoch_sync.cpp` verifying CRDT convergence across opted-in peers and total isolation of standalone `SOLO_AUTARKIC` nodes.
 
 ---
 
-### User Story 9.2: Temporal Flow Contract HLC Pacing & Mandatory Milestone Barrier (`col-execd` & `col-storaged`)
-**Epic:** Epic 9 (Shared Virtual Landscape & Mandatory Milestone Epoch Synchronization)  
+### User Story 9.2: Standardized Temporal Mechanics (`1x, 2x, 5x, 10x`) & HLC `FlowContract` Pacing (`col-execd` & `col-storaged`)
+**Epic:** Epic 9 (Asynchronous Node Proxy Federation & Layer 4/5 BPMN Orchestration)  
 **Story ID:** SS-EP9-002  
-**Points:** 8 SP | **Sprint:** Dual Sprint 14 | **Priority:** P0 Critical  
+**Points:** 7 SP | **Sprint:** Dual Sprint 14 | **Priority:** P0 Critical  
 **Persona:** As a Distributed Simulation & Systems Architect,  
-**Goal:** I want `col-execd` and `col-storaged` to evaluate canonical 64-byte `FlowContract` streams (`uhai_ring_buffer.hpp`) using HLC logical tick timestamps across arbitrary local time-warp multipliers ($1\times$, $10\times$, $100\times$) while enforcing a hard cryptographic **Mandatory Milestone Barrier** at `EPOCH_BOUNDARY_TICKS = 864,000` (30 simulated days) with a $\le 1\text{ tick}$ **`SOLO_AUTARKIC` Zero-Peer Fast-Path**,  
-**Benefit:** So that stewards can accelerate local simulation time to complete multi-day infrastructural tasks without breaking causal economic reality across the multi-player `Arcadia (server-01)` mesh, while solo autarkic players never stall at end-of-month boundaries.
+**Goal:** I want simulation time-scaling multipliers strictly standardized to **`Pause (0x)`, `1x`, `2x`, `5x`, and `10x`** (deprecating `100x` and hard epoch freeze walls), while `col-execd` and `col-storaged` integrate canonical 64-byte `FlowContract` streams over HLC logical ticks,  
+**Benefit:** So that players can smoothly fast-forward through long thermodynamic processes (biochar pyrolysis, crop maturation, rainwater catchment) with predictable tick-rate calculations and bit-exact exergy conservation.
 
 #### Technical Specifications & Architecture
-- **Horizon Alignment:** Horizon Pillar 4 (*Simulation Temporal Controls / Time Warp*) and Horizon Pillar 6 (*Mandatory Milestone Epoch Synchronization*).
-- **Time-Warp Relativity Resolution via Canonical 64-Byte `FlowContract` & HLC Logical Ticks:**
-  - All bilateral resource flows use the canonical 64-byte `FlowContract` struct (`alignas(8)`, `static_assert(sizeof(FlowContract) == 64)`) wrapped in a 64-byte cache-line-isolated `FlowContractSlot` (`alignas(64)`) in `core/1_simulation/src/uhai/uhai_ring_buffer.hpp` (`start_logical_tick`, `end_logical_tick`, `rate_per_tick`).
-  - When a local SITL client (Oasis) adjusts its simulation speed (`[ || Pause ]`, `[ > 1x ]`, `[ >> 10x ]`, `[ >>> 100x ]`), `col-execd` and `col-storaged` integrate resource flows ($\Delta V = \int (\Phi_{in} - \Phi_{out}) \lambda_{ERC} \, d\tau_{\mathrm{logical}}$) strictly over logical HLC ticks $\tau_{\mathrm{logical}}$, dynamically batching UHAI ring buffer reads so a node running at $100\times$ produces the exact same thermodynamic integral over 30 simulated days as a node running at $1\times$.
-- **The Mandatory Milestone Barrier (`EPOCH_BOUNDARY_TICKS = 864,000`):**
-  - Each Epoch $E_k$ spans exactly **`EPOCH_BOUNDARY_TICKS = 864,000`** logical ticks ($30\text{ simulated days} \times 28,800\text{ logical ticks/day}$ at $20\text{ ticks/sim-minute}$).
-  - When a fast-forwarded node's logical clock reaches $E_k \cdot 864,000$, `col-execd` locks the epoch barrier and **halts further logical HLC tick advancement** into Epoch $E_{k+1}$ until `col-storaged` settles `FlowContract` obligations and emits an `EpochReconciledAckPayload` / `EpochBarrierReleaseToken`.
-- **The `SOLO_AUTARKIC` Zero-Peer Fast-Path ($\le 1\text{ tick}$):**
-  - When a node operates in `SOLO_AUTARKIC` mode (`active_peer_count == 0`, or zero federated peers in the `arcadia.server-01` lease set), reaching `EPOCH_BOUNDARY_TICKS = 864,000` **immediately self-signs** its local `EpochMerkleCommit` and emits `EpochReconciledAckPayload` (`BARRIER_RELEASED`) within **$\le 1\text{ tick}$**, completely bypassing `BARRIER_AWAITING_PEERS` and the straggler grace timer $\Delta t_{\mathrm{grace}}$ so solo players never freeze at the end of a month.
-
-```cpp
-namespace collective::epoch {
-
-inline constexpr uint64_t EPOCH_BOUNDARY_TICKS = 864000ULL; // 30 simulated days (28,800 ticks/day)
-
-enum class BarrierStatus : uint8_t {
-    EPOCH_RUNNING            = 0,
-    BARRIER_AWAITING_PEERS   = 1,
-    BARRIER_RECONCILING_CRDT = 2,
-    BARRIER_RELEASED         = 3
-};
-
-struct alignas(8) TimeScaleAndBarrierState {
-    uint64_t current_epoch_id;        // 8B: Active simulated month / epoch index
-    uint64_t current_logical_tick;    // 8B: Monotonic logical tick within current epoch
-    uint64_t epoch_boundary_ticks;    // 8B: Hard ceiling per epoch (864,000 logical ticks)
-    uint32_t time_warp_multiplier;    // 4B: 0 (Paused), 1, 10, or 100
-    BarrierStatus barrier_status;     // 1B: Current Mandatory Milestone state
-    uint8_t  quorum_peers_ready;      // 1B: Count of Arcadia peers at the barrier
-    uint16_t active_peer_count;       // 2B: 0 = SOLO_AUTARKIC fast-path (<= 1 tick release)
-};
-static_assert(sizeof(TimeScaleAndBarrierState) == 32, "TimeScaleAndBarrierState must remain 32 bytes.");
-
-} // namespace collective::epoch
-```
+- **Standardized Multipliers (`{0, 1, 2, 5, 10}`):**
+  - `SetTimeWarpMultiplier` clamps strictly to `{0, 1, 2, 5, 10}`.
+  - All bilateral resource flows (`FlowContract` in `uhai_ring_buffer.hpp`) and Asynchronous Node Proxy trajectories integrate over logical HLC ticks $\tau_{\mathrm{logical}}$, producing identical conserved thermodynamic totals across `1x`, `2x`, `5x`, and `10x`.
 
 #### Acceptance Criteria (Given / When / Then)
 ```gherkin
-Scenario: Node running at 100x Time Warp on Arcadia (server-01) halts at EPOCH_BOUNDARY_TICKS = 864,000
-  Given Node A running local simulation at 100x time-warp and Node B running at 1x real-time on Arcadia (server-01) (active_peer_count = 2)
-  And an active 64-byte FlowContract streaming 500 Watts of solar exergy from Node A to Node B
-  When Node A's logical HLC clock reaches EPOCH_BOUNDARY_TICKS = 864,000 (End of Month 1) ahead of Node B
-  Then col-execd on Node A immediately transitions BarrierStatus to BARRIER_AWAITING_PEERS
-  And halts Node A's simulation advancement into Month 2 while buffering outbound FlowContract slots in col-meshd
-  When Node B reaches 864,000 logical ticks and both nodes reconcile their Month 1 Merkle roots
-  Then col-storaged emits EpochReconciledAckPayload and unlocks Epoch 2 for both nodes simultaneously.
-
-Scenario: SOLO_AUTARKIC Zero-Peer Fast-Path releases the epoch barrier in <= 1 tick
-  Given a standalone node operating in SOLO_AUTARKIC mode (active_peer_count == 0) at 100x time-warp
-  When the node's logical HLC clock reaches EPOCH_BOUNDARY_TICKS = 864,000
-  Then col-storaged immediately self-signs its EpochMerkleCommit without waiting for delta_t_grace
-  And emits EpochReconciledAckPayload transitioning BarrierStatus to BARRIER_RELEASED within <= 1 tick.
+Scenario: Standardized 1x, 2x, 5x, and 10x time scaling preserves bit-exact thermodynamic integrals
+  Given a node running local simulation across 1x, 2x, 5x, and 10x multipliers
+  When 1,000 logical ticks of homeostasis, FlowContract integration, and Asynchronous Node Proxy stepping execute
+  Then SetTimeWarpMultiplier strictly enforces {0, 1, 2, 5, 10}
+  And the conserved caloric, water, and exergy integrals at 2x, 5x, and 10x match 1x bit-for-bit.
 ```
-
-#### Technical Tasks
-- [ ] Implement HLC logical-tick integrator for canonical 64-byte `FlowContract` (`FlowContractSlot`) in `col-storaged` decoupled from wall-clock frame rate.
-- [ ] Implement `TimeScaleAndBarrierState` shared-memory control block with `EPOCH_BOUNDARY_TICKS = 864,000` and the `SOLO_AUTARKIC` Zero-Peer Fast-Path (`active_peer_count == 0` $\to$ $\le 1\text{ tick}$ release).
-- [ ] Implement hard HLC tick gate in `col-execd` blocking workflow and tick progression past `864,000` ticks until `BARRIER_RELEASED`.
-- [ ] Add Catch2 tests in `test_arcadia_epoch_sync.cpp` verifying identical PoTW exergy integrals at $1\times$, $10\times$, and $100\times$ multipliers, multi-peer barrier halting, and $\le 1\text{ tick}$ `SOLO_AUTARKIC` fast-path release.
 
 ---
 
-### User Story 9.3: Asynchronous Epoch Merkle Reconciliation & Straggler Quorum Grace Protocol
-**Epic:** Epic 9 (Shared Virtual Landscape & Mandatory Milestone Epoch Synchronization)  
+### User Story 9.3: Layer 4 BPMN 2.0 Demand Routing, Advance Layer 5 Gate Locking & Multi-Day Temporal Workflow Scheduler (`col-execd`, `col-kmsd`, `col-storaged`)
+**Epic:** Epic 9 (Asynchronous Node Proxy Federation & Layer 4/5 BPMN Orchestration)  
 **Story ID:** SS-EP9-003  
-**Points:** 8 SP | **Sprint:** Dual Sprint 14 | **Priority:** P0 Critical  
-**Persona:** As a Bioregional Settlement Steward,  
-**Goal:** I want `col-storaged` and `col-meshd` to execute an end-of-month (`EPOCH_BOUNDARY_TICKS = 864,000`) CRDT state Merkle root consensus and Pairwise Bilateral Clearing Channel (BCC) settlement across `Arcadia (server-01)` with delay-tolerant straggler grace windows and a `SOLO_AUTARKIC` zero-peer fast-path,  
-**Benefit:** So that active federated nodes achieve communal economic alignment at every Mandatory Milestone while offline or intermittent nodes are gracefully isolated into delay-tolerant escrows without stalling the bioregional server, and solo autarkic enclaves advance instantaneously.
+**Points:** 7 SP | **Sprint:** Dual Sprint 14 | **Priority:** P0 Critical  
+**Persona:** As a Dual-Control Enclave Steward (`Node 0`),  
+**Goal:** I want Layer 4 (`core/4_orchestrator/ORCHESTRATOR_SPEC.md`, `col-execd`) to route resource deficits from peer NPC Node Proxies into my actionable task log as high-priority **Collective BPMN Bounties**, and I want a **Multi-Day Temporal Workflow Scheduler (`core/4_orchestrator/web/`)** that locks **Layer 5 Governance gates (`core/5_governance/GOVERNANCE_SPEC.md`, `col-kmsd`)** and **Layer 3 `CRDTEscrowLock` (`core/3_ledger/LEDGER_SPEC.md`, `col-storaged`)** in advance across Days 1–5,  
+**Benefit:** So that I experience true dual control—managing my physical homestead in the 3D simulation while orchestrating multi-day workflows and fulfilling communal demands in *The Collective*.
 
 #### Technical Specifications & Architecture
-- **SDD & Horizon Alignment:** `SCN-BETA-TRANS`, `SCN-OMICRON-KIN`, Quality Gate G2 (*Asynchronous Convergence*), and Horizon Pillar 6 (*Epoch Sync*).
-- **Epoch Barrier Reconciliation Protocol (`EPOCH_BOUNDARY_TICKS = 864,000`):**
-  1. **`SOLO_AUTARKIC` Zero-Peer Fast-Path (`active_peer_count == 0`):** If the node has zero active federated peers in `arcadia.server-01`, `col-storaged` applies continuous exponential demurrage ($V(t) = V_0 e^{-\delta \Delta \tau}$), self-signs the `EpochMerkleCommit` for `boundary_hlc_tick = E_k * 864,000`, persists the checkpoint to RocksDB/IPLD, and emits `EpochReconciledAckPayload` in **$\le 1\text{ tick}$** with zero network wait.
-  2. **Phase 1 — Federated Milestone Arrival & Merkle Broadcast (`active_peer_count >= 1`):** When a federated node reaches `EPOCH_BOUNDARY_TICKS = 864,000` for Epoch $E_k$, `col-storaged` freezes Epoch $E_k$ ledger mutations, applies continuous exponential demurrage and Johnson's BCC cycle-canceling pass (`SS-EP3-005`) over settled 64-byte `FlowContract` records, and broadcasts a signed `EpochMerkleCommit` over `col-meshd`.
-  3. **Phase 2 — Active Quorum Settlement ($\le 2.5\text{ s}$):** Once all active online peers in the `arcadia.server-01` lease set publish matching CRDT state roots (or exchange missing `StateDeltaOp` ranges to converge), `col-storaged` finalizes the Epoch $E_k$ checkpoint block in RocksDB/IPLD and emits `EpochReconciledAckPayload`.
-  4. **Phase 3 — Straggler Quorum Grace Window & Escrow Isolation:** If an opted-in peer $u_{\mathrm{offline}}$ has not reached `EPOCH_BOUNDARY_TICKS = 864,000` after the configurable grace window $\Delta t_{\mathrm{grace}}$ (e.g., disconnected radio link or dormant player), `col-storaged` freezes $u_{\mathrm{offline}}$'s bilateral 64-byte `FlowContract` streams at their last cryptographically attested HLC tick, escrows any pending credit balances in a non-punitive **Dormant Epoch Escrow**, and allows the active $\ge 2/3$ quorum to advance into Epoch $E_{k+1}$. When $u_{\mathrm{offline}}$ reconnects, it replays Epoch $E_k$ deltas deterministically via `col-meshd`'s DTN spool (`SS-EP2-003`) before joining the active epoch.
-
-```protobuf
-syntax = "proto3";
-package collective.epoch;
-
-message EpochMerkleCommit {
-  string federation_namespace = 1;  // "arcadia.server-01" or "solo.autarkic"
-  uint64_t epoch_id = 2;
-  uint64_t boundary_hlc_tick = 3;   // E_k * 864,000
-  bytes crdt_state_merkle_root = 4; // 32-byte BLAKE3 Merkle root of L3 ledger + landscape
-  bytes bcc_clearing_digest = 5;    // 32-byte digest of settled bilateral channel balances
-  string node_did = 6;
-  bytes ed25519_signature = 7;
-}
-```
+- **Canonical Spec Alignment:**
+  - **Layer 3 (`core/3_ledger/LEDGER_SPEC.md`):** `mesh:ValueToken` is a strict 1:1 reflection of surplus `mesh:Exergy` (`1.0 VT == 1.0 kWh`); `CRDTEscrowLock` reserves physical capacity for scheduled BPMN workflows.
+  - **Layer 4 (`core/4_orchestrator/ORCHESTRATOR_SPEC.md`):** Declarative BPMN 2.0 state machine runner (`core/4_orchestrator/workflows/collective_homestead_bounties.bpmn.json`) executing the 6-step sequence: `1. Ingest (L6) -> 2. Gate (L5) -> 3. Validate Physics (L1b & L2) -> 4. Escrow (L3) -> 5. Actuate (L2/L1b) -> 6. Settle (L3)`.
+  - **Layer 5 (`core/5_governance/GOVERNANCE_SPEC.md`):** Evaluates W3C DIDs (`did:key` / `did:mesh`), Verifiable Credentials (`SkillCredential`), and weighted Trust Ring edges (`core/5_governance/trust_gates.json`).
+- **Layer 4/5 Companion App (`core/4_orchestrator/web/index.html` & `bpmn_scheduler.js`):**
+  - Provides the interactive BPMN 2.0 workflow graph, Asynchronous Node Proxy deficit monitor, and 5-Day Temporal Workflow Scheduler grid synchronized with the 3D simulation.
 
 #### Acceptance Criteria (Given / When / Then)
 ```gherkin
-Scenario: 4-of-5 Arcadia peers reconcile Epoch 1 at 864,000 ticks while 1 offline straggler is gracefully escrowed
-  Given 5 nodes opted into "arcadia.server-01" where Nodes 1..4 reach Epoch 1 EPOCH_BOUNDARY_TICKS = 864,000
-  And Node 5 is offline due to a simulated radio blackout
-  When the straggler grace window expires on Nodes 1..4
-  Then col-storaged on Nodes 1..4 escrows Node 5's bilateral 64-byte FlowContract balances at Node 5's last attested HLC tick
-  And Nodes 1..4 exchange EpochMerkleCommit messages, converge to an identical 32-byte BLAKE3 Merkle root within <= 2.5 seconds, and advance to Epoch 2
-  When Node 5 comes back online 24 hours later
-  Then col-meshd flushes the spooled Epoch 1 deltas to Node 5 and reconciles its state without ledger fork or credit loss.
+Scenario: Peer Node Proxy resource deficit routes as a BPMN Bounty and settles ValueTokens upon physical completion
+  Given Node 02 (Lot 406) reports a -1.6 kWh/day electrical deficit and Node 03 (Lot 408) reports a -1,200 kcal/day caloric deficit
+  When the Layer 4 BPMN orchestrator evaluates collective_homestead_bounties.bpmn.json and locks Layer 5 gates
+  Then high-priority Collective Bounties populate Node 0's actionable task log
+  And when Node 0 completes the corresponding physical task or scheduled Day/Slot workflow, the BPMN state machine transitions to SETTLE (L3) and credits mesh:ValueToken (1:1 kWh) and Layer 5 Trust weight.
 ```
-
-#### Technical Tasks
-- [ ] Implement `EpochMerkleCommit` BLAKE3 state-trie accumulator and gossip handler across `col-storaged` and `col-meshd`.
-- [ ] Implement end-of-epoch (`EPOCH_BOUNDARY_TICKS = 864,000`) automated demurrage + BCC cycle-canceling settlement trigger over 64-byte `FlowContract` records, including the $\le 1\text{ tick}$ `SOLO_AUTARKIC` Zero-Peer Fast-Path (`active_peer_count == 0`).
-- [ ] Implement Straggler Grace Timer and Dormant Epoch Escrow isolation logic so offline nodes never permanently deadlock active `server-01` peers.
-- [ ] Add 5-node partition/straggler and `SOLO_AUTARKIC` fast-path tests in `test_arcadia_epoch_sync.cpp` asserting $\le 2.5\text{ s}$ quorum settlement, $\le 1\text{ tick}$ solo release, and deterministic straggler catch-up.
 
 ---
 

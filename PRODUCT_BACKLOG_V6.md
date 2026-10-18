@@ -1054,48 +1054,50 @@ Backlog V6.0 strictly codifies the surgical excision of all monolithic anti-patt
 
 ---
 
-### Epic 10: Simulation Temporal Controls (Time Warp) & Runtime Hygiene
-**Epic ID:** `EPIC-10` | **Total Estimate:** 12 Story Points | **Priority:** P0 Critical | **Target Sprint:** Dual Sprint 11  
-**Focus:** Decouple `g_ecs->progress()` logical tick sub-stepping from once-per-frame 60 Hz WebGPU rendering and DOM HUD updates via interactive Time-Warp HUD controls (`[ || Pause ] [ > 1x ] [ >> 10x ] [ >>> 100x ]`), aggregate UHAI telemetry pushes once per frame to prevent 1,024-slot SPSC ring overflow, add Emergency Warp Brakes and a live Net Trajectory HUD Ticker, throttle `spdlog` console output to logical epochs, and isolate the legacy 60-tick auto-exit behind `--headless-ci`.
+### Epic 10: Standardized Simulation Temporal Controls (`Pause / 1x / 2x / 5x / 10x`) & Runtime Hygiene
+**Epic ID:** `EPIC-10` | **Total Estimate:** 12 Story Points | **Priority:** P0 Critical | **Target Sprint:** Dual Sprint 11 & Sprint 14 Standardization  
+**Focus:** Decouple `g_ecs->progress()` logical tick sub-stepping from once-per-frame 60 Hz WebGPU rendering and DOM HUD updates via standardized Time-Warp HUD controls (`[ || Pause ] [ > 1x ] [ >> 2x ] [ >>> 5x ] [ >>>> 10x ]`, deprecating `100x`), aggregate UHAI telemetry pushes once per frame, add Emergency Warp Brakes (`2x/5x/10x -> 1x`) and a live Net Trajectory HUD Ticker, throttle `spdlog` console output to logical epochs, and isolate the legacy 60-tick auto-exit behind `--headless-ci`.
 
 ---
 
-#### Story 10.1: Decoupled Time-Step Multiplier (`Pause / 1x / 10x / 100x`), Aggregated UHAI Frame Push, Emergency Warp Brake & Net Trajectory Ticker
-* **ID:** `STORY-10.1` | **Points:** 7 SP | **Priority:** P0 | **Sprint:** Dual Sprint 11 | **Quality Gate:** G1, G4, G6
-* **User Story:** *As a player overseeing multi-day crop growth, rainwater collection, and shelter construction, I want interactive HUD controls (`[ || Pause ] [ > 1x ] [ >> 10x ] [ >>> 100x ]`) and shortcuts (`Space`, `1`, `2`, `3`) that sub-step simulation ticks without re-running WebGPU rendering or overflowing the UHAI ring buffer, paired with an automatic Emergency Warp Brake on crisis events and a live Net Trajectory HUD Ticker.*
+#### Story 10.1: Standardized Decoupled Time-Step Multiplier (`Pause / 1x / 2x / 5x / 10x`), Aggregated UHAI Frame Push, Emergency Warp Brake & Net Trajectory Ticker
+* **ID:** `STORY-10.1` | **Points:** 7 SP | **Priority:** P0 | **Sprint:** Dual Sprint 11 / Sprint 14 | **Quality Gate:** G1, G4, G6
+* **User Story:** *As a player fast-forwarding through multi-day thermodynamic processes (such as biochar pyrolysis, crop maturation, or rainwater harvesting), I want standardized HUD controls (`[ || Pause ] [ > 1x ] [ >> 2x ] [ >>> 5x ] [ >>>> 10x ]`) and shortcuts (`Space`/`0`, `1`, `2`, `3`, `4`) that sub-step simulation ticks predictably without re-running WebGPU rendering or overflowing the UHAI ring buffer, paired with an automatic Emergency Warp Brake on crisis events and a live Net Trajectory HUD Ticker.*
 * **Technical Tasks:**
-  1. Define `SimulationClockState` struct in the engine core: `time_scale_multiplier` (`uint32_t`: `0` = Pause, `1` = 1x, `10` = 10x, `100` = 100x), `logical_tick_counter` (`uint64_t`), `fixed_dt_seconds` (`constexpr float = 0.1f`), and `epoch_barrier_clamped` (`bool`).
+  1. Standardize `TimeWarpState` (`core/time_warp_controller.hpp`): `multiplier` strictly clamped to **`{0, 1, 2, 5, 10}`** (`0` = Pause, `1` = 1x, `2` = 2x, `5` = 5x, `10` = 10x; `100x` is deprecated).
   2. **Extract `RenderWebGPUFrame()` and `EM_ASM(updateHUD(...))` Out of `g_ecs->progress()` (`main.cpp`):**
-     * Remove the WebGPU render pass and JavaScript DOM HUD update from inside Flecs `ecs.system()` tick execution.
-     * In the 60 Hz main frame callback (`main_loop_step`), execute `for (uint32_t step = 0; step < sub_steps; ++step) { g_ecs->progress(fixed_dt); }` where `sub_steps` is `0` (`Pause`), `1` (`1x`), `10` (`10x`), or `100` (`100x`, guarded by a frame-time spiral-of-death cap if CPU tick time exceeds $12.0\text{ ms}$).
-     * Execute `RenderWebGPUFrame()` and `EM_ASM(updateHUD(...))` **strictly once per 60 Hz visual frame** after the sub-step loop completes. When `time_scale_multiplier == 0` (`Pause`), `g_ecs->progress()` executes `0` times while Arcball camera orbit, raycasting, and context menu designation remain 100% live at 60 FPS.
+     * In the 60 Hz main frame callback, execute `for (uint32_t step = 0; step < sub_steps; ++step) { g_ecs->progress(fixed_dt); }` where `sub_steps` is in `{0, 1, 2, 5, 10}`.
+     * Execute `RenderWebGPUFrame()` and `EM_ASM(updateHUD(...))` **strictly once per 60 Hz visual frame** after the sub-step loop completes.
   3. **Aggregate UHAI Telemetry Pushes Once Per 60 Hz Frame:**
-     * Accumulate simulated exergy, thermal, and somatic deltas across the $N \in \{1, 10, 100\}$ logical sub-steps and push a single aggregated batch of outward `QUALITY_SIMULATED (0x01)` `TelemetrySample` frames (tagged with `logical_tick_counter`) into `/dev/shm/uhai_telemetry.ring` (`L1b -> L2`) **once per 60 Hz frame**, mathematically preventing 1,024-slot SPSC ring buffer overflow during `100x` Time Warp.
-  4. Implement **Emergency Warp Brake**: automatically downshift `time_scale_multiplier` from `10x` or `100x` to **`1x`** (with an audible alert chime and HUD flash) whenever:
-     * A Layer 7 `MigrationWaveArrivalEvent` arrives at the perimeter,
-     * Any agent enters `STATE_BURNOUT` ($100\%$ Stress) or Tier 2/3 Breakdown, or
-     * Enclave potable water or caloric reserves drop below $< 24\text{ hours}$ of autonomy ($< 2.0\text{ L/agent}$ or $< 2,000\text{ kcal/agent}$).
-  5. Render the **Live Net Trajectory HUD Ticker** adjacent to `#time-warp-bar` (`pointer-events: auto`, `event.stopPropagation()`), displaying real-time net resource rates and runway: `[⚡ +4.2 kWh/d | 💧 +18.0 L/d | 🍲 -1,800 kcal/d (4.8 Days Autonomy)]`.
+     * Accumulate simulated exergy, thermal, and somatic deltas across the $N \in \{1, 2, 5, 10\}$ logical sub-steps and push a single aggregated `QUALITY_SIMULATED (0x01)` `TelemetrySample` into `/dev/shm/uhai_telemetry.ring` (`L1b -> L2`) **once per 60 Hz frame**.
+  4. Implement **Emergency Warp Brake**: automatically downshift `multiplier` from `2x`, `5x`, or `10x` to **`1x`** whenever a Migration Wave arrives, an agent enters `STATE_BURNOUT`, or potable water/caloric reserves drop below critical thresholds.
+  5. Render the **Live Net Trajectory HUD Ticker** adjacent to `#time-warp-bar`, displaying real-time net resource rates and autonomy runway.
 * **Acceptance Criteria:**
-  * **Given** the simulation is running at `100x` Time Warp (`sub_steps = 100`),
-  * **When** 60 visual frames (1 wall-clock second = 6,000 logical ticks) execute,
-  * **Then** `g_ecs->progress()` runs 6,000 logical ticks while `RenderWebGPUFrame()`, `updateHUD()`, and aggregated UHAI telemetry emission execute exactly 60 times (zero dropped frames in `SharedRingHeader::dropped_frames_counter`),
-  * **And** triggering `STATE_BURNOUT` or a Migration Wave immediately downshifts Time Warp to `1x` via the Emergency Warp Brake (`test_time_warp_and_throttling.cpp`).
+  * **Given** the simulation is running at `10x` Time Warp (`sub_steps = 10`),
+  * **When** 60 visual frames (1 wall-clock second = 600 logical ticks) execute,
+  * **Then** `SetTimeWarpMultiplier` clamps any input strictly to `{0, 1, 2, 5, 10}`, `g_ecs->progress()` runs 600 logical ticks while `RenderWebGPUFrame()` and aggregated UHAI telemetry emission execute exactly 60 times (zero dropped frames), and triggering an emergency condition immediately downshifts Time Warp to `1x` (`test_time_warp_and_throttling.cpp`).
 
 ---
 
 #### Story 10.2: Adaptive Log Throttling & Isolation of Hardcoded 60-Tick CI Exit
 * **ID:** `STORY-10.2` | **Points:** 5 SP | **Priority:** P0 | **Sprint:** Dual Sprint 11 | **Quality Gate:** G2, G4
-* **User Story:** *As a developer and player running Oasis interactively at 1x, 10x, or 100x speed, I want console logging throttled to logical epoch intervals rather than raw frames/ticks, and I want the legacy 60-tick auto-termination isolated behind an explicit `--headless-ci` flag, so that interactive sessions run indefinitely without terminal spam or premature exit after 1 second.*
+* **User Story:** *As a developer and player running Oasis interactively at 1x, 2x, 5x, or 10x speed, I want console logging throttled to logical epoch intervals rather than raw frames/ticks, and I want the legacy 60-tick auto-termination isolated behind an explicit `--headless-ci` flag, so that interactive sessions run indefinitely without terminal spam or premature exit after 1 second.*
 * **Technical Tasks:**
   1. Refactor `main.cpp` CLI argument parser: remove unconditional termination at `ticks >= 60`; introduce `--headless-ci` (and `--max-ticks <N>`) CLI flags so that automated CTest/CI jobs exit deterministically at 60 ticks while default native (`./oasis_engine`) and WASM browser launches run indefinitely until user quit (`SDL_QUIT` / window close).
-  2. Implement `LogicalEpochLogThrottle` wrapper around `spdlog`: suppress per-tick/per-frame `spdlog::info` telemetry dumps during 10x/100x time-warp, emitting periodic summary logs only once every $N_{\text{log}} = 300$ logical ticks (or immediately on state-transition edges such as `STATE_BURNOUT`, Emergency Warp Brake, Migration Wave arrival, or Epoch Barrier lock).
-  3. Verify that running at `100x` time-warp produces $< 5\text{ KB/s}$ of stdout output and zero I/O blocking stalls on the simulation thread.
+  2. Implement `ShouldEmitThrottledLog` wrapper around `spdlog`: suppress per-tick/per-frame `spdlog::info` telemetry dumps during `2x/5x/10x` time-warp, emitting periodic summary logs only once every $N_{\text{log}} = 300$ logical ticks (or immediately on critical state transitions).
 * **Acceptance Criteria:**
-  * **Given** the player launches `./oasis_engine` natively without CLI flags and sets Time Warp to `100x`,
-  * **When** the simulation runs past 60, 600, and 60,000 logical ticks,
-  * **Then** the application does not auto-exit at tick 60, continues running smoothly until the window is closed, emits summary logs only once every 300 logical ticks,
-  * **And** `./oasis_engine --headless-ci` exits cleanly at tick 60 with return code `0` (`test_time_warp_and_throttling.cpp`).
+  * **Given** the player launches `./oasis_engine` natively without CLI flags and sets Time Warp to `10x`,
+  * **When** the simulation runs past 60, 600, and 6,000 logical ticks,
+  * **Then** the application does not auto-exit at tick 60, emits summary logs only once every 300 logical ticks, and `./oasis_engine --headless-ci` exits cleanly at tick 60 with return code `0` (`test_time_warp_and_throttling.cpp`).
+
+---
+
+#### Story 10.3 (Team Verification Item `BUG-11.1` & `BUG-11.2`): Emscripten DOM-to-WASM Time Warp Bridge & Realistic `1x` Simulation Pacing
+* **ID:** `STORY-10.3` (`BUG-11.1` / `BUG-11.2`) | **Points:** 5 SP | **Priority:** P0 Blocker | **Sprint:** Dual Sprint 12 & Sprint 14 Verification Gate | **Quality Gate:** G1, G4, G6
+* **User Story:** *As a player running Oasis in the browser, I want `1x` to progress at a calm, playable human pace, and I want clicking `[ || Pause ] [ > 1x ] [ >> 2x ] [ >>> 5x ] [ >>>> 10x ]` in `#time-warp-bar` to immediately pause or scale the simulation.*
+* **Mandatory Team Verification & Remediation Tasks:**
+  1. Keep the synthetic `tick % 15` Stress spam removed and calibrate the diurnal cycle so Stress, Focus, and Calories only change from genuine environmental homeostasis, physical exertion, and boundary shocks.
+  2. Poll `window._oasisTimeWarpMultiplier` (`{0, 1, 2, 5, 10}`) once per 60 Hz frame in `EngineTick`, and update `#time-warp-bar` with live `Day X | HH:MM` clock state.
 
 ---
 
@@ -1108,128 +1110,80 @@ Backlog V6.0 strictly codifies the surgical excision of all monolithic anti-patt
 #### Story 11.1: Layer 7 Migration Wave Ingress (`L7 -> ... -> L2 -> L1b`), `MAX_NPCS = 16` Population Cap & Dramatic Arrival UI
 * **ID:** `STORY-11.1` | **Points:** 8 SP | **Priority:** P1 | **Sprint:** Dual Sprint 13 | **Quality Gate:** G2, G4, G6
 * **User Story:** *As Founder 01 establishing an enclave after my 3-day solo genesis phase, I want periodic Migration Waves originating in Layer 7 (`col-adversaryd` DES) and routed sequentially down the Sovereign Stack (`L7 -> L6 -> L5 -> L4 -> L3 -> L2 -> L1b`) over UHAI to trigger a 12-hour Pre-Wave Horizon Warning, engage the Emergency Warp Brake, and spawn Legacy NPCs at the parcel boundary initialized at `Ring R6 (Unverified Migrant)` within the hard `SocialMutualAidComponent::MAX_NPCS = 16` population cap.*
-* **Technical Tasks:**
-  1. Define the canonical 32-byte `MigrationWaveArrivalEvent` struct (`alignas(8)`, `-Wpadded` clean) wrapped inside a 64-byte cache-aligned `MigrationWaveSlot` in `core/1_simulation/include/uhai_ring_buffer.hpp`:
-     * `uint64_t logical_tick` (8B)
-     * `uint64_t deterministic_seed` (8B)
-     * `uint32_t wave_id` (4B)
-     * `int32_t legacy_distress_q16_16` (4B)
-     * `uint8_t migrant_count` (1B, clamped $1..8$)
-     * `uint8_t ingress_edge` (1B: North/East/South/West perimeter)
-     * `uint8_t initial_trust_ring` (1B: always `6` = **`Ring R6 (Unverified Migrant)`**)
-     * `uint8_t reserved_pad[5]` (5B explicit padding $\implies$ `sizeof(MigrationWaveArrivalEvent) == 32`).
-  2. Enforce **Strict Layer Adjacency (`L7 -> L6 -> L5 -> L4 -> L3 -> L2 -> L1b`) & `SocialMutualAidComponent::MAX_NPCS = 16` Hard Population Cap**:
-     * `col-adversaryd` (L7) schedules the wave in DES; the event traverses downward through L6, L5, L4, L3, and L2 (`col-meshd`), which writes the `MigrationWaveSlot` into `/dev/shm` UHAI for Oasis (L1b) to consume after the 3-day solo genesis grace period (`T_GENESIS_SOLO = 86,400` ticks).
-     * Enforce **`SocialMutualAidComponent::MAX_NPCS = 16` hard population cap per parcel**: when `active_npc_count + migrant_count > 16`, clamp immediate entity spawning to `16 - active_npc_count` and hold excess migrants in a bounded perimeter staging queue so multiple migration waves during `100x` Time Warp never overflow fixed-size `SocialMutualAidComponent` arrays or Partition 4/5 static memory.
-  3. Extend `CameraUniforms` / `DynamicVoxelStore` (`voxel_ssbo.hpp` & `raymarch.wgsl` / `raymarch_wgsl.hpp`) with a fixed **`npc_avatars[16]` / `npc_avatars[8]` GPU buffer** encoding $(x, y, z, \text{state\_and\_ring\_flags})$ so the WebGPU DDA raymarcher renders active NPC voxel avatars alongside Founder 01 at 60 FPS with zero dynamic memory allocation.
-  4. Implement **12-Hour Pre-Wave Horizon Warning & Migrant Arrival Card UI**:
-     * 12 in-game hours before arrival, display a HUD horizon radar warning (`[⚠️ Horizon Alert: Legacy Migration Wave (3 Migrants) approaching North Perimeter — ETA 12h]`).
-     * Upon arrival, trigger the Story 10.1 **Emergency Warp Brake** (downshifting `10x/100x` to `1x`), spawn the NPC entities (up to `MAX_NPCS = 16`) in Flecs ECS at the perimeter with `PsychologyComponent` (`cumulative_stress = 60,000`), `SomaticStateComponent`, and `LegacyMigrantComponent` (`trust_ring_tier = R6_UNVERIFIED_MIGRANT`, `sheltered_days = 0`, `potw_sweat_equity_mj = 0.0f`), and display an interactive **Migrant Arrival Card** featuring a **`[ 🎯 Snap Camera to Perimeter ]`** button that smoothly animates `poi_origin` to the newly arrived migrants.
 * **Acceptance Criteria:**
-  * **Given** Founder 01 has passed the 3-day solo genesis phase and multiple `MigrationWaveArrivalEvent` packets (`sizeof == 32`, `initial_trust_ring = 6`) arrive via `L7 -> L6 -> L5 -> L4 -> L3 -> L2 -> L1b` UHAI while running at `100x` Time Warp,
+  * **Given** Founder 01 has passed the 3-day solo genesis phase and `MigrationWaveArrivalEvent` packets (`sizeof == 32`, `initial_trust_ring = 6`) arrive via `L7 -> L6 -> L5 -> L4 -> L3 -> L2 -> L1b` UHAI while running at `10x` Time Warp,
   * **When** Oasis consumes the `MigrationWaveSlot` frames,
-  * **Then** the Emergency Warp Brake downshifts Time Warp to `1x`, NPC entities spawn at **`Ring R6 (Unverified Migrant)`** while strictly respecting `SocialMutualAidComponent::MAX_NPCS = 16` without array overflow, and clicking `[ 🎯 Snap Camera to Perimeter ]` centers the Arcball camera on the migrants (`test_migration_waves.cpp`).
+  * **Then** the Emergency Warp Brake downshifts Time Warp to `1x`, NPC entities spawn at **`Ring R6 (Unverified Migrant)`** while strictly respecting `SocialMutualAidComponent::MAX_NPCS = 16` without array overflow (`test_migration_waves.cpp`).
 
 ---
 
 #### Story 11.2: Legacy Mindset Friction, Stress Cascades & Behavioral Regression
 * **ID:** `STORY-11.2` | **Points:** 8 SP | **Priority:** P1 | **Sprint:** Dual Sprint 13 | **Quality Gate:** G1, G3, G4
 * **User Story:** *As the simulation engine, I want unassimilated `Ring R6` Legacy NPCs to exhibit fiat scarcity mindsets that trigger Stress cascades and behavioral regressions (ration hoarding, tool lock conflicts, and drawing emergency microgrid reserve power) if the enclave fails to provide adequate enclosed shelter, clean water, and calories.*
-* **Technical Tasks:**
-  1. Define `LegacyMindsetState` flags inside `LegacyMigrantComponent`: `SCARCITY_ANXIETY`, `HOARDING_ACTIVE`, `CONFLICT_REGRESSION`, and `RESERVE_POWER_DRAW`.
-  2. Implement `LegacyFrictionSystem` in Flecs ECS: when an unassimilated NPC (`trust_ring_tier == R6_UNVERIFIED_MIGRANT`) experiences unmet somatic needs (`caloric_reserve < 1,000 kcal`, `hydration < 30%`, or sleeping in an unenclosed/cold space $< 18.0^\circ\text{C}$), their `Stress` accumulates at $2.0\times$ nominal rate and radiates an acute social scarcity anxiety aura ($+5\text{ %/hr}$ Stress) to agents within $4.0\text{ m}$.
-  3. Implement 3 deterministic Legacy Regression behaviors when an `R6` migrant's `Stress` crosses $75\%$ ($75,000$ units):
-     * **Ration Hoarding:** Agent withdraws $3\times$ normal food rations from Commons Kitchen / ration storage into private inventory, accelerating shared stockpile depletion.
-     * **Tool Lease Conflict:** Agent refuses to yield shared tool locks and interrupts adjacent workers, injecting `THOUGHT_LEGACY_ARGUMENT` ($+15,000$ Stress units).
-     * **Emergency Microgrid Reserve Draw:** Agent plugs uninsulated resistance heaters into local drops and **draws emergency microgrid reserve power** ($+2.5\text{ kW}$ continuous drain), depleting battery reserves and reducing Pillar 1/3 attenuation $\Phi_{\text{infrastructure}}(t)$.
-  4. Render a **4-Needs Migrant Assimilation Checklist Tooltip** when inspecting any `R6` or `R3` NPC (`[✅ Enclosed Shelter >18°C] [✅ Hydration >50%] [✅ Calories >1,500 kcal] [⏳ PoTW Sweat-Equity: 18.4 / 36.0 MJ]`) so the player always knows the exact cause of friction or progress toward assimilation.
 * **Acceptance Criteria:**
   * **Given** 3 `Ring R6` Legacy NPCs arrive during a cold snap and lack enclosed $>18.0^\circ\text{C}$ shelter or rations,
   * **When** their `Stress` cascades above $75\%$,
-  * **Then** the `R6` NPCs enter `HOARDING_ACTIVE` and `RESERVE_POWER_DRAW` regressions (withdrawing $3\times$ rations and drawing emergency microgrid reserve power), and inspecting an NPC displays the 4-Needs Assimilation Checklist pinpointing the shelter/caloric deficit (`test_migration_waves.cpp`).
+  * **Then** the `R6` NPCs enter `HOARDING_ACTIVE` and `RESERVE_POWER_DRAW` regressions, and inspecting an NPC displays the 4-Needs Assimilation Checklist (`test_migration_waves.cpp`).
 
 ---
 
 #### Story 11.3: Two-Stage Trust Ring Onboarding (`R6 -> R3` via Layer 3 PoTW & `R3 -> R1` via Layer 5 FROST Ceremony)
 * **ID:** `STORY-11.3` | **Points:** 7 SP | **Priority:** P1 | **Sprint:** Dual Sprint 13 | **Quality Gate:** G1, G3, G4, G6
 * **User Story:** *As Founder 01, I want `Ring R6` migrants who receive sheltered homeostasis and contribute physical labor to have their outward `QUALITY_SIMULATED (0x01)` work/shelter telemetry verified by Layer 3 (`col-storaged`) to earn promotion to `Ring R3 (Probationary Resident)` via Layer 5 (`col-kmsd`), and after 30 days in `R3`, I want existing `Ring R1` stewards to vouch for them via a 2-of-3 FROST threshold ceremony (`SCN-TAU-GENESIS`) to promote them to `Ring R1 (Vouched Steward)`.*
-* **Technical Tasks:**
-  1. Remove any direct `L1b -> L5/L6` `CitizenOnboardingIntent` shortcut and forbid automatic Trust Ring promotion via passive eating/sleeping alone.
-  2. **Stage 1 Promotion (`Ring R6 Unverified Migrant -> Ring R3 Probationary Resident` via Layer 3 PoTW & Layer 5 KMS):**
-     * Allow `R6` migrants whose immediate survival needs are met (`T_room > 18°C` shelter, `hydration > 50%`, `caloric_reserve > 1,500 kcal`, `Stress < 50%`) to perform basic supervised manual labor (hauling loose items, digging swales, watering crops).
-     * Oasis emits outward `QUALITY_SIMULATED (0x01)` telemetry samples of the migrant's daily sheltered homeostasis and physical Joule work output (`potw_sweat_equity_mj`) strictly across **`L1b -> L2 -> L3` (`col-storaged`)**.
-     * Once **Layer 3 (`col-storaged`)** verifies **$\ge 7$ consecutive simulated days of sheltered homeostasis AND $\ge 36.0\text{ MJ}$ ($10.0$ Exergy Credits) of Proof-of-Thermodynamic-Work (PoTW) sweat-equity**, Layer 3 notifies Layer 5 (`col-kmsd` via `L3 -> L4 -> L5`), which issues a `TrustRingPromotionEvent` (`R6 -> R3`) routed downward (`L5 -> L4 -> L3 -> L2 -> L1b`) over UHAI.
-     * Upon receiving `R6 -> R3`, Oasis updates the NPC to **`Ring R3 (Probationary Resident)`**, assigns an opaque 32-byte `resident_did_handle`, purges `SCARCITY_ANXIETY` flags, grants `+20 SOLIDARITY` and `+15 STEWARDSHIP`, and binds the resident to the shared `AdvisoryIntentionQueue` for full autonomous fabrication and construction tasks.
-  3. **Stage 2 Promotion (`Ring R3 Probationary Resident -> Ring R1 Vouched Steward` via 2-of-3 FROST Ceremony `SCN-TAU-GENESIS`):**
-     * After an `R3` resident completes $\ge 30$ simulated days of zero-regression cooperative service, unlock the **`[ 🔏 Initiate Steward Vouch Ceremony (2-of-3 FROST) ]`** action in the Companion App / Layer 6 UI (`POST /api/v1/l6/intent -> L5 col-kmsd`).
-     * When Layer 5 (`col-kmsd`) completes the **2-of-3 FROST threshold multi-signature ceremony (`SCN-TAU-GENESIS`)** and emits `TrustRingPromotionEvent` (`R3 -> R1`) downward via `L5 -> L4 -> L3 -> L2 -> L1b`, the citizen ascends to **`Ring R1 (Vouched Steward)`**, unlocking workshop Strange Mood masterwork leadership and peer vouching privileges.
 * **Acceptance Criteria:**
-  * **Given** a `Ring R6` migrant is sheltered and fed for 7 consecutive days while performing passive rest ($0.0\text{ MJ}$ PoTW),
+  * **Given** a `Ring R6` migrant is sheltered and fed for 7 consecutive days and completes $\ge 36.0\text{ MJ}$ ($10.0$ Exergy Credits) of verified PoTW sweat-equity,
   * **When** Layer 3 evaluates promotion eligibility,
-  * **Then** the migrant remains at `Ring R6` until they also complete $\ge 36.0\text{ MJ}$ ($10.0$ Exergy Credits) of verified PoTW sweat-equity, at which point Layer 3 triggers Layer 5 to emit the `R6 -> R3` promotion downward via `L5 -> L4 -> L3 -> L2 -> L1b` UHAI,
-  * **And** promotion from `R3 -> R1` occurs only after $\ge 30$ simulated days in `R3` and completion of a Layer 5 2-of-3 FROST threshold signature ceremony (`SCN-TAU-GENESIS`), verified by `test_migration_waves.cpp`.
+  * **Then** Layer 3 triggers Layer 5 to emit the `R6 -> R3` promotion downward via `L5 -> L4 -> L3 -> L2 -> L1b` UHAI, and promotion from `R3 -> R1` occurs after $\ge 30$ simulated days in `R3` and completion of a Layer 5 2-of-3 FROST threshold signature ceremony (`test_migration_waves.cpp`).
 
 ---
 
-### Epic 12: The Shared Virtual Landscape (`Arcadia server-01`) & Mandatory Milestone Epoch Sync
-**Epic ID:** `EPIC-12` | **Total Estimate:** 22 Story Points | **Priority:** P1 High | **Target Sprint:** Dual Sprint 14  
-**Focus:** Scale Oasis from a local-first single-parcel simulation into a voluntary localized MMO across the shared virtual landscape `Arcadia (server-01)`, consuming headless 24-byte `StateDeltaOp` cadastral records (`SS-EP9-001`) projected downward via `L3 -> L2 -> L1b` UHAI, and solving the multi-player Time-Warp relativity problem via the **Mandatory Milestone (End-of-Month Epoch Barrier)** featuring a `SOLO_AUTARKIC` zero-peer fast-path, an Interactive Blueprint Planning Phase during `EPOCH_SYNC_LOCKED`, and a 3D Holographic Horizon Wave reveal.
+### Epic 12: The Asynchronous Node Proxy Architecture, BPMN-Driven Gameplay Loops & Temporal Workflow Scheduling (Sprint 14 Dual-Control Pivot)
+**Epic ID:** `EPIC-12` | **Total Estimate:** 22 Story Points | **Priority:** P0 Critical | **Target Sprint:** Dual Sprint 14  
+**Focus:** Deprecate real-time lockstep multiplayer and epoch-freeze walls in favor of a **semi-stochastic single-player architecture with Asynchronous Node Proxies**, and tether player tasks directly to **Layer 5 Governance (`core/5_governance/GOVERNANCE_SPEC.md`)** and **Layer 4 BPMN 2.0 Orchestration (`core/4_orchestrator/ORCHESTRATOR_SPEC.md`)** via **Collective BPMN Bounties (Execution)** and a **Multi-Day Temporal Workflow Scheduler & Layer 4/5 Companion App (Planning)**.
 
 ---
 
-#### Story 12.1: `Arcadia (server-01)` Cadastral `StateDeltaOp` Projection (`L3 -> L2 -> L1b`) & Local 3D Blueprint Mapping
-* **ID:** `STORY-12.1` | **Points:** 8 SP | **Priority:** P1 | **Sprint:** Dual Sprint 14 | **Quality Gate:** G2, G3, G6
-* **User Story:** *As an Oasis player opting into the voluntary `Arcadia (server-01)` shared landscape, I want headless 24-byte `StateDeltaOp` cadastral records replicated by Layer 3 (`col-storaged`) and delivered downward via Layer 2 (`col-meshd`) over the UHAI ring (`L3 -> L2 -> L1b`) to be mapped locally by Oasis into 3D neighbor parcel voxel structures, so that we collaboratively reshape a persistent regional world without leaking graphics/voxel internals into the Sovereign Stack wire protocol.*
+#### Story 12.1: Asynchronous Node Proxy Architecture & Phase 1/2 Storage Horizon (`core/3_ledger/node_proxies.json` $\to$ L3 CRDT)
+* **ID:** `STORY-12.1` | **Points:** 8 SP | **Priority:** P0 | **Sprint:** Dual Sprint 14 | **Quality Gate:** G2, G3, G6
+* **User Story:** *As a player operating in my localized instance (`Node 0` on Lot 402), I want every other human player on the server to be represented in my world as an autonomous NPC Node Proxy (`Node 01 — Lot 404 Maya`, `Node 02 — Lot 406 Kael`, `Node 03 — Lot 408 Soren`) whose configuration parameters, production outputs, and thermodynamic states update dynamically from their real instances—using GitHub / static JSON snapshot feeds in Phase 1 (`core/3_ledger/node_proxies.json`) with a documented Phase 2 horizon transitioning to Layer 3 CRDT distributed storage (`core/3_ledger/LEDGER_SPEC.md`).*
 * **Technical Tasks:**
-  1. Enforce **Strict Wire-Protocol Separation (`SS-EP9-001`) & Layer Adjacency (`L3 -> L2 -> L1b`)**: remove all graphics/voxel-specific fields (`compressed_voxel_rle_offset`, `chunk_coord`, `structure_ecs_archetype_id`) from the Sovereign Stack wire payload. Instead, Oasis consumes the canonical headless **24-byte `StateDeltaOp` (`alignas(8)`, `-Wpadded` clean)** wrapped inside a 64-byte `StateDeltaSlot` in `uhai_ring_buffer.hpp`:
-     * `uint64_t entity_uuid` (8B)
-     * `uint64_t logical_tick` (8B)
-     * `uint16_t spatial_parcel_id` (2B)
-     * `uint16_t structure_type_id` (2B: e.g., `STRUCT_BIOSWALE`, `STRUCT_SOLAR_ARRAY`, `STRUCT_COB_CABIN`, `STRUCT_COMMONS_CORRIDOR`)
-     * `int32_t exergy_delta_j` (4B $\implies$ `sizeof(StateDeltaOp) == 24`).
-  2. Implement `ArcadiaProjectionSystem` in Oasis (Layer 1b): poll verified `StateDeltaOp` records from the `L2 -> L1b` UHAI ring buffer and deterministically stamp the corresponding 3D voxel blueprint (`structure_type_id`) onto the neighbor parcel's coordinates in `DynamicVoxelStore` / WebGPU `VoxelSSBO`.
-  3. Preserve strict local-first voluntariness (Gate G2 & Anti-Bleed Invariant 3): if a player disconnects from `Arcadia (server-01)` or runs offline, local simulation continues unimpeded using the last cached regional snapshot with zero network socket calls inside the Oasis binary.
+  1. Create `core/3_ledger/node_proxies.json` defining the Phase 1 GitHub/JSON snapshot feed and Phase 2 Layer 3 CRDT distributed storage horizon metadata for peer human-driven NPC Node Proxies (`Node 01 — Lot 404 Maya`, `Node 02 — Lot 406 Kael`, `Node 03 — Lot 408 Soren`), including W3C DIDs (`did:mesh:*`), Trust Ring levels (`R2`), solar kWh/day, rainwater L/day, caloric kcal/day trajectories, and active resource deficits.
+  2. Implement `AsyncNodeProxy` and `StepAsyncNodeProxies` in `core/1_simulation/src/core/bpmn_scheduler.hpp`: evaluate peer Node Proxy thermodynamic trajectories deterministically on each tick without real-time multiplayer lockstep latency or collision-resolution overhead.
+  3. Preserve headless 24-byte `StateDeltaOp` (`uhai_ring_buffer.hpp`) compatibility for Phase 2 Layer 3 CRDT replication (`L3 -> L2 -> L1b`).
 * **Acceptance Criteria:**
-  * **Given** Player A on Parcel 402 and Player B on Parcel 403 are connected to `Arcadia (server-01)` via their local `col-meshd` (L2) and `col-storaged` (L3) daemons,
-  * **When** Player B completes a solar array and bioswale, causing `col-storaged` (L3) to replicate 24-byte `StateDeltaOp` records downward via `L3 -> L2 -> L1b` UHAI,
-  * **Then** `static_assert(sizeof(StateDeltaOp) == 24)` holds, `ArcadiaProjectionSystem` maps the `structure_type_id` records into 3D voxel structures on Parcel 403 in Player A's viewport, and `scripts/verify_anti_bleed.sh` confirms zero networking symbols in the Oasis binary (`test_arcadia_epoch_sync.cpp`).
+  * **Given** `Node 0` is running locally alongside Asynchronous Node Proxies `Node 01 (Lot 404)`, `Node 02 (Lot 406)`, and `Node 03 (Lot 408)` initialized from `core/3_ledger/node_proxies.json`,
+  * **When** `StepAsyncNodeProxies` steps across `1x`, `2x`, `5x`, or `10x` simulation speeds,
+  * **Then** each peer Node Proxy's thermodynamic production and resource deficit state updates deterministically without any epoch-freeze wall or real-time lockstep stall (`test_bpmn_scheduler.cpp`).
 
 ---
 
-#### Story 12.2: Mandatory Milestone (`EPOCH_BOUNDARY_TICKS`), `SOLO_AUTARKIC` Fast-Path & Interactive Blueprint Planning Phase
-* **ID:** `STORY-12.2` | **Points:** 8 SP | **Priority:** P0 | **Sprint:** Dual Sprint 14 | **Quality Gate:** G2, G4, G6
-* **User Story:** *As a player using `10x` or `100x` Time Warp on `Arcadia (server-01)`, I want Time Warp to smoothly ramp down approaching `EPOCH_BOUNDARY_TICKS = 864,000` (End of Month) and enter an **Interactive Blueprint Planning Phase (`EPOCH_SYNC_LOCKED`)** while waiting for `L1b -> L2 -> L3 -> L4` mesh reconciliation—with a 1-tick `SOLO_AUTARKIC` fast-path when playing with zero peers and a `[ Continue Offline ]` escape hatch so I am never trapped waiting on a stalled peer.*
+#### Story 12.2: BPMN-Driven Gameplay Loops & High-Priority Collective Bounties (`core/4_orchestrator` & `core/5_governance`)
+* **ID:** `STORY-12.2` | **Points:** 7 SP | **Priority:** P0 | **Sprint:** Dual Sprint 14 | **Quality Gate:** G1, G3, G4, G6
+* **User Story:** *As `Node 0`, I want resource deficits generated by peer player-driven NPC Node Proxies to be evaluated by the Layer 4 BPMN 2.0 state machine runner (`core/4_orchestrator/ORCHESTRATOR_SPEC.md`) and Layer 5 Governance gates (`core/5_governance/GOVERNANCE_SPEC.md`) and routed into my actionable task log as high-priority Collective Bounties, so that what The Collective needs directly drives my physical homestead priorities.*
 * **Technical Tasks:**
-  1. Define canonical monthly epoch duration: `EPOCH_BOUNDARY_TICKS = 864,000` logical ticks (30 simulated days at $28,800\text{ ticks/day}$, overrideable via `--epoch-ticks <N>` for SITL testing).
-  2. Implement **Smooth Time-Warp Ramp-Down**: when `EPOCH_BOUNDARY_TICKS - logical_tick_counter <= 1,800` (final 3 simulated hours of the month), automatically step `100x -> 10x -> 1x` so the player never slams abruptly into the epoch wall.
-  3. Implement **`EpochBarrierGovernor` & `SOLO_AUTARKIC` Zero-Peer Fast-Path**:
-     * At `logical_tick_counter % EPOCH_BOUNDARY_TICKS == 0`, emit `EpochBarrierReachedPayload { uint32_t epoch_number, uint32_t active_peer_count, uint64_t logical_ticks, uint8_t state_digest[32] }` (`alignas(8)`, 48 bytes) across UHAI (`L1b -> L2 -> L3 -> L4`).
-     * **`SOLO_AUTARKIC` Fast-Path (`active_peer_count == 0`):** If the player is running solo/offline with zero active mesh peers, self-reconcile locally in **$\le 1\text{ tick}$** and immediately unlock the Epoch Reconciliation Summary without locking Time-Warp controls.
-     * **Multi-Peer `Arcadia` Sync (`active_peer_count > 0`):** Clamp `time_scale_multiplier = 0` (`EPOCH_SYNC_LOCKED`) until `col-storaged` (L3) and `col-execd` (L4) verify peer CRDT Merkle roots and `FlowContract` clearing channels and emit `EpochReconciledAckPayload` downward via `L4 -> L3 -> L2 -> L1b` UHAI.
-  4. Make **`EPOCH_SYNC_LOCKED` an Interactive Blueprint Planning Phase**:
-     * While waiting for `EpochReconciledAckPayload`, keep 60 FPS Arcball camera orbit, roof cutaway (`z_cutaway_level`), `F1–F4` Info-View overlays, and **Right-Click / Left-Click Spatial Designation Painting** 100% active so the player can inspect their enclave and pre-paint Month $N+1$ blueprints (staged into `AdvisoryIntentionQueue` for execution the moment Month $N+1$ unlocks).
-     * Render a live **Peer Epoch Convergence Progress Bar** (`[Arcadia server-01 Sync: 3/4 Parcels at End of Month 1 — Parcel 403 at Day 28 (100x)...]`) and an immediate **`[ 🔌 Sever Mesh & Continue Offline (SOLO_AUTARKIC) ]`** button so a player is never held hostage by an AFK peer.
+  1. Create `core/4_orchestrator/workflows/collective_homestead_bounties.bpmn.json` encoding the declarative BPMN 2.0 state machine graph (`StartEvent_PeerDeficitDetected -> ServiceTask_L5GateCheck -> ServiceTask_L3EscrowLock -> UserTask_Node0PhysicalExecution -> ServiceTask_L3ValueTokenSettlement -> EndEvent_BountySettled`).
+  2. Create `core/5_governance/trust_gates.json` encoding W3C DID (`did:key` / `did:mesh`), Verifiable Credential (`SkillCredential`: `SolarMicrogridInstaller`, `KeylineHydrologySteward`, `SovereignKitchenSteward`), and Trust Ring gate requirements per `GOVERNANCE_SPEC.md`.
+  3. Implement `FulfillBpmnBountyForTask` in `core/1_simulation/src/core/bpmn_scheduler.hpp` and wire it into `main.cpp` (`ConstructionSystem` & `CookHomesteadMealAtKitchen`): when `Node 0` completes the physical task matching an active Collective Bounty (`[Erect Solar Blueprint]` for `Node 02`'s kWh deficit, `[Install Rainwater Cistern]` / `[Dig Swale]` for `Node 01`'s water deficit, or `[Cook Meal (Scenario Γ)]` for `Node 03`'s caloric deficit), transition the BPMN workflow to `SETTLED (L3)` and credit `mesh:ValueToken` (`1:1` reflection of surplus kWh exergy) + Layer 5 Trust weight.
 * **Acceptance Criteria:**
-  * **Given** Player A reaches `EPOCH_BOUNDARY_TICKS = 864,000`,
-  * **When** `active_peer_count == 0` (`SOLO_AUTARKIC`), the barrier self-reconciles in $\le 1\text{ tick}$ without locking controls; and **when** `active_peer_count > 0`, `time_scale_multiplier` clamps to `0` (`EPOCH_SYNC_LOCKED`) while allowing Player A to freely orbit the camera, toggle `F1–F4` overlays, pre-paint Month 2 designations, or click `[ Continue Offline ]` until `EpochReconciledAckPayload` arrives via `L4 -> L3 -> L2 -> L1b` UHAI (`test_arcadia_epoch_sync.cpp`).
+  * **Given** `Node 02 (Lot 406)` has an active `-1.6 kWh/day` electrical deficit routed by Layer 4 BPMN as `BOUNTY-SOLAR-406`,
+  * **When** `Node 0` completes a physical Solar Array (`action_id == 11`) or cooks a Scenario $\Gamma$ meal (`action_id == 14`) for `BOUNTY-KITCHEN-408`,
+  * **Then** `FulfillBpmnBountyForTask` transitions the BPMN state machine from `ACTUATE (L1b)` to `SETTLE (L3)`, resolves the peer Node Proxy's deficit, and increments `Node 0`'s settled `mesh:ValueToken` balance (`test_bpmn_scheduler.cpp`).
 
 ---
 
-#### Story 12.3: Epoch Reconciliation Summary, Temporal Flow Settlement View & 3D Holographic Horizon Wave
-* **ID:** `STORY-12.3` | **Points:** 6 SP | **Priority:** P1 | **Sprint:** Dual Sprint 14 | **Quality Gate:** G1, G4, G6
-* **User Story:** *As a player completing a Mandatory Milestone synchronization on `Arcadia (server-01)`, I want an `#epoch-reconcile-modal` summary displaying our monthly thermodynamic balances, settled `FlowContract` exchanges, and Trust Ring promotions, and when I click `[ Commence Month N+1 ]`, I want a sweeping 3D Holographic Horizon Wave in WebGPU to visually materialize neighbor parcel `StateDeltaOp` structures.*
+#### Story 12.3: Multi-Day Temporal Workflow Scheduler & Layer 4/5 BPMN Designer Companion App (`core/4_orchestrator/web/`)
+* **ID:** `STORY-12.3` | **Points:** 7 SP | **Priority:** P0 | **Sprint:** Dual Sprint 14 | **Quality Gate:** G1, G4, G6
+* **User Story:** *As a player exercising dual control over my embodied simulation and The Collective, I want a Multi-Day Temporal Scheduling Interface (`Days 1–5`, Morning & Afternoon slots) both in-game and in a dedicated Layer 4/5 BPMN Designer Companion App (`core/4_orchestrator/web/index.html`), so that I can plan workflows ahead of time (e.g., queuing a harvest on Day 2 followed by cooking/fabrication on Day 3), allowing the BPMN orchestrator to predict resource availability, lock Layer 5 Governance gates and Layer 3 escrows in advance, and auto-dispatch scheduled tasks when the simulation clock reaches that Day/Slot.*
 * **Technical Tasks:**
-  1. Implement `EpochReconciliationSummaryModal` (`#epoch-reconcile-modal` with `pointer-events: auto` and `event.stopPropagation()`), triggered upon receiving `EpochReconciledAckPayload` from `L2 -> L1b` UHAI (or immediately via the `SOLO_AUTARKIC` fast-path).
-  2. Render 4 structured telemetry & settlement panels from the reconciled epoch snapshot:
-     * **Thermodynamic & Exergy Ledger:** Total kWh generated (**solar vs. reclaimed/salvaged**), total water harvested (L), and enclave thermal enclosure efficiency (%).
-     * **Temporal Flow Contract Settlement:** Net zero-sum mutual-credit clearing balances (BCC) and fulfilled continuous resource flows (`FlowContract` kWh/L/calories exchanged with `Arcadia` peers via Layer 3 `col-storaged`).
-     * **Enclave Demography & Trust Rings:** Total residents promoted to `Ring R3 (Probationary Resident)` via PoTW and `Ring R1 (Vouched Steward)` via FROST, average enclave `Stress` and `Focus`, and Masterwork artifacts crafted.
-     * **`Arcadia (server-01)` Regional Horizon:** Updated regional boundary friction $\kappa$, consolidated Commons Corridors, and upcoming Layer 7 macro-economic regime forecast.
-  3. Implement the **3D Holographic Horizon Wave Reveal**: when the player clicks `[ Commence Month N+1 ]`, clear `epoch_barrier_clamped`, reset `time_scale_multiplier` to `1x`, and trigger an expanding radial cyan/gold shader wave (`horizon_wave_radius` uniform in `CameraUniforms`) across the WebGPU viewport that materializes all newly synced neighbor parcel `StateDeltaOp` structures across `Arcadia (server-01)`.
+  1. Build the standalone **Layer 4/5 BPMN Workflow Designer & Temporal Scheduler Companion App** in `core/4_orchestrator/web/index.html` and `core/4_orchestrator/web/bpmn_scheduler.js`, featuring:
+     * Interactive SVG/Canvas **BPMN 2.0 Workflow Graph Visualizer** (`1. Ingest (L6) -> 2. Gate (L5) -> 3. Validate Physics (L1b/L2) -> 4. Escrow (L3) -> 5. Actuate (L2/L1b) -> 6. Settle (L3)`),
+     * **Asynchronous Node Proxy Telemetry & Deficit Monitor** (with Phase 1 GitHub/JSON $\to$ Phase 2 L3 CRDT Storage Horizon badge), and
+     * **Multi-Day Temporal Workflow Scheduler Grid (Days 1–5)** with **Advance L5 Gate & L3 Escrow Locking (`[ 🔒 Lock L5 Gates & Commit Schedule ]`)** and `BroadcastChannel('collective_l4_scheduler')` / `localStorage` live sync with the 3D WebGPU viewport.
+  2. Implement `TemporalScheduleState`, `UpdateScheduleSlotTask`, `LockScheduleL5Gates`, and `StepTemporalSchedule` in `core/1_simulation/src/core/bpmn_scheduler.hpp` and integrate the in-game `#collective-bpmn-drawer` in `shell_minimal.html` and `main.cpp`.
 * **Acceptance Criteria:**
-  * **Given** the End-of-Month Mandatory Milestone barrier receives `EpochReconciledAckPayload` for Month 1,
-  * **When** `#epoch-reconcile-modal` renders and the player clicks `[ Commence Month 2 ]`,
-  * **Then** the modal displays exact mass-and-energy-conserving monthly totals (**solar vs. reclaimed/salvaged** kWh, water L, `FlowContract` BCC settlements, and `R6 -> R3 -> R1` citizen promotions), and unlocking Month 2 sweeps the 3D Holographic Horizon Wave across the viewport to reveal neighbor parcel updates (`test_arcadia_epoch_sync.cpp` & `scripts/verify_canvas.js`).
+  * **Given** the player schedules `[Harvest Garden]` (`13`) for Day 1 Afternoon, `[Cook Meal (Scenario Γ)]` (`14`) for Day 2 Morning, and `[Erect Solar Blueprint]` (`11`) for Day 2 Afternoon and clicks `[ 🔒 Lock L5 Gates & Commit Schedule ]`,
+  * **When** `LockScheduleL5Gates` verifies the player's Layer 5 `SkillCredential` and Trust Ring gates in advance and the simulation clock advances into Day 1 Afternoon and Day 2,
+  * **Then** `StepTemporalSchedule` automatically dispatches each scheduled workflow task to `Node 0` at the scheduled Day/Slot boundary (`test_bpmn_scheduler.cpp`).
 
 ---
 

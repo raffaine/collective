@@ -8,7 +8,7 @@
       body {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         margin: 0;
-        padding: 16px;
+        padding: 12px;
         background-color: #0b0f14;
         color: #e2e8f0;
       }
@@ -19,6 +19,8 @@
       .oasis-viewport-container {
         position: relative;
         display: inline-block;
+        width: 1024px;
+        height: 720px;
         border: 2px solid #1e293b;
         border-radius: 8px;
         overflow: hidden;
@@ -30,8 +32,8 @@
         border: 0px none;
         background-color: #000000;
         display: block;
-        width: 800px;
-        height: 600px;
+        width: 1024px;
+        height: 720px;
       }
 
       /* =========================================================================
@@ -43,8 +45,8 @@
         position: absolute;
         top: 14px;
         left: 14px;
-        width: 240px;
-        background: rgba(10, 20, 18, 0.85);
+        width: 256px;
+        background: rgba(10, 20, 18, 0.86);
         backdrop-filter: blur(8px);
         -webkit-backdrop-filter: blur(8px);
         border: 1px solid rgba(52, 211, 153, 0.45);
@@ -181,6 +183,51 @@
         box-shadow: 0 0 8px rgba(239, 68, 68, 0.8);
       }
 
+      /* Founder Activity Status & Genesis Camp Stock Rows */
+      .hud-status-section {
+        margin-top: 7px;
+        padding-top: 6px;
+        border-top: 1px solid rgba(52, 211, 153, 0.25);
+        font-family: 'SF Mono', 'Fira Code', monospace;
+        font-size: 9.5px;
+        text-align: left;
+      }
+
+      #hud-founder-activity {
+        color: #7dd3fc;
+        font-weight: 700;
+        margin-bottom: 3px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      #hud-camp-stock {
+        color: #fde68a;
+        font-weight: 600;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      #hud-material-stock {
+        color: #a7f3d0;
+        font-weight: 600;
+        margin-top: 2px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      #hud-kitchen-status {
+        color: #fcd34d;
+        font-weight: 600;
+        margin-top: 2px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
       /* Emscripten Status & Console Area */
       #status {
         margin-top: 8px;
@@ -190,9 +237,9 @@
       }
 
       #output {
-        width: 800px;
-        height: 120px;
-        margin: 12px auto 0 auto;
+        width: 1024px;
+        height: 110px;
+        margin: 10px auto 0 auto;
         display: block;
         background-color: #05080c;
         color: #38bdf8;
@@ -203,19 +250,1015 @@
         padding: 8px;
         box-sizing: border-box;
       }
+
+      /* =========================================================================
+         LIVE NET TRAJECTORY HUD TICKER (kcal/day, L/day, kWh/day, Stress/hr)
+         ========================================================================= */
+      #net-trajectory-ticker {
+        margin-top: 7px;
+        padding-top: 6px;
+        border-top: 1px solid rgba(52, 211, 153, 0.25);
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4px 8px;
+        font-family: 'SF Mono', 'Fira Code', monospace;
+        font-size: 9px;
+      }
+
+      .ticker-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: rgba(15, 23, 42, 0.75);
+        border: 1px solid rgba(148, 163, 184, 0.15);
+        border-radius: 4px;
+        padding: 2px 5px;
+      }
+
+      .ticker-label {
+        color: #94a3b8;
+        font-weight: 600;
+      }
+
+      .ticker-val {
+        font-weight: 700;
+        color: #34d399;
+      }
+
+      .ticker-positive {
+        color: #34d399 !important;
+      }
+
+      .ticker-negative {
+        color: #fbbf24 !important;
+      }
+
+      .ticker-critical {
+        color: #f87171 !important;
+      }
+
+      /* =========================================================================
+         TIME WARP BAR & ROOF CUTAWAY CONTROL OVERLAY (#time-warp-bar)
+         ========================================================================= */
+      #time-warp-bar {
+        position: absolute;
+        top: 14px;
+        right: 14px;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        background: rgba(10, 20, 18, 0.88);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border: 1px solid rgba(52, 211, 153, 0.45);
+        border-radius: 8px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6), 0 0 12px rgba(16, 185, 129, 0.2);
+        padding: 6px 10px;
+        z-index: 150;
+        pointer-events: auto;
+        user-select: none;
+      }
+
+      .warp-btn {
+        background: rgba(15, 23, 42, 0.9);
+        color: #cbd5e1;
+        border: 1px solid rgba(52, 211, 153, 0.3);
+        border-radius: 5px;
+        padding: 4px 8px;
+        font-family: 'SF Mono', 'Fira Code', monospace;
+        font-size: 10px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.12s ease;
+      }
+
+      .warp-btn:hover {
+        background: rgba(16, 185, 129, 0.25);
+        color: #ffffff;
+        border-color: #34d399;
+      }
+
+      .warp-btn.active {
+        background: linear-gradient(135deg, #059669, #10b981);
+        color: #051b14;
+        border-color: #6ee7b7;
+        box-shadow: 0 0 10px rgba(52, 211, 153, 0.6);
+      }
+
+      #hud-cutaway-indicator {
+        font-family: 'SF Mono', 'Fira Code', monospace;
+        font-size: 10px;
+        font-weight: 700;
+        color: #38bdf8;
+        background: rgba(14, 116, 144, 0.2);
+        border: 1px solid rgba(56, 189, 248, 0.4);
+        border-radius: 5px;
+        padding: 4px 8px;
+        margin-left: 4px;
+        cursor: pointer;
+      }
+
+      #hud-sim-clock {
+        font-family: 'SF Mono', 'Fira Code', monospace;
+        font-size: 10px;
+        font-weight: 700;
+        color: #fef08a;
+        background: rgba(161, 98, 7, 0.25);
+        border: 1px solid rgba(250, 204, 21, 0.45);
+        border-radius: 5px;
+        padding: 4px 8px;
+        margin-right: 4px;
+        white-space: nowrap;
+      }
+
+      /* =========================================================================
+         F1-F4 INFO-VIEW OVERLAY BAR (#info-overlay-bar)
+         ========================================================================= */
+      #info-overlay-bar {
+        position: absolute;
+        top: 52px;
+        right: 14px;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        background: rgba(10, 20, 18, 0.85);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border: 1px solid rgba(56, 189, 248, 0.4);
+        border-radius: 8px;
+        padding: 4px 8px;
+        z-index: 150;
+        pointer-events: auto;
+        user-select: none;
+      }
+
+      .overlay-btn {
+        background: rgba(15, 23, 42, 0.9);
+        color: #94a3b8;
+        border: 1px solid rgba(56, 189, 248, 0.3);
+        border-radius: 4px;
+        padding: 3px 7px;
+        font-family: 'SF Mono', 'Fira Code', monospace;
+        font-size: 9px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.12s ease;
+      }
+
+      .overlay-btn:hover {
+        color: #f8fafc;
+        border-color: #38bdf8;
+        background: rgba(14, 116, 144, 0.3);
+      }
+
+      .overlay-btn.active {
+        background: linear-gradient(135deg, #0284c7, #38bdf8);
+        color: #04131d;
+        border-color: #7dd3fc;
+        box-shadow: 0 0 8px rgba(56, 189, 248, 0.6);
+      }
+
+      /* =========================================================================
+         12-HOUR PRE-WAVE HORIZON WARNING BANNER (#hud-wave-warning-banner)
+         ========================================================================= */
+      #hud-wave-warning-banner {
+        position: absolute;
+        top: 14px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: none;
+        background: rgba(120, 53, 15, 0.94);
+        border: 1px solid #f59e0b;
+        border-radius: 6px;
+        box-shadow: 0 0 18px rgba(245, 158, 11, 0.65);
+        padding: 6px 12px;
+        font-family: 'SF Mono', 'Fira Code', monospace;
+        font-size: 10px;
+        font-weight: 700;
+        color: #fef3c7;
+        z-index: 210;
+        pointer-events: auto;
+        white-space: nowrap;
+      }
+
+      /* =========================================================================
+         MIGRANT ARRIVAL CARD & 4-NEEDS ASSIMILATION PANEL (#migrant-assimilation-panel)
+         ========================================================================= */
+      #migrant-assimilation-panel {
+        position: absolute;
+        top: 300px;
+        left: 14px;
+        width: 256px;
+        background: rgba(10, 20, 18, 0.90);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border: 1px solid rgba(56, 189, 248, 0.45);
+        border-radius: 8px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.65), 0 0 12px rgba(6, 182, 212, 0.22);
+        padding: 9px 12px;
+        z-index: 150;
+        pointer-events: auto;
+        user-select: none;
+        box-sizing: border-box;
+        text-align: left;
+      }
+
+      .migrant-panel-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid rgba(56, 189, 248, 0.25);
+        padding-bottom: 4px;
+        margin-bottom: 5px;
+      }
+
+      .migrant-panel-title {
+        font-family: 'SF Mono', 'Fira Code', monospace;
+        font-size: 9.5px;
+        font-weight: 700;
+        color: #38bdf8;
+        letter-spacing: 0.04em;
+      }
+
+      #hud-npc-pop-badge {
+        font-family: 'SF Mono', 'Fira Code', monospace;
+        font-size: 8.5px;
+        font-weight: 700;
+        color: #34d399;
+        background: rgba(16, 185, 129, 0.16);
+        border: 1px solid rgba(52, 211, 153, 0.4);
+        border-radius: 4px;
+        padding: 1px 5px;
+      }
+
+      #hud-ring-breakdown {
+        font-family: 'SF Mono', 'Fira Code', monospace;
+        font-size: 8.5px;
+        color: #cbd5e1;
+        margin-bottom: 6px;
+        display: flex;
+        justify-content: space-between;
+      }
+
+      #migrant-action-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4px;
+        margin-bottom: 6px;
+      }
+
+      .migrant-btn {
+        background: rgba(15, 23, 42, 0.92);
+        color: #e2e8f0;
+        border: 1px solid rgba(56, 189, 248, 0.35);
+        border-radius: 4px;
+        padding: 4px 5px;
+        font-family: 'SF Mono', 'Fira Code', monospace;
+        font-size: 8.5px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.12s ease;
+        text-align: center;
+      }
+
+      .migrant-btn:hover {
+        background: rgba(14, 116, 144, 0.38);
+        border-color: #38bdf8;
+        color: #ffffff;
+      }
+
+      #migrant-checklist-box {
+        background: rgba(15, 23, 42, 0.78);
+        border: 1px solid rgba(148, 163, 184, 0.18);
+        border-radius: 5px;
+        padding: 5px 7px;
+        font-family: 'SF Mono', 'Fira Code', monospace;
+        font-size: 8.5px;
+      }
+
+      #migrant-lead-title {
+        color: #fef08a;
+        font-weight: 700;
+        margin-bottom: 4px;
+        line-height: 1.25;
+      }
+
+      .chk-row {
+        margin-bottom: 2px;
+        font-weight: 600;
+      }
+
+      .chk-ok {
+        color: #34d399;
+      }
+
+      .chk-pending {
+        color: #fbbf24;
+      }
+
+      #migrant-regression-alert {
+        display: none;
+        margin-top: 5px;
+        padding: 4px 6px;
+        background: rgba(127, 29, 29, 0.92);
+        border: 1px solid #ef4444;
+        border-radius: 4px;
+        font-family: 'SF Mono', 'Fira Code', monospace;
+        font-size: 8.5px;
+        font-weight: 700;
+        color: #fecaca;
+        line-height: 1.25;
+      }
+
+      /* =========================================================================
+         BURNOUT WARNING BANNER (#hud-burnout-banner)
+         ========================================================================= */
+      #hud-burnout-banner {
+        position: absolute;
+        bottom: 94px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: none;
+        background: rgba(127, 29, 29, 0.92);
+        border: 1px solid #ef4444;
+        border-radius: 6px;
+        box-shadow: 0 0 18px rgba(239, 68, 68, 0.75);
+        padding: 7px 14px;
+        font-family: 'SF Mono', 'Fira Code', monospace;
+        font-size: 11px;
+        font-weight: 700;
+        color: #fecaca;
+        z-index: 200;
+        pointer-events: none;
+        white-space: nowrap;
+      }
+
+      /* =========================================================================
+         BOTTOM-CENTER ACTIVE BRUSH & CONTROLS BAR (#active-brush-bar)
+         ========================================================================= */
+      #active-brush-bar {
+        position: absolute;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 992px;
+        background: rgba(9, 18, 22, 0.90);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(52, 211, 153, 0.45);
+        border-radius: 8px;
+        box-shadow: 0 6px 24px rgba(0, 0, 0, 0.75);
+        padding: 6px 10px;
+        z-index: 160;
+        pointer-events: auto;
+        user-select: none;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .brush-top-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-family: 'SF Mono', 'Fira Code', monospace;
+        font-size: 10px;
+      }
+
+      #active-brush-label {
+        color: #34d399;
+        font-weight: 700;
+      }
+
+      #active-brush-controls-hint {
+        color: #94a3b8;
+        font-size: 9px;
+      }
+
+      .brush-pill-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+        justify-content: center;
+      }
+
+      .brush-pill {
+        background: rgba(15, 23, 42, 0.92);
+        color: #cbd5e1;
+        border: 1px solid rgba(56, 189, 248, 0.32);
+        border-radius: 4px;
+        padding: 3px 6px;
+        font-family: 'SF Mono', 'Fira Code', monospace;
+        font-size: 9px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.1s ease;
+      }
+
+      .brush-pill:hover {
+        background: rgba(14, 116, 144, 0.35);
+        color: #ffffff;
+        border-color: #38bdf8;
+      }
+
+      .brush-pill.active {
+        background: linear-gradient(135deg, #059669, #10b981);
+        color: #041b13;
+        border-color: #6ee7b7;
+        box-shadow: 0 0 8px rgba(52, 211, 153, 0.55);
+      }
+
+      .brush-pill.cancel-pill {
+        border-color: rgba(248, 113, 113, 0.45);
+        color: #fca5a5;
+      }
+
+      .brush-pill.cancel-pill.active {
+        background: linear-gradient(135deg, #dc2626, #ef4444);
+        color: #ffffff;
+        border-color: #fca5a5;
+      }
+
+      /* =========================================================================
+         SPATIAL VOXEL CONTEXT MENU (#voxel-context-menu)
+         ========================================================================= */
+      #voxel-context-menu {
+        position: absolute;
+        top: 100px;
+        left: 280px;
+        width: 345px;
+        max-height: 460px;
+        overflow-y: auto;
+        display: none;
+        background: rgba(9, 18, 24, 0.95);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(56, 189, 248, 0.55);
+        border-radius: 8px;
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.85), 0 0 16px rgba(6, 182, 212, 0.3);
+        padding: 10px;
+        z-index: 250;
+        pointer-events: auto;
+        user-select: none;
+        box-sizing: border-box;
+        text-align: left;
+      }
+
+      .ctx-menu-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid rgba(56, 189, 248, 0.25);
+        padding-bottom: 6px;
+        margin-bottom: 6px;
+        font-family: 'SF Mono', 'Fira Code', monospace;
+        gap: 4px;
+      }
+
+      .ctx-menu-title {
+        font-size: 10.5px;
+        font-weight: 700;
+        color: #38bdf8;
+        letter-spacing: 0.03em;
+      }
+
+      .ctx-menu-cat {
+        font-size: 9px;
+        font-weight: 700;
+        color: #34d399;
+        background: rgba(16, 185, 129, 0.15);
+        border: 1px solid rgba(52, 211, 153, 0.4);
+        border-radius: 4px;
+        padding: 1px 6px;
+      }
+
+      .ctx-menu-subbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 7px;
+        font-family: 'SF Mono', 'Fira Code', monospace;
+        font-size: 9px;
+        color: #94a3b8;
+      }
+
+      #ctx-show-all-btn {
+        background: rgba(15, 23, 42, 0.9);
+        color: #7dd3fc;
+        border: 1px solid rgba(56, 189, 248, 0.35);
+        border-radius: 4px;
+        padding: 2px 6px;
+        font-family: 'SF Mono', 'Fira Code', monospace;
+        font-size: 8.5px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      .ctx-action-btn {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+        background: rgba(15, 23, 42, 0.85);
+        border: 1px solid rgba(148, 163, 184, 0.2);
+        border-radius: 6px;
+        padding: 6px 8px;
+        margin-bottom: 5px;
+        cursor: pointer;
+        text-align: left;
+        transition: all 0.12s ease;
+        box-sizing: border-box;
+      }
+
+      .ctx-action-btn:hover,
+      .ctx-action-btn.recommended {
+        background: rgba(14, 116, 144, 0.28);
+        border-color: #38bdf8;
+        box-shadow: 0 0 8px rgba(56, 189, 248, 0.3);
+      }
+
+      .ctx-action-name {
+        font-family: 'SF Mono', 'Fira Code', monospace;
+        font-size: 10px;
+        font-weight: 700;
+        color: #f8fafc;
+      }
+
+      .ctx-badge-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+      }
+
+      .ctx-badge {
+        font-family: 'SF Mono', 'Fira Code', monospace;
+        font-size: 9px;
+        font-weight: 600;
+        padding: 1px 5px;
+        border-radius: 3px;
+      }
+
+      .ctx-badge-kcal {
+        color: #fbbf24;
+        background: rgba(217, 119, 6, 0.2);
+        border: 1px solid rgba(251, 191, 36, 0.4);
+      }
+
+      .ctx-badge-focus {
+        color: #38bdf8;
+        background: rgba(2, 132, 199, 0.2);
+        border: 1px solid rgba(56, 189, 248, 0.4);
+      }
+
+      .ctx-badge-mat {
+        color: #34d399;
+        background: rgba(5, 150, 105, 0.2);
+        border: 1px solid rgba(52, 211, 153, 0.4);
+      }
+
+      /* =========================================================================
+         NODE 0 HOMESTEAD ONBOARDING PANEL (#node0-homestead-panel)
+         ========================================================================= */
+      #node0-homestead-panel {
+        position: absolute;
+        top: 342px;
+        left: 14px;
+        width: 256px;
+        background: rgba(9, 18, 24, 0.90);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(52, 211, 153, 0.45);
+        border-radius: 8px;
+        box-shadow: 0 6px 22px rgba(0, 0, 0, 0.65);
+        padding: 8px 10px;
+        z-index: 150;
+        pointer-events: auto;
+        user-select: none;
+        box-sizing: border-box;
+        text-align: left;
+      }
+
+      .homestead-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid rgba(52, 211, 153, 0.28);
+        padding-bottom: 5px;
+        margin-bottom: 6px;
+      }
+
+      .homestead-title {
+        font-family: 'SF Mono', 'Fira Code', monospace;
+        font-size: 9.5px;
+        font-weight: 700;
+        color: #34d399;
+        letter-spacing: 0.04em;
+      }
+
+      .homestead-btn-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4px;
+        margin-bottom: 6px;
+      }
+
+      .homestead-btn {
+        background: rgba(15, 23, 42, 0.92);
+        color: #e2e8f0;
+        border: 1px solid rgba(52, 211, 153, 0.38);
+        border-radius: 4px;
+        padding: 4px 5px;
+        font-family: 'SF Mono', 'Fira Code', monospace;
+        font-size: 8.5px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.12s ease;
+        text-align: center;
+      }
+
+      .homestead-btn:hover {
+        background: rgba(16, 185, 129, 0.28);
+        border-color: #34d399;
+        color: #ffffff;
+      }
+
+      #homestead-quest-box {
+        background: rgba(15, 23, 42, 0.78);
+        border: 1px solid rgba(148, 163, 184, 0.18);
+        border-radius: 5px;
+        padding: 5px 7px;
+        font-family: 'SF Mono', 'Fira Code', monospace;
+        font-size: 8.5px;
+        margin-bottom: 6px;
+      }
+
+      #l7-grace-ticker {
+        background: rgba(15, 23, 42, 0.88);
+        border-left: 3px solid #38bdf8;
+        border-radius: 4px;
+        padding: 5px 7px;
+        font-family: 'SF Mono', 'Fira Code', monospace;
+        font-size: 8.3px;
+        color: #cbd5e1;
+        line-height: 1.35;
+      }
+
+      /* =========================================================================
+         NODE 0 GENESIS INTRO BRIEFING MODAL (#node0-intro-modal)
+         ========================================================================= */
+      #node0-intro-modal {
+        position: absolute;
+        top: 52px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 470px;
+        background: rgba(9, 18, 24, 0.95);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        border: 1px solid rgba(52, 211, 153, 0.65);
+        border-radius: 10px;
+        box-shadow: 0 18px 42px rgba(0, 0, 0, 0.85), 0 0 24px rgba(16, 185, 129, 0.25);
+        padding: 14px 16px;
+        z-index: 260;
+        pointer-events: auto;
+        user-select: none;
+        box-sizing: border-box;
+        text-align: left;
+        font-family: 'SF Mono', 'Fira Code', monospace;
+      }
+
+      .intro-modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid rgba(52, 211, 153, 0.3);
+        padding-bottom: 7px;
+        margin-bottom: 9px;
+      }
+
+      .intro-modal-title {
+        font-size: 12px;
+        font-weight: 700;
+        color: #34d399;
+        letter-spacing: 0.04em;
+      }
+
+      .intro-modal-badge {
+        font-size: 9px;
+        font-weight: 700;
+        color: #38bdf8;
+        background: rgba(14, 116, 144, 0.22);
+        border: 1px solid rgba(56, 189, 248, 0.45);
+        border-radius: 4px;
+        padding: 2px 6px;
+      }
+
+      .intro-modal-body {
+        font-size: 10px;
+        color: #e2e8f0;
+        line-height: 1.45;
+        margin-bottom: 10px;
+      }
+
+      .intro-step-list {
+        background: rgba(15, 23, 42, 0.82);
+        border: 1px solid rgba(56, 189, 248, 0.25);
+        border-radius: 6px;
+        padding: 8px 10px;
+        margin-bottom: 10px;
+        font-size: 9.2px;
+        color: #cbd5e1;
+        line-height: 1.5;
+      }
+
+      .intro-start-btn {
+        width: 100%;
+        background: linear-gradient(135deg, #059669, #10b981);
+        color: #041b13;
+        border: 1px solid #6ee7b7;
+        border-radius: 6px;
+        padding: 7px 12px;
+        font-family: 'SF Mono', 'Fira Code', monospace;
+        font-size: 10.5px;
+        font-weight: 700;
+        cursor: pointer;
+        text-align: center;
+        transition: all 0.12s ease;
+      }
+
+      .intro-start-btn:hover {
+        filter: brightness(1.1);
+        box-shadow: 0 0 12px rgba(52, 211, 153, 0.55);
+      }
+
+      /* =========================================================================
+         INTEGRATED NODE 0 COMPANION SLATE DRAWER (#node0-companion-drawer)
+         ========================================================================= */
+      #node0-companion-drawer {
+        position: absolute;
+        top: 52px;
+        right: 14px;
+        width: 392px;
+        max-height: 590px;
+        overflow-y: auto;
+        display: none;
+        background: rgba(8, 17, 26, 0.96);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        border: 1px solid rgba(52, 211, 153, 0.65);
+        border-radius: 10px;
+        box-shadow: 0 16px 40px rgba(0, 0, 0, 0.88), 0 0 22px rgba(16, 185, 129, 0.28);
+        padding: 11px;
+        z-index: 280;
+        pointer-events: auto;
+        user-select: none;
+        box-sizing: border-box;
+        text-align: left;
+        font-family: 'SF Mono', 'Fira Code', monospace;
+      }
+
+      .companion-drawer-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid rgba(52, 211, 153, 0.35);
+        padding-bottom: 6px;
+        margin-bottom: 7px;
+        gap: 6px;
+      }
+
+      .companion-drawer-title {
+        font-size: 9.5px;
+        font-weight: 700;
+        color: #34d399;
+        letter-spacing: 0.03em;
+      }
+
+      .companion-close-btn {
+        background: rgba(15, 23, 42, 0.9);
+        color: #94a3b8;
+        border: 1px solid rgba(148, 163, 184, 0.35);
+        border-radius: 4px;
+        padding: 2px 6px;
+        font-size: 9px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      .companion-close-btn:hover {
+        color: #ffffff;
+        border-color: #38bdf8;
+      }
+
+      .companion-telemetry-strip {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 4px;
+        background: rgba(15, 23, 42, 0.85);
+        border: 1px solid rgba(56, 189, 248, 0.28);
+        border-radius: 6px;
+        padding: 6px;
+        margin-bottom: 8px;
+        font-size: 8.3px;
+        color: #cbd5e1;
+      }
+
+      .companion-tel-item b {
+        color: #38bdf8;
+      }
+
+      .companion-section-label {
+        font-size: 8.6px;
+        font-weight: 700;
+        color: #fef08a;
+        margin-bottom: 5px;
+        letter-spacing: 0.03em;
+      }
+
+      .proxy-node-card {
+        background: rgba(15, 23, 42, 0.88);
+        border: 1px solid rgba(56, 189, 248, 0.28);
+        border-radius: 5px;
+        padding: 5px 7px;
+        margin-bottom: 5px;
+        font-size: 8.3px;
+      }
+
+      .proxy-node-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 3px;
+      }
+
+      .proxy-node-name {
+        color: #7dd3fc;
+        font-weight: 700;
+      }
+
+      .proxy-node-deficit {
+        color: #fbbf24;
+        font-weight: 700;
+      }
+
+      .proxy-node-settled {
+        color: #34d399 !important;
+        font-weight: 700;
+      }
+
+      .companion-task-list {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        margin-bottom: 8px;
+      }
+
+      .companion-task-btn {
+        width: 100%;
+        background: rgba(15, 23, 42, 0.92);
+        color: #e2e8f0;
+        border: 1px solid rgba(52, 211, 153, 0.42);
+        border-radius: 5px;
+        padding: 5px 7px;
+        font-family: 'SF Mono', 'Fira Code', monospace;
+        font-size: 8.4px;
+        font-weight: 700;
+        text-align: left;
+        cursor: pointer;
+        transition: all 0.12s ease;
+        line-height: 1.3;
+      }
+
+      .companion-task-btn:hover {
+        background: rgba(6, 78, 59, 0.65);
+        border-color: #34d399;
+        color: #ffffff;
+        box-shadow: 0 0 10px rgba(52, 211, 153, 0.35);
+      }
+
+      .bpmn-schedule-box {
+        background: rgba(15, 23, 42, 0.86);
+        border: 1px solid rgba(167, 139, 250, 0.35);
+        border-radius: 6px;
+        padding: 6px 7px;
+        margin-bottom: 8px;
+      }
+
+      .bpmn-sched-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 5px;
+        margin-bottom: 4px;
+        font-size: 8.3px;
+      }
+
+      .bpmn-sched-day {
+        color: #c4b5fd;
+        font-weight: 700;
+        min-width: 38px;
+      }
+
+      .bpmn-sched-select {
+        flex: 1;
+        background: rgba(9, 14, 24, 0.95);
+        color: #e2e8f0;
+        border: 1px solid rgba(148, 163, 184, 0.35);
+        border-radius: 4px;
+        padding: 2px 4px;
+        font-family: 'SF Mono', 'Fira Code', monospace;
+        font-size: 8.2px;
+      }
+
+      .bpmn-stage-badge {
+        font-size: 7.8px;
+        font-weight: 700;
+        padding: 1px 5px;
+        border-radius: 3px;
+        white-space: nowrap;
+        background: rgba(56, 189, 248, 0.16);
+        color: #38bdf8;
+        border: 1px solid rgba(56, 189, 248, 0.4);
+      }
+
+      .bpmn-stage-executing {
+        background: rgba(245, 158, 11, 0.22) !important;
+        color: #fde68a !important;
+        border-color: #f59e0b !important;
+      }
+
+      .bpmn-stage-settled {
+        background: rgba(16, 185, 129, 0.22) !important;
+        color: #6ee7b7 !important;
+        border-color: #34d399 !important;
+      }
+
+      .bpmn-commit-btn {
+        width: 100%;
+        margin-top: 4px;
+        background: linear-gradient(135deg, #4f46e5, #059669);
+        color: #f8fafc;
+        border: 1px solid #6ee7b7;
+        border-radius: 5px;
+        padding: 5px 8px;
+        font-family: 'SF Mono', 'Fira Code', monospace;
+        font-size: 8.5px;
+        font-weight: 700;
+        cursor: pointer;
+        text-align: center;
+      }
+
+      .bpmn-commit-btn:hover {
+        filter: brightness(1.12);
+      }
+
+      #companion-drawer-status {
+        display: none;
+        background: rgba(6, 78, 59, 0.85);
+        border: 1px solid #34d399;
+        border-radius: 5px;
+        padding: 5px 7px;
+        margin-bottom: 6px;
+        font-size: 8.4px;
+        color: #a7f3d0;
+        font-weight: 700;
+      }
+
+      .companion-footer-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 4px;
+        border-top: 1px solid rgba(56, 189, 248, 0.2);
+        padding-top: 6px;
+        font-size: 8.1px;
+        color: #94a3b8;
+      }
+
+      .companion-ext-link {
+        color: #38bdf8;
+        text-decoration: none;
+        font-weight: 700;
+      }
+
+      .companion-ext-link:hover {
+        text-decoration: underline;
+      }
     </style>
   </head>
   <body>
     <div class="emscripten">
-      <div class="oasis-viewport-container">
-        <!-- WebGPU Surface Canvas -->
-        <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" tabindex="-1"></canvas>
+      <div class="oasis-viewport-container" oncontextmenu="event.preventDefault()">
+        <!-- WebGPU Surface Canvas (1024x720) -->
+        <canvas class="emscripten" id="canvas" width="1024" height="720" oncontextmenu="event.preventDefault()" tabindex="-1"></canvas>
 
         <!-- Solarpunk / Cyberpunk Vitals HUD Overlay -->
         <div id="vitals-hud">
           <div class="hud-header">
             <span class="hud-title">FOUNDER VITALS</span>
-            <span class="hud-badge">ONLINE</span>
+            <span id="hud-status-badge" class="hud-badge">ONLINE</span>
           </div>
 
           <!-- Calories -->
@@ -261,19 +1304,1297 @@
               <div id="hud-temp-bar" class="hud-bar-fill hud-bar-temp-goldilocks" style="width: 65%;"></div>
             </div>
           </div>
+
+          <!-- Founder Activity Status, Genesis Camp Stock, Material Stockpile & Scenario Gamma Kitchen -->
+          <div class="hud-status-section">
+            <div id="hud-founder-activity">STATUS: Inside Lot 402 Study (Node 0 Online)</div>
+            <div id="hud-camp-stock">HOME: 3 Rations | 60.0L Water | Queue: 0</div>
+            <div id="hud-material-stock">SALVAGE: 2 PV Kits | 6 Timber | 4 Cob | 6 Seeds</div>
+            <div id="hud-kitchen-status">KITCHEN (Γ): 3 Meals | 2 Raw Produce | 60.0L Water | NORMAL (1.0x)</div>
+          </div>
+
+          <!-- Live Net Trajectory HUD Ticker -->
+          <div id="net-trajectory-ticker">
+            <div class="ticker-item">
+              <span class="ticker-label">NET KCAL</span>
+              <span id="ticker-kcal-day" class="ticker-val ticker-negative">-2000 kcal/day</span>
+            </div>
+            <div class="ticker-item">
+              <span class="ticker-label">WATER</span>
+              <span id="ticker-water-day" class="ticker-val ticker-positive">+12.0 L/day</span>
+            </div>
+            <div class="ticker-item">
+              <span class="ticker-label">SOLAR</span>
+              <span id="ticker-kwh-day" class="ticker-val ticker-positive">+8.5 kWh/day</span>
+            </div>
+            <div class="ticker-item">
+              <span class="ticker-label">STRESS</span>
+              <span id="ticker-stress-hr" class="ticker-val ticker-positive">-1.5%/hr</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Node 0 Genesis Intro Briefing Modal (#node0-intro-modal) -->
+        <div id="node0-intro-modal">
+          <div class="intro-modal-header">
+            <span class="intro-modal-title">🟢 NODE 0 ONLINE — LOT 402 HOMESTEAD</span>
+            <span class="intro-modal-badge">CHAPTER 1: HOME GENESIS</span>
+          </div>
+          <div class="intro-modal-body">
+            You just booted <b>Node 0</b> inside the study of your suburban house on <b>Lot 402</b>. Your home has an insulated bedroom, kitchen pantry, and Node 0 server rack. Turn your property into a self-reliant homestead:
+          </div>
+          <div class="intro-step-list">
+            <div>🏠 <b>1. Inside Your House:</b> Your roof is sliced open so you can see <b>Node 0</b>, your Bed, and Pantry. Click <b>[🏠 Toggle Roof]</b> anytime.</div>
+            <div>🌱 <b>2. Backyard Garden:</b> Use the fenced backyard behind your house to <b>[1:Dig Swale]</b> for water retention and <b>[2:Plant Crop]</b> for food.</div>
+            <div>☀️ <b>3. Roof Solar &amp; Rainwater:</b> Toggle the roof on to place <b>[11:Solar]</b> panels on the shingles and <b>[10:Cistern]</b> by the eaves.</div>
+            <div>👋 <b>4. Layer 7 Neighbors:</b> Passersby on the front sidewalk operate on <b>Layer 7</b>—they offer polite <i>minimum grace</i> nods as they walk by, don't socialize much, and never help on your tasks.</div>
+          </div>
+          <button type="button" class="intro-start-btn" id="btn-dismiss-intro" onclick="window.dismissNode0Intro()">[ Enter Lot 402 — Start Homesteading ]</button>
+        </div>
+
+        <!-- Node 0 Homestead Onboarding & Layer 7 Grace Panel (#node0-homestead-panel) -->
+        <div id="node0-homestead-panel">
+          <div class="homestead-header">
+            <span class="homestead-title">NODE 0 — LOT 402 GUIDE</span>
+            <span id="hud-cutaway-badge" style="font-family:'SF Mono',monospace;font-size:8.5px;color:#38bdf8;font-weight:700;">INSIDE (Z=3)</span>
+          </div>
+          <div class="homestead-btn-row">
+            <button type="button" class="homestead-btn" id="btn-toggle-roof" onclick="window.toggleNode0RoofCutaway()">[ 🏠 Toggle Roof ]</button>
+            <button type="button" class="homestead-btn" id="btn-wave-neighbor" onclick="window.triggerNeighborWave()">[ 👋 Nod to Neighbor ]</button>
+            <button type="button" class="homestead-btn" id="btn-harvest-garden" onclick="window.triggerKitchenScenarioAction(13)">[ 🌾 Harvest Garden ]</button>
+            <button type="button" class="homestead-btn" id="btn-cook-meal" onclick="window.triggerKitchenScenarioAction(14)">[ 🍳 Cook Meal (Scenario Γ) ]</button>
+            <button type="button" class="homestead-btn" id="btn-open-companion" style="grid-column: span 2; border-color: rgba(52, 211, 153, 0.65); color: #34d399;" onclick="window.toggleNode0CompanionDrawer()">[ 📱 L6 INTENTS &amp; CALENDAR ]</button>
+          </div>
+          <div id="homestead-quest-box">
+            <div style="color:#fef08a;font-weight:700;margin-bottom:4px;">Homestead Autonomy Checklist:</div>
+            <div id="quest-step-node0" class="chk-row chk-ok">[✅ 1. Node 0 Online in House Study]</div>
+            <div id="quest-step-garden" class="chk-row chk-pending">[⏳ 2. Backyard: Dig Swale [1] / Crop [2]]</div>
+            <div id="quest-step-roof" class="chk-row chk-pending">[⏳ 3. Roof/Eaves: Solar [11] / Cistern [10]]</div>
+            <div id="quest-step-l7" class="chk-row chk-pending">[⏳ 4. Sidewalk: Layer 7 Minimum Grace]</div>
+          </div>
+          <div id="l7-grace-ticker">
+            <b style="color:#38bdf8;">Layer 7 Sidewalk:</b> Passersby stroll on the public sidewalk (minimum grace only; never helps on tasks).
+          </div>
+        </div>
+
+        <!-- Layer 6 Citizen Intent Slate & Calendar of Intents Drawer (#node0-companion-drawer) -->
+        <div id="node0-companion-drawer" role="dialog" aria-label="Layer 6 Citizen Intent Slate and Calendar">
+          <div class="companion-drawer-header">
+            <span class="companion-drawer-title">📱 LAYER 6 CITIZEN INTENT SLATE &amp; CALENDAR (NODE 0)</span>
+            <button type="button" class="companion-close-btn" id="btn-close-companion" onclick="window.toggleNode0CompanionDrawer(false)">[✕]</button>
+          </div>
+          <div id="companion-drawer-subtitle" style="font-size:8.1px;color:#94a3b8;line-height:1.35;margin-bottom:7px;font-style:italic;">
+            Day-to-day citizen interface (Layer 6 <code style="color:#38bdf8;font-style:normal;">core/6_intent/</code>). Emit Semantic Intents for communal deficits or plan your multi-day Calendar of Intents. (Underlying workflows and trust policies are configured in the L4 Designer &amp; L5 Governance apps.)
+          </div>
+          <div class="companion-telemetry-strip">
+            <div class="companion-tel-item">SOLAR: <b id="comp-tel-solar">+8.5 kWh/d</b></div>
+            <div class="companion-tel-item">WATER: <b id="comp-tel-water">60.0L</b></div>
+            <div class="companion-tel-item">L3 TOKENS: <b id="comp-tel-vt" style="color:#34d399;">25 VT</b></div>
+            <div class="companion-tel-item">MEALS: <b id="comp-tel-meals">12 (2 Prod)</b></div>
+            <div class="companion-tel-item">PV KITS: <b id="comp-tel-pv">2</b></div>
+            <div class="companion-tel-item">RING: <b style="color:#a78bfa;">R1 STEWARD</b></div>
+          </div>
+
+          <div id="companion-drawer-status">✅ Layer 6 Semantic Intent Dispatched to Lot 402 Founder!</div>
+
+          <!-- SECTION A: Layer 6 Collective Intent Bounties (JobQueue) -->
+          <div class="companion-section-label">SECTION A — LAYER 6 COLLECTIVE INTENT BOUNTIES (JOBQUEUE):</div>
+          <div class="proxy-node-card">
+            <div class="proxy-node-top">
+              <span class="proxy-node-name">Node 01 Maya Lot 404 (Kiln)</span>
+              <span id="proxy-node-1-status" class="proxy-node-deficit">Deficit: -4.5 kWh | +15 VT &amp; +2 Cob</span>
+            </div>
+            <button type="button" class="companion-task-btn" id="btn-companion-task-1" onclick="window.dispatchCompanionTask(1)">
+              [ ⚡ mesh:FabricationIntent #I-101: Mount Roof Solar (+4.5 kWh/d) ]
+            </button>
+          </div>
+
+          <div class="proxy-node-card">
+            <div class="proxy-node-top">
+              <span class="proxy-node-name">Node 02 Kael Lot 406 (Seed Bank)</span>
+              <span id="proxy-node-2-status" class="proxy-node-deficit">Deficit: -8.0 L/d | +12 VT &amp; +2 Seeds</span>
+            </div>
+            <button type="button" class="companion-task-btn" id="btn-companion-task-2" onclick="window.dispatchCompanionTask(2)">
+              [ 💧 mesh:FabricationIntent #I-102: Dig Backyard Swale (+8.0 L/d) ]
+            </button>
+          </div>
+
+          <div class="proxy-node-card">
+            <div class="proxy-node-top">
+              <span class="proxy-node-name">Node 03 Soren Lot 408 (Forge)</span>
+              <span id="proxy-node-3-status" class="proxy-node-deficit">Deficit: -1,600 kcal | +20 VT &amp; +1 PV Kit</span>
+            </div>
+            <button type="button" class="companion-task-btn" id="btn-companion-task-3" onclick="window.dispatchCompanionTask(3)">
+              [ 🌾🍳 mesh:FabricationIntent #I-103: Harvest &amp; Cook (Γ) (+1,600 kcal) ]
+            </button>
+          </div>
+
+          <div class="companion-task-list">
+            <button type="button" class="companion-task-btn" id="btn-companion-task-4" onclick="window.dispatchCompanionTask(4)">
+              [ 📦 Task 4: Resource Exchange Intent — Requisition +2 PV Kits &amp; +2 Seeds (Trade 2 Meals) ]
+            </button>
+          </div>
+
+          <!-- SECTION B: Layer 6 Calendar of Intents (Days 1–4) -->
+          <div class="companion-section-label">SECTION B — LAYER 6 CALENDAR OF INTENTS (DAYS 1–4):</div>
+          <div class="bpmn-schedule-box">
+            <div class="bpmn-sched-row">
+              <span class="bpmn-sched-day">Day 1</span>
+              <select id="sched-day-1-select" class="bpmn-sched-select" onchange="window.updateBpmnScheduleSlot(1, this.value)">
+                <option value="2" selected>mesh:FabricationIntent — Dig Backyard Swale</option>
+                <option value="1">mesh:FabricationIntent — Mount Roof Solar</option>
+                <option value="3">mesh:FabricationIntent — Harvest &amp; Cook (Γ)</option>
+                <option value="4">mesh:FabricationIntent — Requisition +2 PV Kits</option>
+                <option value="5">mesh:RestIntent — Patio Hearth Rest &amp; Recovery (Σ)</option>
+              </select>
+              <span id="sched-day-1-badge" class="bpmn-stage-badge">[ESCROWED]</span>
+            </div>
+            <div class="bpmn-sched-row">
+              <span class="bpmn-sched-day">Day 2</span>
+              <select id="sched-day-2-select" class="bpmn-sched-select" onchange="window.updateBpmnScheduleSlot(2, this.value)">
+                <option value="2">mesh:FabricationIntent — Dig Backyard Swale</option>
+                <option value="1" selected>mesh:FabricationIntent — Mount Roof Solar</option>
+                <option value="3">mesh:FabricationIntent — Harvest &amp; Cook (Γ)</option>
+                <option value="4">mesh:FabricationIntent — Requisition +2 PV Kits</option>
+                <option value="5">mesh:RestIntent — Patio Hearth Rest &amp; Recovery (Σ)</option>
+              </select>
+              <span id="sched-day-2-badge" class="bpmn-stage-badge">[ESCROWED]</span>
+            </div>
+            <div class="bpmn-sched-row">
+              <span class="bpmn-sched-day">Day 3</span>
+              <select id="sched-day-3-select" class="bpmn-sched-select" onchange="window.updateBpmnScheduleSlot(3, this.value)">
+                <option value="2">mesh:FabricationIntent — Dig Backyard Swale</option>
+                <option value="1">mesh:FabricationIntent — Mount Roof Solar</option>
+                <option value="3" selected>mesh:FabricationIntent — Harvest &amp; Cook (Γ)</option>
+                <option value="4">mesh:FabricationIntent — Requisition +2 PV Kits</option>
+                <option value="5">mesh:RestIntent — Patio Hearth Rest &amp; Recovery (Σ)</option>
+              </select>
+              <span id="sched-day-3-badge" class="bpmn-stage-badge">[ESCROWED]</span>
+            </div>
+            <div class="bpmn-sched-row">
+              <span class="bpmn-sched-day">Day 4</span>
+              <select id="sched-day-4-select" class="bpmn-sched-select" onchange="window.updateBpmnScheduleSlot(4, this.value)">
+                <option value="2">mesh:FabricationIntent — Dig Backyard Swale</option>
+                <option value="1">mesh:FabricationIntent — Mount Roof Solar</option>
+                <option value="3">mesh:FabricationIntent — Harvest &amp; Cook (Γ)</option>
+                <option value="4" selected>mesh:FabricationIntent — Requisition +2 PV Kits</option>
+                <option value="5">mesh:RestIntent — Patio Hearth Rest &amp; Recovery (Σ)</option>
+              </select>
+              <span id="sched-day-4-badge" class="bpmn-stage-badge">[ESCROWED]</span>
+            </div>
+            <button type="button" class="bpmn-commit-btn" id="btn-commit-schedule" onclick="window.commitBpmnSchedule(2)">
+              [ 📅 Sign &amp; Publish Calendar of Intents (Auto-Run L6 Queue) ]
+            </button>
+          </div>
+
+          <div class="companion-footer-row">
+            <a class="companion-ext-link" href="web/companion/index.html" target="_blank" rel="noopener">[ ↗ L6 Companion App ]</a>
+            <a class="companion-ext-link" href="web/orchestrator/index.html" target="_blank" rel="noopener">[ ⚙️ L4 Workflow Designer ]</a>
+            <a class="companion-ext-link" href="web/governance/index.html" target="_blank" rel="noopener">[ 🛡️ L5 Governance Manager ]</a>
+          </div>
+        </div>
+
+        <!-- 12-Hour Pre-Wave Horizon Warning Banner (#hud-wave-warning-banner) -->
+        <div id="hud-wave-warning-banner" style="display:none;">[⚠️ Horizon Alert: Legacy Migration Wave (3 Migrants) approaching North Perimeter — ETA 12h]</div>
+
+        <!-- Hidden Legacy Migrant Panel (preserved in DOM for CTest/JS hook compatibility) -->
+        <div id="migrant-assimilation-panel" style="display:none;">
+          <div class="migrant-panel-header">
+            <span class="migrant-panel-title">ENCLAVE &amp; TRUST RINGS</span>
+            <span id="hud-npc-pop-badge">POP: 1 + 0/16 NPCs</span>
+          </div>
+          <div id="hud-ring-breakdown">
+            <span style="color:#fbbf24;">R6: <b id="hud-r6-count">0</b></span>
+            <span style="color:#38bdf8;">R3: <b id="hud-r3-count">0</b></span>
+            <span style="color:#34d399;">R1: <b id="hud-r1-count">0</b></span>
+          </div>
+          <div id="migrant-action-row">
+            <button type="button" class="migrant-btn" id="btn-call-wave" onclick="window.triggerMigrationWaveNow()">[ 🌊 Call Wave ]</button>
+            <button type="button" class="migrant-btn" id="btn-snap-migrants" onclick="window.snapCameraToMigrants()">[ 🎯 Snap to Migrants ]</button>
+            <button type="button" class="migrant-btn" id="btn-promote-r3" onclick="window.promoteMigrantsToR3()">[ ⚡ Attest PoTW -&gt; R3 ]</button>
+            <button type="button" class="migrant-btn" id="btn-vouch-r1" onclick="window.vouchMigrantsToR1()">[ 🔏 FROST Vouch -&gt; R1 ]</button>
+          </div>
+          <div id="migrant-checklist-box">
+            <div id="migrant-lead-title">No Migrants Yet (Solo Genesis Phase — Click [🌊 Call Wave] or wait for Horizon Event)</div>
+            <div id="chk-shelter" class="chk-row chk-pending">[⏳ Shelter &gt;18°C]</div>
+            <div id="chk-hydration" class="chk-row chk-pending">[⏳ Hydration &gt;50%]</div>
+            <div id="chk-calories" class="chk-row chk-pending">[⏳ Calories &gt;1,500 kcal]</div>
+            <div id="chk-potw" class="chk-row chk-pending">[⏳ PoTW Sweat-Equity: 0.0 / 36.0 MJ]</div>
+          </div>
+          <div id="migrant-regression-alert">⚠️ LEGACY REGRESSION: Ration Hoarding (3x) &amp; Reserve Power Draw (-2.5 kW)!</div>
+        </div>
+
+        <!-- Time Warp Bar, Live Simulation Clock & Roof Cutaway Control (#time-warp-bar) -->
+        <div id="time-warp-bar">
+          <span id="hud-sim-clock">Day 1 | 06:00 (Tick #0)</span>
+          <button type="button" class="warp-btn" data-warp="0" onclick="window.setTimeWarpMultiplier(0)">[ || Pause ]</button>
+          <button type="button" class="warp-btn active" data-warp="1" onclick="window.setTimeWarpMultiplier(1)">[ &gt; 1x ]</button>
+          <button type="button" class="warp-btn" data-warp="2" onclick="window.setTimeWarpMultiplier(2)">[ &gt;&gt; 2x ]</button>
+          <button type="button" class="warp-btn" data-warp="5" onclick="window.setTimeWarpMultiplier(5)">[ &gt;&gt;&gt; 5x ]</button>
+          <button type="button" class="warp-btn" data-warp="10" onclick="window.setTimeWarpMultiplier(10)">[ &gt;&gt;&gt;&gt; 10x ]</button>
+          <span id="hud-cutaway-indicator" onclick="window.toggleNode0RoofCutaway()" title="Click or press PageUp/PageDown to toggle House Interior / Roof View">Cutaway: Inside / Z=3</span>
+          <button type="button" class="warp-btn" id="btn-warp-companion" style="border-color:rgba(52,211,153,0.65);color:#34d399;" onclick="window.toggleNode0CompanionDrawer()">[ 📱 L6 INTENTS &amp; CALENDAR ]</button>
+        </div>
+
+        <!-- F1-F4 Info-View Overlay Bar (#info-overlay-bar) -->
+        <div id="info-overlay-bar">
+          <button type="button" class="overlay-btn active" data-overlay="0" onclick="window.setOverlayMode(0)">[F0 Off]</button>
+          <button type="button" class="overlay-btn" data-overlay="1" onclick="window.setOverlayMode(window._oasisOverlayMode === 1 ? 0 : 1)">[F1 Thermal]</button>
+          <button type="button" class="overlay-btn" data-overlay="2" onclick="window.setOverlayMode(window._oasisOverlayMode === 2 ? 0 : 2)">[F2 Exergy]</button>
+          <button type="button" class="overlay-btn" data-overlay="3" onclick="window.setOverlayMode(window._oasisOverlayMode === 3 ? 0 : 3)">[F3 Haul]</button>
+          <button type="button" class="overlay-btn" data-overlay="4" onclick="window.setOverlayMode(window._oasisOverlayMode === 4 ? 0 : 4)">[F4 Stress]</button>
+        </div>
+
+        <!-- Burnout Warning Banner (#hud-burnout-banner) -->
+        <div id="hud-burnout-banner">[BURNOUT: Agent refuses physical labor until Stress recovers below 40%]</div>
+
+        <!-- Bottom-Center Active Brush & Controls Bar (#active-brush-bar) -->
+        <div id="active-brush-bar">
+          <div class="brush-top-row">
+            <span id="active-brush-label">ACTIVE TOOL: [Dig Swale] (Left-Click Backyard Soil / Roof | Right-Click Voxel for Menu)</span>
+            <span id="active-brush-controls-hint">Pan: WASD / 2-Finger Scroll / Shift+Left-Drag | Orbit: Shift+Right-Drag | Zoom: Wheel / +/- | Roof: [🏠 Toggle Roof]</span>
+          </div>
+          <div class="brush-pill-row">
+            <button type="button" class="brush-pill active" data-brush-id="1" onclick="window.selectActiveBrushTool(1, '[Dig Swale]')">[1:Backyard Swale]</button>
+            <button type="button" class="brush-pill" data-brush-id="2" onclick="window.selectActiveBrushTool(2, '[Plant Cover Crop]')">[2:Plant Garden]</button>
+            <button type="button" class="brush-pill" data-brush-id="13" onclick="window.selectActiveBrushTool(13, '[Harvest Ripe Crop]')">[13:Harvest]</button>
+            <button type="button" class="brush-pill" data-brush-id="14" onclick="window.selectActiveBrushTool(14, '[Cook Sovereign Meal (Scenario Γ)]')">[14:Cook (Γ)]</button>
+            <button type="button" class="brush-pill" data-brush-id="11" onclick="window.selectActiveBrushTool(11, '[Erect Solar Blueprint]')">[11:Roof Solar]</button>
+            <button type="button" class="brush-pill" data-brush-id="10" onclick="window.selectActiveBrushTool(10, '[Install Rainwater Cistern]')">[10:Rain Cistern]</button>
+            <button type="button" class="brush-pill" data-brush-id="3" onclick="window.selectActiveBrushTool(3, '[Designate Haul Zone]')">[3:Stockpile]</button>
+            <button type="button" class="brush-pill" data-brush-id="4" onclick="window.selectActiveBrushTool(4, '[Build Wall: Cob]')">[4:Cob Wall]</button>
+            <button type="button" class="brush-pill" data-brush-id="5" onclick="window.selectActiveBrushTool(5, '[Build Wall: Urbanite]')">[5:Urbanite]</button>
+            <button type="button" class="brush-pill" data-brush-id="6" onclick="window.selectActiveBrushTool(6, '[Install Door: Timber]')">[6:Door]</button>
+            <button type="button" class="brush-pill" data-brush-id="7" onclick="window.selectActiveBrushTool(7, '[Build Hearth]')">[7:Hearth]</button>
+            <button type="button" class="brush-pill" data-brush-id="8" onclick="window.selectActiveBrushTool(8, '[Designate Sleep Zone]')">[8:Sleep]</button>
+            <button type="button" class="brush-pill" data-brush-id="9" onclick="window.selectActiveBrushTool(9, '[Designate Recreation Zone]')">[9:Patio Rec]</button>
+            <button type="button" class="brush-pill" data-brush-id="12" onclick="window.selectActiveBrushTool(12, '[Build Roof: Timber]')">[12:Roof]</button>
+            <button type="button" class="brush-pill cancel-pill" data-brush-id="99" onclick="window.selectActiveBrushTool(99, '[Cancel Designation]')">[X:Cancel]</button>
+          </div>
+        </div>
+
+        <!-- Spatial Voxel Context Menu (#voxel-context-menu) -->
+        <div id="voxel-context-menu" role="menu" aria-label="Spatial Voxel Context Menu">
+          <div class="ctx-menu-header">
+            <span id="ctx-menu-coords" class="ctx-menu-title">VOXEL (0, 0, 0)</span>
+            <span id="ctx-menu-category" class="ctx-menu-cat">TERRAIN / SOIL</span>
+          </div>
+          <div class="ctx-menu-subbar">
+            <span>Click action to execute &amp; equip brush</span>
+            <button type="button" id="ctx-show-all-btn" onclick="window.toggleShowAllContextTools()">[Show All Tools]</button>
+          </div>
+          <div id="ctx-menu-actions">
+            <button type="button" class="ctx-action-btn" data-action-id="1" data-category="TERRAIN" onclick="window.selectVoxelContextAction(1, '[Dig Swale]')">
+              <span class="ctx-action-name">[Dig Swale]</span>
+              <div class="ctx-badge-row">
+                <span class="ctx-badge ctx-badge-kcal">180 kcal</span>
+                <span class="ctx-badge ctx-badge-focus">10% Focus</span>
+                <span class="ctx-badge ctx-badge-mat">Earthwork</span>
+              </div>
+            </button>
+            <button type="button" class="ctx-action-btn" data-action-id="2" data-category="TERRAIN" onclick="window.selectVoxelContextAction(2, '[Plant Cover Crop]')">
+              <span class="ctx-action-name">[Plant Cover Crop]</span>
+              <div class="ctx-badge-row">
+                <span class="ctx-badge ctx-badge-kcal">90 kcal</span>
+                <span class="ctx-badge ctx-badge-focus">5% Focus</span>
+                <span class="ctx-badge ctx-badge-mat">Soil Rehab</span>
+              </div>
+            </button>
+            <button type="button" class="ctx-action-btn" data-action-id="13" data-category="TERRAIN" onclick="window.selectVoxelContextAction(13, '[Harvest Ripe Crop]')">
+              <span class="ctx-action-name">[13:Harvest] — Harvest Ripe Crop</span>
+              <div class="ctx-badge-row">
+                <span class="ctx-badge ctx-badge-kcal">80 kcal</span>
+                <span class="ctx-badge ctx-badge-focus">5% Focus</span>
+                <span class="ctx-badge ctx-badge-mat">+2 Raw Produce</span>
+              </div>
+            </button>
+            <button type="button" class="ctx-action-btn" data-action-id="14" data-category="INTERIOR" onclick="window.selectVoxelContextAction(14, '[Cook Sovereign Meal (Scenario Γ)]')">
+              <span class="ctx-action-name">[14:Cook (Γ)] — Cook Sovereign Meal</span>
+              <div class="ctx-badge-row">
+                <span class="ctx-badge ctx-badge-kcal">60 kcal</span>
+                <span class="ctx-badge ctx-badge-focus">5% Focus</span>
+                <span class="ctx-badge ctx-badge-mat">1 Produce + 1.0L -&gt; +800 kcal Meal</span>
+              </div>
+            </button>
+            <button type="button" class="ctx-action-btn" data-action-id="3" data-category="TERRAIN" onclick="window.selectVoxelContextAction(3, '[Designate Haul Zone]')">
+              <span class="ctx-action-name">[Designate Haul Zone]</span>
+              <div class="ctx-badge-row">
+                <span class="ctx-badge ctx-badge-kcal">0 kcal</span>
+                <span class="ctx-badge ctx-badge-focus">0% Focus</span>
+                <span class="ctx-badge ctx-badge-mat">Instant Stockpile</span>
+              </div>
+            </button>
+            <button type="button" class="ctx-action-btn" data-action-id="4" data-category="STRUCTURE" onclick="window.selectVoxelContextAction(4, '[Build Wall: Cob]')">
+              <span class="ctx-action-name">[Build Wall: Cob]</span>
+              <div class="ctx-badge-row">
+                <span class="ctx-badge ctx-badge-kcal">220 kcal</span>
+                <span class="ctx-badge ctx-badge-focus">12% Focus</span>
+                <span class="ctx-badge ctx-badge-mat">Thermal Mass</span>
+              </div>
+            </button>
+            <button type="button" class="ctx-action-btn" data-action-id="5" data-category="STRUCTURE" onclick="window.selectVoxelContextAction(5, '[Build Wall: Urbanite]')">
+              <span class="ctx-action-name">[Build Wall: Urbanite]</span>
+              <div class="ctx-badge-row">
+                <span class="ctx-badge ctx-badge-kcal">240 kcal</span>
+                <span class="ctx-badge ctx-badge-focus">14% Focus</span>
+                <span class="ctx-badge ctx-badge-mat">Reclaimed Slab</span>
+              </div>
+            </button>
+            <button type="button" class="ctx-action-btn" data-action-id="6" data-category="STRUCTURE" onclick="window.selectVoxelContextAction(6, '[Install Door: Timber]')">
+              <span class="ctx-action-name">[Install Door: Timber]</span>
+              <div class="ctx-badge-row">
+                <span class="ctx-badge ctx-badge-kcal">150 kcal</span>
+                <span class="ctx-badge ctx-badge-focus">8% Focus</span>
+                <span class="ctx-badge ctx-badge-mat">Airtight Passable</span>
+              </div>
+            </button>
+            <button type="button" class="ctx-action-btn" data-action-id="7" data-category="STRUCTURE" onclick="window.selectVoxelContextAction(7, '[Build Hearth]')">
+              <span class="ctx-action-name">[Build Hearth]</span>
+              <div class="ctx-badge-row">
+                <span class="ctx-badge ctx-badge-kcal">300 kcal</span>
+                <span class="ctx-badge ctx-badge-focus">15% Focus</span>
+                <span class="ctx-badge ctx-badge-mat">+Heat Source</span>
+              </div>
+            </button>
+            <button type="button" class="ctx-action-btn" data-action-id="8" data-category="INTERIOR" onclick="window.selectVoxelContextAction(8, '[Designate Sleep Zone]')">
+              <span class="ctx-action-name">[Designate Sleep Zone]</span>
+              <div class="ctx-badge-row">
+                <span class="ctx-badge ctx-badge-kcal">0 kcal</span>
+                <span class="ctx-badge ctx-badge-focus">0% Focus</span>
+                <span class="ctx-badge ctx-badge-mat">Instant Bedding Zone</span>
+              </div>
+            </button>
+            <button type="button" class="ctx-action-btn" data-action-id="9" data-category="INTERIOR" onclick="window.selectVoxelContextAction(9, '[Designate Recreation Zone]')">
+              <span class="ctx-action-name">[Designate Recreation Zone]</span>
+              <div class="ctx-badge-row">
+                <span class="ctx-badge ctx-badge-kcal">0 kcal</span>
+                <span class="ctx-badge ctx-badge-focus">0% Focus</span>
+                <span class="ctx-badge ctx-badge-mat">Instant Campfire/Leisure</span>
+              </div>
+            </button>
+            <button type="button" class="ctx-action-btn" data-action-id="10" data-category="GRID" onclick="window.selectVoxelContextAction(10, '[Install Rainwater Cistern]')">
+              <span class="ctx-action-name">[Install Rainwater Cistern]</span>
+              <div class="ctx-badge-row">
+                <span class="ctx-badge ctx-badge-kcal">250 kcal</span>
+                <span class="ctx-badge ctx-badge-focus">15% Focus</span>
+                <span class="ctx-badge ctx-badge-mat">+Water Storage</span>
+              </div>
+            </button>
+            <button type="button" class="ctx-action-btn" data-action-id="11" data-category="GRID" onclick="window.selectVoxelContextAction(11, '[Erect Solar Blueprint]')">
+              <span class="ctx-action-name">[Erect Solar Blueprint]</span>
+              <div class="ctx-badge-row">
+                <span class="ctx-badge ctx-badge-kcal">500 kcal</span>
+                <span class="ctx-badge ctx-badge-focus">20% Focus</span>
+                <span class="ctx-badge ctx-badge-mat">+Exergy Generation</span>
+              </div>
+            </button>
+            <button type="button" class="ctx-action-btn" data-action-id="12" data-category="STRUCTURE" onclick="window.selectVoxelContextAction(12, '[Build Roof: Timber]')">
+              <span class="ctx-action-name">[Build Roof: Timber]</span>
+              <div class="ctx-badge-row">
+                <span class="ctx-badge ctx-badge-kcal">200 kcal</span>
+                <span class="ctx-badge ctx-badge-focus">10% Focus</span>
+                <span class="ctx-badge ctx-badge-mat">Overhead Seal</span>
+              </div>
+            </button>
+            <button type="button" class="ctx-action-btn" data-action-id="99" data-category="CANCEL" onclick="window.selectVoxelContextAction(99, '[Cancel Designation]')">
+              <span class="ctx-action-name">[Cancel Designation]</span>
+              <div class="ctx-badge-row">
+                <span class="ctx-badge ctx-badge-kcal">0 kcal</span>
+                <span class="ctx-badge ctx-badge-focus">0% Focus</span>
+                <span class="ctx-badge ctx-badge-mat">Remove Blueprint / Block</span>
+              </div>
+            </button>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="emscripten" id="status">Initializing WebAssembly & WebGPU...</div>
+    <div class="emscripten" id="status">Initializing WebAssembly &amp; WebGPU...</div>
     <textarea id="output" rows="6"></textarea>
 
     <script type="text/javascript">
       // -----------------------------------------------------------------------
-      // Vitals HUD Animation and State Update Function
-      // Invoked directly from C++ Flecs ECS loop via EM_ASM!
+      // Tactical UI State & Spatial Voxel Context Menu Helpers
+      // -----------------------------------------------------------------------
+      window._oasisTimeWarpMultiplier = 1;
+      window._oasisPendingTimeWarp = -1;
+      window._oasisCutawayLevel = 3;
+      window._oasisPendingCutawayLevel = -1;
+      window._oasisToggleRoofCutaway = 0;
+      window._oasisWaveNeighborRequested = 0;
+      window._oasisOverlayMode = 0;
+      window._oasisPendingOverlayMode = -1;
+      window._oasisSimTick = 0;
+      window._oasisBurnoutActive = false;
+      window._oasisContextMenuOpen = false;
+      window._oasisShowAllContextTools = false;
+      window._oasisContextMenuTarget = { x: 0, y: 0, z: 0, matId: 0, category: 'TERRAIN / SOIL' };
+      window._oasisActiveTool = { actionId: 1, name: '[Dig Swale]', target: null };
+      window._oasisPendingActionId = -1;
+      window._oasisPendingKitchenAction = 0;
+      window._oasisPendingCompanionTask = 0;
+      window._oasisCompanionDrawerOpen = false;
+      window._oasisPendingScheduleUpdate = { day: 1, taskId: 2, pending: 0 };
+      window._oasisPendingScheduleCommit = 0;
+      window._oasisLastBpmnHUD = {
+        valueTokens: 25,
+        node1Kwh: -4.5,
+        node1Fulfilled: false,
+        node2WaterL: -8.0,
+        node2Fulfilled: false,
+        node3Kcal: -1600.0,
+        node3Fulfilled: false,
+        days: [
+          { day: 1, taskId: 2, stage: 4, badge: '[ESCROWED]' },
+          { day: 2, taskId: 1, stage: 4, badge: '[ESCROWED]' },
+          { day: 3, taskId: 3, stage: 4, badge: '[ESCROWED]' },
+          { day: 4, taskId: 4, stage: 4, badge: '[ESCROWED]' }
+        ],
+        autoDispatch: false,
+        simDay: 1
+      };
+      window._oasisPendingDirectPlacement = { x: 0, y: 0, z: 0, actionId: 0, pending: 0 };
+      window._oasisPendingTriggerWave = 0;
+      window._oasisPendingSnapMigrants = 0;
+      window._oasisPendingPromoteR3 = 0;
+      window._oasisPendingVouchR1 = 0;
+      window._oasisLastMigrantHUD = {
+        npcCount: 0,
+        maxNpcs: 16,
+        r6Count: 0,
+        r3Count: 0,
+        r1Count: 0,
+        warningText: '',
+        leadTitle: 'No Migrants Yet (Solo Genesis Phase — Click [🌊 Call Wave] or wait for Horizon Event)',
+        shelterOk: false,
+        hydrationOk: false,
+        caloriesOk: false,
+        potwMj: 0.0,
+        regressionText: ''
+      };
+
+      var _oasisCompanionChannel = null;
+      try {
+        if (typeof BroadcastChannel !== 'undefined') {
+          _oasisCompanionChannel = new BroadcastChannel('oasis_companion_bus');
+          _oasisCompanionChannel.onmessage = function(ev) {
+            if (!ev || !ev.data) return;
+            if (ev.data.type === 'COMPANION_TASK' && ev.data.taskId) {
+              dispatchCompanionTask(ev.data.taskId, true);
+            } else if (ev.data.type === 'BPMN_SCHEDULE_UPDATE' && ev.data.day && ev.data.taskId) {
+              updateBpmnScheduleSlot(ev.data.day, ev.data.taskId, true);
+            } else if (ev.data.type === 'BPMN_COMMIT_SCHEDULE' || ev.data.type === 'BPMN_SCHEDULE_COMMIT') {
+              if (Array.isArray(ev.data.days)) {
+                ev.data.days.forEach(function(item, idx) {
+                  var tid = (item && item.taskId) ? item.taskId : item;
+                  if (tid) updateBpmnScheduleSlot(idx + 1, tid, true);
+                });
+              }
+              commitBpmnSchedule(ev.data.mode || 1, true);
+            }
+          };
+        }
+      } catch (err) {}
+
+      window.addEventListener('storage', function(ev) {
+        if (!ev || !ev.newValue) return;
+        if (ev.key === 'oasis_companion_task' || ev.key === 'oasis_bpmn_schedule') {
+          try {
+            var payload = JSON.parse(ev.newValue);
+            if (!payload) return;
+            if (payload.type === 'COMPANION_TASK' && payload.taskId) {
+              dispatchCompanionTask(payload.taskId, true);
+            } else if (payload.type === 'BPMN_SCHEDULE_UPDATE' && payload.day && payload.taskId) {
+              updateBpmnScheduleSlot(payload.day, payload.taskId, true);
+            } else if (payload.type === 'BPMN_COMMIT_SCHEDULE' || payload.type === 'BPMN_SCHEDULE_COMMIT') {
+              if (Array.isArray(payload.days)) {
+                payload.days.forEach(function(item, idx) {
+                  var tid = (item && item.taskId) ? item.taskId : item;
+                  if (tid) updateBpmnScheduleSlot(idx + 1, tid, true);
+                });
+              }
+              commitBpmnSchedule(payload.mode || 1, true);
+            }
+          } catch (err) {}
+        }
+      });
+
+      function toggleNode0CompanionDrawer(forceState) {
+        var drawer = document.getElementById('node0-companion-drawer');
+        if (!drawer) return;
+        var nextState = (typeof forceState === 'boolean') ? forceState : (drawer.style.display !== 'block');
+        drawer.style.display = nextState ? 'block' : 'none';
+        window._oasisCompanionDrawerOpen = nextState;
+      }
+      window.toggleNode0CompanionDrawer = toggleNode0CompanionDrawer;
+      window.toggleCompanionDrawer = toggleNode0CompanionDrawer;
+
+      function dispatchCompanionTask(taskId, fromRemoteBus) {
+        var tid = Math.round(Number(taskId) || 0);
+        if (tid < 1 || tid > 5) return;
+        window._oasisPendingCompanionTask = tid;
+
+        var statusBanner = document.getElementById('companion-drawer-status');
+        if (statusBanner) {
+          var labels = {
+            1: '✅ mesh:FabricationIntent #I-101 Emitted: Roof Solar Panel queued for Lot 402 Founder!',
+            2: '✅ mesh:FabricationIntent #I-102 Emitted: Backyard Rain Swale (+2 Cob) queued for Lot 402 Founder!',
+            3: '✅ mesh:FabricationIntent #I-103 Emitted: Backyard Harvest & Kitchen Cook (+2 Meals) queued!',
+            4: '✅ Task #4 Resource Exchange Intent Fulfilled: Traded 2 Meals -> +2 Solar PV Kits & +2 Seeds!',
+            5: '✅ mesh:RestIntent Emitted: Founder walking to Patio Hearth for Rest & Recovery (-Stress, +Focus)!'
+          };
+          statusBanner.textContent = labels[tid] || '✅ Layer 6 Semantic Intent Dispatched to Lot 402 Founder!';
+          statusBanner.style.display = 'block';
+        }
+
+        if (!fromRemoteBus) {
+          var msg = { type: 'COMPANION_TASK', taskId: tid, timestamp: Date.now() };
+          try {
+            if (_oasisCompanionChannel) _oasisCompanionChannel.postMessage(msg);
+          } catch (err) {}
+          try {
+            localStorage.setItem('oasis_companion_task', JSON.stringify(msg));
+          } catch (err) {}
+        }
+      }
+      window.dispatchCompanionTask = dispatchCompanionTask;
+
+      function updateBpmnScheduleSlot(day, taskId, fromRemoteBus) {
+        var d = Math.max(1, Math.min(4, Math.round(Number(day) || 1)));
+        var t = Math.max(1, Math.min(5, Math.round(Number(taskId) || 1)));
+        window._oasisPendingScheduleUpdate = { day: d, taskId: t, pending: 1 };
+
+        var sel = document.getElementById('sched-day-' + d + '-select');
+        if (sel && String(sel.value) !== String(t)) {
+          sel.value = String(t);
+        }
+
+        var statusBanner = document.getElementById('companion-drawer-status');
+        if (statusBanner) {
+          statusBanner.textContent = '📅 Updated Day ' + d + ' Calendar of Intents -> Intent #' + t + ' ([ESCROWED])';
+          statusBanner.style.display = 'block';
+        }
+
+        if (!fromRemoteBus) {
+          var msg = { type: 'BPMN_SCHEDULE_UPDATE', day: d, taskId: t, timestamp: Date.now() };
+          try {
+            if (_oasisCompanionChannel) _oasisCompanionChannel.postMessage(msg);
+          } catch (err) {}
+          try {
+            localStorage.setItem('oasis_bpmn_schedule', JSON.stringify(msg));
+          } catch (err) {}
+        }
+      }
+      window.updateBpmnScheduleSlot = updateBpmnScheduleSlot;
+
+      function commitBpmnSchedule(mode, fromRemoteBus) {
+        var m = Math.round(Number(mode) || 1);
+        window._oasisPendingScheduleCommit = m;
+
+        var statusBanner = document.getElementById('companion-drawer-status');
+        if (statusBanner) {
+          statusBanner.textContent = '📅 Signed & Published Layer 6 Calendar of Intents (Auto-Run L6 Queue Armed)!';
+          statusBanner.style.display = 'block';
+        }
+
+        if (!fromRemoteBus) {
+          var msg = { type: 'BPMN_COMMIT_SCHEDULE', mode: m, timestamp: Date.now() };
+          try {
+            if (_oasisCompanionChannel) _oasisCompanionChannel.postMessage(msg);
+          } catch (err) {}
+          try {
+            localStorage.setItem('oasis_bpmn_schedule', JSON.stringify(msg));
+          } catch (err) {}
+        }
+      }
+      window.commitBpmnSchedule = commitBpmnSchedule;
+
+      function formatIntentLifecycleBadgeText(stageCode) {
+        var s = Math.round(Number(stageCode) !== undefined && !isNaN(Number(stageCode)) ? Number(stageCode) : 4);
+        if (s === 0) return '[REJECTED]';
+        if (s === 6) return '[FULFILLED]';
+        if (s === 5) return '[ACTUATING]';
+        if (s === 4) return '[ESCROWED]';
+        return '[PENDING]';
+      }
+      var formatBpmnStageBadgeText = formatIntentLifecycleBadgeText;
+      window.formatIntentLifecycleBadgeText = formatIntentLifecycleBadgeText;
+      window.formatBpmnStageBadgeText = formatBpmnStageBadgeText;
+
+      function updateBpmnHUD(
+        valueTokens,
+        n1Kwh, n1Done,
+        n2Water, n2Done,
+        n3Kcal, n3Done,
+        d1Task, d1Stage,
+        d2Task, d2Stage,
+        d3Task, d3Stage,
+        d4Task, d4Stage,
+        autoDispatch,
+        simDay
+      ) {
+        var vt = Math.max(0, Math.round(Number(valueTokens) || 25));
+        var elVt = document.getElementById('comp-tel-vt');
+        if (elVt) elVt.textContent = vt + ' VT';
+
+        var k1 = Number(n1Kwh || -4.5);
+        var f1 = Boolean(Number(n1Done) > 0 || n1Done === true);
+        var elN1 = document.getElementById('proxy-node-1-status');
+        if (elN1) {
+          elN1.textContent = f1
+            ? ('✅ FULFILLED (+15 VT & +2 Cob | ' + (k1 >= 0 ? '+' : '') + k1.toFixed(1) + ' kWh)')
+            : ('Deficit: ' + k1.toFixed(1) + ' kWh | +15 VT & +2 Cob');
+          elN1.className = f1 ? 'proxy-node-settled' : 'proxy-node-deficit';
+        }
+
+        var w2 = Number(n2Water || -8.0);
+        var f2 = Boolean(Number(n2Done) > 0 || n2Done === true);
+        var elN2 = document.getElementById('proxy-node-2-status');
+        if (elN2) {
+          elN2.textContent = f2
+            ? ('✅ FULFILLED (+12 VT & +2 Seeds | ' + (w2 >= 0 ? '+' : '') + w2.toFixed(1) + ' L/d)')
+            : ('Deficit: ' + w2.toFixed(1) + ' L/d | +12 VT & +2 Seeds');
+          elN2.className = f2 ? 'proxy-node-settled' : 'proxy-node-deficit';
+        }
+
+        var c3 = Number(n3Kcal || -1600.0);
+        var f3 = Boolean(Number(n3Done) > 0 || n3Done === true);
+        var elN3 = document.getElementById('proxy-node-3-status');
+        if (elN3) {
+          elN3.textContent = f3
+            ? ('✅ FULFILLED (+20 VT & +1 PV Kit | +' + Math.round(c3) + ' kcal)')
+            : ('Deficit: ' + Math.round(c3) + ' kcal | +20 VT & +1 PV Kit');
+          elN3.className = f3 ? 'proxy-node-settled' : 'proxy-node-deficit';
+        }
+
+        var tasks = [d1Task, d2Task, d3Task, d4Task];
+        var stages = [d1Stage, d2Stage, d3Stage, d4Stage];
+        var dayObjs = [];
+        for (var i = 0; i < 4; i++) {
+          var dayNum = i + 1;
+          var tid = Math.max(1, Math.min(5, Math.round(Number(tasks[i]) || 1)));
+          var stg = Math.round(Number(stages[i]) !== undefined && !isNaN(Number(stages[i])) ? Number(stages[i]) : 4);
+          var badgeTxt = formatIntentLifecycleBadgeText(stg);
+          dayObjs.push({ day: dayNum, taskId: tid, stage: stg, badge: badgeTxt });
+
+          var selEl = document.getElementById('sched-day-' + dayNum + '-select');
+          if (selEl && (!window._oasisPendingScheduleUpdate || window._oasisPendingScheduleUpdate.pending === 0)) {
+            if (document.activeElement !== selEl && String(selEl.value) !== String(tid)) {
+              selEl.value = String(tid);
+            }
+          }
+          var bdgEl = document.getElementById('sched-day-' + dayNum + '-badge');
+          if (bdgEl) {
+            bdgEl.textContent = badgeTxt;
+            bdgEl.className = 'bpmn-stage-badge' +
+              (stg === 5 ? ' bpmn-stage-executing' : (stg === 6 ? ' bpmn-stage-settled' : ''));
+          }
+        }
+
+        var autoOn = Boolean(Number(autoDispatch) > 0 || autoDispatch === true);
+        var commitBtn = document.getElementById('btn-commit-schedule');
+        if (commitBtn) {
+          commitBtn.textContent = autoOn
+            ? '[ 🟢 Calendar of Intents ACTIVE (Day ' + Math.max(1, Math.round(Number(simDay) || 1)) + ') — Click to Pause ]'
+            : '[ 📅 Sign & Publish Calendar of Intents (Auto-Run L6 Queue) ]';
+        }
+
+        window._oasisLastBpmnHUD = {
+          valueTokens: vt,
+          node1Kwh: k1,
+          node1Fulfilled: f1,
+          node2WaterL: w2,
+          node2Fulfilled: f2,
+          node3Kcal: c3,
+          node3Fulfilled: f3,
+          days: dayObjs,
+          autoDispatch: autoOn,
+          simDay: Math.max(1, Math.round(Number(simDay) || 1))
+        };
+      }
+      window._oasisUpdateBpmnHUD = updateBpmnHUD;
+      window.updateBpmnHUD = updateBpmnHUD;
+
+      function syncCompanionTelemetryStrip() {
+        var hud = window._oasisLastHUD || {};
+        var st = window._oasisLastFounderStatus || {};
+        var bpmn = window._oasisLastBpmnHUD || {};
+        var kwh = (hud.netKwhDay !== undefined) ? Number(hud.netKwhDay) : 8.5;
+        var waterL = (st.waterL !== undefined) ? Number(st.waterL) : 60.0;
+        var meals = (st.rations !== undefined) ? Number(st.rations) : 12;
+        var prod = (st.rawProduce !== undefined) ? Number(st.rawProduce) : 2;
+        var pv = (st.pvKits !== undefined) ? Number(st.pvKits) : 2;
+        var vt = (bpmn.valueTokens !== undefined) ? Number(bpmn.valueTokens) : 25;
+
+        var elSolar = document.getElementById('comp-tel-solar');
+        if (elSolar) elSolar.textContent = (kwh >= 0 ? '+' : '') + kwh.toFixed(1) + ' kWh/d';
+        var elWater = document.getElementById('comp-tel-water');
+        if (elWater) elWater.textContent = waterL.toFixed(1) + 'L';
+        var elMeals = document.getElementById('comp-tel-meals');
+        if (elMeals) elMeals.textContent = meals + ' (' + prod + ' Prod)';
+        var elPv = document.getElementById('comp-tel-pv');
+        if (elPv) elPv.textContent = String(pv);
+        var elVt = document.getElementById('comp-tel-vt');
+        if (elVt) elVt.textContent = vt + ' VT';
+
+        var telMsg = {
+          type: 'OASIS_TELEMETRY',
+          solarKwhDay: kwh,
+          waterL: waterL,
+          meals: meals,
+          rawProduce: prod,
+          pvKits: pv,
+          valueTokens: vt,
+          bpmn: bpmn,
+          calories: hud.calories !== undefined ? hud.calories : 2500,
+          stress: hud.stress !== undefined ? hud.stress : 0.25,
+          focus: hud.focus !== undefined ? hud.focus : 0.75,
+          simTick: window._oasisSimTick || 0,
+          timestamp: Date.now()
+        };
+        try {
+          if (_oasisCompanionChannel) _oasisCompanionChannel.postMessage(telMsg);
+        } catch (err) {}
+        try {
+          localStorage.setItem('oasis_companion_telemetry', JSON.stringify(telMsg));
+        } catch (err) {}
+      }
+      window.syncCompanionTelemetryStrip = syncCompanionTelemetryStrip;
+
+      function dismissNode0Intro() {
+        var modal = document.getElementById('node0-intro-modal');
+        if (modal) {
+          modal.style.display = 'none';
+        }
+      }
+      window.dismissNode0Intro = dismissNode0Intro;
+
+      function toggleNode0RoofCutaway() {
+        window._oasisToggleRoofCutaway = 1;
+      }
+      window.toggleNode0RoofCutaway = toggleNode0RoofCutaway;
+
+      function triggerNeighborWave() {
+        window._oasisWaveNeighborRequested = 1;
+      }
+      window.triggerNeighborWave = triggerNeighborWave;
+
+      function triggerKitchenScenarioAction(actionCode) {
+        var code = Number(actionCode) || 0;
+        window._oasisPendingKitchenAction = code;
+        if (code === 13) {
+          syncActiveBrushUI(13, '[Harvest Ripe Crop]');
+        } else if (code === 14) {
+          syncActiveBrushUI(14, '[Cook Sovereign Meal (Scenario Γ)]');
+        }
+      }
+      window.triggerKitchenScenarioAction = triggerKitchenScenarioAction;
+
+      function updateHomesteadQuestHUD(hasGarden, hasSolarOrCistern, hasL7Grace, cutawayZ, neighborQuote) {
+        var gOk = Boolean(Number(hasGarden) > 0 || hasGarden === true);
+        var rOk = Boolean(Number(hasSolarOrCistern) > 0 || hasSolarOrCistern === true);
+        var lOk = Boolean(Number(hasL7Grace) > 0 || hasL7Grace === true);
+        var cutZ = Math.round(Number(cutawayZ) || 3);
+
+        var gEl = document.getElementById('quest-step-garden');
+        if (gEl) {
+          gEl.textContent = gOk ? '[✅ 2. Backyard Garden Cultivated]' : '[⏳ 2. Backyard: Dig Swale [1] / Crop [2]]';
+          gEl.className = 'chk-row ' + (gOk ? 'chk-ok' : 'chk-pending');
+        }
+        var rEl = document.getElementById('quest-step-roof');
+        if (rEl) {
+          rEl.textContent = rOk ? '[✅ 3. Roof Solar / Rain Cistern Active]' : '[⏳ 3. Roof/Eaves: Solar [11] / Cistern [10]]';
+          rEl.className = 'chk-row ' + (rOk ? 'chk-ok' : 'chk-pending');
+        }
+        var lEl = document.getElementById('quest-step-l7');
+        if (lEl) {
+          lEl.textContent = lOk ? '[✅ 4. Sidewalk: Layer 7 Grace Exchanged]' : '[⏳ 4. Sidewalk: Layer 7 Minimum Grace]';
+          lEl.className = 'chk-row ' + (lOk ? 'chk-ok' : 'chk-pending');
+        }
+        var badgeEl = document.getElementById('hud-cutaway-badge');
+        if (badgeEl) {
+          badgeEl.textContent = (cutZ < 32) ? ('INSIDE (Z=' + cutZ + ')') : 'ROOF ON (Z=32)';
+          badgeEl.style.color = (cutZ < 32) ? '#38bdf8' : '#fbbf24';
+        }
+        var tickerEl = document.getElementById('l7-grace-ticker');
+        if (tickerEl && neighborQuote && String(neighborQuote).trim().length > 0) {
+          tickerEl.textContent = 'LAYER 7 SIDEWALK: ' + String(neighborQuote);
+        }
+      }
+      window.updateHomesteadQuestHUD = updateHomesteadQuestHUD;
+      window._oasisUpdateHomesteadQuestHUD = updateHomesteadQuestHUD;
+
+      function triggerMigrationWaveNow() {
+        window._oasisPendingTriggerWave = 1;
+      }
+      window.triggerMigrationWaveNow = triggerMigrationWaveNow;
+
+      function snapCameraToMigrants() {
+        window._oasisPendingSnapMigrants = 1;
+      }
+      window.snapCameraToMigrants = snapCameraToMigrants;
+
+      function promoteMigrantsToR3() {
+        window._oasisPendingPromoteR3 = 1;
+      }
+      window.promoteMigrantsToR3 = promoteMigrantsToR3;
+
+      function vouchMigrantsToR1() {
+        window._oasisPendingVouchR1 = 1;
+      }
+      window.vouchMigrantsToR1 = vouchMigrantsToR1;
+
+      function updateMigrantHUD(
+        npcCount,
+        maxNpcs,
+        r6Count,
+        r3Count,
+        r1Count,
+        warningText,
+        leadTitle,
+        shelterOk,
+        hydrationOk,
+        caloriesOk,
+        potwMj,
+        regressionText
+      ) {
+        var nCount = Math.max(0, Math.round(Number(npcCount) || 0));
+        var mNpcs = Math.max(1, Math.round(Number(maxNpcs) || 16));
+        var r6 = Math.max(0, Math.round(Number(r6Count) || 0));
+        var r3 = Math.max(0, Math.round(Number(r3Count) || 0));
+        var r1 = Math.max(0, Math.round(Number(r1Count) || 0));
+        var warnStr = (warningText !== undefined && warningText !== null) ? String(warningText).trim() : '';
+        var leadStr = (leadTitle !== undefined && leadTitle !== null && String(leadTitle).trim().length > 0)
+          ? String(leadTitle)
+          : 'No Migrants Yet (Solo Genesis Phase — Click [🌊 Call Wave] or wait for Horizon Event)';
+        var sOk = Boolean(Number(shelterOk) > 0 || shelterOk === true);
+        var hOk = Boolean(Number(hydrationOk) > 0 || hydrationOk === true);
+        var cOk = Boolean(Number(caloriesOk) > 0 || caloriesOk === true);
+        var pMj = Math.max(0.0, Number(potwMj) || 0.0);
+        var regStr = (regressionText !== undefined && regressionText !== null) ? String(regressionText).trim() : '';
+
+        var popBadge = document.getElementById('hud-npc-pop-badge');
+        if (popBadge) {
+          popBadge.textContent = 'POP: 1 + ' + nCount + '/' + mNpcs + ' NPCs';
+        }
+        var r6El = document.getElementById('hud-r6-count');
+        var r3El = document.getElementById('hud-r3-count');
+        var r1El = document.getElementById('hud-r1-count');
+        if (r6El) r6El.textContent = String(r6);
+        if (r3El) r3El.textContent = String(r3);
+        if (r1El) r1El.textContent = String(r1);
+
+        var warnBanner = document.getElementById('hud-wave-warning-banner');
+        if (warnBanner) {
+          if (warnStr.length > 0) {
+            warnBanner.textContent = warnStr;
+            warnBanner.style.display = 'block';
+          } else {
+            warnBanner.style.display = 'none';
+          }
+        }
+
+        var leadEl = document.getElementById('migrant-lead-title');
+        if (leadEl) {
+          leadEl.textContent = leadStr;
+        }
+
+        var chkShelter = document.getElementById('chk-shelter');
+        if (chkShelter) {
+          chkShelter.textContent = sOk ? '[✅ Enclosed Shelter >18°C]' : '[⏳ Shelter >18°C]';
+          chkShelter.className = 'chk-row ' + (sOk ? 'chk-ok' : 'chk-pending');
+        }
+        var chkHydration = document.getElementById('chk-hydration');
+        if (chkHydration) {
+          chkHydration.textContent = hOk ? '[✅ Hydration >50%]' : '[⏳ Hydration >50%]';
+          chkHydration.className = 'chk-row ' + (hOk ? 'chk-ok' : 'chk-pending');
+        }
+        var chkCalories = document.getElementById('chk-calories');
+        if (chkCalories) {
+          chkCalories.textContent = cOk ? '[✅ Calories >1,500 kcal]' : '[⏳ Calories >1,500 kcal]';
+          chkCalories.className = 'chk-row ' + (cOk ? 'chk-ok' : 'chk-pending');
+        }
+        var chkPotw = document.getElementById('chk-potw');
+        if (chkPotw) {
+          var pDone = pMj >= 36.0;
+          chkPotw.textContent = (pDone ? '[✅ ' : '[⏳ ') + 'PoTW Sweat-Equity: ' + pMj.toFixed(1) + ' / 36.0 MJ]';
+          chkPotw.className = 'chk-row ' + (pDone ? 'chk-ok' : 'chk-pending');
+        }
+
+        var regAlert = document.getElementById('migrant-regression-alert');
+        if (regAlert) {
+          if (regStr.length > 0) {
+            regAlert.textContent = regStr;
+            regAlert.style.display = 'block';
+          } else {
+            regAlert.style.display = 'none';
+          }
+        }
+
+        window._oasisLastMigrantHUD = {
+          npcCount: nCount,
+          maxNpcs: mNpcs,
+          r6Count: r6,
+          r3Count: r3,
+          r1Count: r1,
+          warningText: warnStr,
+          leadTitle: leadStr,
+          shelterOk: sOk,
+          hydrationOk: hOk,
+          caloriesOk: cOk,
+          potwMj: pMj,
+          regressionText: regStr,
+          timestamp: Date.now()
+        };
+      }
+      window._oasisUpdateMigrantHUD = updateMigrantHUD;
+      window.updateMigrantHUD = updateMigrantHUD;
+
+      function formatSimClock(simTick) {
+        var tick = Math.max(0, Math.floor(Number(simTick) || 0));
+        // 28,800 ticks = 1 simulated day, 1,200 ticks = 1 simulated hour, 20 ticks = 1 simulated minute
+        // Day 1 starts at 06:00 dawn (360 minutes from midnight)
+        var totalMinutes = 360 + Math.floor(tick / 20);
+        var dayNum = Math.floor(totalMinutes / 1440) + 1;
+        var minOfDay = totalMinutes % 1440;
+        var hh = String(Math.floor(minOfDay / 60)).padStart(2, '0');
+        var mm = String(minOfDay % 60).padStart(2, '0');
+        return 'Day ' + dayNum + ' | ' + hh + ':' + mm + ' (Tick #' + tick + ')';
+      }
+
+      function isInsideHouseRoom(vx, vy, vz) {
+        var ax = Math.abs(Math.round(Number(vx) || 0));
+        var ry = Math.round(Number(vy) || 0);
+        var rz = Math.round(Number(vz) || 0);
+        var zLocal = ((rz % 16) + 16) % 16;
+        return (ax >= 9 && ax <= 17 && zLocal >= 2 && zLocal <= 10 && ry <= 2);
+      }
+
+      function inferVoxelCategory(matId, explicitCategory, vx, vy, vz) {
+        if (isInsideHouseRoom(vx, vy, vz)) {
+          return 'INDOOR ROOM / STUDY';
+        }
+        if (explicitCategory && String(explicitCategory).trim().length > 0) {
+          return String(explicitCategory);
+        }
+        var m = Number(matId) || 0;
+        if (m === 34) return 'RIPE GARDEN CROP';
+        if (m === 4 || m === 18 || m === 19) return 'TERRAIN / SOIL';
+        if (m === 1 || m === 2 || m === 3) return 'FOUNDATION / PAVEMENT';
+        if (m === 8 || m === 9 || m === 11 || m === 12) return 'GRID / INFRASTRUCTURE';
+        if (m === 32) return 'ROOF ACCESS LADDER';
+        if (m === 33) return 'STAGE FRAME / ASSEMBLY';
+        if (m === 5 || m === 6 || m === 7 || m === 10 || m === 13 || m === 14 || m === 15 || m === 16 || m === 17 || m === 23) return 'STRUCTURE / ENVELOPE';
+        if (m === 20 || m === 21 || m === 22 || m === 24) return 'INTERIOR / ZONE';
+        if (m === 26) return 'QUEUED BLUEPRINT';
+        if (m === 27 || m === 28 || m === 29) return 'COLONIST / NPC AVATAR';
+        return 'PARCEL VOXEL';
+      }
+
+      function applyContextFiltering(matId) {
+        var menu = document.getElementById('voxel-context-menu');
+        if (!menu) return;
+        var mid = Number(matId) || 0;
+        var showAll = Boolean(window._oasisShowAllContextTools);
+        var tgt = window._oasisContextMenuTarget || { x: 0, y: 0, z: 0 };
+        var insideHouse = isInsideHouseRoom(tgt.x, tgt.y, tgt.z);
+
+        var allowed = {};
+        if (showAll) {
+          allowed = { 1: true, 2: true, 3: true, 4: true, 5: true, 6: true, 7: true, 8: true, 9: true, 10: true, 11: true, 12: true, 13: true, 14: true, 99: true };
+        } else if (insideHouse) {
+          // Inside Lot 402 House Interior: only show indoor actions (hide outdoor swale, garden, roof solar, cistern)
+          allowed = { 14: true, 8: true, 9: true, 4: true, 6: true, 7: true, 99: true };
+        } else if (mid === 4 || mid === 18 || mid === 19 || mid === 34) {
+          // Soil / Lawn / Swale / Cover Crop / Mature Crop
+          allowed = { 1: true, 2: true, 3: true, 4: true, 5: true, 6: true, 7: true, 8: true, 9: true, 10: true, 11: true, 12: true, 13: true, 14: true };
+          if (mid >= 11) allowed[99] = true;
+        } else if (mid === 1 || mid === 2 || mid === 3 || mid === 5 || mid === 6 || (mid >= 11 && mid <= 34)) {
+          // Road / Concrete / Walls / Roof / Dynamic structures / Blueprints / Kitchen Counter (24u)
+          allowed = { 3: true, 4: true, 5: true, 6: true, 7: true, 8: true, 9: true, 10: true, 11: true, 12: true, 13: true, 14: true, 99: true };
+        } else {
+          allowed = { 1: true, 2: true, 3: true, 4: true, 5: true, 6: true, 7: true, 8: true, 9: true, 10: true, 11: true, 12: true, 13: true, 14: true, 99: true };
+        }
+
+        var buttons = menu.querySelectorAll('.ctx-action-btn');
+        for (var i = 0; i < buttons.length; i++) {
+          var b = buttons[i];
+          var aid = Number(b.getAttribute('data-action-id')) || 0;
+          b.style.display = allowed[aid] ? 'flex' : 'none';
+          if ((insideHouse && (aid === 14 || aid === 8 || aid === 7)) ||
+              (!insideHouse && mid === 4 && (aid === 1 || aid === 2 || aid === 4)) ||
+              ((mid === 34 || mid === 19) && aid === 13) ||
+              ((mid === 24 || mid === 16) && aid === 14) ||
+              ((mid === 26 || mid === 33) && aid === 99) ||
+              ((mid === 5 || mid === 6) && (aid === 11 || aid === 12))) {
+            b.classList.add('recommended');
+          } else {
+            b.classList.remove('recommended');
+          }
+        }
+
+        var toggleBtn = document.getElementById('ctx-show-all-btn');
+        if (toggleBtn) {
+          toggleBtn.textContent = showAll ? '[Filter by Voxel]' : '[Show All Tools]';
+        }
+      }
+
+      function toggleShowAllContextTools() {
+        window._oasisShowAllContextTools = !window._oasisShowAllContextTools;
+        if (window._oasisContextMenuTarget) {
+          applyContextFiltering(window._oasisContextMenuTarget.matId);
+        }
+      }
+      window.toggleShowAllContextTools = toggleShowAllContextTools;
+
+      function openVoxelContextMenu(screenX, screenY, voxelX, voxelY, voxelZ, matId, categoryName) {
+        var menu = document.getElementById('voxel-context-menu');
+        if (!menu) return;
+
+        var vx = Math.round(Number(voxelX) || 0);
+        var vy = Math.round(Number(voxelY) || 0);
+        var vz = Math.round(Number(voxelZ) || 0);
+        var mid = Number(matId) || 0;
+        var insideHouse = isInsideHouseRoom(vx, vy, vz);
+        var cat = inferVoxelCategory(mid, categoryName, vx, vy, vz);
+
+        window._oasisContextMenuTarget = { x: vx, y: vy, z: vz, matId: mid, category: cat, insideHouse: insideHouse };
+        window._oasisContextMenuOpen = true;
+
+        var coordsEl = document.getElementById('ctx-menu-coords');
+        var catEl = document.getElementById('ctx-menu-category');
+        if (coordsEl) {
+          coordsEl.textContent = insideHouse
+            ? ('LOT 402 HOUSE INTERIOR (' + vx + ', ' + vy + ', ' + vz + ')')
+            : ('VOXEL (' + vx + ', ' + vy + ', ' + vz + ') [M' + mid + ']');
+        }
+        if (catEl) catEl.textContent = cat;
+
+        applyContextFiltering(mid);
+
+        // Clamp within 1024x720 viewport
+        var clampedX = Math.max(10, Math.min(665, Number(screenX) || 280));
+        var clampedY = Math.max(10, Math.min(245, Number(screenY) || 100));
+        menu.style.left = clampedX + 'px';
+        menu.style.top = clampedY + 'px';
+        menu.style.display = 'block';
+      }
+      window.openVoxelContextMenu = openVoxelContextMenu;
+
+      function closeVoxelContextMenu() {
+        var menu = document.getElementById('voxel-context-menu');
+        if (menu) {
+          menu.style.display = 'none';
+        }
+        window._oasisContextMenuOpen = false;
+      }
+      window.closeVoxelContextMenu = closeVoxelContextMenu;
+
+      function syncActiveBrushUI(actionId, actionName) {
+        var labelEl = document.getElementById('active-brush-label');
+        if (labelEl && actionName) {
+          labelEl.textContent = 'ACTIVE TOOL: ' + actionName + ' (Left-Click / Drag to Paint | Right-Click Voxel for Menu)';
+        }
+        var bar = document.getElementById('active-brush-bar');
+        if (bar) {
+          var pills = bar.querySelectorAll('.brush-pill');
+          for (var i = 0; i < pills.length; i++) {
+            var pid = Number(pills[i].getAttribute('data-brush-id'));
+            if (pid === actionId) {
+              pills[i].classList.add('active');
+            } else {
+              pills[i].classList.remove('active');
+            }
+          }
+        }
+      }
+
+      function selectActiveBrushTool(actionId, actionName) {
+        var id = Number(actionId) || 0;
+        var name = actionName || ('Action #' + id);
+        window._oasisActiveTool = {
+          actionId: id,
+          name: name,
+          target: window._oasisContextMenuTarget || null
+        };
+        window._oasisPendingActionId = id;
+        syncActiveBrushUI(id, name);
+      }
+      window.selectActiveBrushTool = selectActiveBrushTool;
+
+      function selectVoxelContextAction(actionId, actionName) {
+        var id = Number(actionId) || 0;
+        var name = actionName || ('Action #' + id);
+        var tgt = window._oasisContextMenuTarget || { x: 0, y: 0, z: 0, matId: 0 };
+        window._oasisActiveTool = {
+          actionId: id,
+          name: name,
+          target: tgt
+        };
+        window._oasisPendingActionId = id;
+        if (id === 13 || id === 14) {
+          window._oasisPendingKitchenAction = id;
+        }
+        window._oasisPendingDirectPlacement = {
+          x: tgt.x,
+          y: tgt.y,
+          z: tgt.z,
+          actionId: id,
+          pending: 1
+        };
+        syncActiveBrushUI(id, name);
+        if (typeof Module !== 'undefined' && typeof Module._oasisSelectDesignatorAction === 'function') {
+          Module._oasisSelectDesignatorAction(id, tgt.x, tgt.y, tgt.z);
+        }
+        closeVoxelContextMenu();
+      }
+      window.selectVoxelContextAction = selectVoxelContextAction;
+
+      function setFounderStatus(statusText, rations, waterL, queueCount, activeToolName, pvKits, timberCount, cobCount, rawProduce, metabolicLabel) {
+        var actEl = document.getElementById('hud-founder-activity');
+        if (actEl && statusText !== undefined && statusText !== null) {
+          var s = String(statusText);
+          actEl.textContent = (s.indexOf('STATUS:') === 0) ? s : ('STATUS: ' + s);
+        }
+        var r = (rations !== undefined && rations !== null && !isNaN(Number(rations))) ? Math.round(Number(rations)) : 3;
+        var w = (waterL !== undefined && waterL !== null && !isNaN(Number(waterL))) ? Number(waterL).toFixed(1) : '60.0';
+        var q = (queueCount !== undefined && queueCount !== null && !isNaN(Number(queueCount))) ? Math.max(0, Math.round(Number(queueCount))) : 0;
+        var pv = (pvKits !== undefined && pvKits !== null && !isNaN(Number(pvKits))) ? Math.max(0, Math.round(Number(pvKits))) : 2;
+        var tim = (timberCount !== undefined && timberCount !== null && !isNaN(Number(timberCount))) ? Math.max(0, Math.round(Number(timberCount))) : 6;
+        var cob = (cobCount !== undefined && cobCount !== null && !isNaN(Number(cobCount))) ? Math.max(0, Math.round(Number(cobCount))) : 4;
+        var prod = (rawProduce !== undefined && rawProduce !== null && !isNaN(Number(rawProduce))) ? Math.max(0, Math.round(Number(rawProduce))) : 2;
+        var meta = (metabolicLabel !== undefined && metabolicLabel !== null && String(metabolicLabel).trim().length > 0)
+          ? String(metabolicLabel).trim()
+          : 'NORMAL (1.0x)';
+
+        var stockEl = document.getElementById('hud-camp-stock');
+        if (stockEl) {
+          stockEl.textContent = 'CAMP: ' + r + ' Rations | ' + w + 'L Water | Queue: ' + q;
+        }
+        var matEl = document.getElementById('hud-material-stock');
+        if (matEl) {
+          matEl.textContent = 'SALVAGE: ' + pv + ' PV Kits | ' + tim + ' Timber | ' + cob + ' Cob | 6 Seeds';
+        }
+        var kitEl = document.getElementById('hud-kitchen-status');
+        if (kitEl) {
+          kitEl.textContent = 'KITCHEN (Γ): ' + r + ' Meals | ' + prod + ' Raw Produce | ' + w + 'L Water | ' + meta;
+        }
+        if (activeToolName && String(activeToolName).trim().length > 0) {
+          var labelEl = document.getElementById('active-brush-label');
+          if (labelEl) {
+            labelEl.textContent = 'ACTIVE TOOL: ' + String(activeToolName) + ' (Left-Click / Drag to Paint | Right-Click Voxel for Menu)';
+          }
+        }
+        window._oasisLastFounderStatus = {
+          statusText: statusText,
+          rations: r,
+          waterL: Number(w),
+          queueCount: q,
+          activeToolName: activeToolName,
+          pvKits: pv,
+          timberCount: tim,
+          cobCount: cob,
+          rawProduce: prod,
+          metabolicLabel: meta
+        };
+        if (typeof syncCompanionTelemetryStrip === 'function') {
+          syncCompanionTelemetryStrip();
+        }
+      }
+      window._oasisSetFounderStatus = setFounderStatus;
+      window.setFounderStatus = setFounderStatus;
+
+      function syncWarpButtonsUI(m) {
+        var bar = document.getElementById('time-warp-bar');
+        if (bar) {
+          var btns = bar.querySelectorAll('.warp-btn');
+          for (var i = 0; i < btns.length; i++) {
+            var bwAttr = btns[i].getAttribute('data-warp');
+            if (bwAttr === null) continue;
+            var bw = Number(bwAttr);
+            if (bw === m) {
+              btns[i].classList.add('active');
+            } else {
+              btns[i].classList.remove('active');
+            }
+          }
+        }
+        var badge = document.getElementById('hud-status-badge');
+        if (badge) {
+          badge.textContent = (m === 0) ? 'PAUSED' : ('ONLINE ' + m + 'x');
+        }
+      }
+
+      function setTimeWarpMultiplier(mult) {
+        var m = Number(mult);
+        if (isNaN(m) || m < 0) m = 1;
+        window._oasisTimeWarpMultiplier = m;
+        window._oasisPendingTimeWarp = m;
+        syncWarpButtonsUI(m);
+
+        if (typeof Module !== 'undefined' && typeof Module._oasisSetTimeWarp === 'function') {
+          Module._oasisSetTimeWarp(m);
+        }
+      }
+      window.setTimeWarpMultiplier = setTimeWarpMultiplier;
+
+      function setRoofCutawayLevel(zLevel) {
+        var z = Math.max(2, Math.min(32, Math.round(Number(zLevel) || 32)));
+        window._oasisCutawayLevel = z;
+        window._oasisPendingCutawayLevel = z;
+        var ind = document.getElementById('hud-cutaway-indicator');
+        if (ind) {
+          ind.textContent = (z >= 32) ? 'Cutaway: Auto / Z=32' : ('Cutaway: Slice Z=' + z);
+        }
+        if (typeof Module !== 'undefined' && typeof Module._oasisSetCutawayLevel === 'function') {
+          Module._oasisSetCutawayLevel(z);
+        }
+      }
+      window.setRoofCutawayLevel = setRoofCutawayLevel;
+
+      function cycleRoofCutawayLevel() {
+        var cur = window._oasisCutawayLevel || 32;
+        var next = (cur >= 32) ? 4 : (cur === 4 ? 2 : 32);
+        setRoofCutawayLevel(next);
+      }
+      window.cycleRoofCutawayLevel = cycleRoofCutawayLevel;
+
+      function setOverlayMode(mode) {
+        var m = Math.max(0, Math.min(4, Math.round(Number(mode) || 0)));
+        window._oasisOverlayMode = m;
+        window._oasisPendingOverlayMode = m;
+        var bar = document.getElementById('info-overlay-bar');
+        if (bar) {
+          var btns = bar.querySelectorAll('.overlay-btn');
+          for (var i = 0; i < btns.length; i++) {
+            var bm = Number(btns[i].getAttribute('data-overlay'));
+            if (bm === m) {
+              btns[i].classList.add('active');
+            } else {
+              btns[i].classList.remove('active');
+            }
+          }
+        }
+        if (typeof Module !== 'undefined' && typeof Module._oasisSetOverlayMode === 'function') {
+          Module._oasisSetOverlayMode(m);
+        }
+      }
+      window.setOverlayMode = setOverlayMode;
+
+      // -----------------------------------------------------------------------
+      // Vitals HUD, Live Simulation Clock & Net Trajectory Ticker Update
+      // Backward-compatible with 4-arg, 10-arg, and 12-arg calls from C++
       // -----------------------------------------------------------------------
       function updateHUD(caloric_reserve, stress, focus, ambient_temp) {
+        var warpMult = arguments.length > 4 ? arguments[4] : undefined;
+        var cutawayZ = arguments.length > 5 ? arguments[5] : undefined;
+        var netKcalDay = arguments.length > 6 ? arguments[6] : undefined;
+        var netWaterDay = arguments.length > 7 ? arguments[7] : undefined;
+        var netKwhDay = arguments.length > 8 ? arguments[8] : undefined;
+        var netStressHr = arguments.length > 9 ? arguments[9] : undefined;
+        var simTick = arguments.length > 10 ? arguments[10] : undefined;
+        var burnoutActive = arguments.length > 11 ? arguments[11] : undefined;
+
         var cal = Math.max(0, Math.min(2500, Number(caloric_reserve) || 0));
         var str = Math.max(0, Math.min(1.0, Number(stress) || 0));
         var foc = Math.max(0, Math.min(1.0, Number(focus) || 0));
@@ -345,27 +2666,190 @@
           }
         }
 
+        if (warpMult !== undefined && warpMult !== null && !isNaN(Number(warpMult))) {
+          if (window._oasisPendingTimeWarp === -1 || window._oasisPendingTimeWarp === Number(warpMult)) {
+            window._oasisTimeWarpMultiplier = Number(warpMult);
+            if (typeof syncWarpButtonsUI === 'function') {
+              syncWarpButtonsUI(window._oasisTimeWarpMultiplier);
+            }
+          }
+        }
+
+        if (cutawayZ !== undefined && cutawayZ !== null && !isNaN(Number(cutawayZ))) {
+          if (window._oasisPendingCutawayLevel === -1 || window._oasisPendingCutawayLevel === Math.round(Number(cutawayZ))) {
+            var cz = Math.round(Number(cutawayZ));
+            window._oasisCutawayLevel = cz;
+            var cutInd = document.getElementById('hud-cutaway-indicator');
+            if (cutInd) {
+              cutInd.textContent = (cz >= 32) ? 'Cutaway: Auto / Z=32' : ('Cutaway: Slice Z=' + cz);
+            }
+          }
+        }
+
+        var kcalRate = (netKcalDay !== undefined && !isNaN(Number(netKcalDay))) ? Number(netKcalDay) : -2000.0;
+        var waterRate = (netWaterDay !== undefined && !isNaN(Number(netWaterDay))) ? Number(netWaterDay) : 12.0;
+        var kwhRate = (netKwhDay !== undefined && !isNaN(Number(netKwhDay))) ? Number(netKwhDay) : 8.5;
+        var stressRate = (netStressHr !== undefined && !isNaN(Number(netStressHr)))
+          ? Number(netStressHr)
+          : ((temp < 15.0 || temp > 30.0) ? 3.5 : -1.5);
+
+        var tkKcal = document.getElementById('ticker-kcal-day');
+        if (tkKcal) {
+          var kSign = kcalRate >= 0 ? '+' : '';
+          tkKcal.textContent = kSign + Math.round(kcalRate) + ' kcal/day';
+          tkKcal.className = 'ticker-val ' + (kcalRate >= 0 ? 'ticker-positive' : 'ticker-negative');
+        }
+
+        var tkWater = document.getElementById('ticker-water-day');
+        if (tkWater) {
+          var wSign = waterRate >= 0 ? '+' : '';
+          tkWater.textContent = wSign + waterRate.toFixed(1) + ' L/day';
+          tkWater.className = 'ticker-val ' + (waterRate >= 0 ? 'ticker-positive' : 'ticker-critical');
+        }
+
+        var tkKwh = document.getElementById('ticker-kwh-day');
+        if (tkKwh) {
+          var eSign = kwhRate >= 0 ? '+' : '';
+          tkKwh.textContent = eSign + kwhRate.toFixed(1) + ' kWh/day';
+          tkKwh.className = 'ticker-val ' + (kwhRate >= 0 ? 'ticker-positive' : 'ticker-critical');
+        }
+
+        var tkStress = document.getElementById('ticker-stress-hr');
+        if (tkStress) {
+          var sSign = stressRate >= 0 ? '+' : '';
+          tkStress.textContent = sSign + stressRate.toFixed(1) + '%/hr';
+          tkStress.className = 'ticker-val ' + (stressRate <= 0 ? 'ticker-positive' : 'ticker-critical');
+        }
+
+        if (simTick !== undefined && simTick !== null && !isNaN(Number(simTick))) {
+          window._oasisSimTick = Math.max(0, Math.floor(Number(simTick)));
+        }
+        var clockEl = document.getElementById('hud-sim-clock');
+        if (clockEl && typeof formatSimClock === 'function') {
+          clockEl.textContent = formatSimClock(window._oasisSimTick);
+        }
+
+        var isBurnout = (burnoutActive !== undefined && burnoutActive !== null)
+          ? Boolean(Number(burnoutActive) > 0 || burnoutActive === true)
+          : (str >= 0.99);
+        window._oasisBurnoutActive = isBurnout;
+        var burnoutEl = document.getElementById('hud-burnout-banner');
+        if (burnoutEl) {
+          burnoutEl.style.display = isBurnout ? 'block' : 'none';
+        }
+
         // Global audit telemetry for headless test harnesses
         window._oasisLastHUD = {
           calories: cal,
           stress: str,
           focus: foc,
           temperature: temp,
+          warpMultiplier: window._oasisTimeWarpMultiplier,
+          cutawayLevel: window._oasisCutawayLevel,
+          overlayMode: window._oasisOverlayMode,
+          netKcalDay: kcalRate,
+          netWaterDay: waterRate,
+          netKwhDay: kwhRate,
+          netStressHr: stressRate,
+          simTick: window._oasisSimTick,
+          burnoutActive: isBurnout,
           tick: (window._oasisLastHUD ? window._oasisLastHUD.tick + 1 : 1),
           timestamp: Date.now()
         };
+        if (typeof syncCompanionTelemetryStrip === 'function') {
+          syncCompanionTelemetryStrip();
+        }
       }
       window.updateHUD = updateHUD;
 
       // -----------------------------------------------------------------------
-      // Emscripten Module Setup
+      // Emscripten Module & Event Suppression Setup
       // -----------------------------------------------------------------------
       var statusElement = document.getElementById('status');
       var outputElement = document.getElementById('output');
       var canvasElement = document.getElementById('canvas');
+      var viewportContainer = document.querySelector('.oasis-viewport-container');
+      var contextMenuElement = document.getElementById('voxel-context-menu');
+      var timeWarpBarElement = document.getElementById('time-warp-bar');
+      var infoOverlayBarElement = document.getElementById('info-overlay-bar');
+      var activeBrushBarElement = document.getElementById('active-brush-bar');
+      var waveWarningBannerElement = document.getElementById('hud-wave-warning-banner');
+      var migrantAssimilationPanelElement = document.getElementById('migrant-assimilation-panel');
+      var node0IntroModalElement = document.getElementById('node0-intro-modal');
+      var node0HomesteadPanelElement = document.getElementById('node0-homestead-panel');
+      var node0CompanionDrawerElement = document.getElementById('node0-companion-drawer');
 
+      if (canvasElement) {
+        canvasElement.addEventListener('contextmenu', function(e) { e.preventDefault(); });
+      }
+      if (viewportContainer) {
+        viewportContainer.addEventListener('contextmenu', function(e) { e.preventDefault(); });
+      }
+
+      // Prevent clicks inside interactive HUD overlays from propagating to WebGPU canvas
+      [
+        contextMenuElement,
+        timeWarpBarElement,
+        infoOverlayBarElement,
+        activeBrushBarElement,
+        waveWarningBannerElement,
+        migrantAssimilationPanelElement,
+        node0IntroModalElement,
+        node0HomesteadPanelElement,
+        node0CompanionDrawerElement
+      ].forEach(function(el) {
+        if (!el) return;
+        ['mousedown', 'mouseup', 'click', 'contextmenu', 'wheel'].forEach(function(evtName) {
+          el.addEventListener(evtName, function(e) {
+            if (evtName === 'contextmenu') e.preventDefault();
+            e.stopPropagation();
+          });
+        });
+      });
+
+      window.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && node0IntroModalElement && node0IntroModalElement.style.display !== 'none') {
+          dismissNode0Intro();
+        } else if (e.key === 'Escape' && window._oasisContextMenuOpen) {
+          closeVoxelContextMenu();
+        } else if (e.key === 'F1') {
+          e.preventDefault();
+          setOverlayMode(window._oasisOverlayMode === 1 ? 0 : 1);
+        } else if (e.key === 'F2') {
+          e.preventDefault();
+          setOverlayMode(window._oasisOverlayMode === 2 ? 0 : 2);
+        } else if (e.key === 'F3') {
+          e.preventDefault();
+          setOverlayMode(window._oasisOverlayMode === 3 ? 0 : 3);
+        } else if (e.key === 'F4') {
+          e.preventDefault();
+          setOverlayMode(window._oasisOverlayMode === 4 ? 0 : 4);
+        }
+      });
+
+      window.addEventListener('mousedown', function(e) {
+        if (window._oasisContextMenuOpen && contextMenuElement && !contextMenuElement.contains(e.target)) {
+          if (e.button === 0) {
+            closeVoxelContextMenu();
+          }
+        }
+      });
+
+      // Auto-redirect 0.0.0.0 or [::] to localhost so Chrome treats the page as a Secure Context and enables WebGPU
+      if (typeof window !== 'undefined' && window.location &&
+          (window.location.hostname === '0.0.0.0' || window.location.hostname === '[::]' || window.location.hostname === '::')) {
+        window.location.replace(
+          window.location.protocol + '//localhost:' + window.location.port +
+          window.location.pathname + window.location.search + window.location.hash
+        );
+      }
+
+      var _oasisCacheBust = Date.now();
       var Module = {
         canvas: canvasElement,
+        locateFile: function(path, prefix) {
+          return (prefix || '') + path + '?v=' + _oasisCacheBust;
+        },
         print: function(...args) {
           var text = args.join(' ');
           console.log(text);
@@ -374,13 +2858,26 @@
             outputElement.scrollTop = outputElement.scrollHeight;
           }
         },
+        printErr: function(...args) {
+          var text = args.join(' ');
+          console.error(text);
+          if (outputElement) {
+            outputElement.value += "[ERR] " + text + "\n";
+            outputElement.scrollTop = outputElement.scrollHeight;
+          }
+        },
         setStatus: function(text) {
           if (statusElement) statusElement.innerHTML = text;
         }
       };
 
-      window.onerror = function(event) {
-        if (statusElement) statusElement.innerHTML = 'Exception thrown, see JavaScript console';
+      window.onerror = function(message, source, lineno, colno, error) {
+        var msg = String(message || (error && error.message) || 'Unknown JS Exception');
+        if (statusElement) statusElement.innerHTML = 'Runtime Error: ' + msg;
+        if (outputElement) {
+          outputElement.value += "[JS EXCEPTION] " + msg + "\n";
+          outputElement.scrollTop = outputElement.scrollHeight;
+        }
       };
     </script>
     {{{ SCRIPT }}}

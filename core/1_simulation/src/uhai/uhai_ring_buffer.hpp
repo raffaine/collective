@@ -80,6 +80,48 @@ struct alignas(8) SpatialIntentPayload {
 #pragma pack(pop)
 static_assert(sizeof(SpatialIntentPayload) == 264, "SpatialIntentPayload must be exactly 264 bytes.");
 
+struct alignas(CACHE_LINE_SIZE) SpatialIntentSlot {
+    SpatialIntentPayload intent;
+    uint8_t pad[56]{}; // Pads 264 bytes to 320 bytes (5 CPU cache lines)
+};
+static_assert(sizeof(SpatialIntentSlot) == 320, "SpatialIntentSlot must occupy 5 cache lines (320 bytes).");
+static_assert(std::is_standard_layout_v<SpatialIntentSlot>, "SpatialIntentSlot must be standard layout.");
+static_assert(std::is_trivially_copyable_v<SpatialIntentSlot>, "SpatialIntentSlot must be trivially copyable.");
+
+// Story 8.3: Interactive Spatial Affordance & Chore Designator Action Types
+enum class DesignatorActionType : uint16_t {
+    NONE                      = 0,
+    DIG_SWALE                 = 1,
+    PLANT_COVER_CROP          = 2,
+    DESIGNATE_HAUL_ZONE       = 3,
+    BUILD_WALL_COB            = 4,
+    BUILD_WALL_URBANITE       = 5,
+    INSTALL_DOOR_TIMBER       = 6,
+    BUILD_ROOF                = 7,
+    BUILD_HEARTH              = 8,
+    INSTALL_INVERTER          = 9,
+    ERECT_SOLAR               = 10,
+    HAUL_TO_STORAGE           = 11,
+    DESIGNATE_SLEEP_ZONE      = 12,
+    DESIGNATE_RECREATION_ZONE = 13,
+    CANCEL_DESIGNATION        = 14
+};
+
+// SS-EP6-006: Sovereign Stack Layer 6 Gateway Security Configuration (TLS 1.3 / Port 8443 / VLAN 30)
+#pragma pack(push, 8)
+struct alignas(8) GatewaySecurityConfig {
+    uint16_t port{8443};             // Local Mesh HTTPS/WSS port (8443)
+    uint16_t vlan_id{30};            // Sovereign Civic Boundary VLAN (VLAN 30)
+    bool     tls_1_3_enforced{true}; // Strict TLS 1.3 enforcement
+    bool     did_auth_required{true};// Ed25519 / WebCrypto DID authentication required
+    uint8_t  reserved[2]{0};         // Explicit padding to 8 bytes (-Wpadded clean)
+};
+#pragma pack(pop)
+static_assert(sizeof(GatewaySecurityConfig) == 8, "GatewaySecurityConfig must be exactly 8 bytes.");
+static_assert(alignof(GatewaySecurityConfig) == 8, "GatewaySecurityConfig must align to 8 bytes.");
+static_assert(std::is_standard_layout_v<GatewaySecurityConfig>, "GatewaySecurityConfig must be standard layout.");
+static_assert(std::is_trivially_copyable_v<GatewaySecurityConfig>, "GatewaySecurityConfig must be trivially copyable.");
+
 struct alignas(CACHE_LINE_SIZE) TelemetrySlot {
     TelemetrySample sample;
     uint8_t pad[32]; // Pads 32 bytes to 64 bytes (1 CPU cache line)
@@ -272,6 +314,80 @@ static_assert(alignof(TreatyRatificationPayload) == 8, "TreatyRatificationPayloa
 static_assert(std::is_standard_layout_v<TreatyRatificationPayload>, "TreatyRatificationPayload must be standard layout.");
 static_assert(std::is_trivially_copyable_v<TreatyRatificationPayload>, "TreatyRatificationPayload must be trivially copyable.");
 
+// ============================================================================
+// Dual Sprint 12: Layer 7 Demographic Shock & Legacy Migration Wave (SS-EP7-007)
+// ============================================================================
+
+enum class MigrationTriggerReason : uint8_t {
+    FIAT_INFLATION = 1,
+    GRID_BLACKOUT  = 2,
+    CLIMATE_SHOCK  = 3
+};
+
+#pragma pack(push, 8)
+struct alignas(8) MigrationWaveArrivalEvent {
+    uint64_t timestamp_hlc{0};          // 8B: HLC timestamp of wave arrival
+    uint32_t wave_id{0};                // 4B: Monotonic wave sequence identifier
+    uint32_t deterministic_seed{0};     // 4B: PRNG sub-seed for reproducible cohort traits
+    float    legacy_distress_index{0.0f}; // 4B: Macro distress scalar [0.0 - 1.0]
+    float    initial_stress_mean{0.65f};  // 4B: Baseline cohort stress scalar [0.50 - 0.85]
+    float    caloric_deficit_kcal{600.0f}; // 4B: Immediate per-capita caloric need upon arrival
+    uint16_t cohort_size{1};            // 2B: Number of arriving migrants (1..12)
+    uint8_t  initial_trust_ring{6};     // 1B: Defaults to 6 (Ring R6: Unverified Migrant)
+    uint8_t  trigger_reason_code{1};    // 1B: 1=FiatInflation, 2=GridBlackout, 3=ClimateShock
+};
+#pragma pack(pop)
+static_assert(sizeof(MigrationWaveArrivalEvent) == 32, "MigrationWaveArrivalEvent must be exactly 32 bytes.");
+static_assert(alignof(MigrationWaveArrivalEvent) == 8, "MigrationWaveArrivalEvent must align to 8 bytes.");
+static_assert(std::is_standard_layout_v<MigrationWaveArrivalEvent>, "MigrationWaveArrivalEvent must be standard layout.");
+static_assert(std::is_trivially_copyable_v<MigrationWaveArrivalEvent>, "MigrationWaveArrivalEvent must be trivially copyable.");
+
+struct alignas(CACHE_LINE_SIZE) MigrationWaveSlot {
+    MigrationWaveArrivalEvent event{};
+    uint8_t pad[32]{}; // 32B explicit cache-line padding -> 64 bytes
+};
+static_assert(sizeof(MigrationWaveSlot) == 64, "MigrationWaveSlot must occupy 1 cache line (64 bytes).");
+static_assert(std::is_standard_layout_v<MigrationWaveSlot>, "MigrationWaveSlot must be standard layout.");
+static_assert(std::is_trivially_copyable_v<MigrationWaveSlot>, "MigrationWaveSlot must be trivially copyable.");
+
+// ============================================================================
+// Dual Sprint 13: Progressive Trust Ring (R6 -> R3 -> R1) Assimilation (SS-EP5-007)
+// ============================================================================
+
+enum class TrustRingTier : uint8_t {
+    RING_R1_VOUCHED_STEWARD       = 1,
+    RING_R3_PROBATIONARY_RESIDENT = 3,
+    RING_R6_UNVERIFIED_MIGRANT    = 6
+};
+
+#pragma pack(push, 8)
+struct alignas(8) TrustRingPromotionEvent {
+    uint64_t timestamp_hlc{0};          // Offset 0 (8B)
+    uint64_t migrant_did_hash{0};       // Offset 8 (8B)
+    float verified_sweat_equity_mj{0.0f}; // Offset 16 (4B)
+    uint16_t sheltered_days{0};         // Offset 20 (2B)
+    uint8_t from_ring{6};               // Offset 22 (1B: e.g. 6 or 3)
+    uint8_t to_ring{6};                 // Offset 23 (1B: e.g. 3 or 1)
+    uint8_t frost_quorum_signers{0};    // Offset 24 (1B: >=2 for R3->R1)
+    uint8_t quality_flag{QUALITY_SIMULATED}; // Offset 25 (1B: 0x01)
+    uint8_t regression_frozen{0};       // Offset 26 (1B)
+    uint8_t has_bt_survival_floor{1};   // Offset 27 (1B: always 1)
+    uint32_t reserved_pad{0};           // Offset 28 (4B -> 32B total)
+};
+#pragma pack(pop)
+static_assert(sizeof(TrustRingPromotionEvent) == 32, "TrustRingPromotionEvent must be 32 bytes.");
+static_assert(alignof(TrustRingPromotionEvent) == 8, "TrustRingPromotionEvent must be 8-byte aligned.");
+static_assert(std::is_standard_layout_v<TrustRingPromotionEvent>, "TrustRingPromotionEvent must be standard layout.");
+static_assert(std::is_trivially_copyable_v<TrustRingPromotionEvent>, "TrustRingPromotionEvent must be trivially copyable.");
+
+struct alignas(CACHE_LINE_SIZE) TrustRingPromotionSlot {
+    TrustRingPromotionEvent promotion{};
+    uint8_t pad[32]{};
+};
+static_assert(sizeof(TrustRingPromotionSlot) == 64, "TrustRingPromotionSlot must occupy 1 cache line (64 bytes).");
+static_assert(std::is_standard_layout_v<TrustRingPromotionSlot>, "TrustRingPromotionSlot must be standard layout.");
+static_assert(std::is_trivially_copyable_v<TrustRingPromotionSlot>, "TrustRingPromotionSlot must be trivially copyable.");
+
 struct alignas(CACHE_LINE_SIZE) SharedRingHeader {
     // Cache Line 0 (offset 0..63): Producer write state & overrun accounting
     alignas(CACHE_LINE_SIZE) std::atomic<uint64_t> write_index{0};
@@ -300,6 +416,18 @@ static_assert(TOTAL_FLOW_SHM_SIZE == 65728, "Total UHAI flow SHM size must be 65
 
 constexpr size_t TOTAL_GATEWAY_SHM_SIZE = sizeof(SharedRingHeader) + RING_CAPACITY * sizeof(TelemetrySlot);
 static_assert(TOTAL_GATEWAY_SHM_SIZE == 65728, "Total UHAI gateway SHM size must be 65728 bytes.");
+
+constexpr const char* DEFAULT_SPATIAL_INTENT_SHM_NAME = "/uhai_spatial_intent";
+constexpr size_t TOTAL_SPATIAL_INTENT_SHM_SIZE = sizeof(SharedRingHeader) + RING_CAPACITY * sizeof(SpatialIntentSlot);
+static_assert(TOTAL_SPATIAL_INTENT_SHM_SIZE == 327872, "Total UHAI spatial intent SHM size must be 327872 bytes.");
+
+constexpr const char* DEFAULT_MIGRATION_WAVE_SHM_NAME = "/uhai_migration_waves";
+constexpr size_t TOTAL_MIGRATION_WAVE_SHM_SIZE = sizeof(SharedRingHeader) + RING_CAPACITY * sizeof(MigrationWaveSlot);
+static_assert(TOTAL_MIGRATION_WAVE_SHM_SIZE == 65728, "Total UHAI migration wave SHM size must be 65728 bytes.");
+
+constexpr const char* DEFAULT_TRUST_PROMOTION_SHM_NAME = "/uhai_trust_promotions";
+constexpr size_t TOTAL_TRUST_PROMOTION_SHM_SIZE = sizeof(SharedRingHeader) + RING_CAPACITY * sizeof(TrustRingPromotionSlot);
+static_assert(TOTAL_TRUST_PROMOTION_SHM_SIZE == 65728, "Total UHAI trust promotion SHM size must be 65728 bytes.");
 
 template <typename SlotT = TelemetrySlot, size_t Capacity = RING_CAPACITY>
 class LockFreeSpscRing {
@@ -333,6 +461,12 @@ public:
             buffer_[w & (Capacity - 1)].telemetry = item;
         } else if constexpr (requires { buffer_[0].packet = item; }) {
             buffer_[w & (Capacity - 1)].packet = item;
+        } else if constexpr (requires { buffer_[0].intent = item; }) {
+            buffer_[w & (Capacity - 1)].intent = item;
+        } else if constexpr (requires { buffer_[0].event = item; }) {
+            buffer_[w & (Capacity - 1)].event = item;
+        } else if constexpr (requires { buffer_[0].promotion = item; }) {
+            buffer_[w & (Capacity - 1)].promotion = item;
         } else {
             buffer_[w & (Capacity - 1)] = item;
         }
@@ -362,6 +496,12 @@ public:
             item = buffer_[r & (Capacity - 1)].telemetry;
         } else if constexpr (requires { item = buffer_[0].packet; }) {
             item = buffer_[r & (Capacity - 1)].packet;
+        } else if constexpr (requires { item = buffer_[0].intent; }) {
+            item = buffer_[r & (Capacity - 1)].intent;
+        } else if constexpr (requires { item = buffer_[0].event; }) {
+            item = buffer_[r & (Capacity - 1)].event;
+        } else if constexpr (requires { item = buffer_[0].promotion; }) {
+            item = buffer_[r & (Capacity - 1)].promotion;
         } else {
             item = buffer_[r & (Capacity - 1)];
         }
@@ -436,6 +576,54 @@ public:
     template <typename T = SlotT>
     requires requires(T s) { s.packet; }
     auto pop() -> std::optional<decltype(std::declval<T>().packet)> {
+        return Pop();
+    }
+
+    template <typename T = SlotT>
+    requires requires(T s) { s.intent; }
+    std::optional<SpatialIntentPayload> Pop() {
+        SpatialIntentPayload i{};
+        if (Pop(i)) {
+            return i;
+        }
+        return std::nullopt;
+    }
+
+    template <typename T = SlotT>
+    requires requires(T s) { s.intent; }
+    std::optional<SpatialIntentPayload> pop() {
+        return Pop();
+    }
+
+    template <typename T = SlotT>
+    requires requires(T s) { s.event; }
+    std::optional<MigrationWaveArrivalEvent> Pop() {
+        MigrationWaveArrivalEvent e{};
+        if (Pop(e)) {
+            return e;
+        }
+        return std::nullopt;
+    }
+
+    template <typename T = SlotT>
+    requires requires(T s) { s.event; }
+    std::optional<MigrationWaveArrivalEvent> pop() {
+        return Pop();
+    }
+
+    template <typename T = SlotT>
+    requires requires(T s) { s.promotion; }
+    std::optional<TrustRingPromotionEvent> Pop() {
+        TrustRingPromotionEvent p{};
+        if (Pop(p)) {
+            return p;
+        }
+        return std::nullopt;
+    }
+
+    template <typename T = SlotT>
+    requires requires(T s) { s.promotion; }
+    std::optional<TrustRingPromotionEvent> pop() {
         return Pop();
     }
 
@@ -641,11 +829,13 @@ private:
     }
 
     ChannelMode mode_{ChannelMode::Producer};
+    [[maybe_unused]] uint32_t pad_mode_{0};
     std::string shm_name_{DEFAULT_SHM_NAME};
     void* raw_ptr_{nullptr};
     size_t shm_size_{0};
     int fd_{-1};
     bool is_posix_shm_{false};
+    [[maybe_unused]] uint8_t pad_tail_[3]{0};
     std::unique_ptr<LockFreeSpscRing<TelemetrySlot, RING_CAPACITY>> ring_{nullptr};
 };
 
@@ -661,12 +851,20 @@ public:
     static const char* DefaultShmName() {
         if constexpr (std::is_same_v<SlotT, TelemetrySlot>) {
             return DEFAULT_SHM_NAME;
+        } else if constexpr (std::is_same_v<SlotT, SpatialIntentSlot>) {
+            return "/uhai_spatial_intent";
         } else if constexpr (std::is_same_v<SlotT, L4WorkflowSlot>) {
             return "/uhai_l4_execution";
         } else if constexpr (std::is_same_v<SlotT, L5GovernanceSlot>) {
             return "/uhai_l5_governance";
         } else if constexpr (std::is_same_v<SlotT, UpwardYieldSlot>) {
             return "/uhai_l5_yields";
+        } else if constexpr (std::is_same_v<SlotT, GovernanceResolutionSlot>) {
+            return "/uhai_l5_resolutions";
+        } else if constexpr (std::is_same_v<SlotT, MigrationWaveSlot>) {
+            return "/uhai_migration_waves";
+        } else if constexpr (std::is_same_v<SlotT, TrustRingPromotionSlot>) {
+            return "/uhai_trust_promotions";
         } else {
             return DEFAULT_FLOW_SHM_NAME;
         }
@@ -798,6 +996,45 @@ public:
         return Pop();
     }
 
+    template <typename T = SlotT>
+    requires requires(T s) { s.intent; }
+    std::optional<SpatialIntentPayload> Pop() {
+        if (!IsValid()) return std::nullopt;
+        return ring_->Pop();
+    }
+
+    template <typename T = SlotT>
+    requires requires(T s) { s.intent; }
+    std::optional<SpatialIntentPayload> pop() {
+        return Pop();
+    }
+
+    template <typename T = SlotT>
+    requires requires(T s) { s.event; }
+    std::optional<MigrationWaveArrivalEvent> Pop() {
+        if (!IsValid()) return std::nullopt;
+        return ring_->Pop();
+    }
+
+    template <typename T = SlotT>
+    requires requires(T s) { s.event; }
+    std::optional<MigrationWaveArrivalEvent> pop() {
+        return Pop();
+    }
+
+    template <typename T = SlotT>
+    requires requires(T s) { s.promotion; }
+    std::optional<TrustRingPromotionEvent> Pop() {
+        if (!IsValid()) return std::nullopt;
+        return ring_->Pop();
+    }
+
+    template <typename T = SlotT>
+    requires requires(T s) { s.promotion; }
+    std::optional<TrustRingPromotionEvent> pop() {
+        return Pop();
+    }
+
     [[nodiscard]] SharedRingHeader* GetHeader() noexcept {
         return ring_ ? ring_->GetHeader() : nullptr;
     }
@@ -904,20 +1141,28 @@ private:
     }
 
     ChannelMode mode_{ChannelMode::Producer};
+    [[maybe_unused]] uint32_t pad_mode_{0};
     std::string shm_name_{DefaultShmName()};
     void* raw_ptr_{nullptr};
     size_t shm_size_{0};
     int fd_{-1};
     bool is_posix_shm_{false};
+    [[maybe_unused]] uint8_t pad_tail_[3]{0};
     std::unique_ptr<LockFreeSpscRing<SlotT, Capacity>> ring_{nullptr};
 };
 
+template <typename SlotT, typename PayloadT = void, size_t Capacity = RING_CAPACITY>
+using UhaiTypedChannel = UhaiChannel<SlotT, Capacity>;
+
 using UhaiFlowChannel = UhaiChannel<FlowContractSlot, RING_CAPACITY>;
 using UhaiGatewayChannel = UhaiChannel<TelemetrySlot, RING_CAPACITY>;
+using UhaiSpatialIntentChannel = UhaiChannel<SpatialIntentSlot, RING_CAPACITY>;
 using UhaiL4Channel = UhaiChannel<L4WorkflowSlot, RING_CAPACITY>;
 using UhaiL5Channel = UhaiChannel<L5GovernanceSlot, RING_CAPACITY>;
 using UhaiYieldChannel = UhaiChannel<UpwardYieldSlot, RING_CAPACITY>;
 using UhaiResolutionChannel = UhaiChannel<GovernanceResolutionSlot, RING_CAPACITY>;
+using UhaiMigrationWaveChannel = UhaiChannel<MigrationWaveSlot, RING_CAPACITY>;
+using UhaiTrustPromotionChannel = UhaiTypedChannel<TrustRingPromotionSlot, TrustRingPromotionEvent>;
 
 } // namespace oasis::uhai
 
@@ -1022,6 +1267,10 @@ namespace oasis::uhai {
     using oasis::flow::TemporalFlowContractComponent;
 } // namespace oasis::uhai
 
+namespace oasis::gateway {
+    using oasis::uhai::GatewaySecurityConfig;
+} // namespace oasis::gateway
+
 // Alias namespace for backwards compatibility
 namespace uhai {
     using oasis::uhai::CACHE_LINE_SIZE;
@@ -1037,6 +1286,21 @@ namespace uhai {
     using oasis::uhai::SharedRingHeader;
     using oasis::uhai::IntentType;
     using oasis::uhai::SpatialIntentPayload;
+    using oasis::uhai::SpatialIntentSlot;
+    using oasis::uhai::DesignatorActionType;
+    using oasis::uhai::GatewaySecurityConfig;
+    using oasis::uhai::DEFAULT_SPATIAL_INTENT_SHM_NAME;
+    using oasis::uhai::TOTAL_SPATIAL_INTENT_SHM_SIZE;
+    using oasis::uhai::MigrationTriggerReason;
+    using oasis::uhai::MigrationWaveArrivalEvent;
+    using oasis::uhai::MigrationWaveSlot;
+    using oasis::uhai::DEFAULT_MIGRATION_WAVE_SHM_NAME;
+    using oasis::uhai::TOTAL_MIGRATION_WAVE_SHM_SIZE;
+    using oasis::uhai::TrustRingTier;
+    using oasis::uhai::TrustRingPromotionEvent;
+    using oasis::uhai::TrustRingPromotionSlot;
+    using oasis::uhai::DEFAULT_TRUST_PROMOTION_SHM_NAME;
+    using oasis::uhai::TOTAL_TRUST_PROMOTION_SHM_SIZE;
     using oasis::uhai::LockFreeSpscRing;
     using oasis::uhai::UhaiTelemetryChannel;
 
@@ -1049,12 +1313,16 @@ namespace uhai {
     using oasis::uhai::DEFAULT_GATEWAY_SHM_NAME;
     using oasis::uhai::TOTAL_GATEWAY_SHM_SIZE;
     using oasis::uhai::UhaiChannel;
+    using oasis::uhai::UhaiTypedChannel;
     using oasis::uhai::UhaiFlowChannel;
     using oasis::uhai::UhaiGatewayChannel;
+    using oasis::uhai::UhaiSpatialIntentChannel;
     using oasis::uhai::UhaiL4Channel;
     using oasis::uhai::UhaiL5Channel;
     using oasis::uhai::UhaiYieldChannel;
     using oasis::uhai::UhaiResolutionChannel;
+    using oasis::uhai::UhaiMigrationWaveChannel;
+    using oasis::uhai::UhaiTrustPromotionChannel;
     using oasis::uhai::TemporalFlowContractComponent;
 
     using oasis::uhai::YieldReason;
@@ -1073,6 +1341,10 @@ namespace uhai {
     using SPSCRingBuffer = oasis::uhai::LockFreeSpscRing<TelemetrySlot, Capacity>;
 } // namespace uhai
 
+namespace collective::uhai {
+    using namespace oasis::uhai;
+} // namespace collective::uhai
+
 namespace collective::governance {
     using oasis::uhai::YieldReason;
     using oasis::uhai::ApprovalStatus;
@@ -1083,4 +1355,7 @@ namespace collective::governance {
     using oasis::uhai::L5GovernanceTelemetry;
     using oasis::uhai::L5GovernanceSlot;
     using oasis::uhai::TreatyRatificationPayload;
+    using oasis::uhai::TrustRingTier;
+    using oasis::uhai::TrustRingPromotionEvent;
+    using oasis::uhai::TrustRingPromotionSlot;
 } // namespace collective::governance

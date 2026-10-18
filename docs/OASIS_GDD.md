@@ -1209,26 +1209,27 @@ In early prototypes (Sprints 1–5), dropping Founder 01 onto an empty, freezing
 
 ---
 
-### 6.4. Pillar 4: Simulation Temporal Controls (Time Warp, Auto-Downshift Brake & `FlowContract` Harmonization)
+### 6.4. Pillar 4: Standardized Simulation Temporal Controls (`Pause / 1x / 2x / 5x / 10x`, Auto-Downshift Brake & `FlowContract` Harmonization)
 
 #### 6.4.1. Playability Rationale
-Binding simulation time 1:1 to the 60 FPS render loop makes multi-day ecological processes—such as waiting for rainwater to fill a keyline swale, curing cob walls, or growing cover crops—tedious, while generating excessive per-frame telemetry logs. Oasis decouples the **`30 Hz` base simulation step** from the **locked `60 Hz` WebGPU render loop** via **Simulation Temporal Controls (Time Warp)**.
+Binding simulation time 1:1 to the 60 FPS render loop makes multi-day ecological and thermodynamic processes—such as biochar pyrolysis, waiting for rainwater to fill a keyline swale, curing cob walls, or crop maturation—tedious, while extreme multipliers ($100\times$) create tick-rate instabilities and force artificial epoch walls. Oasis decouples the **`30 Hz` base simulation step** from the **locked `60 Hz` WebGPU render loop** via **Standardized Simulation Temporal Controls (`0x, 1x, 2x, 5x, 10x`)**.
 
-#### 6.4.2. HUD Controls, Live Net Trajectory Ticker & Auto-Downshift Brake
-The top-right Cadastral HUD provides four tactile temporal state controls paired with a live **Net Metabolic Trajectory Ticker**:
+#### 6.4.2. Standardized HUD Controls (`0x / 1x / 2x / 5x / 10x`), Live Net Trajectory Ticker & Auto-Downshift Brake
+The top-right Cadastral HUD provides five standardized temporal state controls ($100\times$ is deprecated) paired with a live **Net Metabolic Trajectory Ticker**:
 * **Live Net Trajectory HUD Ticker:** Continuously displays **`[ Net: +4.2 kWh/d | +18.0 L/d | -450 kcal/d ]`** (color-coded Emerald for surplus, Amber for <48h reserve, Crimson for <24h deficit) so the player knows their exact survival runway before accelerating time.
-* **`[ || Pause ]` (`Space`):** $M_{\text{warp}} = 0\times$ ($0\text{ Hz}$ simulation, $60\text{ Hz}$ WebGPU rendering). Orbital Camera, `F1–F4` overlays, and Spatial Context Designator remain $100\%$ interactive for blueprint planning.
+* **`[ || Pause ]` (`Space` / `0`):** $M_{\text{warp}} = 0\times$ ($0\text{ Hz}$ simulation, $60\text{ Hz}$ WebGPU rendering). Orbital Camera, `F1–F4` overlays, Spatial Context Designator, and the Temporal Workflow Scheduler remain $100\%$ interactive for planning.
 * **`[ > 1x ]` (`Key 1`):** $M_{\text{warp}} = 1\times$. Canonical **`30 Hz` fixed simulation step** ($\Delta t_{\text{fixed}} = 33.333\text{ ms}$, $28,800\text{ logical ticks/day}$).
-* **`[ >> 10x ]` (`Key 2`):** $M_{\text{warp}} = 10\times$ (**`300 Hz`** logical step rate; $5$ sub-steps of `g_ecs->progress()` per $60\text{ Hz}$ render frame).
-* **`[ >>> 100x ]` (`Key 3`):** $M_{\text{warp}} = 100\times$ (**`3,000 Hz`** logical step rate; $50$ sub-steps of `g_ecs->progress()` per $60\text{ Hz}$ render frame).
+* **`[ >> 2x ]` (`Key 2`):** $M_{\text{warp}} = 2\times$ (**`60 Hz`** logical step rate; $2\times$ sub-stepping of `g_ecs->progress()` per frame).
+* **`[ >>> 5x ]` (`Key 3`):** $M_{\text{warp}} = 5\times$ (**`150 Hz`** logical step rate; $5\times$ sub-stepping of `g_ecs->progress()` per frame).
+* **`[ >>>> 10x ]` (`Key 4`):** $M_{\text{warp}} = 10\times$ (**`300 Hz`** logical step rate; $10\times$ sub-stepping of `g_ecs->progress()` per frame).
 
 ```
 ┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
-│                 DECOUPLED 30Hz TIME-WARP ENGINE & SPRINT 9 FLOW-CONTRACT HARMONIZATION           │
+│           STANDARDIZED 30Hz TIME-WARP ENGINE (`0x, 1x, 2x, 5x, 10x`) & FLOW HARMONIZATION        │
 ├──────────────────────────────────────────────────────────────────────────────────────────────────┤
 │                                                                                                  │
 │  [WebGPU Render Loop: Locked 60 FPS (16.66 ms)]   [Flecs Simulation: 30 Hz Base * M_warp]        │
-│  - Orbital Camera, Cutaway & DDA Raymarcher       - M_warp in { 0x, 1x(30Hz), 10x, 100x(3kHz) }  │
+│  - Orbital Camera, Cutaway & DDA Raymarcher       - M_warp in { 0x, 1x, 2x, 5x, 10x(300Hz) }     │
 │  - Right-Click Designator & Net Trajectory HUD    - Sub-steps `g_ecs->progress(33.33ms)`         │
 │  - Emits 1 aggregated 32B `TelemetrySample`       - Emergency Auto-Downshift Brake -> `1x`       │
 │    per 60 Hz frame boundary to UHAI ring          - Wall-clock Log Decimator (max 2 Hz stdout)   │
@@ -1238,22 +1239,22 @@ The top-right Cadastral HUD provides four tactile temporal state controls paired
 │                                       │      UHAI SPSC RING BUFFER & SPRINT 9 HARMONIZER     │   │
 │                                       │  - Steps `TemporalFlowContractComponent::StepTick()` │   │
 │                                       │    on every logical tick (28,800 ticks/day)          │   │
-│                                       │  - Halts at `EPOCH_BOUNDARY_TICKS = 864,000` (30d)   │   │
+│                                       │  - Steps Asynchronous Node Proxies & Temporal        │   │
+│                                       │    Workflow Schedule slots deterministically          │   │
 │                                       └──────────────────────────────────────────────────────┘   │
 └──────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
 #### 6.4.3. Emergency Warp Auto-Downshift Brake & Frame-Boundary UHAI Aggregation
-1. **Emergency Warp Auto-Downshift Brake (`10x/100x -> 1x`):**  
-   To prevent players from accidentally fast-forwarding into a lethal catastrophe at $100\times$, the engine automatically disengages `10x`/`100x` warp and drops immediately to **`1x` (`30 Hz`)** with a resonant acoustic warning chime whenever any of the following triggers fire:
+1. **Emergency Warp Auto-Downshift Brake (`2x/5x/10x -> 1x`):**  
+   To prevent players from accidentally fast-forwarding into a lethal catastrophe at $2\times$, $5\times$, or $10\times$, the engine automatically disengages time-warp and drops immediately to **`1x` (`30 Hz`)** with a resonant acoustic warning chime whenever any of the following triggers fire:
    * **Trigger A (Migration Wave Arrival):** A `MigrationWaveArrivalEvent` crosses the parcel boundary.
    * **Trigger B (Burnout or Regression):** Founder 01 or any NPC enters `STATE_BURNOUT` ($100\%$ Stress) or a Legacy Behavioral Regression (`HOARDING`, `CONFLICT`, `MESH_DEGRADATION`).
    * **Trigger C (Critical Survival Reserve `< 24h`):** Potable water or caloric reserves fall below $24\text{ simulated hours}$ ($28,800\text{ ticks}$) of consumption at current metabolic burn rates.
-   * **Trigger D (Mandatory Milestone Wall):** `current_tick` reaches `EPOCH_BOUNDARY_TICKS` ($864,000\text{ ticks}$).
 2. **Frame-Boundary UHAI Telemetry Aggregation & Log Decimation:**  
-   During $10\times$ ($5$ sub-steps/frame) and $100\times$ ($50$ sub-steps/frame), `g_ecs->progress(dt_fixed)` advances deterministically without pushing $3,000\text{ samples/sec}$ onto `/dev/shm/uhai_telemetry.ring`. Instead, Oasis emits **exactly one aggregated 32-byte `TelemetrySample` per 60 Hz render frame boundary**, and throttles stdout logs via a $500\text{ ms}$ wall-clock token bucket.
+   During $2\times$, $5\times$, and $10\times$ sub-stepping, `g_ecs->progress(dt_fixed)` advances deterministically without flooding `/dev/shm/uhai_telemetry.ring`. Instead, Oasis emits **exactly one aggregated 32-byte `TelemetrySample` per 60 Hz render frame boundary**, and throttles stdout logs via a $500\text{ ms}$ wall-clock token bucket.
 3. **Sprint 9 Temporal `FlowContract` Harmonization:**  
-   Each logical tick ($28,800\text{ ticks/day}$, $864,000\text{ ticks/month}$) invokes `TemporalFlowContractComponent::StepTick(current_tick, ...)`, integrating `rate_per_tick` across `FlowContract` slots so total conserved exergy $\sum \text{rate\_per\_tick} \times \Delta \text{ticks}$ is bit-exact across $1\times$, $10\times$, and $100\times$ warp speeds.
+   Each logical tick ($28,800\text{ ticks/day}$) invokes `TemporalFlowContractComponent::StepTick(current_tick, ...)`, integrating `rate_per_tick` across `FlowContract` slots so total conserved exergy $\sum \text{rate\_per\_tick} \times \Delta \text{ticks}$ is bit-exact across $1\times$, $2\times$, $5\times$, and $10\times$ warp speeds.
 
 ---
 
@@ -1367,88 +1368,75 @@ static_assert(sizeof(MigrantAssimilationComponent) == 32, "MigrantAssimilationCo
 
 ---
 
-### 6.6. Pillar 6: The Shared Virtual Landscape (`Arcadia server-01`) & Mandatory Milestone (Epoch Sync)
+### 6.6. Pillar 6: The Asynchronous Node Proxy Architecture (`Arcadia server-01`), BPMN-Driven Gameplay Loops & Temporal Workflow Scheduling
 
-#### 6.6.1. Playability Rationale & Headless 24-Byte `StateDeltaOp` Replication
-While Oasis is a $100\%$ local-first deterministic simulation, sovereign enclaves are meant to federate. Based on *willing voluntariness*, players can connect their local simulation to a shared, persistent virtual bioregion—canonically **`Arcadia (server-01)`**—collaborating with neighboring players to reshape a contiguous multi-parcel landscape, trade surplus exergy, and build bioregional Commons Corridors.
+#### 6.6.1. Playability Rationale & The Asynchronous Node Proxy Shift
+Real-time, fully synchronized lockstep multiplayer (and hard-wall epoch barriers that freeze the simulation) is **deprecated**. Oasis utilizes a **semi-stochastic single-player architecture** with **Asynchronous Node Proxies**:
+* When a player connects to `Arcadia (server-01)`, they operate in their own localized instance (`Node 0 — Lot 402`), while every other human player on the server is represented in their world as an **Autonomous NPC Node Proxy** (`Node 01 — Lot 404 Maya`, `Node 02 — Lot 406 Kael`, `Node 03 — Lot 408 Soren`).
+* The configuration parameters, production outputs, and thermodynamic states of these NPC Node Proxies update dynamically based on what real players are doing in their respective instances—providing a deeply populated, consistent world driven by real human exergy without real-time latency, collision-resolution nightmares, or forced epoch-freeze walls.
+* **Storage Horizon (Phase 1 Legacy Bridge $\to$ Phase 2 Layer 3 CRDT Mesh):**
+  * **Phase 1 (Current Implementation):** Leverages GitHub and static JSON snapshot feeds (`core/3_ledger/node_proxies.json`) to synchronize peer Node Proxy configurations, thermodynamic production rates, and resource deficits across instances.
+  * **Phase 2 (Horizon):** Transitions seamlessly to **Layer 3 (`core/3_ledger/LEDGER_SPEC.md`, `col-storaged`)** local-first CRDT distributed storage (`StateDeltaOp`, `CRDTEscrowLock`, and `mesh:ValueToken` 1:1 surplus exergy reflection) replicated over Layer 2 (`col-meshd`).
 
-To preserve the Anti-Bleed Invariants, Oasis never replicates raw GPU meshes over the network: **Layer 3 (`col-storaged`)** replicates strictly headless **24-byte `StateDeltaOp` cadastral CRDT records** across the mesh, which are projected downward (`L3 -> L2 -> L1b` over UHAI) to update neighboring parcel topography.
+#### 6.6.2. Dual Control & Strict Layer Role Separation: Layer 6 Day-to-Day Citizen Intent Calendar vs. Layer 4 Workflow Designer & Layer 5 Governance Manager
+People (and simulated agents commanded by the player in the game) use **Layer 6 (`core/6_intent/INTENT_SPEC.md`) exclusively** in their day-to-day usage. Layer 4 and Layer 5 are not day-to-day task lists; they are the underlying workflow orchestration and governance systems that citizens configure to support their Layer 6 usage:
 
-#### 6.6.2. The Mandatory Milestone (`EPOCH_BOUNDARY_TICKS = 864,000`), Straggler Grace Window & `SOLO_AUTARKIC` Fast-Path
-Oasis resolves the $100\times$ vs. $1\times$ Time-Warp relativity paradox through **The Mandatory Milestone (`SS-EP9-003`)**:
-
-1. **Free Local Intra-Epoch Acceleration (`864,000 Ticks / 30 Days`):**  
-   Within any 30-day calendar month (**`EPOCH_BOUNDARY_TICKS = 864,000` logical ticks at `30 Hz`**), each player on `Arcadia (server-01)` may freely modulate their local Time-Warp multiplier ($0\times, 1\times, 10\times, 100\times$). Inter-parcel resource transfers operate via asynchronous Sprint 9 **Temporal `FlowContract` envelopes** buffered in the UHAI ring buffers.
-2. **The Hard Causal Wall & Interactive Blueprint Planning Mode:**  
-   When a player reaches `current_tick == k * 864,000` (`End of Month k`), Time Warp automatically disengages to $0\times$ and the engine enters `MILESTONE_WALL_LOCKED`:
-   * **Zero Dead-Screen Waiting (Interactive Blueprint Planning Mode):** While waiting for `Arcadia (server-01)` peers to synchronize, the 60 FPS WebGPU Orbital Camera, Roof Cutaway, `F1–F4` Info-Views, and Right-Click/Left-Click Spatial Context Designator remain **$100\%$ interactive in Blueprint Planning Mode**. Players can inspect their enclave and pre-paint Month $k+1$ designations, which queue in a staging buffer and dispatch automatically the instant the Epoch barrier lifts.
-3. **`SOLO_AUTARKIC` Zero-Peer Fast-Path ($\le 1\text{ Tick}$):**  
-   If a player is running offline or solo (`active_peer_count == 0`), the engine executes the **`SOLO_AUTARKIC` Fast-Path**: local `FlowContract` integrals and demurrage self-reconcile in **$\le 1\text{ logical tick}$ ($< 33.3\text{ ms}$)** with zero network wait, immediately unlocking Month $k+1$.
-4. **Three-Phase Mesh Reconciliation & `SS-EP9-003` Straggler Quorum Grace Window:**  
-   When connected to `Arcadia (server-01)` (`active_peer_count > 0`), the mesh executes a deterministic three-phase commit governed by the **`SS-EP9-003` Straggler Quorum Protocol**:
-   * **Phase A (Layer 3 `StateDeltaOp` CRDT Merge):** Layer 3 (`col-storaged`) merges 24-byte `StateDeltaOp` cadastral voxel deltas, keyline hydrology tables, and Commons Corridor expansions.
-   * **Phase B (Layer 3 Bounded Cycle Clearing & Demurrage):** **Layer 3 (`col-storaged`)** executes **Bounded Cycle Clearing (BCC via Johnson's cycle-canceling algorithm)** and applies **Exponential Demurrage** across all Sprint 9 `FlowContract` integrals ($\sum \Phi_{\text{out}} + \sum \Phi_{\text{in}} + \Delta E_{\text{storage}} = 0$).
-   * **Phase C (Straggler Quorum Grace Window, Dormant Epoch Escrow & Layer 5 FROST Commit):** Once **$\ge 2/3$ of active `Ring R1` stewards** reach the Mandatory Milestone, a bounded **Straggler Grace Window ($\Delta t_{\text{grace}}$)** begins. If a slow/disconnected peer fails to reach the wall before $\Delta t_{\text{grace}}$ expires, their unfinished `FlowContract` obligations are safely placed into **Dormant Epoch Escrow** (preventing both server stalls and unfair slashing), **Layer 5 (`col-kmsd`)** signs the **2-of-3 FROST `EpochMerkleCommit`**, and a **3D Holographic Horizon Wave** sweeps across the `Arcadia (server-01)` terrain in WebGPU, visually materializing all peers' newly synced Month $k$ structures as Month $k+1$ unlocks!
+1. **In-Game & Citizen Companion Day-to-Day Interface — Layer 6 Intent Slate & Calendar of Intents (`shell_minimal.html` & `core/1_simulation/src/web/companion/`):**  
+   In-game (`[ 📱 L6 INTENTS & CALENDAR ]`) and in the Layer 6 Citizen Companion App (`#deck-l6`), the player interacts strictly with **Layer 6**. Peer Node Proxy resource deficits appear as **Layer 6 Collective Intent Bounties** (`mesh:FabricationIntent`, `mesh:RestIntent`, `mesh:MediationIntent`, `mesh:TriageIntent`). Players plan ahead using the **Layer 6 Calendar of Intents (Days 1–4, Morning & Afternoon Slots)**, observing each scheduled intent progress through canonical Layer 6 lifecycle states (`[PENDING]` $\to$ `[ESCROWED]` $\to$ `[ACTUATING]` $\to$ `[FULFILLED]` / `[REJECTED]`).
+2. **Layer 4 Companion App — BPMN 2.0 Workflow Designer, Filterable Database & Aggregated Diagnostics (`core/4_orchestrator/web/index.html`):**  
+   A dedicated **BPMN 2.0 Workflow Designer** that provides: (a) access to the existing `.bpmn.json` workflow database (`core/4_orchestrator/workflows/workflow_database.json`) with **applicable filtering** (by Layer 6 Intent Class, Status/Origin, and Scenario/Search), (b) a **Workflow Specialization Studio** for customizing templates (e.g., tuning `L2/L1b Physics Check` thresholds, `L3 Escrow` parameters, and fallback routes) and saving specialized workflows back to the database, and (c) **aggregated Layer 4 diagnostic telemetry** (intents ingested, `JobQueue` mempool depth, stage latencies, and gateway pass/rejection rates).
+3. **Layer 5 Companion App — Governance Systems Manager & L5$\leftrightarrow$L4 Workflow Interface Binder (`core/5_governance/web/index.html`):**  
+   A dedicated **Governance Systems Manager** for configuring W3C DID Web-of-Trust edges (`mesh:TrustGraphEdge` with weights in `[-1.0, 1.0]`), Dijkstra hop-distance caps, `mesh:SkillCredential` VCs, and `mesh:SafeHarborSeverance` ZK blind spots (`core/5_governance/trust_gates.json`), and **establishing the associated Layer 4 workflows (`mesh:BPMNProcess`) that each governance system uses as its L4 execution interface**.
 
 ```
 ┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
-│        ARCADIA (`server-01`) MANDATORY MILESTONE (`864,000` TICKS) & `SS-EP9-003` PROTOCOL       │
+│     LAYER SEPARATION: L6 CITIZEN INTENT CALENDAR + L5 GOVERNANCE MANAGER + L4 WORKFLOW DESIGNER  │
 ├──────────────────────────────────────────────────────────────────────────────────────────────────┤
 │                                                                                                  │
-│  Epoch 1 (864,000 Ticks: Days 1..30 at 30 Hz)                     Epoch 2 (Days 31..60)          │
-│                                                                   ║                              │
-│  Player A (100x Warp): ══════════════► [HITS 864k WALL EARLY]    ═╬═► [Blueprint Planning Mode]  │
-│                                        (Pre-paints Month 2 zones) ║              │               │
-│  Player B (10x Warp) : ══════════════════════════► [HITS WALL]   ═╬═► (>= 2/3 Quorum Reached!    │
-│                                                                   ║    Starts Delta t_grace)     │
-│  Player C (Straggler): ═══════════════════ (Offline / Slow 1x) ───╬─► [Placed in Dormant Escrow] │
-│                                                                   ║              │               │
-│  [If `active_peer_count == 0`: `SOLO_AUTARKIC` Fast-Path          ║              ▼               │
-│   reconciles locally in <= 1 tick with zero wait!]                ║   - L3 Merges 24B StateDeltaOp│
-│                                                                   ║   - L3 Runs BCC & Demurrage  │
-│                                                                   ║   - L5 Signs FROST Commit    │
-│                                                                   ║   - 3D Holographic Wave      │
-│                                                                   ║     Reveals Month 2!         │
+│  [Layer 4 Workflow Designer (`core/4_orchestrator/web/`)]                                        │
+│  - Filterable `.bpmn.json` Workflow Database (`workflow_database.json`)                          │
+│  - Template Specialization Studio + Aggregated L4 Diagnostics (Mempool, Latencies, Pass Rates)   │
+│                         ▲                                                                        │
+│                         │ L5 <-> L4 Workflow Interface Binding (`mesh:BPMNProcess`)              │
+│                         ▼                                                                        │
+│  [Layer 5 Governance Manager (`core/5_governance/web/`)]                                         │
+│  - Manages W3C DID `mesh:TrustGraphEdge`, Dijkstra Hop Caps, `SkillCredential` & `SafeHarbor`    │
+│  - Establishes which Layer 4 `.bpmn.json` Workflow each Governance Rule invokes                  │
+│                         ▲                                                                        │
+│                         │ Supports Day-to-Day Citizen Intents (`PENDING -> ESCROWED -> FULFILLED`)│
+│                         ▼                                                                        │
+│  [In-Game & Citizen Companion: Layer 6 Intent Slate & Calendar (`core/6_intent/`)]               │
+│  - Exclusive Day-to-Day Citizen UI (`[ 📱 L6 INTENTS & CALENDAR ]` in HUD & Companion `#deck-l6`)│
+│  - Emits `mesh:FabricationIntent` / `mesh:RestIntent` & schedules Days 1..4 Calendar of Intents  │
 └──────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
-#### 6.6.3. C++20 `StateDeltaOp` & `ArcadiaEpochSyncState` Structs
+#### 6.6.3. C++20 `AsyncNodeProxy`, `CollectiveBpmnBounty` & `TemporalScheduleState` (`core/bpmn_scheduler.hpp`)
 ```cpp
-namespace oasis::epoch {
+namespace oasis::orchestrator {
 
-// Canonical 24-Byte Headless Cadastral CRDT Record Replicated by Layer 3 (`col-storaged`)
-struct alignas(8) StateDeltaOp {
-    uint64_t hlc_timestamp;         // 8B: Hybrid Logical Clock timestamp of voxel/cadastral mutation
-    uint32_t parcel_id;             // 4B: Originating Arcadia (server-01) parcel identifier
-    uint16_t voxel_coord[3];        // 6B: Local parcel voxel coordinates (vx, vy, vz)
-    uint16_t material_id;           // 2B: Updated voxel material_id (e.g., MAT_COB, MAT_SWALE)
-    uint16_t op_flags;              // 2B: Bit 0: Creation, Bit 1: Deletion, Bit 2: Corridor Merge
-    uint16_t crc16_digest;          // 2B: Fast integrity checksum
-};
-static_assert(sizeof(StateDeltaOp) == 24, "StateDeltaOp must be exactly 24 bytes.");
-
-enum class EpochBarrierState : uint8_t {
-    INTRA_EPOCH_FREE_RUN    = 0, // Free local warp (0x, 1x, 10x, 100x) up to 864,000 ticks
-    SOLO_AUTARKIC_FAST_PATH = 1, // active_peer_count == 0: <= 1 tick local self-reconciliation
-    MILESTONE_WALL_LOCKED   = 2, // Interactive Blueprint Planning Mode active while waiting
-    STRAGGLER_GRACE_WINDOW  = 3, // >= 2/3 quorum reached; Delta t_grace countdown active
-    L3_BCC_AND_L5_FROST     = 4, // L3 running Johnson's BCC + Demurrage; L5 signing FROST commit
-    HOLOGRAPHIC_WAVE_REVEAL = 5  // 3D Horizon Wave sweeping terrain; unlocking Month k+1
+struct AsyncNodeProxy {
+    uint32_t node_id{1};
+    const char* callsign{"Node 01 (Lot 404 — Maya)"};
+    const char* did_uri{"did:mesh:node01:maya"};
+    uint8_t trust_ring{2};               // R2 Federated Neighbor
+    double net_kwh_per_day{1.8};         // Positive = surplus, Negative = deficit
+    double net_water_l_per_day{-12.0};   // Negative triggers BPMN Hydrological Bounty
+    double net_kcal_per_day{200.0};      // Negative triggers BPMN Scenario Gamma Bounty
+    uint16_t active_bounty_action_id{10};// Mapped to DesignatorActionId (10=Cistern, 11=Solar, 14=Cook)
+    bool bounty_fulfilled{false};
 };
 
-struct alignas(32) ArcadiaEpochSyncState {
-    uint64_t current_epoch_id;          // 8B: Monotonic calendar month index (Month 1, 2, ...)
-    uint64_t epoch_boundary_tick;       // 8B: Multiples of EPOCH_BOUNDARY_TICKS (864,000 ticks)
-    uint8_t  frost_epoch_commit[8];     // 8B: Truncated L5 FROST EpochMerkleCommit signature digest
-    uint16_t active_peer_count;         // 2B: 0 triggers SOLO_AUTARKIC <= 1-tick fast-path
-    uint16_t synced_steward_count;      // 2B: Stewards at wall (>= 2/3 triggers grace window)
-    uint16_t grace_ticks_remaining;     // 2B: Countdown for SS-EP9-003 Straggler Grace Window
-    EpochBarrierState barrier_state;    // 1B: Current synchronization state machine phase
-    uint8_t  staged_blueprint_count;    // 1B: Designations pre-painted in Blueprint Planning Mode
+struct ScheduledWorkflowSlot {
+    uint32_t day_index{1};               // Day 1..5
+    uint8_t  slot_of_day{0};             // 0 = Morning (06:00-14:00), 1 = Afternoon (14:00-22:00)
+    uint16_t planned_action_id{0};       // DesignatorActionId (0 = Unscheduled, 1=Swale, 11=Solar, 13=Harvest, 14=Cook)
+    bool     l5_gate_locked{false};      // True once Layer 5 Trust Gate + L3 Escrow Lock are reserved in advance
+    bool     dispatched_to_sim{false};   // True once simulation clock reaches (day_index, slot_of_day)
+    bool     completed{false};
 };
-static_assert(sizeof(ArcadiaEpochSyncState) == 32, "ArcadiaEpochSyncState must be 32 bytes.");
 
-} // namespace oasis::epoch
+} // namespace oasis::orchestrator
 ```
 
 ---

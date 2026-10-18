@@ -231,6 +231,20 @@ public:
         return !inbound_queue_.empty();
     }
 
+    /// Bridge an inward-relayed MigrationWaveArrivalEvent from l2_l3.sock (col-storaged)
+    /// into /uhai_migration_waves with QUALITY_SIMULATED = 0x01 (SS-EP7-007)
+    static bool RelayMigrationWaveToUhai(
+        const oasis::uhai::MigrationWaveArrivalEvent& in_wave,
+        oasis::uhai::UhaiMigrationWaveChannel& out_channel) {
+        if (std::isnan(in_wave.legacy_distress_index) || in_wave.legacy_distress_index < 0.65f) {
+            return false;
+        }
+        oasis::uhai::MigrationWaveArrivalEvent sanitized = in_wave;
+        sanitized.cohort_size = std::clamp<uint16_t>(sanitized.cohort_size, 1u, 12u);
+        sanitized.initial_trust_ring = 6; // Ring R6: Unverified Migrant
+        return out_channel.Push(sanitized);
+    }
+
 private:
     uint32_t ghost_agents_{1};
     uint64_t abort_tick_{0};
@@ -289,6 +303,7 @@ private:
 
 int main(int argc, char* argv[]) {
     std::string shm_name = oasis::uhai::DEFAULT_FLOW_SHM_NAME;
+    std::string migration_shm_name = oasis::uhai::DEFAULT_MIGRATION_WAVE_SHM_NAME;
     uint64_t max_ticks = 0;
     int frequency_hz = 10;
     uint32_t ghost_agents = 1;
@@ -298,6 +313,8 @@ int main(int argc, char* argv[]) {
         std::string arg = argv[i];
         if (arg == "--shm-name" && i + 1 < argc) {
             shm_name = argv[++i];
+        } else if (arg == "--migration-shm" && i + 1 < argc) {
+            migration_shm_name = argv[++i];
         } else if ((arg == "--ticks" || arg == "--max-ticks") && i + 1 < argc) {
             max_ticks = std::stoull(argv[++i]);
         } else if (arg == "--frequency" && i + 1 < argc) {
@@ -311,14 +328,16 @@ int main(int argc, char* argv[]) {
             abort_tick = std::stoull(argv[++i]);
         } else if (arg == "--help" || arg == "-h") {
             std::cout << "Usage: col-meshd [options]\n"
-                      << "  --shm-name <name>    Shared memory object name (default: "
+                      << "  --shm-name <name>      Shared memory object name (default: "
                       << oasis::uhai::DEFAULT_FLOW_SHM_NAME << ")\n"
-                      << "  --frequency <Hz>     Tick frequency in Hz (default: 10)\n"
-                      << "  --ticks <N>          Exit cleanly after executing N ticks (0 = run indefinitely)\n"
-                      << "  --max-ticks <N>      Alias for --ticks\n"
-                      << "  --ghost-agents <N>   Number of 100x ghost agents to simulate (default: 1, max: 32)\n"
-                      << "  --abort-tick <N>     Logical tick at which to publish abrupt contract termination (default: 0)\n"
-                      << "  --help, -h           Display this help message\n";
+                      << "  --migration-shm <name> Migration wave SHM channel (default: "
+                      << oasis::uhai::DEFAULT_MIGRATION_WAVE_SHM_NAME << ")\n"
+                      << "  --frequency <Hz>       Tick frequency in Hz (default: 10)\n"
+                      << "  --ticks <N>            Exit cleanly after executing N ticks (0 = run indefinitely)\n"
+                      << "  --max-ticks <N>        Alias for --ticks\n"
+                      << "  --ghost-agents <N>     Number of 100x ghost agents to simulate (default: 1, max: 32)\n"
+                      << "  --abort-tick <N>       Logical tick at which to publish abrupt contract termination (default: 0)\n"
+                      << "  --help, -h             Display this help message\n";
             return 0;
         }
     }
@@ -328,8 +347,11 @@ int main(int argc, char* argv[]) {
     std::signal(SIGTERM, SignalHandler);
 
     spdlog::info("[col-meshd] Starting Sovereign Stack Layer 2/3 Mesh Daemon...");
-    spdlog::info("[col-meshd] Target POSIX shm: '{}' | Frequency: {} Hz | Ghost agents: {} | Abort tick: {}",
-                 shm_name, frequency_hz, ghost_agents, abort_tick);
+    spdlog::info("[col-meshd] Target POSIX shm: '{}' | Migration shm: '{}' | Frequency: {} Hz | Ghost agents: {} | Abort tick: {}",
+                 shm_name, migration_shm_name, frequency_hz, ghost_agents, abort_tick);
+
+    oasis::uhai::UhaiMigrationWaveChannel migration_wave_channel(
+        oasis::uhai::UhaiMigrationWaveChannel::ChannelMode::Producer, migration_shm_name);
 
     const size_t shm_size = oasis::uhai::TOTAL_FLOW_SHM_SIZE;
     int fd = -1;
@@ -462,8 +484,9 @@ int main(int argc, char* argv[]) {
         }
 
         if ((max_ticks > 0 && max_ticks <= 50) || (daemon_tick % 20 == 0)) {
-            spdlog::info("[col-meshd] Tick: {:>6} ({} Hz) | Published Contracts: {:>4} | Dropped: {}",
+            spdlog::info("[col-meshd] Tick: {:>6} ({} Hz) | Published Contracts: {:>4} | MigrationSHM: {} | Dropped: {}",
                          daemon_tick, frequency_hz, published_contracts,
+                         migration_wave_channel.IsValid() ? "READY" : "OFFLINE",
                          header->dropped_frames.load(std::memory_order_relaxed));
         }
 

@@ -145,7 +145,12 @@ inline std::unordered_map<uint64_t, uint8_t>& GetDynamicVoxelStore() noexcept {
 }
 
 inline void SetDynamicVoxel(int x, int y, int z, uint8_t material_id) noexcept {
-    GetDynamicVoxelStore()[PackVoxelCoord(x, y, z)] = material_id;
+    const uint64_t key = PackVoxelCoord(x, y, z);
+    if (material_id == 0u) {
+        GetDynamicVoxelStore().erase(key);
+    } else {
+        GetDynamicVoxelStore()[key] = material_id;
+    }
 }
 
 inline void SetDynamicVoxel(const glm::ivec3& pos, uint8_t material_id) noexcept {
@@ -160,6 +165,15 @@ inline uint8_t GetDynamicVoxel(int x, int y, int z) noexcept {
     }
     return 0;
 }
+
+// Day 1 Survival Camp & Thermal Overlay Material IDs (STORY-9.1 / STORY-9.2)
+constexpr uint32_t MAT_BELL_TENT = 23u;
+constexpr uint32_t MAT_FOOD_STORAGE = 24u;
+constexpr uint32_t MAT_LEAK_VOXEL_MARKER = 25u;
+constexpr uint32_t MAT_SERVER_RACK = 30u;
+constexpr uint32_t MAT_LADDER = 32u;
+constexpr uint32_t MAT_STAGE_FRAME = 33u;
+constexpr uint32_t MAT_MATURE_CROP = 34u;
 
 inline uint32_t GetProceduralVoxelMaterial(const glm::ivec3& pos) noexcept {
     const int absX = std::abs(pos.x);
@@ -179,13 +193,13 @@ inline uint32_t GetProceduralVoxelMaterial(const glm::ivec3& pos) noexcept {
         if (absX >= 6 && absX <= 8 && lotZ >= 1 && lotZ <= 3) {
             return 3u; // Driveway
         }
-        if (absX >= 6 && absX <= 24) {
-            return 4u; // Parched lawn
+        if (absX >= 6 && absX <= 64) {
+            return 4u; // Parched lawn / interior floor / backyard loam
         }
     }
 
-    // Layer 1-8: Electrical Grid Infrastructure
-    if (pos.y >= 1 && pos.y <= 8) {
+    // Layer 1-8: Electrical Grid Infrastructure (kept clear of Lot 402 foreground camera at z in [-2, 14])
+    if (pos.y >= 1 && pos.y <= 8 && (pos.z < -2 || pos.z > 14)) {
         if (pos.x == 5 && lotZ == 0 && pos.y <= 7) {
             return 8u; // Utility timber pole
         }
@@ -196,18 +210,13 @@ inline uint32_t GetProceduralVoxelMaterial(const glm::ivec3& pos) noexcept {
             return 9u; // Transformer
         }
         if (pos.x == 4 && pos.y == 7 && pos.z >= -10 && pos.z <= 40) {
-            return 9u; // Conductor wire
+            return 9u; // Overhead conductor wire
         }
     }
 
-    // Layer 1-6: Suburban Residences
+    // Layer 1-6: Hollow Suburban Residences (Lot 402 & neighbors)
     if (absX >= 9 && absX <= 17 && lotZ >= 2 && lotZ <= 10) {
-        if (absX == 9 && (lotZ == 4 || lotZ == 8) && pos.y == 2) {
-            return 7u; // Window glass
-        }
-        if (pos.y >= 1 && pos.y <= 3) {
-            return 5u; // Weathered wood siding
-        }
+        // Sloped gable roof (y in [4, 6])
         if (pos.y >= 4 && pos.y <= 6) {
             const int roof_inset = pos.y - 3;
             if (absX >= (9 + roof_inset) && absX <= (17 - roof_inset) &&
@@ -215,11 +224,47 @@ inline uint32_t GetProceduralVoxelMaterial(const glm::ivec3& pos) noexcept {
                 return 6u; // Dark shingle roof
             }
         }
+        // Ground Floor Walls, Doors, Windows, Node 0 Server Rack, & Hollow Interior (y in [1, 3])
+        if (pos.y >= 1 && pos.y <= 3) {
+            // Front Door (absX == 9) & Back Patio Door (absX == 17) at lotZ == 6, y <= 2
+            if ((absX == 9 || absX == 17) && lotZ == 6 && pos.y <= 2) {
+                return 15u; // Insulated Timber Door (airtight & passable)
+            }
+            // Architectural Windows at y == 2
+            if (pos.y == 2 &&
+                (((absX == 9 || absX == 17) && (lotZ == 4 || lotZ == 8)) ||
+                 ((lotZ == 2 || lotZ == 10) && (absX == 11 || absX == 15)))) {
+                return 7u; // Window glass
+            }
+            // Exterior Perimeter Clapboard Walls
+            if (absX == 9 || absX == 17 || lotZ == 2 || lotZ == 10) {
+                return 5u; // Painted architectural clapboard siding
+            }
+            // Node 0 Sovereign Homelab Server Rack in Study (absX == 12, lotZ == 6, y <= 2)
+            if (absX == 12 && lotZ == 6 && pos.y <= 2) {
+                return 5u; // Rendered as Node 0 Server Rack in shader
+            }
+            // Hollow walkable interior returns 0u (Air)
+        }
     }
 
-    // Layer 1: Property Boundary Fences
-    if (pos.y == 1 && (lotZ == 15 || lotZ == 1) && absX >= 7 && absX <= 20) {
-        return 10u; // Boundary fences
+    // Lot 402 Exterior Roof Access Ladder (x == 18, z == 3, y in [1, 4])
+    if (pos.x == 18 && pos.z == 3 && pos.y >= 1 && pos.y <= 4) {
+        return 32u; // MAT_LADDER: Exterior roof access ladder against back wall
+    }
+
+    // Layer 1: Property Boundary Fences & Lot 402 Fenced Backyard
+    if (pos.y == 1) {
+        if (pos.x > 0 && pos.z >= 1 && pos.z <= 15) {
+            if ((pos.z == 1 || pos.z == 15) && pos.x >= 7 && pos.x <= 25) {
+                return 10u; // Lot 402 side fences extending around backyard
+            }
+            if (pos.x == 25 && pos.z >= 1 && pos.z <= 15 && pos.z != 8) {
+                return 10u; // Lot 402 rear backyard fence (with gate opening at z == 8)
+            }
+        } else if ((lotZ == 15 || lotZ == 1) && absX >= 7 && absX <= 20) {
+            return 10u; // Neighbor boundary fences
+        }
     }
 
     return 0u; // Air
@@ -239,7 +284,8 @@ inline RaycastHit ScreenToWorldRaycast(
     const glm::mat4& inv_view_proj,
     const glm::vec4& camera_pos,
     const glm::vec4& viewport_params,
-    int max_steps = 128
+    int max_steps = 192,
+    int z_cutaway_level = 32
 ) noexcept {
     RaycastHit result{};
     if (width == 0 || height == 0) return result;
@@ -311,14 +357,14 @@ inline RaycastHit ScreenToWorldRaycast(
             }
         }
 
-        // Bounding volume check
-        if ((mapPos.y > 12 && step.y > 0) || (mapPos.y < 0 && step.y < 0) ||
-            (mapPos.z > 42 && step.z > 0) || (mapPos.z < -10 && step.z < 0) ||
-            (mapPos.x > 28 && step.x > 0) || (mapPos.x < -28 && step.x < 0)) {
+        // Bounding volume check: y in [0, 32], z in [-64, 64], x in [-64, 64]
+        if ((mapPos.y > 32 && step.y > 0) || (mapPos.y < 0 && step.y < 0) ||
+            (mapPos.z > 64 && step.z > 0) || (mapPos.z < -64 && step.z < 0) ||
+            (mapPos.x > 64 && step.x > 0) || (mapPos.x < -64 && step.x < 0)) {
             break;
         }
 
-        const uint32_t mat = GetVoxelMaterialAt(mapPos);
+        const uint32_t mat = (mapPos.y >= z_cutaway_level) ? 0u : GetVoxelMaterialAt(mapPos);
         if (mat != 0) {
             result.hit = true;
             result.voxel_pos = mapPos;

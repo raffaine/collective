@@ -308,6 +308,24 @@ private:
     uint64_t total_executions_{0};
 };
 
+// ============================================================================
+// Layer 6 Migration Wave Inward Adjacency Relay (SS-EP7-007: l6_l7.sock -> l5_l6.sock)
+// ============================================================================
+
+struct MigrationWaveAgoraRelay {
+    static constexpr const char* INBOUND_SOCKET  = "l6_l7.sock"; // From L7 col-adversaryd (VLAN 40)
+    static constexpr const char* OUTBOUND_SOCKET = "l5_l6.sock"; // To L5 col-kmsd (R6 guest tag)
+
+    static bool RelayInwardToL5(oasis::uhai::MigrationWaveArrivalEvent& wave) noexcept {
+        if (std::isnan(wave.legacy_distress_index) || wave.legacy_distress_index < 0.65f) {
+            return false;
+        }
+        wave.cohort_size = std::clamp<uint16_t>(wave.cohort_size, 1u, 12u);
+        wave.initial_trust_ring = 6; // Enforce Ring R6 (Unverified Migrant) guest boundary
+        return true;
+    }
+};
+
 } // namespace oasis::commons
 
 static std::atomic<bool> g_running{true};

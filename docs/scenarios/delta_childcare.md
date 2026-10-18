@@ -1,237 +1,262 @@
-# Scenario Delta: Mutual Aid Childcare Pod
+# Scenario Delta: The Perinatal, Postpartum, Newborn & Early Childhood Sanctuary Commons
 
 *   **Identifier:** `SCN-DELTA-CHILD`
-*   **System Epic:** Trust Rings, Invisible Labor Valuation, Intergenerational Care, and Decentralized Scheduling
-*   **Primary Layers Tested:** L1 (Physical), L2 (Digital Twin), L3 (Ledger), L4 (Orchestration), L5 (Governance), L6 (Semantic), L7 (Proxy)
-*   **Pass/Fail Metric:** Decentralized scheduling of communal care blocks respecting dynamic adult-to-child support ratios; unconditional access to Tier 2 Human Survival Baseline ($B_{\mathrm{baseline}}$); non-financial Reputational Wealth recognition in Layer 5 Care Councils with Care Leave Shield; 0% state commercial daycare licensure violations through private cooperative shielding; zero floating-point math; zero tokenization of reproductive care.
+*   **System Epic:** Full-Spectrum Family & Early Life Stewardship: Prenatal Midwifery & Nutrition, Birth Sanctuary, Fourth-Trimester Postpartum Cocooning, Newborn Somatic Care (Feeding, Bathing, Umbilical & Nail Hygiene, Cloth Diaper Loops), Shared Nursery Gear Libraries, and Intergenerational Early Childhood Pods
+*   **Primary Layers Tested:** L1 (Physical Reality), L1b (Oasis Shadow Simulation), L2 (Cybernetic Membrane), L3 (Thermodynamic Ledger), L4 (Deterministic Orchestrator), L5 (Polycentric Governance & Trust Rings), L6 (Semantic Translation & Agora), L7 (Legacy Interface)
+*   **Pass/Fail Metric:** Complete social, nutritional, clinical, and material support across prenatal, birth, newborn, toddler, and early childhood stages with $0\text{ basis points}$ ($0\%$) commercial extraction; automatic activation of the Perinatal Care Leave Shield for both mother and father/co-parent upon third-trimester or birth registration; automatic expansion of household Tier 2 Survival Baselines ($B_{\mathrm{baseline}}$) for postpartum meal trains and sterilized diaper/nursery logistics; strict enforcement of thermostatic newborn bath anti-scald limits ($\le 311150\,\mathrm{mK} = 38^\circ\mathrm{C}$) and age/neurodivergent dynamic pod support ratios ($\sum w_i \le 40000 \cdot N_{\mathrm{adults}}$); zero floating-point math; zero quantization or tokenization of parental affection and reproductive care.
 
 ---
 
 ## Architectural Council Ratification & 5-Perspective Synthesis
 
-This scenario specification has been ratified by unanimous consensus of the 5-Persona Architectural Council:
+This scenario specification has been ratified by unanimous consensus of the 5-Persona Architectural Council to establish how The Collective understands, honors, and governs the social and material needs of expectant families, mothers, fathers/co-parents, newborns, toddlers, and young children:
 
 | Council Persona | Disciplinary Representative | Core Contribution to Scenario |
 | :--- | :--- | :--- |
-| **Game Designer** | Lead Systems & Gameplay Designer | Dwarf Fortress parental stress and recovery psychology (parents with children in care lose "Overwhelmed by constant vigilance" stress debuffs, unlocking mental focus for high-tier crafting; elders caring for children gain "Felt cherished and vital to the tribe (+45 mood)" thoughts; children gain somatic social resilience); The Sims schedule management (drop-off/pickup chores coordinated smoothly across household chore queues without missed handoffs); Cities Skylines neighborhood-scale intergenerational pedestrian networks and school-forest pathways. |
-| **Game Engineer** | Principal C++ Simulation & Engine Architect | Flecs ECS DOD architecture (`CaregiverProfileComponent`, `ChildProfileComponent`, `PodZoneBoundsComponent`, `SensoryEnvironmentComponent`); 32-bit compact voxel grid tracking playroom boundary zones; deterministic 10 Hz BPMN state engine; compilable C++20 test harness validating dynamic support ratio enforcement, NFC cryptographic check-ins, and ratio overflow rejections exclusively using fixed-point SI integer arithmetic (basis points, parts per million, millikelvin, milliseconds). |
-| **Sovereign Stack Specialist** | Sovereign Stack Systems Architect | 7-layer strict adjacency without layer skipping; zero software, microcontrollers, or keys in Layer 1; Zephyr RTOS Layer 2 membrane (`col-sensord`, `col-membraned`, `col-actuated`); end-to-end encrypted Trust Ring gossip (child identities and schedules encrypted to pod pairwise DIDs, completely invisible to the general mesh); BBS+ Zero-Knowledge Proofs for pediatric CPR credentials without disclosing personal identities; Layer 5 boundary socket `/run/collective/ipc/l4_l5.sock`; Tripartite Ricardian Treaties ($\mathrm{Treaty\_CID}$). |
-| **Solarpunk Thinker** | Bioregional Regenerative Ecologist | Intergenerational nature immersion (children spend care hours outdoors in Scenario Eta coppice woods and food forests, cultivating biophilic ecological literacy); closed-loop zero-waste caregiving (communal organic cloth diaper laundering rotated via solar-thermal drying yards, eliminating disposable petrochemical diapers); nourishing organic meals supplied directly from Scenario Gamma commons kitchen pantries. |
-| **Scenario Specialist** | Neurodivergent-Affirming Pediatrician & Cooperative Care Sociologist | Individualized dynamic adult-to-child support ratio equation ($R_{\mathrm{eff}} = \sum w_i$ scaled in basis points from 10000 to 25000 for sensory overwhelm accommodation); indoor air quality telemetry standards (CO2 < 800 ppm); legal structuring of private mutual-aid babysitting cooperatives under state administrative code childcare exemptions (e.g., WAC 110-300 / RCW Title 43, Chapter 216). |
+| **Game Designer** | Lead Systems & Gameplay Designer | Life-stage family gameplay in Oasis: instead of treating children as generic sprites dropped at a daycare box, Oasis models the **Perinatal & Early Childhood Continuum**—prenatal nesting, birth sanctuary support, the **Fourth Trimester Postpartum Cocoon** (where neighbors deliver Scenario Gamma meals so both mother and father can focus on newborn baths, umbilical care, first purees, and sleep), shared **Nursery Gear Libraries** (cribs, strollers, wooden toys from Scenario Alpha), and **Intergenerational Play Pods** pairing toddlers with elders (Scenario Phi). |
+| **Game Engineer** | Principal C++ Simulation & Engine Architect | Flecs ECS Data-Oriented Design (DOD): `PerinatalHouseholdComponent`, `NewbornSomaticCareComponent`, `NurseryGearLeaseComponent`, `CarePodZoneComponent`, and `CareLeaveShieldComponent`; deterministic $10\,\mathrm{Hz}$ BPMN state engine (`col-execd`) orchestrating postpartum meal trains, autoclave diaper sanitization, and pod support ratios; self-contained C++20 fixed-point test harness (basis points, millikelvin, milliseconds, milligrams, microjoules) with zero IEEE 754 floats. |
+| **Sovereign Stack Specialist** | Sovereign Stack Systems Architect | Strict 7-layer adjacency across POSIX Unix Domain Sockets (`l1_l2.sock` through `l6_l7.sock`); **Constitutional Non-Commensurability of Reproductive & Parental Affection** (`sec:l3-friction`—the stack never attempts to quantize love, nursing, or soothing a child, governing instead the protective social and physical infrastructure around the family); end-to-end encrypted `did:peer` Trust Ring privacy; BBS+ Zero-Knowledge Proofs for midwifery and pediatric CPR credentials; automatic Perinatal Care Leave Shield freezing guild reputation decay ($\mathcal{R}$). |
+| **Solarpunk Thinker** | Bioregional Regenerative Ecologist | Abolishing the cruel nuclear-family isolation that forces fathers back to work days after birth and leaves mothers exhausted and alone; wrapping every new family in a village-scale mutual-aid cocoon; $100\%$ circular material stewardship via heirloom hardwood cribs/toys (Scenario Alpha), organic cotton/wool baby garments (Scenario Nu), solar-thermal ozone/steam cloth diaper laundering (eliminating $6{,}000+$ petrochemical disposable diapers per child), and forest-school immersion in Scenario Eta woods. |
+| **Scenario Specialist** | Certified Nurse-Midwife, Neonatologist & Neurodivergent-Affirming Pediatrician | Clinical prenatal/postpartum midwifery protocols and Scenario Chi hospital escalation bridges; neonatal somatic care standards (clean dry umbilical cord stump care until natural separation at $7\text{–}14\text{ days}$, thermostatic $310150\,\mathrm{mK}$–$311150\,\mathrm{mK}$ infant baths, precision nail care, Holder pasteurization of donor human milk at $335650\,\mathrm{mK}$, and iron-rich $6\text{-month}$ complementary feeding); age-weighted and neurodivergent-affirming dynamic adult-to-child support ratios; statutory cooperative childcare exemptions. |
 
-**Council Consensus Statement:** Unanimous Consensus Reached. The council affirms that nurturing children is sacred mutual aid within the Convivial Sanctuary ($R_0$) and Settlement Commons ($R_1$). All pricing, tokenization, hourly wages, and financialization of childcare labor are permanently abolished. Caregivers receive unconditional survival baselines and non-financial Reputational Wealth protected by the Care Leave Shield.
-
----
-
-## 1. Problem Statement & Legacy Failure
-
-In late-stage capitalist suburban society (Layer 7), childcare is broken by privatization, atomization, and commercial enclosure.
-
-When families attempt to navigate early childhood in the legacy economy:
-*   **Hyper-Atomization & Parental Burnout:** The nuclear family is isolated from communal support. Parents (disproportionately mothers) shoulder grueling 24/7 unpaid caregiving, leading to clinical burnout, chronic sleep deprivation, and forfeiture of creative and technical livelihoods.
-*   **Enclosure of Invisible Care Labor:** Legacy GDP economics categorizes care work as economically unproductive because it generates no corporate shareholder surplus. When parents organize informal babysitting co-ops, exchanging fiat currency triggers municipal administrative fines or police actions for operating an "unlicensed commercial daycare."
-*   **Institutional Warehousing & Generational Segregation:** Commercial daycares group 30 children into fluorescent-lit concrete rooms with rigid corporate curricula, while retirement homes segregate elders into lonely institutional isolation, severing the ancestral intergenerational loop of human culture.
-*   **Extractive Monopolistic Costs:** Commercial infant care costs between 2,000 and 3,500 units of fiat per month per child—often exceeding household housing costs—yet the frontline childcare workers nurturing children are paid near-poverty wages, while private equity childcare chains extract massive shareholder dividends.
+**Ratification Statement:** Unanimous Consensus Reached across all five disciplinary perspectives. The council affirms that human affection, parental bonding, and the nurturing of new life cannot and must never be quantized into tokens or metrics. Instead, The Collective governs the physical, nutritional, clinical, and scheduling commons around every family so that mothers, fathers, co-parents, and children flourish in unhurried dignity.
 
 ---
 
-## 2. The Collective Workflow (7-Layer Traversal)
+## 1. Problem Statement, Legacy Failure & Macro-Domain Vision
 
-Scenario Delta creates sovereign, private **Trust Rings** that distribute childcare across a pod of parents, trusted neighbors, and elders. Care work is explicitly recognized as non-commensurable mutual aid. Caregivers receive unconditional access to the Tier 2 Human Survival Baseline ($B_{\mathrm{baseline}}$: guaranteed food from Scenario Gamma, warm shelter, and clinic access) and earn domain-specific non-financial Reputational Wealth ($\mathcal{R}$) within Layer 5 Care Councils, protected by the Care Leave Shield. The workflow traverses canonically from Layer 1 physical care up to Layer 7 cooperative legal shielding.
+In legacy industrial-capitalist society (Layer 7), pregnancy, birth, postpartum recovery, and early childhood are fractured by nuclear-family isolation, workplace coercion, and commercial extraction:
+1.  **Fractured Postpartum & Paternal Exile:** Immediately after childbirth—when a mother is physically recovering from labor or surgery and a newborn requires round-the-clock feeding, umbilical care, warm baths, and skin-to-skin co-regulation—legacy employers force fathers and co-parents back into wage labor within days or weeks. Mothers are left isolated in suburban apartments without extended kin, while fathers are robbed of the irreplaceable early months of bathing their baby, trimming tiny fingernails, preparing first meals, and sharing night watches.
+2.  **Medicalized Alienation vs. Unsupported Risk:** Expectant families face a false binary between cold, conveyor-belt hospital obstetrics and unsupported home birth without rapid clinical backup, while prenatal and postpartum nutrition is left to commercial grocery stores and expensive synthetic supplements.
+3.  **Disposable Consumer Waste & Financial Predation:** Every isolated household is pressured to purchase thousands of dollars of rapidly outgrown plastic bassinets, strollers, car seats, and $6{,}000+$ single-use petrochemical diapers per child, while commercial daycares charge $2{,}000$ to $3{,}500$ fiat units per month to warehouse infants and toddlers in high-ratio fluorescent rooms.
+4.  **Bureaucratic Criminalization of Neighborly Care:** When parents attempt to form informal neighborhood care circles, state licensing bureaucracies treat mutual aid as an "unlicensed commercial business," while GDP accounting treats the raising of the next generation as having zero economic value.
+
+### The Collective Macro-Domain Vision
+Scenario Delta establishes the **Perinatal, Postpartum, Newborn & Early Childhood Sanctuary Commons of The Collective**. Rather than reducing childcare to a drop-off babysitting room for older kids, Scenario Delta recognizes the **complete developmental and social arc of early human life**—governing the material, nutritional, clinical, and scheduling resources around the family while keeping love and affection strictly non-quantized:
+1.  **Prenatal Care, Maternal Nutrition & Co-Parent Preparation (`Trimesters 1–3`):** Midwifery care, targeted Scenario Gamma prenatal nutrition, father/co-parent hands-on readiness circles, and third-trimester workload relief.
+2.  **Birth Sanctuary & Clinical Escalation Bridge:** Home or Birth-Suite midwifery care backed by high-priority Scenario Chi paramedic and Layer 7 hospital surgical transfer corridors.
+3.  **The Fourth-Trimester Sanctuary & Newborn Somatic Care (`0 to 6 Months`):** Protecting the sacred parental cocoon—automating household meal deliveries (Scenario Gamma) and laundry relief so **both mother and father/co-parent** are completely free from guild labor obligations to share night waking, nursing/bottle support, umbilical stump care, warm infant baths, tiny nail trimming, and preparing initial baby meals.
+4.  **Shared Nursery Gear Library & Closed-Loop Cloth Diaper Commons (`0 to 36 Months`):** Borrowing heirloom cribs, strollers, carriers, and developmental toys fabricated in Scenario Alpha and Nu, paired with daily solar-thermal steam/ozone cloth diaper laundering.
+5.  **Infant, Toddler & Early Childhood Pods + Intergenerational Forest Play (`6 Months to 6 Years`):** Encrypted Trust Ring care pods with age- and neurodivergent-weighted dynamic support ratios, pairing young children with peers and Scenario Phi elders.
+6.  **Polycentric Family Governance & Oasis Simulation Collaboration:** Unconditional family baseline expansion ($B_{\mathrm{baseline}}$), automatic Care Leave Shields, `No-Transit` nursery perimeters, and Oasis life-stage simulation.
+
+---
+
+## 2. The Six Pillars of Perinatal, Newborn & Early Childhood Stewardship
+
+| Developmental Stage / Pillar | Core Family & Child Needs | Collective Infrastructure & Governance Support | Primary Scenarios Chained |
+| :--- | :--- | :--- | :--- |
+| **1. Prenatal Sanctuary (`Trimesters 1–3`)** | Maternal health monitoring, dense micronutrients (folate, iron, choline, DHA), co-parent skill preparation, physical rest. | Community midwifery clinic, automatic Scenario Gamma prenatal meal hooks, father/co-parent hands-on workshops, early **Care Leave Shield**. | **Scenario Gamma** (Prenatal Nutrition), **Scenario Chi** (Diagnostics). |
+| **2. Birth & Midwifery (`Labor & Delivery`)** | Safe, calm birthing environment, hydrotherapy, neonatal resuscitation readiness, rapid surgical backup if needed. | Settlement Birthing Suite ($310150\,\mathrm{mK}$ birth pool, $\mathrm{O_2}$, warmers) + dedicated **Scenario Beta/Chi** emergency hospital transfer corridor. | **Scenario Chi** (Midwifery & Paramedic), **Scenario Beta** (Emergency Transit). |
+| **3. Fourth Trimester & Newborn Care (`0–6 Months`)** | Unhurried maternal recovery, active father/co-parent bonding, umbilical stump care, warm baths, nail care, feeding, sleep protection. | **Full Parental Care Leave Shield** for both parents; daily doorstep meal train; sterile umbilical/grooming kits; thermostatic $310150\,\mathrm{mK}$ infant baths; Holder donor-milk pasteurizer. | **Scenario Gamma** (Postpartum Broths & First Purees), **Scenario Chi** (Postpartum Visits). |
+| **4. Nursery Gear & Diaper Commons (`0–36 Months`)** | Safe bassinets, cribs, carriers, strollers, bath tubs, seasonal baby clothes, and $8\text{–}12$ clean diapers per day. | **Nursery Gear Library** (hardwood cribs/toys from Alpha; organic textiles from Nu) + daily **Solar-Thermal Autoclave Cloth Diaper Loop** ($\ge 358150\,\mathrm{mK}$). | **Scenario Alpha** (Cribs, High Chairs, Toys), **Scenario Nu** (Cloth Diapers & Baby Wear). |
+| **5. Early Childhood Pods & Forest Play (`1–6 Years`)** | Peer socialization, sensory-safe play, outdoor biophilic discovery, intergenerational elder wisdom, parental respite hours. | Pod Havens ($R_1$) & Forest Play Glades ($R_2$); dynamic ratio gate ($\sum w_i \le 40000 \cdot N_{\mathrm{adults}}$); NDIR $\mathrm{CO_2} < 800\,\mathrm{ppm}$; `No-Transit` quiet zones. | **Scenario Phi** (Elder Storytelling), **Scenario Eta** (Forest School Glades). |
+| **6. Family Governance & Oasis (`L1b`)** | Protection from surveillance, licensure harassment, and economic penalty for choosing to raise children. | Zero quantization of affection; automatic $B_{\mathrm{baseline}}$ household expansion; `did:peer` pod encryption; Layer 7 cooperative statutory exemption. | **Scenario Zeta** (Family Housing Adaptation), **Scenario Omicron** (Kinship). |
+
+### Pillar I: Prenatal Care, Maternal Nutrition & Co-Parent Readiness
+Stewardship begins as soon as a family chooses to share a `PrenatalCareIntent` within their trusted clinical/pod ring ($R_0 \dots R_2$):
+1.  **Community Midwifery & Non-Invasive Clinical Care:** Certified nurse-midwives and clinical stewards (bridged with **Scenario Chi**) provide unhurried prenatal visits in warm sanctuary rooms—monitoring maternal blood pressure, hemoglobin/ferritin, glucose tolerance, fetal heart tones, and portable point-of-care ultrasound without uploading any health records to corporate clouds.
+2.  **Targeted Prenatal Nutritional Provisioning (Scenario Gamma Hook):** Pregnancy dramatically increases maternal demand for bioavailable iron, folate, choline, calcium, iodine, Vitamin B12, and DHA omega-3 fatty acids. Layer 6 automatically links the household's `DietaryNeedIntent` to **Scenario Gamma**, guaranteeing priority allocation of choline-rich silvopasture eggs, folate-dense dark leafy greens, calcium-rich nixtamalized masa and goat dairy, kelp/mineral iodine, precision-fermented B12, and microalgal DHA.
+3.  **Father & Co-Parent Hands-On Preparation Circles:** Even when a father or non-gestational partner does not physically carry the pregnancy, The Collective treats their preparation as foundational to family resilience. Experienced fathers, mothers, and elders host hands-on practicums covering:
+    *   **Newborn Somatic Care Mastery:** Safely supporting a newborn's head and neck in a $310150\,\mathrm{mK}$ ($37^\circ\mathrm{C}$) warm bath; keeping the **umbilical cord stump** clean, dry, and un-irritated until natural separation; trimming paper-thin newborn fingernails and toenails with rounded safety clippers and glass emery files so infants do not scratch their faces; swaddling and ergonomic baby-wearing; and reading early hunger and tired cues.
+    *   **Culinary & Postpartum Kitchen Prep:** Preparing nutrient-dense postpartum recovery meals for the mother and learning to steam, mash, and iron-fortify the child's first complementary meals (`6+ months`).
+
+### Pillar II: Birth Sanctuary, Midwifery & Layer 7 Hospital Escalation Bridge
+*   **Hearth & Sanctuary Births ($R_0 \dots R_1$):** For low-risk pregnancies, families may birth at home or in the settlement's **Birthing Sanctuary Suite**—a calm, acoustically insulated space equipped with a deep hydrotherapy birthing tub (supplied via an RPZ-isolated, UV-sterilized, mechanically thermostatted $310150\,\mathrm{mK}$ water manifold), radiant ceiling warmers for immediate skin-to-skin golden-hour bonding, neonatal resuscitation equipment, and uterine tonic/anti-hemorrhage medications managed by `Midwife_Steward_L2` practitioners.
+*   **Seamless Layer 7 Obstetric Escalation:** If prenatal screening identifies a high-risk gestation (e.g., placenta previa, twin breech) or if intrapartum telemetry indicates maternal exhaustion, hemorrhage, or fetal distress, `col-execd` immediately dispatches a **Scenario Chi / Scenario Beta Priority Medical Transport** to the nearest Layer 7 hospital obstetric unit, with all hospital bills covered through the settlement's Layer 7 cooperative health-share/insurance reserve (`col-adversaryd`).
+
+### Pillar III: The Fourth Trimester Sanctuary & Newborn Somatic Care (`0 to 6 Months`)
+The first $12\text{ to } 24\text{ weeks}$ after birth ("The Fourth Trimester") are a critical physiological and emotional transition for mother, father/co-parent, and newborn.
+1.  **Dual-Parent Care Leave Shield & Workload Liberation:**
+    *   Upon birth (or beginning in the late third trimester), Layer 5 automatically activates the **Perinatal Care Leave Shield** for **both** the birth mother and the father/co-parent(s) for a baseline of $180\text{ to } 365\text{ days}$.
+    *   Their Reputational Wealth ($\mathcal{R}$) decay clocks across all guilds (Fabrication, Transit, Forestry, Foundry, Kitchen) are **cryptographically frozen** (`decay_rate = 0`), and Layer 4 re-routes their normal guild maintenance shifts to the community pool. Neither parent suffers any loss of standing, voice, or access while dedicating themselves to their baby.
+2.  **The Protective Household Cocoon (Meals, Laundry & Somatic Care):**
+    *   Because the community handles external logistics—delivering hot **Scenario Gamma** postpartum meals (collagen bone broths, slow-braised stews, lactation-supporting oat/sesame bakes) to the family's insulated porch locker and collecting household laundry—the father/co-parent and mother can share the intimate daily care of their newborn without burnout:
+    *   **Umbilical Cord Stump Hygiene (`Days 1–14`):** The Newborn Sanctuary Kit provides sterile organic cotton swabs, isotonic saline/antiseptic wash (when clinically indicated by Scenario Chi), and notched organic cotton newborn diaper wraps that fold below the umbilicus, allowing the father/co-parent to keep the umbilical area clean, dry, and exposed to air until natural separation and umbilical ring closure.
+    *   **Thermostatically Protected Infant Baths (`310150 mK – 311150 mK`):** Newborn skin is thin and vulnerable to both hypothermia and scalding. Nursery bath mixing valves feature a Layer 1 **bimetallic thermostatic waxing element** physically locked to $\le 311150\,\mathrm{mK}$ ($38^\circ\mathrm{C}$, nominal $310150\,\mathrm{mK}$ / $37^\circ\mathrm{C}$) alongside a visible analog liquid-crystal thermometer and gently contoured wooden/silicone infant bath cradles.
+    *   **Infant Nail, Skin & Nasal Care:** High-precision rounded baby nail clippers, fine glass files, cold-pressed calendula/chamomile skin balms (from Scenario Gamma/Eta herbs), and soft silicone nasal aspirators are provisioned in every newborn kit.
+    *   **First Meals & Complementary Feeding (`6+ Months`):** As the infant transitions to solid foods around $6\text{ months}$, parents prepare iron- and zinc-rich initial meals (steamed and pureed root vegetables, pasture egg yolk emulsions, marrow broths, finely ground nixtamal porridge, and mashed legumes) using dedicated baby-food steamers and mills from the Nursery Library.
+3.  **Lactation Support & Pasteurized Donor Human Milk Commons:**
+    *   Postpartum doulas and lactation stewards visit the home (only upon explicit parental invitation) to assist with latch, positioning, or pumping.
+    *   If a mother cannot or chooses not to breastfeed, or requires extra supply, the watershed guild ($R_2 \dots R_3$) operates a screened **Cooperative Human Milk Bank** utilizing automated **Holder Pasteurization** ($335650\,\mathrm{mK}$ / $62500\,\mathrm{m^\circ C}$ held for $1{,}800{,}000\,\mathrm{ms} = 30\text{ minutes}$, followed by rapid chill to $275150\,\mathrm{mK}$ / $2^\circ\mathrm{C}$) verified by Layer 2 thermocouples to inactivate viral/bacterial pathogens while preserving secretory $\mathrm{IgA}$ antibodies and human milk oligosaccharides (HMOs).
+
+### Pillar IV: Shared Nursery Gear Library & Closed-Loop Cloth Diaper Commons
+1.  **The Nursery Gear Library (Chained to Scenario Alpha & Scenario Nu):**
+    *   Instead of every family buying and discarding short-lived commercial baby gear, the settlement maintains a **Cataloged Nursery Gear Library** ($R_1 \dots R_3$) managed via Layer 6 `NurseryGearBorrowIntent`:
+    *   *Scenario Alpha Built Assets:* Solid hardwood bedside co-sleepers, cribs with non-toxic beeswax finishes, adjustable wooden high chairs (that convert from infant feeding chairs to adult desk chairs), baby bath basins, stair safety gates, stroller/bike trailers, and Montessori wooden sensory toys.
+    *   *Scenario Nu Textile Assets:* Organic cotton muslin swaddles, merino wool sleep sacks, ergonomic woven wrap and soft-structured baby carriers, and bundled seasonal clothing sets (`0–3m`, `3–6m`, `6–12m`, `12–24m`, `2–4y`).
+    *   When a child outgrows a size or asset, parents return it to the Nursery Depot where it is thermally sanitized, safety-inspected by a `Gear_Safety_Steward_L1`, and checked back into the commons inventory.
+2.  **Closed-Loop Solar-Thermal Cloth Diaper & Wipe Service:**
+    *   To eliminate the ecological disaster of petrochemical disposable diapers and spare parents endless home laundry, the settlement operates a daily **Closed-Loop Cloth Diaper Service**:
+    *   Parents drop soiled organic cotton prefolds/fitted diapers and cloth wipes into sealed, odor-locked stainless porch pails.
+    *   A neighborhood cargo e-trike (Scenario Beta) swaps full pails for fresh, warm stacks of clean diapers every morning.
+    *   At the settlement laundry node, diapers undergo multi-stage pre-rinse (routing organic solids to Scenario Mu thermophilic biogas/compost digesters equipped with $> 338150\,\mathrm{mK}$ pathogen kill steps), followed by wash cycles in a commercial stainless drum washer at **$\ge 358150\,\mathrm{mK}$ ($85^\circ\mathrm{C}$) for $\ge 900{,}000\,\mathrm{ms}$ ($15\text{ minutes}$)** with dissolved ozone ($\mathrm{O_3}$) and solar-thermal steam drying—mathematically guaranteeing hospital-grade sterilization before reuse.
+
+### Pillar V: Early Childhood Pods, Dynamic Support Ratios & Intergenerational Play (`1 to 6 Years`)
+As infants grow into toddlers and young children, Scenario Delta expands their world beyond the nuclear household into trusted neighborhood **Care Pod Havens ($R_1$)** and **Forest Play Glades ($R_2$)**:
+1.  **Age- & Neurodivergent-Weighted Dynamic Support Ratio Gate:**
+    To ensure that caregivers are never overwhelmed and every child receives attentive, emotionally regulated care, Layer 5 and Layer 4 enforce a hard mathematical ceiling on each pod session:
+    $$\sum_{i=1}^{k} w_i \le 40000 \cdot N_{\mathrm{adults}}$$
+    where each child's support weight $w_i$ (in basis points) reflects both developmental stage and individualized sensory/neurodivergent accommodations:
+    *   **Infants ($0\text{–}12\text{ months}$, during short parental respite blocks):** $w_i = 20000\,\mathrm{bp}$ (maximum $2$ infants per adult caregiver).
+    *   **Toddlers ($12\text{–}30\text{ months}$):** $w_i = 13333\,\mathrm{bp}$ (maximum $3$ toddlers per adult caregiver).
+    *   **Early Childhood ($30\text{–}72\text{ months}$):** Baseline $w_i = 10000\,\mathrm{bp}$ (maximum $4$ children per adult), dynamically scaling up to $25000\,\mathrm{bp}$ when a child's profile specifies high-support neurodivergent or physical accommodations.
+    *   If a proposed check-in would cause $\sum w_i > 40000 \cdot N_{\mathrm{adults}}$, Layer 4 enters `RATIO_OVERFLOW_HOLD` and pages an auxiliary pod caregiver or elder before allowing check-in.
+2.  **Intergenerational Kinship (Bridge to Scenario Phi & Scenario Eta):**
+    *   Childcare pods are co-located with **Scenario Phi (`phi_elder.md`)** elder sanctuaries and **Scenario Eta (`eta_coppice.md`)** food-forest glades. Elders who wish to participate share storytelling, whittling, gardening, song, and calm emotional presence with toddlers, curing the twin plagues of nuclear-parental exhaustion and elder loneliness.
+
+### Pillar VI: Unconditional Family Baselines, Non-Quantized Affection & Oasis Simulation
+*   **Why Affection Is Never Quantized (`sec:l3-friction`):** A core constitutional axiom of The Sovereign Stack is that **love, affection, nursing, bathing a child, and family bonding are sacred qualitative realms that are corrupted if subjected to metric quantization or token pricing**. Layer 3 records **zero** "parenting points," **zero** hourly wages for caring for one's own or a neighbor's child, and **zero** behavioral scores on children.
+*   **How The Collective Governs Family Needs Instead:** Rather than measuring affection, Layer 3 and Layer 5 govern the **objective material and social preconditions** that allow affection to flourish unhindered:
+    1.  *Automatic Household $B_{\mathrm{baseline}}$ Expansion:* Registering a pregnancy or birth automatically increases the household's unconditional daily allocation of Scenario Gamma meals, potable hot water, winter radiant heating exergy, and cloth diaper/laundry cycles.
+    2.  *Perinatal Care Leave Shield:* Freezing guild reputation decay ($\mathcal{R}$) for both parents.
+    3.  *Environmental & Spatial Protection:* Enforcing `No-Transit` vehicular bans around nurseries/playgrounds and monitoring room $\mathrm{CO_2}$ ($< 800\,\mathrm{ppm}$), sound ($< 650\,\mathrm{cB}$), and bath water temperatures ($\le 311150\,\mathrm{mK}$).
+
+### Pillar VII: Incremental Node Facility Blueprints (Domestic Nursery Circle to Intergenerational Campus)
+Following the evolutionary node growth pattern established in Scenario Alpha and Scenario Gamma, a Perinatal & Childcare Node scales across **three progressive facility blueprints**:
+
+1.  **Stage 1: Suburban Living-Room Care Circle & Garage Nursery Gear Nook (`R_0`–`R_1` Bootstrap):**
+    *   **Physical Footprint:** Two to four neighboring families rotate playgroup mornings in a child-proofed living room and fenced backyard while storing shared cribs, strollers, bath basins, and newborn kits in a clean garage bay. Postpartum meal trains are cooked in neighbors' home kitchens and delivered in insulated totes.
+    *   **Layer 7 Protective Carapace (Statutory Babysitting Co-op & HOA Shielding):** State agencies heavily regulate commercial daycares, and HOAs restrict home businesses. Stage 1 operates strictly under **Statutory Non-Monetary Parent Cooperative & Kinship Care Exemptions** (e.g., WAC 110-300 / RCW Title 43 Chapter 216)—zero fiat money or commercial fees ever change hands, parents remain in rotational mutual aid under a private **UUNAA § 6** covenant, and zero commercial signage or non-resident traffic triggers HOA interference.
+2.  **Stage 2: Co-Located Mixed-Use Cooperative Suite (`R_1`–`R_3` Self-Sustenance):**
+    *   **Physical Footprint:** As the neighborhood ring expands, the childcare pod co-locates inside a leased mixed-use commercial shell alongside a **Scenario Epsilon** coworking/administrative hub and a **Scenario Gamma** commissary kitchen. Parents can work in the quiet acoustic zone or fabrication studio just across the courtyard while remaining steps away to nurse an infant or join toddler lunch. Adds a commercial $\ge 358150\,\mathrm{mK}$ ($85^\circ\mathrm{C}$) solar-thermal cloth diaper sanitizer, dedicated sensory nook, and midwifery consultation room.
+    *   **Layer 7 Self-Sustaining Carapace ($\Phi_t$):** Hosted under the master lease and commercial umbrella insurance of Scenario Epsilon's **Subchapter T Shared Services Carapace** (or licensed as an on-site cooperative member child-enrichment annex where parents remain on-premises), with lease and utility overhead funded by the hub's bounded Layer 7 revenue streams ($\Phi_t$) and weekend public parenting/first-aid workshops.
+3.  **Stage 3: Custom-Built Perinatal Birthing Sanctuary, Forest School & Intergenerational Campus (`R_0`–`R_5` Bioregional Maturity):**
+    *   **Physical Footprint:** Constructed on permanent **Community Land Trust (CLT) / Perpetual Purpose Trust (PPT)** land (either newly built with mass-timber/hempcrete via Scenario Xi or ecologically reclaimed from defunct suburban sprawl via Scenario Mu). Features a dedicated **Birthing Sanctuary Suite** (hydrotherapy birth pools, Holder donor-milk bank), Fourth-Trimester family recovery cottages, a full Scenario Alpha/Nu Nursery Gear & Diaper Commons, and indoor-outdoor Montessori play glades directly adjoining **Scenario Phi** elder gardens and **Scenario Eta** food forests.
+
+---
+
+## 3. The Collective Workflow (7-Layer Traversal)
 
 ```mermaid
 graph TD
-    L7[Layer 7: Legacy Interface - Dual-Membrane Carapace] -->|l6_l7.sock: B2B Wholesale Supplies & Co-op Exemption| L6[Layer 6: Semantic Intent - Agora Knowledge Artifacts]
-    L6 -->|l5_l6.sock: CareIntents & Ricardian Treaties| L5[Layer 5: Polycentric Governance - Trust Rings & Refusal]
-    L5 -->|l4_l5.sock: Ratified Pod Schedules & Dynamic Ratio Gates| L4[Layer 4: Deterministic Orchestration - 10 Hz BPMN VM]
-    L4 -->|l3_l4.sock: Exergy Metering & Channel Reservations| L3[Layer 3: Thermodynamic Ledger - BCC & PoTW]
-    L3 -->|l2_l3.sock: Sensor Delivery Proofs & Actuation Orders| L2[Layer 2: Cybernetic Membrane - Zephyr RTOS]
-    L2 -->|Modbus / ADC / GPIO: Physical Telemetry & Relays| L1[Layer 1: Physical Reality - Pure Matter & Energy]
-    L1 -->|Somatic Nurturance & Nature Play| End((Care Completed & Children Nourished))
+    L7[Layer 7: Legacy Interface - Dual-Membrane Carapace] -->|Hospital OB Escalation, Co-op Licensure Shield & GPO Supplies / l6_l7.sock| L6[Layer 6: Semantic Agora]
+    L6 -->|Prenatal, PostpartumCocoon, NurseryGear & CarePod Intents + Treaty_CID / l5_l6.sock| L5[Layer 5: Polycentric Governance & Trust Rings]
+    L5 -->|Care Leave Shield, B_baseline Expansion & Dynamic Ratio Gate / l4_l5.sock| L4[Layer 4: Deterministic Orchestrator - 10 Hz BPMN]
+    L4 -->|Meal Train, Diaper Autoclave, Gear Lease & Pod Schedules / l3_l4.sock| L3[Layer 3: Thermodynamic Ledger & PoTW]
+    L3 -->|Actuation Invariants & Encrypted Pod Sync / l3_l2.sock| L2[Layer 2: Cybernetic Membrane - Zephyr RTOS]
+    L2 -->|Bath Thermostat, Donor-Milk Pasteurizer, Diaper Washer & CO2 Damper / l1_l2.sock| L1[Layer 1: Birthing Suite, Nursery, Laundry & Play Glade]
+    L2 <-->|UHAI /dev/shm Ring: QUALITY_SIMULATED| L1b[Layer 1b: Oasis Shadow Simulation]
+    L1 -->|Thermal Hold, CO2 ppm, NFC Handoff & Diaper Sterilization / l1_l2.sock| L2
+    L2 -->|Signed Environmental & Sterilization Attestations / l2_l3.sock| L3
+    L3 -->|PoTW Exergy Verification & Zero-Token Care Protection / l3_l4.sock| L4
+    L4 -->|Cocoon & Session Completion Logs / l4_l5.sock| L5
+    L5 -->|Frozen Decay Clock & Steward Reputational Wealth / l5_l6.sock| L6
 ```
 
-### Layer 1: Physical Ground Truth
-*   **Pure Physical Substrate:** Layer 1 contains exclusively physical play structures, bedding, building blocks, and passive transducers. It contains **zero software, zero microcontrollers, zero firmware, zero cryptographic keys, and zero network daemons.**
-*   **Hardware Nodes (Care Pod Havens):** Dedicated child-safe indoor living spaces, outdoor nature play gardens, quiet sensory retreat nooks, low-height sanitizing sinks, and passive analog wiring for sensors and mechanical latch solenoids.
-*   **Hardware Nodes (Sensory & Air Quality Instrumentation):** Non-dispersive infrared (NDIR) $\text{CO}_2$ sensor chambers, analog acoustic decibel sound level meters, motorized fresh air window dampers, and passive 13560 kHz NFC arrival/departure touchpoints.
-*   **Feedstock & Materials:** Reusable organic cotton cloth diapers, non-toxic beeswax crayons, open-ended wooden building blocks, watercolor paints, and pediatric first-aid supplies.
-*   **Physical Actions:** Feeding, emotional co-regulation, somatic holding, storytelling, outdoor forest walks, and diaper changes.
+### Layer 1: Physical Reality ( & Layer 1b: Oasis Shadow Simulation)
+*   **Pure Physical Substrate:** Layer 1 contains exclusively physical nurseries, hydrotherapy tubs, wooden cribs, organic textiles, mechanical thermostats, and passive transducers. It contains **zero software, zero microcontrollers, zero firmware, zero cryptographic keys, and zero network daemons.**
+*   **Perinatal & Newborn Hardware:** Warm hydrotherapy birth pools, radiant infant warmers, bimetallic anti-scald infant bath mixing valves (mechanically locked at $\le 311150\,\mathrm{mK} = 38^\circ\mathrm{C}$), Holder human-milk pasteurizer water baths, rounded stainless infant nail clippers/glass files, sterile umbilical cord care trays, and commercial solar-thermal cloth diaper tunnel washers ($\ge 358150\,\mathrm{mK} = 85^\circ\mathrm{C}$).
+*   **Pod Haven & Play Glade Hardware:** Solid hardwood cribs, rockers, and high chairs (fabricated in Scenario Alpha), quiet sensory retreat nooks, NDIR $\mathrm{CO_2}$ optical chambers, analog decibel meters, motorized fresh-air window dampers, and passive $13560\,\mathrm{kHz}$ NFC check-in touchpoints.
+*   **Manual Override ("Red Lever" Rule):** All nursery safety gates, bath mixing valves, window dampers, and insulated meal-train porch lockers include physical mechanical release latches operable by hand during total power outages.
 
-### Layer 2: Digital Twin & Telemetry
-*   **Membrane Architecture:** Executed by Zephyr RTOS microcontrollers (`col-sensord`, `col-membraned`, `col-actuated`) converting analog sensor voltages into dimensionally typed, fixed-point integer packets.
-*   **Convivial Anti-Panopticon Shield:** Environmental monitoring is strictly confined to ambient room conditions. **Absolute ban on body-worn sensors, smartwatches, heart rate bands, cameras, and microphones in children's living spaces.**
-*   **Ingress Telemetry Topics (Fixed-Point SI Integers via `col-membraned`):**
-    *   `node/care/pod_alpha/telemetry/co2_ppm` (`uint32_t`, indoor air quality in parts per million; target < 800 ppm)
-    *   `node/care/pod_alpha/telemetry/ambient_dba` (`uint32_t`, ambient sound pressure level in decibels; target < 65 dBA)
-    *   `node/care/pod_alpha/telemetry/temp_mk` (`uint32_t`, thermal comfort in millikelvin; nominal 293,150 mK to 295,150 mK = 20 C to 22 C)
-    *   `node/care/pod_alpha/handoff/nfc` (`uint64_t`, backpack NFC tag touch event timestamp in milliseconds)
-    *   `node/care/pod_alpha/status` (`enum uint8_t`: `0=PREPARING`, `1=ACTIVE_SESSION`, `2=RATIO_OVERFLOW`, `3=CLOSED`)
-*   **Safety Verification:** An NFC tag touch at the pod doorway verifies physical arrival and departure of children. NDIR $\text{CO}_2$ spikes above 1000 ppm trigger motorized fresh air ventilation dampers.
-*   **Actuator Control:** Local relay controllers unlock pod safety gates upon valid NFC credentials and cycle window actuators only after Layer 2 verifies actuation invariants $\mathbf{\Phi}$ across `/run/collective/ipc/l3_l2.sock`.
+### Layer 2: Cybernetic Membrane & Telemetry (`col-sensord`, `col-actuated`, `col-membraned`)
+*   **Convivial Anti-Panopticon Shield:** **Cameras, microphones, baby-cry AI monitors connected to networks, and body-worn biometric trackers on infants or children are strictly prohibited at the hardware level.** Layer 2 monitors only non-invasive ambient room and equipment safety parameters:
+*   **Canonical Fixed-Point SI Wire Formats (CBOR over `/run/collective/ipc/l2_l3.sock`):**
+    *   `node/nursery/bath_mixer_01/telemetry/water_temp_mk`: Infant bath supply temperature (`uint32_t`, millikelvin; nominal $310150\,\mathrm{mK} = 37^\circ\mathrm{C}$, hard mechanical cutoff $> 311150\,\mathrm{mK} = 38^\circ\mathrm{C}$).
+    *   `node/nursery/milk_bank_01/telemetry/pasteur_temp_mk`: Donor human milk Holder pasteurization temperature (`uint32_t`, millikelvin; $\ge 335650\,\mathrm{mK}$ for $1{,}800{,}000\,\mathrm{ms}$).
+    *   `node/laundry/diaper_autoclave_01/telemetry/wash_temp_mk`: Cloth diaper sanitization drum temperature (`uint32_t`, millikelvin; required $\ge 358150\,\mathrm{mK} = 85^\circ\mathrm{C}$ for $\ge 900{,}000\,\mathrm{ms}$).
+    *   `node/care/pod_alpha/telemetry/co2_ppm`: Indoor air quality (`uint32_t`, parts per million; target $< 800\,\mathrm{ppm}$, damper trip at $1000\,\mathrm{ppm}$).
+    *   `node/care/pod_alpha/telemetry/ambient_cb`: Sound pressure level (`uint32_t`, centibels; target $< 650\,\mathrm{cB} = 65\,\mathrm{dBA}$).
 
-### Layer 3: Thermodynamic Ledger
-*   **Constitutional Non-Commensurability of Childcare:** Childcare, emotional nurturing, diaper changing, and bedtime stories are declared qualitative human care and mutual aid (`sec:l3-friction`). Layer 3 **structurally refuses to mint tokens, credits, or currency for childcare labor.** No caregiver hourly token rates, no child booking fees, and no chore bounties exist.
-*   **Inalienable Tier 2 Human Survival Baseline ($B_{\mathrm{baseline}}$):** Caregivers and children have unconditional access to wholesome meals from Scenario Gamma, warm shelter, laundry facilities, and healthcare as an inalienable constitutional right of living membership ($B_{\mathrm{baseline}}$). Access is never conditioned upon labor hours, token balances, or chore points.
-*   **Proof-of-Thermodynamic-Work (PoTW):** Physical electricity consumed by ventilation dampers, laundry washing machines, and lighting is metered in microjoules ($\mu\mathrm{J}$):
-    $$\text{1 Exergy Credit} \equiv 3{,}600{,}000{,}000{,}000\text{ }\mu\mathrm{J}$$
-    Metered exergy measures microgrid power drawn by shared physical infrastructure, subject to physical demurrage.
-*   **Pairwise Bilateral Clearing Channels (BCC) & Multi-Hop HTLCs:** When shared physical childcare assets (e.g., an electric cargo trike or commercial cloth diaper laundering autoclave) are shared with a neighboring pod $v$, resource clearances settle across inter-node Bilateral Clearing Channels:
-    $$B_{u \to v}(t) + B_{v \to u}(t) = 0$$
-    Subject to mutual aid credit windows $[-C_{u \to v}, +C_{v \to u}]$. Multi-hop equipment sharing across the watershed settles via chained Hashed Timelock Contracts:
-    $$\mathrm{HTLC} = \langle H(S), \Delta t, Q, u, v \rangle$$
-    where $Q$ is denominated in microjoules of embodied exergy, releasing upon physical delivery receipts $\sigma_{\mathrm{delivery}}$ and cascading backward balance updates without global tokens or external market conversion.
+### Layer 3: Thermodynamic Ledger (`col-storaged`)
+*   **Constitutional Non-Commensurability of Reproductive & Parental Care (`sec:l3-friction`):** Pregnancy, childbirth, breastfeeding, bathing a newborn, tending an umbilical stump, trimming tiny nails, cooking first purees, and caring for children in neighborhood pods are **never** priced, tokenized, or metered as economic debt.
+*   **Automatic Perinatal Baseline Expansion ($B_{\mathrm{baseline}}$):** When Layer 5 registers a `PrenatalCareIntent` or `PostpartumSanctuaryIntent`, Layer 3 automatically increments the household's unconditional $B_{\mathrm{baseline}}$ entitlement:
+    $$\Delta B_{\mathrm{baseline}}(\mathrm{household}) = B_{\mathrm{prenatal\_or\_postpartum\_nutrition}} + B_{\mathrm{diaper\_sanitization\_exergy}} + B_{\mathrm{nursery\_thermal\_comfort}}$$
+    ensuring that every new child is welcomed with abundant food, hot water, warmth, and clean linens without cost to the parents.
+*   **Pairwise Bilateral Clearing Channels (BCC):** When neighboring settlements share specialized pediatric equipment, pasteurized donor milk reserves, or bulk cloth diaper autoclave capacity across $R_2 \dots R_4$, physical transport and machine exergy ($1\text{ Exergy Credit} \equiv 3{,}600{,}000{,}000{,}000\,\mu\mathrm{J}$) clear across zero-sum Pairwise BCCs ($B_{u \to v}(t) + B_{v \to u}(t) = 0$).
 
-### Layer 4: Deterministic Orchestration State Machine
-The childcare pod lifecycle is governed deterministically by the embedded 10 Hz BPMN engine (`col-execd`):
+### Layer 4: Deterministic Orchestrator (`col-execd`)
+Communicating with Layer 5 over `/run/collective/ipc/l4_l5.sock` and Layer 3 over `/run/collective/ipc/l3_l4.sock`, the $10\,\mathrm{Hz}$ BPMN state engine coordinates the full perinatal-to-early-childhood workflow:
 
 ```mermaid
 stateDiagram-v2
-    [*] --> PendingRegistration: CareIntent Emitted
-    PendingRegistration --> TrustRingDecryption: Ingest Pod Public Key
-    TrustRingDecryption --> EvaluateDynamicRatio: Calculate Effective Weight Sum
-    EvaluateDynamicRatio --> RatioOverflowHold: Sum(Weights) > 40000 * Adults
-    RatioOverflowHold --> AlertBackupCaregiver: Dispatch Auxiliary Volunteer Circle
-    AlertBackupCaregiver --> EvaluateDynamicRatio: Auxiliary Caregiver Registered
-    EvaluateDynamicRatio --> MatchConfirmed: Ratio Validated
-    MatchConfirmed --> HookPantryNeed: Order Fresh Snacks from Scenario Gamma
-    HookPantryNeed --> CheckedIn: Child NFC Touch at Doorway Threshold
-    CheckedIn --> ActiveCareSession: Ambient Environmental Monitoring
-    ActiveCareSession --> VentEmergency: CO2 > 1000 ppm
-    VentEmergency --> ActiveCareSession: Actuate Motorized Window Damper
-    ActiveCareSession --> CheckedOut: Parent NFC Touch at Departure
-    CheckedOut --> AttestationSigned: Log Session Attestation
-    AttestationSigned --> [*]
+    [*] --> PerinatalRegistered: PrenatalCareIntent / Birth Sanctuary Activated
+    PerinatalRegistered --> ActivateCareLeaveShield: Freeze Reputation Decay for Mother & Father/Co-Parent
+    ActivateCareLeaveShield --> FourthTrimesterCocoon: Birth Concluded (Home, Sanctuary or L7 Hospital)
+
+    state "Stage 1: Fourth Trimester & Newborn Somatic Cocoon (0-6 Months)" as Newborn {
+        FourthTrimesterCocoon --> DispatchPostpartumMealTrain: Daily Scenario Gamma Broths & Meals to Porch
+        FourthTrimesterCocoon --> ProvisionNewbornSanctuaryKit: Umbilical Care, Nail Clippers, Bath Cradle & Crib (Alpha/Nu)
+        ProvisionNewbornSanctuaryKit --> DailyDiaperSanitizationLoop: Solar-Thermal Wash >= 358150 mK (85 C) for 900000 ms
+        DailyDiaperSanitizationLoop --> FirstSolidMealsTransition: 6+ Months Iron-Rich Purees & Somatic Growth
+    }
+
+    state "Stage 2: Early Childhood Pod & Intergenerational Play (1-6 Years)" as Pod {
+        FirstSolidMealsTransition --> EvaluateDynamicPodRatio: CareIntent Submitted to Encrypted Pod Ring
+        EvaluateDynamicPodRatio --> RatioOverflowHold: Sum(w_i) > 40000 * N_adults
+        RatioOverflowHold --> PageAuxiliaryStewardOrElder: Alert Pod Circle / Scenario Phi Elder
+        PageAuxiliaryStewardOrElder --> EvaluateDynamicPodRatio: Additional Adult Joined
+        EvaluateDynamicPodRatio --> ActivePodAndForestPlay: Ratio Valid & NFC Check-In Verified
+        ActivePodAndForestPlay --> VentilateDamper: CO2 > 1000 ppm
+        VentilateDamper --> ActivePodAndForestPlay: CO2 < 800 ppm Restored
+        ActivePodAndForestPlay --> SafeParentPickup: Parent NFC Check-Out & Gear Return
+    }
+
+    SafeParentPickup --> [*]
 ```
 
-### Layer 5: Policy & Polycentric Governance
-Layer 5 (`col-kmsd`) enforces absolute privacy, child protection, and caregiver equity:
-*   **The 7-Tier Concentric Trust Rings ($R_0 \dots R_6$):**
-    *   **$R_0$ (The Hearth Sanctuary):** The immediate domestic nursery. Social immunity: unconditional food, warmth, zero keys, zero registration, zero biometric surveillance, zero governance voting weight.
-    *   **$R_1$ (Settlement Commons):** Local childcare pod havens ($\le 500\text{ m}$), ephemeral pairwise DIDs (`did:peer`), rotational care circles, communal playgroups.
-    *   **$R_2$ (Village Commons):** Shared nature play gardens, toy libraries, cargo trike pools ($\le 5\text{ km}$).
-    *   **$R_3$ (Watershed Guild):** Peering with neighboring childcare pods ($\le 30\text{ km}$); inter-pod BCC channels for shared pediatric equipment and bulk supplies.
-    *   **$R_4$ (Bioregional Federation):** Regional pediatric training circles, outdoor forest schools ($\le 150\text{ km}$).
-    *   **$R_5$ (Continental Corridor):** Open neurodiversity accommodations, child development research, non-toxic toy designs.
-    *   **$R_6$ (Ecumene / Legacy Perimeter):** Cooperative legal carapace, statutory licensing exemption management.
-*   **Cellular Autonomy & Subsidiarity:** Every childcare pod maintains absolute autopoietic closure and cellular autonomy. No external council can compel a pod to admit children beyond safe ratios or override parental consent.
-*   **Bioregional Path-Vector Protocol (BPVP):** Inter-pod resource requests and surplus pediatric supplies cascade across Trust Rings via BPVP capability advertisements $\mathcal{A}$ bounded by local cellular autonomy and the Export Surplus Bound:
-    $$Q_{\mathrm{avail}}(t) = \max\left(0, Q_{\mathrm{inventory}}(t) - F_{\mathrm{eco}}(t) - B_{\mathrm{baseline}}(t)\right) \cdot \mathbf{1}_{\mathrm{export}}$$
-    Surplus equipment is never exported if local pod needs are unfulfilled.
-*   **Dynamic Support Ratio Policy Gate:** A care block requires that the effective child weight sum does not exceed the capacity of active caregivers:
-    $$\sum_{i=1}^{k} w_i \le 40000 \cdot N_{\mathrm{caregivers}}$$
-    where baseline weight is 10000 basis points, and individualized neurodivergent support accommodations scale up to 25000 basis points. If the ratio is breached, Layer 4 transitions to `RATIO_OVERFLOW_HOLD` and alerts auxiliary circle volunteers.
-*   **Encrypted Trust Ring Scope:** Childcare intents, schedules, and allergy profiles are encrypted strictly to the pairwise DIDs of the pod Trust Ring (`did:peer` ring). Outside mesh nodes and network observers cannot query child schedules or identities.
-*   **Caregiver Attestation Gate:** All active caregivers must hold a verified BBS+ Verifiable Credential (`Pediatric_CPR_Steward_L1`, `Safe_Sleep_Steward_L1`).
-*   **Reputational Wealth ($\mathcal{R}$) & Care Leave Shield:** Caregiving hours are recognized through qualitative peer attestations contributing to non-financial Reputational Wealth ($\mathcal{R}$) in the Stewardship Chamber. Reputational Wealth decays exponentially ($\tau_{\mathrm{half}} = 2\text{ years}$) and is sublinearly capped ($\le 8\%$ chamber weight). When a parent or caregiver declares family care leave (parenting, newborn care, sickness, bereavement), the **Care Leave Shield** completely freezes the decay clock.
-*   **The Protocol of Refusal (`sec:l5-refusal`):** Family domestic spaces and cultural parenting rituals can be declared Refused Domains, completely barring digital-twin simulation, sensor ingress, and algorithmic optimization.
-*   **Autonomous Transit Veto (`No-Transit`):** Childcare pods and surrounding forest play sanctuaries hold the unconditional right to declare a `No-Transit` attribute over play corridors, nature school paths, and nursery perimeter lanes, deterministically excluding heavy logistical freight and motorized vehicular traffic to preserve uncompromised child safety and sensory peace.
-*   **Boundary IPC Socket:** Layer 5 policies compile into deterministic constraints pushed to Layer 4 across `/run/collective/ipc/l4_l5.sock`.
+### Layer 5: Polycentric Governance & Trust Rings (`col-kmsd`)
+*   **Perinatal Care Leave Shield (`sec:l5-reputation`):** Both gestational mothers and non-gestational fathers/co-parents automatically receive the **Care Leave Shield** during late pregnancy, postpartum recovery, and early infancy. While active, the exponential decay constant $\lambda$ on their Reputational Wealth $\mathcal{R}$ in all technical and stewardship chambers is set to $0$, preventing any civic or guild marginalization of active parents.
+*   **Encrypted Pairwise Pod Privacy (`did:peer`):** All pregnancy statuses, birth plans, newborn checkups, child identities, neurodivergent support weights ($w_i$), and pod schedules are encrypted strictly to the pairwise DIDs of the family's chosen $R_0/R_1$ Trust Ring. Outside nodes have zero visibility into family or child metadata.
+*   **BBS+ Zero-Knowledge Credential Verification:** Midwives (`Midwife_Steward_L2`), postpartum doulas (`Postpartum_Steward_L1`), and pod caregivers (`Pediatric_CPR_Steward_L1`, `Safe_Sleep_Steward_L1`) prove competency via BBS+ ZKPs, while child allergen credentials gate Scenario Gamma snacks via the Cryptographic Anaphylactic Shield.
+*   **Autonomous Transit Veto (`No-Transit`):** Residential newborn clusters, birthing suites, and outdoor childcare play glades assert an unconditional `No-Transit` attribute in BPVP, excluding heavy freight and high-speed vehicles and enforcing daytime acoustic limits ($\le 550\,\mathrm{cB}$).
 
-### Layer 6: Semantic Intent & Domain Ontology
-The Care Commons formalizes requests into typed JSON-LD Knowledge Artifacts within the Agora Commons (`col-commonsd`):
-1.  **`CareIntent`:** Request to reserve care slots for specific children during a scheduled block, including support weight in basis points and allergen hashes.
-2.  **`EmergencyCareFlare`:** Immediate call for emergency respite care due to parental injury, acute illness, or emotional distress.
-3.  **`CareOffering`:** Host or elder offering spatial sanctuary and care hours for a designated block.
-4.  **`PantryNeedIntent` (Scenario Gamma Bridge):** Caloric requirement notice routed to Scenario Gamma, matching children's specific allergies.
-5.  **`NatureSchoolIntent` (Scenario Eta Bridge):** Coordinates outdoor excursion into Scenario Eta coppice woods and food forests.
-6.  **`RicardianTreaty` ($\mathrm{Treaty\_CID}$):** Tripartite covenant binding natural-language childcare mutual-aid pacts, machine-readable JSON-LD operational parameters, and formal BPMN state machines governing inter-pod equipment sharing.
-
-### The Governance Router Flowchart
+### Layer 6: Semantic Translation & Domain Ontology (`col-commonsd`)
+Layer 6 structures family and early-childhood support requests into W3C JSON-LD Knowledge Artifacts bound by Tripartite Ricardian Treaties ($\mathrm{Treaty\_CID}$):
+1.  **`PrenatalAndBirthSanctuaryIntent`:** Registers maternal nutrition hooks with Scenario Gamma, schedules midwifery care, and pre-stages the Birthing Suite or Layer 7 hospital transfer readiness.
+2.  **`PostpartumCocoonIntent`:** Activates the dual-parent **Care Leave Shield**, triggers the daily Scenario Gamma postpartum meal train, provisions the Newborn Somatic Care Kit (umbilical hygiene, infant bath cradle, nail care tools), and starts the daily cloth diaper sanitization loop.
+3.  **`NurseryGearBorrowIntent`:** Checks out cribs, strollers, high chairs, baby carriers, and age-graded clothing bundles from the Scenario Alpha / Scenario Nu commons library.
+4.  **`CarePodSessionIntent` & `EmergencyCareFlare`:** Schedules age- and neurodivergent-weighted pod care sessions or triggers immediate neighborhood respite care when a parent falls ill or needs emergency rest.
 
 ```mermaid
 graph TD
-    subgraph Layer 6: Semantic Ontology
-        L6_Care[CareIntent]
-        L6_Flare[EmergencyCareFlare]
-        L6_Offer[CareOffering]
-        L6_Pantry[PantryNeedIntent]
-        L6_Treaty[RicardianTreaty Treaty_CID]
+    subgraph Layer 6: Perinatal & Early Childhood Ontology
+        L6_Pre[PrenatalAndBirthSanctuaryIntent]
+        L6_Cocoon[PostpartumCocoonIntent: <br>Meal Train, Diaper Loop & Newborn Kit]
+        L6_Gear[NurseryGearBorrowIntent: <br>Alpha Cribs & Nu Baby Wear]
+        L6_Pod[CarePodSessionIntent & EmergencyCareFlare]
     end
 
-    subgraph Layer 5: Polycentric Governance & Policy
-        P_Ring{Trust Ring Gate: <br>Authorized Pod DID Peer?}
-        P_Ratio{Dynamic Ratio Gate: <br>Sum w_i <= 40000 * Adults?}
-        P_Skill{Competency Gate: <br>Pediatric CPR Credential?}
-        P_Flare{Priority Gate: <br>Emergency Respite Override?}
+    subgraph Layer 5: Polycentric Governance & Family Shields
+        P_Shield{Perinatal Shield Gate: <br>Freeze Mother & Father R Decay & Expand B_base}
+        P_Safety{Gear & Hygiene Gate: <br>Bath <= 311150 mK & Diaper Wash >= 358150 mK}
+        P_Ratio{Dynamic Ratio & ZKP Gate: <br>Sum w_i <= 40000 * Adults & CPR ZKP Valid?}
     end
 
-    subgraph Layer 4: BPMN Orchestrators
-        BPMN_Care[Care Block Scheduler]
-        BPMN_Crisis[Emergency Care Dispatcher]
-        BPMN_Kitchen[Scenario Gamma Meal Bridge]
+    subgraph Layer 4: Deterministic BPMN Orchestrators
+        BPMN_Midwife[Midwifery & Scenario Chi Bridge]
+        BPMN_Cocoon[Fourth-Trimester Meal & Diaper Loop Engine]
+        BPMN_Nursery[Scenario Alpha/Nu Gear Library Engine]
+        BPMN_Pod[Intergenerational Pod & Forest School Engine]
     end
 
-    L6_Care --> P_Ring
-    P_Ring -->|Verified Peer| P_Ratio
-    P_Ratio -->|Capacity OK| P_Skill
-    P_Skill -->|Credential Valid| BPMN_Care
-    P_Ratio -.->|Overflow Hold| L6_Care
+    L6_Pre --> P_Shield
+    L6_Cocoon --> P_Shield
+    P_Shield -->|Unconditional Approval| BPMN_Midwife
+    P_Shield -->|Unconditional Approval| BPMN_Cocoon
 
-    L6_Flare --> P_Ring
-    P_Ring -->|Verified Peer| P_Flare
-    P_Flare -->|Emergency Override| BPMN_Crisis
+    L6_Gear --> P_Safety
+    P_Safety -->|Sanitized & Inspected| BPMN_Nursery
 
-    BPMN_Care --> L6_Pantry
-    L6_Pantry --> BPMN_Kitchen
+    L6_Pod --> P_Ratio
+    P_Ratio -->|Ratio & ZKP Valid| BPMN_Pod
+    P_Ratio -.->|Overflow Hold: Page Elder/Backup| L6_Pod
 ```
 
 ### Layer 7: The Legacy Interface (Dual-Membrane Carapace)
-The Childcare Pod interfaces with the legacy state through the Dual-Membrane Doctrine, presenting an honest, lawful, and legally unremarkable entity:
-
-1.  **Statutory Exemption & Mutual Aid Carapace:**
-    Under state administrative codes (e.g., WAC 110-300 / RCW Title 43, Chapter 216), informal babysitting exchanges among parents and private cooperative clubs without commercial fee exchange are legally exempt from commercial child care center licensing. The pod havens operate under a Consumer Housing Cooperative or Federated Land Trust carapace that holds general commercial umbrella liability coverage, shielding home hosts from liability lawsuits.
-2.  **Bounded Parenting Workshop Carapace:**
-    The cooperative hosts weekend positive parenting, pediatric first aid, and nature-schooling workshops for legacy suburban parents, charging legacy fiat fees.
-    *   All external fiat flows into the cooperative's legacy bank account.
-    *   External fiat is allocated strictly to satisfy the settlement's itemized fiat needs target ($\Phi_t$) for insurance premiums, mortgage or lease requirements, and bulk institutional purchases.
-    *   Workshop instructors receive lawful W-2 wages in legacy fiat currency for external teaching shifts.
-    *   **Strict Inconvertibility:** External fiat **never** converts into internal Exergy Credits or tokens. Internal childcare is 100% non-monetary and unpriced.
-3.  **Regenerative Group Purchasing (GPO Wholesale Procurement):**
-    The cooperative acts as a Decentralized Group Purchasing Organization (GPO). It aggregates requisitions for organic cotton cloth diapers, non-toxic wooden art supplies, and medical-grade sanitizers, executing bulk commercial purchase orders with wholesale institutional distributors, slashing retail packaging and intermediate transportation markups.
-
-### Layer 7 Dual-Membrane Bidirectional Flowchart
-
-```mermaid
-graph TD
-    subgraph Legacy Environment [Layer 7: Regulators & Commercial Vendors]
-        StateLicensing[State Childcare Licensing Agency]
-        WorkshopParents[Legacy Suburban Parents - Workshop Clients]
-        WholesaleDistributor[Institutional Bulk Cloth & Art Supplier]
-        BankTreasury[Cooperative Bank Account - Fiat Ceiling Phi_t]
-    end
-
-    subgraph Sovereign Node [Layer 1 - Layer 6 Childcare Pod]
-        Carapace[Cooperative Legal Carapace]
-        L6[Layer 6: Agora Semantic Intent Queue]
-        L4[Layer 4: BPMN Care Orchestrator]
-        L1[Layer 1: Physical Pod Haven & Caregivers]
-    end
-
-    %% External Fiat Inflow
-    WorkshopParents -->|Pays Legacy Fiat for Parenting Class| BankTreasury
-    BankTreasury -->|Pays Facility Lease & Umbrella Insurance| Carapace
-    BankTreasury -->|Pays Lawful W-2 Wages for Teaching Shifts| L1
-
-    %% Legal Shielding
-    StateLicensing -.->|Audits Blocked by Co-op Statutory Exemption| Carapace
-
-    %% GPO Procurement Flow
-    L4 -->|Aggregates Bulk Cloth Diaper Needs| L6
-    L6 -->|Compiles Purchase Order across l6_l7.sock| Carapace
-    Carapace -->|Executes Bulk B2B Purchase via Fiat| WholesaleDistributor
-    WholesaleDistributor -->|Delivers Physical Supplies| L1
-
-    classDef legacy fill:#ffebee,stroke:#c62828,stroke-width:2px;
-    classDef sovereign fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px;
-    class StateLicensing,WorkshopParents,WholesaleDistributor,BankTreasury legacy;
-    class Carapace,L6,L4,L1 sovereign;
-```
+Executed by `col-adversaryd`, Layer 7 interfaces with civil registries, hospitals, and licensing bodies while protecting family autonomy:
+1.  **Hospital Obstetric Bridge & Civil Birth Registration:** When a family chooses a hospital birth or requires an emergency intrapartum transfer, `col-adversaryd` coordinates seamless medical handoff and settles hospital invoices through the cooperative health-share/insurance treasury. Civil birth certificates and social security/passport documentation are processed at the parents' request without exposing internal mesh DIDs.
+2.  **Statutory Cooperative Childcare Exemption:** Under state administrative codes (e.g., WAC 110-300 / RCW Title 43 Chapter 216), non-monetary mutual-aid care exchanges among parents and private housing-cooperative members are exempt from commercial daycare licensing, while the Land Trust / Cooperative Carapace maintains comprehensive umbrella liability coverage.
+3.  **Wholesale Clinical & Pediatric GPO:** `col-adversaryd` aggregates bulk B2B procurement for sterile umbilical cord clamps, Vitamin K / erythromycin ophthalmic prophylaxis supplies, medical-grade silicone breast-pump membranes, and organic cotton diaper bolts.
 
 ---
 
-## 3. Machine-Readable Schemas
+## 4. Machine-Readable Schemas
 
-### Subsection 3A: Layer 6 Knowledge Artifact - Care Intent (`care_intent.jsonld`)
+### Layer 6 Knowledge Artifact: Fourth-Trimester Postpartum Cocoon & Newborn Care Intent (`postpartum_cocoon_intent.jsonld`)
+
+This artifact illustrates how The Collective wraps a household (mother, hands-on father, and newborn daughter) in practical material and nutritional support—activating the dual-parent **Care Leave Shield**, scheduling daily Scenario Gamma postpartum meals, provisioning the Newborn Somatic Care Kit (umbilical hygiene, thermostatic bath cradle, infant nail care, and Scenario Alpha hardwood bassinet), and enrolling the household in the daily solar-thermal cloth diaper sanitization loop—while leaving family affection completely unquantized.
 
 ```json
 {
@@ -239,90 +264,110 @@ graph TD
     "https://schema.org/",
     "https://collective.network/ontology/v1/"
   ],
-  "@type": "CareIntent",
-  "identifier": "urn:uuid:a1b2c3d4-e5f6-7890-1234-56789abcdef0",
-  "issuerDid": "did:mesh:node02:parent_sarah",
-  "targetTrustRing": "did:mesh:ring:duvall_pod_alpha",
+  "@type": "PostpartumCocoonIntent",
+  "identifier": "urn:uuid:d4e5f6a7-1122-4334-9988-776655443322",
+  "householdRingDid": "did:peer:2.Ez6MkHearth...family_sanctuary_08",
   "creationEpochMs": 1791444600000,
-  "careRequirements": {
-    "children": [
-      {
-        "childId": "child_maya_01",
-        "ageMonths": 42,
-        "supportWeightBps": 10000,
-        "allergenHashes": [
-          "0x1c7e9a...tree_nut"
-        ]
-      },
-      {
-        "childId": "child_leo_02",
-        "ageMonths": 60,
-        "supportWeightBps": 15000,
-        "sensoryAccommodations": [
-          "NoiseCancellingHeadphones_Available",
-          "QuietSensoryNook_Required"
-        ],
-        "allergenHashes": []
-      }
-    ],
-    "sessionDurationMs": 21600000,
-    "targetLocationVoxel": [16, 1, 16]
+  "treatyCid": "bafybeihdwdcefgh4dqkjv67uzcmw7ojee6xedeet6wfvikrwho3qnwjxye",
+  "perinatalGovernanceShield": {
+    "gestationalParentDid": "did:peer:2.Ez6MkMom...parent_elena",
+    "coParentFatherDid": "did:peer:2.Ez6MkDad...parent_rafael",
+    "freezeReputationDecayBothParents": true,
+    "shieldDurationMilliseconds": 31536000000,
+    "expandedHouseholdBaselineActive": true,
+    "affectionQuantizationPermitted": false
   },
-  "trustConstraints": {
-    "requiredCredential": "Pediatric_CPR_Steward_L1",
-    "dataPrivacyLevel": "PodEncrypted_ZeroKnowledge"
+  "newbornSomaticSupportManifest": {
+    "newbornAgeDays": 4,
+    "umbilicalCordCareKitProvisioned": true,
+    "notchedUmbilicalClothDiaperCount": 36,
+    "infantNailClipperAndGlassFileKit": true,
+    "thermostaticBathCradleMaxTempMillikelvin": 311150,
+    "borrowedNurseryGearIds": [
+      "ALPHA-HARDWOOD-CO-SLEEPER-014",
+      "ALPHA-INFANT-BATH-BASIN-009",
+      "NU-ORGANIC-SWADDLE-BUNDLE-022"
+    ]
+  },
+  "chainedDailySupportWorkflows": {
+    "scenarioGammaMealTrain": {
+      "dailyPortionsDeliveredToPorch": 6,
+      "dietaryProfile": "Postpartum_Iron_Collagen_Lactation_Support",
+      "infantFirstMealsPrepKitScheduledAtMonth": 6
+    },
+    "dailyClothDiaperSanitizationLoop": {
+      "pickupCadenceMilliseconds": 86400000,
+      "requiredAutoclaveWashTempMillikelvin": 358150,
+      "requiredWashHoldMilliseconds": 900000
+    }
   },
   "distributionPolicy": {
-    "trustRing": "R1_Settlement_Commons",
+    "trustRing": "R0_Hearth_Sanctuary",
     "survivalBaselineEligible": true,
     "exergyTransferMicrojoules": 0
   }
 }
 ```
 
-### Subsection 3B: Layer 2 Telemetry Attestation - Pod Session Proof (`care_attestation.json`)
+### Layer 2 & Layer 3 Combined Attestation: Newborn Hygiene, Diaper Sterilization & Early Childhood Pod Proof (`perinatal_and_pod_attestation.jsonld`)
 
 ```json
 {
   "@context": "https://collective.network/ontology/v1/",
-  "@type": "CarePodSessionAttestation",
-  "intentRef": "urn:uuid:a1b2c3d4-e5f6-7890-1234-56789abcdef0",
-  "podHavenDid": "did:mesh:node02:space:pod_alpha_haven",
-  "stewardCaregiverDid": "did:mesh:node02:steward_elder_gordon",
-  "executionMetrics": {
-    "sessionStartEpochMs": 1791448200000,
-    "sessionEndEpochMs": 1791469800000,
-    "durationMs": 21600000,
-    "meanCo2Ppm": 684,
-    "peakCo2Ppm": 760,
-    "meanAmbientDba": 58,
-    "ventilationActuationCount": 1,
-    "checkedInChildrenCount": 2,
-    "effectiveWeightSumBps": 25000,
-    "caregiverCount": 1,
-    "ratioMaintained": true,
-    "organicMealsServedCount": 4
+  "@type": "PerinatalAndPodSafetyAttestation",
+  "intentRef": "urn:uuid:d4e5f6a7-1122-4334-9988-776655443322",
+  "settlementNodeDid": "did:peer:2.Ez6MksN...node02_care_commons",
+  "newbornAndLaundrySafetyMetrics": {
+    "infantBathSupplyTempMillikelvin": 310350,
+    "antiScaldMechanicalCutoffVerified": true,
+    "donorMilkPasteurizationTempMillikelvin": 335650,
+    "donorMilkHoldElapsedMs": 1800000,
+    "diaperAutoclavePeakTempMillikelvin": 360150,
+    "diaperAutoclaveHoldElapsedMs": 960000,
+    "diaperThermalDisinfectionVerified": true
   },
-  "edgeAttestationSignature": "0x3f7a1b9e2c4d8f5a6b0c2d4e6f8a1b3c5e7a9b1d3f5e7a9b1c3d5e7f9a1b3c5e"
+  "toddlerPodSessionMetrics": {
+    "activeAdultStewardsCount": 2,
+    "checkedInChildren": [
+      {
+        "stage": "INFANT_8M_RESPITE",
+        "supportWeightBps": 20000
+      },
+      {
+        "stage": "TODDLER_22M",
+        "supportWeightBps": 13333
+      },
+      {
+        "stage": "PRESCHOOL_48M_NEURODIVERGENT_NOOK",
+        "supportWeightBps": 20000
+      },
+      {
+        "stage": "PRESCHOOL_54M",
+        "supportWeightBps": 10000
+      }
+    ],
+    "effectiveWeightSumBps": 63333,
+    "maxAllowedCapacityBps": 80000,
+    "dynamicRatioMaintained": true,
+    "meanCo2Ppm": 640,
+    "meanAmbientCentibels": 560,
+    "noTransitPerimeterEnforced": true
+  },
+  "hardwareReceiptSignature": "0x3f7a1b9e2c4d8f5a6b0c2d4e6f8a1b3c5e7a9b1d3f5e7a9b1c3d5e7f9a1b3c5e"
 }
 ```
 
 ---
 
-## 4. Oasis Engine Implementation Specification
+## 5. Oasis Engine Implementation Specification
 
-### Subsection 4A: Memory Allocation & Voxel State
+### Voxel & ECS Representation in Oasis (Layer 1b)
+Within Oasis, Scenario Delta's perinatal, newborn, and early childhood spaces are represented by dedicated voxel material IDs and Flecs ECS components:
+*   **Birthing & Postpartum Sanctuary Voxels (`MAT_BIRTHING_SANCTUARY = 68`, `MAT_NURSERY_HEARTH = 69`):** Modeling warm hydrotherapy birth pools ($310150\,\mathrm{mK}$), thermostatic newborn bath mixing stations ($\le 311150\,\mathrm{mK}$), and porch meal-train lockers linked to Scenario Gamma.
+*   **Childcare Pod, Sensory Nook & Nature Play Voxels (`MAT_CHILDCARE_POD_ZONE = 70`, `MAT_SENSORY_NOOK_SANCTUARY = 71`, `MAT_NATURE_PLAY_GARDEN = 72`):** Tracking NDIR $\mathrm{CO_2}$ concentration in ppm, acoustic levels in centibels, and intergenerational occupancy (parents, children, and Scenario Phi elders).
+*   **Solar-Thermal Diaper & Nursery Gear Depot Voxels (`MAT_DIAPER_AUTOCLAVE_LAUNDRY = 73`, `MAT_NURSERY_GEAR_LIBRARY = 74`):** Simulating closed-loop $\ge 358150\,\mathrm{mK}$ ($85^\circ\mathrm{C}$) cloth diaper sanitization and Scenario Alpha/Nu crib, stroller, and baby-garment borrowing.
 
-In the Oasis simulation grid, childcare havens and sensory play zones occupy designated coordinates within the 32x32x32 chunk space:
-*   The childcare pod haven voxel is initialized with `material_id = 70` (`CHILDCARE_POD_ZONE`).
-*   The sensory quiet retreat voxel is initialized with `material_id = 71` (`SENSORY_NOOK_SANCTUARY`).
-*   The outdoor nature play garden voxel is initialized with `material_id = 72` (`NATURE_PLAY_GARDEN`).
-*   The `Is_Actuator` bit is set in `metadata` (bit 1) for safety gates and fresh-air ventilation dampers.
-*   The `Is_Sensor` bit is set in `metadata` (bit 2) for NDIR $\text{CO}_2$ probes and acoustic decibel monitors.
-*   The `ChunkManager` maintains an active entity occupancy list, tracking adult and child entity counts per chunk to validate the dynamic ratio policy.
-*   All state values, timers, support weights, and air quality metrics are strictly defined as fixed-point SI integers (`uint64_t`, `uint32_t`, `int64_t`, `uint16_t`).
-
-### Subsection 4B: C++20 Test Harness Code
+### C++20 Test Harness Code (Fixed-Point SI Integer Math)
 
 ```cpp
 // engine/tests/scenario_delta_test.cpp
@@ -330,148 +375,152 @@ In the Oasis simulation grid, childcare havens and sensory play zones occupy des
 #include <cstdint>
 #include <string>
 #include <vector>
-#include "oasis/chunk_manager.hpp"
-#include "oasis/orchestration/bpmn_engine.hpp"
 
-namespace oasis {
+namespace oasis::scenario_delta {
 
-// Fixed-point SI integer state definitions
-struct ChildEntity {
-    std::string id;
-    uint32_t support_weight_bps{10000}; // 10000 basis points baseline
-    bool checked_in{false};
+// 1. Pillar I & III: Dual-Parent Care Leave Shield & Postpartum Household Cocoon
+struct PerinatalHouseholdState {
+    bool mother_care_leave_shield_active{false};
+    bool father_coparent_care_leave_shield_active{false};
+    uint32_t mother_reputation_decay_bp{500};
+    uint32_t father_reputation_decay_bp{500};
+    uint64_t household_baseline_meals_per_day{2};
+    bool umbilical_and_nail_care_kit_provisioned{false};
+    bool affection_tokenized_or_quantized{false};
 };
 
-struct CarePodContext {
-    std::string intent_id;
-    uint32_t adult_caregiver_count{1};
-    std::vector<ChildEntity> children;
-    uint32_t session_duration_ms{21600000}; // 6 hours in milliseconds
-    uint32_t mean_co2_ppm{650};
-    uint64_t ventilation_energy_uj{0};      // Energy in microjoules
-};
-
-// Bilateral Clearing Channel for shared childcare equipment
-struct BilateralClearingChannel {
-    int64_t balance_uj{0};                  // B_{u -> v}(t) in microjoules
-    int64_t credit_headroom_uj{36000000000000}; // 36000000000000 microjoules headroom
-
-    bool can_reserve(int64_t amount_uj) const {
-        return (balance_uj + amount_uj) <= credit_headroom_uj;
-    }
-
-    void execute_transfer(int64_t amount_uj) {
-        balance_uj += amount_uj;
-    }
-};
-
-} // namespace oasis
-
-void test_scenario_delta_childcare_normal_execution() {
-    using namespace oasis;
-
-    // 1. Initialize local chunk and zone voxels
-    ChunkManager chunk_mgr;
-    chunk_mgr.allocate_chunk(0, 0, 0);
-
-    Voxel pod_voxel{
-        .material_id = 70, // CHILDCARE_POD_ZONE
-        .moisture = 0,
-        .temperature = 21, // 21 C ambient
-        .metadata = 0b00000110 // Sensor + Actuator
-    };
-    chunk_mgr.set_voxel(16, 1, 16, pod_voxel);
-
-    // 2. Setup BPMN Orchestrator & Care Job Context
-    BPMNEngine orchestrator;
-    orchestrator.load_schema("schemas/bpmn/childcare_pod.bpmn");
-
-    CarePodContext job{
-        .intent_id = "a1b2c3d4-e5f6-7890-1234-56789abcdef0",
-        .adult_caregiver_count = 1,
-        .children = {
-            {.id = "child_maya_01", .support_weight_bps = 10000, .checked_in = false},
-            {.id = "child_leo_02", .support_weight_bps = 15000, .checked_in = false}
-        },
-        .session_duration_ms = 21600000, // 6 hours
-        .mean_co2_ppm = 684,
-        .ventilation_energy_uj = 1800000000000 // 1800000000000 microjoules
-    };
-
-    // 3. Assert Dynamic Ratio Check: Total weight (25,000 bps) <= 40,000 bps * adult (1)
-    uint32_t total_weight_bps = 0;
-    for (const auto& child : job.children) {
-        total_weight_bps += child.support_weight_bps;
-    }
-    uint32_t max_allowed_weight_bps = 40000 * job.adult_caregiver_count;
-    assert(total_weight_bps <= max_allowed_weight_bps);
-
-    // Check-in children via simulated NFC tag scan
-    for (auto& child : job.children) {
-        child.checked_in = true;
-    }
-
-    // Step simulation ticks (6 hours at 10 Hz = 216,000 ticks)
-    SimResult res = orchestrator.step_simulation_ticks(chunk_mgr, job, 216000);
-    assert(res.status == ExecutionStatus::COMPLETED);
-    assert(job.mean_co2_ppm < 800);
-
-    // 4. Verify Bilateral Clearing Channel for shared nursery equipment
-    BilateralClearingChannel channel;
-    int64_t transfer_uj = 1800000000000; // 1800000000000 microjoules
-    assert(channel.can_reserve(transfer_uj));
-    channel.execute_transfer(transfer_uj);
-    assert(channel.balance_uj == 1800000000000);
+inline bool activate_fourth_trimester_cocoon(PerinatalHouseholdState& state) {
+    // Constitutional invariant: affection and parenting love must NEVER be tokenized
+    if (state.affection_tokenized_or_quantized) return false;
+    // Activate Care Leave Shield for BOTH mother and father/co-parent
+    state.mother_care_leave_shield_active = true;
+    state.father_coparent_care_leave_shield_active = true;
+    state.mother_reputation_decay_bp = 0; // Freeze reputation decay clock
+    state.father_reputation_decay_bp = 0; // Freeze reputation decay clock
+    // Expand household survival baseline (postpartum meal train from Scenario Gamma)
+    state.household_baseline_meals_per_day = 6;
+    state.umbilical_and_nail_care_kit_provisioned = true;
+    return true;
 }
 
-void test_scenario_delta_ratio_overflow_anomaly() {
-    using namespace oasis;
+// 2. Pillar III & IV: Newborn Bath Anti-Scald, Donor Milk Pasteurization & Cloth Diaper Sterilization
+struct NewbornHygieneAndThermalSafety {
+    uint32_t infant_bath_water_temp_mk{310150};       // Nominal 37 C (310,150 mK)
+    uint32_t donor_milk_pasteur_temp_mk{335650};      // Holder pasteurization: 335,650 mK
+    uint32_t donor_milk_hold_ms{1800000};             // 30 minutes (1,800,000 ms)
+    uint32_t diaper_autoclave_temp_mk{360150};        // >= 85 C (358,150 mK)
+    uint32_t diaper_autoclave_hold_ms{960000};        // >= 15 minutes (900,000 ms)
+};
 
-    ChunkManager chunk_mgr;
-    chunk_mgr.allocate_chunk(0, 0, 0);
+inline bool verify_newborn_thermal_and_hygiene_gates(const NewbornHygieneAndThermalSafety& hw) {
+    // Infant bath water must sit in safe comfort window (36 C to 38 C: 309,150 mK to 311,150 mK)
+    if (hw.infant_bath_water_temp_mk < 309150 || hw.infant_bath_water_temp_mk > 311150) return false;
+    // Holder donor milk pasteurization requires >= 335,650 mK for >= 1,800,000 ms
+    if (hw.donor_milk_pasteur_temp_mk < 335650 || hw.donor_milk_hold_ms < 1800000) return false;
+    // Reusable organic cloth diaper sanitization requires >= 358,150 mK (85 C) for >= 900,000 ms
+    if (hw.diaper_autoclave_temp_mk < 358150 || hw.diaper_autoclave_hold_ms < 900000) return false;
+    return true;
+}
 
-    BPMNEngine orchestrator;
-    orchestrator.load_schema("schemas/bpmn/childcare_pod.bpmn");
+// 3. Pillar V: Age- & Neurodivergent-Weighted Dynamic Pod Support Ratio Gate
+enum class ChildDevelopmentalStage : uint8_t {
+    INFANT_0_TO_12M     = 0, // Baseline weight 20,000 bp (max 2 per adult)
+    TODDLER_12_TO_30M   = 1, // Baseline weight 13,333 bp (max 3 per adult)
+    PRESCHOOL_30_TO_72M = 2  // Baseline weight 10,000 bp (max 4 per adult)
+};
 
-    // Invalid job context: 1 adult attempting to care for 5 children (effective weight = 55,000 bps)
-    CarePodContext invalid_job{
-        .intent_id = "overflow-ratio-test",
-        .adult_caregiver_count = 1,
-        .children = {
-            {.id = "c1", .support_weight_bps = 10000},
-            {.id = "c2", .support_weight_bps = 10000},
-            {.id = "c3", .support_weight_bps = 10000},
-            {.id = "c4", .support_weight_bps = 10000},
-            {.id = "c5", .support_weight_bps = 15000}
-        },
-        .session_duration_ms = 14400000,
-        .mean_co2_ppm = 700,
-        .ventilation_energy_uj = 0
-    };
+struct PodChildParticipant {
+    std::string child_did;
+    ChildDevelopmentalStage stage;
+    uint32_t neurodivergent_accommodation_add_bp{0}; // Up to +15,000 bp individualized support
+};
 
-    uint32_t total_weight_bps = 0;
-    for (const auto& child : invalid_job.children) {
-        total_weight_bps += child.support_weight_bps;
+inline uint32_t compute_child_support_weight_bp(const PodChildParticipant& child) {
+    uint32_t base_bp = 10000;
+    if (child.stage == ChildDevelopmentalStage::INFANT_0_TO_12M) {
+        base_bp = 20000;
+    } else if (child.stage == ChildDevelopmentalStage::TODDLER_12_TO_30M) {
+        base_bp = 13333;
     }
-    uint32_t max_allowed_weight_bps = 40000 * invalid_job.adult_caregiver_count;
-    assert(total_weight_bps > max_allowed_weight_bps);
+    return base_bp + child.neurodivergent_accommodation_add_bp;
+}
 
-    // Orchestrator evaluates policy gate and halts dispatch
-    bool gate_approved = orchestrator.evaluate_policy_gate("EXECUTION_DYNAMIC_RATIO", total_weight_bps);
-    assert(gate_approved == false);
-    assert(orchestrator.current_state() == BPMNState::RATIO_OVERFLOW_HOLD);
+inline bool verify_pod_dynamic_ratio_and_air_quality(const std::vector<PodChildParticipant>& children,
+                                                     uint32_t active_adult_stewards,
+                                                     uint32_t room_co2_ppm,
+                                                     uint32_t room_noise_cb) {
+    if (active_adult_stewards == 0) return false;
+    // Ambient safety: CO2 < 800 ppm nominal (damper trip >= 1000 ppm) and noise <= 650 cB (65 dBA)
+    if (room_co2_ppm >= 1000 || room_noise_cb > 650) return false;
+
+    uint64_t total_weight_bp = 0;
+    for (const auto& c : children) {
+        total_weight_bp += compute_child_support_weight_bp(c);
+    }
+    uint64_t max_capacity_bp = 40000ULL * static_cast<uint64_t>(active_adult_stewards);
+    return total_weight_bp <= max_capacity_bp;
+}
+
+void run_all_scenario_delta_tests() {
+    // Test 1: Fourth-Trimester Postpartum Cocoon & Dual-Parent Care Leave Shield
+    PerinatalHouseholdState family{};
+    assert(activate_fourth_trimester_cocoon(family) == true);
+    assert(family.mother_care_leave_shield_active == true);
+    assert(family.father_coparent_care_leave_shield_active == true);
+    assert(family.mother_reputation_decay_bp == 0);
+    assert(family.father_reputation_decay_bp == 0);
+    assert(family.household_baseline_meals_per_day == 6);
+    assert(family.umbilical_and_nail_care_kit_provisioned == true);
+
+    // Attempting to tokenize or quantize parental affection must fail constitutionally!
+    PerinatalHouseholdState tokenized_violation{};
+    tokenized_violation.affection_tokenized_or_quantized = true;
+    assert(activate_fourth_trimester_cocoon(tokenized_violation) == false);
+
+    // Test 2: Newborn Bath Anti-Scald, Donor Milk Pasteurization & Cloth Diaper Sterilization
+    NewbornHygieneAndThermalSafety safe_nursery{};
+    assert(verify_newborn_thermal_and_hygiene_gates(safe_nursery) == true);
+
+    // Scalding bath water (315,150 mK = 42 C > 38 C mechanical limit) must be blocked!
+    NewbornHygieneAndThermalSafety scald_hazard = safe_nursery;
+    scald_hazard.infant_bath_water_temp_mk = 315150;
+    assert(verify_newborn_thermal_and_hygiene_gates(scald_hazard) == false);
+
+    // Insufficient cloth diaper wash temperature (333,150 mK = 60 C < 85 C threshold) must fail!
+    NewbornHygieneAndThermalSafety underwashed_diapers = safe_nursery;
+    underwashed_diapers.diaper_autoclave_temp_mk = 333150;
+    assert(verify_newborn_thermal_and_hygiene_gates(underwashed_diapers) == false);
+
+    // Test 3: Multi-Age & Neurodivergent Dynamic Support Ratio in Early Childhood Pod
+    std::vector<PodChildParticipant> pod_children = {
+        {"child_01", ChildDevelopmentalStage::INFANT_0_TO_12M, 0},          // 20,000 bp
+        {"child_02", ChildDevelopmentalStage::TODDLER_12_TO_30M, 0},        // 13,333 bp
+        {"child_03", ChildDevelopmentalStage::PRESCHOOL_30_TO_72M, 10000},  // 20,000 bp (neurodivergent support)
+        {"child_04", ChildDevelopmentalStage::PRESCHOOL_30_TO_72M, 0}       // 10,000 bp
+    };
+    // Total weight = 63,333 bp; with 2 adult stewards (capacity 80,000 bp), session is approved
+    assert(verify_pod_dynamic_ratio_and_air_quality(pod_children, 2, 640, 560) == true);
+    // With only 1 adult steward (capacity 40,000 bp), 63,333 bp triggers RATIO_OVERFLOW_HOLD (false)
+    assert(verify_pod_dynamic_ratio_and_air_quality(pod_children, 1, 640, 560) == false);
+}
+
+} // namespace oasis::scenario_delta
+
+int main() {
+    oasis::scenario_delta::run_all_scenario_delta_tests();
+    return 0;
 }
 ```
 
 ---
 
-## 5. Acceptance Test Gates (Pass/Fail)
+## 6. Acceptance Test Gates (Pass/Fail)
 
 | Checkpoint | Validation Method | Pass Condition |
 | :--- | :--- | :--- |
-| **G1: Dynamic Support Ratio Policy** | Dynamic Ratio Policy Gate | Attempting to dispatch a care session where effective child weight $\sum w_i > 40000\text{ bps} \cdot N_{\mathrm{adult}}$ mathematically triggers `RATIO_OVERFLOW_HOLD`. |
-| **G2: Offline Local Mesh Autonomy** | Local Pod Network Severance | NFC drop-off/pick-up handoffs, environmental $\text{CO}_2$ logging, and damper relay actuations operate with 100% WAN/Internet severance over the local mesh. |
-| **G3: Encrypted Trust Ring Privacy** | Pod Key Decryption Audit | A node outside the authorized pod Trust Ring querying the mesh receives zero schedule data, child identities, or telemetry logs. |
-| **G4: Environmental Air Quality Gate** | NDIR Sensor Stream to Damper Relay | An indoor air quality spike exceeding 1000 ppm CO2 mathematically trips the Layer 2 GPIO relay, opening fresh-air dampers until CO2 drops below 800 ppm. |
-| **G5: Dual-Membrane Workshop Carapace** | External Workshop Revenue Carapace | Mock legacy fiat paid by non-members for positive parenting workshops is credited to the cooperative bank account to cover facility insurance and lease up to ceiling $\Phi_t$; zero internal tokens minted; zero conversion into internal credits. |
-| **G6: Regenerative Wholesale Procurement** | Bulk Non-Toxic Supply GPO | System pools 5 pod supply requisitions, triggering a single wholesale B2B purchase of organic cloth diapers and non-toxic materials via the cooperative carapace to eliminate retail packaging. |
+| **G1: Dual-Parent Care Leave Shield & Baseline Expansion** | Layer 5 Reputation & Layer 3 Baseline Audit | Registering a `PrenatalAndBirthSanctuaryIntent` or `PostpartumCocoonIntent` freezes Reputational Wealth ($\mathcal{R}$) decay clocks (`decay_rate = 0`) for **both** mother and father/co-parent and automatically expands household $B_{\mathrm{baseline}}$ meal/laundry/heating allocations with zero token charges. |
+| **G2: Newborn Somatic & Thermal Safety Gates** | Layer 1/2 Hardware & Telemetry Check | Infant bath mixing valves mechanically clamp water temperature to $\le 311150\,\mathrm{mK}$ ($38^\circ\mathrm{C}$); donor milk Holder pasteurization verifies $\ge 335650\,\mathrm{mK}$ for $\ge 1{,}800{,}000\,\mathrm{ms}$; cloth diaper autoclaves verify $\ge 358150\,\mathrm{mK}$ ($85^\circ\mathrm{C}$) for $\ge 900{,}000\,\mathrm{ms}$. |
+| **G3: Age- & Neurodivergent-Weighted Dynamic Pod Ratio** | BPMN Ratio Gate & Overflow Hold | Pod check-ins where $\sum w_i > 40000\,\mathrm{bp} \cdot N_{\mathrm{adults}}$ (with infants at $20000\,\mathrm{bp}$, toddlers at $13333\,\mathrm{bp}$, and preschoolers at $10000\text{–}25000\,\mathrm{bp}$) deterministically enter `RATIO_OVERFLOW_HOLD` and page auxiliary stewards/elders. |
+| **G4: Encrypted Trust Ring & Anti-Panopticon Privacy** | Pairwise `did:peer` & Hardware Audit | Zero cameras, microphones, or wearable trackers exist in birthing suites, nurseries, or play pods; outside nodes querying the mesh receive zero pregnancy, newborn, or child schedule metadata. |
+| **G5: Shared Nursery Gear Library & Scenario Chaining** | Cross-Scenario Intent Audit | `PostpartumCocoonIntent` and `NurseryGearBorrowIntent` automatically chain to **Scenario Gamma** (prenatal/postpartum meals & $6\text{-month}$ purees), **Scenario Alpha/Nu** (hardwood cribs, bath basins, cloth diapers, baby clothes), and **Scenario Chi** (midwifery & emergency OB transfer). |
+| **G6: Non-Quantized Affection & Layer 7 Statutory Shield** | Constitutional Ledger & Carapace Audit | Layer 3 rejects any attempt to mint tokens or metrics for parental affection or childcare labor; Layer 7 cooperative carapace maintains statutory non-commercial childcare exemptions and hospital OB health-share coverage. |

@@ -55,7 +55,39 @@ emcmake cmake .. \
 echo "Compiling via emmake..."
 emmake make -j4
 
+# Stamp cache-busting version on oasis_engine.js and create index.html so both / and /oasis_engine.html work
+CACHE_VER="$(date +%s)"
+python3 -c "
+import pathlib
+p = pathlib.Path('oasis_engine.html')
+txt = p.read_text()
+txt = txt.replace('src=\"oasis_engine.js\"', f'src=\"oasis_engine.js?v=${CACHE_VER}\"')
+p.write_text(txt)
+pathlib.Path('index.html').write_text(txt)
+"
+
+# Bundle Layer 6 Cadastral Companion, Layer 4 BPMN Workflow Designer, and Layer 5 Governance Manager into build_wasm/web/
+mkdir -p web/companion web/orchestrator web/governance
+cp -f "$SCRIPT_DIR/web/companion/"* web/companion/ 2>/dev/null || true
+cp -f "$SCRIPT_DIR/../../3_ledger/node_proxies.json" web/companion/ 2>/dev/null || true
+cp -f "$SCRIPT_DIR/../../4_orchestrator/web/"* web/orchestrator/ 2>/dev/null || true
+cp -f "$SCRIPT_DIR/../../4_orchestrator/workflows/"*.json web/orchestrator/ 2>/dev/null || true
+cp -f "$SCRIPT_DIR/../../3_ledger/node_proxies.json" web/orchestrator/ 2>/dev/null || true
+cp -f "$SCRIPT_DIR/../../5_governance/trust_gates.json" web/orchestrator/ 2>/dev/null || true
+cp -f "$SCRIPT_DIR/../../5_governance/web/"* web/governance/ 2>/dev/null || true
+cp -f "$SCRIPT_DIR/../../5_governance/trust_gates.json" web/governance/ 2>/dev/null || true
+cp -f "$SCRIPT_DIR/../../4_orchestrator/workflows/"*.json web/governance/ 2>/dev/null || true
+
+# Also keep build_native synchronized if it exists so servers running from either directory serve identical artifacts
+if [ -d "$SCRIPT_DIR/build_native" ]; then
+    cp -f oasis_engine.html oasis_engine.js oasis_engine.wasm index.html "$SCRIPT_DIR/build_native/" 2>/dev/null || true
+    mkdir -p "$SCRIPT_DIR/build_native/web"
+    cp -Rf web/* "$SCRIPT_DIR/build_native/web/" 2>/dev/null || true
+fi
+
 echo "=== Build Complete ==="
 echo "Artifacts generated in: $(pwd)"
-echo "To test locally, run:"
-echo "python3 -m http.server 8080 --directory ."
+echo "To launch locally with zero browser caching, run from $(pwd):"
+echo "python3 -m http.server 8080 --bind 127.0.0.1 --directory ."
+echo "Then open in Google Chrome: http://localhost:8080/oasis_engine.html"
+

@@ -742,3 +742,84 @@ TEST_CASE("Tier 5: Edge Cases, CORS Preflight, 404 & HTTP Parser Robustness", "[
         REQUIRE(server.GetTotalRequestsHandled() == before + 3);
     }
 }
+
+// ============================================================================
+// Tier 6 (SS-EP6-006): GatewaySecurityConfig, L2-L5/L7 Read-Only Hood & L6 Intent U-Turn
+// ============================================================================
+
+TEST_CASE("Tier 6 (SS-EP6-006): GatewaySecurityConfig, L2-L5/L7 Read-Only Hood & Intent U-Turn", "[ss-ep6-006][security]") {
+    GatewayServer server("/test_uhai_gateway_ss_ep6_006");
+
+    SECTION("GatewaySecurityConfig enforces port 8443, VLAN 30, TLS 1.3, and DID Auth") {
+        REQUIRE(sizeof(GatewaySecurityConfig) == 8);
+        REQUIRE(alignof(GatewaySecurityConfig) == 8);
+        REQUIRE(std::is_standard_layout_v<GatewaySecurityConfig>);
+        REQUIRE(std::is_trivially_copyable_v<GatewaySecurityConfig>);
+
+        const auto& cfg = server.GetSecurityConfig();
+        REQUIRE(cfg.port == 8443);
+        REQUIRE(cfg.vlan_id == 30);
+        REQUIRE(cfg.tls_1_3_enforced == true);
+        REQUIRE(cfg.did_auth_required == true);
+
+        HttpRequest req{"GET", "/api/v1/security/config", "", "HTTP/1.1", {}, ""};
+        HttpResponse res = server.HandleRequest(req);
+        REQUIRE(res.status_code == 200);
+        REQUIRE(res.body.find("\"port\": 8443") != std::string::npos);
+        REQUIRE(res.body.find("\"vlan_id\": 30") != std::string::npos);
+        REQUIRE(res.body.find("\"tls_1_3_enforced\": true") != std::string::npos);
+        REQUIRE(res.body.find("\"did_auth_required\": true") != std::string::npos);
+        REQUIRE(res.body.find("Human -> L6 -> L5 -> L4 -> [upward-yield] -> L5 -> L6 -> L7") != std::string::npos);
+    }
+
+    SECTION("Strict 405 Method Not Allowed on POST/PUT/DELETE/PATCH across L2-L5 and L7 diagnostic hood") {
+        const std::vector<std::string> mutating_methods = {"POST", "PUT", "DELETE", "PATCH"};
+        const std::vector<std::pair<std::string, std::string>> protected_endpoints = {
+            {"/api/v1/l2/telemetry/latest", "L2_MEMBRANE_IS_READ_ONLY"},
+            {"/api/v1/l3/ledger/write",     "L3_LEDGER_IS_READ_ONLY"},
+            {"/api/v1/l4/workflows",        "L4_IS_STRICTLY_READ_ONLY_NO_MUTATIONS"},
+            {"/api/v1/l5/treaties",         "L5_GOVERNANCE_IS_READ_ONLY"},
+            {"/api/v1/l5/approvals/pending","L5_GOVERNANCE_IS_READ_ONLY"},
+            {"/api/v1/l5/credit-limits",    "L5_GOVERNANCE_IS_READ_ONLY"},
+            {"/api/v1/l7/status",           "L7_CARAPACE_IS_READ_ONLY"}
+        };
+
+        for (const auto& [path, expected_error] : protected_endpoints) {
+            for (const auto& method : mutating_methods) {
+                HttpRequest req{method, path, "", "HTTP/1.1", {}, "{\"mutate\": true}"};
+                HttpResponse res = server.HandleRequest(req);
+                REQUIRE(res.status_code == 405);
+                REQUIRE(res.headers.at("Allow") == "GET, OPTIONS");
+                REQUIRE(res.body.find(expected_error) != std::string::npos);
+            }
+        }
+    }
+
+    SECTION("POST /api/v1/l6/intent upward-yield hold ratification (RATIFY_L5_YIELD_HOLD) routes inward L6 -> L5") {
+        const size_t initial_intents = server.GetSubmittedIntents().size();
+        const size_t initial_resolutions = server.GetSubmittedResolutions().size();
+
+        HttpRequest req;
+        req.method = "POST";
+        req.path = "/api/v1/l6/intent";
+        req.headers["Content-Type"] = "application/json";
+        req.body = "{\"intent_type\": \"RATIFY_L5_YIELD_HOLD\", \"yield_id\": \"y_849201\", \"decision\": \"RATIFIED_APPROVED\", \"steward_did\": \"did:mesh:node01:steward\"}";
+
+        HttpResponse res = server.HandleRequest(req);
+        REQUIRE(res.status_code == 200);
+        REQUIRE(res.body.find("\"status\": \"DRAFT_COMPILED\"") != std::string::npos);
+        REQUIRE(res.body.find("\"u_turn_routed\": \"L6_TO_L5\"") != std::string::npos);
+        REQUIRE(res.body.find("\"resolution_status\": \"RATIFIED_APPROVED\"") != std::string::npos);
+        REQUIRE(res.body.find("\"l4_dispatch_confirmed\": true") != std::string::npos);
+
+        REQUIRE(server.GetSubmittedIntents().size() == initial_intents + 1);
+        REQUIRE(server.GetSubmittedResolutions().size() == initial_resolutions + 1);
+
+        const auto& resolution = server.GetSubmittedResolutions().back();
+        REQUIRE(resolution.yield_id == 849201ULL);
+        REQUIRE(resolution.status == ApprovalStatus::RATIFIED_APPROVED);
+        REQUIRE(resolution.released_escrow_mj == 12500);
+        REQUIRE(std::string(resolution.resolution_rationale).find("Human -> L6 -> L5 -> L4 -> [upward-yield] -> L5 -> L6 -> L7") != std::string::npos);
+    }
+}
+

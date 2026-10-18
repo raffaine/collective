@@ -539,6 +539,82 @@
     updateReadbackPreview();
   }
 
+  // =========================================================================
+  // Live Node 0 Oasis 3D Viewport Bus (BroadcastChannel + localStorage)
+  // =========================================================================
+
+  let oasisBusChannel = null;
+  try {
+    if (typeof BroadcastChannel !== 'undefined') {
+      oasisBusChannel = new BroadcastChannel('oasis_companion_bus');
+      oasisBusChannel.onmessage = (ev) => {
+        if (!ev || !ev.data) return;
+        if (ev.data.type === 'OASIS_TELEMETRY') {
+          applyOasisLiveTelemetry(ev.data);
+        } else if (ev.data.type === 'BPMN_SCHEDULE_COMMIT') {
+          applyBpmnScheduleStatus(ev.data);
+        }
+      };
+    }
+  } catch (err) {}
+
+  function applyBpmnScheduleStatus(scheduleData) {
+    if (!scheduleData || !Array.isArray(scheduleData.schedule)) return;
+    const statusEl = document.getElementById('companion-live-bpmn-schedule-status');
+    if (statusEl) {
+      const summary = scheduleData.schedule.map(s => `D${s.day}:${s.bountyId || ('T' + s.taskId)}`).join(' ➔ ');
+      statusEl.textContent = `🔒 L5 Gate Schedule Committed: ${summary}`;
+    }
+  }
+
+  function applyOasisLiveTelemetry(data) {
+    if (!data) return;
+    const elSolar = document.getElementById('companion-live-solar');
+    if (elSolar && data.solarKwhDay !== undefined) {
+      const kwh = Number(data.solarKwhDay) || 0;
+      elSolar.textContent = `${kwh >= 0 ? '+' : ''}${kwh.toFixed(1)} kWh/d`;
+    }
+    const elWater = document.getElementById('companion-live-water');
+    if (elWater && data.waterL !== undefined) {
+      elWater.textContent = `${(Number(data.waterL) || 0).toFixed(1)}L`;
+    }
+    const elMeals = document.getElementById('companion-live-meals');
+    if (elMeals && data.meals !== undefined) {
+      elMeals.textContent = `${data.meals} Meals (${data.rawProduce !== undefined ? data.rawProduce : 2} Prod)`;
+    }
+    const elPv = document.getElementById('companion-live-pv');
+    if (elPv && data.pvKits !== undefined) {
+      elPv.textContent = `${data.pvKits} Kits`;
+    }
+  }
+
+  function broadcastOasisCompanionTask(taskId, labelText, extraMeta = {}) {
+    const tid = Number(taskId) || 0;
+    if (tid < 1 || tid > 4) return;
+    const msg = {
+      type: 'COMPANION_TASK',
+      taskId: tid,
+      source: extraMeta.source || 'COMPANION_SLATE',
+      bountyId: extraMeta.bountyId || null,
+      timestamp: Date.now()
+    };
+    try {
+      if (oasisBusChannel) oasisBusChannel.postMessage(msg);
+    } catch (err) {}
+    try {
+      if (typeof localStorage !== 'undefined') {
+        localStorage.setItem('oasis_companion_task', JSON.stringify(msg));
+      }
+    } catch (err) {}
+
+    const banner = document.getElementById('companion-live-dispatch-banner');
+    if (banner) {
+      banner.textContent = labelText || '✅ Task Dispatched to Lot 402 Founder in Oasis 3D Viewport!';
+      banner.style.display = 'block';
+    }
+    showToast('✅ Task Dispatched to Lot 402 Founder in Oasis 3D Viewport!', 'success');
+  }
+
   /**
    * Chore Bounty Claim handler.
    */
@@ -553,6 +629,14 @@
       escrow_mj: escrow,
       claimant_did: CONFIG.localDid
     });
+
+    if (choreId === 'chore-8492') {
+      broadcastOasisCompanionTask(1, '✅ Task #1 Dispatched (Chore #8492 Solar PV Retrofit) to Lot 402 Founder in Oasis 3D Viewport!');
+    } else if (choreId === 'chore-8495') {
+      broadcastOasisCompanionTask(2, '✅ Task #2 Dispatched (Chore #8495 Swale & Rain Cistern) to Lot 402 Founder in Oasis 3D Viewport!');
+    } else if (choreId === 'chore-8501') {
+      broadcastOasisCompanionTask(3, '✅ Task #3 Dispatched (Chore #8501 Garden Harvest) to Lot 402 Founder in Oasis 3D Viewport!');
+    }
   }
 
   // =========================================================================
@@ -715,6 +799,67 @@
       });
     });
 
+    // Live Oasis 3D Viewport Mission Control Task Buttons
+    document.querySelectorAll('.btn-live-oasis-task').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const tid = Number(e.currentTarget.getAttribute('data-companion-task')) || 0;
+        broadcastOasisCompanionTask(tid, '✅ Task Dispatched to Lot 402 Founder in Oasis 3D Viewport!');
+      });
+    });
+
+    // Sprint 14: Asynchronous Node Proxy BPMN Bounty Claim Buttons
+    document.querySelectorAll('.btn-claim-bpmn-bounty').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const el = e.currentTarget;
+        const bountyId = el.getAttribute('data-bounty-id') || 'B-101';
+        const taskId = Number(el.getAttribute('data-task-id')) || 1;
+        const requiredVc = el.getAttribute('data-vc') || 'Solar_Grid_Apprentice_VC';
+        const escrow = parseFloat(el.getAttribute('data-escrow') || '12.0');
+
+        dispatchL6Intent('CHORE_CLAIM', {
+          bounty_id: bountyId,
+          oasis_task_id: taskId,
+          required_vc: requiredVc,
+          escrow_mj: escrow,
+          claimant_did: CONFIG.localDid
+        });
+
+        broadcastOasisCompanionTask(
+          taskId,
+          `✅ BPMN Bounty #${bountyId} (L5 VC: ${requiredVc}) Routed to Lot 402 in Oasis 3D Viewport!`,
+          { source: 'L4_BPMN_BOUNTY', bountyId }
+        );
+      });
+    });
+
+    // Sprint 14: Layer 6 Calendar of Intents Selectors & Publish Button
+    document.querySelectorAll('.l6-calendar-select').forEach(sel => {
+      sel.addEventListener('change', (e) => {
+        const day = Number(e.currentTarget.getAttribute('data-day')) || 1;
+        updateL6CalendarDayMeta(day, e.currentTarget.value);
+      });
+    });
+
+    const btnPublishCalendar = document.getElementById('btn-publish-l6-calendar');
+    if (btnPublishCalendar) {
+      btnPublishCalendar.addEventListener('click', publishL6CalendarOfIntents);
+    }
+
+    // Listen for live telemetry and BPMN schedules via localStorage fallback
+    if (typeof window !== 'undefined' && typeof window.addEventListener === 'function') {
+      window.addEventListener('storage', (ev) => {
+        if (ev && ev.key === 'oasis_companion_telemetry' && ev.newValue) {
+          try {
+            applyOasisLiveTelemetry(JSON.parse(ev.newValue));
+          } catch (err) {}
+        } else if (ev && ev.key === 'oasis_bpmn_schedule' && ev.newValue) {
+          try {
+            applyBpmnScheduleStatus(JSON.parse(ev.newValue));
+          } catch (err) {}
+        }
+      });
+    }
+
     // Keyboard navigation (Strict Adjacency Left/Right arrows)
     window.addEventListener('keydown', (e) => {
       const layerSeq = ['l2', 'l3', 'l4', 'l5', 'l6', 'l7'];
@@ -729,6 +874,142 @@
         }
       }
     });
+  }
+
+  // =========================================================================
+  // Layer 6 Calendar of Intents (Days 1–4) Catalog & Publisher
+  // =========================================================================
+  const L6_CALENDAR_CATALOG = {
+    swale: {
+      intentType: 'mesh:FabricationIntent',
+      taskId: 2,
+      bountyId: 'B-103',
+      taskName: 'Dig Rain Swale (+8.0 L/d, +2 Cob)',
+      workflowId: 'wf-hydrology-swale-v1',
+      requiredVc: 'Hydro_Earthworks_VC'
+    },
+    solar: {
+      intentType: 'mesh:FabricationIntent',
+      taskId: 1,
+      bountyId: 'B-101',
+      taskName: 'Build Roof Solar Array (+4.5 kWh/d)',
+      workflowId: 'wf-fabrication-solar-v1',
+      requiredVc: 'Solar_Grid_Apprentice_VC'
+    },
+    kitchen: {
+      intentType: 'mesh:FabricationIntent',
+      taskId: 3,
+      bountyId: 'B-102',
+      taskName: 'Harvest & Cook 2 Meals (+800 kcal)',
+      workflowId: 'wf-kitchen-gamma-v1',
+      requiredVc: 'Sovereign_Kitchen_Steward_VC'
+    },
+    rest: {
+      intentType: 'mesh:RestIntent',
+      taskId: 3,
+      bountyId: 'REST-SIGMA',
+      taskName: 'Psychological Homeostasis Shield (Scenario Σ)',
+      workflowId: 'wf-rest-lock-sigma-v1',
+      requiredVc: 'None (Inalienable Right)'
+    },
+    pvkits: {
+      intentType: 'mesh:FabricationIntent',
+      taskId: 4,
+      bountyId: 'B-104',
+      taskName: 'Requisition +2 Solar PV Kits (Trade 2 Meals)',
+      workflowId: 'wf-fabrication-solar-v1',
+      requiredVc: 'Solar_Grid_Apprentice_VC'
+    }
+  };
+
+  function updateL6CalendarDayMeta(dayNum, key) {
+    const spec = L6_CALENDAR_CATALOG[key] || L6_CALENDAR_CATALOG.solar;
+    const metaEl = document.getElementById(`l6-cal-meta-day-${dayNum}`);
+    if (metaEl) {
+      metaEl.innerHTML = `L4 Workflow: <code>${spec.workflowId}</code> │ L5 VC: <code>${spec.requiredVc}</code>`;
+    }
+    const statusBadge = document.getElementById(`l6-cal-status-day-${dayNum}`);
+    if (statusBadge) {
+      statusBadge.textContent = '[PENDING]';
+      statusBadge.className = 'badge badge-amber';
+    }
+  }
+
+  function publishL6CalendarOfIntents() {
+    const intents = [];
+    const scheduleEntries = [];
+
+    for (let d = 1; d <= 4; d++) {
+      const sel = document.getElementById(`l6-cal-select-day-${d}`);
+      const key = (sel && sel.value) ? sel.value : (d === 1 ? 'swale' : d === 2 ? 'kitchen' : d === 3 ? 'rest' : 'solar');
+      const spec = L6_CALENDAR_CATALOG[key] || L6_CALENDAR_CATALOG.solar;
+
+      intents.push({
+        day: d,
+        issuerDid: CONFIG.localDid,
+        intentType: spec.intentType,
+        workflowId: spec.workflowId,
+        requiredVc: spec.requiredVc,
+        lifecycleStatus: 'ESCROWED',
+        payload: {
+          oasisTaskId: spec.taskId,
+          bountyId: spec.bountyId,
+          taskName: spec.taskName
+        }
+      });
+
+      scheduleEntries.push({
+        day: d,
+        taskId: spec.taskId,
+        bountyId: spec.bountyId,
+        taskName: spec.taskName,
+        requiredVc: spec.requiredVc,
+        intentType: spec.intentType,
+        workflowId: spec.workflowId,
+        l5GatePreLocked: true
+      });
+
+      const statusBadge = document.getElementById(`l6-cal-status-day-${d}`);
+      if (statusBadge) {
+        statusBadge.textContent = '[ESCROWED]';
+        statusBadge.className = 'badge badge-cyan';
+      }
+    }
+
+    dispatchL6Intent('CALENDAR_OF_INTENTS_PUBLISH', {
+      calendar_days: 4,
+      intents: intents
+    });
+
+    const scheduleMsg = {
+      type: 'BPMN_SCHEDULE_COMMIT',
+      schedule: scheduleEntries,
+      timestamp: Date.now()
+    };
+    const calendarBusMsg = {
+      type: 'L6_CALENDAR_PUBLISHED',
+      intents: intents,
+      schedule: scheduleEntries,
+      timestamp: Date.now()
+    };
+
+    try {
+      if (oasisBusChannel) {
+        oasisBusChannel.postMessage(scheduleMsg);
+        oasisBusChannel.postMessage(calendarBusMsg);
+      }
+    } catch (_e) {}
+
+    try {
+      if (typeof localStorage !== 'undefined') {
+        localStorage.setItem('oasis_bpmn_schedule', JSON.stringify(scheduleMsg));
+        localStorage.setItem('oasis_l6_calendar_intents', JSON.stringify(calendarBusMsg));
+      }
+    } catch (_e) {}
+
+    applyBpmnScheduleStatus(scheduleMsg);
+    showToast('📅 Layer 6 Calendar of Intents (Days 1–4) Published to L6 Mempool & Escrowed!', 'success');
+    logTerminal('[L6-CALENDAR] Published 4-Day Calendar of Intents to L6 Mempool (Lifecycle -> [ESCROWED]).', 'ack');
   }
 
   // =========================================================================
@@ -765,6 +1046,8 @@
     navigateTo,
     toggleProvenance,
     dispatchL6Intent,
+    broadcastOasisCompanionTask,
+    publishL6CalendarOfIntents,
     pollDiagnostics,
     verifyDiagnosticBoundaries
   };

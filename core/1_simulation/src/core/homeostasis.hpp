@@ -14,7 +14,8 @@ constexpr float GOLDILOCKS_MIN_TEMP_C = 15.0f;
 constexpr float GOLDILOCKS_MAX_TEMP_C = 30.0f;
 constexpr float MEAN_AMBIENT_TEMP_C   = 22.5f;
 constexpr float DIURNAL_AMPLITUDE_C   = 12.5f; // Night min: 10.0°C, Day max: 35.0°C
-constexpr uint64_t DIURNAL_CYCLE_TICKS = 1200; // 20s at 60 Hz
+constexpr uint64_t DIURNAL_CYCLE_TICKS = 1200; // Legacy test cycle (20s at 60 Hz)
+constexpr uint64_t CANONICAL_DIURNAL_CYCLE_TICKS = 28800ULL; // Canonical 28,800 ticks/day (STORY-10.3)
 
 // Metabolic burn & focus drain constants
 constexpr double BASELINE_RESTING_BURN_RATE = 0.050;   // kcal/sec resting basal burn

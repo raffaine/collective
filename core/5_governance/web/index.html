@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Layer 5 Governance Systems Manager &amp; L4 Workflow Interface Binder — The Collective</title>
+  <style>
+    :root {
+      --bg-deep: #050b11;
+      --bg-card: rgba(12, 20, 34, 0.94);
+      --bg-card-alt: rgba(18, 28, 46, 0.9);
+      --border-subtle: rgba(100, 116, 139, 0.35);
+      --border-emerald: rgba(52, 211, 153, 0.65);
+      --border-indigo: rgba(99, 102, 241, 0.65);
+      --border-purple: rgba(168, 85, 247, 0.72);
+      --border-amber: rgba(245, 158, 11, 0.65);
+      --border-cyan: rgba(34, 211, 238, 0.65);
+      --border-rose: rgba(244, 63, 94, 0.7);
+      --text-primary: #f1f5f9;
+      --text-secondary: #94a3b8;
+      --text-emerald: #34d399;
+      --text-cyan: #22d3ee;
+      --text-indigo: #818cf8;
+      --text-purple: #c084fc;
+      --text-amber: #fbbf24;
+      --text-rose: #fb7185;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: radial-gradient(circle at top right, #1e1233 0%, #050b11 65%);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      line-height: 1.5;
+      min-height: 100vh;
+      padding-bottom: 48px;
+    }
+
+    .app-shell {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 16px 20px;
+    }
+
+    .top-header {
+      background: var(--bg-card);
+      border: 1px solid var(--border-purple);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-bottom: 18px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+    }
+
+    .header-row-main {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .brand-title-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .eyebrow-tag {
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      letter-spacing: 0.08em;
+      color: var(--text-purple);
+      text-transform: uppercase;
+    }
+
+    .main-title {
+      font-size: 1.32rem;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      color: #fff;
+    }
+
+    .header-badges {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      font-weight: 600;
+      padding: 6px 11px;
+      border-radius: 999px;
+      border: 1px solid var(--border-subtle);
+      background: rgba(15, 23, 42, 0.85);
+    }
+
+    .pill-purple {
+      border-color: var(--border-purple);
+      color: var(--text-purple);
+      background: rgba(59, 7, 100, 0.45);
+    }
+
+    .pill-bus {
+      border-color: var(--border-emerald);
+      color: var(--text-emerald);
+      background: rgba(6, 78, 59, 0.55);
+    }
+
+    .nav-link-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-amber);
+      background: rgba(120, 53, 15, 0.45);
+      border: 1px solid var(--border-amber);
+      padding: 6px 12px;
+      border-radius: 8px;
+      transition: all 0.15s ease;
+    }
+
+    .nav-link-btn:hover {
+      background: rgba(146, 64, 14, 0.75);
+      transform: translateY(-1px);
+    }
+
+    .nav-link-btn.nav-l4 {
+      color: var(--text-indigo);
+      background: rgba(49, 46, 129, 0.5);
+      border-color: var(--border-indigo);
+    }
+
+    .architecture-banner {
+      padding-top: 10px;
+      border-top: 1px solid rgba(100, 116, 139, 0.25);
+      font-size: 0.82rem;
+      color: #cbd5e1;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .architecture-banner code {
+      font-family: var(--font-mono);
+      color: var(--text-cyan);
+      background: rgba(15, 23, 42, 0.9);
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    .status-banner {
+      display: none;
+      background: rgba(59, 7, 100, 0.9);
+      border: 1px solid var(--text-purple);
+      color: #f3e8ff;
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .section-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+    }
+
+    .section-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(100, 116, 139, 0.25);
+    }
+
+    .section-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      letter-spacing: 0.03em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-subtitle {
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+      margin-bottom: 14px;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      margin-bottom: 14px;
+    }
+
+    .gov-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: var(--font-mono);
+      font-size: 0.77rem;
+    }
+
+    .gov-table th,
+    .gov-table td {
+      padding: 11px 12px;
+      text-align: left;
+      border-bottom: 1px solid rgba(100, 116, 139, 0.25);
+      vertical-align: middle;
+    }
+
+    .gov-table th {
+      background: rgba(15, 23, 42, 0.92);
+      color: var(--text-purple);
+      text-transform: uppercase;
+      font-size: 0.71rem;
+    }
+
+    .select-control,
+    .input-control {
+      background: #07111c;
+      color: #fff;
+      border: 1px solid var(--border-indigo);
+      border-radius: 6px;
+      padding: 7px 10px;
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      width: 100%;
+    }
+
+    .btn {
+      cursor: pointer;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 10px 15px;
+      border-radius: 8px;
+      border: 1px solid transparent;
+      transition: all 0.15s ease;
+    }
+
+    .btn-purple {
+      background: linear-gradient(135deg, #7e22ce 0%, #6b21a8 100%);
+      color: #faf5ff;
+      border-color: #c084fc;
+    }
+
+    .btn-purple:hover {
+      filter: brightness(1.12);
+      transform: translateY(-1px);
+    }
+
+    .btn-emerald {
+      background: rgba(5, 150, 105, 0.75);
+      color: #ecfdf5;
+      border-color: #34d399;
+    }
+
+    .btn-amber {
+      background: rgba(180, 83, 9, 0.75);
+      color: #fef3c7;
+      border-color: #fbbf24;
+    }
+
+    .btn-rose {
+      background: rgba(190, 18, 60, 0.75);
+      color: #ffe4e6;
+      border-color: #fb7185;
+    }
+
+    /* Trust Graph Cards */
+    .trust-edge-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(295px, 1fr));
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .edge-card {
+      background: var(--bg-card-alt);
+      border: 1px solid var(--border-cyan);
+      border-radius: 10px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .edge-card.slashed-edge {
+      border-color: var(--border-rose);
+      background: rgba(76, 5, 25, 0.45);
+    }
+
+    .edge-card.safeharbor-edge {
+      border-color: var(--border-amber);
+      background: rgba(120, 53, 15, 0.35);
+    }
+
+    .edge-route {
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      color: var(--text-cyan);
+      font-weight: 700;
+    }
+
+    .edge-metrics {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: #e2e8f0;
+    }
+
+    /* VC Registry & Immune KPIs */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .kpi-box {
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(168, 85, 247, 0.4);
+      border-radius: 10px;
+      padding: 12px 14px;
+    }
+
+    .kpi-label {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+    }
+
+    .kpi-val {
+      font-family: var(--font-mono);
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--text-purple);
+      margin-top: 4px;
+    }
+
+    .vc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .vc-card {
+      background: var(--bg-card-alt);
+      border: 1px solid var(--border-emerald);
+      border-radius: 10px;
+      padding: 13px 15px;
+      font-size: 0.8rem;
+    }
+
+    .vc-card h4 {
+      font-family: var(--font-mono);
+      color: var(--text-emerald);
+      font-size: 0.84rem;
+      margin-bottom: 6px;
+    }
+
+    .vc-card p {
+      color: #cbd5e1;
+      font-size: 0.76rem;
+      margin-bottom: 4px;
+    }
+
+    .terminal-log {
+      background: #03070b;
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 12px;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      max-height: 170px;
+      overflow-y: auto;
+      color: #94a3b8;
+    }
+
+    .terminal-log div {
+      margin-bottom: 4px;
+    }
+
+    .log-l5 { color: var(--text-purple); }
+    .log-ok { color: var(--text-emerald); }
+    .log-warn { color: var(--text-amber); }
+    .log-slash { color: var(--text-rose); }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <!-- TOP HEADER -->
+    <header class="top-header">
+      <div class="header-row-main">
+        <div class="brand-title-wrap">
+          <span class="eyebrow-tag">THE COLLECTIVE // LAYER 5 MATHEMATICAL IMMUNE SYSTEM // GOVERNANCE &amp; L4 INTERFACE BINDER</span>
+          <h1 class="main-title">LAYER 5 GOVERNANCE SYSTEMS MANAGER &amp; L4 WORKFLOW INTERFACE BINDER</h1>
+        </div>
+        <div class="header-badges">
+          <span class="pill pill-purple">
+            🛡️ RBAC Prohibited: True │ Engine: Dijkstra_Weighted_Trust_Graph
+          </span>
+          <span class="pill pill-bus" id="l5-bus-pill">
+            🟢 BUS: oasis_companion_bus READY
+          </span>
+          <a href="../companion/index.html" class="nav-link-btn" id="link-l6-companion">
+            [ ⌂ L6 Citizen Companion (../companion/index.html) ]
+          </a>
+          <a href="../orchestrator/index.html" class="nav-link-btn nav-l4" id="link-l4-designer">
+            [ ⚙️ L4 Workflow Designer (../orchestrator/index.html) ]
+          </a>
+          <a href="../../oasis_engine.html" class="nav-link-btn" id="link-oasis-3d">
+            [ 🏡 Lot 402 3D Viewport (../../oasis_engine.html) ]
+          </a>
+        </div>
+      </div>
+
+      <div class="architecture-banner">
+        <div>
+          <strong>Architectural Separation of Concerns (GOVERNANCE_SPEC.md):</strong>
+          Layer 5 manages W3C DIDs, directional <code>mesh:TrustGraphEdge</code> weights, BBS+ <code>mesh:SkillCredential</code> VCs, <code>mesh:SafeHarborSeverance</code> blind spots, and <strong>binds Governance Policies to their Layer 4 BPMN Workflow interfaces</strong>.
+        </div>
+        <span class="pill pill-purple">
+          Spec: <code>core/5_governance/trust_gates.json</code>
+        </span>
+      </div>
+    </header>
+
+    <!-- Status Banner -->
+    <div id="l5-status-banner" class="status-banner">
+      🛡️ Ratified Layer 5 Governance Policies &amp; Bound Layer 4 BPMN Workflow Interfaces!
+    </div>
+
+    <!-- ================================================================== -->
+    <!-- SECTION 1: GOVERNANCE POLICY & LAYER 4 WORKFLOW BINDING MATRIX     -->
+    <!-- ================================================================== -->
+    <section class="section-card" id="section-l5-l4-bindings">
+      <div class="section-header">
+        <h2 class="section-title" style="color: var(--text-purple);">
+          🔗 1. GOVERNANCE POLICY &amp; LAYER 4 WORKFLOW BINDING MATRIX (L5 &harr; L4 INTERFACE)
+        </h2>
+        <span class="pill pill-purple" id="l5-available-wf-pill">
+          Available L4 Workflows: 6 (Synced with L4 Database)
+        </span>
+      </div>
+      <p class="section-subtitle">
+        Establish which Layer 4 BPMN 2.0 Workflow (including any specialized custom workflows saved in the Layer 4 Designer) executes each Governance Domain policy, alongside its required W3C BBS+ <code>mesh:SkillCredential</code> VC and maximum Dijkstra Trust Distance (<code>hops</code>).
+      </p>
+
+      <div class="table-wrap">
+        <table class="gov-table">
+          <thead>
+            <tr>
+              <th>Governance Policy Domain</th>
+              <th>Ontology Intent Class</th>
+              <th>Required W3C SkillCredential VC</th>
+              <th>Max Dijkstra Trust Distance</th>
+              <th>Bound Layer 4 BPMN Workflow Interface (wf-*)</th>
+            </tr>
+          </thead>
+          <tbody id="l5-binding-tbody">
+            <!-- Row 1: Microgrid & Solar Fabrication Policy -->
+            <tr data-policy-id="pol-solar-microgrid-alpha">
+              <td>
+                <strong style="color:#fff;">1. Microgrid &amp; Solar Fabrication Policy</strong><br>
+                <span style="color:var(--text-secondary);">Scenario Alpha / 48V DC Bus</span>
+              </td>
+              <td><code>mesh:FabricationIntent / Solar</code></td>
+              <td>
+                <select class="select-control policy-vc-select" data-policy-id="pol-solar-microgrid-alpha">
+                  <option value="Solar_Grid_Apprentice_VC" selected>Solar_Grid_Apprentice_VC</option>
+                  <option value="Biochar_Kiln_Operator_VC">Biochar_Kiln_Operator_VC</option>
+                </select>
+              </td>
+              <td>
+                <input type="number" class="input-control policy-hops-input" data-policy-id="pol-solar-microgrid-alpha" step="0.5" min="0" max="6" value="2.0">
+              </td>
+              <td>
+                <select class="select-control policy-wf-select" id="bind-wf-pol-solar-microgrid-alpha" data-policy-id="pol-solar-microgrid-alpha">
+                  <option value="wf-fabrication-solar-v1" selected>wf-fabrication-solar-v1 (Roof Solar Microgrid Array Fabrication)</option>
+                </select>
+              </td>
+            </tr>
+
+            <!-- Row 2: Hydrology & Earthworks Policy -->
+            <tr data-policy-id="pol-hydrology-earthworks-beta">
+              <td>
+                <strong style="color:#fff;">2. Hydrology &amp; Earthworks Policy</strong><br>
+                <span style="color:var(--text-secondary);">Scenario Beta / Swale &amp; Cistern</span>
+              </td>
+              <td><code>mesh:FabricationIntent / Swale &amp; Cistern</code></td>
+              <td>
+                <select class="select-control policy-vc-select" data-policy-id="pol-hydrology-earthworks-beta">
+                  <option value="Hydro_Earthworks_VC" selected>Hydro_Earthworks_VC</option>
+                  <option value="Solar_Grid_Apprentice_VC">Solar_Grid_Apprentice_VC</option>
+                </select>
+              </td>
+              <td>
+                <input type="number" class="input-control policy-hops-input" data-policy-id="pol-hydrology-earthworks-beta" step="0.5" min="0" max="6" value="2.5">
+              </td>
+              <td>
+                <select class="select-control policy-wf-select" id="bind-wf-pol-hydrology-earthworks-beta" data-policy-id="pol-hydrology-earthworks-beta">
+                  <option value="wf-hydrology-swale-v1" selected>wf-hydrology-swale-v1 (Keyline Contour Swale &amp; Catchment Excavation)</option>
+                </select>
+              </td>
+            </tr>
+
+            <!-- Row 3: Sovereign Kitchen Scenario Gamma Policy -->
+            <tr data-policy-id="pol-sovereign-kitchen-gamma">
+              <td>
+                <strong style="color:#fff;">3. Sovereign Kitchen Scenario &Gamma; Policy</strong><br>
+                <span style="color:var(--text-secondary);">Scenario Gamma / Culinary Hearth</span>
+              </td>
+              <td><code>mesh:FabricationIntent / Culinary</code></td>
+              <td>
+                <select class="select-control policy-vc-select" data-policy-id="pol-sovereign-kitchen-gamma">
+                  <option value="Sovereign_Kitchen_Steward_VC" selected>Sovereign_Kitchen_Steward_VC</option>
+                  <option value="Hydro_Earthworks_VC">Hydro_Earthworks_VC</option>
+                </select>
+              </td>
+              <td>
+                <input type="number" class="input-control policy-hops-input" data-policy-id="pol-sovereign-kitchen-gamma" step="0.5" min="0" max="6" value="3.0">
+              </td>
+              <td>
+                <select class="select-control policy-wf-select" id="bind-wf-pol-sovereign-kitchen-gamma" data-policy-id="pol-sovereign-kitchen-gamma">
+                  <option value="wf-kitchen-gamma-v1" selected>wf-kitchen-gamma-v1 (Sovereign Kitchen Harvest &amp; Batch Thermal Cooking)</option>
+                </select>
+              </td>
+            </tr>
+
+            <!-- Row 4: Citizen Rest & Burnout Shield Policy -->
+            <tr data-policy-id="pol-citizen-rest-shield-sigma">
+              <td>
+                <strong style="color:#fff;">4. Citizen Rest &amp; Burnout Shield Policy</strong><br>
+                <span style="color:var(--text-secondary);">Scenario Sigma / Psychological Homeostasis</span>
+              </td>
+              <td><code>mesh:RestIntent / Scenario &Sigma;</code></td>
+              <td>
+                <select class="select-control policy-vc-select" data-policy-id="pol-citizen-rest-shield-sigma">
+                  <option value="None (Inalienable Somatic Right)" selected>None (Inalienable Somatic Right)</option>
+                </select>
+              </td>
+              <td>
+                <input type="text" class="input-control policy-hops-input" data-policy-id="pol-citizen-rest-shield-sigma" value="∞ (All Rings R0–R6)" readonly>
+              </td>
+              <td>
+                <select class="select-control policy-wf-select" id="bind-wf-pol-citizen-rest-shield-sigma" data-policy-id="pol-citizen-rest-shield-sigma">
+                  <option value="wf-rest-lock-sigma-v1" selected>wf-rest-lock-sigma-v1 (Psychological Homeostasis &amp; Temporal Bounty Shield)</option>
+                </select>
+              </td>
+            </tr>
+
+            <!-- Row 5: Ostrom Conflict Mediation & Social Slashing -->
+            <tr data-policy-id="pol-ostrom-mediation-psi">
+              <td>
+                <strong style="color:#fff;">5. Ostrom Conflict Mediation &amp; Social Slashing</strong><br>
+                <span style="color:var(--text-secondary);">Scenario Psi / 2-of-3 FROST Council</span>
+              </td>
+              <td><code>mesh:MediationIntent / Scenario &Psi;</code></td>
+              <td>
+                <select class="select-control policy-vc-select" data-policy-id="pol-ostrom-mediation-psi">
+                  <option value="Mediation_Steward_VC" selected>Mediation_Steward_VC</option>
+                  <option value="Sovereign_Kitchen_Steward_VC">Sovereign_Kitchen_Steward_VC</option>
+                </select>
+              </td>
+              <td>
+                <input type="number" class="input-control policy-hops-input" data-policy-id="pol-ostrom-mediation-psi" step="0.5" min="0.5" max="3" value="1.5">
+              </td>
+              <td>
+                <select class="select-control policy-wf-select" id="bind-wf-pol-ostrom-mediation-psi" data-policy-id="pol-ostrom-mediation-psi">
+                  <option value="wf-mediation-psi-template" selected>wf-mediation-psi-template (Ostrom Graduated Sanction &amp; Restitution Mediation)</option>
+                </select>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:12px;">
+        <button type="button" class="btn btn-purple" id="btn-ratify-l5-bindings">
+          [ 🛡️ Ratify L5 Governance Policies &amp; Bind L4 Workflows ]
+        </button>
+        <span style="font-family:var(--font-mono); font-size:0.75rem; color:var(--text-secondary);">
+          Persists to <code>localStorage('oasis_l5_governance_bindings')</code> &amp; broadcasts <code>L5_GOVERNANCE_UPDATED</code>
+        </span>
+      </div>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- SECTION 2: WEIGHTED W3C DID TRUST RING GRAPH & DIJKSTRA INSPECTOR  -->
+    <!-- ================================================================== -->
+    <section class="section-card" id="section-trust-graph">
+      <div class="section-header">
+        <h2 class="section-title" style="color: var(--text-cyan);">
+          🕸️ 2. WEIGHTED W3C DID TRUST RING GRAPH &amp; DIJKSTRA DISTANCE INSPECTOR
+        </h2>
+        <span class="pill" style="color: var(--text-cyan); border-color: var(--border-cyan);">
+          ontology_trust.jsonld + trust_gates.json
+        </span>
+      </div>
+      <p class="section-subtitle">
+        Directional <code>mesh:TrustGraphEdge</code> weights (<code>[-1.0 .. +1.0]</code>) between <code>did:mesh:node00:founder</code> (Lot 402), <code>did:mesh:node01:maya</code> (Lot 404), <code>did:mesh:node02:kael</code> (Lot 406), and <code>did:mesh:node03:soren</code> (Lot 408). Use the controls below to simulate Vouching (Scenario Omicron), Social Slashing (Scenario Rho), or Safe Harbor Severance.
+      </p>
+
+      <!-- Interactive Trust Graph Simulation Controls -->
+      <div style="display:flex; flex-wrap:wrap; gap:10px; margin-bottom:16px;">
+        <button type="button" class="btn btn-emerald" id="btn-sim-vouch">
+          [ 🤝 Simulate Vouching (Scenario Omicron: Soren R3 ➔ R1, edgeWeight = +1.0) ]
+        </button>
+        <button type="button" class="btn btn-rose" id="btn-sim-slash">
+          [ ⚡ Simulate Ostrom Social Slashing (Scenario Rho: edgeWeight = -1.0 Severance) ]
+        </button>
+        <button type="button" class="btn btn-amber" id="btn-sim-safe-harbor">
+          [ 🕶️ Invoke SafeHarborSeverance (Scenario Omicron ZK Blind Spot) ]
+        </button>
+      </div>
+
+      <!-- Directional Trust Graph Edges Grid -->
+      <div class="trust-edge-grid" id="trust-edge-grid">
+        <div class="edge-card" id="edge-card-0">
+          <div class="edge-route">did:mesh:node00:founder (Lot 402) ➔ did:mesh:node01:maya (Lot 404)</div>
+          <div class="edge-metrics">
+            Type: <code>TrustGraphEdge_Vouch</code><br>
+            edgeWeight: <strong style="color:var(--text-emerald);">+1.00</strong> │ Dijkstra Cost: <code>1.0 hops</code> (Ring R1)<br>
+            Ceremony: <code>SCN-TAU-GENESIS-FROST-2OF3</code> [ACTIVE_VOUCHED]
+          </div>
+        </div>
+
+        <div class="edge-card" id="edge-card-1">
+          <div class="edge-route">did:mesh:node00:founder (Lot 402) ➔ did:mesh:node02:kael (Lot 406)</div>
+          <div class="edge-metrics">
+            Type: <code>TrustGraphEdge_Vouch</code><br>
+            edgeWeight: <strong style="color:var(--text-emerald);">+1.00</strong> │ Dijkstra Cost: <code>1.0 hops</code> (Ring R1)<br>
+            Ceremony: <code>RICARDIAN_WATER_PACT_0x9a8f</code> [ACTIVE_VOUCHED]
+          </div>
+        </div>
+
+        <div class="edge-card" id="edge-card-2">
+          <div class="edge-route">did:mesh:node01:maya (Lot 404) ➔ did:mesh:node03:soren (Lot 408)</div>
+          <div class="edge-metrics" id="edge-soren-metrics">
+            Type: <code>TrustGraphEdge_ProbationaryVouch</code><br>
+            edgeWeight: <strong style="color:var(--text-amber);">+0.85</strong> │ Dijkstra Cost: <code>1.85 hops</code> (Ring R3)<br>
+            Ceremony: <code>R3_HOMEOSTASIS_ASSIMILATION</code> [ACTIVE_PROBATIONARY]
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- SECTION 3: VERIFIABLE CREDENTIAL REGISTRY & L5 IMMUNE DIAGNOSTICS  -->
+    <!-- ================================================================== -->
+    <section class="section-card" id="section-vc-registry">
+      <div class="section-header">
+        <h2 class="section-title" style="color: var(--text-emerald);">
+          📜 3. VERIFIABLE CREDENTIAL (mesh:SkillCredential) REGISTRY &amp; AGGREGATED L5 IMMUNE DIAGNOSTICS
+        </h2>
+        <span class="pill" style="color: var(--text-emerald); border-color: var(--border-emerald);">
+          Cryptosuite: bbs-2023-zkp (Selective Disclosure)
+        </span>
+      </div>
+
+      <!-- Aggregated L5 Immune Diagnostics -->
+      <div class="kpi-grid">
+        <div class="kpi-box">
+          <div class="kpi-label">RBAC Prohibited (GOVERNANCE_SPEC)</div>
+          <div class="kpi-val" style="color:var(--text-emerald);">True (Graph-Only)</div>
+        </div>
+        <div class="kpi-box">
+          <div class="kpi-label">Dijkstra Path Evaluations</div>
+          <div class="kpi-val" id="l5-kpi-dijkstra-evals">148 Evaluations</div>
+        </div>
+        <div class="kpi-box">
+          <div class="kpi-label">FROST 2-of-3 Threshold Status</div>
+          <div class="kpi-val" style="color:var(--text-cyan);">Quorum Ready (R1)</div>
+        </div>
+        <div class="kpi-box">
+          <div class="kpi-label">SafeHarbor ZK Circuits</div>
+          <div class="kpi-val" id="l5-kpi-zk-status" style="color:var(--text-amber);">Armed (0 Active Severances)</div>
+        </div>
+      </div>
+
+      <!-- Active W3C BBS+ SkillCredential VCs -->
+      <div class="vc-grid" id="vc-registry-grid">
+        <div class="vc-card">
+          <h4>Solar_Grid_Apprentice_VC</h4>
+          <p><strong>Issuer:</strong> <code>did:mesh:node03:soren</code> │ <strong>Scenario:</strong> Kappa / Alpha</p>
+          <p><strong>Holders:</strong> <code>did:mesh:node00:founder</code>, <code>did:mesh:node03:soren</code></p>
+          <p><strong>Safety Predicates:</strong> 48V_DC_Bus_Isolation, Arc_Fault_Interlock_Check</p>
+        </div>
+
+        <div class="vc-card">
+          <h4>Hydro_Earthworks_VC</h4>
+          <p><strong>Issuer:</strong> <code>did:mesh:node02:kael</code> │ <strong>Scenario:</strong> Beta</p>
+          <p><strong>Holders:</strong> <code>did:mesh:node00:founder</code>, <code>did:mesh:node02:kael</code></p>
+          <p><strong>Safety Predicates:</strong> Instream_Water_Floor_80pct, Contour_Grade_Check</p>
+        </div>
+
+        <div class="vc-card">
+          <h4>Sovereign_Kitchen_Steward_VC</h4>
+          <p><strong>Issuer:</strong> <code>did:mesh:node01:maya</code> │ <strong>Scenario:</strong> Gamma / Chi</p>
+          <p><strong>Holders:</strong> <code>did:mesh:node00:founder</code>, <code>did:mesh:node01:maya</code>, <code>did:mesh:node02:kael</code></p>
+          <p><strong>Safety Predicates:</strong> ZK_Allergen_Pharmacopeia_Pass, Caloric_Density_800kcal_Min</p>
+        </div>
+
+        <div class="vc-card">
+          <h4>Mediation_Steward_VC</h4>
+          <p><strong>Issuer:</strong> <code>did:mesh:node00:founder</code> │ <strong>Scenario:</strong> Psi / Rho</p>
+          <p><strong>Holders:</strong> <code>did:mesh:node00:founder</code>, <code>did:mesh:node01:maya</code>, <code>did:mesh:node02:kael</code></p>
+          <p><strong>Safety Predicates:</strong> Ostrom_Graduated_Sanction_Quorum, FROST_2of3_Restitution</p>
+        </div>
+      </div>
+
+      <div class="terminal-log" id="l5-terminal-log">
+        <div class="log-l5">[06:00:00] Layer 5 Governance Systems Manager &amp; L4 Workflow Interface Binder initialized.</div>
+        <div class="log-ok">[06:00:01] Loaded W3C DID Trust Ring Graph &amp; BBS+ SkillCredential Catalog from trust_gates.json.</div>
+      </div>
+    </section>
+  </div>
+
+  <script src="governance_manager.js"></script>
+</body>
+</html>

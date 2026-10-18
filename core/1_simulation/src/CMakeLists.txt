@@ -189,6 +189,32 @@ else()
         )
     endif()
 
+    # Sovereign Stack Layer 5 KMS & Trust Ring Assimilation Daemon (col-kmsd)
+    set(COL_KMSD_SRC "${CMAKE_CURRENT_SOURCE_DIR}/../../../src/daemons/col-kmsd/main.cpp")
+    if(NOT EXISTS "${COL_KMSD_SRC}")
+        set(COL_KMSD_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/daemons/col-kmsd/main.cpp")
+    endif()
+    if(EXISTS "${COL_KMSD_SRC}")
+        add_executable(col_kmsd "${COL_KMSD_SRC}")
+        target_include_directories(col_kmsd PRIVATE 
+            ${CMAKE_CURRENT_SOURCE_DIR}
+            ${CMAKE_CURRENT_SOURCE_DIR}/uhai
+            ${CMAKE_CURRENT_SOURCE_DIR}/../../../src/daemons/col-kmsd
+        )
+        target_link_libraries(col_kmsd PRIVATE 
+            spdlog::spdlog
+            $<$<PLATFORM_ID:Linux>:rt>
+        )
+        # Create col-kmsd symlink so both hyphenated and underscored names work
+        add_custom_command(TARGET col_kmsd POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E create_symlink
+                $<TARGET_FILE_NAME:col_kmsd>
+                ${CMAKE_CURRENT_BINARY_DIR}/col-kmsd
+            COMMENT "Creating col-kmsd symlink"
+        )
+    endif()
+
+
     # Native Catch2 Construction Caloric Burn Tests (Dual Sprint 5)
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/tests/test_construction_caloric_burn.cpp")
         add_executable(test_construction_caloric_burn tests/test_construction_caloric_burn.cpp)
@@ -331,7 +357,92 @@ else()
         )
         add_test(NAME ColGatewaydTests COMMAND test_col_gatewayd)
     endif()
+
+    # Native Catch2 Arcball Camera & Spatial Designator Tests (Dual Sprint 11 - EPIC-8)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/tests/test_arcball_and_designator.cpp")
+        add_executable(test_arcball_and_designator tests/test_arcball_and_designator.cpp)
+        target_include_directories(test_arcball_and_designator PRIVATE 
+            ${CMAKE_CURRENT_SOURCE_DIR}
+        )
+        target_link_libraries(test_arcball_and_designator PRIVATE 
+            Catch2::Catch2WithMain
+            $<IF:$<TARGET_EXISTS:flecs::flecs>,flecs::flecs,flecs::flecs_static>
+            glm::glm
+            spdlog::spdlog
+            $<$<PLATFORM_ID:Linux>:rt>
+        )
+        add_test(NAME ArcballAndDesignatorTests COMMAND test_arcball_and_designator)
+    endif()
+
+    # Native Catch2 Time-Warp Controller & Log Throttling Tests (Dual Sprint 11 - EPIC-10)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/tests/test_time_warp_and_throttling.cpp")
+        add_executable(test_time_warp_and_throttling tests/test_time_warp_and_throttling.cpp)
+        target_include_directories(test_time_warp_and_throttling PRIVATE 
+            ${CMAKE_CURRENT_SOURCE_DIR}
+        )
+        target_link_libraries(test_time_warp_and_throttling PRIVATE 
+            Catch2::Catch2WithMain
+            $<IF:$<TARGET_EXISTS:flecs::flecs>,flecs::flecs,flecs::flecs_static>
+            glm::glm
+            spdlog::spdlog
+            $<$<PLATFORM_ID:Linux>:rt>
+        )
+        add_test(NAME TimeWarpAndThrottlingTests COMMAND test_time_warp_and_throttling)
+    endif()
+
+    # Native Catch2 Chill Loop, Thermal Enclosure & Homeostasis Tests (Dual Sprint 12 - EPIC-9 & STORY-10.3)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/tests/test_chill_loop_homeostasis.cpp")
+        add_executable(test_chill_loop_homeostasis tests/test_chill_loop_homeostasis.cpp)
+        target_include_directories(test_chill_loop_homeostasis PRIVATE 
+            ${CMAKE_CURRENT_SOURCE_DIR}
+        )
+        target_link_libraries(test_chill_loop_homeostasis PRIVATE 
+            Catch2::Catch2WithMain
+            $<IF:$<TARGET_EXISTS:flecs::flecs>,flecs::flecs,flecs::flecs_static>
+            glm::glm
+            spdlog::spdlog
+            $<$<PLATFORM_ID:Linux>:rt>
+        )
+        add_test(NAME ChillLoopHomeostasisTests COMMAND test_chill_loop_homeostasis)
+    endif()
+
+    # Native Catch2 Layer 7 Migration Waves, KMS Trust Ring Assimilation & EPIC-11 Tests (Dual Sprint 12 & 13)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/tests/test_migration_waves.cpp")
+        add_executable(test_migration_waves tests/test_migration_waves.cpp)
+        target_include_directories(test_migration_waves PRIVATE 
+            ${CMAKE_CURRENT_SOURCE_DIR}
+            ${CMAKE_CURRENT_SOURCE_DIR}/../../../src/daemons/col-adversaryd
+            ${CMAKE_CURRENT_SOURCE_DIR}/../../../src/daemons/col-kmsd
+        )
+        target_link_libraries(test_migration_waves PRIVATE 
+            Catch2::Catch2WithMain
+            $<IF:$<TARGET_EXISTS:flecs::flecs>,flecs::flecs,flecs::flecs_static>
+            glm::glm
+            spdlog::spdlog
+            $<$<PLATFORM_ID:Linux>:rt>
+        )
+        add_test(NAME MigrationWavesTests COMMAND test_migration_waves)
+    endif()
+
+    # Native Catch2 3D Voxel A* Pathfinding, Resource-Gated Hauling & Scenario Gamma Kitchen Tests (Sprint 13.6)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/tests/test_pathfinding_hauling_and_kitchen.cpp")
+        add_executable(test_pathfinding_hauling_and_kitchen tests/test_pathfinding_hauling_and_kitchen.cpp)
+        target_include_directories(test_pathfinding_hauling_and_kitchen PRIVATE 
+            ${CMAKE_CURRENT_SOURCE_DIR}
+        )
+        target_link_libraries(test_pathfinding_hauling_and_kitchen PRIVATE 
+            Catch2::Catch2WithMain
+            $<IF:$<TARGET_EXISTS:flecs::flecs>,flecs::flecs,flecs::flecs_static>
+            glm::glm
+            spdlog::spdlog
+            $<$<PLATFORM_ID:Linux>:rt>
+        )
+        add_test(NAME PathfindingHaulingAndKitchenTests COMMAND test_pathfinding_hauling_and_kitchen)
+    endif()
 endif()
+
+
+
 
 
 

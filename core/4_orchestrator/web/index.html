@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Layer 4 BPMN 2.0 Workflow Designer, Template Library &amp; Orchestrator Diagnostics — The Collective</title>
+  <style>
+    :root {
+      --bg-deep: #050b11;
+      --bg-card: rgba(10, 22, 34, 0.94);
+      --bg-card-alt: rgba(15, 31, 46, 0.9);
+      --border-subtle: rgba(100, 116, 139, 0.35);
+      --border-emerald: rgba(52, 211, 153, 0.65);
+      --border-indigo: rgba(99, 102, 241, 0.7);
+      --border-purple: rgba(168, 85, 247, 0.65);
+      --border-amber: rgba(245, 158, 11, 0.65);
+      --border-cyan: rgba(34, 211, 238, 0.65);
+      --text-primary: #f1f5f9;
+      --text-secondary: #94a3b8;
+      --text-emerald: #34d399;
+      --text-cyan: #22d3ee;
+      --text-indigo: #818cf8;
+      --text-purple: #c084fc;
+      --text-amber: #fbbf24;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: radial-gradient(circle at top right, #0e2238 0%, #050b11 65%);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      line-height: 1.5;
+      min-height: 100vh;
+      padding-bottom: 48px;
+    }
+
+    .app-shell {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 16px 20px;
+    }
+
+    /* Top Header & Navigation */
+    .top-header {
+      background: var(--bg-card);
+      border: 1px solid var(--border-indigo);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-bottom: 18px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+    }
+
+    .header-row-main {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .brand-title-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .eyebrow-tag {
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      letter-spacing: 0.08em;
+      color: var(--text-indigo);
+      text-transform: uppercase;
+    }
+
+    .main-title {
+      font-size: 1.32rem;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      color: #fff;
+    }
+
+    .header-badges {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      font-weight: 600;
+      padding: 6px 11px;
+      border-radius: 999px;
+      border: 1px solid var(--border-subtle);
+      background: rgba(15, 23, 42, 0.85);
+    }
+
+    .pill-horizon {
+      border-color: var(--border-cyan);
+      color: var(--text-cyan);
+      background: rgba(8, 51, 68, 0.55);
+    }
+
+    .pill-bus {
+      border-color: var(--border-emerald);
+      color: var(--text-emerald);
+      background: rgba(6, 78, 59, 0.55);
+    }
+
+    .nav-link-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-amber);
+      background: rgba(120, 53, 15, 0.45);
+      border: 1px solid var(--border-amber);
+      padding: 6px 12px;
+      border-radius: 8px;
+      transition: all 0.15s ease;
+    }
+
+    .nav-link-btn:hover {
+      background: rgba(146, 64, 14, 0.75);
+      transform: translateY(-1px);
+    }
+
+    .nav-link-btn.nav-l5 {
+      color: var(--text-purple);
+      background: rgba(88, 28, 135, 0.45);
+      border-color: var(--border-purple);
+    }
+
+    .nav-link-btn.nav-l5:hover {
+      background: rgba(107, 33, 168, 0.75);
+    }
+
+    .architecture-banner {
+      padding-top: 10px;
+      border-top: 1px solid rgba(100, 116, 139, 0.25);
+      font-size: 0.82rem;
+      color: #cbd5e1;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .architecture-banner code {
+      font-family: var(--font-mono);
+      color: var(--text-cyan);
+      background: rgba(15, 23, 42, 0.9);
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    /* Section Cards */
+    .section-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+    }
+
+    .section-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(100, 116, 139, 0.25);
+    }
+
+    .section-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      letter-spacing: 0.03em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-subtitle {
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+      margin-bottom: 14px;
+    }
+
+    /* Status Toast / Banner */
+    .status-banner {
+      display: none;
+      background: rgba(6, 78, 59, 0.92);
+      border: 1px solid var(--text-emerald);
+      color: #d1fae5;
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    /* Section 1: Filter Bar & Workflow Database Grid */
+    .filter-bar {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr 1.4fr auto;
+      gap: 12px;
+      background: rgba(8, 17, 28, 0.85);
+      border: 1px solid rgba(99, 102, 241, 0.35);
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin-bottom: 16px;
+      align-items: end;
+    }
+
+    @media (max-width: 900px) {
+      .filter-bar {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .filter-bar {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .filter-field {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .filter-field label {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-cyan);
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .input-control,
+    .select-control {
+      width: 100%;
+      background: #07111c;
+      color: #fff;
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      padding: 8px 10px;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+    }
+
+    .input-control:focus,
+    .select-control:focus {
+      outline: none;
+      border-color: var(--text-indigo);
+    }
+
+    .workflow-db-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      gap: 14px;
+    }
+
+    .wf-card {
+      background: var(--bg-card-alt);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 14px 16px;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .wf-card:hover {
+      border-color: var(--text-indigo);
+      transform: translateY(-2px);
+    }
+
+    .wf-card.selected-wf {
+      border: 2px solid var(--text-indigo);
+      background: rgba(30, 27, 75, 0.55);
+      box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+    }
+
+    .wf-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .wf-id-mono {
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: var(--text-cyan);
+    }
+
+    .wf-status-badge {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 4px;
+      text-transform: uppercase;
+    }
+
+    .status-active-bound {
+      background: rgba(16, 185, 129, 0.2);
+      border: 1px solid var(--border-emerald);
+      color: var(--text-emerald);
+    }
+
+    .status-template {
+      background: rgba(245, 158, 11, 0.2);
+      border: 1px solid var(--border-amber);
+      color: var(--text-amber);
+    }
+
+    .status-custom {
+      background: rgba(168, 85, 247, 0.22);
+      border: 1px solid var(--border-purple);
+      color: var(--text-purple);
+    }
+
+    .wf-title {
+      font-size: 0.96rem;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .wf-desc {
+      font-size: 0.79rem;
+      color: #cbd5e1;
+      line-height: 1.4;
+    }
+
+    .wf-meta-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+    }
+
+    .wf-tag {
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(100, 116, 139, 0.3);
+      padding: 2px 7px;
+      border-radius: 4px;
+      color: #e2e8f0;
+    }
+
+    /* Section 2: BPMN 2.0 Visual Canvas & Specialization Studio */
+    .bpmn-pipeline-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    @media (max-width: 1024px) {
+      .bpmn-pipeline-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .bpmn-pipeline-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .bpmn-node-card {
+      background: var(--bg-card-alt);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 132px;
+    }
+
+    .bpmn-node-card:hover {
+      border-color: var(--text-indigo);
+      transform: translateY(-2px);
+    }
+
+    .bpmn-node-card.active-stage {
+      border: 2px solid var(--text-emerald);
+      background: rgba(6, 78, 59, 0.35);
+      box-shadow: 0 0 16px rgba(52, 211, 153, 0.25);
+    }
+
+    .bpmn-node-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .bpmn-layer-tag {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: rgba(99, 102, 241, 0.25);
+      color: var(--text-indigo);
+    }
+
+    .bpmn-type-tag {
+      font-family: var(--font-mono);
+      font-size: 0.66rem;
+      color: var(--text-secondary);
+    }
+
+    .bpmn-node-name {
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+
+    .bpmn-node-expr {
+      font-family: var(--font-mono);
+      font-size: 0.69rem;
+      color: var(--text-cyan);
+      background: rgba(5, 11, 17, 0.75);
+      padding: 5px 6px;
+      border-radius: 4px;
+      word-break: break-word;
+    }
+
+    /* Specialization Form Grid */
+    .studio-editor-grid {
+      display: grid;
+      grid-template-columns: 1.35fr 1fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 960px) {
+      .studio-editor-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .editor-panel {
+      background: rgba(8, 17, 28, 0.9);
+      border: 1px solid var(--border-indigo);
+      border-radius: 10px;
+      padding: 16px;
+    }
+
+    .editor-panel-title {
+      font-family: var(--font-mono);
+      font-size: 0.84rem;
+      font-weight: 800;
+      color: var(--text-indigo);
+      margin-bottom: 12px;
+      text-transform: uppercase;
+    }
+
+    .form-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .form-grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    @media (max-width: 640px) {
+      .form-grid-2,
+      .form-grid-3 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .field-group label {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: #cbd5e1;
+      font-weight: 600;
+    }
+
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .btn {
+      cursor: pointer;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: 1px solid transparent;
+      transition: all 0.15s ease;
+    }
+
+    .btn-emerald {
+      background: linear-gradient(135deg, #059669 0%, #047857 100%);
+      color: #ecfdf5;
+      border-color: #34d399;
+    }
+
+    .btn-emerald:hover {
+      filter: brightness(1.12);
+      transform: translateY(-1px);
+    }
+
+    .btn-indigo {
+      background: rgba(67, 56, 202, 0.7);
+      color: #e0e7ff;
+      border-color: #818cf8;
+    }
+
+    .btn-indigo:hover {
+      background: rgba(79, 70, 229, 0.9);
+    }
+
+    .btn-cyan {
+      background: rgba(14, 116, 144, 0.65);
+      color: #cffafe;
+      border-color: #22d3ee;
+    }
+
+    .json-preview-pre {
+      background: #03070b;
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 12px;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-emerald);
+      max-height: 310px;
+      overflow: auto;
+      white-space: pre;
+    }
+
+    /* Section 3: Aggregated Diagnostics */
+    .diag-kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .diag-kpi-card {
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(100, 116, 139, 0.35);
+      border-radius: 10px;
+      padding: 12px 14px;
+    }
+
+    .diag-kpi-label {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .diag-kpi-val {
+      font-family: var(--font-mono);
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--text-emerald);
+    }
+
+    .diag-kpi-sub {
+      font-family: var(--font-mono);
+      font-size: 0.69rem;
+      color: #cbd5e1;
+      margin-top: 2px;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      margin-bottom: 14px;
+    }
+
+    .diag-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+    }
+
+    .diag-table th,
+    .diag-table td {
+      padding: 10px 12px;
+      text-align: left;
+      border-bottom: 1px solid rgba(100, 116, 139, 0.25);
+    }
+
+    .diag-table th {
+      background: rgba(15, 23, 42, 0.9);
+      color: var(--text-cyan);
+      text-transform: uppercase;
+      font-size: 0.7rem;
+    }
+
+    .terminal-log {
+      background: #03070b;
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 12px;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      max-height: 170px;
+      overflow-y: auto;
+      color: #94a3b8;
+    }
+
+    .terminal-log div {
+      margin-bottom: 4px;
+    }
+
+    .log-ok { color: var(--text-emerald); }
+    .log-l4 { color: var(--text-indigo); }
+    .log-l5 { color: var(--text-purple); }
+    .log-l3 { color: var(--text-cyan); }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <!-- TOP HEADER & SEPARATION OF CONCERNS BANNER -->
+    <header class="top-header">
+      <div class="header-row-main">
+        <div class="brand-title-wrap">
+          <span class="eyebrow-tag">THE COLLECTIVE // LAYER 4 ORCHESTRATOR STUDIO // BPMN 2.0 STATE MACHINE ENGINE</span>
+          <h1 class="main-title">LAYER 4 BPMN WORKFLOW DESIGNER, TEMPLATE LIBRARY &amp; PROCESS DATABASE</h1>
+        </div>
+        <div class="header-badges">
+          <span class="pill pill-horizon" id="storage-horizon-pill">
+            🗄️ Phase 1: GitHub/JSON Snapshot Bridge -&gt; Phase 2 Horizon: Layer 3 CRDT DAG
+          </span>
+          <span class="pill pill-bus" id="bus-connection-pill">
+            🟢 BUS: oasis_companion_bus READY
+          </span>
+          <a href="../companion/index.html" class="nav-link-btn" id="link-l6-companion">
+            [ ⌂ L6 Citizen Companion (../companion/index.html) ]
+          </a>
+          <a href="../governance/index.html" class="nav-link-btn nav-l5" id="link-l5-governance">
+            [ 🛡️ L5 Governance Manager (../governance/index.html) ]
+          </a>
+          <a href="../../oasis_engine.html" class="nav-link-btn" id="link-oasis-3d">
+            [ 🏡 Lot 402 3D Viewport (../../oasis_engine.html) ]
+          </a>
+        </div>
+      </div>
+
+      <div class="architecture-banner">
+        <div>
+          <strong>Architectural Separation of Concerns (ORCHESTRATOR_SPEC.md):</strong>
+          Layer 4 is a headless <code>mesh:BPMNProcess</code> state-machine designer &amp; database—<em>not</em> a day-to-day task button panel. Citizens manage their daily <strong>Calendar of Intents</strong> in Layer 6, while Stewards bind governance policies to these workflows in Layer 5.
+        </div>
+        <span class="pill" style="color:var(--text-indigo); border-color:var(--border-indigo);">
+          DB: <code>workflow_database.json</code> (<span id="db-count-badge">6</span> Workflows)
+        </span>
+      </div>
+    </header>
+
+    <!-- Live Feedback Banner -->
+    <div id="l4-status-banner" class="status-banner">
+      ✅ Specialized BPMN 2.0 Workflow Saved to Layer 4 Database &amp; Broadcast to Layer 5 Governance Manager!
+    </div>
+
+    <!-- ================================================================== -->
+    <!-- SECTION 1: FILTERABLE BPMN WORKFLOW & TEMPLATE DATABASE            -->
+    <!-- ================================================================== -->
+    <section class="section-card" id="section-workflow-db">
+      <div class="section-header">
+        <h2 class="section-title" style="color: var(--text-indigo);">
+          🗄️ 1. FILTERABLE BPMN WORKFLOW &amp; TEMPLATE DATABASE (workflow_database.json)
+        </h2>
+        <span class="pill" style="color: var(--text-cyan); border-color: var(--border-cyan);">
+          ontology_orchestrator.jsonld + ontology_intents.jsonld
+        </span>
+      </div>
+      <p class="section-subtitle">
+        Filter existing <code>mesh:BPMNProcess</code> definitions and templates by semantic <code>IntentClass</code>, deployment status, or scenario. Click any workflow card to load its 6-stage graph into the Specialization Studio below.
+      </p>
+
+      <!-- Live Database Filters -->
+      <div class="filter-bar">
+        <div class="filter-field">
+          <label for="filter-intent-class">Filter by Intent Class (#filter-intent-class)</label>
+          <select id="filter-intent-class" class="select-control">
+            <option value="ALL">ALL (All Ontology Intent Classes)</option>
+            <option value="mesh:FabricationIntent">mesh:FabricationIntent (Scenarios α, β, Γ, Θ)</option>
+            <option value="mesh:RestIntent">mesh:RestIntent (Scenario Σ Psychological Shield)</option>
+            <option value="mesh:MediationIntent">mesh:MediationIntent (Scenario Ψ Ostrom Restitution)</option>
+            <option value="mesh:TriageIntent">mesh:TriageIntent (Scenarios Χ, Υ Emergency Fast-Track)</option>
+          </select>
+        </div>
+
+        <div class="filter-field">
+          <label for="filter-workflow-status">Filter by Status / Origin (#filter-workflow-status)</label>
+          <select id="filter-workflow-status" class="select-control">
+            <option value="ALL">ALL (Active + Templates + Custom)</option>
+            <option value="ACTIVE_BOUND">ACTIVE_BOUND (Bound to L5 Policy)</option>
+            <option value="TEMPLATE">TEMPLATE (Standard Library Template)</option>
+            <option value="SPECIALIZED_CUSTOM">SPECIALIZED_CUSTOM (Steward Customized)</option>
+          </select>
+        </div>
+
+        <div class="filter-field">
+          <label for="filter-search-query">Scenario / Text Search (#filter-search-query)</label>
+          <input type="text" id="filter-search-query" class="input-control" placeholder="Search ID, title, VC, scenario (e.g. Solar, Swale, Sigma, Psi)...">
+        </div>
+
+        <div class="filter-field">
+          <button type="button" class="btn btn-indigo" id="btn-reset-filters">
+            [ ↺ Reset Filters ]
+          </button>
+        </div>
+      </div>
+
+      <!-- Workflow Cards Grid (SSR populated + live filtered via bpmn_scheduler.js) -->
+      <div class="workflow-db-grid" id="workflow-db-grid">
+        <!-- 1. wf-fabrication-solar-v1 -->
+        <div class="wf-card selected-wf" data-wf-id="wf-fabrication-solar-v1" data-intent-class="mesh:FabricationIntent" data-status="ACTIVE_BOUND">
+          <div>
+            <div class="wf-card-top">
+              <span class="wf-id-mono">wf-fabrication-solar-v1</span>
+              <span class="wf-status-badge status-active-bound">ACTIVE_BOUND</span>
+            </div>
+            <div class="wf-title">Roof Solar Microgrid Array Fabrication</div>
+            <p class="wf-desc">Routes a signed mesh:FabricationIntent to mount salvaged PV hardware onto Lot 402 roof structure (+4.5 kWh/day).</p>
+          </div>
+          <div class="wf-meta-strip">
+            <span class="wf-tag">mesh:FabricationIntent</span>
+            <span class="wf-tag">Scenario Alpha</span>
+            <span class="wf-tag">VC: Solar_Grid_Apprentice_VC</span>
+            <span class="wf-tag">Escrow: 16.2 MJ (4.5 VT)</span>
+          </div>
+        </div>
+
+        <!-- 2. wf-hydrology-swale-v1 -->
+        <div class="wf-card" data-wf-id="wf-hydrology-swale-v1" data-intent-class="mesh:FabricationIntent" data-status="ACTIVE_BOUND">
+          <div>
+            <div class="wf-card-top">
+              <span class="wf-id-mono">wf-hydrology-swale-v1</span>
+              <span class="wf-status-badge status-active-bound">ACTIVE_BOUND</span>
+            </div>
+            <div class="wf-title">Keyline Contour Swale &amp; Catchment Excavation</div>
+            <p class="wf-desc">Validates instream ecological water floor (F_eco &ge; 80%) and routes contour trenching (+8.0 L/day &amp; +2 Cob).</p>
+          </div>
+          <div class="wf-meta-strip">
+            <span class="wf-tag">mesh:FabricationIntent</span>
+            <span class="wf-tag">Scenario Beta</span>
+            <span class="wf-tag">VC: Hydro_Earthworks_VC</span>
+            <span class="wf-tag">Escrow: 14.4 MJ (4.0 VT)</span>
+          </div>
+        </div>
+
+        <!-- 3. wf-kitchen-gamma-v1 -->
+        <div class="wf-card" data-wf-id="wf-kitchen-gamma-v1" data-intent-class="mesh:FabricationIntent" data-status="ACTIVE_BOUND">
+          <div>
+            <div class="wf-card-top">
+              <span class="wf-id-mono">wf-kitchen-gamma-v1</span>
+              <span class="wf-status-badge status-active-bound">ACTIVE_BOUND</span>
+            </div>
+            <div class="wf-title">Sovereign Kitchen Harvest &amp; Batch Thermal Cooking</div>
+            <p class="wf-desc">Coordinates garden produce harvest and thermal hearth batch cooking (+800 kcal / 2 Sovereign Meals).</p>
+          </div>
+          <div class="wf-meta-strip">
+            <span class="wf-tag">mesh:FabricationIntent</span>
+            <span class="wf-tag">Scenario Gamma</span>
+            <span class="wf-tag">VC: Sovereign_Kitchen_Steward_VC</span>
+            <span class="wf-tag">Escrow: 12.0 MJ (3.33 VT)</span>
+          </div>
+        </div>
+
+        <!-- 4. wf-rest-lock-sigma-v1 -->
+        <div class="wf-card" data-wf-id="wf-rest-lock-sigma-v1" data-intent-class="mesh:RestIntent" data-status="ACTIVE_BOUND">
+          <div>
+            <div class="wf-card-top">
+              <span class="wf-id-mono">wf-rest-lock-sigma-v1</span>
+              <span class="wf-status-badge status-active-bound">ACTIVE_BOUND</span>
+            </div>
+            <div class="wf-title">Psychological Homeostasis &amp; Temporal Bounty Shield</div>
+            <p class="wf-desc">Activates an inalienable psychological temporal lock preventing Layer 4 from routing work bounties during recovery.</p>
+          </div>
+          <div class="wf-meta-strip">
+            <span class="wf-tag">mesh:RestIntent</span>
+            <span class="wf-tag">Scenario Sigma</span>
+            <span class="wf-tag">VC: None (Inalienable Right)</span>
+            <span class="wf-tag">Demurrage Exempt: TRUE</span>
+          </div>
+        </div>
+
+        <!-- 5. wf-mediation-psi-template -->
+        <div class="wf-card" data-wf-id="wf-mediation-psi-template" data-intent-class="mesh:MediationIntent" data-status="TEMPLATE">
+          <div>
+            <div class="wf-card-top">
+              <span class="wf-id-mono">wf-mediation-psi-template</span>
+              <span class="wf-status-badge status-template">TEMPLATE</span>
+            </div>
+            <div class="wf-title">Ostrom Graduated Sanction &amp; Restitution Mediation</div>
+            <p class="wf-desc">Template workflow for polycentric conflict resolution, thermodynamic restitution, and 2-of-3 FROST council review.</p>
+          </div>
+          <div class="wf-meta-strip">
+            <span class="wf-tag">mesh:MediationIntent</span>
+            <span class="wf-tag">Scenario Psi</span>
+            <span class="wf-tag">VC: Mediation_Steward_VC</span>
+            <span class="wf-tag">Escrow: 10.8 MJ (3.0 VT)</span>
+          </div>
+        </div>
+
+        <!-- 6. wf-triage-chi-template -->
+        <div class="wf-card" data-wf-id="wf-triage-chi-template" data-intent-class="mesh:TriageIntent" data-status="TEMPLATE">
+          <div>
+            <div class="wf-card-top">
+              <span class="wf-id-mono">wf-triage-chi-template</span>
+              <span class="wf-status-badge status-template">TEMPLATE</span>
+            </div>
+            <div class="wf-title">Zero-Knowledge Emergency Medical &amp; Grid Triage Fast-Track</div>
+            <p class="wf-desc">High-priority Tier-1/Tier-2 emergency broadcast workflow verifying ZK pharmacopeia proofs and shedding Tier-4 loads.</p>
+          </div>
+          <div class="wf-meta-strip">
+            <span class="wf-tag">mesh:TriageIntent</span>
+            <span class="wf-tag">Scenario Chi/Upsilon</span>
+            <span class="wf-tag">VC: ZK_Pharmacopeia_Medic_VC</span>
+            <span class="wf-tag">Escrow: 0.0 MJ (Commons Aid)</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- SECTION 2: INTERACTIVE BPMN 2.0 WORKFLOW SPECIALIZATION STUDIO     -->
+    <!-- ================================================================== -->
+    <section class="section-card" id="section-workflow-designer">
+      <div class="section-header">
+        <h2 class="section-title" style="color: var(--text-emerald);">
+          ⚙️ 2. INTERACTIVE BPMN 2.0 WORKFLOW SPECIALIZATION STUDIO
+        </h2>
+        <span class="pill" id="designer-active-wf-pill" style="color: var(--text-emerald); border-color: var(--border-emerald);">
+          Loaded: wf-fabrication-solar-v1
+        </span>
+      </div>
+      <p class="section-subtitle">
+        Inspect the 6-stage declarative BPMN 2.0 execution graph below and specialize Physics Check thresholds, Material Inputs, and Layer 3 CRDT Escrow parameters. Saved specialized workflows are immediately published to the Layer 4 Database and Layer 5 Governance Manager.
+      </p>
+
+      <!-- 6-Stage BPMN 2.0 Pipeline Canvas -->
+      <div class="bpmn-pipeline-grid" id="bpmn-designer-canvas">
+        <div class="bpmn-node-card active-stage" data-stage="1" id="designer-stage-1">
+          <div>
+            <div class="bpmn-node-top">
+              <span class="bpmn-layer-tag">1. L6 INGEST</span>
+              <span class="bpmn-type-tag">StartEvent</span>
+            </div>
+            <div class="bpmn-node-name">StartEvent (L6 Ingest)</div>
+          </div>
+          <div class="bpmn-node-expr" id="expr-stage-1">intent.intentType == 'mesh:FabricationIntent' &amp;&amp; signature_ed25519_valid</div>
+        </div>
+
+        <div class="bpmn-node-card" data-stage="2" id="designer-stage-2">
+          <div>
+            <div class="bpmn-node-top">
+              <span class="bpmn-layer-tag">2. L5 TRUST</span>
+              <span class="bpmn-type-tag">ExclusiveGateway</span>
+            </div>
+            <div class="bpmn-node-name">ExclusiveGateway (L5 Trust Gate)</div>
+          </div>
+          <div class="bpmn-node-expr" id="expr-stage-2">has_vc(issuerDid, 'Solar_Grid_Apprentice_VC') &amp;&amp; dijkstra_hops &lt;= 2.0</div>
+        </div>
+
+        <div class="bpmn-node-card" data-stage="3" id="designer-stage-3">
+          <div>
+            <div class="bpmn-node-top">
+              <span class="bpmn-layer-tag">3. L2/L1b TWIN</span>
+              <span class="bpmn-type-tag">ServiceTask</span>
+            </div>
+            <div class="bpmn-node-name">ServiceTask (L2/L1b Physics Check)</div>
+          </div>
+          <div class="bpmn-node-expr" id="expr-stage-3">kcal &gt;= 1800 &amp;&amp; focus_pct &gt;= 15 &amp;&amp; material('Solar PV Kit') &gt;= 1</div>
+        </div>
+
+        <div class="bpmn-node-card" data-stage="4" id="designer-stage-4">
+          <div>
+            <div class="bpmn-node-top">
+              <span class="bpmn-layer-tag">4. L3 LEDGER</span>
+              <span class="bpmn-type-tag">ServiceTask</span>
+            </div>
+            <div class="bpmn-node-name">ServiceTask (L3 CRDT Escrow Lock)</div>
+          </div>
+          <div class="bpmn-node-expr" id="expr-stage-4">lock_escrow(16.2 MJ, 4.5 VT, demurrage_exempt=false, fallback='QueueUntilRested')</div>
+        </div>
+
+        <div class="bpmn-node-card" data-stage="5" id="designer-stage-5">
+          <div>
+            <div class="bpmn-node-top">
+              <span class="bpmn-layer-tag">5. L2/L1b ACTUATE</span>
+              <span class="bpmn-type-tag">UserTask</span>
+            </div>
+            <div class="bpmn-node-name">UserTask (L2/L1b Actuation)</div>
+          </div>
+          <div class="bpmn-node-expr" id="expr-stage-5">actuate_voxel_task(taskId=1, target='(9,2,7)', delta='+4.5 kWh/d')</div>
+        </div>
+
+        <div class="bpmn-node-card" data-stage="6" id="designer-stage-6">
+          <div>
+            <div class="bpmn-node-top">
+              <span class="bpmn-layer-tag">6. L3 SETTLE</span>
+              <span class="bpmn-type-tag">EndEvent</span>
+            </div>
+            <div class="bpmn-node-name">EndEvent (L3 Settlement)</div>
+          </div>
+          <div class="bpmn-node-expr" id="expr-stage-6">verify_provenance(0x01|0x02) &amp;&amp; settle_crdt_channel('B-101')</div>
+        </div>
+      </div>
+
+      <!-- Specialization Parameter Form + Live .bpmn.json Compiler Preview -->
+      <div class="studio-editor-grid">
+        <div class="editor-panel">
+          <div class="editor-panel-title">🔧 Specialize &amp; Customize BPMN Workflow Parameters</div>
+
+          <div class="form-grid-2">
+            <div class="field-group">
+              <label for="spec-workflow-id">Custom Workflow ID</label>
+              <input type="text" id="spec-workflow-id" class="input-control" value="wf-fabrication-solar-low-kcal-v2">
+            </div>
+            <div class="field-group">
+              <label for="spec-workflow-title">Custom Workflow Title</label>
+              <input type="text" id="spec-workflow-title" class="input-control" value="Roof Solar Microgrid Array Fabrication (Specialized)">
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="field-group">
+              <label for="spec-intent-class">Target Intent Class (StartEvent L6)</label>
+              <select id="spec-intent-class" class="select-control">
+                <option value="mesh:FabricationIntent">mesh:FabricationIntent</option>
+                <option value="mesh:RestIntent">mesh:RestIntent</option>
+                <option value="mesh:MediationIntent">mesh:MediationIntent</option>
+                <option value="mesh:TriageIntent">mesh:TriageIntent</option>
+              </select>
+            </div>
+            <div class="field-group">
+              <label for="spec-scenario-label">Scenario / Domain Tag</label>
+              <input type="text" id="spec-scenario-label" class="input-control" value="Scenario Alpha (Specialized)">
+            </div>
+          </div>
+
+          <div class="editor-panel-title" style="margin-top: 8px; color: var(--text-cyan);">
+            Stage 3: L2/L1b Physics Check Thresholds
+          </div>
+          <div class="form-grid-3">
+            <div class="field-group">
+              <label for="spec-min-kcal">Min Caloric Floor (kcal)</label>
+              <input type="number" id="spec-min-kcal" class="input-control" min="400" max="3500" step="100" value="800">
+            </div>
+            <div class="field-group">
+              <label for="spec-min-focus">Minimum Focus (%)</label>
+              <input type="number" id="spec-min-focus" class="input-control" min="0" max="100" step="5" value="20">
+            </div>
+            <div class="field-group">
+              <label for="spec-material-input">Required Material Input</label>
+              <select id="spec-material-input" class="select-control">
+                <option value="Solar PV Kit">Solar PV Kit</option>
+                <option value="Timber Plank">Timber Plank</option>
+                <option value="Cob Lump">Cob Lump</option>
+                <option value="Raw Produce">Raw Produce</option>
+                <option value="None">None</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="editor-panel-title" style="margin-top: 8px; color: var(--text-amber);">
+            Stage 4: L3 CRDT Escrow Lock &amp; Gate Failure Branching
+          </div>
+          <div class="form-grid-3">
+            <div class="field-group">
+              <label for="spec-escrow-mj">Exergy Escrow (MJ)</label>
+              <input type="number" id="spec-escrow-mj" class="input-control" min="0" max="500" step="0.6" value="16.2">
+            </div>
+            <div class="field-group">
+              <label for="spec-demurrage-exempt">Demurrage Exemption</label>
+              <select id="spec-demurrage-exempt" class="select-control">
+                <option value="false">false (Standard -0.012%/d Decay)</option>
+                <option value="true">true (Demurrage Exempt)</option>
+              </select>
+            </div>
+            <div class="field-group">
+              <label for="spec-fallback-branch">Fallback Branch on Failure</label>
+              <select id="spec-fallback-branch" class="select-control">
+                <option value="QueueUntilRested">QueueUntilRested</option>
+                <option value="RejectIntent">RejectIntent</option>
+                <option value="EscalateToL5Mediation">EscalateToL5Mediation</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="btn-row">
+            <button type="button" class="btn btn-emerald" id="btn-save-specialized-workflow">
+              [ ✨ Clone Template &amp; Save Specialized Workflow to L4 Database ]
+            </button>
+            <button type="button" class="btn btn-cyan" id="btn-export-bpmn-json">
+              [ 📥 Export .bpmn.json ]
+            </button>
+          </div>
+        </div>
+
+        <div class="editor-panel">
+          <div class="editor-panel-title">📄 Compiled BPMN 2.0 JSON Definition (.bpmn.json)</div>
+          <pre class="json-preview-pre" id="bpmn-json-preview">{
+  "workflow_id": "wf-fabrication-solar-v1",
+  "intent_class": "mesh:FabricationIntent",
+  "status": "ACTIVE_BOUND"
+}</pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- SECTION 3: AGGREGATED LAYER 4 ORCHESTRATOR DIAGNOSTIC TELEMETRY    -->
+    <!-- ================================================================== -->
+    <section class="section-card" id="section-l4-diagnostics">
+      <div class="section-header">
+        <h2 class="section-title" style="color: var(--text-cyan);">
+          📊 3. AGGREGATED LAYER 4 ORCHESTRATOR DIAGNOSTIC TELEMETRY
+        </h2>
+        <span class="pill" style="color: var(--text-cyan); border-color: var(--border-cyan);">
+          Phase 1: GitHub/JSON Snapshot Bridge -&gt; Phase 2 Horizon: Layer 3 CRDT DAG
+        </span>
+      </div>
+      <p class="section-subtitle">
+        Aggregated telemetry across the Local Node (Lot 402) and Asynchronous Peer Node Proxies (<code>core/3_ledger/node_proxies.json</code>).
+      </p>
+
+      <div class="diag-kpi-grid">
+        <div class="diag-kpi-card">
+          <div class="diag-kpi-label">Total Intents Ingested (L6)</div>
+          <div class="diag-kpi-val" id="diag-total-intents">148 Intents</div>
+          <div class="diag-kpi-sub">Signed Ed25519 JSON-LD</div>
+        </div>
+        <div class="diag-kpi-card">
+          <div class="diag-kpi-label">Active JobQueue Mempool Depth</div>
+          <div class="diag-kpi-val" id="diag-jobqueue-depth" style="color:var(--text-amber);">4 Queued</div>
+          <div class="diag-kpi-sub">mesh:JobQueue Headless Runner</div>
+        </div>
+        <div class="diag-kpi-card">
+          <div class="diag-kpi-label">L5 Gate Pass / Rejection Ratio</div>
+          <div class="diag-kpi-val" id="diag-l5-pass-ratio">93.9% Pass</div>
+          <div class="diag-kpi-sub">139 Passed / 9 Rejected (VC/Dijkstra)</div>
+        </div>
+        <div class="diag-kpi-card">
+          <div class="diag-kpi-label">Average BPMN Stage Latency</div>
+          <div class="diag-kpi-val" id="diag-avg-latency" style="color:var(--text-cyan);">14.2 ms</div>
+          <div class="diag-kpi-sub">10 Hz Wasmtime Deterministic Tick</div>
+        </div>
+        <div class="diag-kpi-card">
+          <div class="diag-kpi-label">Total Exergy Escrowed (L3)</div>
+          <div class="diag-kpi-val" id="diag-total-escrow">53.4 MJ (14.83 VT)</div>
+          <div class="diag-kpi-sub">3.6 MJ == 1.0 kWh ValueToken</div>
+        </div>
+        <div class="diag-kpi-card">
+          <div class="diag-kpi-label">Storage Horizon Bridge</div>
+          <div class="diag-kpi-val" id="diag-storage-horizon" style="color:var(--text-indigo); font-size:0.86rem;">GitHub/JSON ➔ CRDT DAG</div>
+          <div class="diag-kpi-sub">Phase 1 Active / Phase 2 Automerge</div>
+        </div>
+      </div>
+
+      <!-- Aggregated Peer Node Proxy & Workflow Execution Diagnostic Table -->
+      <div class="table-wrap">
+        <table class="diag-table">
+          <thead>
+            <tr>
+              <th>Node / Proxy ID</th>
+              <th>Steward DID &amp; Ring</th>
+              <th>Active Thermodynamic Deficit</th>
+              <th>Routed L4 BPMN Workflow</th>
+              <th>L5 VC Interface</th>
+              <th>Escrowed Exergy</th>
+              <th>24h Pass Rate</th>
+            </tr>
+          </thead>
+          <tbody id="diag-proxy-tbody">
+            <tr>
+              <td><strong>Lot 404 (node-01)</strong></td>
+              <td><code>did:mesh:node01:maya</code> (R1)</td>
+              <td>-4.5 kWh/d Solar Exergy (Kiln)</td>
+              <td><code>wf-fabrication-solar-v1</code> (#B-101)</td>
+              <td><code>Solar_Grid_Apprentice_VC</code></td>
+              <td>16.2 MJ (4.5 VT)</td>
+              <td style="color:var(--text-emerald);">95.2% (12.8 ms)</td>
+            </tr>
+            <tr>
+              <td><strong>Lot 406 (node-02)</strong></td>
+              <td><code>did:mesh:node02:kael</code> (R1)</td>
+              <td>-1,600 kcal/d Kitchen Meals</td>
+              <td><code>wf-kitchen-gamma-v1</code> (#B-102)</td>
+              <td><code>Sovereign_Kitchen_Steward_VC</code></td>
+              <td>12.0 MJ (3.33 VT)</td>
+              <td style="color:var(--text-emerald);">97.9% (11.4 ms)</td>
+            </tr>
+            <tr>
+              <td><strong>Lot 408 (node-03)</strong></td>
+              <td><code>did:mesh:node03:soren</code> (R3)</td>
+              <td>-8.0 L/d Catchment &amp; -2 Cob</td>
+              <td><code>wf-hydrology-swale-v1</code> (#B-103)</td>
+              <td><code>Hydro_Earthworks_VC</code></td>
+              <td>14.4 MJ (4.0 VT)</td>
+              <td style="color:var(--text-emerald);">94.4% (15.1 ms)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="terminal-log" id="l4-terminal-log">
+        <div class="log-l4">[06:00:00] Layer 4 BPMN 2.0 Workflow Designer &amp; Process Database initialized (ORCHESTRATOR_SPEC.md compliant).</div>
+        <div class="log-l3">[06:00:01] Storage Horizon: Phase 1 GitHub/JSON Snapshot Bridge active -&gt; Phase 2 Horizon: Layer 3 CRDT DAG.</div>
+        <div class="log-ok">[06:00:02] Loaded 6 canonical workflows (4 ACTIVE_BOUND, 2 TEMPLATE) from workflow_database.json.</div>
+      </div>
+    </section>
+  </div>
+
+  <script src="bpmn_scheduler.js"></script>
+</body>
+</html>

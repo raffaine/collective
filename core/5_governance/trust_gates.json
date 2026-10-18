@@ -1,0 +1,131 @@
+{
+  "@context": [
+    "https://www.w3.org/ns/did/v1",
+    "https://www.w3.org/2018/credentials/v1",
+    "https://thecollective.mesh/schemas/v1/governance-trust-ring.jsonld"
+  ],
+  "schema_version": "1.4.0-sprint14",
+  "governance_spec_compliance": "core/5_governance/GOVERNANCE_SPEC.md",
+  "permission_engine": {
+    "algorithm": "Dijkstra_Weighted_Trust_Graph",
+    "rbac_prohibited": true,
+    "max_allowed_graph_distance": 3.0,
+    "slashing_threshold_edge_weight": -1.0,
+    "zk_privacy_circuits": [
+      "BBS_Plus_Selective_Disclosure_VC",
+      "SafeHarborSeverance_ZeroKnowledge_Proximity_Filter"
+    ]
+  },
+  "trust_rings": {
+    "R0": { "name": "Local Homestead Anchor", "max_hops": 0, "credit_limit_mj": 500.0, "voting_weight": 1.0 },
+    "R1": { "name": "Vouched Bioregional Steward", "max_hops": 1, "credit_limit_mj": 150.0, "voting_weight": 1.0 },
+    "R2": { "name": "Valley Commons Peer", "max_hops": 2, "credit_limit_mj": 90.0, "voting_weight": 0.75 },
+    "R3": { "name": "Probationary Resident Steward", "max_hops": 2, "credit_limit_mj": 45.0, "voting_weight": 0.5 }
+  },
+  "did_trust_graph_edges": [
+    {
+      "source_did": "did:mesh:node00:lot402",
+      "target_did": "did:mesh:node01:maya",
+      "edge_type": "TrustGraphEdge_Vouch",
+      "weight": 1.0,
+      "dijkstra_cost": 1.0,
+      "ceremony": "SCN-TAU-GENESIS-FROST-2OF3",
+      "status": "ACTIVE_VOUCHED"
+    },
+    {
+      "source_did": "did:mesh:node00:lot402",
+      "target_did": "did:mesh:node02:kael",
+      "edge_type": "TrustGraphEdge_Vouch",
+      "weight": 1.0,
+      "dijkstra_cost": 1.0,
+      "ceremony": "SCN-TAU-GENESIS-FROST-2OF3",
+      "status": "ACTIVE_VOUCHED"
+    },
+    {
+      "source_did": "did:mesh:node01:maya",
+      "target_did": "did:mesh:node03:soren",
+      "edge_type": "TrustGraphEdge_ProbationaryVouch",
+      "weight": 0.85,
+      "dijkstra_cost": 1.85,
+      "ceremony": "R3_HOMEOSASIS_ASSIMILATION",
+      "status": "ACTIVE_PROBATIONARY"
+    },
+    {
+      "source_did": "did:mesh:node02:kael",
+      "target_did": "did:mesh:node00:lot402",
+      "edge_type": "TrustGraphEdge_MutualAid",
+      "weight": 1.0,
+      "dijkstra_cost": 1.0,
+      "ceremony": "RICARDIAN_WATER_PACT_0x9a8f",
+      "status": "ACTIVE_VOUCHED"
+    }
+  ],
+  "verifiable_credential_catalog": {
+    "Solar_Grid_Apprentice_VC": {
+      "vc_id": "urn:uuid:vc-solar-grid-apprentice-01",
+      "type": ["VerifiableCredential", "SkillCredential"],
+      "scenario_ref": "Scenario Kappa / Scenario Alpha",
+      "issuer_did": "did:mesh:node03:soren",
+      "cryptosuite": "bbs-2023-zkp",
+      "required_for_tasks": [1, 4],
+      "required_for_bounties": ["B-101"],
+      "safety_predicates": ["48V_DC_Bus_Isolation", "Arc_Fault_Interlock_Check"],
+      "holders": [
+        "did:mesh:node00:lot402",
+        "did:mesh:node03:soren"
+      ]
+    },
+    "Hydro_Earthworks_VC": {
+      "vc_id": "urn:uuid:vc-hydro-earthworks-02",
+      "type": ["VerifiableCredential", "SkillCredential"],
+      "scenario_ref": "Scenario Beta",
+      "issuer_did": "did:mesh:node02:kael",
+      "cryptosuite": "bbs-2023-zkp",
+      "required_for_tasks": [2],
+      "required_for_bounties": ["B-103"],
+      "safety_predicates": ["Instream_Water_Floor_80pct", "Contour_Grade_Check"],
+      "holders": [
+        "did:mesh:node00:lot402",
+        "did:mesh:node02:kael"
+      ]
+    },
+    "Sovereign_Kitchen_Steward_VC": {
+      "vc_id": "urn:uuid:vc-sovereign-kitchen-03",
+      "type": ["VerifiableCredential", "SkillCredential"],
+      "scenario_ref": "Scenario Gamma / Scenario Chi",
+      "issuer_did": "did:mesh:node01:maya",
+      "cryptosuite": "bbs-2023-zkp",
+      "required_for_tasks": [3],
+      "required_for_bounties": ["B-102"],
+      "safety_predicates": ["ZK_Allergen_Pharmacopeia_Pass", "Caloric_Density_800kcal_Min"],
+      "holders": [
+        "did:mesh:node00:lot402",
+        "did:mesh:node01:maya",
+        "did:mesh:node02:kael"
+      ]
+    },
+    "Biochar_Kiln_Operator_VC": {
+      "vc_id": "urn:uuid:vc-biochar-kiln-04",
+      "type": ["VerifiableCredential", "SkillCredential"],
+      "scenario_ref": "Scenario Kappa",
+      "issuer_did": "did:mesh:node01:maya",
+      "cryptosuite": "bbs-2023-zkp",
+      "required_for_tasks": [1],
+      "required_for_bounties": ["B-101"],
+      "safety_predicates": ["Pyrolysis_Thermal_Runaway_Guard", "Smoke_Curtailment_Interlock"],
+      "holders": [
+        "did:mesh:node00:lot402",
+        "did:mesh:node01:maya"
+      ]
+    }
+  },
+  "exclusive_gateway_rules": [
+    {
+      "gateway_id": "ExclusiveGateway_L5_TrustGate",
+      "description": "Evaluated by Layer 4 before locking Layer 3 CRDT Escrow or actuating Layer 1b spatial tasks.",
+      "condition_expression": "dijkstra_distance(local_did, peer_did) <= 2.5 && holds_verifiable_credential(local_did, required_vc) && !is_slashed(local_did)",
+      "on_pass": "ServiceTask_L2_ValidatePhysics",
+      "on_fail": "EndEvent_L5_Rejection"
+    }
+  ]
+}

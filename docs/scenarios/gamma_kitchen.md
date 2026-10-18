@@ -1,238 +1,299 @@
-# Scenario Gamma: The Commons Kitchen
+# Scenario Gamma: Bioregional Food Production, Regenerative Husbandry, Bio-Synthesis, Inorganic Culinary Chemistry & The Commons Kitchen
 
 *   **Identifier:** `SCN-GAMMA-KITCH`
-*   **System Epic:** Decentralized Caloric Production, Meal Preps, Comfort Pantries, and Zero-Waste Routing
-*   **Primary Layers Tested:** L1 (Physical), L2 (Digital Twin), L3 (Ledger), L4 (Orchestration), L5 (Governance), L6 (Semantic), L7 (Proxy)
-*   **Pass/Fail Metric:** Hyper-local meal production and distribution with 0% legacy platform extraction fees; continuous thermal and pH telemetry providing mathematical proof of food safety without municipal health inspector presence; zero food waste via unconditional Hearth food floor ($B_{\mathrm{baseline}}$) and compost routing to Scenario Mu (>95% caloric utilization rate); zero floating-point math; zero tokenization of domestic culinary care.
+*   **System Epic:** End-to-End Bioregional Nourishment: Agroecological Horticulture, Rotational Animal Husbandry (Eggs, Milk/Dairy, Meat & Aquaculture), Ecologically Sound Microbial/Algal Bio-Synthesis, Inorganic Food-Grade Mineral Chemistry, Preservation & The Communal Hearth
+*   **Primary Layers Tested:** L1 (Physical Reality), L1b (Oasis Shadow Simulation), L2 (Cybernetic Membrane), L3 (Thermodynamic Ledger), L4 (Deterministic Orchestrator), L5 (Polycentric Governance & BPVP), L6 (Semantic Translation & Agora), L7 (Legacy Interface)
+*   **Pass/Fail Metric:** Complete settlement caloric, protein, micronutrient, and electrolyte sovereignty with $0\text{ basis points}$ ($0\%$) legacy platform extraction; strict enforcement of the Trophic Non-Competition Invariant ($0\,\mathrm{mg}$ of human-edible grain diverted to livestock when local human reserves sit below $B_{\mathrm{baseline}}$) and Bioprocess Ecological Gate ($\mathrm{EROI}_{\mathrm{bio}} > 10000\,\mathrm{bp}$ or powered by curtailed solar surplus); mathematical proof of HACCP thermal lethality ($T_{\mathrm{core}} \ge 347150\,\mathrm{mK}$), pasteurization, fermentation acidification ($\mathrm{pH} < 4600\,\mathrm{mpH}$), and inorganic purity; $> 9500\,\mathrm{bp}$ ($95\%$) nutrient loop closure via Black Soldier Fly Larvae (BSFL) and Scenario Mu composting; zero floating-point math; zero tokenization of domestic culinary care.
 
 ---
 
 ## Architectural Council Ratification & 5-Perspective Synthesis
 
-This scenario specification has been ratified by unanimous consensus of the 5-Persona Architectural Council:
+This scenario specification has been ratified by unanimous consensus of the 5-Persona Architectural Council to encompass the full food production, husbandry, bio-synthesis, inorganic chemistry, and culinary metabolism of The Collective:
 
 | Council Persona | Disciplinary Representative | Core Contribution to Scenario |
 | :--- | :--- | :--- |
-| **Game Designer** | Lead Systems & Gameplay Designer | Dwarf Fortress social commensality and culinary psychology (agents dining together family-style at the communal table gain "Had a lavish meal in good company (+35 mood)" thoughts, boosting community cohesion; solitary eating triggers mild melancholy; culinary diversity prevents "Bored of repetitive rations (-15 mood)" thoughts); The Sims batch cooking management (Founder 01 batches 24 meals to stock the community larder, liberating neighbors for fabrication); Cities Skylines inter-node logistical food corridors and agroecological distribution without commercial market extraction. |
-| **Game Engineer** | Principal C++ Simulation & Engine Architect | Flecs ECS DOD architecture (`CookVesselComponent`, `CaloricItemComponent`, `ThermalHistoryComponent`, `AllergenProfileComponent`, `FoodSecurityFloorComponent`); 32-bit compact voxel chunks modeling thermal dissipation from induction hobs to cookware; deterministic 10 Hz BPMN state engine; compilable C++20 test harness implementing Bigelow thermal pathogen reduction lethality modeling and danger-zone expiration exclusively using fixed-point SI integer arithmetic (millikelvin, milliseconds, milligrams, microjoules). |
-| **Sovereign Stack Specialist** | Sovereign Stack Systems Architect | 7-layer strict adjacency without layer skipping; zero software, microcontrollers, or keys in Layer 1; Zephyr RTOS Layer 2 membrane (`col-sensord`, `col-membraned`, `col-actuated`); Layer 3 Pairwise Bilateral Clearing Channels ($BCC$) with zero-sum conservation $B_{u \to v}(t) + B_{v \to u}(t) = 0$ and multi-hop HTLCs for inter-node agroecological trade; BBS+ Zero-Knowledge Proofs for consumer allergen protection without revealing health profiles; Layer 5 boundary socket `/run/collective/ipc/l4_l5.sock`; Tripartite Ricardian Treaties ($\mathrm{Treaty\_CID}$). |
-| **Solarpunk Thinker** | Bioregional Regenerative Ecologist | Decoupling from 2,500-kilometer industrial supply chains; 100% organic kitchen scrap and plate waste routed directly into Scenario Mu for vermicomposting and biochar nutrient inoculation; zero single-use packaging through standardized returnable stainless steel tiffin containers and glass fermentation vessels; induction cooking powered entirely by localized solar microgrids with thermal storage recapture. |
-| **Scenario Specialist** | Fermentation Microbiologist & Culinary Systems Operations Engineer | Bigelow thermal pathogen reduction lethality modeling scaled in integer arithmetic ($F_0$ targeting 7-log reduction for *Salmonella* and *Listeria*); anaerobic fermentation acidification thresholds ($\mathrm{pH} < 4600\text{ mpH}$ inhibiting *Clostridium botulinum*); continuous IoT Hazard Analysis Critical Control Point (HACCP) telemetry protocols; commercial insulation under Subchapter T Cooperative Shared Services Agreements (SSAs). |
+| **Game Designer** | Lead Systems & Gameplay Designer | Full-chain nourishment gameplay in Oasis: tending **Horticultural Gardens & Greenhouses**, moving **Rotational Pasture Poultry & Dairy Goats/Cattle**, tending **Aquaponics & Photobioreactor Vats**, refining **Inorganic Salts & Nixtamal Lime**, and batch-cooking at the **Communal Hearth ($R_0$)**; Dwarf Fortress social commensality (`"Had a lavish meal in good company (+35 mood)"` vs. repetitive ration fatigue); visible nutrient-loop closure where kitchen scraps feed Black Soldier Fly Larvae (BSFL) that feed laying hens and trout. |
+| **Game Engineer** | Principal C++ Simulation & Engine Architect | Flecs ECS Data-Oriented Design (DOD): `CropBedComponent`, `PastureHerdComponent`, `BioreactorVatComponent`, `InorganicSaltLotComponent`, `CookVesselComponent`, and `AllergenProfileComponent`; 32-bit voxel thermal/moisture cellular automata; deterministic $10\,\mathrm{Hz}$ BPMN state engine (`col-execd`); self-contained C++20 fixed-point test harness verifying Bigelow thermal lethality, silvopasture carrying capacity, curtailed-solar precision fermentation, nixtamalization/brine stoichiometry, and BCC clearing with zero IEEE 754 floats. |
+| **Sovereign Stack Specialist** | Sovereign Stack Systems Architect | Strict 7-layer adjacency across POSIX Unix Domain Sockets (`l1_l2.sock` through `l6_l7.sock`); Constitutional Non-Commensurability of domestic culinary care (`sec:l3-friction`) alongside inter-node Pairwise Bilateral Clearing Channels ($B_{u \to v}(t) + B_{v \to u}(t) = 0$) and multi-hop HTLCs for bioregional dairy, grain, salt, and preserved-food exchange; BBS+ Zero-Knowledge Proofs for cryptographic anaphylactic shielding; Node-level sovereign dietary and husbandry vetos under the Protocol of Refusal. |
+| **Solarpunk Thinker** | Bioregional Regenerative Ecologist | Rejecting both industrial CAFOs and high-entropy disposable-plastic lab-meat cleanrooms; establishing **Holistic Rotational Silvopasture** (animals converting non-human-edible pasture cellulose and food waste into eggs, milk, and meat while building topsoil carbon), **Solar-Coupled Microbial & Microalgal Bio-Synthesis** (synthesizing Vitamin B12, rennet, mycoprotein, and hydrogen-oxidizing single-cell protein from curtailed solar power and captured $\mathrm{CO_2}$), and $100\%$ circular phosphorus/nitrogen recovery. |
+| **Scenario Specialist** | Agroecologist, Fermentation Bioprocess Engineer & Food Chemist | Bigelow thermal lethality ($F_0$) and HTST milk pasteurization ($345150\,\mathrm{mK}$ for $15000\,\mathrm{ms}$) in integer millikelvin; anaerobic lacto-fermentation acidification ($\mathrm{pH} < 4600\,\mathrm{mpH}$); **Inorganic Culinary Chemistry** ($\mathrm{NaCl}$ solar evaporation, $\mathrm{CaCO_3} \to \mathrm{CaO} \to \mathrm{Ca(OH)_2}$ nixtamalization lime calcining/slaking, $\mathrm{MgCl_2}$ *nigari* and $\mathrm{CaSO_4}$ coagulants, $\mathrm{K_2CO_3}$ wood-ash potash, and $\mathrm{NaHCO_3}$ buffering); Subchapter T Cooperative Shared Services and Farm-to-Consumer Herdshare legal shielding. |
 
-**Council Consensus Statement:** Unanimous Consensus Reached. The council affirms that human nourishment is an inalienable right of living membership ($B_{\mathrm{baseline}}$) anchored in the Convivial Sanctuary ($R_0$). All pricing, tokenization, and financialization of domestic cooking are permanently abolished.
-
----
-
-## 1. Problem Statement & Legacy Failure
-
-In legacy capitalist food systems (Layer 7), human nourishment has been industrialized, financialized, and atomized into an ecological and social dead end.
-
-When citizens seek daily sustenance in the legacy economy:
-*   **Massive Carbon Drag & Packaging Waste:** The average grocery store ingredient travels over 2,500 kilometers via refrigerated diesel freight. Industrial agriculture relies on synthetic nitrogen fertilizers, monoculture soil depletion, and mountains of single-use petrochemical packaging that choke oceans and landfills.
-*   **Predatory Gig-Economy Extraction:** Third-party delivery conglomerates siphon up to 30% of gross ticket value from culinary workers while trapping couriers in precarious piece-rate labor. Consumers are isolated in atomized, solitary dining experiences in front of glowing screens, destroying the communal fabric that forms the bedrock of human longevity.
-*   **Bureaucratic Enclosure & Food Monopolies:** Municipal health departments enforce capital-intensive commercial kitchen building codes that functionally criminalize neighborly food preparation, granting food monopolies to capitalized restaurant franchises while outlawing neighborhood mutual aid.
-*   **Commodification of Bodily Survival:** Human access to clean, nutrient-dense calories is conditioned on fiat purchasing power. When economic crises strike, grocery bills escalate, forcing families into caloric poverty while commercial retailers discard tons of edible food into locked dumpsters to protect price floors.
+**Ratification Statement:** Unanimous Consensus Reached across all five disciplinary perspectives. The council affirms that human nourishment is an inalienable right of living membership ($B_{\mathrm{baseline}}$) anchored in the Convivial Sanctuary ($R_0$), while providing a complete bioregional production engine for plant, fungal, animal, bio-synthesized, and inorganic food streams.
 
 ---
 
-## 2. The Collective Workflow (7-Layer Traversal)
+## 1. Problem Statement, Legacy Failure & Macro-Domain Vision
 
-Scenario Gamma replaces the centralized restaurant and gig-delivery platform with a localized caloric commons. The cultural anchor is the **Communal Hearth** ($R_0$)—inviting neighbors to break bread together family-style. To accommodate diverse schedules, the system seamlessly supports premade weekly meal-preps and morning comfort baskets. The workflow traverses canonically from Layer 1 physical cooking up to Layer 7 cooperative legal shielding.
+In legacy industrial food systems (Layer 7), the production of plants, animal proteins, microbial ingredients, mineral salts, and prepared meals is split across ecologically destructive monopolies:
+1.  **Monoculture Depletion & Industrial CAFO Cruelty:** Legacy agriculture strips topsoil with synthetic Haber-Bosch ammonia and glyphosate while confining billions of animals in Concentrated Animal Feeding Operations (CAFOs). Over $4000\,\mathrm{bp}$ ($40\%$) of global arable grain is fed to confined livestock at a $7000\,\mathrm{bp}$ to $9000\,\mathrm{bp}$ ($70\%$ to $90\%$) caloric conversion loss, turning human-edible crops into toxic manure lagoons and antibiotic-resistant pathogens.
+2.  **Greenwashed High-Entropy "Lab Food" vs. Real Bioprocessing:** In response to CAFO failures, venture-capitalized corporations promote pharmaceutical-grade mammalian tissue culture ("lab-grown meat") that relies on ultra-refined corn-syrup media, synthetic growth factors, single-use petrochemical bioreactor bags, and massive cleanroom electricity—resulting in an embodied exergy and plastic footprint orders of magnitude worse than regenerative pasture.
+3.  **Severed Mineral & Preservation Chemistry:** Households are reduced to passive consumers of ultra-processed packaged goods because knowledge and local production of foundational inorganic food chemistry—evaporated culinary salt ($\mathrm{NaCl}$), nixtamalization slaked lime ($\mathrm{Ca(OH)_2}$), tofu/cheese mineral coagulants ($\mathrm{MgCl_2}$, $\mathrm{CaSO_4}$), and fermentation brines—have been enclosed behind industrial chemical supply chains.
+4.  **Predatory Delivery Extraction & Bureaucratic Enclosure:** At the point of consumption, gig-delivery platforms siphon $3000\,\mathrm{bp}$ ($30\%$) of meal value while municipal health codes criminalize neighborly food sharing and condition human caloric survival on fiat wealth.
+
+### The Collective Macro-Domain Vision
+Scenario Gamma is **how The Collective Produces, Grows, Husbands, Bio-Synthesizes, Refines, Preserves, and Cooks Nourishment for its People**. Rather than treating the Commons Kitchen as an isolated stove that magically receives groceries, Scenario Gamma unifies the entire metabolic food web across **six integrated pillars**:
+1.  **Agroecological Plant & Mycelial Production:** Intensive polyculture market gardens, perennial food forests, passive solar greenhouses, and hardwood-substrate mushroom fruiting chambers.
+2.  **Regenerative Animal Husbandry & Coupled Aquaponics (Eggs, Milk, Meat, Fish & Honey):** Holistic rotational silvopasture poultry, dairy goats/sheep/cattle, recirculating aquaponics, and apiculture operating strictly on non-human-edible forage, crop byproducts, and Black Soldier Fly Larvae (BSFL).
+3.  **Ecologically Sound Bio-Synthesized & Fermented Ingredients:** Rejecting disposable-plastic mammalian cell culture in favor of zero-waste stainless-steel **Precision & Biomass Fermentation** (synthesizing Vitamin B12, microbial rennet, mycoprotein, and essential amino acids), **Photobioreactor Microalgae** (*Spirulina*, *Chlorella*), and **Solar-to-Protein Hydrogen-Oxidizing Bacteria** powered by curtailed microgrid solar surplus.
+4.  **Inorganic & Mineral Culinary Ingredients:** Local extraction, kiln calcining, brine fractionation, and cooperative GPO stockpiling of essential inorganic food compounds ($\mathrm{NaCl}$, $\mathrm{Ca(OH)_2}$, $\mathrm{MgCl_2}$, $\mathrm{CaSO_4}$, $\mathrm{K_2CO_3}$, $\mathrm{NaHCO_3}$, and trace electrolytes).
+5.  **Primary Processing, Preservation & The Communal Hearth Kitchen ($R_0$):** Grain milling, nixtamalization, oil pressing, artisan cheesemaking, curing/smoking, lacto-fermentation, and family-style communal dining alongside $R_1$ shift-worker smart larders.
+6.  **Closed-Loop Nutrient Recovery & Oasis Simulation Collaboration:** Routing $100\%$ of organic residues through BSFL insect bioconversion, bone calcining, and Scenario Mu thermophilic composting/struvite precipitation.
+
+---
+
+## 2. The Six Pillars of Bioregional Nourishment
+
+| Food Stream Pillar | Primary Outputs | Core Ecological / Thermodynamic Invariant | Cross-Scenario Dependencies |
+| :--- | :--- | :--- | :--- |
+| **1. Plant & Mycelial Agroecology** | Vegetables, tubers, grains, tree nuts, culinary/medicinal mushrooms. | Keyline soil moisture retention & positive soil organic carbon ($\Delta \mathrm{SOC} \ge 0$). | Scenario Eta (Sawdust/Mulch), Beta (Water Flumes), Mu (Compost/Struvite). |
+| **2. Animal Husbandry & Aquaponics** | Pasture eggs, raw/pasteurized milk, butter, cheese, yogurt, poultry/ruminant meat, fish, honey. | **Trophic Non-Competition Invariant:** $0\,\mathrm{mg}$ human-edible grain diverted below $B_{\mathrm{baseline}}$; paddock rest $\ge 30\text{ days}$. | Scenario Eta (Silvopasture Canopy), Alpha (Milking/Hive Hardware), Beta (Cold-Chain Totes). |
+| **3. Bio-Synthesized & Microbial Foods** | Vitamin B12, chymosin rennet, *Fusarium* mycoprotein, *Spirulina*, $\mathrm{H_2}$-oxidizing single-cell protein. | **Bioprocess Ecological Gate:** Reusable `316L` stainless vats only; zero single-use plastics; $\mathrm{H_2}$ electrolysis runs strictly on curtailed solar surplus. | Scenario Alpha (Stainless Bioreactors), Beta ($48\,\mathrm{V}$ DC Surplus), Mu (Biogas $\mathrm{CO_2}$ Feed). |
+| **4. Inorganic & Mineral Ingredients** | Culinary/brining salt ($\mathrm{NaCl}$), slaked lime ($\mathrm{Ca(OH)_2}$), *nigari* ($\mathrm{MgCl_2}$), gypsum ($\mathrm{CaSO_4}$), potash ($\mathrm{K_2CO_3}$), baking soda ($\mathrm{NaHCO_3}$). | Heavy-metal exclusion assay; stoichiometric pH/salinity verification ($\sigma_{\mathrm{EC}}$, $\mathrm{mpH}$). | Scenario Theta (Kiln Calcining of $\mathrm{CaCO_3}$), Beta ($R_4/R_5$ Salt Freight), L7 GPO. |
+| **5. Preservation & Commons Kitchen** | Nixtamal masa, milled flour, pressed oils, lacto-ferments, cured meats, hot communal meals ($R_0$). | Bigelow lethality ($F_0 \ge 7\text{-log}$), HTST pasteurization, $\mathrm{pH} < 4600\,\mathrm{mpH}$, ZKP Anaphylactic Shield. | Scenario Alpha (Induction Hobs & Stainless Tiffins), Beta (District Thermal PEX-a). |
+| **6. Trophic & Nutrient Loop Closure** | Black Soldier Fly Larvae (BSFL) feed, bone-ash calcium phosphate, vermicompost, struvite crystals. | $\ge 9500\,\mathrm{bp}$ ($95\%$) biomass & phosphorus recapture; $25 \le C:N \le 30$. | Scenario Mu (Pyrolysis Biochar & Struvite Recovery). |
+
+### Pillar I: Agroecological Plant, Orchard & Mycelial Production
+Plant and fungal calories form the thermodynamic foundation of the settlement diet:
+*   **Bio-Intensive Market Gardens & Passive Solar Greenhouses ($R_1$):** Irrigated by Scenario Beta's gravity-fed rainwater cisterns and warmed in winter by buried PEX-a hydronic root-zone loops carrying waste heat from biochar kilns and compute clusters ($293150\,\mathrm{mK}$–$298150\,\mathrm{mK}$ / $20^\circ\mathrm{C}$–$25^\circ\mathrm{C}$).
+*   **Perennial Silvopasture Guilds ($R_2 \dots R_3$):** Multi-strata food forests pairing blight-resistant chestnuts, hazelnuts, walnuts, apples, and nitrogen-fixing autumn olive/sea-buckthorn with understory berry guilds, providing perennial starch and lipid yields without annual tillage.
+*   **Mycelial Fruiting Chambers (Lignocellulose Upcycling):** Clean hardwood sawdust from Scenario Alpha woodshops and Scenario Eta coppice trimmings are pasteurized with waste steam and inoculated with oyster (*Pleurotus ostreatus*), shiitake (*Lentinula edodes*), and lion's mane (*Hericium erinaceus*) spawn. The fungi convert indigestible lignin and cellulose into high-protein fruiting bodies while leaving behind spent mushroom substrate (SMS) rich in digestible fungal mycelia that serves as premium supplemental fodder for ruminant livestock and compost worms.
+
+### Pillar II: Regenerative Animal Husbandry & Coupled Aquaponics (Eggs, Milk, Meat, Fish & Honey)
+The Collective integrates animal-sourced foods not as industrialized commodities, but as **ecological keystone guilds** that close nutrient cycles and convert non-human-edible biomass into dense, bioavailable proteins, fats, and fat-soluble vitamins ($A$, $D_3$, $K_2$, heme iron, and $B_{12}$):
+
+1.  **The Trophic Non-Competition & Carrying-Capacity Invariant:**
+    To prevent the thermodynamic waste of CAFO grain-feeding, Layer 3 and Layer 5 enforce a hard biophysical rule: **livestock are never fed human-edible grains or legumes if local or watershed human caloric reserves sit below the survival baseline ($B_{\mathrm{baseline}}$)**. Instead, animal husbandry is sized strictly to the bioregion's **Non-Competitive Trophic Surplus**:
+    $$M_{\mathrm{herd\_max}} = \frac{E_{\mathrm{pasture\_cellulose}} + E_{\mathrm{crop\_byproducts}} + E_{\mathrm{BSFL\_protein}}}{E_{\mathrm{metabolic\_demand\_per\_head}}}$$
+    *   **Leader-Follower Rotational Silvopasture:** Small dairy and meat herds (dairy goats, sheep, heritage dual-purpose cattle) graze silvopasture paddocks beneath Scenario Eta coppice trees for $24$–$48\text{ hours}$ before moving via solar-charged electric poly-wire to the next paddock, enforcing a $\ge 30\text{ to } 60\text{-day}$ grass recovery period that pumps root exudates into deep soil carbon.
+    *   **Pasture Poultry & Waterfowl Tractors (`Eggs & Poultry Meat`):** Mobile chicken and duck coops follow $3\text{ days}$ behind the ruminants, scratching through manure pats, consuming fly larvae and orchard pests, sanitizing the pasture, and converting kitchen vegetable trimmings and **Black Soldier Fly Larvae (`Hermetia illucens`)** into golden-yolked eggs and rotational poultry meat.
+2.  **Sanitary Milking, HTST Pasteurization & Artisan Dairy Processing (`Milk, Butter, Yogurt & Cheese`):**
+    *   Nodes operating dairy parlors use stainless-steel vacuum milking pulsators (fabricated and maintained via Scenario Alpha) discharging directly into jacketed cooling bulk tanks ($275150\,\mathrm{mK}$ / $2^\circ\mathrm{C}$).
+    *   Milk is either consumed fresh under verified herd-health protocols or routed through a continuous plate heat exchanger for **High-Temperature Short-Time (HTST) Pasteurization** ($T \ge 345150\,\mathrm{mK}$ / $72^\circ\mathrm{C}$ held for $\ge 15000\,\mathrm{ms}$), cultured with heirloom thermophilic/mesophilic starters into yogurt, kefir, and butter, or coagulated with microbial chymosin and aged in subterranean $284150\,\mathrm{mK}$ ($11^\circ\mathrm{C}$), $8500\,\mathrm{bp}$ ($85\%$ RH) cheese caves.
+3.  **Humane On-Site Harvesting & Nose-to-Tail Utilization (`Meat, Bone Broth, Tallow & Hides`):**
+    *   Animals never endure stressful industrial transport or slaughterhouse assembly lines. Harvesting is conducted on-pasture by certified `Humane_Steward_L2` specialists using instantaneous captive-bolt stunning and mobile stainless-steel chill trailers.
+    *   **Zero-Waste Nose-to-Tail Mandate:** $100\%$ of the animal is honored and utilized: prime cuts and organ meats nourish the Hearth; fat is rendered into shelf-stable cooking tallow/lard and Scenario Gamma/Mu soap stock; bones are pressure-simmered for $86{,}400{,}000\,\mathrm{ms}$ ($24\text{ hours}$) into mineral-rich collagen broths before being calcined into calcium-phosphate fertilizer; and hides are routed directly to **Scenario Nu (`nu_fashion.md`)** for vegetable-tanned leather work boots and aprons.
+4.  **Coupled Recirculating Aquaponics (`Fish & Greens`):**
+    *   Greenhouse fish tanks (tilapia, trout, or freshwater carp/prawns) Regulated by Layer 1 mechanical bell siphons circulate ammonia-rich water ($NH_4^+$) through gravel biofilters colonized by *Nitrosomonas* ($NH_4^+ \to NO_2^-$) and *Nitrobacter* ($NO_2^- \to NO_3^-$), delivering nitrate-rich irrigation directly to heavy-feeding leafy greens and fruiting tomatoes before returning purified water to the fish tanks.
+5.  **Sovereign Dietary & Husbandry Autonomy (`Protocol of Refusal`):**
+    *   Just as Nodes in Scenario Alpha hold an unconditional veto over weapon blueprints, every Node in Scenario Gamma holds absolute sovereignty over its dietary and husbandry charter. A Node may ratify a **Vegan / Plant-Only Charter**, a **Vegetarian Sanctuary Charter** (eggs, honey, and dairy with zero slaughter), or a **Full Silvopasture Charter**. BPVP announcements carry explicit dietary provenance tags (`Provenance_Plant`, `Provenance_Dairy_Egg`, `Provenance_Silvopasture_Meat`, `Provenance_BioSynthesized`) so every node and individual can filter imports according to their ethical and spiritual convictions.
+
+### Pillar III: Ecologically Sound Bio-Synthesized & Fermented Ingredients
+How does The Collective approach "synthesized" food without falling into the ecological disaster of corporate ultra-processing and disposable-plastic cleanrooms?
+
+ Layer 5 and Layer 3 enforce the **Bioprocess Ecological Gate**: any bio-synthesized food pathway is permitted **only** if it operates in reusable, clean-in-place (`CIP`) `316L` stainless-steel or borosilicate glass vessels (zero single-use plastic bags), uses local agricultural byproducts or captured $\mathrm{CO_2}$/curtailed solar energy as feedstock, and avoids pharmaceutical mammalian growth factors. Under this gate, mammalian tissue-culture "lab meat" is rejected as an exergy sink, while **three high-leverage bio-synthesis pathways** are actively deployed across watershed guild nodes ($R_2 \dots R_4$):
+
+1.  **Precision Fermentation of Critical Micronutrients & Enzymes (`Vitamin B12, Chymosin & Essential Amino Acids`):**
+    *   In plant-forward or low-meat settlements, **Vitamin B12 (cobalamin)**, **chymosin (rennet)**, **taurine**, **riboflavin ($B_2$)**, and limiting amino acids (**L-lysine**, **L-methionine**) are synthesized locally in $100\text{-Liter}$ jacketed `316L` stainless bioreactors using non-pathogenic food-grade bacteria (*Propionibacterium freudenreichii* for Vitamin B12; *Kluyveromyces lactis* or *Aspergillus niger* for chymosin) fed on cheese whey permeate, beet/sorghum molasses, or hydrolyzed agricultural starches.
+    *   A single $100\text{-Liter}$ fermentation batch of *P. freudenreichii* synthesizes enough bioavailable Vitamin B12 to meet the annual nutritional requirement of an entire $500\text{-person}$ village, eliminating dependence on Layer 7 pharmaceutical supply chains!
+2.  **Filamentous Mycoprotein & Koji Bioprocessing (*Fusarium venenatum*, *Aspergillus oryzae*, *Rhizopus oligosporus*):**
+    *   Aerobic airlift fermenters and solid-state incubation trays convert low-value carbohydrate side-streams (broken grain, potato starch wash-water, brewery spent grain) and inorganic ammonium salts into fibrous, complete-protein **mycoprotein** ($4500\,\mathrm{bp}$ / $45\%$ dry-weight protein with meat-like mycelial texture), tempeh cakes, and enzyme-rich **koji** (*Aspergillus oryzae*).
+    *   Koji amylases and proteases break down starches and proteins into umami-rich **miso**, **tamari**, and **amino pastes** at room temperature ($303150\,\mathrm{mK}$ / $30^\circ\mathrm{C}$), replacing energy-intensive industrial chemical hydrolysis.
+3.  **Solar-Coupled Autotrophic Single-Cell Protein & Photobioreactor Microalgae (`Sunlight + CO2 + Water -> Complete Protein`):**
+    *   **Photobioreactor Microalgae (*Arthrospira platensis / Spirulina* & *Chlorella*):** Illuminated glass tube manifolds warmed by compute waste heat and sparged with clean $\mathrm{CO_2}$ scrubbed from alcoholic/lactic fermentation vats produce a $6000\,\mathrm{bp}$ ($60\%$) complete-protein biomass rich in iron, beta-carotene, and essential fatty acids in alkaline bicarbonate media ($\mathrm{pH} \approx 9500\,\mathrm{mpH}$–$10500\,\mathrm{mpH}$, which naturally prevents contamination by foreign microbes).
+    *   **Hydrogen-Oxidizing Bacterial Protein (*Cupriavidus necator* / "Solar Protein Flour"):** During sunny seasons when a Node's $\mathrm{LiFePO_4}$ batteries reach $10000\,\mathrm{bp}$ ($100\%$) State-of-Charge, surplus solar PV generation would otherwise be curtailed (wasted as heat). Instead, Layer 4 routes curtailed $48\,\mathrm{V}$ DC power into a PEM/alkaline water electrolyzer ($2\mathrm{H_2O} \to 2\mathrm{H_2} + \mathrm{O_2}$) that feeds dissolved $\mathrm{H_2}$, $\mathrm{O_2}$, captured $\mathrm{CO_2}$, and recovered mineral nitrogen into a bioreactor of *Cupriavidus necator* (a natural soil bacterium). After thermal pasteurization and nucleic-acid reduction, the dried golden flour contains $6500\,\mathrm{bp}$–$7000\,\mathrm{bp}$ ($65\%$–$70\%$) complete protein with an amino-acid profile rivaling whey and egg white—converting curtailed photons directly into multi-year shelf-stable food security reserves at $10\times$ the land-use efficiency of field crops!
+
+### Pillar IV: Inorganic & Mineral Culinary Ingredients (Production, Refining & Stoichiometry)
+Biological crops and proteins cannot sustain human life or be safely preserved without **inorganic mineral chemistry**. Scenario Gamma elevates inorganic food-grade ingredients to a first-class production and logistics domain:
+
+1.  **Sodium Chloride ($\mathrm{NaCl}$ — Culinary, Brining & Electrolyte Salt):**
+    *   **Why It Is Indispensable:** Human nerve conduction and cellular osmotic balance require $\sim 2000\text{ to } 5000\,\mathrm{mg/day}$ of $\mathrm{NaCl}$. Furthermore, all anaerobic lacto-fermentation (sauerkraut, kimchi, pickles) and meat/fish curing depend on precise salt concentrations ($200\,\mathrm{bp}$ to $350\,\mathrm{bp}$ mass ratio) to lower water activity ($a_w$) and selectively favor *Lactobacillus* over putrefactive bacteria.
+    *   **Production & Mesh Sourcing:** Coastal Nodes ($R_3 \dots R_5$) operate shallow solar evaporation ponds and stainless finishing pans heated by Scenario Mu/Theta kiln waste heat:
+        *   *Fractional Crystallization:* As seawater concentrates, less-soluble **calcium carbonate ($\mathrm{CaCO_3}$)** and **calcium sulfate ($\mathrm{CaSO_4 \cdot 2H_2O}$, gypsum)** precipitate first at specific gravity $1120\text{–}1210\,\mathrm{g/L}$ and are raked out; pure food-grade **sodium chloride ($\mathrm{NaCl}$)** crystallizes between $1214\,\mathrm{g/L}$ and $1250\,\mathrm{g/L}$ ($25^\circ\text{–}29^\circ\text{ Baum\'e}$); and the remaining magnesium-rich bittern liquid above $1250\,\mathrm{g/L}$ is harvested as **Nigari ($\mathrm{MgCl_2}$)**!
+        *   Inland Nodes trade surplus grain, timber, or fabricated tools over Scenario Beta's $R_4/R_5$ canal/freight corridors for coastal sea salt or inland halite rock salt, backed by a multi-year Layer 7 GPO strategic salt reserve.
+2.  **Calcium Hydroxide ($\mathrm{Ca(OH)_2}$ — Food-Grade Slaked Lime / *Cal* for Nixtamalization):**
+    *   **Why It Is Indispensable:** Eating untreated maize as a primary staple causes fatal pellagra (Vitamin B3/niacin deficiency) because niacin is chemically bound as niacytin. **Nixtamalization**—simmering and steeping dried corn in an alkaline solution of $100\,\mathrm{bp}$ ($1\%$ by corn mass) **calcium hydroxide ($\mathrm{Ca(OH)_2}$, $\mathrm{pH} \approx 12400\,\mathrm{mpH}$)** at $363150\,\mathrm{mK}$ ($90^\circ\mathrm{C}$)—hydrolyzes hemicellulose pericarp hulls, liberates bioavailable niacin, cross-links zein proteins for dough elasticity (*masa*), reduces mycotoxins (fumonisins/aflatoxins) by $> 9000\,\mathrm{bp}$ ($90\%$), and increases dietary calcium by $700\%$!
+    *   **Local Closed-Loop Synthesis:** Nodes synthesize food-grade $\mathrm{Ca(OH)_2}$ directly by calcining assayed high-purity limestone, washed oyster/clam shells, or sterilized kitchen eggshells in **Scenario Theta (`theta_foundry.md`)** electric/solar kilns at $1173150\,\mathrm{mK}$ ($900^\circ\mathrm{C}$):
+        $$\mathrm{CaCO_3 (s)} \xrightarrow{\Delta H,\; 1173150\,\mathrm{mK}} \mathrm{CaO (s,\text{ Quicklime})} + \mathrm{CO_2 (g)}$$
+        followed by controlled exothermic hydration (slaking) in purified water:
+        $$\mathrm{CaO (s)} + \mathrm{H_2O (l)} \longrightarrow \mathrm{Ca(OH)_2 (s,\text{ Food-Grade Slaked Lime})} + 65\,\mathrm{kJ/mol}$$
+3.  **Mineral Protein Coagulants ($\mathrm{MgCl_2}$ *Nigari*, $\mathrm{CaSO_4 \cdot 2H_2O}$ Gypsum & $\mathrm{CaCl_2}$):**
+    *   Divalent cations ($\mathrm{Mg}^{2+}$ and $\mathrm{Ca}^{2+}$) cross-link negatively charged soy glycinin/beta-conglycinin proteins and milk casein micelles. Coastal bittern *nigari* ($\mathrm{MgCl_2 \cdot 6H_2O}$) and fractional marine gypsum ($\mathrm{CaSO_4 \cdot 2H_2O}$) coagulate soy milk into firm, calcium- and magnesium-rich **tofu**, while food-grade calcium chloride ($\mathrm{CaCl_2}$) restores curd firmness in pasteurized goat and cow milk during cheesemaking.
+4.  **Alkaline Wood-Ash Potash ($\mathrm{K_2CO_3}$), Sodium Bicarbonate ($\mathrm{NaHCO_3}$) & Trace Electrolytes:**
+    *   **Potash Lye Water (*Kansui* / $\mathrm{K_2CO_3}$):** Leaching clean, white hardwood ash (from Scenario Eta beech/oak/maple burned in hearth ovens) with boiling rainwater, filtering through linen/charcoal, and evaporating yields potassium carbonate ($\mathrm{K_2CO_3}$), used for alkaline ramen noodles, Bavarian pretzels, hominy, and olive debittering.
+    *   **Sodium Bicarbonate ($\mathrm{NaHCO_3}$), Potassium Iodide ($\mathrm{KI}$) & Bioreactor Nutrient Salts ($\mathrm{KH_2PO_4}$, $\mathrm{MgSO_4 \cdot 7H_2O}$):** Bubbling captured fermentation $\mathrm{CO_2}$ through saturated sodium carbonate solution precipitates food-grade baking soda ($\mathrm{NaHCO_3} \downarrow$), which serves both as a culinary leavening agent and as the essential carbon/pH buffer for *Spirulina* photobioreactors. Essential trace minerals lacking in local glacial/inland soils—specifically **iodine** (sourced from dried coastal kelp *Saccharina latissima* or Layer 7 GPO $\mathrm{KI}$), **selenium**, and **zinc**—are metered in integer micrograms per kilogram of table salt.
+
+### Pillar V: Primary Processing, Preservation & The Communal Hearth Kitchen ($R_0$)
+Raw harvests, milk, eggs, bio-synthesized proteins, and inorganic salts converge in the settlement's processing and culinary commons:
+*   **Primary Food Processing Bay ($R_1$):** Stone burr grain mills, nixtamal wet-grinding *molinos*, cold-press oil expellers (sunflower, hazelnut, camelina, olive), HTST dairy pasteurizers, smokehouses, and solar/heat-pump food dehydrators.
+*   **The Communal Hearth Sanctuary ($R_0$):** The cultural heart of the settlement. Neighbors gather around long wooden tables to share hot, freshly cooked family-style meals. In $R_0$, nourishment is an unconditional human right ($B_{\mathrm{baseline}}$): zero tokens, zero meal tickets, zero labor requirements, and zero surveillance.
+*   **Shift-Worker Smart Larders & Returnable Stainless Tiffins ($R_1$):** For members working night shifts (e.g., Scenario Chi paramedics, kiln monitors, or parents with newborns), meals and fresh eggs/milk/yogurt are portioned into standardized `304` stainless-steel tiffins and glass jars (tagged with passive $13560\,\mathrm{kHz}$ NFC identifiers) and staged in thermally monitored refrigerated ($275150\,\mathrm{mK}$–$277150\,\mathrm{mK}$) or heated ($\ge 336150\,\mathrm{mK}$) locker bays.
+
+### Pillar VI: Closed-Loop Trophic & Nutrient Recovery (BSFL & Scenario Mu Bridge)
+Zero organic matter or mineral phosphorus leaves the settlement as "waste":
+1.  **Tier 1 — Black Soldier Fly Larvae (`Hermetia illucens`) Trophic Upcycling:** Pre-consumer vegetable trimmings, spent brewer's/mycoprotein grains, and whey that are still fresh are fed to automated BSFL bioconversion trays. Within $14\text{ days}$, the larvae convert food scraps into $4200\,\mathrm{bp}$ ($42\%$) protein / $3500\,\mathrm{bp}$ ($35\%$) lipid living feed for pasture hens and aquaponic trout/tilapia, while leaving behind chitin-rich **frass** that triggers systemic induced resistance against pests in garden soils.
+2.  **Tier 2 — Bone Calcining & Eggshell Mineral Loop:** Simmered broth bones and crushed eggshells are either calcined into pure calcium hydroxyapatite ($\mathrm{Ca_{10}(PO_4)_6(OH)_2}$) and slaked lime ($\mathrm{Ca(OH)_2}$) or ground as slow-release calcium grit for laying hens (which require $\sim 4000\,\mathrm{mg}$ of calcium per egg laid!).
+3.  **Tier 3 — Scenario Mu Thermophilic Composting & Struvite Recovery:** Spoiled batches, plate scrapings, and livestock bedding route via `CompostRoutingIntent` to **Scenario Mu (`mu_extraction.md`)**, where they are blended with woodchips ($25 \le C:N \le 30$) for thermophilic composting ($\ge 328150\,\mathrm{mK}$ / $55^\circ\mathrm{C}$ for pathogen eradication) and combined with magnesium oxide ($\mathrm{MgO}$) urine-diversion reactors to precipitate **struvite ($\mathrm{MgNH_4PO_4 \cdot 6H_2O}$)**, closing $> 9500\,\mathrm{bp}$ ($95\%$) of the settlement's nitrogen and phosphorus loops.
+
+### Pillar VII: Incremental Node Facility Blueprints (Bootstrap to Agroecological Campus)
+ mirroring Scenario Alpha's evolutionary node architecture, a Food & Culinary Node does not require a multi-acre farm or commercial cannery on Day 1. Layer 6 and Oasis provide **three progressive facility blueprints** that allow a community to bootstrap from a suburban backyard and scale organically into a self-sustaining bioregional food campus:
+
+1.  **Stage 1: Suburban Backyard Homestead, Micro-Flock & Domestic Hearth (`R_0`–`R_1` Bootstrap):**
+    *   **Physical Footprint:** A steward's suburban backyard keyline garden, garage mushroom/fermentation rack, and home kitchen—featuring intensive raised beds, a quiet backyard laying-hen coop ($4\text{–}8$ hens fed on kitchen trimmings and BSFL), ceramic lacto-fermentation crocks, and family-style neighborhood potlucks.
+    *   **Layer 7 Protective Carapace (HOA, Municipal Poultry & Cottage-Food Shielding):** Suburban Homeowners Associations (HOAs) and municipal codes frequently restrict front-yard vegetable beds, backyard hens, or home food sharing. Stage 1 operates strictly as a **Private Unincorporated Food Club Association (UUNAA § 6)** backed by state Right-to-Garden and Cottage Food exemptions: zero roosters are kept, deep-litter biochar bedding (Scenario Mu) eliminates ammonia odor completely, and zero commercial walk-in traffic occurs at the residence.
+2.  **Stage 2: Leased Commercial Commissary Kitchen, Cafe Storefront & Peri-Urban Plot (`R_1`–`R_3` Self-Sustenance):**
+    *   **Physical Footprint:** As the neighborhood ring grows, stewards lease a certified commercial commissary kitchen or mixed-use storefront (often co-located with a **Scenario Epsilon** coworking/administrative hub and a **Scenario Alpha** light workshop) paired with a leased peri-urban market-garden and greenhouse plot. Adds commercial magnetic induction ranges, walk-in cold rooms ($275150\,\mathrm{mK}$), `316L` stainless precision-fermentation vats (Vitamin B12, koji, mycoprotein), and a $24\text{-hour}$ NFC smart tiffin locker bay.
+    *   **Layer 7 Self-Sustaining Carapace ($\Phi_t$):** Operated under a **Subchapter T Cooperative Shared Services Agreement (SSA)** with full municipal health department licensing. By offering bounded external farm-to-table catering, artisan sourdough/ferment subscriptions, or shared commissary hours to legacy clients up to the monthly fiat ceiling $\Phi_t$ (managed via Scenario Epsilon's administrative carapace), the node covers its commercial lease, utility bills, and insurance while accumulating a capital reserve for permanent land acquisition.
+3.  **Stage 3: Custom-Built Agroecological Commons, Silvopasture Estate & Bioprocess Campus (`R_0`–`R_5` Bioregional Maturity):**
+    *   **Physical Footprint:** Utilizing accumulated cooperative reserves to acquire an agricultural parcel or ecologically deconstruct/remediate a defunct commercial property (via Scenario Mu/Xi), the settlement builds a permanent facility held in an **Irrevocable Perpetual Purpose Trust (PPT) / Community Land Trust (CLT)**. Integrates rotational silvopasture paddocks (dairy goats/cattle, mobile poultry tractors), coupled greenhouse aquaponics, full `316L` stainless bioprocessing and curtailed-solar $\mathrm{H_2}$-protein vats, kiln-coupled nixtamal lime/salt refining, subterranean cheese caves, and a timber-framed $150\text{-seat}$ Communal Hearth Sanctuary.
+
+---
+
+## 3. The Collective Workflow (7-Layer Traversal)
 
 ```mermaid
 graph TD
-    L7[Layer 7: Legacy Interface - Dual-Membrane Carapace] -->|l6_l7.sock: B2B Wholesale Staples & Permits| L6[Layer 6: Semantic Intent - Agora Knowledge Artifacts]
-    L6 -->|l5_l6.sock: MealOfferings & Ricardian Treaties| L5[Layer 5: Polycentric Governance - Trust Rings & Refusal]
-    L5 -->|l4_l5.sock: Ratified Schedules & Allergen Shields| L4[Layer 4: Deterministic Orchestration - 10 Hz BPMN VM]
-    L4 -->|l3_l4.sock: Exergy Metering & Channel Reservations| L3[Layer 3: Thermodynamic Ledger - BCC & PoTW]
-    L3 -->|l2_l3.sock: Sensor Delivery Proofs & Actuation Orders| L2[Layer 2: Cybernetic Membrane - Zephyr RTOS]
-    L2 -->|Modbus / ADC / GPIO: Physical Telemetry & Relays| L1[Layer 1: Physical Reality - Pure Matter & Energy]
-    L1 -->|Thermal Induction & Communal Hearth Feast| End((Nourishment Delivered & Clean Biomass Composted))
+    L7[Layer 7: Legacy Interface - Dual-Membrane Carapace] -->|Wholesale GPO Trace Minerals, Herdshare & Health Permits / l6_l7.sock| L6[Layer 6: Semantic Agora]
+    L6 -->|Crop, Husbandry, Bioreactor, Inorganic & Meal Intents + Treaty_CID / l5_l6.sock| L5[Layer 5: Polycentric Governance & BPVP]
+    L5 -->|Trophic Floor, Dietary Veto, Anaphylactic ZKP & Surplus Gate / l4_l5.sock| L4[Layer 4: Deterministic Orchestrator - 10 Hz BPMN]
+    L4 -->|Exergy/Salt Quotas, Pasteurization/Ferment Schedules & HTLCs / l3_l4.sock| L3[Layer 3: Thermodynamic Ledger & PoTW]
+    L3 -->|Actuation Invariants & Reticulum Mesh Sync / l3_l2.sock| L2[Layer 2: Cybernetic Membrane - Zephyr RTOS]
+    L2 -->|Thermocouples, pH/EC Probes, Milking/Bioreactor/Hobs / l1_l2.sock| L1[Layer 1: Gardens, Silvopasture, Bioreactors, Salt Pans & Hearth]
+    L2 <-->|UHAI /dev/shm Ring: QUALITY_SIMULATED| L1b[Layer 1b: Oasis Shadow Simulation]
+    L1 -->|Harvest Mass, Pasteurization Hold, Brine EC & Cooked Meals / l1_l2.sock| L2
+    L2 -->|Signed HACCP, Bioprocess & Load-Cell Attestations / l2_l3.sock| L3
+    L3 -->|Bigelow F0 Verification, BCC Clearing & BSFL/Mu Routing / l3_l4.sock| L4
+    L4 -->|Batch Completion & Spoilage Salvage Logs / l4_l5.sock| L5
+    L5 -->|ExportRIB Updates & Steward Reputational Wealth / l5_l6.sock| L6
 ```
 
-### Layer 1: Physical Ground Truth
-*   **Pure Physical Substrate:** Layer 1 contains exclusively physical matter, thermodynamic energy, and passive transducers. It contains **zero software, zero microcontrollers, zero firmware, zero cryptographic keys, and zero network daemons.**
-*   **Hardware Nodes (The Communal Hearth):** High-efficiency commercial magnetic induction cooktops, heavy cast-iron and stainless steel cookware, insulated convection bake chambers, ceramic fermentation crocks, and passive K-type thermocouple probe lines.
-*   **Hardware Nodes (Smart Larder & Staging Lockers):** Heavy-gauge stainless steel insulated food lockers, spring-loaded solenoid mechanical latches, calibrated analog strain-gauge load cells, and standardized returnable stainless steel tiffin containers with passive 13560 kHz NFC metal tags.
-*   **Feedstock & Biomass:** Agroecological vegetables, legumes, pasture-raised proteins, sourdough culture colonies, heirloom fermented brine starters, and bulk dry grains.
-*   **Physical Actions:** Thermal boiling, braising, baking, portioning into stainless containers, and passing dishes family-style around the long wooden hearth table.
+### Layer 1: Physical Reality ( & Layer 1b: Oasis Shadow Simulation)
+*   **Pure Physical Substrate:** Layer 1 contains exclusively living organisms, physical matter, chemical reactions, and passive transducers. It contains **zero software, zero microcontrollers, zero firmware, zero cryptographic keys, and zero network daemons.**
+*   **Horticultural, Husbandry & Aquaponic Hardware:** Gravity drip lines, mechanical bell siphons, brass float valves, solar-pulsed pasture poly-wire, mobile chicken tractors, `316L` stainless-steel vacuum milking buckets, plate heat-exchanger pasteurizers, and insulated subterranean cheese/charcuterie aging vaults.
+*   **Bioprocess & Inorganic Chemistry Hardware:** Jacketed `316L` stainless-steel precision fermentation vessels with mechanical spargers and clean-in-place (`CIP`) spray balls, borosilicate glass *Spirulina* photobioreactor tubes, PEM water electrolyzers (coupled to the $48\,\mathrm{V}$ DC solar bus), solar brine evaporation pans, and ceramic/cast-iron nixtamalization cauldrons.
+*   **Communal Hearth & Smart Larder Hardware:** Commercial magnetic induction cooktops, heavy cast-iron/stainless cookware, ceramic lacto-fermentation crocks, calibrated strain-gauge load cells, and returnable stainless-steel tiffins with passive $13560\,\mathrm{kHz}$ NFC tags.
+*   **Manual Override ("Red Lever" Rule):** All water valves, bioreactor pressure-relief vents (spring-loaded ASME PRVs at $4\,\mathrm{bar}$), pasture gates, and pantry locker latches include physical mechanical overrides so humans can feed animals, vent vats, and access food by hand during total power/compute outages.
 
-### Layer 2: Digital Twin & Telemetry
-*   **Membrane Architecture:** Executed by Zephyr RTOS microcontrollers (`col-sensord`, `col-membraned`, `col-actuated`) reading raw ADC voltages and converting them into dimensionally typed, fixed-point integer packets.
-*   **Convivial Anti-Panopticon Shield:** Kitchen sensors monitor strictly thermodynamic observables (temperatures, weights, pH). **Absolute ban on optical cameras, microphones, biometric bracelets, and worker movement tracking.**
-*   **Ingress Telemetry Topics (Fixed-Point SI Integers via `col-membraned`):**
-    *   `node/kitchen/oven_01/telemetry/core_temp_mk` (`uint32_t`, core food temperature in millikelvin; e.g., 347,150 mK = 74 C)
-    *   `node/kitchen/fridge_02/telemetry/temp_mk` (`uint32_t`, cold storage temperature; nominal 275,150 mK to 277,150 mK = 2 C to 4 C)
-    *   `node/kitchen/ferment_01/telemetry/ph_milliph` (`uint32_t`, fermentation acidity in millipH; e.g., 4,200 mpH)
-    *   `node/kitchen/pantry/locker_b4/mass_mg` (`uint64_t`, continuous load cell inventory mass in milligrams)
-    *   `node/kitchen/batch_104/status` (`enum uint8_t`: `0=PREP`, `1=COOKING`, `2=HACCP_SAFE`, `3=HOLDING`, `4=SPOILED_COMPOST`)
-*   **Safety Verification:** Layer 2 firmware mathematically calculates pathogen reduction. If food resides in the bacterial danger zone (277,150 mK to 333,150 mK / 4 C to 60 C) for longer than 7,200,000 ms (120 minutes) without reaching lethality (347,150 mK / 74 C), Layer 2 flags the batch as `SPOILED_COMPOST`.
-*   **Actuator Verification:** Relay controllers actuate induction power contactors and locker solenoids only after Layer 2 verifies actuation invariants $\mathbf{\Phi}$ received across `/run/collective/ipc/l3_l2.sock`.
+### Layer 2: Cybernetic Membrane & Telemetry (`col-sensord`, `col-actuated`, `col-membraned`)
+*   **Convivial Anti-Panopticon Shield:** Sensors monitor strictly thermodynamic, chemical, and biological process variables (temperature, mass, pH, electrical conductivity, dissolved oxygen). **Optical cameras, microphones, and worker biometric/motion trackers are prohibited at the hardware level.**
+*   **Canonical Fixed-Point SI Wire Formats (CBOR over `/run/collective/ipc/l2_l3.sock`):**
+    *   `node/pasture/paddock_04/telemetry/rest_elapsed_ms`: Elapsed pasture recovery duration (`uint64_t`, milliseconds; required $\ge 2{,}592{,}000{,}000\,\mathrm{ms} = 30\text{ days}$).
+    *   `node/dairy/pasteurizer_01/telemetry/temp_mk`: Milk HTST core temperature (`uint32_t`, millikelvin; target $\ge 345150\,\mathrm{mK} = 72^\circ\mathrm{C}$ for $\ge 15000\,\mathrm{ms}$).
+    *   `node/bioreactor/vat_02/telemetry/dissolved_o2_ug_l`: Bioreactor dissolved oxygen (`uint32_t`, micrograms per liter) and `ph_milliph` (`uint32_t`, millipH).
+    *   `node/inorganic/brine_01/telemetry/density_mg_ml`: Fractional salt crystallization brine density (`uint32_t`, milligrams per milliliter; $\mathrm{NaCl}$ window $1214\text{–}1250\,\mathrm{mg/mL}$) and `conductivity_us_cm` (`uint32_t`, microsiemens per centimeter).
+    *   `node/kitchen/oven_01/telemetry/core_temp_mk`: Cooking vessel core temperature (`uint32_t`, millikelvin; pathogen lethality $\ge 347150\,\mathrm{mK} = 74^\circ\mathrm{C}$).
+    *   `node/kitchen/ferment_01/telemetry/ph_milliph`: Anaerobic fermentation acidity (`uint32_t`, millipH; botulism inhibition $< 4600\,\mathrm{mpH}$).
+*   **Edge Safety Verification:** Layer 2 computes continuous Bigelow thermal lethality integrals ($F_0$) and danger-zone timers. If cooked food or unpasteurized dairy resides between $277150\,\mathrm{mK}$ and $333150\,\mathrm{mK}$ ($4^\circ\mathrm{C}$ to $60^\circ\mathrm{C}$) for $> 7{,}200{,}000\,\mathrm{ms}$ ($120\text{ minutes}$) without achieving lethality or acidification ($< 4600\,\mathrm{mpH}$), Layer 2 flags the batch `SPOILED_BSFL_OR_COMPOST` and locks the consumer pantry latch.
 
-### Layer 3: Thermodynamic Ledger
-*   **Constitutional Non-Commensurability of Culinary Care:** Cooking, seasoning, feeding neighbors, and breaking bread are declared qualitative human care and mutual aid (`sec:l3-friction`). Layer 3 **structurally refuses to mint tokens, credits, or currency for culinary labor.** No chef hourly rates, no dish token bounties, and no meal ticket prices exist.
-*   **Inalienable Tier 2 Human Survival Baseline ($B_{\mathrm{baseline}}$):** Wholesome, cooked nourishment is guaranteed to every human being residing within the settlement as an unconditional constitutional right of living membership ($B_{\mathrm{baseline}}$). Meals at the Hearth are free of charge, unconditioned on labor, tokens, or chore points.
-*   **Proof-of-Thermodynamic-Work (PoTW):** Electrical energy consumed by induction cookers and ovens is metered from physical shunt sensors in microjoules ($\mu\mathrm{J}$):
-    $$\text{1 Exergy Credit} \equiv 3{,}600{,}000{,}000{,}000\text{ }\mu\mathrm{J}$$
-    This exergy accounting measures energy drawn from the settlement microgrid, undergoing physical demurrage to reflect battery and equipment entropy.
-*   **Pairwise Bilateral Clearing Channels (BCC) & Multi-Hop HTLCs:** When surplus preserved foods (e.g., 50 kg of barrel-fermented sauerkraut or dried soup mix) are transferred to a neighboring settlement $v$, accounting settles across inter-node Bilateral Clearing Channels:
-    $$B_{u \to v}(t) + B_{v \to u}(t) = 0$$
-    Subject to mutual aid credit windows $[-C_{u \to v}, +C_{v \to u}]$. Multi-hop transports across the watershed mesh settle via chained Hashed Timelock Contracts:
-    $$\mathrm{HTLC} = \langle H(S), \Delta t, Q, u, v \rangle$$
-    where $Q$ is denominated in microjoules of embodied exergy or mass quanta in milligrams, releasing upon signed delivery receipts $\sigma_{\mathrm{delivery}}$ and cascading backward settlement without global tokens or external market conversion.
+### Layer 3: Thermodynamic Ledger (`col-storaged`)
+*   **Constitutional Non-Commensurability of Domestic Culinary Care (`sec:l3-friction`):** Cooking meals at the Hearth, feeding neighbors, and tending kitchen gardens for settlement subsistence are acts of qualitative mutual aid. Layer 3 **structurally refuses to mint tokens, credits, or prices for domestic meals.** Every resident enjoys an unconditional constitutional claim to nourishing meals under the Tier 2 Human Survival Baseline ($B_{\mathrm{baseline}}$).
+*   **Trophic Non-Competition & Curtailed-Solar Accounting:**
+    *   Layer 3 tracks settlement edible grain reserves against $B_{\mathrm{baseline}}$. Any attempt to allocate human-edible grain lots to livestock feed while human reserves sit below $B_{\mathrm{baseline}} + F_{\mathrm{eco}}$ is rejected at the ledger level.
+    *   Autotrophic hydrogen-oxidizing single-cell protein electrolysis (`Vat_H2_SCP`) is metered against the microgrid's real-time `Curtailment_Surplus_Flag` ($\mathrm{SoC} \ge 9800\,\mathrm{bp}$ and $\dot{E}_{\mathrm{solar}} > \dot{E}_{\mathrm{load}}$), storing otherwise-wasted solar microjoules as shelf-stable protein mass ($1\text{ Exergy Credit} \equiv 3{,}600{,}000{,}000{,}000\,\mu\mathrm{J}$).
+*   **Inter-Node Bilateral Clearing Channels (BCC) & Multi-Hop HTLCs:** When specialized nodes exchange surplus bioregional foodstuffs across $R_2 \dots R_5$ (e.g., an upland silvopasture node exporting aged goat cheese and wool to a valley node in exchange for nixtamalized corn masa, precision-fermented Vitamin B12, and coastal sea salt $\mathrm{NaCl}$ + *nigari* $\mathrm{MgCl_2}$), transport is chained through **Scenario Beta (`FreightCourierIntent`)** and cleared across Pairwise BCCs:
+    $$B_{u \to v}(t) + B_{v \to u}(t) = 0, \qquad -C_{u \to v} \le B_{u \to v}(t) \le C_{v \to u}$$
+    using multi-hop HTLCs $\langle H(S), \Delta t, Q, u, v \rangle$ that settle atomically upon destination Layer 2 load-cell and cold-chain temperature verification ($\sigma_{\mathrm{delivery}}$).
 
-### Layer 4: Deterministic Orchestration State Machine
-The culinary lifecycle is governed deterministically by the embedded 10 Hz BPMN engine (`col-execd`):
+### Layer 4: Deterministic Orchestrator (`col-execd`)
+Communicating with Layer 5 over `/run/collective/ipc/l4_l5.sock` and Layer 3 over `/run/collective/ipc/l3_l4.sock`, the $10\,\mathrm{Hz}$ BPMN state engine coordinates the four interconnected production tracks:
 
 ```mermaid
 stateDiagram-v2
-    [*] --> PrepInitiated: MealOffering Registered
-    PrepInitiated --> ThermalCooking: Ingredients Weighed & Heat Applied
-    ThermalCooking --> InactiveDangerZone: Temperature in 277150 mK - 333150 mK
-    InactiveDangerZone --> DangerZoneOverrun: Duration > 7200000 ms
-    DangerZoneOverrun --> SpoiledCompostSalvage: Route Unsafe Biomass to Scenario Mu
-    SpoiledCompostSalvage --> [*]
-    InactiveDangerZone --> PathogenLethalityAchieved: Core Temp >= 347150 mK (74°C)
-    ThermalCooking --> PathogenLethalityAchieved: Bigelow F0 Lethality Verified
-    PathogenLethalityAchieved --> PlatedAndPortioned: Pack into Returnable Stainless Tiffins
-    PlatedAndPortioned --> CommunalHearthServing: Dine-In Feast at Shared Hearth (R0)
-    PlatedAndPortioned --> StagedLockerBay: Staged for Shift Workers (R1)
-    StagedLockerBay --> SafeHoldingExpired: Holding Time > 14400000 ms (4 Hours)
-    SafeHoldingExpired --> SpoiledCompostSalvage: Transition to Soil Amendment
-    StagedLockerBay --> PickedUp: NFC Touch at Locker Threshold
-    CommunalHearthServing --> HearthFeastConcluded: Kinship Dining Complete
-    PickedUp --> [*]
-    HearthFeastConcluded --> [*]
+    [*] --> IntentDispatched: Validated by L5 over l4_l5.sock
+
+    state "Track 1: Horticulture & Rotational Husbandry" as Agro {
+        IntentDispatched --> VerifyPastureAndTrophicFloor: Grazing / Milking / Egg Collection
+        VerifyPastureAndTrophicFloor --> RotatePaddockAndHarvest: Rest >= 30 Days & Zero Grain Competition
+        RotatePaddockAndHarvest --> HTSTPasteurizeOrChill: Milk >= 345150 mK (15s) or Chill <= 277150 mK
+    }
+
+    state "Track 2: Bio-Synthesis & Inorganic Refining" as BioChem {
+        IntentDispatched --> VerifyBioprocessGate: B12 / Mycoprotein / Spirulina / Salt / Lime
+        VerifyBioprocessGate --> RunBioreactorOrKiln: 316L CIP Vat / Curtailed Solar / CaCO3 Calcining
+        RunBioreactorOrKiln --> AssayPurityAndPh: Verify EC, mpH & Heavy-Metal Exclusion
+    }
+
+    state "Track 3: Preservation & Communal Hearth Cooking" as Kitchen {
+        HTSTPasteurizeOrChill --> CulinaryPrepAndNixtamal: Combine Plant, Animal, Bio & Inorganic Inputs
+        AssayPurityAndPh --> CulinaryPrepAndNixtamal: Supply NaCl, Ca(OH)2, MgCl2, B12 & Koji
+        CulinaryPrepAndNixtamal --> ThermalLethalityOrFerment: Core >= 347150 mK or pH < 4600 mpH
+        ThermalLethalityOrFerment --> DangerZoneAbort: > 7200000 ms in 277150-333150 mK
+        ThermalLethalityOrFerment --> HearthAndLarderService: ZKP Allergen Shield Passed
+        HearthAndLarderService --> TiffinReturnAndSterilize: R0 Feast & R1 NFC Locker Pickup
+    }
+
+    state "Track 4: Trophic Upcycling (BSFL & Scenario Mu)" as Loop {
+        DangerZoneAbort --> BsflAndCompostRouting: Route Safe Scraps to BSFL & Spoiled to Mu
+        TiffinReturnAndSterilize --> BsflAndCompostRouting: Plate Scraps, Whey & Calcined Bones
+        BsflAndCompostRouting --> [*]: Larvae Feed Hens/Fish & Struvite/Humus to Soil
+    }
 ```
 
-### Layer 5: Policy & Polycentric Governance
-Layer 5 (`col-kmsd`) enforces safety, sovereignty, and communal ethics:
-*   **The 7-Tier Concentric Trust Rings ($R_0 \dots R_6$):**
-    *   **$R_0$ (The Hearth Sanctuary):** The dining table and kitchen hearth. Social immunity: unconditional hot food, herbal infusions, zero keys, zero registration, zero surveillance, zero governance voting weight.
-    *   **$R_1$ (Settlement Commons):** Shared pantry lockers ($\le 500\text{ m}$), ephemeral DIDs (`did:peer`), rotational cooking work bees.
-    *   **$R_2$ (Village Commons):** Neighborhood bulk pantries, tool sharing, cargo bike distribution ($\le 5\text{ km}$).
-    *   **$R_3$ (Watershed Guild):** Peering with neighboring kitchen nodes ($\le 30\text{ km}$); inter-node BCC channels for fresh produce and staples.
-    *   **$R_4$ (Bioregional Federation):** Regional grain silos, seed banks, cold storage reserves ($\le 150\text{ km}$).
-    *   **$R_5$ (Continental Corridor):** Open culinary blueprints, fermentation cultures, salt freight.
-    *   **$R_6$ (Ecumene / Legacy Perimeter):** Lawful B2B wholesale procurement and cooperative regulatory carapace.
-*   **Cellular Autonomy & Subsidiarity:** Every kitchen hearth maintains absolute autopoietic closure and cellular autonomy. No external council can compel food extraction that breaches local baseline reserves ($B_{\mathrm{baseline}}$) or overrides internal assembly decisions.
-*   **Bioregional Path-Vector Protocol (BPVP):** Export of surplus preserved food is bounded by the Export Surplus Bound:
-    $$Q_{\mathrm{avail}}(t) = \max\left(0, Q_{\mathrm{inventory}}(t) - F_{\mathrm{eco}}(t) - B_{\mathrm{baseline}}(t)\right) \cdot \mathbf{1}_{\mathrm{export}}$$
-    Surplus food is never exported if local household food security ($B_{\mathrm{baseline}}$) or seasonal reserves ($F_{\mathrm{eco}}$) are unfulfilled.
-*   **The Protocol of Refusal (`sec:l5-refusal`):** Commons assemblies may designate heirloom seed varieties, sacred feast preparations, and private domestic cooking traditions as Refused Domains. Refused recipes are cryptographically excised from digital twins, simulation engines, and automated optimization workflows.
-*   **Autonomous Transit Veto (`No-Transit`):** Kitchen hearths and outdoor dining plazas hold sovereign authority to assert a `No-Transit` attribute over communal dining pathways, kitchen garden corridors, and pedestrian food courts, deterministically barring noisy freight delivery, motorized cargo carts, and outside transport from encroaching upon communal meal gathering spaces.
-*   **Cryptographic Anaphylactic Shield Gate:** When a member claims a meal, Layer 5 verifies their BBS+ Verifiable Credential using a Zero-Knowledge Proof. If the meal's JSON-LD ingredient metadata contains peanut, gluten, or shellfish hashes matching the member's allergy credential, the claim is mathematically blocked without disclosing the member's private health record.
-*   **Reputational Wealth ($\mathcal{R}$) & Care Leave Shield:** Cooking stewards receive non-financial Reputational Wealth ($\mathcal{R}$) in the Stewardship Chamber, recognizing dedication without monetary wages. Reputational Wealth decays exponentially ($\tau_{\mathrm{half}} = 2\text{ years}$) and is sublinearly capped ($\le 8\%$ chamber weight). When a cook declares care leave (childcare, sickness, bereavement), the **Care Leave Shield** freezes the decay clock.
-*   **Boundary IPC Socket:** Layer 5 policies compile into deterministic constraints pushed to Layer 4 across `/run/collective/ipc/l4_l5.sock`.
+### Layer 5: Polycentric Governance & BPVP (`col-kmsd`)
+Layer 5 enforces ecological floors, ethical sovereignty, and health safety across the 7 Concentric Trust Rings ($R_0 \dots R_6$):
+*   **Export Surplus Bound ($Q_{\mathrm{avail}}$):**
+    $$Q_{\mathrm{avail}}(t) = \max\left(0, \, Q_{\mathrm{inventory}}(t) - F_{\mathrm{eco}}(t) - B_{\mathrm{baseline}}(t)\right) \cdot \mathbf{1}_{\mathrm{export}}$$
+    No grain, dairy, eggs, preserved ferments, or mineral salts can be advertised for export over BPVP unless local seed/soil ecological floors ($F_{\mathrm{eco}}$, including livestock winter hay reserves and minimum pasture sward height) and settlement human caloric/electrolyte baselines ($B_{\mathrm{baseline}}$, $30\text{-day}$ buffer) are $10000\,\mathrm{bp}$ ($100\%$) satisfied.
+*   **Sovereign Dietary Charter & Protocol of Refusal (`sec:l5-refusal`):** Each Node's assembly ratifies its local `Dietary_And_Husbandry_Charter` and heirloom recipe protections. Nodes can veto animal slaughter, synthetic additives, or specific allergens at their boundary while freely exchanging compatible staples across the watershed mesh.
+*   **Cryptographic Anaphylactic & Dietary Shield Gate (BBS+ ZKP):** When a member picks up a meal tiffin or fermented product, Layer 5 verifies their BBS+ Verifiable Credential via Zero-Knowledge Proof against the batch's recursive ingredient and allergen Merkle tree (checking peanuts, tree nuts, dairy lactose/casein, eggs, shellfish, soy, gluten, or ethical dietary exclusions), blocking incompatible latches mathematically without revealing medical or religious records.
+*   **Reputational Wealth ($\mathcal{R}$) & Care Leave Shields:** Herders, market gardeners, fermentation microbiologists, salt/lime refiners, and hearth cooks earn decaying, sublinearly capped ($\le 800\,\mathrm{bp}$) Reputational Wealth in the Nourishment & Ecology Guild, protected by Care Leave Shields.
 
-### Layer 6: Semantic Intent & Domain Ontology
-The Culinary Commons formalizes requests into typed JSON-LD Knowledge Artifacts within the Agora Commons (`col-commonsd`):
-1.  **`MealOffering`:** Description of available prepared dishes, portion counts, ingredient hashes, allergen hashes, and thermal holding deadlines.
-2.  **`DietaryNeedIntent`:** Community notification of specialized nutritional requirements (e.g., postpartum broths, high-iron convalescent meals).
-3.  **`PantryInventoryAttestation`:** Cryptographic inventory of bulk legumes, grains, and preserved foods verified by Layer 2 load cells.
-4.  **`CompostRoutingIntent` (Scenario Mu Bridge):** Auto-generated batch dispatch routing vegetable trimmings and spoiled biomass to Scenario Mu for vermicomposting and biochar pyrolysis.
-5.  **`TiffinReturnAttestation`:** Proof of return and sterilization of standardized stainless steel tiffin containers.
-6.  **`RicardianTreaty` ($\mathrm{Treaty\_CID}$):** Tripartite binding linking natural-language mutual aid pacts, machine-readable JSON-LD parameters, and formal BPMN state machines governing inter-node kitchen resource sharing.
-
-### The Governance Router Flowchart
+### Layer 6: Semantic Translation & Domain Ontology (`col-commonsd`)
+Layer 6 represents the complete nourishment web using W3C JSON-LD Knowledge Artifacts bound by Tripartite Ricardian Treaties ($\mathrm{Treaty\_CID}$):
+1.  **`AgroPastoralBatchAttestation`:** Certifies crop harvests, silvopasture paddock rest duration ($\ge 30\text{ days}$), non-competitive feed provenance, egg/milk yields, and HTST pasteurization telemetry.
+2.  **`BioprocessAndInorganicLot`:** Certifies precision-fermented micronutrients (Vitamin B12, chymosin), mycoprotein/*Spirulina*/solar-hydrogen protein batches, and refined inorganic culinary compounds ($\mathrm{NaCl}$, $\mathrm{Ca(OH)_2}$, $\mathrm{MgCl_2}$, $\mathrm{CaSO_4}$, $\mathrm{K_2CO_3}$, $\mathrm{NaHCO_3}$) with stoichiometric purity and conductivity ($\sigma_{\mathrm{EC}}$) proofs.
+3.  **`MealOffering` & `DietaryNeedIntent`:** Describes prepared Hearth dishes, recursive ingredient lineages (plant, animal, bio-synthesized, and inorganic), allergen hashes, and therapeutic nutrition requests (e.g., high-iron postpartum bone/kelp broths).
+4.  **`TrophicUpcycleIntent`:** Directs whey, spent grain, and kitchen trimmings to Black Soldier Fly Larvae (`BSFL`) reactors, bone/eggshell calcining kilns, and Scenario Mu composting/struvite units.
 
 ```mermaid
 graph TD
-    subgraph Layer 6: Semantic Ontology
-        L6_Meal[MealOffering]
-        L6_Need[DietaryNeedIntent]
-        L6_Treaty[RicardianTreaty Treaty_CID]
-        L6_Compost[CompostRoutingIntent]
+    subgraph Layer 6: Full-Spectrum Nourishment Ontology
+        L6_Agro[AgroPastoralBatchAttestation: <br>Crops, Eggs, Milk, Meat & Fish]
+        L6_Bio[BioprocessAndInorganicLot: <br>B12, Mycoprotein, NaCl, Ca_OH_2 & Nigari]
+        L6_Meal[MealOffering & DietaryNeedIntent]
+        L6_Loop[TrophicUpcycleIntent: <br>BSFL, Bone Ash & Scenario Mu]
     end
 
-    subgraph Layer 5: Polycentric Governance & Policy
-        P_Allergy{Anaphylactic Shield Gate: <br>ZKP Allergen Match = 0?}
-        P_Floor{Surplus Bound Gate: <br>Inventory > F_eco + B_baseline?}
-        P_Skill{Food Safety Gate: <br>HACCP Steward Verified?}
+    subgraph Layer 5: Polycentric Governance Gates
+        P_Trophic{Trophic & Welfare Gate: <br>Pasture Rest >= 30d & Zero Grain Theft?}
+        P_EcoBio{Bioprocess & Purity Gate: <br>316L Reusable Vat & Heavy-Metal Free?}
+        P_Allergy{Anaphylactic & Charter Gate: <br>BBS+ ZKP Allergen/Ethics Match = 0?}
+        P_Surplus{BPVP Surplus Gate: <br>Inventory > F_eco + B_baseline?}
     end
 
-    subgraph Layer 4: BPMN Orchestrators
-        BPMN_Cook[Culinary Preparation Engine]
-        BPMN_Hearth[Communal Hearth Feaster]
-        BPMN_Locker[Staged Pantry Locker Bay]
-        BPMN_Mu[Scenario Mu Compost Bridge]
+    subgraph Layer 4: Deterministic BPMN Orchestrators
+        BPMN_Husbandry[Silvopasture, Dairy & Aquaponics Engine]
+        BPMN_Biochem[Fermentation Vat & Salt/Lime Refinery Engine]
+        BPMN_Hearth[Communal Hearth & Smart Larder Engine]
+        BPMN_Cycle[BSFL & Scenario Mu Nutrient Bridge]
     end
 
-    L6_Meal --> P_Skill
-    P_Skill -->|Certified Steward| BPMN_Cook
-    P_Skill -.->|Novice Apprentice| BPMN_Cook
+    L6_Agro --> P_Trophic
+    P_Trophic -->|Verified| BPMN_Husbandry
 
-    BPMN_Cook --> BPMN_Hearth
-    BPMN_Cook --> BPMN_Locker
+    L6_Bio --> P_EcoBio
+    P_EcoBio -->|Verified| BPMN_Biochem
 
-    L6_Need --> P_Allergy
-    P_Allergy -->|Safe Ingredients| BPMN_Cook
-    P_Allergy -.->|Allergen Conflict| Reject[Block Distribution & Alert Cook]
+    BPMN_Husbandry --> L6_Meal
+    BPMN_Biochem --> L6_Meal
 
-    L6_Treaty --> P_Floor
-    P_Floor -->|Surplus Ratified| BPVP_Export[BPVP Inter-Node Mesh Dispatch]
+    L6_Meal --> P_Allergy
+    P_Allergy -->|Safe & Consented| BPMN_Hearth
+    P_Allergy -.->|Conflict| Block[Lock Latch & Alert Steward]
 
-    L6_Compost --> BPMN_Mu
+    BPMN_Hearth --> P_Surplus
+    P_Surplus -->|Surplus Export| BPVP[Scenario Beta Cold-Chain Freight]
+
+    L6_Loop --> BPMN_Cycle
 ```
 
 ### Layer 7: The Legacy Interface (Dual-Membrane Carapace)
-The Commons Kitchen interfaces with legacy commercial and regulatory structures through the Dual-Membrane Doctrine, presenting an honest, lawful, and legally unremarkable entity:
-
-1.  **Subchapter T Cooperative Shared Services Agreement (SSA):**
-    Under 26 U.S.C. §§ 1381–1388, the kitchen facility operates as a mutual-benefit shared services kitchen leased to a non-profit consumer cooperative or Housing Trust. The kitchen holds commercial health permits and a general commercial liability policy. Municipal health inspections interact exclusively with the cooperative carapace, protecting private households and community cooks from regulatory harassment.
-2.  **Bounded External Catering Carapace:**
-    To pay municipal property taxes, water utility bills, and commercial insurance premiums, the cooperative operates an outward-facing catering carapace. Legacy corporate clients pay external fiat currency for farm-to-table lunch events.
-    *   All external fiat flows directly into the cooperative's legacy bank account.
-    *   External fiat is allocated exclusively to satisfy the settlement's itemized fiat needs target ($\Phi_t$) for taxes and utilities.
-    *   Chefs working external catering shifts receive lawful W-2 wages in legacy fiat currency for their hours.
-    *   **Strict Inconvertibility:** External fiat **never** converts into internal Exergy Credits or tokens. Internal meals and care remain 100% non-monetary and unpriced.
-3.  **Regenerative Group Purchasing (GPO Wholesale Procurement):**
-    Essential kitchen supplies that cannot be grown in the bioregion (e.g., bulk sea salt, cold-pressed olive oil, organic baking flour, stainless steel tiffins) are procured wholesale.
-    *   The cooperative acts as a Decentralized Group Purchasing Organization (GPO).
-    *   It pools settlement bulk needs and issues commercial purchase orders to regional grain mills and cooperative suppliers, eliminating retail markups and single-use packaging.
-
-### Layer 7 Dual-Membrane Bidirectional Flowchart
-
-```mermaid
-graph TD
-    subgraph Legacy Environment [Layer 7: Regulators & Commercial Vendors]
-        HealthDept[Municipal Health Department Inspector]
-        CorpClient[External Corporate Lunch Client]
-        WholesaleSupplier[Regional Organic Grain & Salt Mill]
-        BankTreasury[Cooperative Bank Account - Fiat Ceiling Phi_t]
-    end
-
-    subgraph Sovereign Node [Layer 1 - Layer 6 Commons Kitchen]
-        Carapace[Subchapter T Cooperative Carapace]
-        L6[Layer 6: Agora Semantic Intent Queue]
-        L4[Layer 4: BPMN Kitchen Orchestrator]
-        L1[Layer 1: Physical Hearth & Cooking Stewards]
-    end
-
-    %% External Fiat Inflow
-    CorpClient -->|Pays Legacy Fiat for Catering| BankTreasury
-    BankTreasury -->|Pays Municipal Taxes & Health Permits| HealthDept
-    BankTreasury -->|Pays Lawful W-2 Wages to Cooks for External Shifts| L1
-
-    %% GPO Procurement Flow
-    L4 -->|Aggregates Bulk Grain & Salt Needs| L6
-    L6 -->|Compiles Purchase Order across l6_l7.sock| Carapace
-    Carapace -->|Executes Bulk B2B Purchase via Fiat| WholesaleSupplier
-    WholesaleSupplier -->|Delivers 25 kg Sacks & Reusable Drums| L1
-
-    HealthDept -.->|Audits Handled Exclusively by Corporate Shell| Carapace
-
-    classDef legacy fill:#ffebee,stroke:#c62828,stroke-width:2px;
-    classDef sovereign fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px;
-    class HealthDept,CorpClient,WholesaleSupplier,BankTreasury legacy;
-    class Carapace,L6,L4,L1 sovereign;
-```
+Executed by `col-adversaryd`, Layer 7 shields internal food sovereignty from regulatory harassment while interfacing cleanly with legacy supply chains when needed:
+1.  **Subchapter T Cooperative SSA & Private Herdshare / Food Club Covenants:**
+    *   In jurisdictions where municipal codes restrict neighborly food sharing or raw/artisan dairy distribution, the settlement operates under a **Subchapter T Consumer Cooperative Shared Services Agreement (26 U.S.C. §§ 1381–1388)**, a **Private Ministerial / Unincorporated Food Association (UUNAA)**, and contractual **Undivided-Interest Herdshare Bills of Sale** (where members co-own the dairy herd and receive milk/eggs as a return on their own livestock equity rather than a retail commercial sale).
+    *   For meat harvesting, mobile cooperative custom-exempt butchery units (`7 U.S.C. § 601 et seq.` Custom Slaughter Exemption for livestock co-owners) or state-inspected cooperative abattoirs ensure $100\%$ legal compliance without relying on corporate meatpacking cartels.
+2.  **Bounded External Farm-to-Table Catering & Artisan Cheese/Ferment Exports ($\Phi_t$):**
+    *   To harvest the legacy fiat required for land taxes and commercial insurance up to the monthly ceiling $\Phi_t$, the cooperative carapace sells surplus artisan aged cheeses, sourdough, honey, or farm-to-table catering to external Layer 7 buyers. Once $\Phi_t$ is reached, external sales pause automatically.
+3.  **Strategic Inorganic & Trace-Mineral GPO:**
+    *   For inland Nodes lacking local halite deposits or marine kelp beds, `col-adversaryd` pools bioregional demand into bulk B2B Group Purchasing Organization (GPO) orders for $1000\text{-kg}$ totes of food-grade solar sea salt ($\mathrm{NaCl}$), potassium iodide ($\mathrm{KI}$), and trace selenium/zinc salts, storing a $5\text{-year}$ strategic buffer in dry settlement vaults.
 
 ---
 
-## 3. Machine-Readable Schemas
+## 4. Machine-Readable Schemas
 
-### Subsection 3A: Layer 6 Knowledge Artifact - Meal Offering (`meal_offering.jsonld`)
+### Layer 6 Knowledge Artifact: Multi-Source Nourishment & Inorganic Processing Manifest (`nourishment_production_lot.jsonld`)
+
+This artifact demonstrates how a single Hearth culinary batch (`Nixtamal Tamales with Pasture Egg, Aged Goat Cheese, Koji-Miso & B12 Fortification`) chains together all four upstream input classes: **Agroecological Plant** (heirloom flint corn), **Animal-Sourced** (rotational silvopasture goat cheese & BSFL-fed hen eggs), **Bio-Synthesized** (curtailed-solar *Cupriavidus* protein flour & precision-fermented Vitamin B12 in `316L` stainless steel), and **Inorganic Mineral Chemistry** (kiln-calcined/slaked $\mathrm{Ca(OH)_2}$ nixtamal lime and fractional coastal $\mathrm{NaCl}$).
 
 ```json
 {
@@ -242,35 +303,84 @@ graph TD
   ],
   "@type": "MealOffering",
   "identifier": "urn:uuid:c9e1b2a4-5678-1234-abcd-9876543210ef",
-  "issuerDid": "did:mesh:node04:steward_chef_maria",
+  "issuerDid": "did:peer:2.Ez6MksF...node04_hearth_steward",
   "creationEpochMs": 1791475200000,
+  "treatyCid": "bafybeihdwdcefgh4dqkjv67uzcmw7ojee6xedeet6wfvikrwho3qnwjxye",
   "culinaryProfile": {
-    "name": "Braised Root Vegetable and Lentil Stew",
-    "caloricEstimateKj": 3550,
-    "portionsAvailable": 24,
-    "batchMassMilligrams": 14400000,
-    "ingredients": [
-      "Organic Carrots",
-      "Yukon Gold Potatoes",
-      "Green Lentils",
-      "Rosemary",
-      "Cultured Vegetable Stock"
-    ],
+    "name": "Nixtamalized Heirloom Corn Tamales with Silvopasture Goat Cheese, Pasture Eggs & Umami Koji Broth",
+    "portionsAvailable": 36,
+    "batchMassMilligrams": 21600000,
+    "caloricEstimateMicrojoules": 185000000000,
+    "multiStreamInputLineage": {
+      "plantAndFungalInputs": [
+        {
+          "ingredient": "Heirloom_Oaxacan_Green_Dent_Maize",
+          "massMilligrams": 8000000,
+          "soilCarbonDeltaPositive": true
+        },
+        {
+          "ingredient": "Hardwood_Sawdust_Shiitake_Mushrooms",
+          "massMilligrams": 2200000
+        }
+      ],
+      "animalSourcedInputs": [
+        {
+          "ingredient": "Silvopasture_Aged_Goat_Cheese",
+          "massMilligrams": 2400000,
+          "paddockRestElapsedMs": 3888000000,
+          "humanEdibleGrainFedMilligrams": 0,
+          "htstPasteurizationVerified": true
+        },
+        {
+          "ingredient": "Pasture_Tractor_Hen_Eggs_BSFL_Fed",
+          "massMilligrams": 1800000,
+          "humanEdibleGrainFedMilligrams": 0
+        }
+      ],
+      "bioSynthesizedInputs": [
+        {
+          "ingredient": "Precision_Fermented_Cobalamin_B12_Culture",
+          "activeCobalaminMicrograms": 180,
+          "vesselType": "STAINLESS_316L_CIP_BIOREACTOR",
+          "singleUsePlasticMassMilligrams": 0
+        },
+        {
+          "ingredient": "Curtailed_Solar_H2_Oxidizing_Protein_Flour",
+          "massMilligrams": 1200000,
+          "poweredByCurtailedSolarSurplus": true
+        }
+      ],
+      "inorganicMineralInputs": [
+        {
+          "compoundFormula": "Ca(OH)2",
+          "commonName": "Calcined_Shell_Slaked_Nixtamal_Lime",
+          "massMilligrams": 80000,
+          "reactionSteepPhMilliph": 12400,
+          "niacinBioavailabilityUnlocked": true
+        },
+        {
+          "compoundFormula": "NaCl_plus_KI",
+          "commonName": "Fractional_Solar_Sea_Salt_Kelp_Iodized",
+          "massMilligrams": 320000,
+          "brineHarvestDensityMgMl": 1225
+        }
+      ]
+    },
     "allergenHashes": [
       "0x8f3b2c...gluten_free",
-      "0x4a9d1e...dairy_free",
-      "0x1c7e9a...nut_free"
+      "0x9e1a4d...contains_dairy_goat",
+      "0x7b2c8f...contains_avian_egg"
     ],
-    "dietaryTags": [
-      "Vegan",
-      "Gluten_Free",
-      "Locavore_100pct"
+    "provenanceTags": [
+      "Provenance_Plant",
+      "Provenance_Dairy_Egg",
+      "Provenance_BioSynthesized",
+      "Inorganic_Nixtamal_Verified"
     ],
     "diningFormat": "CommunalHearth_Sanctuary"
   },
   "safetyAttestation": {
     "requiredCredential": "Food_Safety_Steward_L1",
-    "telemetryStreamUri": "mqtt://node04.mesh.local/kitchen/oven_01/temp_mk",
     "targetLethalityMillikelvin": 347150,
     "minLethalityHoldMs": 120000,
     "spoilageEpochMs": 1791504000000
@@ -283,54 +393,48 @@ graph TD
 }
 ```
 
-### Subsection 3B: Layer 2 Telemetry Attestation - Kitchen Thermal Safety Proof (`kitchen_attestation.json`)
+### Layer 2 & Layer 3 Combined Attestation: HACCP, Bioprocess & Trophic Loop Proof (`kitchen_bioprocess_attestation.jsonld`)
 
 ```json
 {
   "@context": "https://collective.network/ontology/v1/",
-  "@type": "KitchenSafetyAttestation",
+  "@type": "KitchenAndBioprocessAttestation",
   "offeringRef": "urn:uuid:c9e1b2a4-5678-1234-abcd-9876543210ef",
-  "kitchenDid": "did:mesh:node04:space:commons_hearth_01",
-  "stewardDid": "did:mesh:node04:steward_chef_maria",
+  "kitchenDid": "did:peer:2.Ez6MksH...node04_commons_hearth_01",
   "executionMetrics": {
-    "cookStartEpochMs": 1791478800000,
-    "lethalityAchievedEpochMs": 1791483345000,
-    "peakCoreTempMillikelvin": 355550,
-    "timeAbove347150mKMs": 1845000,
-    "dangerZoneElapsedMs": 1440000,
-    "fermentationAcidityMilliph": 4250,
+    "nixtamalSteepTempMillikelvin": 363150,
+    "nixtamalSteepPhMilliph": 12400,
+    "dairyHtstTempMillikelvin": 345650,
+    "dairyHtstHoldElapsedMs": 16500,
+    "cookPeakCoreTempMillikelvin": 369150,
+    "timeAbove347150mKMs": 2400000,
+    "dangerZoneElapsedMs": 920000,
+    "fermentationAcidityMilliph": 4180,
     "haccpPathogenInactivationVerified": true,
-    "stagedLockerCompartments": [
-      "Locker_C1",
-      "Locker_C2"
-    ],
-    "returnableTiffinTagHashes": [
-      "0x1f2e3d4c5b6a7988",
-      "0x88796a5b4c3d2e1f"
-    ],
     "anomalyDetected": false
   },
-  "plateWasteRoutedToMuMilligrams": 1450000,
-  "edgeAttestationSignature": "0x9d2e5b8c1a4d7f9e2b5c8a1d4f7b9e2c5a8d1f4e9b7d3a5e8c1b4f7a9d2e5b8c"
+  "trophicNutrientLoop": {
+    "wheyAndTrimmingsToBsflMilligrams": 3400000,
+    "eggShellsToCalciningKilnMilligrams": 210000,
+    "plateScrapsToScenarioMuCompostMilligrams": 890000,
+    "netBiomassRecoveryBasisPoints": 9850
+  },
+  "hardwareReceiptSignature": "0x9d2e5b8c1a4d7f9e2b5c8a1d4f7b9e2c5a8d1f4e9b7d3a5e8c1b4f7a9d2e5b8c"
 }
 ```
 
 ---
 
-## 4. Oasis Engine Implementation Specification
+## 5. Oasis Engine Implementation Specification
 
-### Subsection 4A: Memory Allocation & Voxel State
+### Voxel & ECS Representation in Oasis (Layer 1b)
+Within Oasis, Scenario Gamma's full-chain food production and kitchen infrastructure are represented by dedicated voxel material IDs and Flecs ECS components:
+*   **Plant & Mycelial Voxels (`MAT_AGRO_CROP_BED = 88`, `MAT_MYCELIUM_CHAMBER = 89`):** Simulating soil moisture (`0..255`), root-zone temperature in millikelvin, and sawdust-to-mushroom conversion.
+*   **Animal Husbandry & Aquaponics Voxels (`MAT_SILVOPASTURE_PADDOCK = 93`, `MAT_AQUAPONICS_TANK = 94`, `MAT_BSFL_BIOCONVERTER = 95`):** Tracking pasture sward recovery timers, non-competitive feed balances (BSFL larvae + crop residues), egg/milk/meat yields, and mechanical bell-siphon nitrification cycles.
+*   **Bio-Synthesis & Inorganic Chemistry Voxels (`MAT_FERMENTATION_BIOREACTOR = 91`, `MAT_INORGANIC_SALT_LIME_REFINERY = 96`):** Modeling `316L` stainless precision fermentation, curtailed-solar hydrogen-oxidizing single-cell protein synthesis, fractional $\mathrm{NaCl}$ / $\mathrm{MgCl_2}$ brine crystallization, and $\mathrm{Ca(OH)_2}$ nixtamalization lime slaking.
+*   **Communal Hearth & Smart Larder Voxels (`MAT_COMMONS_HEARTH_STATION = 90`, `MAT_SMART_PANTRY_LOCKER = 92`, `MAT_COMPOST_FOOD_SCRAP = 98`):** Simulating induction cooking, Bigelow thermal pathogen lethality, BBS+ ZKP allergen latch gating, and communal dining mood buffs.
 
-In the Oasis simulation, communal cooking hubs are modeled as thermodynamic thermal processing voxels within the 32x32x32 chunk space:
-*   The induction hearth voxel is initialized with `material_id = 90` (`COMMONS_HEARTH_STATION`).
-*   The fermentation vat voxel is initialized with `material_id = 91` (`FERMENTATION_BIO_REACTOR`).
-*   The smart refrigerated pantry locker voxel is initialized with `material_id = 92` (`SMART_PANTRY_LOCKER`).
-*   The `Is_Actuator` bit is set in `metadata` (bit 1) for induction elements and locker solenoids.
-*   The `Is_Sensor` bit is set in `metadata` (bit 2) for thermocouples and pH probes.
-*   Food items are simulated as entities occupying vessel voxels, updating internal core temperatures and undergoing state transitions from `RAW` to `COOKED` or `SPOILED_COMPOST`.
-*   All state values, timers, temperatures, and energies are strictly defined as fixed-point SI integers (`uint64_t`, `uint32_t`, `int64_t`).
-
-### Subsection 4B: C++20 Test Harness Code
+### C++20 Test Harness Code (Fixed-Point SI Integer Math)
 
 ```cpp
 // engine/tests/scenario_gamma_test.cpp
@@ -338,154 +442,186 @@ In the Oasis simulation, communal cooking hubs are modeled as thermodynamic ther
 #include <cstdint>
 #include <string>
 #include <vector>
-#include "oasis/chunk_manager.hpp"
-#include "oasis/orchestration/bpmn_engine.hpp"
 
-namespace oasis {
+namespace oasis::scenario_gamma {
 
-// Fixed-point SI integer state definitions
-struct FoodBatchState {
-    uint32_t core_temp_mk{293150};          // 293,150 mK = 20 deg C
-    uint32_t time_in_danger_zone_ms{0};     // Milliseconds in 4 C - 60 C
-    bool pathogen_lethality_achieved{false};
-    bool spoiled{false};
-    uint64_t batch_mass_mg{14400000};       // 14400 grams
-    uint32_t acidity_milliph{4250};         // 4250 mpH
+// 1. Pillar II: Regenerative Animal Husbandry & Trophic Non-Competition Gate
+struct SilvopastureHerdState {
+    uint64_t paddock_rest_elapsed_ms{0};
+    uint64_t min_required_rest_ms{2592000000ULL}; // 30 days in milliseconds
+    uint64_t human_edible_grain_fed_mg{0};
+    uint64_t pasture_and_bsfl_feed_mg{0};
+    uint32_t milk_htst_temp_mk{0};
+    uint32_t milk_htst_hold_ms{0};
 };
 
-struct KitchenJobContext {
-    std::string offering_id;
-    uint32_t portions{24};
-    FoodBatchState batch;
-    bool communal_hearth_dine_in{true};
-    uint64_t induction_energy_uj{0};        // Energy used in microjoules
-};
-
-// Bilateral Clearing Channel state
-struct BilateralClearingChannel {
-    int64_t balance_uj{0};                  // B_{u -> v}(t) in microjoules
-    int64_t credit_headroom_uj{36000000000000}; // 36000000000000 microjoules headroom
-
-    bool can_reserve(int64_t amount_uj) const {
-        return (balance_uj + amount_uj) <= credit_headroom_uj;
-    }
-
-    void execute_transfer(int64_t amount_uj) {
-        balance_uj += amount_uj;
-    }
-};
-
-} // namespace oasis
-
-void test_scenario_gamma_kitchen_normal_execution() {
-    using namespace oasis;
-
-    // 1. Initialize local chunk and hearth voxel
-    ChunkManager chunk_mgr;
-    chunk_mgr.allocate_chunk(0, 0, 0);
-
-    Voxel hearth_voxel{
-        .material_id = 90, // COMMONS_HEARTH_STATION
-        .moisture = 0,
-        .temperature = 20, // 20 C ambient
-        .metadata = 0b00000110 // Sensor + Actuator
-    };
-    chunk_mgr.set_voxel(16, 1, 16, hearth_voxel);
-
-    // 2. Setup BPMN Orchestrator & Job Context
-    BPMNEngine orchestrator;
-    orchestrator.load_schema("schemas/bpmn/kitchen_hearth.bpmn");
-
-    KitchenJobContext job{
-        .offering_id = "c9e1b2a4-5678-1234-abcd-9876543210ef",
-        .portions = 24,
-        .batch = {
-            .core_temp_mk = 293150, // 20 C
-            .time_in_danger_zone_ms = 0,
-            .pathogen_lethality_achieved = false,
-            .spoiled = false,
-            .batch_mass_mg = 14400000,
-            .acidity_milliph = 4250
-        },
-        .communal_hearth_dine_in = true,
-        .induction_energy_uj = 0
-    };
-
-    // 3. Simulate heating cycle: core temp reaches 355550 mK (above 347150 mK threshold)
-    job.batch.core_temp_mk = 355550;
-    job.batch.pathogen_lethality_achieved = true;
-    job.induction_energy_uj = 7200000000000; // 7200000000000 microjoules
-
-    // Step simulation ticks (cooking to service = 4500 seconds at 10 Hz = 45,000 ticks)
-    SimResult res = orchestrator.step_simulation_ticks(chunk_mgr, job, 45000);
-    assert(res.status == ExecutionStatus::COMPLETED);
-    assert(job.batch.spoiled == false);
-    assert(job.batch.pathogen_lethality_achieved == true);
-
-    // 4. Verify Bilateral Clearing Channel for inter-node preserved surplus
-    BilateralClearingChannel channel;
-    int64_t transfer_uj = 3600000000000; // 1 Exergy Credit quantum (3600000000000 microjoules)
-    assert(channel.can_reserve(transfer_uj));
-    channel.execute_transfer(transfer_uj);
-    assert(channel.balance_uj == 3600000000000);
+inline bool verify_regenerative_husbandry_gate(const SilvopastureHerdState& herd,
+                                               bool human_grain_surplus_above_baseline) {
+    // Must respect minimum 30-day paddock recovery to build soil organic carbon
+    if (herd.paddock_rest_elapsed_ms < herd.min_required_rest_ms) return false;
+    // Trophic Non-Competition Invariant: zero human-edible grain fed unless human baseline is 100% full
+    if (!human_grain_surplus_above_baseline && herd.human_edible_grain_fed_mg > 0) return false;
+    // HTST Dairy Pasteurization check: >= 345,150 mK (72 C) for >= 15,000 ms (15 seconds)
+    if (herd.milk_htst_temp_mk < 345150 || herd.milk_htst_hold_ms < 15000) return false;
+    return herd.pasture_and_bsfl_feed_mg > 0;
 }
 
-void test_scenario_gamma_danger_zone_spoilage_anomaly() {
-    using namespace oasis;
+// 2. Pillar III: Ecologically Sound Bio-Synthesis Gate (Precision Fermentation & Solar SCP)
+struct BioprocessBatchSpec {
+    bool reusable_316l_or_glass_vessel{false};
+    uint64_t single_use_plastic_consumables_mg{0};
+    bool mammalian_pharmaceutical_growth_media{false};
+    bool uses_electrolysis_h2_feed{false};
+    uint32_t microgrid_battery_soc_bp{0}; // 0..10000 bp
+    bool solar_curtailment_active{false};
+};
 
-    ChunkManager chunk_mgr;
-    chunk_mgr.allocate_chunk(0, 0, 0);
+inline bool verify_ecological_bioprocess_gate(const BioprocessBatchSpec& bio) {
+    // Reject single-use plastic bags and high-entropy mammalian pharmaceutical cell culture
+    if (!bio.reusable_316l_or_glass_vessel) return false;
+    if (bio.single_use_plastic_consumables_mg > 0) return false;
+    if (bio.mammalian_pharmaceutical_growth_media) return false;
+    // Autotrophic H2-oxidizing single-cell protein electrolysis only runs on curtailed solar surplus
+    if (bio.uses_electrolysis_h2_feed) {
+        if (bio.microgrid_battery_soc_bp < 9800 || !bio.solar_curtailment_active) return false;
+    }
+    return true;
+}
 
-    BPMNEngine orchestrator;
-    orchestrator.load_schema("schemas/bpmn/kitchen_hearth.bpmn");
+// 3. Pillar IV: Inorganic Culinary Chemistry (Nixtamalization Ca(OH)2 & Fractional NaCl Brine)
+struct InorganicChemistryLot {
+    uint64_t dry_maize_mass_mg{0};
+    uint64_t slaked_lime_ca_oh_2_mg{0};
+    uint32_t nixtamal_steep_ph_milliph{0};
+    uint32_t nixtamal_steep_temp_mk{0};
+    uint32_t solar_brine_density_mg_ml{0}; // NaCl crystallization window: 1214..1250 mg/mL
+    bool heavy_metal_exclusion_passed{false};
+};
 
-    KitchenJobContext neglected_batch{
-        .offering_id = "spoilage-test-batch",
-        .portions = 12,
-        .batch = {
-            .core_temp_mk = 308150, // 35 deg C (in danger zone: 277150 - 333150 mK)
-            .time_in_danger_zone_ms = 0,
-            .pathogen_lethality_achieved = false,
-            .spoiled = false,
-            .batch_mass_mg = 7200000,
-            .acidity_milliph = 6000  // Insufficient acidity (6000 mpH)
-        },
-        .communal_hearth_dine_in = false,
-        .induction_energy_uj = 1000000000
+inline bool verify_inorganic_nixtamal_and_salt(const InorganicChemistryLot& chem) {
+    if (!chem.heavy_metal_exclusion_passed || chem.dry_maize_mass_mg == 0) return false;
+    // Slaked lime Ca(OH)2 dose must be between 80 bp and 150 bp of dry maize mass
+    uint64_t lime_ratio_bp = (chem.slaked_lime_ca_oh_2_mg * 10000ULL) / chem.dry_maize_mass_mg;
+    if (lime_ratio_bp < 80 || lime_ratio_bp > 150) return false;
+    // Alkaline hydrolysis requires pH >= 12,000 mpH and steep temp >= 358,150 mK (85 C)
+    if (chem.nixtamal_steep_ph_milliph < 12000 || chem.nixtamal_steep_temp_mk < 358150) return false;
+    // Fractional seawater evaporation: pure NaCl precipitates between 1214 and 1250 mg/mL
+    // (CaSO4 precipitates below 1210 mg/mL; MgCl2 nigari remains dissolved above 1250 mg/mL)
+    if (chem.solar_brine_density_mg_ml < 1214 || chem.solar_brine_density_mg_ml > 1250) return false;
+    return true;
+}
+
+// 4. Pillar V & VI: Thermal HACCP Lethality, ZKP Allergen Shield & Nutrient Loop Closure
+struct CulinaryHearthBatch {
+    uint32_t peak_core_temp_mk{293150};
+    uint32_t hold_above_347150mk_ms{0};
+    uint32_t time_in_danger_zone_ms{0};
+    uint32_t ferment_acidity_milliph{4200};
+    uint32_t consumer_allergen_conflict_count{0};
+    uint64_t total_organic_residue_mg{0};
+    uint64_t recovered_to_bsfl_and_mu_mg{0};
+};
+
+inline bool verify_haccp_and_trophic_closure(const CulinaryHearthBatch& batch) {
+    // Danger zone overrun (> 120 minutes = 7,200,000 ms between 4 C and 60 C) spoils batch
+    if (batch.time_in_danger_zone_ms > 7200000) return false;
+    // Must achieve thermal pathogen lethality (>= 347,150 mK / 74 C for >= 120,000 ms)
+    if (batch.peak_core_temp_mk < 347150 || batch.hold_above_347150mk_ms < 120000) return false;
+    // Fermented side-components must sit below 4600 mpH to inhibit Clostridium botulinum
+    if (batch.ferment_acidity_milliph >= 4600) return false;
+    // BBS+ ZKP Anaphylactic Shield must report zero allergen conflicts
+    if (batch.consumer_allergen_conflict_count > 0) return false;
+    // Nutrient loop closure must recover >= 9500 bp (95%) of organic residues to BSFL/Scenario Mu
+    if (batch.total_organic_residue_mg == 0) return false;
+    uint64_t recovery_bp = (batch.recovered_to_bsfl_and_mu_mg * 10000ULL) / batch.total_organic_residue_mg;
+    return recovery_bp >= 9500;
+}
+
+void run_all_scenario_gamma_tests() {
+    // Test 1: Regenerative Husbandry (Silvopasture Dairy & BSFL-Fed Pasture Eggs)
+    SilvopastureHerdState valid_herd{
+        .paddock_rest_elapsed_ms = 3888000000ULL, // 45 days rest (> 30 days)
+        .min_required_rest_ms = 2592000000ULL,
+        .human_edible_grain_fed_mg = 0,           // Zero human grain diverted
+        .pasture_and_bsfl_feed_mg = 45000000ULL,  // Fed on silvopasture forage + BSFL larvae
+        .milk_htst_temp_mk = 345650,              // Above 345,150 mK (72 C) threshold
+        .milk_htst_hold_ms = 16500                // 16,500 ms (> 15,000 ms)
     };
+    assert(verify_regenerative_husbandry_gate(valid_herd, false) == true);
 
-    // Simulate time overrun in danger zone: > 7,200,000 ms (120 minutes)
-    neglected_batch.batch.time_in_danger_zone_ms = 7800000; // 130 minutes
-    SimResult res = orchestrator.step_simulation_ticks(chunk_mgr, neglected_batch, 78000, true);
+    // CAFO-style grain diversion when human baseline is not in surplus must be blocked!
+    SilvopastureHerdState cafo_violation = valid_herd;
+    cafo_violation.human_edible_grain_fed_mg = 5000000ULL;
+    assert(verify_regenerative_husbandry_gate(cafo_violation, false) == false);
 
-    assert(res.status == ExecutionStatus::EMERGENCY_STOP);
-    assert(orchestrator.current_state() == BPMNState::SPOILED_COMPOST_SALVAGE);
-
-    // Batch mutates to spoiled organic waste
-    neglected_batch.batch.spoiled = true;
-    assert(neglected_batch.batch.spoiled == true);
-
-    // Voxel updates to compost feedstock
-    Voxel compost_voxel{
-        .material_id = 98, // COMPOST_FOOD_SCRAP
-        .moisture = 75,
-        .temperature = 35,
-        .metadata = 0b00000001
+    // Test 2: Bio-Synthesized Ingredients (Precision Fermentation B12 & Curtailed-Solar H2 Protein)
+    BioprocessBatchSpec solar_scp_batch{
+        .reusable_316l_or_glass_vessel = true,
+        .single_use_plastic_consumables_mg = 0,
+        .mammalian_pharmaceutical_growth_media = false,
+        .uses_electrolysis_h2_feed = true,
+        .microgrid_battery_soc_bp = 9950,
+        .solar_curtailment_active = true
     };
-    chunk_mgr.set_voxel(16, 1, 16, compost_voxel);
-    assert(chunk_mgr.get_voxel(16, 1, 16).material_id == 98);
+    assert(verify_ecological_bioprocess_gate(solar_scp_batch) == true);
+
+    // Reject disposable-plastic pharmaceutical mammalian "lab meat" bioreactor
+    BioprocessBatchSpec disposable_lab_meat = solar_scp_batch;
+    disposable_lab_meat.single_use_plastic_consumables_mg = 850000ULL;
+    disposable_lab_meat.mammalian_pharmaceutical_growth_media = true;
+    assert(verify_ecological_bioprocess_gate(disposable_lab_meat) == false);
+
+    // Test 3: Inorganic Culinary Chemistry (Ca(OH)2 Nixtamalization & Fractional NaCl Brine)
+    InorganicChemistryLot nixtamal_and_salt{
+        .dry_maize_mass_mg = 8000000ULL,     // 8 kg heirloom maize
+        .slaked_lime_ca_oh_2_mg = 80000ULL,  // 80 g slaked lime (100 bp = 1% mass ratio)
+        .nixtamal_steep_ph_milliph = 12400,  // 12,400 mpH
+        .nixtamal_steep_temp_mk = 363150,    // 90 C steep
+        .solar_brine_density_mg_ml = 1225,   // Pure NaCl precipitation window (1214..1250 mg/mL)
+        .heavy_metal_exclusion_passed = true
+    };
+    assert(verify_inorganic_nixtamal_and_salt(nixtamal_and_salt) == true);
+
+    // Reject brine harvested too early in the CaSO4 gypsum precipitation window (1150 mg/mL)
+    InorganicChemistryLot impure_brine = nixtamal_and_salt;
+    impure_brine.solar_brine_density_mg_ml = 1150;
+    assert(verify_inorganic_nixtamal_and_salt(impure_brine) == false);
+
+    // Test 4: Communal Hearth HACCP Lethality, ZKP Allergen Gate & BSFL/Mu Loop Closure
+    CulinaryHearthBatch hearth_feast{
+        .peak_core_temp_mk = 369150,
+        .hold_above_347150mk_ms = 2400000,
+        .time_in_danger_zone_ms = 920000,
+        .ferment_acidity_milliph = 4180,
+        .consumer_allergen_conflict_count = 0,
+        .total_organic_residue_mg = 4500000ULL,
+        .recovered_to_bsfl_and_mu_mg = 4432500ULL // 9850 bp recovered
+    };
+    assert(verify_haccp_and_trophic_closure(hearth_feast) == true);
+
+    // Danger-zone overrun (> 7,200,000 ms) must fail HACCP gate and route to compost
+    CulinaryHearthBatch spoiled_batch = hearth_feast;
+    spoiled_batch.time_in_danger_zone_ms = 7800000;
+    assert(verify_haccp_and_trophic_closure(spoiled_batch) == false);
+}
+
+} // namespace oasis::scenario_gamma
+
+int main() {
+    oasis::scenario_gamma::run_all_scenario_gamma_tests();
+    return 0;
 }
 ```
 
 ---
 
-## 5. Acceptance Test Gates (Pass/Fail)
+## 6. Acceptance Test Gates (Pass/Fail)
 
 | Checkpoint | Validation Method | Pass Condition |
 | :--- | :--- | :--- |
-| **G1: Thermal HACCP Verification** | Continuous Thermocouple Integer Stream | Simulated batch only transitions to `HACCP_SAFE` if the digital twin proves core temperature exceeded 347,150 mK (74 C) for at least 120,000 ms; otherwise food distribution remains locked. |
-| **G2: Offline Autonomy** | Localhost Network Isolation | Kitchen ordering, thermocouple logging, locker latch actuation, and BCC updates execute with 100% WAN/Internet severance over the local-first mesh. |
-| **G3: Cryptographic Anaphylactic Shield** | BBS+ DID Allergy ZKP Verification | A consumer profile with an active tree nut or gluten allergy credential mathematically rejects meals containing matching allergen hashes without disclosing private health records. |
-| **G4: Danger Zone Spoilage Bounds** | State Machine Timeout Overrun | Cooked food held between 277,150 mK and 333,150 mK for longer than 7,200,000 ms (120 minutes) aborts distribution and transitions the biomass to `COMPOST_FOOD_SCRAP` routed to Scenario Mu. |
-| **G5: Dual-Membrane Legacy Carapace** | External Catering Carapace Ingress | Mock external catering booking records legacy fiat revenue into the cooperative bank account to cover municipal property taxes and utilities up to ceiling $\Phi_t$; zero internal tokens minted; zero conversion into internal credits. |
-| **G6: Regenerative Staple Procurement** | Wholesale GPO Bulk Purchase | System pools monthly olive oil and salt requisitions across households, triggering a single wholesale B2B purchase via the cooperative carapace to eliminate retail packaging and retail markups. |
+| **G1: Regenerative Husbandry & Trophic Non-Competition** | Silvopasture Rest & Feed Ledger Audit | Livestock paddocks enforce $\ge 2{,}592{,}000{,}000\,\mathrm{ms}$ ($30\text{ days}$) recovery between grazings; $0\,\mathrm{mg}$ of human-edible grain is fed to livestock unless local human reserves exceed $B_{\mathrm{baseline}} + F_{\mathrm{eco}}$; dairy pasteurization verifies $T \ge 345150\,\mathrm{mK}$ ($72^\circ\mathrm{C}$) for $\ge 15000\,\mathrm{ms}$. |
+| **G2: Ecological Bio-Synthesis Gate** | Bioreactor Vessel & Curtailment Audit | Precision fermentation (Vitamin B12, chymosin, mycoprotein) and photobioreactor *Spirulina* execute exclusively in reusable `316L` stainless/glass vessels with $0\,\mathrm{mg}$ single-use plastic; hydrogen-oxidizing single-cell protein electrolysis runs strictly when microgrid $\mathrm{SoC} \ge 9800\,\mathrm{bp}$ during solar curtailment. |
+| **G3: Inorganic Culinary Chemistry Verification** | Stoichiometric & Density Telemetry Check | Kiln-calcined/slaked $\mathrm{Ca(OH)_2}$ nixtamalization achieves $\mathrm{pH} \ge 12000\,\mathrm{mpH}$ at $80\text{–}150\,\mathrm{bp}$ lime-to-maize mass ratio; fractional solar brine harvests food-grade $\mathrm{NaCl}$ within $1214\text{–}1250\,\mathrm{mg/mL}$ and separates $\mathrm{MgCl_2}$ *nigari* coagulant above $1250\,\mathrm{mg/mL}$. |
+| **G4: Thermal HACCP & Fermentation Safety** | Continuous Thermocouple & pH Stream | Cooked batches unlock consumer distribution only after core temperature exceeds $347150\,\mathrm{mK}$ ($74^\circ\mathrm{C}$) for $\ge 120000\,\mathrm{ms}$ and fermented goods verify $< 4600\,\mathrm{mpH}$; batches held between $277150\,\mathrm{mK}$ and $333150\,\mathrm{mK}$ for $> 7{,}200{,}000\,\mathrm{ms}$ automatically divert to Scenario Mu compost. |
+| **G5: Sovereign Dietary Veto & Anaphylactic ZKP Shield** | BPVP Provenance Filter & BBS+ ZKP Check | Nodes enforce their ratified dietary charter (Plant-Only, Vegetarian Dairy/Egg, or Full Silvopasture) via BPVP provenance tags; consumer BBS+ allergy/dietary credentials block incompatible locker latches with zero disclosure of private medical records. |
+| **G6: Trophic Loop Closure & Dual-Membrane Carapace** | BSFL/Mu Mass Balance & Fiat Cap $\Phi_t$ | $\ge 9500\,\mathrm{bp}$ ($95\%$) of whey, trimmings, shells, bones, and plate scraps are upcycled into BSFL feed, calcined calcium-phosphate/lime, or Scenario Mu compost/struvite; domestic $R_0$ meals remain $100\%$ unpriced while external catering/cheese exports pause at monthly fiat ceiling $\Phi_t$. |

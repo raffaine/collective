@@ -64,6 +64,76 @@
       <!-- DECK 0: MAIN CADASTRAL HUB OVERVIEW                            -->
       <!-- ============================================================== -->
       <section class="deck deck-visible" id="deck-hub">
+        <!-- Live Node 0 Homestead Mission Control Card (#node0-live-mission-card) -->
+        <div class="card" id="node0-live-mission-card" style="border: 1px solid rgba(52, 211, 153, 0.65); background: rgba(6, 28, 36, 0.85);">
+          <div class="card-header">
+            <h2 class="card-title" style="color: #34d399;">🟢 LIVE NODE 0 HOMESTEAD MISSION CONTROL (LOT 402)</h2>
+            <span class="card-subtitle">SERVER RACK (12,1,6) ↔ 3D VIEWPORT BUS</span>
+          </div>
+          <div class="vitals-grid" style="margin-bottom: 10px;">
+            <div class="vital-box">
+              <span class="vital-title">SOLAR FLUX</span>
+              <div class="vital-metric positive"><span class="metric-num" id="companion-live-solar">+8.5 kWh/d</span></div>
+            </div>
+            <div class="vital-box">
+              <span class="vital-title">WATER RESERVE</span>
+              <div class="vital-metric"><span class="metric-num" id="companion-live-water">60.0L</span></div>
+            </div>
+            <div class="vital-box">
+              <span class="vital-title">KITCHEN (Γ)</span>
+              <div class="vital-metric"><span class="metric-num" id="companion-live-meals">3 Meals (2 Prod)</span></div>
+            </div>
+            <div class="vital-box">
+              <span class="vital-title">SALVAGE PV KITS</span>
+              <div class="vital-metric"><span class="metric-num" id="companion-live-pv">2 Kits</span></div>
+            </div>
+          </div>
+          <div id="companion-live-dispatch-banner" style="display:none; background: rgba(6, 78, 59, 0.9); border: 1px solid #34d399; border-radius: 6px; padding: 8px 10px; margin-bottom: 10px; color: #a7f3d0; font-weight: 700; font-size: 0.85rem;">
+            ✅ Task Dispatched to Lot 402 Founder in Oasis 3D Viewport!
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+            <button type="button" class="btn-primary btn-live-oasis-task" id="btn-live-task-1" data-companion-task="1">
+              [ ⚡ Task α: Build Roof Solar Panel (+4.5 kWh/d | 1 PV Kit) ]
+            </button>
+            <button type="button" class="btn-primary btn-live-oasis-task" id="btn-live-task-2" data-companion-task="2">
+              [ 💧 Task β: Dig Backyard Rain Swale (+8.0 L/d | +2 Cob) ]
+            </button>
+            <button type="button" class="btn-primary btn-live-oasis-task" id="btn-live-task-3" data-companion-task="3">
+              [ 🌾🍳 Task Γ: Harvest Garden &amp; Cook 2 Meals (+800 kcal) ]
+            </button>
+            <button type="button" class="btn-primary btn-live-oasis-task" id="btn-live-task-4" data-companion-task="4">
+              [ 📦 Task 4: Requisition +2 Solar PV Kits (Trade 2 Kitchen Meals) ]
+            </button>
+          </div>
+          <!-- Sprint 14: Layer 6 Calendar of Intents & Out-of-Band L4/L5 Setup Links -->
+          <div style="margin-top: 12px; padding-top: 10px; border-top: 1px solid rgba(52, 211, 153, 0.35);">
+            <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 8px;">
+              <span class="mono" style="font-size: 0.75rem; color: #fbbf24;">
+                📅 LAYER 6 CALENDAR OF INTENTS (DAY-TO-DAY CITIZEN &amp; AGENT USAGE)
+              </span>
+              <span class="mono" id="companion-live-bpmn-schedule-status" style="font-size: 0.75rem; color: #34d399;">
+                ● L6 Calendar Lifecycle: [ESCROWED] Days 1–4 Active
+              </span>
+            </div>
+            <div style="font-size: 0.78rem; color: #cbd5e1; margin-bottom: 8px;">
+              <strong>Day 1:</strong> <code>mesh:FabricationIntent</code> (Dig Rain Swale <code>[ESCROWED]</code>) │
+              <strong>Day 2:</strong> <code>mesh:FabricationIntent</code> (Cook 2 Meals <code>[ESCROWED]</code>) │
+              <strong>Day 3:</strong> <code>mesh:RestIntent</code> (Scenario Σ Recovery <code>[PENDING]</code>) │
+              <strong>Day 4:</strong> <code>mesh:FabricationIntent</code> (Roof Solar Array <code>[PENDING]</code>)
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+              <a href="../orchestrator/index.html" id="btn-launch-l4-workflow-designer"
+                 style="display: block; text-align: center; text-decoration: none; background: rgba(67, 56, 202, 0.75); border: 1px solid #818cf8; color: #f8fafc; font-family: monospace; font-weight: 700; font-size: 0.78rem; padding: 8px 10px; border-radius: 6px;">
+                [ ⚙️ Open Layer 4 Workflow Designer (../orchestrator/index.html) ]
+              </a>
+              <a href="../governance/index.html" id="btn-launch-l5-governance-manager"
+                 style="display: block; text-align: center; text-decoration: none; background: rgba(109, 40, 217, 0.75); border: 1px solid #c084fc; color: #f8fafc; font-family: monospace; font-weight: 700; font-size: 0.78rem; padding: 8px 10px; border-radius: 6px;">
+                [ 🛡️ Open Layer 5 Governance Manager (../governance/index.html) ]
+              </a>
+            </div>
+          </div>
+        </div>
+
         <!-- Morning Circle Announcement Banner -->
         <div class="card alert-card notice-amber">
           <div class="card-header-compact">
@@ -687,7 +757,13 @@
               <p><strong>Escrow Locked:</strong> 12.5 Exergy Credits (PoTW Locked in L3 Ledger)</p>
             </div>
             <div class="approval-read-only-note">
-              <span>ⓘ Ratification and vote dispatch occur strictly via Layer 6 Signed Intent.</span>
+              <span>ⓘ SS-EP6-006 Strict Intent U-Turn (<code>Human -&gt; L6 -&gt; L5 -&gt; L4 -&gt; [upward-yield] -&gt; L5 -&gt; L6 -&gt; L7</code>): Layer 5 diagnostic hood is strictly read-only (403/405 on write). Ratification of pending <code>[upward-yield]</code> holds occurs exclusively via Layer 6 Signed Intent (<code>POST /api/v1/l6/intent</code>).</span>
+              <div style="margin-top: 0.5rem;">
+                <button class="btn-pop-hood btn-l6" data-jump="l6">
+                  <span class="btn-icon">⚡</span>
+                  <span class="btn-text">Route Ratification via L6 Intent U-Turn (POST /api/v1/l6/intent)</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -695,20 +771,22 @@
         <!-- Polycentric Trust Rings Inspector -->
         <div class="card">
           <div class="card-header">
-            <h3 class="card-title">POLYCENTRIC TRUST RING & BPVP ROUTING</h3>
+            <h3 class="card-title">POLYCENTRIC TRUST RING &amp; PROGRESSIVE ASSIMILATION (R6 &rarr; R3 &rarr; R1)</h3>
             <span class="badge badge-purple">6-TIER RING TOPOLOGY</span>
           </div>
           <div class="trust-ring-pills">
             <span class="trust-pill">[ R0: Home ]</span>
-            <span class="trust-pill">[ R1: Node ]</span>
+            <span class="trust-pill">[ R1: Vouched Steward ]</span>
             <span class="trust-pill active">[►R2: Valley◄]</span>
-            <span class="trust-pill">[ R3: Water ]</span>
+            <span class="trust-pill">[ R3: Probationary Resident ]</span>
             <span class="trust-pill">[ R4: Region ]</span>
             <span class="trust-pill">[ R5: Biome ]</span>
+            <span class="trust-pill">[ R6: Unverified Migrant ]</span>
           </div>
           <div class="trust-meta mono">
             <p><strong>Dijkstra Graph Distance:</strong> 2 hops │ RTT: 48 ms</p>
             <p><strong>Route Path:</strong> Node04 &rarr; Node02 &rarr; Local Node 402</p>
+            <p><strong>Assimilation Pipeline (SS-EP5-007 / col-kmsd):</strong> R6 (B_t Floor, 0 EC Credit) &rarr; R3 (&ge;7d Homeostasis + &ge;36.0 MJ PoTW, 25 EC Credit) &rarr; R1 (&ge;30d R3 + 2-of-3 FROST SCN-TAU-GENESIS, BBS+ Credential)</p>
             <p><strong>BPVP Rule:</strong> PASSED (Bioregional peer available; zero fiat invoked)</p>
           </div>
         </div>
@@ -740,7 +818,7 @@
       <section class="deck deck-hidden" id="deck-l6">
         <div class="deck-banner banner-l6">
           <div class="banner-title-group">
-            <span class="banner-tag">LAYER 6 CIVIC INTERACTION BOUNDARY</span>
+            <span class="banner-tag">LAYER 6 CIVIC INTERACTION BOUNDARY (TLS 1.3 :8443 VLAN 30)</span>
             <h2 class="banner-title">SEMANTIC AGORA & INTENT DISPATCH</h2>
           </div>
           <span class="badge badge-amber">MUTATIONS PERMITTED (POST)</span>
@@ -830,6 +908,8 @@
                 <option value="PolicyRefinement">PolicyRefinement (Ecological Threshold Update)</option>
                 <option value="TreatyRatificationIntent">TreatyRatificationIntent (Ricardian Water Pact)</option>
                 <option value="ChoreBountyIntent">ChoreBountyIntent (Civic Work Escrow)</option>
+                <option value="RATIFY_L5_YIELD_HOLD">RATIFY_L5_YIELD_HOLD (Upward-Yield Hold Ratification U-Turn)</option>
+                <option value="INITIATE_STEWARD_VOUCH_FROST">INITIATE_STEWARD_VOUCH_FROST (2-of-3 FROST Steward Vouch Ceremony: R3 -&gt; R1)</option>
               </select>
             </div>
             <div class="input-field">
@@ -859,6 +939,237 @@
               <span>[ DISPATCH SIGNED INTENT (POST /api/v1/l6/intent) ──► ]</span>
             </button>
           </form>
+        </div>
+
+        <!-- Section 2B: L5 Upward-Yield Hold Ratification via Strict Intent U-Turn -->
+        <div class="card" id="card-l6-yield-ratification">
+          <div class="card-header">
+            <h3 class="card-title">L5 UPWARD-YIELD HOLD RATIFICATION (INTENT U-TURN)</h3>
+            <span class="badge badge-amber">L6 &rarr; L5 U-TURN</span>
+          </div>
+          <p class="card-explainer mono">
+            Human -> L6 -> L5 -> L4 -> [upward-yield] -> L5 -> L6 -> L7
+          </p>
+          <div class="chore-card" id="yield-hold-849201">
+            <div class="chore-header">
+              <span class="chore-id">YIELD HOLD #y_849201 (Gate_Quality_Inspection)</span>
+              <span class="badge badge-cyan">12.5 MJ ESCROW</span>
+            </div>
+            <p class="chore-desc">
+              Ratify upward-yielded task gate completion for <code>did:peer:node04:steward77</code> exclusively via <code>POST /api/v1/l6/intent</code> (routed inward <code>L6 -&gt; L5</code> as <code>GovernanceResolutionPacket</code>).
+            </p>
+            <div class="chore-action">
+              <button type="button" class="btn-action btn-ratify-yield-hold" id="btn-ratify-yield-hold" data-yield-id="y_849201"
+                onclick="window.__COLLECTIVE_COMPANION__ && window.__COLLECTIVE_COMPANION__.dispatchL6Intent('RATIFY_L5_YIELD_HOLD', { action: 'RATIFY_L5_YIELD_HOLD', yield_id: 'y_849201', resolution: 'RATIFIED_APPROVED' })">
+                <span>[ RATIFY L5 YIELD HOLD VIA POST /api/v1/l6/intent (RATIFY_L5_YIELD_HOLD) ]</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 2C: 2-of-3 FROST Steward Vouch Ceremony (SCN-TAU-GENESIS: R3 -> R1) -->
+        <div class="card" id="card-l6-steward-vouch">
+          <div class="card-header">
+            <h3 class="card-title">STEWARD VOUCH CEREMONY (SCN-TAU-GENESIS: R3 &rarr; R1)</h3>
+            <span class="badge badge-amber">2-OF-3 FROST QUORUM</span>
+          </div>
+          <p class="card-explainer mono">
+            Requires &ge; 30 consecutive days in Ring R3, 0 unresolved mediations, and 2-of-3 R1 Steward threshold signatures.
+          </p>
+          <div class="chore-card" id="steward-vouch-ceremony-card">
+            <div class="chore-header">
+              <span class="chore-id">CANDIDATE: did:peer:migrant:wave-1-member-0 (Ring R3 &rarr; Ring R1)</span>
+              <span class="badge badge-emerald">36.0 MJ PoTW VERIFIED</span>
+            </div>
+            <p class="chore-desc">
+              Issue full BBS+ Steward Credential and 1.0 L5 governance voting weight via <code>POST /api/v1/l6/intent</code> (<code>INITIATE_STEWARD_VOUCH_FROST</code>).
+            </p>
+            <div class="chore-action">
+              <button type="button" class="btn-action btn-initiate-steward-vouch" id="btn-initiate-steward-vouch"
+                onclick="window.__COLLECTIVE_COMPANION__ && window.__COLLECTIVE_COMPANION__.dispatchL6Intent('INITIATE_STEWARD_VOUCH_FROST', { action: 'INITIATE_STEWARD_VOUCH_FROST', ceremony: 'SCN-TAU-GENESIS', candidate_did: 'did:peer:migrant:wave-1-member-0', signers: ['did:peer:steward:alpha', 'did:peer:steward:beta'] })">
+                <span>[ 🔏 Initiate Steward Vouch Ceremony (2-of-3 FROST) ]</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 2D: Layer 6 Calendar of Intents (Days 1–4) — Day-to-Day Citizen & Simulated Agent Usage -->
+        <div class="card" id="card-l6-calendar-of-intents" style="border: 1px solid rgba(245, 158, 11, 0.7);">
+          <div class="card-header">
+            <h3 class="card-title">📅 LAYER 6 CALENDAR OF INTENTS (DAYS 1–4) — DAY-TO-DAY CITIZEN &amp; AGENT SCHEDULE</h3>
+            <span class="badge badge-amber">INTENT_SPEC.md LIFECYCLE</span>
+          </div>
+          <p class="card-explainer mono">
+            Citizens and simulated agents plan their day-to-day usage here in Layer 6 by scheduling signed JSON-LD Intents (<code>mesh:FabricationIntent</code>, <code>mesh:RestIntent</code>, <code>mesh:MediationIntent</code>, <code>mesh:TriageIntent</code>). Layer 4 routes them via bound BPMN workflows and Layer 5 verifies DID/VC permissions.
+          </p>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; margin-bottom: 12px;" id="l6-calendar-days-grid">
+            <!-- Day 1 -->
+            <div class="chore-card" id="l6-cal-card-day-1">
+              <div class="chore-header">
+                <span class="chore-id">DAY 1 INTENT</span>
+                <span class="badge badge-cyan" id="l6-cal-status-day-1">[ESCROWED]</span>
+              </div>
+              <div class="input-field" style="margin-top: 6px;">
+                <label for="l6-cal-select-day-1" class="mono" style="font-size:0.72rem;">Intent Class &amp; Target:</label>
+                <select id="l6-cal-select-day-1" class="select-field l6-calendar-select" data-day="1">
+                  <option value="swale" selected>mesh:FabricationIntent — Dig Rain Swale (+8.0 L/d, +2 Cob)</option>
+                  <option value="solar">mesh:FabricationIntent — Build Roof Solar Array (+4.5 kWh/d)</option>
+                  <option value="kitchen">mesh:FabricationIntent — Harvest &amp; Cook 2 Meals (+800 kcal)</option>
+                  <option value="rest">mesh:RestIntent — Psychological Homeostasis Shield (Scenario Σ)</option>
+                  <option value="pvkits">mesh:FabricationIntent — Requisition +2 Solar PV Kits</option>
+                </select>
+              </div>
+              <p class="chore-desc mono" id="l6-cal-meta-day-1" style="font-size:0.72rem; margin-top:6px;">
+                L4 Workflow: <code>wf-hydrology-swale-v1</code> │ L5 VC: <code>Hydro_Earthworks_VC</code>
+              </p>
+            </div>
+
+            <!-- Day 2 -->
+            <div class="chore-card" id="l6-cal-card-day-2">
+              <div class="chore-header">
+                <span class="chore-id">DAY 2 INTENT</span>
+                <span class="badge badge-cyan" id="l6-cal-status-day-2">[ESCROWED]</span>
+              </div>
+              <div class="input-field" style="margin-top: 6px;">
+                <label for="l6-cal-select-day-2" class="mono" style="font-size:0.72rem;">Intent Class &amp; Target:</label>
+                <select id="l6-cal-select-day-2" class="select-field l6-calendar-select" data-day="2">
+                  <option value="swale">mesh:FabricationIntent — Dig Rain Swale (+8.0 L/d, +2 Cob)</option>
+                  <option value="solar">mesh:FabricationIntent — Build Roof Solar Array (+4.5 kWh/d)</option>
+                  <option value="kitchen" selected>mesh:FabricationIntent — Harvest &amp; Cook 2 Meals (+800 kcal)</option>
+                  <option value="rest">mesh:RestIntent — Psychological Homeostasis Shield (Scenario Σ)</option>
+                  <option value="pvkits">mesh:FabricationIntent — Requisition +2 Solar PV Kits</option>
+                </select>
+              </div>
+              <p class="chore-desc mono" id="l6-cal-meta-day-2" style="font-size:0.72rem; margin-top:6px;">
+                L4 Workflow: <code>wf-kitchen-gamma-v1</code> │ L5 VC: <code>Sovereign_Kitchen_Steward_VC</code>
+              </p>
+            </div>
+
+            <!-- Day 3 -->
+            <div class="chore-card" id="l6-cal-card-day-3">
+              <div class="chore-header">
+                <span class="chore-id">DAY 3 INTENT</span>
+                <span class="badge badge-amber" id="l6-cal-status-day-3">[PENDING]</span>
+              </div>
+              <div class="input-field" style="margin-top: 6px;">
+                <label for="l6-cal-select-day-3" class="mono" style="font-size:0.72rem;">Intent Class &amp; Target:</label>
+                <select id="l6-cal-select-day-3" class="select-field l6-calendar-select" data-day="3">
+                  <option value="swale">mesh:FabricationIntent — Dig Rain Swale (+8.0 L/d, +2 Cob)</option>
+                  <option value="solar">mesh:FabricationIntent — Build Roof Solar Array (+4.5 kWh/d)</option>
+                  <option value="kitchen">mesh:FabricationIntent — Harvest &amp; Cook 2 Meals (+800 kcal)</option>
+                  <option value="rest" selected>mesh:RestIntent — Psychological Homeostasis Shield (Scenario Σ)</option>
+                  <option value="pvkits">mesh:FabricationIntent — Requisition +2 Solar PV Kits</option>
+                </select>
+              </div>
+              <p class="chore-desc mono" id="l6-cal-meta-day-3" style="font-size:0.72rem; margin-top:6px;">
+                L4 Workflow: <code>wf-rest-lock-sigma-v1</code> │ L5 VC: <code>None (Inalienable Right)</code>
+              </p>
+            </div>
+
+            <!-- Day 4 -->
+            <div class="chore-card" id="l6-cal-card-day-4">
+              <div class="chore-header">
+                <span class="chore-id">DAY 4 INTENT</span>
+                <span class="badge badge-amber" id="l6-cal-status-day-4">[PENDING]</span>
+              </div>
+              <div class="input-field" style="margin-top: 6px;">
+                <label for="l6-cal-select-day-4" class="mono" style="font-size:0.72rem;">Intent Class &amp; Target:</label>
+                <select id="l6-cal-select-day-4" class="select-field l6-calendar-select" data-day="4">
+                  <option value="swale">mesh:FabricationIntent — Dig Rain Swale (+8.0 L/d, +2 Cob)</option>
+                  <option value="solar" selected>mesh:FabricationIntent — Build Roof Solar Array (+4.5 kWh/d)</option>
+                  <option value="kitchen">mesh:FabricationIntent — Harvest &amp; Cook 2 Meals (+800 kcal)</option>
+                  <option value="rest">mesh:RestIntent — Psychological Homeostasis Shield (Scenario Σ)</option>
+                  <option value="pvkits">mesh:FabricationIntent — Requisition +2 Solar PV Kits</option>
+                </select>
+              </div>
+              <p class="chore-desc mono" id="l6-cal-meta-day-4" style="font-size:0.72rem; margin-top:6px;">
+                L4 Workflow: <code>wf-fabrication-solar-v1</code> │ L5 VC: <code>Solar_Grid_Apprentice_VC</code>
+              </p>
+            </div>
+          </div>
+
+          <div class="mono" style="font-size: 0.74rem; color: #94a3b8; margin-bottom: 10px;">
+            Intent Lifecycle States: <code>[PENDING]</code> (In L6 Mempool) &rarr; <code>[ESCROWED]</code> (L5 VC Passed &amp; L3 ValueTokens Locked) &rarr; <code>[FULFILLED]</code> (L1b/L2 Actuated &amp; Settled) │ <code>[REJECTED]</code> (Missing VC / Dijkstra Exceeded)
+          </div>
+
+          <button type="button" class="btn-action btn-dispatch-intent" id="btn-publish-l6-calendar" style="margin-bottom: 10px;">
+            <span>[ 📅 Publish Calendar of Intents to L6 Mempool ]</span>
+          </button>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+            <a href="../orchestrator/index.html"
+               style="display: block; text-align: center; text-decoration: none; background: rgba(67, 56, 202, 0.55); border: 1px solid #818cf8; color: #e0e7ff; font-family: monospace; font-weight: 700; font-size: 0.78rem; padding: 8px 10px; border-radius: 6px;">
+              [ ⚙️ Open Layer 4 Workflow Designer (../orchestrator/index.html) ]
+            </a>
+            <a href="../governance/index.html"
+               style="display: block; text-align: center; text-decoration: none; background: rgba(109, 40, 217, 0.55); border: 1px solid #c084fc; color: #f3e8ff; font-family: monospace; font-weight: 700; font-size: 0.78rem; padding: 8px 10px; border-radius: 6px;">
+              [ 🛡️ Open Layer 5 Governance Manager (../governance/index.html) ]
+            </a>
+          </div>
+        </div>
+
+        <!-- Section 2E: Asynchronous Node Proxy BPMN Bounties (core/3_ledger/node_proxies.json) -->
+        <div class="card" id="card-l6-bpmn-node-proxies">
+          <div class="card-header">
+            <h3 class="card-title">ASYNCHRONOUS NODE PROXY BPMN BOUNTIES (L3/L4/L5 BRIDGE)</h3>
+            <span class="badge badge-cyan">DID/VC GATED</span>
+          </div>
+          <p class="card-explainer mono">
+            Source: <code>core/3_ledger/node_proxies.json</code> &rarr; <code>workflow_database.json</code> &rarr; <code>trust_gates.json</code>
+          </p>
+          <div class="chore-cards-container">
+            <!-- Bounty #B-101: Maya Lin (Lot 404) -->
+            <div class="chore-card" id="bounty-B-101">
+              <div class="chore-header">
+                <span class="chore-id">BPMN BOUNTY #B-101 │ Lot 404 — Maya Lin (Ring R1)</span>
+                <span class="badge badge-emerald">16.2 MJ (4.5 VT)</span>
+              </div>
+              <h4 class="chore-title">Supply +4.5 kWh Roof Solar Exergy to Lot 404 Kiln</h4>
+              <p class="chore-desc">
+                <strong>Surplus:</strong> +6.0 Cob/Biochar/d │ <strong>Deficit:</strong> -4.5 kWh/d Solar Exergy │ <strong>L5 VC:</strong> <code>Solar_Grid_Apprentice_VC</code>
+              </p>
+              <div class="chore-action">
+                <button type="button" class="btn-action btn-claim-bpmn-bounty" data-bounty-id="B-101" data-task-id="1" data-vc="Solar_Grid_Apprentice_VC" data-escrow="16.2">
+                  <span>[ ⚡ Claim &amp; Route BPMN Bounty #B-101 to Lot 402 ]</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Bounty #B-102: Kaelen Vance (Lot 406) -->
+            <div class="chore-card" id="bounty-B-102">
+              <div class="chore-header">
+                <span class="chore-id">BPMN BOUNTY #B-102 │ Lot 406 — Kaelen Vance (Ring R1)</span>
+                <span class="badge badge-emerald">12.0 MJ (3.33 VT)</span>
+              </div>
+              <h4 class="chore-title">Cook &amp; Deliver 2 Sovereign Kitchen Meals (Scenario Γ)</h4>
+              <p class="chore-desc">
+                <strong>Surplus:</strong> +24.0 L/d Filtered Water │ <strong>Deficit:</strong> -1,600 kcal/d Kitchen Meals │ <strong>L5 VC:</strong> <code>Sovereign_Kitchen_Steward_VC</code>
+              </p>
+              <div class="chore-action">
+                <button type="button" class="btn-action btn-claim-bpmn-bounty" data-bounty-id="B-102" data-task-id="3" data-vc="Sovereign_Kitchen_Steward_VC" data-escrow="12.0">
+                  <span>[ 🌾🍳 Claim &amp; Route BPMN Bounty #B-102 to Lot 402 ]</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Bounty #B-103: Soren K. (Lot 408) -->
+            <div class="chore-card" id="bounty-B-103">
+              <div class="chore-header">
+                <span class="chore-id">BPMN BOUNTY #B-103 │ Lot 408 — Soren K. (Ring R3)</span>
+                <span class="badge badge-emerald">14.4 MJ (4.0 VT)</span>
+              </div>
+              <h4 class="chore-title">Dig Backyard Rain Swale (+8.0 L/d &amp; +2 Cob)</h4>
+              <p class="chore-desc">
+                <strong>Surplus:</strong> +1 Salvaged PV Kit / 2d │ <strong>Deficit:</strong> -2 Cob &amp; -8.0 L/d Catchment │ <strong>L5 VC:</strong> <code>Hydro_Earthworks_VC</code>
+              </p>
+              <div class="chore-action">
+                <button type="button" class="btn-action btn-claim-bpmn-bounty" data-bounty-id="B-103" data-task-id="2" data-vc="Hydro_Earthworks_VC" data-escrow="14.4">
+                  <span>[ 💧 Claim &amp; Route BPMN Bounty #B-103 to Lot 402 ]</span>
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- Section 3: Chore Work Bounty Cards with Claim Buttons -->
@@ -928,7 +1239,7 @@
             <span class="mono text-muted">TERMINAL FEED</span>
           </div>
           <div class="terminal-log" id="intent-terminal-log">
-            <div class="log-entry log-system">[06:00:00 HLC] Sovereign Intent Gateway Initialized on VLAN 30.</div>
+            <div class="log-entry log-system">[06:00:00 HLC] Sovereign Intent Gateway Initialized on VLAN 30 (TLS 1.3 :8443).</div>
             <div class="log-entry log-system">[06:00:01 HLC] Ready for signed intent payloads on POST /api/v1/l6/intent.</div>
           </div>
         </div>

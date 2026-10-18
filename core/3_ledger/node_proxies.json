@@ -1,0 +1,151 @@
+{
+  "@context": [
+    "https://www.w3.org/ns/did/v1",
+    "https://thecollective.mesh/schemas/v1/ledger-crdt-snapshot.jsonld"
+  ],
+  "schema_version": "1.4.0-sprint14",
+  "cluster_id": "Arcadia / server-01",
+  "storage_architecture": {
+    "sync_transport": "github_static_json_v1",
+    "pragmatic_bridge_mode": "Asynchronous Node Proxy Snapshot Feed (Semi-Stochastic Single-Player Multiplayer)",
+    "horizon_target": "layer3_automerge_crdt_gossipsub",
+    "thermodynamic_invariant": "1 mesh:ValueToken == 3.6 MJ == 1.0 kWh Verifiable Physical Exergy",
+    "demurrage_rate_per_day": -0.00012
+  },
+  "local_node": {
+    "node_id": "node-00",
+    "label": "Node 00 — Lot 402 (Founder Homestead)",
+    "did": "did:mesh:node00:lot402",
+    "steward_name": "Founder Steward (Player)",
+    "role": "Primary Cadastral Anchor & Poly-Steward",
+    "trust_ring": "R0",
+    "dijkstra_distance": 0.0,
+    "verifiable_credentials": [
+      "Solar_Grid_Apprentice_VC",
+      "Hydro_Earthworks_VC",
+      "Sovereign_Kitchen_Steward_VC",
+      "Biochar_Kiln_Operator_VC"
+    ],
+    "baseline_telemetry": {
+      "solar_exergy_kwh_day": 8.5,
+      "water_reserve_liters": 60.0,
+      "sovereign_meals": 3,
+      "raw_produce": 2,
+      "salvaged_pv_kits": 2,
+      "cob_earth_lumps": 2
+    }
+  },
+  "node_proxies": [
+    {
+      "node_id": "node-01",
+      "lot_id": "Lot 404",
+      "label": "Lot 404 — Maya Lin",
+      "steward_name": "Maya Lin",
+      "did": "did:mesh:node01:maya",
+      "role": "Biochar & Kiln Steward",
+      "trust_ring": "R1",
+      "dijkstra_distance": 1.0,
+      "npc_proxy_state": "AUTONOMOUS_KILN_FIRING_WAIT_EXERGY",
+      "verifiable_credentials": [
+        "Biochar_Kiln_Operator_VC",
+        "Thermal_Masonry_VC"
+      ],
+      "production_surplus": {
+        "summary": "+6.0 Cob/Biochar/day",
+        "resource_type": "Cob & Biochar Thermal Mass",
+        "rate_per_day": 6.0,
+        "unit": "Cob/Biochar units/day"
+      },
+      "active_deficit": {
+        "summary": "-4.5 kWh/day Solar Exergy for kiln firing",
+        "resource_type": "Solar Exergy",
+        "deficit_rate": -4.5,
+        "unit": "kWh/day"
+      },
+      "triggered_bounty": {
+        "bounty_id": "B-101",
+        "title": "Supply +4.5 kWh Roof Solar Exergy to Lot 404 Kiln",
+        "oasis_task_id": 1,
+        "scenario_code": "Scenario α",
+        "required_vc": "Solar_Grid_Apprentice_VC",
+        "escrow_reward_mj": 16.2,
+        "escrow_reward_tokens": 4.5,
+        "mutual_aid_return": "+2 Cob Thermal Mass Bricks & +16.2 MJ Exergy Credit"
+      }
+    },
+    {
+      "node_id": "node-02",
+      "lot_id": "Lot 406",
+      "label": "Lot 406 — Kaelen Vance",
+      "steward_name": "Kaelen Vance",
+      "did": "did:mesh:node02:kael",
+      "role": "Hydro-Swale & Seed Steward",
+      "trust_ring": "R1",
+      "dijkstra_distance": 1.0,
+      "npc_proxy_state": "AUTONOMOUS_CONTOUR_TRENCHING_CALORIC_DEFICIT",
+      "verifiable_credentials": [
+        "Hydro_Earthworks_VC",
+        "Seed_Bank_Curator_VC"
+      ],
+      "production_surplus": {
+        "summary": "+24.0 L/day Filtered Rainwater & Seeds",
+        "resource_type": "Filtered Rainwater & Heirloom Seeds",
+        "rate_per_day": 24.0,
+        "unit": "L/day"
+      },
+      "active_deficit": {
+        "summary": "-1,600 kcal/day Sovereign Kitchen Meals during swale excavation",
+        "resource_type": "Sovereign Kitchen Meals",
+        "deficit_rate": -1600,
+        "unit": "kcal/day (2 Meals)"
+      },
+      "triggered_bounty": {
+        "bounty_id": "B-102",
+        "title": "Cook & Deliver 2 Sovereign Kitchen Meals (Scenario Γ)",
+        "oasis_task_id": 3,
+        "scenario_code": "Scenario Γ",
+        "required_vc": "Sovereign_Kitchen_Steward_VC",
+        "escrow_reward_mj": 12.0,
+        "escrow_reward_tokens": 3.33,
+        "mutual_aid_return": "+24.0 L Filtered Gravity Water & Heirloom Seed Packet"
+      }
+    },
+    {
+      "node_id": "node-03",
+      "lot_id": "Lot 408",
+      "label": "Lot 408 — Soren K.",
+      "steward_name": "Soren K.",
+      "did": "did:mesh:node03:soren",
+      "role": "Microgrid & Hardware Forge",
+      "trust_ring": "R3",
+      "dijkstra_distance": 1.85,
+      "npc_proxy_state": "AUTONOMOUS_PV_SALVAGE_WAIT_CATCHMENT",
+      "verifiable_credentials": [
+        "Solar_Grid_Apprentice_VC"
+      ],
+      "production_surplus": {
+        "summary": "+1 Salvaged PV Kit / 2 days",
+        "resource_type": "Salvaged Photovoltaic Hardware Kit",
+        "rate_per_day": 0.5,
+        "unit": "PV Kit/day"
+      },
+      "active_deficit": {
+        "summary": "-2 Cob Earth Lumps & -8.0 L/day Catchment",
+        "resource_type": "Cob Earth Lumps & Rainwater Catchment",
+        "deficit_rate": -8.0,
+        "unit": "L/day & -2 Cob"
+      },
+      "triggered_bounty": {
+        "bounty_id": "B-103",
+        "title": "Dig Backyard Rain Swale (+8.0 L/d & +2 Cob)",
+        "oasis_task_id": 2,
+        "secondary_trade_task_id": 4,
+        "scenario_code": "Scenario β",
+        "required_vc": "Hydro_Earthworks_VC",
+        "escrow_reward_mj": 14.4,
+        "escrow_reward_tokens": 4.0,
+        "mutual_aid_return": "+2 Salvaged Solar PV Kits (Unlocks Task 4 Hardware Requisition)"
+      }
+    }
+  ]
+}

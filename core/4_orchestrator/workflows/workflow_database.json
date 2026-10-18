@@ -1,0 +1,570 @@
+{
+  "@context": [
+    "https://collective.network/ontology/v1/orchestrator/",
+    "https://collective.network/ontology/v1/intents/",
+    "https://collective.network/ontology/v1/trust/",
+    "https://schema.org/"
+  ],
+  "schema_version": "1.4.0-sprint14",
+  "database_id": "oasis-l4-bpmn-workflow-database",
+  "orchestrator_spec_compliance": "core/4_orchestrator/ORCHESTRATOR_SPEC.md",
+  "storage_horizon": {
+    "current_bridge": "Phase 1: GitHub/JSON Snapshot Bridge",
+    "target_horizon": "Phase 2 Horizon: Layer 3 CRDT DAG (Automerge + libp2p Gossipsub)"
+  },
+  "aggregated_diagnostics": {
+    "total_intents_ingested": 148,
+    "active_job_queue_depth": 4,
+    "l5_gate_pass_count": 139,
+    "l5_gate_reject_count": 9,
+    "l5_gate_pass_ratio": "93.9% (139 Pass / 9 Reject)",
+    "avg_stage_latency_ms": 14.2,
+    "total_exergy_escrowed_mj": 53.4,
+    "total_value_tokens_vt": 14.83,
+    "active_bound_workflows": 4,
+    "template_workflows": 2,
+    "specialized_custom_workflows": 0
+  },
+  "workflows": [
+    {
+      "workflow_id": "wf-fabrication-solar-v1",
+      "title": "Roof Solar Microgrid Array Fabrication",
+      "intent_class": "mesh:FabricationIntent",
+      "scenario": "Scenario Alpha",
+      "status": "ACTIVE_BOUND",
+      "version": "1.0.0",
+      "description": "Routes a signed mesh:FabricationIntent to mount salvaged photovoltaic hardware onto the Lot 402 timber roof structure and interconnect with the 48V DC microgrid bus (+4.5 kWh/day).",
+      "l5_governance_interface": {
+        "policy_id": "pol-solar-microgrid-alpha",
+        "required_vc": "Solar_Grid_Apprentice_VC",
+        "max_dijkstra_hops": 2.0,
+        "zk_circuit": "BBS_Plus_Selective_Disclosure_VC"
+      },
+      "physics_check_params": {
+        "min_caloric_floor_kcal": 1800,
+        "min_focus_pct": 15,
+        "required_material_input": "Solar PV Kit",
+        "required_material_qty": 1,
+        "water_reserve_min_l": 20.0
+      },
+      "escrow_lock_params": {
+        "exergy_escrow_mj": 16.2,
+        "value_tokens_vt": 4.5,
+        "demurrage_exempt": false,
+        "fallback_on_failure": "QueueUntilRested"
+      },
+      "actuation_target": {
+        "oasis_task_id": 1,
+        "bounty_id": "B-101",
+        "target_voxel": "(9, 2, 7) Roof South Array",
+        "expected_output_delta": "+4.5 kWh/day Solar Exergy (-1 Solar PV Kit)"
+      },
+      "telemetry_aggregates": {
+        "executions_24h": 42,
+        "pass_rate_pct": 95.2,
+        "avg_latency_ms": 12.8,
+        "escrowed_mj": 16.2
+      },
+      "bpmn_stages": [
+        {
+          "step": 1,
+          "id": "StartEvent_L6_Ingest",
+          "bpmn_type": "StartEvent",
+          "layer": "L6",
+          "name": "StartEvent (L6 Ingest)",
+          "expression": "intent.intentType == 'mesh:FabricationIntent' && signature_ed25519_valid"
+        },
+        {
+          "step": 2,
+          "id": "ExclusiveGateway_L5_TrustGate",
+          "bpmn_type": "ExclusiveGateway",
+          "layer": "L5",
+          "name": "ExclusiveGateway (L5 Trust Gate)",
+          "expression": "has_vc(issuerDid, 'Solar_Grid_Apprentice_VC') && dijkstra_hops <= 2.0"
+        },
+        {
+          "step": 3,
+          "id": "ServiceTask_L2_ValidatePhysics",
+          "bpmn_type": "ServiceTask",
+          "layer": "L2/L1b",
+          "name": "ServiceTask (L2/L1b Physics Check)",
+          "expression": "kcal >= 1800 && focus_pct >= 15 && material('Solar PV Kit') >= 1"
+        },
+        {
+          "step": 4,
+          "id": "ServiceTask_L3_EscrowLock",
+          "bpmn_type": "ServiceTask",
+          "layer": "L3",
+          "name": "ServiceTask (L3 CRDT Escrow Lock)",
+          "expression": "lock_escrow(16.2 MJ, 4.5 VT, demurrage_exempt=false, fallback='QueueUntilRested')"
+        },
+        {
+          "step": 5,
+          "id": "UserTask_L1b_SpatialActuation",
+          "bpmn_type": "UserTask",
+          "layer": "L2/L1b",
+          "name": "UserTask (L2/L1b Actuation)",
+          "expression": "actuate_voxel_task(taskId=1, target='(9,2,7)', delta='+4.5 kWh/d')"
+        },
+        {
+          "step": 6,
+          "id": "EndEvent_L3_Settle",
+          "bpmn_type": "EndEvent",
+          "layer": "L3",
+          "name": "EndEvent (L3 Settlement)",
+          "expression": "verify_provenance(0x01|0x02) && settle_crdt_channel('B-101')"
+        }
+      ]
+    },
+    {
+      "workflow_id": "wf-hydrology-swale-v1",
+      "title": "Keyline Contour Swale & Catchment Excavation",
+      "intent_class": "mesh:FabricationIntent",
+      "scenario": "Scenario Beta",
+      "status": "ACTIVE_BOUND",
+      "version": "1.0.0",
+      "description": "Validates instream ecological water floor (F_eco >= 80%) and routes contour trenching to harvest +8.0 L/day rainwater catchment and +2 Cob earth thermal mass.",
+      "l5_governance_interface": {
+        "policy_id": "pol-hydrology-earthworks-beta",
+        "required_vc": "Hydro_Earthworks_VC",
+        "max_dijkstra_hops": 2.5,
+        "zk_circuit": "BBS_Plus_Selective_Disclosure_VC"
+      },
+      "physics_check_params": {
+        "min_caloric_floor_kcal": 1800,
+        "min_focus_pct": 20,
+        "required_material_input": "None",
+        "required_material_qty": 0,
+        "water_reserve_min_l": 15.0
+      },
+      "escrow_lock_params": {
+        "exergy_escrow_mj": 14.4,
+        "value_tokens_vt": 4.0,
+        "demurrage_exempt": false,
+        "fallback_on_failure": "QueueUntilRested"
+      },
+      "actuation_target": {
+        "oasis_task_id": 2,
+        "bounty_id": "B-103",
+        "target_voxel": "(14, 0, 12) Backyard Keyline Contour",
+        "expected_output_delta": "+8.0 L/day Water Catchment & +2 Cob Lumps"
+      },
+      "telemetry_aggregates": {
+        "executions_24h": 36,
+        "pass_rate_pct": 94.4,
+        "avg_latency_ms": 15.1,
+        "escrowed_mj": 14.4
+      },
+      "bpmn_stages": [
+        {
+          "step": 1,
+          "id": "StartEvent_L6_Ingest",
+          "bpmn_type": "StartEvent",
+          "layer": "L6",
+          "name": "StartEvent (L6 Ingest)",
+          "expression": "intent.intentType == 'mesh:FabricationIntent' && domain == 'Hydrology'"
+        },
+        {
+          "step": 2,
+          "id": "ExclusiveGateway_L5_TrustGate",
+          "bpmn_type": "ExclusiveGateway",
+          "layer": "L5",
+          "name": "ExclusiveGateway (L5 Trust Gate)",
+          "expression": "has_vc(issuerDid, 'Hydro_Earthworks_VC') && dijkstra_hops <= 2.5"
+        },
+        {
+          "step": 3,
+          "id": "ServiceTask_L2_ValidatePhysics",
+          "bpmn_type": "ServiceTask",
+          "layer": "L2/L1b",
+          "name": "ServiceTask (L2/L1b Physics Check)",
+          "expression": "kcal >= 1800 && focus_pct >= 20 && F_eco_margin >= 0.80"
+        },
+        {
+          "step": 4,
+          "id": "ServiceTask_L3_EscrowLock",
+          "bpmn_type": "ServiceTask",
+          "layer": "L3",
+          "name": "ServiceTask (L3 CRDT Escrow Lock)",
+          "expression": "lock_escrow(14.4 MJ, 4.0 VT, demurrage_exempt=false, fallback='QueueUntilRested')"
+        },
+        {
+          "step": 5,
+          "id": "UserTask_L1b_SpatialActuation",
+          "bpmn_type": "UserTask",
+          "layer": "L2/L1b",
+          "name": "UserTask (L2/L1b Actuation)",
+          "expression": "actuate_voxel_task(taskId=2, target='(14,0,12)', delta='+8.0 L/d, +2 Cob')"
+        },
+        {
+          "step": 6,
+          "id": "EndEvent_L3_Settle",
+          "bpmn_type": "EndEvent",
+          "layer": "L3",
+          "name": "EndEvent (L3 Settlement)",
+          "expression": "verify_provenance(0x01|0x02) && settle_crdt_channel('B-103')"
+        }
+      ]
+    },
+    {
+      "workflow_id": "wf-kitchen-gamma-v1",
+      "title": "Sovereign Kitchen Harvest & Batch Thermal Cooking",
+      "intent_class": "mesh:FabricationIntent",
+      "scenario": "Scenario Gamma",
+      "status": "ACTIVE_BOUND",
+      "version": "1.0.0",
+      "description": "Coordinates garden produce harvest and thermal hearth batch cooking to replenish citizen caloric reserves (+800 kcal / 2 Sovereign Meals) with ZK allergen verification.",
+      "l5_governance_interface": {
+        "policy_id": "pol-sovereign-kitchen-gamma",
+        "required_vc": "Sovereign_Kitchen_Steward_VC",
+        "max_dijkstra_hops": 3.0,
+        "zk_circuit": "ZK_Allergen_Pharmacopeia_Pass"
+      },
+      "physics_check_params": {
+        "min_caloric_floor_kcal": 1200,
+        "min_focus_pct": 10,
+        "required_material_input": "Raw Produce",
+        "required_material_qty": 2,
+        "water_reserve_min_l": 5.0
+      },
+      "escrow_lock_params": {
+        "exergy_escrow_mj": 12.0,
+        "value_tokens_vt": 3.33,
+        "demurrage_exempt": true,
+        "fallback_on_failure": "QueueUntilRested"
+      },
+      "actuation_target": {
+        "oasis_task_id": 3,
+        "bounty_id": "B-102",
+        "target_voxel": "(7, 1, 7) Sovereign Kitchen Hearth",
+        "expected_output_delta": "+2 Sovereign Meals (+800 kcal) (-2 Raw Produce)"
+      },
+      "telemetry_aggregates": {
+        "executions_24h": 48,
+        "pass_rate_pct": 97.9,
+        "avg_latency_ms": 11.4,
+        "escrowed_mj": 12.0
+      },
+      "bpmn_stages": [
+        {
+          "step": 1,
+          "id": "StartEvent_L6_Ingest",
+          "bpmn_type": "StartEvent",
+          "layer": "L6",
+          "name": "StartEvent (L6 Ingest)",
+          "expression": "intent.intentType == 'mesh:FabricationIntent' && recipe == 'SovereignBatchMeals'"
+        },
+        {
+          "step": 2,
+          "id": "ExclusiveGateway_L5_TrustGate",
+          "bpmn_type": "ExclusiveGateway",
+          "layer": "L5",
+          "name": "ExclusiveGateway (L5 Trust Gate)",
+          "expression": "has_vc(issuerDid, 'Sovereign_Kitchen_Steward_VC') && dijkstra_hops <= 3.0"
+        },
+        {
+          "step": 3,
+          "id": "ServiceTask_L2_ValidatePhysics",
+          "bpmn_type": "ServiceTask",
+          "layer": "L2/L1b",
+          "name": "ServiceTask (L2/L1b Physics Check)",
+          "expression": "kcal >= 1200 && material('Raw Produce') >= 2 && water_l >= 5.0"
+        },
+        {
+          "step": 4,
+          "id": "ServiceTask_L3_EscrowLock",
+          "bpmn_type": "ServiceTask",
+          "layer": "L3",
+          "name": "ServiceTask (L3 CRDT Escrow Lock)",
+          "expression": "lock_escrow(12.0 MJ, 3.33 VT, demurrage_exempt=true, fallback='QueueUntilRested')"
+        },
+        {
+          "step": 5,
+          "id": "UserTask_L1b_SpatialActuation",
+          "bpmn_type": "UserTask",
+          "layer": "L2/L1b",
+          "name": "UserTask (L2/L1b Actuation)",
+          "expression": "actuate_voxel_task(taskId=3, target='(7,1,7)', delta='+2 Meals (+800 kcal)')"
+        },
+        {
+          "step": 6,
+          "id": "EndEvent_L3_Settle",
+          "bpmn_type": "EndEvent",
+          "layer": "L3",
+          "name": "EndEvent (L3 Settlement)",
+          "expression": "verify_provenance(0x01|0x02) && settle_crdt_channel('B-102')"
+        }
+      ]
+    },
+    {
+      "workflow_id": "wf-rest-lock-sigma-v1",
+      "title": "Psychological Homeostasis & Temporal Bounty Shield",
+      "intent_class": "mesh:RestIntent",
+      "scenario": "Scenario Sigma",
+      "status": "ACTIVE_BOUND",
+      "version": "1.0.0",
+      "description": "Activates an inalienable psychological temporal lock preventing Layer 4 from routing discretionary work bounties to the issuer while restoring Focus (+65%) and thermal comfort.",
+      "l5_governance_interface": {
+        "policy_id": "pol-citizen-rest-shield-sigma",
+        "required_vc": "None (Inalienable Somatic Right)",
+        "max_dijkstra_hops": 999.0,
+        "zk_circuit": "ZeroKnowledge_Somatic_Privacy_Shield"
+      },
+      "physics_check_params": {
+        "min_caloric_floor_kcal": 800,
+        "min_focus_pct": 0,
+        "required_material_input": "None",
+        "required_material_qty": 0,
+        "water_reserve_min_l": 2.0
+      },
+      "escrow_lock_params": {
+        "exergy_escrow_mj": 0.0,
+        "value_tokens_vt": 0.0,
+        "demurrage_exempt": true,
+        "fallback_on_failure": "QueueUntilRested"
+      },
+      "actuation_target": {
+        "oasis_task_id": 3,
+        "bounty_id": "REST-SIGMA",
+        "target_voxel": "(8, 1, 8) Thermal Enclosure Hearth Sanctuary",
+        "expected_output_delta": "+65% Focus Recovery & Work Queue Shield Active"
+      },
+      "telemetry_aggregates": {
+        "executions_24h": 14,
+        "pass_rate_pct": 100.0,
+        "avg_latency_ms": 6.5,
+        "escrowed_mj": 0.0
+      },
+      "bpmn_stages": [
+        {
+          "step": 1,
+          "id": "StartEvent_L6_Ingest",
+          "bpmn_type": "StartEvent",
+          "layer": "L6",
+          "name": "StartEvent (L6 Ingest)",
+          "expression": "intent.intentType == 'mesh:RestIntent' && signature_ed25519_valid"
+        },
+        {
+          "step": 2,
+          "id": "ExclusiveGateway_L5_TrustGate",
+          "bpmn_type": "ExclusiveGateway",
+          "layer": "L5",
+          "name": "ExclusiveGateway (L5 Trust Gate)",
+          "expression": "inalienable_somatic_right == true (All Rings R0..R6 Permitted)"
+        },
+        {
+          "step": 3,
+          "id": "ServiceTask_L2_ValidatePhysics",
+          "bpmn_type": "ServiceTask",
+          "layer": "L2/L1b",
+          "name": "ServiceTask (L2/L1b Physics Check)",
+          "expression": "thermal_enclosure_temp_c >= 19.5 && survival_baseline_b_intact"
+        },
+        {
+          "step": 4,
+          "id": "ServiceTask_L3_EscrowLock",
+          "bpmn_type": "ServiceTask",
+          "layer": "L3",
+          "name": "ServiceTask (L3 CRDT Escrow Lock)",
+          "expression": "pause_demurrage_clock(issuerDid, demurrage_exempt=true)"
+        },
+        {
+          "step": 5,
+          "id": "UserTask_L1b_SpatialActuation",
+          "bpmn_type": "UserTask",
+          "layer": "L2/L1b",
+          "name": "UserTask (L2/L1b Actuation)",
+          "expression": "shield_job_queue(issuerDid) && route_chill_loop_recovery('+65% Focus')"
+        },
+        {
+          "step": 6,
+          "id": "EndEvent_L3_Settle",
+          "bpmn_type": "EndEvent",
+          "layer": "L3",
+          "name": "EndEvent (L3 Settlement)",
+          "expression": "release_temporal_shield_on_homeostasis()"
+        }
+      ]
+    },
+    {
+      "workflow_id": "wf-mediation-psi-template",
+      "title": "Ostrom Graduated Sanction & Restitution Mediation",
+      "intent_class": "mesh:MediationIntent",
+      "scenario": "Scenario Psi",
+      "status": "TEMPLATE",
+      "version": "1.0.0-template",
+      "description": "Template workflow for polycentric conflict resolution, thermodynamic restitution calculation, and 2-of-3 FROST council review before social slashing (edgeWeight = -1.0).",
+      "l5_governance_interface": {
+        "policy_id": "pol-ostrom-mediation-psi",
+        "required_vc": "Mediation_Steward_VC",
+        "max_dijkstra_hops": 1.5,
+        "zk_circuit": "FROST_2of3_Restitution_Quorum"
+      },
+      "physics_check_params": {
+        "min_caloric_floor_kcal": 1400,
+        "min_focus_pct": 25,
+        "required_material_input": "Cob Lump",
+        "required_material_qty": 1,
+        "water_reserve_min_l": 10.0
+      },
+      "escrow_lock_params": {
+        "exergy_escrow_mj": 10.8,
+        "value_tokens_vt": 3.0,
+        "demurrage_exempt": true,
+        "fallback_on_failure": "EscalateToL5Mediation"
+      },
+      "actuation_target": {
+        "oasis_task_id": 4,
+        "bounty_id": "MED-PSI",
+        "target_voxel": "(12, 1, 6) Cadastral Council Rack",
+        "expected_output_delta": "Restitution Pact Settled & TrustGraphEdge Restored"
+      },
+      "telemetry_aggregates": {
+        "executions_24h": 5,
+        "pass_rate_pct": 80.0,
+        "avg_latency_ms": 22.0,
+        "escrowed_mj": 10.8
+      },
+      "bpmn_stages": [
+        {
+          "step": 1,
+          "id": "StartEvent_L6_Ingest",
+          "bpmn_type": "StartEvent",
+          "layer": "L6",
+          "name": "StartEvent (L6 Ingest)",
+          "expression": "intent.intentType == 'mesh:MediationIntent' && dispute_cid_present"
+        },
+        {
+          "step": 2,
+          "id": "ExclusiveGateway_L5_TrustGate",
+          "bpmn_type": "ExclusiveGateway",
+          "layer": "L5",
+          "name": "ExclusiveGateway (L5 Trust Gate)",
+          "expression": "has_vc(mediatorDid, 'Mediation_Steward_VC') && dijkstra_hops <= 1.5"
+        },
+        {
+          "step": 3,
+          "id": "ServiceTask_L2_ValidatePhysics",
+          "bpmn_type": "ServiceTask",
+          "layer": "L2/L1b",
+          "name": "ServiceTask (L2/L1b Physics Check)",
+          "expression": "verify_safe_harbor_separation() && audit_sensor_log_0x02()"
+        },
+        {
+          "step": 4,
+          "id": "ServiceTask_L3_EscrowLock",
+          "bpmn_type": "ServiceTask",
+          "layer": "L3",
+          "name": "ServiceTask (L3 CRDT Escrow Lock)",
+          "expression": "lock_restitution_bond(10.8 MJ, 3.0 VT, fallback='EscalateToL5Mediation')"
+        },
+        {
+          "step": 5,
+          "id": "UserTask_L1b_SpatialActuation",
+          "bpmn_type": "UserTask",
+          "layer": "L2/L1b",
+          "name": "UserTask (L2/L1b Actuation)",
+          "expression": "convene_ostrom_circle_quorum(signers='2-of-3 R1')"
+        },
+        {
+          "step": 6,
+          "id": "EndEvent_L3_Settle",
+          "bpmn_type": "EndEvent",
+          "layer": "L3",
+          "name": "EndEvent (L3 Settlement)",
+          "expression": "settle_restitution_or_slash_edge(-1.0)"
+        }
+      ]
+    },
+    {
+      "workflow_id": "wf-triage-chi-template",
+      "title": "Zero-Knowledge Emergency Medical & Grid Triage Fast-Track",
+      "intent_class": "mesh:TriageIntent",
+      "scenario": "Scenario Chi/Upsilon",
+      "status": "TEMPLATE",
+      "version": "1.0.0-template",
+      "description": "High-priority Tier-1/Tier-2 emergency workflow triggered by human TriageIntent or L2 telemetry anomaly. Verifies ZK pharmacopeia constraints and preempts discretionary Tier-4 loads.",
+      "l5_governance_interface": {
+        "policy_id": "pol-emergency-triage-chi",
+        "required_vc": "ZK_Pharmacopeia_Medic_VC",
+        "max_dijkstra_hops": 3.0,
+        "zk_circuit": "ZK_Allergen_Pharmacopeia_Proof"
+      },
+      "physics_check_params": {
+        "min_caloric_floor_kcal": 800,
+        "min_focus_pct": 5,
+        "required_material_input": "None",
+        "required_material_qty": 0,
+        "water_reserve_min_l": 10.0
+      },
+      "escrow_lock_params": {
+        "exergy_escrow_mj": 0.0,
+        "value_tokens_vt": 0.0,
+        "demurrage_exempt": true,
+        "fallback_on_failure": "EscalateToL5Mediation"
+      },
+      "actuation_target": {
+        "oasis_task_id": 1,
+        "bounty_id": "TRIAGE-CHI",
+        "target_voxel": "(12, 1, 6) Tier-2 Survival Bus Priority",
+        "expected_output_delta": "Preempt Tier-4 Loads & Route Emergency Microgrid Reserve"
+      },
+      "telemetry_aggregates": {
+        "executions_24h": 3,
+        "pass_rate_pct": 100.0,
+        "avg_latency_ms": 4.8,
+        "escrowed_mj": 0.0
+      },
+      "bpmn_stages": [
+        {
+          "step": 1,
+          "id": "StartEvent_L6_Ingest",
+          "bpmn_type": "StartEvent",
+          "layer": "L6",
+          "name": "StartEvent (L6 Ingest)",
+          "expression": "intent.intentType == 'mesh:TriageIntent' || l2_kalman_residual > 3.0"
+        },
+        {
+          "step": 2,
+          "id": "ExclusiveGateway_L5_TrustGate",
+          "bpmn_type": "ExclusiveGateway",
+          "layer": "L5",
+          "name": "ExclusiveGateway (L5 Trust Gate)",
+          "expression": "verify_zk_pharmacopeia_proof() && survival_tier_2_override == true"
+        },
+        {
+          "step": 3,
+          "id": "ServiceTask_L2_ValidatePhysics",
+          "bpmn_type": "ServiceTask",
+          "layer": "L2/L1b",
+          "name": "ServiceTask (L2/L1b Physics Check)",
+          "expression": "shed_tier4_discretionary_loads() && isolate_48v_lifeline_bus()"
+        },
+        {
+          "step": 4,
+          "id": "ServiceTask_L3_EscrowLock",
+          "bpmn_type": "ServiceTask",
+          "layer": "L3",
+          "name": "ServiceTask (L3 CRDT Escrow Lock)",
+          "expression": "zero_escrow_commons_mutual_aid(demurrage_exempt=true)"
+        },
+        {
+          "step": 5,
+          "id": "UserTask_L1b_SpatialActuation",
+          "bpmn_type": "UserTask",
+          "layer": "L2/L1b",
+          "name": "UserTask (L2/L1b Actuation)",
+          "expression": "dispatch_emergency_medic_and_microgrid_reserve()"
+        },
+        {
+          "step": 6,
+          "id": "EndEvent_L3_Settle",
+          "bpmn_type": "EndEvent",
+          "layer": "L3",
+          "name": "EndEvent (L3 Settlement)",
+          "expression": "log_commons_triage_audit_0x02()"
+        }
+      ]
+    }
+  ]
+}
