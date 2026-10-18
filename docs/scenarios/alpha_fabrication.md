@@ -403,7 +403,7 @@ graph TD
 
 ## 4. Machine-Readable Schemas
 
-### 4.1 Layer 6 Knowledge Artifact: Specialized Blueprint & Production Order (`manufacturing_order.jsonld`)
+### 4A. Layer 6 Knowledge Artifact: Specialized Blueprint & Production Order (`manufacturing_order.jsonld`)
 
 This artifact illustrates a localized blueprint specialization (adapting a global solar-tracker drive bracket to use locally coppiced hardwood from Scenario Eta + a CNC-machined recycled bronze bushing from a peered foundry Node + a locally extruded TPU weather seal), along with its total cost vector (including steward labor).
 
@@ -458,7 +458,7 @@ This artifact illustrates a localized blueprint specialization (adapting a globa
 }
 ```
 
-### 4.2 Layer 6 & Layer 2 Combined Schema: Personal Equipment Time-Slot & Completion Attestation (`personal_slot_attestation.json`)
+### 4B. Layer 6 & Layer 2 Combined Schema: Personal Equipment Time-Slot & Completion Attestation (`personal_slot_attestation.json`)
 
 This artifact shows a community member booking a 1-hour personal time-slot on the settlement's 3-axis CNC Woodshop Router using their Scenario Kappa qualification credential, alongside the Layer 2 hardware safety and completion attestation.
 
@@ -500,13 +500,13 @@ This artifact shows a community member booking a 1-hour personal time-slot on th
 
 ## 5. Oasis Engine Implementation Specification
 
-### 5.1 Modular Domain Representation in Oasis (Layer 1b)
+### 5A. Modular Domain Representation in Oasis (Layer 1b)
 To allow **Oasis** to simulate and collaborate on distributed manufacturing without bogging down the real-time 60 FPS loop in low-level G-code parsing, the simulation models Scenario Alpha at the **Workcell, Blueprint BOM, Tool Library, and Time-Slot level**:
 *   **Multi-Modal Workshop Voxels & ECS Stations:** Within the $32^3$ chunk space, workshop stations are represented by distinct voxel material IDs (`MAT_WORKSHOP_WOOD = 15`, `MAT_WORKSHOP_POLYMER = 16`, `MAT_WORKSHOP_METAL_CNC = 18`, `MAT_TOOL_LIBRARY_LOCKER = 17`) bound to `WorkshopCapacityComponent` structs tracking modality class, cutter/nozzle wear in micrometers, and active operational state (`IDLE`, `COLLECTIVE_PRODUCTION`, `REPAIR_TRIAGE`, `PERSONAL_TIME_SLOT`).
 *   **Blueprint Specialization & Multi-Source BOM Resolution:** When an item or building component is queued, the Oasis orchestrator checks whether a localized blueprint variant reduces L7 imports, reserves local stockpile mass, and simulates BPVP sub-component fulfillment across Pairwise Bilateral Clearing Channels.
 *   **Tool Library & Personal Time-Slot Simulation:** Simulated agents check out tools from `MAT_TOOL_LIBRARY_LOCKER` to gain construction/harvest efficiency bonuses while incrementing tool wear counters. During off-peak hours, qualified agents book `PERSONAL_TIME_SLOT` windows to craft personal items or resolve *Strange Moods*, directly improving psychological homeostasis.
 
-### 5.2 C++20 Test Harness Structure (Fixed-Point SI Integer Math)
+### 5B. C++20 Test Harness Structure (Fixed-Point SI Integer Math)
 
 ```cpp
 // engine/tests/scenario_alpha_test.cpp
