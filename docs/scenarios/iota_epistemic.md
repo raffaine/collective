@@ -1,9 +1,9 @@
-# Scenario Iota: The Epistemic Mesh (Open Science & Empirical Replication)
+# Scenario Iota: The Epistemic & Pedagogical Mesh (Open Science, Citizen Laboratories, Living Knowledge Distribution & Post-Prussian Lifelong Learning Commons)
 
 *   **Identifier:** `SCN-IOTA-EPISTEMIC`
-*   **System Epic:** Decentralized Open Science, Distributed Empirical Metrology, and Epistemic Peer Replication
-*   **Primary Layers Tested:** L1 (Physical), L2 (Cybernetic Membrane), L3 (Thermodynamic Ledger), L4 (Deterministic Orchestrator), L5 (Polycentric Governance), L6 (Semantic Translation & Agora), L7 (Legacy Interface)
-*   **Pass/Fail Metric:** Successful multi-node empirical experiment replication across at least 3 topologically independent Autonomous Nodes in Trust Rings `R_3` and `R_4` with statistical significance `p < 100 bps`; zero IEEE 754 floating-point math; zero proprietary patent rent extraction; pairwise Bilateral Clearing Channel (BCC) instrument clearance; zero centralized servers; permanent Copyleft and Defensive Patent License protection.
+*   **System Epic:** Dismantling the Factory-School & Academic Publishing Cartel: Multi-Age Inquiry Circles, Offline Alexandria Knowledge Mirrors, Interactive Oasis 3D Learning Sandboxes, Print-on-Demand Binderies, Distributed Empirical R&D & Metrology Across All Domains, Negative-Result Parity, Seed/Cultivar Commons & 3-Stage Node Evolution
+*   **Primary Layers Tested:** L1 (Physical Laboratories, Print Binderies & Field Plots), L1b (Oasis 3D Interactive Learning Sandbox & Physics-Constant Calibration), L2 (Cybernetic Metrology Membrane), L3 (Thermodynamic Ledger), L4 (Deterministic Orchestrator), L5 (Polycentric Epistemic Governance & Defensive Prior Art), L6 (Semantic Translation, Living Curriculum DAG & Agora), L7 (Legacy Homeschool/Umbrella Shield, Grant Intake & Patent Prior-Art Diode)
+*   **Pass/Fail Metric:** Complete abolition of tuition debt, corporate journal paywalls, and coercive factory-school grading (`tuition_fiat_cents == 0`, `student_surveillance_sensors == 0`, `coercive_bell_curve_grading == false`); multi-node empirical experiment replication across $\ge 3$ topologically independent Autonomous Nodes in Trust Rings $R_3 \dots R_5$ with calibrated sensor drift $\le 50\,\mathrm{bp}$ and statistical significance $p < 100\,\mathrm{bp}$ ($1\%$); equal Reputational Wealth ($\mathcal{R}_{\mathrm{epistemic}}$) parity for verified negative results; automatic compilation of replicated findings into both **Oasis Layer 1b physics patches** and multi-modal **Living Curriculum Modules** (offline Alexandria IPFS bundles, 3D Oasis sandboxes, tactile lab kits, and printed books); Pairwise Bilateral Clearing Channel (BCC) settlement with zero-sum conservation ($B_{u \to v}(t) + B_{v \to u}(t) = 0$).
 
 ---
 
@@ -13,239 +13,175 @@ This scenario specification has been ratified by unanimous consensus of the 5-Pe
 
 | Council Persona | Disciplinary Representative | Core Contribution to Scenario |
 | :--- | :--- | :--- |
-| **Game Designer** | Lead Systems & Gameplay Designer | **Dwarf Fortress Psychology & Scholarly Debates:** Implements intellectual discovery and peer inquiry. Agents studying empirical hypotheses experience profound mood buffs (`"Illuminated by verified empirical discovery (+35 mood)"`) or resilience from reproducible negative results (`"Saved collective community exergy by disproving flawed hypothesis (+15 mood)"`). **The Sims Indirect Control:** Founder 01 prioritizes community research queues (e.g., local soil moisture retention vs. photovoltaic conversion efficiency). **Municipal University Interties:** Coordinates non-profit research sponsorships through lawful university interties to fund specialized laboratory tooling without compromising communal autonomy. |
-| **Game Engineer** | Principal C++ Simulation & Engine Architect | **Data-Oriented Design (DOD):** Encapsulates laboratory benches and testing beds into compact 32-bit voxels (`material_id = 45` `RESEARCH_BENCH`, `material_id = 46` `SOIL_TEST_BED`) in 32-cubed chunks. Flecs ECS systems evaluate replication consensus across independent nodes at 10 Hz determinism. Dynamic simulation patching updates global physics parameters (e.g., `SOIL_WATER_RETENTION_COEFFICIENT`) using integer basis points upon cryptographic consensus. C++20 harness uses fixed-point SI integer arithmetic (`uint64_t` microjoules, `uint32_t` millikelvin, zero floating-point math). |
-| **Sovereign Stack Specialist** | Sovereign Stack Systems Architect | **7-Layer Strict Adjacency & Pairwise BCC:** Enforces strict socket boundaries without layer skipping (`l1_l2.sock` through `l6_l7.sock`). Zero software in Layer 1. Pairwise Bilateral Clearing Channels (BCC) govern multi-node instrument sharing across Trust Rings `R_3` and `R_4` with conservation `B_{u -> v}(t) + B_{v -> u}(t) = 0`, bounded credit windows `[-C_{u -> v}, +C_{v -> u}]`, and two-phase delivery receipts `sigma_delivery`. Multi-hop HTLCs settle chained laboratory requests. BBS+ Zero-Knowledge Proofs guarantee Sybil-resistant anonymous peer review. Protective Carapace Interface deploys Defensive Patent License `DPL v1.1` and immutable prior-art Merkle proofs. |
-| **Solarpunk Thinker** | Bioregional Regenerative Ecologist | **Thermodynamic Open Knowledge & Convivial Tools:** Replaces academic publishing cartels and seed patents with an open science commons. Formulates scientific discovery as physical entropy reduction grounded in Proof-of-Thermodynamic-Work (PoTW; 3600 kJ per credit). Directs research toward microclimatic agronomic resilience (native polycultures, biochar inoculation) using open-source hardware instrumentation (3D-printed digital microscopes, open spectrophotometers, soil probe arrays). |
-| **Scenario Specialist** | Open-Hardware Metrologist & Computational Epistemologist | **Sensor Calibration & Replication Rigor:** Formulates distributed sensor metrology tolerances (drift threshold `<= 50 bps`), statistical significance criteria (`p < 100 bps` across at least 3 topologically diverse Autonomous Nodes), verifiable compute proofs for raw sensor streams, and Open Source Hardware Association (OSHWA) copyleft covenants. Protocol of Refusal protects sacred heirloom seeds and indigenous knowledge from digital quantification or simulation. |
+| **Game Designer** | Lead Systems & Gameplay Designer | *Abolishing the Factory Classroom in Favor of Living Discovery:* In Oasis, there are no sterile rows of school desks where NPCs grind passive XP bars. Instead, children, youth, adults, and elders form **Multi-Age Inquiry Circles** that learn mathematics, chemistry, biology, and ethics by running real experiments in the garden, foundry, forest, and citizen lab. *Dwarf Fortress* scholarly & polymath moods: Discovering a drought-hardy seed cross, disproving a flawed hypothesis (`"Saved collective community exergy by disproving flawed hypothesis (+25 mood)"`), or printing an illustrated field guide at the community bindery yields `"Illuminated by shared empirical discovery (+40 mood)"`. |
+| **Game Engineer** | Principal C++ Simulation & Engine Architect | Flecs ECS Data-Oriented Design (DOD): cache-aligned structs `MultiAgeInquiryCircleComponent`, `AlexandriaKnowledgeMirrorComponent`, `MetrologyCalibrationComponent`, `EmpiricalReplicationConsensusComponent`, and `DynamicPhysicsPatchComponent`; compact 32-bit Voxels (`material_id = 45` `CITIZEN_RESEARCH_BENCH`, `material_id = 46` `AGRO_SEED_TEST_BED`, `material_id = 47` `ALEXANDRIA_SERVER_AND_BINDERY`, `material_id = 48` `METROLOGY_CALIBRATION_VAULT`); live patching of Oasis simulation constants (`SOIL_WATER_RETENTION_BPS`) upon 3-node replication; compilable C++20 test harness strictly utilizing fixed-point SI integer math. |
+| **Sovereign Stack Specialist** | Sovereign Stack Systems Architect | 7-layer strict adjacency without layer skipping (`l1_l2.sock` through `l6_l7.sock`, with `/run/collective/ipc/l4_l5.sock` bridging epistemic governance and orchestration); zero software in Layer 1; Layer 2 Zephyr RTOS membrane (`col-sensord`) enforcing metrology calibration drift bounds ($\le 50\,\mathrm{bp}$) and anti-panopticon privacy (`student_surveillance_sensors == 0`); Layer 3 Pairwise Bilateral Clearing Channels (BCC) with zero-sum conservation $B_{u \to v}(t) + B_{v \to u}(t) = 0$; Layer 5 `No-Transit` quiet observatory vetoes, `Protocol of Refusal` for sacred/indigenous knowledge, and Layer 7 Defensive Patent License (`DPL v1`) prior-art timestamping. |
+| **Solarpunk Thinker** | Bioregional Regenerative Ecologist | Dismantling both the 19th-century Prussian factory-school model (which conditions youth for alienated corporate wage labor) and the academic publishing/patent cartel; treating scientific inquiry and lifelong polymathic education as an unconditional, joyous commons; distributing knowledge simultaneously through offline P2P digital libraries, interactive 3D Oasis simulations, Socratic local AI tutors, and physical risograph-printed books and tactile lab kits. |
+| **Scenario Specialist** | Open-Hardware Metrologist, Critical Pedagogue & Computational Epistemologist | Multi-modal pedagogy (Montessori/Freirean critical inquiry + Socratic seminars + citizen laboratory experimentation); distributed sensor metrology calibration ($\le 50\,\mathrm{bp}$ drift against primary reference standards); statistical replication rigor ($p < 100\,\mathrm{bp}$ across $\ge 3$ independent $R_3/R_4$ nodes); open-pollinated heirloom seed & spore breeding libraries; state homeschool/umbrella-school statutory shielding for Stage 1 learning pods. |
 
-**Unanimous Consensus Reached:** This specification was formally ratified by all 5 personas on 2026-10-11, resolving all epistemic, thermodynamic, and governance requirements into a unified implementation.
+Unanimous Consensus Reached across all five disciplinary perspectives.
 
 ---
 
 ## 1. Problem Statement & Legacy Failure
 
-In legacy commercial infrastructure (Layer 7), scientific discovery has been enclosed by corporate monopolies and academic cartels:
-*   **The Academic Paywall & Publishing Cartel:** Publicly funded research is surrendered to commercial publishers who lock findings behind steep paywalls, extracting multi-billion dollar profit margins while denying citizen scientists and smallholders access to vital agronomic and medical data.
-*   **The Replication Crisis & Publication Bias:** Commercial prestige algorithms reward sensational, non-reproducible breakthroughs while actively suppressing negative results. This systemic bias causes catastrophic thermodynamic waste, as independent teams unknowingly repeat identical failed experiments.
-*   **Patent Enclosure of Ecological Survival:** Agrochemical and pharmaceutical conglomerates patent indigenous crop strains, localized soil microorganisms, and open-hardware manufacturing geometries. Small-scale bioregional innovations (e.g., microclimate-optimized biochar amendments in the Duvall watershed) are ignored because they cannot be commodified into global corporate products.
+In legacy industrial and corporate society (Layer 7), the creation and distribution of human knowledge are crippled by two interlocking institutions—the **Prussian Factory-School System** and the **Academic Publishing & Patent Cartel**:
+
+1.  **The Market-Oriented Factory School:** Designed in the 19th century to produce compliant factory workers and bureaucratic clerks, legacy schooling segregates children by birth-year into windowless classrooms, enforces passive obedience to bells and standardized multiple-choice tests, ranks human beings on artificial bell curves, and severs theoretical concepts from living ecosystems and physical craft. Students graduate alienated from nature, traumatized by competitive grading, and unable to grow food, repair tools, or design experiments.
+2.  **The Credentialist University Debt Trap:** Higher education has been financialized into a trillion-dollar real-estate and student-loan cartel that rations access to laboratories, libraries, and mentorship behind crippling lifetime fiat debt.
+3.  **The Academic Paywall & Replication Crisis:** Publicly and philanthropically funded research is handed gratis to commercial publishing monopolies (Elsevier, Springer, Wiley) that lock findings behind paywalls while prestige-driven publication bias rewards flashy, non-reproducible claims and suppresses negative results—causing massive thermodynamic waste as laboratories unknowingly repeat failed experiments.
+4.  **Corporate Patent Enclosure of Life & Tools:** Agrochemical and pharmaceutical conglomerates patent crop genetics, medicinal compounds, and scientific instruments, criminalizing seed saving and independent citizen research.
 
 ---
 
-## 2. The Collective Workflow (7-Layer Traversal)
+## 2. Macro-Domain Architecture: The Six Pillars of the Epistemic & Pedagogical Commons
 
-The Epistemic Mesh transforms science from an ivory-tower publishing contest into a localized, empirical public utility. Grounded in physical sensor telemetry and distributed validation, it models empirical truth as verified physical knowledge that optimizes both community practice and the Oasis engine digital twin simulation.
+**Scenario Iota** is how The Collective **discovers, verifies, synthesizes, and distributes knowledge across generations**. It dismantles the static, market-oriented school and university system, replacing it with a lifelong, decentralized **Epistemic & Pedagogical Mesh** that links seamlessly with [Scenario Delta (`delta_childcare.md`)](file:///Users/raffaine/dev/collective/docs/scenarios/delta_childcare.md) (early childhood wonder), [Scenario Kappa (`kappa_apprenticeship.md`)](file:///Users/raffaine/dev/collective/docs/scenarios/kappa_apprenticeship.md) (hands-on vocational guild mastery), and [Scenario Phi (`phi_elder.md`)](file:///Users/raffaine/dev/collective/docs/scenarios/phi_elder.md) (elder wisdom and mentorship).
+
+### Pillar I: Dismantling the Prussian Factory-School — Multi-Age Inquiry Circles & Problem-Based Polymathy
+Scenario Iota abolishes compulsory age-segregated desk rows, standardized bell-curve grading, and tuition fees (`tuition_fiat_cents == 0`, `coercive_bell_curve_grading == false`):
+*   **Multi-Age Inquiry Circles ($6\text{ to }100\,\mathrm{Years}$):**
+    Following early childhood play in [Scenario Delta (`delta_childcare.md`)](file:///Users/raffaine/dev/collective/docs/scenarios/delta_childcare.md), young learners join self-directed, multi-age Inquiry Circles facilitated by rotating domain stewards, [Scenario Phi (`phi_elder.md`)](file:///Users/raffaine/dev/collective/docs/scenarios/phi_elder.md) elder scholars, and older peers.
+*   **Phenomenon- & Problem-Based Learning Embedded in the Settlement:**
+    Mathematics, physics, chemistry, biology, history, linguistics, and philosophy are never taught as sterile, disconnected abstractions ("Why do I need to learn calculus?"). Instead, learners master foundational theory by investigating real bioregional phenomena across the settlement's nodes:
+    *   *Mathematics, Physics & Thermodynamics:* Learned by modeling fluid head and solar microgrid curves in [Scenario Beta (`beta_transit.md`)](file:///Users/raffaine/dev/collective/docs/scenarios/beta_transit.md), calculating phase-change enthalpy in [Scenario Theta (`theta_foundry.md`)](file:///Users/raffaine/dev/collective/docs/scenarios/theta_foundry.md), and writing deterministic fixed-point algorithms in [Scenario Zero (`zero_software.md`)](file:///Users/raffaine/dev/collective/docs/scenarios/zero_software.md).
+    *   *Chemistry, Biology & Ecology:* Learned by assaying soil ergosterol and botanical tinctures in [Scenario Eta (`eta_coppice.md`)](file:///Users/raffaine/dev/collective/docs/scenarios/eta_coppice.md), monitoring fermentation kinetics in [Scenario Gamma (`gamma_kitchen.md`)](file:///Users/raffaine/dev/collective/docs/scenarios/gamma_kitchen.md), and analyzing struvite crystallization in [Scenario Mu (`mu_extraction.md`)](file:///Users/raffaine/dev/collective/docs/scenarios/mu_extraction.md).
+    *   *Humanities, Ethics, History & Rhetoric:* Learned through Socratic seminars, multilingual literature circles, restorative justice simulations ([Scenario Psi (`psi_mediation.md`)](file:///Users/raffaine/dev/collective/docs/scenarios/psi_mediation.md)), and drafting real Layer 6 Ricardian Treaties and Layer 5 constitutional proposals.
+*   **Portfolio Mastery & Direct Bridge to Scenario Kappa:**
+    Instead of grades or GPA rankings, learners build an open cryptographic portfolio of completed inquiries, replicated experiments, essays, and artistic works. When a learner wishes to operate hazardous physical machinery or practice clinical/engineering trades, their theoretical portfolio feeds directly into [Scenario Kappa (`kappa_apprenticeship.md`)](file:///Users/raffaine/dev/collective/docs/scenarios/kappa_apprenticeship.md) for hands-on psychomotor mentorship and `L1/L2/L3` safety certification.
+
+### Pillar II: Multi-Modal Living Knowledge Distribution (Alexandria Mesh, Oasis 3D Sandboxes, Socratic AI & Print Bindery)
+Knowledge in The Collective is never locked in a static textbook that goes out of date or behind an internet connection that can be severed. Scenario Iota distributes living knowledge across **four synchronized modalities**:
+1.  **The Offline-First Alexandria Mesh Library (`AlexandriaKnowledgeDAG`):**
+    Every node hosts a complete local mirror of the **Alexandria Commons**—millions of open-access texts, multilingual encyclopedias, peer-replicated scientific datasets, open-hardware schematics, historical archives, and sheet music—stored on content-addressed IPFS/IPLD Merkle trees and synced over [Scenario Beta (`beta_transit.md`)](file:///Users/raffaine/dev/collective/docs/scenarios/beta_transit.md) fiber, Reticulum radio, and vehicular DTN sneakernet drives.
+2.  **Interactive 3D Oasis Epistemic Sandboxes (Layer 1b Experiential Pedagogy):**
+    Whenever a scientific concept or empirical discovery is canonized, Layer 6 links it to an interactive **Oasis 3D Simulation Sandbox** (built via [Scenario Zero (`zero_software.md`)](file:///Users/raffaine/dev/collective/docs/scenarios/zero_software.md)). Learners can shrink down to observe mycorrhizal nutrient exchange between tree roots, tweak PID parameters on a virtual induction furnace until it stabilizes, or simulate watershed flood hydrology at $1000\times$ speed—learning by *playing with the underlying laws of physics and ecology*.
+3.  **Zero-Surveillance Local Socratic AI Tutors:**
+    Learners have access to open-weight **Socratic AI Tutors** running locally on settlement hardware ([Scenario Epsilon](file:///Users/raffaine/dev/collective/docs/scenarios/epsilon_coworking.md) / [Scenario Zero](file:///Users/raffaine/dev/collective/docs/scenarios/zero_software.md)). Unlike corporate ed-tech (which harvests student keystrokes and attention metrics), the Socratic Tutor runs with **zero student surveillance (`student_surveillance_sensors == 0`)**, adapts to neurodivergent learning styles (dyslexia, ADHD, autism, visual/auditory preferences), translates any paper or lecture into the learner's native tongue, and uses the Socratic method—asking thought-provoking questions and suggesting physical lab experiments rather than handing out rote answers.
+4.  **On-Site Risograph Print Bindery & Alpha-Fabricated Tactile Lab Kits:**
+    Because deep reading and tactile manipulation require freedom from glowing screens, Scenario Iota nodes operate high-speed **soy-ink Risograph & Archival Book Binderies** (printing bound curriculum readers, laboratory notebooks, and illustrated botanical guides on recycled/hemp paper) and chain intents to [Scenario Alpha (`alpha_fabrication.md`)](file:///Users/raffaine/dev/collective/docs/scenarios/alpha_fabrication.md) to manufacture open-source **Tactile Science Kits** (3D-printed `OpenFlexure` sub-micron microscopes, quartz-cuvette spectrophotometers, geometry manipulatives, and electronics breadboards).
+
+### Pillar III: Full-Spectrum Citizen & Bioregional R&D Laboratories (Serving All 25 Scenarios)
+Scenario Iota dissolves the wall between "school" and "research institute": the same laboratories where learners explore science are the primary R&D and quality-assurance engines for the entire settlement:
+*   **Materials, Metallurgy & Structural Testing Lab:** Universal tensile/compression test frames, Charpy impact testers, XRF spectrometers, and thermal-conductivity rigs testing recycled alloys, geopolymers, and timber joints for [Scenario Alpha](file:///Users/raffaine/dev/collective/docs/scenarios/alpha_fabrication.md), [Scenario Theta](file:///Users/raffaine/dev/collective/docs/scenarios/theta_foundry.md), and [Scenario Xi](file:///Users/raffaine/dev/collective/docs/scenarios/xi_architecture.md).
+*   **Agroecological, Heirloom Seed-Breeding & Soil Microbiome Lab:** Open-pollinated regional seed banks, germination chambers, nanopore DNA/RNA sequencers, and fluorescence microscopes breeding climate-resilient crops and assaying mycorrhizal/compost inoculants for [Scenario Gamma](file:///Users/raffaine/dev/collective/docs/scenarios/gamma_kitchen.md), [Scenario Eta](file:///Users/raffaine/dev/collective/docs/scenarios/eta_coppice.md), and [Scenario Mu](file:///Users/raffaine/dev/collective/docs/scenarios/mu_extraction.md).
+*   **Analytical Chemistry, Pharmacognosy & Environmental Toxicology Lab:** HPTLC/HPLC chromatography, UV-Vis spectrophotometers, and water/soil heavy-metal and coliform assay benches supporting [Scenario Chi](file:///Users/raffaine/dev/collective/docs/scenarios/chi_paramedic.md) clinical diagnostics and [Scenario Eta](file:///Users/raffaine/dev/collective/docs/scenarios/eta_coppice.md) herbal standardization.
+*   **Primary & Secondary Metrology Calibration Vault:** Maintains traceable reference weights, triple-point-of-water temperature cells ($273160\,\mathrm{mK}$), voltage references, and gauge blocks to calibrate Layer 2 sensors across every node in the watershed (`sensor_drift_bp <= 50`).
+
+### Pillar IV: Distributed Empirical Replication ($N \ge 3$), Negative-Result Parity & Live Oasis Physics Patching
+*   **Multi-Node Replication Consensus ($N \ge 3$ Independent Nodes in $R_3 \dots R_5$):**
+    When a researcher or Inquiry Circle publishes a hypothesis (`ResearchBounty`) and initial dataset (`DataAttestation`), `col-execd` broadcasts replication invitations across peered watershed and bioregional nodes. A claim is ratified into the Epistemic Canon **only** when at least $3$ topologically independent nodes (with verified calibrated sensors, `drift_bp <= 50`) reproduce the effect at $p < 100\,\mathrm{bp}$ ($1\%$) significance.
+*   **Equal Reputational Standing for Negative Results (`NegativeResultAttestation`):**
+    To permanently cure publication bias, disproving a hypothesis or proving that a proposed technique fails under local conditions earns **100% equal Reputational Wealth ($\mathcal{R}_{\mathrm{epistemic}}$)** as a positive result, protecting the entire mesh from repeating dead-end experiments.
+*   **Automatic Oasis Physics-Constant Patching & Living Curriculum Update:**
+    The moment a discovery achieves 3-node replication consensus, Layer 4 triggers two automatic downstream actions:
+    1.  *Oasis Engine Calibration:* Updates the corresponding fixed-point physical constant in **Oasis (Layer 1b)** (e.g., updating `SOIL_WATER_RETENTION_BPS` from $3000$ to $3800\,\mathrm{bp}$), so the settlement's predictive digital twin immediately reflects verified empirical truth.
+    2.  *Living Curriculum Synthesis:* Emits a `LivingCurriculumUpdateIntent` that appends the new experimental protocol, dataset, and interactive simulation module to the Alexandria Library and [Scenario Kappa (`kappa_apprenticeship.md`)](file:///Users/raffaine/dev/collective/docs/scenarios/kappa_apprenticeship.md) guild syllabi—reducing the lag between scientific discovery and classroom/workshop education from $20\,\mathrm{years}$ to **zero seconds**!
+
+### Pillar V: Epistemic Sovereignty, Defensive Prior-Art Shield & Protocol of Refusal
+*   **Defensive Patent License (`DPL v1`) & Prior-Art Diode:** All public discoveries, seed lineages, and open-hardware instruments are cryptographically timestamped and pushed via Layer 7 to global patent offices (USPTO/WIPO) as immutable prior art under the Defensive Patent License, legally blocking corporate patent trolls from enclosing Collective research.
+*   **Indigenous & Heirloom `Protocol of Refusal`:** Sacred ethnobotanical knowledge, medicinal rites, and protected heirloom cultivars designated by the Commons Chamber under the Protocol of Refusal are cryptographically excluded from external publication or digital-twin extraction.
+
+### Pillar VI: 3-Stage Incremental Node Facility Blueprints
+1.  **Stage 1 — Suburban Living-Room Inquiry Pod, Offline Alexandria Box & Garage Citizen-Science Bench:**
+    *   *Physical Footprint:* A suburban living room, backyard garden test plot, and garage workbench ($20\text{–}45\,\mathrm{m}^2$).
+    *   *Operations:* Neighborhood families liberate their children from the factory-school grind by forming a **Multi-Age Homeschool / Unschooling Inquiry Cooperative**. Equipped with a silent local Alexandria IPFS/Kiwix server + Socratic AI Tutor, a tabletop risograph/bookbinder, [Scenario Alpha](file:///Users/raffaine/dev/collective/docs/scenarios/alpha_fabrication.md)-printed `OpenFlexure` microscopes, and calibrated soil/water sensors, learners conduct real neighborhood ecology and materials experiments that participate in mesh-wide replication bounties.
+    *   *Layer 7 Legal & Municipal Shield:* Legally shielded under state **Homeschooling / Private Umbrella School statutes** and **UUNAA § 6** private educational associations—satisfying compulsory education laws with zero standardized-test coercion and zero HOA/zoning commercial traffic.
+2.  **Stage 2 — Co-Located Community Lyceum, Citizen Bio/Materials Lab, Seed Library & Print Bindery:**
+    *   *Physical Footprint:* A $150\text{–}400\,\mathrm{m}^2$ learning commons and laboratory co-located inside a [Scenario Epsilon (`epsilon_coworking.md`)](file:///Users/raffaine/dev/collective/docs/scenarios/epsilon_coworking.md) commercial/mixed-use shell alongside [Scenario Alpha (`alpha_fabrication.md`)](file:///Users/raffaine/dev/collective/docs/scenarios/alpha_fabrication.md) and [Scenario Delta (`delta_childcare.md`)](file:///Users/raffaine/dev/collective/docs/scenarios/delta_childcare.md).
+    *   *Operations & Self-Sustenance:* Houses calibrated analytical benches (UV-Vis, HPTLC, PCR, tensile testers), a regional Heirloom Seed & Spore Library, an archival print bindery, and multi-age Socratic seminar rooms. Captures external Layer 7 fiat ($\Phi_t$) by offering certified agricultural soil/water/contaminant testing to regional farms, securing non-profit research/education grants, and running community science workshops—accumulating capital in the **Bioregional Conservatory Land Escrow**.
+3.  **Stage 3 — Custom-Built Bioregional Open Conservatory, Metrology Institute & Seed Sanctuary (CLT/PPT):**
+    *   *Physical Footprint:* Purpose-built timber-and-stone campus on permanent Community Land Trust (CLT) acreage, protected by a Layer 5 `No-Transit` vibration and dark-sky buffer.
+    *   *Operations:* Replaces the legacy debt-trap university with a free, lifelong **Open Conservatory & Research Institute** housing primary metrology standards, citizen biotechnology and materials labs, an optical/print archival library, cryogenic heirloom seed vaults, and amphitheaters uniting children, researchers, guild masters, and elders.
+
+---
+
+## 3. The Collective Workflow (7-Layer Traversal)
+
+The epistemic inquiry, empirical replication, and living knowledge distribution workflow traverses all seven layers without layer skipping:
 
 ```mermaid
 graph TD
-    L7[Layer 7: Legacy Interface] <-->|l6_l7.sock: Prior-Art Filings & GPO Sourcing| L6[Layer 6: Semantic Translation]
-    L6 <-->|l5_l6.sock: Research Intent & Treaty CIDs| L5[Layer 5: Polycentric Governance]
-    L5 <-->|l4_l5.sock: Ratified Workflows & FIB Dispatch| L4[Layer 4: Deterministic Orchestrator]
-    L4 <-->|l3_l4.sock: Exergy Leases & Escrow Holds| L3[Layer 3: Thermodynamic Ledger]
-    L3 <-->|l2_l3.sock: Sensor Attestations & Delivery Receipts| L2[Layer 2: Cybernetic Membrane]
-    L2 <-->|l1_l2.sock: Physical Sampling & Sensor Interties| L1[Layer 1: Physical Ground Truth]
+    L7[Layer 7: Legacy Interface / Homeschool Umbrella, Grant Intake & DPL Prior-Art Diode] -->|Research Grants, Lab GPO & Defensive Prior-Art Filings| L6[Layer 6: Semantic Agora & Alexandria Knowledge DAG]
+    L6 -->|Compile ResearchBounty, InquiryCircle or LivingCurriculum Intent / Treaty_CID| L5[Layer 5: Polycentric Governance]
+    L5 -->|Protocol of Refusal, >= 3 Node Sybil Check & BPVP via l4_l5.sock| L4[Layer 4: Deterministic Orchestrator]
+    L4 -->|Lock Replication Exergy Escrow via l3_l4.sock| L3[Layer 3: Thermodynamic Ledger]
+    L3 -->|Verify Metrology Drift <= 50 bp & Sample Lab Sensors via l2_l3.sock| L2[Layer 2: Cybernetic Membrane]
+    L2 -->|Read PT100 RTDs, Spectrophotometers, Tensile Rigs & Print Bindery| L1[Layer 1: Physical Labs, Field Plots & Binderies]
+    L2 <-->|Patch Voxel Physics Constants & Run 3D Learning Sandboxes| L1b[Layer 1b: Oasis 3D Digital Twin & Epistemic Sandbox]
+    L1 -->|Calibrated Sensor Transduction & Physical Experiment Data| L2
+    L2 -->|Signed Telemetry & Metrology Cert via l2_l3.sock| L3
+    L3 -->|Two-Phase Replication Settlement & Curriculum Release via l3_l4.sock| L4
 ```
 
 ### Layer 1: Physical Ground Truth
-*   **Hardware Reality:** Pure physical matter and energy. Layer 1 contains zero software, zero firmware, zero cryptographic keys, and zero network routing.
-*   **Physical Laboratory Apparatus:** Open-source laboratory stations, 3D-printed digital microscopes, open-hardware spectrophotometers, soil capacitance testbeds, micro-climate field plots, bioreactor fermenters, and mechanical test rigs (e.g., tensile testing frames for recycled structural polymers).
-*   **Physical Sensors & Instrumentation:** Calibrated platinum resistance temperature detectors (PT100 RTDs), soil frequency-domain reflectometry (FDR) probes, optical diffraction gratings, quartz cuvettes, and K-type thermocouple junctions terminating at passive terminal blocks.
-*   **Inventory & Physical Feedstock:** Reference calibration fluids, certified soil samples, reagent test kits, standardized crop seeds, and mechanical testing specimens.
-*   **Physical Action:** Soil amending, thermal cycling, optical density absorption, tensile pulling, and mechanical stressing performed by human stewards and sampled by passive physical transducers.
+*   **Laboratory, Metrology & Seed Hardware:** 3D-printed `OpenFlexure` optical microscopes, quartz-cuvette UV-Vis spectrophotometers, HPTLC/HPLC rigs, tensile/compression mechanical test frames, PT100 4-wire RTDs, triple-point-of-water calibration cells ($273160\,\mathrm{mK}$), and climate-controlled heirloom seed germination vaults.
+*   **Pedagogical & Print Bindery Hardware:** Multi-age Socratic seminar tables, soy-ink risograph duplicators, thermal/thread archival bookbinders, and [Scenario Alpha](file:///Users/raffaine/dev/collective/docs/scenarios/alpha_fabrication.md)-fabricated tactile science kits.
+*   **Strict Layer Separation:** Layer 1 contains **zero software, zero firmware, zero cryptographic keys, and zero network routing**.
 
-### Layer 2: The Cybernetic Membrane
-*   **Microcontroller Architecture:** Hardened low-power microcontrollers (e.g., ESP32-S3 or STM32 running Zephyr RTOS) isolated from Layer 1 physical matter.
-*   **Sensor Ingress (`col-sensord`):**
-    *   `node/lab/soil_bed_04/telemetry/capacitance_vwc` (Volumetric Water Content in basis points: `10000 bps = 100%`)
-    *   `node/lab/soil_bed_04/telemetry/soil_temp_mk` (Millikelvin: `294150 mK = 21 deg C`)
-    *   `node/lab/spectro_01/telemetry/absorbance_mpu` (Milli-absorbance units at 600 nm)
-    *   `node/lab/rig_02/status` (`CALIBRATING`, `LOGGING`, `RUN_COMPLETE`, `DRIFT_FAULT`)
-*   **Fixed-Point SI Integer Wire Encoding:** All analog-to-digital converter (ADC) signals are mapped strictly into scaled SI integers: microjoules (`uint64_t`), millikelvin (`uint32_t`), basis points (`uint32_t`), millivolts (`int32_t`), and milligrams (`uint64_t`). IEEE 754 floating-point numbers are strictly forbidden.
-*   **Living Mirror Bridge:** Lock-free shared memory (`/dev/shm`) ring buffer exposes sensor batches to `col-membraned`.
-*   **Convivial Anti-Panopticon Shield:** Edge firmware enforces a strict ban on facial recognition, iris scanning, and workplace cameras. Instrumentation monitors physical specimens and soil beds, never human worker biometrics.
+### Layer 2: Cybernetic Membrane & Telemetry
+*   **Metrology & Anti-Panopticon Membrane:** `col-sensord` samples laboratory transducers in fixed-point SI integer units, verifying valid calibration certificates (`sensor_drift_bp <= 50`) while enforcing a hardware-level ban on classroom/laboratory human surveillance (`student_surveillance_sensors == 0`).
+*   **Fixed-Point SI Integer Ingress Telemetry (POSIX Sockets / CBOR):**
+    *   `node/lab/soil_bed_04/telemetry/capacitance_vwc_bp` (Volumetric Water Content in basis points, `uint16_t`)
+    *   `node/lab/spectro_01/telemetry/absorbance_mau` (Milli-absorbance units at target wavelength, `uint32_t`)
+    *   `node/lab/metrology_01/telemetry/calibration_drift_bp` (Measured drift against primary standard in basis points, `uint16_t`, requiring $\le 50\,\mathrm{bp}$)
+    *   `node/lyceum/bindery_01/telemetry/printed_curriculum_volumes` (Bound physical readers produced, `uint32_t`)
 
-### Layer 3: The Thermodynamic Ledger
-*   **Pairwise Bilateral Clearing Channels (BCC):** Inter-node research collaboration and analytical instrument access are settled through peer-to-peer bilateral channels between peered Autonomous Nodes `u` and `v`:
-    $$B_{u \to v}(t) + B_{v \to u}(t) = 0$$
-*   **Mutual Aid Credit Windows:**
-    $$-C_{u \to v} \le B_{u \to v}(t) \le C_{v \to u}$$
-    Credit limits are ratified via Layer 6 Ricardian Treaties (`Treaty_CID`) to accommodate seasonal agricultural cycles and scientific instrument usage.
-*   **Two-Phase Delivery Receipts:** Transfer of physical laboratory samples or calibrated reagents requires sensor-verified confirmation:
-    $$\sigma_{\mathrm{delivery}} = \mathrm{Sign}_{K_{\mathrm{receiver}}}\left( \mathrm{Hash}(Q_{\mathrm{measured}} \parallel \tau_{\mathrm{arrival}} \parallel \mathrm{Channel\_ID}) \right)$$
-*   **Multi-Hop Chained HTLCs:** Multi-node replication requests traversing intermediate nodes use chained Hashed Timelock Contracts:
-    $$\mathrm{HTLC} = \langle H(S), \, \Delta t, \, Q, \, u, \, v \rangle$$
-    Where secret preimage `S` is revealed upon verified empirical completion, atomically clearing intermediate channels without a central clearinghouse.
-*   **Proof-of-Thermodynamic-Work (PoTW):** Physical exergy consumed by laboratory hardware (heating incubators, centrifuge motors, drying ovens) is metered in standard integer quanta:
-    $$\text{Exergy Credit}_{\mathrm{quantum}} \equiv 3600\text{ kJ} = 3{,}600{,}000{,}000{,}000\,\mu\mathrm{J}$$
-*   **Physical Demurrage:** Stored exergy balances decay over time according to storage entropy:
-    $$\mathcal{E}(t) = \mathcal{E}_0 e^{-\lambda t}$$
-*   **Non-Monetary Clearance:** Outstanding channel balances settle through reciprocal analytical testing services, guild labor dispatch, or bioregional Commons Jubilee during regional ecological shocks.
-*   **Zero Global Tokens & Fiat Inconvertibility:** Zero global tokens, zero liquidity pools, zero AMMs. Exergy credits never convert to fiat currency, and fiat currency never purchases exergy credits.
+### Layer 3: Thermodynamic Ledger
+*   **Pairwise Bilateral Clearing Channels (BCC) for Shared Instrumentation & Replication:**
+    When Node $u$ commissions empirical replication or specialized analytical testing (e.g., GC-MS or tensile testing) from Peered Lab Node $v$, laboratory exergy and reagent costs settle over Pairwise Bilateral Clearing Channels:
+    $$B_{u \to v}(t) + B_{v \to u}(t) = 0, \quad -C_{u \to v} \le B_{u \to v}(t) \le C_{v \to u}$$
+*   **Unconditional Decommodification of Education & Knowledge:**
+    Access to Inquiry Circles, mentorship, the Alexandria Library, Socratic AI tutors, printed books, and Oasis 3D learning sandboxes carries **zero tuition fee, zero debt, and zero per-copy charge** (`tuition_fiat_cents == 0`, `tuition_exergy_uj == 0`).
 
-### Layer 4: The Deterministic Orchestrator
-*   **State Machine Daemon:** `col-execd` executes a 10 Hz deterministic BPMN 2.0 virtual machine over POSIX non-blocking sequenced-packet Unix Domain Sockets (`/run/collective/ipc/l4_l5.sock` and `l3_l4.sock`).
-*   **Contention Priority & Baselines:** Experimental energy allocations are prioritized below Tier 1 Ecological Floors (`F_eco`) and Tier 2 Human Survival Baselines (`B_baseline`). Laboratory compute and heating shed automatically during grid constraints.
-*   **Anonymous Claim Handles:** Research tasks operate on anonymous claim handles; worker identity is never correlated with machine logs.
+### Layer 4: Deterministic Orchestrator
+`col-execd` orchestrates empirical replication, Oasis physics patching, and living curriculum distribution at 10 Hz over `/run/collective/ipc/l4_l5.sock`:
 
 ```mermaid
 stateDiagram-v2
-    [*] --> BountyReceived: ResearchBounty Emitted
-    BountyReceived --> VerifyMetrology: Check Calibration Credentials
-    VerifyMetrology --> MetrologyFault: Sensor Drift > 50 bps
-    MetrologyFault --> RecalibrationWait: Issue CalibrationIntent
-    VerifyMetrology --> DispatchProtocol: Calibration Validated
-    DispatchProtocol --> ActiveDataGathering: Stream Telemetry
-    ActiveDataGathering --> AnomalyDetected: Out-of-Bounds Sensor Glitch
-    AnomalyDetected --> QuarantineRun: Discard Anomaly
-    ActiveDataGathering --> ComputeLocalDataset: Sample Window Complete
-    ComputeLocalDataset --> AwaitPeerReplications: Publish IPLD Hash
-    AwaitPeerReplications --> TimeoutExpiry: Replications Incomplete TTL
-    TimeoutExpiry --> RefundEscrow
-    AwaitPeerReplications --> StatisticalReplicationCheck: N >= 3 Peered Datasets
-    StatisticalReplicationCheck --> RejectNullMismatch: p >= 100 bps Inconclusive
-    StatisticalReplicationCheck --> CanonCommit: p < 100 bps Replication Confirmed
-    CanonCommit --> PatchSimulationPhysics: Update Oasis Engine Voxel Constants
-    CanonCommit --> AwardReputationalStanding: Credit L5 Stewardship Standing
-    AwardReputationalStanding --> SettleBCCChannels: Clear Bilateral Ledger
-    SettleBCCChannels --> [*]
+    [*] --> InquiryOrBountyIngested: Question Raised by Inquiry Circle or Guild
+    InquiryOrBountyIngested --> VerifyMetrologyGate: Check Sensor Calibration via l2_l3.sock
+    VerifyMetrologyGate --> IssueCalibrationBounty: Drift > 50 bp
+    IssueCalibrationBounty --> VerifyMetrologyGate: Recalibrated Against Reference Standard
+
+    VerifyMetrologyGate --> ExecuteMultiNodeExperiment: Drift <= 50 bp Across >= 3 Independent Nodes
+    ExecuteMultiNodeExperiment --> EvaluateStatisticalConsensus: Aggregate Signed IPLD Telemetry Bundles
+
+    EvaluateStatisticalConsensus --> CanonizeNegativeResult: Effect Disproven (p >= 100 bp)
+    CanonizeNegativeResult --> SynthesizeLivingCurriculum: Award Equal Epistemic Reputation (Prevent Repeat Waste!)
+
+    EvaluateStatisticalConsensus --> CanonizePositiveDiscovery: Replicated Across >= 3 Nodes (p < 100 bp)
+    CanonizePositiveDiscovery --> PatchOasisPhysicsConstants: Update Layer 1b Voxel Constants & File DPL Prior Art
+    PatchOasisPhysicsConstants --> SynthesizeLivingCurriculum: Award Epistemic Reputation
+
+    SynthesizeLivingCurriculum --> DistributeMultiModal: Sync Alexandria IPFS + Oasis 3D Sandbox + Print Bindery + Kappa Guilds
+    DistributeMultiModal --> [*]
 ```
 
-### Layer 5: Polycentric Governance
-*   **Key Management & Policy Daemon:** `col-kmsd` operates partitioned SQLCipher databases and Sparse Merkle Trees (SMT), isolated from Layer 3 ledgers.
-*   **Autopoietic Cellular Autonomy:** Every Autonomous Node retains absolute constitutional sovereignty ("the parts" vs. "the whole"). No external body can force a Node to violate its ecological floors or release research assets.
-*   **7-Tier Concentric Trust Rings (`R_0` to `R_6`):**
-    *   `R_0` (The Convivial Sanctuary / Hearth): Unconditional open library access and basic reference literature; zero keys, zero registration, zero tracking.
-    *   `R_1` (The Settlement Lab): Supervised student research and apprentice metrology; ephemeral pairwise DIDs (`did:peer`).
-    *   `R_2` (The Commons Lab): Shared analytical benches, soil test rigs; master keys in hardware security chips (ATECC608A); full voting standing.
-    *   `R_3` (The Watershed Cluster): Sibling nodes within 30 km; microgrid interties; Bilateral Clearing Channels; empirical replication testing.
-    *   `R_4` (The Bioregional Federation): River basin federation within 150 km; multi-hop BPVP capability routing; threshold signatures (FROST / BLS).
-    *   `R_5` (The Continental Corridor): Trans-continental delay-tolerant open science mesh; long-baseline ecological monitoring.
-    *   `R_6` (The Ecumene / Legacy Perimeter): Defensive publication to public patent registries; DMZ proxy gateways.
-*   **Bioregional Path-Vector Protocol (BPVP / FRRP):** Governs physical resource routing across mesh topologies:
-    $$\mathcal{A} = \big\langle \mathrm{adv\_id}, \, v_{\mathrm{orig}}, \, \mathcal{T}_{\mathrm{res}}, \, \mathbf{u}, \, Q_{\mathrm{avail}}, \, [\tau_{\mathrm{start}}, \tau_{\mathrm{end}}], \, \mathcal{P}, \, \mathcal{C}, \, H_{\mathrm{ttl}}, \, \sigma \big\rangle$$
-    *   Export Surplus Bound: $Q_{\mathrm{avail}}(t) = \max\left(0, Q_{\mathrm{inventory}}(t) - F_{\mathrm{eco}}(t) - B_{\mathrm{baseline}}(t)\right) \cdot \mathbf{1}_{\mathrm{export}}$
-    *   Ring-Path Vector: $\mathcal{P} = [(v_k, r_k), \dots, (v_0, r_0)]$ with Loop-Freedom Invariant discarding self-referential routes in $O(D)$ time.
-    *   Thermodynamic Cost Functional $\mathcal{C}(\mathcal{P})$ accounts for transport energy, perishability, and Trust Ring friction.
-    *   Dynamic Request Cascading widens progressively: $R_0/R_1 \to R_2 \to R_3 \to R_4$.
-*   **Protocol of Refusal (`sec:l5-refusal`):** Commons Chamber designation protecting heirloom crop genetics, sacred botanical rites, and traditional ecological knowledge from quantification, commercial patenting, or digital-twin simulation.
-*   **Autonomous Transit Veto (`No-Transit`):** Epistemic laboratories and quiet study cloisters maintain the sovereign authority to assert a `No-Transit` attribute over surrounding campus trails and research observatory buffers, deterministically preventing heavy material transit, vibration-heavy freight, or noisy vehicle routing from perturbing sensitive calibration instruments or intellectual sanctuary.
-*   **Bicameral Polity & Reputational Wealth:**
-    *   Commons Chamber (1 person = 1 vote) ratifies research goals, ecological floors, and Protocol of Refusal declarations.
-    *   Stewardship Chamber weights technical methodology by domain-specific Reputational Wealth ($\mathcal{R}_{\mathrm{epistemic}}$).
-    *   Mathematical governors: Exponential decay $\mathcal{R}(t) = \mathcal{R}_0 e^{-\frac{\ln(2)}{\tau_{\mathrm{half}}} t}$ ($\tau_{\mathrm{half}} = 1\dots 3\text{ years}$); Sublinear cap $\mathcal{W}_{\mathrm{steward}} = \min(\mathcal{W}_{\max}, \kappa \ln(1 + \mathcal{R}))$ with maximum 8 percent individual voting weight limit; Care Leave Shield freezing decay during caregiving.
-    *   Scientific discoveries earn non-financial Reputational Wealth, not spendable tokens.
+*   **Boundary Socket Contract (`l4_l5.sock`):** Non-blocking `SOCK_SEQPACKET` Unix Domain Socket at `/run/collective/ipc/l4_l5.sock`. Downward messages transmit ratified research treaties, `Protocol of Refusal` boundaries, and curriculum compilation rules; upward messages report 3-node replication proofs, sensor drift alerts, and Oasis physics-constant patch attestations.
 
-### Layer 6: Semantic Translation & Agora
-*   **Tripartite Ricardian Treaties:**
-    $$\mathrm{Treaty\_CID} = \mathrm{SHA256}\left( \mathrm{Text}_{\mathrm{prose}} \parallel \mathrm{Schema}_{\mathrm{JSON-LD}} \parallel \mathrm{Invariants}_{\mathrm{BPMN}} \right)$$
-    Inter-node research treaties bind natural language scientific covenants, machine-readable JSON-LD parameters (channel bounds, sensor predicates), and formal BPMN state machines.
-*   **Agora Semantic Knowledge Branches:**
-    1.  `ResearchBounty`: Formal inquiry specifying independent/dependent variables and replication thresholds.
-    2.  `DataAttestation`: Empirical telemetry bundle with Merkle-DAG hashes and calibration certificates.
-    3.  `ReplicationClaim`: Proof of independent replication execution by a peer Autonomous Node.
-    4.  `NegativeResultAttestation`: Verifiable proof of an unconfirmed hypothesis, rewarded equally in Reputational Wealth.
-    5.  `CalibrationIntent`: Metrological recalibration dispatch for drifting sensors.
-    6.  `CurriculumIntent`: Hand-off of validated empirical protocols to Scenario Kappa (Apprenticeship).
+### Layer 5: Polycentric Governance & Bioregional Routing
+Executed by `col-kmsd`, Layer 5 protects epistemic integrity and pedagogical freedom:
+*   **Abolition of Coercive Grading & Student Surveillance:** Layer 5 constitutionally prohibits bell-curve ranking, standardized test gatekeeping, tuition debt, and classroom biometric/attention tracking.
+*   **Topological Anti-Sybil Replication Gate:** To prevent a single node from forging "peer replication", `col-kmsd` verifies that the $\ge 3$ replicating nodes reside in distinct Autonomous Nodes across Rings $R_3 \dots R_5$ with independent hardware roots of trust (`ATECC608A`).
+*   **Autonomous Transit Veto (`No-Transit`):** Quiet study cloisters, precision metrology vaults, and astronomical/bio-acoustic observatories enforce `No-Transit` buffers against heavy freight vibration and light pollution.
 
-```mermaid
-graph TD
-    subgraph Layer 6: Semantic Ontology
-        L6_Bounty[ResearchBounty]
-        L6_Data[DataAttestation]
-        L6_Repl[ReplicationClaim]
-        L6_Neg[NegativeResultAttestation]
-        L6_Calib[CalibrationIntent]
-    end
+### Layer 6: Semantic Intent & Agora Ontology
+Executed by `col-commonsd`, Layer 6 binds research and living education into Tripartite Ricardian Treaties ($\mathrm{Treaty\_CID}$):
+1.  **`ResearchAndReplicationBounty`:** Formalizes an empirical hypothesis, dependent/independent variables, required sensor calibration (`<= 50 bp`), and $\ge 3\text{-node}$ replication criteria.
+2.  **`NegativeResultAttestation`:** Cryptographically canons a disproven hypothesis with full reputational parity.
+3.  **`LivingCurriculumCompilationIntent`:** Compiles a newly replicated discovery into a 4-modality educational package (Alexandria text/dataset, Oasis 3D interactive sandbox scene, risograph print layout, and Scenario Alpha lab-kit BOM) and pushes it to Inquiry Circles and [Scenario Kappa (`kappa_apprenticeship.md`)](file:///Users/raffaine/dev/collective/docs/scenarios/kappa_apprenticeship.md) guilds.
 
-    subgraph Layer 5: Polycentric Governance & Policy
-        P_Exec{Execution Gate: <br>Metrology Calibrated?}
-        P_Sybil{Replication Gate: <br>Topological Diversity R3/R4?}
-        P_Refusal{Refusal Gate: <br>Sacred / Heirloom Protected?}
-        P_Proc{Procurement Gate: <br>Reagent Budget Approved?}
-    end
-
-    subgraph Layer 4: Deterministic Orchestrators
-        BPMN_Exp[Experiment Coordination Engine]
-        BPMN_Peer[Replication Consensus Engine]
-        BPMN_Calib[Instrument Calibration Engine]
-        BPMN_Buy[L7 Bulk Scientific Sourcing Engine]
-    end
-
-    %% Routing
-    L6_Bounty --> P_Refusal
-    P_Refusal -->|Clean Domain| P_Exec
-    P_Refusal -.->|Protected Domain| L6_Bounty
-    P_Exec -->|Sensors Certified| BPMN_Exp
-    P_Exec -.->|Drift Detected| L6_Calib
-
-    L6_Data --> P_Sybil
-    L6_Repl --> P_Sybil
-    P_Sybil -->|N >= 3 Independent Rings| BPMN_Peer
-    P_Sybil -.->|Sybil / Colocation Detected| L6_Data
-
-    L6_Neg --> P_Sybil
-    L6_Neg -->|Valid Negative Result| BPMN_Peer
-
-    L6_Calib --> BPMN_Calib
-```
-
-### Layer 7: The Legacy Interface
-*   **Dual-Membrane Doctrine:** Strict separation between Membrane 1 (external legal carapace) and Membrane 2 (internal sovereign core). The cooperative entity acts as an honest, fully compliant non-profit research institute or agricultural cooperative, presenting Mundane Semantic Camouflage to legacy state authorities.
-*   **Tripartite Legal Chassis:**
-    1.  Bilateral Mutual-Aid Agreements (BMAA) under UUNAA Section 6;
-    2.  Subchapter T Shared Services Agreements (SSAs) under 26 U.S.C. Sections 1381 through 1388;
-    3.  Federated Land Trust conservation easements.
-*   **Lawful Research Sponsorship & Equipment Procurement:**
-    *   The cooperative entity lawfully receives university research grants, foundation fellowships, or non-profit sponsorships in legacy legal tender.
-    *   *Meshing-First Rule:* Outward procurement occurs strictly against itemized capital equipment lists (quartz cuvettes, gas chromatography columns, high-purity reagents) up to a ratified fiat ceiling $\Phi_t$.
-    *   Fiat funds remain strictly within legacy commercial banking rails; they are never converted into internal exergy credits.
-*   **Defensive Prior-Art Membrane:** All research findings, open hardware CAD geometries, and agronomic recipes are automatically deposited to public patent registries with immutable SHA-256 Merkle proofs and Defensive Patent License `DPL v1.1` covenants, legally preventing corporate patent enclosure.
-
-```mermaid
-graph TD
-    subgraph Legacy Market [Layer 7: Academic & Patent Environment]
-        Univ[University / Research Grant Agency]
-        PatentOffice[USPTO / WIPO Public Prior-Art Registry]
-        LabSupplier[Industrial Laboratory Sourcing B2B]
-    end
-
-    subgraph The Collective [Sovereign Autonomous Node]
-        Carapace[Protective Carapace / Cooperative Research Institute]
-        L6[Layer 6: Epistemic Intent Queue]
-        L4[Layer 4: Deterministic Research Orchestrator]
-        L3[Layer 3: Thermodynamic Ledger]
-        L2[Layer 2: Cybernetic Telemetry Membrane]
-        L1[Layer 1: Physical Laboratory Testbeds]
-    end
-
-    %% Inbound Lawful Flow
-    Univ -->|Awards Research Sponsorship| Carapace
-    Carapace -->|Validates Itemized Equipment Budget| L6
-    L6 -->|Compiles Protocol Dispatch| L4
-    L4 -->|l3_l4.sock: Task Dispatch| L3
-    L3 -->|l2_l3.sock: Energy Clearing & Receipts| L2
-    L2 -->|Sensors & Actuators| L1
-
-    %% Outbound Protective Flow
-    L1 -->|Physical Hardware Demands| L2
-    L2 -->|Aggregated Needs| L4
-    L4 -->|Escalates Procurement| L6
-    L6 -->|Sourcing Intent| Carapace
-    Carapace -->|Purchases Wholesale Reagents| LabSupplier
-    LabSupplier -->|Delivers Physical Equipment| L1
-    Carapace -->|Publishes Immutable Prior-Art Proofs| PatentOffice
-
-    classDef legacy fill:#ffebee,stroke:#c62828,stroke-width:2px;
-    classDef sovereign fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px;
-    class Univ,PatentOffice,LabSupplier legacy;
-    class Carapace,L6,L4,L3,L2,L1 sovereign;
-```
+### Layer 7: The Legacy Interface (Dual-Membrane Doctrine)
+1.  **Homeschool / Private Umbrella School Statutory Shield (Stage 1 & 2):** Protects Multi-Age Inquiry Circles from compulsory factory-school truancy enforcement and state curriculum mandates while issuing legally recognized high-school equivalency / transcript portfolios when young citizens interact with legacy institutions.
+2.  **Defensive Prior-Art Diode (`DPL v1`):** Automatically publishes SHA-256 Merkle timestamps of Collective inventions, seed crosses, and open-hardware instruments to public patent registries to prevent corporate patent enclosure.
+3.  **Certified Analytical Testing & Research Grant Carapace ($\Phi_t$):** Captures external Layer 7 fiat ($\Phi_t$) through agricultural soil/water/contaminant lab services and non-profit research grants to fund bulk B2B GPO procurement of optical components, chromatography columns, and analytical reagents.
 
 ---
 
-## 3. Machine-Readable Schemas
+## 4. Machine-Readable Schemas
 
-### 3.1 Layer 6 Knowledge Artifact: Research Bounty (`research_bounty.jsonld`)
+### 4A. Layer 6 Knowledge Artifact: Empirical Research Bounty & Living Curriculum Synthesis (`epistemic_curriculum_intent.jsonld`)
 
 ```json
 {
@@ -254,91 +190,86 @@ graph TD
     "https://collective.network/ontology/v1/",
     "https://w3id.org/dpl/v1"
   ],
-  "@type": "ResearchBounty",
+  "@type": "EpistemicResearchAndCurriculumIntent",
   "identifier": "urn:uuid:4f5a6b7c-8d9e-0f1a-2b3c-4d5e6f7a8b9c",
-  "issuerDid": "did:peer:2.Ez6MksG...agronomist_lee",
-  "creationTimestamp": "2026-10-01T10:00:00Z",
-  "researchDomain": "RegenerativeAgronomy_SoilHydrology",
+  "issuerDid": "did:peer:2.Ez6MksG...inquiryCircle_04_and_agronomist_lee",
+  "creationTimestampMs": 1790848800000,
+  "nodeEvolutionStage": "STAGE_2_COMMUNITY_LYCEUM_AND_CITIZEN_LAB",
+  "researchDomain": "RegenerativeAgronomy_And_SoilHydrology",
   "hypothesis": {
-    "claim": "Amending local alluvial clay soil with 15 percent volume fraction pyrolyzed biochar increases saturated volumetric water content without nitrogen immobilization.",
-    "independentVariables": [
-      {
-        "name": "Biochar_Volume_Fraction_Bps",
-        "testedValueBps": 1500,
-        "toleranceBps": 100
-      }
-    ],
-    "dependentVariables": [
-      {
-        "name": "Soil_Moisture_Capacitance_VWC_Bps",
-        "expectedDeltaBps": 2200
-      },
-      {
-        "name": "Nitrate_Ppb",
-        "expectedThresholdPpb": 25000
-      }
-    ]
+    "claim": "Amending alluvial clay soil with 1500 bp volume fraction mycorrhizal-charged biochar increases volumetric water content by >= 800 bp without nitrate immobilization.",
+    "testedBiocharFractionBp": 1500,
+    "expectedMoistureDeltaBp": 800
   },
   "replicationProtocol": {
-    "minimumReplicatingNodes": 3,
-    "statisticalSignificanceThresholdBps": 100,
-    "requiredSensors": [
-      "Capacitive_VWC_Probe_L2",
-      "K_Type_Soil_Thermocouple"
-    ],
-    "durationSeconds": 5184000,
-    "metrologyDriftLimitBps": 50
+    "minimumIndependentReplicatingNodes": 3,
+    "statisticalSignificanceThresholdBp": 100,
+    "maxAllowedSensorDriftBp": 50,
+    "negativeResultReputationParity": true
   },
-  "settlementCriteria": {
-    "reputationalWealthRewardPoints": 40,
-    "replicatorReputationalRewardPoints": 25,
-    "escrowTimeoutSeconds": 6480000,
-    "clearingChannelCapacityUj": 3600000000000
+  "livingPedagogyDistribution": {
+    "tuitionFiatCents": 0,
+    "tuitionExergyMicrojoules": 0,
+    "coerciveBellCurveGradingPermitted": false,
+    "studentSurveillanceSensors": 0,
+    "compileToAlexandriaIpfsDag": true,
+    "compileToOasis3dLearningSandbox": true,
+    "compileToRisographPrintBindery": true,
+    "compileToAlphaTactileLabKitBom": "bafybeihk99_openflexure_and_soil_kit_v2",
+    "handoffToScenarioKappaGuilds": true
   },
-  "defensiveLicenseUri": "https://defensivepatentlicense.org/license/1.1"
+  "defensivePatentLicense": "DPL_v1_Public_Prior_Art"
 }
 ```
 
-### 3.2 Layer 2 Telemetry Attestation: Replication Proof (`replication_attestation.json`)
+### 4B. Layer 2 & Layer 1b Combined Attestation: 3-Node Replication, Oasis Physics Patch & Curriculum Release (`epistemic_attestation.json`)
 
 ```json
 {
   "@context": "https://collective.network/ontology/v1/",
-  "@type": "EpistemicReplicationAttestation",
+  "@type": "EpistemicReplicationAndCurriculumAttestation",
   "bountyRef": "urn:uuid:4f5a6b7c-8d9e-0f1a-2b3c-4d5e6f7a8b9c",
-  "attestingNode": "did:peer:2.Ez6MkwQ...device_lab_station_03",
-  "executionMetrics": {
-    "startTime": "2026-10-02T08:00:00Z",
-    "endTime": "2026-11-01T08:00:00Z",
-    "durationSeconds": 2592000,
-    "meanVolumetricWaterContentBps": 3840,
-    "controlVolumetricWaterContentBps": 3020,
-    "calculatedDeltaBps": 2715,
-    "pValueBps": 42,
-    "sensorCalibrationDriftBps": 18,
-    "sampleCount": 2592000,
-    "telemetryIpidHash": "bafybeigdyrzt5sfp7udm7hu76uh7y26nf3efuylqabf3oclgtqy55fbzdi"
+  "replicatingNodes": [
+    "did:peer:2.Ez6MkwQ_duvall_citizen_lab_03",
+    "did:peer:2.Ez6MkrP_carnation_agro_lab_01",
+    "did:peer:2.Ez6MktL_snoqualmie_forest_lab_05"
+  ],
+  "empiricalMetrics": {
+    "maxObservedSensorDriftBp": 18,
+    "controlSoilMoistureBp": 3000,
+    "replicatedMeanMoistureBp": 3840,
+    "combinedPValueBp": 42,
+    "replicationConfirmed": true
   },
-  "metrologyVerification": {
-    "sensorSerialNumber": "SEN-CAP-DUV-091",
-    "lastCalibrationDate": "2026-09-30T14:15:00Z",
-    "calibrationCertUri": "ipfs://bafkreiah7j5q.../calib_cert.json"
+  "oasisSimulationPatch": {
+    "parameterPatched": "SOIL_WATER_RETENTION_BPS",
+    "previousValueBp": 3000,
+    "newValueBp": 3840
   },
-  "reconciliationStatus": "CONFIRMED_REPLICATED"
+  "livingCurriculumRelease": {
+    "alexandriaModuleCid": "bafybeigdyrzt5sfp7udm7hu76uh7y26nf3efuylqabf3oclgtqy55fbzdi",
+    "oasisInteractiveSandboxSceneId": "SANDBOX_TERRA_PRETA_HYDROLOGY_3D",
+    "risographReadersPrintedCount": 120,
+    "studentSurveillanceTelemetryCount": 0
+  },
+  "hardwareSignature": "0x6f2d8a4c9e1b3f...atecc608a_ed25519_sig"
 }
 ```
 
 ---
 
-## 4. Oasis Engine Implementation Specification
+## 5. Oasis Engine Implementation Specification
 
-### 4.1 Memory Allocation & Voxel State
-The epistemic research node coordinates simulation testing in chunk space (32-cubed voxels via `ChunkManager`):
-*   Research bench initialized with `material_id = 45` (`RESEARCH_BENCH`) with `metadata` bitmask `0b00000110` (`Is_Actuator | Is_Sensor`).
-*   The experimental testbed occupies contiguous voxels `(16, 8, 16)` to `(20, 8, 20)` initialized with `material_id = 46` (`SOIL_TEST_BED`).
-*   Dynamic physics patch alters global simulation constant using fixed-point integer basis points: `SOIL_WATER_RETENTION_BPS` is upgraded from `3000` to `3800` (representing 30 percent to 38 percent moisture retention) upon validated replication.
+### 5A. Modular Domain Representation in Oasis (Layer 1b)
 
-### 4.2 C++20 Test Harness Structure
+In the Oasis 3D Digital Twin, Scenario Iota is represented as both the settlement's **R&D Laboratory & Metrology Complex** and its **Multi-Age Living Lyceum**:
+*   `material_id = 45` (`CITIZEN_RESEARCH_BENCH`): Multi-purpose analytical bench (UV-Vis, HPTLC, tensile rig, `OpenFlexure` microscopy) where citizens and multi-age Inquiry Circles run experiments.
+*   `material_id = 46` (`AGRO_SEED_TEST_BED`): Controlled field plot and heirloom seed-breeding bed.
+*   `material_id = 47` (`ALEXANDRIA_SERVER_AND_BINDERY`): Combines the local offline IPFS/Kiwix knowledge mirror, Socratic local AI tutor node, and soy-ink risograph book bindery.
+*   `material_id = 48` (`METROLOGY_CALIBRATION_VAULT`): Vibration-isolated reference standard vault calibrating Layer 2 sensors (`drift <= 50 bp`).
+*   **Dynamic Physics Patching & Curriculum Buffs:** When 3-node replication succeeds in Oasis, global voxel simulation constants (such as `SOIL_WATER_RETENTION_BPS` or `SOLAR_KILN_EFFICIENCY_BPS`) dynamically upgrade in real time, and new Living Curriculum modules unlock faster skill progression in [Scenario Kappa (`kappa_apprenticeship.md`)](file:///Users/raffaine/dev/collective/docs/scenarios/kappa_apprenticeship.md)!
+
+### 5B. C++20 Test Harness Structure (Fixed-Point SI Integer Math)
 
 ```cpp
 // engine/tests/scenario_iota_epistemic_test.cpp
@@ -346,125 +277,176 @@ The epistemic research node coordinates simulation testing in chunk space (32-cu
 #include <cstdint>
 #include <string>
 #include <vector>
-#include "oasis/chunk_manager.hpp"
-#include "oasis/orchestration/bpmn_engine.hpp"
-#include "oasis/ledger/bilateral_clearing_channel.hpp"
 
-namespace oasis {
+namespace collective::scenario_iota {
 
-struct ExperimentContext {
-    std::string bounty_id;
-    uint32_t replicating_nodes_required;
-    uint32_t significance_alpha_bps; // 100 bps = 1%
-    uint32_t baseline_retention_bps; // 3000 bps = 30%
-    uint32_t target_retention_bps;   // 3800 bps = 38%
+// 1. Pillar I & II: Post-Prussian Living Pedagogy & Multi-Modal Knowledge Distribution Gate
+struct LivingPedagogyAndDistributionState {
+    uint64_t tuition_fiat_cents{0};                  // Must be 0 (zero debt/tuition)
+    uint64_t tuition_exergy_uj{0};                   // Must be 0
+    uint32_t student_surveillance_sensors{0};        // Must be 0 (anti-panopticon Socratic learning)
+    bool coercive_bell_curve_grading{false};         // Must be false (portfolio mastery, not factory ranking)
+    bool multi_age_inquiry_circle_active{true};
+    bool synced_to_offline_alexandria_dag{true};
+    bool compiled_to_oasis_3d_sandbox{true};
+    bool printed_by_risograph_bindery{true};
+    bool handed_off_to_scenario_kappa{true};
 };
 
-void test_scenario_iota_replication_consensus() {
-    // 1. Initialize local chunk manager and testbed voxels
-    ChunkManager chunk_mgr;
-    chunk_mgr.allocate_chunk(0, 0, 0);
+inline bool verify_living_pedagogy_and_distribution(const LivingPedagogyAndDistributionState& ped) {
+    // Constitutional education invariants: zero tuition, zero surveillance, zero factory bell-curve grading
+    if (ped.tuition_fiat_cents > 0 || ped.tuition_exergy_uj > 0) return false;
+    if (ped.student_surveillance_sensors > 0 || ped.coercive_bell_curve_grading) return false;
+    if (!ped.multi_age_inquiry_circle_active) return false;
 
-    Voxel bench_voxel{
-        .material_id = 45, // RESEARCH_BENCH
-        .moisture_bps = 1000,
-        .temperature_mk = 294150, // 21 deg C
-        .metadata = 0b00000110    // Actuator + Sensor bits
-    };
-    chunk_mgr.set_voxel(16, 8, 16, bench_voxel);
-
-    // 2. Setup Bilateral Clearing Channels for 3 Independent Replicating Nodes
-    // Conservation equation: B_{u -> v}(t) + B_{v -> u}(t) = 0
-    std::string node_originator = "did:peer:2.Ez6MksG_agronomist_lee";
-    std::string node_repl1 = "did:peer:2.Ez6MkwQ_lab_station_03";
-    std::string node_repl2 = "did:peer:2.Ez6MkrP_lab_station_01";
-    std::string node_repl3 = "did:peer:2.Ez6MktL_lab_station_05";
-
-    // Channel capacities denominated in integer microjoules (3600 MJ = 3600000000000 uJ)
-    uint64_t credit_capacity_uj = 3600000000000ULL;
-    BilateralChannel chan1(node_originator, node_repl1, credit_capacity_uj);
-    BilateralChannel chan2(node_originator, node_repl2, credit_capacity_uj);
-    BilateralChannel chan3(node_originator, node_repl3, credit_capacity_uj);
-
-    assert(chan1.balance_u_to_v_uj() + chan1.balance_v_to_u_uj() == 0);
-
-    // 3. Load & Run Deterministic BPMN Orchestrator
-    BPMNEngine orchestrator;
-    orchestrator.load_schema("schemas/bpmn/epistemic_replication.bpmn");
-
-    ExperimentContext exp{
-        .bounty_id = "4f5a6b7c-8d9e-0f1a-2b3c-4d5e6f7a8b9c",
-        .replicating_nodes_required = 3,
-        .significance_alpha_bps = 100, // p < 100 bps
-        .baseline_retention_bps = 3000,
-        .target_retention_bps = 3800
-    };
-
-    // Escrow lock: Exergy lease reserved in Layer 3 (1800 MJ in microjoules)
-    uint64_t lease_uj = 1800000000000ULL;
-    orchestrator.emit_event(EscrowInitiatedEvent{node_originator, lease_uj});
-    orchestrator.await_event<EscrowLockedEvent>();
-
-    // Ingest 3 independent verified replication telemetry events in fixed-point SI
-    // Parameters: Node DID, Retention in basis points (3840 bps), p-value in bps (42 bps)
-    orchestrator.ingest_telemetry_proof(node_repl1, 3840, 42);
-    orchestrator.ingest_telemetry_proof(node_repl2, 3790, 61);
-    orchestrator.ingest_telemetry_proof(node_repl3, 3860, 38);
-
-    SimResult res = orchestrator.step_simulation_ticks(chunk_mgr, 1440);
-    assert(res.status == ExecutionStatus::COMPLETED);
-    assert(orchestrator.current_state() == BPMNState::CANON_COMMITTED);
-
-    // Execute Two-Phase Delivery Settlement across Bilateral Clearing Channels
-    uint64_t settlement_uj = 600000000000ULL; // 600 MJ per replicator
-    chan1.commit_receipt("sig_repl1", settlement_uj);
-    chan2.commit_receipt("sig_repl2", settlement_uj);
-    chan3.commit_receipt("sig_repl3", settlement_uj);
-
-    // Assert zero-sum conservation holds across all bilateral channels
-    assert(chan1.balance_u_to_v_uj() + chan1.balance_v_to_u_uj() == 0);
-    assert(chan2.balance_u_to_v_uj() + chan2.balance_v_to_u_uj() == 0);
-    assert(chan3.balance_u_to_v_uj() + chan3.balance_v_to_u_uj() == 0);
-
-    // Assert simulation physics constant dynamically patched in engine
-    assert(chunk_mgr.get_global_physics_param_uint("SOIL_WATER_RETENTION_BPS") >= 3800);
+    // Must distribute knowledge across all 4 living modalities (Offline Digital + 3D Sandbox + Print + Guilds)
+    return ped.synced_to_offline_alexandria_dag &&
+           ped.compiled_to_oasis_3d_sandbox &&
+           ped.printed_by_risograph_bindery &&
+           ped.handed_off_to_scenario_kappa;
 }
 
-void test_scenario_iota_sensor_drift_quarantine() {
-    ChunkManager chunk_mgr;
-    chunk_mgr.allocate_chunk(0, 0, 0);
-    BPMNEngine orchestrator;
-    orchestrator.load_schema("schemas/bpmn/epistemic_replication.bpmn");
-    std::string node_originator = "did:peer:2.Ez6MksG_agronomist_lee";
-    std::string node_faulty = "did:peer:2.Ez6MkwQ_lab_station_03";
+// 2. Pillar III & IV: 3-Node Empirical Replication, Metrology Drift Gate, Negative-Result Parity & Oasis Patch
+struct PeerReplicationNodeReport {
+    std::string node_did;
+    uint16_t sensor_calibration_drift_bp{0};         // Must be <= 50 bp (5 permille)
+    uint16_t measured_retention_bp{0};
+    uint16_t p_value_bp{0};                          // < 100 bp (1%) for positive confirmation
+};
 
-    uint64_t lease_uj = 1800000000000ULL;
-    orchestrator.emit_event(EscrowInitiatedEvent{node_originator, lease_uj});
-    orchestrator.await_event<EscrowLockedEvent>();
+struct EpistemicExperimentOutcome {
+    bool valid_execution{false};
+    bool positive_effect_confirmed{false};
+    bool negative_result_canonized{false};
+    uint32_t researcher_reputation_awarded{0};
+    uint16_t patched_oasis_soil_retention_bp{3000};
+};
 
-    // Inject sensor drift anomaly (drift = 140 bps > 50 bps tolerance limit)
-    orchestrator.inject_sensor_fault_bps(node_faulty, 140);
-    SimResult res = orchestrator.step_simulation_ticks(chunk_mgr, 100, true);
+inline EpistemicExperimentOutcome evaluate_replication_and_patch_oasis(
+    const std::vector<PeerReplicationNodeReport>& reports,
+    uint16_t baseline_soil_retention_bp) {
 
-    assert(res.status == ExecutionStatus::EMERGENCY_STOP);
-    assert(orchestrator.current_state() == BPMNState::METROLOGY_FAULT);
+    EpistemicExperimentOutcome out{};
+    out.patched_oasis_soil_retention_bp = baseline_soil_retention_bp;
 
-    // Physics parameters remain untouched during quarantine
-    assert(chunk_mgr.get_global_physics_param_uint("SOIL_WATER_RETENTION_BPS") == 3000);
+    // Require at least 3 topologically independent replicating nodes in R3..R5
+    if (reports.size() < 3) return out;
+    if (reports[0].node_did == reports[1].node_did ||
+        reports[1].node_did == reports[2].node_did ||
+        reports[0].node_did == reports[2].node_did) {
+        return out; // Sybil / co-located node spoofing rejected!
+    }
+
+    uint64_t sum_retention_bp = 0;
+    bool all_statistically_significant = true;
+    for (const auto& r : reports) {
+        // Metrology Gate: any sensor with drift > 50 bp invalidates the run and triggers CalibrationIntent
+        if (r.sensor_calibration_drift_bp > 50) {
+            return out;
+        }
+        sum_retention_bp += r.measured_retention_bp;
+        if (r.p_value_bp >= 100) {
+            all_statistically_significant = false;
+        }
+    }
+
+    out.valid_execution = true;
+    // Equal Reputational Wealth Parity (40 points) whether the hypothesis is confirmed OR disproven!
+    out.researcher_reputation_awarded = 40;
+
+    if (all_statistically_significant) {
+        out.positive_effect_confirmed = true;
+        out.patched_oasis_soil_retention_bp = static_cast<uint16_t>(sum_retention_bp / reports.size());
+    } else {
+        // Reproducible Negative Result: canonized to prevent mesh-wide wasted exergy, physics constant unchanged
+        out.negative_result_canonized = true;
+    }
+    return out;
 }
 
-} // namespace oasis
+// 3. Layer 3 Pairwise Bilateral Clearing Channel (BCC) Settlement
+struct BccEpistemicChannel {
+    int64_t balance_origin_to_peer_uj{0};
+    int64_t balance_peer_to_origin_uj{0};
+    int64_t credit_limit_uj{10000000000000ULL};
+};
+
+inline bool settle_replication_instrument_bcc(BccEpistemicChannel& ch, uint64_t instrument_exergy_uj) {
+    if (ch.balance_origin_to_peer_uj + static_cast<int64_t>(instrument_exergy_uj) > ch.credit_limit_uj) {
+        return false;
+    }
+    ch.balance_origin_to_peer_uj += static_cast<int64_t>(instrument_exergy_uj);
+    ch.balance_peer_to_origin_uj -= static_cast<int64_t>(instrument_exergy_uj);
+    return (ch.balance_origin_to_peer_uj + ch.balance_peer_to_origin_uj) == 0;
+}
+
+void run_all_scenario_iota_tests() {
+    // Test 1: Post-Prussian Living Pedagogy & 4-Modality Knowledge Distribution
+    LivingPedagogyAndDistributionState valid_lyceum{};
+    assert(verify_living_pedagogy_and_distribution(valid_lyceum) == true);
+
+    // Charging tuition, installing classroom surveillance cameras, or factory bell-curve grading MUST FAIL!
+    LivingPedagogyAndDistributionState factory_school_violation = valid_lyceum;
+    factory_school_violation.coercive_bell_curve_grading = true;
+    assert(verify_living_pedagogy_and_distribution(factory_school_violation) == false);
+
+    LivingPedagogyAndDistributionState tuition_violation = valid_lyceum;
+    tuition_violation.tuition_fiat_cents = 500000;
+    assert(verify_living_pedagogy_and_distribution(tuition_violation) == false);
+
+    // Test 2A: 3-Node Empirical Replication Consensus & Dynamic Oasis Physics Constant Patching
+    std::vector<PeerReplicationNodeReport> positive_reps = {
+        {"did:peer:duvall_lab_03", 18, 3840, 42},
+        {"did:peer:carnation_lab_01", 22, 3790, 61},
+        {"did:peer:snoqualmie_lab_05", 15, 3860, 38}
+    };
+    auto pos_outcome = evaluate_replication_and_patch_oasis(positive_reps, 3000);
+    assert(pos_outcome.valid_execution == true);
+    assert(pos_outcome.positive_effect_confirmed == true);
+    assert(pos_outcome.patched_oasis_soil_retention_bp == 3830); // Upgraded from 3000 bp to 3830 bp!
+    assert(pos_outcome.researcher_reputation_awarded == 40);
+
+    // Test 2B: Reproducible Negative Result Parity (Equal Reputation, Physics Constant Untouched)
+    std::vector<PeerReplicationNodeReport> negative_reps = {
+        {"did:peer:duvall_lab_03", 12, 3010, 4500},
+        {"did:peer:carnation_lab_01", 19, 2990, 5200},
+        {"did:peer:snoqualmie_lab_05", 14, 3005, 4800}
+    };
+    auto neg_outcome = evaluate_replication_and_patch_oasis(negative_reps, 3000);
+    assert(neg_outcome.valid_execution == true);
+    assert(neg_outcome.negative_result_canonized == true);
+    assert(neg_outcome.researcher_reputation_awarded == 40); // Equal honor for disproving flawed hypothesis!
+    assert(neg_outcome.patched_oasis_soil_retention_bp == 3000);
+
+    // Test 2C: Metrology Drift Fault (> 50 bp) Quarantines Experiment
+    std::vector<PeerReplicationNodeReport> drifted_reps = positive_reps;
+    drifted_reps[1].sensor_calibration_drift_bp = 140; // > 50 bp drift limit
+    auto drift_outcome = evaluate_replication_and_patch_oasis(drifted_reps, 3000);
+    assert(drift_outcome.valid_execution == false);
+
+    // Test 3: Pairwise BCC Zero-Sum Instrument Exergy Settlement
+    BccEpistemicChannel bcc{};
+    assert(settle_replication_instrument_bcc(bcc, 600000000000ULL) == true);
+    assert(bcc.balance_origin_to_peer_uj + bcc.balance_peer_to_origin_uj == 0);
+}
+
+} // namespace collective::scenario_iota
+
+int main() {
+    collective::scenario_iota::run_all_scenario_iota_tests();
+    return 0;
+}
 ```
 
 ---
 
-## 5. Acceptance Test Gates (Pass/Fail)
+## 6. Acceptance Test Gates (Pass/Fail)
 
 | Checkpoint | Validation Method | Pass Condition |
 | :--- | :--- | :--- |
-| **G1: Thermodynamic Metrology Bounds** | Proof-of-Thermodynamic-Work Audit | Energy accounting strictly denominated in fixed-point microjoules (3600 kJ per credit); zero floating-point math; zero unbacked token generation for speculative claims. |
-| **G2: Offline Autonomy** | Localhost Network Isolation | Distributed replication protocol, local consensus verification, and simulation physics patching execute to completion across local Reticulum and LoRa mesh while disconnected from the global Internet. |
-| **G3: Byzantine Detection & Sybil Defense** | Topology & Trust Ring Audit | Replicating nodes must be distinct Autonomous Nodes residing in Trust Rings `R_3` or `R_4` with divergent cryptographic roots of trust (ATECC608A) and geofenced coordinates; co-located spoofing attempts fail admission. |
-| **G4: Material Tracking & Physics Patch** | Voxel Engine Constant Update | Verified empirical discovery directly alters `SOIL_WATER_RETENTION_BPS` in the C++ engine from 3000 to 3800, extending simulated crop survival under drought conditions without crashes. |
-| **G5: Dual-Membrane Research Sponsorship (L7)** | External Bank Ingestion & Needs List | External research grants in statutory currency are deposited in the cooperative bank account under the Meshing-First rule, used strictly for itemized equipment procurement up to ceiling `Phi_t`; zero conversion into internal credits. |
-| **G6: Prior-Art Defensive Shield & Equipment Pooling (L7)** | Wholesale GPO & Immutable Timestamps | Specialized optical components are procured via Subchapter T Shared Services Agreements, while experimental datasets are deposited with immutable SHA-256 Merkle proofs to public prior-art databases under Defensive Patent License `DPL v1.1`. |
+| **G1: Post-Prussian Pedagogy & Zero Tuition/Surveillance** | Constitutional Education Audit | Verifies `tuition_fiat_cents == 0`, `tuition_exergy_uj == 0`, `student_surveillance_sensors == 0`, and `coercive_bell_curve_grading == false` across all Multi-Age Inquiry Circles. |
+| **G2: 4-Modality Living Knowledge Distribution** | Alexandria, Oasis, Print & Kappa Sync | Every canonized discovery automatically compiles into an offline Alexandria IPFS bundle, an interactive 3D Oasis learning sandbox, a soy-ink risograph printed reader, and a Scenario Kappa guild syllabus update. |
+| **G3: 3-Node Topological Replication & Metrology Drift Gate** | Sybil & Calibration Audit (`<= 50 bp`) | Requires $\ge 3$ independent Autonomous Nodes in Rings $R_3 \dots R_5$ with verified sensor calibration drift $\le 50\,\mathrm{bp}$; any sensor drift $> 50\,\mathrm{bp}$ halts the run and triggers a `CalibrationIntent`. |
+| **G4: Negative-Result Parity & Dynamic Oasis Physics Patch** | Reputation & Voxel Constant Check | Reproducible negative results earn 100% equal Reputational Wealth ($\mathcal{R}_{\mathrm{epistemic}}$) as positive breakthroughs; positive replications ($p < 100\,\mathrm{bp}$) dynamically patch Oasis voxel constants (`SOIL_WATER_RETENTION_BPS`). |
+| **G5: Defensive Prior-Art Diode (`DPL v1`) & Protocol of Refusal** | Patent Timestamp & Refusal Filter | Public discoveries are timestamped to global prior-art registries under `DPL v1`, while sacred/indigenous knowledge and protected heirloom seeds under the Protocol of Refusal are blocked from external export. |
+| **G6: 3-Stage Node Evolution & Homeschool/Grant Carapace (L7)** | Stage 1–3 Blueprint Audit | Verifies progression from Stage 1 living-room homeschool/unschool inquiry pod (statutory umbrella shield) to Stage 2 co-located Community Lyceum & Citizen Lab to Stage 3 Bioregional Open Conservatory & Metrology Institute CLT. |

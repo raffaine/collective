@@ -6,6 +6,7 @@ Click on any Scenario Name to view its detailed workflow, physical acceptance te
 
 | ID | Scenario Name | Primary Layers | Engine Status | Schema Status |
 | :--- | :--- | :--- | :--- | :--- |
+| **Zero** | [The Sovereign Software Forge (Meta-Scenario)](./scenarios/zero_software.md) | L1 through L7 (Meta) | 🟢 Verified (Stage 1) | 🟢 Verified (Stage 1) |
 | **Alpha** | [The Fabrication Commons](./scenarios/alpha_fabrication.md) | L1, L2, L3, L4 | 🔴 Unstarted | 🔴 Unstarted |
 | **Beta** | [Decentralized Transit (Carpool)](./scenarios/beta_transit.md) | L3, L4, L5, L6 | 🔴 Unstarted | 🔴 Unstarted |
 | **Gamma** | [The Commons Kitchen](./scenarios/gamma_kitchen.md) | L2, L3, L4, L6 | 🔴 Unstarted | 🔴 Unstarted |
@@ -24,7 +25,7 @@ Click on any Scenario Name to view its detailed workflow, physical acceptance te
 | **Pi** | [The Sovereign Guild (Identity & Treasury)](./scenarios/pi_guild.md) | L2, L4, L5, L6 | 🔴 Unstarted | 🔴 Unstarted |
 | **Rho** | [The Adversarial Mesh (Threat Modeling & Defense)](./scenarios/rho_adversarial.md) | L2, L3, L5 | 🔴 Unstarted | 🔴 Unstarted |
 | **Sigma** | [Altruism Fatigue (Burnout)](./scenarios/sigma_burnout.md) | L3, L4, L6 | 🔴 Unstarted | 🔴 Unstarted |
-| **Tau** | [Steward Genesis (Character Creation)](./scenarios/tau_genesis.md) | L2, L6, L7 | 🔴 Unstarted | 🔴 Unstarted |
+| **Tau** | [Steward Genesis (Character Creation)](./scenarios/tau_genesis.md) | L2, L6, L7 | 🟢 Verified (Stage 1) | 🟢 Verified (Stage 1) |
 | **Upsilon**| [Ecological Shock (Disaster Resilience & Nurture)](./scenarios/upsilon_shock.md) | L1, L2, L3, L4 | 🔴 Unstarted | 🔴 Unstarted |
 | **Phi** | [Elder Ring & End-of-Life](./scenarios/phi_elder.md) | L2, L4, L5, L6 | 🔴 Unstarted | 🔴 Unstarted |
 | **Chi** | [Paramedic Mesh & Pharmacopeia](./scenarios/chi_paramedic.md) | L1, L2, L4, L5 | 🔴 Unstarted | 🔴 Unstarted |

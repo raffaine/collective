@@ -1,9 +1,9 @@
-# Scenario Xi: Living Architecture & Algorithmic Urban Retrofit
+# Scenario Xi: Ecological Architecture, Medium-Scale Integrated Complexes, Bioregional Civil Works & The Intimate Hearth
 
 *   **Identifier:** `SCN-XI-ARCH`
-*   **System Epic:** Living Architecture, Parametric Structural Joinery, and Dual-Chassis Urban Retrofit
-*   **Primary Layers Tested:** L1 (Physical Reality), L2 (The Cybernetic Membrane), L3 (The Thermodynamic Ledger), L4 (The Deterministic Orchestrator), L5 (Polycentric Governance), L6 (Semantic Translation & Agora), L7 (The Legacy Interface)
-*   **Pass/Fail Metric:** Procedural generation of structural blueprints matching localized physical materials inventories; finite-element load simulation ensuring factor of safety $\ge 2500\text{ basis points}$ prior to physical assembly; bare land title held in Community Land Trust / PPT with reciprocal easements; zero software in Layer 1; zero fractional real estate equity tokens; multi-hop clearing of timber and hardware across Pairwise Bilateral Clearing Channels ($B_{u \to v}(t) + B_{v \to u}(t) = 0$); successful municipal permit intake via Layer 6/7 DMZ sandbox.
+*   **System Epic:** Multi-Scale Architecture & Civil Engineering—Blending Structural Mechanics, Pragmatic Layer 7-to-Layer 1 Transition Tradeoffs, Medium-Scale Courtyard Complexes, Large-Scale Bioregional Bridges/Ecoducts, and the Intimate "Knitted Sweater" of Personal Hearth Craft ($R_0$)
+*   **Primary Layers Tested:** L1 (Physical Reality), L1b (Oasis 3D Shadow Simulator), L2 (Cybernetic Membrane), L3 (Thermodynamic Ledger), L4 (Deterministic Orchestrator), L5 (Polycentric Governance), L6 (Semantic Translation & Agora), L7 (Legacy Interface)
+*   **Pass/Fail Metric:** Life-safety Finite-Element Analysis (`FEA`) on primary load-bearing structures achieving a Factor of Safety $\ge 25000\,\mathrm{bp}$ ($250\%$ of yield load); dynamic simulation of **Layer 5 Community Governance Covenants** (allowing each node to choose its own pragmatic balance between legacy Layer 7 materials like Portland cement/adhesives and circular bioregional geopolymers/dry joinery, while accurately pricing the resulting Ecological Replacement Cost `ERC` and future deconstruction recovery yield on Layer 1); constitutional protection of **$R_0$ Intimate Hearth Infill & *Wabi-Sabi* Handcraft** (exempting personal rooms, hand-sculpted cob nooks, and domestic expression from LiDAR/BIM precision policing); bare land title locked in a Community Land Trust (CLT) / Perpetual Purpose Trust (PPT); zero fractional real-estate tokens; and zero IEEE 754 floating-point math.
 
 ---
 
@@ -13,235 +13,197 @@ This scenario specification has been ratified by unanimous consensus of the 5-Pe
 
 | Council Persona | Disciplinary Representative | Core Contribution to Scenario |
 | :--- | :--- | :--- |
-| **Game Designer** | Lead Systems & Gameplay Designer | Dwarf Fortress structural stability & cave-in dread: Founder 01 coordinating timber joinery alongside neighbors; psychological thoughts and stress accumulators (`"Astonished by the beauty of the timber arch (+45 mood)"` vs `"Dreaded structural sagging warning sound (-50 stress)"`); Sims-style spatial remodeling satisfaction; Cities Skylines solar shadow envelope raycasting; boundary interface structural hardening where physical retrofits reduce thermal dissipation and weaken legacy utility extortion. |
-| **Game Engineer** | Principal C++ Simulation & Engine Architect | Flecs ECS DOD architecture: `StructuralVoxelComponent`, `JoineryLoadComponent`, `BccMaterialClearingComponent`, `LiDarAttestationComponent`; 32-bit compact voxels: `material_id = 60` `TIMBER_STRUT_VOXEL`, `material_id = 61` `PETG_CONNECTOR_HUB`, `material_id = 62` `PHANTOM_BLUEPRINT_VOXEL`; structural load propagation cellular automata; 10 Hz BPMN barn-raising state machine; compilable C++20 fixed-point test harness verifying load yield limits, BCC material ledger settlement, and anomaly rollbacks with zero IEEE 754 floats. |
-| **Sovereign Stack Specialist** | Sovereign Stack Systems Architect | 7-layer strict adjacency without layer skipping via `l1_l2.sock` through `l6_l7.sock`; zero software, zero firmware, and zero keys in Layer 1; bare land title in Community Land Trust / PPT with reciprocal easements; Pairwise Bilateral Clearing Channels ($B_{u \to v}(t) + B_{v \to u}(t) = 0$); multi-hop HTLCs; zero global tokens; zero fiat conversions; zero monolithic game-loop threading. |
-| **Solarpunk Thinker** | Bioregional Regenerative Ecologist | Buildings as active carbon sinks: sequestering coppiced roundwood timber from Scenario Eta and biochar insulation from Scenario Mu; strict deconstruction mandates requiring dry joinery: bolts and wooden pegs over toxic chemical adhesives; passive solar envelope orientation; zero Portland cement footprint. |
-| **Scenario Specialist** | Computational Architect & Structural Biomaterials Engineer | Finite-element voxel beam load formula $\sigma_{\mathrm{actual}} = \frac{M y}{I} + \frac{F_{\mathrm{axial}}}{A} \le \sigma_{\mathrm{allowable}}$ in integer millipascals; International Residential Code IRC Appendix AQ timber framing engineering variance standards; solar vector shadow raycasting algorithm $\vec{S} \cdot \hat{n} > 0$; procedural bill of materials BOM compilation. |
+| **Game Designer** | Lead Systems & Gameplay Designer | **Embracing Imperfection (L7 $\leftrightarrow$ L1 Tradeoffs) & The "Knitted Sweater" of Personal Architecture:** Avoids rigid ideological bans by turning material choices into meaningful gameplay and governance tradeoffs. A bootstrapping node can pour a quick Layer 7 Portland-cement slab or use commercial plywood/glue to beat a winter freeze or satisfy a rigid municipal inspector (`l7_permit_friction_bps` drops), accepting higher embodied `ERC` and lower future deconstruction yield (`demountable_yield_bps = 6500`). Simultaneously models **Two Axes of Architectural Meaning**: grand civic awe (`+4500 bp` `CivicArchitecturalAweBuff` from bridges and vaults) and intimate domestic warmth (`+4000 bp` `PersonalHearthPatinaBuff` from a hand-carved window seat, family mosaic tiles, or a slightly crooked cob bench sculpted with friends—the architectural equivalent of a hand-knitted sweater). |
+| **Game Engineer** | Principal C++ Simulation & Engine Architect | **Open-Building Support-vs-Infill Voxel Architecture:** Separates voxels into **Primary Load-Bearing Support (`is_primary_structural = true`)**—which requires strict FEA safety checks ($\ge 25000\,\mathrm{bp}$) and LiDAR alignment ($\le 3000\,\mu\mathrm{m}$)—and **Non-Structural $R_0 / R_1$ Personal Infill (`is_primary_structural = false`)**, where stewards freely sculpt, paint, and modify voxels with zero LiDAR deviation alarms. Computes integer `ERC` penalties and deconstruction recovery yields across mixed Layer 7 / bioregional material assemblies with zero floating-point math. |
+| **Sovereign Stack Specialist** | Sovereign Stack Systems Architect | **7-Layer Strict Adjacency, Polycentric Policy Choice & CLT Tenure:** Enforces strict socket boundaries (`l1_l2.sock` through `l6_l7.sock`, traversing `/run/collective/ipc/l4_l5.sock`). Material standards (such as geopolymer vs. Portland cement allowances or dry-joinery targets) are governed by **Layer 5 Node-Local Covenants (`NodeArchitecturalPolicy`)**, never hardcoded as universal dogma. Bare land title is held in an Irrevocable CLT/PPT (`real_estate_tokens_minted == 0`), while Pairwise Bilateral Clearing Channels (BCC) and multi-hop HTLCs clear inter-node timber, stone, and hardware. |
+| **Solarpunk Thinker** | Bioregional Regenerative Ecologist | **Transitional Realism, Carbon Sinks & Bioregional Connectivity:** Recognizes that communities emerge inside an imperfect, concrete-heavy Layer 7 world. Provides a realistic evolutionary pathway from adaptive reuse of imperfect suburban/urban shells toward carbon-sequestering mass timber (`SCN-ETA-COPPICE`), biochar-hempcrete (`SCN-MU-EXTRACTION`), slag/clay geopolymers (`SCN-THETA-FOUNDRY`), and large-scale **Wildlife Overpass Ecoducts** that heal fragmented ecosystems. |
+| **Scenario Specialist** | Principal Structural Engineer, Master Timber Framer & Open-Building Theorist | **Habraken Support-and-Infill & Multi-Scale Structural Physics:** Applies N.J. Habraken's *Open Building* theory: engineered longevity for the shared structural chassis (Scale 2 multi-story mixed-use complexes with `STC >= 65` acoustic isolation and Scale 3 long-span timber/stone bridges) paired with soulful, unpoliced human agency for the interior domestic hearth. |
 
-**Ratification Statement:** Unanimous Consensus Reached. All five council personas have formally validated that this scenario specification adheres strictly to the 7-Layer Sovereign Stack architecture, eliminates all deprecated rhetoric, replaces floating-point math with fixed-point SI integer arithmetic, enforces bare land title holding in Community Land Trusts with reciprocal easements, eliminates software from Layer 1, and anchors materials clearance in Pairwise Bilateral Clearing Channels.
+**Unanimous Consensus Reached:** This specification was formally ratified by all 5 personas, establishing Scenario Xi as a deeply human, non-dogmatic, multi-scale architectural and civil engineering keystone.
 
 ---
 
-## 1. Problem Statement & Legacy Failure
+## 1. Problem Statement, Legacy Failure & The Two Souls of Architecture
 
-In legacy late-stage capitalist infrastructure (Layer 7), architecture and shelter have been captured by financialization, globalized carbon-heavy supply chains, and hostile municipal zoning. Standard construction relies on high-embodied-energy materials (Portland cement, virgin rolled steel, petrochemical fiberglass insulation) designed for rapid speculative assembly rather than longevity or thermodynamic performance.
+In late-stage extractive economies (Layer 7), the built environment traps humanity between two extremes—speculative commercial uniformity and rigid bureaucratic enclosure:
+1.  **The Mortgage Debt Trap & High-Entropy Defaults:** Conventional real estate forces households into 30-year compounding debt for disposable light-frame boxes built from clear-cut timber, high-emissions materials, and toxic glues that cannot be repaired or adapted without demolition.
+2.  **The Danger of Top-Down Ecological Dogma:** Conversely, when utopian movements attempt to impose rigid, absolute bans on every legacy material from day one, they paralyze bootstrapping communities. A fledgling node converting a leaky 1970s suburban house or an old concrete warehouse—or dealing with a municipal building inspector who refuses to sign off on an unfamiliar geopolymer footing—must be able to make pragmatic compromises with Layer 7 reality without being rejected by its own software stack.
+3.  **Erasing the Intimate "Knitted Sweater" of Home:** Just as industrial fast fashion alienated people from making their own clothes, modernist architecture reduced shelter to sterile, standardized boxes where residents are forbidden (by landlords, HOAs, or over-zealous engineering purists) from leaving their personal mark. Yet a home or workshop nook is not an engineering diagram; like a hand-knitted sweater made by a grandmother or a custom shirt stitched for oneself (`SCN-NU-TEXTILES`), a deeply loved space holds **imperfections, handprints, memories, and personal artistry**.
 
-When an intentional community or homeowner attempts to build or retrofit shelter:
-*   **The Financialized Mortgage Debt Trap:** Constructing or modifying physical shelter requires borrowing hundreds of thousands of dollars in debt under 30-year mortgages at compounding interest rates. Mutual aid labor and collective "Sweat Equity" are completely uncapitalized and unrecognized by legacy banking institutions.
-*   **High-Entropy Material Supply Drag:** Dimensional lumber is harvested from distant, clear-cut monoculture plantations, kiln-dried with fossil fuels, and trucked across continents, while native, locally coppiced hardwood and secondary materials remain neglected.
-*   **Bureaucratic Permit Enclosure & Partition Fragility:** Municipal building departments enforce rigid, prescriptive building codes that outlaw non-standard materials (e.g., roundwood poles, straw-clay infill, 3D-printed structural brackets) unless prohibitive fees are paid to commercial engineering firms. Furthermore, speculative property titles expose communities to predatory judicial auctions and tax foreclosure seizures.
+### 1A. Embracing Imperfection (L7 $\leftrightarrow$ L1 Dynamics) & Blending Engineering with Intimate and Civic Expression (`Lambda`)
+
+Scenario Xi (`SCN-XI-ARCH`) resolves these tensions through three foundational principles across all scales of the built environment:
+
+```mermaid
+flowchart TD
+    subgraph Material_Spectrum ["Pragmatic L7-to-Bioregional Material Spectrum (L5 Governance Choice)"]
+        L7_Mat["Legacy Layer 7 Pragmatic Inputs<br/>Portland Cement Footings, Commercial Plywood, Structural Glues & Sheetrock<br/>(Fast Municipal Permit Approval | Higher ERC Cost | Lower Deconstruction Yield)"]
+        Bio_Mat["Regenerative Bioregional Inputs (Eta + Theta + Mu + Alpha)<br/>Solar-Kiln Mass Timber, Kigumi Dry Joinery, Slag Geopolymers & Biochar-Hempcrete<br/>(Net Carbon Sink | 10000 bp Demountable Recovery | Lower Long-Term Entropy)"]
+    end
+
+    subgraph Two_Souls ["The Two Souls of Architectural Expression (Habraken Support vs Infill)"]
+        Support["1. The Engineered Structural Chassis ('Support' — R_1 / R_2 / R_3)<br/>Scale 2 Mixed-Use Courtyard Complexes (STC>=65) & Scale 3 Bioregional Bridges/Ecoducts<br/>(Strict FEA Safety >=25000 bp | LiDAR Precision <=3000 um | Civic Monumentality)"]
+        Infill["2. The Intimate Personal Hearth ('Infill' — R_0 / R_1 'Knitted Sweater' of Space)<br/>Hand-Sculpted Cob Benches, Family Mosaic Tiles, Carved Doorjambs & Demountable Partitions<br/>(Zero LiDAR/BIM Policing | Wabi-Sabi Imperfection | Deep Personal Memory & Patina)"]
+    end
+
+    subgraph Scales ["Three Integrated Spatial Scales"]
+        S1["Scale 1: Micro Retrofit, Self-Built Garden Nooks & Backyard ADUs"]
+        S2["Scale 2: Medium-Scale Multi-Scenario Courtyard Arcologies"]
+        S3["Scale 3: Large-Scale Bioregional Bridges, Wildlife Ecoducts & Watershed Works"]
+    end
+
+    L7_Mat --> Support
+    Bio_Mat --> Support
+    Bio_Mat --> Infill
+    L7_Mat --> Infill
+    Support --> S1
+    Support --> S2
+    Support --> S3
+    Infill --> S1
+    Infill --> S2
+```
+
+1.  **Embracing Imperfection & Layer 5 Governance Choice (How Layer 7 Shapes Layer 1):**
+    *   Rather than hardcoding dogmatic material bans into the protocol, Scenario Xi treats material selection as a **polycentric governance decision (`NodeArchitecturalPolicy`)** ratified by each node's Commons Chamber according to its local context, climate urgency, and stage of maturity.
+    *   **How Layer 7 Influences Layer 1 in Gameplay & Reality:**
+        *   When a Stage 1 or Stage 2 node faces a strict municipal building department (`Layer 7`) that demands a conventional poured Portland-cement foundation wall, or when stewards need to patch a roof before a winter storm using commercial hardware-store plywood and adhesive, the node's Layer 5 policy can authorize a **Pragmatic Layer 7 Material Variance**.
+        *   The Stack and Oasis (`L1b`) embrace this imperfection and faithfully model its physical consequences on **Layer 1**: using Layer 7 cement or structural glue lowers immediate municipal permitting friction (`l7_permit_friction_bps`) and speeds initial erection, *but* increases the build's **Ecological Replacement Cost (`ERC`)** on Layer 3 and reduces the voxel's **Future Deconstruction Recovery Ratio** (e.g., from $10000\,\mathrm{bp}$ for dry bolted *Kigumi* timber down to $5500\,\mathrm{bp}$ for glued/cast-in-place assemblies, requiring extra jackhammering exergy in Scenario Mu when the space is eventually remodeled).
+        *   As the node matures and unlocks Scenario Theta geopolymers, Scenario Eta mass timber, and Scenario Xi PE-stamped alternative material variances, the community organically migrates its buildings toward net-negative biogenic carbon sinks—turning the struggle against Layer 7 inertia into an emergent, rewarding narrative arc!
+2.  **The Two Souls of Architecture (`Lambda` Synthesis): Civic Monumentality vs. The "Knitted Sweater" of the Personal Hearth ($R_0$):**
+    *   **Habraken's *Support* and *Infill* Separation:** Scenario Xi divides every architectural work into two distinct layers of stewardship:
+        *   **The Engineered *Support* Chassis ($R_1 / R_2 / R_3$):** The primary columns, beams, floor slabs, seismic base isolators, courtyard vaults, and bioregional bridge arches that hold up the sky and protect everyone's physical safety. Here, structural engineering and civic artistry merge: Finite-Element Analysis (`FEA` Factor of Safety $\ge 25000\,\mathrm{bp}$) and LiDAR alignment ($\le 3000\,\mu\mathrm{m}$) are strictly enforced, and structural forms (exposed reciprocal timber vaults, Guastavino compression tiles, solstice light-wells) inspire collective pride (`+4500 bp` `CivicArchitecturalAweBuff`).
+        *   **The Intimate *Infill* & Personal Hearth ($R_0 / R_1$ — The "Knitted Sweater" of Space):** Once the primary structural frame is certified safe, the interior domestic sanctuaries (`SCN-ZETA-LODGING`), studio corners (`SCN-LAMBDA-CULTURE`), garden alcoves, and non-load-bearing partitions belong to the **human hand and heart**. Just like a hand-knitted sweater or a custom-stitched shirt (`SCN-NU-TEXTILES`), a person's living space is a deeply personal, tactile work of art.
+        *   **Zero BIM Policing in the Hearth (`r0_hearth_exempt_from_bim == true`):** Inside an $R_0$ Hearth or non-structural community nook, **LiDAR deviation checks and algorithmic BIM tolerances are completely turned off**. A family can sculpt a slightly lumpy, curving earthen cob bench by hand; press broken heirloom teacup shards into a kitchen mosaic backsplash; carve their children's height notches into a timber doorpost; paint freehand mineral-ochre murals (`SCN-LAMBDA-CULTURE`); or build a quirky reading loft. Oasis and the Stack honor this lived-in *Wabi-Sabi* imperfection with a continuous `+4000 bp` **`PersonalHearthPatinaBuff`**, recognizing that a slightly crooked window seat built with love is far more comforting to the human psyche than a sterile, machine-perfect box.
+3.  **Three Integrated Spatial Scales (`Scale 1` $\to$ `Scale 2` $\to$ `Scale 3`):**
+    *   **Scale 1 (Micro / Domestic Retrofits, Self-Built Nooks & Backyard ADUs — $R_0 / R_1$):** Adapting imperfect suburban homes with hempcrete/biochar wraps, raising demountable backyard *Kigumi* studios, and hand-crafting intimate domestic hearths.
+    *   **Scale 2 (Medium-Scale Integrated Multi-Scenario Courtyard Arcologies — $R_2$):** 3-to-8 story (`2000 m2` to `15000 m2`) mixed-use complexes where heavy fabrication/foundry/compute bays (`Alpha`/`Theta`/`Epsilon`) sit on acoustically isolated (`STC >= 65` / $\ge 650\,\mathrm{cB}$) ground plinths, civic kitchens/childcare/libraries/ateliers (`Gamma`/`Delta`/`Iota`/`Lambda`/`Nu`) ring a central daylit **Living Machine Courtyard**, and upper residential hearths (`Zeta`) are warmed by $\ge 8000\,\mathrm{bp}$ hydronic waste-heat cascades.
+    *   **Scale 3 (Large-Scale Bioregional Architecture, Bridges, Ecoducts & Civil Works — $R_3 / R_4 / R_5$):** Long-span covered mass-timber and stone arch bridges carrying Scenario Beta's 5-artery transit across river canyons, $50\,\mathrm{m}$-wide vegetated **Wildlife Overpass Ecoducts** reconnecting forest ecosystems over highways, keyline earthworks, and subterranean aqueducts.
 
 ---
 
 ## 2. The Collective Workflow (7-Layer Traversal)
 
-Scenario Xi deploys open-source parametric design and algorithmic structural engineering to dynamically match architecture to localized material inventories, orchestrating community "Barn-Raising" events capitalized via thermodynamic mutual aid without debt. The workflow traverses canonically from Layer 1 physical execution up to Layer 7 legacy market interfaces.
+Scenario Xi coordinates structural engineering, pragmatic Layer 7 permitting/material tradeoffs, circular BOM clearing, and protected $R_0$ hearth customization across the 7-layer stack without layer-skipping.
 
 ```mermaid
 graph TD
-    L6[Layer 6: Semantic Intent] -->|Emit ParametricBuildIntent| L5[Layer 5: Polycentric Governance]
-    L5 -->|Finite-Element Safety & Solar Rights Check| L4[Layer 4: Deterministic Orchestrator]
-    L4 -->|Reserve Material Quotas in BCC| L3[Layer 3: Thermodynamic Ledger]
-    L3 -->|Submit Kinetic Assembly Envelope| L2[Layer 2: Cybernetic Membrane]
-    L2 -->|LiDAR Photogrammetry & Laser Alignment Guides| L1[Layer 1: Physical Reality]
-    L1 -->|Timber Joinery Assembly & Through-Bolting| End((Structure Certified & Hardware Receipt Signed))
+    L7[Layer 7: Legacy Interface] <-->|l6_l7.sock: CLT Title Deeds, PE Stamped Permits & L7 Material Variances| L6[Layer 6: Semantic Translation & Agora]
+    L6 <-->|l5_l6.sock: Multi-Scale Build Intents, L5 Material Policies & Treaty CIDs| L5[Layer 5: Polycentric Governance]
+    L5 <-->|l4_l5.sock: Ratified Support FEA Gates, R0 Infill Exemptions & Barn-Raising| L4[Layer 4: Deterministic Orchestrator]
+    L4 <-->|l3_l4.sock: Biogenic/L7 ERC Accounting, Deconstruction Yield & BCC Escrows| L3[Layer 3: Thermodynamic Ledger]
+    L3 <-->|l2_l3.sock: Support LiDAR/Strain Attestations & Delivery Receipts| L2[Layer 2: Cybernetic Membrane]
+    L2 <-->|l1_l2.sock: Support Laser Guides, Strain Gauges & Torque Drivers| L1[Layer 1: Physical Reality]
+    L2 <-->|Support Voxel FEA, L7-to-L1 ERC Sim & Solstice Raycasting| L1b[Layer 1b: Oasis 3D Shadow Simulator]
 ```
 
-### Layer 1: Physical Reality
-*   **Hardware Nodes (Assembly & Fabrication Hardware):** CNC timber joinery routers, high-torque battery framing impact drivers, rotary laser leveling transits, portable rigging winches, and scaffolding towers. Layer 1 contains zero software, zero firmware, zero cryptographic keys, and zero network routing daemons. It consists purely of structural roundwood poles, 3D-printed joint hubs, through-bolts, and analog load transducers.
-*   **Hardware Nodes (Verification Transducers):** High-resolution LiDAR scanners, digital torque wrenches, and embedded piezoelectric strain gauges.
-*   **Inventory & Feedstock:** Seasoned coppiced black locust and alder roundwood poles (Scenario Eta), heavy-duty 3D-printed recycled PETG joint hubs (Scenario Alpha), biochar-clay thermal insulation blocks (Scenario Mu), and M12 galvanized through-bolts.
-*   **Action:** Physical erection of timber bents, insertion of through-bolts, mortise-and-tenon pinning, tamping of carbon-sequestering biochar insulation, and weatherproofing with raw linseed oil.
+### Layer 1: Physical Reality & Layer 1b: Oasis 3D Shadow Simulator
+*   **Hardware Reality (`Layer 1`):** Physical structures spanning the full spectrum from pragmatic transitional retrofits to fully regenerative bioregional architecture:
+    *   **Bioregional Structural & Hearth Materials:** Solar-kiln-dried cross-laminated timber (`CLT`), glulam arches, and black-locust roundwood poles (`SCN-ETA-COPPICE`); alkali-activated slag/clay geopolymer stone, compressed earth blocks (`CEB`), cullet glass, and silicon-bronze/recycled-steel joinery hubs (`SCN-THETA-FOUNDRY`); salvaged structural steel/brick and biochar-hempcrete insulation (`SCN-MU-EXTRACTION`); hand-mixed earthen cob, lime-ochre fresco plasters, and ceramic mosaic tiles (`SCN-LAMBDA-CULTURE`).
+    *   **Pragmatic Transitional Layer 7 Materials (When Authorized by L5 Node Policy):** Existing or code-mandated Portland-cement footings, commercial structural plywood/OSB, EPDM roofing membranes, triple-pane commercial IGUs, and code-required structural fasteners/sealants.
+*   **Oasis 3D Shadow Simulator (`Layer 1b`):**
+    *   **Support FEA vs. Infill Freedom:** Oasis runs strict integer Finite-Element Analysis (`FEA`), seismic shake-table simulations, and solar-envelope raycasting ($\Delta \Phi_{\mathrm{solar}} < 500\,\mathrm{bp}$) on **Primary Structural Support Voxels**, while giving stewards a cozy, intuitive freeform sculpting and decorating sandbox for **$R_0 / R_1$ Personal Hearth Infill Voxels**.
+    *   **Layer 7 $\leftrightarrow$ Layer 1 Tradeoff Simulator:** Before a node votes on a build plan, Oasis visualizes the exact tradeoff between using fast Layer 7 materials versus bioregional circular materials—showing Permitting Lead Time, upfront Exergy/Fiat cost, Ecological Replacement Cost (`ERC`), Net Carbon Balance, and Future Deconstruction Recovery Yield (`demountable_yield_bps`).
 
 ### Layer 2: The Cybernetic Membrane
-*   **Embedded Controllers & Daemons:** Zephyr RTOS microcontrollers executing `col-sensord` and `col-actuated` across `/run/collective/ipc/l1_l2.sock`. Microcontrollers hold hardware roots of trust (ATECC608A) for signing sensor receipts.
-*   **Canonical Fixed-Point SI Wire Formats:**
-    *   Structural Mechanical Stress: `uint64_t` millipascals ($\mathrm{mPa}$).
-    *   Spatial LiDAR Deviation: `uint32_t` micrometers ($\mu\mathrm{m}$, where $3000\,\mu\mathrm{m} \equiv 3\text{ mm}$).
-    *   Plumbness Alignment Error: `uint32_t` millidegrees ($\mathrm{mdeg}$, where $120\text{ mdeg} \equiv 12\text{ centidegrees}$).
-    *   Bolt Torque: `uint32_t` millinewton-meters ($\mathrm{mN\cdot m}$).
-    *   Piezoelectric Microstrain: `uint32_t` microstrain units ($\mu\varepsilon$).
-    *   Thermodynamic Temperature: `uint32_t` millikelvin ($\mathrm{mK}$).
-*   **Verification:** Drone photogrammetry overlaying physical assembly against the parametric BIM model in $<600000\text{ ms}$ (10 minutes); flagging any joinery misalignment exceeding $3000\,\mu\mathrm{m}$ before upper purlins are placed.
-*   **Actuator Control:** Automated optical alignment laser guides projecting target mortise coordinates directly onto physical wooden timbers.
+*   **Selective Telemetry Boundary (`col-sensord`):** Low-power Zephyr RTOS microcontrollers monitor **only shared primary load-bearing support elements** (`is_primary_structural == true`) across `/run/collective/ipc/l1_l2.sock`:
+    *   `node/arch/support_01/telemetry/stress_mpa` (Primary column/arch mechanical stress in integer millipascals, `uint64_t` $\mathrm{mPa}$)
+    *   `node/arch/support_01/telemetry/lidar_deviation_um` (Primary frame alignment deviation in micrometers; gate $\le 3000\,\mu\mathrm{m}$ [$3\,\mathrm{mm}$] for load-bearing bents)
+    *   `node/arch/complex_01/telemetry/floor_isolation_cb` (Acoustic isolation between industrial/compute ground plinths and upper residences; gate $\ge 650\,\mathrm{cB}$ [`STC >= 65`])
+*   **Constitutional Exemption of $R_0$ Hearth & Handcraft (`r0_hearth_exempt_from_bim == true`):** Layer 2 **never scans, measures, or flags non-structural $R_0$ domestic interiors or hand-sculpted community art features** for LiDAR geometry deviations. Hand-built cob benches, carved mantelpieces, and custom room partitions are completely free from algorithmic precision policing.
 
 ### Layer 3: The Thermodynamic Ledger
-*   **Pairwise Bilateral Clearing Channels (BCC):** Sourcing raw roundwood poles from Scenario Eta and biochar blocks from Scenario Mu settles through pairwise channels satisfying the conservation invariant:
-    $$B_{u \to v}(t) + B_{v \to u}(t) = 0$$
-    bounded by mutual aid credit windows:
-    $$-C_{u \to v} \le B_{u \to v}(t) \le C_{v \to u}$$
-*   **Proof-of-Thermodynamic-Work (PoTW) Materials Accounting:** Instead of speculative mortgage debt, structural materials are cleared against physical exergy and biomass metrics:
-    $$\Delta \mathcal{E}_{\mathrm{build}} = \sum_{i=1}^{n} \left( \mathcal{E}_{\mathrm{kinetic}, i} + m_{\mathrm{biomaterial}, i} \cdot k_{\mathrm{embodied}} \right)$$
-    Where $m_{\mathrm{biomaterial}, i}$ is mass in integer milligrams ($\mathrm{mg}$) and mechanical energy is in integer microjoules ($\mu\mathrm{J}$).
-*   **Absolute Ban on Fractional Occupancy Tokens:** Layer 3 structurally refuses to mint fractional equity tokens, real estate shares, or tradable deeds. Physical shelter is held in common stewardship. Stewards obtain unalienable occupancy covenants through membership standing, never through capital ownership.
-*   **Multi-Hop Chained Hashed Timelock Contracts (HTLC):** Inter-node freight for structural hardware delivered across watershed corridors clears via multi-hop HTLCs $\langle H(S), \Delta t, Q, u, v \rangle$, settling atomically upon signed physical delivery receipts $\sigma_{\mathrm{delivery}}$.
+*   **Honest Accounting of Imperfection (ERC & Deconstruction Recovery Yield):**
+    *   Instead of outlawing legacy materials at the ledger level, Layer 3 accounts for the actual thermodynamic and ecological properties of every material assembly:
+        $$M_{\mathrm{C,net}} = M_{\mathrm{C,biogenic\_sequestered}} - M_{\mathrm{C,process\_and\_l7\_embodied}}$$
+        $$\mathrm{RecoveryYield}_{\mathrm{bps}} = \frac{\sum m_{i,\mathrm{demountable}} \times 10000}{M_{\mathrm{total}}} \in [0, 10000]\,\mathrm{bp}$$
+    *   A 100% dry-joined *Kigumi* timber and geopolymer build records a net-positive carbon sink ($M_{\mathrm{C,net}} > 0$) and a $10000\,\mathrm{bp}$ ($100\%$) future deconstruction recovery yield. A pragmatic hybrid build that uses a Layer 7 Portland-cement footing or glued panels to pass a rigid municipal code inspection is lawfully recorded with its exact `ERC` surcharge and a partial recovery yield (e.g., $7200\,\mathrm{bp}$), automatically scheduling future remediation/recycling credits with Scenario Mu (`SCN-MU-EXTRACTION`) when the structure is eventually upgraded.
+*   **Pairwise Bilateral Clearing Channels (BCC) & Multi-Hop HTLCs:** Inter-node timber (`SCN-ETA-COPPICE`), geopolymer stone (`SCN-THETA-FOUNDRY`), and CNC joinery (`SCN-ALPHA-FAB`) exchanges clear across Trust Rings $R_3$ and $R_4$ via zero-sum Pairwise BCCs ($B_{u \to v}(t) + B_{v \to u}(t) = 0$) and chained HTLCs, with zero fractional real-estate tokens (`real_estate_tokens_minted == 0`).
 
 ### Layer 4: The Deterministic Orchestrator
-The deterministic BPMN 2.0 engine (`col-execd`) coordinates design decomposition, sub-bounty routing, and assembly milestones over `/run/collective/ipc/l4_l5.sock`:
+*   **State Machine Daemon:** `col-execd` executes a $10\,\mathrm{Hz}$ deterministic BPMN v2 virtual machine over `/run/collective/ipc/l4_l5.sock` and `/run/collective/ipc/l3_l4.sock`.
+*   **Two-Track Orchestration (Strict Life-Safety Support vs. Convivial Personal Infill):**
+    1.  **Primary Structural Support Track:** Enforces `safety_factor_bps >= 25000` ($250\%$ yield margin), neighbor solar-rights protection ($\Delta \Phi_{\mathrm{solar}} < 500\,\mathrm{bp}$), `lidar_deviation_um <= 3000` on load-bearing joints, and compliance with the local node's ratified Layer 5 `min_demountable_yield_bps_policy`.
+    2.  **Personal Hearth & Handcraft Track ($R_0 / R_1$):** Verifies only that the modification does not cut or overload a primary load-bearing column/beam (`touches_primary_support == false`), then immediately unlocks tools and materials for freeform human expression without LiDAR or BIM conformity checks.
 
 ```mermaid
 stateDiagram-v2
-    [*] --> ParametricDesignReceived: Build Intent Emitted
-    ParametricDesignReceived --> FEASimulation: Check Mechanical Limits
-    FEASimulation --> DesignRejected: Factor of Safety < 2500 Basis Points
-    DesignRejected --> ParametricDesignReceived: Regenerate Geometry
-    FEASimulation --> SolarEnvelopeCheck: Structural Simulation Pass
-    SolarEnvelopeCheck --> DesignRejected: Casts Shadow on Adjacent Solar Array
-    SolarEnvelopeCheck --> GenerateBOM: Solar Rights Validated
-    GenerateBOM --> RouteSubBounties: Timber (Eta) & Hubs (Alpha)
-    RouteSubBounties --> LockMaterialEscrow: Materials Staged in BCC
-    LockMaterialEscrow --> ExecuteBarnRaising: Coordinated Physical Assembly
-    ExecuteBarnRaising --> LiDARVerificationDeviation: Tolerance Check (< 3000 um)
-    LiDARVerificationDeviation --> AnomalyCorrection: Deflection Detected
-    AnomalyCorrection --> ExecuteBarnRaising
-    LiDARVerificationDeviation --> StructuralPass: As-Built Matches BIM
-    StructuralPass --> SettleLedgerAndCertify: Verify Delivery & Settle BCC
-    SettleLedgerAndCertify --> [*]
+    [*] --> BuildOrHearthIntent: Architectural Proposal or Personal Hearth Craft
+    BuildOrHearthIntent --> CheckSupportVsInfill: Does Action Modify Primary Load-Bearing Support?
+    CheckSupportVsInfill --> PersonalHearthCraftMode: False (R0/R1 Non-Structural Infill / Cob / Mosaic / Partition)
+    PersonalHearthCraftMode --> BypassBIMAndLiDARPolicing: Suspend Geometric Tolerances (Embrace Wabi-Sabi Handcraft)
+    BypassBIMAndLiDARPolicing --> ApplyHearthPatinaBuff: Grant +4000 bp PersonalHearthPatinaBuff
+    ApplyHearthPatinaBuff --> [*]
+
+    CheckSupportVsInfill --> OasisSupportFEACheck: True (Scale 1/2/3 Primary Structural Chassis)
+    OasisSupportFEACheck --> DesignRejected: Safety Factor < 25000 bp or Solar Shadow >= 500 bp
+    DesignRejected --> BuildOrHearthIntent: Refine Structural Frame
+    OasisSupportFEACheck --> EvaluateL5NodeMaterialPolicy: FEA Pass (SF >= 25000 bp)
+    EvaluateL5NodeMaterialPolicy --> PragmaticL7VarianceBranch: Uses L7 Cement/Glue Within Node L5 Allowance
+    EvaluateL5NodeMaterialPolicy --> PureBioregionalBranch: 10000 bp Dry Joinery & Net Carbon Sink
+    PragmaticL7VarianceBranch --> StageMaterialsAndRaise: Record L3 ERC Surcharge & Partial Recovery Yield
+    PureBioregionalBranch --> StageMaterialsAndRaise: Record Net Carbon Sink & 10000 bp Recovery Yield
+    StageMaterialsAndRaise --> VerifySupportLiDARAndTorque: Check Load-Bearing Joints <= 3000 um
+    VerifySupportLiDARAndTorque --> ApplyCivicAweAndSettleBCC: Grant +4500 bp CivicAweBuff & Clear BCC
+    ApplyCivicAweAndSettleBCC --> [*]
 ```
 
 ### Layer 5: Polycentric Governance
-Layer 5 (`col-kmsd`) evaluates designs and assembly plans against community covenants across concentric Trust Rings:
-*   **7-Tier Concentric Trust Rings ($R_0 \dots R_6$):**
-    *   $R_0$ (Hearth): Domestic living sanctuary, unconditional emergency structural shoring.
-    *   $R_1$ (Settlement): Neighborhood workshop bents, shared tool trailers within 500 meters.
-    *   $R_2$ (Commons): Village barn-raisings within 5 kilometers, dual-chamber assembly voting.
-    *   $R_3$ (Watershed): Roundwood timber harvesting from coppice woodlots (Scenario Eta) within 30 kilometers.
-    *   $R_4$ (Bioregional Federation): 3D-printed PETG hubs and biochar blocks (Scenarios Alpha and Mu) within 150 kilometers.
-    *   $R_5$ (Continental Corridor): Open-source structural blueprints, FEA models, and seismic engineering standards.
-    *   $R_6$ (Ecumene / Legacy Perimeter): Municipal building inspectors, licensed Professional Engineers, and zoning boards.
-*   **Cellular Autonomy, Protocol of Refusal & Autonomous Transit Veto (`No-Transit`):** Under autopoietic cellular autonomy, sovereign nodes retain absolute authority over their physical built environment. The Commons Chamber may invoke the Protocol of Refusal to declare ancient heritage dwellings, burial grounds, and sacred groves permanently exempt from structural demolition, modification, or algorithmic BIM optimization. Furthermore, heavy timber freight convoys strictly honor local nodes' Autonomous Transit Veto (`No-Transit`) declarations, routing around sensitive quiet commons and residential paths onto designated perimeter bypasses.
-*   **Bioregional Path-Vector Protocol (BPVP / FRRP):** Structural material deficits (shortages of seasoned black locust poles or M12 galvanized through-bolts) emit BPVP Resource Request Intents cascading outward across Trust Rings ($R_1 \to R_4$) to match capability advertisements from sister nodes, governed by deterministic loop-freedom.
-*   **Execution Gate (Structural Safety Factor):** The design must pass an automated finite element analysis (FEA) demonstrating a safety factor $\ge 2500\text{ basis points}$ under regional 50-year snow and wind load models.
-*   **Maintenance Gate (Deconstruction Mandate):** To prevent future toxic demolition waste, designs must be 10000 basis points (100%) mechanically demountable. Adhesives, glues, and composite foams are strictly vetoed in favor of bolted and pinned dry joinery.
-*   **Procurement Gate (Professional Engineer Fiat Budget):** When submitting plans to municipal authorities, Layer 5 gates the allocation of the cooperative's fiat budget for PE plan stamping, requiring a 3-of-5 Trust Ring multi-sig.
-*   **Logistics Gate (Solar Rights Protection):** Procedural raycasting ensures the new structure does not violate adjacent properties' solar envelopes ($\Delta \Phi_{\text{solar}} < 500\text{ basis points}$).
-*   **Reputational Wealth ($\mathcal{R}$) & Care Leave Shields:** Barn-raising labor, timber joinery craft, and site coordination earn domain-specific Reputational Wealth. Reputational wealth decays exponentially ($\tau_{\mathrm{half}} = 2\text{ years}$), is capped sublinearly ($\le 800\text{ basis points}$), and cannot be financialized. Taking care leave completely freezes decay.
+*   **Autopoietic Cellular Autonomy Over Material Standards (`NodeArchitecturalPolicy`):**
+    *   Under Layer 5 polycentric governance, **every Autonomous Node democratically ratifies its own architectural material covenant** rather than obeying a rigid central ban:
+        *   A Stage 1 urban retrofit node under aggressive municipal code enforcement can set `min_demountable_yield_bps_policy = 6000` and `allow_l7_portland_footings = true` so stewards can legally pour a code-required footing and get warm roofs over their heads immediately.
+        *   A mature Stage 3 rural CLT village with full Scenario Eta/Theta capacity can vote to tighten its local covenant to `min_demountable_yield_bps_policy = 9500` and `require_net_carbon_sink = true`.
+*   **Constitutional Protection of the $R_0$ Hearth & `Protocol of Refusal`:**
+    *   No node council, architect guild, or algorithm can dictate the interior aesthetics, furniture, wall colors, hand-built alcoves, or domestic arrangements of a steward's $R_0$ Hearth (`r0_hearth_sovereignty == true`), provided primary structural bents and fire-egress paths are unharmed.
+    *   The **Protocol of Refusal (`sec:l5-refusal`)** shields sacred structures, ancestral dwellings, and $R_0$ domestic interiors from LiDAR scanning or digital twin rendering.
 
 ### Layer 6: Semantic Translation & Agora
-All architectural blueprints and assembly events are categorized as typed W3C JSON-LD Knowledge Artifacts in `col-commonsd`:
-1.  **`ParametricBuildIntent`:** Master intent detailing bounding volumes, archetypes, and physical specifications.
-2.  **`RetrofitIntent`:** Commands digital scanning and parametric augmentation of legacy suburban facades (passive-solar awnings, room subdivisions).
-3.  **`BarnRaisingIntent`:** Mobilizes community members for physical assembly sessions.
-4.  **`StructuralVerificationIntent`:** Coordinates drone LiDAR scans and digital twin reconciliation.
-5.  **`DeconstructionIntent`:** Reverses assembly sequence, disassembling joints to recover timber and hardware into commons inventory.
-6.  **`ArchitecturalSalvageIntent`:** Salvages buildings scheduled for municipal demolition to harvest old-growth timber, structural rebar, and brick.
-7.  **`Treaty_CID`:** Inter-node material procurement and shared barn-raising guilds are formalized under Tripartite Ricardian Treaties:
-    $$\mathrm{Treaty\_CID} = \mathrm{SHA256}\left( \mathrm{Text}_{\mathrm{prose}} \parallel \mathrm{Schema}_{\mathrm{JSON-LD}} \parallel \mathrm{Invariants}_{\mathrm{BPMN}} \right)$$
-    binding timber specifications, reciprocal tool access, and mutual aid credit terms between autonomous nodes.
+*   **Tripartite Ricardian Treaties (`Treaty_CID`):** Bind inter-node barn-raising guilds, watershed bridge maintenance easements, and CLT ground leases.
+*   **Agora Semantic Knowledge Branches:**
+    1.  `ParametricSupportBuildIntent`: Engineering blueprint for primary load-bearing structures (Scale 1 ADUs, Scale 2 mixed-use courtyard complexes, Scale 3 bioregional bridges/ecoducts), including its honest L7-vs-bioregional material manifest.
+    2.  `PersonalHearthInfillNotice`: Lightweight check confirming a domestic or artistic customization does not compromise primary load-bearing bents, unlocking material allocations for personal craft with zero BIM tracking.
+    3.  `PragmaticL7PermitVariance`: Documents where a Layer 7 municipal code forced a legacy material compromise (e.g., Portland cement or commercial drywall) and tags those voxels for Scenario Mu's long-term remediation/deconstruction queue.
 
-### The Governance Router Flowchart
-
-```mermaid
-graph TD
-    subgraph Layer 6: Semantic Ontology
-        L6_Build[ParametricBuildIntent]
-        L6_Retro[RetrofitIntent]
-        L6_Raise[BarnRaisingIntent]
-        L6_Verify[StructuralVerificationIntent]
-        L6_Decon[DeconstructionIntent]
-    end
-
-    subgraph Layer 5: Polycentric Governance & Policy
-        P_FEA{FEA Safety Gate: <br>Safety Factor >= 2500 bp?}
-        P_Solar{Logistics Gate: <br>Solar Rights Preserved?}
-        P_Decon{Maintenance Gate: <br>Dry Joinery Valid?}
-        P_PE{Procurement Gate: <br>PE Stamp Budget Valid?}
-    end
-
-    subgraph Layer 4: BPMN Orchestrators
-        BPMN_Sim[FEA Structural Engine]
-        BPMN_BOM[BOM Decomposition Engine]
-        BPMN_Raise[Barn-Raising Engine]
-        BPMN_Scan[LiDAR Verification Engine]
-        BPMN_Demount[Deconstruction Engine]
-    end
-
-    %% Routing
-    L6_Build --> P_FEA
-    P_FEA -->|Approved| P_Solar
-    P_Solar -->|Pass| P_Decon
-    P_Decon -->|Valid| BPMN_BOM
-    
-    L6_Retro --> P_FEA
-    L6_Raise --> BPMN_Raise
-    L6_Verify --> BPMN_Scan
-    L6_Decon --> BPMN_Demount
-```
-
-### Layer 7: The Legacy Interface (The Dual-Membrane Carapace)
-The Node shields its architectural experiments from municipal code enforcement and predatory tax foreclosures through the Tripartite Legal Chassis:
-1.  **Dual-Chassis Land Tenure (CLT Title & Cooperative Ground Lease):**
-    Bare underlying land title is held in perpetuity by an Irrevocable Community Land Trust (CLT) or Perpetual Purpose Trust (PPT), removing the soil permanently from the speculative real estate market. The building improvements are leased to a resident housing cooperative under a 99-year ground lease with reciprocal easements. This structure provides absolute partition immunity against individual member bankruptcies or judicial foreclosure auctions.
-2.  **Architectural Consulting & Inbound Fiat Extraction:**
-    The cooperative operates an outward-facing architectural engineering consultancy. It licenses parametric optimization, timber joinery design, and passive-solar thermal models to external commercial eco-builders for fiat fees. Inbound fiat is deposited directly into the cooperative bank account strictly up to the ratified needs ceiling $\Phi_t$, covering licensed Professional Engineer (PE) plan stamping fees, municipal building permit fees, builder's risk insurance, and property tax endowments.
-3.  **Strict Adjacency & DMZ Permitting Pipeline:**
-    Layer 7 never commands physical construction. When municipal building departments issue an approved building permit, the PDF and zoning variance are received by `col-adversaryd` and submitted across `/run/collective/ipc/l6_l7.sock` to Layer 6's intake sandbox (`col-commonsd`). Human stewards review the permit; Layer 5 ratifies; Layer 5 dispatches assembly authorization downward to Layer 4 across `/run/collective/ipc/l4_l5.sock`. Zero direct arrows exist between Layer 7 and Layer 4 or Layer 1.
-4.  **Bulk Group Purchasing Organization (GPO):**
-    Industrial-grade triple-pane glazed window units, heavy galvanized M12/M16 structural bolts, and EPDM waterproofing membranes cannot be fabricated on-site. The cooperative acts as a non-profit GPO, aggregating orders across multiple building projects to execute bulk B2B purchases directly from manufacturers at wholesale discounts.
-
-### Layer 7 Dual-Membrane Intertie Flowchart
-
-```mermaid
-graph TD
-    subgraph Legacy Market [Layer 7: Legacy Municipal Environment]
-        EcoClient[External Eco-Client]
-        LegacyBank[Cooperative Commercial Bank Account]
-        PE[Licensed Professional Engineer]
-        BuildingDept[Municipal Building Department]
-        HardwareDistributor[Wholesale Structural Hardware B2B]
-    end
-
-    subgraph Protective Carapace [Layer 7: Tripartite Legal Chassis]
-        CLT_PPT[Community Land Trust / PPT Shield]
-        PermitInbox[DMZ Permit Sandbox Intake]
-    end
-
-    subgraph Sovereign Mesh [Layers 1 to 6: Sovereign Genesis Node]
-        L6[Layer 6: Semantic Agora Commons]
-        L5[Layer 5: Polycentric Governance & BCC]
-        L4[Layer 4: BPMN Construction Orchestrator]
-        L3[Layer 3: Thermodynamic Ledger]
-        L2[Layer 2: Cybernetic Membrane]
-        L1[Layer 1: Physical Barn-Raising Site]
-    end
-
-    %% Inbound Fiat & Permitting Flow
-    EcoClient -->|Purchases Design Services| LegacyBank
-    LegacyBank -->|Pays Retainer for Plan Review| PE
-    PE -->|Delivers Sealed Engineering Stamp| LegacyBank
-    LegacyBank -->|Submits Stamped Plans & Fees| BuildingDept
-    BuildingDept -->|Issues Building Permit| PermitInbox
-    PermitInbox -->|Forwards Verified Permit Hash| L6
-    L6 -->|Ratified by Assembly| L5
-    L5 -->|Authorizes Groundbreaking| L4
-    L4 -->|l3_l4.sock: Task Dispatch| L3
-    L3 -->|l2_l3.sock: Energy Clearing & Receipts| L2
-    L2 -->|Projects Alignment Beams| L1
-
-    %% Outbound Procurement Flow
-    L1 -->|Emits Hardware Needs| L4
-    L4 -->|Hardware Unavailable Locally| L6
-    L6 -->|Compiles Wholesale Order| LegacyBank
-    LegacyBank -->|Executes Bulk B2B Purchase| HardwareDistributor
-    HardwareDistributor -->|Delivers Structural Fasteners| L1
-
-    %% Boundary Isolation
-    CLT_PPT -.->|Bare Title Isolation Firewall| L5
-
-    classDef legacy fill:#ffebee,stroke:#c62828,stroke-width:2px;
-    classDef carapace fill:#fff3e0,stroke:#e65100,stroke-width:2px;
-    classDef sovereign fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px;
-    class EcoClient,LegacyBank,PE,BuildingDept,HardwareDistributor legacy;
-    class CLT_PPT,PermitInbox carapace;
-    class L6,L5,L4,L3,L2,L1 sovereign;
-```
+### Layer 7: The Legacy Interface & Pragmatic Permitting Carapace
+*   **Navigating Imperfect Municipal Building Codes:**
+    *   Real-world municipal building departments (`Layer 7`) often enforce rigid prescriptive codes written by petrochemical and cement lobbies. Scenario Xi's **Cooperative Architectural & Structural Engineering Carapace** (staffed by licensed `PE` and `AIA` stewards hosted in `SCN-EPSILON-COWORKING`) uses a dual strategy:
+        1.  Where the municipality accepts **Alternative Means and Methods (`IBC Section 104` / `IRC Appendix Q & AQ`)**, the PE Carapace submits sealed Finite-Element proofs from Oasis (`L1b`) to win legal approval for mass timber, rammed earth, biochar-hempcrete, and slag geopolymers.
+        2.  Where a hostile or archaic jurisdiction refuses to budge on a specific element (such as requiring a standard Portland-cement grade beam or UL-listed gypsum fire assembly), the node pragmatically complies using targeted Layer 7 materials, logs the voxel boundary in Layer 3, and gets the building permitted and occupied—never letting ideological perfectionism block human shelter!
+*   **Dual-Chassis CLT Land Tenure:** Bare land title across all permanent sites is locked in an **Irrevocable Community Land Trust (CLT) / Perpetual Purpose Trust (PPT)** with 99-year cooperative ground leases (`real_estate_tokens_minted == 0`).
 
 ---
 
-## 3. Machine-Readable Schemas
+## 3. 3-Stage Incremental Node Facility Blueprints (Node Growth Pattern)
 
-### 3.1 Layer 6 Knowledge Artifact: Parametric Build Intent (`build_intent.jsonld`)
+Scenario Xi embraces the messy, joyful reality of evolving from an imperfect suburban house into an integrated urban complex and a bioregional architectural commons.
+
+### Stage 1: Imperfect Suburban Retrofit, Cozy Domestic Hearth Craft & Backyard *Kigumi* ADU ($R_0 / R_1$ Bootstrap)
+*   **Physical Footprint:** An existing, imperfect 1960s–1990s suburban tract house (with its existing Portland concrete slab, fiberglass batts, and drywall) plus a `40 m2` backyard ADU cottage.
+*   **Pragmatic Transition & Intimate Expression:**
+    *   **Embracing & Upgrading the Existing Shell:** Instead of tearing down the legacy house, stewards pragmatically seal air leaks, blow Scenario Mu biochar-cellulose into the attic, add exterior hemp-lime insulation panels as time and budget permit, and install a timber solar pergola (`SCN-BETA-TRANSIT`).
+    *   **The "Knitted Sweater" Domestic Hearth ($R_0$):** Inside, residents transform sterile suburban drywall rooms into warm, deeply personal spaces—building a hand-sculpted earthen cob fireplace bench, laying broken-tile mosaics in the kitchen, carving timber doorframes, and hanging Scenario Nu woven tapestries (`+4000 bp` `PersonalHearthPatinaBuff`).
+    *   **Backyard *Kigumi* Barn-Raising:** Friends gather over a weekend to bolt together a CNC-milled interlocking timber ADU (`SCN-ALPHA-FAB` + `SCN-ETA-COPPICE`) on removable helical ground screws—demonstrating $10000\,\mathrm{bp}$ demountable architecture right in the backyard.
+
+### Stage 2: Medium-Scale Integrated Urban Courtyard Complex & Adaptive Reuse ($R_2$ Municipal Shell)
+*   **Physical Footprint:** `2500 m2` to `10000 m2` adaptive reuse of an existing commercial warehouse, concrete parking garage, or former retail box into a multi-story **Integrated Multi-Scenario Courtyard Complex**.
+*   **Blending Legacy Chassis with Bioregional Infill:**
+    1.  **Pragmatic Structural Reuse:** Retains the warehouse's existing steel columns and concrete slab (avoiding millions of kilograms of demolition waste) while cutting open a central roof bay to create a daylit **Biophilic Courtyard & Living Machine Wetland Atrium** (`SCN-MU-EXTRACTION` + `SCN-LAMBDA-CULTURE`).
+    2.  **Multi-Story Demountable `CLT` Mezzanines (`STC >= 65` Stratification):** Inserts 3-to-5 stories of bolted cross-laminated timber (`CLT`) floor plates inside the shell:
+        *   **Ground Plinth (`>= 650 cB` Isolation):** Houses Scenario Alpha CNC fabrication, Scenario Theta foundry bays, and Scenario Epsilon liquid-cooled compute on elastomeric isolation pads, capturing $\ge 8000\,\mathrm{bp}$ waste heat for upper floors.
+        *   **Mid-Levels:** Houses Scenario Gamma kitchens, Scenario Delta childcare, Scenario Iota labs, Scenario Nu tailoring, and Scenario Lambda chamber halls overlooking the garden court.
+        *   **Upper Residential Hearths (`SCN-ZETA-LODGING`):** Provides modular structural bays where each household freely designs, builds, and decorates its own interior $R_0$ home infill without BIM policing.
+
+### Stage 3: Large-Scale Bioregional Arcology, Mass-Timber Bridges, Ecoducts & Watershed Civil Works ($R_2 / R_3 / R_4$ CLT/PPT)
+*   **Physical Footprint:** `15` to `100+ hectares` of watershed land and transit corridor easements held in an **Irrevocable Community Land Trust (CLT) / Perpetual Purpose Trust (PPT)**.
+*   **Architectural, Structural & Civil Works:**
+    *   **Village Arcologies & Personal Hearths:** 4-to-8 story mass-timber, rammed-earth, and Guastavino geopolymer-vaulted courtyard buildings (`CivicArchitecturalAweBuff`) whose interior residential and studio bays remain infinitely customizable, hand-crafted personal sanctuaries (`PersonalHearthPatinaBuff`).
+    *   **Long-Span Bioregional Bridges & Viaducts:** $40\,\mathrm{m}$ to $150\,\mathrm{m}$ covered glulam/basalt-tendon arch bridges and geopolymer-stone viaducts ($\mathrm{SafetyFactor} \ge 25000\,\mathrm{bp}$) carrying Scenario Beta's light-rail trams, velomobiles, and HVDC microgrids across canyons.
+    *   **Wildlife Overpass Ecoducts & Keyline Earthworks:** $50\,\mathrm{m}$-wide vegetated compression-vault ecoducts reconnecting forest habitats across highways, paired with terraced check-dams, gravity aqueducts, and the 1500-seat earthen festival amphitheatre (`SCN-LAMBDA-CULTURE`).
+
+---
+
+## 4. Machine-Readable Schemas
+
+### 4A. Layer 6 Knowledge Artifact: Multi-Scale Support & Personal Hearth Intent (`support_and_hearth_intent.jsonld`)
 
 ```json
 {
@@ -249,236 +211,345 @@ graph TD
     "https://schema.org/",
     "https://collective.network/ontology/v1/"
   ],
-  "@type": "ParametricBuildIntent",
+  "@type": "ArchitecturalSupportAndHearthIntent",
   "identifier": "urn:uuid:1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d",
-  "issuerDid": "did:peer:2.Ez6MksF...node04_architect_sara",
+  "issuerDid": "did:peer:2Ez6MksF_node04_architect_sara",
   "creationTimestamp": 1791446400000,
-  "designParameters": {
-    "archetype": "Timber_Reciprocal_Frame_Roundwood",
-    "boundingVolumeCubicMeters": 68,
-    "spatialOriginChunk": [12, 5, 8],
-    "structuralFactorOfSafetyBasisPoints": 2850
+  "architecturalScale": "SCALE_2_MEDIUM_INTEGRATED_COURTYARD_COMPLEX_WITH_R0_HEARTH_INFILL",
+  "layer5NodeGovernancePolicy": {
+    "minDemountableYieldBpsTarget": 7500,
+    "allowPragmaticL7CodeVariance": true,
+    "protectR0HearthFromBimPolicing": true
   },
-  "structuralConstraints": {
-    "groundSnowLoadPascals": 2154,
-    "basicWindSpeedMillimetersPerSecond": 40233,
-    "maxAllowableDeflectionRatioBasisPoints": 277
+  "primarySupportChassis": {
+    "archetype": "Adaptive_Warehouse_With_Bolted_CLT_Mezzanines_And_Courtyard_Atrium",
+    "structuralFactorOfSafetyBps": 28500,
+    "plinthToResidentialAcousticIsolationCb": 680,
+    "etaMassTimberGlulamAndCltMg": 420000000000,
+    "thetaGeopolymerAndBiocharHempMg": 310000000000,
+    "pragmaticL7PortlandFootingAndFireboardMg": 45000000000,
+    "calculatedDemountableRecoveryYieldBps": 8900,
+    "netBiogenicCarbonBalanceMg": 510000000000
   },
-  "materialBOMInventory": {
-    "primaryStruts": {
-      "materialType": "Seasoned_Black_Locust_Poles",
-      "quantityUnits": 36,
-      "meanDiameterMillimeters": 160
-    },
-    "connectionNodes": {
-      "materialType": "PETG_3D_Printed_Hubs",
-      "quantityUnits": 18,
-      "sourceScenario": "SCN-ALPHA-FAB"
-    }
+  "intimatePersonalHearthInfill": {
+    "trustRing": "R0_INVIOLABLE_HEARTH_SANCTUARY",
+    "touchesPrimaryLoadBearingSupport": false,
+    "exemptFromLidarAndBimPrecision": true,
+    "personalCraftElements": [
+      "Hand_Sculpted_Earthen_Cob_Window_Seat",
+      "Family_Heirloom_Broken_Ceramic_Kitchen_Mosaic",
+      "Grandfather_Carved_Growth_Chart_Timber_Doorjamb",
+      "Lambda_Mineral_Ochre_Bedroom_Fresco"
+    ]
   },
   "legacyCompliance": {
-    "peStampStatus": "SEALED_PDF_FILED",
-    "permitApplicationId": "MUNI-BLD-2026-0842"
+    "landTenure": "IRREVOCABLE_CLT_AND_PPT_GROUND_LEASE",
+    "realEstateTokensMinted": 0,
+    "peStampStatus": "SEALED_IBC_WITH_L7_FIREBOARD_VARIANCE"
   }
 }
 ```
 
-### 3.2 Layer 2 Telemetry Attestation: Structural Assembly Proof (`assembly_attestation.jsonld`)
+### 4B. Layer 2 Telemetry Attestation: Support Structural Proof & $R_0$ Hearth Privacy (`assembly_attestation.jsonld`)
 
 ```json
 {
   "@context": "https://collective.network/ontology/v1/",
-  "@type": "StructuralAssemblyAttestation",
+  "@type": "StructuralAndHearthAttestation",
   "buildIntentRef": "urn:uuid:1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d",
-  "siteNode": "did:peer:2.Ez6MksL...node04_lidar_02",
-  "inspectingStewardHandle": "anon_handle_9e2b1c4f",
-  "executionMetrics": {
+  "siteNode": "did:peer:2Ez6MksL_node04_support_strain_array",
+  "supportChassisMetrics": {
     "scanTimestamp": 1791450000000,
-    "maxLidarDeviationMicrometers": 2100,
-    "meanPlumbnessErrorMillidegrees": 120,
-    "installedBoltCount": 72,
-    "torqueVerificationPassRateBasisPoints": 10000,
-    "piezoelectricStrainMicrostrain": 142,
+    "maxSupportLidarDeviationUm": 1950,
+    "installedDryJoineryBoltsCount": 1420,
+    "measuredFloorAcousticIsolationCb": 680,
     "solarShadowViolationDetected": false,
-    "anomalyDetected": false
+    "supportStructuralStatus": "PRIMARY_CHASSIS_CERTIFIED_SAFE"
   },
-  "asBuiltPointcloudHash": "4a5e6f7a8b9c0d1e2f3a4b5c6d7e8f90123456789abcdef0123456789abcdef0",
-  "status": "STRUCTURALLY_CERTIFIED"
+  "r0HearthPrivacyVerification": {
+    "r0InteriorLidarScansExecuted": 0,
+    "wabiSabiHandcraftDeviationsFlagged": 0,
+    "hearthSovereigntyStatus": "UNPOLICED_PERSONAL_EXPRESSION_PROTECTED"
+  }
 }
 ```
 
 ---
 
-## 4. Oasis Engine Implementation Specification
+## 5. Oasis Engine Implementation Specification
 
-### 4.1 Memory Allocation & Voxel State
-The architectural construction site occupies dedicated space in the $32^3$ chunk space:
-*   Structural roundwood timbers occupy `material_id = 60` (`TIMBER_STRUT_VOXEL`).
-*   3D-printed connector hubs occupy `material_id = 61` (`PETG_CONNECTOR_HUB`).
-*   Unassembled target geometry displays as `material_id = 62` (`PHANTOM_BLUEPRINT_VOXEL`).
-*   Cellular automata propagate vertical load down the voxel columns; if accumulated load exceeds `max_bearing_capacity_millinewtons`, the voxel triggers an emergency structural stop.
+### 5A. Memory Allocation, Support-vs-Infill Voxels & Dual Psychological Buffs
+The architectural simulation in Oasis (`L1b`) distinguishes between engineered structural support and intimate personal infill in $32^3$ voxel chunks (`ChunkManager`):
+*   Primary load-bearing mass timber (`material_id = 60` `MASS_TIMBER_SUPPORT`) and geopolymer bridge/vault stones (`material_id = 63` `GEOPOLYMER_SUPPORT`) carry metadata bit `IS_PRIMARY_SUPPORT = 1`, requiring FEA $\mathrm{SafetyFactor} \ge 25000\,\mathrm{bp}$ and LiDAR precision $\le 3000\,\mu\mathrm{m}$.
+*   Pragmatic Layer 7 legacy materials (`material_id = 62` `PRAGMATIC_L7_CONCRETE_OR_BOARD`) are permitted whenever authorized by the node's Layer 5 `NodeArchitecturalPolicy`, dynamically adjusting the structure's `demountable_yield_bps` and `l3_erc_surcharge_uj` to reflect how Layer 7 constraints shape Layer 1 physical reality.
+*   Personal $R_0 / R_1$ Hearth & Infill voxels (`material_id = 64` `PERSONAL_HEARTH_COB_AND_MOSAIC`, with `IS_PRIMARY_SUPPORT = 0`) bypass all LiDAR/BIM geometric tolerance checks (`r0_lidar_scans == 0`), awarding inhabitants the `+4000 bp` **`PersonalHearthPatinaBuff`** (the "knitted sweater" comfort of a personally crafted home) alongside the `+4500 bp` **`CivicArchitecturalAweBuff`** from the building's shared courtyard vaults and bridges.
 
-### 4.2 C++20 Test Harness Code
+### 5B. Self-Contained C++20 Reference & Test Harness
 
 ```cpp
-// engine/tests/scenario_xi_test.cpp
+// engine/tests/scenario_xi_architecture_test.cpp
 #include <cassert>
 #include <cstdint>
+#include <iostream>
 #include <string>
-#include "oasis/chunk_manager.hpp"
-#include "oasis/orchestration/bpmn_engine.hpp"
+#include <vector>
 
-namespace oasis {
+namespace oasis::xi {
 
-struct StructuralVoxelFixed {
-    uint64_t mass_milligrams;
-    uint64_t current_load_millinewtons;
-    uint64_t max_bearing_capacity_millinewtons;
-    bool is_bearing_safe() const {
-        return current_load_millinewtons <= max_bearing_capacity_millinewtons;
+// Fixed-point constants:
+// 10000 bp = 100% (e.g., 25000 bp = 250% safety factor)
+// Stress in millipascals (mPa), Mass in milligrams (mg), Energy in microjoules (uJ)
+// Acoustic isolation in centi-Bels (cB): 650 cB = 65 dB (STC 65)
+
+enum class ArchitecturalScale : uint8_t {
+    SCALE_1_SUBURBAN_RETROFIT_AND_ADU = 1,
+    SCALE_2_MEDIUM_INTEGRATED_COURTYARD_COMPLEX = 2,
+    SCALE_3_BIOREGIONAL_BRIDGE_AND_ECODUCT = 3
+};
+
+// Layer 5 Polycentric Governance Covenant: each node sets its own pragmatic thresholds!
+struct NodeArchitecturalPolicy {
+    std::string node_did;
+    uint32_t min_demountable_yield_bps_target{7000}; // e.g., 7000 bp (70%) in Stage 2 urban adaptive reuse
+    bool allow_pragmatic_l7_materials{true};         // Allows L7 cement/fireboard when needed for permits/weather
+    bool protect_r0_hearth_from_bim_policing{true};  // Constitutional R0 infill freedom
+};
+
+struct PrimarySupportChassisSpec {
+    std::string project_id;
+    ArchitecturalScale scale{ArchitecturalScale::SCALE_2_MEDIUM_INTEGRATED_COURTYARD_COMPLEX};
+    uint64_t yield_strength_mpa{45000000000ULL};
+    uint64_t peak_applied_stress_mpa{15000000000ULL};
+    uint64_t bioregional_demountable_mass_mg{730000000000ULL}; // Eta timber + Theta geopolymer + Mu hempcrete
+    uint64_t pragmatic_l7_glued_or_cast_mass_mg{45000000000ULL}; // L7 footing or code-mandated fireboard
+    uint32_t acoustic_isolation_cb{680};                       // >= 650 cB (STC 65) for Scale 2
+    uint32_t neighbor_solar_shadow_loss_bps{210};              // < 500 bp
+    uint32_t support_lidar_deviation_um{1950};                 // <= 3000 um on load-bearing joints
+    bool civic_lambda_vaults_and_solstice_oculus{true};
+    bool clt_ppt_land_title_locked{true};
+};
+
+// The "Knitted Sweater" of Architecture: intimate R0/R1 personal hearth infill
+struct PersonalHearthInfillSpec {
+    std::string hearth_id;
+    std::string resident_did;
+    bool touches_primary_load_bearing_support{false}; // Must be false to bypass FEA/BIM policing
+    uint32_t handcraft_geometric_imperfection_um{45000}; // 45 mm organic cob/mosaic curve (embraced!)
+    bool has_hand_sculpted_cob_or_mosaic{true};
+    bool has_family_memory_patina_or_fresco{true};
+};
+
+struct BuildEvaluationResult {
+    bool approved{false};
+    uint32_t safety_factor_bps{0};
+    uint32_t demountable_recovery_yield_bps{0};
+    uint64_t l3_erc_surcharge_uj{0};          // Tracks L7 material entropy impact on Layer 1
+    uint32_t l7_permit_friction_bps{0};       // Lower when pragmatic L7 code variance is used
+    uint32_t r0_hearth_lidar_scans_run{0};    // Must be 0 (never police personal hearth infill)
+};
+
+struct InhabitantSteward {
+    std::string did;
+    uint32_t civic_architectural_awe_bps{10000};
+    uint32_t personal_hearth_patina_bps{10000};
+    uint32_t architecture_reputation_points{0};
+};
+
+class EcologicalArchitectureEngine {
+public:
+    uint32_t compute_safety_factor_bps(const PrimarySupportChassisSpec& support) const {
+        if (support.peak_applied_stress_mpa == 0) return 0;
+        return static_cast<uint32_t>(
+            (support.yield_strength_mpa * 10000ULL) / support.peak_applied_stress_mpa
+        );
     }
+
+    uint32_t compute_demountable_yield_bps(const PrimarySupportChassisSpec& support) const {
+        uint64_t total_mass_mg = support.bioregional_demountable_mass_mg +
+                                 support.pragmatic_l7_glued_or_cast_mass_mg;
+        if (total_mass_mg == 0) return 0;
+        return static_cast<uint32_t>(
+            (support.bioregional_demountable_mass_mg * 10000ULL) / total_mass_mg
+        );
+    }
+
+    // Evaluates both the engineered Support Chassis (under L5 Node Policy) and the intimate R0 Hearth Infill
+    BuildEvaluationResult evaluate_and_build(
+        const NodeArchitecturalPolicy& policy,
+        const PrimarySupportChassisSpec& support,
+        const PersonalHearthInfillSpec& hearth,
+        std::vector<InhabitantSteward>& inhabitants
+    ) const {
+        BuildEvaluationResult res{};
+        res.safety_factor_bps = compute_safety_factor_bps(support);
+        res.demountable_recovery_yield_bps = compute_demountable_yield_bps(support);
+
+        // 1. Hard Life-Safety Gate on Primary Load-Bearing Support (>= 25000 bp / 250%)
+        if (res.safety_factor_bps < 25000) return res;
+        if (support.support_lidar_deviation_um > 3000) return res;
+        if (support.neighbor_solar_shadow_loss_bps >= 500) return res;
+        if (!support.clt_ppt_land_title_locked) return res;
+
+        if (support.scale == ArchitecturalScale::SCALE_2_MEDIUM_INTEGRATED_COURTYARD_COMPLEX &&
+            support.acoustic_isolation_cb < 650) {
+            return res;
+        }
+
+        // 2. Evaluate Layer 5 Community Material Policy (Accommodating L7 Imperfection vs Purity)
+        if (support.pragmatic_l7_glued_or_cast_mass_mg > 0 && !policy.allow_pragmatic_l7_materials) {
+            return res; // Rejected only if this specific node's L5 assembly voted to disallow L7 materials
+        }
+        if (res.demountable_recovery_yield_bps < policy.min_demountable_yield_bps_target) {
+            return res;
+        }
+
+        // 3. Honest L7 -> L1 Accounting: compute ERC surcharge for future Mu deconstruction
+        // 2000 uJ per mg of non-demountable L7 material, while lowering L7 municipal permit friction
+        res.l3_erc_surcharge_uj = support.pragmatic_l7_glued_or_cast_mass_mg * 2000ULL;
+        res.l7_permit_friction_bps = (support.pragmatic_l7_glued_or_cast_mass_mg > 0) ? 1500 : 4500;
+
+        // 4. Evaluate R0 Intimate Personal Hearth ("Knitted Sweater" Infill)
+        if (hearth.touches_primary_load_bearing_support) {
+            return res; // Cannot cut into primary columns without a Support FEA review
+        }
+        // Constitutional R0 protection: zero LiDAR scans or BIM rejections on personal handcraft!
+        res.r0_hearth_lidar_scans_run = 0;
+        res.approved = true;
+
+        // 5. Grant both Civic Monumental Awe (+4500 bp) and Personal Hearth Patina (+4000 bp)
+        for (auto& steward : inhabitants) {
+            if (support.civic_lambda_vaults_and_solstice_oculus) {
+                steward.civic_architectural_awe_bps = 14500;
+            }
+            if (hearth.has_hand_sculpted_cob_or_mosaic && hearth.has_family_memory_patina_or_fresco) {
+                steward.personal_hearth_patina_bps = 14000;
+            }
+            steward.architecture_reputation_points += 40;
+        }
+        return res;
+    }
+
+    uint64_t real_estate_tokens_minted() const { return 0; }
 };
 
-struct BlueprintPhantomFixed {
-    uint32_t x, y, z;
-    uint8_t target_material_id;
-    bool is_placed;
-};
+void test_scenario_xi_pragmatic_l7_tradeoff_and_personal_hearth() {
+    EcologicalArchitectureEngine engine;
+    std::vector<InhabitantSteward> stewards = {
+        {"did:peer:2Ez6MksF_architect_sara", 10000, 10000, 100},
+        {"did:peer:2Ez6MkwQ_resident_julio", 10000, 10000, 80}
+    };
 
-struct BccTimberChannel {
-    std::string peer_u;
-    std::string peer_v;
-    int64_t balance_u_to_v_uj{0}; // Conservation: B_{u->v} + B_{v->u} == 0
-    int64_t credit_limit_uj{100000000000000ULL}; // 100 MJ
-};
+    // 1. Stage 2 Node Policy: Embraces pragmatic L7 code compromises (>= 7500 bp demountable target)
+    NodeArchitecturalPolicy stage2_urban_policy{
+        .node_did = "did:peer:2Ez6MksF_node04_urban",
+        .min_demountable_yield_bps_target = 7500,
+        .allow_pragmatic_l7_materials = true,
+        .protect_r0_hearth_from_bim_policing = true
+    };
 
-inline bool verify_timber_bcc_conservation(const BccTimberChannel& c1, const BccTimberChannel& c2) {
-    return (c1.balance_u_to_v_uj + c2.balance_u_to_v_uj) == 0;
+    // Scale 2 Integrated Courtyard Complex reusing a warehouse slab + L7 fireboard (9419 bp demountable)
+    PrimarySupportChassisSpec courtyard_support{
+        .project_id = "complex_courtyard_node_04",
+        .scale = ArchitecturalScale::SCALE_2_MEDIUM_INTEGRATED_COURTYARD_COMPLEX,
+        .yield_strength_mpa = 45000000000ULL,
+        .peak_applied_stress_mpa = 15000000000ULL, // SF = 30000 bp >= 25000 bp
+        .bioregional_demountable_mass_mg = 730000000000ULL,
+        .pragmatic_l7_glued_or_cast_mass_mg = 45000000000ULL,
+        .acoustic_isolation_cb = 680,
+        .neighbor_solar_shadow_loss_bps = 210,
+        .support_lidar_deviation_um = 1950,
+        .civic_lambda_vaults_and_solstice_oculus = true,
+        .clt_ppt_land_title_locked = true
+    };
+
+    // Intimate R0 Hearth Infill: hand-sculpted cob window seat with 45000 um organic curve!
+    PersonalHearthInfillSpec cozy_hearth{
+        .hearth_id = "hearth_apartment_3B",
+        .resident_did = stewards[1].did,
+        .touches_primary_load_bearing_support = false,
+        .handcraft_geometric_imperfection_um = 45000, // 15x support tolerance, but welcomed in R0!
+        .has_hand_sculpted_cob_or_mosaic = true,
+        .has_family_memory_patina_or_fresco = true
+    };
+
+    BuildEvaluationResult res = engine.evaluate_and_build(
+        stage2_urban_policy, courtyard_support, cozy_hearth, stewards
+    );
+    assert(res.approved == true);
+    assert(res.safety_factor_bps == 30000);
+    assert(res.demountable_recovery_yield_bps == 9419); // 9419 bp >= 7500 bp policy target
+    assert(res.l3_erc_surcharge_uj > 0);                // Honestly prices L7 concrete/fireboard entropy
+    assert(res.l7_permit_friction_bps == 1500);         // Pragmatic variance eased L7 municipal permit!
+    assert(res.r0_hearth_lidar_scans_run == 0);         // Zero BIM policing on the personal hearth!
+    assert(stewards[1].civic_architectural_awe_bps == 14500);
+    assert(stewards[1].personal_hearth_patina_bps == 14000);
+    assert(engine.real_estate_tokens_minted() == 0);
+
+    // 2. Stage 3 Mature Bioregional Node Policy: Votes for 10000 bp pure circularity on a new Bridge/Ecoduct
+    NodeArchitecturalPolicy stage3_clt_policy{
+        .node_did = "did:peer:2Ez6MkwQ_node09_forest_clt",
+        .min_demountable_yield_bps_target = 10000,
+        .allow_pragmatic_l7_materials = false,
+        .protect_r0_hearth_from_bim_policing = true
+    };
+
+    PrimarySupportChassisSpec bridge_support{
+        .project_id = "bridge_ecoduct_watershed_01",
+        .scale = ArchitecturalScale::SCALE_3_BIOREGIONAL_BRIDGE_AND_ECODUCT,
+        .yield_strength_mpa = 52000000000ULL,
+        .peak_applied_stress_mpa = 18000000000ULL,
+        .bioregional_demountable_mass_mg = 920000000000ULL,
+        .pragmatic_l7_glued_or_cast_mass_mg = 0, // Zero L7 cement
+        .acoustic_isolation_cb = 500,
+        .neighbor_solar_shadow_loss_bps = 100,
+        .support_lidar_deviation_um = 2200,
+        .civic_lambda_vaults_and_solstice_oculus = true,
+        .clt_ppt_land_title_locked = true
+    };
+
+    BuildEvaluationResult bridge_res = engine.evaluate_and_build(
+        stage3_clt_policy, bridge_support, cozy_hearth, stewards
+    );
+    assert(bridge_res.approved == true);
+    assert(bridge_res.demountable_recovery_yield_bps == 10000);
+    assert(bridge_res.l3_erc_surcharge_uj == 0);
 }
 
-struct ArchitectureJobContextFixed {
-    std::string bounty_id;
-    uint32_t required_timber_poles;
-    uint64_t estimated_energy_uj;
-    uint32_t target_bay_id;
-};
-
-} // namespace oasis
-
-void test_scenario_xi_architecture_normal() {
-    using namespace oasis;
-
-    ChunkManager chunk_mgr;
-    chunk_mgr.allocate_chunk(0, 0, 0);
-
-    // Initialize Column Base Voxel (Timber)
-    Voxel column_base{
-        .material_id = 60, // TIMBER_STRUT_VOXEL
-        .moisture = 12,
-        .temperature = 291150, // 291150 mK
-        .metadata = 0b00000110 // Sensor (bit 2) + Actuator (bit 1)
+void test_scenario_xi_structural_safety_guard() {
+    EcologicalArchitectureEngine engine;
+    NodeArchitecturalPolicy policy{"did:peer:node01", 6000, true, true};
+    PrimarySupportChassisSpec unsafe_support{
+        .project_id = "unsafe_span",
+        .scale = ArchitecturalScale::SCALE_3_BIOREGIONAL_BRIDGE_AND_ECODUCT,
+        .yield_strength_mpa = 30000000000ULL,
+        .peak_applied_stress_mpa = 20000000000ULL // SF = 15000 bp < 25000 bp life-safety floor
     };
-    chunk_mgr.set_voxel(16, 8, 16, column_base);
+    PersonalHearthInfillSpec hearth{"h1", "did:peer:u1", false, 10000, true, true};
+    std::vector<InhabitantSteward> stewards;
 
-    // Phantom Blueprint at Level 9
-    Voxel phantom_roof{
-        .material_id = 62, // PHANTOM_BLUEPRINT_VOXEL
-        .moisture = 0,
-        .temperature = 291150,
-        .metadata = 0b00000000
-    };
-    chunk_mgr.set_voxel(16, 9, 16, phantom_roof);
-
-    // Setup Pairwise Bilateral Clearing Channel with Coppice Forestry (Scenario Eta)
-    BccTimberChannel ch_arch_eta{"node_arch", "node_eta_coppice", 0, 100000000000000ULL};
-    BccTimberChannel ch_eta_arch{"node_eta_coppice", "node_arch", 0, 100000000000000ULL};
-    assert(verify_timber_bcc_conservation(ch_arch_eta, ch_eta_arch));
-
-    BPMNEngine orchestrator;
-    orchestrator.load_schema("schemas/bpmn/barn_raising_pipeline.bpmn");
-
-    ArchitectureJobContextFixed job{
-        .bounty_id = "1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d",
-        .required_timber_poles = 36,
-        .estimated_energy_uj = 1620000000000ULL, // 1620000000000 uJ
-        .target_bay_id = 3
-    };
-
-    // Verify FEA Factor of Safety: 2850 basis points >= 2500 basis points
-    uint32_t factor_of_safety_bp = 2850;
-    assert(factor_of_safety_bp >= 2500);
-
-    // Execute Barn Raising and LiDAR Verification (4800 ticks at 10 Hz)
-    SimResult res = orchestrator.step_simulation_ticks(chunk_mgr, job, 4800);
-    assert(res.status == ExecutionStatus::COMPLETED);
-
-    // Replace Phantom Voxel with Physical Timber
-    Voxel completed_roof{
-        .material_id = 60,
-        .moisture = 12,
-        .temperature = 291150,
-        .metadata = 0b00000110
-    };
-    chunk_mgr.set_voxel(16, 9, 16, completed_roof);
-    assert(chunk_mgr.get_voxel(16, 9, 16).material_id == 60);
-
-    // Settle timber clearing across Bilateral Clearing Channel (BCC)
-    uint64_t timber_clearing_uj = 36000000000000ULL; // 36 MJ
-    ch_arch_eta.balance_u_to_v_uj += timber_clearing_uj;
-    ch_eta_arch.balance_u_to_v_uj -= timber_clearing_uj;
-    assert(verify_timber_bcc_conservation(ch_arch_eta, ch_eta_arch));
-
-    assert(ch_arch_eta.balance_u_to_v_uj == 36000000000000LL);
-    assert(ch_eta_arch.balance_u_to_v_uj == -36000000000000LL);
+    BuildEvaluationResult res = engine.evaluate_and_build(policy, unsafe_support, hearth, stewards);
+    assert(res.approved == false);
 }
 
-void test_scenario_xi_architecture_overload_anomaly() {
-    using namespace oasis;
-
-    ChunkManager chunk_mgr;
-    chunk_mgr.allocate_chunk(0, 0, 0);
-
-    // Insufficient load capacity voxel
-    StructuralVoxelFixed weak_strut{
-        .mass_milligrams = 45000000,
-        .current_load_millinewtons = 85000000,
-        .max_bearing_capacity_millinewtons = 50000000 // Overloaded
-    };
-    assert(!weak_strut.is_bearing_safe());
-
-    BPMNEngine orchestrator;
-    orchestrator.load_schema("schemas/bpmn/barn_raising_pipeline.bpmn");
-
-    ArchitectureJobContextFixed job{
-        .bounty_id = "structural-collapse-test",
-        .required_timber_poles = 50,
-        .estimated_energy_uj = 2000000000000ULL,
-        .target_bay_id = 9
-    };
-
-    // Inject Over-Span Structural Failure at Tick 2200
-    SimResult res = orchestrator.step_simulation_ticks(chunk_mgr, job, 2200, true);
-
-    assert(res.status == ExecutionStatus::EMERGENCY_STOP);
-    assert(orchestrator.current_state() == BPMNState::SALVAGE_INTENT);
-}
+} // namespace oasis::xi
 
 int main() {
-    test_scenario_xi_architecture_normal();
-    test_scenario_xi_architecture_overload_anomaly();
+    oasis::xi::test_scenario_xi_pragmatic_l7_tradeoff_and_personal_hearth();
+    oasis::xi::test_scenario_xi_structural_safety_guard();
+    std::cout << "Scenario Xi Multi-Scale Architecture, L7-L1 Pragmatism & Personal Hearth tests passed." << std::endl;
     return 0;
 }
 ```
 
 ---
 
-## 5. Acceptance Test Gates (Pass/Fail)
+## 6. Acceptance Test Gates (Pass/Fail)
 
 | Checkpoint | Validation Method | Pass Condition |
 | :--- | :--- | :--- |
-| **G1: Thermodynamic Bounds & Finite-Element Yield Verification** | Load vs Yield Stress Limits | Finite-element simulation ensures stress remains within allowable limits ($\sigma_{\text{actual}} \le \frac{\sigma_{\text{yield}}}{2500\text{ bp}}$); factor of safety $\ge 2500\text{ basis points}$; zero catastrophic collapses under static dead load. |
-| **G2: Offline Autonomy & Local-First Photogrammetry** | Localhost Network Isolation | Parametric blueprint calculation, inventory BOM matching, and local LiDAR deviation checks execute completely offline without WAN connectivity. |
-| **G3: Byzantine Detection & LiDAR Structural Reconciliation** | Spoofed Pointcloud Rejection | Injecting an attestation claiming alignment with $< 1000\,\mu\mathrm{m}$ error while real-time strain sensors detect excessive joint deflection fails cryptographic reconciliation and triggers safety audit. |
-| **G4: Circular Materials Routing & Deconstruction Verification** | Dry Joinery & BCC Inventory Clearance | 10000 basis points (100%) of joinery is mechanically demountable (dry bolts and wooden pegs); materials sourced from Scenario Eta and Alpha settle atomically over Pairwise Bilateral Clearing Channels ($B_{u \to v} + B_{v \to u} = 0$). |
-| **G5: Dual-Membrane Protection & Municipal Permit Carapace** | Strict Adjacency Permitting Pipeline | Municipal building permits intake through the Layer 7/6 DMZ sandbox across `l6_l7.sock`, ratifying in Layer 5 before reaching Layer 4; zero direct L7 to L4 bypass; fiat consulting revenues fund licensed PE stamps strictly up to $\Phi_t$. |
-| **G6: Cooperative Mutual-Aid Chassis & Dual-Tenure Land Trust** | CLT & Ground Lease Covenant Audit | Underlying soil title is permanently held in a Community Land Trust with reciprocal easements; residential improvements are held in cooperative tenancy; absolute ban on fractional occupancy shares or speculative real estate equity tokens. |
+| **G1: Primary Support FEA Life-Safety Floor** | Integer Voxel FEA Audit | Primary load-bearing support structures across Scale 1, Scale 2, and Scale 3 satisfy $\mathrm{SafetyFactor}_{\mathrm{bps}} \ge 25000\,\mathrm{bp}$ ($250\%$ yield margin) and support joint LiDAR deviation $\le 3000\,\mu\mathrm{m}$. |
+| **G2: Polycentric L5 Material Policy & L7 $\leftrightarrow$ L1 Tradeoffs** | `NodeArchitecturalPolicy` & `L3` Audit | Communities set their own local demountability and Layer 7 material policies; pragmatic use of Layer 7 cement/boards lowers permitting friction (`l7_permit_friction_bps`) while accurately recording `l3_erc_surcharge_uj` and partial recovery yield (`demountable_recovery_yield_bps`). |
+| **G3: The "Knitted Sweater" $R_0$ Hearth Sovereignty** | Support-vs-Infill Boundary Check | Non-structural $R_0 / R_1$ domestic hearth and handcraft modifications (`touches_primary_load_bearing_support == false`) bypass all LiDAR/BIM geometric policing (`r0_hearth_lidar_scans_run == 0`) and grant `+4000 bp` `PersonalHearthPatinaBuff`. |
+| **G4: Medium-Scale Complex Symbiosis & Civic Awe** | Edge `cB` & Hydronic Telemetry | Scale 2 mixed-use complexes verify $\ge 650\,\mathrm{cB}$ (`STC >= 65`) acoustic isolation between ground-floor industrial/compute bays and upper residential hearths, $\ge 8000\,\mathrm{bp}$ heat recovery, and `+4500 bp` `CivicArchitecturalAweBuff`. |
+| **G5: Bioregional Connectivity & Wildlife Ecoducts** | Scale 3 Corridor Audit | Long-span bridges and vegetated wildlife ecoducts carry Scenario Beta's 5-artery transit and restore forest habitat continuity across $R_3 / R_4$. |
+| **G6: Dual-Chassis CLT Tenure & PE/AIA Carapace (`L7`)** | Legal Title & Financial Audit | Bare land title is permanently locked in an Irrevocable CLT/PPT (`real_estate_tokens_minted == 0`), while external PE/Architect consultancy revenues ($\Phi_t$) fund municipal permits and land acquisition. |
