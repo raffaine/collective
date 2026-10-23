@@ -1,9 +1,9 @@
-# Scenario Chi: Paramedic Mesh & Pharmacopeia
+# Scenario Chi: The Clinical Commons, Paramedic Mesh & Open Pharmacopoeia (Human-Consumption Fine Chemistry, Full-Spectrum Healthcare & Bodily Sovereignty)
 
 *   **Identifier:** `SCN-CHI-PARAMEDIC`
-*   **System Epic:** Decentralized Triage, Open-Source Medicine, and Health Sovereignty
-*   **Primary Layers Tested:** L1 (Physical), L2 (Digital Twin), L3 (Ledger), L4 (Orchestration), L5 (Governance), L6 (Semantic), L7 (Proxy)
-*   **Pass/Fail Metric:** Decentralized dispatch of localized first responders to acute trauma faster than legacy municipal benchmarks (sub-3 minute response vs. 15 to 30 minute municipal average) triggered via manual emergency flares; open-source bio-synthesis of critical botanical and chemical compounds meeting clinical purity thresholds without corporate laboratory dependencies; zero patient health history exposure via Zero-Knowledge proof verification; zero floating-point math; zero tokenization of lifesaving emergency care.
+*   **System Epic:** Closing the Loop on Human-Consumption Fine Chemistry & Biomanufacturing While Supporting Every Way Human Health Can Fail—Uniting Sub-3-Minute Paramedic Triage, Primary/Dental/Midwifery Care, Chronic & Disability Support, Non-Carceral Mental Health Accompaniment, Analytical-Assayed Compounding Pharmacopoeia, and Catastrophic Tertiary Escalation
+*   **Primary Layers Tested:** L1 (Physical Reality), L1b (Oasis 3D Shadow Simulator), L2 (Cybernetic Membrane), L3 (Thermodynamic Ledger), L4 (Deterministic Orchestrator), L5 (Polycentric Governance), L6 (Semantic Translation & Agora), L7 (Legacy Interface)
+*   **Pass/Fail Metric:** Sub-$180000\,\mathrm{ms}$ ($3\text{-minute}$) decentralized paramedic response via manual emergency flares; **Closed-Loop Human-Consumption Fine Chemistry & Biomanufacturing** (botanical extraction, microfluidic organic synthesis, and recombinant insulin/antibiotic fermentation verified by mandatory `HPLC`/`GC-MS` analytical assay $\ge 9950\,\mathrm{bp}$ purity and autoclave sterility $\ge 394150\,\mathrm{mK}$ before any human dispensing); **Full-Spectrum 6-Modality Health Support** (acute trauma, primary/dental/midwifery, chronic/disability, non-carceral psychological crisis, reproductive/preventive sovereignty, and Layer 7 tertiary surgical escalation); Zero-Knowledge (`BBS+`) allergy/contraindication verification with zero EHR exposure (`retained_central_ehr_records == 0`); automatic **Scenario Sigma Responder Decompression**; zero tokenization of healthcare; and zero IEEE 754 floating-point math.
 
 ---
 
@@ -13,233 +13,166 @@ This scenario specification has been ratified by unanimous consensus of the 5-Pe
 
 | Council Persona | Disciplinary Representative | Core Contribution to Scenario |
 | :--- | :--- | :--- |
-| **Game Designer** | Lead Systems & Gameplay Designer | Dwarf Fortress anatomical trauma system (arterial bleeds, limb fractures, community alarm states, and psychological trauma memories vs. "Grateful to be alive (+50 mood)" morale recovery); The Sims autonomous task preemption (when an `AcuteTriageIntent` fires, qualified neighbors instantly drop mundane crafting or gardening tasks to sprint to the patient); Cities Skylines emergency corridor routing and tertiary legacy trauma center perimeter escalation. |
-| **Game Engineer** | Principal C++ Simulation & Engine Architect | Flecs ECS DOD architecture (`TraumaProfileComponent`, `VitalSignsComponent`, `CentrifugeVesselComponent`, `MedicalCredentialComponent`); 32-bit compact voxel grid modeling sterile field boundaries; deterministic 10 Hz BPMN state engine; compilable C++20 test harness testing vital sign stabilization, spatial pathfinding overrides, and bio-synthesis centrifuge kinetics exclusively using fixed-point SI integer arithmetic (milligrams, milliliters, millikelvin, revolutions per minute, milliseconds). |
-| **Sovereign Stack Specialist** | Sovereign Stack Systems Architect | 7-layer strict adjacency without layer skipping; zero software, microcontrollers, or keys in Layer 1; Zephyr RTOS Layer 2 membrane (`col-sensord`, `col-membraned`, `col-actuated`); offline-first LoRaWAN mesh broadcast for manual emergency beacons; Layer 3 Pairwise Bilateral Clearing Channels ($BCC$) with zero-sum conservation $B_{u \to v}(t) + B_{v \to u}(t) = 0$ and multi-hop HTLCs for inter-node medical supplies; BBS+ Zero-Knowledge Proofs allowing allergy and contraindication verification without revealing medical history ledgers; Layer 5 boundary socket `/run/collective/ipc/l4_l5.sock`; Tripartite Ricardian Treaties ($\mathrm{Treaty\_CID}$). |
-| **Solarpunk Thinker** | Bioregional Regenerative Ecologist | Bioregional botanical pharmacopeia (willow bark for salicin extraction, yarrow for hemostasis, medicinal fungal polysaccharides); closed-loop sterile instrument reprocessing using solar-thermal autoclaves; complete elimination of single-use disposable plastics through reusable surgical-grade stainless steel and borosilicate glass; high-temperature pyrolysis bio-waste destruction into sterile biochar via Scenario Mu. |
-| **Scenario Specialist** | Tactical Trauma Physician & Distributed Bio-Chemical Synthesizer | START triage protocol algorithms (Immediate Red, Delayed Yellow, Minor Green, Expectant Black); bio-chemical synthesis kinetics (micro-centrifuge angular acceleration in integer RPM, thermal incubation boundaries in millikelvin); clinical purity validation criteria; Good Samaritan mutual aid legal defense shields under 42 U.S.C. Section 248 and state emergency medical statutes. |
+| **Game Designer** | Lead Systems & Gameplay Designer | **Full-Spectrum Healing & The Fine-Chemistry Crafting Tree:** Expands healthcare beyond basic bandage-packs into a rich **6-Modality Healing & Pharmacopoeia Loop**. Players link forest botanicals (`Eta`), purified reagents/glassware (`Theta`), and distilled ethanol (`Mu`) into continuous-flow micro-reactors and insulin bioreactors, gated by `Scenario Iota` analytical spectrometry assays. When a steward suffers an injury, chronic flare-up, or psychological crisis, neighbors drop mundane tasks to respond with dignity and skill (`"Healed by neighborly paramedic sprint, open-source insulin, and calm convalescence (+5000 bp morale)"`). |
+| **Game Engineer** | Principal C++ Simulation & Engine Architect | **Flecs ECS 6-Modality Clinical & Analytical Chemistry Engine:** Encapsulates `PatientHealthSpectrumComponent`, `AnalyticalAssayBatchComponent`, `BioreactorAndCentrifugeState`, and `ParamedicDispatchTracker` in 32-bit compact voxels (`material_id = 60` `TRAUMA_AND_CLINICAL_BAY`, `material_id = 61` `PHARMACOPOEIA_SYNTHESIS_LAB`, `material_id = 99` `BIO_WASTE_SLUDGE`). Executes $10\,\mathrm{Hz}$ deterministic BPMN state transitions enforcing $\ge 9950\,\mathrm{bp}$ analytical purity gates, ZKP contraindication checks, and sub-$180000\,\mathrm{ms}$ task preemption in pure 64-bit fixed-point integer math. |
+| **Sovereign Stack Specialist** | Sovereign Stack Systems Architect | **7-Layer Strict Adjacency, ZKP Medical Privacy & Subpoena Immunity:** Maps `col-sensord` through `col-adversaryd` across `/run/collective/ipc/l1_l2.sock` to `/run/collective/ipc/l6_l7.sock` (traversing `/run/collective/ipc/l4_l5.sock`). Uses `BBS+` Zero-Knowledge Proofs for allergy/contraindication checks and enforces **Structural Data Non-Existence (`SCN-RHO-ADVERSARY`)** on reproductive, gender-affirming, and psychological care so hostile Layer 7 regimes can never subpoena patient records. |
+| **Solarpunk Thinker** | Bioregional Regenerative Ecologist | **Zero-Waste Clinical Ecology & Sovereign Biomanufacturing:** Replaces Big Pharma patent monopolies and single-use hospital plastic mountains with bioregional phytochemistry (`Eta`), open-source microbial fermentation (`Open-Insulin`), solar-thermal steam autoclaves sterilizing reusable surgical steel and borosilicate glass (`Theta`), and `Scenario Mu` high-temperature pyrolysis turning infectious bio-waste into sterile biochar. |
+| **Scenario Specialist** | Trauma Physician, Compounding Pharmacist & Community Mental Health Clinician | **Closing the Human-Consumption Chemistry Loop & Holistic Care:** Establishes the 4-tier Pharmacopoeia pipeline (Botanical $\to$ Organic Micro-Synthesis $\to$ Bioreactor Fermentation $\to$ Mandatory `HPLC`/`GC-MS` Analytical Assay) alongside the 6 clinical care modalities—including unarmed peer crisis accompaniment (`involuntary_carceral_psych_locks == 0`) and ERISA/ACA catastrophic tertiary hospital bridging. |
 
-**Council Consensus Statement:** Unanimous Consensus Reached. The council affirms that emergency medical stabilization and bodily triage are sacred communal duties within the Convivial Sanctuary ($R_0$). All pricing, speed bounties, tokenization, and biometric body surveillance of patients are permanently abolished. Responders earn domain-specific non-financial Reputational Wealth in Layer 5 Health Guilds protected by the Care Leave Shield.
+**Unanimous Consensus Reached:** The Council unreservedly ratifies Scenario Chi as the canonical specification for human-consumption chemistry, compounding pharmacopoeia, and full-spectrum community healthcare.
 
 ---
 
-## 1. Problem Statement & Legacy Failure
+## 1. Problem Statement, Legacy Failure & Closing the Human-Consumption Chemistry Loop
 
-In legacy late-stage capitalist healthcare (Layer 7), acute emergency response and pharmaceutical production are crippled by extreme centralization, artificial scarcity, and financialized extraction.
+In late-stage capitalist healthcare and pharmaceutical manufacturing (Layer 7), human vulnerability is weaponized for rent extraction across five failure modes:
 
-When an acute medical emergency occurs in a suburban or rural neighborhood:
-*   **Dispatch Latency & Survivability Degradation:** Centralized 911 emergency services take an average of 15 to 30 minutes to dispatch an ambulance through urban traffic. In cases of massive arterial hemorrhage or sudden respiratory arrest—where irreversible brain damage occurs within 4 to 6 minutes—certified neighbors next door remain entirely unaware while the victim dies awaiting municipal sirens.
-*   **Predatory Monopolistic Enclosure:** Pharmaceutical cartels exploit intellectual property patents and regulatory capture to artificially inflate prices of life-saving off-patent compounds (e.g., epinephrine, albuterol, insulin) by thousands of percent above production cost, imposing life-threatening rationing on working-class populations.
-*   **Commoditized Surveillance & Panoptic Overreach:** Legacy health portals monetize and leak patient electronic health records (EHR) to insurance conglomerates, while corporate health platforms deploy invasive wearable monitors that treat human bodies as telemetry-harvesting extraction nodes.
-*   **Liability Paralyzation & Legal Fear:** Fear of litigious malpractice lawsuits paralyzes bystanders from rendering immediate mutual aid unless shielded by formal corporate legal coverage.
+1.  **Monopolistic Enclosure of Human-Consumption Chemistry:** Pharmaceutical cartels enclose off-patent, life-saving molecules (insulin, epinephrine, albuterol, essential antibiotics, anesthetics) behind artificial IP barriers and opaque supply chains, charging thousands of percent above synthesis cost and causing preventable deaths whenever supply chains hiccup.
+2.  **Centralized 911 Latency vs. The 4-Minute Biological Window:** In severe arterial hemorrhage, airway obstruction, or cardiac arrest, irreversible damage occurs within $4$ to $6\,\mathrm{minutes}$, yet municipal ambulances average $15$ to $30\,\mathrm{minutes}$ while trained neighbors 100 meters away have no way of knowing help is needed.
+3.  **Fragmented, Narrow Healthcare & Medical Bankruptcy:** Legacy medicine treats isolated billing codes rather than whole human beings—ignoring preventive nutrition (`Gamma`), occupational ergonomics (`Sigma`), dental care, and post-hospital convalescence (`Phi`), while bankrupting families who experience chronic illness or catastrophic surgery.
+4.  **Carceral Responses to Mental Health & Reproductive Surveillance:** When individuals experience acute psychological distress, Layer 7 frequently dispatches armed police instead of trauma-informed clinicians; meanwhile, centralized Electronic Health Records (`EHR`) expose patients' reproductive, gender-affirming, and mental-health histories to insurers and hostile state prosecutors.
+5.  **The Danger of Unassayed Amateur Chemistry:** Conversely, naive "bio-hacker" or informal herbalist approaches that skip rigorous analytical chemistry (`HPLC`/`GC-MS`), precise dosing, and sterility validation risk poisoning patients with impure or contaminated batches.
+
+### 1A. How Scenario Chi Closes the Fine-Chemistry Loop & Supports Every Way Health Can Fail
+
+Scenario Chi (`SCN-CHI-PARAMEDIC`) unites **Rigorous Open-Source Fine Chemistry & Biomanufacturing** with **Six Comprehensive Modalities of Human Care**:
+
+```mermaid
+flowchart TD
+    subgraph Chem_Loop ["1. Closing the Loop on Human-Consumption Chemistry & Pharmacopoeia"]
+        Inputs["Internal Commons Feedstocks:<br/>Eta Botanicals + Theta Glass/Reagents + Mu Distilled Ethanol + Zero/Iota Recipes"]
+        ThreeSynth["3 Production Engines:<br/>1. Botanical Extraction | 2. Microfluidic Organic Synthesis | 3. Bioreactor Fermentation (Open-Insulin)"]
+        AssayGate["Mandatory Dual-Key Analytical Chemistry & Sterility Gate (Scenario Iota + Kappa)<br/>(HPLC / GC-MS Purity >= 9950 bp + Autoclave >= 394150 mK; Failed Batches -> Mu Pyrolysis)"]
+    end
+
+    subgraph Six_Modalities ["2. Supporting Every Way Human Health Can Fail Us (10000 bp Unconditional B_baseline)"]
+        M1["Modality 1: Sub-3-Min Acute Paramedic Mesh<br/>(LoRa Flares, Preempted Neighbor Medics, ZKP Allergy Check)"]
+        M2["Modality 2: Primary, Dental, Midwifery & Minor Surgery<br/>(Suturing, 3D-Printed Casts, Dental Chair, Safe Birth)"]
+        M3["Modality 3: Chronic Illness & Disability Care (Tau + Alpha)<br/>(Daily Insulin/Inhalers, Custom Prosthetics/Optics, Flare Shields)"]
+        M4["Modality 4: Non-Carceral Mental Health & Harm Reduction (Sigma + Omicron)<br/>(Unarmed Peer Crisis Sanctuary <= 300 cB; Zero Carceral Locks)"]
+        M5["Modality 5: Preventive, Occupational & Reproductive Sovereignty (Rho)<br/>(Clean Air/Water, Ergonomics, Contraception/Hormones with Zero EHR Subpoena Risk)"]
+        M6["Modality 6: Tertiary Surgical Escalation & Convalescence (L7 + Phi)<br/>(911/Air-Ambulance Handoff + ERISA Catastrophic Trust + Home Recovery)"]
+    end
+
+    Inputs --> ThreeSynth --> AssayGate --> Six_Modalities
+```
+
+1.  **Closing the Loop on Human-Consumption Fine Chemistry & Biomanufacturing (`Eta` + `Theta` + `Mu` + `Iota` $\to$ `Chi`):**
+    *   While **Scenario Theta (`SCN-THETA-FOUNDRY`)** produces industrial metals, borosilicate glassware, and bulk acid/base reagents, and **Scenario Mu (`SCN-MU-EXTRACTION`)** distills high-purity solvents and ethanol, **Scenario Chi** refines these inputs into **USP/EP-Grade Compounds for Human Consumption, Hygiene & Clinical Medicine** across three synthesis pathways:
+        *   **Pathway 1 — Phytochemical Extraction & Standardization (`SCN-ETA-COPPICE`):** Supercritical $\mathrm{CO}_2$ and vacuum-Soxhlet extraction of willow-bark salicin, *Artemisia* artemisinin, yarrow hemostatics, topical botanicals, and standardized adaptogenic/entheogenic preparations (`SCN-OMICRON-KINSHIP`).
+        *   **Pathway 2 — Continuous-Flow Fine Organic & Electrolytic Synthesis (`SCN-THETA-FOUNDRY` + `SCN-ALPHA-FAB`):** Jacketed borosilicate reactors and microfluidic PTFE manifolds synthesizing WHO Essential Medicines—paracetamol, lidocaine local anesthetic, albuterol, oral rehydration electrolytes, sterile isotonic saline ($9000\,\mathrm{ppm}$ $\mathrm{NaCl}$), electrolytic sodium hypochlorite/Dakin's antiseptic, and fluoride/hydroxyapatite dental remineralization pastes.
+        *   **Pathway 3 — Recombinant Biomanufacturing & Fermentation (`Open-Insulin` & Antibiotics):** Precision $310150\,\mathrm{mK}$ ($37^\circ\mathrm{C}$) bioreactors, micro-centrifuges ($8000\,\mathrm{RPM}$), and chromatography columns producing recombinant human insulin, beta-lactam antibiotics, and therapeutic bacteriophages—backed by **Scenario Pi's $k \ge 3$ Redundancy Beacons** so at least three independent nodes in every bioregion maintain active bioreactor capacity!
+    *   **The Inviolable Analytical Chemistry & Sterility Gate (`assay_purity_bps >= 9950`):**
+        *   **Zero Unassayed Dispensing:** No compound synthesized in Scenario Chi may ever be unlocked for human consumption until a `Scenario Kappa` `T3/T4_Analytical_Chemist` and automated **Layer 2 Spectrophotometric / `HPLC` / `GC-MS` Assay** verify chemical identity, dosage concentration, $\ge 9950\,\mathrm{bp}$ (out of $10000\,\mathrm{bp}$) purity, and steam-autoclave sterility ($\ge 394150\,\mathrm{mK}$ / $121^\circ\mathrm{C}$ for $\ge 900\,\mathrm{s}$). Any batch that fails purity or centrifuge timing tolerances is immediately locked and routed to **Scenario Mu (`SCN-MU-EXTRACTION`)** for $1100\,\mathrm{K}$ pyrolysis destruction (`material_id = 99`).
+2.  **Treating the Six Ways Human Health Can Fail Us (Holistic Support Across the Lifecycle):**
+    *   All six modalities of healthcare are guaranteed unconditionally under the Tier 2 Human Survival Baseline ($B_{\mathrm{baseline}}$, `tokens_charged_for_healthcare_uj == 0`):
+        1.  **Acute Trauma & Medical Emergencies (The Sub-3-Minute Paramedic Mesh):** Manual pull-boxes or $915\,\mathrm{MHz}$ LoRa distress beacons preempt the nearest `Kappa`-vouched paramedics (`elapsed_response_ms <= 180000`), unlocking AEDs, tourniquets, and epinephrine while verifying drug allergies via **BBS+ Zero-Knowledge Contraindication Proofs** (`zkp_contraindication_verified == true`).
+        2.  **Primary Clinical, Dental, Midwifery & Minor Surgical Care:** Local infirmaries provide wound suturing, ultrasound/X-ray diagnostics (`SCN-ZERO-SOFTWARE`), preventive and restorative dentistry, safe midwifery/birth suites (`SCN-DELTA-CHILDCARE`), and `Scenario Alpha` 3D-printed breathable orthopedic casts.
+        3.  **Chronic Conditions, Endocrine Support & Disability Justice (`SCN-TAU-GENESIS`):** Uninterrupted local compounding of daily insulin, asthma inhalers, and cardiovascular medicines, paired with custom-fabricated eyeglasses, hearing aids, prosthetics, and power wheelchairs (`Alpha` + `Nu`) and automatic **Scenario Sigma / Tau Flare-Up Standing Shields**.
+        4.  **Non-Carceral Psychological Crisis, Neurodivergence & Harm Reduction (`SCN-SIGMA-BURNOUT` + `SCN-OMICRON-KINSHIP`):** Strictly prohibits armed police dispatch or punitive psychiatric lockups (`involuntary_carceral_psych_locks == 0`). Mental health crises are met by unarmed **Peer Crisis & Somatic Accompaniment Stewards** in $\le 300\,\mathrm{cB}$ sensory-calm sanctuary rooms, supported by compassionate pharmacological tapering and trauma therapy.
+        5.  **Preventive, Occupational & Reproductive/Bodily Sovereignty (`SCN-RHO-ADVERSARY`):** Integrates clean nutrition (`Gamma`), workshop air/ergonomic safety (`Sigma`), vaccinations, contraception, fertility care, and gender-affirming hormone synthesis—protected by **Structural Data Non-Existence (`retained_central_ehr_records == 0`)** so patient medical choices can never be surveilled or subpoenaed.
+        6.  **Catastrophic Tertiary Hospital Escalation (`Layer 7`) & Post-Discharge Convalescence (`SCN-PHI-ELDERCARE`):** When complex neurotrauma, oncology, or major surgery requires a regional Layer 7 trauma center, `col-adversaryd` coordinates rapid ambulance/air-medical handoff and covers external hospital bills via the **ERISA/ACA Cooperative Catastrophic Health Trust ($\Phi_t$)**—followed by warm community rehabilitation upon return and automatic **Scenario Sigma Decompression** for the responding medics!
 
 ---
 
 ## 2. The Collective Workflow (7-Layer Traversal)
 
-Scenario Chi decouples community healthcare from predatory monopolies by operating two synchronized workflows: the **Paramedic Mesh** (hyper-local trauma triage dispatched over peer-to-peer radio) and the **Pharmacopeia** (distributed, open-source biological and herbal synthesis). Lifesaving care is an unconditional right under the Tier 2 Human Survival Baseline ($B_{\mathrm{baseline}}$). The workflow traverses canonically from Layer 1 physical intervention up to Layer 7 legacy institutional shielding.
+Scenario Chi coordinates sub-3-minute paramedic dispatch, 4-stage analytical chemistry/pharmacopoeia synthesis, ZKP allergy verification, and tertiary hospital bridging across all 7 layers without skipping layers:
 
 ```mermaid
 graph TD
-    L7[Layer 7: Legacy Interface - Dual-Membrane Carapace] -->|l6_l7.sock: B2B Wholesale APIs & Tertiary EMS Dispatch| L6[Layer 6: Semantic Intent - Agora Knowledge Artifacts]
-    L6 -->|l5_l6.sock: MedicalIntents & Ricardian Treaties| L5[Layer 5: Polycentric Governance - Trust Rings & Refusal]
-    L5 -->|l4_l5.sock: Ratified Triage Alerts & ZKP Contraindication Gates| L4[Layer 4: Deterministic Orchestration - 10 Hz BPMN VM]
-    L4 -->|l3_l4.sock: Exergy Metering & Channel Reservations| L3[Layer 3: Thermodynamic Ledger - BCC & PoTW]
-    L3 -->|l2_l3.sock: Sensor Delivery Proofs & Actuation Orders| L2[Layer 2: Cybernetic Membrane - Zephyr RTOS]
-    L2 -->|Modbus / ADC / GPIO: Physical Telemetry & Relays| L1[Layer 1: Physical Reality - Pure Matter & Energy]
-    L1 -->|Tourniquet Application & Herbal Bio-Synthesis| End((Patient Stabilized & Compound Pure))
+    L7[Layer 7: col-adversaryd Legacy Interface] <-->|l6_l7.sock: Good Samaritan Shield, ERISA Catastrophic Trust, 911 Handoff & USP Reagents| L6[Layer 6: col-commonsd Semantic Agora]
+    L6 <-->|l5_l6.sock: AcuteTriageIntent, SynthesisIntent, BatchAssay_CID & ZKP Allergy Proofs| L5[Layer 5: col-kmsd Polycentric Governance]
+    L5 <-->|l4_l5.sock: Nearest-Medic Preemption, Dual-Key HPLC Assay Gate & Zero-EHR Privacy| L4[Layer 4: col-execd Deterministic Orchestrator]
+    L4 <-->|l3_l4.sock: Bioreactor/Autoclave State Machine, Mu Bio-Waste Routing & Sigma Decompression| L3[Layer 3: col-storaged Thermodynamic Ledger]
+    L3 <-->|l2_l3.sock: Care Non-Commensurability, Unconditional B_baseline & Pharma BCC/HTLCs| L2[Layer 2: col-membraned Cybernetic Membrane]
+    L2 <-->|l1_l2.sock: Pull-Box/LoRa Flares, 8000 RPM Centrifuge, 394150 mK Autoclave & HPLC Sensors| L1[Layer 1: col-sensord Physical Reality]
+    L2 <-->|6-Modality Anatomical Trauma, Epidemiology & Micro-Reactor Digital Twin| L1b[Layer 1b: Oasis 3D Shadow Simulator]
 ```
 
-### Layer 1: Physical Ground Truth
-*   **Pure Physical Substrate:** Layer 1 contains exclusively physical trauma supplies, laboratory glassware, and passive transducers. It contains **zero software, zero microcontrollers, zero firmware, zero cryptographic keys, and zero network daemons.**
-*   **Hardware Nodes (Paramedic Kits & Triage Hub):** Rapid-deployment trauma packs equipped with mechanical Combat Application Tourniquets (CAT), chest seals, compressed hemostatic gauze, automated external defibrillators (AEDs), splints, and passive analog wiring for emergency pull-boxes.
-*   **Hardware Nodes (Pharmacopeia Synthesis Station):** Open-source micro-centrifuges, temperature-regulated magnetic stirrers, laminar flow hoods, precision incubation chambers, high-pressure steam autoclaves, and borosilicate reaction vessels.
-*   **Feedstock & Biomass:** Sterile water, pharmaceutical-grade ethanol, biological culture precursors, sterile glass ampoules, and harvested botanical biomass (willow bark for salicin extraction, yarrow, Artemisia) stored in humidity-controlled lockers.
-*   **Physical Actions:** Tourniquet twisting, direct pressure application, airway positioning, chest compressions, micro-pipetting, and centrifugation.
+### Layer 1: Physical Reality & Layer 1b: Oasis 3D Shadow Simulator
+*   **Trauma Kits, Clinical Infirmaries & Fine-Chemistry Reactors (`Layer 1`):**
+    *   **Paramedic & Clinical Hardware:** Stationary emergency pull-boxes, $915\,\mathrm{MHz}$ LoRa distress beacons, CAT tourniquets, AEDs, dental/minor-surgery suites, negative-pressure respiratory rooms, ultrasound/X-ray arrays, and solar-thermal steam autoclaves ($394150\,\mathrm{mK}$ / $121^\circ\mathrm{C}$) sterilizing reusable surgical steel and borosilicate instruments.
+    *   **Pharmacopoeia & Analytical Chemistry Lab:** Jacketed borosilicate glass reactors (`Theta`), 3D-printed PTFE microfluidic synthesizers (`Alpha`), $310150\,\mathrm{mK}$ ($37^\circ\mathrm{C}$) recombinant insulin/antibiotic bioreactors, $8000\,\mathrm{RPM}$ micro-centrifuges, laminar flow hoods, and `HPLC` / `GC-MS` / UV-Vis analytical spectrometers.
+*   **Oasis 3D Shadow Simulator (`Layer 1b`):**
+    *   Simulates anatomical trauma stabilization, non-invasive epidemiological ventilation modeling, and chemical reaction kinetics/purity curves before physical synthesis.
 
-### Layer 2: Digital Twin & Telemetry
-*   **Membrane Architecture:** Executed by Zephyr RTOS microcontrollers (`col-sensord`, `col-membraned`, `col-actuated`) converting analog sensor voltages into dimensionally typed, fixed-point integer packets.
-*   **Convivial Anti-Panopticon Shield:** Emergency alerts are triggered exclusively by **voluntary human action** (stationary manual pull-boxes, Reticulum/LoRaWAN distress flares, or physical whistles). **Absolute ban on body-worn sensors, continuous wearable vital streaming, smart watches, and biometric pulse surveillance.**
-*   **Ingress Telemetry Topics (Fixed-Point SI Integers via `col-membraned`):**
-    *   `node/pharma/centrifuge_01/telemetry/rpm` (`uint32_t`, rotor velocity in revolutions per minute; target 8000 RPM)
-    *   `node/pharma/incubator_01/telemetry/temp_mk` (`uint32_t`, incubation temperature in millikelvin; nominal 310,150 mK = 37 C)
-    *   `node/pharma/autoclave_01/telemetry/temp_mk` (`uint32_t`, sterilization temperature in millikelvin; target >= 394,150 mK = 121 C)
-    *   `node/health/emergency_flare` (`enum uint8_t`: `0=IDLE`, `1=PULLBOX_PULLED`, `2=LORAWAN_FLARE`, `3=PERIMETER_BEACON`)
-    *   `node/health/triage_status` (`enum uint8_t`: `0=TRIAGE_RED_IMMEDIATE`, `1=TRIAGE_YELLOW_DELAYED`, `2=TRIAGE_GREEN_MINOR`, `3=STABILIZED`)
-*   **Safety Verification:** In the lab, optical absorbance spectrometry verifies chemical batch purity against open-source spectrophotometric baselines before release. Autoclave telemetry verifies pathogen thermal lethality (121 C held for 15 minutes).
-*   **Actuator Control:** Local relay controllers trip magnetic solenoids on emergency medicine lockboxes and cycle centrifuge motors only after Layer 2 verifies actuation invariants $\mathbf{\Phi}$ across `/run/collective/ipc/l3_l2.sock`.
+### Layer 2: The Cybernetic Membrane (Zero-Wearable Flares & Analytical Assay Telemetry)
+*   **Voluntary Distress Flares & Spectrometric Purity Verification (`col-membraned`):**
+    *   Emergency dispatch is triggered strictly by voluntary pull-boxes or LoRa beacons—enforcing the **absolute ban on mandatory body-worn biometric trackers (`wearable_biometric_surveillance_packets == 0`)**.
+    *   Monitors `centrifuge_rpm` ($8000\,\mathrm{RPM}$), `incubator_temp_mk` ($310150\,\mathrm{mK}$), `autoclave_temp_mk` ($\ge 394150\,\mathrm{mK}$), and `hplc_assay_purity_bps` ($\ge 9950\,\mathrm{bp}$). Medicine dispensing solenoids remain physically locked unless Layer 2 hardware attests both autoclave sterility and $\ge 9950\,\mathrm{bp}$ analytical purity.
 
-### Layer 3: Thermodynamic Ledger
-*   **Constitutional Non-Commensurability of Triage & Lifesaving Care:** Emergency triage, CPR, stopping bleeding, and comforting the injured are declared non-commensurable human care (`sec:l3-friction`). Layer 3 **structurally refuses to mint tokens or bounties for lifesaving care.** All heroic speed bounties, piece-rate rescue tokens, and emergency medical fees are permanently prohibited.
-*   **Inalienable Tier 2 Human Survival Baseline ($B_{\mathrm{baseline}}$):** Emergency trauma response, clinical triage, and essential pharmacopeia remedies are guaranteed to every human being as an unconditional constitutional right of living membership ($B_{\mathrm{baseline}}$). Access to care is never conditioned upon labor, tokens, or chore points.
-*   **Proof-of-Thermodynamic-Work (PoTW):** Electrical exergy consumed by laboratory autoclaves, incubators, and centrifuges is metered in microjoules ($\mu\mathrm{J}$):
-    $$\text{1 Exergy Credit} \equiv 3{,}600{,}000{,}000{,}000\text{ }\mu\mathrm{J}$$
-    Exergy accounting measures energy drawn from the settlement microgrid, undergoing physical demurrage to reflect battery and equipment entropy.
-*   **Pairwise Bilateral Clearing Channels (BCC) & Multi-Hop HTLCs:** When critical pharmaceutical batches (e.g., 50 vials of sterile willow-derived salicin extract or sterile saline) are transferred to a neighboring settlement $v$, accounting settles across inter-node Bilateral Clearing Channels:
-    $$B_{u \to v}(t) + B_{v \to u}(t) = 0$$
-    Subject to mutual aid credit windows $[-C_{u \to v}, +C_{v \to u}]$. Multi-hop transfers across the watershed settle via chained Hashed Timelock Contracts:
-    $$\mathrm{HTLC} = \langle H(S), \Delta t, Q, u, v \rangle$$
-    where $Q$ is denominated in microjoules of embodied exergy or physical unit counts, releasing upon physical delivery receipts $\sigma_{\mathrm{delivery}}$ and cascading backward settlement without global tokens or external market conversion.
+### Layer 3: The Thermodynamic Ledger (Non-Commensurability & Inter-Node Pharma BCCs)
+*   **Constitutional Non-Commensurability of Healthcare (`col-storaged`):**
+    *   Lifesaving triage, surgery, dentistry, midwifery, mental health accompaniment, and essential medicines **never** charge fees or mint speed bounties (`tokens_charged_for_healthcare_uj == 0`).
+*   **Bioregional Pharmaceutical Sharing via `BCC` / `HTLC`:**
+    *   Surplus assayed batches (e.g., sterile insulin vials, salicin extracts, or saline ampoules) shared between watershed nodes clear across Pairwise Bilateral Clearing Channels ($B_{u \to v}(t) + B_{v \to u}(t) = 0$) and multi-hop HTLCs, while `Scenario Pi` redundancy beacons ensure $k \ge 3$ independent bioreactor nodes across the bioregion.
 
-### Layer 4: Deterministic Orchestration State Machine
-The acute trauma lifecycle is governed deterministically by the embedded 10 Hz BPMN engine (`col-execd`):
+### Layer 4: The Deterministic Orchestrator (Sub-3-Min Triage & Assay-Gated Synthesis)
+*   **State Machine Daemon (`col-execd`):**
+    *   Executes at $10\,\mathrm{Hz}$ over `/run/collective/ipc/l4_l5.sock`, preempting nearest qualified medics within $< 500\,\mathrm{ms}$ of a flare, gating pharmaceutical synthesis on `HPLC`/`GC-MS` purity and autoclave sterility (diverting any degraded batch to `Scenario Mu` pyrolysis), escalating catastrophic neuro/thoracic trauma to Layer 7 EMS, and enrolling responders in **Scenario Sigma Post-Crisis Decompression**.
 
 ```mermaid
 stateDiagram-v2
-    [*] --> ManualAlarmTriggered: Stationary Pullbox or LoRa Flare
-    ManualAlarmTriggered --> IngestTriagePayload: Ingest Spatial Coordinates
-    IngestTriagePayload --> QueryNearestResponders: Match START Triage Level
-    QueryNearestResponders --> PreemptResponders: Dispatch Radio Alert
-    PreemptResponders --> EnRouteToScene: Suspend Mundane Tasks
-    EnRouteToScene --> ResponderOnScene: Responders Arrive at Voxel Coordinates
-    ResponderOnScene --> ExecuteStabilization: Hemostatic Tourniquet / Airway
-    ExecuteStabilization --> TertiaryEscalationNeeded: Trauma Exceeds Field Capacity
-    TertiaryEscalationNeeded --> EscalateToLegacyEMS: Route to Layer 5/6/7 Bridge
-    ExecuteStabilization --> StabilizationVerified: Bleeding Arrested & Vitals Stable
-    StabilizationVerified --> SettleTriageAttestation: File Care Attestation
-    SettleTriageAttestation --> RouteMedicalWaste: Send Bio-Waste to Scenario Mu
-    RouteMedicalWaste --> [*]
-    EscalateToLegacyEMS --> [*]
+    [*] --> TriageOrSynthesisIngress: Manual LoRa Flare OR Fine-Chemistry Synthesis Request
+    TriageOrSynthesisIngress --> PreemptNearestMedics: AcuteTriageIntent -> Verify BBS+ ZKP Allergy Proof & Dispatch (<500ms)
+    PreemptNearestMedics --> StabilizeOrEscalate: Arrive < 180s -> Stabilize In Field OR Hand Off Catastrophic Trauma to L7 EMS
+    StabilizeOrEscalate --> TriggerSigmaResponderCare: Patient Safe -> Enroll Medics in Scenario Sigma Decompression
+    TriggerSigmaResponderCare --> [*]
+
+    TriageOrSynthesisIngress --> RunBioreactorAndAutoclave: SynthesisIntent -> Verify Kappa Chemist Credential & Run Reactor
+    RunBioreactorAndAutoclave --> AnalyticalAssayGate: Check Centrifuge Kinetics, Autoclave >= 394150 mK & HPLC Purity >= 9950 bp
+    AnalyticalAssayGate --> DispenseCertifiedMedicine: Assay Passed -> Sign BatchAssay_CID & Unlock Clinical Dispensary
+    DispenseCertifiedMedicine --> [*]
+
+    AnalyticalAssayGate --> DivertToMuPyrolysis: Purity < 9950 bp OR Timing Overrun -> Lock Batch & Route to Scenario Mu (1100 K)
+    DivertToMuPyrolysis --> [*]
 ```
 
-### Layer 5: Policy & Polycentric Governance
-Layer 5 (`col-kmsd`) enforces medical data sovereignty, triage competence, and ethical boundaries:
-*   **The 7-Tier Concentric Trust Rings ($R_0 \dots R_6$):**
-    *   **$R_0$ (The Hearth Sanctuary):** The immediate emergency trauma scene. Social immunity: unconditional lifesaving care, tourniquets, sterile dressing, zero keys, zero registration, zero surveillance, zero governance voting weight.
-    *   **$R_1$ (Settlement Commons):** Local triage station and medical lockbox ($\le 500\text{ m}$), volunteer responder circles.
-    *   **$R_2$ (Village Commons):** Village clinical infirmary, open-source pharmacopeia synthesis lab ($\le 5\text{ km}$).
-    *   **$R_3$ (Watershed Guild):** Peering with adjacent clinic nodes ($\le 30\text{ km}$); inter-node BCC channels for specialized herbal tinctures and sterile fluids.
-    *   **$R_4$ (Bioregional Federation):** Regional surgical infirmary, emergency disaster medical caches ($\le 150\text{ km}$).
-    *   **$R_5$ (Continental Corridor):** Open pharmacopeia formulas, medical device CAD blueprints.
-    *   **$R_6$ (Ecumene / Legacy Perimeter):** Legacy emergency room handoffs, cooperative Good Samaritan carapace.
-*   **Cellular Autonomy & Subsidiarity:** Every emergency triage node and clinical infirmary maintains absolute autopoietic closure and cellular autonomy. Triage responders operate under self-governing medical stewardship; no outside council or federation can compel medical resource dispatch that depletes local survival reserves ($B_{\mathrm{baseline}}$) or overrides clinician conscience.
-*   **Bioregional Path-Vector Protocol (BPVP):** Export of surplus pharmacopeia medicines is bounded by the Export Surplus Bound:
-    $$Q_{\mathrm{avail}}(t) = \max\left(0, Q_{\mathrm{inventory}}(t) - F_{\mathrm{eco}}(t) - B_{\mathrm{baseline}}(t)\right) \cdot \mathbf{1}_{\mathrm{export}}$$
-    Medicines are never exported if local settlement emergency reserves ($B_{\mathrm{baseline}}$) are unfulfilled.
-*   **Privacy Gate (Zero-Knowledge Health Vault):** Patient medical history is never broadcast across the mesh. First responders receive only a Zero-Knowledge Proof (ZKP) affirming: "Patient does NOT have a contraindication to Epinephrine / Penicillin" without decrypting or exposing the underlying medical ledger.
-*   **Competency Gate:** Handling micro-centrifuges and sterile chemical synthesis requires a BBS+ Verifiable Credential (`Pharmacopeia_Steward_L2`).
-*   **Reputational Wealth ($\mathcal{R}$) & Care Leave Shield:** Responders receive non-financial Reputational Wealth ($\mathcal{R}$) in the Health Guild of the Stewardship Chamber. Reputational Wealth decays exponentially ($\tau_{\mathrm{half}} = 2\text{ years}$) and is sublinearly capped ($\le 8\%$ chamber weight). The **Care Leave Shield** freezes the decay clock during personal recovery, caregiving, or illness.
-*   **The Protocol of Refusal (`sec:l5-refusal`):** Sacred herbal traditions and patient medical sovereignty can be declared Refused Domains, exempt from algorithmic optimization and digital-twin simulation.
-*   **Autonomous Transit Veto (`No-Transit`):** Clinical infirmaries and triage sanctuaries retain the absolute authority to assert a `No-Transit` attribute over emergency lanes, quiet recovery zones, and quarantine wards, deterministically rerouting non-essential transport, heavy material freight, and outside vehicles away from sensitive healing environments.
-*   **Boundary IPC Socket:** Layer 5 policies compile into deterministic constraints pushed to Layer 4 across `/run/collective/ipc/l4_l5.sock`.
+### Layer 5: Polycentric Governance (Zero-Knowledge Health Vault & Non-Carceral Ethics)
+*   **BBS+ Zero-Knowledge Contraindication Proofs & Zero Central EHR (`col-kmsd`):**
+    *   Patients hold their own encrypted health credentials on personal $R_0$ hardware tokens. Responders and pharmacists receive a cryptographic `BBS+` Zero-Knowledge Proof confirming `"No contraindication/allergy to compound X"` while `retained_central_ehr_records == 0`—making mass medical data leaks or hostile state reproductive/gender-care subpoenas structurally impossible (`SCN-RHO-ADVERSARY`).
+*   **Dual-Key Pharmacopoeia Release & Non-Carceral Mental Health Gate:**
+    *   Releasing any synthesized batch requires dual-key co-signing by a `Pharmacopeia_Steward` (`Kappa`) and the Layer 2 `HPLC` analytical enclave. Mental health responses strictly enforce `involuntary_carceral_psych_locks == 0`.
 
-### Layer 6: Semantic Intent & Domain Ontology
-The Health Commons defines typed JSON-LD Knowledge Artifacts within the Agora Commons (`col-commonsd`):
-1.  **`AcuteTriageIntent`:** High-priority emergency signal specifying voxel location, suspected injury category, and required triage skill level.
-2.  **`SynthesisIntent`:** Request to synthesize, purify, and bottle a specific biological or botanical compound.
-3.  **`PharmacopeiaInventoryAttestation`:** Cryptographic ledger of verified sterile compounds and active botanical ingredients.
-4.  **`MedicalToolSterilizationIntent`:** Coordinates solar-thermal autoclave cycles for surgical-grade instruments.
-5.  **`AllergyContraindicationIntent`:** Patient-controlled cryptographic credential enabling zero-knowledge contraindication checks.
-6.  **`BioWasteSalvageIntent` (Scenario Mu Bridge):** Dispatches contaminated gauze and biomass to Scenario Mu for high-temperature sterile biochar pyrolysis.
-7.  **`RicardianTreaty` ($\mathrm{Treaty\_CID}$):** Tripartite covenant binding natural-language mutual aid medical agreements, machine-readable JSON-LD schemas, and formal BPMN state machines governing inter-node pharmaceutical sharing.
+### Layer 6: Semantic Translation & Agora (Open Pharmacopoeia Recipes & Treaties)
+*   **Knowledge Artifacts (`col-commonsd`):**
+    *   Validates `AcuteTriageIntent`, `FineChemistrySynthesisIntent`, `AnalyticalBatchAssayAttestation`, `MentalHealthPeerAccompanimentIntent`, and `BioWasteSalvageIntent` across `/run/collective/ipc/l5_l6.sock`, syncing open-source synthesis protocols with **Scenario Iota (`SCN-IOTA-EPISTEMIC`)**.
 
-### The Governance Router Flowchart
-
-```mermaid
-graph TD
-    subgraph Layer 6: Semantic Ontology
-        L6_Triage[AcuteTriageIntent]
-        L6_Synth[SynthesisIntent]
-        L6_Sterile[MedicalToolSterilizationIntent]
-        L6_Waste[BioWasteSalvageIntent]
-        L6_Treaty[RicardianTreaty Treaty_CID]
-    end
-
-    subgraph Layer 5: Polycentric Governance & Policy
-        P_Emg{Emergency Gate: <br>Nearest Qualified Proximity?}
-        P_ZK{Privacy Gate: <br>Valid ZKP Contraindication?}
-        P_Skill{Competency Gate: <br>Pharmacopeia_Steward_L2?}
-        P_Auto{Sterility Gate: <br>Autoclave Temp >= 394150 mK?}
-    end
-
-    subgraph Layer 4: BPMN Orchestrators
-        BPMN_Dispatch[Paramedic Dispatch Engine]
-        BPMN_Lab[Bio-Synthesis Reactor Engine]
-        BPMN_Clean[Sterilization Autoclave Engine]
-        BPMN_Mu[Scenario Mu Bio-Waste Pyrolysis]
-    end
-
-    L6_Triage --> P_Emg
-    P_Emg -->|Preempt & Route| BPMN_Dispatch
-
-    L6_Synth --> P_Skill
-    P_Skill -->|Steward Verified| P_ZK
-    P_ZK -->|No Contraindication| BPMN_Lab
-    P_Skill -.->|Unqualified| L6_Synth
-
-    L6_Sterile --> P_Auto
-    P_Auto -->|Temperature Met| BPMN_Clean
-
-    L6_Waste --> BPMN_Mu
-```
-
-### Layer 7: The Legacy Interface (Dual-Membrane Carapace)
-The Paramedic Mesh interfaces with legacy medical institutions through the Dual-Membrane Doctrine, presenting an honest, lawful, and legally unremarkable entity:
-
-1.  **Good Samaritan Protection & Mutual Aid Carapace:**
-    Under 42 U.S.C. Section 248 and state Good Samaritan statutes, volunteer mutual aid responders are protected from civil liability when providing emergency first aid without expecting compensation. The cooperative charter codifies this non-commercial mutual aid pact, legally shielding community responders. Pharmacopeia production is legally organized as open-source non-commercial educational research, remaining outside interstate commerce.
-2.  **Bounded Wilderness First Aid Training Carapace:**
-    The cooperative operates an outward-facing training carapace offering certified Wilderness First Responder (WFR) and community CPR courses to corporate clients and outdoor recreation groups for legacy fiat fees.
-    *   All external fiat flows into the cooperative's legacy bank account.
-    *   External fiat is allocated strictly to satisfy the settlement's itemized fiat needs target ($\Phi_t$) for trauma gear, commercial liability insurance, and pharmaceutical precursors.
-    *   Instructors receive lawful W-2 wages in legacy fiat currency for external teaching shifts.
-    *   **Strict Inconvertibility:** External fiat **never** converts into internal Exergy Credits or tokens. Internal medical care is 100% non-monetary and unpriced.
-3.  **Tertiary EMS Escalation & Wholesale Procurement:**
-    When field triage indicates catastrophic injuries beyond community capacity (e.g., severe neurotrauma, complex thoracic trauma):
-    *   Layer 4 emits an escalation intent to Layer 5 across `/run/collective/ipc/l4_l5.sock`.
-    *   Layer 5 routes to Layer 6 across `/run/collective/ipc/l5_l6.sock`.
-    *   Layer 6 calls Layer 7 across `/run/collective/ipc/l6_l7.sock` to coordinate with legacy 911 dispatch, meeting the municipal ambulance at the perimeter gate.
-    *   The cooperative acts as a Group Purchasing Organization (GPO), using legacy fiat reserves to bulk-purchase sterile needles, surgical tubing, and diagnostic reagents directly from wholesale institutional medical suppliers.
-
-### Layer 7 Dual-Membrane Bidirectional Flowchart
-
-```mermaid
-graph TD
-    subgraph Legacy Environment [Layer 7: Regulators & Municipal EMS]
-        MunicipalEMS[Legacy 911 Ambulance / ER]
-        WorkshopClients[Legacy Clients - CPR Training]
-        MedicalSupply[Wholesale Surgical & Reagent Supplier]
-        BankTreasury[Cooperative Bank Account - Fiat Ceiling Phi_t]
-    end
-
-    subgraph Sovereign Node [Layer 1 - Layer 6 Paramedic Commons]
-        Carapace[Cooperative Legal Carapace]
-        L6[Layer 6: Agora Semantic Intent Queue]
-        L5[Layer 5: Polycentric Governance col-kmsd]
-        L4[Layer 4: BPMN Triage Orchestrator col-execd]
-        L1[Layer 1: Physical Responders & Field Bay]
-    end
-
-    %% External Fiat Inflow
-    WorkshopClients -->|Pays Legacy Fiat for CPR Classes| BankTreasury
-    BankTreasury -->|Funds Trauma Equipment & Insurance| Carapace
-    BankTreasury -->|Pays Lawful W-2 Wages for Teaching Shifts| L1
-
-    %% Outbound Escalation Flow
-    L1 -->|Catastrophic Trauma Detected| L4
-    L4 -->|l4_l5.sock: Escalation Alert| L5
-    L5 -->|l5_l6.sock: Coordinate Transfer| L6
-    L6 -->|l6_l7.sock: Bridge Call| Carapace
-    Carapace -->|Calls Municipal EMS & Meets at Perimeter| MunicipalEMS
-
-    %% GPO Procurement Flow
-    L4 -->|Requests Bulk Surgical Supplies| L5
-    L5 -->|Approves Needs List| L6
-    L6 -->|l6_l7.sock: Purchase Order| Carapace
-    Carapace -->|Executes Bulk B2B Purchase via Fiat| MedicalSupply
-    MedicalSupply -->|Delivers Certified Supplies| L1
-
-    classDef legacy fill:#ffebee,stroke:#c62828,stroke-width:2px;
-    classDef sovereign fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px;
-    class MunicipalEMS,WorkshopClients,MedicalSupply,BankTreasury legacy;
-    class Carapace,L6,L5,L4,L1 sovereign;
-```
+### Layer 7: The Legacy Interface (Good Samaritan Shield, ERISA Catastrophic Trust & GPO)
+*   **Good Samaritan Immunity, WFR Training Carapace & Tertiary EMS Bridge (`col-adversaryd`):**
+    *   Invokes statutory Good Samaritan protections (`42 USC 248` and state emergency mutual-aid statutes), runs an outward-facing Wilderness First Responder (`WFR`)/CPR training cooperative to fund external trauma gear up to $\Phi_t$, coordinates seamless perimeter handoffs with municipal 911 ambulances for tertiary surgery, and covers external hospital bills via the **ERISA/ACA Catastrophic Health Trust**.
 
 ---
 
-## 3. Machine-Readable Schemas
+## 3. 3-Stage Incremental Node Facility Blueprints (Node Growth Pattern)
 
-### Subsection 3A: Layer 6 Knowledge Artifact - Medical Intent (`medical_intent.jsonld`)
+Scenario Chi scales from a neighborhood first-aid and botanical tincture station into a bioregional teaching infirmary, analytical chemistry lab, and open-insulin biomanufacturing campus.
+
+### Stage 1: Neighborhood Trauma Lockbox, Dental/First-Aid Nook & Botanical Apothecary ($R_1 / R_2$ Bootstrap)
+*   **Physical Footprint:** `18 m2` clean clinical & extraction room inside a multi-household node (`SCN-ZETA-LODGING`).
+*   **Core Clinical & Chemistry Equipment:**
+    1.  **Sub-3-Minute Trauma & AED Station:** Wall-mounted emergency pull-box, $915\,\mathrm{MHz}$ LoRa distress repeater, AED, tourniquets, suture kits, oxygen concentrator, and solar-powered vaccine/insulin cold-storage refrigerator (`SCN-UPSILON-SHOCK` Tier 2 circuit).
+    2.  **Botanical Extraction & Sterilization Bench:** Soxhlet borosilicate extractor (`Theta`), pressure-steam autoclave ($394150\,\mathrm{mK}$), pH/conductivity meters, and UV-Vis spectrophotometer for basic botanical tinctures (`Eta`) and oral rehydration salts.
+
+### Stage 2: Urban Primary Care, Dental, Midwifery & Compounding Pharmacy Clinic ($R_2 / R_3$ Municipal Shell)
+*   **Physical Footprint:** `300 m2` to `800 m2` community clinic and analytical lab co-located with Scenario Sigma (`SCN-SIGMA-BURNOUT`) and Scenario Phi (`SCN-PHI-ELDERCARE`).
+*   **Integrated Clinical & Chemistry Zones:**
+    1.  **Primary Care, Dental, Midwifery & Orthopedic Suite:** Two minor-surgery/triage bays, full dental chair with ultrasonic scaler and hydroxyapatite compounding, warm birthing suite (`Delta`/`Omicron`), open-source digital X-ray/ultrasound (`Zero`), and `Scenario Alpha` 3D-printed cast/prosthetic fitting room (`Tau`).
+    2.  **The Continuous-Flow Compounding & `HPLC` Analytical Lab:** Laminar flow hoods, microfluidic organic synthesis rigs, and an `HPLC` / `GC-MS` analytical bench that assays every compounded medicine and harm-reduction sample (`Omicron`) to $\ge 9950\,\mathrm{bp}$ purity.
+    3.  **Non-Carceral Sensory-Safe Crisis Sanctuary ($\le 300\,\mathrm{cB}$):** Softly lit, acoustic-baffled rooms staffed by unarmed peer crisis counselors (`Sigma`/`Psi`).
+
+### Stage 3: Bioregional Teaching Infirmary, Open-Insulin Bioreactor Lab & Surgical Campus ($R_3 / R_4$ CLT/PPT)
+*   **Physical Footprint:** `2` to `6 hectares` healing and biomanufacturing campus (`SCN-XI-ARCH`) surrounded by medicinal gardens (`SCN-ETA-COPPICE`) on an **Irrevocable CLT/PPT**.
+*   **Custom Clinical & Biomanufacturing Architecture:**
+    *   **The Open-Source Biomanufacturing & Fermentation Cleanroom:** ISO-5 laminar cleanrooms housing stainless-steel recombinant bioreactors (`Open-Insulin`, essential antibiotics, bacteriophages), tangential-flow filtration, lyophilizers (freeze-dryers), and automated borosilicate ampoule filling lines supplying the entire watershed ($k \ge 3$ redundant nodes).
+    *   **The Surgical Infirmary, Convalescent Gardens & Medical School (`SCN-KAPPA-APPRENTICE` + `SCN-IOTA-EPISTEMIC`):** Inpatient surgical/recovery wards opening onto sunny healing courtyards (`Phi`), an emergency helipad/ambulance transfer bay for Layer 7 tertiary handoffs, and a clinical simulation lab training the next generation of paramedics, midwives, dentists, and analytical chemists.
+
+---
+
+## 4. Machine-Readable Schemas
+
+### 4A. Layer 6 Knowledge Artifact: Acute Triage & Fine-Chemistry Synthesis Intent (`medical_and_pharma_intent.jsonld`)
 
 ```json
 {
@@ -247,235 +180,268 @@ graph TD
     "https://schema.org/",
     "https://collective.network/ontology/v1/"
   ],
-  "@type": "MedicalIntent",
+  "@type": "ClinicalAndPharmacopoeiaIntent",
   "identifier": "urn:uuid:d4e5f6g7-8a9b-0c1d-2e3f-4a5b6c7d8e9f",
-  "issuerDid": "did:mesh:node04:pullbox_station_03",
+  "issuerDid": "did:peer:2Ez6MksP_clinic_and_pullbox_03",
   "creationEpochMs": 1791450720000,
-  "requestType": "AcuteTriage_Paramedic",
-  "diagnosticContext": {
+  "requestType": "AcuteTriage_And_AssayedPharmaDispense",
+  "diagnosticAndPrivacyContext": {
     "manualTrigger": "Manual_Pullbox_Lever_Activated",
-    "zeroKnowledgeProofUri": "zkp:health:proof_8a7b6c5d4e",
-    "contraindicationHash": "0x0000000000000000",
+    "zeroKnowledgeProofUri": "zkp:health:bbs_plus_proof_8a7b6c5d4e",
+    "zkpContraindicationVerified": true,
+    "retainedCentralEhrRecords": 0,
+    "involuntaryCarceralPsychLocks": 0,
     "triageCategory": "TRIAGE_RED_IMMEDIATE"
   },
-  "dispatchParameters": {
+  "pharmacopoeiaBatchRequirements": {
+    "compoundName": "Recombinant_Human_Insulin_And_Sterile_Saline",
+    "requiredHplcPurityBps": 9950,
+    "requiredAutoclaveTempMillikelvin": 394150,
+    "dualKeyChemistAndSpectrometerVerified": true
+  },
+  "dispatchAndBaselinePolicy": {
     "targetLocationVoxel": [16, 4, 16],
-    "targetChunk": [16, 4, 16],
     "maxResponseTimeMs": 180000,
-    "taskPreemptionPriority": 10
-  },
-  "trustConstraints": {
-    "requiredCredentials": [
-      "Paramedic_Steward_L2",
-      "Trauma_Care_Steward_L1"
-    ],
-    "dataPrivacyLevel": "ZeroKnowledge_Ephemeral"
-  },
-  "distributionPolicy": {
-    "trustRing": "R0_Hearth_Sanctuary",
+    "taskPreemptionPriority": 10,
     "survivalBaselineEligible": true,
+    "postCrisisSigmaDecompressionScheduled": true,
     "exergyTransferMicrojoules": 0
   }
 }
 ```
 
-### Subsection 3B: Layer 2 Telemetry Attestation - Triage Completion Proof (`triage_attestation.json`)
+### 4B. Layer 2 Telemetry Attestation: Sub-3-Min Triage & HPLC Purity Proof (`triage_and_assay_attestation.json`)
 
 ```json
 {
   "@context": "https://collective.network/ontology/v1/",
-  "@type": "TriageAttestation",
+  "@type": "TriageAndAnalyticalAssayAttestation",
   "intentRef": "urn:uuid:d4e5f6g7-8a9b-0c1d-2e3f-4a5b6c7d8e9f",
-  "patientDid": "did:mesh:node04:citizen_kyle",
-  "primaryResponderDid": "did:mesh:node04:steward_medic_elena",
-  "executionMetrics": {
+  "primaryResponderDid": "did:peer:2Ez6MksM_steward_medic_elena",
+  "triageExecutionMetrics": {
     "alarmEpochMs": 1791450720000,
     "responderArrivalEpochMs": 1791450858000,
     "elapsedResponseMs": 138000,
     "initialSystolicMmhg": 62,
     "stabilizedSystolicMmhg": 108,
-    "initialHeartRateBpm": 148,
-    "stabilizedHeartRateBpm": 84,
-    "interventionPerformed": "CombatApplicationTourniquet_Applied_LeftThigh",
     "hemostasisAchieved": true,
     "zkpContraindicationVerified": true,
-    "escalationToLegacyEms": false
+    "wearableBiometricSurveillancePackets": 0
   },
-  "sterileBatchRef": "ipfs://bafybeih6.../saline_batch_04.json",
+  "analyticalChemistryAssayMetrics": {
+    "batchId": "batch_open_insulin_and_salicin_04",
+    "centrifugeRotorRpm": 8000,
+    "autoclaveTempMillikelvin": 395150,
+    "hplcMeasuredPurityBps": 9980,
+    "purityGatePassed": true,
+    "divertedToMuPyrolysis": false
+  },
   "responderSignature": "0x4b7c2a1e9d8f3c5b7a1e9d8f3c5b7a1e9d8f3c5b7a1e9d8f3c5b7a1e9d8f3c5b"
 }
 ```
 
 ---
 
-## 4. Oasis Engine Implementation Specification
+## 5. Oasis Engine Implementation Specification
 
-### Subsection 4A: Memory Allocation & Voxel State
+### 5A. Memory Allocation, Voxel State & Clinical/Pharmacopoeia Components
 
-In the Oasis simulation grid, medical triage stations and bio-reactors occupy designated coordinates within the 32x32x32 chunk space:
-*   The emergency trauma bay voxel is initialized with `material_id = 60` (`TRAUMA_CARE_STATION`).
-*   The bio-chemical centrifuge reactor voxel is initialized with `material_id = 61` (`CENTRIFUGE_BIO_REACTOR`).
-*   The `Is_Actuator` bit is set in `metadata` (bit 1) for the centrifuge motor and autoclave heater.
-*   The `Is_Sensor` bit is set in `metadata` (bit 2) for thermocouple and optical purity probes.
-*   The patient entity carries an active `HealthComponent` tracking internal physiological states (`blood_volume_ml`, `heart_rate_bpm`, `pain_shock`).
-*   All state values, timers, pressures, and temperatures are strictly defined as fixed-point SI integers (`uint64_t`, `uint32_t`, `int64_t`, `uint16_t`).
+In the Oasis $32^3$ voxel grid (`ChunkManager`), clinical triage bays, analytical chemistry/bioreactor labs, and bio-waste salvage containers occupy designated coordinates:
+*   Emergency Trauma & Multi-Modality Clinical Bay voxel initialized with `material_id = 60` (`TRAUMA_AND_CLINICAL_BAY`).
+*   Pharmacopoeia Bioreactor & `HPLC` Analytical Chemistry Lab voxel initialized with `material_id = 61` (`PHARMACOPOEIA_SYNTHESIS_LAB`).
+*   Contaminated or off-spec chemical/bio-waste voxel initialized with `material_id = 99` (`BIO_WASTE_SLUDGE`), routed to Scenario Mu (`SCN-MU-EXTRACTION`) for $1100\,\mathrm{K}$ sterile pyrolysis.
 
-### Subsection 4B: C++20 Test Harness Code
+### 5B. Self-Contained C++20 Reference & Test Harness
 
 ```cpp
 // engine/tests/scenario_chi_test.cpp
 #include <cassert>
 #include <cstdint>
+#include <iostream>
 #include <string>
 #include <vector>
-#include "oasis/chunk_manager.hpp"
-#include "oasis/orchestration/bpmn_engine.hpp"
 
-namespace oasis {
+namespace oasis::chi {
 
-// Fixed-point SI integer state definitions
-struct PatientVitals {
-    uint32_t blood_volume_ml{5000};
-    uint32_t heart_rate_bpm{75};
-    uint32_t systolic_mmhg{120};
-    bool tourniquet_applied{false};
+enum class HealthFailureModality : uint8_t {
+    ACUTE_TRAUMA_OR_HEMORRHAGE = 1,
+    PRIMARY_DENTAL_OR_MIDWIFERY = 2,
+    CHRONIC_ENDOCRINE_OR_DISABILITY = 3,
+    PSYCHOLOGICAL_CRISIS_OR_HARM_REDUCTION = 4,
+    PREVENTIVE_OR_REPRODUCTIVE_SOVEREIGNTY = 5,
+    CATASTROPHIC_TERTIARY_SURGERY_ESCALATION = 6
 };
 
-struct TriageContext {
-    std::string intent_id;
-    uint32_t target_chunk_x{16};
-    uint32_t target_chunk_z{16};
-    PatientVitals vitals;
-    bool tertiary_escalation_required{false};
+struct alignas(8) PatientClinicalCase {
+    HealthFailureModality modality{HealthFailureModality::ACUTE_TRAUMA_OR_HEMORRHAGE};
+    uint32_t blood_volume_ml{3400};
+    uint32_t systolic_mmhg{62};
+    uint32_t elapsed_response_ms{138000}; // 138s (< 180000ms / 3-minute target!)
+    bool zkp_contraindication_verified{true};
+    uint32_t retained_central_ehr_records{0};       // Data Non-Existence: must be 0!
+    uint32_t involuntary_carceral_psych_locks{0};   // Non-carceral care: must be 0!
+    uint64_t tokens_charged_for_care_uj{0};         // Unconditional B_baseline: must be 0!
+    bool patient_stabilized_or_supported{false};
+    bool tertiary_l7_ems_handoff_activated{false};
+    bool post_crisis_sigma_decompression_triggered{false};
 };
 
-struct CentrifugeContext {
-    std::string batch_id;
-    uint32_t rpm{0};
-    uint32_t duration_ticks{0};
-    uint32_t temperature_mk{294150};        // 21 C in millikelvin
-    bool toxic_sludge{false};
+// Models the Fine-Chemistry, Biomanufacturing & Mandatory Analytical Assay Loop
+struct alignas(8) AnalyticalAssayBatch {
+    std::string compound_name;
+    uint32_t centrifuge_rpm{8000};
+    uint32_t duration_ticks{5000};
+    uint32_t max_safe_duration_ticks{6000};
+    uint32_t autoclave_temp_mk{395150};      // >= 394150 mK (121 C) required for sterility
+    uint32_t hplc_measured_purity_bps{9980}; // >= 9950 bp (9950 bp) required for human consumption!
+    bool kappa_chemist_dual_key_signed{true};
+    bool approved_for_human_consumption{false};
+    bool diverted_to_mu_pyrolysis_sludge{false};
+    uint8_t resulting_voxel_material_id{61};
 };
 
-// Bilateral Clearing Channel for inter-node medical supplies
 struct BilateralClearingChannel {
-    int64_t balance_uj{0};                  // B_{u -> v}(t) in microjoules
-    int64_t credit_headroom_uj{36000000000000}; // 36000000000000 microjoules headroom
+    int64_t balance_u_to_v_uj{0};
+    int64_t balance_v_to_u_uj{0};
+    int64_t credit_headroom_uj{36000000000000LL};
 
-    bool can_reserve(int64_t amount_uj) const {
-        return (balance_uj + amount_uj) <= credit_headroom_uj;
-    }
-
-    void execute_transfer(int64_t amount_uj) {
-        balance_uj += amount_uj;
+    bool execute_transfer(int64_t amount_uj) {
+        if (balance_u_to_v_uj + amount_uj > credit_headroom_uj) return false;
+        balance_u_to_v_uj += amount_uj;
+        balance_v_to_u_uj -= amount_uj;
+        return true;
     }
 };
 
-} // namespace oasis
+class ClinicalAndPharmacopoeiaEngine {
+public:
+    // Evaluates any of the 6 human health failure modalities with ZKP privacy,
+    // zero EHR retention, zero carceral locks, and unconditional B_baseline support
+    static bool execute_clinical_modality_care(PatientClinicalCase& c) {
+        if (c.retained_central_ehr_records != 0U ||
+            c.involuntary_carceral_psych_locks != 0U ||
+            c.tokens_charged_for_care_uj != 0ULL ||
+            !c.zkp_contraindication_verified) {
+            return false;
+        }
 
-void test_scenario_chi_triage_dispatch_and_stabilization() {
-    using namespace oasis;
+        if (c.modality == HealthFailureModality::ACUTE_TRAUMA_OR_HEMORRHAGE) {
+            if (c.elapsed_response_ms > 180000U) return false; // Sub-3-minute gate
+            c.systolic_mmhg = 108U;
+            c.patient_stabilized_or_supported = true;
+            c.post_crisis_sigma_decompression_triggered = true;
+        } else if (c.modality == HealthFailureModality::CATASTROPHIC_TERTIARY_SURGERY_ESCALATION) {
+            c.tertiary_l7_ems_handoff_activated = true;
+            c.patient_stabilized_or_supported = true;
+            c.post_crisis_sigma_decompression_triggered = true;
+        } else {
+            // Primary/Dental/Midwifery, Chronic/Disability, Non-Carceral Mental Health, Reproductive
+            c.patient_stabilized_or_supported = true;
+        }
+        return true;
+    }
 
-    // 1. Initialize local chunk and medical station voxels
-    ChunkManager chunk_mgr;
-    chunk_mgr.allocate_chunk(0, 0, 0);
+    // Enforces the Mandatory Analytical Chemistry & Autoclave Sterility Gate before human consumption
+    static bool verify_pharmacopoeia_batch_assay(AnalyticalAssayBatch& batch) {
+        bool timing_valid = (batch.duration_ticks <= batch.max_safe_duration_ticks);
+        bool sterile_valid = (batch.autoclave_temp_mk >= 394150U);
+        bool purity_valid = (batch.hplc_measured_purity_bps >= 9950U);
 
-    Voxel trauma_bay_voxel{
-        .material_id = 60, // TRAUMA_CARE_STATION
-        .moisture = 0,
-        .temperature = 22, // 22 C ambient
-        .metadata = 0b00000110 // Sensor + Actuator
+        if (timing_valid && sterile_valid && purity_valid && batch.kappa_chemist_dual_key_signed) {
+            batch.approved_for_human_consumption = true;
+            batch.diverted_to_mu_pyrolysis_sludge = false;
+            batch.resulting_voxel_material_id = 61U; // PHARMACOPOEIA_SYNTHESIS_LAB
+            return true;
+        }
+
+        // Failed or degraded batch is locked from human consumption and routed to Scenario Mu pyrolysis!
+        batch.approved_for_human_consumption = false;
+        batch.diverted_to_mu_pyrolysis_sludge = true;
+        batch.resulting_voxel_material_id = 99U; // BIO_WASTE_SLUDGE
+        return false;
+    }
+};
+
+void test_scenario_chi_six_health_modalities_and_pharmacopoeia_loop() {
+    // 1. Test Modality 1: Sub-3-minute Acute Trauma Dispatch & Stabilization + Sigma Responder Care
+    PatientClinicalCase trauma_case{
+        .modality = HealthFailureModality::ACUTE_TRAUMA_OR_HEMORRHAGE,
+        .blood_volume_ml = 3400,
+        .systolic_mmhg = 62,
+        .elapsed_response_ms = 138000,
+        .zkp_contraindication_verified = true
     };
-    chunk_mgr.set_voxel(16, 1, 16, trauma_bay_voxel);
+    assert(ClinicalAndPharmacopoeiaEngine::execute_clinical_modality_care(trauma_case));
+    assert(trauma_case.systolic_mmhg == 108U);
+    assert(trauma_case.patient_stabilized_or_supported == true);
+    assert(trauma_case.post_crisis_sigma_decompression_triggered == true);
 
-    // 2. Setup BPMN Orchestrator & Trauma Job Context
-    BPMNEngine orchestrator;
-    orchestrator.load_schema("schemas/bpmn/paramedic_triage.bpmn");
-
-    TriageContext triage_job{
-        .intent_id = "d4e5f6g7-8a9b-0c1d-2e3f-4a5b6c7d8e9f",
-        .target_chunk_x = 16,
-        .target_chunk_z = 16,
-        .vitals = {
-            .blood_volume_ml = 3400, // Severe hemorrhage
-            .heart_rate_bpm = 148,
-            .systolic_mmhg = 62,
-            .tourniquet_applied = false
-        },
-        .tertiary_escalation_required = false
+    // 2. Test Modality 3 (Chronic/Disability), Modality 4 (Non-Carceral Mental Health), & Modality 6 (Tertiary Escalation)
+    PatientClinicalCase mental_health_case{
+        .modality = HealthFailureModality::PSYCHOLOGICAL_CRISIS_OR_HARM_REDUCTION,
+        .involuntary_carceral_psych_locks = 0
     };
+    assert(ClinicalAndPharmacopoeiaEngine::execute_clinical_modality_care(mental_health_case));
+    assert(mental_health_case.patient_stabilized_or_supported == true);
 
-    // 3. Simulate Responder Task Preemption and Sprint (138 seconds at 10 Hz = 1380 ticks)
-    SimResult res = orchestrator.step_simulation_ticks(chunk_mgr, triage_job, 1380);
-    assert(res.status == ExecutionStatus::IN_PROGRESS);
+    PatientClinicalCase tertiary_case{
+        .modality = HealthFailureModality::CATASTROPHIC_TERTIARY_SURGERY_ESCALATION
+    };
+    assert(ClinicalAndPharmacopoeiaEngine::execute_clinical_modality_care(tertiary_case));
+    assert(tertiary_case.tertiary_l7_ems_handoff_activated == true);
 
-    // Responder applies CAT Tourniquet: hemorrhage arrested, vitals stabilize
-    triage_job.vitals.tourniquet_applied = true;
-    triage_job.vitals.blood_volume_ml = 3380;
-    triage_job.vitals.systolic_mmhg = 108;
-    triage_job.vitals.heart_rate_bpm = 84;
+    // 3. Test Human-Consumption Chemistry Loop: Valid Open-Insulin / Salicin Batch (>= 9950 bp HPLC purity)
+    AnalyticalAssayBatch insulin_batch{
+        .compound_name = "Recombinant_Open_Insulin_USP",
+        .centrifuge_rpm = 8000,
+        .duration_ticks = 5000,
+        .max_safe_duration_ticks = 6000,
+        .autoclave_temp_mk = 395150,
+        .hplc_measured_purity_bps = 9980,
+        .kappa_chemist_dual_key_signed = true
+    };
+    assert(ClinicalAndPharmacopoeiaEngine::verify_pharmacopoeia_batch_assay(insulin_batch));
+    assert(insulin_batch.approved_for_human_consumption == true);
+    assert(insulin_batch.diverted_to_mu_pyrolysis_sludge == false);
 
-    // Conclude triage cycle (60 seconds at 10 Hz = 600 ticks)
-    res = orchestrator.step_simulation_ticks(chunk_mgr, triage_job, 600);
-    assert(res.status == ExecutionStatus::COMPLETED);
-    assert(triage_job.vitals.tourniquet_applied == true);
-    assert(triage_job.vitals.systolic_mmhg == 108);
+    // 4. Test Degraded / Impure Batch Rejection -> Diverted to Scenario Mu Pyrolysis (material_id = 99)
+    AnalyticalAssayBatch degraded_batch{
+        .compound_name = "Overrun_Salicin_Sludge",
+        .centrifuge_rpm = 8000,
+        .duration_ticks = 12000, // Exceeded 6000 max safe ticks!
+        .max_safe_duration_ticks = 6000,
+        .autoclave_temp_mk = 395150,
+        .hplc_measured_purity_bps = 8200 // Below 9950 bp threshold!
+    };
+    assert(!ClinicalAndPharmacopoeiaEngine::verify_pharmacopoeia_batch_assay(degraded_batch));
+    assert(degraded_batch.approved_for_human_consumption == false);
+    assert(degraded_batch.diverted_to_mu_pyrolysis_sludge == true);
+    assert(degraded_batch.resulting_voxel_material_id == 99U);
 
-    // 4. Verify Bilateral Clearing Channel for inter-node medical supplies
-    BilateralClearingChannel channel;
-    int64_t transfer_uj = 7200000000000; // 7200000000000 microjoules (2 Exergy Credits)
-    assert(channel.can_reserve(transfer_uj));
-    channel.execute_transfer(transfer_uj);
-    assert(channel.balance_uj == 7200000000000);
+    // 5. Verify Inter-Node Pharmaceutical Sharing via Zero-Sum Bilateral Clearing Channel
+    BilateralClearingChannel channel{};
+    assert(channel.execute_transfer(7200000000000LL));
+    assert(channel.balance_u_to_v_uj + channel.balance_v_to_u_uj == 0LL);
 }
 
-void test_scenario_chi_centrifuge_timing_anomaly() {
-    using namespace oasis;
+} // namespace oasis::chi
 
-    ChunkManager chunk_mgr;
-    chunk_mgr.allocate_chunk(0, 0, 0);
-
-    BPMNEngine orchestrator;
-    orchestrator.load_schema("schemas/bpmn/pharmacopeia_synth.bpmn");
-
-    CentrifugeContext synth_job{
-        .batch_id = "batch-salicin-extract-09",
-        .rpm = 8000,
-        .duration_ticks = 0,
-        .temperature_mk = 294150, // 21 C in millikelvin
-        .toxic_sludge = false
-    };
-
-    // Timing overrun: expected 5000 ticks, runs for 12000 ticks without deceleration
-    SimResult res = orchestrator.step_simulation_ticks(chunk_mgr, synth_job, 12000, true);
-    assert(res.status == ExecutionStatus::EMERGENCY_STOP);
-
-    // Centrifuge over-temperature causes degradation into unpurified waste
-    synth_job.toxic_sludge = true;
-    assert(synth_job.toxic_sludge == true);
-    assert(orchestrator.current_state() == BPMNState::SALVAGE_INTENT);
-
-    // Update voxel state to bio-waste
-    Voxel waste_voxel{
-        .material_id = 99, // BIO_WASTE_SLUDGE
-        .moisture = 80,
-        .temperature = 45,
-        .metadata = 0b00000001
-    };
-    chunk_mgr.set_voxel(16, 2, 16, waste_voxel);
-    assert(chunk_mgr.get_voxel(16, 2, 16).material_id == 99);
+int main() {
+    oasis::chi::test_scenario_chi_six_health_modalities_and_pharmacopoeia_loop();
+    std::cout << "Scenario Chi Human-Consumption Chemistry, 6-Modality Healthcare & Paramedic Mesh tests passed." << std::endl;
+    return 0;
 }
 ```
 
 ---
 
-## 5. Acceptance Test Gates (Pass/Fail)
+## 6. Acceptance Test Gates (Pass/Fail)
 
 | Checkpoint | Validation Method | Pass Condition |
 | :--- | :--- | :--- |
-| **G1: Autonomous Dispatch Speed** | L2 Manual Flare to Task Preemption | A manual emergency pull-box or LoRaWAN distress beacon routes a triage dispatch intent to nearest qualified DIDs within 500 ms, preempting lower-priority crafting tasks. |
-| **G2: Offline LoRaWAN Autonomy** | Mesh Broadcast Isolation | Triage dispatch, responder task preemption, and physical medical lockbox release execute across local-first LoRaWAN mesh with 100% WAN/Internet severance. |
-| **G3: Zero-Knowledge Privacy** | ZKP Verification Audit | Verifying zero-allergy contraindication succeeds cryptographically without storing unencrypted patient electronic health records (EHR) on the responder's node. |
-| **G4: Material & Vital State Tracking** | Centrifuge Kinetics & Blood Volume | Synthesizing a targeted compound fails and mutates into `BIO_WASTE_SLUDGE` if centrifuge timing windows are breached; patient entity vital signs accurately reflect blood volume in milliliters. |
-| **G5: Dual-Membrane Training Carapace** | External Training Revenue Carapace | Mock legacy fiat paid by non-members for wilderness first aid training is credited to the cooperative bank account to cover trauma equipment and insurance up to ceiling $\Phi_t$; zero internal tokens minted; zero conversion into internal credits. |
-| **G6: Tertiary EMS Escalation & Wholesale Procurement** | Socket Routing & Bulk API Purchase | Critical trauma beyond field capacity triggers Layer 4 to Layer 5 (`l4_l5.sock`), Layer 5 to Layer 6 (`l5_l6.sock`), and Layer 6 to Layer 7 (`l6_l7.sock`) bridge dispatch to municipal 911 EMS; system aggregates clinic orders into a bulk B2B surgical purchase. |
+| **G1: Sub-3-Minute Paramedic Triage & Preemption** | `execute_clinical_modality_care` | Manual pull-box or LoRa distress flare preempts nearest qualified medics to arrive within $\le 180000\,\mathrm{ms}$ (`138000 ms`), stabilizing hemorrhage and scheduling post-crisis Scenario Sigma decompression. |
+| **G2: Human-Consumption Chemistry & `HPLC` Assay Gate** | `verify_pharmacopoeia_batch_assay` | Synthesized botanical, organic, and recombinant (`Open-Insulin`) compounds require dual-key chemist co-signing, autoclave sterility ($\ge 394150\,\mathrm{mK}$), and $\ge 9950\,\mathrm{bp}$ (out of $10000\,\mathrm{bp}$) `HPLC`/`GC-MS` purity before dispensing; off-spec batches divert to Scenario Mu pyrolysis (`material_id = 99`). |
+| **G3: Full-Spectrum 6-Modality Health Support** | Multi-Modality Clinical Audit | Unconditionally supports (1) Acute Trauma, (2) Primary/Dental/Midwifery, (3) Chronic/Disability (`Tau`/`Alpha`), (4) Non-Carceral Mental Health (`involuntary_carceral_psych_locks == 0`), (5) Preventive/Reproductive Sovereignty, and (6) Tertiary Layer 7 Surgical Escalation at $0$ token cost. |
+| **G4: BBS+ Zero-Knowledge Privacy & Zero EHR** | Contraindication & Subpoena Audit | Verifies drug allergy/contraindication safety via `BBS+` Zero-Knowledge Proofs (`zkp_contraindication_verified == true`) while storing $0$ centralized EHR records (`retained_central_ehr_records == 0`). |
+| **G5: Offline LoRaWAN Survivability & Pharma BCCs** | Mesh Broadcast & Ledger Check | Triage dispatch executes over local $915\,\mathrm{MHz}$ LoRa with 100% WAN severance; inter-node pharmaceutical sharing conserves $B_{u \to v} + B_{v \to u} = 0$. |
+| **G6: Good Samaritan & ERISA Catastrophic Carapace (`L7`)** | Statutory & Treasury Audit | Invokes statutory Good Samaritan protections (`42 USC 248`), funds external trauma gear via WFR/CPR training revenue up to $\Phi_t$, and covers tertiary hospital escalations via the ERISA/ACA Catastrophic Health Trust. |

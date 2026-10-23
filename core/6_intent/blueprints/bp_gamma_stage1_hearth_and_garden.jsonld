@@ -1,0 +1,121 @@
+{
+  "@context": [
+    "https://schema.org/",
+    "https://collective.network/ontology/v1/"
+  ],
+  "@type": "NodeFacilityBlueprint",
+  "identifier": "urn:uuid:c9e10402-5678-1234-abcd-987654321003",
+  "blueprintId": "bp_gamma_stage1_hearth_and_garden",
+  "scenarioRef": [
+    "SCN-GAMMA-KITCH",
+    "SCN-MU-EXTRACTION"
+  ],
+  "stage": 1,
+  "title": "Stage-1 Backyard Keyline Garden & Unconditional R0 Commons Hearth (Pea Soup & Bean Stew Baseline)",
+  "versionTag": "v3.1.0-genesis",
+  "treatyCid": "bafybeihdwdcefgh4dqkjv67uzcmw7ojee6xedeet6wfvikrwho3qnwjxye",
+  "realWorldEngineeringSpec": {
+    "gardenBedAreaSquareMeters": 24,
+    "hearthBatchPortions": 24,
+    "targetLethalityMillikelvin": 347150,
+    "minLethalityHoldMs": 120000,
+    "dangerZoneLowerMillikelvin": 277150,
+    "dangerZoneUpperMillikelvin": 333150,
+    "maxDangerZoneElapsedMs": 7200000,
+    "fermentationAcidityMaxMilliph": 4600,
+    "r0ConstitutionalBaselineRecipe": {
+      "recipeName": "Humble Split-Pea Soup & Black-Bean Root Vegetable Stew",
+      "caloricDensityKcalPerPortion": 650,
+      "caloricMicrojoulesPerBatch": 65270400000,
+      "ingredients": [
+        "Dry Green Split Peas (Pisum sativum)",
+        "Dry Heirloom Black Turtle Beans (Phaseolus vulgaris)",
+        "Backyard Keyline Carrots, Onions, Garlic & Winter Kale",
+        "Fractional Solar Sea Salt (NaCl + KI) & Bay Leaf",
+        "Fermented Cabbage Kraut Garnish (< 4600 mpH)"
+      ],
+      "domesticCareTokenMinting": 0,
+      "unconditionalBaselineRightToExist": true
+    },
+    "billOfMaterials": [
+      {
+        "componentId": "keyline_raised_beds_and_biochar_compost",
+        "description": "Suburban backyard keyline swale raised beds amended with Scenario Mu thermophilic compost and biochar",
+        "modalityRequired": "MANUAL_EARTHWORKS_AND_CARPENTRY",
+        "materialClass": "SOIL_BIOCHAR_AND_SALVAGED_TIMBER",
+        "sourceRing": "R0_R1_LOCAL_LAND_AND_STOCK",
+        "massMilligrams": 450000000000,
+        "l7FallbackSku": null,
+        "l7FallbackCostUsdCents": 0
+      },
+      {
+        "componentId": "induction_hob_pt100_cauldron_and_bulk_legumes",
+        "description": "High-efficiency magnetic induction hob, heavy cast-iron/304-stainless stockpot, calibrated PT100 core temperature probe, returnable 304 stainless NFC tiffins, ceramic lacto-fermentation crock, and 90-day bulk sack buffer of dry split peas, black beans, and iodized sea salt",
+        "modalityRequired": "CULINARY_HEARTH_INSTALLATION",
+        "materialClass": "STAINLESS_304_INDUCTION_AND_DRY_PULSE_BUFFER",
+        "sourceRing": "L7_GPO_FALLBACK_PROCUREMENT",
+        "massMilligrams": 125000000000,
+        "l7FallbackSku": "GPO-GAMMA-HEARTH-INDUCTION-LEGUME-KIT",
+        "l7FallbackCostUsdCents": 87000
+      }
+    ]
+  },
+  "layer5GovernancePolicy": {
+    "legalCarapace": "UUNAA_SECTION_6_PRIVATE_FOOD_CLUB_AND_RIGHT_TO_GARDEN",
+    "constitutionalBaselineLaw": "Law 3 (R0 / B_baseline): Every person holds an unconditional right to exist. The Hearth provides humble, nourishing pea soup and bean stew with zero token/fiat pricing ($0 domestic care non-commensurability), allowing members to immediately scrap their legacy grocery bills.",
+    "anaphylacticZkpShieldRequired": true,
+    "convivialAntiPanopticonRule": "Only thermodynamic/chemical probes (PT100 mK, pH mpH, load-cell mg) permitted; zero optical cameras or microphones in the kitchen or garden.",
+    "exportSurplusBoundEnforced": "Q_avail = max(0, Q_inventory - F_eco - B_baseline)",
+    "requiredBbsPlusCredential": "Food_Safety_Steward_L1",
+    "dependencyRatioDeltaBp": -2200,
+    "reputationalWealthCreditBp": 140
+  },
+  "layer4CustomizableWorkflow": {
+    "workflowId": "wf_gamma_stage1_hearth_pea_soup_bean_stew_v3_1",
+    "intentUTurnCompliant": true,
+    "customizableSteps": [
+      {
+        "stepId": "STEP_1_L7_HEARTH_AND_BULK_PULSE_PROCUREMENT_YIELD",
+        "layerTraversal": "L4 -> L5 -> L6 -> L7 (Intent U-Turn)",
+        "action": "Check R1-R3 larder and tool stock; on Day-1 Genesis cache miss, yield upward to L5/L6/L7 to procure GPO-GAMMA-HEARTH-INDUCTION-LEGUME-KIT for 87000 USD cents ($870.00) from the $20,000 Genesis Reserve."
+      },
+      {
+        "stepId": "STEP_2_KEYLINE_GARDEN_SWALE_AND_SEEDING",
+        "layerTraversal": "L4 -> L3 -> L2 -> L1",
+        "action": "Shape backyard keyline moisture-retention bed, inoculate with biochar compost, and plant root vegetables and greens."
+      },
+      {
+        "stepId": "STEP_3_BIGELOW_LETHALITY_SIMMER_PEA_SOUP_AND_BEAN_STEW",
+        "layerTraversal": "L4 -> L3 -> L2 -> L1",
+        "action": "Simmer Split-Pea Soup & Black-Bean Stew on the induction hob until PT100 probe verifies core_temp_mk >= 347150 mK (74 C) for >= 120000 ms (Bigelow F0 pathogen lethality)."
+      },
+      {
+        "stepId": "STEP_4_R0_UNCONDITIONAL_HEARTH_SERVICE_AND_TROPHIC_UPCYCLE",
+        "layerTraversal": "L1 -> L2 -> L3 -> L4 -> L5",
+        "action": "Serve unconditional R0 baseline meals ($0 token minting), scrap legacy grocery bills, route vegetable trimmings to BSFL / Scenario Mu thermophilic compost, and credit Steward Reputational Wealth (R)."
+      }
+    ]
+  },
+  "oasisSimulationProjection": {
+    "supportedFidelityModes": [
+      "MACRO_ABSTRACTED",
+      "MULTI_STAGE_SUBSET",
+      "FULL_STOICHIOMETRIC_HIL"
+    ],
+    "defaultFidelityMode": "MULTI_STAGE_SUBSET",
+    "designatorActionId": 14,
+    "voxelMaterialIds": [
+      22,
+      23
+    ],
+    "boundingBoxDecimeters": [
+      24,
+      12,
+      24
+    ],
+    "somaticCaloricCostKcal": 250,
+    "caloricYieldKcalPerBatch": 15600,
+    "scrapsLegacyGroceryBillBaseline": true,
+    "qualityFlagEnforced": 1
+  }
+}

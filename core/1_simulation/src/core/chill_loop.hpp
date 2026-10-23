@@ -90,6 +90,7 @@ struct EnclosureCacheComponent {
         case 32u: // Exterior Roof Access Ladder
         case 33u: // Construction Stage Frame
         case 34u: // Mature Crop
+        case 120u: // Studio Workstation Pod (Scenario Zero Homelab)
             return true;
         default:
             return false;
@@ -499,6 +500,40 @@ inline flecs::entity BootstrapGenesisSurvivalCamp(flecs::world& ecs) {
     return ecs.entity("GenesisCamp").set<GenesisCampStockComponent>(camp);
 }
 
+inline flecs::entity BootstrapCleanSuburbanGenesisLot(flecs::world& ecs) {
+    ecs.component<GenesisCampStockComponent>();
+    ecs.component<EnclosureCacheComponent>();
+    ecs.component<oasis::fabrication::GardenCropComponent>();
+
+    GenesisCampStockComponent camp{};
+    camp.solar_kits_remaining = 0u;
+    camp.raw_produce_items = 0u;
+
+    // Basic domestic R0 household shelter fixtures
+    oasis::graphics::SetDynamicVoxel(camp.tent_pos, static_cast<uint8_t>(MAT_BELL_TENT));
+    oasis::graphics::SetDynamicVoxel(camp.tent_pos + glm::ivec3(0, 0, 1), static_cast<uint8_t>(MAT_SLEEP_ZONE));
+    oasis::graphics::SetDynamicVoxel(camp.water_tote_pos, 12u); // Kitchen tap (14, 1, 4)
+    oasis::graphics::SetDynamicVoxel(camp.ration_crate_pos, static_cast<uint8_t>(MAT_RATION_CRATE)); // Kitchen counter (11, 1, 4)
+    oasis::graphics::SetDynamicVoxel(camp.campfire_pos, static_cast<uint8_t>(MAT_RECREATION_ZONE)); // Patio hearth (19, 1, 6)
+    oasis::graphics::SetDynamicVoxel(camp.salvage_crate_pos, static_cast<uint8_t>(MAT_RATION_CRATE)); // Driveway drop-zone (8, 1, 3)
+
+    // Clean-slate backyard lawn: 0 pre-spawned mature garden crops, 0 solar panels, 0 swales
+    oasis::graphics::SetDynamicVoxel(glm::ivec3(20, 1, 5), 0u);
+    oasis::graphics::SetDynamicVoxel(glm::ivec3(20, 1, 6), 0u);
+
+    std::vector<flecs::entity> existing_crops;
+    ecs.each([&](flecs::entity ce, oasis::fabrication::GardenCropComponent&) {
+        existing_crops.push_back(ce);
+    });
+    for (auto& ce : existing_crops) {
+        if (ce.is_alive()) {
+            ce.destruct();
+        }
+    }
+
+    return ecs.entity("GenesisCamp").set<GenesisCampStockComponent>(camp);
+}
+
 template <typename PsychComponentT>
 inline bool StepSomaticIntake(
     oasis::fabrication::SomaticStateComponent& somatic,
@@ -640,6 +675,7 @@ namespace oasis::homeostasis {
     using oasis::chill::FormatMetabolicStateLabel;
     using oasis::chill::CookHomesteadMealAtKitchen;
     using oasis::chill::BootstrapGenesisSurvivalCamp;
+    using oasis::chill::BootstrapCleanSuburbanGenesisLot;
     using oasis::chill::StepSomaticIntake;
     using oasis::chill::BurnoutStateComponent;
     using oasis::chill::CanExecuteDesignatorAction;
@@ -674,6 +710,7 @@ namespace oasis::fabrication {
     using oasis::chill::FormatMetabolicStateLabel;
     using oasis::chill::CookHomesteadMealAtKitchen;
     using oasis::chill::BootstrapGenesisSurvivalCamp;
+    using oasis::chill::BootstrapCleanSuburbanGenesisLot;
     using oasis::chill::StepSomaticIntake;
     using oasis::chill::BurnoutStateComponent;
     using oasis::chill::CanExecuteDesignatorAction;
@@ -706,6 +743,7 @@ namespace oasis {
     using oasis::chill::FormatMetabolicStateLabel;
     using oasis::chill::CookHomesteadMealAtKitchen;
     using oasis::chill::BootstrapGenesisSurvivalCamp;
+    using oasis::chill::BootstrapCleanSuburbanGenesisLot;
     using oasis::chill::StepSomaticIntake;
     using oasis::chill::BurnoutStateComponent;
     using oasis::chill::CanExecuteDesignatorAction;

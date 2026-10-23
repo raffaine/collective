@@ -2314,3 +2314,25 @@ The Strategic Realignment & Horizon Council concludes its deliberations for **Ve
 - *Stack Engineer (`explorer_stack_v4`)*
 - *Oasis Boundary Architect (`explorer_oasis_v4`)*
 
+
+
+---
+
+## 15. V3.1 Architectural Realignment — Autopoietic Self-Hosting (`SCN-ZERO-SOFTWARE`), Dual-Fidelity L6 Blueprints, $R_0$ Baseline & \$20k Genesis Procurement Pipeline
+
+In alignment with `docs/OASIS_GDD.md` (Section 12) and `PRODUCT_BACKLOG_V6.md` (Section 8), Version 4.0.0-RELEASE incorporates the four constitutional laws of the **V3.1 Architectural Realignment**:
+
+### 15.1. Law 1 — Scenario Zero (`SCN-ZERO-SOFTWARE`) Autopoietic Self-Hosting
+* **Canonical Manifest (`core/6_intent/blueprints/scn_zero_daemons_manifest.jsonld`):** The 8 Sovereign Stack daemons (`col-telemetryd`, `col-meshd`, `col-storaged`, `col-execd`, `col-kmsd`, `col-commonsd`, `col-gatewayd`, `col-adversaryd`) and `oasis_engine` are governed, built, audited, and canary-tested by the stack itself.
+* **Constitutional Gate Invariants:** Disassembly and CI gates enforce `floating_point_opcodes_detected == 0` across deterministic Layer 2–5 paths, `layer_skipping_imports_detected == 0`, zero `l4_l7.sock`, 3-node reproducible SHA-256 binary consensus (`x86_64`, `ARM64`, `RISC-V`), and a mandatory `10,000`-tick Oasis shadow-twin canary soak before Layer 5 deployment ratification.
+
+### 15.2. Law 2 — Feeding Oasis Feeds The Collective (Dual-Fidelity Real Blueprints)
+* **Unified Layer 6 Blueprint Artifacts (`core/6_intent/blueprints/*.jsonld`):** Each blueprint in `col-commonsd` (`bp_alpha_stage1_solar_array.jsonld`, `bp_zero_stage1_homelab_workstation.jsonld`, `bp_gamma_stage1_hearth_and_garden.jsonld`) pairs real-world physical BOMs, fixed-point SI sensor bounds, and Layer 5 legal/acoustic policies (`<= 550 cB` workshop, `< 380 cB` homelab, `>= 347150 mK` Bigelow culinary lethality) with an `oasisSimulationProjection` (`MACRO_ABSTRACTED`, `MULTI_STAGE_SUBSET`, `FULL_STOICHIOMETRIC_HIL`).
+
+### 15.3. Law 3 — The Constitutional Baseline Right to Exist ($R_0 / B_{\mathrm{baseline}}$)
+* **Unconditional Survival Floor (`col-kmsd` & `col-storaged`):** Layer 5 and Layer 3 guarantee every person's unconditional right to exist—providing humble, nourishing **pea soup and bean stew**, a **warm shower and heating**, **sanitation**, and **emergency / failing-health care** with zero token or fiat pricing (`domesticCareTokenMinting == 0`), enabling households to immediately scrap legacy grocery and baseline utility bills.
+* **Open Knowledge & Reputational Wealth ($\mathcal{R}$):** All Layer 6 Agora blueprints and knowledge are open from Day 1, paired with transparent visibility into learning (`Scenario Kappa`) and Layer 4 workflows where contributors earn decaying, sublinearly capped ($\le 800\,\mathrm{bp}$) **Reputational Wealth ($\mathcal{R}$)** to govern collective work in Layer 5 and progressively elevate $B_{\mathrm{baseline}}$.
+
+### 15.4. Law 4 — Alpha Release Genesis & The Intent U-Turn Procurement Pipeline
+* **Suburban Genesis State (`2,000,000` Integer USD Cents / $D_0 = 10000\,\mathrm{bp}$):** Day-1 Lot 402 initializes as an ordinary suburban house with a `$20,000.00` (`2,000,000` cents) Layer 7 reserve managed under `col-adversaryd` and $D_0 = 10000\,\mathrm{bp}$.
+* **Strict Intent U-Turn Procurement (`L6 -> L5 -> L4 -> [Yield] -> L5 -> L6 -> L7`):** Commissioning any station (`142,000` cents Stage-1 Solar Array, `35,000` cents Stage-1 Homelab Workstation, `87,000` cents Stage-1 Hearth & Garden) traverses `L6 -> L5 -> L4`; when `col-execd` detects missing irreducible leaf components in `R1–R3`, it yields upward (`YIELD_UPWARD_L5 -> L6 -> L7`) so `col-adversaryd` executes the GPO fallback purchase from the `$20,000` reserve without ever creating a direct `l4_l7.sock` bypass.

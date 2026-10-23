@@ -1,0 +1,110 @@
+{
+  "@context": [
+    "https://schema.org/",
+    "https://collective.network/ontology/v1/"
+  ],
+  "@type": "NodeFacilityBlueprint",
+  "identifier": "urn:uuid:00000402-8b2a-4d3e-9f10-1a2b3c4d5e00",
+  "blueprintId": "bp_zero_stage1_homelab_workstation",
+  "scenarioRef": [
+    "SCN-ZERO-SOFTWARE"
+  ],
+  "stage": 1,
+  "title": "Stage-1 Bedroom Indie Coder, Modder & Autopoietic Homelab Workstation",
+  "versionTag": "v3.1.0-genesis",
+  "treatyCid": "bafybeigdyrzt5sfp7udm7hu76uh7y26nf3efuylqabf3oclgtqy55fbzdi",
+  "realWorldEngineeringSpec": {
+    "footprintSquareMeters": 4,
+    "nominalComputePowerMilliwatts": 65000,
+    "maxBaselineRamMiB": 512,
+    "measuredIdleRamMiB": 240,
+    "billOfMaterials": [
+      {
+        "componentId": "salvaged_thinkpad_or_minipc_host",
+        "description": "Refurbished 10-to-15-year-old x86_64/ARM64 laptop or quiet mini-PC flashed with libre bootloader and telemetry-free Sovereign OS (< 256 MiB idle RAM)",
+        "modalityRequired": "SCN_THETA_EWASTE_RECLAMATION_OR_L7_REFURB",
+        "materialClass": "SALVAGED_COMPUTE_NODE",
+        "sourceRing": "R1_LOCAL_SALVAGE_OR_L7_FALLBACK",
+        "massMilligrams": 2400000000,
+        "l7FallbackSku": "GPO-ZERO-REFURB-HOST-HIL-KIT",
+        "l7FallbackCostUsdCents": 35000
+      },
+      {
+        "componentId": "hil_stm32_atecc608a_breadboard_rig",
+        "description": "USB-isolated STM32H7 / ESP32-S3 Zephyr RTOS Hardware-in-the-Loop (HIL) test bench with Microchip ATECC608A hardware secure element and logic analyzer",
+        "modalityRequired": "ELECTRONICS_BENCH_ASSEMBLY",
+        "materialClass": "OPEN_HARDWARE_HIL_BENCH",
+        "sourceRing": "L7_GPO_FALLBACK_PROCUREMENT",
+        "massMilligrams": 350000000,
+        "l7FallbackSku": "GPO-ZERO-REFURB-HOST-HIL-KIT",
+        "l7FallbackCostUsdCents": 0
+      }
+    ]
+  },
+  "layer5GovernancePolicy": {
+    "legalCarapace": "UUNAA_SECTION_6_AND_FIRST_AMENDMENT_CODE_SPEECH",
+    "perimeterAcousticCeilingCb": 380,
+    "protocolOfRefusalEnabled": true,
+    "unconditionalStudioVeto": "Absolute right to refuse any commission containing surveillance telemetry, DRM lock-in, or predatory dark patterns",
+    "ethicsAndFrugalityGate": {
+      "unauthorizedTelemetryEndpoints": 0,
+      "drmOrAntiModdingLocks": 0,
+      "predatoryDarkPatternsDetected": 0,
+      "floatingPointOpcodesInDeterministicDaemons": 0,
+      "layerSkippingImportsDetected": 0,
+      "minBuilderNodeConsensusCount": 3,
+      "minOasisCanarySoakTicks": 10000,
+      "maxSalvagedRamBudgetMiB": 512
+    },
+    "openKnowledgeDay1Mandate": true,
+    "reputationalWealthCreditBp": 150
+  },
+  "layer4CustomizableWorkflow": {
+    "workflowId": "wf_zero_stage1_homelab_bootstrap_v3_1",
+    "intentUTurnCompliant": true,
+    "customizableSteps": [
+      {
+        "stepId": "STEP_1_L7_WORKSTATION_AND_HIL_PROCUREMENT_YIELD",
+        "layerTraversal": "L4 -> L5 -> L6 -> L7 (Intent U-Turn)",
+        "action": "Check R1-R3 salvage stock for compute host and STM32/ATECC608A HIL rig; if absent on Day 1, yield upward to L5/L6/L7 to procure GPO-ZERO-REFURB-HOST-HIL-KIT for 35000 USD cents ($350.00) from the $20,000 Genesis Reserve."
+      },
+      {
+        "stepId": "STEP_2_L7_DETOX_AND_HERMETIC_FORGE_INIT",
+        "layerTraversal": "L4 -> L3 -> L2 -> L1",
+        "action": "Flash telemetry-free Sovereign OS (< 512 MiB RAM gate, < 380 cB acoustic envelope), initialize local Automerge/Yrs CRDT Git forge, and vendor offline SBOM Merkle DAG."
+      },
+      {
+        "stepId": "STEP_3_AUTOPOIETIC_3NODE_BUILD_AND_ZERO_FLOAT_AUDIT",
+        "layerTraversal": "L4 -> L3 -> L2 -> L1",
+        "action": "Compile the 8 Sovereign Stack daemons and oasis_engine inside a network-isolated sandbox (external_network_calls == 0), verify floating_point_opcodes_detected == 0 and 3-node SHA-256 consensus."
+      },
+      {
+        "stepId": "STEP_4_10000_TICK_OASIS_CANARY_AND_AGORA_PUBLISH",
+        "layerTraversal": "L2 <-> L1b -> L3 -> L4 -> L5 -> L6",
+        "action": "Execute 10,000-tick Oasis shadow-twin canary soak under col-adversaryd fault injection, then publish verified package to the Open Layer 6 Agora and credit Steward Reputational Wealth (R)."
+      }
+    ]
+  },
+  "oasisSimulationProjection": {
+    "supportedFidelityModes": [
+      "MACRO_ABSTRACTED",
+      "MULTI_STAGE_SUBSET",
+      "FULL_STOICHIOMETRIC_HIL"
+    ],
+    "defaultFidelityMode": "MULTI_STAGE_SUBSET",
+    "designatorActionId": 16,
+    "voxelMaterialIds": [
+      120,
+      122
+    ],
+    "boundingBoxDecimeters": [
+      16,
+      12,
+      12
+    ],
+    "somaticCaloricCostKcal": 180,
+    "moodDeltaOnRelease": 45,
+    "enablesInGameAgoraAndModding": true,
+    "qualityFlagEnforced": 1
+  }
+}

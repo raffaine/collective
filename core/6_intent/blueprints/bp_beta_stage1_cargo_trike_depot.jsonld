@@ -1,0 +1,129 @@
+{
+  "@context": [
+    "https://schema.org/",
+    "https://collective.network/ontology/v1/"
+  ],
+  "@type": "NodeFacilityBlueprint",
+  "identifier": "urn:uuid:b2020402-58cc-4372-a567-0e02b2c3d402",
+  "blueprintId": "bp_beta_stage1_cargo_trike_depot",
+  "scenarioRef": [
+    "SCN-BETA-TRANSIT",
+    "SCN-ALPHA-FAB",
+    "SCN-GAMMA-KITCHEN"
+  ],
+  "stage": 1,
+  "title": "Stage-1 Driveway Cargo E-Trike Micro-Depot, NFC Smart-Tote Locker, LoRa SX1262 Repeater & Rainwater Cistern",
+  "versionTag": "v3.1.0-genesis",
+  "treatyCid": "bafybeigdyrzt5sfp7udm7hu76uh7y26nf3efuylqabf3oclgtqy55fbzdi",
+  "realWorldEngineeringSpec": {
+    "vehicleNominalBusVoltageMillivolts": 48000,
+    "cargoPayloadCapacityMilligrams": 150000000,
+    "smartToteLockerCount": 4,
+    "loraMeshFrequencyHertz": 915000000,
+    "rainwaterCisternVolumeMilliliters": 1000000,
+    "hasRedBrassManualOverrideLever": true,
+    "billOfMaterials": [
+      {
+        "componentId": "chassis_cargo_bed_and_locker_carcass",
+        "description": "Welded chromoly cargo trike flatbed frame and weather-sealed Black Locust porch smart-tote locker carcass",
+        "modalityRequired": "METAL_WELD_AND_WOODSHOP_CNC_JOINERY",
+        "materialClass": "ALLOY_4130_CHROMOLY_AND_HARDWOOD_LOCUST",
+        "sourceRing": "R1_LOCAL_STOCK_OR_SCN_ALPHA_FAB",
+        "massMilligrams": 24000000000,
+        "l7FallbackSku": null,
+        "l7FallbackCostUsdCents": 0
+      },
+      {
+        "componentId": "cistern_manifold_and_red_brass_override_lever",
+        "description": "1000L rainwater harvesting barrel manifold with RPZ atmospheric air-gap, sight glass, Bourdon gauge, and physical Red Brass Manual Override Lever",
+        "modalityRequired": "PLUMBING_BRAZING_AND_LATHE_FITTING",
+        "materialClass": "HDPE_FOOD_GRADE_AND_SAE660_RED_BRASS",
+        "sourceRing": "R2_NEIGHBORHOOD_MESH_PEER",
+        "massMilligrams": 18500000000,
+        "l7FallbackSku": null,
+        "l7FallbackCostUsdCents": 0
+      },
+      {
+        "componentId": "smart_totes_nfc_insulated",
+        "description": "Modular insulated smart-totes for Scenario Alpha BOM sub-assemblies and Scenario Gamma hot meal trains with passive 13.56 MHz NFC manifests",
+        "modalityRequired": "POLYMER_THERMOFORM_OR_FDM",
+        "materialClass": "RECYCLED_PP_AND_CORK_INSULATION",
+        "sourceRing": "R1_LOCAL_STOCK",
+        "massMilligrams": 6400000000,
+        "l7FallbackSku": null,
+        "l7FallbackCostUsdCents": 0
+      },
+      {
+        "componentId": "etrike_48v_drivetrain_and_sx1262_lora_kit",
+        "description": "48V 750W geared hub motor, 1.5kWh LiFePO4 removable V2G battery pack, CAN-FD telemetry node, Semtech SX1262 915MHz LoRa Reticulum repeater, and ATECC608A secure element",
+        "modalityRequired": "IRREDUCIBLE_MOTOR_RADIO_AND_CELL_IMPORT",
+        "materialClass": "SILICON_RF_NEODYMIUM_AND_LIFEPO4",
+        "sourceRing": "L7_GPO_FALLBACK_PROCUREMENT",
+        "massMilligrams": 21000000000,
+        "l7FallbackSku": "GPO-BETA-48V-CARGO-TRIKE-KIT",
+        "l7FallbackCostUsdCents": 115000
+      }
+    ]
+  },
+  "layer5GovernancePolicy": {
+    "legalCarapace": "UUNAA_SECTION_6_PRIVATE_FRATERNAL_ASSOCIATION",
+    "hoaAndMunicipalCamouflage": "Residential driveway/side-yard bicycle shelter and rain barrel; zero street-facing commercial freight signage; strictly residential parcel/tote aesthetics",
+    "minRouteThermodynamicEfficiencyBp": 6000,
+    "maxDetourOverheadBp": 3000,
+    "noTransitQuietHours": "20:00-07:00",
+    "perimeterAcousticCeilingCb": 550,
+    "requiredBbsPlusCredential": "Vehicle_Safety_L1",
+    "allowSupervisedApprenticeMode": true,
+    "dependencyRatioDeltaBp": -1500,
+    "reputationalWealthCreditBp": 130
+  },
+  "layer4CustomizableWorkflow": {
+    "workflowId": "wf_beta_stage1_cargo_trike_depot_v3_1",
+    "intentUTurnCompliant": true,
+    "customizableSteps": [
+      {
+        "stepId": "STEP_1_L7_PRECURSOR_PROCUREMENT_YIELD",
+        "layerTraversal": "L4 -> L5 -> L6 -> L7 (Intent U-Turn)",
+        "action": "Query R1-R3 mesh for 48V hub drivetrain and SX1262 LoRa transceiver; on Genesis cache miss, yield upward to L5/L6/L7 to procure GPO-BETA-48V-CARGO-TRIKE-KIT for 115000 USD cents from the $20,000 Genesis Reserve."
+      },
+      {
+        "stepId": "STEP_2_CHASSIS_AND_CISTERN_RED_LEVER_FITMENT",
+        "layerTraversal": "L4 -> L3 -> L2 -> L1",
+        "action": "Assemble 150 kg payload cargo trike bed, mount Porch NFC Smart-Tote Locker, and plumb rainwater cistern with atmospheric air-gap and Red Brass Manual Override Lever."
+      },
+      {
+        "stepId": "STEP_3_RETICULUM_MESH_AND_48V_V2G_COMMISSIONING",
+        "layerTraversal": "L4 -> L3 -> L2 -> L1",
+        "action": "Bind Semtech SX1262 915MHz LoRa repeater to col-meshd, couple 48V V2G charger to household DC bus, and verify No-Transit quiet-hours lockout."
+      },
+      {
+        "stepId": "STEP_4_MILK_RUN_CONSOLIDATION_AND_BCC_CLEARING",
+        "layerTraversal": "L1 -> L2 -> L3 -> L4 -> L5",
+        "action": "Execute consolidated neighborhood milk-runs (pairing Scenario Alpha BOM freight, Scenario Gamma meal trains, and DTN sneakernet bundles) at eta_route >= 6000 bp, clearing zero-sum BCC channels and crediting Steward Reputational Wealth (R)."
+      }
+    ]
+  },
+  "oasisSimulationProjection": {
+    "supportedFidelityModes": [
+      "MACRO_ABSTRACTED",
+      "MULTI_STAGE_SUBSET",
+      "FULL_STOICHIOMETRIC_HIL"
+    ],
+    "defaultFidelityMode": "MULTI_STAGE_SUBSET",
+    "designatorActionId": 10,
+    "voxelMaterialIds": [
+      12,
+      20
+    ],
+    "boundingBoxDecimeters": [
+      24,
+      15,
+      14
+    ],
+    "somaticCaloricCostKcal": 250,
+    "payloadCapacityKg": 150,
+    "minRouteEfficiencyBp": 6000,
+    "enablesInterNodeBccMilkRuns": true,
+    "qualityFlagEnforced": 1
+  }
+}

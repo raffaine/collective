@@ -1259,3 +1259,25 @@ A User Story is considered **Done** only when:
 4. Verified against all associated Quality Gates (G1–G6) without tolerance exceptions.
 5. Passes the static Anti-Bleed Linter (`scripts/verify_anti_bleed.sh`) with zero boundary violations, strict `L1b <-> L2` UHAI adjacency, and zero inward live-telemetry ingestion paths.
 6. Memory profiled under AddressSanitizer (ASan) and WebAssembly runtime, verifying zero memory leaks and strict 256.00 MB linear memory adherence.
+
+
+---
+
+## 8. V3.1 Architectural Realignment Addendum — Autopoietic Self-Hosting, Dual-Fidelity Blueprints, $R_0$ Baseline & \$20,000 Genesis
+
+This section codifies the **Phase 1 V3.1 Architectural Realignment** engineering requirements across `core/6_intent/blueprints/`, `core/1_simulation/`, and the Sovereign Stack:
+
+1. **Law 1 — Scenario Zero (`SCN-ZERO-SOFTWARE`) Autopoietic Self-Hosting (`core/6_intent/blueprints/scn_zero_daemons_manifest.jsonld`):**
+   * Registers all 8 Sovereign Stack daemons (`col-telemetryd`, `col-meshd`, `col-storaged`, `col-execd`, `col-kmsd`, `col-commonsd`, `col-gatewayd`, `col-adversaryd`) and `oasis_engine` as a canonical `SoftwareAgoraPackageManifest`.
+   * Enforces hermetic network-isolated builds (`external_network_calls_during_build == 0`), 3-node bit-for-bit SHA-256 consensus, static ELF verification (`floating_point_opcodes_detected == 0` in deterministic L2–L5 paths, `layer_skipping_imports_detected == 0`), and a mandatory `10,000`-tick Oasis shadow-twin canary soak.
+2. **Law 2 — Dual-Fidelity Real Blueprints (`core/6_intent/blueprints/*.jsonld`):**
+   * Every Layer 6 blueprint pairs real-world physical BOMs, SI tolerances, and Layer 5 legal/acoustic policies with an `oasisSimulationProjection` (`MACRO_ABSTRACTED`, `MULTI_STAGE_SUBSET`, `FULL_STOICHIOMETRIC_HIL`):
+     * `bp_alpha_stage1_solar_array.jsonld`: 400W PV + 48V LiFePO4 bus, Black Locust frame, SAE 660 bronze bushings, TPU gasket, `142000` cents (`$1,420.00`) L7 fallback, `<= 550 cB` HOA acoustic limit.
+     * `bp_zero_stage1_homelab_workstation.jsonld`: Salvaged laptop/mini-PC + `STM32`/`ATECC608A` HIL bench, `35000` cents (`$350.00`) L7 fallback, `< 380 cB` acoustic envelope, `< 512 MiB` RAM frugality gate.
+     * `bp_gamma_stage1_hearth_and_garden.jsonld`: Backyard keyline garden + induction hob + `PT100` probe, `87000` cents (`$870.00`) L7 fallback, unconditional $R_0$ **Pea Soup & Bean Stew** baseline (`>= 347150 mK` Bigelow lethality, `$0` domestic care non-commensurability).
+3. **Law 3 — Constitutional Baseline Right to Exist ($R_0 / B_{\mathrm{baseline}}$):**
+   * Provides unconditional access to humble, nourishing **pea soup and bean stew**, a **warm shower and heating**, **sanitation**, **emergency / failing-health care**, and **open Layer 6 Agora knowledge** from Day 1.
+   * Allows players to immediately **scrap their legacy grocery and baseline utility bills**, while providing transparent visibility into learning (`Scenario Kappa`) and work (`Layer 4` workflows) to earn **Reputational Wealth ($\mathcal{R}$)** and govern future work in Layer 5, progressively raising the community baseline until one day it feels like luxury.
+4. **Law 4 — Alpha Release Genesis ("Suburban, Single Adult, Lost Legacy Job, \$20,000 USD Reserves"):**
+   * Day-1 Lot 402 starts as an ordinary suburban house with `2,000,000` integer USD cents (`$20,000.00`) in Layer 7 reserves and $D_0 = 10000\,\mathrm{bp}$.
+   * Every station enters exclusively through the `L6 Blueprint Artifact -> L5 Policy -> L4 Customizable Workflow -> Upward L7 Procurement ($20k Reserve)` Intent U-Turn pipeline.

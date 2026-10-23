@@ -1,0 +1,123 @@
+{
+  "@context": [
+    "https://schema.org/",
+    "https://collective.network/ontology/v1/"
+  ],
+  "@type": "NodeFacilityBlueprint",
+  "identifier": "urn:uuid:a1010402-58cc-4372-a567-0e02b2c3d401",
+  "blueprintId": "bp_alpha_stage1_solar_array",
+  "scenarioRef": [
+    "SCN-ALPHA-FAB",
+    "SCN-BETA-TRANSIT"
+  ],
+  "stage": 1,
+  "title": "Stage-1 400W Roof/Pergola Solar Array, Black Locust Mount & 48V LiFePO4 Bus",
+  "versionTag": "v3.1.0-genesis",
+  "treatyCid": "bafybeihdwdcefgh4dqkjv67uzcmw7ojee6xedeet6wfvikrwho3qnwjxye",
+  "realWorldEngineeringSpec": {
+    "nominalPvPowerMilliwatts": 400000,
+    "nominalBusVoltageMillivolts": 48000,
+    "batteryStorageCapacityMicrojoules": 7200000000000,
+    "expectedDailyYieldMicrojoules": 10080000000000,
+    "billOfMaterials": [
+      {
+        "componentId": "frame_structural_timber_locust",
+        "description": "Steamed and mortised Black Locust pergola/roof racking frame (substituting imported 6061-T6 aluminum extrusion)",
+        "modalityRequired": "WOODSHOP_CNC_ROUTER_3AXIS_OR_HAND_JOINERY",
+        "materialClass": "HARDWOOD_BLACK_LOCUST_SEASONED",
+        "sourceRing": "R1_LOCAL_STOCK_OR_SCN_ETA_COPPICE",
+        "massMilligrams": 1850000000,
+        "l7FallbackSku": null,
+        "l7FallbackCostUsdCents": 0
+      },
+      {
+        "componentId": "bushing_tilt_sleeve_bronze",
+        "description": "ISO metric seasonal tilt pivot sleeve bushings machined from recycled bronze",
+        "modalityRequired": "METAL_LATHE_PRECISION",
+        "materialClass": "ALLOY_SAE660_RECYCLED_BRONZE",
+        "sourceRing": "R3_WATERSHED_PEER_NODE_07",
+        "massMilligrams": 120000000,
+        "l7FallbackSku": null,
+        "l7FallbackCostUsdCents": 0
+      },
+      {
+        "componentId": "seal_junction_gasket_tpu",
+        "description": "Weatherproof cable gland and junction box gasket",
+        "modalityRequired": "POLYMER_FDM_EXTRUDER",
+        "materialClass": "ELASTOMER_TPU_RECYCLED",
+        "sourceRing": "R1_LOCAL_STOCK",
+        "massMilligrams": 42500000,
+        "l7FallbackSku": null,
+        "l7FallbackCostUsdCents": 0
+      },
+      {
+        "componentId": "pv_laminate_and_48v_lfp_mppt_pack",
+        "description": "400W monocrystalline PV laminate, prismatic 48V 2.0kWh LiFePO4 cell bank, BMS, MPPT charge controller, and INA226 + ATECC608A telemetry shunt",
+        "modalityRequired": "IRREDUCIBLE_SEMICONDUCTOR_AND_CELL_IMPORT",
+        "materialClass": "SILICON_PV_AND_LIFEPO4_PRISMATIC",
+        "sourceRing": "L7_GPO_FALLBACK_PROCUREMENT",
+        "massMilligrams": 38000000000,
+        "l7FallbackSku": "GPO-SOLAR-400W-48VLFP-KIT-V1",
+        "l7FallbackCostUsdCents": 142000
+      }
+    ]
+  },
+  "layer5GovernancePolicy": {
+    "legalCarapace": "UUNAA_SECTION_6_PRIVATE_FRATERNAL_ASSOCIATION",
+    "hoaAndMunicipalCamouflage": "Backyard pergola or flush rear-roof mount; zero street-facing commercial signage; IEEE 1547 zero-export or compliant net-meter profile",
+    "perimeterAcousticCeilingCb": 550,
+    "quietHoursLockoutWindow": "20:00-07:00",
+    "requiredBbsPlusCredential": "SolarMicrogridInstaller_L1",
+    "allowSupervisedApprenticeMode": true,
+    "dependencyRatioDeltaBp": -1800,
+    "reputationalWealthCreditBp": 120
+  },
+  "layer4CustomizableWorkflow": {
+    "workflowId": "wf_alpha_stage1_solar_array_v3_1",
+    "intentUTurnCompliant": true,
+    "customizableSteps": [
+      {
+        "stepId": "STEP_1_L7_PRECURSOR_PROCUREMENT_YIELD",
+        "layerTraversal": "L4 -> L5 -> L6 -> L7 (Intent U-Turn)",
+        "action": "Verify local R1-R3 mesh availability for PV laminate and 48V LFP cells; on Day-1 Genesis cache miss, yield upward to L5/L6/L7 to procure GPO-SOLAR-400W-48VLFP-KIT-V1 for 142000 USD cents from the $20,000 Genesis Reserve."
+      },
+      {
+        "stepId": "STEP_2_BLACK_LOCUST_RACKING_JOINERY",
+        "layerTraversal": "L4 -> L3 -> L2 -> L1",
+        "action": "Fabricate Black Locust structural racking arms and fit SAE 660 bronze tilt bushings while enforcing perimeter_acoustic_cb <= 550 cB."
+      },
+      {
+        "stepId": "STEP_3_DC_BUS_AND_MPPT_COMMISSIONING",
+        "layerTraversal": "L4 -> L3 -> L2 -> L1",
+        "action": "Mount 400W array, torque 48V LiFePO4 busbars, verify mechanical Red Lever disconnect, and bind INA226 + ATECC608A PoTW sensor channel."
+      },
+      {
+        "stepId": "STEP_4_POTW_ATTESTATION_AND_BASELINE_RELIEF",
+        "layerTraversal": "L1 -> L2 -> L3 -> L4 -> L5",
+        "action": "Ingest signed microjoule telemetry (1 Exergy Credit = 3,600,000,000,000 uJ), scrap legacy baseline electric utility bill dependency, and credit Steward Reputational Wealth (R)."
+      }
+    ]
+  },
+  "oasisSimulationProjection": {
+    "supportedFidelityModes": [
+      "MACRO_ABSTRACTED",
+      "MULTI_STAGE_SUBSET",
+      "FULL_STOICHIOMETRIC_HIL"
+    ],
+    "defaultFidelityMode": "MULTI_STAGE_SUBSET",
+    "designatorActionId": 11,
+    "voxelMaterialIds": [
+      11,
+      15
+    ],
+    "boundingBoxDecimeters": [
+      20,
+      12,
+      20
+    ],
+    "somaticCaloricCostKcal": 420,
+    "netExergyOutputKwhPerDay": 2.8,
+    "scrapsLegacyElectricUtilityBaseline": true,
+    "qualityFlagEnforced": 1
+  }
+}

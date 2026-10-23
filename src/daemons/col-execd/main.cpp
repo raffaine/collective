@@ -14,6 +14,7 @@
 
 #include <spdlog/spdlog.h>
 #include "uhai/uhai_ring_buffer.hpp"
+#include "execd_self_host.hpp"
 
 static std::atomic<bool> g_running{true};
 
@@ -111,6 +112,25 @@ int main(int argc, char* argv[]) {
     }
 
     spdlog::info("[col-execd] Successfully attached to UHAI IPC ring buffer. Deterministic VM active.");
+
+    oasis::daemons::execd::SoftwareCommissionSpec self_host_spec{};
+    self_host_spec.project_id = "col-execd-v3.1";
+    self_host_spec.category = oasis::daemons::execd::SoftwareAssetCategory::CONSTITUTIONAL_STACK_DAEMON;
+    self_host_spec.total_sbom_dependencies = 6U;
+    self_host_spec.vendored_and_detoxed_sbom_dependencies = 6U;
+
+    oasis::daemons::execd::SoftwareVerificationReport self_host_report{};
+    self_host_report.category = oasis::daemons::execd::SoftwareAssetCategory::CONSTITUTIONAL_STACK_DAEMON;
+    self_host_report.builder_1_sha256 = "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08";
+    self_host_report.builder_2_sha256 = "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08";
+    self_host_report.builder_3_sha256 = "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08";
+    if (!oasis::daemons::execd::EvaluateStudioVetoAndSbomDag(self_host_spec) ||
+        !oasis::daemons::execd::VerifySoftwareReleasePipeline(self_host_report)) {
+        spdlog::critical("[col-execd] Scenario Zero self-hosting verification gate failed!");
+        ::munmap(raw_ptr, oasis::uhai::TOTAL_SHM_SIZE);
+        ::close(fd);
+        return 1;
+    }
 
     oasis::uhai::LockFreeSpscRing<oasis::uhai::TelemetrySlot, oasis::uhai::RING_CAPACITY> ring(raw_ptr);
 

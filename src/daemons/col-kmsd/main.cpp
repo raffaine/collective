@@ -86,6 +86,11 @@ int main(int argc, char* argv[]) {
         promotion_shm_name);
 
     collective::l5::KmsAssimilationEngine engine;
+    collective::l5::BaselineExistenceEntitlement baseline_entitlement{};
+    collective::l5::CitizenGovernanceStanding citizen_standing{};
+    citizen_standing.completed_kappa_apprenticeships = 1U;
+    citizen_standing.completed_l4_workflow_tasks = 4U;
+    (void)collective::l5::EvaluateCitizenBurnAndGovernance(baseline_entitlement, citizen_standing);
 
     if (run_once) {
         oasis::uhai::MigrationWaveArrivalEvent demo_wave{};
@@ -111,7 +116,10 @@ int main(int argc, char* argv[]) {
         }
         std::cout << "[col-kmsd] Completed single assimilation cycle (migrants="
                   << engine.GetAllMigrants().size()
-                  << ", promotions=" << engine.GetEmittedPromotions().size() << ")\n";
+                  << ", promotions=" << engine.GetEmittedPromotions().size()
+                  << ", r0_burn_cents=" << citizen_standing.net_monthly_fiat_burn_cents
+                  << ", can_co_sign=" << (citizen_standing.can_co_sign_domain_governance ? 1 : 0)
+                  << ")\n";
         return 0;
     }
 

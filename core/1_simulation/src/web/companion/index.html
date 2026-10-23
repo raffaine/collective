@@ -824,6 +824,50 @@
           <span class="badge badge-amber">MUTATIONS PERMITTED (POST)</span>
         </div>
 
+        <!-- Section 0: V3.1 Alpha Genesis, Community Baseline (B_baseline), Open Knowledge & Stage-1 Real Blueprints -->
+        <div class="card" id="card-l6-v31-genesis-baseline" style="border: 1px solid rgba(52, 211, 153, 0.7);">
+          <div class="card-header">
+            <h3 class="card-title">🍲 V3.1 ALPHA GENESIS, COMMUNITY BASELINE (B_baseline) &amp; OPEN KNOWLEDGE</h3>
+            <span class="badge badge-emerald">OPEN KNOWLEDGE 100%</span>
+          </div>
+          <div class="mono" style="font-size: 0.78rem; line-height: 1.45; margin-bottom: 10px;">
+            <div id="hud-v31-reserve" style="color: #34d399; font-weight: 700;">RESERVE: $20,000.00 USD | Burn: -$1,820/mo | D_t: 100.0% L7</div>
+            <div id="hud-v31-baseline" style="color: #fde68a; font-weight: 600;">BASELINE (R0): Pea Soup &amp; Bean Stew / Warm Shower / Emergency Care ($0 Grocery/Util)</div>
+            <div id="hud-v31-open-knowledge" style="color: #38bdf8;">OPEN KNOWLEDGE: 100% of Stage-1 Dual-Fidelity Blueprints &amp; Honest Node Deficits Visible from Day 1</div>
+            <div id="hud-v31-reputation" style="color: #c4b5fd; font-weight: 700;">Learn -&gt; Work -&gt; Reputation R -&gt; L5 Governance | REPUTATION (R): 0 bp / 2500 bp | [Apprentice R1 -&gt; L5 Steward Locked]</div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr; gap: 6px; margin-bottom: 10px;">
+            <button type="button" class="btn-action" id="btn-comp-v31-baseline" onclick="window.triggerV31Action && window.triggerV31Action(101)">
+              <span>[ 🍲 Rely on R0 Community Baseline (Pea Soup, Bean Stew, Warm Shower &amp; Care: -$670/mo Burn -&gt; $0) ]</span>
+            </button>
+            <button type="button" class="btn-action" id="btn-comp-v31-kappa" onclick="window.triggerV31Action && window.triggerV31Action(102)">
+              <span>[ 📚 Study Open Blueprint &amp; Apprenticeship (Scenario Kappa +R) ]</span>
+            </button>
+          </div>
+
+          <div class="mono" style="font-size: 0.76rem; color: #fef08a; font-weight: 700; margin-bottom: 6px;">
+            Stage-1 Dual-Fidelity Real Blueprints (<code>core/6_intent/blueprints/*.jsonld</code> — L6 &rarr; L5 &rarr; L4 &rarr; L7 Procurement):
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr; gap: 6px;">
+            <button type="button" class="btn-action" id="btn-comp-v31-bp-zero" onclick="window.triggerV31Action && window.triggerV31Action(202)">
+              <span>[ 💻 Stage-1 Zero Homelab Workstation (-$350 L7 Leaf | -12% D_t | +R) ]</span>
+            </button>
+            <button type="button" class="btn-action" id="btn-comp-v31-bp-alpha" onclick="window.triggerV31Action && window.triggerV31Action(201)">
+              <span>[ ☀️ Stage-1 Alpha 400W Solar Array &amp; 48V Bus (-$1,420 L7 Leaf | -18% D_t | +R) ]</span>
+            </button>
+            <button type="button" class="btn-action" id="btn-comp-v31-bp-gamma" onclick="window.triggerV31Action && window.triggerV31Action(203)">
+              <span>[ 🍲 Stage-1 Gamma Backyard Garden &amp; Pea Soup Hearth (-$870 L7 Leaf | -22% D_t | +R) ]</span>
+            </button>
+            <button type="button" class="btn-action" id="btn-comp-v31-bp-beta" onclick="window.triggerV31Action && window.triggerV31Action(204)">
+              <span>[ 🚲 Stage-1 Beta Cargo E-Trike &amp; Smart-Tote Depot (-$1,150 L7 Leaf | -15% D_t | +R) ]</span>
+            </button>
+            <button type="button" class="btn-action" id="btn-comp-v31-bp-delta" onclick="window.triggerV31Action && window.triggerV31Action(205)">
+              <span>[ 👶 Stage-1 Delta Living-Room Care Pod (-$1,250 L7 Leaf | Non-Tokenized Care | +R) ]</span>
+            </button>
+          </div>
+        </div>
+
         <!-- Section 1: Continuous Double-Auction Order Book -->
         <div class="card">
           <div class="card-header">
@@ -1367,5 +1411,81 @@
   </div>
 
   <script src="app.js"></script>
+  <script type="text/javascript">
+    window._oasisPendingV31Action = 0;
+    window._oasisV31State = {
+      reserveCents: 2000000,
+      monthlyBurnCents: 182000,
+      dependencyBp: 10000,
+      reputationBp: 0,
+      baselineEnrolled: false,
+      govUnlocked: false,
+      strategyId: 1
+    };
+    window._oasisUpdateV31GenesisHud = function(reserveCents, monthlyBurnCents, dependencyBp, reputationBp, baselineEnrolled, govUnlocked, strategyId) {
+      var resCents = (reserveCents !== undefined && !isNaN(Number(reserveCents))) ? Math.max(0, Math.round(Number(reserveCents))) : 2000000;
+      var burnCents = (monthlyBurnCents !== undefined && !isNaN(Number(monthlyBurnCents))) ? Math.abs(Math.round(Number(monthlyBurnCents))) : 182000;
+      var depBp = (dependencyBp !== undefined && !isNaN(Number(dependencyBp))) ? Math.max(0, Math.min(10000, Math.round(Number(dependencyBp)))) : 10000;
+      var repBp = (reputationBp !== undefined && !isNaN(Number(reputationBp))) ? Math.max(0, Math.round(Number(reputationBp))) : 0;
+      var baseOn = Boolean(Number(baselineEnrolled) > 0 || baselineEnrolled === true);
+      var govOn = Boolean(Number(govUnlocked) > 0 || govUnlocked === true || repBp >= 2500);
+      var stratId = (strategyId !== undefined && !isNaN(Number(strategyId))) ? Math.round(Number(strategyId)) : 1;
+
+      var fmt = function(cents, dec) {
+        var v = (Number(cents) || 0) / 100.0;
+        var p = v.toFixed(dec !== undefined ? dec : 2).split('.');
+        p[0] = p[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        return p.join('.');
+      };
+      var elRes = document.getElementById('hud-v31-reserve');
+      if (elRes) {
+        elRes.textContent = 'RESERVE: $' + fmt(resCents, 2) + ' USD | Burn: ' + (burnCents > 0 ? ('-$' + fmt(burnCents, 0) + '/mo') : '$0/mo') + ' | D_t: ' + (depBp / 100.0).toFixed(1) + '% L7';
+      }
+      var elBase = document.getElementById('hud-v31-baseline');
+      if (elBase) {
+        elBase.textContent = baseOn
+          ? 'BASELINE (R0): [ACTIVE] Pea Soup & Bean Stew / Warm Shower / Emergency Care ($0 Grocery/Util | -$670/mo Burn -> $0)'
+          : 'BASELINE (R0): Pea Soup & Bean Stew / Warm Shower / Emergency Care ($0 Grocery/Util)';
+      }
+      var elRep = document.getElementById('hud-v31-reputation');
+      if (elRep) {
+        elRep.textContent = 'Learn -> Work -> Reputation R -> L5 Governance | REPUTATION (R): ' + repBp + ' bp / 2500 bp | ' +
+          (govOn ? '[L5 Steward Governance UNLOCKED]' : '[Apprentice R1 -> L5 Steward Locked]');
+      }
+      window._oasisV31State = {
+        reserveCents: resCents,
+        monthlyBurnCents: burnCents,
+        dependencyBp: depBp,
+        reputationBp: repBp,
+        baselineEnrolled: baseOn,
+        govUnlocked: govOn,
+        strategyId: stratId
+      };
+    };
+    window.triggerV31Action = function(code) {
+      var c = Math.round(Number(code) || 0);
+      window._oasisPendingV31Action = c;
+      var st = window._oasisV31State || { reserveCents: 2000000, monthlyBurnCents: 182000, dependencyBp: 10000, reputationBp: 0, baselineEnrolled: false, govUnlocked: false, strategyId: 1 };
+      if (c === 101) { st.baselineEnrolled = true; st.monthlyBurnCents = 115000; }
+      else if (c === 102) { st.reputationBp = Math.min(10000, st.reputationBp + 500); if (st.reputationBp >= 2500) st.govUnlocked = true; }
+      else if (c === 201) { st.reserveCents = Math.max(0, st.reserveCents - 142000); st.dependencyBp = Math.max(0, st.dependencyBp - 1800); st.reputationBp = Math.min(10000, st.reputationBp + 650); st.strategyId = 1; }
+      else if (c === 202) { st.reserveCents = Math.max(0, st.reserveCents - 35000); st.dependencyBp = Math.max(0, st.dependencyBp - 1200); st.reputationBp = Math.min(10000, st.reputationBp + 650); st.strategyId = 0; }
+      else if (c === 203) { st.reserveCents = Math.max(0, st.reserveCents - 87000); st.dependencyBp = Math.max(0, st.dependencyBp - 2200); st.reputationBp = Math.min(10000, st.reputationBp + 650); st.strategyId = 3; }
+      else if (c === 204) { st.reserveCents = Math.max(0, st.reserveCents - 115000); st.dependencyBp = Math.max(0, st.dependencyBp - 1500); st.reputationBp = Math.min(10000, st.reputationBp + 650); st.strategyId = 2; }
+      else if (c === 205) { st.reserveCents = Math.max(0, st.reserveCents - 125000); st.dependencyBp = Math.max(0, st.dependencyBp - 1300); st.reputationBp = Math.min(10000, st.reputationBp + 650); st.strategyId = 4; }
+      if (st.reputationBp >= 2500) st.govUnlocked = true;
+      window._oasisUpdateV31GenesisHud(st.reserveCents, st.monthlyBurnCents, st.dependencyBp, st.reputationBp, st.baselineEnrolled, st.govUnlocked, st.strategyId);
+      try {
+        if (typeof BroadcastChannel !== 'undefined') {
+          var ch = new BroadcastChannel('oasis_companion_bus');
+          ch.postMessage({ type: 'V31_ACTION', code: c, timestamp: Date.now() });
+          ch.close();
+        }
+      } catch (e) {}
+      try {
+        localStorage.setItem('oasis_v31_action', JSON.stringify({ type: 'V31_ACTION', code: c, timestamp: Date.now() }));
+      } catch (e) {}
+    };
+  </script>
 </body>
 </html>

@@ -9,7 +9,25 @@
 #include <unordered_map>
 #include <vector>
 
+#if defined(__clang__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wpadded"
+#elif defined(__GNUC__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wpadded"
+#endif
+
+#if __has_include("uhai/uhai_ring_buffer.hpp")
+#include "uhai/uhai_ring_buffer.hpp"
+#else
 #include "../../../core/1_simulation/src/uhai/uhai_ring_buffer.hpp"
+#endif
+
+#if defined(__clang__)
+#pragma clang diagnostic pop
+#elif defined(__GNUC__)
+#pragma GCC diagnostic pop
+#endif
 
 namespace collective::l5 {
 
@@ -318,4 +336,186 @@ private:
     std::vector<oasis::uhai::TrustRingPromotionEvent> emitted_promotions_{};
 };
 
+// ============================================================================
+// V3.1 Constitutional Baseline Right to Exist (B_baseline / R0) &
+// Learn -> Work -> Govern (R) Reputational Progression
+// ============================================================================
+
+/**
+ * @brief Unconditional R0 / B_baseline Right to Exist Entitlement.
+ *
+ * Strictly fixed-point SI integers with zero IEEE-754 floats and explicit
+ * 8-byte alignment padding for -Wpadded cleanliness.
+ */
+struct alignas(8) BaselineExistenceEntitlement {
+    uint32_t daily_hearth_kcal{2200U};            // Humble Hearth Baseline: Pea Soup & Bean Stew (4B)
+    uint32_t warm_shower_and_heating_mk{293150U}; // 20C indoor heating / 38C warm shower floor (4B)
+    bool sanitation_and_compost_access{true};     // Unconditional sanitation & compost access (1B)
+    bool emergency_and_failing_health_care{true}; // Unconditional emergency & failing-health care (1B)
+    bool open_knowledge_agora_access{true};       // Unconditional Open Knowledge Agora access (1B)
+    bool relies_on_community_baseline{true};      // Scraps 45000 grocery + 22000 utility cents/mo burn (1B)
+    [[maybe_unused]] uint8_t pad_[4]{0};          // Explicit padding to 16 bytes (4B)
+};
+static_assert(sizeof(BaselineExistenceEntitlement) == 16, "BaselineExistenceEntitlement must be 16 bytes.");
+static_assert(alignof(BaselineExistenceEntitlement) == 8, "BaselineExistenceEntitlement must be 8-byte aligned.");
+static_assert(std::is_standard_layout_v<BaselineExistenceEntitlement>, "BaselineExistenceEntitlement must be standard layout.");
+static_assert(std::is_trivially_copyable_v<BaselineExistenceEntitlement>, "BaselineExistenceEntitlement must be trivially copyable.");
+
+/**
+ * @brief Citizen Progression State: Baseline Existence (R0) -> Open Knowledge & Learning
+ * (Scenario Kappa L1/L2) -> Participating Through Work (Layer 4 workflows) ->
+ * Reputational Wealth (R in basis points) -> Governing the Work Moving Forward (Layer 5).
+ *
+ * Strictly fixed-point SI integers (cents, basis points) with zero IEEE-754 floats.
+ */
+struct alignas(8) CitizenGovernanceStanding {
+    uint64_t citizen_did_hash{0ULL};
+    union {
+        uint64_t legacy_grocery_burn_cents_mo{45000ULL};
+        uint64_t legacy_grocery_cents_mo;
+    };
+    union {
+        uint64_t legacy_utility_burn_cents_mo{22000ULL};
+        uint64_t legacy_utility_cents_mo;
+        uint64_t baseline_utility_burn_cents_mo;
+    };
+    uint64_t legacy_luxury_habit_cents_mo{0ULL};
+    union {
+        uint64_t unliberated_property_tax_or_lease_cents_mo{0ULL};
+        uint64_t property_tax_or_lease_cents_mo;
+        uint64_t legacy_property_tax_cents_mo;
+    };
+    union {
+        uint64_t net_monthly_fiat_burn_cents{67000ULL};
+        uint64_t effective_monthly_fiat_burn_cents;
+        uint64_t total_monthly_fiat_burn_cents;
+        uint64_t monthly_fiat_burn_cents;
+    };
+    uint32_t completed_kappa_apprenticeships{0U};
+    uint32_t completed_l4_workflow_tasks{0U};
+    uint32_t reputation_wealth_bp{0U};
+    uint32_t elapsed_idle_ticks{0U};
+    bool holds_domain_credential{false};
+    bool care_leave_shield_active{false};
+    bool can_co_sign_domain_governance{false};
+    bool relies_on_community_baseline{true};
+    bool unconditional_r0_baseline_guaranteed{true};
+    [[maybe_unused]] uint8_t pad_[3]{0};
+};
+static_assert(sizeof(CitizenGovernanceStanding) == 72, "CitizenGovernanceStanding must be 72 bytes.");
+static_assert(alignof(CitizenGovernanceStanding) == 8, "CitizenGovernanceStanding must be 8-byte aligned.");
+static_assert(std::is_standard_layout_v<CitizenGovernanceStanding>, "CitizenGovernanceStanding must be standard layout.");
+static_assert(std::is_trivially_copyable_v<CitizenGovernanceStanding>, "CitizenGovernanceStanding must be trivially copyable.");
+
+/**
+ * @brief Evaluate citizen monthly fiat burn collapse under B_baseline and
+ * Learn -> Work -> Govern (R) domain stewardship qualification.
+ */
+constexpr bool EvaluateCitizenBurnAndGovernance(
+    const BaselineExistenceEntitlement& baseline,
+    CitizenGovernanceStanding& standing) noexcept {
+    // 1. Unconditional R0 survival baseline is constitutionally guaranteed regardless of work output
+    standing.unconditional_r0_baseline_guaranteed =
+        (baseline.daily_hearth_kcal >= 2200U) &&
+        (baseline.warm_shower_and_heating_mk >= 293150U) &&
+        baseline.sanitation_and_compost_access &&
+        baseline.emergency_and_failing_health_care &&
+        baseline.open_knowledge_agora_access;
+
+    standing.relies_on_community_baseline = baseline.relies_on_community_baseline;
+
+    // 2. When relying on the community Humble Hearth & Hydronic baseline, legacy grocery (45000 cents/mo)
+    //    and baseline utility (22000 cents/mo) burn drop to 0 cents/mo.
+    if (baseline.relies_on_community_baseline) {
+        standing.legacy_grocery_burn_cents_mo = 0ULL;
+        standing.legacy_utility_burn_cents_mo = 0ULL;
+    } else {
+        if (standing.legacy_grocery_burn_cents_mo == 0ULL) {
+            standing.legacy_grocery_burn_cents_mo = 45000ULL;
+        }
+        if (standing.legacy_utility_burn_cents_mo == 0ULL) {
+            standing.legacy_utility_burn_cents_mo = 22000ULL;
+        }
+    }
+
+    standing.net_monthly_fiat_burn_cents =
+        standing.legacy_grocery_burn_cents_mo +
+        standing.legacy_utility_burn_cents_mo +
+        standing.legacy_luxury_habit_cents_mo +
+        standing.unliberated_property_tax_or_lease_cents_mo;
+
+    // 3. Learn (Scenario Kappa L1/L2) -> Work (Layer 4 workflows) -> Reputational Wealth (R_bp)
+    if (standing.completed_kappa_apprenticeships > 0U) {
+        standing.holds_domain_credential = true;
+    }
+
+    const uint64_t earned_learning_bp =
+        static_cast<uint64_t>(standing.completed_kappa_apprenticeships) * 1000ULL;
+    const uint64_t earned_work_bp =
+        static_cast<uint64_t>(standing.completed_l4_workflow_tasks) * 500ULL;
+    const uint64_t accrued_bp = earned_learning_bp + earned_work_bp;
+
+    uint64_t candidate_bp = static_cast<uint64_t>(standing.reputation_wealth_bp);
+    if (accrued_bp > candidate_bp) {
+        candidate_bp = accrued_bp;
+    }
+
+    // Sublinear/concave anti-oligarchy cap at 10000 bp (100.00%)
+    if (candidate_bp > 10000ULL) {
+        candidate_bp = 10000ULL;
+    }
+
+    // Care Leave Shield completely freezes reputational decay
+    if (!standing.care_leave_shield_active && standing.elapsed_idle_ticks > 0U) {
+        constexpr uint64_t HALF_LIFE_TICKS = 31536000ULL;
+        const uint64_t decay_bp =
+            (candidate_bp * static_cast<uint64_t>(standing.elapsed_idle_ticks)) / (HALF_LIFE_TICKS * 2ULL);
+        candidate_bp = (candidate_bp > decay_bp) ? (candidate_bp - decay_bp) : 0ULL;
+    }
+
+    standing.reputation_wealth_bp = static_cast<uint32_t>(candidate_bp);
+
+    // 4. Governing the Work Moving Forward requires both reputational standing (>= 2500 bp)
+    //    and a verified Scenario Kappa domain credential.
+    standing.can_co_sign_domain_governance =
+        (standing.reputation_wealth_bp >= 2500U) && standing.holds_domain_credential;
+
+    return standing.unconditional_r0_baseline_guaranteed;
+}
+
+constexpr bool EvaluateCitizenBurnAndGovernance(
+    CitizenGovernanceStanding& standing,
+    const BaselineExistenceEntitlement& baseline) noexcept {
+    return EvaluateCitizenBurnAndGovernance(baseline, standing);
+}
+
+constexpr bool EvaluateCitizenBurnAndGovernance(
+    CitizenGovernanceStanding& standing) noexcept {
+    BaselineExistenceEntitlement baseline{};
+    baseline.relies_on_community_baseline = standing.relies_on_community_baseline;
+    return EvaluateCitizenBurnAndGovernance(baseline, standing);
+}
+
+constexpr bool evaluate_citizen_burn_and_governance(
+    const BaselineExistenceEntitlement& baseline,
+    CitizenGovernanceStanding& standing) noexcept {
+    return EvaluateCitizenBurnAndGovernance(baseline, standing);
+}
+
+constexpr bool evaluate_citizen_burn_and_governance(
+    CitizenGovernanceStanding& standing,
+    const BaselineExistenceEntitlement& baseline) noexcept {
+    return EvaluateCitizenBurnAndGovernance(baseline, standing);
+}
+
+constexpr bool evaluate_citizen_burn_and_governance(
+    CitizenGovernanceStanding& standing) noexcept {
+    return EvaluateCitizenBurnAndGovernance(standing);
+}
+
 } // namespace collective::l5
+
+namespace oasis::daemons::kmsd {
+using namespace collective::l5;
+} // namespace oasis::daemons::kmsd
+

@@ -228,6 +228,34 @@
         text-overflow: ellipsis;
       }
 
+      /* V3.1 Alpha Genesis, $20,000 USD Reserve & Community Baseline (B_baseline) Strip */
+      #hud-v31-genesis-strip {
+        margin-top: 5px;
+        padding-top: 5px;
+        border-top: 1px dashed rgba(56, 189, 248, 0.35);
+        font-family: 'SF Mono', 'Fira Code', monospace;
+        font-size: 8.6px;
+        line-height: 1.32;
+        text-align: left;
+      }
+
+      #hud-v31-reserve {
+        color: #34d399;
+        font-weight: 700;
+        margin-bottom: 2px;
+      }
+
+      #hud-v31-baseline {
+        color: #fde68a;
+        font-weight: 600;
+        margin-bottom: 2px;
+      }
+
+      #hud-v31-reputation {
+        color: #c4b5fd;
+        font-weight: 700;
+      }
+
       /* Emscripten Status & Console Area */
       #status {
         margin-top: 8px;
@@ -1246,6 +1274,53 @@
       .companion-ext-link:hover {
         text-decoration: underline;
       }
+
+      #l6-dynamic-catalog-status {
+        background: rgba(6, 78, 59, 0.72);
+        border: 1px solid rgba(52, 211, 153, 0.55);
+        border-radius: 5px;
+        padding: 4px 7px;
+        margin-bottom: 6px;
+        font-family: 'SF Mono', 'Fira Code', monospace;
+        font-size: 8.1px;
+        font-weight: 700;
+        color: #6ee7b7;
+        line-height: 1.3;
+      }
+
+      #l6-scenario-wave-filter {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4px;
+        margin-bottom: 6px;
+      }
+
+      .wave-filter-btn {
+        background: rgba(15, 23, 42, 0.92);
+        color: #94a3b8;
+        border: 1px solid rgba(56, 189, 248, 0.35);
+        border-radius: 4px;
+        padding: 3px 5px;
+        font-family: 'SF Mono', 'Fira Code', monospace;
+        font-size: 7.9px;
+        font-weight: 700;
+        cursor: pointer;
+        text-align: center;
+        transition: all 0.12s ease;
+      }
+
+      .wave-filter-btn:hover {
+        color: #f8fafc;
+        border-color: #38bdf8;
+        background: rgba(14, 116, 144, 0.32);
+      }
+
+      .wave-filter-btn.active {
+        background: linear-gradient(135deg, #0284c7, #10b981);
+        color: #04131d;
+        border-color: #6ee7b7;
+        box-shadow: 0 0 8px rgba(52, 211, 153, 0.45);
+      }
     </style>
   </head>
   <body>
@@ -1311,6 +1386,12 @@
             <div id="hud-camp-stock">HOME: 3 Rations | 60.0L Water | Queue: 0</div>
             <div id="hud-material-stock">SALVAGE: 2 PV Kits | 6 Timber | 4 Cob | 6 Seeds</div>
             <div id="hud-kitchen-status">KITCHEN (Γ): 3 Meals | 2 Raw Produce | 60.0L Water | NORMAL (1.0x)</div>
+            <!-- V3.1 Alpha Genesis, $20,000 USD Reserve & Community Baseline (B_baseline) Strip -->
+            <div id="hud-v31-genesis-strip">
+              <div id="hud-v31-reserve">RESERVE: $20,000.00 USD | Burn: -$1,820/mo | D_t: 100.0% L7</div>
+              <div id="hud-v31-baseline">BASELINE (R0): Pea Soup &amp; Bean Stew + Warm Shower + Emergency Care ($0 Grocery/Util)</div>
+              <div id="hud-v31-reputation">REPUTATION (R): 0 bp / 2500 bp | [Apprentice R1 -&gt; L5 Steward Locked]</div>
+            </div>
           </div>
 
           <!-- Live Net Trajectory HUD Ticker -->
@@ -1363,6 +1444,8 @@
             <button type="button" class="homestead-btn" id="btn-wave-neighbor" onclick="window.triggerNeighborWave()">[ 👋 Nod to Neighbor ]</button>
             <button type="button" class="homestead-btn" id="btn-harvest-garden" onclick="window.triggerKitchenScenarioAction(13)">[ 🌾 Harvest Garden ]</button>
             <button type="button" class="homestead-btn" id="btn-cook-meal" onclick="window.triggerKitchenScenarioAction(14)">[ 🍳 Cook Meal (Scenario Γ) ]</button>
+            <button type="button" class="homestead-btn" id="btn-v31-baseline-homestead" style="grid-column: span 2; border-color: rgba(251, 191, 36, 0.65); color: #fde68a;" onclick="window.triggerV31Action(101)">[ 🍲 Rely on R0 Community Baseline (Pea Soup, Bean Stew, Warm Shower &amp; Care: -$670/mo Burn -&gt; $0) ]</button>
+            <button type="button" class="homestead-btn" id="btn-v31-kappa-homestead" style="grid-column: span 2; border-color: rgba(167, 139, 250, 0.65); color: #c4b5fd;" onclick="window.triggerV31Action(102)">[ 📚 Study Open Blueprint &amp; Apprenticeship (Scenario Kappa +R) ]</button>
             <button type="button" class="homestead-btn" id="btn-open-companion" style="grid-column: span 2; border-color: rgba(52, 211, 153, 0.65); color: #34d399;" onclick="window.toggleNode0CompanionDrawer()">[ 📱 L6 INTENTS &amp; CALENDAR ]</button>
           </div>
           <div id="homestead-quest-box">
@@ -1377,28 +1460,71 @@
           </div>
         </div>
 
-        <!-- Layer 6 Citizen Intent Slate & Calendar of Intents Drawer (#node0-companion-drawer) -->
+        <!-- Layer 6 Citizen Intent Slate & Calendar of Intents Drawer (#node0-companion-drawer / #l6-intent-drawer) -->
         <div id="node0-companion-drawer" role="dialog" aria-label="Layer 6 Citizen Intent Slate and Calendar">
-          <div class="companion-drawer-header">
-            <span class="companion-drawer-title">📱 LAYER 6 CITIZEN INTENT SLATE &amp; CALENDAR (NODE 0)</span>
-            <button type="button" class="companion-close-btn" id="btn-close-companion" onclick="window.toggleNode0CompanionDrawer(false)">[✕]</button>
-          </div>
-          <div id="companion-drawer-subtitle" style="font-size:8.1px;color:#94a3b8;line-height:1.35;margin-bottom:7px;font-style:italic;">
-            Day-to-day citizen interface (Layer 6 <code style="color:#38bdf8;font-style:normal;">core/6_intent/</code>). Emit Semantic Intents for communal deficits or plan your multi-day Calendar of Intents. (Underlying workflows and trust policies are configured in the L4 Designer &amp; L5 Governance apps.)
-          </div>
-          <div class="companion-telemetry-strip">
-            <div class="companion-tel-item">SOLAR: <b id="comp-tel-solar">+8.5 kWh/d</b></div>
-            <div class="companion-tel-item">WATER: <b id="comp-tel-water">60.0L</b></div>
-            <div class="companion-tel-item">L3 TOKENS: <b id="comp-tel-vt" style="color:#34d399;">25 VT</b></div>
-            <div class="companion-tel-item">MEALS: <b id="comp-tel-meals">12 (2 Prod)</b></div>
-            <div class="companion-tel-item">PV KITS: <b id="comp-tel-pv">2</b></div>
-            <div class="companion-tel-item">RING: <b style="color:#a78bfa;">R1 STEWARD</b></div>
-          </div>
+          <div id="l6-intent-drawer">
+            <div class="companion-drawer-header">
+              <span class="companion-drawer-title">📱 LAYER 6 CITIZEN INTENT SLATE &amp; CALENDAR (NODE 0)</span>
+              <button type="button" class="companion-close-btn" id="btn-close-companion" onclick="window.toggleNode0CompanionDrawer(false)">[✕]</button>
+            </div>
+            <div id="companion-drawer-subtitle" style="font-size:8.1px;color:#94a3b8;line-height:1.35;margin-bottom:7px;font-style:italic;">
+              Day-to-day citizen interface (Layer 6 <code style="color:#38bdf8;font-style:normal;">core/6_intent/</code>). 100% Open Knowledge: all Stage-1 Real Blueprints &amp; honest node deficits are visible from Day 1. Follow <b>Learn &rarr; Work &rarr; Reputation R &rarr; L5 Governance</b>.
+            </div>
 
-          <div id="companion-drawer-status">✅ Layer 6 Semantic Intent Dispatched to Lot 402 Founder!</div>
+            <!-- V3.1 Community Baseline (B_baseline) & Open Knowledge / Apprenticeship (Scenario Kappa) Top Controls -->
+            <div class="companion-section-label">V3.1 COMMUNITY BASELINE (B_baseline) &amp; OPEN KNOWLEDGE APPRENTICESHIP:</div>
+            <div class="companion-task-list" id="v31-baseline-controls">
+              <button type="button" class="companion-task-btn" id="btn-v31-baseline-l6" style="border-color:rgba(251,191,36,0.65);color:#fde68a;" onclick="window.triggerV31Action(101)">
+                [ 🍲 Rely on R0 Community Baseline (Pea Soup, Bean Stew, Warm Shower &amp; Care: -$670/mo Burn -&gt; $0) ]
+              </button>
+              <button type="button" class="companion-task-btn" id="btn-v31-kappa-l6" style="border-color:rgba(167,139,250,0.65);color:#c4b5fd;" onclick="window.triggerV31Action(102)">
+                [ 📚 Study Open Blueprint &amp; Apprenticeship (Scenario Kappa +R) ]
+              </button>
+            </div>
 
-          <!-- SECTION A: Layer 6 Collective Intent Bounties (JobQueue) -->
-          <div class="companion-section-label">SECTION A — LAYER 6 COLLECTIVE INTENT BOUNTIES (JOBQUEUE):</div>
+            <!-- Stage-1 Dual-Fidelity Real Blueprints (core/6_intent/blueprints/*.jsonld — L6 -> L5 -> L4 -> L7 Procurement) -->
+            <div class="companion-section-label">Stage-1 Dual-Fidelity Real Blueprints (<code>core/6_intent/blueprints/*.jsonld</code> — L6 &rarr; L5 &rarr; L4 &rarr; L7 Procurement):</div>
+            <div id="l6-dynamic-catalog-status">LOADED ARTIFACTS: 5 Stage-1 Dual-Fidelity Blueprints (Synced from core/6_intent/blueprints/*.jsonld)</div>
+            <div id="l6-scenario-wave-filter" role="group" aria-label="Cross-Scenario Sprint Wave Filter">
+              <button type="button" class="wave-filter-btn active" id="btn-wave-filter-all" data-wave="ALL" onclick="window.filterStage1BlueprintsByWave('ALL')">[All Stage-1 Seeds (5)]</button>
+              <button type="button" class="wave-filter-btn" id="btn-wave-filter-a" data-wave="A" onclick="window.filterStage1BlueprintsByWave('A')">[Wave A: Zero + Tau (Meta/Homelab)]</button>
+              <button type="button" class="wave-filter-btn" id="btn-wave-filter-b" data-wave="B" onclick="window.filterStage1BlueprintsByWave('B')">[Wave B: Gamma + Alpha + Beta (Food/Solar/Transit)]</button>
+              <button type="button" class="wave-filter-btn" id="btn-wave-filter-c" data-wave="C" onclick="window.filterStage1BlueprintsByWave('C')">[Wave C: Delta (Care Sanctuary)]</button>
+            </div>
+            <div class="companion-task-list" id="v31-stage1-blueprint-cards">
+              <button type="button" class="companion-task-btn" id="btn-v31-bp-zero" data-v31-code="202" data-scenario-wave="A" data-scenario-id="0" data-canonical-id="Stage1_Zero_Homelab_Workstation" data-target-mat-id="120" onclick="window.triggerV31Action(202)">
+                [ 💻 Stage-1 Zero Homelab Workstation (-$350 L7 Leaf | -12% D_t | +R) ]
+              </button>
+              <button type="button" class="companion-task-btn" id="btn-v31-bp-alpha" data-v31-code="201" data-scenario-wave="B" data-scenario-id="1" data-canonical-id="Stage1_Solar_Array_400W" data-target-mat-id="11" onclick="window.triggerV31Action(201)">
+                [ ☀️ Stage-1 Alpha 400W Solar Array &amp; 48V Bus (-$1,420 L7 Leaf | -18% D_t | +R) ]
+              </button>
+              <button type="button" class="companion-task-btn" id="btn-v31-bp-gamma" data-v31-code="203" data-scenario-wave="B" data-scenario-id="3" data-canonical-id="Stage1_Gamma_Hearth_And_Garden" data-target-mat-id="16" onclick="window.triggerV31Action(203)">
+                [ 🍲 Stage-1 Gamma Backyard Garden &amp; Pea Soup Hearth (-$870 L7 Leaf | -22% D_t | +R) ]
+              </button>
+              <button type="button" class="companion-task-btn" id="btn-v31-bp-beta" data-v31-code="204" data-scenario-wave="B" data-scenario-id="2" data-canonical-id="Stage1_Beta_Cargo_ETrike_Depot" data-target-mat-id="20" onclick="window.triggerV31Action(204)">
+                [ 🚲 Stage-1 Beta Cargo E-Trike &amp; Smart-Tote Depot (-$1,150 L7 Leaf | -15% D_t | +R) ]
+              </button>
+              <button type="button" class="companion-task-btn" id="btn-v31-bp-delta" data-v31-code="205" data-scenario-wave="C" data-scenario-id="4" data-canonical-id="Stage1_Delta_Childcare_Pod" data-target-mat-id="22" onclick="window.triggerV31Action(205)">
+                [ 👶 Stage-1 Delta Living-Room Care Pod (-$1,250 L7 Leaf | Non-Tokenized Care | +R) ]
+              </button>
+            </div>
+
+            <div class="companion-telemetry-strip">
+              <div class="companion-tel-item">SOLAR: <b id="comp-tel-solar">+8.5 kWh/d</b></div>
+              <div class="companion-tel-item">WATER: <b id="comp-tel-water">60.0L</b></div>
+              <div class="companion-tel-item">L3 TOKENS: <b id="comp-tel-vt" style="color:#34d399;">25 VT</b></div>
+              <div class="companion-tel-item">MEALS: <b id="comp-tel-meals">12 (2 Prod)</b></div>
+              <div class="companion-tel-item">PV KITS: <b id="comp-tel-pv">2</b></div>
+              <div class="companion-tel-item">RING: <b id="comp-tel-ring" style="color:#a78bfa;">R1 STEWARD</b></div>
+              <div class="companion-tel-item">RESERVE: <b id="comp-tel-reserve" style="color:#34d399;">$20,000.00</b></div>
+              <div class="companion-tel-item">D_t: <b id="comp-tel-dt" style="color:#38bdf8;">100.0% L7</b></div>
+              <div class="companion-tel-item">REP (R): <b id="comp-tel-rep" style="color:#c4b5fd;">0 / 2500 bp</b></div>
+            </div>
+
+            <div id="companion-drawer-status">✅ Layer 6 Semantic Intent Dispatched to Lot 402 Founder!</div>
+
+            <!-- SECTION A: Layer 6 Collective Intent Bounties (JobQueue) -->
+            <div class="companion-section-label">SECTION A — LAYER 6 COLLECTIVE INTENT BOUNTIES (JOBQUEUE):</div>
           <div class="proxy-node-card">
             <div class="proxy-node-top">
               <span class="proxy-node-name">Node 01 Maya Lot 404 (Kiln)</span>
@@ -1491,6 +1617,7 @@
             <a class="companion-ext-link" href="web/companion/index.html" target="_blank" rel="noopener">[ ↗ L6 Companion App ]</a>
             <a class="companion-ext-link" href="web/orchestrator/index.html" target="_blank" rel="noopener">[ ⚙️ L4 Workflow Designer ]</a>
             <a class="companion-ext-link" href="web/governance/index.html" target="_blank" rel="noopener">[ 🛡️ L5 Governance Manager ]</a>
+          </div>
           </div>
         </div>
 
@@ -1733,6 +1860,16 @@
       window._oasisPendingActionId = -1;
       window._oasisPendingKitchenAction = 0;
       window._oasisPendingCompanionTask = 0;
+      window._oasisPendingV31Action = 0;
+      window._oasisV31State = {
+        reserveCents: 2000000,
+        monthlyBurnCents: 182000,
+        dependencyBp: 10000,
+        reputationBp: 0,
+        baselineEnrolled: false,
+        govUnlocked: false,
+        strategyId: 1
+      };
       window._oasisCompanionDrawerOpen = false;
       window._oasisPendingScheduleUpdate = { day: 1, taskId: 2, pending: 0 };
       window._oasisPendingScheduleCommit = 0;
@@ -1781,6 +1918,8 @@
             if (!ev || !ev.data) return;
             if (ev.data.type === 'COMPANION_TASK' && ev.data.taskId) {
               dispatchCompanionTask(ev.data.taskId, true);
+            } else if (ev.data.type === 'V31_ACTION' && ev.data.code) {
+              window.triggerV31Action(ev.data.code, true);
             } else if (ev.data.type === 'BPMN_SCHEDULE_UPDATE' && ev.data.day && ev.data.taskId) {
               updateBpmnScheduleSlot(ev.data.day, ev.data.taskId, true);
             } else if (ev.data.type === 'BPMN_COMMIT_SCHEDULE' || ev.data.type === 'BPMN_SCHEDULE_COMMIT') {
@@ -1798,12 +1937,14 @@
 
       window.addEventListener('storage', function(ev) {
         if (!ev || !ev.newValue) return;
-        if (ev.key === 'oasis_companion_task' || ev.key === 'oasis_bpmn_schedule') {
+        if (ev.key === 'oasis_companion_task' || ev.key === 'oasis_bpmn_schedule' || ev.key === 'oasis_v31_action') {
           try {
             var payload = JSON.parse(ev.newValue);
             if (!payload) return;
             if (payload.type === 'COMPANION_TASK' && payload.taskId) {
               dispatchCompanionTask(payload.taskId, true);
+            } else if (payload.type === 'V31_ACTION' && payload.code) {
+              window.triggerV31Action(payload.code, true);
             } else if (payload.type === 'BPMN_SCHEDULE_UPDATE' && payload.day && payload.taskId) {
               updateBpmnScheduleSlot(payload.day, payload.taskId, true);
             } else if (payload.type === 'BPMN_COMMIT_SCHEDULE' || payload.type === 'BPMN_SCHEDULE_COMMIT') {
@@ -1819,6 +1960,305 @@
         }
       });
 
+      function formatUsdFromCents(cents, decimals) {
+        var val = (Number(cents) || 0) / 100.0;
+        var dec = (decimals !== undefined) ? decimals : 2;
+        var fixed = val.toFixed(dec);
+        var parts = fixed.split('.');
+        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        return parts.join('.');
+      }
+
+      window._oasisUpdateV31GenesisHud = function(
+        reserveCents,
+        monthlyBurnCents,
+        dependencyBp,
+        reputationBp,
+        baselineEnrolled,
+        govUnlocked,
+        strategyId
+      ) {
+        var resCents = (reserveCents !== undefined && !isNaN(Number(reserveCents))) ? Math.max(0, Math.round(Number(reserveCents))) : 2000000;
+        var burnCents = (monthlyBurnCents !== undefined && !isNaN(Number(monthlyBurnCents))) ? Math.abs(Math.round(Number(monthlyBurnCents))) : 182000;
+        var depBp = (dependencyBp !== undefined && !isNaN(Number(dependencyBp))) ? Math.max(0, Math.min(10000, Math.round(Number(dependencyBp)))) : 10000;
+        var repBp = (reputationBp !== undefined && !isNaN(Number(reputationBp))) ? Math.max(0, Math.round(Number(reputationBp))) : 0;
+        var baseOn = Boolean(Number(baselineEnrolled) > 0 || baselineEnrolled === true);
+        var govOn = Boolean(Number(govUnlocked) > 0 || govUnlocked === true || repBp >= 2500);
+        var stratId = (strategyId !== undefined && !isNaN(Number(strategyId))) ? Math.round(Number(strategyId)) : 1;
+
+        var resStr = '$' + formatUsdFromCents(resCents, 2);
+        var burnStr = burnCents > 0 ? ('-$' + formatUsdFromCents(burnCents, 0) + '/mo') : '$0/mo';
+        var depStr = (depBp / 100.0).toFixed(1) + '% L7';
+
+        var elRes = document.getElementById('hud-v31-reserve');
+        if (elRes) {
+          elRes.textContent = 'RESERVE: ' + resStr + ' USD | Burn: ' + burnStr + ' | D_t: ' + depStr;
+        }
+
+        var elBase = document.getElementById('hud-v31-baseline');
+        if (elBase) {
+          elBase.textContent = baseOn
+            ? 'BASELINE (R0): [ACTIVE] Pea Soup & Bean Stew + Warm Shower + Emergency Care ($0 Grocery/Util | -$670/mo Burn -> $0)'
+            : 'BASELINE (R0): Pea Soup & Bean Stew + Warm Shower + Emergency Care ($0 Grocery/Util)';
+          elBase.style.color = baseOn ? '#34d399' : '#fde68a';
+        }
+
+        var elRep = document.getElementById('hud-v31-reputation');
+        if (elRep) {
+          elRep.textContent = 'REPUTATION (R): ' + repBp + ' bp / 2500 bp | ' +
+            (govOn ? '[L5 Steward Governance UNLOCKED]' : '[Apprentice R1 -> L5 Steward Locked]');
+          elRep.style.color = govOn ? '#34d399' : '#c4b5fd';
+        }
+
+        var elCompRes = document.getElementById('comp-tel-reserve');
+        if (elCompRes) elCompRes.textContent = resStr;
+        var elCompDt = document.getElementById('comp-tel-dt');
+        if (elCompDt) elCompDt.textContent = depStr;
+        var elCompRep = document.getElementById('comp-tel-rep');
+        if (elCompRep) elCompRep.textContent = repBp + ' / 2500 bp';
+        var elCompRing = document.getElementById('comp-tel-ring');
+        if (elCompRing) {
+          elCompRing.textContent = govOn ? 'L5 STEWARD (R>=2500)' : 'R1 APPRENTICE';
+          elCompRing.style.color = govOn ? '#34d399' : '#a78bfa';
+        }
+
+        var activeCodeMap = { 0: 202, 1: 201, 2: 204, 3: 203, 4: 205 };
+        var activeBpCode = activeCodeMap[stratId] || 0;
+        var bpBtns = document.querySelectorAll('#v31-stage1-blueprint-cards .companion-task-btn');
+        for (var i = 0; i < bpBtns.length; i++) {
+          var bCode = Number(bpBtns[i].getAttribute('data-v31-code')) || 0;
+          if (bCode === activeBpCode) {
+            bpBtns[i].style.borderColor = '#34d399';
+          } else {
+            bpBtns[i].style.borderColor = 'rgba(52, 211, 153, 0.42)';
+          }
+        }
+
+        window._oasisV31State = {
+          reserveCents: resCents,
+          monthlyBurnCents: burnCents,
+          dependencyBp: depBp,
+          reputationBp: repBp,
+          baselineEnrolled: baseOn,
+          govUnlocked: govOn,
+          strategyId: stratId,
+          timestamp: Date.now()
+        };
+      };
+      window.updateV31GenesisHud = window._oasisUpdateV31GenesisHud;
+
+      window.triggerV31Action = function(code, fromRemoteBus) {
+        var c = Math.round(Number(code) || 0);
+        window._oasisPendingV31Action = c;
+
+        var st = window._oasisV31State || {
+          reserveCents: 2000000,
+          monthlyBurnCents: 182000,
+          dependencyBp: 10000,
+          reputationBp: 0,
+          baselineEnrolled: false,
+          govUnlocked: false,
+          strategyId: 1
+        };
+        var resCents = st.reserveCents;
+        var burnCents = st.monthlyBurnCents;
+        var depBp = st.dependencyBp;
+        var repBp = st.reputationBp;
+        var baseOn = st.baselineEnrolled;
+        var govOn = st.govUnlocked;
+        var stratId = st.strategyId;
+
+        var statusMsg = '✅ V3.1 Action #' + c + ' Dispatched to Node 0!';
+        if (c === 101) {
+          baseOn = true;
+          burnCents = 115000;
+          statusMsg = '🍲 Enrolled in Ring R0 Community Baseline (Pea Soup, Bean Stew, Warm Shower & Care: -$670/mo Burn -> $0)!';
+        } else if (c === 102) {
+          repBp = Math.min(10000, repBp + 500);
+          if (repBp >= 2500) govOn = true;
+          statusMsg = '📚 Completed Open Blueprint & Apprenticeship Module (Scenario Kappa: +500 bp Reputation R)!';
+        } else if (c === 201) {
+          if (resCents >= 142000) resCents -= 142000;
+          depBp = Math.max(0, depBp - 1800);
+          repBp = Math.min(10000, repBp + 650);
+          if (repBp >= 2500) govOn = true;
+          stratId = 1;
+          statusMsg = '☀️ Commissioned Stage-1 Alpha 400W Solar Array & 48V Bus (-$1,420 L7 Leaf | -18% D_t | +650 bp R)!';
+        } else if (c === 202) {
+          if (resCents >= 35000) resCents -= 35000;
+          depBp = Math.max(0, depBp - 1200);
+          repBp = Math.min(10000, repBp + 650);
+          if (repBp >= 2500) govOn = true;
+          stratId = 0;
+          statusMsg = '💻 Commissioned Stage-1 Zero Homelab Workstation (-$350 L7 Leaf | -12% D_t | +650 bp R)!';
+        } else if (c === 203) {
+          if (resCents >= 87000) resCents -= 87000;
+          depBp = Math.max(0, depBp - 2200);
+          repBp = Math.min(10000, repBp + 650);
+          if (repBp >= 2500) govOn = true;
+          stratId = 3;
+          statusMsg = '🍲 Commissioned Stage-1 Gamma Backyard Garden & Pea Soup Hearth (-$870 L7 Leaf | -22% D_t | +650 bp R)!';
+        } else if (c === 204) {
+          if (resCents >= 115000) resCents -= 115000;
+          depBp = Math.max(0, depBp - 1500);
+          repBp = Math.min(10000, repBp + 650);
+          if (repBp >= 2500) govOn = true;
+          stratId = 2;
+          statusMsg = '🚲 Commissioned Stage-1 Beta Cargo E-Trike & Smart-Tote Depot (-$1,150 L7 Leaf | -15% D_t | +650 bp R)!';
+        } else if (c === 205) {
+          if (resCents >= 125000) resCents -= 125000;
+          depBp = Math.max(0, depBp - 1300);
+          repBp = Math.min(10000, repBp + 650);
+          if (repBp >= 2500) govOn = true;
+          stratId = 4;
+          statusMsg = '👶 Commissioned Stage-1 Delta Living-Room Care Pod (-$1,250 L7 Leaf | Non-Tokenized Care | +650 bp R)!';
+        }
+
+        window._oasisUpdateV31GenesisHud(resCents, burnCents, depBp, repBp, baseOn, govOn, stratId);
+
+        var statusBanner = document.getElementById('companion-drawer-status');
+        if (statusBanner) {
+          statusBanner.textContent = statusMsg;
+          statusBanner.style.display = 'block';
+        }
+
+        if (!fromRemoteBus) {
+          var msg = { type: 'V31_ACTION', code: c, timestamp: Date.now() };
+          try {
+            if (_oasisCompanionChannel) _oasisCompanionChannel.postMessage(msg);
+          } catch (err) {}
+          try {
+            localStorage.setItem('oasis_v31_action', JSON.stringify(msg));
+          } catch (err) {}
+        }
+      };
+
+      window._oasisActiveScenarioWave = 'ALL';
+      window._oasisSyncedArtifactCount = 5;
+      window._oasisSyncedArtifactCatalog = [];
+
+      function inferScenarioWaveFromBlueprint(bp) {
+        if (!bp) return 'B';
+        if (bp.wave && String(bp.wave).trim().length > 0) {
+          return String(bp.wave).trim().toUpperCase();
+        }
+        var sid = (bp.scenario_id !== undefined) ? Number(bp.scenario_id) : ((bp.scenarioId !== undefined) ? Number(bp.scenarioId) : -1);
+        var cid = String(bp.canonical_id || bp.canonicalId || bp.blueprintId || '');
+        if (sid === 0 || cid.indexOf('Zero') !== -1 || cid.indexOf('Tau') !== -1 || cid.indexOf('zero') !== -1) {
+          return 'A';
+        }
+        if (sid === 4 || cid.indexOf('Delta') !== -1 || cid.indexOf('delta') !== -1) {
+          return 'C';
+        }
+        return 'B';
+      }
+
+      window.filterStage1BlueprintsByWave = function(waveCode) {
+        var w = String(waveCode || 'ALL').trim().toUpperCase();
+        if (w !== 'A' && w !== 'B' && w !== 'C') {
+          w = 'ALL';
+        }
+        window._oasisActiveScenarioWave = w;
+
+        var filterBtns = document.querySelectorAll('#l6-scenario-wave-filter .wave-filter-btn');
+        for (var i = 0; i < filterBtns.length; i++) {
+          var bw = String(filterBtns[i].getAttribute('data-wave') || 'ALL').toUpperCase();
+          if (bw === w) {
+            filterBtns[i].classList.add('active');
+          } else {
+            filterBtns[i].classList.remove('active');
+          }
+        }
+
+        var cards = document.querySelectorAll('#v31-stage1-blueprint-cards .companion-task-btn');
+        for (var j = 0; j < cards.length; j++) {
+          var cardWave = String(cards[j].getAttribute('data-scenario-wave') || 'B').toUpperCase();
+          var visible = (w === 'ALL' || cardWave === w);
+          cards[j].style.display = visible ? 'block' : 'none';
+        }
+      };
+      window._oasisFilterStage1BlueprintsByWave = window.filterStage1BlueprintsByWave;
+
+      window._oasisSyncArtifactCatalog = function(catalogJsonStr) {
+        var parsed = null;
+        if (typeof catalogJsonStr === 'string' && catalogJsonStr.trim().length > 0) {
+          try {
+            parsed = JSON.parse(catalogJsonStr);
+          } catch (err) {
+            parsed = null;
+          }
+        } else if (catalogJsonStr && typeof catalogJsonStr === 'object') {
+          parsed = catalogJsonStr;
+        }
+
+        var items = [];
+        if (Array.isArray(parsed)) {
+          items = parsed;
+        } else if (parsed && Array.isArray(parsed.blueprints)) {
+          items = parsed.blueprints;
+        } else if (parsed && Array.isArray(parsed.artifacts)) {
+          items = parsed.artifacts;
+        }
+
+        var count = items.length > 0
+          ? items.length
+          : (parsed && typeof parsed.blueprint_count === 'number' && parsed.blueprint_count > 0 ? parsed.blueprint_count : 5);
+
+        window._oasisSyncedArtifactCatalog = items;
+        window._oasisSyncedArtifactCount = count;
+
+        var statusBadge = document.getElementById('l6-dynamic-catalog-status');
+        if (statusBadge) {
+          statusBadge.textContent =
+            'LOADED ARTIFACTS: ' + count + ' Stage-1 Dual-Fidelity Blueprints (Synced from core/6_intent/blueprints/*.jsonld)';
+        }
+
+        var allBtn = document.getElementById('btn-wave-filter-all');
+        if (allBtn) {
+          allBtn.textContent = '[All Stage-1 Seeds (' + count + ')]';
+        }
+
+        if (items.length > 0) {
+          var btnMapByScenario = {
+            0: document.getElementById('btn-v31-bp-zero'),
+            1: document.getElementById('btn-v31-bp-alpha'),
+            2: document.getElementById('btn-v31-bp-beta'),
+            3: document.getElementById('btn-v31-bp-gamma'),
+            4: document.getElementById('btn-v31-bp-delta')
+          };
+          for (var i = 0; i < items.length; i++) {
+            var bp = items[i];
+            if (!bp) continue;
+            var sid = (bp.scenario_id !== undefined) ? Number(bp.scenario_id) : ((bp.scenarioId !== undefined) ? Number(bp.scenarioId) : -1);
+            var targetBtn = btnMapByScenario[sid];
+            if (targetBtn) {
+              var cid = bp.canonical_id || bp.canonicalId || bp.blueprintId || '';
+              if (cid) targetBtn.setAttribute('data-canonical-id', String(cid));
+              if (bp.target_voxel_mat_id !== undefined) {
+                targetBtn.setAttribute('data-target-mat-id', String(bp.target_voxel_mat_id));
+              }
+              targetBtn.setAttribute('data-scenario-wave', inferScenarioWaveFromBlueprint(bp));
+            }
+          }
+        }
+
+        window.filterStage1BlueprintsByWave(window._oasisActiveScenarioWave || 'ALL');
+
+        try {
+          var syncMsg = {
+            type: 'OASIS_ARTIFACT_CATALOG',
+            count: count,
+            blueprints: items,
+            timestamp: Date.now()
+          };
+          if (_oasisCompanionChannel) _oasisCompanionChannel.postMessage(syncMsg);
+          localStorage.setItem('oasis_artifact_catalog', JSON.stringify(syncMsg));
+        } catch (err) {}
+
+        return count;
+      };
+      window.syncArtifactCatalog = window._oasisSyncArtifactCatalog;
+
       function toggleNode0CompanionDrawer(forceState) {
         var drawer = document.getElementById('node0-companion-drawer');
         if (!drawer) return;
@@ -1828,6 +2268,7 @@
       }
       window.toggleNode0CompanionDrawer = toggleNode0CompanionDrawer;
       window.toggleCompanionDrawer = toggleNode0CompanionDrawer;
+      window.toggleL6IntentDrawer = toggleNode0CompanionDrawer;
 
       function dispatchCompanionTask(taskId, fromRemoteBus) {
         var tid = Math.round(Number(taskId) || 0);
@@ -2288,6 +2729,7 @@
         if (m === 20 || m === 21 || m === 22 || m === 24) return 'INTERIOR / ZONE';
         if (m === 26) return 'QUEUED BLUEPRINT';
         if (m === 27 || m === 28 || m === 29) return 'COLONIST / NPC AVATAR';
+        if (m === 120 || m === 122) return 'SCENARIO ZERO HOMELAB / HIL';
         return 'PARCEL VOXEL';
       }
 

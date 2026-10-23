@@ -1,0 +1,128 @@
+{
+  "@context": [
+    "https://schema.org/",
+    "https://collective.network/ontology/v1/"
+  ],
+  "@type": "NodeFacilityBlueprint",
+  "identifier": "urn:uuid:d4040402-58cc-4372-a567-0e02b2c3d404",
+  "blueprintId": "bp_delta_stage1_childcare_pod",
+  "scenarioRef": [
+    "SCN-DELTA-CARE",
+    "SCN-ALPHA-FAB",
+    "SCN-GAMMA-KITCHEN",
+    "SCN-PHI-ELDER"
+  ],
+  "stage": 1,
+  "title": "Stage-1 Suburban Living-Room Care Circle, Fourth-Trimester Postpartum Cocoon & Solar-Thermal Cloth Diaper Sanctuary",
+  "versionTag": "v3.1.0-genesis",
+  "treatyCid": "bafybeiccfclkdtucu6y4yc5cpr6y3yuinr67v7bbw55fxw77a5y6x3z4me",
+  "realWorldEngineeringSpec": {
+    "participatingHouseholdFamiliesMin": 2,
+    "participatingHouseholdFamiliesMax": 4,
+    "fourthTrimesterCocoonDurationDays": 180,
+    "maxInfantBathWaterTempMillikelvin": 311150,
+    "nominalInfantBathWaterTempMillikelvin": 310150,
+    "maxIndoorCo2Ppm": 800,
+    "clothDiaperSanitizationTempMillikelvin": 358150,
+    "clothDiaperSanitizationHoldMs": 900000,
+    "interiorSurveillanceCamerasAllowed": false,
+    "billOfMaterials": [
+      {
+        "componentId": "heirloom_hardwood_bassinet_and_montessori_play_nook",
+        "description": "Solid Black Locust & Cherry bedside co-sleeper bassinet, infant bath cradle, stair safety gates, and non-toxic beeswax Montessori sensory toys borrowed from Scenario Alpha Nursery Gear Library",
+        "modalityRequired": "WOODSHOP_CNC_AND_BEESWAX_FINISH",
+        "materialClass": "HARDWOOD_LOCUST_AND_CHERRY_NONTOXIC",
+        "sourceRing": "R1_SCN_ALPHA_NURSERY_GEAR_LIBRARY",
+        "massMilligrams": 32000000000,
+        "l7FallbackSku": null,
+        "l7FallbackCostUsdCents": 0
+      },
+      {
+        "componentId": "postpartum_hearth_meal_train_and_puree_provisioning",
+        "description": "Daily Scenario Gamma doorstep postpartum recovery broths, lactation-supporting bakes, and 6+ month iron-rich complementary infant purees",
+        "modalityRequired": "CULINARY_HEARTH_BATCH_PROVISIONING",
+        "materialClass": "ORGANIC_NUTRIENT_DENSE_COMMONS_FOOD",
+        "sourceRing": "R1_SCN_GAMMA_COMMONS_HEARTH",
+        "massMilligrams": 14000000000,
+        "l7FallbackSku": null,
+        "l7FallbackCostUsdCents": 0
+      },
+      {
+        "componentId": "sanctuary_safety_thermostatic_ndir_and_diaper_kit",
+        "description": "Bimetallic anti-scald infant bath mixing valve (locked <= 311150 mK / 38C), NDIR CO2 (< 800 ppm) fresh-air damper actuator, >= 358150 mK (85C) sanitizing cloth-diaper washer loop, umbilical/nail care kit, and passive NFC check-in slate",
+        "modalityRequired": "IRREDUCIBLE_THERMOSTATIC_SENSOR_AND_STERILIZER_IMPORT",
+        "materialClass": "LEAD_FREE_BRASS_OPTICAL_NDIR_AND_ORGANIC_COTTON",
+        "sourceRing": "L7_GPO_FALLBACK_PROCUREMENT",
+        "massMilligrams": 28500000000,
+        "l7FallbackSku": "GPO-DELTA-SANCTUARY-SAFETY-KIT",
+        "l7FallbackCostUsdCents": 125000
+      }
+    ]
+  },
+  "layer5GovernancePolicy": {
+    "legalCarapace": "UUNAA_SECTION_6_AND_STATUTORY_COOPERATIVE_CARE_EXEMPTION",
+    "hoaAndMunicipalCamouflage": "Rotational neighbor living-room playgroup and fenced backyard garden; zero commercial daycare fees or street signage; pairwise did:peer encrypted pod schedules",
+    "dynamicSupportRatioFormula": "SUM(w_i) <= 40000 * N_adults",
+    "maxWeightedPointsPerAdultBp": 40000,
+    "infantWeightBp": 20000,
+    "toddlerWeightBp": 13333,
+    "earlyChildhoodBaselineWeightBp": 10000,
+    "dualParentCareLeaveShieldActive": true,
+    "reputationDecayRateDuringCareLeave": 0,
+    "domesticCareTokenMinting": 0,
+    "expandsHouseholdBaselineRightToExist": true,
+    "perimeterAcousticCeilingCb": 550,
+    "requiredBbsPlusCredential": "Pediatric_CPR_Steward_L1",
+    "dependencyRatioDeltaBp": -1600,
+    "reputationalWealthCreditBp": 180
+  },
+  "layer4CustomizableWorkflow": {
+    "workflowId": "wf_delta_stage1_childcare_pod_v3_1",
+    "intentUTurnCompliant": true,
+    "customizableSteps": [
+      {
+        "stepId": "STEP_1_L7_SAFETY_KIT_PROCUREMENT_AND_ALPHA_GEAR_BORROW",
+        "layerTraversal": "L4 -> L5 -> L6 -> L7 (Intent U-Turn)",
+        "action": "Borrow hardwood bassinet, high chair, and Montessori sensory kit from Scenario Alpha (0 USD cents), hook Scenario Gamma doorstep meal train (0 USD cents), and yield upward to L5/L6/L7 to procure GPO-DELTA-SANCTUARY-SAFETY-KIT for 125000 USD cents."
+      },
+      {
+        "stepId": "STEP_2_DUAL_PARENT_CARE_LEAVE_SHIELD_AND_BASELINE_EXPANSION",
+        "layerTraversal": "L6 -> L5 -> L4 -> L3",
+        "action": "Activate Perinatal Care Leave Shield for both mother and father/co-parent (freezing guild Reputation R decay = 0) and expand household B_baseline for postpartum meals, hot water, and cloth diaper sanitization."
+      },
+      {
+        "stepId": "STEP_3_THERMOSTATIC_BATH_NDIR_CO2_AND_DIAPER_AUTOCLAVE_LOOP",
+        "layerTraversal": "L4 -> L3 -> L2 -> L1",
+        "action": "Enforce mechanical bimetallic bath anti-scald lock (<= 311150 mK / 38C), NDIR CO2 fresh-air damper (< 800 ppm), and daily >= 358150 mK (85C for 900000 ms) cloth-diaper sterilization with Red Lever manual overrides."
+      },
+      {
+        "stepId": "STEP_4_DYNAMIC_POD_RATIO_CHECKIN_AND_NON_QUANTIZED_CARE",
+        "layerTraversal": "L1 -> L2 -> L3 -> L4 -> L5",
+        "action": "Verify SUM(w_i) <= 40000 * N_adults before pod check-in (holding and paging an auxiliary steward/Scenario Phi elder on overflow), enforce domesticCareTokenMinting == 0, and credit Steward Reputational Wealth (R)."
+      }
+    ]
+  },
+  "oasisSimulationProjection": {
+    "supportedFidelityModes": [
+      "MACRO_ABSTRACTED",
+      "MULTI_STAGE_SUBSET",
+      "FULL_STOICHIOMETRIC_HIL"
+    ],
+    "defaultFidelityMode": "MULTI_STAGE_SUBSET",
+    "designatorActionId": 9,
+    "voxelMaterialIds": [
+      21,
+      22
+    ],
+    "boundingBoxDecimeters": [
+      30,
+      10,
+      25
+    ],
+    "somaticCaloricCostKcal": 150,
+    "maxWeightedRatioPerAdultBp": 40000,
+    "freezesParentReputationDecay": true,
+    "domesticCareTokenMinting": 0,
+    "qualityFlagEnforced": 1
+  }
+}

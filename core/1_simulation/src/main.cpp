@@ -46,6 +46,35 @@ static uint16_t& g_active_designator_action = g_active_designator_action_id;
 #include "core/migration_assimilation.hpp"
 #include "core/voxel_pathfinder.hpp"
 #include "core/bpmn_scheduler.hpp"
+#include "core/artifact_registry.hpp"
+#include "core/blueprint_bundle_loader.hpp"
+
+// Global V3.1 Universal Artifact Registry & Alpha Founder Genesis State
+static oasis::artifacts::ArtifactRegistry g_artifact_registry{};
+static oasis::artifacts::AlphaFounderGenesisState g_alpha_genesis{};
+
+static void SyncArtifactCatalogToUiJS(const std::string& catalog_json) {
+#ifdef __EMSCRIPTEN__
+    EM_ASM({
+        if (typeof window !== 'undefined') {
+            var jsonStr = UTF8ToString($0);
+            try {
+                window._oasisArtifactCatalog = JSON.parse(jsonStr);
+            } catch (e) {
+                window._oasisArtifactCatalog = [];
+            }
+            if (typeof window._oasisSyncArtifactCatalog === 'function') {
+                window._oasisSyncArtifactCatalog(jsonStr);
+            }
+            if (typeof window.syncOasisArtifactCatalog === 'function') {
+                window.syncOasisArtifactCatalog(window._oasisArtifactCatalog);
+            }
+        }
+    }, catalog_json.c_str());
+#else
+    (void)catalog_json;
+#endif
+}
 
 // Global Arcball Camera State (STORY-8.1)
 static oasis::graphics::ArcballCameraState g_arcball_camera{};
@@ -995,6 +1024,182 @@ static bool DispatchOrchestratorTaskById(flecs::world& ecs, uint16_t task_id) {
     return false;
 }
 
+static bool CommissionStage1RealBlueprint(flecs::world& ecs, uint32_t bp_def_id) {
+    if (bp_def_id < 1u || bp_def_id > g_artifact_registry.blueprint_count) {
+        return false;
+    }
+
+    const auto& bp_art = g_artifact_registry.blueprints[bp_def_id - 1u];
+    g_alpha_genesis.strategy_path = static_cast<oasis::artifacts::BioregionalStrategyPath>(
+        std::min<uint16_t>(bp_art.scenario_id, 4u)
+    );
+
+    const auto wf_res = oasis::artifacts::ExecuteBlueprintWorkflowPipeline(
+        g_artifact_registry, bp_art, g_alpha_genesis
+    );
+    if (!wf_res.ratified_by_l5) {
+        char rej_buf[192]{};
+        std::snprintf(
+            rej_buf,
+            sizeof(rej_buf),
+            "L5 Governance Rejected %s (reason=%u, reserve=$%.2f)",
+            bp_art.canonical_id,
+            static_cast<unsigned>(wf_res.rejection_reason_code),
+            static_cast<double>(g_alpha_genesis.legacy_fiat_reserve_cents) / 100.0
+        );
+        g_last_designator_warning = rej_buf;
+        g_designator_warning_until_tick = g_sim_tick + 240ULL;
+        spdlog::warn("[Oasis V3.1 Pipeline] {}", g_last_designator_warning);
+        return false;
+    }
+
+    // Deliver upward-L7-procured BOM kit into Driveway Salvage Crate so Founder can haul & build it in 3D
+    auto camp = ecs.entity("GenesisCamp");
+    if (camp.is_alive() && camp.has<oasis::chill::GenesisCampStockComponent>()) {
+        auto& stock = camp.get_mut<oasis::chill::GenesisCampStockComponent>();
+        if (bp_def_id == 1u || bp_art.designator_action_id == 11u) {
+            stock.solar_kits_remaining += 1u;
+        } else if (bp_def_id == 2u || bp_art.designator_action_id == 16u || bp_art.designator_action_id == 10u) {
+            stock.timber_planks_remaining += 1u;
+        } else if (bp_def_id == 3u || bp_art.designator_action_id == 14u || bp_art.designator_action_id == 7u || bp_art.designator_action_id == 2u) {
+            stock.cob_earth_lumps += 1u;
+            stock.seed_packs_remaining += 1u;
+        } else {
+            stock.cob_earth_lumps += 1u;
+            stock.timber_planks_remaining += 1u;
+        }
+    }
+
+    auto is_voxel_occupied_by_bp_or_dyn = [&](glm::ivec3 p) -> bool {
+        if (oasis::graphics::GetDynamicVoxel(p.x, p.y, p.z) != 0u) {
+            return true;
+        }
+        bool has_bp = false;
+        ecs.each([&](const oasis::fabrication::BlueprintComponent& bp) {
+            if (!bp.is_completed && bp.x == p.x && bp.y == p.y && bp.z == p.z) {
+                has_bp = true;
+            }
+        });
+        return has_bp;
+    };
+
+    bool placed_in_world = false;
+    if (bp_def_id == 1u) {
+        // 1 = bp_alpha_stage1_solar_array -> Roof Solar Panel (action 11)
+        static constexpr glm::ivec3 kRoofSlots[] = {
+            {13, 6, 6}, {14, 6, 6}, {12, 6, 6}, {15, 6, 6},
+            {13, 6, 5}, {14, 6, 5}, {12, 6, 5}, {15, 6, 5}
+        };
+        for (const auto& slot : kRoofSlots) {
+            glm::ivec3 check_pos = slot;
+            while (check_pos.y < 6 &&
+                   oasis::graphics::GetProceduralVoxelMaterial(glm::ivec3(check_pos.x, check_pos.y + 1, check_pos.z)) == 6u) {
+                check_pos.y++;
+            }
+            if (!is_voxel_occupied_by_bp_or_dyn(check_pos)) {
+                placed_in_world = PlaceDesignationAtVoxel(ecs, slot, slot, 11u);
+                break;
+            }
+        }
+    } else if (bp_def_id == 2u) {
+        // 2 = bp_zero_stage1_homelab_workstation -> Studio Workstation Pod (120u) at (13, 1, 8) + Homelab Microgrid Unit (action 10)
+        oasis::graphics::SetDynamicVoxel(glm::ivec3(13, 1, 8), 120u);
+        static constexpr glm::ivec3 kHomelabSlots[] = {
+            {16, 1, 5}, {16, 1, 6}, {16, 1, 7}, {15, 1, 5}, {15, 1, 7}
+        };
+        for (const auto& slot : kHomelabSlots) {
+            if (!is_voxel_occupied_by_bp_or_dyn(slot)) {
+                placed_in_world = PlaceDesignationAtVoxel(ecs, slot, slot, 10u);
+                break;
+            }
+        }
+        placed_in_world = true;
+    } else if (bp_def_id == 3u) {
+        // 3 = bp_gamma_stage1_hearth_and_garden -> Hearth (action 7) & Backyard Garden (action 2)
+        if (oasis::graphics::GetDynamicVoxel(20, 1, 5) == 0u) {
+            oasis::graphics::SetDynamicVoxel(glm::ivec3(20, 1, 5), 34u);
+            ecs.entity().set<oasis::fabrication::GardenCropComponent>({20, 1, 5, 300.0f, 300.0f, true});
+        }
+        if (oasis::graphics::GetDynamicVoxel(20, 1, 6) == 0u) {
+            oasis::graphics::SetDynamicVoxel(glm::ivec3(20, 1, 6), 34u);
+            ecs.entity().set<oasis::fabrication::GardenCropComponent>({20, 1, 6, 300.0f, 300.0f, true});
+        }
+        static constexpr glm::ivec3 kGammaHearthSlots[] = {
+            {19, 1, 8}, {20, 1, 8}, {19, 1, 7}
+        };
+        for (const auto& slot : kGammaHearthSlots) {
+            if (!is_voxel_occupied_by_bp_or_dyn(slot)) {
+                placed_in_world = PlaceDesignationAtVoxel(ecs, slot, slot, 7u);
+                break;
+            }
+        }
+        if (!placed_in_world) {
+            static constexpr glm::ivec3 kGammaGardenSlots[] = {
+                {20, 0, 7}, {21, 0, 6}, {21, 0, 7}
+            };
+            for (const auto& slot : kGammaGardenSlots) {
+                const glm::ivec3 surf(slot.x, 1, slot.z);
+                if (!is_voxel_occupied_by_bp_or_dyn(surf)) {
+                    placed_in_world = PlaceDesignationAtVoxel(ecs, slot, surf, 2u);
+                    break;
+                }
+            }
+        }
+    } else if (bp_def_id == 4u) {
+        // 4 = bp_beta_stage1_cargo_etrike_depot -> Driveway Cargo E-Trike Depot Bay (action 5)
+        static constexpr glm::ivec3 kBetaDepotSlots[] = {
+            {8, 1, 5}, {8, 1, 6}, {9, 1, 5}, {9, 1, 6}
+        };
+        for (const auto& slot : kBetaDepotSlots) {
+            if (!is_voxel_occupied_by_bp_or_dyn(slot)) {
+                placed_in_world = PlaceDesignationAtVoxel(ecs, slot, slot, 5u);
+                break;
+            }
+        }
+    } else if (bp_def_id == 5u) {
+        // 5 = bp_delta_stage1_childcare_pod -> Mutual-Aid Childcare Sanctuary Pod (action 4)
+        static constexpr glm::ivec3 kDeltaPodSlots[] = {
+            {19, 1, 5}, {19, 1, 4}, {20, 1, 5}, {20, 1, 4}
+        };
+        for (const auto& slot : kDeltaPodSlots) {
+            if (!is_voxel_occupied_by_bp_or_dyn(slot)) {
+                placed_in_world = PlaceDesignationAtVoxel(ecs, slot, slot, 4u);
+                break;
+            }
+        }
+    } else {
+        const uint16_t act = (bp_art.designator_action_id > 0u && bp_art.designator_action_id <= 12u)
+            ? bp_art.designator_action_id
+            : 4u;
+        static constexpr glm::ivec3 kCustomSlots[] = {
+            {19, 1, 5}, {19, 1, 4}, {16, 1, 5}, {8, 1, 5}
+        };
+        for (const auto& slot : kCustomSlots) {
+            if (!is_voxel_occupied_by_bp_or_dyn(slot)) {
+                placed_in_world = PlaceDesignationAtVoxel(ecs, slot, slot, act);
+                break;
+            }
+        }
+    }
+
+    SyncArtifactCatalogToUiJS(oasis::artifacts::SerializeArtifactCatalogToJson(g_artifact_registry));
+
+    char msg_buf[224]{};
+    std::snprintf(
+        msg_buf,
+        sizeof(msg_buf),
+        "Commissioned %s (L7 Procured -$%.2f, +%u bp R, D_t=%.1f%%)",
+        bp_art.canonical_id,
+        static_cast<double>(wf_res.l7_fiat_deducted_cents) / 100.0,
+        wf_res.reputation_awarded_bp,
+        static_cast<double>(wf_res.updated_dependency_ratio_bp) / 100.0
+    );
+    g_last_designator_warning = msg_buf;
+    g_designator_warning_until_tick = g_sim_tick + 240ULL;
+    spdlog::info("[Oasis V3.1 Blueprint] {} (placed_3d={})", g_last_designator_warning, placed_in_world);
+    return true;
+}
+
 // Poll SDL input events: TAB camera toggle, Shift+Right-Click POI Arcball Orbit, Shift+Wheel Zoom,
 // PageUp/PageDown roof cutaway, Right-Click context evaluator, Left-Click volume painter & SpatialIntentPayload
 static void ProcessInputEvents() {
@@ -1653,6 +1858,65 @@ void InitWebGPUAsync(uint32_t width, uint32_t height) {
         });
 }
 
+static void UpdateV31GenesisHudJS(
+    uint64_t reserve_cents,
+    uint64_t monthly_burn_cents,
+    uint32_t dependency_bp,
+    uint32_t reputation_bp,
+    bool baseline_enrolled,
+    bool governance_unlocked,
+    uint8_t strategy_id
+) {
+    EM_ASM({
+        if (typeof window !== 'undefined') {
+            var v31State = new Object();
+            v31State.reserveCents = Number($0);
+            v31State.monthlyBurnCents = Number($1);
+            v31State.dependencyBp = $2 | 0;
+            v31State.reputationBp = $3 | 0;
+            v31State.baselineEnrolled = Boolean($4);
+            v31State.governanceUnlocked = Boolean($5);
+            v31State.strategyId = $6 | 0;
+            v31State.completedModules = $7 | 0;
+            v31State.completedContributions = $8 | 0;
+            v31State.earnedVcMask = $9 | 0;
+            v31State.cumulativeL7SpentCents = Number($10);
+            v31State.cumulativeL7RevenueCents = Number($11);
+            v31State.blueprintCount = $12 | 0;
+            window._oasisLastV31GenesisHUD = v31State;
+            var fn = window.UpdateV31GenesisHudJS ||
+                     window.updateV31GenesisHUD ||
+                     window._oasisUpdateV31GenesisHUD;
+            if (typeof fn === 'function') {
+                fn(
+                    Number($0),
+                    Number($1),
+                    $2 | 0,
+                    $3 | 0,
+                    Boolean($4),
+                    Boolean($5),
+                    $6 | 0,
+                    $7 | 0,
+                    $8 | 0,
+                    $9 | 0
+                );
+            }
+        }
+    }, static_cast<double>(reserve_cents),
+       static_cast<double>(monthly_burn_cents),
+       static_cast<int>(dependency_bp),
+       static_cast<int>(reputation_bp),
+       baseline_enrolled ? 1 : 0,
+       governance_unlocked ? 1 : 0,
+       static_cast<int>(strategy_id),
+       static_cast<int>(g_alpha_genesis.completed_learning_modules),
+       static_cast<int>(g_alpha_genesis.completed_workflow_contributions),
+       static_cast<int>(g_alpha_genesis.earned_vc_bitmask),
+       static_cast<double>(g_alpha_genesis.cumulative_l7_procurement_spent_cents),
+       static_cast<double>(g_alpha_genesis.cumulative_l7_fiat_revenue_earned_cents),
+       static_cast<int>(g_artifact_registry.blueprint_count));
+}
+
 void EngineTick(void* arg) {
     (void)arg;
     if (g_ecs) {
@@ -1667,6 +1931,85 @@ void EngineTick(void* arg) {
         });
         if (pending_warp >= 0) {
             oasis::time::SetTimeWarpMultiplier(g_time_warp, static_cast<uint32_t>(pending_warp));
+        }
+
+        // V3.1 Architectural Realignment: Poll Community Baseline (101), Scenario Kappa Learning (102),
+        // and Stage-1 Dual-Fidelity Real Blueprint Commissioning (201..205)
+        const int pending_v31_action = EM_ASM_INT({
+            if (typeof window !== 'undefined' &&
+                typeof window._oasisPendingV31Action === 'number' &&
+                window._oasisPendingV31Action > 0) {
+                var act = window._oasisPendingV31Action | 0;
+                window._oasisPendingV31Action = 0;
+                return act;
+            }
+            return 0;
+        });
+        if (pending_v31_action == 101) {
+            // 101: Toggle Rely on Community Baseline (B_baseline: Pea Soup, Bean Stew, Warm Shower, Heating, Sanitation & Emergency Care)
+            g_alpha_genesis.EnrollInCommunityBaseline(!g_alpha_genesis.enrolled_in_community_baseline);
+            if (g_alpha_genesis.enrolled_in_community_baseline) {
+                auto founder_ent = g_ecs->entity("Founder");
+                if (founder_ent.is_alive()) {
+                    if (founder_ent.has<oasis::fabrication::SomaticStateComponent>()) {
+                        auto& som = founder_ent.get_mut<oasis::fabrication::SomaticStateComponent>();
+                        som.caloric_reserve = std::max(2200.0, som.caloric_reserve);
+                        som.hydration = std::max(0.85f, som.hydration);
+                        som.is_exhausted = false;
+                    }
+                    if (founder_ent.has<oasis::psychology::PsychologyComponent>()) {
+                        auto& psy = founder_ent.get_mut<oasis::psychology::PsychologyComponent>();
+                        psy.stress = std::max(0.0f, psy.stress - 0.15f);
+                        psy.mood = std::min(1.0f, psy.mood + 0.10f);
+                    }
+                }
+                g_last_designator_warning =
+                    "Enrolled in R0 Community Baseline (Pea Soup & Bean Stew, Warm Shower, Heating, Emergency Triage -> Scrapped -$670/mo Legacy Grocery & Utility Burn!)";
+                g_designator_warning_until_tick = g_sim_tick + 240ULL;
+                spdlog::info("[Oasis V3.1 Baseline] {}", g_last_designator_warning);
+            } else {
+                g_last_designator_warning =
+                    "Exited R0 Community Baseline (Reverted to -$670/mo Legacy Grocery & Utility Burn)";
+                g_designator_warning_until_tick = g_sim_tick + 180ULL;
+                spdlog::info("[Oasis V3.1 Baseline] {}", g_last_designator_warning);
+            }
+        } else if (pending_v31_action == 102) {
+            // 102: Complete Scenario Kappa Apprenticeship Module (Learn -> Work -> Govern)
+            g_alpha_genesis.CompleteKappaLearningModule(1u, 600u);
+            g_alpha_genesis.earned_vc_bitmask = 0xFFFFu;
+            g_last_designator_warning =
+                "Completed Scenario Kappa Apprenticeship Module (+600 bp Reputation R, All VCs Granted -> Learn -> Work -> Govern!)";
+            g_designator_warning_until_tick = g_sim_tick + 240ULL;
+            spdlog::info("[Oasis V3.1 Kappa] {} (Modules={}, R={} bp, L5_Unlocked={})",
+                         g_last_designator_warning,
+                         g_alpha_genesis.completed_learning_modules,
+                         g_alpha_genesis.reputation_wealth_bp,
+                         g_alpha_genesis.unlocked_l5_stewardship_governance);
+        } else if (pending_v31_action == 103 || pending_v31_action == 104) {
+            const bool coupled_cluster = (pending_v31_action == 104);
+            const auto sim_res = oasis::artifacts::SimulateBioregionalStrategyMonth(g_alpha_genesis, coupled_cluster);
+            char m_buf[224]{};
+            std::snprintf(
+                m_buf,
+                sizeof(m_buf),
+                "Simulated Strategy Month (%s): Net %s$%.2f/mo | Reserve=$%.2f | D_t=%.1f%%",
+                coupled_cluster ? "5-Node Coupled Cluster" : "Single Node",
+                (sim_res.net_fiat_delta_cents >= 0) ? "+" : "-",
+                static_cast<double>(std::abs(sim_res.net_fiat_delta_cents)) / 100.0,
+                static_cast<double>(sim_res.ending_fiat_reserve_cents) / 100.0,
+                static_cast<double>(sim_res.ending_dependency_ratio_bp) / 100.0
+            );
+            g_last_designator_warning = m_buf;
+            g_designator_warning_until_tick = g_sim_tick + 240ULL;
+            spdlog::info("[Oasis V3.1 Strategy] {}", g_last_designator_warning);
+        } else if (pending_v31_action >= 201 && pending_v31_action <= 232) {
+            // 201..232: Commission Stage-1 Dual-Fidelity Real Blueprint (bp_def_id = action - 200)
+            const uint32_t bp_def_id = static_cast<uint32_t>(pending_v31_action - 200);
+            CommissionStage1RealBlueprint(*g_ecs, bp_def_id);
+        } else if (pending_v31_action >= 300 && pending_v31_action <= 304) {
+            g_alpha_genesis.strategy_path = static_cast<oasis::artifacts::BioregionalStrategyPath>(
+                pending_v31_action - 300
+            );
         }
 
         const int pending_kitchen_action = EM_ASM_INT({
@@ -2405,6 +2748,17 @@ void EngineTick(void* arg) {
                static_cast<int>(g_temporal_schedule.days[3].bpmn_stage),
                g_temporal_schedule.auto_dispatch_enabled ? 1 : 0,
                static_cast<int>(oasis::orchestrator::ComputeSimDayFromTick(g_sim_tick)));
+
+            // V3.1 Alpha Genesis & Community Baseline HUD Sync
+            UpdateV31GenesisHudJS(
+                g_alpha_genesis.legacy_fiat_reserve_cents,
+                g_alpha_genesis.EffectiveMonthlyTotalBurnCents(),
+                g_alpha_genesis.dependency_ratio_bp,
+                g_alpha_genesis.reputation_wealth_bp,
+                g_alpha_genesis.enrolled_in_community_baseline,
+                g_alpha_genesis.unlocked_l5_stewardship_governance,
+                static_cast<uint8_t>(g_alpha_genesis.strategy_path)
+            );
         }
     }
 }
@@ -2418,6 +2772,13 @@ int main(int argc, char* argv[]) {
 
     spdlog::info("Oasis V4 Engine Starting... (headless_ci={})", is_headless_ci);
     spdlog::set_level(spdlog::level::info);
+
+    // Bootstrap V3.1 Universal Dual-Fidelity Artifact Registry & Alpha Founder Genesis State
+    oasis::artifacts::BootstrapDefaultStage1ArtifactCatalog(g_artifact_registry);
+    oasis::artifacts::LoadBlueprintCatalogFromDirectory(g_artifact_registry, "../../../core/6_intent/blueprints");
+    oasis::artifacts::LoadBlueprintCatalogFromDirectory(g_artifact_registry, "core/6_intent/blueprints");
+    SyncArtifactCatalogToUiJS(oasis::artifacts::SerializeArtifactCatalogToJson(g_artifact_registry));
+    g_alpha_genesis = oasis::artifacts::AlphaFounderGenesisState{};
 
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
         spdlog::error("SDL_Init Error: {}", SDL_GetError());
@@ -2476,8 +2837,8 @@ int main(int argc, char* argv[]) {
     g_ecs->component<oasis::chill::BurnoutStateComponent>();
     g_ecs->component<oasis::migration::LegacyMigrantComponent>();
 
-    // Seed Lot 402 Home Fixtures & Backyard Patio Hearth (STORY-9.2)
-    oasis::chill::BootstrapGenesisSurvivalCamp(*g_ecs);
+    // Sprint 15: Seed Clean-Slate Suburban Genesis Lot (0 pre-built solar panels, 0 swales, 0 mature garden crops)
+    oasis::chill::BootstrapCleanSuburbanGenesisLot(*g_ecs);
 
     oasis::psychology::PsychologyComponent founder_psych{};
     founder_psych.facets = {0.8f, 0.9f, 0.6f, 0.7f, 0.3f};
@@ -2938,6 +3299,15 @@ int main(int argc, char* argv[]) {
                 bp.build_stage = 3u;
                 g_founder_is_carrying = false;
                 cmd.state = oasis::fabrication::FounderActionState::IDLE;
+
+                g_alpha_genesis.completed_workflow_contributions += 1u;
+                g_alpha_genesis.reputation_wealth_bp = std::min<uint32_t>(
+                    10000u,
+                    g_alpha_genesis.reputation_wealth_bp + 350u
+                );
+                if (g_alpha_genesis.reputation_wealth_bp >= oasis::artifacts::L5_GOVERNANCE_REPUTATION_THRESHOLD_BP) {
+                    g_alpha_genesis.unlocked_l5_stewardship_governance = true;
+                }
 
                 auto placed_type = bp.type;
                 int px = bp.x, py = bp.y, pz = bp.z;

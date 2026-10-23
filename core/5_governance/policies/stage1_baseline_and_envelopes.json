@@ -1,0 +1,28 @@
+{
+  "policyBundleId": "policy_stage1_baseline_and_envelopes_v3_1",
+  "versionTag": "v3.1.0-genesis",
+  "treatyCid": "bafybeifx7yeb55armcsxwwitkymga5xf53dxiarykms3ygqic223w5sk3m",
+  "constitutionalBaselineRightToExist": {
+    "ringTier": "R0_UNCONDITIONAL_BASELINE",
+    "dailyPeaSoupBeanStewKcal": 2200,
+    "warmShowerAndHeatingMillikelvin": 293150,
+    "sanitationAccess": true,
+    "emergencyAndFailingHealthCare": true,
+    "openKnowledgeAgoraAccess": true,
+    "scrapsLegacyGroceryCentsPerMonth": 45000,
+    "scrapsLegacyUtilityCentsPerMonth": 22000,
+    "domesticCareTokenMintingAllowed": false
+  },
+  "stage1SuburbanEnvelopes": {
+    "maxWorkshopAcousticCb": 550,
+    "maxHomelabAcousticCb": 380,
+    "quietHoursUtc": "20:00-07:00",
+    "legalCarapace": "UUNAA_SECTION_6"
+  },
+  "participationToGovernanceProgression": {
+    "openKnowledgeDay1": true,
+    "honestDeficitVisibility": true,
+    "stewardshipChamberThresholdBp": 2500,
+    "sublinearCapBp": 8000
+  }
+}

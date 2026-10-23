@@ -863,6 +863,27 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         base_color = select(foliage_col, mix(foliage_col, ripe_head_col, 0.65 + 0.35 * crop_clusters), is_top_crown);
         roughness = 0.48;
         emissive = select(vec3<f32>(0.0), vec3<f32>(0.18, 0.12, 0.02), is_top_crown);
+    } else if (hit_mat == 120u) {
+        // Material 120: STUDIO_WORKSTATION_POD (Brushed dark slate homelab desk with ultrawide telemetry-free Linux/Oasis monitor glow)
+        let is_monitor = hit_frac.y > 0.45;
+        let desk_slate = vec3<f32>(0.18, 0.22, 0.28);
+        let monitor_glow = vec3<f32>(0.10, 0.85, 0.75);
+        base_color = select(desk_slate, monitor_glow, hit_frac.y > 0.45);
+        roughness = select(0.34, 0.12, is_monitor);
+        metallic = select(0.45, 0.22, is_monitor);
+        if (hit_frac.y > 0.45) {
+            emissive = monitor_glow * 0.65;
+        }
+    } else if (hit_mat == 122u) {
+        // Material 122: HIL_DRIVER_TEST_BENCH (STM32/ATECC608A Hardware-in-the-Loop oscilloscope & breadboard bench)
+        let trace_grid = step(0.84, fract(hit_pos.x * 12.0)) + step(0.84, fract(hit_pos.z * 12.0));
+        let is_gold_trace = clamp(trace_grid, 0.0, 1.0);
+        let pcb_emerald = vec3<f32>(0.12, 0.42, 0.28);
+        let gold_trace = vec3<f32>(0.92, 0.76, 0.22);
+        base_color = mix(pcb_emerald, gold_trace, is_gold_trace * 0.45);
+        roughness = mix(0.38, 0.18, is_gold_trace);
+        metallic = mix(0.25, 0.88, is_gold_trace);
+        emissive = vec3<f32>(0.04, 0.22, 0.14) + gold_trace * (is_gold_trace * 0.18);
     } else {
         base_color = vec3<f32>(0.50, 0.50, 0.50);
     }

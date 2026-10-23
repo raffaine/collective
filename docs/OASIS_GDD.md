@@ -1560,3 +1560,33 @@ With the unanimous Round 2 ratification of `OASIS-GDD-V6.0 (The Horizon & Playab
 2. **Narrative & Safety Demarcation (`docs/BOOK_TEAM_DRIFT_REPORT.md`):** Cooperative bioregional onboarding terminology, strict outward-only 32-byte `TelemetrySample` (`QUALITY_SIMULATED = 0x01`) production, zero ingestion of live physical telemetry, and unmistakable demarcation between the Shadow Simulator (Layer 1b) and physical orchestration.
 3. **The V2.0 Companion App Interaction Boundary Law:** Layer 1 (Oasis Desktop) as the exclusive surface for 3D spatial actuation, and Layer 6 (Mobile Companion App via `col-gatewayd` on **`TLS 1.3 HTTPS/WSS :8443, VLAN 30`**) as the exclusive Agora/societal interface with read-only diagnostic visibility into Layers 2–5 and 7 following the canonical `L6 -> L5 -> L4 -> L3 -> L2 -> L1 (UHAI)` downward execution and `[YIELD] -> L5 -> L6 -> L7` upward governance trajectory.
 
+
+
+---
+
+## 12. V3.1 Architectural Realignment — The Four Constitutional Laws & Dual-Fidelity Blueprint Pipeline
+
+To unify the C++20/WebGPU Oasis Engine (`core/1_simulation/`), the 8 Sovereign Stack daemons (`core/1_ground/` through `core/7_adversary/`), and the 25 canonical MVS scenarios (`SCN-ZERO-SOFTWARE` through `SCN-OMEGA`), **Version 3.1 of the Architectural Realignment** enacts four binding constitutional laws across both the simulator and the bare-metal stack:
+
+### 12.1. Law 1 — Scenario Zero (`SCN-ZERO-SOFTWARE`) Autopoietic Self-Hosting
+The Sovereign Stack and Oasis are **autopoietically self-hosted** under Scenario Zero (`docs/scenarios/zero_software.md` & `core/6_intent/blueprints/scn_zero_daemons_manifest.jsonld`):
+1. **8 Daemons + `oasis_engine` Registry:** All 8 autonomous POSIX daemons (`col-telemetryd`, `col-meshd`, `col-storaged`, `col-execd`, `col-kmsd`, `col-commonsd`, `col-gatewayd`, `col-adversaryd`) and `oasis_engine` are registered as first-class Layer 6 `SoftwareAgoraPackageManifest` artifacts.
+2. **Hermetic 3-Node Consensus & Zero-Float Audit:** Every release of the stack daemons is built inside a network-isolated sandbox (`external_network_calls_during_build == 0`), verified for bit-for-bit SHA-256 consensus across $\ge 3$ independent builder architectures (`x86_64`, `ARM64`, `RISC-V`), and statically audited to guarantee `floating_point_opcodes_detected == 0` in deterministic Layer 2–5 paths and `layer_skipping_imports_detected == 0`.
+3. **10,000-Tick Oasis Shadow Canary Soak:** Before any constitutional daemon or Layer 2 RTOS firmware update is ratified by Layer 5 Stewards, it must survive a **10,000-tick canary soak** inside Oasis (`Layer 1b`) under `col-adversaryd` fault injection with zero unhandled panics or deadlocks.
+
+### 12.2. Law 2 — Feeding Oasis Feeds The Collective (Dual-Fidelity Real Blueprints)
+Every Layer 6 Blueprint Knowledge Artifact (`core/6_intent/blueprints/*.jsonld`) is simultaneously an **initial real-world engineering blueprint for The Collective** and a **playable simulation entity in Oasis**:
+* **Canonical Real-World Engineering & Governance Payload:** Each `.jsonld` artifact specifies real physical Bill of Materials (`billOfMaterials` with local/mesh ring sources and irreducible Layer 7 GPO fallback SKUs/costs in integer USD cents), Layer 5 legal/acoustic/credential policies (`<= 550 cB` garage workshop ceiling, `< 380 cB` bedroom homelab ceiling, `>= 347150 mK` Bigelow culinary lethality), and customizable Layer 4 workflow DAG steps.
+* **Configurable `oasisSimulationProjection`:** Each blueprint embeds an `oasisSimulationProjection` block supporting three fidelity modes (`MACRO_ABSTRACTED`, `MULTI_STAGE_SUBSET`, `FULL_STOICHIOMETRIC_HIL`), mapping directly to Oasis `DesignatorActionId`, voxel `material_id`s, somatic caloric costs, and outward-only `QUALITY_SIMULATED (0x01)` telemetry. Refinements discovered during Oasis simulation or real-world stewardship flow bidirectionally through the Layer 6 Agora.
+
+### 12.3. Law 3 — The Constitutional Baseline Right to Exist ($R_0 / B_{\mathrm{baseline}}$)
+The Collective is born with Layer 5 governance acknowledging every person's **unconditional baseline right to exist** ($R_0 / B_{\mathrm{baseline}}$):
+* **Humble, Nourishing Survival Baseline (Not Legacy Consumer Luxury):** The baseline does not fund legacy consumer habits or extractive luxuries. At first, it provides humble, nourishing **pea soup and bean stew** (`bp_gamma_stage1_hearth_and_garden.jsonld`), a **warm shower and heating** ($>18.0^\circ\text{C}$ enclosed thermal homeostasis), **sanitation**, and **emergency / failing-health care** (`SCN-CHI-PARAMEDIC`) with `$0` domestic care non-commensurability (`domesticCareTokenMinting == 0`).
+* **Immediate Relief from Legacy Bills:** By relying on the community baseline, players and citizens can **immediately scrap their legacy grocery and baseline utility bills**, halting fiat burn while bootstrapping sovereign capacity.
+* **Open Knowledge, Work, and Reputational Wealth ($\mathcal{R}$):** All **knowledge (`Layer 6` Agora)** is shared openly from Day 1 alongside honest visibility into opportunities to **learn (`Scenario Kappa`)** and **participate through work (`Layer 4` workflows)**—earning decaying, non-transferable **Reputational Wealth ($\mathcal{R}$)** to **govern that work moving forward (`Layer 5` Stewardship Chamber)** and progressively raising the community baseline until one day it feels like luxury.
+
+### 12.4. Law 4 — Alpha Release Genesis ("Suburban, Single Adult, Lost Legacy Job, \$20,000 USD Reserves")
+In the Alpha release, Day-1 Lot 402 begins as an **ordinary suburban house** occupied by a single adult who has just lost their legacy job and holds **`2,000,000` integer USD cents (`$20,000.00`) in finite Layer 7 savings** at an initial Dependency Ratio of $D_0 = 10000\,\mathrm{bp}$ ($100\%$ legacy-dependent):
+* Every station and infrastructure upgrade—starting with the **Stage-1 400W Solar Array (`142,000` cents)**, **Stage-1 Bedroom Homelab Workstation (`35,000` cents)**, and **Stage-1 Backyard Keyline Garden & Commons Hearth (`87,000` cents)**—is acquired through the canonical **Intent U-Turn procurement pipeline**:
+  $$\text{L6 Blueprint Artifact} \longrightarrow \text{L5 Policy Gate} \longrightarrow \text{L4 Customizable Workflow} \longrightarrow \text{[Cache Miss Yield]} \longrightarrow \text{L5} \longrightarrow \text{L6} \longrightarrow \text{L7 Procurement (\$20k Reserve)}$$
+* Each commissioned blueprint debits the finite `$20,000` reserve for irreducible Layer 7 hardware precursors while permanently lowering the household's Dependency Ratio $D_t$ and scrapping recurring legacy grocery and utility bills.

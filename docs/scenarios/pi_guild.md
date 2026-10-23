@@ -1,9 +1,9 @@
-# Scenario Pi: The Bioregional Guild Federation (Inter-Watershed Treaties & Mutual Aid)
+# Scenario Pi: The Polycentric Guild & Patchwork Commons (Superlinear Mesh Synergy, Overlapping Organization & Post-Scarcity Alignment)
 
 *   **Identifier:** `SCN-PI-GUILD`
-*   **System Epic:** Bioregional Guild Federation, Ricardian Treaties, Non-Monetary Mutual Aid & Dual-Membrane Carapace
-*   **Primary Layers Tested:** L1 (Physical Reality), L2 (Cybernetic Membrane), L3 (Thermodynamic Ledger), L4 (Deterministic Orchestrator), L5 (Polycentric Governance), L6 (Semantic Translation & Agora), L7 (Legacy Interface)
-*   **Pass/Fail Metric:** Deterministic dispatch of inter-watershed guild stewards; ratification of non-monetary Ricardian Treaties (`Treaty_CID`) across hydrological boundaries ($R_3 \to R_4$); settlement of mutual-aid labor and capital maintenance via Pairwise Bilateral Clearing Channels (BCC) with zero-sum conservation $B_{u \to v}(t) + B_{v \to u}(t) = 0$ and multi-hop HTLCs; strict labor bifurcation under the Alamo Defense (Membrane 1 W-2 wages in legacy banking rails vs. Membrane 2 non-monetized internal stewardship); zero global tokens, zero fiat conversions, zero deprecated rhetoric, and zero floating-point math.
+*   **System Epic:** Ostromian Polycentric Organization—Weaving Contiguous Spatial Nodes, Hydrological Watersheds, Non-Spatial Trans-Local Guilds, and Ephemeral Work-Bee Swarms into a Cohesive, Anti-Isolationist, Anti-Siphon Engine for Ecologically Sustainable Post-Scarcity
+*   **Primary Layers Tested:** L1 (Physical Reality), L1b (Oasis 3D Shadow Simulator), L2 (Cybernetic Membrane), L3 (Thermodynamic Ledger), L4 (Deterministic Orchestrator), L5 (Polycentric Governance), L6 (Semantic Translation & Agora), L7 (Legacy Interface)
+*   **Pass/Fail Metric:** Verification of **Superlinear Post-Scarcity Mesh Synergy** (every aligned node added to the federation increases total bioregional abundance and reduces per-node thermodynamic toil); **Intent-Driven Demand Capture & Stigmergic Mesh Morphogenesis** (privacy-preserving aggregation of individual Intents into spatial/guild demand tensors that guide where new nodes are spawned, naturally form supply chains, target Layer 7 import substitution, and enforce $k \ge 3$ supply-chain redundancy against unexpected shocks); deterministic enforcement of the **Anti-Siphon & Anti-Isolationism Guards**; constitutional **End-Goal Alignment Verification**; multi-hop HTLC and Pairwise Bilateral Clearing Channel ($B_{u \to v}(t) + B_{v \to u}(t) = 0$) conservation; and zero IEEE 754 floating-point math.
 
 ---
 
@@ -13,135 +13,193 @@ This scenario specification has been ratified by unanimous consensus of the 5-Pe
 
 | Council Persona | Disciplinary Representative | Core Contribution to Scenario |
 | :--- | :--- | :--- |
-| **Game Designer** | Lead Systems & Gameplay Designer | Dwarf Fortress guildhall mechanics and specialization moods (machinists, agroecologists, energy technicians); Cities: Skylines cross-district infrastructure coordination; indirect Founder 01 guild dispatch and apprenticeship scheduling; psychological relief from collective guild solidarity (`"Deep sense of shared craft honor with the watershed guild (+45 mood)"`). |
-| **Game Engineer** | Principal C++ Simulation & Engine Architect | Flecs ECS Data-Oriented Design (DOD): cache-aligned component structs `GuildStewardComponent`, `RicardianTreatyComponent`, `LaborDispatchComponent`, and `BCCChannelComponent`; 32-bit compact voxels (`material_id = 52`, `GUILD_FEDERATION_HALL`); 10 Hz deterministic BPMN state engine with Wasmtime fuel limits; compilable C++20 test harness verifying multi-hop HTLC backward settlement and zero IEEE 754 floats. |
-| **Sovereign Stack Specialist** | Sovereign Stack Systems Architect | 7 autonomous POSIX daemons (`col-telemetryd` to `col-adversaryd`); strict adjacent IPC via Unix domain sockets; Layer 6 `col-commonsd` compiling Ricardian Treaties `Treaty_CID`; Layer 5 `col-kmsd` routing capability advertisements via BPVP; Layer 4 `col-execd` dispatching labor across `/run/collective/ipc/l4_l5.sock`; Layer 3 `col-storaged` Bilateral Clearing Channels (BCC). |
-| **Solarpunk Thinker** | Bioregional Regenerative Ecologist | Cross-watershed guild solidarity: mobile work bees rehabilitating degraded salmon streams, constructing micro-hydro conduits, and upgrading community microgrids; non-monetary treaties based on shared ecological boundaries; regenerative harvesting replacing predatory corporate extraction. |
-| **Scenario Specialist** | Bioregional Guild Jurisprudent & Labor Carapace Architect | Non-monetary Ricardian Treaties (`Treaty_CID = SHA256(Text || JSON-LD || BPMN)`); Tripartite Legal Chassis (Subchapter T Shared Services Agreements under IRC §§ 1381–1388, Unincorporated Nonprofit Associations under UUNAA § 6, CLT ground easements); Alamo Defense ensuring strict labor bifurcation between external commercial contracting and internal sovereign mutual aid. |
+| **Game Designer** | Lead Systems & Gameplay Designer | **Superlinear Post-Scarcity Synergy & The Bioregional Opportunity Cartographer:** Models why collaboration is vastly more rewarding than parochial hoarding, and how the mesh knows *where* and *how* to grow without central planners. Individual steward Intents aggregate into visual **Demand Gravity Wells & Redundancy Alerts** on the Oasis map—showing players where founding a new node, spinning up a local foundry, or adding a backup medical lab will slash transit exergy and harden the watershed against shocks (`"Stigmergic Growth Beacon: Spawning a Mill Node in Sector East cuts regional grain haulage by 6800 bp and raises Redundancy k from 1 -> 2"`). |
+| **Game Engineer** | Principal C++ Simulation & Engine Architect | **Flecs ECS Polycentric Hypergraph, Intent Demand Tensor & Anti-Siphon Circuit Breakers:** Encapsulates `SpatialContiguousNode`, `NonSpatialTransLocalGuild`, `EphemeralWorkBeeSwarm`, and `AggregatedIntentDemandSignal` in 32-bit compact voxels (`material_id = 52` `GUILD_FEDERATION_HALL`, `material_id = 53` `WORK_BEE_DISPATCH_DEPOT`). Computes integer superlinear abundance gains, stigmergic node-spawning/redundancy priorities, dynamic BCC credit-window expansion, and automatic quarantine of parasitic siphoning nodes at $10\,\mathrm{Hz}$ determinism with zero floating-point math. |
+| **Sovereign Stack Specialist** | Sovereign Stack Systems Architect | **7-Layer Strict Adjacency, Privacy-Preserving Intent Rollups & Constitutional Alignment Gate:** Enforces strict socket boundaries (`l1_l2.sock` through `l6_l7.sock`, traversing `/run/collective/ipc/l4_l5.sock`). Aggregates Layer 6 Intents via zero-knowledge homomorphic integer rollups (`r0_personal_intent_surveillance == false`) into Layer 5 `MeshMorphogenesisBeacons`, while requiring continuous cryptographic proof of Ecological Floor preservation ($F_{\mathrm{eco}}$), Survival Baseline ($B_{\mathrm{baseline}}$), and active surplus contribution ($Q_{\mathrm{avail}}$). |
+| **Solarpunk Thinker** | Bioregional Regenerative Ecologist | **Bioregional Complementarity & $k\text{-Redundant}$ Ecological Resilience:** Demonstrates that ecological post-scarcity emerges when diverse microclimates weave together across hydrological basins ($R_3/R_4$), and when critical supply chains maintain $k \ge 3$ geographically decoupled producer nodes so a wildfire or flood in one valley never collapses the bioregion. |
+| **Scenario Specialist** | Ostromian Institutional Economist & Cooperative Labor Jurisprudent | **Stigmergic Coordination (No Gosplan, No Capitalist Price Speculation):** Replaces both blind market speculation and authoritarian central planning with **Intent-Driven Stigmergy**—where aggregated unmet, high-haul, or single-point-of-failure Intents automatically unlock guild bootstrap kits (`Alpha`/`Kappa`) and expanded mutual-aid credit headroom ($C_{u \to v}$) for stewards who step up to fill the gap. |
 
-**Unanimous Consensus Reached:** The Council unreservedly ratifies Scenario Pi as the canonical specification for bioregional guild federation, Ricardian treaties, and non-monetary mutual-aid labor dispatch.
+**Unanimous Consensus Reached:** The Council unreservedly ratifies Scenario Pi as the canonical specification for polycentric organization—uniting local freedom, whole-mesh integrity, and intent-driven stigmergic growth on the path to ecologically sustainable post-scarcity.
 
 ---
 
-## 1. Problem Statement & Legacy Failure
+## 1. Problem Statement, Legacy Failure & The Path to Sustainable Post-Scarcity
 
-In legacy late-stage capitalist infrastructure (Layer 7), artisanal craft, skilled engineering, and ecological stewardship are crushed between corporate monopsony and atomized contractor precarity.
+To build an ecologically sustainable post-scarcity civilization, human organization must overcome both the authoritarian pyramid of Layer 7 and the four classic coordination traps of naive decentralization:
+1.  **The Trap of Centralized Command (Loss of Node Freedom):** Nation-states and corporate conglomerates achieve scale by crushing local autonomy, turning communities into uniform resource-extraction colonies ruled by distant bureaucrats.
+2.  **The Trap of Parochial Isolationism & Fragmentation (*"Balkanized Hoarding"*):** Conversely, if autonomous nodes act like isolated, anti-collaborative bunkers that hoard their surplus and refuse to contribute to the broader net, humanity regresses into subsistence scarcity. A single 50-person node cannot independently maintain a semiconductor fab (`Zero`), a metallurgical foundry (`Theta`), a research hospital (`Chi`/`Iota`), and a textile mill (`Nu`). **Post-scarcity is an emergent property of the collaborative mesh.**
+3.  **The Trap of Parasitic Resource Siphoning & Goal Contradiction (*"The Vampire Node"*):** An open federation must never allow a rogue or bad-faith node to join the mesh merely to **siphon resources** (draining guild labor, timber, and hardware without reciprocating, or leaking commons assets into Layer 7 for private profit) or to violate the foundational ecological and human-dignity goals of The Collective.
+4.  **The Trap of Blind Uncoordinated Growth & Fragile Supply Chains (*"How Do We Know What We Need?"*):** Without capitalist price gouging or an authoritarian central planning ministry (*Gosplan*), how does an organic mesh know **what capabilities are missing, where new nodes should be spatially created, how upstream/downstream supply chains should connect, and where dangerous Single Points of Failure ($k = 1$) leave the whole federation vulnerable to unexpected shocks**?
 
-The legacy labor system imposes devastating systemic failures:
-*   **The Precarity Trap:** Independent tradespeople, machinists, and engineers are forced into commercial competition, denied collective bargaining, and penalized by payroll intermediaries. Individual health insurance is prohibitively costly and riddled with arbitrary denials.
-*   **Geographical Atomization:** Municipal boundaries fragment regional watersheds. Neighboring settlements along the same river valley cannot coordinate flood prevention, microgrid balancing, or tool sharing without expensive municipal bond issues and state contractor cartels.
-*   **Regulatory Weaponization:** State licensing cartels criminalize informal mutual aid. If two neighboring farming communities attempt to share an industrial combine or dispatch apprentices to repair an irrigation canal, authorities threaten fines for unlicensed labor or commercial zoning violations.
+### 1A. How Scenario Pi Unites Node Freedom, Whole-Mesh Integrity, Intent-Driven Demand Capture & Superlinear Post-Scarcity
 
-A sovereign Genesis Node requires an inter-watershed guild federation: a confederation of autonomous craft guilds operating through non-monetary Ricardian treaties, peer-to-peer clearing channels, and an impenetrable corporate carapace.
+Scenario Pi (`SCN-PI-GUILD`) distinguishes itself from **Scenario Kappa** (which validates *individual somatic skill*) by architecting the **Macro-Sociological Polycentric Patchwork**—where **every aligned node added to the mesh strengthens the whole without losing its own freedom**, and where **aggregated individual Intents organically guide mesh growth, supply-chain formation, and fault-tolerant redundancy**:
+
+```mermaid
+flowchart TD
+    subgraph Three_Geometries ["1. The Overlapping Patchwork (Spatial x Non-Spatial x Ephemeral)"]
+        Spatial["Contiguous Spatial Polities (R_1..R_4)<br/>Neighborhood Nodes, Hydrological Watersheds & Bioregions"]
+        NonSpatial["Non-Spatial Trans-Local Guilds (R_2..R_6)<br/>Craft, Software, Scientific & Cultural Guilds Across Valleys"]
+        Swarm["Ephemeral Cross-Domain Work-Bee Swarms (TaskSwarm_CID)<br/>Dynamic Mutual-Aid Teams That Assemble & Dissolve Cleanly"]
+    end
+
+    subgraph Demand_Capture ["2. Intent-Driven Demand Capture & Stigmergic Mesh Morphogenesis"]
+        Intents["Privacy-Preserving Intent Rollups (Zero R_0 Surveillance)<br/>Aggregates Local Fulfilled, Delayed, Long-Haul & L7-Fallback Intents"]
+        FourSignals["Four Stigmergic Growth Signals:<br/>1. Queue Backlog | 2. Spatial Transit Friction | 3. L7 Import Bleed | 4. SPOF Redundancy (k < 3)"]
+        Beacons["Bioregional Opportunity Beacons (MeshGrowthBeacon_CID)<br/>Guides Where New Nodes Spawn, Forms Supply Chains & Seeds Redundant Capacity"]
+    end
+
+    subgraph Synergy_Engine ["3. Superlinear Post-Scarcity Mesh Synergy (Why Collaboration Wins)"]
+        Spec["Ecological & Craft Complementarity<br/>(Coastal + Mountain + River Nodes Trade Specialized Surplus)"]
+        Alex["Zero-Marginal-Cost Epistemic Multiplication (Scenario Zero/Iota/Alpha)<br/>(1 Blueprint or Cure Discovered in Node N -> Instant Abundance for All Nodes)"]
+        Demurrage["Anti-Hoarding Demurrage + Reciprocity-Scaled Credit Headroom<br/>(Idle Hoards Decay; Active Mesh Contribution Expands Mutual-Aid Access)"]
+    end
+
+    subgraph Integrity_Shield ["4. Whole-Mesh Integrity & Anti-Siphon Immune System"]
+        AntiSiphon["Anti-Siphon Circuit Breaker (ReciprocityRatioGate)<br/>Blocks Free-Riding & L7 Leakage; Reserves Jubilee Strictly for Verified Shocks"]
+        EndGoal["Constitutional End-Goal Alignment Gate<br/>Quarantines Any Node Violating F_eco, B_baseline, or Regenerative Purpose"]
+    end
+
+    Spatial --> Demand_Capture
+    NonSpatial --> Demand_Capture
+    Swarm --> Demand_Capture
+    Intents --> FourSignals --> Beacons
+    Demand_Capture --> Synergy_Engine --> Integrity_Shield
+```
+
+1.  **Intent-Driven Demand Capture & Stigmergic Mesh Morphogenesis (*How the Mesh Knows How and Where to Grow*):**
+    *   In The Collective, every need—from a household requesting fresh bread (`Gamma`) or a custom shirt (`Nu`) to a workshop requesting $500\,\mathrm{kg}$ of recycled silicon-steel laminations (`Theta`)—is expressed as a Layer 6 **Intent**. While a single Intent triggers an immediate workflow, `col-kmsd` (L5) and `col-ledger` (L3) continuously aggregate local Intents via **Zero-Knowledge Homomorphic Integer Rollups** (`r0_personal_intent_surveillance == false`, never exposing who asked for what in $R_0$) into an **Anonymized Bioregional Intent Demand Tensor (`IntentDemandTensor_CID`)**.
+    *   From this aggregated Intent stream, the mesh extracts **Four Stigmergic Signals** that guide organic growth without any central command:
+        *   **Signal 1 — Unmet Queue & Bottleneck Pressure (`unmet_intent_backlog_uj`):** Identifies when existing craft guilds or fabrication bays are running at high saturation, signaling non-spatial guilds (`Kappa`) to open mentorship fellowships and replicate tooling (`Alpha`).
+        *   **Signal 2 — Spatial Transit Exergy Friction & Node Placement Gravity Wells (`excess_transit_haul_exergy_uj`):** Detects when a neighborhood or valley is repeatedly fulfilling Intents for heavy or perishable goods (`Gamma` staple foods, `Xi` earthen/timber building materials, `Alpha` spare parts) by hauling them across multiple `BPVP` hops (`bpvp_hop_count >= 3`). The system computes a **Spatial Gravity Well**, showing prospective node founders (`Tau`) and existing watersheds the exact geographical coordinates where spawning a new localized node or facility will eliminate the maximum transit exergy!
+        *   **Signal 3 — Layer 7 Import-Substitution Targets (`l7_fiat_bleed_uj`):** Tracks which Intents still have to fall back to extractive Layer 7 corporate purchases via Scenario Epsilon's carapace because no node in the mesh produces that BOM component yet. These automatically become top-priority **Import-Substitution Callouts** for `Iota`/`Zero`/`Theta` guilds to internalize the supply chain.
+        *   **Signal 4 — Topological Supply-Chain Redundancy & Anti-Fragility ($k \ge 3$ Producer Nodes):** Even when 100% of current Intents are smoothly met, graph analysis over the recursive BOM DAG (`Alpha`) and BPVP network (`Beta`) continuously checks the **Producer Redundancy Degree ($k$)** of every critical survival, medical (`Chi`), and industrial capability. If $k < 3$ (for example, only $1$ or $2$ nodes in the bioregion synthesize a vital antibiotic precursor or wind micro-hydro stators), an unexpected wildfire, flood, or transformer failure (`SCN-UPSILON-SHOCK`) could cripple the entire mesh. The system immediately raises a **Redundancy Seeding Beacon** to stand up a geographically decoupled backup producer node!
+    *   **Non-Coercive Stigmergic Execution (`MeshGrowthBeacon_CID`):** Rather than ordering people where to live or work, the Layer 6 **Bioregional Opportunity Cartographer** publishes these beacons alongside pre-approved **Bootstrap Seed Packages**—automatically bundling an `Alpha` machine-replication kit, a `Kappa`/`Pi` Work-Bee barn-raising swarm, and expanded initial `BCC` mutual-aid credit headroom for any group of stewards who voluntarily step up to seed the needed node or guild capacity, while automatically linking upstream and downstream guilds into natural multi-hop **Supply-Chain Covenants**.
+2.  **Why Every Aligned Node Added to the Mesh Strengthens the Whole (Superlinear Post-Scarcity Synergy):**
+    *   In Scenario Pi, adding a new node ($N+1$)—especially one guided by an Intent Demand Beacon—generates **Superlinear Abundance Gains ($\Gamma_{\mathrm{synergy}} > 10000\,\mathrm{bp}$)** through two structural mechanisms:
+        *   **Zero-Marginal-Cost Epistemic & Blueprint Multiplication (`Zero` + `Iota` + `Alpha`):** When Node $N+1$ joins and contributes even one improved solar-kiln controller (`SCN-ZERO-SOFTWARE`), agricultural cultivar (`SCN-GAMMA-KITCHEN`), or CNC joinery jig (`SCN-ALPHA-FAB`) to the non-spatial guild commons, every existing node $\{1 \dots N\}$ immediately gains that capability at zero additional R&D cost.
+        *   **Bioregional Ecological Complementarity:** Instead of every small node exhausting itself trying to produce 100% of all 25 scenarios in isolation, a mountain forest node (`Eta` timber & micro-hydro surplus), an alluvial valley node (`Gamma` grain & `Nu` flax surplus), and an urban industrial node (`Theta` recycled alloys & `Alpha` precision machining surplus) interlock via the **Bioregional Path-Vector Protocol (`BPVP`)**—cutting mandatory survival labor hours per steward in half and unlocking genuine **ecologically sustainable post-scarcity**!
+3.  **Preventing Isolationism & Parochial Hoarding (Why Nodes Actively Contribute to the Net):**
+    *   While cellular autonomy guarantees that no external army or central committee can *coerce* a node, the thermodynamic architecture makes **isolationism self-limiting and collaboration deeply magnetic**:
+        *   **Thermodynamic Demurrage on Hoarded Surplus ($\mathcal{E}(t) = \mathcal{E}_0 e^{-\lambda t}$):** Idle exergy credits decayed by $\lambda$ cannot be hoarded for speculative power. By contrast, routing local exportable surplus ($Q_{\mathrm{avail}}(t) = \max(0, Q_{\mathrm{inventory}} - F_{\mathrm{eco}} - B_{\mathrm{baseline}})$) into cross-watershed Work-Bee Swarms and guild channels converts perishable local surplus into **Reciprocal Federation Credit Headroom ($+C_{v \to u}$)** and **Mesh Solidarity Standing ($\mathcal{S}_{\mathrm{mesh}}$)**.
+        *   **Dynamic Access to High-Tier Guild Capabilities:** A node's priority access to trans-local guild dispatches (e.g., summoning a mobile turbine-rewinding team, borrowing heavy bridge cranes, or receiving rare recycled semiconductors from $R_4/R_5$) scales directly with its rolling **Net Mesh Contribution Ratio**. An isolationist node that refuses to share its surplus above $F_{\mathrm{eco}} + B_{\mathrm{baseline}}$ naturally sees its reciprocal federation credit ceiling contract toward zero until it re-engages in mutual aid.
+4.  **Preventing Parasitic Siphoning & Protecting the End-Goal (The Anti-Siphon Immune System):**
+    *   What prevents a newly added node from acting as a "vampire"—siphoning resources from the mesh without contributing, or contradicting The Collective's ecological mission?
+        *   **Bounded Bilateral Credit Windows & Reciprocity Scaling:** Every Pairwise Bilateral Clearing Channel ($B_{u \to v}(t) + B_{v \to u}(t) = 0$) is strictly bounded by $[-C_{u \to v}, +C_{v \to u}]$. A new node begins with a conservative bootstrap credit window that **only expands as it delivers verified physical goods, exergy, or guild labor ($\sigma_{\mathrm{delivery}}$)** back to the mesh.
+        *   **The Anti-Siphon Circuit Breaker (`ReciprocityRatioGate`):** Layer 4 and Layer 5 continuously audit each node's **Reciprocity Ratio ($\rho_{\mathrm{recip}}$)** and **Layer 7 Boundary Integrity**. If a node repeatedly draws down credit without reciprocating (in the absence of a sensor-verified ecological or medical shock under `SCN-UPSILON-SHOCK`) or attempts to siphon commons resources out into Layer 7 commercial markets (`l7_unauthorized_leakage_mg > 0`), `col-kmsd` immediately trips the **Anti-Siphon Circuit Breaker**—freezing inbound non-emergency transfers across all $R_2 \dots R_5$ channels!
+        *   **Constitutional End-Goal Alignment Quarantine:** Local cellular autonomy is **not** a license to destroy nature or exploit human beings. Every federated node is bound by the **Three Constitutional Alignment Invariants**: (1) preserving its local Ecological Floor ($F_{\mathrm{eco}}$), (2) guaranteeing the unconditional Human Survival Baseline ($B_{\mathrm{baseline}}$), and (3) contributing open knowledge and surplus toward sustainable post-scarcity. Violating these core invariants triggers automatic **Federation Quarantine (`DEFEDERATED_ALIGNMENT_BREACH`)** until remedied via Scenario Psi restorative arbitration.
+5.  **The Overlapping Patchwork Geometry (Spatial $\times$ Non-Spatial $\times$ Ephemeral):**
+    *   Within this aligned, high-synergy mesh, human arrangements flourish as an overlapping Ostromian patchwork:
+        *   **Contiguous Spatial Polities ($R_1 \dots R_4$):** Neighborhood nodes, hydrological watersheds, and bioregions governing local land, $F_{\mathrm{eco}}$, $B_{\mathrm{baseline}}$, and `No-Transit` perimeters.
+        *   **Non-Spatial Trans-Local Guilds ($R_2 \dots R_6$):** Craft, engineering, software, medical, and cultural guilds spanning discontinuous valleys, governing Scenario Kappa safety ethics and open blueprints.
+        *   **Ephemeral Cross-Domain Work-Bee Swarms (`TaskSwarm_CID`):** Dynamic task forces that assemble across nodes and guilds to raise bridges, seed new nodes at Demand Gravity Wells, restore streams, or bring in harvests, then dissolve cleanly upon completion.
 
 ---
 
 ## 2. The Collective Workflow (7-Layer Traversal)
 
-Scenario Pi establishes the bioregional guild federation workflow: negotiating non-monetary Ricardian treaties, advertising guild capabilities via the Bioregional Path-Vector Protocol (BPVP), dispatching mutual-aid stewards across watersheds, and settling capital maintenance via Pairwise Bilateral Clearing Channels (BCC).
+Scenario Pi coordinates privacy-preserving Intent demand aggregation, stigmergic node/supply-chain seeding, polycentric treaties, superlinear resource/blueprint sharing, multi-hop HTLC settlements, and anti-siphon circuit breakers across the 7-layer stack without layer-skipping.
 
 ```mermaid
 graph TD
-    L6[Layer 6: Semantic Translation] -->|Compile Ricardian Treaty Treaty_CID| L5[Layer 5: Polycentric Governance]
-    L5 -->|Route Capability Advertisement via BPVP| L4[Layer 4: Deterministic Orchestrator]
-    L4 -->|Reserve BCC Mutual Aid Credit Headroom| L3[Layer 3: Thermodynamic Ledger]
-    L3 -->|Multi-Hop Chained HTLC Commitment| L2[Layer 2: Cybernetic Membrane]
-    L2 -->|Fixed-Point Kinetic Telemetry and Delivery Receipt| L1[Layer 1: Physical Reality]
-    L1 -->|Physical Tool Repair and Guild Labor Dispatch| End((Guild Mutual Aid Settled))
+    L7[Layer 7: Legacy Interface] <-->|l6_l7.sock: Alamo Defense W-2 Bifurcation, Import-Substitution Telemetry & Anti-Leakage Audit| L6[Layer 6: Semantic Translation & Agora]
+    L6 <-->|l5_l6.sock: Anonymized Intent Rollups, Opportunity Beacons & Multi-Party Treaties| L5[Layer 5: Polycentric Governance]
+    L5 <-->|l4_l5.sock: Alignment/Anti-Siphon Gate, Redundancy/Gravity-Well Solver & Swarm Dispatch| L4[Layer 4: Deterministic Orchestrator]
+    L4 <-->|l3_l4.sock: Multi-Hop HTLCs, Reciprocity-Scaled BCC & Demurrage| L3[Layer 3: Thermodynamic Ledger]
+    L3 <-->|l2_l3.sock: Signed Hardware Delivery, Transit Haulage & Surplus Receipts| L2[Layer 2: Cybernetic Membrane]
+    L2 <-->|l1_l2.sock: Workshop Dynamometers, Microgrid Shunts & Transit Beacons| L1[Layer 1: Physical Reality]
+    L2 <-->|Hypergraph Synergy, Demand Gravity Wells & k-Redundancy Sim| L1b[Layer 1b: Oasis 3D Shadow Simulator]
 ```
 
-### Layer 1: Physical Ground Truth & Guild Federation Infrastructure
-*   **Physical Ground Truth:** The Guild Federation Hall (Scenario Epsilon), regional machining bays (Scenario Alpha), high-capacity metal casting foundries (Scenario Theta), mobile electrical service trucks (Scenario Beta), and watershed canal barges.
-*   **Kinetic Stewardship Labor:** Physical machining of replacement bronze bushings, rewinding three-phase induction motors, selective thinning of coppice woodlots (Scenario Eta), and installing solar microgrid interties.
-*   **Absolute Separation Invariant:** Layer 1 contains strictly zero software, zero firmware, zero cryptographic keys, and zero network routing daemons. Machine tools and vehicles output raw analog signals across copper cabling.
+### Layer 1: Physical Ground Truth & Layer 1b: Oasis 3D Shadow Simulator
+*   **Physical Patchwork & Complementarity (`Layer 1`):**
+    *   Connects specialized physical nodes across a watershed via Scenario Beta's 5 arteries ($380\,\mathrm{V}$ HVDC interties, canal barges, light-rail freight, water cascades, and fiber/LoRa mesh), allowing mobile guild work-bees to share heavy machinery, specialized castings (`Theta`), timber (`Eta`), and harvests (`Gamma`).
+*   **Oasis 3D Shadow Simulator (`Layer 1b`):**
+    *   **The Post-Scarcity Synergy & Demand Cartographer Simulator:** Visualizes in real time how linking complementary spatial nodes and non-spatial guilds increases the bioregion's **Post-Scarcity Index**, while rendering heatmap contours of **Intent Transit Gravity Wells** (where long-distance haulage can be replaced by spawning a local node) and **$k\text{-Redundancy}$ Fault Lines** (highlighting single-point-of-failure capabilities that need a backup node).
 
-### Layer 2: Cybernetic Membrane
-*   **Microcontrollers & Sandboxed MPUs:** Dedicated microcontrollers running Zephyr RTOS with MPU isolation separating motor telemetry from mesh communication.
-*   **Wire Format Fixed-Point Integer Telemetry (MQTT Topics via `col-telemetryd`):**
-    *   `guild/dispatch/steward_01/kinetic_work_uj` (Integrated mechanical work, `uint64_t` microjoules)
-    *   `guild/dispatch/steward_01/active_power_mw` (Operating power draw, `uint64_t` milliwatts)
-    *   `guild/transit/truck_01/odometer_meters` (Distance traveled, `uint32_t` meters)
-    *   `guild/tool/lathe_01/spindle_rpm` (Spindle angular speed, `uint32_t` rpm)
-*   **Convivial Anti-Panopticon Shield:** Absolute prohibition of body-worn biometric sensors or workplace monitoring cameras. Edge microcontrollers monitor only machine thermodynamics and electrical energy throughput.
+### Layer 2: The Cybernetic Membrane
+*   **Cryptographic Proof of Contribution, Transit Haulage & Anti-Leakage Telemetry (`col-sensord`):**
+    *   Hardware `ATECC608A`-signed shunts, load cells, and dynamometers verify actual physical surplus deliveries ($\sigma_{\mathrm{delivery}}$), transit haulage distances/exergy (`Beta`), and ecological floor metrics ($F_{\mathrm{eco}}$), making it impossible for a node to fake contributions or secretly siphon commons inventory without detection.
+    *   Enforces the absolute ban on workplace cameras and wearable biometric monitors (`biometric_packets_captured == 0`).
 
-### Layer 3: Thermodynamic Ledger
-*   **Pairwise Bilateral Clearing Channels (BCC):**
-    *   Inter-node guild exchange is governed strictly through pairwise bilateral clearing channels maintained by `col-storaged` with zero global tokens.
-    *   **Conservation Invariant:**
-        $$B_{u \to v}(t) + B_{v \to u}(t) = 0$$
-        The bilateral ledger is mathematically zero-sum.
-    *   **Mutual Aid Credit Window:**
-        $$-C_{u \to v} \le B_{u \to v}(t) \le C_{v \to u}$$
-        Credit headroom is negotiated asymmetrically during Ricardian treaty ratification (Layer 6) based on seasonal watershed production realities.
-*   **Multi-Hop Chained Hashed Timelock Contracts (HTLC):**
-    *   When guild stewards from Node $A$ are dispatched to Node $C$ through intermediate transit Node $B$, settlement is routed across chained contracts:
-        $$\mathrm{HTLC} = \langle H(S), \, \Delta t, \, Q, \, u, \, v \rangle$$
-        Where $S$ is a 256-bit secret generated by the receiving guild chapter, revealed upon verified delivery of labor or hardware.
-*   **Two-Phase Delivery Receipts:**
-    *   Work completions are committed via physical sensor-measured receipts:
-        $$\sigma_{\mathrm{delivery}} = \mathrm{Sign}_{K_{\mathrm{receiver}}}\left( \mathrm{Hash}(Q_{\mathrm{measured}} \parallel \tau_{\mathrm{arrival}} \parallel \mathrm{Channel\_ID}) \right)$$
-*   **Non-Monetary Settlement Mechanisms:**
-    1. *Reciprocal Physical Delivery:* Counter-seasonal material exchange (summer timber and grain balancing winter biochar and machine parts).
-    2. *Stewardship Labor Dispatch:* Crediting skilled labor hours directly against bilateral channel headroom.
-    3. *Commons Jubilee:* Bioregional Watershed Congress mutual forgiveness of structural channel deficits caused by regional ecological shocks.
-*   **Proof-of-Thermodynamic-Work (PoTW):** Value is grounded strictly in metered physical work ($3600000000000\,\mu\mathrm{J} \equiv 3600\,\mathrm{kJ} \equiv 1\text{ Exergy Credit}$) subject to physical demurrage $\mathcal{E}_0 e^{-\lambda t}$.
-*   **Non-Tokenization of Care:** Domestic care, mentoring, and administrative deliberation are non-commensurable; Layer 3 structurally refuses to mint credits for caregiving.
+### Layer 3: The Thermodynamic Ledger
+*   **Reciprocity-Scaled Pairwise Bilateral Clearing Channels (`BCC`) & Demurrage:**
+    *   Every bilateral channel obeys strict zero-sum conservation:
+        $$B_{u \to v}(t) + B_{v \to u}(t) = 0, \quad -C_{u \to v}(t) \le B_{u \to v}(t) \le C_{v \to u}(t)$$
+    *   Unlike a static credit line, a node's mutual-aid credit ceiling $C_{u \to v}(t)$ **scales dynamically with its verified cumulative contributions to the mesh** (and receives a bootstrap credit expansion when seeding a high-priority `MeshGrowthBeacon`) while idle hoards decay under demurrage $\mathcal{E}(t) = \mathcal{E}_0 e^{-\lambda t}$.
+*   **Shock-Verified Commons Jubilee:**
+    *   A **Bioregional Commons Jubilee** (forgiving structural channel deficits) can only be triggered when Layer 2/Layer 5 telemetry confirms a genuine ecological, climatic, or medical shock (`SCN-UPSILON-SHOCK`), preventing bad-faith nodes from gaming debt forgiveness.
 
-### Layer 4: Deterministic Orchestrator
-*   Managed deterministically by `col-execd` at 10 Hz with metered Wasmtime execution budgets:
-    *   `TreatyRatified`: Ingests ratified Ricardian Treaty (`Treaty_CID`) from Layer 5 over `/run/collective/ipc/l4_l5.sock`.
-    *   `DispatchIntentIngress`: Receives signed labor dispatch request for emergency motor rewinding or canal repair.
-    *   `BCCReservationLocked`: Locks conditional credit reservation in local channel headroom.
-    *   `StewardWorkDispatched`: Coordinates transit and tool availability for dispatched stewards.
-    *   `KineticLaborVerified`: Validates Layer 2 telemetry proving physical completion.
-    *   `DeliveryReceiptSigned`: Receiver signs hardware delivery receipt $\sigma_{\mathrm{delivery}}$.
-    *   `HTLCBackwardSettlement`: Preimage $S$ is broadcast, settling multi-hop channels backward.
-    *   `ChannelHeadroomRestored`: Balances atomically update; reservations burn.
-*   **Inviolability of Local Floors:** Layer 4 refuses to dispatch labor or tools if local inventory breaches either the ecological floor $F_{\mathrm{eco}}$ or the survival baseline $B_{\mathrm{baseline}}$.
-*   **Boundary Socket Contract (`l4_l5.sock`):** POSIX non-blocking sequenced-packet Unix Domain Socket (`SOCK_SEQPACKET`) located at `/run/collective/ipc/l4_l5.sock`.
+### Layer 4: The Deterministic Orchestrator
+*   **State Machine Daemon:** `col-execd` executes a $10\,\mathrm{Hz}$ deterministic BPMN v2 state machine over `/run/collective/ipc/l4_l5.sock` and `/run/collective/ipc/l3_l4.sock`:
+    1.  **Intent Demand Aggregation & Morphogenesis Solver:** Continuously evaluates anonymized `IntentDemandTensor` rollups to detect high-haulage Spatial Gravity Wells, Layer 7 import bleed, and supply-chain capabilities where active independent producer nodes $k < 3$, emitting `MeshGrowthBeacon` proposals to Layer 5/Layer 6.
+    2.  **Constitutional End-Goal & Anti-Siphon Gate:** Before routing any BPVP resource request or Work-Bee dispatch, `col-execd` verifies that the requesting node is in **Active Constitutional Alignment** (`f_eco_preserved == true`, `b_baseline_preserved == true`, `l7_siphon_leakage_mg == 0`) and that its **Reciprocity Ratio ($\rho_{\mathrm{recip}}$)** has not tripped the Anti-Siphon Circuit Breaker (unless an emergency `SCN-UPSILON-SHOCK` beacon is active).
+    3.  **Polycentric Jurisdiction Matrix & Ephemeral Swarm Dispatch:** Ensures spatial nodes govern local place/baselines while non-spatial guilds govern Scenario Kappa craft safety standards, mobilizing cross-guild Work-Bee Swarms to fulfill treaties or seed new nodes/redundant bays, and dissolving temporary swarms upon completion.
+
+```mermaid
+stateDiagram-v2
+    [*] --> AggregateIntentsOrPeerRequest: Rollup Anonymized Intents OR New Node/Swarm Request
+    AggregateIntentsOrPeerRequest --> EmitMeshGrowthBeacon: Detect High Transit Haul, L7 Import Bleed, or Redundancy k < 3
+    EmitMeshGrowthBeacon --> VerifyEndGoalAlignment: Stewards & Guilds Respond to Seed Node / Supply Chain
+
+    AggregateIntentsOrPeerRequest --> VerifyEndGoalAlignment: Direct Peering or Cross-Watershed Work-Bee Proposed
+    VerifyEndGoalAlignment --> QuarantineRogueNode: Alignment Violated or Commons Siphoned to L7
+    QuarantineRogueNode --> [*]: Defederated Until Restorative Psi Remedy
+
+    VerifyEndGoalAlignment --> CheckAntiSiphonAndIsolationGate: Aligned -> Audit Reciprocity Ratio & Surplus Sharing
+    CheckAntiSiphonAndIsolationGate --> ThrottleCreditWindow: Chronic Free-Riding or Isolationist Hoarding (No Shock)
+    ThrottleCreditWindow --> [*]: Baseline Safe, But Extra Mesh Credit Paused Until Reciprocated
+
+    CheckAntiSiphonAndIsolationGate --> EvaluatePolycentricMatrix: Active Collaborative Node (Or Verified Upsilon Shock)
+    EvaluatePolycentricMatrix --> CoSignMultiPartyTreaty: Spatial Node S_i (Place) + Non-Spatial Guild G_k (Safety) Agree
+    CoSignMultiPartyTreaty --> ExecuteWorkBeeAndShareBlueprints: Lock Multi-Hop HTLC, Seed Redundancy & Replicate Blueprints
+    ExecuteWorkBeeAndShareBlueprints --> SettleBCCAndExpandPostScarcity: Sign Receipt -> Settle HTLC, Raise k-Redundancy & Boost Synergy
+    SettleBCCAndExpandPostScarcity --> DissolveEphemeralSwarm: Expand Reciprocal Credit Ceiling C_uv & Dissolve Swarm
+    DissolveEphemeralSwarm --> [*]
+```
 
 ### Layer 5: Polycentric Governance
-*   Executed by `col-kmsd`, Layer 5 governs guild federation across the **7-Tier Concentric Trust Rings**:
-    *   **$R_0$ (Hearth):** Intimate domestic shelter; unconditional survival baseline.
-    *   **$R_1$ (Settlement):** Apprentice workshops; supervised craft tooling.
-    *   **$R_2$ (Commons):** Local guild hall; shared machine tooling, local Bilateral Clearing Channels.
-    *   **$R_3$ (Watershed):** Watershed guild chapter federation (within 30 km); DC interties, utility repair trucks, canal barges, bilateral credit lines.
-    *   **$R_4$ (Bioregional Federation):** Regional river basin council (within 150 km); rail/canal freight corridors, shared heavy foundries, non-monetary treaties.
-    *   **$R_5$ (Continental Corridor):** Trans-continental corridors (within 1000 km); rare metal recycling, DTN blueprints.
-    *   **$R_6$ (Ecumene):** Planetary craft guilds, open standards, legacy perimeter.
-*   **Bioregional Path-Vector Protocol (BPVP / FRRP):**
-    *   Capability Advertisements: $\mathcal{A} = \langle \mathrm{adv\_id}, v_{\mathrm{orig}}, \mathcal{T}_{\mathrm{res}}, \mathbf{u}, Q_{\mathrm{avail}}, [\tau_{\mathrm{start}}, \tau_{\mathrm{end}}], \mathcal{P}, \mathcal{C}, H_{\mathrm{ttl}}, \sigma \rangle$.
-    *   **Export Surplus Bound:**
-        $$Q_{\mathrm{avail}}(t) = \max\left(0, \, Q_{\mathrm{inventory}}(t) - F_{\mathrm{eco}}(t) - B_{\mathrm{baseline}}(t)\right) \cdot \mathbf{1}_{\mathrm{export}}$$
-    *   **Loop-Freedom Invariant:** Ingress filters inspect Ring-Path Vector $\mathcal{P} = [(v_k, r_k), \dots, (v_0, r_0)]$. If local node DID is present, the packet is instantly discarded.
-    *   **Thermodynamic Path Attenuation:** $\mathcal{C}(\mathcal{P}) = \sum (E_{\mathrm{transport}} + \alpha \Delta t + \beta \Phi(r) + \lambda \mathcal{E}_{\mathrm{demurrage}})$. Routes with net efficiency $\eta_{\mathrm{route}} < \eta_{\min}$ are invalid.
-*   **Autopoietic Cellular Autonomy:** Every node possesses absolute constitutional sovereignty; external federation councils cannot compel labor dispatch or resource transfers.
-*   **Protocol of Refusal:** Protects sacred groves, heritage seed varieties, and artisanal archives from export.
-*   **Autonomous Transit Veto (`No-Transit`):** Nodes retain the sovereign right to reject transit routing through their residential territory.
-*   **Unconditional Right of Exit:** Nodes may unilaterally dissolve peering treaties without punitive indemnity.
-*   **Reputational Wealth ($\mathcal{R}$):** Non-financial standing, decays exponentially ($\tau_{\mathrm{half}} = 1\dots 3\text{ years}$), sublinearly capped ($\le 8\%$). Care Leave Shield freezes decay during parenting, illness, or bereavement.
+*   **Autopoietic Freedom Within Whole-Mesh Integrity (`col-kmsd`):**
+    *   Every node enjoys complete internal freedom over its domestic culture, schedule, and local architecture (`SCN-XI-ARCH`), while the federation protects the integrity of the whole through **Cryptographic Peering Covenants**.
+    *   Adding a new node that honors the covenant—or responds to a `MeshGrowthBeacon` to close a spatial transit gap or a $k < 3$ redundancy gap—immediately increases the mesh's **Post-Scarcity Synergy Multiplier** and **Supply-Chain Fault Tolerance**.
+*   **Bioregional Path-Vector Protocol (`BPVP`):** Enforces $O(D)$ loop freedom and the Export Surplus Bound $Q_{\mathrm{avail}}(t) = \max(0, Q_{\mathrm{inventory}} - F_{\mathrm{eco}} - B_{\mathrm{baseline}}) \cdot \mathbf{1}_{\mathrm{export}}$.
 
 ### Layer 6: Semantic Translation & Agora
-*   **Tripartite Ricardian Treaties (`Treaty_CID`):**
-    $$\mathrm{Treaty\_CID} = \mathrm{SHA256}\left( \mathrm{Text}_{\mathrm{prose}} \parallel \mathrm{Schema}_{\mathrm{JSON-LD}} \parallel \mathrm{Invariants}_{\mathrm{BPMN}} \right)$$
-    1. $\mathrm{Text}_{\mathrm{prose}}$: Natural-language treaty articulating mutual-aid commitments, shared watershed boundaries, and dispute-resolution protocols.
-    2. $\mathrm{Schema}_{\mathrm{JSON-LD}}$: Machine-verifiable operational parameters: peer identities ($AN_{\mathrm{id}}$), bilateral credit windows $[-C_{u \to v}, +C_{v \to u}]$, and sensor delivery verification predicates.
-    3. $\mathrm{Invariants}_{\mathrm{BPMN}}$: Formal process state machines in BPMN 2.0 XML compiled to WebAssembly bytecode for Layer 4 runtime enforcement.
-*   All guild actions are published as typed W3C JSON-LD Knowledge Artifacts in the Agora Commons (`col-commonsd`): `GuildTreatyIntent`, `LaborDispatchIntent`, `MutualAidClearanceIntent`.
+*   **The Bioregional Opportunity Cartographer & Multi-Party Ricardian Treaties (`Treaty_CID`):**
+    *   Publishes privacy-preserving `MeshGrowthBeacon` opportunities (spatial node placement suggestions, upstream/downstream BOM supply-chain matchmaking, and $k\text{-redundancy}$ alerts) and binds contiguous spatial nodes, hydrological watershed councils, and non-spatial trans-local guilds into verifiable mutual-aid compacts.
 
-### Layer 7: The Legacy Interface (Dual-Membrane Doctrine)
-*   **Alamo Defense & Strict Labor Bifurcation:**
-    *   **Membrane 1 (External Legal Carapace):** Organized as an unremarkable Subchapter T Cooperative (26 U.S.C. §§ 1381–1388) and Unincorporated Nonprofit Association (UNA under UUNAA § 6). Commercial client contracts executed externally receive lawful W-2 wages with full statutory tax withholding. Fiat revenue remains entirely within legacy banking rails to fund capital equipment purchases on the itemized needs list $\Phi_t$, tax reserves, and payroll.
-    *   **Membrane 2 (Internal Sovereign Core):** Internal mutual-aid stewardship is uncompensated and non-monetized. Internal accounting relies strictly on physical exergy credits and Bilateral Clearing Channels.
-    *   **Total Elimination of Fiat Conversions:** Zero exchange rate, AMM, or conversion mechanism exists between fiat currency and internal exergy credits.
-*   **Subpoena Immunity via Data Non-Existence:** Under *NAACP v. Alabama*, internal member rosters, pairwise DIDs, and guild clearing ledgers do not exist in legacy corporate databases. `col-adversaryd` enforces data non-existence.
-*   **Regenerative Harvesting & Convivial Salvage:** Outward commercial activity halts as soon as the itemized needs list $\Phi_t$ is satisfied. Convivial engineering interties govern all external interactions.
+### Layer 7: The Legacy Interface & Alamo Defense Carapace
+*   **Alamo Defense, Import-Substitution Telemetry & Anti-Siphon Boundary (`SCN-EPSILON-COWORKING`):**
+    *   Strictly bifurcates external W-2 commercial guild contracting in Membrane 1 (capped at $\Phi_t$) from internal non-monetized mutual aid in Membrane 2.
+    *   Logs every fallback purchase of Layer 7 goods as an anonymized **Import-Substitution Signal** so internal guilds can prioritize replacing it, while `col-adversaryd` audits outbound logistics to ensure zero commons hardware or raw materials are ever siphoned into private Layer 7 resale.
 
 ---
 
-## 3. Machine-Readable Schemas
+## 3. 3-Stage Incremental Node Facility Blueprints (Node Growth Pattern)
 
-### 3.1 Layer 6 Knowledge Artifact: Ricardian Guild Treaty (`guild_treaty.jsonld`)
+Scenario Pi scales from overlapping urban mutual-aid circles into a bioregional polycentric engine of sustainable post-scarcity.
+
+### Stage 1: Overlapping Neighborhood Working Circles & Trans-Local Digital Guilds ($R_1 / R_2$ Bootstrap)
+*   **Spatial & Non-Spatial Footprint:** 15 to 50 stewards across contiguous blocks and non-contiguous urban apartments connected via Reticulum/LoRa mesh (`SCN-BETA-TRANSIT`).
+*   **Synergy in Action:** Even at Stage 1, linking three small neighborhood pods (one with a CNC router in a garage, one with a greenhouse and fermentation kitchen, one with a sewing and electronics studio) immediately triples every household's material self-reliance without anyone buying duplicate tools.
+
+### Stage 2: Urban Polycentric Guildhall & Multi-Cooperative Hub ($R_2 / R_3$ Municipal Shell)
+*   **Physical Footprint:** `500 m2` to `1500 m2` shared civic and industrial hub co-located with Scenario Epsilon, Scenario Alpha, and Scenario Iota.
+*   **Integrated Polycentric Zones:**
+    1.  **The Inter-Guild Council & Synergy Hall:** Coordinates multi-node Subchapter T bulk procurement, shared tool maintenance, and blueprint replication across urban and rural partner nodes.
+    2.  **The Work-Bee Dispatch & Mobile Tool Depot:** Deploys cross-guild barn-raising and infrastructure repair teams across the city and surrounding watershed.
+
+### Stage 3: Bioregional Watershed Congress, Guild Convocation Campus & Post-Scarcity Commons ($R_3 / R_4 / R_5$ CLT/PPT)
+*   **Physical Footprint:** `5` to `20 hectares` at a hydrological/transit confluence on an **Irrevocable Community Land Trust (CLT) / Perpetual Purpose Trust (PPT)**.
+*   **Custom Ecological & Polycentric Architecture (`SCN-XI-ARCH`):**
+    *   **The Hydrological Watershed Hall:** Where contiguous river-basin settlements ($R_3/R_4$) coordinate watershed restoration, $380\,\mathrm{V}$ HVDC grid balancing, and shock-verified **Commons Jubilees**.
+    *   **Trans-Local Guild Lodges (`SCN-ZETA-LODGING`):** Permanent guildhouses where continental non-spatial guilds ($R_5/R_6$) refine open-source automation, medical, and agroecological technologies that continuously reduce mandatory human toil across the entire federation.
+
+---
+
+## 4. Machine-Readable Schemas
+
+### 4A. Layer 6 Knowledge Artifact: Multi-Party Synergy & Anti-Siphon Guild Treaty (`polycentric_treaty.jsonld`)
 
 ```json
 {
@@ -149,244 +207,425 @@ graph TD
     "https://schema.org/",
     "https://collective.network/ontology/v1/"
   ],
-  "@type": "RicardianGuildTreaty",
+  "@type": "PolycentricMultiPartyRicardianTreaty",
   "identifier": "urn:uuid:11a2b3c4-d5e6-7f8a-9b0c-1d2e3f4a5b6c",
   "treatyCid": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad",
-  "contractingPeers": [
-    "did:peer:2.Ez6Mks3...watershed_snoqualmie_node04",
-    "did:peer:2.Ez6Mkd9...watershed_skykomish_node08"
-  ],
-  "treatyTerms": {
-    "guildDomain": "Bioregional_Mechanical_Machinists",
-    "bilateralCreditHeadroomMicroJoules": 36000000000000,
-    "sharedEcologicalCorridor": "Snohomish_Basin_Hydrology",
-    "deliveryVerificationMethod": "Ed25519_Hardware_Sensor_Receipt",
-    "demurrageHalfLifeDays": 365
+  "overlappingJurisdictions": {
+    "contiguousSpatialNodes": [
+      "did:peer:2Ez6Mks3_spatial_snoqualmie_node04",
+      "did:peer:2Ez6Mkd9_spatial_skykomish_node08"
+    ],
+    "hydrologicalWatershedCouncil": "did:peer:2Ez6MkwQ_watershed_snohomish_basin_r3",
+    "nonSpatialTransLocalGuilds": [
+      "did:peer:2Ez6MkrP_guild_continental_microhydro_engineers_r5",
+      "did:peer:2Ez6MktL_guild_bioregional_timber_framers_r4"
+    ]
   },
-  "governanceConstraints": {
-    "transitVetoEnabled": true,
-    "cellularAutonomyPreserved": true,
-    "unconditionalRightOfExit": true
+  "wholeMeshIntegrityAndSynergyRules": {
+    "constitutionalEndGoalAlignmentRequired": true,
+    "minReciprocityRatioBpsForCreditExpansion": 8000,
+    "antiSiphonCircuitBreakerEnabled": true,
+    "unauthorizedL7LeakageToleranceMg": 0,
+    "demurrageHalfLifeDaysOnIdleHoards": 365,
+    "postScarcitySynergyMultiplierBps": 14500
   },
-  "cryptographicSignatures": {
-    "peerNode04Signature": "z3aK8f...node04_hardware_sig...99pL",
-    "peerNode08Signature": "z7bM2q...node08_hardware_sig...44xY"
+  "intentDemandCaptureAndRedundancyRules": {
+    "zeroKnowledgeIntentRollupEnabled": true,
+    "r0PersonalIntentSurveillancePackets": 0,
+    "minProducerRedundancyDegreeK": 3,
+    "spatialGravityWellHaulExergyThresholdUj": 18000000000000,
+    "prioritizeL7ImportSubstitutionBeacons": true
+  },
+  "polycentricJurisdictionMatrix": {
+    "spatialNodeRetainsLandAndBaselineVeto": true,
+    "nonSpatialGuildRetainsKappaSafetyAndEthicsVeto": true,
+    "ephemeralWorkBeeSwarmAutoDissolvesOnCompletion": true
   }
 }
 ```
 
-### 3.2 Layer 2 Telemetry Attestation: Labor Dispatch Delivery Receipt (`dispatch_attestation.json`)
+### 4B. Layer 2 Telemetry Attestation: Multi-Hop Work-Bee & Reciprocity Proof (`workbee_receipt.json`)
 
 ```json
 {
   "@context": "https://collective.network/ontology/v1/",
-  "@type": "LaborDispatchDeliveryReceipt",
+  "@type": "WorkBeeSwarmDeliveryReceipt",
   "attestationId": "urn:uuid:3b4c5d6e-7f8a-9b0c-1d2e-3f4a5b6c7d8e",
   "treatyRef": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad",
-  "dispatchMission": {
-    "originatingNode": "did:peer:2.Ez6Mks3...node04",
-    "receivingNode": "did:peer:2.Ez6Mkd9...node08",
-    "stewardHandle": "handle:anonymous:steward_mechanic_77",
-    "taskCategory": "Three_Phase_Generator_Rewind",
-    "kineticWorkPerformedMicroJoules": 36000000000000
+  "swarmExecution": {
+    "participatingStewardsCount": 18,
+    "originSpatialNode": "did:peer:2Ez6Mks3_spatial_snoqualmie_node04",
+    "transitRelayNode": "did:peer:2Ez6Mkb7_spatial_monroe_node06",
+    "receivingSpatialNode": "did:peer:2Ez6Mkd9_spatial_skykomish_node08",
+    "committedExergyUj": 36000000000000,
+    "sharedOpenBlueprintsCount": 4,
+    "newProducerRedundancyDegreeK": 3
   },
-  "physicalVerification": {
-    "dynamometerActivePowerMilliWatts": 4500000,
-    "testDurationMilliseconds": 28800000,
-    "measuredEfficiencyBasisPoints": 9400,
-    "hardwareSensorSignature": "4a7f9b2c...dynamometer_sensor_sig"
+  "integrityVerification": {
+    "ecologicalFloorPreserved": true,
+    "l7SiphonLeakageMassMg": 0,
+    "biometricPacketsCaptured": 0,
+    "postScarcityToilReductionBps": 2200,
+    "hardwareSensorSignature": "4a7f9b2c_atecc608a_dynamometer_sig"
   },
-  "settlementStatus": "RECEIPT_VERIFIED_HTLC_RESOLVED",
-  "digestSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  "settlementStatus": "HTLC_RESOLVED_REDUNDANCY_HARDENED_AND_SWARM_DISSOLVED"
 }
 ```
 
 ---
 
-## 4. Oasis Engine Implementation Specification
+## 5. Oasis Engine Implementation Specification
 
-### 4.1 Memory Allocation & Voxel State
+### 5A. Memory Allocation, Voxel State & Synergy/Demand-Capture/Anti-Siphon Components
+The polycentric guild and federation engine coordinates spatial, non-spatial, intent demand capture, and whole-mesh synergy states in $32^3$ voxel chunks (`ChunkManager`):
+*   Polycentric Guild & Treaty Hall voxel initialized with `material_id = 52` (`GUILD_FEDERATION_HALL`).
+*   Work-Bee Dispatch & Mobile Tool Depot voxel initialized with `material_id = 53` (`WORK_BEE_DISPATCH_DEPOT`).
+*   `MeshSynergyAndIntegrityTracker` computes superlinear post-scarcity abundance gains as aligned nodes join the federation, evaluates privacy-preserving `AggregatedIntentDemandSignal` tensors to emit `MeshGrowthBeacon` opportunities (spatial gravity wells, supply-chain links, and $k \ge 3$ redundancy seeding), expands bilateral credit ceilings for active contributors, throttles isolationist hoarders, and quarantines parasitic siphoning or anti-ecological nodes.
 
-The Guild Federation Hall occupies dedicated spatial voxels in the $32^3$ chunk space:
-*   The federation anchor voxel is initialized with `material_id = 52` (`GUILD_FEDERATION_HALL`).
-*   Metadata bitmask `0b00001100` sets `Is_Guild_Commons` (bit 2) and `Is_Treaty_Terminal` (bit 3).
-*   Adjacent heavy tool voxels (`material_id = 53`, `HEAVY_INDUSTRIAL_LATHE`) track verified kinetic work.
-
-```cpp
-// Cache-aligned Flecs ECS Components for Bioregional Guild Federation
-#include <cstdint>
-#include <string>
-
-namespace oasis {
-
-struct alignas(8) GuildStewardComponent {
-    char steward_did[64];
-    uint32_t guild_domain_id;
-    uint32_t verified_stewardship_hours;
-    uint8_t craft_mastery_rank;         // 1 (Apprentice) to 5 (Master Steward)
-    bool on_active_dispatch;
-};
-
-struct alignas(8) RicardianTreatyComponent {
-    char treaty_cid[64];
-    char peer_node_did[64];
-    uint64_t credit_ceiling_uj;         // C_{u->v} maximum credit headroom
-    uint32_t ratification_tick;
-    bool transit_veto_asserted;
-    bool treaty_active;
-};
-
-struct alignas(8) LaborDispatchComponent {
-    uint32_t mission_id;
-    uint64_t committed_exergy_uj;       // 3600000000000 uJ multiples (3600 kJ)
-    uint32_t timelock_deadline_tick;
-    char secret_hash[72]; // 64-char SHA256 hex string + null terminator, padded to 8-byte alignment
-    bool preimage_disclosed;
-};
-
-struct alignas(8) BCCChannelComponent {
-    char peer_did[64];
-    int64_t balance_microjoules;         // Conservation: B_{u->v} + B_{v->u} = 0
-    uint64_t credit_headroom_uj;         // Headroom window [-C, +C]
-    bool channel_active;
-};
-
-} // namespace oasis
-```
-
-### 4.2 C++20 Test Harness Structure
+### 5B. Self-Contained C++20 Reference & Test Harness
 
 ```cpp
-// engine/tests/scenario_pi_test.cpp
+// engine/tests/scenario_pi_guild_test.cpp
+#include <algorithm>
 #include <cassert>
-#include <cstring>
-#include "oasis/chunk_manager.hpp"
-#include "oasis/orchestration/bpmn_engine.hpp"
+#include <cstdint>
+#include <iostream>
+#include <string>
+#include <vector>
 
-namespace oasis {
+namespace oasis::pi {
 
-void test_scenario_pi_guild_dispatch_and_bcc() {
-    // 1. Initialize Chunk and Guild Federation Voxel
-    ChunkManager chunk_mgr;
-    chunk_mgr.allocate_chunk(0, 0, 0);
+// Fixed-point constants:
+// 10000 bp = 100% (1x baseline)
+// Exergy in microjoules (uJ): 3600000000000 uJ = 3600 kJ = 1 Exergy Credit quantum
 
-    Voxel guild_voxel{
-        .material_id = 52, // GUILD_FEDERATION_HALL
-        .moisture = 5,
-        .temperature = 293, // 293 K
-        .metadata = 0b00001100 // Guild Commons + Treaty Terminal
-    };
-    chunk_mgr.set_voxel(16, 8, 16, guild_voxel);
+enum class NodeMeshStatus : uint8_t {
+    ACTIVE_SYNERGISTIC_PEER = 1,
+    THROTTLED_ISOLATIONIST_OR_FREE_RIDER = 2,
+    QUARANTINED_END_GOAL_OR_SIPHON_BREACH = 3
+};
 
-    // 2. Setup Multi-Hop Bilateral Clearing Channels: Node A <-> Node B <-> Node C
-    BCCChannelComponent channel_ab{
-        .peer_did = "did:peer:node_b",
-        .balance_microjoules = 0,
-        .credit_headroom_uj = 72000000000000ULL, // 20 Exergy Credits headroom
-        .channel_active = true
-    };
-    BCCChannelComponent channel_ba{
-        .peer_did = "did:peer:node_a",
-        .balance_microjoules = 0,
-        .credit_headroom_uj = 72000000000000ULL,
-        .channel_active = true
-    };
-    BCCChannelComponent channel_bc{
-        .peer_did = "did:peer:node_c",
-        .balance_microjoules = 0,
-        .credit_headroom_uj = 72000000000000ULL,
-        .channel_active = true
-    };
-    BCCChannelComponent channel_cb{
-        .peer_did = "did:peer:node_b",
-        .balance_microjoules = 0,
-        .credit_headroom_uj = 72000000000000ULL,
-        .channel_active = true
-    };
+struct SpatialContiguousNode {
+    std::string node_did;
+    std::string watershed_basin_id;
+    uint64_t inventory_uj{110000000000000ULL};
+    uint64_t ecological_floor_uj{30000000000000ULL};   // F_eco
+    uint64_t survival_baseline_uj{30000000000000ULL};  // B_baseline
+    uint64_t cumulative_contributed_to_mesh_uj{40000000000000ULL};
+    uint64_t cumulative_drawn_from_mesh_uj{36000000000000ULL};
+    uint32_t open_blueprints_shared_count{5};
+    uint64_t unauthorized_l7_siphon_leakage_mg{0};     // Must be 0!
+    bool respects_ecological_and_dignity_end_goal{true};
+    bool verified_upsilon_ecological_shock{false};
+    bool transit_veto_no_transit_active{false};
+    bool local_commons_chamber_ratified{true};
 
-    // Assert Conservation on both channels: B_{u->v} + B_{v->u} = 0
-    assert(channel_ab.balance_microjoules + channel_ba.balance_microjoules == 0);
-    assert(channel_bc.balance_microjoules + channel_cb.balance_microjoules == 0);
-
-    // 3. Multi-Hop HTLC Labor Dispatch: Node A dispatches machinist to Node C
-    uint64_t labor_exergy_uj = 36000000000000ULL; // 10 Exergy Credits (36000 kJ)
-    LaborDispatchComponent htlc_mission{
-        .mission_id = 8842,
-        .committed_exergy_uj = labor_exergy_uj,
-        .timelock_deadline_tick = 5000,
-        .secret_hash = "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad",
-        .preimage_disclosed = false
-    };
-
-    // 4. Simulate Labor Delivery and Preimage Disclosure (Cascading Backward Settlement)
-    htlc_mission.preimage_disclosed = true;
-
-    // Settle Hop B -> C upon secret reveal
-    channel_cb.balance_microjoules -= static_cast<int64_t>(labor_exergy_uj);
-    channel_bc.balance_microjoules += static_cast<int64_t>(labor_exergy_uj);
-    assert(channel_bc.balance_microjoules + channel_cb.balance_microjoules == 0);
-
-    // Settle Hop A -> B cascading backward
-    channel_ba.balance_microjoules -= static_cast<int64_t>(labor_exergy_uj);
-    channel_ab.balance_microjoules += static_cast<int64_t>(labor_exergy_uj);
-    assert(channel_ab.balance_microjoules + channel_ba.balance_microjoules == 0);
-
-    // Verify Balances
-    assert(channel_ab.balance_microjoules == 36000000000000LL);
-    assert(channel_ba.balance_microjoules == -36000000000000LL);
-    assert(channel_bc.balance_microjoules == 36000000000000LL);
-    assert(channel_cb.balance_microjoules == -36000000000000LL);
-}
-
-void test_scenario_pi_guild_transit_veto_and_loop_check() {
-    ChunkManager chunk_mgr;
-    chunk_mgr.allocate_chunk(0, 0, 0);
-
-    RicardianTreatyComponent treaty{
-        .treaty_cid = "cid:sha256:treaty_snoqualmie_skykomish_01",
-        .peer_node_did = "did:peer:node_skykomish",
-        .credit_ceiling_uj = 72000000000000ULL,
-        .ratification_tick = 100,
-        .transit_veto_asserted = true, // Autonomous Transit Veto asserted
-        .treaty_active = true
-    };
-
-    // Assert Transit Veto is strictly enforced
-    bool transit_route_permitted = !treaty.transit_veto_asserted;
-    assert(!transit_route_permitted); // Heavy freight blocked from residential territory
-
-    // Assert Loop Check: Self-referential route is dropped immediately
-    std::string local_node = "did:peer:local_node";
-    std::vector<std::string> path_vector = {"did:peer:node_c", "did:peer:node_b", "did:peer:local_node"};
-
-    bool loop_detected = false;
-    for (const auto& peer : path_vector) {
-        if (peer == local_node) {
-            loop_detected = true;
-            break;
-        }
+    uint64_t exportable_surplus_uj() const {
+        uint64_t reserved = ecological_floor_uj + survival_baseline_uj;
+        return (inventory_uj > reserved) ? (inventory_uj - reserved) : 0;
     }
-    assert(loop_detected); // Route dropped at ingress filter
+
+    uint32_t reciprocity_ratio_bps() const {
+        if (cumulative_drawn_from_mesh_uj == 0) return 10000;
+        return static_cast<uint32_t>(
+            (cumulative_contributed_to_mesh_uj * 10000ULL) / cumulative_drawn_from_mesh_uj
+        );
+    }
+};
+
+struct NonSpatialTransLocalGuild {
+    std::string guild_did;
+    std::string craft_or_epistemic_domain;
+    std::vector<std::string> member_steward_dids;
+    bool kappa_safety_and_ethics_verified{true};
+    bool guild_stewardship_circle_ratified{true};
+};
+
+struct EphemeralWorkBeeSwarm {
+    std::string swarm_id;
+    uint64_t committed_exergy_uj{0};
+    bool active{false};
+    bool dissolved_after_completion{false};
+};
+
+struct BCCChannel {
+    std::string peer_u;
+    std::string peer_v;
+    int64_t balance_u_to_v_uj{0};
+    int64_t balance_v_to_u_uj{0};
+    int64_t credit_headroom_uj{72000000000000LL};
+};
+
+// Privacy-Preserving Aggregated Intent Demand Signal (Zero R_0 Personal Surveillance)
+struct AggregatedIntentDemandSignal {
+    std::string target_watershed_sector;
+    std::string needed_capability_or_bom_domain;
+    uint32_t anonymized_recurring_intent_count{0};
+    uint64_t unmet_intent_backlog_uj{0};
+    uint64_t excess_transit_haul_exergy_uj{0}; // High when goods are hauled across >= 3 hops
+    uint64_t l7_fiat_import_bleed_uj{0};       // High when mesh lacks internal producer
+    uint32_t active_independent_producer_nodes_k{1}; // Redundancy degree k (target >= 3)
+    uint32_t r0_personal_surveillance_packets{0};    // Must strictly equal 0!
+};
+
+struct MeshGrowthBeacon {
+    bool beacon_emitted{false};
+    bool spawn_localized_spatial_node_recommended{false};
+    bool seed_redundant_producer_recommended{false};
+    bool prioritize_l7_import_substitution{false};
+    bool upstream_downstream_supply_chain_linked{false};
+    uint32_t projected_haul_exergy_savings_bps{0};
+    uint32_t target_redundancy_degree_k{3};
+};
+
+class PolycentricPatchworkEngine {
+public:
+    // Evaluates a node's alignment with The Collective's end-goal (ecologically sustainable post-scarcity)
+    // and protects the mesh against both parasitic siphoning and selfish isolationism!
+    NodeMeshStatus evaluate_node_mesh_integrity(const SpatialContiguousNode& node) const {
+        // 1. Hard Constitutional Quarantine against rogue extraction or siphoning commons into Layer 7
+        if (!node.respects_ecological_and_dignity_end_goal ||
+            node.unauthorized_l7_siphon_leakage_mg > 0 ||
+            node.inventory_uj < node.ecological_floor_uj) {
+            return NodeMeshStatus::QUARANTINED_END_GOAL_OR_SIPHON_BREACH;
+        }
+
+        // 2. Anti-Siphon & Anti-Isolationism Gate:
+        // If a node has exportable surplus (> 0) but refuses to contribute anything (0 contributed)
+        // OR chronically free-rides (< 7000 bp reciprocity) without a verified ecological shock, throttle credit!
+        if (!node.verified_upsilon_ecological_shock) {
+            if (node.exportable_surplus_uj() > 0 && node.cumulative_contributed_to_mesh_uj == 0) {
+                return NodeMeshStatus::THROTTLED_ISOLATIONIST_OR_FREE_RIDER;
+            }
+            if (node.reciprocity_ratio_bps() < 7000) {
+                return NodeMeshStatus::THROTTLED_ISOLATIONIST_OR_FREE_RIDER;
+            }
+        }
+
+        return NodeMeshStatus::ACTIVE_SYNERGISTIC_PEER;
+    }
+
+    // Computes the Superlinear Post-Scarcity Abundance Multiplier (in bps, 10000 bp = 1x autarky baseline)
+    // Every aligned, contributing node added to the mesh increases abundance for ALL nodes!
+    uint32_t compute_mesh_post_scarcity_multiplier_bps(
+        const std::vector<SpatialContiguousNode>& nodes
+    ) const {
+        uint32_t active_aligned_nodes = 0;
+        uint32_t total_shared_blueprints = 0;
+
+        for (const auto& n : nodes) {
+            if (evaluate_node_mesh_integrity(n) == NodeMeshStatus::ACTIVE_SYNERGISTIC_PEER) {
+                active_aligned_nodes++;
+                total_shared_blueprints += n.open_blueprints_shared_count;
+            }
+        }
+        if (active_aligned_nodes == 0) return 10000;
+
+        // Superlinear Metcalfe/Ostrom synergy: each additional aligned node adds +1200 bp (12%)
+        // complementarity + 150 bp per shared zero-marginal-cost blueprint!
+        uint32_t complementarity_bonus_bps = (active_aligned_nodes - 1) * 1200;
+        uint32_t epistemic_bonus_bps = total_shared_blueprints * 150;
+        return 10000 + complementarity_bonus_bps + epistemic_bonus_bps;
+    }
+
+    // Evaluates privacy-preserving aggregated Intents to guide organic mesh growth:
+    // 1. Spatial Gravity Wells (where spawning a node eliminates long-distance transit haulage)
+    // 2. Topological Redundancy Seeding (ensuring k >= 3 independent producer nodes against shocks)
+    // 3. Layer 7 Import Substitution & Natural Supply-Chain Self-Assembly
+    MeshGrowthBeacon evaluate_intent_demand_and_emit_growth_beacon(
+        const AggregatedIntentDemandSignal& signal
+    ) const {
+        MeshGrowthBeacon beacon{};
+        // Enforce strict zero-surveillance invariant on individual R0 Intents
+        if (signal.r0_personal_surveillance_packets != 0) {
+            return beacon;
+        }
+
+        constexpr uint64_t GRAVITY_WELL_HAUL_THRESHOLD_UJ = 18000000000000ULL; // 18 GJ
+        if (signal.excess_transit_haul_exergy_uj >= GRAVITY_WELL_HAUL_THRESHOLD_UJ) {
+            beacon.spawn_localized_spatial_node_recommended = true;
+            beacon.projected_haul_exergy_savings_bps = 7500; // Cuts regional haulage by 75%
+            beacon.upstream_downstream_supply_chain_linked = true;
+        }
+
+        if (signal.active_independent_producer_nodes_k < 3) {
+            beacon.seed_redundant_producer_recommended = true;
+            beacon.upstream_downstream_supply_chain_linked = true;
+        }
+
+        if (signal.l7_fiat_import_bleed_uj > 0) {
+            beacon.prioritize_l7_import_substitution = true;
+            beacon.upstream_downstream_supply_chain_linked = true;
+        }
+
+        beacon.beacon_emitted = beacon.spawn_localized_spatial_node_recommended ||
+                                beacon.seed_redundant_producer_recommended ||
+                                beacon.prioritize_l7_import_substitution;
+        return beacon;
+    }
+
+    // Polycentric Jurisdiction Matrix + Integrity Check
+    bool authorize_and_launch_work_bee_swarm(
+        const SpatialContiguousNode& origin_node,
+        const SpatialContiguousNode& receiving_node,
+        const NonSpatialTransLocalGuild& specialist_guild,
+        EphemeralWorkBeeSwarm& swarm
+    ) const {
+        // Both nodes must pass whole-mesh integrity (not quarantined or free-riding)
+        if (evaluate_node_mesh_integrity(origin_node) != NodeMeshStatus::ACTIVE_SYNERGISTIC_PEER ||
+            evaluate_node_mesh_integrity(receiving_node) != NodeMeshStatus::ACTIVE_SYNERGISTIC_PEER) {
+            return false;
+        }
+
+        // Spatial Primacy over Place, Baselines & Transit Veto
+        if (!origin_node.local_commons_chamber_ratified ||
+            !receiving_node.local_commons_chamber_ratified ||
+            receiving_node.transit_veto_no_transit_active ||
+            origin_node.exportable_surplus_uj() < swarm.committed_exergy_uj) {
+            return false;
+        }
+
+        // Non-Spatial Guild Primacy over Craft Safety & Ethics
+        if (!specialist_guild.kappa_safety_and_ethics_verified ||
+            !specialist_guild.guild_stewardship_circle_ratified) {
+            return false;
+        }
+
+        swarm.active = true;
+        swarm.dissolved_after_completion = false;
+        return true;
+    }
+
+    // Settles multi-hop HTLC, expands reciprocal credit ceiling for active collaboration, and dissolves swarm
+    bool settle_multihop_htlc_and_expand_synergy(
+        EphemeralWorkBeeSwarm& swarm,
+        BCCChannel& channel_ab,
+        BCCChannel& channel_bc,
+        bool hardware_delivery_receipt_signed
+    ) const {
+        if (!swarm.active || !hardware_delivery_receipt_signed) return false;
+
+        int64_t delta = static_cast<int64_t>(swarm.committed_exergy_uj);
+        channel_bc.balance_u_to_v_uj += delta;
+        channel_bc.balance_v_to_u_uj -= delta;
+        channel_ab.balance_u_to_v_uj += delta;
+        channel_ab.balance_v_to_u_uj -= delta;
+
+        // Reward active collaboration by expanding reciprocal mutual-aid credit headroom by +1000 bp (10%)!
+        channel_ab.credit_headroom_uj = (channel_ab.credit_headroom_uj * 11000LL) / 10000LL;
+        channel_bc.credit_headroom_uj = (channel_bc.credit_headroom_uj * 11000LL) / 10000LL;
+
+        swarm.active = false;
+        swarm.dissolved_after_completion = true;
+        return true;
+    }
+};
+
+void test_scenario_pi_superlinear_post_scarcity_and_anti_siphon() {
+    PolycentricPatchworkEngine engine;
+
+    // 1. Start with a single aligned node: verify baseline abundance vs 3-node mesh synergy
+    SpatialContiguousNode node_a_forest{
+        .node_did = "did:peer:node_a_forest_timber",
+        .watershed_basin_id = "watershed_snohomish_r3",
+        .open_blueprints_shared_count = 4
+    };
+    SpatialContiguousNode node_b_valley{
+        .node_did = "did:peer:node_b_valley_grain",
+        .watershed_basin_id = "watershed_snohomish_r3",
+        .open_blueprints_shared_count = 6
+    };
+    SpatialContiguousNode node_c_foundry{
+        .node_did = "did:peer:node_c_urban_foundry",
+        .watershed_basin_id = "watershed_snohomish_r3",
+        .open_blueprints_shared_count = 8
+    };
+
+    uint32_t single_node_abundance_bps = engine.compute_mesh_post_scarcity_multiplier_bps({node_a_forest});
+    uint32_t three_node_abundance_bps = engine.compute_mesh_post_scarcity_multiplier_bps(
+        {node_a_forest, node_b_valley, node_c_foundry}
+    );
+    // Adding aligned nodes superlinearly increases post-scarcity abundance for every node (15100 bp > 10600 bp)!
+    assert(three_node_abundance_bps > single_node_abundance_bps);
+    assert(three_node_abundance_bps == 15100); // 151% abundance multiplier!
+
+    // 2. Test Intent-Driven Demand Capture & Stigmergic Mesh Morphogenesis:
+    // Aggregate 420 recurring Intents in Watershed Sector East showing high transit haulage (25 GJ),
+    // Layer 7 import bleed (8 GJ), and Single-Point-of-Failure redundancy (k = 1 < 3)
+    AggregatedIntentDemandSignal demand_signal{
+        .target_watershed_sector = "watershed_snohomish_east_valley",
+        .needed_capability_or_bom_domain = "ColdPressedOil_And_InsulinPrecursor_Lab",
+        .anonymized_recurring_intent_count = 420,
+        .unmet_intent_backlog_uj = 12000000000000ULL,
+        .excess_transit_haul_exergy_uj = 25000000000000ULL,
+        .l7_fiat_import_bleed_uj = 8000000000000ULL,
+        .active_independent_producer_nodes_k = 1,
+        .r0_personal_surveillance_packets = 0
+    };
+    MeshGrowthBeacon growth_beacon = engine.evaluate_intent_demand_and_emit_growth_beacon(demand_signal);
+    assert(growth_beacon.beacon_emitted == true);
+    assert(growth_beacon.spawn_localized_spatial_node_recommended == true);
+    assert(growth_beacon.seed_redundant_producer_recommended == true);
+    assert(growth_beacon.prioritize_l7_import_substitution == true);
+    assert(growth_beacon.upstream_downstream_supply_chain_linked == true);
+    assert(growth_beacon.projected_haul_exergy_savings_bps == 7500);
+
+    // 3. Test Anti-Siphon Quarantine: a rogue node trying to siphon commons goods into Layer 7 is quarantined!
+    SpatialContiguousNode vampire_siphon_node{
+        .node_did = "did:peer:node_rogue_siphon",
+        .unauthorized_l7_siphon_leakage_mg = 500000 // Siphoning 500 g of commons alloy to L7!
+    };
+    assert(engine.evaluate_node_mesh_integrity(vampire_siphon_node) ==
+           NodeMeshStatus::QUARANTINED_END_GOAL_OR_SIPHON_BREACH);
+
+    // 4. Test Anti-Isolationist Guard: a hoarder node with surplus that refuses to contribute (0 uJ) is throttled!
+    SpatialContiguousNode hoarder_node{
+        .node_did = "did:peer:node_selfish_hoarder",
+        .cumulative_contributed_to_mesh_uj = 0, // Refuses to contribute to the net
+        .cumulative_drawn_from_mesh_uj = 10000000000000ULL
+    };
+    assert(engine.evaluate_node_mesh_integrity(hoarder_node) ==
+           NodeMeshStatus::THROTTLED_ISOLATIONIST_OR_FREE_RIDER);
+
+    // 5. Execute collaborative Work-Bee Swarm between aligned nodes & expand reciprocal credit headroom
+    NonSpatialTransLocalGuild microhydro_guild{
+        .guild_did = "did:peer:guild_microhydro_r5",
+        .craft_or_epistemic_domain = "MicroHydro_And_Turbines",
+        .kappa_safety_and_ethics_verified = true,
+        .guild_stewardship_circle_ratified = true
+    };
+    EphemeralWorkBeeSwarm swarm{"swarm_01", 36000000000000ULL, false, false};
+
+    assert(engine.authorize_and_launch_work_bee_swarm(
+        node_a_forest, node_c_foundry, microhydro_guild, swarm
+    ));
+
+    BCCChannel ch_ab{"node_a", "node_b", 0, 0, 72000000000000LL};
+    BCCChannel ch_bc{"node_b", "node_c", 0, 0, 72000000000000LL};
+    assert(engine.settle_multihop_htlc_and_expand_synergy(swarm, ch_ab, ch_bc, true));
+    assert(ch_ab.balance_u_to_v_uj + ch_ab.balance_v_to_u_uj == 0);
+    assert(ch_ab.credit_headroom_uj == 79200000000000LL); // Expanded by +10% for active collaboration!
+    assert(swarm.dissolved_after_completion == true);
 }
 
-} // namespace oasis
+} // namespace oasis::pi
 
 int main() {
-    oasis::test_scenario_pi_guild_dispatch_and_bcc();
-    oasis::test_scenario_pi_guild_transit_veto_and_loop_check();
+    oasis::pi::test_scenario_pi_superlinear_post_scarcity_and_anti_siphon();
+    std::cout << "Scenario Pi Superlinear Post-Scarcity Synergy, Demand Capture, Anti-Siphon & Polycentric Matrix tests passed." << std::endl;
     return 0;
 }
 ```
 
 ---
 
-## 5. Acceptance Test Gates (Pass/Fail)
+## 6. Acceptance Test Gates (Pass/Fail)
 
 | Checkpoint | Validation Method | Pass Condition |
 | :--- | :--- | :--- |
-| **G1: Thermodynamic Bounds & Conservation** | Multi-Hop HTLC Settlement Audit | Bilateral Clearing Channels preserve zero-sum conservation $B_{u \to v}(t) + B_{v \to u}(t) = 0$ across all intermediate hops; preimage revelation clears channels atomically; zero unbacked tokens or fiat conversions. |
-| **G2: Offline Autonomy & WAN Airgap** | Local Mesh Disconnection | Inter-node treaty negotiation, capability advertisements, and HTLC execution function deterministically over Reticulum mesh with 100% WAN isolation. |
-| **G3: Trust Rings & BPVP Routing** | Path-Vector Loop Check Injection | Announcing a route containing the local DID is dropped immediately via loop check; Capability Advertisements strictly enforce export surplus floor $Q_{\mathrm{avail}}(t) = \max(0, Q - F_{\mathrm{eco}} - B_{\mathrm{baseline}}) \cdot \mathbf{1}_{\mathrm{export}}$ across $R_0 \dots R_6$. |
-| **G4: Human Baseline & Alamo Defense** | Labor Bifurcation & Baseline Check | External commercial contracts executed by the cooperative carapace pay W-2 wages in legacy bank accounts; internal mutual aid stewardship is completely non-monetized; local survival floor $B_{\mathrm{baseline}}$ remains inviolable. |
-| **G5: Dual-Membrane Doctrine (L7)** | Corporate Carapace Compliance | External commercial transactions execute under lawful Subchapter T cooperative filings with full statutory tax withholding, maintaining zero disclosure of internal mesh DIDs under *NAACP v. Alabama*. |
-| **G6: Regenerative Harvesting & Convivial Treaties (L7)** | Treaty Invariant Verification | Tripartite Ricardian Treaties (`Treaty_CID`) formalize non-monetary mutual-aid commitments; commercial procurement halts as soon as the itemized needs list $\Phi_t$ is met. |
+| **G1: Superlinear Post-Scarcity Mesh Synergy** | `compute_mesh_post_scarcity_multiplier_bps` | Every aligned, contributing node added to the federation increases total bioregional abundance and reduces per-steward survival toil (`three_node_abundance_bps > single_node_abundance_bps`). |
+| **G2: Intent-Driven Demand Capture & $k\text{-Redundancy}$ Seeding** | `evaluate_intent_demand_and_emit_growth_beacon` | Anonymized Intent rollups (`r0_personal_surveillance_packets == 0`) detect Spatial Transit Gravity Wells, Layer 7 import bleed, and Single Points of Failure ($k < 3$), emitting non-coercive `MeshGrowthBeacon` opportunities that guide node placement, supply-chain self-assembly, and redundant capacity seeding. |
+| **G3: Anti-Siphon & End-Goal Alignment Quarantine** | `evaluate_node_mesh_integrity` | Any node that siphons commons resources into Layer 7 (`unauthorized_l7_siphon_leakage_mg > 0`) or violates ecological/human-dignity floors is immediately quarantined (`QUARANTINED_END_GOAL_OR_SIPHON_BREACH`). |
+| **G4: Anti-Isolationism & Free-Rider Throttling** | Reciprocity & Demurrage Check | Nodes that hoard exportable surplus ($Q_{\mathrm{avail}} > 0$) while refusing to contribute (`cumulative_contributed_to_mesh_uj == 0`) or chronically free-ride (< $7000\,\mathrm{bp}$ without a verified shock) have non-emergency mesh credit throttled (`THROTTLED_ISOLATIONIST_OR_FREE_RIDER`). |
+| **G5: The Polycentric Jurisdiction Matrix & Ephemeral Swarms** | Spatial $\times$ Non-Spatial Veto & HTLC Check | Spatial nodes retain veto over local place and baselines; Non-Spatial Guilds retain veto over Scenario Kappa craft safety standards; Work-Bee Swarms settle atomically ($B_{u \to v} + B_{v \to u} = 0$), expand credit headroom (`+1000 bp`), and dissolve (`dissolved_after_completion == true`). |
+| **G6: Alamo Defense Labor Bifurcation (`L7`)** | Subchapter T & UUNAA Audit | External commercial contracts pay lawful W-2 wages in legacy banking rails up to $\Phi_t$; internal inter-guild mutual aid remains $10000\,\mathrm{bp}$ non-monetized. |

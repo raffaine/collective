@@ -214,6 +214,31 @@ else()
         )
     endif()
 
+    # Sovereign Stack Layer 3 Content-Addressed Merkle DAG & BCC Daemon (col-storaged)
+    set(COL_STORAGED_SRC "${CMAKE_CURRENT_SOURCE_DIR}/../../../src/daemons/col-storaged/main.cpp")
+    if(NOT EXISTS "${COL_STORAGED_SRC}")
+        set(COL_STORAGED_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/daemons/col-storaged/main.cpp")
+    endif()
+    if(EXISTS "${COL_STORAGED_SRC}")
+        add_executable(col_storaged "${COL_STORAGED_SRC}")
+        target_include_directories(col_storaged PRIVATE 
+            ${CMAKE_CURRENT_SOURCE_DIR}
+            ${CMAKE_CURRENT_SOURCE_DIR}/uhai
+            ${CMAKE_CURRENT_SOURCE_DIR}/../../../src/daemons/col-storaged
+        )
+        target_link_libraries(col_storaged PRIVATE 
+            spdlog::spdlog
+            $<$<PLATFORM_ID:Linux>:rt>
+        )
+        # Create col-storaged symlink so both hyphenated and underscored names work
+        add_custom_command(TARGET col_storaged POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E create_symlink
+                $<TARGET_FILE_NAME:col_storaged>
+                ${CMAKE_CURRENT_BINARY_DIR}/col-storaged
+            COMMENT "Creating col-storaged symlink"
+        )
+    endif()
+
 
     # Native Catch2 Construction Caloric Burn Tests (Dual Sprint 5)
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/tests/test_construction_caloric_burn.cpp")
@@ -438,6 +463,25 @@ else()
             $<$<PLATFORM_ID:Linux>:rt>
         )
         add_test(NAME PathfindingHaulingAndKitchenTests COMMAND test_pathfinding_hauling_and_kitchen)
+    endif()
+
+    # Native Catch2 Scenario Zero, Dual-Fidelity Real Blueprints & V3.1 Architectural Realignment Tests
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/tests/test_scenario_zero_and_blueprint_realignment.cpp")
+        add_executable(test_scenario_zero_and_blueprint_realignment tests/test_scenario_zero_and_blueprint_realignment.cpp)
+        target_include_directories(test_scenario_zero_and_blueprint_realignment PRIVATE 
+            ${CMAKE_CURRENT_SOURCE_DIR}
+            ${CMAKE_CURRENT_SOURCE_DIR}/../../../src/daemons/col-storaged
+            ${CMAKE_CURRENT_SOURCE_DIR}/../../../src/daemons/col-execd
+            ${CMAKE_CURRENT_SOURCE_DIR}/../../../src/daemons/col-kmsd
+        )
+        target_link_libraries(test_scenario_zero_and_blueprint_realignment PRIVATE 
+            Catch2::Catch2WithMain
+            $<IF:$<TARGET_EXISTS:flecs::flecs>,flecs::flecs,flecs::flecs_static>
+            glm::glm
+            spdlog::spdlog
+            $<$<PLATFORM_ID:Linux>:rt>
+        )
+        add_test(NAME ScenarioZeroAndBlueprintRealignmentTests COMMAND test_scenario_zero_and_blueprint_realignment)
     endif()
 endif()
 
