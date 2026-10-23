@@ -1,9 +1,9 @@
-# Scenario Psi: Restorative Justice & Conflict Resolution (Peer Circles & Voluntary Reconciliation)
+# Scenario Psi: Transformative & Restorative Justice (Abandoning Dominion & Vengeance, Root-Cause Healing, Ecological Restitution & Safe-Harbor Boundaries)
 
 *   **Identifier:** `SCN-PSI-MEDIATION`
-*   **System Epic:** Restorative Circles, Non-Adversarial Conflict Resolution, Non-Monetary Restitution & Right of Exit
-*   **Primary Layers Tested:** L1 (Physical Reality), L2 (Cybernetic Membrane), L3 (Thermodynamic Ledger), L4 (Deterministic Orchestrator), L5 (Polycentric Governance), L6 (Semantic Translation & Agora), L7 (Legacy Interface)
-*   **Pass/Fail Metric:** Voluntary assembly of restorative circles; sortition-based peer facilitator selection; multi-sig cryptographic ratification of non-monetary restitution agreements; zero state carceral or civil sheriff enforcement; constitutional protection of the Unconditional Right of Exit; absolute non-tokenization of emotional care; zero algorithmic social credit scoring; settlement via Pairwise Bilateral Clearing Channels (BCC) with conservation equation $B_{u \to v}(t) + B_{v \to u}(t) = 0$ and multi-hop HTLCs; zero global tokens, zero fiat conversions, zero deprecated rhetoric, and zero floating-point math.
+*   **System Epic:** Moving Humanity Beyond the Paradigm of Dominion and Retributive Vengeance—Replacing Carceral Cages, Punitive Fines, and Mob Shaming with Transformative Root-Cause Inquiry, Sortition Peace Circles, Ecological & Material Restitution, Survivor-Centered Safe-Harbor Boundaries, and the Unconditional Right of Exit
+*   **Primary Layers Tested:** L1 (Physical Reality), L1b (Oasis 3D Shadow Simulator), L2 (Cybernetic Membrane), L3 (Thermodynamic Ledger), L4 (Deterministic Orchestrator), L5 (Polycentric Governance), L6 (Semantic Translation & Agora), L7 (Legacy Interface)
+*   **Pass/Fail Metric:** Complete abolition of retributive vengeance, carceral cages, punitive survival-baseline deprivation, and public shaming pillories (`retributive_vengeance_or_cages_count == 0`, `public_shaming_pillory_banned == true`); **Transformative Root-Cause Inquiry** (diagnosing whether systemic `Sigma` burnout, `Kappa` mentorship gaps, or `Alpha` ergonomic flaws contributed to a harm alongside personal accountability); **Rights of the Living Watershed** (allowing ecological harm to $F_{\mathrm{eco}}$ to be healed through regenerative land restitution); 3-of-3 multi-sig hardware NFC ratification of consensual agreements; immediate **Safe-Harbor Survivor Protection & `No-Transit` Boundary Separation** for abuse/coercion with zero forced contact; defensive `9 USC 3` FAA arbitration shielding with zero outbound sheriff enforcement; and zero IEEE 754 floating-point math.
 
 ---
 
@@ -13,137 +13,173 @@ This scenario specification has been ratified by unanimous consensus of the 5-Pe
 
 | Council Persona | Disciplinary Representative | Core Contribution to Scenario |
 | :--- | :--- | :--- |
-| **Game Designer** | Lead Systems & Gameplay Designer | Founder 01 restorative de-escalation: mediating interpersonal frictions before collective crafting breaks down; Dwarf Fortress psychological grudge dynamics (thoughts like `"Deep relief and mutual respect after honest circle restitution (+50 mood)"` versus `"Bitter grudge simmering over broken tool (-45 mood)"`); dynamic entity `AffinityMatrixComponent` where fractured relations lock out cooperative crafting; boundary interface stability impacted by internal community friction. |
-| **Game Engineer** | Principal C++ Simulation & Engine Architect | Flecs ECS Data-Oriented Design (DOD): cache-aligned component structs `AffinityEdgeComponent`, `DisputeRecordComponent`, `RestitutionQueueComponent`, and `BCCChannelComponent`; 32-bit compact voxels (`material_id = 56`, `PEACE_HEARTH_CHAMBER`); 10 Hz deterministic BPMN state engine with Wasmtime fuel limits; compilable C++20 test harness validating sortition circle selection, 3-of-3 multi-sig unlock, and zero IEEE 754 floats. |
-| **Sovereign Stack Specialist** | Sovereign Stack Systems Architect | 7 autonomous POSIX daemons (`col-telemetryd` to `col-adversaryd`); zero monolithic threading; strict adjacent IPC via Unix domain sockets; Layer 7 `col-adversaryd` deploying binding arbitration legal shields strictly defensively against legacy civil courts; Layer 5 `col-kmsd` managing sortition pools and Safe Harbor bypass; Layer 3 `col-storaged` Bilateral Clearing Channels (BCC) with zero-sum conservation $B_{u \to v}(t) + B_{v \to u}(t) = 0$; local-first Reticulum mesh operation. |
-| **Solarpunk Thinker** | Bioregional Regenerative Ecologist | Transformative justice: interpersonal conflict is understood as social friction and metabolic entropy; restorative justice converts destructive friction into regenerative physical work—directing restitution into communal ecological repair (e.g. planting hedgerows, repairing shared micro-hydro conduits, maintaining shared orchards) rather than punitive isolation or carceral violence. |
-| **Scenario Specialist** | Restorative Justice & Consensual ADR Jurisprudent | Restorative circle procedural jurisprudence; voluntary non-adversarial resolution; sortition review panels; constitutional protection of the Entrenched Core guarantee of the Unconditional Right of Exit; complete eradication of outbound sheriff or court debt enforcement; defensive Federal Arbitration Act (FAA) arbitration covenants dismissing external legacy civil lawsuits without submitting internal members to state violence. |
+| **Game Designer** | Lead Systems & Gameplay Designer | **Beyond Vengeance to Transformative Healing Gameplay:** Rejects the lazy video-game trope of "build a prison / execute or banish the bad NPC." In Oasis, when conflict or harm occurs, players convene a **Peace Hearth Circle** that investigates both interpersonal tension and **Systemic Root Causes** (e.g., discovering a broken machine happened because a steward was exhausted or under-mentored). Restitution turns bitter grudges into regenerative work—planting orchard trees (`Eta`) or co-repairing tools (`Alpha`)—restoring the `AffinityEdgeComponent` (`"Deep relief and restored trust after transformative Peace Circle (+5000 bp morale)"`). |
+| **Game Engineer** | Principal C++ Simulation & Engine Architect | **Flecs ECS Transformative Justice, Root-Cause & Safe-Harbor Components:** Encapsulates `AffinityEdgeComponent`, `TransformativeDisputeComponent`, `RestitutionAndEcologicalRepairQueue`, and `SafeHarborBoundaryComponent` in 32-bit compact voxels (`material_id = 56` `PEACE_HEARTH_CHAMBER`, `material_id = 57` `RESTORATIVE_ARBOR_GARDEN`). Executes $10\,\mathrm{Hz}$ deterministic BPMN state transitions enforcing 3-of-3 NFC multi-sig, zero-vengeance invariants, and `No-Transit` survivor separation in pure 64-bit fixed-point integer math. |
+| **Sovereign Stack Specialist** | Sovereign Stack Systems Architect | **7-Layer Strict Adjacency, Zero Social Credit & Defensive Arbitration:** Maps `col-sensord` through `col-adversaryd` across `/run/collective/ipc/l1_l2.sock` to `/run/collective/ipc/l6_l7.sock` (traversing `/run/collective/ipc/l4_l5.sock`). Prohibits algorithmic social-credit scores or public shaming logs, enforces **Structural Data Non-Existence** on circle dialogues, and uses Federal Arbitration Act (`9 USC 3`) covenants strictly defensively to keep state courts out while never calling sheriffs (`9 USC 9`). |
+| **Solarpunk Thinker** | Bioregional Regenerative Ecologist | **Ending Dominion Over Both Humans and Nature:** Recognizes that the mindset of **Dominion** (treating the Earth as dead property to conquer) and **Vengeance** (treating human beings who err as trash to cage or crush) are twin roots of the same pathology. Scenario Psi grants the living watershed ($F_{\mathrm{eco}}$) a voice in the Peace Hearth and channels restitution into healing the land and community rather than feeding a carceral machine. |
+| **Scenario Specialist** | Transformative Justice Facilitator & Consensual ADR Jurisprudent | **Accountability Without Cruelty & Survivor Safety Without Prisons:** Pairs VRF-sortitioned peer facilitators and `Scenario Phi` Emeritus elders with **Survivor-First Safe-Harbor Bypass** (never forcing an abuse survivor into a circle with their harmer, enforcing cryptographic/spatial `No-Transit` buffers, and preserving the Unconditional Right of Exit with full $R_0$ personal belongings). |
 
-**Unanimous Consensus Reached:** The Council unreservedly ratifies Scenario Psi as the canonical specification for restorative justice circles, voluntary non-adversarial resolution, and social harmony.
+**Unanimous Consensus Reached:** The Council unreservedly ratifies Scenario Psi as the canonical specification for moving humanity beyond dominion and vengeance into transformative, restorative justice.
 
 ---
 
-## 1. Problem Statement & Legacy Failure
+## 1. Problem Statement, Legacy Failure & Moving Beyond Dominion and Vengeance
 
-In legacy late-stage capitalist infrastructure (Layer 7), justice is punitive, deeply adversarial, and violently extractive. The legacy legal system relies on a state monopoly on physical violence, weaponized incarceration, and expensive legal gatekeepers.
+For thousands of years, hierarchical empires and late-stage capitalism (Layer 7) have operated under the **Doctrine of Dominion and Retributive Vengeance**—a worldview that mistakes domination for order and cruelty for justice:
 
-This centralized model introduces systemic failure modes:
-*   **Destructive Adversarial Warfare:** When a dispute arises—whether over damaged tools, a broken trade contract, or interpersonal friction—legacy civil litigation focuses entirely on assigning binary guilt, extracting punitive damages, and generating massive billable hours for attorneys. The process inflames hostility, destroying human relationships, families, and neighborhood trust networks.
-*   **Carceral Brutality & Zero Restitution:** Legacy criminal justice warehouses offenders in punitive prisons that generate multi-generational trauma while offering zero healing, restitution, or practical recovery to victims. The victim receives neither compensation nor closure, while the carceral state extracts billions.
-*   **Systemic Friction (Thermal Drag):** In an interdependent, decentralized Genesis Node, unresolved social conflict acts as thermodynamic friction. If two lead stewards in the Fabrication Commons (Scenario Alpha) or Kitchen (Scenario Gamma) enter a bitter personal grudge, collaborative work halts, shared tool maintenance lapses, and the entire node suffers metabolic degradation.
+1.  **The Fallacy That Vengeance Is Justice:** When harm occurs in Layer 7, the legal and penal system asks only: *"Who is to blame, and how much pain, caging, or financial ruin shall we inflict upon them?"* This retributive impulse satisfies an ancient urge for dominance, yet **it repairs nothing**: the victim is left unhealed, the broken tool or ecosystem remains damaged, and the caged human being is traumatized and hardened.
+2.  **The Twin Pathology of Dominion Over Humans and Dominion Over Nature:** The same hierarchical impulse that claims "dominion" to strip-mine forests and poison rivers claims "dominion" to lock human beings in cages, strip their survival baselines, or subject them to public humiliation.
+3.  **Adversarial Courtroom Warfare:** Civil litigation turns neighbors into mortal enemies, enriching corporate attorneys while destroying the fabric of community trust.
+4.  **The Danger of Informal Mob Vengeance ("Cancel Culture" & Social Credit):** Naive communities that abolish state police without dismantling the *vengeance mindset* often replace physical prisons with **informal psychological prisons**: gossip campaigns, public shaming pillories, permanent pariah castes, or algorithmic "social credit" scores.
+5.  **Blindness to Systemic Root Causes:** Punitive systems scapegoat individuals while ignoring whether a mistake or conflict was actually triggered by systemic exhaustion (`SCN-SIGMA-BURNOUT`), inadequate training (`SCN-KAPPA-APPRENTICE`), or bad ergonomic design (`SCN-ALPHA-FAB`).
 
-A sovereign Genesis Node requires an algorithmic restorative justice architecture: voluntary peer circles, sortition-selected facilitators, non-monetary physical restitution, absolute protection of the Unconditional Right of Exit, and total shielding from state court violence.
+### 1A. How Scenario Psi Replaces Dominion & Vengeance with Transformative Healing
+
+Scenario Psi (`SCN-PSI-MEDIATION`) uproots the dominion/vengeance paradigm through **Four Transformative Justice Pillars**:
+
+```mermaid
+flowchart TD
+    subgraph Pillar_1 ["1. Abolishing Vengeance, Cages & Public Humiliation"]
+        NoCage["Zero Carceral Cages, Zero Punitive Fines & Inviolable R_0 Survival Floor<br/>(Food, Shelter, Healthcare & Personal Belongings Are Never Weaponized as Punishment)"]
+        NoMob["Zero Public Shaming Pillories & Zero Algorithmic Social Credit Scores<br/>(Strict Confidentiality via Structural Data Non-Existence; Focus on Repair, Never Humiliation)"]
+    end
+
+    subgraph Pillar_2 ["2. Transformative Root-Cause Inquiry (Why Did the Harm Happen?)"]
+        ThreeQ["From 'Who Do We Punish?' to 'What Was Harmed & What Caused It?'<br/>(Facilitated by VRF-Sortitioned Peers & Scenario Phi Emeritus Elders)"]
+        Systemic["Systemic Root-Cause Diagnosis (Scenario Sigma + Kappa + Alpha + Zero)<br/>(Checks if Burnout, Rushed Mentorship, or Poor Tool UI Contributed -> Fixes System Too!)"]
+    end
+
+    subgraph Pillar_3 ["3. Regenerative Material & Ecological Restitution (Ending Dominion Over Nature)"]
+        Repair["Hands-On Material & Relational Repair<br/>(Co-Machining Replacement Parts in Alpha/Theta; BCC Zero-Sum Restitution Offset)"]
+        EarthVoice["Standing for the Living Watershed (Scenario Eta + Mu)<br/>(Ecological Harm Is Healed by Planting Riparian Trees, Tending Biochar Swales & Restoring Soil)"]
+    end
+
+    subgraph Pillar_4 ["4. Survivor-First Safe Harbor & Unconditional Right of Exit"]
+        SafeHarbor["Safe-Harbor Abuse Bypass & Spatial No-Transit Buffers (Scenario Omicron + Chi)<br/>(Zero Forced Contact for Assault/Coercion Survivors; Immediate Spatial/Digital Separation)"]
+        Exit["Unconditional Right of Exit & Federation Disassociation<br/>(Persistent Refusal of Community Safety Norms Leads to Peaceful Exit With R_0 Belongings, Never a Prison)"]
+    end
+
+    Pillar_1 --> Pillar_2 --> Pillar_3 --> Pillar_4
+```
+
+1.  **Abolishing Retributive Vengeance, Carceral Cages & Mob Humiliation:**
+    *   **Constitutional Ban on Vengeance (`retributive_vengeance_or_cages_count == 0`):** The Collective possesses zero prisons, zero holding cells, zero armed police, and zero punitive fines. A person's Tier 2 Human Survival Baseline ($B_{\mathrm{baseline}}$: food, housing, healthcare) and $R_0$ personal belongings (`SCN-NU-FASHION` / `SCN-XI-ARCH`) can **never** be withheld as retribution.
+    *   **Ban on Public Shaming Pillories & Social Credit (`public_shaming_pillory_banned == true`):** Layer 5 and Layer 6 prohibit public "wall-of-shame" broadcasts and algorithmic social-credit scoring. Peace Hearth dialogues are protected by strict acoustic isolation and **Structural Data Non-Existence (`SCN-RHO-ADVERSARY`)** so a steward who makes a mistake and repairs it is welcomed back whole, never branded with a permanent scarlet letter.
+2.  **Transformative Root-Cause Inquiry (*Healing the System Alongside the Person*):**
+    *   Instead of asking *"How do we punish the culprit?"*, a Peace Hearth Circle—facilitated by `VRF`-sortitioned peers and supported by the patient wisdom of **Scenario Phi Emeritus Elders (`SCN-PHI-ELDERCARE`)**—conducts a **Transformative Root-Cause Inquiry**:
+        *   **Personal Accountability & Empathy:** Listening deeply in a non-hierarchical circle (`material_id = 56`) so the person who caused harm understands the real impact on their neighbor or workshop.
+        *   **Systemic & Somatic Root-Cause Audit:** Checking whether the incident was compounded by **Scenario Sigma burnout/sleep deprivation (`SCN-SIGMA-BURNOUT`)**, a gap in **Scenario Kappa safety mentorship (`SCN-KAPPA-APPRENTICE`)**, or a confusing/fragile machine guard in **Scenario Alpha / Zero (`SCN-ALPHA-FAB` / `SCN-ZERO-SOFTWARE`)**. When systemic factors are found, the circle emits a **Systemic Remediation Intent** (e.g., granting Care Leave, updating the training curriculum, or redesigning the machine guard) so the whole community grows safer!
+3.  **Ending Dominion Over Nature — Ecological Standing & Regenerative Restitution:**
+    *   Because humanity is part of the living web of life rather than its master (*"moving us away from the dominion idea of human"*), **harm against the living ecosystem ($F_{\mathrm{eco}}$)**—such as careless chemical disposal, damaging a coppice grove, or wasting water—is treated with the same restorative gravity as interpersonal harm.
+    *   Restitution is never a sterile fine paid to a bureaucracy; it is **active, healing participation**: co-machining the broken gear alongside a mentor (`Alpha`), helping in the community kitchen (`Gamma`), or spending restorative hours with the **Scenario Eta / Mu guilds (`SCN-ETA-COPPICE` / `SCN-MU-EXTRACTION`)** planting native riparian shelterbelts and rebuilding living soil.
+4.  **Survivor-Centered Safe Harbor, `No-Transit` Separation & The Unconditional Right of Exit:**
+    *   Rejecting vengeance **never** means tolerating predation or forcing victims of violence to sit with their abuser:
+        *   **Immediate Safe-Harbor Bypass (`SafeHarborBypassIntent`):** Whenever physical assault, sexual harm, or intimate coercion (`SCN-OMICRON-KINSHIP`) is reported, mandatory face-to-face circle mediation is **strictly prohibited (`circle_bypassed == true`)**.
+        *   **Survivor Accompaniment & `No-Transit` Spatial Buffers:** The survivor is surrounded by `Scenario Chi` / `Scenario Sigma` trauma care while `col-kmsd` immediately enforces **Cryptographic & Spatial `No-Transit` Separation**, revoking the harmer's access keys to any building, shift, or courtyard used by the survivor.
+        *   **Boundary Protection Without Cages (Disassociation & Right of Exit):** If an individual persistently refuses restorative accountability or poses an ongoing threat to physical safety that cannot be healed through `Scenario Chi` clinical support, The Collective does not cage or torture them—it exercises the **Protocol of Refusal & Peaceful Disassociation**, escorting them out via the **Unconditional Right of Exit** with all of their $R_0$ personal belongings intact and zero outbound sheriff/carceral litigation.
 
 ---
 
 ## 2. The Collective Workflow (7-Layer Traversal)
 
-Scenario Psi establishes a decentralized restorative mediation protocol: resolving disputes within the local Trust Ring, converting social friction into healing kinetic labor, and shielding members from legacy lawsuits. The workflow traverses canonically from Layer 1 up to Layer 7:
+Scenario Psi coordinates transformative Peace Circles, systemic root-cause diagnostics, 3-of-3 NFC multi-sig restitution compacts, and Safe-Harbor survivor protection across all 7 layers without skipping layers:
 
 ```mermaid
 graph TD
-    L6[Layer 6: Semantic Translation] -->|Emit MediationIntent or RestitutionIntent| L5[Layer 5: Polycentric Governance]
-    L5 -->|Sortition Pool Selection and Safe Harbor Check| L4[Layer 4: Deterministic Orchestrator]
-    L4 -->|Schedule Peace Hearth Voxel and Session Budget| L3[Layer 3: Thermodynamic Ledger]
-    L3 -->|Verify Bilateral Clearing Channel BCC Balance| L2[Layer 2: Cybernetic Membrane]
-    L2 -->|3-of-3 Multi-Sig Hardware NFC Attestation| L1[Layer 1: Physical Reality]
-    L1 -->|Physical Dialogue and Kinetic Restitution Labor| End((Restorative Agreement Ratified))
+    L7[Layer 7: col-adversaryd Legacy Interface] <-->|l6_l7.sock: Defensive 9 USC 3 FAA Arbitration Shield, Data Non-Existence & Zero Sheriff Calls| L6[Layer 6: col-commonsd Semantic Agora]
+    L6 <-->|l5_l6.sock: MediationIntent, SystemicRootCauseIntent, RestitutionCompact & SafeHarborBypass| L5[Layer 5: col-kmsd Polycentric Governance]
+    L5 <-->|l4_l5.sock: VRF Sortition + Phi Emeritus Facilitators, No-Transit Separation & Zero Vengeance Gate| L4[Layer 4: col-execd Deterministic Orchestrator]
+    L4 <-->|l3_l4.sock: Peace Hearth Scheduling, Restitution Task Queue & Affinity Healing| L3[Layer 3: col-storaged Thermodynamic Ledger]
+    L3 <-->|l2_l3.sock: Care Non-Commensurability, Unconditional B_baseline & Restitution BCCs| L2[Layer 2: col-membraned Cybernetic Membrane]
+    L2 <-->|l1_l2.sock: 3-of-3 ATECC608A NFC Multi-Sig Tap & Acoustic Isolation Check (Zero Audio/Video)| L1[Layer 1: col-sensord Physical Reality]
+    L2 <-->|Interpersonal Affinity Graph, Root-Cause & Peace Hearth Sim| L1b[Layer 1b: Oasis 3D Shadow Simulator]
 ```
 
-### Layer 1: Physical Ground Truth & The Peace Hearth
-*   **Physical Ground Truth:** The Peace Hearth & Mediation Sanctuary (Scenario Epsilon), an acoustically isolated circular room equipped with cork wall acoustic dampening, circular bench seating (ensuring spatial equality), tea ceremony table, and air-gapped NFC verification stations.
-*   **Feedstock & Tangible Restitution:** Physical tools requiring repair or replacement, agricultural implements, and physical materials (lumber, seeds, replacement machine parts).
-*   **Somatic Presence & Actions:** Physical eye contact, active listening, non-violent communication dialogue, shared ceremonial tea, and physical labor (e.g. 20 hours repairing a damaged community hedgerow or machining replacement motor mounts).
-*   **Absolute Separation Invariant:** Layer 1 contains strictly zero software, zero firmware, zero cryptographic keys, and zero surveillance devices.
+### Layer 1: Physical Reality & Layer 1b: Oasis 3D Shadow Simulator
+*   **The Circular Peace Hearth & Restorative Arbor Gardens (`Layer 1`):**
+    *   **The Peace Hearth Sanctuary (`material_id = 56`):** Circular timber and cork-lined acoustic room (`SCN-XI-ARCH`) with equal-height curved bench seating (eliminating judge's podiums or hierarchical seating), a central tea hearth (`SCN-GAMMA-KITCHEN` / `SCN-ETA-COPPICE`), and an air-gapped 3-of-3 `ATECC608A` NFC hardware signing pedestal—with **zero microphones, zero cameras, and zero recording devices**.
+    *   **The Restorative Arbor & Repair Bench (`material_id = 57`):** Outdoor orchard/hedgerow nursery (`Eta`) and cooperative repair bench (`Alpha`) where disputants work side-by-side to turn conflict into tangible ecological or material repair.
+*   **Oasis 3D Shadow Simulator (`Layer 1b`):**
+    *   Models the `AffinityEdgeComponent` graph between stewards and simulates how unresolved grudges create collaborative friction versus how transformative circles + systemic root-cause fixes boost long-term node cohesion.
 
-### Layer 2: Cybernetic Membrane
-*   **Microcontrollers & Sandboxed MPUs:** Dedicated microcontrollers running Zephyr RTOS with MPU isolation separating communication radios from physical door relays.
-*   **Wire Format Fixed-Point Integer Telemetry (MQTT Topics via `col-telemetryd`):**
-    *   `node/mediation/session_01/status` (`SCHEDULED`, `IN_PROGRESS`, `RATIFIED`, `SAFE_HARBOR_BYPASS`)
-    *   `node/mediation/session_01/ambient_noise_milli_db` (Sound-isolation telemetry, `uint32_t` millidecibels)
-    *   `node/mediation/session_01/session_duration_ms` (Contact time, `uint32_t` milliseconds)
-*   **Convivial Anti-Panopticon Shield:** Absolute prohibition of audio recording, body-worn sensors, or video surveillance cameras in the Peace Hearth. Session confidentiality is guaranteed through physical isolation and cryptographic data non-existence.
-*   **Multi-Sig Hardware NFC Attestation:** A restorative agreement is ratified only when all three participants (Aggrieved Party, Accused Party, and Neutral Facilitator) tap physical hardware tokens (ATECC608A secure elements) within a 60-second window, generating a composite Ed25519 signature.
+### Layer 2: The Cybernetic Membrane (Zero-Audio Privacy & 3-of-3 NFC Multi-Sig)
+*   **Confidential Acoustic Shield & Multi-Sig Attestation (`col-membraned`):**
+    *   Verifies exterior sound insulation (`ambient_noise_milli_db <= 35000`) while enforcing `audio_or_video_recording_bytes == 0`.
+    *   Ratifies a consensual restorative compact only when all three participants (Harmed Steward, Accountable Steward, and Sortitioned/Emeritus Facilitator) tap their hardware `ATECC608A` tokens on the Peace Hearth pedestal within a $60000\,\mathrm{ms}$ window.
 
-### Layer 3: Thermodynamic Ledger
-*   **Pairwise Bilateral Clearing Channels (BCC):**
-    *   Material restitution between disputants is cleared strictly through Pairwise Bilateral Clearing Channels with zero global tokens.
-    *   **Conservation Invariant:**
-        $$B_{u \to v}(t) + B_{v \to u}(t) = 0$$
-        The bilateral ledger is mathematically zero-sum.
-    *   **Mutual Aid Credit Window:**
-        $$-C_{u \to v} \le B_{u \to v}(t) \le C_{v \to u}$$
-*   **Two-Phase Delivery Receipts & Multi-Hop HTLCs:**
-    *   Physical tool transfers or replacement materials require sensor-verified delivery receipts $\sigma_{\mathrm{delivery}}$ and chained timelock contracts $\langle H(S), \Delta t, Q, u, v \rangle$.
-    *   Proof-of-Thermodynamic-Work (PoTW) grounds exergy in physical generation ($3600000000000\,\mu\mathrm{J} \equiv 3600\,\mathrm{kJ} \equiv 1\text{ Exergy Credit}$) subject to physical demurrage $\mathcal{E}_0 e^{-\lambda t}$.
-*   **Non-Commensurability of Emotional Labor:**
-    *   Circle facilitation, emotional counseling, and active listening are non-commensurable human care; Layer 3 structurally refuses to mint exergy credits for mediation.
-    *   Facilitators are recognized qualitatively through non-financial Reputational Wealth ($\mathcal{R}$) within the Layer 5 Stewardship Chamber, never spendable tokens.
-*   **Non-Monetary Restitution:**
-    *   Restitution is discharged through voluntary physical repair, tool replacement, or agricultural stewardship labor bees (Scenario Sigma), never through financialized debt extraction.
+### Layer 3: The Thermodynamic Ledger (Non-Commensurability & Zero-Sum BCC Restitution)
+*   **Non-Commensurability of Mediation & Unconditional $B_{\mathrm{baseline}}$ (`col-storaged`):**
+    *   Peace Circle facilitation, emotional holding, and Emeritus guidance never mint tokens (`exergy_token_minting_permitted == false`), and no dispute or sanction may ever touch a human being's $B_{\mathrm{baseline}}$ survival floor.
+*   **Material Restitution via Pairwise `BCC`s:**
+    *   When accidental or negligent material damage to shared $R_2/R_3$ equipment is resolved via a consensual offset, it clears strictly across Pairwise Bilateral Clearing Channels ($B_{u \to v}(t) + B_{v \to u}(t) = 0$) or through hands-on repair/ecological labor hours (`RestitutionQueueComponent`), never punitive compound interest or debt bondage.
 
-### Layer 4: Deterministic Orchestrator
-*   Executed by `col-execd` at 10 Hz with metered Wasmtime execution budgets:
-    *   `DisputeReported`: Ingests `MediationIntent` over `/run/collective/ipc/l4_l5.sock`.
-    *   `CheckSafeHarborBypass`: Inspects intent for domestic violence, physical assault, or intimate coercion.
-    *   `SafeHarborBypass`: If abuse is flagged, mandatory mediation is strictly prohibited; immediate relational severance is executed with zero forced contact.
-    *   `AssembleSortitionPanel`: In standard disputes, selects a pool of qualified facilitators from the sortition pool.
-    *   `SchedulePeaceHearth`: Allocates Peace Hearth voxel and prepares the physical circle.
-    *   `FacilitateCircle`: Disputants engage in facilitated dialogue and construct consensus restitution terms.
-    *   `MultiSigRatification`: Parties exchange hardware signatures confirming consensual resolution.
-    *   `ExecuteRestitution`: Monitors fulfillment of agreed repair or labor hours.
-    *   `HealAffinityState`: Resets mutual affinity edge in `col-kmsd`.
-*   **Inviolability of Survival Baseline:** Sanctions or disputes may never reduce or withhold the survival baseline $B_{\mathrm{baseline}}$ (food, potable water, warmth, clinic access).
-*   **Boundary Socket Contract (`l4_l5.sock`):** POSIX non-blocking sequenced-packet Unix Domain Socket (`SOCK_SEQPACKET`) located at `/run/collective/ipc/l4_l5.sock`. Downward traffic passes ratified workflows; upward traffic passes dispute alerts and task completion proofs.
+### Layer 4: The Deterministic Orchestrator (Safe-Harbor Bypass & Root-Cause State Machine)
+*   **State Machine Daemon (`col-execd`):**
+    *   Executes at $10\,\mathrm{Hz}$ across `/run/collective/ipc/l4_l5.sock`, screening every incoming dispute first for **Safe-Harbor Abuse/Coercion Bypass** (enacting immediate `No-Transit` separation with zero forced dialogue), assembling `VRF`-sortitioned + `Phi` Emeritus facilitators for standard conflicts, logging **Systemic Root-Cause Fixes (`Sigma`/`Kappa`/`Alpha`)**, and restoring the `AffinityEdgeComponent` upon completion.
 
-### Layer 5: Polycentric Governance
-*   Executed by `col-kmsd`, Layer 5 governs restorative justice across the **7-Tier Concentric Trust Rings**:
-    *   **$R_0$ (Hearth):** Intimate domestic sanctuary; unconditional survival baseline.
-    *   **$R_1$ (Settlement):** Living perimeter; peer circle accompaniment.
-    *   **$R_2$ (Commons):** Local peace hearth chamber; bilateral clearing adjustments.
-    *   **$R_3$ (Watershed):** Cross-node conflict resolution panels; shared equipment treaties.
-    *   **$R_4$ (Bioregional Federation):** Regional restorative council; inter-watershed boundary covenants.
-    *   **$R_5$ (Continental Corridor):** Trans-regional arbitration standards; open mediation blueprints.
-    *   **$R_6$ (Ecumene):** Planetary craft guilds, defensive legal Carapace.
-*   **Bioregional Path-Vector Protocol (BPVP / FRRP):**
-    *   Governs capability and facilitator discovery across watershed federation boundaries. Originating nodes broadcast Capability Advertisements $\mathcal{A} = \langle \mathrm{adv\_id}, v_{\mathrm{orig}}, \mathcal{T}_{\mathrm{res}}, \mathbf{u}, Q_{\mathrm{avail}}, [\tau_{\mathrm{start}}, \tau_{\mathrm{end}}], \mathcal{P}, \mathcal{C}, H_{\mathrm{ttl}}, \sigma \rangle$.
-    *   **Export Surplus Bound:**
-        $$Q_{\mathrm{avail}}(t) = \max\left(0, \, Q_{\mathrm{inventory}}(t) - F_{\mathrm{eco}}(t) - B_{\mathrm{baseline}}(t)\right) \cdot \mathbf{1}_{\mathrm{export}}$$
-        Resource transfers are strictly prohibited unless inventory exceeds both the ecological floor $F_{\mathrm{eco}}$ and the survival baseline $B_{\mathrm{baseline}}$.
-    *   **Loop-Freedom Invariant:** Ingress filters inspect Ring-Path Vector $\mathcal{P} = [(v_k, r_k), \dots, (v_0, r_0)]$. If local node DID is present, the packet is instantly discarded during loop check.
-*   **Sortition-Based Facilitator Selection:**
-    *   Facilitators are chosen via sortition (citizen review panels selected by lot from the general assembly) or mutual consensual selection by circle participants.
-    *   Zero algorithmic social distance formulas or social credit scores are permitted.
-*   **Autopoietic Cellular Autonomy:** Every node retains absolute internal constitutional sovereignty ("the parts" over "the whole"); external federation councils cannot override local assemblies.
-*   **Unconditional Right of Exit:**
-    *   Members retain the absolute constitutional right to exit the community at any time without forfeiture of personal survival assets.
-    *   Unsettled material claims are absorbed by community loss reserves or mutual restorative covenants, NEVER through state police, sheriff asset seizures, or carceral enforcement.
-*   **Protocol of Refusal:** Protects private domestic living quarters and family relations from automated monitoring.
-*   **Autonomous Transit Veto (`No-Transit`):** Disputants can assert boundary separation during healing periods to prevent accidental physical encounters.
-*   **Reputational Wealth Governance ($\mathcal{R}$):** Facilitator standing decays exponentially ($\tau_{\mathrm{half}} = 1\dots 3\text{ years}$) and is sublinearly capped ($\le 8\%$). Care Leave Shield freezes decay during parenting, illness, or bereavement.
+```mermaid
+stateDiagram-v2
+    [*] --> DisputeOrHarmReported: MediationIntent OR Ecological Harm Alert Received
+    DisputeOrHarmReported --> AuditForAbuseOrCoercion: Check Safe-Harbor Abuse/Violence Flags
+    AuditForAbuseOrCoercion --> EnactSafeHarborAndNoTransit: Abuse Flagged -> Bypass Circle, Enforce Spatial Separation & Support Survivor
+    EnactSafeHarborAndNoTransit --> [*]
 
-### Layer 6: Semantic Translation & Agora
-*   **Tripartite Ricardian Treaties (`Treaty_CID`):**
-    $$\mathrm{Treaty\_CID} = \mathrm{SHA256}\left( \mathrm{Text}_{\mathrm{prose}} \parallel \mathrm{Schema}_{\mathrm{JSON-LD}} \parallel \mathrm{Invariants}_{\mathrm{BPMN}} \right)$$
-*   All restorative actions are published as typed W3C JSON-LD Knowledge Artifacts in the Agora Commons (`col-commonsd`):
-    1.  `MediationIntent`: Formal request detailing disputed tool damage or contract misunderstanding.
-    2.  `RestitutionAgreementIntent`: Consensual terms negotiated during the circle, defining labor hours or tool repair.
-    3.  `SafeHarborBypassIntent`: Emergency declaration bypassing circle mediation to protect against intimate coercion.
-    4.  `AffinityHealedIntent`: Mutual attestation confirming restitution completion and restoring cooperative standing.
+    AuditForAbuseOrCoercion --> AssembleSortitionAndEmeritusCircle: Non-Abusive Conflict -> Select VRF Facilitator & Phi Emeritus Sage
+    AssembleSortitionAndEmeritusCircle --> TransformativeRootCauseDialogue: Convene in Peace Hearth (Zero Recording, Equal Seating)
+    TransformativeRootCauseDialogue --> EmitSystemicRemediation: Identify Sigma Burnout / Kappa Training / Alpha Tool Flaw -> Fix Root Cause
+    EmitSystemicRemediation --> Ratify3of3HardwareMultiSig: Co-Design Material or Ecological (Eta/Mu) Restitution & Tap 3 NFC Keys
+    TransformativeRootCauseDialogue --> Ratify3of3HardwareMultiSig: Direct Consensual Restitution Terms Agreed
 
-### Layer 7: The Legacy Interface (Dual-Membrane Doctrine)
-*   **Defensive Federal Arbitration Act (FAA) Shield:**
-    *   When an individual joins the sovereign node, they sign the consensual membership covenant containing a mandatory binding dispute resolution clause governed by the Federal Arbitration Act (9 U.S.C. § 1 et seq.).
-    *   If a disgruntled party attempts to initiate a lawsuit in a municipal court, the cooperative carapace legal counsel files a 9 U.S.C. § 3 Motion to Compel Arbitration strictly defensively, causing the court to dismiss or remand the dispute back to consensual community mediation.
-    *   **Strict Ban on Outbound Carceral Enforcement:** The node structurally refuses to invoke 9 U.S.C. § 9 or county sheriffs to seize assets or incarcerate departing members.
-*   **Subpoena Immunity via Data Non-Existence:** Under *NAACP v. Alabama*, mediation dialogue, restorative circle notes, and internal dispute records do not exist in corporate databases. `col-adversaryd` enforces data non-existence.
-*   **Regenerative Harvesting & Convivial Salvage:** Outward commercial activity operates strictly against the itemized needs list $\Phi_t$ under lawful engineering interties.
+    Ratify3of3HardwareMultiSig --> CompleteRepairOrTreePlanting: Fulfill Hands-On Repair / Watershed Restoration (R_0 Baseline 100% Safe)
+    CompleteRepairOrTreePlanting --> HealAffinityAndPurgeLogs: Restore AffinityEdge (+5000 bp) & Enforce Data Non-Existence
+    HealAffinityAndPurgeLogs --> [*]
+```
+
+### Layer 5: Polycentric Governance (Zero Vengeance, Watershed Standing & Right of Exit)
+*   **Anti-Vengeance & Anti-Pillory Invariants (`col-kmsd`):**
+    *   Prohibits carceral confinement, survival-baseline cuts, public shaming broadcasts, and algorithmic social credit scores.
+*   **Watershed Legal Standing ($F_{\mathrm{eco}}$) & Unconditional Right of Exit:**
+    *   Appoints `Scenario Eta` ecological guardians to represent the living land in Peace Circles when environmental harm occurs, and guarantees every member's **Unconditional Right of Exit** with their personal $R_0$ belongings and zero state-court harassment.
+
+### Layer 6: Semantic Translation & Agora (Restorative Compacts & Systemic Feedback)
+*   **Knowledge Artifacts (`col-commonsd`):**
+    *   Parses `MediationIntent`, `SystemicRootCauseRemediationIntent`, `EcologicalRestitutionIntent`, `SafeHarborBypassIntent`, and `AffinityHealedIntent` across `/run/collective/ipc/l5_l6.sock`.
+
+### Layer 7: The Legacy Interface (Defensive FAA Arbitration & Subpoena Immunity)
+*   **Defensive Federal Arbitration Act (`9 USC 3`) Shield & Zero Sheriff Policy (`col-adversaryd`):**
+    *   Uses the cooperative covenant's arbitration clause **strictly defensively** (`9 USC 3` motion to compel consensual mediation) if a bad-faith actor tries to drag internal commons disputes into hostile Layer 7 courts, while **constitutionally prohibiting outbound `9 USC 9` sheriff asset seizures or police calls** (`outbound_sheriff_or_carceral_calls == 0`).
+*   **Subpoena Immunity via Structural Data Non-Existence:**
+    *   Peace Circle conversations are never recorded or stored, leaving zero transcripts for external courts to subpoena under *NAACP v. Alabama*.
 
 ---
 
-## 3. Machine-Readable Schemas
+## 3. 3-Stage Incremental Node Facility Blueprints (Node Growth Pattern)
 
-### 3.1 Layer 6 Knowledge Artifact: Mediation Intent Schema (`mediation.jsonld`)
+Scenario Psi scales from a quiet household tea-and-listening alcove into a bioregional restorative council arbor and watershed reconciliation sanctuary.
+
+### Stage 1: Domestic Tea Alcove & De-Escalation Nook ($R_1 / R_2$ Bootstrap)
+*   **Physical Footprint:** `10 m2` acoustically baffled circular tea alcove in a multi-steward household (`SCN-ZETA-LODGING`).
+*   **Core Restorative Features:**
+    1.  **Zero-Screen Equal-Seating Tea Hearth:** Floor cushions and accessible curved timber chairs around a low tea table (`SCN-ETA-COPPICE` calming herbal infusions), cork acoustic wall panels, and an air-gapped 3-of-3 NFC hardware token reader.
+
+### Stage 2: Urban Circular Peace Hearth, Safe-Harbor Sanctuary & Repair Studio ($R_2 / R_3$ Municipal Shell)
+*   **Physical Footprint:** `120 m2` to `250 m2` acoustic sanctuary co-located with Scenario Epsilon (`SCN-EPSILON-COWORKING`), Scenario Sigma (`SCN-SIGMA-BURNOUT`), and Scenario Alpha (`SCN-ALPHA-FAB`).
+*   **Integrated Restorative Zones:**
+    1.  **The Circular Rammed-Earth & Cedar Peace Hearth:** Double-stud soundproofed circular chamber ($\le 300\,\mathrm{cB}$) with skylight daylighting, zero electronics/cameras, and adjacent private decompression rooms.
+    2.  **The Co-Repair & Restitution Workbench:** Dedicated bay where disputants and `Scenario Kappa` mentors repair damaged equipment together, turning conflict into shared craft mastery.
+    3.  **Safe-Harbor Survivor Suite:** Private, secure suite with independent entry/exit and `No-Transit` access control for anyone invoking `SafeHarborBypass`.
+
+### Stage 3: Bioregional Restorative Council Arbor, Watershed Justice Amphitheater & Healing Gardens ($R_3 / R_4$ CLT/PPT)
+*   **Physical Footprint:** `2` to `5 hectares` of contemplative gardens, riparian restoration corridors, and timber council halls (`SCN-XI-ARCH`) on an **Irrevocable CLT/PPT**.
+*   **Custom Ecological & Transformative Justice Architecture:**
+    *   **The Living Watershed Council Arbor:** Open-air timber pavilion nestled beside a restored salmon stream (`SCN-ETA-COPPICE`), where inter-node disputes (`SCN-PI-GUILD`) and ecological stewardship circles meet in the physical presence of the watershed they protect.
+    *   **The Regenerative Restitution Nursery & Terraces:** Native tree nurseries, biochar composting terraces (`Mu`), and heirloom orchards where stewards fulfill restorative commitments by healing the living earth.
+
+---
+
+## 4. Machine-Readable Schemas
+
+### 4A. Layer 6 Knowledge Artifact: Transformative Mediation & Root-Cause Intent (`mediation.jsonld`)
 
 ```json
 {
@@ -151,34 +187,42 @@ graph TD
     "https://schema.org/",
     "https://collective.network/ontology/v1/"
   ],
-  "@type": "MediationIntent",
+  "@type": "TransformativeMediationIntent",
   "identifier": "urn:uuid:5d6e7f8a-9b0c-1d2e-3f4a-5b6c7d8e9f0a",
-  "issuerDid": "did:peer:2.Ez6Mks3...steward_alice",
-  "accusedDid": "did:peer:2.Ez6Mkd9...apprentice_charlie",
-  "disputeProfile": {
-    "category": "Tool_Damage_Mechanical_Assembly",
-    "description": "Industrial serger timing gear stripped due to improper canvas feed; repair requires machining replacement timing gear.",
-    "abuseOrCoercionDetected": false
+  "issuerDid": "did:peer:2Ez6Mks3_steward_alice",
+  "accountableDid": "did:peer:2Ez6Mkd9_apprentice_charlie",
+  "disputeAndRootCauseProfile": {
+    "category": "Tool_Damage_And_Watershed_Runoff_Spill",
+    "description": "Industrial serger timing gear stripped and non-toxic dye vat spilled into swale during late-night shift; inquiry examines both personal haste and systemic shift fatigue.",
+    "abuseOrCoercionDetected": false,
+    "systemicRootCausesIdentified": [
+      "Scenario_Sigma_Shift_Fatigue_Overload",
+      "Scenario_Alpha_Unclear_Gear_Guard_Label"
+    ],
+    "retributiveVengeanceOrCagesCount": 0,
+    "publicShamingPilloryBanned": true
   },
-  "restitutionParameters": {
-    "damageEstimateMicroJoules": 72000000000000,
-    "kineticLaborEquivalentHours": 16,
-    "targetRepairAssetVoxel": [16, 9, 16]
+  "restorativeAndEcologicalTerms": {
+    "damageEstimateMicroJoules": 36000000000000,
+    "coRepairLaborHours": 6,
+    "ecologicalWatershedRestitutionHours": 6,
+    "systemicRemediationEmittedToSigmaAndAlpha": true,
+    "r0SurvivalBaselineUntouched": true
   },
   "facilitatorSelection": {
-    "selectionMethod": "Sortition_Review_Panel",
-    "poolDomain": "Craft_Restorative_Facilitators"
+    "selectionMethod": "VRF_Sortition_Plus_Phi_Emeritus_Elder",
+    "poolDomain": "Craft_And_Watershed_Restorative_Facilitators"
   },
   "cryptographicSignature": {
     "type": "Ed25519Signature2020",
     "created": "2026-10-24T10:00:00Z",
-    "verificationMethod": "did:peer:2.Ez6Mks3...steward_alice#key-1",
-    "proofValue": "z3aK8f...alice_hardware_sig...99pL"
+    "verificationMethod": "did:peer:2Ez6Mks3_steward_alice#key-1",
+    "proofValue": "z3aK8f_alice_hardware_sig_99pL"
   }
 }
 ```
 
-### 3.2 Layer 2 Telemetry Attestation: Multi-Sig NFC Resolution Proof Schema (`resolution_attestation.json`)
+### 4B. Layer 2 Telemetry Attestation: 3-of-3 NFC Resolution & Zero-Recording Proof (`resolution_attestation.json`)
 
 ```json
 {
@@ -188,210 +232,222 @@ graph TD
   "peaceHearthVoxel": [12, 4, 18],
   "sessionMetrics": {
     "sessionDurationMilliseconds": 5100000,
-    "ambientNoiseMilliDecibels": 38400,
+    "ambientNoiseMilliDecibels": 29500,
+    "audioOrVideoRecordingBytes": 0,
     "completionTimestampEpochMs": 1792841110000
   },
   "ratifiedTerms": {
-    "restitutionMode": "Physical_Machining_and_Kinetic_Labor",
+    "restitutionMode": "Co_Machining_Repair_And_Riparian_Tree_Planting",
     "bilateralChannelOffsetMicroJoules": 36000000000000,
-    "kineticLaborHoursCommitted": 8
+    "regenerativeLaborHoursCommitted": 12,
+    "systemicGuardRedesignTicketOpened": true
   },
   "multiSigSignatures": {
-    "aggrievedSignatureAlice": "z3aK8f...alice_atecc608a_sig...99pL",
-    "accusedSignatureCharlie": "z7bM2q...charlie_atecc608a_sig...44xY",
-    "facilitatorSignatureElena": "z1cR4t...elena_atecc608a_sig...77wK"
+    "harmedSignatureAlice": "z3aK8f_alice_atecc608a_sig_99pL",
+    "accountableSignatureCharlie": "z7bM2q_charlie_atecc608a_sig_44xY",
+    "facilitatorSignatureElderMarcus": "z1cR4t_marcus_atecc608a_sig_77wK"
   },
-  "status": "RATIFIED_DISPUTE_RESOLVED",
+  "status": "RATIFIED_TRANSFORMATIVE_HEALING_COMPLETE",
   "digestSha256": "4b6c8d0e2f4a6b8c0d2e4f6a8b0c2d4e6f8a0b2c4d6e8f0a2b4c6d8e0f2a4b6c"
 }
 ```
 
 ---
 
-## 4. Oasis Engine Implementation Specification
+## 5. Oasis Engine Implementation Specification
 
-### 4.1 Memory Allocation & Voxel State
+### 5A. Memory Allocation, Voxel State & Transformative Justice Components
 
-The Peace Hearth Chamber occupies designated coordinates in the $32^3$ chunk space:
-*   The chamber anchor voxel is initialized with `material_id = 56` (`PEACE_HEARTH_CHAMBER`).
-*   Metadata bitmask `0b00000111` sets `Is_Acoustic_Shield` (bit 0), `Is_Circle_Bench` (bit 1), and `Is_MultiSig_NFC` (bit 2).
-*   Adjacent workshop voxels (`material_id = 15`, `FAB_NODE`) track locked or unlocked status based on mutual affinity edges.
+The Peace Hearth Chamber and Restorative Arbor Garden occupy designated coordinates in the $32^3$ chunk space (`ChunkManager`):
+*   Peace Hearth Chamber voxel initialized with `material_id = 56` (`PEACE_HEARTH_CHAMBER`).
+*   Restorative Arbor & Ecological Repair Garden voxel initialized with `material_id = 57` (`RESTORATIVE_ARBOR_GARDEN`).
+*   Metadata bitmask `0b00000111` sets `Is_Acoustic_Shield` (bit 0), `Is_Equal_Circle_Seating` (bit 1), and `Is_MultiSig_NFC` (bit 2).
+
+### 5B. Self-Contained C++20 Reference & Test Harness
 
 ```cpp
-// Cache-aligned Flecs ECS Components for Restorative Mediation
+// engine/tests/scenario_psi_test.cpp
+#include <cassert>
 #include <cstdint>
+#include <iostream>
 #include <string>
 
-namespace oasis {
+namespace oasis::psi {
 
 enum class DisputeState : uint8_t {
     HARMONIC = 0,
     TENSION = 1,
     FRACTURED = 2,
     MEDIATION_PENDING = 3,
-    RECONCILED = 4
+    RECONCILED_AND_TRANSFORMED = 4,
+    SAFE_HARBOR_SEPARATED = 5
 };
 
 struct alignas(8) AffinityEdgeComponent {
-    uint32_t peer_entity_id;
-    int32_t affinity_score_bps;         // Scaled integer [-10000, +10000]
-    DisputeState state;
+    uint32_t peer_entity_id{0};
+    int32_t affinity_score_bps{0}; // Scaled integer [-10000, +10000]
+    DisputeState state{DisputeState::HARMONIC};
 };
 
-struct alignas(8) DisputeRecordComponent {
-    uint32_t dispute_id;
-    uint64_t restitution_exergy_uj;     // 3600000000000 uJ multiples (3600 kJ)
-    uint32_t aggrieved_entity_id;
-    uint32_t accused_entity_id;
-    uint32_t facilitator_entity_id;
-    bool circle_active;
-    bool terms_ratified;
+// Models Transformative Root-Cause Inquiry, Ecological Standing & Anti-Vengeance Invariants
+struct alignas(8) TransformativeDisputeComponent {
+    uint32_t dispute_id{0};
+    uint64_t restitution_exergy_uj{0};
+    uint16_t co_repair_hours_committed{0};
+    uint16_t ecological_watershed_hours_committed{0};
+    bool systemic_sigma_fatigue_identified{false};
+    bool systemic_alpha_tool_guard_flaw_identified{false};
+    bool systemic_remediation_ticket_emitted{false};
+    bool phi_emeritus_elder_co_facilitated{true};
+    uint32_t retributive_vengeance_or_cages_count{0}; // Must strictly equal 0!
+    bool public_shaming_pillory_banned{true};         // Must strictly be true!
+    bool r0_survival_baseline_intact{true};           // Must strictly be true!
+    uint32_t audio_or_video_recording_bytes{0};       // Must strictly equal 0!
+    bool terms_ratified_3of3_nfc{false};
 };
 
-struct alignas(8) RestitutionQueueComponent {
-    uint32_t assigned_task_id;
-    uint16_t hours_required;
-    uint16_t hours_completed;
-    bool fulfilled;
+struct alignas(8) SafeHarborBoundaryComponent {
+    bool abuse_or_coercion_reported{false};
+    bool mandatory_circle_bypassed{false};
+    bool spatial_no_transit_separation_enforced{false};
+    bool unconditional_right_of_exit_honored{true};
+    bool r0_personal_belongings_retained{true};
+    uint32_t outbound_sheriff_or_carceral_calls{0}; // Must strictly equal 0!
 };
 
-struct alignas(8) BCCChannelComponent {
-    char peer_did[64];
-    int64_t balance_microjoules;         // Conservation: B_{u->v} + B_{v->u} = 0
-    uint64_t credit_headroom_uj;         // Headroom window [-C, +C]
-    bool channel_active;
+struct alignas(8) BilateralClearingChannel {
+    int64_t balance_u_to_v_uj{0};
+    int64_t balance_v_to_u_uj{0};
+    int64_t credit_headroom_uj{72000000000000LL};
 };
 
-} // namespace oasis
-```
+class TransformativeJusticeEngine {
+public:
+    // Executes a Transformative Peace Circle: rejects vengeance/cages/pillories, diagnoses
+    // systemic root causes (Sigma/Alpha/Kappa), includes ecological restitution (Eta/Mu),
+    // and settles 3-of-3 NFC multi-sig restitution while healing interpersonal affinity!
+    static bool execute_transformative_peace_circle(
+        TransformativeDisputeComponent& dispute,
+        AffinityEdgeComponent& affinity_edge,
+        BilateralClearingChannel& channel,
+        bool sig_harmed,
+        bool sig_accountable,
+        bool sig_facilitator
+    ) {
+        // 1. Enforce Anti-Dominion & Anti-Vengeance Constitutional Invariants
+        if (dispute.retributive_vengeance_or_cages_count != 0U ||
+            !dispute.public_shaming_pillory_banned ||
+            !dispute.r0_survival_baseline_intact ||
+            dispute.audio_or_video_recording_bytes != 0U) {
+            return false;
+        }
 
-### 4.2 C++20 Test Harness Structure
+        // 2. Transformative Root-Cause Inquiry: if systemic factors contributed, fix the system too!
+        if (dispute.systemic_sigma_fatigue_identified || dispute.systemic_alpha_tool_guard_flaw_identified) {
+            dispute.systemic_remediation_ticket_emitted = true;
+        }
 
-```cpp
-// engine/tests/scenario_psi_test.cpp
-#include <cassert>
-#include <cstring>
-#include "oasis/chunk_manager.hpp"
-#include "oasis/orchestration/bpmn_engine.hpp"
+        // 3. Require 3-of-3 hardware NFC signatures in the Peace Hearth
+        if (!(sig_harmed && sig_accountable && sig_facilitator)) {
+            return false;
+        }
 
-namespace oasis {
+        dispute.terms_ratified_3of3_nfc = true;
+        int64_t delta = static_cast<int64_t>(dispute.restitution_exergy_uj);
+        channel.balance_u_to_v_uj += delta;
+        channel.balance_v_to_u_uj -= delta;
 
-void test_scenario_psi_mediation_restorative_resolution() {
-    // 1. Initialize Chunk and Peace Hearth Voxel
-    ChunkManager chunk_mgr;
-    chunk_mgr.allocate_chunk(0, 0, 0);
-
-    Voxel hearth_voxel{
-        .material_id = 56, // PEACE_HEARTH_CHAMBER
-        .moisture = 5,
-        .temperature = 294, // 294 K
-        .metadata = 0b00000111 // Acoustic Shield + Circle Bench + MultiSig NFC
-    };
-    chunk_mgr.set_voxel(12, 4, 18, hearth_voxel);
-
-    // 2. Setup Identities and Pairwise Bilateral Clearing Channels
-    BCCChannelComponent channel_alice{
-        .peer_did = "did:peer:apprentice_charlie",
-        .balance_microjoules = 0,
-        .credit_headroom_uj = 72000000000000ULL, // 20 Exergy Credits headroom
-        .channel_active = true
-    };
-    BCCChannelComponent channel_charlie{
-        .peer_did = "did:peer:steward_alice",
-        .balance_microjoules = 0,
-        .credit_headroom_uj = 72000000000000ULL,
-        .channel_active = true
-    };
-
-    // Assert Conservation: B_{u->v} + B_{v->u} = 0
-    assert(channel_alice.balance_microjoules + channel_charlie.balance_microjoules == 0);
-
-    // 3. Setup Restorative Dispute Record (Damage: 36000000000000 uJ / 10 Exergy Credits)
-    uint64_t damage_uj = 36000000000000ULL;
-    DisputeRecordComponent dispute{
-        .dispute_id = 101,
-        .restitution_exergy_uj = damage_uj,
-        .aggrieved_entity_id = 1,
-        .accused_entity_id = 2,
-        .facilitator_entity_id = 3,
-        .circle_active = true,
-        .terms_ratified = false
-    };
-
-    // 4. Simulate 3-of-3 Multi-Sig NFC Ratification in Peace Hearth
-    bool sig_alice = true;
-    bool sig_charlie = true;
-    bool sig_facilitator = true;
-    bool circle_resolved = sig_alice && sig_charlie && sig_facilitator;
-    assert(circle_resolved);
-
-    dispute.terms_ratified = true;
-    dispute.circle_active = false;
-
-    // Settle bilateral restitution offset upon ratification
-    channel_charlie.balance_microjoules -= static_cast<int64_t>(damage_uj);
-    channel_alice.balance_microjoules += static_cast<int64_t>(damage_uj);
-
-    // Assert Conservation remains preserved: B_{u->v} + B_{v->u} = 0
-    assert(channel_alice.balance_microjoules + channel_charlie.balance_microjoules == 0);
-    assert(channel_alice.balance_microjoules == 36000000000000LL);
-    assert(channel_charlie.balance_microjoules == -36000000000000LL);
-    assert(!dispute.circle_active);
-    assert(dispute.terms_ratified);
-}
-
-void test_scenario_psi_mediation_abuse_bypass_and_exit() {
-    ChunkManager chunk_mgr;
-    chunk_mgr.allocate_chunk(0, 0, 0);
-
-    BPMNEngine orchestrator;
-    orchestrator.load_schema("schemas/bpmn/restorative_justice.bpmn");
-
-    bool intimate_coercion_reported = true;
-    bool circle_bypassed = false;
-    bool relational_edge_severed = false;
-    bool right_of_exit_honored = false;
-
-    if (intimate_coercion_reported) {
-        // Enforce Safe Harbor: zero mandatory circle mediation
-        circle_bypassed = true;
-        relational_edge_severed = true;
-        right_of_exit_honored = true;
+        // 4. Heal interpersonal affinity edge from FRACTURED (-4500 bp) to RECONCILED (+5000 bp)
+        affinity_edge.affinity_score_bps = 5000;
+        affinity_edge.state = DisputeState::RECONCILED_AND_TRANSFORMED;
+        return true;
     }
 
-    assert(circle_bypassed);
-    assert(relational_edge_severed);
-    assert(right_of_exit_honored);
+    // Executes Survivor-First Safe-Harbor Bypass for abuse or coercion:
+    // zero forced contact, immediate No-Transit separation, and zero carceral/sheriff violence
+    static bool execute_safe_harbor_survivor_protection(
+        SafeHarborBoundaryComponent& safe_harbor,
+        AffinityEdgeComponent& affinity_edge
+    ) {
+        if (!safe_harbor.abuse_or_coercion_reported ||
+            safe_harbor.outbound_sheriff_or_carceral_calls != 0U) {
+            return false;
+        }
+        safe_harbor.mandatory_circle_bypassed = true;
+        safe_harbor.spatial_no_transit_separation_enforced = true;
+        safe_harbor.unconditional_right_of_exit_honored = true;
+        safe_harbor.r0_personal_belongings_retained = true;
+        affinity_edge.state = DisputeState::SAFE_HARBOR_SEPARATED;
+        return true;
+    }
+};
 
-    // Assert zero outbound civil lawsuits or sheriff enforcement invoked
-    bool outbound_sheriff_invoked = false;
-    assert(!outbound_sheriff_invoked);
+void test_scenario_psi_transformative_justice_and_safe_harbor() {
+    // 1. Test Transformative Peace Circle (Tool & Watershed Harm + Systemic Root-Cause Healing)
+    TransformativeDisputeComponent dispute{
+        .dispute_id = 101U,
+        .restitution_exergy_uj = 36000000000000ULL, // 10 Exergy Credits
+        .co_repair_hours_committed = 6U,
+        .ecological_watershed_hours_committed = 6U, // Riparian tree planting in Scenario Eta!
+        .systemic_sigma_fatigue_identified = true,
+        .systemic_alpha_tool_guard_flaw_identified = true,
+        .retributive_vengeance_or_cages_count = 0U,
+        .public_shaming_pillory_banned = true,
+        .r0_survival_baseline_intact = true,
+        .audio_or_video_recording_bytes = 0U
+    };
+    AffinityEdgeComponent affinity{
+        .peer_entity_id = 2U,
+        .affinity_score_bps = -4500,
+        .state = DisputeState::FRACTURED
+    };
+    BilateralClearingChannel channel{};
 
-    // Victim's survival baseline remains 100% intact
-    uint32_t victim_calories = 2400; // 2400 kcal daily floor
-    uint32_t victim_water = 5;       // 5 L clean water floor
-    assert(victim_calories >= 2000);
-    assert(victim_water >= 3);
+    assert(TransformativeJusticeEngine::execute_transformative_peace_circle(
+        dispute, affinity, channel, true, true, true
+    ));
+    assert(dispute.terms_ratified_3of3_nfc == true);
+    assert(dispute.systemic_remediation_ticket_emitted == true);
+    assert(channel.balance_u_to_v_uj + channel.balance_v_to_u_uj == 0LL);
+    assert(affinity.affinity_score_bps == 5000);
+    assert(affinity.state == DisputeState::RECONCILED_AND_TRANSFORMED);
+
+    // 2. Test Survivor-First Safe-Harbor Abuse Bypass & Unconditional Right of Exit
+    SafeHarborBoundaryComponent safe_harbor{
+        .abuse_or_coercion_reported = true,
+        .outbound_sheriff_or_carceral_calls = 0U
+    };
+    AffinityEdgeComponent abuse_edge{
+        .peer_entity_id = 99U,
+        .affinity_score_bps = -10000,
+        .state = DisputeState::FRACTURED
+    };
+    assert(TransformativeJusticeEngine::execute_safe_harbor_survivor_protection(safe_harbor, abuse_edge));
+    assert(safe_harbor.mandatory_circle_bypassed == true);
+    assert(safe_harbor.spatial_no_transit_separation_enforced == true);
+    assert(safe_harbor.unconditional_right_of_exit_honored == true);
+    assert(safe_harbor.r0_personal_belongings_retained == true);
+    assert(abuse_edge.state == DisputeState::SAFE_HARBOR_SEPARATED);
 }
 
-} // namespace oasis
+} // namespace oasis::psi
 
 int main() {
-    oasis::test_scenario_psi_mediation_restorative_resolution();
-    oasis::test_scenario_psi_mediation_abuse_bypass_and_exit();
+    oasis::psi::test_scenario_psi_transformative_justice_and_safe_harbor();
+    std::cout << "Scenario Psi Transformative Justice, Root-Cause Healing, Ecological Restitution & Safe-Harbor tests passed." << std::endl;
     return 0;
 }
 ```
 
 ---
 
-## 5. Acceptance Test Gates (Pass/Fail)
+## 6. Acceptance Test Gates (Pass/Fail)
 
 | Checkpoint | Validation Method | Pass Condition |
 | :--- | :--- | :--- |
-| **G1: Thermodynamic Bounds & Conservation** | Restitution Settlement Audit | Bilateral Clearing Channels preserve zero-sum conservation $B_{u \to v}(t) + B_{v \to u}(t) = 0$ upon multi-sig ratification; physical restitution labor discharges verified damage without unbacked tokens. |
-| **G2: Offline Autonomy & WAN Airgap** | Local Mesh Disconnection | Sortition panel selection, acoustic monitoring, and 3-of-3 hardware NFC signature verification execute deterministically over Reticulum mesh with 100% WAN isolation. |
-| **G3: Trust Rings & Restorative Justice** | Peer Circle Consensus Audit | Circle facilitation operates voluntarily through sortition pools; zero automated algorithmic social credit scoring; zero punitive or carceral penalties across $R_0 \dots R_6$. |
-| **G4: Human Baseline & Safe Harbor** | Abuse Bypass Injection | Reporting intimate coercion or physical assault triggers immediate relational edge severance with zero forced circle dialogue, preserving $F_{\mathrm{eco}}$ and $B_{\mathrm{baseline}}$. |
-| **G5: Dual-Membrane Doctrine (L7)** | Defensive FAA Arbitration Motion | External civil lawsuits filed by disgruntled parties are compelled to private community mediation via defensive 9 U.S.C. § 3 motions; zero outbound sheriff or state court debt enforcement against members. |
-| **G6: Regenerative Harvesting & Unconditional Exit (L7)** | Constitutional Right of Exit Sim | A member executes the Unconditional Right of Exit without forfeiture of bodily or domestic assets; commercial procurement halts as soon as the itemized needs list $\Phi_t$ is met. |
+| **G1: Abolition of Vengeance, Cages & Pillories** | `execute_transformative_peace_circle` | Enforces zero carceral cages or punitive fines (`retributive_vengeance_or_cages_count == 0`), bans public shaming pillories and social credit (`public_shaming_pillory_banned == true`), and preserves $10000\,\mathrm{bp}$ $R_0$ survival baselines. |
+| **G2: Transformative Root-Cause Inquiry** | Systemic Remediation Check | Peace Circles audit whether `Scenario Sigma` fatigue, `Scenario Kappa` training gaps, or `Scenario Alpha` tool flaws contributed to the harm, automatically emitting systemic remediation tickets (`systemic_remediation_ticket_emitted == true`). |
+| **G3: Ending Dominion Over Nature (Ecological Restitution)** | Restitution & BCC Audit | Grants standing to the living watershed ($F_{\mathrm{eco}}$), channeling restitution into hands-on tool co-repair and riparian/biochar restoration (`ecological_watershed_hours_committed > 0`) while conserving $B_{u \to v} + B_{v \to u} = 0$. |
+| **G4: 3-of-3 NFC Multi-Sig & Zero Recording Privacy** | Peace Hearth Telemetry Audit | Requires 3-of-3 `ATECC608A` NFC taps (`terms_ratified_3of3_nfc == true`) inside an acoustically shielded chamber with zero audio/video recording (`audio_or_video_recording_bytes == 0`). |
+| **G5: Survivor-First Safe Harbor & `No-Transit` Separation** | `execute_safe_harbor_survivor_protection` | Reporting abuse or intimate coercion immediately bypasses mandatory circle mediation (`mandatory_circle_bypassed == true`), enforces `No-Transit` spatial separation, and honors the Unconditional Right of Exit with full $R_0$ personal belongings. |
+| **G6: Defensive FAA Arbitration & Zero Sheriff Calls (`L7`)** | Legal Carapace Audit | Invokes `9 USC 3` motions strictly defensively to remand external civil suits to mediation while maintaining $0$ outbound sheriff or carceral enforcement calls (`outbound_sheriff_or_carceral_calls == 0`). |
