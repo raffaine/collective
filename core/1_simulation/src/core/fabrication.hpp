@@ -91,6 +91,10 @@ struct SomaticStateComponent {
     float hydration{1.0f};                      // [0.0 .. 1.0]
     float body_temp_c{37.0f};                   // Core body temperature in °C
     float ambient_temp_c{22.5f};                // Ambient environment temperature in °C
+    float hygiene{0.88f};                       // [0.0 .. 1.0] (restored by Bathroom Shower & Sink!)
+    float bladder_comfort{0.90f};               // [0.0 .. 1.0] (restored by Bathroom Toilet!)
+    float entertainment_comfort{0.85f};         // [0.0 .. 1.0] (restored by Living Room Couch / TV / VideoGame / Sound System!)
+    float core_temp_c{37.0f};                   // Core body temperature in °C
 
     [[nodiscard]] double calories() const noexcept { return caloric_reserve; }
 };

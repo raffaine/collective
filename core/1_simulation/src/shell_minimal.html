@@ -1335,6 +1335,7 @@
             <span class="hud-title">FOUNDER VITALS</span>
             <span id="hud-status-badge" class="hud-badge">ONLINE</span>
           </div>
+          <div id="hud-diorama-style-pill" class="hud-badge" style="display:block;text-align:center;margin-bottom:6px;color:#38bdf8;background:rgba(14,116,144,0.22);border-color:rgba(56,189,248,0.45);font-weight:700;letter-spacing:0.05em;">LOW-POLY DIORAMA + WEBAUDIO</div>
 
           <!-- Calories -->
           <div class="hud-metric">
@@ -1380,12 +1381,12 @@
             </div>
           </div>
 
-          <!-- Founder Activity Status, Genesis Camp Stock, Material Stockpile & Scenario Gamma Kitchen -->
+          <!-- Founder Activity Status, Home Habitation Stock, Garage Storage & Furnished Kitchen -->
           <div class="hud-status-section">
             <div id="hud-founder-activity">STATUS: Inside Lot 402 Study (Node 0 Online)</div>
-            <div id="hud-camp-stock">HOME: 3 Rations | 60.0L Water | Queue: 0</div>
-            <div id="hud-material-stock">SALVAGE: 2 PV Kits | 6 Timber | 4 Cob | 6 Seeds</div>
-            <div id="hud-kitchen-status">KITCHEN (Γ): 3 Meals | 2 Raw Produce | 60.0L Water | NORMAL (1.0x)</div>
+            <div id="hud-camp-stock">FRIDGE &amp; TAP: 12 Meals | 60.0L Water | Hygiene: 92% (Shower OK)</div>
+            <div id="hud-material-stock">GARAGE STORAGE: 0 PV Kits | 6 Timber | 4 Cob | Tools Ready</div>
+            <div id="hud-kitchen-status">KITCHEN &amp; DINING: Stove Ready | 12 Fridge Meals | 0 Garden Produce | NORMAL (1.0x)</div>
             <!-- V3.1 Alpha Genesis, $20,000 USD Reserve & Community Baseline (B_baseline) Strip -->
             <div id="hud-v31-genesis-strip">
               <div id="hud-v31-reserve">RESERVE: $20,000.00 USD | Burn: -$1,820/mo | D_t: 100.0% L7</div>
@@ -1422,10 +1423,10 @@
             <span class="intro-modal-badge">CHAPTER 1: HOME GENESIS</span>
           </div>
           <div class="intro-modal-body">
-            You just booted <b>Node 0</b> inside the study of your suburban house on <b>Lot 402</b>. Your home has an insulated bedroom, kitchen pantry, and Node 0 server rack. Turn your property into a self-reliant homestead:
+            You just booted <b>Node 0</b> inside the study of your suburban house on <b>Lot 402</b>. Your home has 6 furnished rooms (Kitchen &amp; Dining, Bathroom, Living Room, Bedroom, Home Office, and Garage Workshop). Turn your property into a self-reliant homestead:
           </div>
           <div class="intro-step-list">
-            <div>🏠 <b>1. Inside Your House:</b> Your roof is sliced open so you can see <b>Node 0</b>, your Bed, and Pantry. Click <b>[🏠 Toggle Roof]</b> anytime.</div>
+            <div>🏠 <b>1. Inside Your 6-Room House:</b> Your roof is sliced open so you can use your <b>Kitchen</b>, <b>Bathroom Shower</b>, <b>Living Room TV</b>, <b>Bedroom</b>, <b>Office PC</b>, and <b>Garage Workbench</b>. Click <b>[🏠 Toggle Roof]</b> anytime.</div>
             <div>🌱 <b>2. Backyard Garden:</b> Use the fenced backyard behind your house to <b>[1:Dig Swale]</b> for water retention and <b>[2:Plant Crop]</b> for food.</div>
             <div>☀️ <b>3. Roof Solar &amp; Rainwater:</b> Toggle the roof on to place <b>[11:Solar]</b> panels on the shingles and <b>[10:Cistern]</b> by the eaves.</div>
             <div>👋 <b>4. Layer 7 Neighbors:</b> Passersby on the front sidewalk operate on <b>Layer 7</b>—they offer polite <i>minimum grace</i> nods as they walk by, don't socialize much, and never help on your tasks.</div>
@@ -1433,11 +1434,20 @@
           <button type="button" class="intro-start-btn" id="btn-dismiss-intro" onclick="window.dismissNode0Intro()">[ Enter Lot 402 — Start Homesteading ]</button>
         </div>
 
-        <!-- Node 0 Homestead Onboarding & Layer 7 Grace Panel (#node0-homestead-panel) -->
+        <!-- Node 0 Homestead Onboarding, 6-Room Habitation Quick-Bar & Layer 7 Grace Panel (#node0-homestead-panel) -->
         <div id="node0-homestead-panel">
           <div class="homestead-header">
             <span class="homestead-title">NODE 0 — LOT 402 GUIDE</span>
             <span id="hud-cutaway-badge" style="font-family:'SF Mono',monospace;font-size:8.5px;color:#38bdf8;font-weight:700;">INSIDE (Z=3)</span>
+          </div>
+          <div style="font-family:'SF Mono',monospace;font-size:8.2px;color:#6ee7b7;font-weight:700;margin-bottom:3px;letter-spacing:0.03em;">6-ROOM HABITATION &amp; BIOLOGY QUICK-BAR:</div>
+          <div id="habitation-room-quickbar" style="display:grid;grid-template-columns:repeat(3, 1fr);gap:4px;margin-bottom:5px;">
+            <button type="button" class="homestead-btn" id="btn-room-kitchen" data-room-action="14" title="Walk to Kitchen &amp; Dining (11,1,4) to cook &amp; eat a hot meal (+850 kcal, -12% Stress)" onclick="window.triggerKitchenScenarioAction(14)">[ 🍳 Kitchen ]</button>
+            <button type="button" class="homestead-btn" id="btn-room-bathroom" data-room-action="15" title="Walk to Bathroom (15,1,4) for a Warm Shower &amp; Sanitation refresh (Hygiene 100%, -18% Stress)" onclick="window.triggerKitchenScenarioAction(15)">[ 🚿 Bathroom ]</button>
+            <button type="button" class="homestead-btn" id="btn-room-living" data-room-action="16" title="Walk to Living Room (11,1,8) to relax on the Sofa &amp; play Video Games / TV (-25% Stress, +15% Focus)" onclick="window.triggerKitchenScenarioAction(16)">[ 🎮 Living Room ]</button>
+            <button type="button" class="homestead-btn" id="btn-room-bedroom" data-room-action="17" title="Walk to Bedroom (15,1,8) to sleep in the Bed (Focus 100%, Exhaustion cleared)" onclick="window.triggerKitchenScenarioAction(17)">[ 🛏️ Bedroom ]</button>
+            <button type="button" class="homestead-btn" id="btn-room-office" data-room-action="18" title="Walk to Home Office / Node 0 Study (13,1,4) to study Open Blueprints (+500 bp Reputation R)" onclick="window.triggerKitchenScenarioAction(18)">[ 💻 Office ]</button>
+            <button type="button" class="homestead-btn" id="btn-room-garage" data-room-action="19" title="Walk to Garage Workshop (10,1,9) to craft &amp; tune tools at the Workbench (+1 Timber, +150 bp R)" onclick="window.triggerKitchenScenarioAction(19)">[ 🔧 Garage ]</button>
           </div>
           <div class="homestead-btn-row">
             <button type="button" class="homestead-btn" id="btn-toggle-roof" onclick="window.toggleNode0RoofCutaway()">[ 🏠 Toggle Roof ]</button>
@@ -1660,6 +1670,7 @@
           <button type="button" class="warp-btn" data-warp="5" onclick="window.setTimeWarpMultiplier(5)">[ &gt;&gt;&gt; 5x ]</button>
           <button type="button" class="warp-btn" data-warp="10" onclick="window.setTimeWarpMultiplier(10)">[ &gt;&gt;&gt;&gt; 10x ]</button>
           <span id="hud-cutaway-indicator" onclick="window.toggleNode0RoofCutaway()" title="Click or press PageUp/PageDown to toggle House Interior / Roof View">Cutaway: Inside / Z=3</span>
+          <button type="button" class="warp-btn active" id="btn-audio-toggle" style="border-color:rgba(56,189,248,0.65);color:#38bdf8;" onclick="window.toggleOasisAudio()" title="Toggle Solarpunk Ambient Soundscape &amp; Interactive SFX">[ 🔊 Audio: ON ]</button>
           <button type="button" class="warp-btn" id="btn-warp-companion" style="border-color:rgba(52,211,153,0.65);color:#34d399;" onclick="window.toggleNode0CompanionDrawer()">[ 📱 L6 INTENTS &amp; CALENDAR ]</button>
         </div>
 
@@ -1960,6 +1971,676 @@
         }
       });
 
+      // -----------------------------------------------------------------------
+      // Sprint 16: Zero-Dependency Procedural WebAudio Engine (window.OasisAudio)
+      // Solarpunk Ambient Soundscape + Tactile Interactive Low-Poly SFX
+      // -----------------------------------------------------------------------
+      window.OasisAudio = {
+        enabled: true,
+        unlocked: false,
+        ambientRunning: false,
+        ctx: null,
+        masterGain: null,
+        ambientGain: null,
+        breezeNode: null,
+        breezeFilter: null,
+        breezeLfo: null,
+        noiseBuffer: null,
+        schedulerTimer: null,
+        noteIndex: 0,
+        pentatonicScale: [261.63, 293.66, 329.63, 392.00, 440.00, 493.88, 587.33],
+        lastFootstepMs: 0,
+        lastWorkTapMs: 0,
+        lastCookMs: 0,
+        lastHarvestMs: 0,
+        lastWaterMs: 0,
+        lastShowerMs: 0,
+        lastVideoGameMs: 0,
+        lastSleepMs: 0,
+        lastStatusText: '',
+        lastPlayed: 'none',
+        stats: {
+          clicks: 0,
+          stamps: 0,
+          harvests: 0,
+          cooks: 0,
+          waters: 0,
+          showers: 0,
+          videoGames: 0,
+          sleepChimes: 0,
+          bounties: 0,
+          workTaps: 0,
+          footsteps: 0,
+          ambientNotes: 0,
+          birdChirps: 0
+        },
+
+        ensureContext: function() {
+          if (this.ctx) {
+            if (this.ctx.state === 'suspended' && typeof this.ctx.resume === 'function') {
+              try { this.ctx.resume().catch(function() {}); } catch (e) {}
+            }
+            return this.ctx;
+          }
+          try {
+            var AudioCtx = window.AudioContext || window.webkitAudioContext;
+            if (!AudioCtx) return null;
+            this.ctx = new AudioCtx();
+            this.masterGain = this.ctx.createGain();
+            this.masterGain.gain.value = this.enabled ? 1.0 : 0.0;
+            this.masterGain.connect(this.ctx.destination);
+
+            this.ambientGain = this.ctx.createGain();
+            this.ambientGain.gain.value = this.enabled ? 1.0 : 0.0;
+            this.ambientGain.connect(this.masterGain);
+
+            // Generate 2-second pink/warm noise buffer for breeze, harvest rustle & stew sizzle
+            var sr = this.ctx.sampleRate || 44100;
+            var len = sr * 2;
+            this.noiseBuffer = this.ctx.createBuffer(1, len, sr);
+            var data = this.noiseBuffer.getChannelData(0);
+            var b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, b6 = 0;
+            for (var i = 0; i < len; i++) {
+              var white = Math.random() * 2.0 - 1.0;
+              b0 = 0.99886 * b0 + white * 0.0555179;
+              b1 = 0.99332 * b1 + white * 0.0750759;
+              b2 = 0.96900 * b2 + white * 0.1538520;
+              b3 = 0.86650 * b3 + white * 0.3104856;
+              b4 = 0.55000 * b4 + white * 0.5329522;
+              b5 = -0.7616 * b5 - white * 0.0168980;
+              data[i] = (b0 + b1 + b2 + b3 + b4 + b5 + b6 + white * 0.5362) * 0.09;
+              b6 = white * 0.115926;
+            }
+          } catch (err) {
+            this.ctx = null;
+          }
+          return this.ctx;
+        },
+
+        init: function() {
+          this.unlocked = true;
+          var ctx = this.ensureContext();
+          if (this.enabled) {
+            this.startAmbient();
+          }
+          return Boolean(ctx);
+        },
+
+        startAmbient: function() {
+          if (!this.enabled) return;
+          var ctx = this.ensureContext();
+          if (ctx && !this.ambientRunning && this.noiseBuffer && this.ambientGain) {
+            try {
+              var now = ctx.currentTime;
+              // 1. Filtered Pink/White Noise Bioregional Breeze (320 Hz swept 220..520 Hz by 0.12 Hz LFO, gain ~0.015)
+              var breezeSrc = ctx.createBufferSource();
+              breezeSrc.buffer = this.noiseBuffer;
+              breezeSrc.loop = true;
+
+              var filter = ctx.createBiquadFilter();
+              filter.type = 'lowpass';
+              filter.frequency.setValueAtTime(320.0, now);
+              filter.Q.setValueAtTime(0.7, now);
+
+              var lfo = ctx.createOscillator();
+              lfo.type = 'sine';
+              lfo.frequency.setValueAtTime(0.12, now);
+
+              var lfoDepth = ctx.createGain();
+              lfoDepth.gain.setValueAtTime(150.0, now); // Sweeps ~220 Hz to ~520 Hz
+              lfo.connect(lfoDepth);
+              lfoDepth.connect(filter.frequency);
+
+              var breezeGain = ctx.createGain();
+              breezeGain.gain.setValueAtTime(0.015, now);
+
+              breezeSrc.connect(filter);
+              filter.connect(breezeGain);
+              breezeGain.connect(this.ambientGain);
+
+              breezeSrc.start(now);
+              lfo.start(now);
+
+              this.breezeNode = breezeSrc;
+              this.breezeFilter = filter;
+              this.breezeLfo = lfo;
+              this.ambientRunning = true;
+            } catch (err) {}
+          }
+
+          if (!this.schedulerTimer) {
+            var self = this;
+            this.schedulerTimer = setInterval(function() {
+              self.scheduleAmbientTick();
+            }, 2200);
+          }
+        },
+
+        stopAmbient: function() {
+          if (this.ctx && this.ambientGain) {
+            try {
+              this.ambientGain.gain.setTargetAtTime(0.0001, this.ctx.currentTime, 0.08);
+            } catch (err) {}
+          }
+        },
+
+        isDaytimeTick: function() {
+          var tick = Math.max(0, Math.floor(Number(window._oasisSimTick) || 0));
+          var totalMinutes = 360 + Math.floor(tick / 20);
+          var minOfDay = totalMinutes % 1440;
+          return (minOfDay >= 360 && minOfDay <= 1140);
+        },
+
+        playBirdChirp: function() {
+          if (!this.enabled) return false;
+          this.stats.birdChirps++;
+          this.lastPlayed = 'birdChirp';
+          var ctx = this.ensureContext();
+          if (!ctx || !this.ambientGain) return true;
+          try {
+            var t0 = ctx.currentTime + 0.08;
+            for (var c = 0; c < 2; c++) {
+              var start = t0 + c * 0.14;
+              var dur = 0.09;
+              var osc = ctx.createOscillator();
+              var mod = ctx.createOscillator();
+              var modGain = ctx.createGain();
+              var g = ctx.createGain();
+
+              osc.type = 'sine';
+              osc.frequency.setValueAtTime(2400.0 + c * 140.0, start);
+              osc.frequency.exponentialRampToValueAtTime(3100.0, start + dur * 0.65);
+              osc.frequency.exponentialRampToValueAtTime(2650.0, start + dur);
+
+              mod.type = 'sine';
+              mod.frequency.setValueAtTime(34.0, start);
+              modGain.gain.setValueAtTime(95.0, start);
+              mod.connect(modGain);
+              modGain.connect(osc.frequency);
+
+              g.gain.setValueAtTime(0.0001, start);
+              g.gain.linearRampToValueAtTime(0.018, start + 0.015);
+              g.gain.exponentialRampToValueAtTime(0.0001, start + dur);
+
+              osc.connect(g);
+              g.connect(this.ambientGain);
+
+              osc.start(start);
+              mod.start(start);
+              osc.stop(start + dur + 0.01);
+              mod.stop(start + dur + 0.01);
+            }
+          } catch (err) {}
+          return true;
+        },
+
+        scheduleAmbientTick: function() {
+          if (!this.enabled || window._oasisTimeWarpMultiplier === 0) return false;
+          this.stats.ambientNotes++;
+          var ctx = this.ensureContext();
+          if (ctx && this.ambientGain) {
+            try {
+              var scale = this.pentatonicScale;
+              var step = (Math.random() < 0.65) ? 1 : 2;
+              this.noteIndex = (this.noteIndex + step) % scale.length;
+              var freq = scale[this.noteIndex];
+              var now = ctx.currentTime;
+
+              // Warm sine/triangle marimba/kalimba note (0.02s soft attack, 1.4s natural exponential decay, gain ~0.035)
+              var osc = ctx.createOscillator();
+              osc.type = (this.noteIndex % 2 === 0) ? 'triangle' : 'sine';
+              osc.frequency.setValueAtTime(freq, now);
+
+              var g = ctx.createGain();
+              g.gain.setValueAtTime(0.0001, now);
+              g.gain.linearRampToValueAtTime(0.035, now + 0.02);
+              g.gain.exponentialRampToValueAtTime(0.0001, now + 1.42);
+
+              osc.connect(g);
+              g.connect(this.ambientGain);
+              osc.start(now);
+              osc.stop(now + 1.45);
+
+              // ~25% chance during daytime ticks for a 2-chirp songbird call
+              if (this.isDaytimeTick() && Math.random() < 0.25) {
+                this.playBirdChirp();
+              }
+            } catch (err) {}
+          }
+          return true;
+        },
+
+        playClick: function() {
+          if (!this.enabled) return false;
+          this.stats.clicks++;
+          this.lastPlayed = 'click';
+          var ctx = this.ensureContext();
+          if (!ctx || !this.masterGain) return true;
+          try {
+            var now = ctx.currentTime;
+            var osc = ctx.createOscillator();
+            var g = ctx.createGain();
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(520.0, now);
+            osc.frequency.exponentialRampToValueAtTime(880.0, now + 0.045);
+
+            g.gain.setValueAtTime(0.0001, now);
+            g.gain.linearRampToValueAtTime(0.075, now + 0.005);
+            g.gain.exponentialRampToValueAtTime(0.0001, now + 0.045);
+
+            osc.connect(g);
+            g.connect(this.masterGain);
+            osc.start(now);
+            osc.stop(now + 0.05);
+          } catch (err) {}
+          return true;
+        },
+
+        playStamp: function() {
+          if (!this.enabled) return false;
+          this.stats.stamps++;
+          this.lastPlayed = 'stamp';
+          var ctx = this.ensureContext();
+          if (!ctx || !this.masterGain) return true;
+          try {
+            var now = ctx.currentTime;
+            // Part 1: Soft low-poly bass thud (110 Hz -> 55 Hz)
+            var thud = ctx.createOscillator();
+            var thudGain = ctx.createGain();
+            thud.type = 'sine';
+            thud.frequency.setValueAtTime(110.0, now);
+            thud.frequency.exponentialRampToValueAtTime(55.0, now + 0.09);
+            thudGain.gain.setValueAtTime(0.0001, now);
+            thudGain.gain.linearRampToValueAtTime(0.12, now + 0.008);
+            thudGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.095);
+            thud.connect(thudGain);
+            thudGain.connect(this.masterGain);
+            thud.start(now);
+            thud.stop(now + 0.10);
+
+            // Part 2: Warm marimba fifth chime (523.25 Hz -> 659.25 Hz)
+            var notes = [523.25, 659.25];
+            for (var i = 0; i < notes.length; i++) {
+              var t = now + 0.015 + i * 0.045;
+              var chime = ctx.createOscillator();
+              var cg = ctx.createGain();
+              chime.type = 'triangle';
+              chime.frequency.setValueAtTime(notes[i], t);
+              cg.gain.setValueAtTime(0.0001, t);
+              cg.gain.linearRampToValueAtTime(0.065, t + 0.01);
+              cg.gain.exponentialRampToValueAtTime(0.0001, t + 0.22);
+              chime.connect(cg);
+              cg.connect(this.masterGain);
+              chime.start(t);
+              chime.stop(t + 0.24);
+            }
+          } catch (err) {}
+          return true;
+        },
+
+        playHarvest: function() {
+          if (!this.enabled) return false;
+          this.stats.harvests++;
+          this.lastPlayed = 'harvest';
+          var ctx = this.ensureContext();
+          if (!ctx || !this.masterGain) return true;
+          try {
+            var now = ctx.currentTime;
+            // Part 1: Crisp foliage rustle (bandpass noise burst 0.12s)
+            if (this.noiseBuffer) {
+              var noise = ctx.createBufferSource();
+              noise.buffer = this.noiseBuffer;
+              var bp = ctx.createBiquadFilter();
+              bp.type = 'bandpass';
+              bp.frequency.setValueAtTime(1650.0, now);
+              bp.Q.setValueAtTime(1.6, now);
+              var ng = ctx.createGain();
+              ng.gain.setValueAtTime(0.0001, now);
+              ng.gain.linearRampToValueAtTime(0.06, now + 0.015);
+              ng.gain.exponentialRampToValueAtTime(0.0001, now + 0.12);
+              noise.connect(bp);
+              bp.connect(ng);
+              ng.connect(this.masterGain);
+              noise.start(now);
+              noise.stop(now + 0.13);
+            }
+
+            // Part 2: Rising 2-note pluck (440 Hz -> 587.33 Hz)
+            var notes = [440.0, 587.33];
+            for (var i = 0; i < notes.length; i++) {
+              var t = now + i * 0.065;
+              var osc = ctx.createOscillator();
+              var g = ctx.createGain();
+              osc.type = 'triangle';
+              osc.frequency.setValueAtTime(notes[i], t);
+              g.gain.setValueAtTime(0.0001, t);
+              g.gain.linearRampToValueAtTime(0.06, t + 0.008);
+              g.gain.exponentialRampToValueAtTime(0.0001, t + 0.18);
+              osc.connect(g);
+              g.connect(this.masterGain);
+              osc.start(t);
+              osc.stop(t + 0.20);
+            }
+          } catch (err) {}
+          return true;
+        },
+
+        playCook: function() {
+          if (!this.enabled) return false;
+          this.stats.cooks++;
+          this.lastPlayed = 'cook';
+          var ctx = this.ensureContext();
+          if (!ctx || !this.masterGain) return true;
+          try {
+            var now = ctx.currentTime;
+            // Part 1: Warm Pea Soup & Bean Stew bubbling/sizzle
+            if (this.noiseBuffer) {
+              var sizzle = ctx.createBufferSource();
+              sizzle.buffer = this.noiseBuffer;
+              var bp = ctx.createBiquadFilter();
+              bp.type = 'bandpass';
+              bp.frequency.setValueAtTime(920.0, now);
+              bp.frequency.linearRampToValueAtTime(1280.0, now + 0.22);
+              bp.Q.setValueAtTime(2.2, now);
+              var sg = ctx.createGain();
+              sg.gain.setValueAtTime(0.0001, now);
+              sg.gain.linearRampToValueAtTime(0.045, now + 0.025);
+              sg.gain.exponentialRampToValueAtTime(0.0001, now + 0.24);
+              sizzle.connect(bp);
+              bp.connect(sg);
+              sg.connect(this.masterGain);
+              sizzle.start(now);
+              sizzle.stop(now + 0.25);
+            }
+
+            // Part 2: Pleasant 3-note hearth chord (C5 - E5 - G5)
+            var chord = [523.25, 659.25, 783.99];
+            for (var i = 0; i < chord.length; i++) {
+              var t = now + i * 0.055;
+              var osc = ctx.createOscillator();
+              var g = ctx.createGain();
+              osc.type = 'triangle';
+              osc.frequency.setValueAtTime(chord[i], t);
+              g.gain.setValueAtTime(0.0001, t);
+              g.gain.linearRampToValueAtTime(0.05, t + 0.015);
+              g.gain.exponentialRampToValueAtTime(0.0001, t + 0.42);
+              osc.connect(g);
+              g.connect(this.masterGain);
+              osc.start(t);
+              osc.stop(t + 0.45);
+            }
+          } catch (err) {}
+          return true;
+        },
+
+        playWater: function() {
+          if (!this.enabled) return false;
+          this.stats.waters++;
+          this.lastPlayed = 'water';
+          var ctx = this.ensureContext();
+          if (!ctx || !this.masterGain) return true;
+          try {
+            var now = ctx.currentTime;
+            // Refreshing droplet arpeggio (659 Hz -> 880 Hz -> 1174 Hz)
+            var drops = [659.0, 880.0, 1174.0];
+            for (var i = 0; i < drops.length; i++) {
+              var t = now + i * 0.06;
+              var osc = ctx.createOscillator();
+              var g = ctx.createGain();
+              osc.type = 'sine';
+              osc.frequency.setValueAtTime(drops[i], t);
+              osc.frequency.exponentialRampToValueAtTime(drops[i] * 1.08, t + 0.11);
+              g.gain.setValueAtTime(0.0001, t);
+              g.gain.linearRampToValueAtTime(0.06, t + 0.008);
+              g.gain.exponentialRampToValueAtTime(0.0001, t + 0.12);
+              osc.connect(g);
+              g.connect(this.masterGain);
+              osc.start(t);
+              osc.stop(t + 0.13);
+            }
+          } catch (err) {}
+          return true;
+        },
+
+        playBountyOrGreet: function() {
+          if (!this.enabled) return false;
+          this.stats.bounties++;
+          this.lastPlayed = 'bountyOrGreet';
+          var ctx = this.ensureContext();
+          if (!ctx || !this.masterGain) return true;
+          try {
+            var now = ctx.currentTime;
+            // Uplifting Solarpunk chime (392 Hz -> 493.88 Hz -> 587.33 Hz -> 783.99 Hz)
+            var chime = [392.00, 493.88, 587.33, 783.99];
+            for (var i = 0; i < chime.length; i++) {
+              var t = now + i * 0.075;
+              var osc = ctx.createOscillator();
+              var g = ctx.createGain();
+              osc.type = 'triangle';
+              osc.frequency.setValueAtTime(chime[i], t);
+              g.gain.setValueAtTime(0.0001, t);
+              g.gain.linearRampToValueAtTime(0.065, t + 0.012);
+              g.gain.exponentialRampToValueAtTime(0.0001, t + 0.38);
+              osc.connect(g);
+              g.connect(this.masterGain);
+              osc.start(t);
+              osc.stop(t + 0.40);
+            }
+          } catch (err) {}
+          return true;
+        },
+
+        playWorkTap: function() {
+          if (!this.enabled) return false;
+          this.stats.workTaps++;
+          this.lastPlayed = 'workTap';
+          var ctx = this.ensureContext();
+          if (!ctx || !this.masterGain) return true;
+          try {
+            var now = ctx.currentTime;
+            // Soft wooden/metallic mallet tap (280 Hz + 1120 Hz short 0.05s percussion)
+            var wood = ctx.createOscillator();
+            var metal = ctx.createOscillator();
+            var g = ctx.createGain();
+            wood.type = 'triangle';
+            wood.frequency.setValueAtTime(280.0, now);
+            wood.frequency.exponentialRampToValueAtTime(160.0, now + 0.05);
+            metal.type = 'sine';
+            metal.frequency.setValueAtTime(1120.0, now);
+
+            g.gain.setValueAtTime(0.0001, now);
+            g.gain.linearRampToValueAtTime(0.05, now + 0.004);
+            g.gain.exponentialRampToValueAtTime(0.0001, now + 0.05);
+
+            wood.connect(g);
+            metal.connect(g);
+            g.connect(this.masterGain);
+            wood.start(now);
+            metal.start(now);
+            wood.stop(now + 0.055);
+            metal.stop(now + 0.055);
+          } catch (err) {}
+          return true;
+        },
+
+        playFootstep: function() {
+          if (!this.enabled) return false;
+          this.stats.footsteps++;
+          this.lastPlayed = 'footstep';
+          var ctx = this.ensureContext();
+          if (!ctx || !this.masterGain) return true;
+          try {
+            var now = ctx.currentTime;
+            // Subtle soft grass/wood step (140 Hz -> 70 Hz, 0.04s, gain ~0.02)
+            var osc = ctx.createOscillator();
+            var g = ctx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(140.0, now);
+            osc.frequency.exponentialRampToValueAtTime(70.0, now + 0.04);
+
+            g.gain.setValueAtTime(0.0001, now);
+            g.gain.linearRampToValueAtTime(0.02, now + 0.004);
+            g.gain.exponentialRampToValueAtTime(0.0001, now + 0.04);
+
+            osc.connect(g);
+            g.connect(this.masterGain);
+            osc.start(now);
+            osc.stop(now + 0.045);
+          } catch (err) {}
+          return true;
+        },
+
+        playShower: function() {
+          if (!this.enabled) return false;
+          this.stats.showers++;
+          this.lastPlayed = 'shower';
+          var ctx = this.ensureContext();
+          if (!ctx || !this.masterGain) return true;
+          try {
+            var now = ctx.currentTime;
+            // Part 1: Filtered pink-noise warm water spray (bandpass 1800 Hz -> 1400 Hz, 0.35s)
+            if (this.noiseBuffer) {
+              var spray = ctx.createBufferSource();
+              spray.buffer = this.noiseBuffer;
+              var bp = ctx.createBiquadFilter();
+              bp.type = 'bandpass';
+              bp.frequency.setValueAtTime(1850.0, now);
+              bp.frequency.linearRampToValueAtTime(1350.0, now + 0.32);
+              bp.Q.setValueAtTime(1.4, now);
+              var sg = ctx.createGain();
+              sg.gain.setValueAtTime(0.0001, now);
+              sg.gain.linearRampToValueAtTime(0.055, now + 0.03);
+              sg.gain.exponentialRampToValueAtTime(0.0001, now + 0.34);
+              spray.connect(bp);
+              bp.connect(sg);
+              sg.connect(this.masterGain);
+              spray.start(now);
+              spray.stop(now + 0.35);
+            }
+            // Part 2: Warm refreshing droplet arpeggio (587.33 Hz -> 783.99 Hz -> 1046.50 Hz)
+            var drops = [587.33, 783.99, 1046.50];
+            for (var i = 0; i < drops.length; i++) {
+              var t = now + 0.03 + i * 0.055;
+              var osc = ctx.createOscillator();
+              var g = ctx.createGain();
+              osc.type = 'sine';
+              osc.frequency.setValueAtTime(drops[i], t);
+              g.gain.setValueAtTime(0.0001, t);
+              g.gain.linearRampToValueAtTime(0.045, t + 0.01);
+              g.gain.exponentialRampToValueAtTime(0.0001, t + 0.16);
+              osc.connect(g);
+              g.connect(this.masterGain);
+              osc.start(t);
+              osc.stop(t + 0.17);
+            }
+          } catch (err) {}
+          return true;
+        },
+
+        playVideoGame: function() {
+          if (!this.enabled) return false;
+          this.stats.videoGames++;
+          this.lastPlayed = 'videoGame';
+          var ctx = this.ensureContext();
+          if (!ctx || !this.masterGain) return true;
+          try {
+            var now = ctx.currentTime;
+            // Playful 8-bit chiptune square-wave arpeggio (C5 - E5 - G5 - C6)
+            var notes = [523.25, 659.25, 783.99, 1046.50];
+            for (var i = 0; i < notes.length; i++) {
+              var t = now + i * 0.055;
+              var osc = ctx.createOscillator();
+              var g = ctx.createGain();
+              osc.type = 'square';
+              osc.frequency.setValueAtTime(notes[i], t);
+              g.gain.setValueAtTime(0.0001, t);
+              g.gain.linearRampToValueAtTime(0.032, t + 0.006);
+              g.gain.exponentialRampToValueAtTime(0.0001, t + 0.085);
+              osc.connect(g);
+              g.connect(this.masterGain);
+              osc.start(t);
+              osc.stop(t + 0.09);
+            }
+          } catch (err) {}
+          return true;
+        },
+
+        playSleepChime: function() {
+          if (!this.enabled) return false;
+          this.stats.sleepChimes++;
+          this.lastPlayed = 'sleepChime';
+          var ctx = this.ensureContext();
+          if (!ctx || !this.masterGain) return true;
+          try {
+            var now = ctx.currentTime;
+            // Warm descending lullaby triangle chord (G4 - E4 - C4)
+            var lullaby = [392.00, 329.63, 261.63];
+            for (var i = 0; i < lullaby.length; i++) {
+              var t = now + i * 0.09;
+              var osc = ctx.createOscillator();
+              var g = ctx.createGain();
+              osc.type = 'triangle';
+              osc.frequency.setValueAtTime(lullaby[i], t);
+              g.gain.setValueAtTime(0.0001, t);
+              g.gain.linearRampToValueAtTime(0.05, t + 0.02);
+              g.gain.exponentialRampToValueAtTime(0.0001, t + 0.48);
+              osc.connect(g);
+              g.connect(this.masterGain);
+              osc.start(t);
+              osc.stop(t + 0.50);
+            }
+          } catch (err) {}
+          return true;
+        }
+      };
+
+      window.toggleOasisAudio = function(forceState) {
+        var nextState = (typeof forceState === 'boolean') ? forceState : !window.OasisAudio.enabled;
+        window.OasisAudio.enabled = nextState;
+
+        var btn = document.getElementById('btn-audio-toggle');
+        if (btn) {
+          btn.textContent = nextState ? '[ 🔊 Audio: ON ]' : '[ 🔇 Audio: OFF ]';
+          if (nextState) {
+            btn.classList.add('active');
+          } else {
+            btn.classList.remove('active');
+          }
+        }
+
+        if (nextState) {
+          window.OasisAudio.init();
+          if (window.OasisAudio.ctx && window.OasisAudio.masterGain && window.OasisAudio.ambientGain) {
+            try {
+              var now = window.OasisAudio.ctx.currentTime;
+              window.OasisAudio.masterGain.gain.setValueAtTime(1.0, now);
+              window.OasisAudio.ambientGain.gain.setValueAtTime(1.0, now);
+            } catch (err) {}
+          }
+          window.OasisAudio.playClick();
+        } else {
+          if (window.OasisAudio.ctx && window.OasisAudio.masterGain) {
+            try {
+              window.OasisAudio.masterGain.gain.setValueAtTime(0.0001, window.OasisAudio.ctx.currentTime);
+            } catch (err) {}
+          }
+          window.OasisAudio.stopAmbient();
+        }
+        return nextState;
+      };
+      window.OasisAudio.toggle = window.toggleOasisAudio;
+
+      // Auto-Unlock WebAudio on First User Gesture (pointerdown / keydown)
+      function _oasisUnlockAudioOnGesture() {
+        if (window.OasisAudio && window.OasisAudio.enabled) {
+          window.OasisAudio.init();
+        }
+        window.removeEventListener('pointerdown', _oasisUnlockAudioOnGesture);
+        window.removeEventListener('keydown', _oasisUnlockAudioOnGesture);
+      }
+      window.addEventListener('pointerdown', _oasisUnlockAudioOnGesture, { once: true });
+      window.addEventListener('keydown', _oasisUnlockAudioOnGesture, { once: true });
+
       function formatUsdFromCents(cents, decimals) {
         var val = (Number(cents) || 0) / 100.0;
         var dec = (decimals !== undefined) ? decimals : 2;
@@ -2050,6 +2731,14 @@
       window.triggerV31Action = function(code, fromRemoteBus) {
         var c = Math.round(Number(code) || 0);
         window._oasisPendingV31Action = c;
+
+        if (window.OasisAudio) {
+          if (c >= 101 && c <= 103) {
+            window.OasisAudio.playBountyOrGreet();
+          } else if (c >= 201 && c <= 205) {
+            window.OasisAudio.playStamp();
+          }
+        }
 
         var st = window._oasisV31State || {
           reserveCents: 2000000,
@@ -2154,6 +2843,9 @@
       }
 
       window.filterStage1BlueprintsByWave = function(waveCode) {
+        if (window.OasisAudio) {
+          window.OasisAudio.playClick();
+        }
         var w = String(waveCode || 'ALL').trim().toUpperCase();
         if (w !== 'A' && w !== 'B' && w !== 'C') {
           w = 'ALL';
@@ -2260,6 +2952,9 @@
       window.syncArtifactCatalog = window._oasisSyncArtifactCatalog;
 
       function toggleNode0CompanionDrawer(forceState) {
+        if (window.OasisAudio) {
+          window.OasisAudio.playClick();
+        }
         var drawer = document.getElementById('node0-companion-drawer');
         if (!drawer) return;
         var nextState = (typeof forceState === 'boolean') ? forceState : (drawer.style.display !== 'block');
@@ -2274,6 +2969,10 @@
         var tid = Math.round(Number(taskId) || 0);
         if (tid < 1 || tid > 5) return;
         window._oasisPendingCompanionTask = tid;
+
+        if (window.OasisAudio) {
+          window.OasisAudio.playBountyOrGreet();
+        }
 
         var statusBanner = document.getElementById('companion-drawer-status');
         if (statusBanner) {
@@ -2331,6 +3030,10 @@
       function commitBpmnSchedule(mode, fromRemoteBus) {
         var m = Math.round(Number(mode) || 1);
         window._oasisPendingScheduleCommit = m;
+
+        if (window.OasisAudio) {
+          window.OasisAudio.playBountyOrGreet();
+        }
 
         var statusBanner = document.getElementById('companion-drawer-status');
         if (statusBanner) {
@@ -2503,6 +3206,9 @@
       window.syncCompanionTelemetryStrip = syncCompanionTelemetryStrip;
 
       function dismissNode0Intro() {
+        if (window.OasisAudio) {
+          window.OasisAudio.playClick();
+        }
         var modal = document.getElementById('node0-intro-modal');
         if (modal) {
           modal.style.display = 'none';
@@ -2511,11 +3217,17 @@
       window.dismissNode0Intro = dismissNode0Intro;
 
       function toggleNode0RoofCutaway() {
+        if (window.OasisAudio) {
+          window.OasisAudio.playClick();
+        }
         window._oasisToggleRoofCutaway = 1;
       }
       window.toggleNode0RoofCutaway = toggleNode0RoofCutaway;
 
       function triggerNeighborWave() {
+        if (window.OasisAudio) {
+          window.OasisAudio.playBountyOrGreet();
+        }
         window._oasisWaveNeighborRequested = 1;
       }
       window.triggerNeighborWave = triggerNeighborWave;
@@ -2523,13 +3235,27 @@
       function triggerKitchenScenarioAction(actionCode) {
         var code = Number(actionCode) || 0;
         window._oasisPendingKitchenAction = code;
+        window._oasisPendingHabitationAction = code;
         if (code === 13) {
+          if (window.OasisAudio) window.OasisAudio.playHarvest();
           syncActiveBrushUI(13, '[Harvest Ripe Crop]');
         } else if (code === 14) {
-          syncActiveBrushUI(14, '[Cook Sovereign Meal (Scenario Γ)]');
+          if (window.OasisAudio) window.OasisAudio.playCook();
+          syncActiveBrushUI(14, '[Kitchen & Dining: Cook & Eat Hot Meal]');
+        } else if (code === 15) {
+          if (window.OasisAudio && typeof window.OasisAudio.playShower === 'function') window.OasisAudio.playShower();
+        } else if (code === 16) {
+          if (window.OasisAudio && typeof window.OasisAudio.playVideoGame === 'function') window.OasisAudio.playVideoGame();
+        } else if (code === 17) {
+          if (window.OasisAudio && typeof window.OasisAudio.playSleepChime === 'function') window.OasisAudio.playSleepChime();
+        } else if (code === 18) {
+          if (window.OasisAudio) window.OasisAudio.playClick();
+        } else if (code === 19) {
+          if (window.OasisAudio) window.OasisAudio.playWorkTap();
         }
       }
       window.triggerKitchenScenarioAction = triggerKitchenScenarioAction;
+      window.triggerHabitationRoomAction = triggerKitchenScenarioAction;
 
       function updateHomesteadQuestHUD(hasGarden, hasSolarOrCistern, hasL7Grace, cutawayZ, neighborQuote) {
         var gOk = Boolean(Number(hasGarden) > 0 || hasGarden === true);
@@ -2782,6 +3508,9 @@
       }
 
       function toggleShowAllContextTools() {
+        if (window.OasisAudio) {
+          window.OasisAudio.playClick();
+        }
         window._oasisShowAllContextTools = !window._oasisShowAllContextTools;
         if (window._oasisContextMenuTarget) {
           applyContextFiltering(window._oasisContextMenuTarget.matId);
@@ -2852,6 +3581,9 @@
       }
 
       function selectActiveBrushTool(actionId, actionName) {
+        if (window.OasisAudio) {
+          window.OasisAudio.playClick();
+        }
         var id = Number(actionId) || 0;
         var name = actionName || ('Action #' + id);
         window._oasisActiveTool = {
@@ -2865,6 +3597,9 @@
       window.selectActiveBrushTool = selectActiveBrushTool;
 
       function selectVoxelContextAction(actionId, actionName) {
+        if (window.OasisAudio) {
+          window.OasisAudio.playStamp();
+        }
         var id = Number(actionId) || 0;
         var name = actionName || ('Action #' + id);
         var tgt = window._oasisContextMenuTarget || { x: 0, y: 0, z: 0, matId: 0 };
@@ -2874,8 +3609,9 @@
           target: tgt
         };
         window._oasisPendingActionId = id;
-        if (id === 13 || id === 14) {
+        if (id >= 13 && id <= 19) {
           window._oasisPendingKitchenAction = id;
+          window._oasisPendingHabitationAction = id;
         }
         window._oasisPendingDirectPlacement = {
           x: tgt.x,
@@ -2892,34 +3628,91 @@
       }
       window.selectVoxelContextAction = selectVoxelContextAction;
 
-      function setFounderStatus(statusText, rations, waterL, queueCount, activeToolName, pvKits, timberCount, cobCount, rawProduce, metabolicLabel) {
+      function setFounderStatus(statusText, rations, waterL, queueCount, activeToolName, pvKits, timberCount, cobCount, rawProduce, metabolicLabel, hygienePct) {
+        var sText = (statusText !== undefined && statusText !== null) ? String(statusText) : '';
         var actEl = document.getElementById('hud-founder-activity');
         if (actEl && statusText !== undefined && statusText !== null) {
-          var s = String(statusText);
-          actEl.textContent = (s.indexOf('STATUS:') === 0) ? s : ('STATUS: ' + s);
+          actEl.textContent = (sText.indexOf('STATUS:') === 0) ? sText : ('STATUS: ' + sText);
         }
-        var r = (rations !== undefined && rations !== null && !isNaN(Number(rations))) ? Math.round(Number(rations)) : 3;
+
+        if (window.OasisAudio && sText.length > 0) {
+          var nowMs = Date.now();
+          var prevText = window.OasisAudio.lastStatusText || '';
+          if (sText.indexOf('Cooking') !== -1 && prevText.indexOf('Cooking') === -1) {
+            if (nowMs - window.OasisAudio.lastCookMs >= 650) {
+              window.OasisAudio.lastCookMs = nowMs;
+              window.OasisAudio.playCook();
+            }
+          } else if (sText.indexOf('Shower') !== -1 && prevText.indexOf('Shower') === -1) {
+            if (nowMs - (window.OasisAudio.lastShowerMs || 0) >= 650) {
+              window.OasisAudio.lastShowerMs = nowMs;
+              if (typeof window.OasisAudio.playShower === 'function') window.OasisAudio.playShower();
+            }
+          } else if (sText.indexOf('Video Games') !== -1 && prevText.indexOf('Video Games') === -1) {
+            if (nowMs - (window.OasisAudio.lastVideoGameMs || 0) >= 650) {
+              window.OasisAudio.lastVideoGameMs = nowMs;
+              if (typeof window.OasisAudio.playVideoGame === 'function') window.OasisAudio.playVideoGame();
+            }
+          } else if (sText.indexOf('Sleeping in Bed') !== -1 && prevText.indexOf('Sleeping in Bed') === -1) {
+            if (nowMs - (window.OasisAudio.lastSleepMs || 0) >= 650) {
+              window.OasisAudio.lastSleepMs = nowMs;
+              if (typeof window.OasisAudio.playSleepChime === 'function') window.OasisAudio.playSleepChime();
+            }
+          } else if (sText.indexOf('Harvesting') !== -1 && prevText.indexOf('Harvesting') === -1) {
+            if (nowMs - window.OasisAudio.lastHarvestMs >= 650) {
+              window.OasisAudio.lastHarvestMs = nowMs;
+              window.OasisAudio.playHarvest();
+            }
+          } else if (sText.indexOf('Drinking') !== -1 && prevText.indexOf('Drinking') === -1) {
+            if (nowMs - window.OasisAudio.lastWaterMs >= 650) {
+              window.OasisAudio.lastWaterMs = nowMs;
+              window.OasisAudio.playWater();
+            }
+          } else if (sText.indexOf('Assembling') !== -1 || sText.indexOf('Constructing') !== -1 || sText.indexOf('Workbench') !== -1) {
+            if (nowMs - window.OasisAudio.lastWorkTapMs >= 650) {
+              window.OasisAudio.lastWorkTapMs = nowMs;
+              window.OasisAudio.playWorkTap();
+            }
+          } else if (
+            sText.indexOf('Hauling') !== -1 ||
+            sText.indexOf('Walking') !== -1 ||
+            sText.indexOf('Climbing') !== -1 ||
+            sText.indexOf('Navigating') !== -1
+          ) {
+            if (nowMs - window.OasisAudio.lastFootstepMs >= 450) {
+              window.OasisAudio.lastFootstepMs = nowMs;
+              window.OasisAudio.playFootstep();
+            }
+          }
+          window.OasisAudio.lastStatusText = sText;
+        }
+
+        var r = (rations !== undefined && rations !== null && !isNaN(Number(rations))) ? Math.round(Number(rations)) : 12;
         var w = (waterL !== undefined && waterL !== null && !isNaN(Number(waterL))) ? Number(waterL).toFixed(1) : '60.0';
         var q = (queueCount !== undefined && queueCount !== null && !isNaN(Number(queueCount))) ? Math.max(0, Math.round(Number(queueCount))) : 0;
-        var pv = (pvKits !== undefined && pvKits !== null && !isNaN(Number(pvKits))) ? Math.max(0, Math.round(Number(pvKits))) : 2;
+        var pv = (pvKits !== undefined && pvKits !== null && !isNaN(Number(pvKits))) ? Math.max(0, Math.round(Number(pvKits))) : 0;
         var tim = (timberCount !== undefined && timberCount !== null && !isNaN(Number(timberCount))) ? Math.max(0, Math.round(Number(timberCount))) : 6;
         var cob = (cobCount !== undefined && cobCount !== null && !isNaN(Number(cobCount))) ? Math.max(0, Math.round(Number(cobCount))) : 4;
-        var prod = (rawProduce !== undefined && rawProduce !== null && !isNaN(Number(rawProduce))) ? Math.max(0, Math.round(Number(rawProduce))) : 2;
+        var prod = (rawProduce !== undefined && rawProduce !== null && !isNaN(Number(rawProduce))) ? Math.max(0, Math.round(Number(rawProduce))) : 0;
         var meta = (metabolicLabel !== undefined && metabolicLabel !== null && String(metabolicLabel).trim().length > 0)
           ? String(metabolicLabel).trim()
           : 'NORMAL (1.0x)';
+        var hyg = (hygienePct !== undefined && hygienePct !== null && !isNaN(Number(hygienePct)))
+          ? Math.max(0, Math.min(100, Math.round(Number(hygienePct))))
+          : 92;
+        var showerNote = (hyg >= 45) ? '(Shower OK)' : '(Needs Shower)';
 
         var stockEl = document.getElementById('hud-camp-stock');
         if (stockEl) {
-          stockEl.textContent = 'CAMP: ' + r + ' Rations | ' + w + 'L Water | Queue: ' + q;
+          stockEl.textContent = 'FRIDGE & TAP: ' + r + ' Meals | ' + w + 'L Water | Hygiene: ' + hyg + '% ' + showerNote;
         }
         var matEl = document.getElementById('hud-material-stock');
         if (matEl) {
-          matEl.textContent = 'SALVAGE: ' + pv + ' PV Kits | ' + tim + ' Timber | ' + cob + ' Cob | 6 Seeds';
+          matEl.textContent = 'GARAGE STORAGE: ' + pv + ' PV Kits | ' + tim + ' Timber | ' + cob + ' Cob | Tools Ready';
         }
         var kitEl = document.getElementById('hud-kitchen-status');
         if (kitEl) {
-          kitEl.textContent = 'KITCHEN (Γ): ' + r + ' Meals | ' + prod + ' Raw Produce | ' + w + 'L Water | ' + meta;
+          kitEl.textContent = 'KITCHEN & DINING: Stove Ready | ' + r + ' Fridge Meals | ' + prod + ' Garden Produce | ' + meta;
         }
         if (activeToolName && String(activeToolName).trim().length > 0) {
           var labelEl = document.getElementById('active-brush-label');
@@ -2937,7 +3730,8 @@
           timberCount: tim,
           cobCount: cob,
           rawProduce: prod,
-          metabolicLabel: meta
+          metabolicLabel: meta,
+          hygienePct: hyg
         };
         if (typeof syncCompanionTelemetryStrip === 'function') {
           syncCompanionTelemetryStrip();
@@ -2968,6 +3762,9 @@
       }
 
       function setTimeWarpMultiplier(mult) {
+        if (window.OasisAudio) {
+          window.OasisAudio.playClick();
+        }
         var m = Number(mult);
         if (isNaN(m) || m < 0) m = 1;
         window._oasisTimeWarpMultiplier = m;
@@ -3002,6 +3799,9 @@
       window.cycleRoofCutawayLevel = cycleRoofCutawayLevel;
 
       function setOverlayMode(mode) {
+        if (window.OasisAudio) {
+          window.OasisAudio.playClick();
+        }
         var m = Math.max(0, Math.min(4, Math.round(Number(mode) || 0)));
         window._oasisOverlayMode = m;
         window._oasisPendingOverlayMode = m;
@@ -3223,6 +4023,11 @@
 
       if (canvasElement) {
         canvasElement.addEventListener('contextmenu', function(e) { e.preventDefault(); });
+        canvasElement.addEventListener('mousedown', function(e) {
+          if (e.button === 0 && !e.shiftKey && window.OasisAudio) {
+            window.OasisAudio.playStamp();
+          }
+        });
       }
       if (viewportContainer) {
         viewportContainer.addEventListener('contextmenu', function(e) { e.preventDefault(); });

@@ -514,6 +514,9 @@ static oasis::fabrication::InfrastructureType g_active_blueprint_type = oasis::f
 static bool g_founder_is_carrying = false;
 static oasis::pathfinding::VoxelPath g_founder_voxel_path{};
 static std::string g_blocked_blueprint_status_note{};
+static std::string g_active_habitation_status{};
+static uint64_t g_habitation_status_until_tick = 0ULL;
+static int g_active_habitation_room_code = 0;
 
 static void DispatchFounderPathTo(flecs::entity founder, glm::ivec3 target_voxel) {
     if (!founder.is_alive() || !founder.has<oasis::fabrication::SpatialPositionComponent>()) {
@@ -542,9 +545,7 @@ static void DispatchFounderPathTo(
     auto& cmd = founder.get_mut<oasis::fabrication::FounderCommandComponent>();
     cmd.state = new_state;
     cmd.target_voxel = target_voxel;
-    if (target_bp.is_alive()) {
-        cmd.target_blueprint = target_bp;
-    }
+    cmd.target_blueprint = target_bp;
     DispatchFounderPathTo(founder, target_voxel);
 }
 
@@ -597,38 +598,148 @@ static bool TriggerHarvestGardenAction(flecs::world& ecs, const glm::ivec3* pref
 
     auto& cmd = founder.get_mut<oasis::fabrication::FounderCommandComponent>();
     g_founder_is_carrying = false;
+    g_active_habitation_status.clear();
+    g_active_habitation_room_code = 0;
     cmd.state = oasis::fabrication::FounderActionState::HARVESTING_CROP;
     cmd.target_voxel = best_crop_pos;
+    cmd.target_blueprint = flecs::entity::null();
     DispatchFounderPathTo(founder, best_crop_pos);
     spdlog::info("[Oasis Garden] Founder dispatched to harvest backyard garden crop at ({},{},{})",
                  best_crop_pos.x, best_crop_pos.y, best_crop_pos.z);
     return true;
 }
 
-static bool TriggerCookKitchenAction(flecs::world& ecs) {
+static bool TriggerHabitationRoomAction(flecs::world& ecs, int action_code) {
     auto founder = ecs.entity("Founder");
     auto camp = ecs.entity("GenesisCamp");
     if (!founder.is_alive() || !founder.has<oasis::fabrication::FounderCommandComponent>() ||
+        !founder.has<oasis::fabrication::SomaticStateComponent>() ||
+        !founder.has<oasis::psychology::PsychologyComponent>() ||
         !camp.is_alive() || !camp.has<oasis::chill::GenesisCampStockComponent>()) {
         return false;
     }
 
-    const auto& stock = camp.get<oasis::chill::GenesisCampStockComponent>();
-    if (stock.raw_produce_items == 0u) {
-        // If no raw produce in stock yet, harvest a backyard garden bed first (which transitions into COOKING_MEAL!)
-        if (TriggerHarvestGardenAction(ecs, nullptr)) {
-            return true;
-        }
-        return false;
-    }
-
     auto& cmd = founder.get_mut<oasis::fabrication::FounderCommandComponent>();
+    auto& somatic = founder.get_mut<oasis::fabrication::SomaticStateComponent>();
+    auto& psych = founder.get_mut<oasis::psychology::PsychologyComponent>();
+    auto& stock = camp.get_mut<oasis::chill::GenesisCampStockComponent>();
+
     g_founder_is_carrying = false;
-    cmd.state = oasis::fabrication::FounderActionState::COOKING_MEAL;
-    cmd.target_voxel = stock.ration_crate_pos;
-    DispatchFounderPathTo(founder, stock.ration_crate_pos);
-    spdlog::info("[Oasis Kitchen] Founder dispatched to Kitchen Counter (11,1,4) to cook Homestead Meal (Scenario Gamma)");
-    return true;
+    g_last_designator_warning.clear();
+    g_designator_warning_until_tick = 0ULL;
+    g_active_habitation_room_code = action_code;
+    g_habitation_status_until_tick = g_sim_tick + 300ULL;
+
+    if (action_code == 14) {
+        // 14: Kitchen + Dining (Cook & Eat at Oven/Stove & Table) -> (11, 1, 4)
+        const glm::ivec3 kitchen_target(11, 1, 4);
+        if (stock.raw_produce_items >= 1u && stock.potable_water_liters >= 0.5) {
+            oasis::chill::CookHomesteadMealAtKitchen(somatic, psych, stock);
+            psych.stress = std::max(0.0f, psych.stress - 0.02f);
+        } else {
+            somatic.caloric_reserve = std::min(2500.0, somatic.caloric_reserve + 800.0);
+            somatic.hydration = std::min(1.0f, somatic.hydration + 0.20f);
+            psych.stress = std::max(0.0f, psych.stress - 0.10f);
+            psych.mood = std::min(1.0f, psych.mood + 0.12f);
+        }
+        somatic.is_exhausted = false;
+        g_active_habitation_status = "Kitchen & Dining: Cooking & Eating Hot Meal at Stove/Table";
+        cmd.state = oasis::fabrication::FounderActionState::COOKING_MEAL;
+        cmd.target_voxel = kitchen_target;
+        cmd.target_blueprint = flecs::entity::null();
+        DispatchFounderPathTo(founder, kitchen_target);
+        spdlog::info("[Oasis Habitation] {}", g_active_habitation_status);
+        return true;
+    } else if (action_code == 15) {
+        // 15: Bathroom (Warm Shower, Toilet & Sink — Basic Biology & Baseline) -> (15, 1, 4)
+        const glm::ivec3 bathroom_target(15, 1, 4);
+        somatic.hygiene = 1.0f;
+        somatic.bladder_comfort = 1.0f;
+        psych.stress = std::max(0.0f, psych.stress - 0.18f);
+        somatic.core_temp_c = 37.0f;
+        somatic.body_temp_c = 37.0f;
+        g_active_habitation_status = "Bathroom: Taking Warm Shower & Refreshing Hygiene (Baseline R0)";
+        cmd.state = oasis::fabrication::FounderActionState::NAVIGATING;
+        cmd.target_voxel = bathroom_target;
+        cmd.target_blueprint = flecs::entity::null();
+        DispatchFounderPathTo(founder, bathroom_target);
+        spdlog::info("[Oasis Habitation] {}", g_active_habitation_status);
+        return true;
+    } else if (action_code == 16) {
+        // 16: Living Space (Couch, TV, VideoGame & Sound System) -> (11, 1, 8)
+        const glm::ivec3 living_target(11, 1, 8);
+        somatic.entertainment_comfort = 1.0f;
+        psych.stress = std::max(0.0f, psych.stress - 0.25f);
+        somatic.focus = std::min(1.0f, somatic.focus + 0.15f);
+        psych.focus = somatic.focus;
+        psych.mood = std::min(1.0f, psych.mood + 0.20f);
+        g_active_habitation_status = "Living Room: Playing VideoGame on TV & Listening to Sound System (-Stress)";
+        cmd.state = oasis::fabrication::FounderActionState::NAVIGATING;
+        cmd.target_voxel = living_target;
+        cmd.target_blueprint = flecs::entity::null();
+        DispatchFounderPathTo(founder, living_target);
+        spdlog::info("[Oasis Habitation] {}", g_active_habitation_status);
+        return true;
+    } else if (action_code == 17) {
+        // 17: Bedroom (Sleep in Bed + Mattress) -> (15, 1, 8)
+        const glm::ivec3 bedroom_target(15, 1, 8);
+        psych.stress = std::max(0.0f, psych.stress - 0.30f);
+        somatic.focus = 1.0f;
+        psych.focus = 1.0f;
+        somatic.stamina = 1.0f;
+        somatic.is_exhausted = false;
+        g_active_habitation_status = "Bedroom: Sleeping in Bed & Recovering Circadian Energy (+Focus)";
+        cmd.state = oasis::fabrication::FounderActionState::NAVIGATING;
+        cmd.target_voxel = bedroom_target;
+        cmd.target_blueprint = flecs::entity::null();
+        DispatchFounderPathTo(founder, bedroom_target);
+        spdlog::info("[Oasis Habitation] {}", g_active_habitation_status);
+        return true;
+    } else if (action_code == 18) {
+        // 18: Office (Desk, Chair, Storage & Computers) -> (13, 1, 4)
+        const glm::ivec3 office_target(13, 1, 4);
+        g_alpha_genesis.reputation_wealth_bp = std::min<uint32_t>(
+            10000u,
+            g_alpha_genesis.reputation_wealth_bp + 250u
+        );
+        if (g_alpha_genesis.reputation_wealth_bp >= oasis::artifacts::L5_GOVERNANCE_REPUTATION_THRESHOLD_BP) {
+            g_alpha_genesis.unlocked_l5_stewardship_governance = true;
+        }
+        somatic.focus = std::min(1.0f, somatic.focus + 0.15f);
+        psych.focus = somatic.focus;
+        g_active_habitation_status = "Office: Working at Computer Desk & Studying L6 Blueprints";
+        cmd.state = oasis::fabrication::FounderActionState::NAVIGATING;
+        cmd.target_voxel = office_target;
+        cmd.target_blueprint = flecs::entity::null();
+        DispatchFounderPathTo(founder, office_target);
+        spdlog::info("[Oasis Habitation] {} (+250 bp Reputation R -> {} bp)",
+                     g_active_habitation_status, g_alpha_genesis.reputation_wealth_bp);
+        return true;
+    } else if (action_code == 19) {
+        // 19: Garage (Workbench, Tool-Hanging Wall & Storage Unit) -> (10, 1, 9)
+        const glm::ivec3 garage_target(10, 1, 9);
+        stock.timber_planks_remaining += 1u;
+        g_alpha_genesis.reputation_wealth_bp = std::min<uint32_t>(
+            10000u,
+            g_alpha_genesis.reputation_wealth_bp + 150u
+        );
+        if (g_alpha_genesis.reputation_wealth_bp >= oasis::artifacts::L5_GOVERNANCE_REPUTATION_THRESHOLD_BP) {
+            g_alpha_genesis.unlocked_l5_stewardship_governance = true;
+        }
+        g_active_habitation_status = "Garage: Tuning Tools at Workbench & Organizing Storage Unit";
+        cmd.state = oasis::fabrication::FounderActionState::NAVIGATING;
+        cmd.target_voxel = garage_target;
+        cmd.target_blueprint = flecs::entity::null();
+        DispatchFounderPathTo(founder, garage_target);
+        spdlog::info("[Oasis Habitation] {} (+1 Timber Plank -> {}, +150 bp Reputation R -> {} bp)",
+                     g_active_habitation_status, stock.timber_planks_remaining, g_alpha_genesis.reputation_wealth_bp);
+        return true;
+    }
+    return false;
+}
+
+static bool TriggerCookKitchenAction(flecs::world& ecs) {
+    return TriggerHabitationRoomAction(ecs, 14);
 }
 
 static oasis::fabrication::InfrastructureType MapActionIdToBlueprintType(
@@ -674,7 +785,7 @@ static oasis::fabrication::InfrastructureType MapActionIdToBlueprintType(
 
 static bool IsZeroLaborActionId(uint16_t action_id) {
     using oasis::designator::DesignatorActionId;
-    if (action_id == 13 || action_id == 14) return true;
+    if (action_id >= 13 && action_id <= 19) return true;
     const auto id = static_cast<DesignatorActionId>(action_id);
     return id == DesignatorActionId::DESIGNATE_HAUL_ZONE ||
            id == DesignatorActionId::DESIGNATE_SLEEP_ZONE ||
@@ -730,12 +841,12 @@ static bool PlaceDesignationAtVoxel(
         return true;
     }
 
-    // 1b. Harvest Backyard Garden (action_id == 13) & Scenario Gamma Cook Meal at Kitchen (action_id == 14)
+    // 1b. Harvest Backyard Garden (action_id == 13) & 6-Room Habitation Actions (action_id == 14..19)
     if (action_id == 13) {
         return TriggerHarvestGardenAction(ecs, &clicked_voxel);
     }
-    if (action_id == 14) {
-        return TriggerCookKitchenAction(ecs);
+    if (action_id >= 14 && action_id <= 19) {
+        return TriggerHabitationRoomAction(ecs, static_cast<int>(action_id));
     }
 
     // 2. Zero-Labor Zones (action_id == 3, 8, 9 — Haul, Sleep, Recreation): complete instantly!
@@ -850,6 +961,8 @@ static bool PlaceDesignationAtVoxel(
 
     g_last_designator_warning.clear();
     g_designator_warning_until_tick = 0ULL;
+    g_active_habitation_status.clear();
+    g_active_habitation_room_code = 0;
 
     // Configure realistic work ticks & resource-gated material hauling requirements
     double req_work_ticks = 180.0;
@@ -2013,17 +2126,24 @@ void EngineTick(void* arg) {
         }
 
         const int pending_kitchen_action = EM_ASM_INT({
-            if (typeof window !== 'undefined' && typeof window._oasisPendingKitchenAction === 'number' && window._oasisPendingKitchenAction > 0) {
-                var ka = window._oasisPendingKitchenAction;
-                window._oasisPendingKitchenAction = 0;
-                return ka;
+            if (typeof window !== 'undefined') {
+                if (typeof window._oasisPendingKitchenAction === 'number' && window._oasisPendingKitchenAction > 0) {
+                    var ka = window._oasisPendingKitchenAction | 0;
+                    window._oasisPendingKitchenAction = 0;
+                    return ka;
+                }
+                if (typeof window._oasisPendingHabitationAction === 'number' && window._oasisPendingHabitationAction > 0) {
+                    var ha = window._oasisPendingHabitationAction | 0;
+                    window._oasisPendingHabitationAction = 0;
+                    return ha;
+                }
             }
             return 0;
         });
         if (pending_kitchen_action == 13) {
             TriggerHarvestGardenAction(*g_ecs, nullptr);
-        } else if (pending_kitchen_action == 14) {
-            TriggerCookKitchenAction(*g_ecs);
+        } else if (pending_kitchen_action >= 14 && pending_kitchen_action <= 19) {
+            TriggerHabitationRoomAction(*g_ecs, pending_kitchen_action);
         }
 
         const int pending_action = EM_ASM_INT({
@@ -2037,8 +2157,8 @@ void EngineTick(void* arg) {
         if (pending_action >= 0) {
             if (pending_action == 13) {
                 TriggerHarvestGardenAction(*g_ecs, nullptr);
-            } else if (pending_action == 14) {
-                TriggerCookKitchenAction(*g_ecs);
+            } else if (pending_action >= 14 && pending_action <= 19) {
+                TriggerHabitationRoomAction(*g_ecs, pending_action);
             } else {
                 g_active_designator_action_id = static_cast<uint16_t>(pending_action);
                 g_active_blueprint_type = MapActionIdToBlueprintType(g_active_designator_action_id, g_active_blueprint_type);
@@ -2106,7 +2226,7 @@ void EngineTick(void* arg) {
                 return a;
             });
             if (dp_action > 0) {
-                if (dp_action != 13 && dp_action != 14 && dp_action != 99) {
+                if ((dp_action < 13 || dp_action > 19) && dp_action != 99) {
                     g_active_designator_action_id = static_cast<uint16_t>(dp_action);
                     g_active_designator_action = static_cast<uint16_t>(dp_action);
                     g_active_blueprint_type = MapActionIdToBlueprintType(g_active_designator_action_id, g_active_blueprint_type);
@@ -2515,8 +2635,9 @@ void EngineTick(void* arg) {
                     cmd.target_blueprint.has<oasis::fabrication::BlueprintComponent>()) {
                     const auto& bp = cmd.target_blueprint.get<oasis::fabrication::BlueprintComponent>();
                     char buf[160]{};
-                    std::snprintf(buf, sizeof(buf), "Hauling %s from Driveway (8,1,3)",
-                                  oasis::chill::FormatMaterialKindName(bp.required_material_kind));
+                    std::snprintf(buf, sizeof(buf), "Hauling %s from Garage Storage (%d,%d,%d)",
+                                  oasis::chill::FormatMaterialKindName(bp.required_material_kind),
+                                  cmd.target_voxel.x, cmd.target_voxel.y, cmd.target_voxel.z);
                     status_str = buf;
                 } else if (cmd.state == oasis::fabrication::FounderActionState::HAULING_TO_SITE &&
                            cmd.target_blueprint.is_alive() &&
@@ -2541,21 +2662,27 @@ void EngineTick(void* arg) {
                                   FormatBlueprintTypeName(bp.type), stage_num, pct, bp.x, bp.y, bp.z);
                     status_str = buf;
                 } else if (cmd.state == oasis::fabrication::FounderActionState::NAVIGATING) {
-                    char buf[128]{};
-                    std::snprintf(buf, sizeof(buf), "Walking to Blueprint (%d,%d,%d)",
-                                  cmd.target_voxel.x, cmd.target_voxel.y, cmd.target_voxel.z);
-                    status_str = buf;
+                    if (!cmd.target_blueprint.is_alive() && !g_active_habitation_status.empty()) {
+                        status_str = g_active_habitation_status;
+                    } else {
+                        char buf[128]{};
+                        std::snprintf(buf, sizeof(buf), "Walking to Blueprint (%d,%d,%d)",
+                                      cmd.target_voxel.x, cmd.target_voxel.y, cmd.target_voxel.z);
+                        status_str = buf;
+                    }
                 } else if (cmd.state == oasis::fabrication::FounderActionState::SEEKING_WATER) {
-                    status_str = "Walking to Kitchen Water Filter (14,1,4) to Drink";
+                    status_str = "Walking to Kitchen Sink (12,1,4) to Drink";
                 } else if (cmd.state == oasis::fabrication::FounderActionState::SEEKING_FOOD) {
-                    status_str = "Walking to Kitchen Pantry (11,1,4) to Eat Meal";
+                    status_str = "Walking to Kitchen Fridge (11,1,4) to Eat Meal";
                 } else if (cmd.state == oasis::fabrication::FounderActionState::HARVESTING_CROP) {
                     char buf[128]{};
                     std::snprintf(buf, sizeof(buf), "Harvesting Backyard Garden Crop at (%d,%d,%d)",
                                   cmd.target_voxel.x, cmd.target_voxel.y, cmd.target_voxel.z);
                     status_str = buf;
                 } else if (cmd.state == oasis::fabrication::FounderActionState::COOKING_MEAL) {
-                    status_str = "Cooking Homestead Meal at Kitchen (Scenario Γ)";
+                    status_str = !g_active_habitation_status.empty()
+                        ? g_active_habitation_status
+                        : "Kitchen & Dining: Cooking & Eating Hot Meal at Stove/Table";
                 } else if (cmd.state == oasis::fabrication::FounderActionState::RESTING ||
                            cmd.state == oasis::fabrication::FounderActionState::EXHAUSTED) {
                     if (cmd.target_voxel == glm::ivec3(19, 1, 9)) {
@@ -2564,17 +2691,21 @@ void EngineTick(void* arg) {
                             ? "Resting by Backyard Patio Hearth (-Stress, +Focus)"
                             : "Walking to Backyard Patio Hearth (19,1,9) to Rest";
                     } else {
-                        const float dist_tent = glm::length(f_world_pos - glm::vec3(11.0f, 1.0f, 8.0f));
+                        const float dist_tent = glm::length(f_world_pos - glm::vec3(15.0f, 1.0f, 8.0f));
                         status_str = (dist_tent <= 2.5f)
-                            ? "Resting in Lot 402 Bedroom (+Focus)"
-                            : "Walking to Bedroom (11,1,8) to Rest";
+                            ? "Bedroom: Sleeping in Bed (+Focus, +Rest)"
+                            : "Walking to Bedroom (15,1,8) to Sleep";
                     }
-                } else if (cmd.state == oasis::fabrication::FounderActionState::IDLE &&
-                           !g_blocked_blueprint_status_note.empty()) {
-                    status_str = g_blocked_blueprint_status_note;
+                } else if (cmd.state == oasis::fabrication::FounderActionState::IDLE) {
+                    if (g_sim_tick < g_habitation_status_until_tick && !g_active_habitation_status.empty()) {
+                        status_str = g_active_habitation_status;
+                    } else if (!g_blocked_blueprint_status_note.empty()) {
+                        status_str = g_blocked_blueprint_status_note;
+                    }
                 }
             }
 
+            const int hygiene_pct = static_cast<int>(std::clamp(std::round(som.hygiene * 100.0f), 0.0f, 100.0f));
             EM_ASM({
                 if (typeof window !== 'undefined' && typeof window._oasisSetFounderStatus === 'function') {
                     window._oasisSetFounderStatus(
@@ -2587,7 +2718,8 @@ void EngineTick(void* arg) {
                         $6,
                         $7,
                         $8,
-                        UTF8ToString($9)
+                        UTF8ToString($9),
+                        $10
                     );
                 }
             }, status_str.c_str(),
@@ -2599,7 +2731,8 @@ void EngineTick(void* arg) {
                static_cast<int>(timber_planks),
                static_cast<int>(cob_lumps),
                static_cast<int>(raw_produce),
-               metabolic_state_str);
+               metabolic_state_str,
+               hygiene_pct);
 
             // Sprint 13.5: Homestead Quest HUD Sync
             EM_ASM({
@@ -3122,6 +3255,17 @@ int main(int argc, char* argv[]) {
                         cmd.state = oasis::fabrication::FounderActionState::IDLE;
                     }
                 } else {
+                    if (g_active_habitation_room_code == 15) {
+                        somatic.hygiene = 1.0f;
+                        somatic.bladder_comfort = 1.0f;
+                        somatic.core_temp_c = 37.0f;
+                        somatic.body_temp_c = 37.0f;
+                    } else if (g_active_habitation_room_code == 16) {
+                        somatic.entertainment_comfort = 1.0f;
+                    }
+                    if (!g_active_habitation_status.empty()) {
+                        g_habitation_status_until_tick = std::max(g_habitation_status_until_tick, g_sim_tick + 210ULL);
+                    }
                     cmd.state = oasis::fabrication::FounderActionState::IDLE;
                 }
             }
@@ -3212,7 +3356,7 @@ int main(int argc, char* argv[]) {
                     std::snprintf(
                         buf,
                         sizeof(buf),
-                        "Awaiting %s (0 in Salvage Crate)",
+                        "Awaiting %s (0 in Garage Storage)",
                         oasis::chill::FormatMaterialKindName(blocked_mat_kind)
                     );
                     g_blocked_blueprint_status_note = buf;
@@ -3680,8 +3824,8 @@ int main(int argc, char* argv[]) {
                 }
             }
 
-            // Indoor comfort moderation around Lot 402 Master Bedroom (11, 1, 8)
-            const glm::vec3 tent_pos(11.0f, 1.0f, 8.0f);
+            // Indoor comfort moderation around Lot 402 Master Bedroom (15, 1, 8)
+            const glm::vec3 tent_pos(15.0f, 1.0f, 8.0f);
             const float dist_to_tent = glm::length(tent_pos - pos.pos);
             if (!g_is_headless_ci && dist_to_tent <= 4.5f && enc_status == oasis::chill::EnclosureStatus::UNENCLOSED) {
                 amb_temp = std::clamp(amb_temp, 18.0f, 26.0f);
@@ -3708,6 +3852,12 @@ int main(int argc, char* argv[]) {
                 });
 
                 somatic.hydration = std::max(0.0f, somatic.hydration - oasis::homeostasis::BASAL_HYDRATION_DRAIN_PER_SEC * dt);
+
+                // Sprint 17: Basic Biology & Hygiene homeostasis decay (-0.0004f per tick)
+                if (!(g_active_habitation_room_code == 15 && g_sim_tick < g_habitation_status_until_tick)) {
+                    somatic.hygiene = std::clamp(somatic.hygiene - 0.0004f, 0.0f, 1.0f);
+                    somatic.bladder_comfort = std::clamp(somatic.bladder_comfort - 0.0002f, 0.0f, 1.0f);
+                }
 
                 auto camp = world.entity("GenesisCamp");
                 if (camp.is_alive() && camp.has<oasis::chill::GenesisCampStockComponent>()) {
@@ -3771,6 +3921,11 @@ int main(int argc, char* argv[]) {
                                 TriggerHarvestGardenAction(world, nullptr);
                             }
                         }
+                    } else if (somatic.hygiene < 0.45f &&
+                               e.has<oasis::fabrication::FounderCommandComponent>() &&
+                               e.get<oasis::fabrication::FounderCommandComponent>().state ==
+                                   oasis::fabrication::FounderActionState::IDLE) {
+                        TriggerHabitationRoomAction(world, 15);
                     }
 
                     if (e.has<oasis::chill::BurnoutStateComponent>()) {
@@ -3798,7 +3953,7 @@ int main(int argc, char* argv[]) {
                         cmd.state == oasis::fabrication::FounderActionState::EXHAUSTED) {
                         const uint32_t cur_mat = oasis::graphics::GetVoxelMaterialAt(start_voxel);
                         const bool is_hearth_goal = (cmd.target_voxel == glm::ivec3(19, 1, 9));
-                        const glm::ivec3 rest_goal = is_hearth_goal ? glm::ivec3(19, 1, 9) : glm::ivec3(11, 1, 8);
+                        const glm::ivec3 rest_goal = is_hearth_goal ? glm::ivec3(19, 1, 9) : glm::ivec3(15, 1, 8);
                         const float dist_to_rest_goal = glm::length(glm::vec3(rest_goal) - pos.pos);
                         const bool at_shelter = is_hearth_goal
                             ? (dist_to_rest_goal <= 2.5f)

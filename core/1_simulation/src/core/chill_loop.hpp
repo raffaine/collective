@@ -508,18 +508,14 @@ inline flecs::entity BootstrapCleanSuburbanGenesisLot(flecs::world& ecs) {
     GenesisCampStockComponent camp{};
     camp.solar_kits_remaining = 0u;
     camp.raw_produce_items = 0u;
+    camp.tent_pos = {15, 1, 8};          // Bedroom Bed + Mattress + Nightstand + Wardrobe
+    camp.ration_crate_pos = {11, 1, 4};  // Kitchen Fridge / Oven+Stove / Dining Table area
+    camp.water_tote_pos = {12, 1, 4};    // Kitchen Sink & Counter
+    camp.salvage_crate_pos = {10, 1, 9}; // Garage Workbench & Storage Unit access inside house floor plan
 
-    // Basic domestic R0 household shelter fixtures
-    oasis::graphics::SetDynamicVoxel(camp.tent_pos, static_cast<uint8_t>(MAT_BELL_TENT));
-    oasis::graphics::SetDynamicVoxel(camp.tent_pos + glm::ivec3(0, 0, 1), static_cast<uint8_t>(MAT_SLEEP_ZONE));
-    oasis::graphics::SetDynamicVoxel(camp.water_tote_pos, 12u); // Kitchen tap (14, 1, 4)
-    oasis::graphics::SetDynamicVoxel(camp.ration_crate_pos, static_cast<uint8_t>(MAT_RATION_CRATE)); // Kitchen counter (11, 1, 4)
-    oasis::graphics::SetDynamicVoxel(camp.campfire_pos, static_cast<uint8_t>(MAT_RECREATION_ZONE)); // Patio hearth (19, 1, 6)
-    oasis::graphics::SetDynamicVoxel(camp.salvage_crate_pos, static_cast<uint8_t>(MAT_RATION_CRATE)); // Driveway drop-zone (8, 1, 3)
-
-    // Clean-slate backyard lawn: 0 pre-spawned mature garden crops, 0 solar panels, 0 swales
-    oasis::graphics::SetDynamicVoxel(glm::ivec3(20, 1, 5), 0u);
-    oasis::graphics::SetDynamicVoxel(glm::ivec3(20, 1, 6), 0u);
+    // Clean-slate 6-room furnished suburban house & backyard lawn:
+    // Do NOT stamp driveway salvage crates, water totes, or ration crates into the dynamic voxel store!
+    oasis::graphics::GetDynamicVoxelStore().clear();
 
     std::vector<flecs::entity> existing_crops;
     ecs.each([&](flecs::entity ce, oasis::fabrication::GardenCropComponent&) {
