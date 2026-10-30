@@ -1,164 +1,113 @@
 \chapter{Learning and Unlearning}
 
+The diagnostic bay in Duvall Hall smelled of pine rosin, hot copper, and stale coffee. At sixteen, Gabe was all long wrists and restless knees, hunched over a wooden teaching bench with one eye pressed to a stereo microscope. Beneath the ring light sat a fingernail-sized current-monitoring board for the Foundry's main induction coil.
 
+He wiped a smear of flux off his forehead with his sleeve, leaving a shiny streak above his eyebrow.
 
+"Your ground joint is cold, Gabe," a dry voice said behind his left ear.
 
+Gabe jumped half an inch, pulling the soldering pencil clear before the tip touched the trace. Master Vera stood over his stool with a ceramic mug in one hand. Vera was fifty-four, crop-haired, with reading glasses hung on a braided cord around her neck and tiny pale solder burns freckling the backs of both wrists.
 
+"I was trying not to cook the security chip," Gabe said, setting the iron in its wire cradle. "Run the iron too hot and the tamper fuse blows and wipes the signing keys."
 
-The air inside the Duvall diagnostic bay tasted of solder rosin, hot copper, and old sweat. It was the distinct scent of the electronics workshop, one Gabe had learned to associate with the restless, focused work of keeping the valley's nerves and sensors alive. 
+"And leave a dull, grainy joint like that and the contact resistance climbs," Vera said, tapping the schematic on her slate with a fingernail. "Resistance climbs, voltage drops. Voltage drops, the controller reads twenty percent less current than the furnace is actually pulling, assumes a ground fault, and dumps the main breakers in the middle of a three-ton steel melt. Re-flow it. Quick in, quick out."
 
-He wiped a streak of carbon grease from his forehead with the back of a calloused hand, leaving a dark smudge across his brow. At sixteen, Gabe was all sharp angles and restless energy, his frame lean and corded with the kind of functional muscle that came from hauling crates of salvaged wire and wrenching on heavy induction motors. He was bent over a scarred teaching workbench, staring through the lens of a benchtop microscope at the delicate silicon heart of a sensor board. 
+Gabe dabbed a speck of fresh rosin onto the pad, waited two breaths for the iron tip to come back to temperature, and touched the joint. Dull gray tin slumped instantly into a bright, concave fillet around the pin.
 
-"Your solder joints are cold, Gabe," a voice rumbled from behind him. 
+At the next bench over, Gabe's friends Sam and Leo had the cracked white shell of a salvaged county traffic drone spread across a rubber mat. Sam was probing the flight-controller pins with a logic analyzer while Leo sorted machine screws into muffin tins. Like Gabe, they split their weeks hauling slag carts at the kilns and sweeping woodchips in exchange for bench hours with Vera.
 
-Gabe flinched, his hand jerking slightly on the iron. He looked over his shoulder. Master Lin, one of the lead electronics stewards of the valley, was looming over him. Lin was a formidable woman in her fifties, her hair cropped short, her forearms covered in a dense tapestry of circuit tattoos and faded burn scars. She didn't teach with gentle platitudes; she taught with the unforgiving precision of someone who knew a sloppy weld could cost a life. 
+"Clean?" Gabe asked, sliding off the stool so she could look.
 
-"I was trying not to overheat the security chip," Gabe defended himself, pulling the iron back. "If the chip gets too hot, its tamper switch trips and wipes the security keys clean."
+Vera bent to the eyepieces, turned the focus knob a quarter-turn, and straightened up.
 
-"And if your solder joint is cold, the resistance jumps," Lin countered, tapping the edge of his ruggedized tablet with a grease-stained finger. "High resistance means the voltage drops. A voltage drop makes the monitoring system misread the induction furnace's power draw. If the safety system thinks the furnace is pulling massive power without generating matching heat, it flags a faulty sensor and shuts down the entire forge."
+"Passable," she said. "Pot it in epoxy and flash the board. I want it bolted onto the Foundry feeder before noon."
 
-Lin leaned in closer, her dark eyes locking onto Gabe's. "The legacy world wants us dead, Gabe. They don't need to send the police to kick our doors down if our own safety system overreacts to a sloppy solder joint and shuts off our power. The physical ground truth has to be solid. Re-flow the joint."
+Gabe grinned at the bench mat and reached for the ribbon cable.
 
-Gabe swallowed hard, nodding. He applied a fresh dab of flux paste to the board and brought the iron back down, watching the silver metal pool and flow with sudden, liquid grace. 
+"Utility sweep again?" Sam asked from the next table, looking up from the gutted drone. "I thought the legal filings stalled them last Tuesday."
 
-Around them, the workshop hummed with busy, focused energy. This was how the valley taught its young. There were no whiteboards filled with dry theory, no student debt piling up in a distant bank, no sterile classrooms. You learned with your hands, right beside the people keeping the lights on. 
+"Filings stall county clerks," Vera said, walking over to the wall monitor where local radio relays glowed across a contour map of the creek basin. "Someone higher up hired outside network contractors this week. Yesterday afternoon the Foundry gateway dropped fifty thousand fake work requests in forty seconds."
 
-At the next bench over, Gabe’s closest friends and fellow apprentices, Sam and Leo, were knee-deep in a teardown of a salvaged municipal drone. Sam, whose nimble fingers were stained with lithium grease, was currently trying to bypass the drone’s legacy surveillance firmware without triggering its memory-wipe relay. 
+"Trying to lock up the job queue?" Sam asked.
 
-They were all apprentices, sweeping the bays, skimming the slag from the foundry kilns, and hauling heavy biochar insulation in exchange for hands-on instruction from the masters. It was an honest exchange, a fair balance settled on the local ledger without a single corporate dollar changing hands. 
+"Trying," Vera said. "Every outside packet has to post a small power-credit bond before the router even reads the header. Their dummy key burned through its bond on request number four, and the outer gate blackholed the other forty-nine thousand nine hundred and ninety-six. Still, whoever ran it was probing response times. Gabe, leave the epoxy to cure and bring your slate into the rack room."
 
-"Joint is clean," Gabe said, stepping back from the microscope. 
+Gabe followed her through the heavy insulated door into the server corridor. Built from welded bed-frame angle iron bolted straight to the concrete slab, the racks held rows of stripped municipal blades, open-board routers, and printed drive cages cooled by salvaged radiator fans.
 
-Lin peered through the lens, adjusting the focal dial. A long, silent moment passed. The ambient whine of CNC routers, the heavy thud of the pneumatic press, and the chatter of the mesh radios all seemed to fade away as Gabe waited for her judgment. 
+"Sit," Vera said, pointing at a steel desk with a battered mechanical keyboard. "Today you run your final qualification drills. First problem: suppose an outside contractor splices hardline into an orchard repeater box tonight and spins up two thousand phantom member keys to stuff tomorrow's watershed vote. Run the flood script in the sandbox."
 
-"Acceptable," Lin finally grunted. "Flash the firmware. We need this sensor online before the municipal grid runs another perimeter sweep."
+Gabe pulled the keyboard closer, opened the isolated test environment, and fired the script. On the right-hand screen, two thousand freshly generated cryptographic identities began casting simultaneous ballots to shut down the irrigation pumps.
 
-Gabe felt a surge of pride, a sudden, bright rush of satisfaction that no gamified app could ever replicate. He plugged the cable harness into the board and tapped the load command on his tablet. 
+"Watch the tally column," Vera said.
 
-"They're probing us again?" Sam called out from the next bench, looking up from the gutted drone. "I thought the legal shield held them off last week."
+Gabe leaned forward. Although every phantom key carried valid math, none of them had ever co-signed a work shift with an existing neighbor, eaten at a kitchen terminal, or received an in-person voucher from two stewards in different guilds. On the graph, all two thousand accounts clustered together on an isolated branch with zero path weight back to living residents.
 
-"The legal shield holds the subpoenas," Lin said grimly, walking over to a massive, wall-mounted display that showed the live map of their local network. The screen was a web of green and amber points, pulsing with the heartbeat of a thousand sensors across the valley. "The Social Purpose Corporation can stall their lawyers. It can blind their audits. But the legacy state is dying, and a dying animal is unpredictable. They can't beat us in court yet, so they're trying to break our equipment. We're seeing a sharp spike in hostile traffic hitting the outer gateway."
+"Weight reads zero point zero," Gabe said as the status bar flashed amber, then green. "Quarantined the whole batch. Ballot total didn't move."
 
-Gabe disconnected the finished board and slotted it into its weatherproof case. "What kind of traffic?"
+"Math is cheap; years of showing up for dish duty aren't," Vera said. "Second drill. Suppose they stop trying to vote and instead slip a malformed orchard-survey file into the shared repair queue to crash the parser. Pull file seven from the red folder and throw it at the test gate."
 
-"Everything," Lin replied. "Spoofing, tampering, flood attacks. Yesterday, the Foundry gateway caught a flood of fifty thousand fake work orders fired at the system in under a minute."
+Gabe inspected the dummy file first: nested inside the elevation table was a recursive loop meant to eat every megabyte of memory on whatever server opened it. He hit enter.
 
-"Trying to choke the queue?" Sam asked, frowning. 
+The cooling fans in the rack didn't even pitch up. On the left monitor, a three-line notice rejected the upload before execution.
 
-"Exactly," Lin said. "But every work request requires a real energy deposit up front. The attacker's test account ran dry after three requests, and the gateway dropped the rest at the door. The Foundry never even felt a hiccup."
+"Bounced at the boundary," Gabe read aloud. "Field four exceeded thirty-two characters, so the gate dropped the packet unread."
 
-"So the immune system is working," Gabe said, feeling a sense of relief. 
+"Keep the templates strict and dumb, and half their clever tricks hit brick," Vera said. She checked her wristwatch. "Forty-five minutes off screens, rule's the rule. Go get some sun before your eyes lock at eighteen inches."
 
-"It works because we maintain it," Lin snapped, turning back to him. "Entropy never sleeps, Gabe. The moment we get complacent, the legacy world finds a crack in the armor. That’s why you’re here today. We aren't just soldering boards. We're testing the community's defenses."
+Outside in the Sector Seven courtyard, heat radiated off the concrete apron beneath the broad leaves of an old fig tree. Gabe dropped onto a plank bench beside Sam while Leo tossed a bruised windfall Gravenstein from hand to hand before biting cleanly into the good side.
 
-Lin gestured for Gabe to follow her out of the hardware bay and into the adjacent server corridor. It was cooler here, the air heavy with the steady, droning hum of cooling fans. The racks were not the sleek, glass-enclosed monoliths of the corporate cloud; they were welded from scrap angle iron, packed with salvaged municipal servers, open-source routers, and rows of 3D-printed drive bays. The cables were neatly bundled, a sprawling circulatory system of fiber and copper wire. 
+"Vera pass your board?" Leo asked around a mouthful of apple.
 
-"Take the console," Lin ordered, pointing to a battered mechanical keyboard and a dual-monitor setup bolted to a standing desk. 
+"Passed the solder check, plus two sandbox drills," Gabe said, tipping his head back against the warm brick wall and closing his eyes against the glare. "My neck feels like wire."
 
-Gabe stepped up to the terminal, his fingers resting on the worn keys. The solid click of the switches was a grounding sensation, a physical bridge to the network. 
+"Saw two white utility quadcopters hovering just outside the property markers above the creek road twenty minutes ago," Sam said, wiping lithium grease off his thumbs with a shop rag. "Staying fifty feet over the county easement so they're technically legal, pointing long lenses straight down at the Foundry transformer pad."
 
-"We need to simulate a fake-account flood on the voting system," Lin explained, her eyes scanning the scrolling logs on the left monitor. "If an outside agent manages to cross the fence and plug into a local relay, they could launch a Sybil attack, spinning up thousands of fake identities at once to stuff a community vote."
+"Let them take pictures," Leo said, tossing the apple core into the compost bucket by the steps. "South ridge solar is pulling peak kilowatts and the salt batteries are topped off."
 
-Gabe felt the weight of the responsibility settling over him. In the old world, security meant hiding behind passwords and trusting faceless corporations to keep bad actors out. Here, security was built directly into how neighbors knew one another. 
+"They aren't taking postcards," Gabe opened one eye to squint toward the eastern ridgeline. "Vera said outside contractors hit the Foundry router yesterday."
 
-"I'm spinning up the test accounts now," Gabe said, his fingers flying across the keyboard. He ran a test script that generated two thousand fake member keys inside a quarantined test space. "Sending the fake votes into the local ballot pool."
+Before Sam could answer, the brass horn bolted under the depot eaves let go with three short, flat blasts, paused two seconds, and sounded three more.
 
-The right monitor flared with activity as the phantom accounts began casting votes at once, trying to overwhelm the local council tally. 
+Gabe's slate buzzed hard in his cargo pocket. Red text scrolled down the lock screen: \textit{GATEWAY SPOOF ALERT: FOUNDRY INDUCTION FEED TWO.}
 
-"Watch how the trust map handles them," Lin said, pointing to the network window. 
+"Speak of the devil!" Sam was already up and running for the steel door. "They're hitting the kiln line while a melt's running!"
 
-Gabe watched as the system weighed the incoming votes. It wasn't looking at passwords or IP addresses; it was looking at real human ties. Because the two thousand phantom accounts had never touched a card reader at the same table as a neighbor, with no shared meals in the Commons Kitchen, no logged hours in the workshops, and no vouchers from trusted elders, the system recognized them instantly for what they were: a ghost island floating in midair. 
+Gabe and Leo sprinted on his heels down the concrete hall and back into the diagnostic bay.
 
-"Trust weight is calculating," Gabe muttered, watching the bar. "It's reading... zero. The entire batch is quarantined. Every fake vote rejected."
+Master Vera stood braced over the main standing terminal, both hands flying across the command prompt.
 
-"The web of trust holds," Lin nodded in satisfaction. "They can't forge physical reality. You can't fake a shared meal or a calloused hand with a script."
+"Gabe, bench three!" she barked without looking around. "Someone's beaming directional microwave packets straight into the rooftop weather relay and injecting falsified thermocouple spikes onto Furnace Two's safety bus!"
 
-"What about the job board?" Gabe asked, moving to the next drill. "If they can't fake our identities, they'll try to slip a poisoned file into the shared work queue."
+Gabe slid onto his stool and pulled up the live Furnace Two telemetry. On the upper plot, the outer bridge reported coil jacket temperatures climbing past eight hundred and forty degrees Celsius, ten degrees shy of triggering the emergency quench trip.
 
-"Exactly," Lin said. "Load the bad test file."
+"If that trip fires mid-melt, three tons of steel freeze solid inside the crucible!" Gabe said, opening the raw sensor list. "It'll crack the whole brick core!"
 
-Gabe pulled up a test file from the drill folder. In the old world, a database would often blindly open whatever file was uploaded, letting hidden code slip inside. Here, every shared blueprint, recipe, and work request had to follow a strict, simple template before any machine would touch it. 
+"Cross-check the physical current clamp on the busbar!" Vera snapped.
 
-"I've got the test file ready," Gabe said, scanning the screen. "It's disguised as an orchard survey request, but it has an endless loop and a destructive script hidden inside the measurement fields. If the server tries to open it, it'll lock up and crash the hub."
+Gabe pulled up the hardwired hall-effect clamp bolted directly around the copper feed bar inside the Foundry basement, the exact sibling of the board curing on his mat. While the spoofed radio packet screamed eight hundred and fifty degrees, the copper busbar current sat flat as a ruler at four hundred and ten amps, and the cooling-water return line hadn't risen half a degree.
 
-"Send it at the test gate," Lin instructed.
+"It's a lie!" Gabe called out, highlighting both traces. "Busbar draw is dead flat at four-ten and return water's fifty-two Celsius! You can't gain three hundred degrees in six seconds with flat amps!"
 
-Gabe hit the enter key, firing the file at the test boundary. 
+"Sign the physical override and sever the rooftop bridge!" Vera ordered.
 
-He didn't even see the processor fan speed up. The screen immediately spat back a clean rejection notice. 
+Gabe plugged his apprentice key fob into the side slot, bound the basement current trace and water-return delta into a fault proof, and sent it to Vera's queue. Vera slapped her master key onto the reader half a second later to co-sign.
 
-"Blocked at the door," Gabe reported, a wide grin breaking across his face. "The gateway checked the file's structure before opening it. It didn't match the community template, so it refused to touch it. Bounced right off."
+On the wall display, the rooftop weather relay flashed red as the controller severed the wireless bridge and locked Furnace Two strictly onto its hardwired basement loop. Three inches shy of the emergency trip line, the temperature trace snapped back to five hundred and ten degrees. Down the hill, the deep sixty-cycle hum of the Foundry coils kept running without a stutter.
 
-"We keep our rules simple and our gates tight," Lin said softly, her expression softening just a fraction. "You're learning, Gabe."
+"Outer flood's starving out," Sam reported from bench two, his voice high and fast. "Whoever hired that microwave rig just burned their last relay token. Packet rate's down to zero."
 
-Gabe felt that same surge of pride, deeper this time. He remembered the stories his mother told of the old world, and the constant, low-level dread of living under a system that treated every person as a profile to be mined and sold. Now, he was standing on the wall, helping keep that world at bay. 
+"Leo, check the ridge camera," Vera said, leaning both palms on the desk edge.
 
-"Break time," Lin announced suddenly, checking the watch on her wrist. "The apprenticeship rules require a forty-five-minute eye break off the screens. Get out of the server corridor before you go cross-eyed. Go find your friends."
+Leo pulled up the telephoto Mast Three feed. "Both white quadcopters just banked east toward Highway Twelve. No smoke from the Foundry stacks, no breaker trip to write a citation on."
 
-Gabe found Sam and Leo outside in the courtyard of Sector Seven, sprawling on a pair of reclaimed wooden benches beneath the broad leaves of a mature fig tree. The air out here was stiflingly hot, the sun beating down on the concrete, but it was fresh. It smelled of blooming sage and the sharp, piney scent of the nearby Coppice Commons. 
+For ten seconds nobody spoke over the drone of the rack fans. Gabe looked down and noticed his right heel was bouncing rapidly against the rung of the stool; he pressed his boot flat to the concrete to stop it.
 
-Leo, a lanky teenager who was currently apprenticing under the agricultural stewards, was tossing a heavy, bruised apple between his hands. "How's the dungeon holding up in there?" he asked, taking a massive bite of the fruit. 
+Vera walked over, looked at the signed fault log on his monitor, and pulled her key fob out of her pocket.
 
-"Lin had me running drills all morning, blocking fake voting accounts and poisoned work files," Gabe said, dropping onto the bench beside Sam. He stretched his legs out, feeling the satisfying ache in his back from hunching over the workbench. "My head is spinning."
+"Plug yours back in," she said.
 
-"I heard the county utility drones were buzzing the fence line all morning," Sam said, tossing a rag stained with lithium grease into a nearby bin. "They’re looking for unauthorized power lines. If they find one, they'll use it as an excuse to cut the tie-line to the Foundry."
+Gabe slotted his key into the reader. Vera tapped hers beside it and typed a two-line endorsement into the guild register. Across the room, the solenoid on the master parts locker gave a sharp metallic clack, its indicator LED shifting from amber to steady green for his badge.
 
-"Let them try," Leo said with a scoff. "Our power reserves are solid. The solar array on the southern ridge is pulling peak sun, and the battery banks are full. We don't even need their grid."
+"Apprenticeship signed off," Vera said, picking up her cold coffee mug from the corner of his mat and making a face after one sip. "Clean up your flux jar before supper, steward. Starting Monday you're on rotating watch."
 
-"We don't," Gabe agreed, staring out across the courtyard. The Collective was a sprawling, vibrant web of connected hubs, a living community growing up through the cracks of the old world. "But they don't want us to prove that. They want us dependent."
-
-He looked at his friends. They were dirty, sweating, and tired. They wore clothes stitched from mended canvas and wool, and they were learning skills that actually mattered: how to grow food, how to weld steel, how to mend a circuit and protect a network. They weren't trapped in crumbling schools memorizing standardized tests for a life of debt. They belonged to something real. 
-
-Suddenly, a harsh, oscillating siren sliced through the heavy afternoon air. It wasn't the slow pulse of a fire drill; it was the sharp, staccato warning of an active perimeter alert. 
-
-Gabe’s tablet buzzed hard against his thigh. He pulled it out, his eyes widening as the screen filled with red alerts. 
-
-"It's a real strike," Gabe said, his voice tight. "County inspection drones are hovering over the Foundry fence, and someone is flooding our outer relays with junk sensor data."
-
-"They’re trying to trip a safety shutdown!" Sam yelled, already on his feet and sprinting toward the hardware bay. "If they can fake an overheating alarm while their drones watch the roof, the safety system will shut the whole forge down mid-pour!"
-
-Gabe and Leo were right behind him, their boots pounding against the cracked concrete as they raced back into the building. 
-
-The diagnostic bay was in a state of focused urgency. Master Lin was standing at the main console, her fingers flying across the keys as she tracked the incoming flood. 
-
-"Gabe!" Lin shouted over the din. "They're flooding the outer relay! Someone is injecting fake temperature spikes into the main induction kiln feed!"
-
-Gabe sprinted to his bench, his heart hammering against his ribs. This wasn't a drill anymore. It was the exact scenario Lin had warned him about an hour ago. 
-
-He pulled up the live kiln monitor. A torrent of falsified readings was hammering the outer line. On the screen, the kiln's reported temperature was flashing red, climbing past the emergency cutoff line. 
-
-"They're trying to trick the safety breaker into tripping!" Gabe shouted, his hands moving fast. "If the breaker trips now, the crucible freezes solid and we lose the whole batch!"
-
-"Cross-check the power clamp!" Lin ordered. 
-
-Gabe pulled up the live current reading from the heavy copper clamp bolted directly around the kiln's main power cable, the very sensor model he had just finished soldering at his bench. "The temperature spike is fake!" he yelled. "The incoming packet claims the coil is surging past eight hundred degrees, but the physical current clamp on the cable is completely steady! It's physically impossible!"
-
-"Flag the mismatch!" Lin commanded. 
-
-Gabe didn't hesitate. He ran the exact verification step they had practiced. He paired the steady physical current reading against the fake temperature spike, signed the report with his key, and sent it straight to the forge controller. 
-
-The response was immediate. The controller compared the two readings, saw the physical impossibility, and cut off the spoofed external feed at the gate. The safety breakers stayed closed. Deep in the Foundry, the furnace kept roaring. 
-
-"Traffic is clearing," Sam called out from the next bench, his voice shaking slightly with adrenaline. "Their test accounts ran out of deposit credits at the outer gate. The flood is dying down."
-
-"And the drones?" Lin asked, her eyes fixed on the perimeter cameras. 
-
-"Turning back toward the highway," Gabe said, watching the outer camera feed. "The kiln never vented smoke, and our legal proxy bounced their automated inspection demand. They got nothing."
-
-A heavy, relieved silence settled over the diagnostic bay, broken only by the steady hum of the cooling fans. 
-
-Gabe stood at the console, his hands trembling slightly, his breath coming in deep pulls. He had actually done it. 
-
-Lin walked over to his bench. She looked at the clean log on the screen, then looked at Gabe. For the first time all day, a genuine smile creased her weathered face. 
-
-"Your apprenticeship trial is complete," Lin said softly, her voice carrying quiet pride. 
-
-Gabe’s tablet chimed once. He looked down at the screen. Master Lin had counter-signed his record. His full craftsman's credential had been added to his ring. He was no longer just a helper sweeping the floor; he was a trusted steward of the workshop. 
-
-Across the room, a heavy iron latch on the master tool cabinet clicked open with a solid thud, its small green light winking on to welcome his key. 
-
-Gabe looked at the open cabinet, then at Lin, then at Sam and Leo, who were grinning at him from across the bay. He felt a profound sense of belonging, a deep, resonant connection to the physical and digital reality of the Collective. 
-
-The legacy world was still out there, decaying and desperate. They would come again, with new attacks and new threats. But they were fighting a system that learned from every strike, an immune system that grew stronger with every fracture. 
-
-Gabe picked up his soldering iron. The joint was clean. The network was secure. He was ready to build.
+Sam punched Gabe once on the upper arm hard enough to sting, and Leo grinned from ear to ear. Gabe unplugged his newly endorsed key, switched off his soldering iron, and began capping the rosin bottles one by one.
