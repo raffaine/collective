@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>COLLECTIVE | System Call: Genesis — Ch. 01 "Cluster 442-B"</title>
+  <title>COLLECTIVE | System Call: Genesis — Voiced Cine-Script &amp; Graphic Novel</title>
   <link rel="icon" type="image/png" href="../images/favicon.png" />
   <style>
     :root {
@@ -42,7 +42,6 @@
       gap: 14px;
     }
 
-    /* Top Nav & Header */
     .topbar {
       background: var(--card);
       border: 1px solid var(--border);
@@ -58,7 +57,7 @@
     .brand-group {
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 5px;
     }
 
     .nav-crumb {
@@ -107,7 +106,18 @@
       color: var(--muted);
     }
 
-    /* Buttons */
+    .chapter-bar {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 14px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
     .btn-row {
       display: flex;
       flex-wrap: wrap;
@@ -145,12 +155,18 @@
       background: #ffe033;
     }
 
+    button.ui-btn.ch-active {
+      background: rgba(56, 152, 255, 0.18);
+      color: #fff;
+      border-color: var(--mesh-blue);
+      font-weight: 700;
+    }
+
     button.ui-btn.toggle-on {
       border-color: rgba(255, 215, 0, 0.5);
       color: var(--gold);
     }
 
-    /* Transport Bar */
     .transport {
       background: var(--card);
       border: 1px solid var(--border);
@@ -180,7 +196,6 @@
       font-weight: 700;
     }
 
-    /* Timeline Strips */
     .timeline-wrap {
       display: flex;
       flex-direction: column;
@@ -236,7 +251,6 @@
       font-weight: 700;
     }
 
-    /* Main Workspace Grid */
     .workspace-dual {
       display: grid;
       grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
@@ -296,7 +310,6 @@
       display: block;
     }
 
-    /* Camera Motions */
     @keyframes camTiltDown {
       0% { transform: scale(1.10) translateY(-3.2%); }
       100% { transform: scale(1.10) translateY(3.2%); }
@@ -314,7 +327,6 @@
     .motion-subtle-push { animation: camSubtlePush var(--shot-dur, 6s) linear forwards; }
     .motion-static { transform: scale(1.0); }
 
-    /* Stage Overlays */
     .stage-top-left {
       position: absolute;
       top: 12px;
@@ -434,7 +446,6 @@
       transition: width 0.1s linear;
     }
 
-    /* Script Card */
     .script-card {
       background: var(--card);
       border: 1px solid var(--border);
@@ -459,15 +470,9 @@
       color: var(--muted);
     }
 
-    .script-body strong {
-      color: var(--text);
-    }
+    .script-body strong { color: var(--text); }
+    .script-body .diag-line { color: #fff; }
 
-    .script-body .diag-line {
-      color: #fff;
-    }
-
-    /* Synced Comic Column */
     .comic-sync-card {
       background: var(--card);
       border: 1px solid var(--border);
@@ -510,7 +515,6 @@
       box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.42);
     }
 
-    /* Spread Reader Mode */
     .reader-bar {
       background: var(--card);
       border: 1px solid var(--border);
@@ -530,12 +534,8 @@
       gap: 16px;
     }
 
-    @media (max-width: 900px) {
-      .spread-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    }
-    @media (max-width: 580px) {
-      .spread-grid { grid-template-columns: minmax(0, 1fr); }
-    }
+    @media (max-width: 900px) { .spread-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 580px) { .spread-grid { grid-template-columns: repeat(1, minmax(0, 1fr)); } }
 
     .spread-card {
       background: var(--card);
@@ -607,28 +607,38 @@
 </head>
 <body>
   <div class="shell">
-    <!-- Top Header & Navigation -->
     <header class="topbar">
       <div class="brand-group">
         <div class="nav-crumb">
           <a href="index.html" class="back-link">&larr; The Mythos</a>
           <span class="eyebrow">ORIGIN SERIES // VOICED CINE-SCRIPT &amp; GRAPHIC NOVEL</span>
         </div>
-        <h1 class="title">SYSTEM CALL: GENESIS &mdash; Ch. 01 &ldquo;Cluster 442-B&rdquo;</h1>
-        <p class="subtitle-note">5-character voice cast &bull; Original piano &amp; bowed-cello score &bull; 9 Graphic Novel pages / 24 Cinema shots (03:07)</p>
+        <h1 id="chapterTitleHeading" class="title">SYSTEM CALL: GENESIS</h1>
+        <p id="chapterSubtitleNote" class="subtitle-note"></p>
       </div>
       <div class="btn-row">
         <button id="modeDual" onclick="setViewMode('dual')" class="ui-btn primary">1:1 Dual Sync</button>
         <button id="modeCinema" onclick="setViewMode('cinema')" class="ui-btn">Cinema Cut (16:9)</button>
-        <button id="modeComic" onclick="setViewMode('comic')" class="ui-btn">Graphic Novel (9 Pages)</button>
+        <button id="modeComic" onclick="setViewMode('comic')" class="ui-btn">Graphic Novel</button>
       </div>
     </header>
 
-    <!-- Transport & Audio Controls -->
+    <!-- Chapter Switcher Bar -->
+    <div class="chapter-bar">
+      <div class="btn-row">
+        <span style="font-family: var(--font-mono); font-size: 0.74rem; color: var(--muted); text-transform: uppercase; margin-right: 4px;">Chapters:</span>
+        <button id="chBtn1" onclick="selectChapter(1, false)" class="ui-btn ch-active">Ch. 01: &ldquo;Cluster 442-B&rdquo;</button>
+        <button id="chBtn2" onclick="selectChapter(2, false)" class="ui-btn">Ch. 02: &ldquo;First Breach&rdquo;</button>
+      </div>
+      <div class="btn-row">
+        <button id="autoAdvBtn" onclick="toggleAutoAdvance()" class="ui-btn toggle-on" style="font-size: 0.74rem; padding: 6px 11px;">Continuous Ch. 1&rarr;2: ON</button>
+      </div>
+    </div>
+
     <div id="transportBar" class="transport">
       <div class="btn-row">
         <button id="playBtn" onclick="togglePlay()" class="ui-btn primary">
-          <span id="playIcon">&#9654;</span> <span id="playLabel">Play Chapter 01</span>
+          <span id="playIcon">&#9654;</span> <span id="playLabel">Play Chapter</span>
         </button>
         <button onclick="prevShot()" class="ui-btn" title="Previous Shot (Left Arrow)">&larr; Prev</button>
         <button onclick="nextShot()" class="ui-btn" title="Next Shot (Right Arrow)">Next &rarr;</button>
@@ -638,18 +648,16 @@
         <button onclick="toggleFullscreen()" class="ui-btn" title="Fullscreen Cinema Frame (F)">&#x26F6; Fullscreen</button>
       </div>
       <div class="status-readout">
-        <span id="shotBadge" class="badge-mono">SHOT 001 / 024</span>
-        <span id="timecodeBadge" style="color: var(--muted);">00:00 / 03:07</span>
+        <span id="shotBadge" class="badge-mono">SHOT 001</span>
+        <span id="timecodeBadge" style="color: var(--muted);">00:00 / 00:00</span>
       </div>
     </div>
 
-    <!-- Page Jump + Shot Scrubber -->
     <div id="timelineBlock" class="timeline-wrap">
       <div id="pageJumpBar" class="page-strip"></div>
       <div id="shotTimeline" class="shot-strip"></div>
     </div>
 
-    <!-- DUAL / CINEMA WORKSPACE -->
     <div id="dualWorkspace" class="workspace-dual">
       <div id="cinemaCol" class="cinema-col">
         <div class="stage-card">
@@ -665,7 +673,7 @@
             <div id="bigPlayOverlay" class="big-play-overlay">
               <div class="big-play-pill">
                 <span>&#9654;</span>
-                <span id="bigPlayText">Play Voiced Cut (03:07)</span>
+                <span id="bigPlayText">Play Voiced Cut</span>
               </div>
             </div>
             <div id="subtitleBox" class="subtitle-wrap hidden">
@@ -690,7 +698,6 @@
         </div>
       </div>
 
-      <!-- Synced Prestige Graphic Novel Page -->
       <div id="comicSyncCol" class="comic-sync-card">
         <div class="comic-sync-head">
           <div>
@@ -706,10 +713,9 @@
       </div>
     </div>
 
-    <!-- GRAPHIC NOVEL SPREAD READER -->
     <div id="comicReaderWorkspace" class="comic-reader-ws hidden">
       <div class="reader-bar">
-        <span><strong>Prestige Graphic Novel Edition (2:3)</strong> &mdash; Complete Chapter 01 (Pages 01&ndash;09) &bull; Click any page to inspect full size</span>
+        <span id="comicSpreadLabel"><strong>Prestige Graphic Novel Edition (2:3)</strong></span>
         <div class="btn-row">
           <button onclick="setComicZoom('grid')" id="comicGridBtn" class="ui-btn primary">9-Page Grid</button>
           <button onclick="setComicZoom('single')" id="comicSingleBtn" class="ui-btn">Single Page Reader</button>
@@ -734,10 +740,14 @@
   </div>
 
   <script>
-    const DATA = {"shots": [{"id": "shot_001", "num": "001", "page": "page_01", "pageLabel": "PAGE 01 (3 Panels) \u2014 12th Floor Utility Tower", "panel": "PANEL 1.1 (Top Half-Page Tier)", "panelRegion": {"top": "2%", "left": "3%", "width": "94%", "height": "46%"}, "framing": "EXTREME WIDE / ESTABLISHING, SLOW TILT DOWN", "duration": 6.5, "motion": "tilt-down", "visual": "Grey Seattle at 4:45 PM in November, freezing sleet slanting across dark high-rises. Halfway up a concrete-and-glass municipal utility building, the twelfth floor glows cold mint-white behind rain-streaked triple-paned windows.", "audio": "Score: 'Twelfth Floor Ledger' (muted D-minor felt piano & sub pulse).", "dialogue": "", "caption": "GREY SEATTLE // 4:45 PM, 35\u00b0F // CITY UTILITY ENFORCEMENT: REMOTE HEAT & WATER SHUTOFFS (12TH FLOOR).", "musicCue": "cue_1_office", "musicVol": 0.72, "sfx": "none", "timecode": "00:00\u201300:06", "img": "../doc/origin_syscall/renders/ch01_poc/shots/shot_001.jpg", "vo": null}, {"id": "shot_002", "num": "002", "page": "page_01", "pageLabel": "PAGE 01 (3 Panels) \u2014 12th Floor Utility Tower", "panel": "PANEL 1.2 (Bottom-Left Panel)", "panelRegion": {"top": "50%", "left": "3%", "width": "46%", "height": "48%"}, "framing": "WIDE / AISLE SYMMETRY, STATIC", "duration": 5.5, "motion": "static", "visual": "Forty identical grey fabric cubicles beneath fluorescent tubes. Mounted high on the front wall, a red LED ticker reads: DELINQUENT WINTER QUEUE: 1,412 HOMES // MANDATORY SHUTOFF QUOTA: 94.0%. Analysts click through overdue bills as red HEAT SHUT OFF stamps flash down the aisle.", "audio": "Felt-piano ostinato continues; soft, sparse mouse clicks in the room.", "dialogue": "", "caption": "DELINQUENT WINTER QUEUE: 1,412 HOMES // MANDATORY SHUTOFF QUOTA: 94.0%", "musicCue": "cue_1_office", "musicVol": 0.68, "sfx": "soft_clicks", "timecode": "00:06\u201300:12", "img": "../doc/origin_syscall/renders/ch01_poc/shots/shot_002.jpg", "vo": null}, {"id": "shot_003", "num": "003", "page": "page_01", "pageLabel": "PAGE 01 (3 Panels) \u2014 12th Floor Utility Tower", "panel": "PANEL 1.3 (Bottom-Right Panel)", "panelRegion": {"top": "50%", "left": "51%", "width": "46%", "height": "48%"}, "framing": "MEDIUM CLOSE / 3/4 PROFILE OVER-THE-SHOULDER", "duration": 6.0, "motion": "subtle-push", "visual": "3/4 rear-side angle at cubicle plaque ROW 14 - DESK 6 showing both ELARA's exhausted profile and her dual monitors. Taped to her right bezel is GABE's (8) school photo in his yellow slicker beside a handwritten sticky note: 'GABE'S INHALER PLAN: KEEP QUOTA >= 94%!' Left monitor chimes: UNPAID WINTER HEAT: APT 442-B.", "audio": "Soft two-note monitor chime over D-minor felt piano.", "dialogue": "", "caption": "GABE'S INHALER PLAN: KEEP QUOTA >= 94%!  //  UNPAID WINTER HEAT: APT 442-B", "musicCue": "cue_1_office", "musicVol": 0.65, "sfx": "chime", "timecode": "00:12\u201300:18", "img": "../doc/origin_syscall/renders/ch01_poc/shots/shot_003.jpg", "vo": null}, {"id": "shot_004", "num": "004", "page": "page_02", "pageLabel": "PAGE 02 (4 Panels) \u2014 Apt 442-B Shutoff", "panel": "PANEL 2.1 (Top Tier)", "panelRegion": {"top": "2%", "left": "3%", "width": "94%", "height": "24%"}, "framing": "MACRO INSERT / LEFT MONITOR, STATIC", "duration": 6.0, "motion": "static", "visual": "Amber top bar: ANALYST: ELARA-704 // YOUR SHUTOFF QUOTA: 94.1% (MIN TO KEEP CHILD MEDICAL COVERAGE: 94.0%). Center case: APT 442-B // UNPAID HEAT BILL: $312 PAST DUE (INDOOR TEMP: 46\u00b0F) above red [SHUT OFF HEAT NOW] and grey [GRANT 72-HR EXTENSION].", "audio": "Felt-piano ostinato deepens as the quota warning holds on screen.", "dialogue": "", "caption": "WARNING: GRANTING 1 MORE EXTENSION DROPS YOUR QUOTA TO 93.8% AND CANCELS DEPENDENT PEDIATRIC INHALER COVERAGE.", "musicCue": "cue_1_office", "musicVol": 0.62, "sfx": "none", "timecode": "00:18\u201300:24", "img": "../doc/origin_syscall/renders/ch01_poc/shots/shot_004.jpg", "vo": null}, {"id": "shot_005", "num": "005", "page": "page_02", "pageLabel": "PAGE 02 (4 Panels) \u2014 Apt 442-B Shutoff", "panel": "PANEL 2.2 (Second Tier)", "panelRegion": {"top": "27%", "left": "3%", "width": "94%", "height": "22%"}, "framing": "INSERT / CORNER VIDEO WINDOW", "duration": 8.5, "motion": "subtle-push", "visual": "Grainy webcam popup TENANT HARDSHIP PLEA: APT 442-B (46\u00b0F INDOORS). A terrified 24-year-old mother in a dark unheated kitchen holds her coughing two-year-old bundled in a winter parka toward her cracked phone camera, white cold-breath vapor puffing indoors.", "audio": "Real voice (tinny earbud filter) pleading until abrupt 30.0s digital cutoff click.", "dialogue": "MOTHER (earbud): \"Please don't shut off our radiators! My warehouse check clears Friday morning, my baby's freezing in here, just seventy-two hours\u2014\"", "caption": "", "musicCue": "cue_1_office", "musicVol": 0.22, "sfx": "none", "timecode": "00:24\u201300:32", "img": "../doc/origin_syscall/renders/ch01_poc/shots/shot_005.jpg", "vo": "../doc/origin_syscall/renders/ch01_poc/audio/voices/shot_005.m4a"}, {"id": "shot_006", "num": "006", "page": "page_02", "pageLabel": "PAGE 02 (4 Panels) \u2014 Apt 442-B Shutoff", "panel": "PANEL 2.3 (Third Tier)", "panelRegion": {"top": "50%", "left": "3%", "width": "94%", "height": "23%"}, "framing": "EXTREME CLOSE-UP / SPLIT FOCUS: EYES, PHONE & CURSOR", "duration": 5.5, "motion": "static", "visual": "Split focus: Elara's anguished eyes flick to her cracked phone ('SOUTH END AFTERCARE: Gabe wheezing hard today. Needed his inhaler at 3pm. Pick up by 5:30 or $18 late fee.') while her finger hovers over the mouse and the cursor trembles directly over red [SHUT OFF HEAT NOW].", "audio": "Music drops to a whisper; slow, low heartbeat pulse in the silence.", "dialogue": "", "caption": "SMS: Gabe wheezing hard today. Needed his inhaler at 3pm. Pick up by 5:30 or $18 late fee.", "musicCue": "cue_1_office", "musicVol": 0.14, "sfx": "heartbeat", "timecode": "00:32\u201300:38", "img": "../doc/origin_syscall/renders/ch01_poc/shots/shot_006.jpg", "vo": null}, {"id": "shot_007", "num": "007", "page": "page_02", "pageLabel": "PAGE 02 (4 Panels) \u2014 Apt 442-B Shutoff", "panel": "PANEL 2.4 (Bottom Tier)", "panelRegion": {"top": "74%", "left": "3%", "width": "94%", "height": "24%"}, "framing": "MACRO INSERT / MOUSE CLICK & LOCKED VALVE STAMP", "duration": 3.8, "motion": "static", "visual": "Elara's pale index finger presses the left mouse button down two millimeters. On the screen directly behind her knuckle, the cursor clicks [SHUT OFF HEAT NOW] and the window slams dark slate-red: APT 442-B: RADIATOR VALVE LOCKED // HEAT SHUT OFF.", "audio": "Single crisp plastic mouse CLICK + low resonant bass toll.", "dialogue": "", "caption": "APT 442-B: RADIATOR VALVE LOCKED // HEAT SHUT OFF", "musicCue": "cue_1_office", "musicVol": 0.2, "sfx": "lockout_click", "timecode": "00:38\u201300:42", "img": "../doc/origin_syscall/renders/ch01_poc/shots/shot_007.jpg", "vo": null}, {"id": "shot_008", "num": "008", "page": "page_03", "pageLabel": "PAGE 03 (3 Panels) \u2014 Cascade Arms Anomaly", "panel": "PANEL 3.1 (Top Tier)", "panelRegion": {"top": "2%", "left": "3%", "width": "94%", "height": "30%"}, "framing": "MEDIUM CLOSE / 3/4 PROFILE AT DESK", "duration": 5.0, "motion": "static", "visual": "3/4 rear-side angle: Elara sits upright, having snatched her hand off the empty mouse to press both cold hands flat under her thighs while her right monitor's front screen chimes with a new alert: NEXT CASE: SUSPECTED OFF-GRID HEAT THEFT.", "audio": "Soft alert chime as D-Phrygian tension underscore ('Mercer's Deal') enters.", "dialogue": "", "caption": "NEXT CASE: SUSPECTED OFF-GRID HEAT THEFT", "musicCue": "cue_2_tension", "musicVol": 0.58, "sfx": "chime", "timecode": "00:42\u201300:47", "img": "../doc/origin_syscall/renders/ch01_poc/shots/shot_008.jpg", "vo": null}, {"id": "shot_009", "num": "009", "page": "page_03", "pageLabel": "PAGE 03 (3 Panels) \u2014 Cascade Arms Anomaly", "panel": "PANEL 3.2 (Middle Tier)", "panelRegion": {"top": "34%", "left": "3%", "width": "94%", "height": "31%"}, "framing": "INSERT / RIGHT MONITOR THERMAL MAP, SLOW ZOOM", "duration": 6.0, "motion": "slow-zoom", "visual": "UTILITY THEFT AUDIT #8819 // CONDEMNED CASCADE ARMS WAREHOUSE (1ST & HOLGATE). Surrounding blocks glow pale metered blue (ACTIVE PAYING GRID); CASCADE ARMS is pitch black (CITY POWER: SHUT OFF // $0 BILLED), yet satellite infrared blooms bright warm orange (68.4\u00b0F // UNKNOWN FREE HEAT SOURCE).", "audio": "Dark glass piano & low cello drone swell gently over the thermal anomaly.", "dialogue": "", "caption": "ALERT: CONDEMNED BUILDING HEATING WITHOUT CITY POWER OR PAYMENT.", "musicCue": "cue_2_tension", "musicVol": 0.65, "sfx": "none", "timecode": "00:47\u201300:53", "img": "../doc/origin_syscall/renders/ch01_poc/shots/shot_009.jpg", "vo": null}, {"id": "shot_010", "num": "010", "page": "page_03", "pageLabel": "PAGE 03 (3 Panels) \u2014 Cascade Arms Anomaly", "panel": "PANEL 3.3 (Bottom Tier)", "panelRegion": {"top": "67%", "left": "3%", "width": "94%", "height": "31%"}, "framing": "MEDIUM / TWO-SHOT AT CUBICLE WALL", "duration": 18.5, "motion": "subtle-push", "visual": "Supervisor DIRECTOR MERCER (48, silver-blond hair, rimless titanium glasses, charcoal three-piece suit, mug of hot lemon water) leans on Elara's partition, pointing a finger pleasantly at the glowing orange warehouse on her screen.", "audio": "Spoken dialogue: Director Mercer & Elara over ducked tension underscore.", "dialogue": "MERCER: \"We welded that warehouse's power shut two years ago, yet somebody's heating it to 68\u00b0 for free. Snap a photo of their illegal hookup tonight, and I'll pad your quota so Gabe's inhaler plan stays safe.\"  ELARA: \"I pass Holgate on my bus south. I'll get the photo.\"", "caption": "", "musicCue": "cue_2_tension", "musicVol": 0.24, "sfx": "none", "timecode": "00:53\u201301:11", "img": "../doc/origin_syscall/renders/ch01_poc/shots/shot_010.jpg", "vo": "../doc/origin_syscall/renders/ch01_poc/audio/voices/shot_010.m4a"}, {"id": "shot_011", "num": "011", "page": "page_04", "pageLabel": "PAGE 04 (3 Panels) \u2014 Leaving the 12th Floor", "panel": "PANEL 4.1 (Top Tier)", "panelRegion": {"top": "2%", "left": "3%", "width": "94%", "height": "32%"}, "framing": "CLOSE-UP / MERCER, LOW ANGLE FROM ELARA'S CHAIR", "duration": 11.9, "motion": "static", "visual": "Mercer takes a small, unhurried sip from his porcelain mug. Behind his rimless lenses, his expression stays entirely pleasant, almost paternal.", "audio": "Spoken dialogue: Director Mercer over low cello & glass piano.", "dialogue": "MERCER: \"Just shoot the meter box from the alley, don't knock. Half the port's evicted families have been vanishing down there, and Monday's audit has zero patience for squatters.\"", "caption": "", "musicCue": "cue_2_tension", "musicVol": 0.24, "sfx": "none", "timecode": "01:11\u201301:23", "img": "../doc/origin_syscall/renders/ch01_poc/shots/shot_011.jpg", "vo": "../doc/origin_syscall/renders/ch01_poc/audio/voices/shot_011.m4a"}, {"id": "shot_012", "num": "012", "page": "page_04", "pageLabel": "PAGE 04 (3 Panels) \u2014 Leaving the 12th Floor", "panel": "PANEL 4.2 (Middle Tier)", "panelRegion": {"top": "35%", "left": "3%", "width": "94%", "height": "30%"}, "framing": "CLOSE-UP / ELARA PULLING ON COAT", "duration": 4.5, "motion": "subtle-push", "visual": "Elara stands, sliding her arms into her damp charcoal trench coat and carefully peeling Gabe's yellow-slicker snapshot off the monitor bezel to tuck inside her wallet.", "audio": "Spoken dialogue: Elara.", "dialogue": "ELARA: \"Nine AM. You'll have it.\"", "caption": "", "musicCue": "cue_2_tension", "musicVol": 0.32, "sfx": "none", "timecode": "01:23\u201301:28", "img": "../doc/origin_syscall/renders/ch01_poc/shots/shot_012.jpg", "vo": "../doc/origin_syscall/renders/ch01_poc/audio/voices/shot_012.m4a"}, {"id": "shot_013", "num": "013", "page": "page_04", "pageLabel": "PAGE 04 (3 Panels) \u2014 Leaving the 12th Floor", "panel": "PANEL 4.3 (Bottom Wide Tier)", "panelRegion": {"top": "66%", "left": "3%", "width": "94%", "height": "32%"}, "framing": "WIDE / TOWER REVOLVING DOOR", "duration": 5.2, "motion": "slow-zoom", "visual": "Bare-headed in the November rain with her hair pinned up by her blue pen, Elara pushes out through the revolving glass doors into a river of hunched commuters with black umbrellas beneath a glowing billboard: AEGIS HEALTH TIERS: BREATHE SECURELY.", "audio": "Tension score swells briefly as Elara steps out into the dusk rain.", "dialogue": "", "caption": "AEGIS HEALTH TIERS: BREATHE SECURELY.", "musicCue": "cue_2_tension", "musicVol": 0.68, "sfx": "none", "timecode": "01:28\u201301:33", "img": "../doc/origin_syscall/renders/ch01_poc/shots/shot_013.jpg", "vo": null}, {"id": "shot_014", "num": "014", "page": "page_05", "pageLabel": "PAGE 05 (3 Panels) \u2014 South End Aftercare", "panel": "PANEL 5.1 (Top Tier)", "panelRegion": {"top": "2%", "left": "3%", "width": "94%", "height": "33%"}, "framing": "MEDIUM / AFTERCARE DOORWAY", "duration": 7.4, "motion": "subtle-push", "visual": "Cinderblock church basement converted into fee-metered aftercare. Wall clock reads 5:28 PM beside LATE PICKUP AFTER 5:30 PM: $18 AUTO-DEBIT. Alone at a folding table, GABE (8, messy dark curls, mustard-yellow rain slicker) is disassembling a broken desk fan with a butter knife. Spotting Elara, he grins.", "audio": "Score shifts to 'Yellow Slicker' (warm fragile F-major piano motif); Gabe speaks.", "dialogue": "GABE: \"Mom! Look, the motor wasn't even burned out, just jammed with lint.\"", "caption": "", "musicCue": "cue_3_gabe", "musicVol": 0.28, "sfx": "none", "timecode": "01:33\u201301:40", "img": "../doc/origin_syscall/renders/ch01_poc/shots/shot_014.jpg", "vo": "../doc/origin_syscall/renders/ch01_poc/audio/voices/shot_014.m4a"}, {"id": "shot_015", "num": "015", "page": "page_05", "pageLabel": "PAGE 05 (3 Panels) \u2014 South End Aftercare", "panel": "PANEL 5.2 (Middle Tier)", "panelRegion": {"top": "36%", "left": "3%", "width": "94%", "height": "32%"}, "framing": "CLOSE-UP / ELARA KNEELING BY GABE", "duration": 10.5, "motion": "static", "visual": "Elara drops to one knee to zip Gabe's yellow slicker all the way to his chin, pressing the back of her wrist gently against his forehead while listening to the faint whistle under his ribs.", "audio": "Spoken dialogue: Elara over tender piano chords.", "dialogue": "ELARA: \"Leave the fan on Mrs. Alvarez's table before she bills us for parts, kiddo. Scarf tight over your mouth outside. Smog's heavy tonight.\"", "caption": "", "musicCue": "cue_3_gabe", "musicVol": 0.26, "sfx": "none", "timecode": "01:40\u201301:51", "img": "../doc/origin_syscall/renders/ch01_poc/shots/shot_015.jpg", "vo": "../doc/origin_syscall/renders/ch01_poc/audio/voices/shot_015.m4a"}, {"id": "shot_016", "num": "016", "page": "page_05", "pageLabel": "PAGE 05 (3 Panels) \u2014 South End Aftercare", "panel": "PANEL 5.3 (Bottom Macro Tier)", "panelRegion": {"top": "69%", "left": "3%", "width": "94%", "height": "29%"}, "framing": "MACRO INSERT / SMART-METERED INHALER IN POCKET", "duration": 5.2, "motion": "slow-zoom", "visual": "Inside her coat pocket, Elara's thumb presses the status button on Gabe's white plastic Aegis Pedi-Haler. A tiny screen on the electronic lock-collar blinks amber: DOSES LEFT: 03 // REFILL BLOCKED PENDING MOM'S 94% QUOTA AUDIT.", "audio": "Subtle amber medical indicator tone over Gabe's fragile piano theme.", "dialogue": "", "caption": "DOSES LEFT: 03 // REFILL BLOCKED PENDING MOM'S 94% QUOTA AUDIT", "musicCue": "cue_3_gabe", "musicVol": 0.62, "sfx": "inhaler_beep", "timecode": "01:51\u201301:56", "img": "../doc/origin_syscall/renders/ch01_poc/shots/shot_016.jpg", "vo": null}, {"id": "shot_017", "num": "017", "page": "page_06", "pageLabel": "PAGE 06 (3 Panels) \u2014 4th Ave Transit Shelter", "panel": "PANEL 6.1 (Top Wide Tier)", "panelRegion": {"top": "2%", "left": "3%", "width": "94%", "height": "32%"}, "framing": "WIDE / RAINY BUS SHELTER", "duration": 5.5, "motion": "static", "visual": "4th Avenue transit shelter under an elevated freight viaduct. Rain sheets off the scratched polycarbonate roof. Arrival board flickers: BUS 124 SOUTH: DELAYED 19 MIN (CORPORATE FREIGHT PRIORITY). Elara sits on the narrow steel bench with Gabe tucked tight under her arm.", "audio": "Score: 'Under the Viaduct' (expressive bowed solo cello, dark warm pad & delicate shelter raindrops).", "dialogue": "", "caption": "BUS 124 SOUTH: DELAYED 19 MIN (CORPORATE FREIGHT PRIORITY)", "musicCue": "cue_4_viaduct", "musicVol": 0.7, "sfx": "none", "timecode": "01:56\u201302:02", "img": "../doc/origin_syscall/renders/ch01_poc/shots/shot_017.jpg", "vo": null}, {"id": "shot_018", "num": "018", "page": "page_06", "pageLabel": "PAGE 06 (3 Panels) \u2014 4th Ave Transit Shelter", "panel": "PANEL 6.2 (Middle Tier)", "panelRegion": {"top": "35%", "left": "3%", "width": "94%", "height": "32%"}, "framing": "MEDIUM / BENCH END, SLOW RACK FOCUS", "duration": 6.0, "motion": "subtle-push", "visual": "From the shadows behind the viaduct pillar steps KAEL (38, tall, lean, thick dark brown beard damp with mist, olive waxed-canvas coat mended at the right cuff with braided copper wire). Carrying no umbrella and no lit screen, his calm dark eyes notice Gabe's tight wheeze under the yellow hood, then the utility lanyard tucked inside Elara's collar.", "audio": "Low distant freight-train rumble overhead blended beneath the bowed cello score.", "dialogue": "", "caption": "", "musicCue": "cue_4_viaduct", "musicVol": 0.68, "sfx": "viaduct_rumble", "timecode": "02:02\u201302:08", "img": "../doc/origin_syscall/renders/ch01_poc/shots/shot_018.jpg", "vo": null}, {"id": "shot_019", "num": "019", "page": "page_06", "pageLabel": "PAGE 06 (3 Panels) \u2014 4th Ave Transit Shelter", "panel": "PANEL 6.3 (Bottom Tier)", "panelRegion": {"top": "68%", "left": "3%", "width": "94%", "height": "30%"}, "framing": "TWO-SHOT / BENCH (180-AXIS LOCKED)", "duration": 11.5, "motion": "static", "visual": "Kael sits calmly on the left end of the steel bench with his battered oilskin folio across his knees, leaving three polite feet of empty bench between himself and Elara & Gabe huddled on the right.", "audio": "Spoken dialogue: Kael & Elara over ducked nocturnal cello underscore.", "dialogue": "KAEL: \"Cold air's trapping refinery smoke down on the flats tonight. Tough night for an eight-year-old's lungs.\"  ELARA: \"Our bus is right behind this train.\"", "caption": "", "musicCue": "cue_4_viaduct", "musicVol": 0.25, "sfx": "none", "timecode": "02:08\u201302:19", "img": "../doc/origin_syscall/renders/ch01_poc/shots/shot_019.jpg", "vo": "../doc/origin_syscall/renders/ch01_poc/audio/voices/shot_019.m4a"}, {"id": "shot_020", "num": "020", "page": "page_07", "pageLabel": "PAGE 07 (3 Panels) \u2014 The 1&H Drive", "panel": "PANEL 7.1 (Top Tier)", "panelRegion": {"top": "2%", "left": "3%", "width": "94%", "height": "33%"}, "framing": "3/4 CLOSE-UP / KAEL LOOKING TOWARD GUTTER", "duration": 13.5, "motion": "subtle-push", "visual": "Off-center 3/4 close-up: Kael looks naturally across the flooded street gutter rather than crowding Elara, speaking low beneath the rain so the distant pole camera behind the glass gets nothing.", "audio": "Spoken dialogue: Kael over soft bowed cello & pad.", "dialogue": "KAEL: \"Utility Enforcement flagged the warehouse at First and Holgate for illegal heat at four-fifty-two today. Mercer sent a clerk on quota probation to shoot the meter so he doesn't need a warrant.\"", "caption": "", "musicCue": "cue_4_viaduct", "musicVol": 0.24, "sfx": "none", "timecode": "02:19\u201302:32", "img": "../doc/origin_syscall/renders/ch01_poc/shots/shot_020.jpg", "vo": "../doc/origin_syscall/renders/ch01_poc/audio/voices/shot_020.m4a"}, {"id": "shot_021", "num": "021", "page": "page_07", "pageLabel": "PAGE 07 (3 Panels) \u2014 The 1&H Drive", "panel": "PANEL 7.2 (Middle Tier)", "panelRegion": {"top": "36%", "left": "3%", "width": "94%", "height": "30%"}, "framing": "CLOSE-UP / ELARA, SHARP TURN", "duration": 4.2, "motion": "static", "visual": "Elara turns her head sharply toward him, rain dripping off the loose strands at her temple, hand stiffening protectively around Gabe's yellow-slickered shoulder.", "audio": "Spoken dialogue: Elara.", "dialogue": "ELARA: \"Who the hell are you?\"", "caption": "", "musicCue": "cue_4_viaduct", "musicVol": 0.28, "sfx": "none", "timecode": "02:32\u201302:37", "img": "../doc/origin_syscall/renders/ch01_poc/shots/shot_021.jpg", "vo": "../doc/origin_syscall/renders/ch01_poc/audio/voices/shot_021.m4a"}, {"id": "shot_022", "num": "022", "page": "page_07", "pageLabel": "PAGE 07 (3 Panels) \u2014 The 1&H Drive", "panel": "PANEL 7.3 (Bottom Macro Tier)", "panelRegion": {"top": "67%", "left": "3%", "width": "94%", "height": "31%"}, "framing": "MACRO INSERT / MATTE-BLACK THUMB DRIVE ON WET BENCH", "duration": 6.4, "motion": "slow-zoom", "visual": "Kael's weathered fingers (copper-mended olive cuff at frame edge) set a small matte-black aluminum USB-C drive down on the raindrop-beaded perforated steel bench. Scratched into the metal with an awl: 1&H.", "audio": "Soft metallic clink of aluminum on wet steel + Kael's voice off-screen.", "dialogue": "KAEL (O.S.): \"Somebody who stopped shutting off winter heat for that building four years ago.\"", "caption": "", "musicCue": "cue_4_viaduct", "musicVol": 0.26, "sfx": "none", "timecode": "02:37\u201302:43", "img": "../doc/origin_syscall/renders/ch01_poc/shots/shot_022.jpg", "vo": "../doc/origin_syscall/renders/ch01_poc/audio/voices/shot_022.m4a"}, {"id": "shot_023", "num": "023", "page": "page_08", "pageLabel": "PAGE 08 (Full Splash) \u2014 Headlight Wash", "panel": "PANEL 8.1 (Full-Page Anamorphic Splash)", "panelRegion": {"top": "2%", "left": "3%", "width": "94%", "height": "96%"}, "framing": "WIDE ANAMORPHIC / BUS HEADLIGHTS WASHING THE SHELTER", "duration": 14.5, "motion": "subtle-push", "visual": "Glaring white headlights of the Route 124 bus sweep across the rain-slicked shelter glass. Kael is already standing and stepping back into the dark beneath the viaduct pillar while the matte-black 1&H thumb drive gleams wet beside Elara's thigh.", "audio": "Spoken dialogue: Kael's parting words + soft hydraulic curb brake release.", "dialogue": "KAEL: \"Don't plug that into a city computer, Elara. Bring your boy to Dock Four-B on Holgate before those three puffs run out. Air's scrubbed clean inside, and hot soup doesn't require a shutoff quota.\"", "caption": "", "musicCue": "cue_4_viaduct", "musicVol": 0.28, "sfx": "bus_brake", "timecode": "02:43\u201302:58", "img": "../doc/origin_syscall/renders/ch01_poc/shots/shot_023.jpg", "vo": "../doc/origin_syscall/renders/ch01_poc/audio/voices/shot_023.m4a"}, {"id": "shot_024", "num": "024", "page": "page_09", "pageLabel": "PAGE 09 (Closing Beat) \u2014 Route 124 Past Holgate", "panel": "PANEL 9.1 (Silent Closing Splash)", "panelRegion": {"top": "2%", "left": "3%", "width": "94%", "height": "96%"}, "framing": "CLOSE-UP / ELARA'S PALM & WINDOW REFLECTION", "duration": 9.5, "motion": "slow-zoom", "visual": "Back row of the rattling, ozone-lit city bus. Gabe sleeps exhausted against Elara's ribs. Elara stares out the rain-beaded window as the dark brick bulk of 1ST & HOLGATE (CASCADE ARMS WAREHOUSE: CONDEMNED) slides past in the night. Slowly, she opens her right fist: the black aluminum 1&H drive has left sharp rectangular indentations across her palm.", "audio": "Solo bowed cello theme swells in D minor and holds into black.", "dialogue": "", "caption": "1ST & HOLGATE // CASCADE ARMS WAREHOUSE: CONDEMNED", "musicCue": "cue_5_finale", "musicVol": 0.88, "sfx": "none", "timecode": "02:58\u201303:07", "img": "../doc/origin_syscall/renders/ch01_poc/shots/shot_024.jpg", "vo": null}], "pages": [{"id": "page_01", "short": "P01", "firstShot": 0, "title": "PAGE 01 (3 Panels) \u2014 Shots 001\u2013003", "timecode": "00:00\u201300:18", "img": "../doc/origin_syscall/renders/ch01_poc/pages/page_01.jpg"}, {"id": "page_02", "short": "P02", "firstShot": 3, "title": "PAGE 02 (4 Panels) \u2014 Shots 004\u2013007", "timecode": "00:18\u201300:42", "img": "../doc/origin_syscall/renders/ch01_poc/pages/page_02.jpg"}, {"id": "page_03", "short": "P03", "firstShot": 7, "title": "PAGE 03 (3 Panels) \u2014 Shots 008\u2013010", "timecode": "00:42\u201301:11", "img": "../doc/origin_syscall/renders/ch01_poc/pages/page_03.jpg"}, {"id": "page_04", "short": "P04", "firstShot": 10, "title": "PAGE 04 (3 Panels) \u2014 Shots 011\u2013013", "timecode": "01:11\u201301:33", "img": "../doc/origin_syscall/renders/ch01_poc/pages/page_04.jpg"}, {"id": "page_05", "short": "P05", "firstShot": 13, "title": "PAGE 05 (3 Panels) \u2014 Shots 014\u2013016", "timecode": "01:33\u201301:56", "img": "../doc/origin_syscall/renders/ch01_poc/pages/page_05.jpg"}, {"id": "page_06", "short": "P06", "firstShot": 16, "title": "PAGE 06 (3 Panels) \u2014 Shots 017\u2013019", "timecode": "01:56\u201302:19", "img": "../doc/origin_syscall/renders/ch01_poc/pages/page_06.jpg"}, {"id": "page_07", "short": "P07", "firstShot": 19, "title": "PAGE 07 (3 Panels) \u2014 Shots 020\u2013022", "timecode": "02:19\u201302:43", "img": "../doc/origin_syscall/renders/ch01_poc/pages/page_07.jpg"}, {"id": "page_08", "short": "P08", "firstShot": 22, "title": "PAGE 08 (Splash) \u2014 Shot 023", "timecode": "02:43\u201302:58", "img": "../doc/origin_syscall/renders/ch01_poc/pages/page_08.jpg"}, {"id": "page_09", "short": "P09", "firstShot": 23, "title": "PAGE 09 (Closing Beat) \u2014 Shot 024", "timecode": "02:58\u201303:07", "img": "../doc/origin_syscall/renders/ch01_poc/pages/page_09.jpg"}], "cues": {"cue_1_office": "../doc/origin_syscall/renders/ch01_poc/audio/cues/cue_1_office.m4a", "cue_2_tension": "../doc/origin_syscall/renders/ch01_poc/audio/cues/cue_2_tension.m4a", "cue_3_gabe": "../doc/origin_syscall/renders/ch01_poc/audio/cues/cue_3_gabe.m4a", "cue_4_viaduct": "../doc/origin_syscall/renders/ch01_poc/audio/cues/cue_4_viaduct.m4a", "cue_5_finale": "../doc/origin_syscall/renders/ch01_poc/audio/cues/cue_5_finale.m4a"}};
-    const TOTAL_DURATION = DATA.shots.reduce((acc, s) => acc + s.duration, 0);
+    const CHAPTERS = {"1": {"shots": [{"id": "shot_001", "num": "001", "page": "page_01", "pageLabel": "PAGE 01 (3 Panels) \u2014 12th Floor Utility Tower", "panel": "PANEL 1.1 (Top Half-Page Tier)", "panelRegion": {"top": "2%", "left": "3%", "width": "94%", "height": "46%"}, "framing": "EXTREME WIDE / ESTABLISHING, SLOW TILT DOWN", "duration": 6.5, "motion": "tilt-down", "visual": "Grey Seattle at 4:45 PM in November, freezing sleet slanting across dark high-rises. Halfway up a concrete-and-glass municipal utility building, the twelfth floor glows cold mint-white behind rain-streaked triple-paned windows.", "audio": "Score: 'Twelfth Floor Ledger' (muted D-minor felt piano & sub pulse).", "dialogue": "", "caption": "GREY SEATTLE // 4:45 PM, 35\u00b0F // CITY UTILITY ENFORCEMENT: REMOTE HEAT & WATER SHUTOFFS (12TH FLOOR).", "musicCue": "cue_1_office", "musicVol": 0.72, "sfx": "none", "timecode": "00:00\u201300:06", "img": "../doc/origin_syscall/renders/ch01_poc/shots/shot_001.jpg", "vo": null}, {"id": "shot_002", "num": "002", "page": "page_01", "pageLabel": "PAGE 01 (3 Panels) \u2014 12th Floor Utility Tower", "panel": "PANEL 1.2 (Bottom-Left Panel)", "panelRegion": {"top": "50%", "left": "3%", "width": "46%", "height": "48%"}, "framing": "WIDE / AISLE SYMMETRY, STATIC", "duration": 5.5, "motion": "static", "visual": "Forty identical grey fabric cubicles beneath fluorescent tubes. Mounted high on the front wall, a red LED ticker reads: DELINQUENT WINTER QUEUE: 1,412 HOMES // MANDATORY SHUTOFF QUOTA: 94.0%. Analysts click through overdue bills as red HEAT SHUT OFF stamps flash down the aisle.", "audio": "Felt-piano ostinato continues; soft, sparse mouse clicks in the room.", "dialogue": "", "caption": "DELINQUENT WINTER QUEUE: 1,412 HOMES // MANDATORY SHUTOFF QUOTA: 94.0%", "musicCue": "cue_1_office", "musicVol": 0.68, "sfx": "soft_clicks", "timecode": "00:06\u201300:12", "img": "../doc/origin_syscall/renders/ch01_poc/shots/shot_002.jpg", "vo": null}, {"id": "shot_003", "num": "003", "page": "page_01", "pageLabel": "PAGE 01 (3 Panels) \u2014 12th Floor Utility Tower", "panel": "PANEL 1.3 (Bottom-Right Panel)", "panelRegion": {"top": "50%", "left": "51%", "width": "46%", "height": "48%"}, "framing": "MEDIUM CLOSE / 3/4 PROFILE OVER-THE-SHOULDER", "duration": 6.0, "motion": "subtle-push", "visual": "3/4 rear-side angle at cubicle plaque ROW 14 - DESK 6 showing both ELARA's exhausted profile and her dual monitors. Taped to her right bezel is GABE's (8) school photo in his yellow slicker beside a handwritten sticky note: 'GABE'S INHALER PLAN: KEEP QUOTA >= 94%!' Left monitor chimes: UNPAID WINTER HEAT: APT 442-B.", "audio": "Soft two-note monitor chime over D-minor felt piano.", "dialogue": "", "caption": "GABE'S INHALER PLAN: KEEP QUOTA >= 94%!  //  UNPAID WINTER HEAT: APT 442-B", "musicCue": "cue_1_office", "musicVol": 0.65, "sfx": "chime", "timecode": "00:12\u201300:18", "img": "../doc/origin_syscall/renders/ch01_poc/shots/shot_003.jpg", "vo": null}, {"id": "shot_004", "num": "004", "page": "page_02", "pageLabel": "PAGE 02 (4 Panels) \u2014 Apt 442-B Shutoff", "panel": "PANEL 2.1 (Top Tier)", "panelRegion": {"top": "2%", "left": "3%", "width": "94%", "height": "24%"}, "framing": "MACRO INSERT / LEFT MONITOR, STATIC", "duration": 6.0, "motion": "static", "visual": "Amber top bar: ANALYST: ELARA-704 // YOUR SHUTOFF QUOTA: 94.1% (MIN TO KEEP CHILD MEDICAL COVERAGE: 94.0%). Center case: APT 442-B // UNPAID HEAT BILL: $312 PAST DUE (INDOOR TEMP: 46\u00b0F) above red [SHUT OFF HEAT NOW] and grey [GRANT 72-HR EXTENSION].", "audio": "Felt-piano ostinato deepens as the quota warning holds on screen.", "dialogue": "", "caption": "WARNING: GRANTING 1 MORE EXTENSION DROPS YOUR QUOTA TO 93.8% AND CANCELS DEPENDENT PEDIATRIC INHALER COVERAGE.", "musicCue": "cue_1_office", "musicVol": 0.62, "sfx": "none", "timecode": "00:18\u201300:24", "img": "../doc/origin_syscall/renders/ch01_poc/shots/shot_004.jpg", "vo": null}, {"id": "shot_005", "num": "005", "page": "page_02", "pageLabel": "PAGE 02 (4 Panels) \u2014 Apt 442-B Shutoff", "panel": "PANEL 2.2 (Second Tier)", "panelRegion": {"top": "27%", "left": "3%", "width": "94%", "height": "22%"}, "framing": "INSERT / CORNER VIDEO WINDOW", "duration": 8.5, "motion": "subtle-push", "visual": "Grainy webcam popup TENANT HARDSHIP PLEA: APT 442-B (46\u00b0F INDOORS). A terrified 24-year-old mother in a dark unheated kitchen holds her coughing two-year-old bundled in a winter parka toward her cracked phone camera, white cold-breath vapor puffing indoors.", "audio": "Real voice (tinny earbud filter) pleading until abrupt 30.0s digital cutoff click.", "dialogue": "MOTHER (earbud): \"Please don't shut off our radiators! My warehouse check clears Friday morning, my baby's freezing in here, just seventy-two hours\u2014\"", "caption": "", "musicCue": "cue_1_office", "musicVol": 0.22, "sfx": "none", "timecode": "00:24\u201300:32", "img": "../doc/origin_syscall/renders/ch01_poc/shots/shot_005.jpg", "vo": "../doc/origin_syscall/renders/ch01_poc/audio/voices/shot_005.m4a"}, {"id": "shot_006", "num": "006", "page": "page_02", "pageLabel": "PAGE 02 (4 Panels) \u2014 Apt 442-B Shutoff", "panel": "PANEL 2.3 (Third Tier)", "panelRegion": {"top": "50%", "left": "3%", "width": "94%", "height": "23%"}, "framing": "EXTREME CLOSE-UP / SPLIT FOCUS: EYES, PHONE & CURSOR", "duration": 5.5, "motion": "static", "visual": "Split focus: Elara's anguished eyes flick to her cracked phone ('SOUTH END AFTERCARE: Gabe wheezing hard today. Needed his inhaler at 3pm. Pick up by 5:30 or $18 late fee.') while her finger hovers over the mouse and the cursor trembles directly over red [SHUT OFF HEAT NOW].", "audio": "Music drops to a whisper; slow, low heartbeat pulse in the silence.", "dialogue": "", "caption": "SMS: Gabe wheezing hard today. Needed his inhaler at 3pm. Pick up by 5:30 or $18 late fee.", "musicCue": "cue_1_office", "musicVol": 0.14, "sfx": "heartbeat", "timecode": "00:32\u201300:38", "img": "../doc/origin_syscall/renders/ch01_poc/shots/shot_006.jpg", "vo": null}, {"id": "shot_007", "num": "007", "page": "page_02", "pageLabel": "PAGE 02 (4 Panels) \u2014 Apt 442-B Shutoff", "panel": "PANEL 2.4 (Bottom Tier)", "panelRegion": {"top": "74%", "left": "3%", "width": "94%", "height": "24%"}, "framing": "MACRO INSERT / MOUSE CLICK & LOCKED VALVE STAMP", "duration": 3.8, "motion": "static", "visual": "Elara's pale index finger presses the left mouse button down two millimeters. On the screen directly behind her knuckle, the cursor clicks [SHUT OFF HEAT NOW] and the window slams dark slate-red: APT 442-B: RADIATOR VALVE LOCKED // HEAT SHUT OFF.", "audio": "Single crisp plastic mouse CLICK + low resonant bass toll.", "dialogue": "", "caption": "APT 442-B: RADIATOR VALVE LOCKED // HEAT SHUT OFF", "musicCue": "cue_1_office", "musicVol": 0.2, "sfx": "lockout_click", "timecode": "00:38\u201300:42", "img": "../doc/origin_syscall/renders/ch01_poc/shots/shot_007.jpg", "vo": null}, {"id": "shot_008", "num": "008", "page": "page_03", "pageLabel": "PAGE 03 (3 Panels) \u2014 Cascade Arms Anomaly", "panel": "PANEL 3.1 (Top Tier)", "panelRegion": {"top": "2%", "left": "3%", "width": "94%", "height": "30%"}, "framing": "MEDIUM CLOSE / 3/4 PROFILE AT DESK", "duration": 5.0, "motion": "static", "visual": "3/4 rear-side angle: Elara sits upright, having snatched her hand off the empty mouse to press both cold hands flat under her thighs while her right monitor's front screen chimes with a new alert: NEXT CASE: SUSPECTED OFF-GRID HEAT THEFT.", "audio": "Soft alert chime as D-Phrygian tension underscore ('Mercer's Deal') enters.", "dialogue": "", "caption": "NEXT CASE: SUSPECTED OFF-GRID HEAT THEFT", "musicCue": "cue_2_tension", "musicVol": 0.58, "sfx": "chime", "timecode": "00:42\u201300:47", "img": "../doc/origin_syscall/renders/ch01_poc/shots/shot_008.jpg", "vo": null}, {"id": "shot_009", "num": "009", "page": "page_03", "pageLabel": "PAGE 03 (3 Panels) \u2014 Cascade Arms Anomaly", "panel": "PANEL 3.2 (Middle Tier)", "panelRegion": {"top": "34%", "left": "3%", "width": "94%", "height": "31%"}, "framing": "INSERT / RIGHT MONITOR THERMAL MAP, SLOW ZOOM", "duration": 6.0, "motion": "slow-zoom", "visual": "UTILITY THEFT AUDIT #8819 // CONDEMNED CASCADE ARMS WAREHOUSE (1ST & HOLGATE). Surrounding blocks glow pale metered blue (ACTIVE PAYING GRID); CASCADE ARMS is pitch black (CITY POWER: SHUT OFF // $0 BILLED), yet satellite infrared blooms bright warm orange (68.4\u00b0F // UNKNOWN FREE HEAT SOURCE).", "audio": "Dark glass piano & low cello drone swell gently over the thermal anomaly.", "dialogue": "", "caption": "ALERT: CONDEMNED BUILDING HEATING WITHOUT CITY POWER OR PAYMENT.", "musicCue": "cue_2_tension", "musicVol": 0.65, "sfx": "none", "timecode": "00:47\u201300:53", "img": "../doc/origin_syscall/renders/ch01_poc/shots/shot_009.jpg", "vo": null}, {"id": "shot_010", "num": "010", "page": "page_03", "pageLabel": "PAGE 03 (3 Panels) \u2014 Cascade Arms Anomaly", "panel": "PANEL 3.3 (Bottom Tier)", "panelRegion": {"top": "67%", "left": "3%", "width": "94%", "height": "31%"}, "framing": "MEDIUM / TWO-SHOT AT CUBICLE WALL", "duration": 18.5, "motion": "subtle-push", "visual": "Supervisor DIRECTOR MERCER (48, silver-blond hair, rimless titanium glasses, charcoal three-piece suit, mug of hot lemon water) leans on Elara's partition, pointing a finger pleasantly at the glowing orange warehouse on her screen.", "audio": "Spoken dialogue: Director Mercer & Elara over ducked tension underscore.", "dialogue": "MERCER: \"We welded that warehouse's power shut two years ago, yet somebody's heating it to 68\u00b0 for free. Snap a photo of their illegal hookup tonight, and I'll pad your quota so Gabe's inhaler plan stays safe.\"  ELARA: \"I pass Holgate on my bus south. I'll get the photo.\"", "caption": "", "musicCue": "cue_2_tension", "musicVol": 0.24, "sfx": "none", "timecode": "00:53\u201301:11", "img": "../doc/origin_syscall/renders/ch01_poc/shots/shot_010.jpg", "vo": "../doc/origin_syscall/renders/ch01_poc/audio/voices/shot_010.m4a"}, {"id": "shot_011", "num": "011", "page": "page_04", "pageLabel": "PAGE 04 (3 Panels) \u2014 Leaving the 12th Floor", "panel": "PANEL 4.1 (Top Tier)", "panelRegion": {"top": "2%", "left": "3%", "width": "94%", "height": "32%"}, "framing": "CLOSE-UP / MERCER, LOW ANGLE FROM ELARA'S CHAIR", "duration": 11.9, "motion": "static", "visual": "Mercer takes a small, unhurried sip from his porcelain mug. Behind his rimless lenses, his expression stays entirely pleasant, almost paternal.", "audio": "Spoken dialogue: Director Mercer over low cello & glass piano.", "dialogue": "MERCER: \"Just shoot the meter box from the alley, don't knock. Half the port's evicted families have been vanishing down there, and Monday's audit has zero patience for squatters.\"", "caption": "", "musicCue": "cue_2_tension", "musicVol": 0.24, "sfx": "none", "timecode": "01:11\u201301:23", "img": "../doc/origin_syscall/renders/ch01_poc/shots/shot_011.jpg", "vo": "../doc/origin_syscall/renders/ch01_poc/audio/voices/shot_011.m4a"}, {"id": "shot_012", "num": "012", "page": "page_04", "pageLabel": "PAGE 04 (3 Panels) \u2014 Leaving the 12th Floor", "panel": "PANEL 4.2 (Middle Tier)", "panelRegion": {"top": "35%", "left": "3%", "width": "94%", "height": "30%"}, "framing": "CLOSE-UP / ELARA PULLING ON COAT", "duration": 4.5, "motion": "subtle-push", "visual": "Elara stands, sliding her arms into her damp charcoal trench coat and carefully peeling Gabe's yellow-slicker snapshot off the monitor bezel to tuck inside her wallet.", "audio": "Spoken dialogue: Elara.", "dialogue": "ELARA: \"Nine AM. You'll have it.\"", "caption": "", "musicCue": "cue_2_tension", "musicVol": 0.32, "sfx": "none", "timecode": "01:23\u201301:28", "img": "../doc/origin_syscall/renders/ch01_poc/shots/shot_012.jpg", "vo": "../doc/origin_syscall/renders/ch01_poc/audio/voices/shot_012.m4a"}, {"id": "shot_013", "num": "013", "page": "page_04", "pageLabel": "PAGE 04 (3 Panels) \u2014 Leaving the 12th Floor", "panel": "PANEL 4.3 (Bottom Wide Tier)", "panelRegion": {"top": "66%", "left": "3%", "width": "94%", "height": "32%"}, "framing": "WIDE / TOWER REVOLVING DOOR", "duration": 5.2, "motion": "slow-zoom", "visual": "Bare-headed in the November rain with her hair pinned up by her blue pen, Elara pushes out through the revolving glass doors into a river of hunched commuters with black umbrellas beneath a glowing billboard: AEGIS HEALTH TIERS: BREATHE SECURELY.", "audio": "Tension score swells briefly as Elara steps out into the dusk rain.", "dialogue": "", "caption": "AEGIS HEALTH TIERS: BREATHE SECURELY.", "musicCue": "cue_2_tension", "musicVol": 0.68, "sfx": "none", "timecode": "01:28\u201301:33", "img": "../doc/origin_syscall/renders/ch01_poc/shots/shot_013.jpg", "vo": null}, {"id": "shot_014", "num": "014", "page": "page_05", "pageLabel": "PAGE 05 (3 Panels) \u2014 South End Aftercare", "panel": "PANEL 5.1 (Top Tier)", "panelRegion": {"top": "2%", "left": "3%", "width": "94%", "height": "33%"}, "framing": "MEDIUM / AFTERCARE DOORWAY", "duration": 7.4, "motion": "subtle-push", "visual": "Cinderblock church basement converted into fee-metered aftercare. Wall clock reads 5:28 PM beside LATE PICKUP AFTER 5:30 PM: $18 AUTO-DEBIT. Alone at a folding table, GABE (8, messy dark curls, mustard-yellow rain slicker) is disassembling a broken desk fan with a butter knife. Spotting Elara, he grins.", "audio": "Score shifts to 'Yellow Slicker' (warm fragile F-major piano motif); Gabe speaks.", "dialogue": "GABE: \"Mom! Look, the motor wasn't even burned out, just jammed with lint.\"", "caption": "", "musicCue": "cue_3_gabe", "musicVol": 0.28, "sfx": "none", "timecode": "01:33\u201301:40", "img": "../doc/origin_syscall/renders/ch01_poc/shots/shot_014.jpg", "vo": "../doc/origin_syscall/renders/ch01_poc/audio/voices/shot_014.m4a"}, {"id": "shot_015", "num": "015", "page": "page_05", "pageLabel": "PAGE 05 (3 Panels) \u2014 South End Aftercare", "panel": "PANEL 5.2 (Middle Tier)", "panelRegion": {"top": "36%", "left": "3%", "width": "94%", "height": "32%"}, "framing": "CLOSE-UP / ELARA KNEELING BY GABE", "duration": 10.5, "motion": "static", "visual": "Elara drops to one knee to zip Gabe's yellow slicker all the way to his chin, pressing the back of her wrist gently against his forehead while listening to the faint whistle under his ribs.", "audio": "Spoken dialogue: Elara over tender piano chords.", "dialogue": "ELARA: \"Leave the fan on Mrs. Alvarez's table before she bills us for parts, kiddo. Scarf tight over your mouth outside. Smog's heavy tonight.\"", "caption": "", "musicCue": "cue_3_gabe", "musicVol": 0.26, "sfx": "none", "timecode": "01:40\u201301:51", "img": "../doc/origin_syscall/renders/ch01_poc/shots/shot_015.jpg", "vo": "../doc/origin_syscall/renders/ch01_poc/audio/voices/shot_015.m4a"}, {"id": "shot_016", "num": "016", "page": "page_05", "pageLabel": "PAGE 05 (3 Panels) \u2014 South End Aftercare", "panel": "PANEL 5.3 (Bottom Macro Tier)", "panelRegion": {"top": "69%", "left": "3%", "width": "94%", "height": "29%"}, "framing": "MACRO INSERT / SMART-METERED INHALER IN POCKET", "duration": 5.2, "motion": "slow-zoom", "visual": "Inside her coat pocket, Elara's thumb presses the status button on Gabe's white plastic Aegis Pedi-Haler. A tiny screen on the electronic lock-collar blinks amber: DOSES LEFT: 03 // REFILL BLOCKED PENDING MOM'S 94% QUOTA AUDIT.", "audio": "Subtle amber medical indicator tone over Gabe's fragile piano theme.", "dialogue": "", "caption": "DOSES LEFT: 03 // REFILL BLOCKED PENDING MOM'S 94% QUOTA AUDIT", "musicCue": "cue_3_gabe", "musicVol": 0.62, "sfx": "inhaler_beep", "timecode": "01:51\u201301:56", "img": "../doc/origin_syscall/renders/ch01_poc/shots/shot_016.jpg", "vo": null}, {"id": "shot_017", "num": "017", "page": "page_06", "pageLabel": "PAGE 06 (3 Panels) \u2014 4th Ave Transit Shelter", "panel": "PANEL 6.1 (Top Wide Tier)", "panelRegion": {"top": "2%", "left": "3%", "width": "94%", "height": "32%"}, "framing": "WIDE / RAINY BUS SHELTER", "duration": 5.5, "motion": "static", "visual": "4th Avenue transit shelter under an elevated freight viaduct. Rain sheets off the scratched polycarbonate roof. Arrival board flickers: BUS 124 SOUTH: DELAYED 19 MIN (CORPORATE FREIGHT PRIORITY). Elara sits on the narrow steel bench with Gabe tucked tight under her arm.", "audio": "Score: 'Under the Viaduct' (expressive bowed solo cello, dark warm pad & delicate shelter raindrops).", "dialogue": "", "caption": "BUS 124 SOUTH: DELAYED 19 MIN (CORPORATE FREIGHT PRIORITY)", "musicCue": "cue_4_viaduct", "musicVol": 0.7, "sfx": "none", "timecode": "01:56\u201302:02", "img": "../doc/origin_syscall/renders/ch01_poc/shots/shot_017.jpg", "vo": null}, {"id": "shot_018", "num": "018", "page": "page_06", "pageLabel": "PAGE 06 (3 Panels) \u2014 4th Ave Transit Shelter", "panel": "PANEL 6.2 (Middle Tier)", "panelRegion": {"top": "35%", "left": "3%", "width": "94%", "height": "32%"}, "framing": "MEDIUM / BENCH END, SLOW RACK FOCUS", "duration": 6.0, "motion": "subtle-push", "visual": "From the shadows behind the viaduct pillar steps KAEL (38, tall, lean, thick dark brown beard damp with mist, olive waxed-canvas coat mended at the right cuff with braided copper wire). Carrying no umbrella and no lit screen, his calm dark eyes notice Gabe's tight wheeze under the yellow hood, then the utility lanyard tucked inside Elara's collar.", "audio": "Low distant freight-train rumble overhead blended beneath the bowed cello score.", "dialogue": "", "caption": "", "musicCue": "cue_4_viaduct", "musicVol": 0.68, "sfx": "viaduct_rumble", "timecode": "02:02\u201302:08", "img": "../doc/origin_syscall/renders/ch01_poc/shots/shot_018.jpg", "vo": null}, {"id": "shot_019", "num": "019", "page": "page_06", "pageLabel": "PAGE 06 (3 Panels) \u2014 4th Ave Transit Shelter", "panel": "PANEL 6.3 (Bottom Tier)", "panelRegion": {"top": "68%", "left": "3%", "width": "94%", "height": "30%"}, "framing": "TWO-SHOT / BENCH (180-AXIS LOCKED)", "duration": 11.5, "motion": "static", "visual": "Kael sits calmly on the left end of the steel bench with his battered oilskin folio across his knees, leaving three polite feet of empty bench between himself and Elara & Gabe huddled on the right.", "audio": "Spoken dialogue: Kael & Elara over ducked nocturnal cello underscore.", "dialogue": "KAEL: \"Cold air's trapping refinery smoke down on the flats tonight. Tough night for an eight-year-old's lungs.\"  ELARA: \"Our bus is right behind this train.\"", "caption": "", "musicCue": "cue_4_viaduct", "musicVol": 0.25, "sfx": "none", "timecode": "02:08\u201302:19", "img": "../doc/origin_syscall/renders/ch01_poc/shots/shot_019.jpg", "vo": "../doc/origin_syscall/renders/ch01_poc/audio/voices/shot_019.m4a"}, {"id": "shot_020", "num": "020", "page": "page_07", "pageLabel": "PAGE 07 (3 Panels) \u2014 The 1&H Drive", "panel": "PANEL 7.1 (Top Tier)", "panelRegion": {"top": "2%", "left": "3%", "width": "94%", "height": "33%"}, "framing": "3/4 CLOSE-UP / KAEL LOOKING TOWARD GUTTER", "duration": 13.5, "motion": "subtle-push", "visual": "Off-center 3/4 close-up: Kael looks naturally across the flooded street gutter rather than crowding Elara, speaking low beneath the rain so the distant pole camera behind the glass gets nothing.", "audio": "Spoken dialogue: Kael over soft bowed cello & pad.", "dialogue": "KAEL: \"Utility Enforcement flagged the warehouse at First and Holgate for illegal heat at four-fifty-two today. Mercer sent a clerk on quota probation to shoot the meter so he doesn't need a warrant.\"", "caption": "", "musicCue": "cue_4_viaduct", "musicVol": 0.24, "sfx": "none", "timecode": "02:19\u201302:32", "img": "../doc/origin_syscall/renders/ch01_poc/shots/shot_020.jpg", "vo": "../doc/origin_syscall/renders/ch01_poc/audio/voices/shot_020.m4a"}, {"id": "shot_021", "num": "021", "page": "page_07", "pageLabel": "PAGE 07 (3 Panels) \u2014 The 1&H Drive", "panel": "PANEL 7.2 (Middle Tier)", "panelRegion": {"top": "36%", "left": "3%", "width": "94%", "height": "30%"}, "framing": "CLOSE-UP / ELARA, SHARP TURN", "duration": 4.2, "motion": "static", "visual": "Elara turns her head sharply toward him, rain dripping off the loose strands at her temple, hand stiffening protectively around Gabe's yellow-slickered shoulder.", "audio": "Spoken dialogue: Elara.", "dialogue": "ELARA: \"Who the hell are you?\"", "caption": "", "musicCue": "cue_4_viaduct", "musicVol": 0.28, "sfx": "none", "timecode": "02:32\u201302:37", "img": "../doc/origin_syscall/renders/ch01_poc/shots/shot_021.jpg", "vo": "../doc/origin_syscall/renders/ch01_poc/audio/voices/shot_021.m4a"}, {"id": "shot_022", "num": "022", "page": "page_07", "pageLabel": "PAGE 07 (3 Panels) \u2014 The 1&H Drive", "panel": "PANEL 7.3 (Bottom Macro Tier)", "panelRegion": {"top": "67%", "left": "3%", "width": "94%", "height": "31%"}, "framing": "MACRO INSERT / MATTE-BLACK THUMB DRIVE ON WET BENCH", "duration": 6.4, "motion": "slow-zoom", "visual": "Kael's weathered fingers (copper-mended olive cuff at frame edge) set a small matte-black aluminum USB-C drive down on the raindrop-beaded perforated steel bench. Scratched into the metal with an awl: 1&H.", "audio": "Soft metallic clink of aluminum on wet steel + Kael's voice off-screen.", "dialogue": "KAEL (O.S.): \"Somebody who stopped shutting off winter heat for that building four years ago.\"", "caption": "", "musicCue": "cue_4_viaduct", "musicVol": 0.26, "sfx": "none", "timecode": "02:37\u201302:43", "img": "../doc/origin_syscall/renders/ch01_poc/shots/shot_022.jpg", "vo": "../doc/origin_syscall/renders/ch01_poc/audio/voices/shot_022.m4a"}, {"id": "shot_023", "num": "023", "page": "page_08", "pageLabel": "PAGE 08 (Full Splash) \u2014 Headlight Wash", "panel": "PANEL 8.1 (Full-Page Anamorphic Splash)", "panelRegion": {"top": "2%", "left": "3%", "width": "94%", "height": "96%"}, "framing": "WIDE ANAMORPHIC / BUS HEADLIGHTS WASHING THE SHELTER", "duration": 14.5, "motion": "subtle-push", "visual": "Glaring white headlights of the Route 124 bus sweep across the rain-slicked shelter glass. Kael is already standing and stepping back into the dark beneath the viaduct pillar while the matte-black 1&H thumb drive gleams wet beside Elara's thigh.", "audio": "Spoken dialogue: Kael's parting words + soft hydraulic curb brake release.", "dialogue": "KAEL: \"Don't plug that into a city computer, Elara. Bring your boy to Dock Four-B on Holgate before those three puffs run out. Air's scrubbed clean inside, and hot soup doesn't require a shutoff quota.\"", "caption": "", "musicCue": "cue_4_viaduct", "musicVol": 0.28, "sfx": "bus_brake", "timecode": "02:43\u201302:58", "img": "../doc/origin_syscall/renders/ch01_poc/shots/shot_023.jpg", "vo": "../doc/origin_syscall/renders/ch01_poc/audio/voices/shot_023.m4a"}, {"id": "shot_024", "num": "024", "page": "page_09", "pageLabel": "PAGE 09 (Closing Beat) \u2014 Route 124 Past Holgate", "panel": "PANEL 9.1 (Silent Closing Splash)", "panelRegion": {"top": "2%", "left": "3%", "width": "94%", "height": "96%"}, "framing": "CLOSE-UP / ELARA'S PALM & WINDOW REFLECTION", "duration": 9.5, "motion": "slow-zoom", "visual": "Back row of the rattling, ozone-lit city bus. Gabe sleeps exhausted against Elara's ribs. Elara stares out the rain-beaded window as the dark brick bulk of 1ST & HOLGATE (CASCADE ARMS WAREHOUSE: CONDEMNED) slides past in the night. Slowly, she opens her right fist: the black aluminum 1&H drive has left sharp rectangular indentations across her palm.", "audio": "Solo bowed cello theme swells in D minor and holds into black.", "dialogue": "", "caption": "1ST & HOLGATE // CASCADE ARMS WAREHOUSE: CONDEMNED", "musicCue": "cue_5_finale", "musicVol": 0.88, "sfx": "none", "timecode": "02:58\u201303:07", "img": "../doc/origin_syscall/renders/ch01_poc/shots/shot_024.jpg", "vo": null}], "pages": [{"id": "page_01", "short": "P01", "firstShot": 0, "title": "PAGE 01 (3 Panels) \u2014 Shots 001\u2013003", "timecode": "00:00\u201300:18", "img": "../doc/origin_syscall/renders/ch01_poc/pages/page_01.jpg"}, {"id": "page_02", "short": "P02", "firstShot": 3, "title": "PAGE 02 (4 Panels) \u2014 Shots 004\u2013007", "timecode": "00:18\u201300:42", "img": "../doc/origin_syscall/renders/ch01_poc/pages/page_02.jpg"}, {"id": "page_03", "short": "P03", "firstShot": 7, "title": "PAGE 03 (3 Panels) \u2014 Shots 008\u2013010", "timecode": "00:42\u201301:11", "img": "../doc/origin_syscall/renders/ch01_poc/pages/page_03.jpg"}, {"id": "page_04", "short": "P04", "firstShot": 10, "title": "PAGE 04 (3 Panels) \u2014 Shots 011\u2013013", "timecode": "01:11\u201301:33", "img": "../doc/origin_syscall/renders/ch01_poc/pages/page_04.jpg"}, {"id": "page_05", "short": "P05", "firstShot": 13, "title": "PAGE 05 (3 Panels) \u2014 Shots 014\u2013016", "timecode": "01:33\u201301:56", "img": "../doc/origin_syscall/renders/ch01_poc/pages/page_05.jpg"}, {"id": "page_06", "short": "P06", "firstShot": 16, "title": "PAGE 06 (3 Panels) \u2014 Shots 017\u2013019", "timecode": "01:56\u201302:19", "img": "../doc/origin_syscall/renders/ch01_poc/pages/page_06.jpg"}, {"id": "page_07", "short": "P07", "firstShot": 19, "title": "PAGE 07 (3 Panels) \u2014 Shots 020\u2013022", "timecode": "02:19\u201302:43", "img": "../doc/origin_syscall/renders/ch01_poc/pages/page_07.jpg"}, {"id": "page_08", "short": "P08", "firstShot": 22, "title": "PAGE 08 (Splash) \u2014 Shot 023", "timecode": "02:43\u201302:58", "img": "../doc/origin_syscall/renders/ch01_poc/pages/page_08.jpg"}, {"id": "page_09", "short": "P09", "firstShot": 23, "title": "PAGE 09 (Closing Beat) \u2014 Shot 024", "timecode": "02:58\u201303:07", "img": "../doc/origin_syscall/renders/ch01_poc/pages/page_09.jpg"}], "cues": {"cue_1_office": "../doc/origin_syscall/renders/ch01_poc/audio/cues/cue_1_office.m4a", "cue_2_tension": "../doc/origin_syscall/renders/ch01_poc/audio/cues/cue_2_tension.m4a", "cue_3_gabe": "../doc/origin_syscall/renders/ch01_poc/audio/cues/cue_3_gabe.m4a", "cue_4_viaduct": "../doc/origin_syscall/renders/ch01_poc/audio/cues/cue_4_viaduct.m4a", "cue_5_finale": "../doc/origin_syscall/renders/ch01_poc/audio/cues/cue_5_finale.m4a"}, "runtime": "03:07", "totalSeconds": 187.1}, "2": {"shots": [{"id": "shot_025", "num": "025", "page": "page_10", "pageLabel": "PAGE 10 (3 Panels) \u2014 Offline Invitation & Holgate Alley", "panel": "PANEL 10.1 (Top Tier)", "panelRegion": {"top": "2%", "left": "3%", "width": "94%", "height": "32%"}, "framing": "MEDIUM / 3/4 OVER-THE-SHOULDER AT CRAMPED KITCHEN TABLE", "duration": 6.5, "motion": "subtle-push", "visual": "7:15 PM in Elara's freezing basement studio (51\u00b0F // PEAK POWER SURCHARGE: $4.20/HR - HEATER OFF). While Gabe huddles under two coats behind her, Elara plugs Kael's 1&H drive into an old offline netbook with its Wi-Fi card pried out.", "audio": "Score: 'Holgate Alley' (shivering D-minor piano & low C2 cello); soft netbook boot chime.", "dialogue": "", "caption": "OFFLINE INVITATION // NO CITY METER. NO DEBT. // COME TO CASCADE ARMS, DOCK 4B : KNOCK 3, PAUSE, 2.", "musicCue": "cue_ch2_1_alley", "musicVol": 0.68, "sfx": "chime", "timecode": "00:00\u201300:06", "img": "../doc/origin_syscall/renders/ch02_poc/shots/shot_025.jpg", "vo": null}, {"id": "shot_026", "num": "026", "page": "page_10", "pageLabel": "PAGE 10 (3 Panels) \u2014 Offline Invitation & Holgate Alley", "panel": "PANEL 10.2 (Middle Tier)", "panelRegion": {"top": "35%", "left": "3%", "width": "94%", "height": "33%"}, "framing": "WIDE / LOADING ALLEY AT 1ST & HOLGATE", "duration": 6.2, "motion": "slow-zoom", "visual": "Heavy night rain beside the ten-story brick warehouse (CASCADE ARMS COLD STORAGE, EST. 1928) with orange-X boarded windows. Bare-headed Elara leads Gabe down the wet cobbles while scanning over her shoulder for pole cameras.", "audio": "Spoken dialogue: Gabe (muffled through damp wool scarf) & Elara.", "dialogue": "GABE: \"Mom, the sign says condemned.\"  ELARA: \"Stay right against my coat.\"", "caption": "", "musicCue": "cue_ch2_1_alley", "musicVol": 0.28, "sfx": "none", "timecode": "00:06\u201300:13", "img": "../doc/origin_syscall/renders/ch02_poc/shots/shot_026.jpg", "vo": "../doc/origin_syscall/renders/ch02_poc/audio/voices/shot_026.m4a"}, {"id": "shot_027", "num": "027", "page": "page_10", "pageLabel": "PAGE 10 (3 Panels) \u2014 Offline Invitation & Holgate Alley", "panel": "PANEL 10.3 (Bottom Tier)", "panelRegion": {"top": "69%", "left": "3%", "width": "94%", "height": "29%"}, "framing": "CLOSE-UP / STEEL SERVICE DOOR AT DOCK 4B", "duration": 5.0, "motion": "static", "visual": "Elara raps her wet bare knuckles against the rusted steel service door beside Dock 4B: three raps, pause, two raps. Behind the steel, a greased internal drop-bar slides back with a quiet THUNK.", "audio": "Discrete steel-door knock (3, pause, 2) + heavy greased internal drop-bar THUNK.", "dialogue": "", "caption": "DOCK 4B // [KNOCK: 3 \u2014 PAUSE \u2014 2]", "musicCue": "cue_ch2_1_alley", "musicVol": 0.35, "sfx": "dock_knock", "timecode": "00:13\u201300:18", "img": "../doc/origin_syscall/renders/ch02_poc/shots/shot_027.jpg", "vo": null}, {"id": "shot_028", "num": "028", "page": "page_11", "pageLabel": "PAGE 11 (2 Panels) \u2014 The Warehouse Core Reveal", "panel": "PANEL 11.1 (Top Threshold Strip)", "panelRegion": {"top": "2%", "left": "3%", "width": "94%", "height": "25%"}, "framing": "MEDIUM / THRESHOLD AIRLOCK", "duration": 4.8, "motion": "subtle-push", "visual": "Heavy clear salvage-vinyl strip curtains part as Kael holds the inner door open. A wave of warm, humid golden air smelling of sweet basil and onion broth hits Elara and Gabe, misting her cold coat buttons as the rain cuts off behind them.", "audio": "Score blossoms into 'Cascade Arms Sanctuary' (warm fingerpicked acoustic guitar, lyric cello & golden pad).", "dialogue": "", "caption": "", "musicCue": "cue_ch2_2_sanctuary", "musicVol": 0.72, "sfx": "airlock_seal", "timecode": "00:18\u201300:22", "img": "../doc/origin_syscall/renders/ch02_poc/shots/shot_028.jpg", "vo": null}, {"id": "shot_029", "num": "029", "page": "page_11", "pageLabel": "PAGE 11 (2 Panels) \u2014 The Warehouse Core Reveal", "panel": "PANEL 11.2 (Bottom 3/4-Page Splash)", "panelRegion": {"top": "28%", "left": "3%", "width": "94%", "height": "70%"}, "framing": "WIDE LOW-ANGLE ANAMORPHIC / THE WAREHOUSE CORE", "duration": 9.0, "motion": "tilt-down", "visual": "The gutted cold-storage corpse has been turned inside out into a living three-story commons: four tiers of hydroponic Tuscan kale, dwarf tomatoes, and herbs under golden grow bars, copper radiant heat manifolds, and thirty neighbors sharing steaming barley stew with zero ads or price tags. Gabe pulls down his wet scarf and takes one deep, clear breath without coughing.", "audio": "Full warm D-major acoustic guitar & bowed cello theme swells across the hall.", "dialogue": "", "caption": "CASCADE ARMS COMMONS // 68.4\u00b0F // SCRUBBED HEPA AIR", "musicCue": "cue_ch2_2_sanctuary", "musicVol": 0.82, "sfx": "none", "timecode": "00:22\u201300:32", "img": "../doc/origin_syscall/renders/ch02_poc/shots/shot_029.jpg", "vo": null}, {"id": "shot_030", "num": "030", "page": "page_12", "pageLabel": "PAGE 12 (3 Panels) \u2014 Commons Floor & Stew Table", "panel": "PANEL 12.1 (Top Tier)", "panelRegion": {"top": "2%", "left": "3%", "width": "94%", "height": "32%"}, "framing": "MEDIUM CLOSE-UP / ELARA & GABE ON THE FLOOR", "duration": 7.2, "motion": "static", "visual": "Elara's hand goes instinctively to her badge pocket in defensive city posture as two children Gabe's age run past carrying a basket of warm flatbread without any adult barking rules.", "audio": "Spoken dialogue: Elara over warm sanctuary guitar & cello.", "dialogue": "ELARA: \"Where's the register? How are you running sixty kilowatts of grow lights with the city power welded shut?\"", "caption": "", "musicCue": "cue_ch2_2_sanctuary", "musicVol": 0.26, "sfx": "none", "timecode": "00:32\u201300:39", "img": "../doc/origin_syscall/renders/ch02_poc/shots/shot_030.jpg", "vo": "../doc/origin_syscall/renders/ch02_poc/audio/voices/shot_030.m4a"}, {"id": "shot_031", "num": "031", "page": "page_12", "pageLabel": "PAGE 12 (3 Panels) \u2014 Commons Floor & Stew Table", "panel": "PANEL 12.2 (Middle Tier)", "panelRegion": {"top": "35%", "left": "3%", "width": "94%", "height": "31%"}, "framing": "MEDIUM WALK-AND-TALK / PASSING THE GROW RACKS", "duration": 13.8, "motion": "subtle-push", "visual": "Kael walks beside them past five blue 55-gallon bio-sand water filter drums while courier Priya (21) rolls an electric cargo bike loaded with insulated soup canisters up the ramp behind them.", "audio": "Spoken dialogue: Kael explaining the roof solar array and waste fryer-grease generators.", "dialogue": "KAEL: \"Forty salvaged solar panels hidden flat behind the roof parapet, out of street sight. At night, two basement generators burn waste fryer grease Priya's bike crews haul from restaurant alleys.\"", "caption": "", "musicCue": "cue_ch2_2_sanctuary", "musicVol": 0.25, "sfx": "none", "timecode": "00:39\u201300:52", "img": "../doc/origin_syscall/renders/ch02_poc/shots/shot_031.jpg", "vo": "../doc/origin_syscall/renders/ch02_poc/audio/voices/shot_031.m4a"}, {"id": "shot_032", "num": "032", "page": "page_12", "pageLabel": "PAGE 12 (3 Panels) \u2014 Commons Floor & Stew Table", "panel": "PANEL 12.3 (Bottom Tier)", "panelRegion": {"top": "67%", "left": "3%", "width": "94%", "height": "31%"}, "framing": "MEDIUM / PLYWOOD TRESTLE TABLE", "duration": 14.2, "motion": "static", "visual": "Kael sets two stoneware bowls of barley-and-kale stew and crusty sourdough down before Gabe and Elara. Gabe glances up at his mother for permission before touching his spoon.", "audio": "Spoken dialogue: Elara & Kael.", "dialogue": "ELARA: \"Look, I don't have cash on me, and if this goes on some tab\u2014\"  KAEL: \"There isn't a tab, Elara. Grain came off an eastern farm co-op truck; greens grew right above you. Let your boy eat while it's hot.\"", "caption": "", "musicCue": "cue_ch2_2_sanctuary", "musicVol": 0.25, "sfx": "none", "timecode": "00:52\u201301:07", "img": "../doc/origin_syscall/renders/ch02_poc/shots/shot_032.jpg", "vo": "../doc/origin_syscall/renders/ch02_poc/audio/voices/shot_032.m4a"}, {"id": "shot_033", "num": "033", "page": "page_13", "pageLabel": "PAGE 13 (3 Panels) \u2014 Hardware Mezzanine & Jax", "panel": "PANEL 13.1 (Top Tier)", "panelRegion": {"top": "2%", "left": "3%", "width": "94%", "height": "31%"}, "framing": "INSERT / GABE EATING ACROSS FROM JONAS & MINA", "duration": 5.2, "motion": "subtle-push", "visual": "Gabe takes a huge spoonful of stew while carpenter Jonas (36) slides a carved wooden puzzle horse across the table to his three-year-old daughter Mina and grins at Gabe, showing how the wooden dowel axle turns.", "audio": "Warm sanctuary guitar resolves gently before rising up to the mezzanine.", "dialogue": "", "caption": "", "musicCue": "cue_ch2_2_sanctuary", "musicVol": 0.65, "sfx": "none", "timecode": "01:07\u201301:12", "img": "../doc/origin_syscall/renders/ch02_poc/shots/shot_033.jpg", "vo": null}, {"id": "shot_034", "num": "034", "page": "page_13", "pageLabel": "PAGE 13 (3 Panels) \u2014 Hardware Mezzanine & Jax", "panel": "PANEL 13.2 (Middle Tier)", "panelRegion": {"top": "34%", "left": "3%", "width": "94%", "height": "33%"}, "framing": "MEDIUM / HARDWARE MEZZANINE BENCH", "duration": 15.4, "motion": "static", "visual": "Up on the steel-grate mezzanine, JAX (29, shaved temples, dark braid tied in green ground-wire, navy coveralls & rig vest) hunches over an oscilloscope desoldering a board while Elara holds up her personal phone wrapped in copper Faraday tape.", "audio": "Score shifts to 'Jax's Mezzanine' (curious E-Dorian harmonic pulse); Jax & Elara speak.", "dialogue": "JAX: \"Tell me you checked her pockets, Kael. City Enforcement phones ping cell towers every ninety seconds even turned off.\"  ELARA: \"Left my city phone in my desk on Twelfth. Wrapped my personal in copper Faraday tape on the bus.\"", "caption": "", "musicCue": "cue_ch2_3_mezzanine", "musicVol": 0.25, "sfx": "none", "timecode": "01:12\u201301:27", "img": "../doc/origin_syscall/renders/ch02_poc/shots/shot_034.jpg", "vo": "../doc/origin_syscall/renders/ch02_poc/audio/voices/shot_034.m4a"}, {"id": "shot_035", "num": "035", "page": "page_13", "pageLabel": "PAGE 13 (3 Panels) \u2014 Hardware Mezzanine & Jax", "panel": "PANEL 13.3 (Bottom Tier)", "panelRegion": {"top": "68%", "left": "3%", "width": "94%", "height": "30%"}, "framing": "3/4 CLOSE-UP / JAX LOOKING UP OVER MAGNIFIER VISOR", "duration": 6.2, "motion": "subtle-push", "visual": "Jax pauses his soldering iron, dark eyes flicking up over his bench magnifier visor to reassess Elara with sudden grudging respect.", "audio": "Spoken dialogue: Jax.", "dialogue": "JAX: \"Okay. Maybe Kael didn't lose his mind at the bus stop after all.\"", "caption": "", "musicCue": "cue_ch2_3_mezzanine", "musicVol": 0.28, "sfx": "none", "timecode": "01:27\u201301:34", "img": "../doc/origin_syscall/renders/ch02_poc/shots/shot_035.jpg", "vo": "../doc/origin_syscall/renders/ch02_poc/audio/voices/shot_035.m4a"}, {"id": "shot_036", "num": "036", "page": "page_14", "pageLabel": "PAGE 14 (3 Panels) \u2014 The Thermal Blueprint", "panel": "PANEL 14.1 (Top Tier)", "panelRegion": {"top": "2%", "left": "3%", "width": "94%", "height": "32%"}, "framing": "INSERT / RUGGEDIZED LINUX LAPTOP SCREEN", "duration": 16.3, "motion": "slow-zoom", "visual": "Jax swivels a battered ThinkPad toward Elara showing Cascade Arms linked by rooftop antennas to six neighborhood kitchens (SHARED PANTRY // SHARED SOLAR // $0 RENT) alongside live gauges for water liters, battery charge, and open repair jobs.", "audio": "Spoken dialogue: Jax explaining the zero-money task & resource scheduler.", "dialogue": "JAX: \"No landlords, no bosses, no money. Somebody posts a broken pipe or an empty soup pot, and whoever has the skill claims the job. My software balances the watts and pantry stock so fifty strangers keep each other alive.\"", "caption": "", "musicCue": "cue_ch2_3_mezzanine", "musicVol": 0.24, "sfx": "none", "timecode": "01:34\u201301:50", "img": "../doc/origin_syscall/renders/ch02_poc/shots/shot_036.jpg", "vo": "../doc/origin_syscall/renders/ch02_poc/audio/voices/shot_036.m4a"}, {"id": "shot_037", "num": "037", "page": "page_14", "pageLabel": "PAGE 14 (3 Panels) \u2014 The Thermal Blueprint", "panel": "PANEL 14.2 (Middle Tier)", "panelRegion": {"top": "35%", "left": "3%", "width": "94%", "height": "32%"}, "framing": "CLOSE-UP / ELARA STUDYING THE THERMAL DIAGRAM", "duration": 10.9, "motion": "subtle-push", "visual": "Elara's analyst instincts switch on without dread for the first time in years. Her finger traces the orange exhaust duct venting hot basement server air straight out the north roof stack (68.4\u00b0F).", "audio": "Spoken dialogue: Elara spotting their thermal leak.", "dialogue": "ELARA: \"Here's what gave you away. You're blowing hot server air straight out the north roof stack. That sixty-eight-degree plume lit up Mercer's satellite map this afternoon.\"", "caption": "", "musicCue": "cue_ch2_3_mezzanine", "musicVol": 0.25, "sfx": "none", "timecode": "01:50\u201302:01", "img": "../doc/origin_syscall/renders/ch02_poc/shots/shot_037.jpg", "vo": "../doc/origin_syscall/renders/ch02_poc/audio/voices/shot_037.m4a"}, {"id": "shot_038", "num": "038", "page": "page_14", "pageLabel": "PAGE 14 (3 Panels) \u2014 The Thermal Blueprint", "panel": "PANEL 14.3 (Bottom Tier)", "panelRegion": {"top": "68%", "left": "3%", "width": "94%", "height": "30%"}, "framing": "TWO-SHOT / ELARA SKETCHING THE HEAT LOOP FOR JAX & KAEL", "duration": 9.8, "motion": "static", "visual": "Elara grabs a carpenter's pencil and sketches a return loop directly onto the blueprint margin, routing server heat sideways through the upstairs sleeping bunks before cooling in the basement water tank. Jax and Kael exchange a quick quiet look across the lamp.", "audio": "Spoken dialogue: Elara proposing the server-to-bunk heat loop.", "dialogue": "ELARA: \"Pipe that waste computer heat through the upstairs bedrooms instead. Hides your roof from satellites and warms the kids' bunks for free.\"", "caption": "", "musicCue": "cue_ch2_3_mezzanine", "musicVol": 0.26, "sfx": "none", "timecode": "02:01\u201302:11", "img": "../doc/origin_syscall/renders/ch02_poc/shots/shot_038.jpg", "vo": "../doc/origin_syscall/renders/ch02_poc/audio/voices/shot_038.m4a"}, {"id": "shot_039", "num": "039", "page": "page_15", "pageLabel": "PAGE 15 (3 Panels) \u2014 Four-Cent Medicine & Incinerator Order", "panel": "PANEL 15.1 (Top Tier)", "panelRegion": {"top": "2%", "left": "3%", "width": "94%", "height": "32%"}, "framing": "MEDIUM / CHEMISTRY BENCH & GLASS CONDENSER", "duration": 16.2, "motion": "subtle-push", "visual": "Beside a glass reflux condenser and crates stamped HARBORVIEW SURPLUS // EXPIRED STOCK: BURN, Elara inspects Jax's distillation rig.", "audio": "Spoken dialogue: Elara & Jax.", "dialogue": "ELARA: \"What are you distilling?\"  JAX: \"Albuterol asthma medicine. Same drug inside that twenty-dollar-a-puff locked plastic canister in your coat. Costs four cents a dose to make here if we have clean hospital ingredients and sub-micron filters.\"", "caption": "", "musicCue": "cue_ch2_3_mezzanine", "musicVol": 0.24, "sfx": "none", "timecode": "02:11\u201302:27", "img": "../doc/origin_syscall/renders/ch02_poc/shots/shot_039.jpg", "vo": "../doc/origin_syscall/renders/ch02_poc/audio/voices/shot_039.m4a"}, {"id": "shot_040", "num": "040", "page": "page_15", "pageLabel": "PAGE 15 (3 Panels) \u2014 Four-Cent Medicine & Incinerator Order", "panel": "PANEL 15.2 (Middle Tier)", "panelRegion": {"top": "35%", "left": "3%", "width": "94%", "height": "32%"}, "framing": "CLOSE-UP / KAEL SETTING DOWN DISPOSAL MANIFEST #4402", "duration": 14.2, "motion": "static", "visual": "Kael sets a yellow carbon-copy city disposal order beside the flask: CITY INCINERATOR ORDER #4402 // 4 PALLETS SEALED HOSPITAL AIR FILTERS & ASTHMA PRECURSORS // BURN THURSDAY 08:00 AM.", "audio": "Spoken dialogue: Kael.", "dialogue": "KAEL: \"Hospital chain wrote off four pallets of sealed filters and asthma reagents today just to bill the city for new ones. Tomorrow morning at eight, your utility division burns all four pallets.\"", "caption": "", "musicCue": "cue_ch2_3_mezzanine", "musicVol": 0.25, "sfx": "none", "timecode": "02:27\u201302:41", "img": "../doc/origin_syscall/renders/ch02_poc/shots/shot_040.jpg", "vo": "../doc/origin_syscall/renders/ch02_poc/audio/voices/shot_040.m4a"}, {"id": "shot_041", "num": "041", "page": "page_15", "pageLabel": "PAGE 15 (3 Panels) \u2014 Four-Cent Medicine & Incinerator Order", "panel": "PANEL 15.3 (Bottom Tier)", "panelRegion": {"top": "68%", "left": "3%", "width": "94%", "height": "30%"}, "framing": "HIGH-ANGLE POV / LOOKING DOWN AT GABE LAUGHING", "duration": 5.5, "motion": "slow-zoom", "visual": "High-angle POV from the mezzanine rail: down at the warm trestle table, 8-year-old Gabe is laughing out loud with Jonas's little girl Mina without a single wheeze or hitch in his chest.", "audio": "Warm mezzanine guitar & cello swell softly as Elara watches Gabe breathe free.", "dialogue": "", "caption": "", "musicCue": "cue_ch2_2_sanctuary", "musicVol": 0.7, "sfx": "none", "timecode": "02:41\u201302:46", "img": "../doc/origin_syscall/renders/ch02_poc/shots/shot_041.jpg", "vo": null}, {"id": "shot_042", "num": "042", "page": "page_16", "pageLabel": "PAGE 16 (3 Panels) \u2014 Decision at the Mezzanine Rail", "panel": "PANEL 16.1 (Top Tier)", "panelRegion": {"top": "2%", "left": "3%", "width": "94%", "height": "32%"}, "framing": "TWO-SHOT / KAEL & ELARA AT MEZZANINE RAILING", "duration": 15.6, "motion": "static", "visual": "Kael and Elara lean forearms on the iron pipe railing overlooking the warm commons floor.", "audio": "Score shifts to 'Lot 19 Diversion' (taut D-minor ostinato); Elara weighs everything on the line.", "dialogue": "ELARA: \"If I file a fake empty-building photo for Cascade Arms tomorrow, and reroute that hospital truck away from the incinerator... the hour Mercer checks truck weights, I lose my job, my apartment, and Gabe's inhaler.\"", "caption": "", "musicCue": "cue_ch2_4_heist", "musicVol": 0.24, "sfx": "none", "timecode": "02:46\u201303:02", "img": "../doc/origin_syscall/renders/ch02_poc/shots/shot_042.jpg", "vo": "../doc/origin_syscall/renders/ch02_poc/audio/voices/shot_042.m4a"}, {"id": "shot_043", "num": "043", "page": "page_16", "pageLabel": "PAGE 16 (3 Panels) \u2014 Decision at the Mezzanine Rail", "panel": "PANEL 16.2 (Middle Tier)", "panelRegion": {"top": "35%", "left": "3%", "width": "94%", "height": "32%"}, "framing": "3/4 CLOSE-UP / KAEL AT THE RAILING", "duration": 11.8, "motion": "subtle-push", "visual": "Kael doesn't sell her a fairy tale or promise safety. His weathered face stays plain and honest.", "audio": "Spoken dialogue: Kael.", "dialogue": "KAEL: \"Your son has three puffs left on a leash Mercer yanks whenever his spreadsheet dips, Elara. Nobody eating down on that floor got free by waiting for mercy.\"", "caption": "", "musicCue": "cue_ch2_4_heist", "musicVol": 0.25, "sfx": "none", "timecode": "03:02\u201303:14", "img": "../doc/origin_syscall/renders/ch02_poc/shots/shot_043.jpg", "vo": "../doc/origin_syscall/renders/ch02_poc/audio/voices/shot_043.m4a"}, {"id": "shot_044", "num": "044", "page": "page_16", "pageLabel": "PAGE 16 (3 Panels) \u2014 Decision at the Mezzanine Rail", "panel": "PANEL 16.3 (Bottom Tier)", "panelRegion": {"top": "68%", "left": "3%", "width": "94%", "height": "30%"}, "framing": "INSERT / ELARA FOLDING INCINERATOR ORDER #4402", "duration": 10.1, "motion": "slow-zoom", "visual": "Elara folds the yellow INCINERATOR ORDER #4402 carbon slip into a crisp square and slides it inside her grey turtleneck cuff.", "audio": "Spoken dialogue: Elara calling the play.", "dialogue": "ELARA: \"Dead-End Lot Nineteen under the Spokane bridge. Weight camera's been broken since August. Have Priya's truck there at seven-forty-five.\"", "caption": "", "musicCue": "cue_ch2_4_heist", "musicVol": 0.28, "sfx": "none", "timecode": "03:14\u201303:24", "img": "../doc/origin_syscall/renders/ch02_poc/shots/shot_044.jpg", "vo": "../doc/origin_syscall/renders/ch02_poc/audio/voices/shot_044.m4a"}, {"id": "shot_045", "num": "045", "page": "page_17", "pageLabel": "PAGE 17 (3 Panels) \u2014 Lot 19 Diversion Montage", "panel": "PANEL 17.1 (Top Tier)", "panelRegion": {"top": "2%", "left": "3%", "width": "94%", "height": "32%"}, "framing": "INSERT / ELARA'S WORK MONITOR AT 07:38 AM", "duration": 4.8, "motion": "subtle-push", "visual": "Back at Row 14, Desk 6 at 07:38 AM: on the left window Elara uploads a staged photo of a rusted padlocked meter (CASCADE ARMS AUDIT: BUILDING EMPTY // CASE CLOSED); on the right she edits INCINERATOR ORDER #4402 to DROP AT LOT 19 (OVERFLOW).", "audio": "Propulsive D-minor heist ostinato drives forward + crisp confirmation chime.", "dialogue": "", "caption": "07:38 AM // CASCADE ARMS: CASE CLOSED // ORDER #4402 -> REROUTED TO LOT 19", "musicCue": "cue_ch2_4_heist", "musicVol": 0.76, "sfx": "chime", "timecode": "03:24\u201303:29", "img": "../doc/origin_syscall/renders/ch02_poc/shots/shot_045.jpg", "vo": null}, {"id": "shot_046", "num": "046", "page": "page_17", "pageLabel": "PAGE 17 (3 Panels) \u2014 Lot 19 Diversion Montage", "panel": "PANEL 17.2 (Middle Tier)", "panelRegion": {"top": "35%", "left": "3%", "width": "94%", "height": "32%"}, "framing": "WIDE / SPOKANE STREET UNDERPASS AT 07:52 AM", "duration": 5.0, "motion": "static", "visual": "Under dripping concrete viaduct columns at Lot 19, a bored city disposal driver scans Elara's updated barcode without looking up and unloads four shrink-wrapped hospital pallets straight onto Kael and Priya's unmarked flatbed truck.", "audio": "Heist ostinato continues + handheld barcode scanner beep.", "dialogue": "", "caption": "07:52 AM // LOT 19 UNDERPASS // 4 HOSPITAL PALLETS TRANSFERRED", "musicCue": "cue_ch2_4_heist", "musicVol": 0.78, "sfx": "scanner_beep", "timecode": "03:29\u201303:34", "img": "../doc/origin_syscall/renders/ch02_poc/shots/shot_046.jpg", "vo": null}, {"id": "shot_047", "num": "047", "page": "page_17", "pageLabel": "PAGE 17 (3 Panels) \u2014 Lot 19 Diversion Montage", "panel": "PANEL 17.3 (Bottom Tier)", "panelRegion": {"top": "68%", "left": "3%", "width": "94%", "height": "30%"}, "framing": "INSERT / CASCADE ARMS BASEMENT AT NOON", "duration": 4.8, "motion": "slow-zoom", "visual": "Jax slices open the shrink-wrap with a utility knife, pulling out gleaming sub-micron hospital HEPA filters and sealed amber bottles labeled ALBUTEROL ASTHMA PRECURSOR : USP GRADE.", "audio": "Heist ostinato hits its peak before cutting sharply to late-afternoon silence on the 12th floor.", "dialogue": "", "caption": "12:00 PM // SUB-MICRON HEPA FILTERS & ALBUTEROL PRECURSOR SECURED", "musicCue": "cue_ch2_4_heist", "musicVol": 0.8, "sfx": "none", "timecode": "03:34\u201303:39", "img": "../doc/origin_syscall/renders/ch02_poc/shots/shot_047.jpg", "vo": null}, {"id": "shot_048", "num": "048", "page": "page_18", "pageLabel": "PAGE 18 (Closing Splash) \u2014 Mercer's Fraud Alert", "panel": "PANEL 18.1 (Full-Page Closing Cliffhanger)", "panelRegion": {"top": "2%", "left": "3%", "width": "94%", "height": "96%"}, "framing": "MEDIUM / THROUGH VENETIAN BLINDS INTO MERCER'S OFFICE", "duration": 8.6, "motion": "slow-zoom", "visual": "Late afternoon, looking through glass Venetian blinds into Mercer's corner office. Mercer stands motionless with his porcelain mug before two linked crimson alerts on his wide wall screen: FRAUD ALERT: 4 HOSPITAL PALLETS MISSING AT LOT 19 [REROUTED BY: ELARA-704] beside a street-pole camera snapshot circling Gabe's bright yellow rain slicker entering Cascade Arms beside Elara. Calmly, Mercer picks up his desk phone.", "audio": "Chilling minor-second bowed cello swell -> receiver click -> sharp electronic dial tone cutting to black.", "dialogue": "", "caption": "FRAUD ALERT: 4 PALLETS MISSING AT LOT 19 [ELARA-704] // POLE CAM MATCH: S. HOLGATE ALLEY", "musicCue": "cue_ch2_5_mercer", "musicVol": 0.9, "sfx": "none", "timecode": "03:39\u201303:47", "img": "../doc/origin_syscall/renders/ch02_poc/shots/shot_048.jpg", "vo": null}], "pages": [{"id": "page_10", "short": "P10", "firstShot": 0, "title": "PAGE 10 (3 Panels) \u2014 Shots 025\u2013027", "timecode": "00:00\u201300:18", "img": "../doc/origin_syscall/renders/ch02_poc/pages/page_10.jpg"}, {"id": "page_11", "short": "P11", "firstShot": 3, "title": "PAGE 11 (2 Panels) \u2014 Shots 028\u2013029", "timecode": "00:18\u201300:32", "img": "../doc/origin_syscall/renders/ch02_poc/pages/page_11.jpg"}, {"id": "page_12", "short": "P12", "firstShot": 5, "title": "PAGE 12 (3 Panels) \u2014 Shots 030\u2013032", "timecode": "00:32\u201301:07", "img": "../doc/origin_syscall/renders/ch02_poc/pages/page_12.jpg"}, {"id": "page_13", "short": "P13", "firstShot": 8, "title": "PAGE 13 (3 Panels) \u2014 Shots 033\u2013035", "timecode": "01:07\u201301:34", "img": "../doc/origin_syscall/renders/ch02_poc/pages/page_13.jpg"}, {"id": "page_14", "short": "P14", "firstShot": 11, "title": "PAGE 14 (3 Panels) \u2014 Shots 036\u2013038", "timecode": "01:34\u201302:11", "img": "../doc/origin_syscall/renders/ch02_poc/pages/page_14.jpg"}, {"id": "page_15", "short": "P15", "firstShot": 14, "title": "PAGE 15 (3 Panels) \u2014 Shots 039\u2013041", "timecode": "02:11\u201302:46", "img": "../doc/origin_syscall/renders/ch02_poc/pages/page_15.jpg"}, {"id": "page_16", "short": "P16", "firstShot": 17, "title": "PAGE 16 (3 Panels) \u2014 Shots 042\u2013044", "timecode": "02:46\u201303:24", "img": "../doc/origin_syscall/renders/ch02_poc/pages/page_16.jpg"}, {"id": "page_17", "short": "P17", "firstShot": 20, "title": "PAGE 17 (3 Panels) \u2014 Shots 045\u2013047", "timecode": "03:24\u201303:39", "img": "../doc/origin_syscall/renders/ch02_poc/pages/page_17.jpg"}, {"id": "page_18", "short": "P18", "firstShot": 23, "title": "PAGE 18 (Closing) \u2014 Shot 048", "timecode": "03:39\u201303:47", "img": "../doc/origin_syscall/renders/ch02_poc/pages/page_18.jpg"}], "cues": {"cue_ch2_1_alley": "../doc/origin_syscall/renders/ch02_poc/audio/cues/cue_ch2_1_alley.m4a", "cue_ch2_2_sanctuary": "../doc/origin_syscall/renders/ch02_poc/audio/cues/cue_ch2_2_sanctuary.m4a", "cue_ch2_3_mezzanine": "../doc/origin_syscall/renders/ch02_poc/audio/cues/cue_ch2_3_mezzanine.m4a", "cue_ch2_4_heist": "../doc/origin_syscall/renders/ch02_poc/audio/cues/cue_ch2_4_heist.m4a", "cue_ch2_5_mercer": "../doc/origin_syscall/renders/ch02_poc/audio/cues/cue_ch2_5_mercer.m4a"}, "runtime": "03:47", "totalSeconds": 227.1}};
+    let activeChapterNum = 1;
+    let DATA = CHAPTERS[String(activeChapterNum)];
+    let TOTAL_DURATION = DATA.shots.reduce((acc, s) => acc + s.duration, 0);
+
     let currentShotIdx = 0;
     let isPlaying = false;
+    let autoAdvance = true;
     let voicesEnabled = true;
     let musicEnabled = true;
     let subsEnabled = true;
@@ -753,9 +763,10 @@
     let currentVoAudio = null;
     let sfxCtx = null;
     let sfxTimer = null;
+    const NON_LOOP_CUES = new Set(['cue_5_finale', 'cue_ch2_5_mercer']);
 
     function preloadAsset(url) {
-      if (!url || preloadedImages.has(url)) return;
+      if (!url || url.startsWith('data:') || preloadedImages.has(url)) return;
       preloadedImages.add(url);
       const im = new Image();
       im.src = url;
@@ -770,14 +781,15 @@
       }
     }
 
-    function initMusicPlayers() {
-      if (Object.keys(musicPlayers).length > 0) return;
+    function initMusicPlayersForChapter() {
       for (const [key, uri] of Object.entries(DATA.cues)) {
-        const a = new Audio(uri);
-        a.loop = (key !== 'cue_5_finale');
-        a.preload = 'auto';
-        a.volume = 0.0;
-        musicPlayers[key] = a;
+        if (!musicPlayers[key]) {
+          const a = new Audio(uri);
+          a.loop = !NON_LOOP_CUES.has(key);
+          a.preload = 'auto';
+          a.volume = 0.0;
+          musicPlayers[key] = a;
+        }
       }
     }
 
@@ -789,14 +801,14 @@
       if (sfxCtx && sfxCtx.state === 'suspended') sfxCtx.resume();
     }
 
-    function fadeAudioTo(audioEl, targetVol, ms = 450) {
+    function fadeAudioTo(audioEl, targetVol, ms = 450, restartIfNonLoop = false) {
       if (!audioEl) return;
       if (audioEl._fadeTimer) clearInterval(audioEl._fadeTimer);
       const startVol = audioEl.volume;
       const steps = Math.max(1, Math.floor(ms / 30));
       let step = 0;
       if (targetVol > 0.005 && audioEl.paused) {
-        if (activeCueKey === 'cue_5_finale') audioEl.currentTime = 0;
+        if (restartIfNonLoop) audioEl.currentTime = 0;
         audioEl.play().catch(() => {});
       }
       audioEl._fadeTimer = setInterval(() => {
@@ -934,11 +946,56 @@
         g.gain.exponentialRampToValueAtTime(0.0001, t + 0.55);
         osc.connect(g); g.connect(sfxCtx.destination);
         osc.start(t); osc.stop(t + 0.6);
+      } else if (sfxType === 'dock_knock') {
+        // 3 steel door raps (0.35, 0.63, 0.91), pause, 2 raps (1.65, 1.95), then heavy greased drop-bar THUNK at 2.85s
+        [0.35, 0.63, 0.91, 1.65, 1.95].forEach((off) => {
+          const t = now + off;
+          const osc = sfxCtx.createOscillator();
+          const g = sfxCtx.createGain();
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(290, t);
+          osc.frequency.exponentialRampToValueAtTime(95, t + 0.065);
+          g.gain.setValueAtTime(0.22, t);
+          g.gain.exponentialRampToValueAtTime(0.0001, t + 0.08);
+          osc.connect(g); g.connect(sfxCtx.destination);
+          osc.start(t); osc.stop(t + 0.09);
+        });
+        const thunkT = now + 2.85;
+        const bar = sfxCtx.createOscillator();
+        const bg = sfxCtx.createGain();
+        bar.type = 'sine';
+        bar.frequency.setValueAtTime(118, thunkT);
+        bar.frequency.exponentialRampToValueAtTime(44, thunkT + 0.28);
+        bg.gain.setValueAtTime(0.26, thunkT);
+        bg.gain.exponentialRampToValueAtTime(0.0001, thunkT + 0.34);
+        bar.connect(bg); bg.connect(sfxCtx.destination);
+        bar.start(thunkT); bar.stop(thunkT + 0.36);
+      } else if (sfxType === 'airlock_seal') {
+        const t = now + 0.2;
+        const osc = sfxCtx.createOscillator();
+        const g = sfxCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(165, t);
+        osc.frequency.exponentialRampToValueAtTime(65.4, t + 0.45);
+        g.gain.setValueAtTime(0.09, t);
+        g.gain.exponentialRampToValueAtTime(0.0001, t + 0.5);
+        osc.connect(g); g.connect(sfxCtx.destination);
+        osc.start(t); osc.stop(t + 0.55);
+      } else if (sfxType === 'scanner_beep') {
+        const t = now + 0.45;
+        const osc = sfxCtx.createOscillator();
+        const g = sfxCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(1480, t);
+        g.gain.setValueAtTime(0.065, t);
+        g.gain.exponentialRampToValueAtTime(0.0001, t + 0.09);
+        osc.connect(g); g.connect(sfxCtx.destination);
+        osc.start(t); osc.stop(t + 0.10);
       }
     }
 
     function syncShotAudio(shot) {
-      initMusicPlayers();
+      initMusicPlayersForChapter();
       stopCurrentVoice();
       if (sfxTimer) { clearInterval(sfxTimer); sfxTimer = null; }
 
@@ -951,8 +1008,8 @@
       activeCueKey = desiredCue;
       for (const [key, player] of Object.entries(musicPlayers)) {
         if (key === desiredCue && musicEnabled) {
-          const targetVol = (shot.vo && voicesEnabled) ? shot.musicVol : Math.min(0.85, shot.musicVol * 1.15);
-          fadeAudioTo(player, targetVol, 500);
+          const targetVol = (shot.vo && voicesEnabled) ? shot.musicVol : Math.min(0.88, shot.musicVol * 1.15);
+          fadeAudioTo(player, targetVol, 500, NON_LOOP_CUES.has(key));
         } else {
           fadeAudioTo(player, 0.0, 500);
         }
@@ -992,6 +1049,52 @@
       const m = Math.floor(s / 60);
       const rem = s % 60;
       return `${String(m).padStart(2, '0')}:${String(rem).padStart(2, '0')}`;
+    }
+
+    function updateHeaderMeta() {
+      const ch1 = CHAPTERS['1'];
+      const ch2 = CHAPTERS['2'];
+      document.getElementById('chBtn1').textContent = `Ch. 01: "Cluster 442-B" (${ch1.runtime})`;
+      document.getElementById('chBtn2').textContent = `Ch. 02: "First Breach" (${ch2.runtime})`;
+      document.getElementById('chBtn1').className = activeChapterNum === 1 ? 'ui-btn ch-active' : 'ui-btn';
+      document.getElementById('chBtn2').className = activeChapterNum === 2 ? 'ui-btn ch-active' : 'ui-btn';
+
+      if (activeChapterNum === 1) {
+        document.getElementById('chapterTitleHeading').innerHTML = 'SYSTEM CALL: GENESIS &mdash; Ch. 01 &ldquo;Cluster 442-B&rdquo;';
+        document.getElementById('chapterSubtitleNote').innerHTML = `5-character voice cast &bull; Felt-piano &amp; bowed-cello score &bull; Pages 01&ndash;09 / Shots 001&ndash;024 (${ch1.runtime})`;
+        document.getElementById('comicSpreadLabel').innerHTML = '<strong>Prestige Graphic Novel Edition (2:3)</strong> &mdash; Chapter 01: Pages 01&ndash;09 &bull; Click any page to inspect full size';
+      } else {
+        document.getElementById('chapterTitleHeading').innerHTML = 'SYSTEM CALL: GENESIS &mdash; Ch. 02 &ldquo;First Breach&rdquo;';
+        document.getElementById('chapterSubtitleNote').innerHTML = `Elara, Gabe, Kael &amp; Jax voice cast &bull; Acoustic guitar, cello &amp; heist score &bull; Pages 10&ndash;18 / Shots 025&ndash;048 (${ch2.runtime})`;
+        document.getElementById('comicSpreadLabel').innerHTML = '<strong>Prestige Graphic Novel Edition (2:3)</strong> &mdash; Chapter 02: Pages 10&ndash;18 &bull; Click any page to inspect full size';
+      }
+    }
+
+    function selectChapter(chNum, keepPlaying = false) {
+      const wasPlaying = isPlaying;
+      if (isPlaying && !keepPlaying) {
+        togglePlay();
+      }
+      activeChapterNum = chNum;
+      DATA = CHAPTERS[String(chNum)];
+      TOTAL_DURATION = DATA.shots.reduce((acc, s) => acc + s.duration, 0);
+      currentShotIdx = 0;
+      currentComicPageIdx = 0;
+      shotElapsed = 0;
+      updateHeaderMeta();
+      buildComicReader();
+      renderCurrentShot();
+      updatePlayControlsUI();
+      if (keepPlaying && wasPlaying) {
+        syncShotAudio(DATA.shots[0]);
+      }
+    }
+
+    function toggleAutoAdvance() {
+      autoAdvance = !autoAdvance;
+      const btn = document.getElementById('autoAdvBtn');
+      btn.innerHTML = `Continuous Ch. 1&rarr;2: ${autoAdvance ? 'ON' : 'OFF'}`;
+      btn.classList.toggle('toggle-on', autoAdvance);
     }
 
     function buildTimeline() {
@@ -1072,7 +1175,8 @@
       img.style.setProperty('--shot-dur', `${s.duration}s`);
       img.classList.add(`motion-${s.motion}`);
 
-      document.getElementById('shotBadge').textContent = `SHOT ${s.num} / ${String(DATA.shots.length).padStart(3, '0')}`;
+      const lastNum = DATA.shots[DATA.shots.length - 1].num;
+      document.getElementById('shotBadge').textContent = `CH.0${activeChapterNum} • SHOT ${s.num} (of ${lastNum})`;
       document.getElementById('overlayShotTag').textContent = `SHOT ${s.num}`;
       document.getElementById('overlayFramingTag').textContent = s.framing;
       document.getElementById('scriptHeader').textContent = `SHOT ${s.num} | ${s.panel}`;
@@ -1125,6 +1229,7 @@
       currentShotIdx = (idx + DATA.shots.length) % DATA.shots.length;
       shotElapsed = 0;
       renderCurrentShot();
+      updatePlayControlsUI();
     }
 
     function prevShot() { selectShot(currentShotIdx - 1); }
@@ -1132,7 +1237,9 @@
 
     function updatePlayControlsUI() {
       document.getElementById('playIcon').innerHTML = isPlaying ? '&#10074;&#10074;' : '&#9654;';
-      document.getElementById('playLabel').textContent = isPlaying ? 'Pause' : (currentShotIdx === 0 && shotElapsed === 0 ? 'Play Chapter 01' : 'Resume');
+      document.getElementById('playLabel').textContent = isPlaying
+        ? 'Pause'
+        : (currentShotIdx === 0 && shotElapsed === 0 ? `Play Ch. 0${activeChapterNum}` : 'Resume');
       const overlay = document.getElementById('bigPlayOverlay');
       const bigTxt = document.getElementById('bigPlayText');
       if (isPlaying) {
@@ -1140,7 +1247,7 @@
       } else {
         overlay.classList.remove('hidden');
         bigTxt.textContent = (currentShotIdx === 0 && shotElapsed === 0)
-          ? `Play Voiced Cut (${fmtTime(TOTAL_DURATION)})`
+          ? `Play Ch. 0${activeChapterNum} Voiced Cut (${fmtTime(TOTAL_DURATION)})`
           : `Resume Shot ${DATA.shots[currentShotIdx].num}`;
       }
     }
@@ -1149,7 +1256,7 @@
       isPlaying = !isPlaying;
       updatePlayControlsUI();
       if (isPlaying) {
-        initMusicPlayers();
+        initMusicPlayersForChapter();
         ensureSfxCtx();
         syncShotAudio(DATA.shots[currentShotIdx]);
         tickTimer = setInterval(() => {
@@ -1159,6 +1266,10 @@
               currentShotIdx++;
               shotElapsed = 0;
               renderCurrentShot();
+            } else if (autoAdvance && activeChapterNum === 1 && CHAPTERS['2']) {
+              // Seamless transition from Chapter 01 finale straight into Chapter 02!
+              selectChapter(2, true);
+              return;
             } else {
               isPlaying = false;
               shotElapsed = DATA.shots[currentShotIdx].duration;
@@ -1168,8 +1279,8 @@
               currentShotIdx = 0;
               shotElapsed = 0;
               updatePlayControlsUI();
-              document.getElementById('playLabel').textContent = 'Replay Chapter 01';
-              document.getElementById('bigPlayText').textContent = 'Replay Voiced Cut';
+              document.getElementById('playLabel').textContent = `Replay Ch. 0${activeChapterNum}`;
+              document.getElementById('bigPlayText').textContent = `Replay Ch. 0${activeChapterNum} Voiced Cut`;
               return;
             }
           }
@@ -1273,11 +1384,18 @@
       }
     });
 
+    const params = new URLSearchParams(window.location.search);
+    const qCh = parseInt(params.get('ch') || '', 10);
+    if (qCh === 1 || qCh === 2) {
+      activeChapterNum = qCh;
+      DATA = CHAPTERS[String(qCh)];
+      TOTAL_DURATION = DATA.shots.reduce((acc, s) => acc + s.duration, 0);
+    }
+    updateHeaderMeta();
     buildComicReader();
     renderCurrentShot();
     updatePlayControlsUI();
 
-    const params = new URLSearchParams(window.location.search);
     const initialMode = params.get('mode');
     if (initialMode === 'cinema' || initialMode === 'comic' || initialMode === 'dual') {
       setViewMode(initialMode);
