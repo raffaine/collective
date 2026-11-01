@@ -23,14 +23,63 @@
     "dangerZoneUpperMillikelvin": 333150,
     "maxDangerZoneElapsedMs": 7200000,
     "fermentationAcidityMaxMilliph": 4600,
+    "backyardPoultryMicroFlock": {
+      "flockSizeHens": 4,
+      "maxFlockCapacityHens": 8,
+      "breedClass": "Heritage Dual-Purpose Pasture Hens (Eggs & Rotational Poultry Meat)",
+      "coopFabricationSource": "Scenario Alpha Garage Workbench (Salvaged Timber Coop & BSFL Auto-Feeder)",
+      "trophicNonCompetitionInvariant": "Hens are fed strictly on Black Soldier Fly Larvae (BSFL), kitchen peelings, garden trimmings, and calcined bone-ash/eggshell calcium grit; zero human-edible grain or legume competition.",
+      "dailyYieldEggs": 4,
+      "rotationalHarvestOutputs": [
+        "Golden-Yolked Pasture Eggs",
+        "Rotational Pasture Chicken Meat Portions",
+        "Collagen-Rich Poultry Bones for 24-Hour Bone Broth"
+      ]
+    },
+    "keylinePeaBeanTrellisBeds": {
+      "trellisStructure": "Scenario Alpha Garage-Fabricated Timber & Wire A-Frame Pea/Bean Trellis",
+      "primaryCrops": [
+        "Climbing Green Split Peas (Pisum sativum)",
+        "Pole & Bush Black Turtle Beans (Phaseolus vulgaris)",
+        "Root Mirepoix Understory (Carrots, Onions, Celery, Garlic & Herbs)"
+      ],
+      "nitrogenFixationAndTrimmingsLoop": "Rhizobial nitrogen fixation enriches backyard soil; pea vines and root tops route directly to the BSFL larvae bin and poultry run."
+    },
+    "collagenBoneBrothSpec": {
+      "simmerDurationHours": 24,
+      "minPasteurizationMillikelvin": 347150,
+      "acidExtractionMedium": "Apple Cider Vinegar & Mirepoix Trimmings",
+      "batchYieldJars": 3,
+      "closedCalciumLoopOutput": "Spent poultry bones are calcined and crushed into Bone-Ash Calcium Grit (+2 units) to feed laying hens and remineralize keyline pea beds."
+    },
+    "communalPeaSoupTiffinService": {
+      "serviceRings": [
+        "R0_UNCONDITIONAL_CONSTITUTIONAL_BASELINE",
+        "R1_NEIGHBORHOOD_COMMONS_TIFFIN_SHARE"
+      ],
+      "vesselSpec": "Returnable 304-Stainless Insulated Tiffin Carriers",
+      "tiffinsPerBatch": 4,
+      "nourishmentGuildReputationCreditBp": 400
+    },
+    "scenarioMuStage1BiocharCompostAndStruviteSpec": {
+      "tludBiocharKiln": "Smokeless Top-Lit Updraft (TLUD) pyrolysis kiln operating at 773150-873150 mK (500-600 C), >= 8000 bp fixed carbon, used as ammonia-locking deep litter in the Chicken Coop and charged into Terra Preta.",
+      "thermophilicCompostingDrumMinMillikelvin": 328150,
+      "epa503ClassAPathogenKill": "Insulated rotating thermophilic drum held >= 328150 mK (55 C) for 72h to sanitize kitchen scraps, poultry litter, and garden trimmings.",
+      "urineStruviteRecoveryMinBp": 9000,
+      "struvitePrecipitationReaction": "MgNH4PO4.6H2O crystallization in garage/backyard carboy recovering >= 9000 bp (90%) of soluble phosphorus and nitrogen.",
+      "livingTerraPretaMinMoistureBp": 4000,
+      "closedLoopSoilCharging": "Biochar + thermophilic compost + struvite + calcined bone-ash calcium grit -> Living Terra Preta soil sponge (>= 4000 bp moisture retention) feeding Keyline Pea/Bean Trellis & Root Veggie Beds."
+    },
     "r0ConstitutionalBaselineRecipe": {
-      "recipeName": "Humble Split-Pea Soup & Black-Bean Root Vegetable Stew",
+      "recipeName": "Humble Split-Pea Soup & Black-Bean Root Vegetable Stew Fortified with 24-Hour Collagen Bone Broth & Pasture Poultry",
       "caloricDensityKcalPerPortion": 650,
       "caloricMicrojoulesPerBatch": 65270400000,
       "ingredients": [
-        "Dry Green Split Peas (Pisum sativum)",
-        "Dry Heirloom Black Turtle Beans (Phaseolus vulgaris)",
-        "Backyard Keyline Carrots, Onions, Garlic & Winter Kale",
+        "Dry & Fresh Green Split Peas (Pisum sativum) from Keyline Trellis",
+        "Heirloom Black Turtle Beans (Phaseolus vulgaris)",
+        "Backyard Keyline Carrots, Onions, Celery, Garlic & Winter Kale (Mirepoix)",
+        "24-Hour Simmered Poultry Collagen Bone Broth (>= 347150 mK)",
+        "Pasture-Raised Heritage Eggs & Rotational Chicken Meat",
         "Fractional Solar Sea Salt (NaCl + KI) & Bay Leaf",
         "Fermented Cabbage Kraut Garnish (< 4600 mpH)"
       ],
@@ -39,8 +88,8 @@
     },
     "billOfMaterials": [
       {
-        "componentId": "keyline_raised_beds_and_biochar_compost",
-        "description": "Suburban backyard keyline swale raised beds amended with Scenario Mu thermophilic compost and biochar",
+        "componentId": "keyline_raised_beds_pea_trellis_and_poultry_coop",
+        "description": "Suburban backyard keyline swale raised beds, Scenario Alpha garage-built timber pea/bean trellis, and 4-8 hen micro-flock coop with BSFL bioconversion feeder and bone-ash calcium loop",
         "modalityRequired": "MANUAL_EARTHWORKS_AND_CARPENTRY",
         "materialClass": "SOIL_BIOCHAR_AND_SALVAGED_TIMBER",
         "sourceRing": "R0_R1_LOCAL_LAND_AND_STOCK",
@@ -50,7 +99,7 @@
       },
       {
         "componentId": "induction_hob_pt100_cauldron_and_bulk_legumes",
-        "description": "High-efficiency magnetic induction hob, heavy cast-iron/304-stainless stockpot, calibrated PT100 core temperature probe, returnable 304 stainless NFC tiffins, ceramic lacto-fermentation crock, and 90-day bulk sack buffer of dry split peas, black beans, and iodized sea salt",
+        "description": "High-efficiency magnetic induction hob, heavy cast-iron/304-stainless stockpot for 24h collagen bone broth & communal pea soup, calibrated PT100 core temperature probe, returnable 304 stainless NFC tiffins, ceramic lacto-fermentation crock, and 90-day bulk sack buffer of dry split peas, black beans, and iodized sea salt",
         "modalityRequired": "CULINARY_HEARTH_INSTALLATION",
         "materialClass": "STAINLESS_304_INDUCTION_AND_DRY_PULSE_BUFFER",
         "sourceRing": "L7_GPO_FALLBACK_PROCUREMENT",

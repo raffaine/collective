@@ -1,0 +1,509 @@
+{
+  "@context": {
+    "schema": "https://schema.org/",
+    "mesh": "https://collective.network/ontology/v1/",
+    "need": "https://collective.network/ontology/v1/needs/",
+    "qudt": "http://qudt.org/schema/qudt/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "catalog_id": "l6.needs.pea_to_soup_v1",
+  "schema_version": "1.0.0",
+  "layer": "L6_INTENT",
+  "title": "Sovereign Pea-to-Soup Homestead & Commons Need, Recipe & Exergy Ontology",
+  "description": "Authentic Layer 6 semantic need definitions, stoichiometric recipe BOMs, embodied exergy costs (uJ), L4 lifecycle bindings, L7 procurement fallbacks, L7 bill-offset surplus channels, and discoverable unmapped candidate needs.",
+  "@graph": [
+    {
+      "@id": "need:pea_soup",
+      "@type": "mesh:SovereignNeed",
+      "schema:name": "Communal Split-Pea & Mirepoix Soup with Collagen Bone Broth",
+      "schema:description": "Nourishing potage of green split peas, aromatic mirepoix roots, 24-hour poultry collagen bone broth, and poached pasture egg garnish pasteurized to >= 347,150 mK (74.0 C) for >= 120 s.",
+      "mapping_status": "MAPPED_ACTIVE",
+      "category": "NOURISHMENT_R0_BASELINE",
+      "physical_unit": "ml",
+      "standard_batch_quantity": 4000,
+      "portion_size_quantity": 500,
+      "nutritional_kcal_per_batch": 5200,
+      "exergy_cost_uj": 4680000000000,
+      "matter_phase": "LIQUID",
+      "constitutional_r0_baseline": true,
+      "recipe_bom": [
+        { "input_need_id": "need:split_peas", "quantity": 600, "unit": "g", "role": "PRIMARY_LEGUME_STARCH_PROTEIN" },
+        { "input_need_id": "need:mirepoix_roots", "quantity": 800, "unit": "g", "role": "AROMATIC_BASE_CARROT_ONION_CELERY" },
+        { "input_need_id": "need:bone_broth", "quantity": 1500, "unit": "ml", "role": "COLLAGEN_MINERAL_STOCK" },
+        { "input_need_id": "need:pasture_eggs", "quantity": 4, "unit": "unit", "role": "PROTEIN_LIPID_GARNISH" },
+        { "input_need_id": "need:potable_water", "quantity": 1800, "unit": "ml", "role": "AQUEOUS_SIMMER_MEDIUM" },
+        { "input_need_id": "need:node_electricity", "quantity": 4.68, "unit": "MJ", "role": "INDUCTION_SIMMER_EXERGY" }
+      ],
+      "byproducts": [
+        { "output_item": "mirepoix_peelings_and_egg_shells", "quantity": 180, "unit": "g", "routes_to": "need:thermophilic_compost" }
+      ],
+      "fulfilled_by_workflows": [
+        "wf.soup.gather_or_procure_inputs",
+        "wf.soup.prep_and_simmer_pea_soup",
+        "wf.soup.package_and_distribute_tiffins"
+      ],
+      "l2_verification_schemas": ["l2.schema.culinary_vessel.v1"],
+      "l7_channel_bindings": {
+        "procurement_fallback": {
+          "channel": "GROCERY_API",
+          "sku": "L7-GROC-ORGANIC-SPLIT-PEA-SOUP-4L",
+          "lot_quantity": 4000,
+          "unit": "ml",
+          "fiat_cost_usd_cents": 2400
+        },
+        "surplus_bill_offset": {
+          "channel": "COTTAGE_FOOD_CHANNEL",
+          "sku": "CF-HEARTH-PEA-POTAGE-TIFFIN-1L",
+          "lot_quantity": 1000,
+          "unit": "ml",
+          "fiat_revenue_usd_cents": 1400,
+          "compliance_regime": "STATE_COTTAGE_FOOD_DIRECT_NEIGHBOR_EXEMPTION_OR_PRIVATE_FOOD_CLUB"
+        }
+      }
+    },
+    {
+      "@id": "need:split_peas",
+      "@type": "mesh:SovereignNeed",
+      "schema:name": "Dried Shelled Green Split Peas (Pisum sativum)",
+      "schema:description": "Trellis-grown heirloom green field peas inoculated with Rhizobium leguminosarum, harvested at physiological maturity, shelled, and dried below 1400 bp (14.0%) moisture for shelf-stable storage.",
+      "mapping_status": "MAPPED_ACTIVE",
+      "category": "AGRONOMIC_STAPLE_PULSE",
+      "physical_unit": "g",
+      "standard_batch_quantity": 1500,
+      "nutritional_kcal_per_batch": 5100,
+      "exergy_cost_uj": 950000000000,
+      "matter_phase": "GRANULAR_PARTICULATE",
+      "constitutional_r0_baseline": true,
+      "recipe_bom": [
+        { "input_need_id": "need:raised_bed_frame", "quantity": 1, "unit": "unit", "role": "CAPITAL_ASSET_NON_CONSUMED" },
+        { "input_need_id": "need:thermophilic_compost", "quantity": 12000, "unit": "g", "role": "RHIZOSPHERE_HUMUS_AMENDMENT" },
+        { "input_need_id": "need:pyrolysis_biochar", "quantity": 2500, "unit": "g", "role": "RECALCITRANT_CARBON_WATER_SPONGE" },
+        { "input_need_id": "need:potable_water", "quantity": 48000, "unit": "ml", "role": "SEASONAL_IRRIGATION_BUDGET" }
+      ],
+      "byproducts": [
+        { "output_item": "spent_nitrogen_rich_pea_vines_and_hulls", "quantity": 2800, "unit": "g", "routes_to": "need:thermophilic_compost" }
+      ],
+      "fulfilled_by_workflows": [
+        "wf.garden.plow_and_amend_soil",
+        "wf.garden.erect_trellis",
+        "wf.garden.inoculate_and_sow_peas",
+        "wf.garden.irrigate_and_weed_manual",
+        "wf.garden.irrigate_l2_automated",
+        "wf.garden.harvest_pods_and_roots",
+        "wf.garden.shell_dry_and_turn_bed"
+      ],
+      "l2_verification_schemas": ["l2.schema.soil_probe.v1", "l2.schema.irrigation_valve.v1"],
+      "l7_channel_bindings": {
+        "procurement_fallback": {
+          "channel": "GROCERY_API",
+          "sku": "L7-GROC-BULK-GREEN-SPLIT-PEAS-5KG",
+          "lot_quantity": 5000,
+          "unit": "g",
+          "fiat_cost_usd_cents": 1650
+        },
+        "surplus_bill_offset": null
+      }
+    },
+    {
+      "@id": "need:mirepoix_roots",
+      "@type": "mesh:SovereignNeed",
+      "schema:name": "Fresh Mirepoix Root & Allium Guild (Carrots, Onions, Celery & Garlic)",
+      "schema:description": "Understory companion root and allium intercrop grown beneath climbing pea trellises to maximize photosynthetically active radiation capture and pest confusion.",
+      "mapping_status": "MAPPED_ACTIVE",
+      "category": "AGRONOMIC_PRODUCE",
+      "physical_unit": "g",
+      "standard_batch_quantity": 2400,
+      "nutritional_kcal_per_batch": 980,
+      "exergy_cost_uj": 720000000000,
+      "matter_phase": "DISCRETE_SOLID",
+      "constitutional_r0_baseline": true,
+      "recipe_bom": [
+        { "input_need_id": "need:raised_bed_frame", "quantity": 1, "unit": "unit", "role": "CAPITAL_ASSET_NON_CONSUMED" },
+        { "input_need_id": "need:thermophilic_compost", "quantity": 10000, "unit": "g", "role": "FRIABLE_ROOT_BED_AMENDMENT" },
+        { "input_need_id": "need:potable_water", "quantity": 36000, "unit": "ml", "role": "SEASONAL_IRRIGATION_BUDGET" }
+      ],
+      "byproducts": [
+        { "output_item": "carrot_tops_and_outer_onion_skins", "quantity": 650, "unit": "g", "routes_to": "need:bone_broth" }
+      ],
+      "fulfilled_by_workflows": [
+        "wf.garden.plow_and_amend_soil",
+        "wf.garden.inoculate_and_sow_peas",
+        "wf.garden.irrigate_and_weed_manual",
+        "wf.garden.irrigate_l2_automated",
+        "wf.garden.harvest_pods_and_roots"
+      ],
+      "l2_verification_schemas": ["l2.schema.soil_probe.v1", "l2.schema.irrigation_valve.v1"],
+      "l7_channel_bindings": {
+        "procurement_fallback": {
+          "channel": "GROCERY_API",
+          "sku": "L7-GROC-ORGANIC-MIREPOIX-BUNDLE-3KG",
+          "lot_quantity": 3000,
+          "unit": "g",
+          "fiat_cost_usd_cents": 1150
+        },
+        "surplus_bill_offset": null
+      }
+    },
+    {
+      "@id": "need:pasture_eggs",
+      "@type": "mesh:SovereignNeed",
+      "schema:name": "Heritage Pasture-Raised Eggs (Trophic Non-Competition)",
+      "schema:description": "Nutrient-dense eggs laid by a 4-8 hen backyard micro-flock fed strictly on Black Soldier Fly larvae (BSFL), vegetable trimmings, clover forage, and calcined bone-ash calcium grit.",
+      "mapping_status": "MAPPED_ACTIVE",
+      "category": "AVIAN_PROTEIN_LIPID",
+      "physical_unit": "unit",
+      "unit_mass_equivalent_g": 60,
+      "standard_batch_quantity": 12,
+      "nutritional_kcal_per_batch": 936,
+      "exergy_cost_uj": 540000000000,
+      "matter_phase": "DISCRETE_SOLID",
+      "constitutional_r0_baseline": false,
+      "trophic_non_competition_enforced": true,
+      "recipe_bom": [
+        { "input_need_id": "need:potable_water", "quantity": 3000, "unit": "ml", "role": "FLOCK_DRINKING_WATER" },
+        { "input_need_id": "need:pyrolysis_biochar", "quantity": 500, "unit": "g", "role": "DEEP_LITTER_AMMONIA_ADSORBENT" }
+      ],
+      "byproducts": [
+        { "output_item": "nitrogen_charged_biochar_coop_litter", "quantity": 1800, "unit": "g", "routes_to": "need:thermophilic_compost" }
+      ],
+      "fulfilled_by_workflows": [
+        "wf.fab.build_poultry_coop"
+      ],
+      "l2_verification_schemas": ["l2.schema.enclosure_env.v1"],
+      "l7_channel_bindings": {
+        "procurement_fallback": {
+          "channel": "GROCERY_API",
+          "sku": "L7-GROC-PASTURE-EGGS-DOZEN",
+          "lot_quantity": 12,
+          "unit": "unit",
+          "fiat_cost_usd_cents": 850
+        },
+        "surplus_bill_offset": {
+          "channel": "COTTAGE_FOOD_CHANNEL",
+          "sku": "CF-HERITAGE-EGGS-DOZEN",
+          "lot_quantity": 12,
+          "unit": "unit",
+          "fiat_revenue_usd_cents": 800,
+          "compliance_regime": "UNGRADED_FARMGATE_SHELL_EGG_DIRECT_SALE"
+        }
+      }
+    },
+    {
+      "@id": "need:bone_broth",
+      "@type": "mesh:SovereignNeed",
+      "schema:name": "24-Hour Simmered Collagen & Mineral Bone Broth",
+      "schema:description": "Gelatin-rich stock extracted from roasted poultry frames, mirepoix trimmings, and weak acetic acid over a gentle 24-hour induction simmer (>= 347,150 mK); spent demineralized bones are calcined into calcium grit.",
+      "mapping_status": "MAPPED_ACTIVE",
+      "category": "CULINARY_STOCK_AND_MINERAL_LOOP",
+      "physical_unit": "ml",
+      "standard_batch_quantity": 3000,
+      "nutritional_kcal_per_batch": 1260,
+      "exergy_cost_uj": 6480000000000,
+      "matter_phase": "LIQUID",
+      "constitutional_r0_baseline": true,
+      "recipe_bom": [
+        { "input_need_id": "need:mirepoix_roots", "quantity": 300, "unit": "g", "role": "AROMATIC_EXTRACTION_TRIMMINGS" },
+        { "input_need_id": "need:potable_water", "quantity": 3800, "unit": "ml", "role": "HYDROLYSIS_SOLVENT_WITH_EVAP_MARGIN" },
+        { "input_need_id": "need:node_electricity", "quantity": 6.48, "unit": "MJ", "role": "INSULATED_INDUCTION_24H_HOLD_EXERGY" }
+      ],
+      "byproducts": [
+        { "output_item": "calcined_bone_ash_calcium_grit", "quantity": 450, "unit": "g", "routes_to": "need:pasture_eggs" }
+      ],
+      "fulfilled_by_workflows": [
+        "wf.soup.gather_or_procure_inputs",
+        "wf.soup.simmer_bone_broth"
+      ],
+      "l2_verification_schemas": ["l2.schema.culinary_vessel.v1"],
+      "l7_channel_bindings": {
+        "procurement_fallback": {
+          "channel": "GROCERY_API",
+          "sku": "L7-GROC-ORGANIC-BONE-BROTH-3L",
+          "lot_quantity": 3000,
+          "unit": "ml",
+          "fiat_cost_usd_cents": 2100
+        },
+        "surplus_bill_offset": {
+          "channel": "COTTAGE_FOOD_CHANNEL",
+          "sku": "CF-COLLAGEN-BROTH-JAR-1L",
+          "lot_quantity": 1000,
+          "unit": "ml",
+          "fiat_revenue_usd_cents": 1100,
+          "compliance_regime": "PRIVATE_FOOD_CLUB_COST_SHARE"
+        }
+      }
+    },
+    {
+      "@id": "need:raised_bed_frame",
+      "@type": "mesh:SovereignNeed",
+      "schema:name": "Mortised Cedar Raised Garden Bed Frame & A-Frame Pea Trellis",
+      "schema:description": "Rot-resistant aromatic cedar raised bed (2.4 m x 1.2 m x 0.4 m) with mortise-and-tenon corner posts and galvanized wire-mesh A-frame climbing trellis milled in the Scenario Alpha garage woodshop.",
+      "mapping_status": "MAPPED_ACTIVE",
+      "category": "INFRASTRUCTURE_AND_JOINERY",
+      "physical_unit": "unit",
+      "unit_mass_equivalent_g": 32000,
+      "standard_batch_quantity": 1,
+      "exergy_cost_uj": 2880000000000,
+      "matter_phase": "DISCRETE_SOLID",
+      "constitutional_r0_baseline": false,
+      "recipe_bom": [
+        { "input_need_id": "need:node_electricity", "quantity": 2.88, "unit": "MJ", "role": "PLANER_SAW_AND_DRILL_MILLING_EXERGY" }
+      ],
+      "fulfilled_by_workflows": [
+        "wf.fab.mill_raised_bed_frame",
+        "wf.garden.erect_trellis",
+        "wf.fab.fulfill_l7_custom_woodwork"
+      ],
+      "l2_verification_schemas": ["l2.schema.enclosure_env.v1"],
+      "l7_channel_bindings": {
+        "procurement_fallback": {
+          "channel": "HARDWARE_API",
+          "sku": "L7-HW-ROUGH-CEDAR-LUMBER-AND-MESH-BUNDLE",
+          "lot_quantity": 1,
+          "unit": "unit",
+          "fiat_cost_usd_cents": 6800
+        },
+        "surplus_bill_offset": {
+          "channel": "CUSTOM_WOODWORK_CHANNEL",
+          "sku": "CW-MORTISED-CEDAR-PLANTER-TRELLIS-CUSTOM",
+          "lot_quantity": 1,
+          "unit": "unit",
+          "fiat_revenue_usd_cents": 18000,
+          "compliance_regime": "SOLE_PROPRIETOR_CUSTOM_ARTISAN_JOINERY_INVOICE"
+        }
+      }
+    },
+    {
+      "@id": "need:thermophilic_compost",
+      "@type": "mesh:SovereignNeed",
+      "schema:name": "EPA 503 Class-A Thermophilic Humus Compost",
+      "schema:description": "Pathogen-free, weed-seed-sterilized aerobic humus produced in an insulated rotating composting drum held >= 328,150 mK (55.0 C) for >= 72 hours at C:N ratio ~28:1 and co-composted with biochar.",
+      "mapping_status": "MAPPED_ACTIVE",
+      "category": "SOIL_FERTILITY_AND_NUTRIENT_CYCLING",
+      "physical_unit": "g",
+      "standard_batch_quantity": 25000,
+      "exergy_cost_uj": 360000000000,
+      "matter_phase": "GRANULAR_PARTICULATE",
+      "constitutional_r0_baseline": false,
+      "recipe_bom": [
+        { "input_need_id": "need:pyrolysis_biochar", "quantity": 2500, "unit": "g", "role": "CO_COMPOSTED_CATION_EXCHANGE_MATRIX" },
+        { "input_need_id": "need:potable_water", "quantity": 6000, "unit": "ml", "role": "AEROBIC_MICROBIAL_MOISTURE_55_PCT" }
+      ],
+      "fulfilled_by_workflows": [
+        "wf.fab.assemble_compost_and_kiln",
+        "wf.garden.plow_and_amend_soil"
+      ],
+      "l2_verification_schemas": ["l2.schema.soil_probe.v1", "l2.schema.enclosure_env.v1"],
+      "l7_channel_bindings": {
+        "procurement_fallback": {
+          "channel": "HARDWARE_API",
+          "sku": "L7-HW-OMRI-ORGANIC-COMPOST-SACK-25KG",
+          "lot_quantity": 25000,
+          "unit": "g",
+          "fiat_cost_usd_cents": 1450
+        },
+        "surplus_bill_offset": null
+      }
+    },
+    {
+      "@id": "need:pyrolysis_biochar",
+      "@type": "mesh:SovereignNeed",
+      "schema:name": "Smokeless TLUD High-Surface-Area Pyrolysis Biochar",
+      "schema:description": "Recalcitrant microporous carbon (>= 8000 bp fixed carbon, > 300 m2/g BET surface area) pyrolyzed from dry woody prunings and woodshop offcuts at 773,150-873,150 mK (500-600 C) in a secondary-burn TLUD kiln.",
+      "mapping_status": "MAPPED_ACTIVE",
+      "category": "SOIL_CARBON_AND_ODOR_ADSORPTION",
+      "physical_unit": "g",
+      "standard_batch_quantity": 5000,
+      "exergy_cost_uj": 250000000000,
+      "matter_phase": "GRANULAR_PARTICULATE",
+      "constitutional_r0_baseline": false,
+      "recipe_bom": [
+        { "input_need_id": "need:potable_water", "quantity": 4000, "unit": "ml", "role": "END_OF_RUN_THERMAL_QUENCH" }
+      ],
+      "fulfilled_by_workflows": [
+        "wf.fab.assemble_compost_and_kiln"
+      ],
+      "l2_verification_schemas": ["l2.schema.soil_probe.v1", "l2.schema.enclosure_env.v1"],
+      "l7_channel_bindings": {
+        "procurement_fallback": {
+          "channel": "HARDWARE_API",
+          "sku": "L7-HW-HORTICULTURAL-BIOCHAR-5KG",
+          "lot_quantity": 5000,
+          "unit": "g",
+          "fiat_cost_usd_cents": 2200
+        },
+        "surplus_bill_offset": null
+      }
+    },
+    {
+      "@id": "need:potable_water",
+      "@type": "mesh:SovereignNeed",
+      "schema:name": "Potable & Dechlorinated Irrigation Water",
+      "schema:description": "Clean aqueous supply drawn from carbon-filtered roof rainwater cistern (with RPZ atmospheric air-gap) or municipal water main fallback.",
+      "mapping_status": "MAPPED_ACTIVE",
+      "category": "HYDROLOGICAL_UTILITY",
+      "physical_unit": "ml",
+      "standard_batch_quantity": 10000,
+      "exergy_cost_uj": 45000000000,
+      "matter_phase": "LIQUID",
+      "constitutional_r0_baseline": true,
+      "recipe_bom": [],
+      "fulfilled_by_workflows": [
+        "wf.garden.irrigate_and_weed_manual",
+        "wf.garden.irrigate_l2_automated"
+      ],
+      "l2_verification_schemas": ["l2.schema.irrigation_valve.v1"],
+      "l7_channel_bindings": {
+        "procurement_fallback": {
+          "channel": "GROCERY_API",
+          "sku": "L7-UTIL-MUNICIPAL-POTABLE-WATER-100L",
+          "lot_quantity": 100000,
+          "unit": "ml",
+          "fiat_cost_usd_cents": 120
+        },
+        "surplus_bill_offset": null
+      }
+    },
+    {
+      "@id": "need:node_electricity",
+      "@type": "mesh:SovereignNeed",
+      "schema:name": "48V DC / 120V AC Sovereign Microgrid Electrical Exergy",
+      "schema:description": "High-grade electrical exergy generated by rooftop monocrystalline PV buffered in local LiFePO4 storage, powering induction cooking, garage woodworking tools, L2 sensors, and Node 0 daemons.",
+      "mapping_status": "MAPPED_ACTIVE",
+      "category": "ELECTRICAL_EXERGY",
+      "physical_unit": "MJ",
+      "standard_batch_quantity": 16.2,
+      "exergy_cost_uj": 16200000000000,
+      "matter_phase": "EXERGY_FIELD",
+      "constitutional_r0_baseline": true,
+      "recipe_bom": [],
+      "fulfilled_by_workflows": [],
+      "l2_verification_schemas": [],
+      "l7_channel_bindings": {
+        "procurement_fallback": {
+          "channel": "HARDWARE_API",
+          "sku": "L7-GRID-IMPORT-KWH-BLOCK-4_5KWH",
+          "lot_quantity": 16.2,
+          "unit": "MJ",
+          "fiat_cost_usd_cents": 135
+        },
+        "surplus_bill_offset": null
+      }
+    },
+    {
+      "@id": "need:lacto_fermented_kraut",
+      "@type": [
+        "mesh:SovereignNeed",
+        "mesh:DiscoverableNeedCandidate"
+      ],
+      "schema:name": "Lacto-Fermented Cabbage & Caraway Kraut (< pH 4.60)",
+      "schema:description": "Unmapped candidate need: Anaerobic water-seal ceramic crock fermentation of shredded cabbage and 2.0% sea salt yielding Vitamin-C and live Leuconostoc/Lactobacillus garnish for winter pea soup.",
+      "mapping_status": "UNMAPPED_CANDIDATE",
+      "discoverable_in_l6_catalog": true,
+      "category": "FERMENTED_PRESERVATION_CANDIDATE",
+      "physical_unit": "g",
+      "standard_batch_quantity": 2000,
+      "exergy_cost_uj": 120000000000,
+      "matter_phase": "DISCRETE_SOLID",
+      "constitutional_r0_baseline": false,
+      "suggested_workflow_template": "wf.ferment.ceramic_crock_lacto_kraut",
+      "recipe_bom": [
+        { "input_need_id": "need:mirepoix_roots", "quantity": 250, "unit": "g", "role": "SHREDDED_CARROT_FERMENT_SUGAR" },
+        { "input_need_id": "need:potable_water", "quantity": 200, "unit": "ml", "role": "WATER_LOCK_RIM_SEAL" }
+      ],
+      "fulfilled_by_workflows": [],
+      "l2_verification_schemas": ["l2.schema.soil_probe.v1"],
+      "l7_channel_bindings": {
+        "procurement_fallback": {
+          "channel": "GROCERY_API",
+          "sku": "L7-GROC-RAW-SAUERKRAUT-1KG",
+          "lot_quantity": 1000,
+          "unit": "g",
+          "fiat_cost_usd_cents": 790
+        },
+        "surplus_bill_offset": {
+          "channel": "COTTAGE_FOOD_CHANNEL",
+          "sku": "CF-RAW-CARAWAY-KRAUT-500G",
+          "lot_quantity": 500,
+          "unit": "g",
+          "fiat_revenue_usd_cents": 650,
+          "compliance_regime": "ACIDIFIED_FERMENT_PH_BELOW_4_6_VERIFIED"
+        }
+      }
+    },
+    {
+      "@id": "need:rhizobium_seed_inoculant",
+      "@type": [
+        "mesh:SovereignNeed",
+        "mesh:DiscoverableNeedCandidate"
+      ],
+      "schema:name": "Rhizobium leguminosarum Symbiotic Pea Inoculant Culture",
+      "schema:description": "Unmapped candidate need: Sterile peat-and-molasses carrier colonized with >= 10^8 CFU/g Rhizobium leguminosarum bv. viceae harvested from healthy pink root nodules to eliminate external inoculant purchases.",
+      "mapping_status": "UNMAPPED_CANDIDATE",
+      "discoverable_in_l6_catalog": true,
+      "category": "AGRONOMIC_MICROBIOLOGY_CANDIDATE",
+      "physical_unit": "g",
+      "standard_batch_quantity": 150,
+      "exergy_cost_uj": 180000000000,
+      "matter_phase": "GRANULAR_PARTICULATE",
+      "constitutional_r0_baseline": false,
+      "suggested_workflow_template": "wf.garden.propagate_rhizobium_nodule_culture",
+      "recipe_bom": [
+        { "input_need_id": "need:pyrolysis_biochar", "quantity": 100, "unit": "g", "role": "FINELY_MILLED_MICROBIAL_CARRIER" },
+        { "input_need_id": "need:potable_water", "quantity": 60, "unit": "ml", "role": "DECHLORINATED_HYDRATION" }
+      ],
+      "fulfilled_by_workflows": [],
+      "l2_verification_schemas": ["l2.schema.soil_probe.v1"],
+      "l7_channel_bindings": {
+        "procurement_fallback": {
+          "channel": "HARDWARE_API",
+          "sku": "L7-HW-RHIZOBIUM-PEA-VETCH-INOCULANT-150G",
+          "lot_quantity": 150,
+          "unit": "g",
+          "fiat_cost_usd_cents": 950
+        },
+        "surplus_bill_offset": null
+      }
+    },
+    {
+      "@id": "need:herbal_chamomile_tisane",
+      "@type": [
+        "mesh:SovereignNeed",
+        "mesh:DiscoverableNeedCandidate"
+      ],
+      "schema:name": "Dried Chamomile & Lemon Balm Pollinator-Border Tisane",
+      "schema:description": "Unmapped candidate need: Shade-dried Matricaria chamomilla flower heads and Melissa officinalis leaves interplanted along raised bed borders to attract hoverflies/bees and brew calming evening infusions.",
+      "mapping_status": "UNMAPPED_CANDIDATE",
+      "discoverable_in_l6_catalog": true,
+      "category": "APOTHECARY_AND_POLLINATOR_GUILD_CANDIDATE",
+      "physical_unit": "g",
+      "standard_batch_quantity": 250,
+      "exergy_cost_uj": 90000000000,
+      "matter_phase": "GRANULAR_PARTICULATE",
+      "constitutional_r0_baseline": false,
+      "suggested_workflow_template": "wf.garden.harvest_and_dry_pollinator_herbs",
+      "recipe_bom": [
+        { "input_need_id": "need:thermophilic_compost", "quantity": 1500, "unit": "g", "role": "BORDER_SOIL_DRESSING" },
+        { "input_need_id": "need:potable_water", "quantity": 8000, "unit": "ml", "role": "DRIP_IRRIGATION" }
+      ],
+      "fulfilled_by_workflows": [],
+      "l2_verification_schemas": ["l2.schema.soil_probe.v1"],
+      "l7_channel_bindings": {
+        "procurement_fallback": {
+          "channel": "GROCERY_API",
+          "sku": "L7-GROC-WHOLE-CHAMOMILE-FLOWERS-250G",
+          "lot_quantity": 250,
+          "unit": "g",
+          "fiat_cost_usd_cents": 1100
+        },
+        "surplus_bill_offset": {
+          "channel": "COTTAGE_FOOD_CHANNEL",
+          "sku": "CF-DRIED-HERBAL-TISANE-TIN-100G",
+          "lot_quantity": 100,
+          "unit": "g",
+          "fiat_revenue_usd_cents": 900,
+          "compliance_regime": "DRIED_CULINARY_HERB_COTTAGE_EXEMPTION"
+        }
+      }
+    }
+  ]
+}

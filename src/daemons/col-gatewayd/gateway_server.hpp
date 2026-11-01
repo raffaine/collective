@@ -35,6 +35,22 @@
 #include <spdlog/spdlog.h>
 #include "uhai/uhai_ring_buffer.hpp"
 
+#if __has_include("stack/shared_stack_runtime.hpp")
+#include "stack/shared_stack_runtime.hpp"
+#elif __has_include("../../stack/shared_stack_runtime.hpp")
+#include "../../stack/shared_stack_runtime.hpp"
+#else
+#include "../../../src/stack/shared_stack_runtime.hpp"
+#endif
+
+#if __has_include("../col-swarmd/swarm_engine.hpp")
+#include "../col-swarmd/swarm_engine.hpp"
+#elif __has_include("daemons/col-swarmd/swarm_engine.hpp")
+#include "daemons/col-swarmd/swarm_engine.hpp"
+#else
+#include "../../../src/daemons/col-swarmd/swarm_engine.hpp"
+#endif
+
 namespace oasis::gateway {
 
 // ============================================================================
@@ -214,8 +230,9 @@ struct HttpRequest {
     }
 };
 
-struct HttpResponse {
+struct alignas(8) HttpResponse {
     int status_code{200};
+    [[maybe_unused]] uint8_t pad_0_[4]{0};
     std::string status_text{"OK"};
     std::unordered_map<std::string, std::string> headers;
     std::string body;
@@ -408,7 +425,7 @@ public:
 // Gateway Server
 // ============================================================================
 
-class GatewayServer {
+class alignas(8) GatewayServer {
 public:
     explicit GatewayServer(const std::string& shm_name = oasis::uhai::DEFAULT_GATEWAY_SHM_NAME)
         : shm_name_(shm_name) {
@@ -474,6 +491,22 @@ public:
         return total_requests_handled_.load(std::memory_order_relaxed);
     }
 
+    [[nodiscard]] oasis::stack::SharedStackRuntime& GetStackRuntime() noexcept {
+        return stack_runtime_;
+    }
+
+    [[nodiscard]] const oasis::stack::SharedStackRuntime& GetStackRuntime() const noexcept {
+        return stack_runtime_;
+    }
+
+    [[nodiscard]] oasis::swarm::SwarmState& GetSwarmState() noexcept {
+        return swarm_state_;
+    }
+
+    [[nodiscard]] const oasis::swarm::SwarmState& GetSwarmState() const noexcept {
+        return swarm_state_;
+    }
+
     // Ring buffer polling loop to drain items from UHAI channels
     void PollRingBuffers() {
         if (l2_channel_ && l2_channel_->IsValid()) {
@@ -510,6 +543,9 @@ public:
 
     // Invariant 7 & SS-EP6-006 Check: Verifies whether the path refers to a read-only diagnostic layer
     static bool IsDiagnosticLayerPath(const std::string& path) {
+        if (path == "/api/v1/l2_pins") {
+            return false;
+        }
         return (path.rfind("/api/v1/l1", 0) == 0 ||
                 path.rfind("/api/v1/l2", 0) == 0 ||
                 path.rfind("/api/v1/l3", 0) == 0 ||
@@ -588,9 +624,13 @@ public:
             }
         }
 
-        // 3. Routing: Diagnostic GET Endpoints
+        // 3. Routing: Diagnostic & Live Stack Snapshot GET Endpoints
         if (request.method == "GET" || request.method == "HEAD") {
-            if (request.path == "/api/v1/layers/summary") {
+            if (request.path == "/api/v1/snapshot") {
+                return HandleStackSnapshot();
+            } else if (request.path == "/api/v1/l2_pins") {
+                return HttpResponse::Json(200, stack_runtime_.IngestL2PinsPayload("{}"));
+            } else if (request.path == "/api/v1/layers/summary") {
                 return HandleLayersSummary();
             } else if (request.path == "/api/v1/security/config") {
                 return HandleSecurityConfig();
@@ -628,9 +668,13 @@ public:
             return HttpResponse::NotFound("Endpoint '" + request.path + "' not found on col-gatewayd.");
         }
 
-        // 4. Routing: Mutating Endpoints (Exclusively Layer 6 Semantic Agora & Intent U-Turn)
+        // 4. Routing: Mutating Endpoints (Layer 6 Semantic Agora, Stack Command RPC & L2 Virtual Pins Bridge)
         if (request.method == "POST") {
-            if (request.path == "/api/v1/l6/intent" || request.path == "/api/v1/l6/intent/author") {
+            if (request.path == "/api/v1/command") {
+                return HandleStackCommand(request);
+            } else if (request.path == "/api/v1/l2_pins") {
+                return HandleL2Pins(request);
+            } else if (request.path == "/api/v1/l6/intent" || request.path == "/api/v1/l6/intent/author") {
                 return HandleL6Intent(request);
             } else if (request.path == "/api/v1/l6/agora/orders") {
                 return HandleL6AgoraOrders(request);
@@ -649,61 +693,94 @@ public:
     }
 
     // Socket server execution loop using POSIX sockets and poll()
-    int RunSocketServer(int port, int max_ticks = 0, std::atomic<bool>* running = nullptr) {
+    int RunSocketServer(int port, int max_ticks = 0, std::atomic<bool>* running = nullptr, int secondary_http_port = 0) {
 #ifndef __EMSCRIPTEN__
-        int server_fd = ::socket(AF_INET, SOCK_STREAM, 0);
-        if (server_fd < 0) {
-            spdlog::error("[col-gatewayd] Failed to create TCP socket: {}", std::strerror(errno));
-            return 1;
-        }
-
-        int opt = 1;
-        ::setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
-
-        int flags = ::fcntl(server_fd, F_GETFL, 0);
-        if (flags >= 0) {
-            ::fcntl(server_fd, F_SETFL, flags | O_NONBLOCK);
-        }
-
-        sockaddr_in address{};
-        address.sin_family = AF_INET;
-        address.sin_addr.s_addr = INADDR_ANY;
-        address.sin_port = htons(static_cast<uint16_t>(port));
-
-        if (::bind(server_fd, reinterpret_cast<struct sockaddr*>(&address), sizeof(address)) < 0) {
-            spdlog::warn("[col-gatewayd] Failed to bind port {}: {}. Socket listening disabled.", port, std::strerror(errno));
-            ::close(server_fd);
-            server_fd = -1;
-        } else {
-            if (::listen(server_fd, 64) < 0) {
-                spdlog::warn("[col-gatewayd] Failed to listen on port {}: {}", port, std::strerror(errno));
-                ::close(server_fd);
-                server_fd = -1;
-            } else {
-                spdlog::info("[col-gatewayd] HTTP gateway listening on 0.0.0.0:{} (shm: '{}')", port, shm_name_);
+        auto bind_nonblocking_listener = [&](int listen_port) -> int {
+            if (listen_port <= 0) {
+                return -1;
             }
-        }
+            int fd = ::socket(AF_INET, SOCK_STREAM, 0);
+            if (fd < 0) {
+                spdlog::error("[col-gatewayd] Failed to create TCP socket for port {}: {}", listen_port, std::strerror(errno));
+                return -1;
+            }
+            int opt = 1;
+            ::setsockopt(fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
+#ifdef SO_NOSIGPIPE
+            ::setsockopt(fd, SOL_SOCKET, SO_NOSIGPIPE, &opt, sizeof(opt));
+#endif
+            int flags = ::fcntl(fd, F_GETFL, 0);
+            if (flags >= 0) {
+                ::fcntl(fd, F_SETFL, flags | O_NONBLOCK);
+            }
+
+            sockaddr_in address{};
+            address.sin_family = AF_INET;
+            address.sin_addr.s_addr = INADDR_ANY;
+            address.sin_port = htons(static_cast<uint16_t>(listen_port));
+
+            if (::bind(fd, reinterpret_cast<struct sockaddr*>(&address), sizeof(address)) < 0) {
+                spdlog::warn("[col-gatewayd] Failed to bind port {}: {}. Socket listening disabled on this port.",
+                             listen_port, std::strerror(errno));
+                ::close(fd);
+                return -1;
+            }
+            if (::listen(fd, 64) < 0) {
+                spdlog::warn("[col-gatewayd] Failed to listen on port {}: {}", listen_port, std::strerror(errno));
+                ::close(fd);
+                return -1;
+            }
+            spdlog::info("[col-gatewayd] HTTP JSON-RPC gateway listening on 0.0.0.0:{} (shm: '{}')", listen_port, shm_name_);
+            return fd;
+        };
+
+        int primary_fd = bind_nonblocking_listener(port);
+        int secondary_fd = (secondary_http_port > 0 && secondary_http_port != port)
+                               ? bind_nonblocking_listener(secondary_http_port)
+                               : -1;
 
         uint64_t tick_count = 0;
-        constexpr int poll_timeout_ms = 100;
+        constexpr int poll_timeout_ms = 50;
 
         while (running == nullptr || running->load(std::memory_order_relaxed)) {
             tick_count++;
             PollRingBuffers();
 
-            if (server_fd >= 0) {
-                pollfd pfd{};
-                pfd.fd = server_fd;
-                pfd.events = POLLIN;
+            // Calmly advance background peer-cluster swarm every 40 loop cycles (~2s)
+            if (tick_count == 1ULL || (tick_count % 40ULL) == 0ULL) {
+                ++swarm_tick_;
+                oasis::swarm::StepPeerClusterSwarm(stack_runtime_, swarm_state_, swarm_tick_);
+            }
 
-                int ret = ::poll(&pfd, 1, poll_timeout_ms);
-                if (ret > 0 && (pfd.revents & POLLIN)) {
-                    sockaddr_in client_addr{};
-                    socklen_t addrlen = sizeof(client_addr);
-                    int client_fd = ::accept(server_fd, reinterpret_cast<struct sockaddr*>(&client_addr), &addrlen);
-                    if (client_fd >= 0) {
-                        HandleClientSocket(client_fd);
-                        ::close(client_fd);
+            std::array<pollfd, 2> pfds{};
+            nfds_t nfds = 0;
+            if (primary_fd >= 0) {
+                pfds[nfds].fd = primary_fd;
+                pfds[nfds].events = POLLIN;
+                ++nfds;
+            }
+            if (secondary_fd >= 0) {
+                pfds[nfds].fd = secondary_fd;
+                pfds[nfds].events = POLLIN;
+                ++nfds;
+            }
+
+            if (nfds > 0) {
+                int ret = ::poll(pfds.data(), nfds, poll_timeout_ms);
+                if (ret > 0) {
+                    for (nfds_t i = 0; i < nfds; ++i) {
+                        if ((pfds[i].revents & POLLIN) != 0) {
+                            for (;;) {
+                                sockaddr_in client_addr{};
+                                socklen_t addrlen = sizeof(client_addr);
+                                int client_fd = ::accept(pfds[i].fd, reinterpret_cast<struct sockaddr*>(&client_addr), &addrlen);
+                                if (client_fd < 0) {
+                                    break;
+                                }
+                                HandleClientSocket(client_fd);
+                                ::close(client_fd);
+                            }
+                        }
                     }
                 }
             } else {
@@ -716,14 +793,18 @@ public:
             }
         }
 
-        if (server_fd >= 0) {
-            ::close(server_fd);
+        if (primary_fd >= 0) {
+            ::close(primary_fd);
+        }
+        if (secondary_fd >= 0) {
+            ::close(secondary_fd);
         }
         return 0;
 #else
         (void)port;
         (void)max_ticks;
         (void)running;
+        (void)secondary_http_port;
         return 0;
 #endif
     }
@@ -832,14 +913,90 @@ private:
 
 #ifndef __EMSCRIPTEN__
     void HandleClientSocket(int client_fd) {
-        std::array<char, 4096> buffer{};
-        ssize_t bytes_read = ::recv(client_fd, buffer.data(), buffer.size() - 1, 0);
-        if (bytes_read > 0) {
-            buffer[bytes_read] = '\0';
-            HttpRequest request = HttpParser::Parse(std::string_view(buffer.data(), static_cast<size_t>(bytes_read)));
-            HttpResponse response = HandleRequest(request);
-            std::string raw_resp = response.ToString();
-            ::send(client_fd, raw_resp.data(), raw_resp.size(), 0);
+#ifdef SO_NOSIGPIPE
+        int no_sigpipe = 1;
+        ::setsockopt(client_fd, SOL_SOCKET, SO_NOSIGPIPE, &no_sigpipe, sizeof(no_sigpipe));
+#endif
+        int flags = ::fcntl(client_fd, F_GETFL, 0);
+        if (flags >= 0) {
+            ::fcntl(client_fd, F_SETFL, flags | O_NONBLOCK);
+        }
+
+        std::string raw_req;
+        raw_req.reserve(4096U);
+        std::array<char, 8192> chunk{};
+        size_t header_end_pos = std::string::npos;
+        size_t expected_total_bytes = 0U;
+
+        for (int attempt = 0; attempt < 25 && raw_req.size() < 65536U; ++attempt) {
+            pollfd pfd{};
+            pfd.fd = client_fd;
+            pfd.events = POLLIN;
+            const int wait_ms = raw_req.empty() ? 60 : 15;
+            const int pr = ::poll(&pfd, 1, wait_ms);
+            if (pr <= 0 || (pfd.revents & POLLIN) == 0) {
+                if (header_end_pos != std::string::npos) {
+                    break;
+                }
+                continue;
+            }
+            const ssize_t n = ::recv(client_fd, chunk.data(), chunk.size(), 0);
+            if (n <= 0) {
+                break;
+            }
+            raw_req.append(chunk.data(), static_cast<size_t>(n));
+
+            if (header_end_pos == std::string::npos) {
+                size_t crlf = raw_req.find("\r\n\r\n");
+                if (crlf != std::string::npos) {
+                    header_end_pos = crlf + 4U;
+                    HttpRequest header_probe = HttpParser::Parse(std::string_view(raw_req.data(), header_end_pos));
+                    const std::string cl_str = header_probe.GetHeader("Content-Length");
+                    size_t content_len = 0U;
+                    if (!cl_str.empty()) {
+                        content_len = static_cast<size_t>(std::strtoull(cl_str.c_str(), nullptr, 10));
+                    }
+                    expected_total_bytes = header_end_pos + content_len;
+                }
+            }
+            if (header_end_pos != std::string::npos && raw_req.size() >= expected_total_bytes) {
+                break;
+            }
+        }
+
+        if (raw_req.empty()) {
+            return;
+        }
+
+        HttpRequest request = HttpParser::Parse(raw_req);
+        HttpResponse response = HandleRequest(request);
+        const std::string raw_resp = response.ToString();
+
+        size_t total_sent = 0U;
+        while (total_sent < raw_resp.size()) {
+            pollfd wpfd{};
+            wpfd.fd = client_fd;
+            wpfd.events = POLLOUT;
+            if (::poll(&wpfd, 1, 100) <= 0) {
+                break;
+            }
+            int send_flags = 0;
+#ifdef MSG_NOSIGNAL
+            send_flags |= MSG_NOSIGNAL;
+#endif
+            const ssize_t sent = ::send(
+                client_fd,
+                raw_resp.data() + total_sent,
+                raw_resp.size() - total_sent,
+                send_flags
+            );
+            if (sent <= 0) {
+                if (errno == EINTR || errno == EAGAIN || errno == EWOULDBLOCK) {
+                    continue;
+                }
+                break;
+            }
+            total_sent += static_cast<size_t>(sent);
         }
     }
 #endif
@@ -847,6 +1004,38 @@ private:
     // ========================================================================
     // Endpoint Implementation Handlers
     // ========================================================================
+
+    HttpResponse HandleStackSnapshot() {
+        ++swarm_tick_;
+        oasis::swarm::StepPeerClusterSwarm(stack_runtime_, swarm_state_, swarm_tick_);
+        return HttpResponse::Json(200, stack_runtime_.SerializeFullNodeSnapshotJson());
+    }
+
+    HttpResponse HandleStackCommand(const HttpRequest& request) {
+        std::string_view body_view = request.body;
+        const size_t first = body_view.find_first_not_of(" \t\n\r");
+        if (first == std::string_view::npos || body_view[first] != '{') {
+            return HttpResponse::BadRequest("Empty or malformed JSON payload for /api/v1/command");
+        }
+        const std::string action = oasis::stack::json_util::ExtractString(request.body, "action");
+        if (action.empty()) {
+            return HttpResponse::BadRequest("Missing 'action' field in /api/v1/command JSON payload");
+        }
+        const std::string out_json = stack_runtime_.DispatchJsonCommand(action, request.body);
+        if (out_json.find("\"ok\": false") != std::string::npos) {
+            return HttpResponse::Json(400, out_json);
+        }
+        return HttpResponse::Json(200, out_json);
+    }
+
+    HttpResponse HandleL2Pins(const HttpRequest& request) {
+        std::string_view body_view = request.body;
+        const size_t first = body_view.find_first_not_of(" \t\n\r");
+        if (first == std::string_view::npos || body_view[first] != '{') {
+            return HttpResponse::BadRequest("Empty or malformed JSON payload for /api/v1/l2_pins");
+        }
+        return HttpResponse::Json(200, stack_runtime_.IngestL2PinsPayload(request.body));
+    }
 
     HttpResponse HandleSecurityConfig() {
         std::ostringstream oss;
@@ -1355,18 +1544,21 @@ private:
     std::unique_ptr<oasis::uhai::UhaiChannel<oasis::uhai::GovernanceResolutionSlot>> resolution_channel_{nullptr};
 
     oasis::uhai::TelemetrySample latest_l2_{};
-    bool has_l2_{false};
-
     oasis::uhai::L4ExecutionTelemetry latest_l4_{};
-    bool has_l4_{false};
-
     oasis::uhai::L5GovernanceTelemetry latest_l5_{};
-    bool has_l5_{false};
 
     std::vector<oasis::uhai::UpwardYieldPacket> pending_yields_{};
     std::vector<oasis::uhai::SpatialIntentPayload> submitted_intents_{};
     std::vector<oasis::uhai::GovernanceResolutionPacket> submitted_resolutions_{};
+    oasis::stack::SharedStackRuntime stack_runtime_{};
+    oasis::swarm::SwarmState swarm_state_{};
     std::atomic<uint64_t> total_requests_handled_{0};
+    uint64_t swarm_tick_{0ULL};
+
+    bool has_l2_{false};
+    bool has_l4_{false};
+    bool has_l5_{false};
+    [[maybe_unused]] uint8_t pad_flags_[5]{0};
 };
 
 } // namespace oasis::gateway

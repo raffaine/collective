@@ -1,0 +1,168 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schema_id": "l2.schema.soil_probe.v1",
+  "schema_version": "1.0.0",
+  "layer": "L2_MEMBRANE",
+  "device_class": "FDR_MULTIPARAMETER_RHIZOSPHERE_PROBE",
+  "title": "Multiparameter FDR Dielectric Soil Moisture, Thermal, NPK, Organic Carbon & pH Probe",
+  "description": "Canonical Layer 2 fixed-point register specification for in-situ rhizosphere soil probes interfacing over RS-485 Modbus RTU or LoRaWAN to col-telemetryd.",
+  "transport_binding": {
+    "physical_bus": ["RS485_MODBUS_RTU", "LORAWAN_CLASS_A", "VIRTUAL_L1_PIN_BUS"],
+    "ipc_upstream_socket": "l2_l3.sock",
+    "ipc_downstream_socket": "l1_l2.sock",
+    "provenance_flags": {
+      "QUALITY_SIMULATED": 1,
+      "QUALITY_HARDWARE_ROOT": 2
+    }
+  },
+  "sampling_policy": {
+    "nominal_sampling_interval_ms": 60000,
+    "fast_irrigation_feedback_interval_ms": 5000,
+    "sampling_rate_hz_max": 1.0,
+    "watchdog_stale_timeout_ms": 300000
+  },
+  "registers": [
+    {
+      "name": "moisture_vwc_bp",
+      "address_offset": 0,
+      "access": "READ_ONLY",
+      "data_type": "uint16",
+      "unit": "bp",
+      "si_equivalent": "0.01 % volumetric water content (m3/m3 * 10000)",
+      "min": 0,
+      "max": 10000,
+      "default_uninitialized": 2400,
+      "agronomic_bands": {
+        "permanent_wilting_point_bp": 1200,
+        "irrigation_trigger_bp": 2800,
+        "optimal_field_capacity_min_bp": 3400,
+        "optimal_field_capacity_max_bp": 4800,
+        "anaerobic_saturation_warning_bp": 8200
+      },
+      "description": "Volumetric water content in basis points (0..10000). Water retention capacity scales positively with organic_carbon_bp."
+    },
+    {
+      "name": "soil_temp_mk",
+      "address_offset": 2,
+      "access": "READ_ONLY",
+      "data_type": "uint32",
+      "unit": "mK",
+      "si_equivalent": "millikelvin (273150 mK = 0.00 C)",
+      "min": 250000,
+      "max": 340000,
+      "default_uninitialized": 288150,
+      "agronomic_bands": {
+        "frost_lockout_mk": 273650,
+        "pisum_sativum_germination_min_mk": 278150,
+        "pisum_sativum_optimal_max_mk": 295150,
+        "root_heat_stress_mk": 305150
+      },
+      "description": "Root-zone temperature at 10 cm depth in millikelvin. Diurnal thermal damping scales positively with moisture_vwc_bp and organic_carbon_bp."
+    },
+    {
+      "name": "nitrogen_ppm",
+      "address_offset": 6,
+      "access": "READ_ONLY",
+      "data_type": "uint16",
+      "unit": "ppm",
+      "si_equivalent": "mg/kg plant-available mineral nitrogen (NO3-N + NH4-N)",
+      "min": 0,
+      "max": 2000,
+      "default_uninitialized": 35,
+      "agronomic_bands": {
+        "deficient_below_ppm": 25,
+        "optimal_min_ppm": 45,
+        "optimal_max_ppm": 180,
+        "leaching_excess_above_ppm": 400
+      },
+      "description": "Plant-available mineral nitrogen in parts per million. Replenished by thermophilic compost and symbiotic Rhizobium leguminosarum nodulation."
+    },
+    {
+      "name": "phosphorus_ppm",
+      "address_offset": 8,
+      "access": "READ_ONLY",
+      "data_type": "uint16",
+      "unit": "ppm",
+      "si_equivalent": "mg/kg Olsen/Mehlich-3 extractable phosphorus",
+      "min": 0,
+      "max": 1000,
+      "default_uninitialized": 22,
+      "agronomic_bands": {
+        "deficient_below_ppm": 15,
+        "optimal_min_ppm": 30,
+        "optimal_max_ppm": 95
+      },
+      "description": "Extractable rhizosphere phosphorus supporting root development, flowering, and pod set. Replenished via struvite and calcined bone-ash."
+    },
+    {
+      "name": "potassium_ppm",
+      "address_offset": 10,
+      "access": "READ_ONLY",
+      "data_type": "uint16",
+      "unit": "ppm",
+      "si_equivalent": "mg/kg exchangeable potassium (K+)",
+      "min": 0,
+      "max": 2500,
+      "default_uninitialized": 110,
+      "agronomic_bands": {
+        "deficient_below_ppm": 80,
+        "optimal_min_ppm": 130,
+        "optimal_max_ppm": 320
+      },
+      "description": "Exchangeable potassium regulating stomatal turgor, frost resilience, and starch translocation in legumes and root crops."
+    },
+    {
+      "name": "organic_carbon_bp",
+      "address_offset": 12,
+      "access": "READ_ONLY",
+      "data_type": "uint16",
+      "unit": "bp",
+      "si_equivalent": "0.01 % dry-mass total organic & pyrogenic carbon",
+      "min": 0,
+      "max": 10000,
+      "default_uninitialized": 180,
+      "agronomic_bands": {
+        "depleted_suburban_turf_bp": 150,
+        "healthy_loam_min_bp": 350,
+        "living_terra_preta_target_bp": 650
+      },
+      "description": "Soil organic carbon and recalcitrant pyrolysis biochar fraction in basis points; governs field-capacity water retention and thermal inertia."
+    },
+    {
+      "name": "ph_centi",
+      "address_offset": 14,
+      "access": "READ_ONLY",
+      "data_type": "uint16",
+      "unit": "centi_ph",
+      "si_equivalent": "pH * 100 (dimensionless hydrogen ion activity)",
+      "min": 400,
+      "max": 900,
+      "default_uninitialized": 650,
+      "agronomic_bands": {
+        "rhizobium_nodulation_min_centi": 600,
+        "optimal_legume_mirepoix_max_centi": 720
+      },
+      "description": "Soil pore-water pH scaled by 100 (e.g., 650 = pH 6.50). Buffered upward by calcined bone-ash calcium grit and wood-ash biochar."
+    }
+  ],
+  "safety_invariants": [
+    {
+      "id": "INV_SOIL_ANTI_PANOPTICON",
+      "rule": "device_exposes_only_scalar_physicochemical_registers == true",
+      "severity": "CONSTITUTIONAL_HARD_LOCK",
+      "rationale": "Zero optical cameras or microphones permitted in garden or homestead soil sensor nodes."
+    },
+    {
+      "id": "INV_SOIL_REGISTER_BOUNDS",
+      "rule": "moisture_vwc_bp <= 10000 && soil_temp_mk >= 250000 && soil_temp_mk <= 340000 && ph_centi >= 400 && ph_centi <= 900",
+      "severity": "FAULT_QUARANTINE",
+      "rationale": "Out-of-range ADC readings indicate severed probe cable or sensor delamination and must be quarantined by col-telemetryd."
+    },
+    {
+      "id": "INV_SOIL_FROST_IRRIGATION_INHIBIT",
+      "rule": "soil_temp_mk < 274150 => inhibit_automated_irrigation == true",
+      "severity": "HARDWARE_INTERLOCK",
+      "rationale": "Prevent drip line ice-expansion rupture and root-crown freezing when soil approaches 1.0 C."
+    }
+  ]
+}

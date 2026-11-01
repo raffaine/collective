@@ -22,6 +22,7 @@ constexpr size_t   MAX_BFS_VISITED    = 512;
 
 // Material IDs for Chill Loop & Survival Camp
 constexpr uint32_t MAT_TILLED_BED      = 19u;
+constexpr uint32_t MAT_COVER_CROP      = 19u;
 constexpr uint32_t MAT_DOOR_TIMBER     = 15u;
 constexpr uint32_t MAT_HAUL_ZONE       = 20u;
 constexpr uint32_t MAT_SLEEP_ZONE      = 21u;
@@ -31,9 +32,103 @@ constexpr uint32_t MAT_RATION_CRATE    = 24u;
 constexpr uint32_t MAT_ROOF_LADDER     = 32u;
 constexpr uint32_t MAT_STAGE_FRAME     = 33u;
 constexpr uint32_t MAT_MATURE_GARDEN   = 34u;
+constexpr uint32_t MAT_MATURE_CROP     = 34u;
+constexpr uint32_t MAT_POULTRY_COOP    = 58u;
+constexpr uint32_t MAT_CHICKEN_HEN     = 59u;
+constexpr uint32_t MAT_MU_BIOCHAR_KILN = 60u;
+constexpr uint32_t MAT_MU_COMPOST_DRUM = 62u;
 
 // +45 Focus/hr on the 0..255 scale (~ +0.17647f / hr on [0.0..1.0])
 constexpr float FOCUS_RECOVERY_PER_SIM_HOUR = 45.0f / 255.0f;
+
+// ============================================================================
+// SPRINT 19: 1-to-5 Biological Feel Tiers (Sovereign Digital Twin Progressive Disclosure)
+// ============================================================================
+
+struct alignas(8) BiologicalFeelTiers {
+    uint8_t hunger_tier{4};  // 1=Starving, 2=Hungry, 3=Peckish, 4=Nourished, 5=Well-Fed
+    uint8_t energy_tier{4};  // 1=Collapsed, 2=Exhausted, 3=Tired, 4=Rested, 5=Rested & Hydrated
+    uint8_t focus_tier{4};   // 1=Burned Out, 2=Scatterbrained, 3=Steady, 4=Focused, 5=Deep Flow
+    uint8_t mood_tier{4};    // 1=Overwhelmed, 2=Stressed, 3=Calm, 4=Content, 5=Inspired
+    uint8_t social_tier{4};  // 1=Isolated, 2=Lonely, 3=Connected, 4=Supported, 5=Thriving Commons
+    uint8_t l2_biometric_sensor_installed{0};
+    uint8_t l2_soil_sensor_installed{0};
+    uint8_t pad_{0};
+};
+static_assert(sizeof(BiologicalFeelTiers) == 8, "BiologicalFeelTiers must be 8 bytes with zero implicit padding");
+
+struct alignas(8) SomaticVitalsComponent {
+    float caloric_stamina_kcal{2200.0f};  // [0.0 .. 2500.0] kcal
+    float fatigue_factor{0.12f};          // [0.0 .. 1.0] (0 = fully rested, 1 = collapsed)
+    float hydration_pct{0.88f};           // [0.0 .. 1.0]
+    float focus_pool{0.85f};              // [0.0 .. 1.0]
+    float stress_accumulator{0.15f};      // [0.0 .. 1.0]
+    float entertainment_comfort{0.85f};   // [0.0 .. 1.0]
+    float social_comfort{0.78f};          // [0.0 .. 1.0]
+    float hygiene{0.88f};                 // [0.0 .. 1.0]
+};
+static_assert(sizeof(SomaticVitalsComponent) == 32, "SomaticVitalsComponent must be 32 bytes with zero implicit padding");
+
+[[nodiscard]] constexpr uint8_t ScoreNormalizedToTier1To5(float normalized_0_to_1) noexcept {
+    const float clamped = std::clamp(normalized_0_to_1, 0.0f, 1.0f);
+    if (clamped < 0.20f) return 1u;
+    if (clamped < 0.40f) return 2u;
+    if (clamped < 0.60f) return 3u;
+    if (clamped < 0.80f) return 4u;
+    return 5u;
+}
+
+[[nodiscard]] constexpr BiologicalFeelTiers ComputeBiologicalFeelTiers(
+    const SomaticVitalsComponent& vitals,
+    float social_comfort = 0.75f,
+    bool l2_bio = false,
+    bool l2_soil = false
+) noexcept {
+    BiologicalFeelTiers out{};
+    const float hunger_norm = std::clamp(vitals.caloric_stamina_kcal / 2500.0f, 0.0f, 1.0f);
+    const float energy_norm = std::clamp(
+        0.65f * (1.0f - std::clamp(vitals.fatigue_factor, 0.0f, 1.0f)) +
+        0.35f * std::clamp(vitals.hydration_pct, 0.0f, 1.0f),
+        0.0f, 1.0f
+    );
+    const float focus_norm = std::clamp(vitals.focus_pool, 0.0f, 1.0f);
+    const float mood_norm = std::clamp(
+        0.65f * (1.0f - std::clamp(vitals.stress_accumulator, 0.0f, 1.0f)) +
+        0.35f * std::clamp(vitals.entertainment_comfort, 0.0f, 1.0f),
+        0.0f, 1.0f
+    );
+    const float social_norm = std::clamp(social_comfort, 0.0f, 1.0f);
+
+    out.hunger_tier = ScoreNormalizedToTier1To5(hunger_norm);
+    out.energy_tier = ScoreNormalizedToTier1To5(energy_norm);
+    out.focus_tier  = ScoreNormalizedToTier1To5(focus_norm);
+    out.mood_tier   = ScoreNormalizedToTier1To5(mood_norm);
+    out.social_tier = ScoreNormalizedToTier1To5(social_norm);
+    out.l2_biometric_sensor_installed = l2_bio ? 1u : 0u;
+    out.l2_soil_sensor_installed      = l2_soil ? 1u : 0u;
+    out.pad_ = 0u;
+    return out;
+}
+
+[[nodiscard]] constexpr BiologicalFeelTiers ComputeBiologicalFeelTiers(
+    const oasis::fabrication::SomaticStateComponent& somatic,
+    float stress_accumulator,
+    float entertainment_comfort,
+    float social_comfort,
+    bool l2_bio = false,
+    bool l2_soil = false
+) noexcept {
+    SomaticVitalsComponent vitals{};
+    vitals.caloric_stamina_kcal  = static_cast<float>(somatic.caloric_reserve);
+    vitals.fatigue_factor        = std::clamp(1.0f - somatic.stamina, 0.0f, 1.0f);
+    vitals.hydration_pct         = somatic.hydration;
+    vitals.focus_pool            = somatic.focus;
+    vitals.stress_accumulator    = stress_accumulator;
+    vitals.entertainment_comfort = entertainment_comfort;
+    vitals.social_comfort        = social_comfort;
+    vitals.hygiene               = 0.88f;
+    return ComputeBiologicalFeelTiers(vitals, social_comfort, l2_bio, l2_soil);
+}
 
 // ============================================================================
 // STORY-9.1: Dirty-Flag Cached ThermalEnclosureSolver, Passable Doors & Sleep
@@ -90,6 +185,7 @@ struct EnclosureCacheComponent {
         case 32u: // Exterior Roof Access Ladder
         case 33u: // Construction Stage Frame
         case 34u: // Mature Crop
+        case 59u: // Heritage Hens in Backyard Pasture
         case 120u: // Studio Workstation Pod (Scenario Zero Homelab)
             return true;
         default:
@@ -339,6 +435,36 @@ struct GenesisCampStockComponent {
     uint32_t seed_packs_remaining{6};       // Seeds for backyard cover/food crops
     uint32_t raw_produce_items{2};          // Harvested raw backyard produce for Scenario Gamma Kitchen
 
+    // Sprint 18: Scenario Alpha (Garage) x Scenario Gamma (Backyard Farming, Poultry Husbandry & Communal Pea Soup)
+    bool backyard_coop_built{true};              // Stage-1 Wooden Coop + BSFL Feeder built via Garage Workbench
+    bool pea_trellis_built{true};                // Keyline Raised Pea/Bean Trellis Beds
+    uint32_t split_peas_and_beans{4};            // Harvested dry/fresh peas & beans for Communal Pea Soup
+    uint32_t root_mirepoix_veggies{3};           // Carrots, onions, celery & herbs
+    uint32_t bsfl_larvae_and_scraps{4};          // Black Soldier Fly Larvae & trimmings (Trophic Non-Competition feed)
+    uint32_t bone_ash_calcium_grit{2};           // Calcined bone/eggshell calcium loop for hens & soil
+    uint32_t flock_hens_count{4};                // Heritage dual-purpose hens in backyard coop
+    uint32_t fresh_eggs_count{6};                // Golden-yolked pasture eggs
+    uint32_t chicken_meat_portions{2};           // Rotational pasture poultry meat portions
+    uint32_t poultry_broth_bones{2};             // Collagen-rich poultry bones for 24h Bone Broth
+    uint32_t bone_broth_jars{2};                 // Simmered mineral-rich collagen Bone Broth jars
+    uint32_t communal_pea_soup_tiffins{2};       // Prepared Communal Pea Soup tiffins ready for neighbors
+    uint32_t community_meals_served_total{0};    // Cumulative R0/R1 community meals served
+
+    // Sprint 18 Addendum: Scenario Mu (SCN-MU-EXTRACTION Stage 1: Biochar Kiln, Thermophilic Compost, Struvite & Terra Preta)
+    uint32_t biochar_kiln_char_batches{1};          // Smokeless pyrolysis biochar (773150-873150 mK, >= 8000 bp fixed carbon)
+    uint32_t thermophilic_compost_temp_mk{328150};  // >= 328150 mK (55 C) EPA 503 Class A pathogen kill
+    uint32_t struvite_phosphorus_recovery_bp{9200}; // >= 9000 bp urine phosphorus crystallized as MgNH4PO4.6H2O
+    uint32_t terra_preta_soil_moisture_bp{4500};    // Living Terra Preta charged soil sponge (>= 4000 bp)
+    uint32_t terra_preta_batches_charged{1};        // Cumulative Living Terra Preta batches charged
+
+    // Sprint 19: Clean-Slate Backyard & Granular L4 Homestead Progression Flags
+    bool garden_bed_built{false};
+    bool garden_planted{false};
+    bool compost_drum_built{false};
+    bool biochar_kiln_built{false};
+    bool l2_biometric_sensor_installed{false};
+    bool l2_soil_sensor_installed{false};
+
     [[nodiscard]] double total_ration_kcal() const noexcept {
         return static_cast<double>(ration_meals_remaining) * 800.0;
     }
@@ -476,6 +602,219 @@ inline bool CookHomesteadMealAtKitchen(
     return true;
 }
 
+// ============================================================================
+// Sprint 18 & 19: Scenario Alpha (Garage) x Scenario Gamma (Backyard Pea/Bean
+// Farming, Poultry Husbandry, 24h Collagen Bone Broth & Communal Pea Soup)
+// + Scenario Mu (TLUD Biochar Kiln, Thermophilic Compost, Struvite & Terra Preta)
+// ============================================================================
+
+inline bool FabricateGardenBedKitInGarage(GenesisCampStockComponent& camp) noexcept {
+    if (camp.timber_planks_remaining >= 1u) {
+        camp.timber_planks_remaining -= 1u;
+    }
+    camp.garden_bed_built = true;
+    oasis::graphics::SetDynamicVoxel(glm::ivec3(20, 1, 5), static_cast<uint8_t>(MAT_COVER_CROP));
+    oasis::graphics::SetDynamicVoxel(glm::ivec3(20, 1, 6), static_cast<uint8_t>(MAT_COVER_CROP));
+    return true;
+}
+
+inline bool PlantBackyardPeaAndRootCrop(GenesisCampStockComponent& camp) noexcept {
+    if (camp.seed_packs_remaining >= 1u) {
+        camp.seed_packs_remaining -= 1u;
+    }
+    camp.garden_bed_built = true;
+    camp.garden_planted = true;
+    camp.pea_trellis_built = true;
+    oasis::graphics::SetDynamicVoxel(glm::ivec3(20, 1, 4), static_cast<uint8_t>(MAT_MATURE_CROP));
+    oasis::graphics::SetDynamicVoxel(glm::ivec3(20, 1, 5), static_cast<uint8_t>(MAT_MATURE_CROP));
+    if (oasis::graphics::GetDynamicVoxel(20, 1, 6) == 0u) {
+        oasis::graphics::SetDynamicVoxel(glm::ivec3(20, 1, 6), static_cast<uint8_t>(MAT_COVER_CROP));
+    }
+    return true;
+}
+
+inline bool ObserveAndTendGardenManually(GenesisCampStockComponent& camp) noexcept {
+    camp.split_peas_and_beans += 1u;
+    camp.root_mirepoix_veggies += 1u;
+    return true;
+}
+
+inline bool CleanupAndTurnGardenBed(GenesisCampStockComponent& camp) noexcept {
+    camp.bsfl_larvae_and_scraps += 2u;
+    camp.garden_planted = false;
+    camp.garden_bed_built = true;
+    oasis::graphics::SetDynamicVoxel(glm::ivec3(20, 1, 4), static_cast<uint8_t>(MAT_COVER_CROP));
+    oasis::graphics::SetDynamicVoxel(glm::ivec3(20, 1, 5), static_cast<uint8_t>(MAT_COVER_CROP));
+    oasis::graphics::SetDynamicVoxel(glm::ivec3(20, 1, 6), static_cast<uint8_t>(MAT_COVER_CROP));
+    return true;
+}
+
+inline bool BuildOrUpgradeCoopAndTrellisInGarage(GenesisCampStockComponent& camp) noexcept {
+    if (camp.timber_planks_remaining >= 1u) {
+        camp.timber_planks_remaining -= 1u;
+    }
+    camp.backyard_coop_built = true;
+    camp.pea_trellis_built = true;
+    if (camp.flock_hens_count == 0u) {
+        camp.flock_hens_count = 4u;
+    } else {
+        camp.flock_hens_count = std::min<uint32_t>(8u, camp.flock_hens_count + 1u);
+    }
+    camp.bsfl_larvae_and_scraps += 2u;
+    // Stamp Wooden Coop (58u) at (22, 1, 11..12) and 3 Heritage Hens (59u) in the pasture run
+    oasis::graphics::SetDynamicVoxel(glm::ivec3(22, 1, 11), static_cast<uint8_t>(MAT_POULTRY_COOP));
+    oasis::graphics::SetDynamicVoxel(glm::ivec3(22, 1, 12), static_cast<uint8_t>(MAT_POULTRY_COOP));
+    oasis::graphics::SetDynamicVoxel(glm::ivec3(21, 1, 11), static_cast<uint8_t>(MAT_CHICKEN_HEN));
+    oasis::graphics::SetDynamicVoxel(glm::ivec3(21, 1, 12), static_cast<uint8_t>(MAT_CHICKEN_HEN));
+    oasis::graphics::SetDynamicVoxel(glm::ivec3(23, 1, 11), static_cast<uint8_t>(MAT_CHICKEN_HEN));
+    return true;
+}
+
+inline bool TendBackyardFlockAndCollectEggs(GenesisCampStockComponent& camp) noexcept {
+    if (camp.flock_hens_count == 0u) {
+        return false;
+    }
+    // Trophic Non-Competition Invariant: Hens are fed strictly on BSFL larvae/scraps
+    // and bone-ash calcium grit, NEVER consuming human ration_meals_remaining or split_peas_and_beans!
+    if (camp.bsfl_larvae_and_scraps >= 1u) {
+        camp.bsfl_larvae_and_scraps -= 1u;
+    }
+    camp.fresh_eggs_count += 4u;
+    if (camp.flock_hens_count >= 4u) {
+        camp.poultry_broth_bones += 1u;
+        camp.chicken_meat_portions += 1u;
+    }
+    return true;
+}
+
+inline bool HarvestPeaAndRootGarden(GenesisCampStockComponent& camp) noexcept {
+    camp.split_peas_and_beans += 3u;
+    camp.root_mirepoix_veggies += 2u;
+    camp.raw_produce_items += 2u;
+    camp.bsfl_larvae_and_scraps += 2u; // Crop trimmings routed to BSFL bin
+    return true;
+}
+
+inline bool SimmerCollagenBoneBroth(
+    GenesisCampStockComponent& camp,
+    double& io_solar_kwh
+) noexcept {
+    if (camp.poultry_broth_bones < 1u || camp.potable_water_liters < 1.0) {
+        return false;
+    }
+    camp.poultry_broth_bones -= 1u;
+    camp.potable_water_liters = std::max(0.0, camp.potable_water_liters - 1.0);
+    if (io_solar_kwh >= 0.30) {
+        io_solar_kwh -= 0.30;
+    } else {
+        io_solar_kwh = 0.0;
+    }
+    camp.bone_broth_jars += 3u;
+    camp.bone_ash_calcium_grit += 2u; // Closes the Scenario Gamma/Mu bone calcining calcium loop!
+    return true;
+}
+
+inline bool SimmerCollagenBoneBroth(GenesisCampStockComponent& camp) noexcept {
+    double dummy_solar_kwh = 2.0;
+    return SimmerCollagenBoneBroth(camp, dummy_solar_kwh);
+}
+
+inline bool CookCommunalPeaSoupBatch(
+    GenesisCampStockComponent& camp,
+    double& io_solar_kwh
+) noexcept {
+    if ((camp.split_peas_and_beans < 1u && camp.raw_produce_items < 1u) ||
+        camp.potable_water_liters < 1.0) {
+        return false;
+    }
+    if (camp.split_peas_and_beans >= 1u) {
+        camp.split_peas_and_beans -= 1u;
+    } else {
+        camp.raw_produce_items -= 1u;
+    }
+    if (camp.root_mirepoix_veggies > 0u) {
+        camp.root_mirepoix_veggies -= 1u;
+    }
+    if (camp.bone_broth_jars > 0u) {
+        camp.bone_broth_jars -= 1u;
+    }
+    if (camp.chicken_meat_portions > 0u) {
+        camp.chicken_meat_portions -= 1u;
+    } else if (camp.fresh_eggs_count > 0u) {
+        camp.fresh_eggs_count -= 1u;
+    }
+    camp.potable_water_liters = std::max(0.0, camp.potable_water_liters - 1.0);
+    if (io_solar_kwh >= 0.35) {
+        io_solar_kwh -= 0.35;
+    } else {
+        io_solar_kwh = 0.0;
+    }
+    camp.ration_meals_remaining += 3u;
+    camp.communal_pea_soup_tiffins += 4u;
+    camp.bsfl_larvae_and_scraps += 1u; // Vegetable peelings routed to BSFL bin
+    return true;
+}
+
+inline bool CookCommunalPeaSoupBatch(GenesisCampStockComponent& camp) noexcept {
+    double dummy_solar_kwh = 2.0;
+    return CookCommunalPeaSoupBatch(camp, dummy_solar_kwh);
+}
+
+inline bool ServeCommunalPeaSoupToNeighborhood(
+    GenesisCampStockComponent& camp,
+    uint32_t& io_reputation_bp,
+    uint32_t& io_value_tokens
+) noexcept {
+    if (camp.communal_pea_soup_tiffins == 0u) {
+        double auto_solar_kwh = 2.0;
+        (void)CookCommunalPeaSoupBatch(camp, auto_solar_kwh);
+    }
+    if (camp.communal_pea_soup_tiffins == 0u) {
+        return false;
+    }
+    const uint32_t delivered = camp.communal_pea_soup_tiffins;
+    camp.communal_pea_soup_tiffins = 0u;
+    camp.community_meals_served_total += delivered;
+    io_reputation_bp = std::min<uint32_t>(10000u, io_reputation_bp + 400u);
+    io_value_tokens += 15u;
+    // Reciprocal neighbor gratitude from Maya/Soren & Kael
+    camp.timber_planks_remaining += 1u;
+    camp.cob_earth_lumps += 1u;
+    camp.seed_packs_remaining += 2u;
+    return true;
+}
+
+inline bool ServeCommunalPeaSoupToNeighborhood(
+    GenesisCampStockComponent& camp,
+    uint32_t& io_reputation_bp
+) noexcept {
+    uint32_t dummy_tokens = 0u;
+    return ServeCommunalPeaSoupToNeighborhood(camp, io_reputation_bp, dummy_tokens);
+}
+
+inline bool RunScenarioMuBiocharAndThermophilicCompost(GenesisCampStockComponent& camp) noexcept {
+    // Operate Scenario Mu Backyard TLUD Biochar Kiln (23, 1, 8) + Thermophilic Composting Drum & Struvite Carboy (23, 1, 9)
+    camp.compost_drum_built = true;
+    camp.biochar_kiln_built = true;
+    oasis::graphics::SetDynamicVoxel(glm::ivec3(23, 1, 8), static_cast<uint8_t>(MAT_MU_BIOCHAR_KILN));
+    oasis::graphics::SetDynamicVoxel(glm::ivec3(23, 1, 9), static_cast<uint8_t>(MAT_MU_COMPOST_DRUM));
+    // Pyrolyze woody garden trimmings at 823150 mK (550 C) into +1 biochar_kiln_char_batches
+    camp.biochar_kiln_char_batches += 1u;
+    // Process kitchen scraps + poultry litter + bone ash at 333150 mK (60 C >= 328150 mK EPA 503 Class A pathogen kill)
+    camp.thermophilic_compost_temp_mk = 333150u;
+    // Crystallize urine phosphorus as MgNH4PO4.6H2O struvite (>= 9000 bp)
+    camp.struvite_phosphorus_recovery_bp = std::max<uint32_t>(camp.struvite_phosphorus_recovery_bp, 9200u);
+    // Charge Living Terra Preta soil sponge (>= 4000 bp moisture retention)
+    camp.terra_preta_soil_moisture_bp = std::max<uint32_t>(camp.terra_preta_soil_moisture_bp, 4500u);
+    camp.terra_preta_batches_charged += 1u;
+    // Immediately fertilize the backyard garden beds
+    camp.raw_produce_items += 2u;
+    camp.split_peas_and_beans += 1u;
+    camp.root_mirepoix_veggies += 1u;
+    camp.bone_ash_calcium_grit += 1u;
+    return true;
+}
+
 inline flecs::entity BootstrapGenesisSurvivalCamp(flecs::world& ecs) {
     ecs.component<GenesisCampStockComponent>();
     ecs.component<EnclosureCacheComponent>();
@@ -508,6 +847,12 @@ inline flecs::entity BootstrapCleanSuburbanGenesisLot(flecs::world& ecs) {
     GenesisCampStockComponent camp{};
     camp.solar_kits_remaining = 0u;
     camp.raw_produce_items = 0u;
+    camp.garden_bed_built = false;
+    camp.garden_planted = false;
+    camp.pea_trellis_built = false;
+    camp.backyard_coop_built = false;
+    camp.compost_drum_built = false;
+    camp.biochar_kiln_built = false;
     camp.tent_pos = {15, 1, 8};          // Bedroom Bed + Mattress + Nightstand + Wardrobe
     camp.ration_crate_pos = {11, 1, 4};  // Kitchen Fridge / Oven+Stove / Dining Table area
     camp.water_tote_pos = {12, 1, 4};    // Kitchen Sink & Counter
@@ -655,6 +1000,16 @@ namespace oasis::homeostasis {
     using oasis::chill::TICKS_PER_SIM_HOUR;
     using oasis::chill::TICKS_PER_SIM_DAY;
     using oasis::chill::MAX_BFS_VISITED;
+    using oasis::chill::MAT_COVER_CROP;
+    using oasis::chill::MAT_MATURE_CROP;
+    using oasis::chill::MAT_POULTRY_COOP;
+    using oasis::chill::MAT_CHICKEN_HEN;
+    using oasis::chill::MAT_MU_BIOCHAR_KILN;
+    using oasis::chill::MAT_MU_COMPOST_DRUM;
+    using oasis::chill::BiologicalFeelTiers;
+    using oasis::chill::SomaticVitalsComponent;
+    using oasis::chill::ScoreNormalizedToTier1To5;
+    using oasis::chill::ComputeBiologicalFeelTiers;
     using oasis::chill::EnclosureStatus;
     using oasis::chill::EnclosureCacheComponent;
     using oasis::chill::IsAirtightBarrierMaterial;
@@ -670,6 +1025,17 @@ namespace oasis::homeostasis {
     using oasis::chill::EvaluateMetabolicSpeedMultiplier;
     using oasis::chill::FormatMetabolicStateLabel;
     using oasis::chill::CookHomesteadMealAtKitchen;
+    using oasis::chill::FabricateGardenBedKitInGarage;
+    using oasis::chill::PlantBackyardPeaAndRootCrop;
+    using oasis::chill::ObserveAndTendGardenManually;
+    using oasis::chill::CleanupAndTurnGardenBed;
+    using oasis::chill::BuildOrUpgradeCoopAndTrellisInGarage;
+    using oasis::chill::TendBackyardFlockAndCollectEggs;
+    using oasis::chill::HarvestPeaAndRootGarden;
+    using oasis::chill::SimmerCollagenBoneBroth;
+    using oasis::chill::CookCommunalPeaSoupBatch;
+    using oasis::chill::ServeCommunalPeaSoupToNeighborhood;
+    using oasis::chill::RunScenarioMuBiocharAndThermophilicCompost;
     using oasis::chill::BootstrapGenesisSurvivalCamp;
     using oasis::chill::BootstrapCleanSuburbanGenesisLot;
     using oasis::chill::StepSomaticIntake;
@@ -686,11 +1052,21 @@ namespace oasis::graphics {
 
 namespace oasis::fabrication {
     using oasis::chill::MAT_DOOR_TIMBER;
+    using oasis::chill::MAT_COVER_CROP;
+    using oasis::chill::MAT_MATURE_CROP;
+    using oasis::chill::MAT_POULTRY_COOP;
+    using oasis::chill::MAT_CHICKEN_HEN;
+    using oasis::chill::MAT_MU_BIOCHAR_KILN;
+    using oasis::chill::MAT_MU_COMPOST_DRUM;
     using oasis::chill::MAT_HAUL_ZONE;
     using oasis::chill::MAT_SLEEP_ZONE;
     using oasis::chill::MAT_RECREATION_ZONE;
     using oasis::chill::MAT_BELL_TENT;
     using oasis::chill::MAT_RATION_CRATE;
+    using oasis::chill::BiologicalFeelTiers;
+    using oasis::chill::SomaticVitalsComponent;
+    using oasis::chill::ScoreNormalizedToTier1To5;
+    using oasis::chill::ComputeBiologicalFeelTiers;
     using oasis::chill::EnclosureStatus;
     using oasis::chill::EnclosureCacheComponent;
     using oasis::chill::IsAirtightBarrierMaterial;
@@ -705,6 +1081,17 @@ namespace oasis::fabrication {
     using oasis::chill::EvaluateMetabolicSpeedMultiplier;
     using oasis::chill::FormatMetabolicStateLabel;
     using oasis::chill::CookHomesteadMealAtKitchen;
+    using oasis::chill::FabricateGardenBedKitInGarage;
+    using oasis::chill::PlantBackyardPeaAndRootCrop;
+    using oasis::chill::ObserveAndTendGardenManually;
+    using oasis::chill::CleanupAndTurnGardenBed;
+    using oasis::chill::BuildOrUpgradeCoopAndTrellisInGarage;
+    using oasis::chill::TendBackyardFlockAndCollectEggs;
+    using oasis::chill::HarvestPeaAndRootGarden;
+    using oasis::chill::SimmerCollagenBoneBroth;
+    using oasis::chill::CookCommunalPeaSoupBatch;
+    using oasis::chill::ServeCommunalPeaSoupToNeighborhood;
+    using oasis::chill::RunScenarioMuBiocharAndThermophilicCompost;
     using oasis::chill::BootstrapGenesisSurvivalCamp;
     using oasis::chill::BootstrapCleanSuburbanGenesisLot;
     using oasis::chill::StepSomaticIntake;
@@ -718,11 +1105,21 @@ namespace oasis {
     using oasis::chill::TICKS_PER_SIM_DAY;
     using oasis::chill::MAX_BFS_VISITED;
     using oasis::chill::MAT_DOOR_TIMBER;
+    using oasis::chill::MAT_COVER_CROP;
+    using oasis::chill::MAT_MATURE_CROP;
+    using oasis::chill::MAT_POULTRY_COOP;
+    using oasis::chill::MAT_CHICKEN_HEN;
+    using oasis::chill::MAT_MU_BIOCHAR_KILN;
+    using oasis::chill::MAT_MU_COMPOST_DRUM;
     using oasis::chill::MAT_HAUL_ZONE;
     using oasis::chill::MAT_SLEEP_ZONE;
     using oasis::chill::MAT_RECREATION_ZONE;
     using oasis::chill::MAT_BELL_TENT;
     using oasis::chill::MAT_RATION_CRATE;
+    using oasis::chill::BiologicalFeelTiers;
+    using oasis::chill::SomaticVitalsComponent;
+    using oasis::chill::ScoreNormalizedToTier1To5;
+    using oasis::chill::ComputeBiologicalFeelTiers;
     using oasis::chill::EnclosureStatus;
     using oasis::chill::EnclosureCacheComponent;
     using oasis::chill::IsAirtightBarrierMaterial;
@@ -738,6 +1135,17 @@ namespace oasis {
     using oasis::chill::EvaluateMetabolicSpeedMultiplier;
     using oasis::chill::FormatMetabolicStateLabel;
     using oasis::chill::CookHomesteadMealAtKitchen;
+    using oasis::chill::FabricateGardenBedKitInGarage;
+    using oasis::chill::PlantBackyardPeaAndRootCrop;
+    using oasis::chill::ObserveAndTendGardenManually;
+    using oasis::chill::CleanupAndTurnGardenBed;
+    using oasis::chill::BuildOrUpgradeCoopAndTrellisInGarage;
+    using oasis::chill::TendBackyardFlockAndCollectEggs;
+    using oasis::chill::HarvestPeaAndRootGarden;
+    using oasis::chill::SimmerCollagenBoneBroth;
+    using oasis::chill::CookCommunalPeaSoupBatch;
+    using oasis::chill::ServeCommunalPeaSoupToNeighborhood;
+    using oasis::chill::RunScenarioMuBiocharAndThermophilicCompost;
     using oasis::chill::BootstrapGenesisSurvivalCamp;
     using oasis::chill::BootstrapCleanSuburbanGenesisLot;
     using oasis::chill::StepSomaticIntake;

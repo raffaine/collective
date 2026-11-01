@@ -1,0 +1,1240 @@
+{
+  "bpmn_version": "2.0",
+  "schema_version": "2.0.0-modular",
+  "bundle_id": "l4.workflows.pea_garden_and_soup_lifecycles.v1",
+  "layer": "L4_ORCHESTRATOR",
+  "orchestrator_spec_compliance": "core/4_orchestrator/ORCHESTRATOR_SPEC.md",
+  "title": "Granular Real-Life Lifecycle Workflows for Pea Cultivation, Broth & Soup Hearth, Garage Joinery, Compost/Biochar & Poultry",
+  "ipc_adjacency_invariants": {
+    "allowed_upward_socket": "l4_l5.sock",
+    "allowed_downward_socket": "l3_l4.sock",
+    "prohibited_non_adjacent_layers": ["L1", "L2", "L6", "L7"],
+    "stock_miss_protocol": "EMIT_YIELD_UPWARD_L5_OVER_L4_L5_SOCK"
+  },
+  "workflows": [
+    {
+      "workflow_id": "wf.garden.plow_and_amend_soil",
+      "workflow_name": "Broadfork Loosen Subsoil, Haul Granular Compost/Biochar & Verify Crumb Tilth",
+      "governed_asset_id": "asset:backyard_pea_and_mirepoix_beds",
+      "fulfills_need_ids": ["need:split_peas", "need:mirepoix_roots"],
+      "automation_mode": "MANUAL_HUMAN_STEWARD",
+      "required_l2_schemas": [],
+      "required_skill_vc": "Hydro_Earthworks_VC",
+      "nodes": [
+        {
+          "id": "start",
+          "bpmn_type": "bpmn:StartEvent",
+          "name": "Receive Bed Preparation Schedule from L5",
+          "ipc_socket": "l4_l5.sock"
+        },
+        {
+          "id": "check_amendments_l3",
+          "bpmn_type": "bpmn:ServiceTask",
+          "name": "Query L3 Ledger for Compost, Biochar & Raised Bed Frame",
+          "ipc_socket": "l3_l4.sock",
+          "ipc_operation": "L3_QUERY_AND_LOCK_INVENTORY",
+          "required_inputs": [
+            { "item_id": "item.thermophilic_compost", "quantity_g": 20000, "matter_phase": "GRANULAR_PARTICULATE" },
+            { "item_id": "item.pyrolysis_biochar", "quantity_g": 4000, "matter_phase": "GRANULAR_PARTICULATE" },
+            { "item_id": "item.topsoil_loam", "quantity_g": 25000, "matter_phase": "GRANULAR_PARTICULATE" }
+          ]
+        },
+        {
+          "id": "gw_stock_ok",
+          "bpmn_type": "bpmn:ExclusiveGateway",
+          "name": "Soil Amendments Available?"
+        },
+        {
+          "id": "yield_stock_miss_l5",
+          "bpmn_type": "bpmn:IntermediateThrowEvent",
+          "name": "Yield Stock Deficit Upward to L5 Governance",
+          "ipc_socket": "l4_l5.sock",
+          "ipc_signal": "YIELD_UPWARD_L5",
+          "deficit_needs": ["need:thermophilic_compost", "need:pyrolysis_biochar", "need:raised_bed_frame"]
+        },
+        {
+          "id": "task_haul_granular_amendments",
+          "bpmn_type": "bpmn:UserTask",
+          "name": "Haul Granular Topsoil, Thermophilic Compost & Biochar to Raised Bed",
+          "ipc_socket": "l3_l4.sock",
+          "station_capability": "SOIL_CULTIVATION_BED",
+          "hauling_spec": {
+            "matter_phase": "GRANULAR_PARTICULATE",
+            "total_batch_mass_g": 49000,
+            "total_batch_volume_ml": 57250,
+            "preferred_hauling_tools": ["wheelbarrow", "bucket"],
+            "bare_hand_scoop_limit_g": 500
+          }
+        },
+        {
+          "id": "task_broadfork_and_incorporate",
+          "bpmn_type": "bpmn:UserTask",
+          "name": "Broadfork Aerate 30 cm Root Horizon without Inverting Fungal Strata",
+          "ipc_socket": "l3_l4.sock",
+          "station_capability": "SOIL_CULTIVATION_BED",
+          "physical_parameters": {
+            "tillage_depth_mm": 300,
+            "target_organic_carbon_delta_bp": 220,
+            "target_nitrogen_delta_ppm": 45,
+            "target_phosphorus_delta_ppm": 25,
+            "duration_sim_seconds": 1800
+          }
+        },
+        {
+          "id": "task_soil_tilth_ribbon_check",
+          "bpmn_type": "bpmn:UserTask",
+          "name": "Perform Hand Ribbon & Crumb Tilth Friability Check (pH 6.0-7.2)",
+          "ipc_socket": "l3_l4.sock",
+          "station_capability": "SOIL_CULTIVATION_BED",
+          "physical_parameters": {
+            "crumb_aggregate_diameter_mm": 4,
+            "expected_ph_centi_min": 600,
+            "expected_ph_centi_max": 720,
+            "requires_human_observation_if_no_l2_probe": true,
+            "duration_sim_seconds": 300
+          }
+        },
+        {
+          "id": "end_settle",
+          "bpmn_type": "bpmn:EndEvent",
+          "name": "Commit Amended Bed State to L3 Ledger",
+          "ipc_socket": "l3_l4.sock",
+          "ipc_operation": "L3_SETTLE_ESCROW"
+        }
+      ],
+      "sequence_flows": [
+        { "id": "f1", "sourceRef": "start", "targetRef": "check_amendments_l3" },
+        { "id": "f2", "sourceRef": "check_amendments_l3", "targetRef": "gw_stock_ok" },
+        { "id": "f3_miss", "sourceRef": "gw_stock_ok", "targetRef": "yield_stock_miss_l5", "condition": "escrow_locked == false" },
+        { "id": "f3_ok", "sourceRef": "gw_stock_ok", "targetRef": "task_haul_granular_amendments", "condition": "escrow_locked == true" },
+        { "id": "f4", "sourceRef": "task_haul_granular_amendments", "targetRef": "task_broadfork_and_incorporate" },
+        { "id": "f5", "sourceRef": "task_broadfork_and_incorporate", "targetRef": "task_soil_tilth_ribbon_check" },
+        { "id": "f6", "sourceRef": "task_soil_tilth_ribbon_check", "targetRef": "end_settle" }
+      ]
+    },
+    {
+      "workflow_id": "wf.garden.erect_trellis",
+      "workflow_name": "Erect Galvanized-Mesh A-Frame Climbing Pea Trellis",
+      "governed_asset_id": "asset:backyard_pea_and_mirepoix_beds",
+      "fulfills_need_ids": ["need:split_peas"],
+      "automation_mode": "MANUAL_HUMAN_STEWARD",
+      "required_l2_schemas": [],
+      "required_skill_vc": "Hydro_Earthworks_VC",
+      "nodes": [
+        {
+          "id": "start",
+          "bpmn_type": "bpmn:StartEvent",
+          "name": "Trigger Trellis Installation",
+          "ipc_socket": "l4_l5.sock"
+        },
+        {
+          "id": "check_trellis_kit_l3",
+          "bpmn_type": "bpmn:ServiceTask",
+          "name": "Verify Milled A-Frame Trellis Kit in L3 Stock",
+          "ipc_socket": "l3_l4.sock",
+          "ipc_operation": "L3_QUERY_AND_LOCK_INVENTORY",
+          "required_inputs": [
+            { "item_id": "item.trellis_aframe_kit", "quantity_units": 1, "matter_phase": "DISCRETE_SOLID" }
+          ]
+        },
+        {
+          "id": "gw_kit_ok",
+          "bpmn_type": "bpmn:ExclusiveGateway",
+          "name": "Trellis Kit Ready?"
+        },
+        {
+          "id": "yield_trellis_l5",
+          "bpmn_type": "bpmn:IntermediateThrowEvent",
+          "name": "Yield Missing Trellis / Raised Bed Kit to L5",
+          "ipc_socket": "l4_l5.sock",
+          "ipc_signal": "YIELD_UPWARD_L5",
+          "deficit_needs": ["need:raised_bed_frame"]
+        },
+        {
+          "id": "task_carry_and_anchor_trellis",
+          "bpmn_type": "bpmn:UserTask",
+          "name": "Carry 18.5 kg A-Frame Trellis to Backyard Bed, Align North-South & Stake Wind Anchors",
+          "ipc_socket": "l3_l4.sock",
+          "station_capability": "SOIL_CULTIVATION_BED",
+          "hauling_spec": {
+            "matter_phase": "DISCRETE_SOLID",
+            "total_batch_mass_g": 18500,
+            "preferred_hauling_tools": ["wheelbarrow", "hand_dolly", "BARE_HANDS"]
+          },
+          "physical_parameters": {
+            "azimuth_orientation_deg": 0,
+            "mesh_aperture_mm": 100,
+            "ridge_height_mm": 1650,
+            "duration_sim_seconds": 1500
+          }
+        },
+        {
+          "id": "end_settle",
+          "bpmn_type": "bpmn:EndEvent",
+          "name": "Record Trellis Commissioning in L3",
+          "ipc_socket": "l3_l4.sock",
+          "ipc_operation": "L3_SETTLE_ESCROW"
+        }
+      ],
+      "sequence_flows": [
+        { "id": "f1", "sourceRef": "start", "targetRef": "check_trellis_kit_l3" },
+        { "id": "f2", "sourceRef": "check_trellis_kit_l3", "targetRef": "gw_kit_ok" },
+        { "id": "f3_miss", "sourceRef": "gw_kit_ok", "targetRef": "yield_trellis_l5", "condition": "escrow_locked == false" },
+        { "id": "f3_ok", "sourceRef": "gw_kit_ok", "targetRef": "task_carry_and_anchor_trellis", "condition": "escrow_locked == true" },
+        { "id": "f4", "sourceRef": "task_carry_and_anchor_trellis", "targetRef": "end_settle" }
+      ]
+    },
+    {
+      "workflow_id": "wf.garden.inoculate_and_sow_peas",
+      "workflow_name": "Coat Seeds in Rhizobium leguminosarum Slurry & Sow Peas + Mirepoix Understory",
+      "governed_asset_id": "asset:backyard_pea_and_mirepoix_beds",
+      "fulfills_need_ids": ["need:split_peas", "need:mirepoix_roots"],
+      "automation_mode": "MANUAL_HUMAN_STEWARD",
+      "required_l2_schemas": [],
+      "required_skill_vc": "Hydro_Earthworks_VC",
+      "nodes": [
+        {
+          "id": "start",
+          "bpmn_type": "bpmn:StartEvent",
+          "name": "Initiate Seasonal Pea & Mirepoix Sowing",
+          "ipc_socket": "l4_l5.sock"
+        },
+        {
+          "id": "check_seed_stock_l3",
+          "bpmn_type": "bpmn:ServiceTask",
+          "name": "Lock Heirloom Pea Seed, Mirepoix Seed & Dechlorinated Water in L3",
+          "ipc_socket": "l3_l4.sock",
+          "ipc_operation": "L3_QUERY_AND_LOCK_INVENTORY",
+          "required_inputs": [
+            { "item_id": "item.pea_seeds_heirloom", "quantity_g": 200, "matter_phase": "GRANULAR_PARTICULATE" },
+            { "item_id": "item.potable_water", "quantity_ml": 250, "matter_phase": "LIQUID" }
+          ]
+        },
+        {
+          "id": "gw_seeds_ok",
+          "bpmn_type": "bpmn:ExclusiveGateway",
+          "name": "Seed & Inoculant Inputs Present?"
+        },
+        {
+          "id": "yield_seed_deficit_l5",
+          "bpmn_type": "bpmn:IntermediateThrowEvent",
+          "name": "Yield Seed Stock Miss Upward to L5",
+          "ipc_socket": "l4_l5.sock",
+          "ipc_signal": "YIELD_UPWARD_L5",
+          "deficit_needs": ["need:split_peas", "need:mirepoix_roots"]
+        },
+        {
+          "id": "task_rhizobium_slurry_coating",
+          "bpmn_type": "bpmn:UserTask",
+          "name": "Coat Pisum sativum Seeds with Rhizobium leguminosarum bv. viceae Slurry in Shade",
+          "ipc_socket": "l3_l4.sock",
+          "station_capability": "WOODSHOP_JOINERY",
+          "physical_parameters": {
+            "microbial_strain": "Rhizobium leguminosarum biovar viceae",
+            "target_viable_cfu_per_seed": 100000,
+            "sticker_solution": "dechlorinated_water_1pct_molasses",
+            "max_direct_uv_exposure_s": 600,
+            "slurry_temp_max_mk": 298150,
+            "expected_symbiotic_n_fixation_rate_ppm_per_day": 4,
+            "duration_sim_seconds": 600
+          }
+        },
+        {
+          "id": "task_dibber_sow_drill_rows",
+          "bpmn_type": "bpmn:UserTask",
+          "name": "Dibber-Sow Inoculated Peas at 40 mm Depth Along Trellis & Broadcast Mirepoix Intercrop",
+          "ipc_socket": "l3_l4.sock",
+          "station_capability": "SOIL_CULTIVATION_BED",
+          "physical_parameters": {
+            "pea_sowing_depth_mm": 40,
+            "pea_intra_row_spacing_mm": 65,
+            "carrot_sowing_depth_mm": 8,
+            "min_germination_soil_temp_mk": 278150,
+            "duration_sim_seconds": 1500
+          }
+        },
+        {
+          "id": "end_settle",
+          "bpmn_type": "bpmn:EndEvent",
+          "name": "Register Active Inoculated Crop Cohort in L3",
+          "ipc_socket": "l3_l4.sock",
+          "ipc_operation": "L3_SETTLE_ESCROW"
+        }
+      ],
+      "sequence_flows": [
+        { "id": "f1", "sourceRef": "start", "targetRef": "check_seed_stock_l3" },
+        { "id": "f2", "sourceRef": "check_seed_stock_l3", "targetRef": "gw_seeds_ok" },
+        { "id": "f3_miss", "sourceRef": "gw_seeds_ok", "targetRef": "yield_seed_deficit_l5", "condition": "escrow_locked == false" },
+        { "id": "f3_ok", "sourceRef": "gw_seeds_ok", "targetRef": "task_rhizobium_slurry_coating", "condition": "escrow_locked == true" },
+        { "id": "f4", "sourceRef": "task_rhizobium_slurry_coating", "targetRef": "task_dibber_sow_drill_rows" },
+        { "id": "f5", "sourceRef": "task_dibber_sow_drill_rows", "targetRef": "end_settle" }
+      ]
+    },
+    {
+      "workflow_id": "wf.garden.irrigate_and_weed_manual",
+      "workflow_name": "Manual Soil/Leaf Inspection, Liquid Water Hauling by Can/Bucket & Hand Weeding",
+      "governed_asset_id": "asset:backyard_pea_and_mirepoix_beds",
+      "fulfills_need_ids": ["need:split_peas", "need:mirepoix_roots"],
+      "automation_mode": "MANUAL_HUMAN_STEWARD",
+      "required_l2_schemas": [],
+      "required_skill_vc": null,
+      "nodes": [
+        {
+          "id": "start",
+          "bpmn_type": "bpmn:StartEvent",
+          "name": "Daily Manual Garden Tend Trigger (No L2 Sensors Required)",
+          "ipc_socket": "l4_l5.sock"
+        },
+        {
+          "id": "task_manual_inspect_soil_and_leaves",
+          "bpmn_type": "bpmn:UserTask",
+          "name": "Walk to Raised Bed & Inspect Soil Dampness at Knuckle Depth + Pea Tendril Turgor",
+          "ipc_socket": "l3_l4.sock",
+          "station_capability": "SOIL_CULTIVATION_BED",
+          "physical_parameters": {
+            "knuckle_probe_depth_mm": 50,
+            "visual_cues": ["soil_color_darkness", "leaf_stipule_turgor", "powdery_mildew_absence"],
+            "duration_sim_seconds": 240
+          }
+        },
+        {
+          "id": "check_water_l3",
+          "bpmn_type": "bpmn:ServiceTask",
+          "name": "Reserve 10,000 ml Potable/Cistern Water in L3",
+          "ipc_socket": "l3_l4.sock",
+          "ipc_operation": "L3_QUERY_AND_LOCK_INVENTORY",
+          "required_inputs": [
+            { "item_id": "item.potable_water", "quantity_ml": 10000, "matter_phase": "LIQUID" }
+          ]
+        },
+        {
+          "id": "gw_water_ok",
+          "bpmn_type": "bpmn:ExclusiveGateway",
+          "name": "Water Available?"
+        },
+        {
+          "id": "yield_water_l5",
+          "bpmn_type": "bpmn:IntermediateThrowEvent",
+          "name": "Yield Water Deficit Upward to L5",
+          "ipc_socket": "l4_l5.sock",
+          "ipc_signal": "YIELD_UPWARD_L5",
+          "deficit_needs": ["need:potable_water"]
+        },
+        {
+          "id": "task_haul_water_vessel_and_irrigate",
+          "bpmn_type": "bpmn:UserTask",
+          "name": "Acquire Watering Can or Bucket, Fill at Spigot/Cistern & Drench Root Crown + Hand-Weed",
+          "ipc_socket": "l3_l4.sock",
+          "station_capability": "SOIL_CULTIVATION_BED",
+          "hauling_spec": {
+            "matter_phase": "LIQUID",
+            "total_batch_volume_ml": 10000,
+            "total_batch_mass_g": 10000,
+            "required_hauling_tools": ["watering_can", "bucket"],
+            "bare_hand_liquid_capacity_ml": 0
+          },
+          "physical_parameters": {
+            "avoid_foliar_wetting_for_mildew_prevention": true,
+            "weed_biomass_routed_to_compost_g": 400,
+            "duration_sim_seconds": 900
+          }
+        },
+        {
+          "id": "end_settle",
+          "bpmn_type": "bpmn:EndEvent",
+          "name": "Settle Manual Irrigation & Weeding in L3",
+          "ipc_socket": "l3_l4.sock",
+          "ipc_operation": "L3_SETTLE_ESCROW"
+        }
+      ],
+      "sequence_flows": [
+        { "id": "f1", "sourceRef": "start", "targetRef": "task_manual_inspect_soil_and_leaves" },
+        { "id": "f2", "sourceRef": "task_manual_inspect_soil_and_leaves", "targetRef": "check_water_l3" },
+        { "id": "f3", "sourceRef": "check_water_l3", "targetRef": "gw_water_ok" },
+        { "id": "f4_miss", "sourceRef": "gw_water_ok", "targetRef": "yield_water_l5", "condition": "escrow_locked == false" },
+        { "id": "f4_ok", "sourceRef": "gw_water_ok", "targetRef": "task_haul_water_vessel_and_irrigate", "condition": "escrow_locked == true" },
+        { "id": "f5", "sourceRef": "task_haul_water_vessel_and_irrigate", "targetRef": "end_settle" }
+      ]
+    },
+    {
+      "workflow_id": "wf.garden.irrigate_l2_automated",
+      "workflow_name": "Closed-Loop L2FDR Probe Telemetry & 24V Drip Solenoid Irrigation",
+      "governed_asset_id": "asset:backyard_pea_and_mirepoix_beds",
+      "fulfills_need_ids": ["need:split_peas", "need:mirepoix_roots"],
+      "automation_mode": "L2_SENSOR_ACTUATOR_AUTOMATED",
+      "required_l2_schemas": [
+        "l2.schema.soil_probe.v1",
+        "l2.schema.irrigation_valve.v1"
+      ],
+      "required_skill_vc": null,
+      "nodes": [
+        {
+          "id": "start_telemetry_poll",
+          "bpmn_type": "bpmn:StartEvent",
+          "name": "Ingest soil_probe_v1 Register Snapshot via L3 State Store",
+          "ipc_socket": "l3_l4.sock"
+        },
+        {
+          "id": "eval_rhizosphere_threshold",
+          "bpmn_type": "bpmn:ExclusiveGateway",
+          "name": "moisture_vwc_bp < 2800 && soil_temp_mk >= 275150?"
+        },
+        {
+          "id": "end_noop_optimal",
+          "bpmn_type": "bpmn:EndEvent",
+          "name": "Moisture Within Field Capacity or Frost Inhibit Active — No Actuation"
+        },
+        {
+          "id": "lock_water_budget_l3",
+          "bpmn_type": "bpmn:ServiceTask",
+          "name": "Escrow 12,000 ml Cistern Water in L3",
+          "ipc_socket": "l3_l4.sock",
+          "ipc_operation": "L3_QUERY_AND_LOCK_INVENTORY",
+          "required_inputs": [
+            { "item_id": "item.potable_water", "quantity_ml": 12000, "matter_phase": "LIQUID" }
+          ]
+        },
+        {
+          "id": "gw_cistern_ok",
+          "bpmn_type": "bpmn:ExclusiveGateway",
+          "name": "Cistern Head Sufficient?"
+        },
+        {
+          "id": "yield_water_deficit_l5",
+          "bpmn_type": "bpmn:IntermediateThrowEvent",
+          "name": "Yield Cistern Water Deficit Upward to L5",
+          "ipc_socket": "l4_l5.sock",
+          "ipc_signal": "YIELD_UPWARD_L5",
+          "deficit_needs": ["need:potable_water"]
+        },
+        {
+          "id": "actuate_drip_valve_l2",
+          "bpmn_type": "bpmn:ServiceTask",
+          "name": "Emit L2 Actuator Command to irrigation_valve_v1 via L3->L2 Membrane",
+          "ipc_socket": "l3_l4.sock",
+          "ipc_operation": "L3_ROUTE_L2_ACTUATOR_WRITE",
+          "l2_target_schema": "l2.schema.irrigation_valve.v1",
+          "register_writes": {
+            "max_moisture_cutoff_bp": 4500,
+            "target_volume_ml": 12000,
+            "valve_open": 1
+          }
+        },
+        {
+          "id": "await_vwc_recovery",
+          "bpmn_type": "bpmn:IntermediateCatchEvent",
+          "name": "Await valve_open == 0 && moisture_vwc_bp >= 3600 Telemetry Proof",
+          "ipc_socket": "l3_l4.sock",
+          "verification_predicate": "irrigation_valve_v1.valve_open == 0 && soil_probe_v1.moisture_vwc_bp >= 3600"
+        },
+        {
+          "id": "end_settle",
+          "bpmn_type": "bpmn:EndEvent",
+          "name": "Settle Automated Drip Cycle in L3 Ledger",
+          "ipc_socket": "l3_l4.sock",
+          "ipc_operation": "L3_SETTLE_ESCROW"
+        }
+      ],
+      "sequence_flows": [
+        { "id": "f1", "sourceRef": "start_telemetry_poll", "targetRef": "eval_rhizosphere_threshold" },
+        { "id": "f2_skip", "sourceRef": "eval_rhizosphere_threshold", "targetRef": "end_noop_optimal", "condition": "moisture_vwc_bp >= 2800 || soil_temp_mk < 275150" },
+        { "id": "f2_fire", "sourceRef": "eval_rhizosphere_threshold", "targetRef": "lock_water_budget_l3", "condition": "moisture_vwc_bp < 2800 && soil_temp_mk >= 275150" },
+        { "id": "f3", "sourceRef": "lock_water_budget_l3", "targetRef": "gw_cistern_ok" },
+        { "id": "f4_miss", "sourceRef": "gw_cistern_ok", "targetRef": "yield_water_deficit_l5", "condition": "escrow_locked == false" },
+        { "id": "f4_ok", "sourceRef": "gw_cistern_ok", "targetRef": "actuate_drip_valve_l2", "condition": "escrow_locked == true" },
+        { "id": "f5", "sourceRef": "actuate_drip_valve_l2", "targetRef": "await_vwc_recovery" },
+        { "id": "f6", "sourceRef": "await_vwc_recovery", "targetRef": "end_settle" }
+      ]
+    },
+    {
+      "workflow_id": "wf.garden.harvest_pods_and_roots",
+      "workflow_name": "Harvest Mature Pea Pods & Pull Companion Mirepoix Roots into Bucket/Basket",
+      "governed_asset_id": "asset:backyard_pea_and_mirepoix_beds",
+      "fulfills_need_ids": ["need:split_peas", "need:mirepoix_roots"],
+      "automation_mode": "MANUAL_HUMAN_STEWARD",
+      "required_l2_schemas": [],
+      "required_skill_vc": null,
+      "nodes": [
+        {
+          "id": "start",
+          "bpmn_type": "bpmn:StartEvent",
+          "name": "Crop Cohort Reaches Physiological Maturity",
+          "ipc_socket": "l4_l5.sock"
+        },
+        {
+          "id": "task_pick_pods_and_fork_roots",
+          "bpmn_type": "bpmn:UserTask",
+          "name": "Hand-Pick Parchment-Dry Pea Pods from Trellis & Loosen Mirepoix Carrots/Onions",
+          "ipc_socket": "l3_l4.sock",
+          "station_capability": "SOIL_CULTIVATION_BED",
+          "physical_parameters": {
+            "harvested_pea_pods_g": 2400,
+            "harvested_mirepoix_roots_g": 2400,
+            "duration_sim_seconds": 1800
+          }
+        },
+        {
+          "id": "task_haul_harvest_to_kitchen_and_garage",
+          "bpmn_type": "bpmn:UserTask",
+          "name": "Haul Mirepoix Roots to Kitchen Larder & Pea Pods to Dry-Shelling Rack",
+          "ipc_socket": "l3_l4.sock",
+          "station_capability": "KITCHEN_PREP_SINK",
+          "hauling_spec": {
+            "matter_phase": "DISCRETE_SOLID",
+            "total_batch_mass_g": 4800,
+            "preferred_hauling_tools": ["bucket", "BARE_HANDS"]
+          }
+        },
+        {
+          "id": "end_credit_l3",
+          "bpmn_type": "bpmn:EndEvent",
+          "name": "Credit Harvested Pods & Mirepoix Roots to L3 Inventory",
+          "ipc_socket": "l3_l4.sock",
+          "ipc_operation": "L3_CREDIT_PRODUCED_OUTPUTS"
+        }
+      ],
+      "sequence_flows": [
+        { "id": "f1", "sourceRef": "start", "targetRef": "task_pick_pods_and_fork_roots" },
+        { "id": "f2", "sourceRef": "task_pick_pods_and_fork_roots", "targetRef": "task_haul_harvest_to_kitchen_and_garage" },
+        { "id": "f3", "sourceRef": "task_haul_harvest_to_kitchen_and_garage", "targetRef": "end_credit_l3" }
+      ]
+    },
+    {
+      "workflow_id": "wf.garden.shell_dry_and_turn_bed",
+      "workflow_name": "Thresh & Winnow Split Peas, Verify Moisture < 1400 bp & Cut-In Root Nodules",
+      "governed_asset_id": "asset:backyard_pea_and_mirepoix_beds",
+      "fulfills_need_ids": ["need:split_peas", "need:thermophilic_compost"],
+      "automation_mode": "MANUAL_HUMAN_STEWARD",
+      "required_l2_schemas": [],
+      "required_skill_vc": null,
+      "nodes": [
+        {
+          "id": "start",
+          "bpmn_type": "bpmn:StartEvent",
+          "name": "Begin Post-Harvest Pod Shelling & Bed Turnover",
+          "ipc_socket": "l4_l5.sock"
+        },
+        {
+          "id": "task_thresh_and_winnow_pods",
+          "bpmn_type": "bpmn:UserTask",
+          "name": "Shell Dry Pea Pods, Winnow Chaff & Reserve Top 15% Seed Stock for Next Season",
+          "ipc_socket": "l3_l4.sock",
+          "station_capability": "WOODSHOP_JOINERY",
+          "physical_parameters": {
+            "shelled_split_peas_yield_g": 1500,
+            "ecological_seed_stock_reserved_g": 225,
+            "chaff_and_hulls_g": 900,
+            "duration_sim_seconds": 1500
+          }
+        },
+        {
+          "id": "task_verify_pod_moisture_under_1400_bp",
+          "bpmn_type": "bpmn:UserTask",
+          "name": "Cure on Mesh Screens & Verify Seed Moisture < 1400 bp (14.0%) Against Mold Spoilage",
+          "ipc_socket": "l3_l4.sock",
+          "station_capability": "WOODSHOP_JOINERY",
+          "physical_parameters": {
+            "target_register": "seed_moisture_bp",
+            "max_safe_storage_moisture_bp": 1400,
+            "bite_or_capacitance_hygrometer_test": "HARD_SHATTER_NO_DENT",
+            "mycotoxin_prevention_standard": "CODEX_PULSES_MAX_14_PCT_MC",
+            "duration_sim_seconds": 600
+          },
+          "verification_predicate": "seed_moisture_bp < 1400"
+        },
+        {
+          "id": "task_prune_vines_leave_nodules_and_turn_bed",
+          "bpmn_type": "bpmn:UserTask",
+          "name": "Cut Pea Stems at Soil Line (Leaving Nitrogen-Rich Root Nodules Intact) & Haul Haulm to Compost/BSFL",
+          "ipc_socket": "l3_l4.sock",
+          "station_capability": "SOIL_CULTIVATION_BED",
+          "hauling_spec": {
+            "matter_phase": "GRANULAR_PARTICULATE",
+            "total_batch_mass_g": 2800,
+            "preferred_hauling_tools": ["bucket", "wheelbarrow"]
+          },
+          "physical_parameters": {
+            "leave_rhizobium_roots_in_situ": true,
+            "residual_nitrogen_credit_ppm": 25,
+            "duration_sim_seconds": 1200
+          }
+        },
+        {
+          "id": "end_settle",
+          "bpmn_type": "bpmn:EndEvent",
+          "name": "Commit Dry Split Peas (< 1400 bp) & BSFL/Compost Biomass to L3",
+          "ipc_socket": "l3_l4.sock",
+          "ipc_operation": "L3_CREDIT_PRODUCED_OUTPUTS"
+        }
+      ],
+      "sequence_flows": [
+        { "id": "f1", "sourceRef": "start", "targetRef": "task_thresh_and_winnow_pods" },
+        { "id": "f2", "sourceRef": "task_thresh_and_winnow_pods", "targetRef": "task_verify_pod_moisture_under_1400_bp" },
+        { "id": "f3", "sourceRef": "task_verify_pod_moisture_under_1400_bp", "targetRef": "task_prune_vines_leave_nodules_and_turn_bed" },
+        { "id": "f4", "sourceRef": "task_prune_vines_leave_nodules_and_turn_bed", "targetRef": "end_settle" }
+      ]
+    },
+    {
+      "workflow_id": "wf.soup.gather_or_procure_inputs",
+      "workflow_name": "Verify & Stage Pea Soup / Bone Broth Culinary BOM (Yielding Upward to L5 on Stock Miss)",
+      "governed_asset_id": "asset:commons_kitchen_hearth",
+      "fulfills_need_ids": ["need:pea_soup", "need:bone_broth"],
+      "automation_mode": "HYBRID_HUMAN_AND_L2",
+      "required_l2_schemas": [],
+      "required_skill_vc": "Sovereign_Kitchen_Steward_VC",
+      "nodes": [
+        {
+          "id": "start",
+          "bpmn_type": "bpmn:StartEvent",
+          "name": "Receive Culinary Batch Intent via L5 Policy Gate",
+          "ipc_socket": "l4_l5.sock"
+        },
+        {
+          "id": "query_larder_bom_l3",
+          "bpmn_type": "bpmn:ServiceTask",
+          "name": "Query L3 Larder & Microgrid Exergy for Split Peas, Mirepoix, Broth, Eggs & Water",
+          "ipc_socket": "l3_l4.sock",
+          "ipc_operation": "L3_QUERY_AND_LOCK_INVENTORY",
+          "required_inputs": [
+            { "item_id": "item.split_peas_dry", "quantity_g": 600, "matter_phase": "GRANULAR_PARTICULATE" },
+            { "item_id": "item.mirepoix_roots", "quantity_g": 800, "matter_phase": "DISCRETE_SOLID" },
+            { "item_id": "item.bone_broth", "quantity_ml": 1500, "matter_phase": "LIQUID" },
+            { "item_id": "item.potable_water", "quantity_ml": 1800, "matter_phase": "LIQUID" }
+          ]
+        },
+        {
+          "id": "gw_all_inputs_present",
+          "bpmn_type": "bpmn:ExclusiveGateway",
+          "name": "All BOM Inputs & Exergy Escrowed Locally?"
+        },
+        {
+          "id": "yield_upward_l5_stock_miss",
+          "bpmn_type": "bpmn:IntermediateThrowEvent",
+          "name": "Emit YIELD_UPWARD_L5 Over l4_l5.sock (L5 Evaluates R1_MESH -> L7_FALLBACK)",
+          "ipc_socket": "l4_l5.sock",
+          "ipc_signal": "YIELD_UPWARD_L5",
+          "deficit_needs": ["need:split_peas", "need:mirepoix_roots", "need:bone_broth", "need:potable_water"]
+        },
+        {
+          "id": "task_stage_mise_en_place",
+          "bpmn_type": "bpmn:UserTask",
+          "name": "Rinse Split Peas, Inspect for Field Pebbles & Stage Mise-en-Place at Kitchen Counter",
+          "ipc_socket": "l3_l4.sock",
+          "station_capability": "KITCHEN_PREP_SINK",
+          "physical_parameters": {
+            "stone_and_debris_cull_check": true,
+            "duration_sim_seconds": 600
+          }
+        },
+        {
+          "id": "end_staged",
+          "bpmn_type": "bpmn:EndEvent",
+          "name": "Culinary BOM Staged & Escrowed in L3",
+          "ipc_socket": "l3_l4.sock",
+          "ipc_operation": "L3_CONFIRM_STAGED_ESCROW"
+        }
+      ],
+      "sequence_flows": [
+        { "id": "f1", "sourceRef": "start", "targetRef": "query_larder_bom_l3" },
+        { "id": "f2", "sourceRef": "query_larder_bom_l3", "targetRef": "gw_all_inputs_present" },
+        { "id": "f3_miss", "sourceRef": "gw_all_inputs_present", "targetRef": "yield_upward_l5_stock_miss", "condition": "escrow_locked == false" },
+        { "id": "f3_ok", "sourceRef": "gw_all_inputs_present", "targetRef": "task_stage_mise_en_place", "condition": "escrow_locked == true" },
+        { "id": "f4", "sourceRef": "task_stage_mise_en_place", "targetRef": "end_staged" }
+      ]
+    },
+    {
+      "workflow_id": "wf.soup.simmer_bone_broth",
+      "workflow_name": "Roast Poultry Frames, 24-Hour Acid-Assisted Collagen Simmer & Spent-Bone Calcining",
+      "governed_asset_id": "asset:commons_kitchen_hearth",
+      "fulfills_need_ids": ["need:bone_broth"],
+      "automation_mode": "HYBRID_HUMAN_AND_L2",
+      "required_l2_schemas": ["l2.schema.culinary_vessel.v1"],
+      "required_skill_vc": "Sovereign_Kitchen_Steward_VC",
+      "nodes": [
+        {
+          "id": "start",
+          "bpmn_type": "bpmn:StartEvent",
+          "name": "Start 24-Hour Collagen Bone Broth Extraction",
+          "ipc_socket": "l4_l5.sock"
+        },
+        {
+          "id": "lock_broth_inputs_l3",
+          "bpmn_type": "bpmn:ServiceTask",
+          "name": "Lock Poultry Bones, Mirepoix Trimmings, Potable Water & 6.48 MJ Exergy in L3",
+          "ipc_socket": "l3_l4.sock",
+          "ipc_operation": "L3_QUERY_AND_LOCK_INVENTORY",
+          "required_inputs": [
+            { "item_id": "item.poultry_bones_raw", "quantity_g": 1200, "matter_phase": "DISCRETE_SOLID" },
+            { "item_id": "item.potable_water", "quantity_ml": 3800, "matter_phase": "LIQUID" }
+          ]
+        },
+        {
+          "id": "gw_broth_ok",
+          "bpmn_type": "bpmn:ExclusiveGateway",
+          "name": "Bones & Water Escrowed?"
+        },
+        {
+          "id": "yield_broth_l5",
+          "bpmn_type": "bpmn:IntermediateThrowEvent",
+          "name": "Yield Broth Precursor Miss Upward to L5",
+          "ipc_socket": "l4_l5.sock",
+          "ipc_signal": "YIELD_UPWARD_L5",
+          "deficit_needs": ["need:bone_broth", "need:potable_water"]
+        },
+        {
+          "id": "task_charge_cauldron_and_acidulate",
+          "bpmn_type": "bpmn:UserTask",
+          "name": "Blanch & Skim Bones, Add Mirepoix Trimmings + 30 ml Cider Vinegar & Set Induction Simmer",
+          "ipc_socket": "l3_l4.sock",
+          "station_capability": "CULINARY_HEAT_SOURCE",
+          "hauling_spec": {
+            "matter_phase": "LIQUID",
+            "total_batch_volume_ml": 3800,
+            "required_hauling_tools": ["bucket", "tiffin_carrier"]
+          },
+          "physical_parameters": {
+            "target_core_temp_mk": 361150,
+            "heater_power_steady_mw": 280000,
+            "acetic_acid_decalcification_ml": 30,
+            "duration_sim_seconds": 1200
+          }
+        },
+        {
+          "id": "verify_pasteurization_and_collagen_hold",
+          "bpmn_type": "bpmn:ServiceTask",
+          "name": "Verify core_temp_mk >= 347150 && pasteurization_hold_s >= 120 (Up to 86400 s Full Hydrolysis)",
+          "ipc_socket": "l3_l4.sock",
+          "l2_target_schema": "l2.schema.culinary_vessel.v1",
+          "verification_predicate": "core_temp_mk >= 347150 && pasteurization_hold_s >= 120 && volume_ml >= 2500"
+        },
+        {
+          "id": "task_strain_broth_and_crush_calcined_bones",
+          "bpmn_type": "bpmn:UserTask",
+          "name": "Strain Golden Stock into Jars & Crush Friable Demineralized Bones into Calcium Grit",
+          "ipc_socket": "l3_l4.sock",
+          "station_capability": "CULINARY_HEAT_SOURCE",
+          "physical_parameters": {
+            "bone_broth_yield_ml": 3000,
+            "bone_ash_calcium_grit_yield_g": 450,
+            "duration_sim_seconds": 900
+          }
+        },
+        {
+          "id": "end_settle",
+          "bpmn_type": "bpmn:EndEvent",
+          "name": "Credit 3,000 ml Bone Broth & 450 g Calcium Grit to L3",
+          "ipc_socket": "l3_l4.sock",
+          "ipc_operation": "L3_CREDIT_PRODUCED_OUTPUTS"
+        }
+      ],
+      "sequence_flows": [
+        { "id": "f1", "sourceRef": "start", "targetRef": "lock_broth_inputs_l3" },
+        { "id": "f2", "sourceRef": "lock_broth_inputs_l3", "targetRef": "gw_broth_ok" },
+        { "id": "f3_miss", "sourceRef": "gw_broth_ok", "targetRef": "yield_broth_l5", "condition": "escrow_locked == false" },
+        { "id": "f3_ok", "sourceRef": "gw_broth_ok", "targetRef": "task_charge_cauldron_and_acidulate", "condition": "escrow_locked == true" },
+        { "id": "f4", "sourceRef": "task_charge_cauldron_and_acidulate", "targetRef": "verify_pasteurization_and_collagen_hold" },
+        { "id": "f5", "sourceRef": "verify_pasteurization_and_collagen_hold", "targetRef": "task_strain_broth_and_crush_calcined_bones" },
+        { "id": "f6", "sourceRef": "task_strain_broth_and_crush_calcined_bones", "targetRef": "end_settle" }
+      ]
+    },
+    {
+      "workflow_id": "wf.soup.prep_and_simmer_pea_soup",
+      "workflow_name": "Sweat Mirepoix, Simmer Split-Pea & Bone-Broth Potage & Verify Bigelow Pasteurization",
+      "governed_asset_id": "asset:commons_kitchen_hearth",
+      "fulfills_need_ids": ["need:pea_soup"],
+      "automation_mode": "HYBRID_HUMAN_AND_L2",
+      "required_l2_schemas": ["l2.schema.culinary_vessel.v1"],
+      "required_skill_vc": "Sovereign_Kitchen_Steward_VC",
+      "nodes": [
+        {
+          "id": "start",
+          "bpmn_type": "bpmn:StartEvent",
+          "name": "Begin Split-Pea Soup Batch Cooking",
+          "ipc_socket": "l4_l5.sock"
+        },
+        {
+          "id": "task_dice_and_sweat_mirepoix",
+          "bpmn_type": "bpmn:UserTask",
+          "name": "Brunoise Carrots, Onions, Celery & Garlic; Sweat Translucent at 1,200 W & Route Peelings to BSFL/Compost",
+          "ipc_socket": "l3_l4.sock",
+          "station_capability": "CULINARY_HEAT_SOURCE",
+          "physical_parameters": {
+            "heater_power_mw": 1200000,
+            "peelings_to_compost_g": 180,
+            "duration_sim_seconds": 900
+          }
+        },
+        {
+          "id": "task_charge_peas_and_broth_simmer",
+          "bpmn_type": "bpmn:UserTask",
+          "name": "Add Rinsed Split Peas, Bone Broth, Water & Bay Leaf; Simmer Until Starch Gelatinizes & Fold Poached Eggs",
+          "ipc_socket": "l3_l4.sock",
+          "station_capability": "CULINARY_HEAT_SOURCE",
+          "physical_parameters": {
+            "target_core_temp_mk": 366150,
+            "heater_power_simmer_mw": 650000,
+            "target_volume_ml": 4000,
+            "duration_sim_seconds": 2700
+          }
+        },
+        {
+          "id": "verify_bigelow_lethality_l2",
+          "bpmn_type": "bpmn:ServiceTask",
+          "name": "Verify Pasteurization Hold: core_temp_mk >= 347150 mK for pasteurization_hold_s >= 120 s",
+          "ipc_socket": "l3_l4.sock",
+          "l2_target_schema": "l2.schema.culinary_vessel.v1",
+          "verification_predicate": "core_temp_mk >= 347150 && pasteurization_hold_s >= 120"
+        },
+        {
+          "id": "end_settle",
+          "bpmn_type": "bpmn:EndEvent",
+          "name": "Certify 4,000 ml Pasteurized Pea Soup Batch in L3",
+          "ipc_socket": "l3_l4.sock",
+          "ipc_operation": "L3_CREDIT_PRODUCED_OUTPUTS"
+        }
+      ],
+      "sequence_flows": [
+        { "id": "f1", "sourceRef": "start", "targetRef": "task_dice_and_sweat_mirepoix" },
+        { "id": "f2", "sourceRef": "task_dice_and_sweat_mirepoix", "targetRef": "task_charge_peas_and_broth_simmer" },
+        { "id": "f3", "sourceRef": "task_charge_peas_and_broth_simmer", "targetRef": "verify_bigelow_lethality_l2" },
+        { "id": "f4", "sourceRef": "verify_bigelow_lethality_l2", "targetRef": "end_settle" }
+      ]
+    },
+    {
+      "workflow_id": "wf.soup.package_and_distribute_tiffins",
+      "workflow_name": "Ladle Hot Pea Soup into 304-Stainless Tiffin Carriers & Distribute per L5 Policy",
+      "governed_asset_id": "asset:commons_kitchen_hearth",
+      "fulfills_need_ids": ["need:pea_soup"],
+      "automation_mode": "MANUAL_HUMAN_STEWARD",
+      "required_l2_schemas": [],
+      "required_skill_vc": "Sovereign_Kitchen_Steward_VC",
+      "nodes": [
+        {
+          "id": "start",
+          "bpmn_type": "bpmn:StartEvent",
+          "name": "Initiate Tiffin Packaging & Commons Distribution",
+          "ipc_socket": "l4_l5.sock"
+        },
+        {
+          "id": "lock_soup_batch_l3",
+          "bpmn_type": "bpmn:ServiceTask",
+          "name": "Lock 2,000 ml Pasteurized Pea Soup Surplus Above R0 Floor in L3",
+          "ipc_socket": "l3_l4.sock",
+          "ipc_operation": "L3_QUERY_AND_LOCK_INVENTORY",
+          "required_inputs": [
+            { "item_id": "item.pea_soup", "quantity_ml": 2000, "matter_phase": "LIQUID" }
+          ]
+        },
+        {
+          "id": "gw_soup_ready",
+          "bpmn_type": "bpmn:ExclusiveGateway",
+          "name": "Pasteurized Soup Surplus Available?"
+        },
+        {
+          "id": "yield_soup_miss_l5",
+          "bpmn_type": "bpmn:IntermediateThrowEvent",
+          "name": "Yield Soup Deficit Upward to L5",
+          "ipc_socket": "l4_l5.sock",
+          "ipc_signal": "YIELD_UPWARD_L5",
+          "deficit_needs": ["need:pea_soup"]
+        },
+        {
+          "id": "task_ladle_and_haul_tiffins",
+          "bpmn_type": "bpmn:UserTask",
+          "name": "Hot-Fill Insulated 304-Stainless Tiffin Carrier (>= 338,150 mK) & Haul to Front Porch / R1 Hand-Off",
+          "ipc_socket": "l3_l4.sock",
+          "station_capability": "COMMONS_TIFFIN_HANDOFF",
+          "hauling_spec": {
+            "matter_phase": "LIQUID",
+            "total_batch_volume_ml": 2000,
+            "total_batch_mass_g": 2160,
+            "required_hauling_tools": ["tiffin_carrier", "cargo_etrike"],
+            "bare_hand_liquid_capacity_ml": 0
+          },
+          "physical_parameters": {
+            "hot_hold_fill_temp_min_mk": 338150,
+            "tiffin_count": 4,
+            "duration_sim_seconds": 900
+          }
+        },
+        {
+          "id": "report_distribution_l5",
+          "bpmn_type": "bpmn:ServiceTask",
+          "name": "Report Tiffin Hand-Off Proof to L3 BCC Ledger & L5 Reputation Account",
+          "ipc_socket": "l4_l5.sock",
+          "ipc_operation": "L5_RECORD_COMMONS_FULFILLMENT"
+        },
+        {
+          "id": "end_settle",
+          "bpmn_type": "bpmn:EndEvent",
+          "name": "Settle Tiffin Transfer & Returnable Vessel Deposit in L3",
+          "ipc_socket": "l3_l4.sock",
+          "ipc_operation": "L3_SETTLE_ESCROW"
+        }
+      ],
+      "sequence_flows": [
+        { "id": "f1", "sourceRef": "start", "targetRef": "lock_soup_batch_l3" },
+        { "id": "f2", "sourceRef": "lock_soup_batch_l3", "targetRef": "gw_soup_ready" },
+        { "id": "f3_miss", "sourceRef": "gw_soup_ready", "targetRef": "yield_soup_miss_l5", "condition": "escrow_locked == false" },
+        { "id": "f3_ok", "sourceRef": "gw_soup_ready", "targetRef": "task_ladle_and_haul_tiffins", "condition": "escrow_locked == true" },
+        { "id": "f4", "sourceRef": "task_ladle_and_haul_tiffins", "targetRef": "report_distribution_l5" },
+        { "id": "f5", "sourceRef": "report_distribution_l5", "targetRef": "end_settle" }
+      ]
+    },
+    {
+      "workflow_id": "wf.fab.mill_raised_bed_frame",
+      "workflow_name": "Dimension Cedar Planks, Cut Mortise-and-Tenon Corners & Haul Raised Bed Frame to Backyard",
+      "governed_asset_id": "asset:garage_woodshop_alpha",
+      "fulfills_need_ids": ["need:raised_bed_frame"],
+      "automation_mode": "MANUAL_HUMAN_STEWARD",
+      "required_l2_schemas": [],
+      "required_skill_vc": "Solar_Grid_Apprentice_VC",
+      "nodes": [
+        {
+          "id": "start",
+          "bpmn_type": "bpmn:StartEvent",
+          "name": "Start Raised Bed & Trellis Frame Joinery",
+          "ipc_socket": "l4_l5.sock"
+        },
+        {
+          "id": "lock_lumber_l3",
+          "bpmn_type": "bpmn:ServiceTask",
+          "name": "Lock 8 Cedar Planks & 2.88 MJ Woodshop Electrical Exergy in L3",
+          "ipc_socket": "l3_l4.sock",
+          "ipc_operation": "L3_QUERY_AND_LOCK_INVENTORY",
+          "required_inputs": [
+            { "item_id": "item.cedar_plank", "quantity_units": 8, "matter_phase": "DISCRETE_SOLID" }
+          ]
+        },
+        {
+          "id": "gw_lumber_ok",
+          "bpmn_type": "bpmn:ExclusiveGateway",
+          "name": "Cedar Stock Available?"
+        },
+        {
+          "id": "yield_lumber_l5",
+          "bpmn_type": "bpmn:IntermediateThrowEvent",
+          "name": "Yield Timber Stock Miss Upward to L5",
+          "ipc_socket": "l4_l5.sock",
+          "ipc_signal": "YIELD_UPWARD_L5",
+          "deficit_needs": ["need:raised_bed_frame"]
+        },
+        {
+          "id": "task_mill_mortise_and_tenon",
+          "bpmn_type": "bpmn:UserTask",
+          "name": "Plane Cedar Stock, Chisel Through-Mortises & Pin Corner Posts Within 550 cb Daytime Envelope",
+          "ipc_socket": "l3_l4.sock",
+          "station_capability": "WOODSHOP_JOINERY",
+          "physical_parameters": {
+            "assembled_frame_mass_g": 32000,
+            "trellis_subkit_mass_g": 18500,
+            "max_acoustic_emission_cb": 540,
+            "sawdust_routed_to_compost_g": 1400,
+            "duration_sim_seconds": 3600
+          }
+        },
+        {
+          "id": "task_haul_and_level_bed_frame",
+          "bpmn_type": "bpmn:UserTask",
+          "name": "Transport 32 kg Cedar Raised Bed Frame to Backyard & Level on Compacted Footprint",
+          "ipc_socket": "l3_l4.sock",
+          "station_capability": "SOIL_CULTIVATION_BED",
+          "hauling_spec": {
+            "matter_phase": "DISCRETE_SOLID",
+            "total_batch_mass_g": 32000,
+            "preferred_hauling_tools": ["wheelbarrow", "hand_dolly", "BARE_HANDS"]
+          },
+          "physical_parameters": {
+            "spirit_level_tolerance_mm_per_m": 3,
+            "duration_sim_seconds": 1200
+          }
+        },
+        {
+          "id": "end_settle",
+          "bpmn_type": "bpmn:EndEvent",
+          "name": "Register Installed Raised Bed Frame & Trellis Kit in L3",
+          "ipc_socket": "l3_l4.sock",
+          "ipc_operation": "L3_CREDIT_PRODUCED_OUTPUTS"
+        }
+      ],
+      "sequence_flows": [
+        { "id": "f1", "sourceRef": "start", "targetRef": "lock_lumber_l3" },
+        { "id": "f2", "sourceRef": "lock_lumber_l3", "targetRef": "gw_lumber_ok" },
+        { "id": "f3_miss", "sourceRef": "gw_lumber_ok", "targetRef": "yield_lumber_l5", "condition": "escrow_locked == false" },
+        { "id": "f3_ok", "sourceRef": "gw_lumber_ok", "targetRef": "task_mill_mortise_and_tenon", "condition": "escrow_locked == true" },
+        { "id": "f4", "sourceRef": "task_mill_mortise_and_tenon", "targetRef": "task_haul_and_level_bed_frame" },
+        { "id": "f5", "sourceRef": "task_haul_and_level_bed_frame", "targetRef": "end_settle" }
+      ]
+    },
+    {
+      "workflow_id": "wf.fab.assemble_compost_and_kiln",
+      "workflow_name": "Fabricate Insulated Thermophilic Compost Drum & Smokeless TLUD Kiln (Heavy-Mass Dolly/Wheelbarrow Haul)",
+      "governed_asset_id": "asset:compost_and_pyrolysis_bay",
+      "fulfills_need_ids": ["need:thermophilic_compost", "need:pyrolysis_biochar"],
+      "automation_mode": "MANUAL_HUMAN_STEWARD",
+      "required_l2_schemas": [],
+      "required_skill_vc": "Biochar_Kiln_Operator_VC",
+      "nodes": [
+        {
+          "id": "start",
+          "bpmn_type": "bpmn:StartEvent",
+          "name": "Initiate Compost Drum & TLUD Retort Fabrication",
+          "ipc_socket": "l4_l5.sock"
+        },
+        {
+          "id": "lock_steel_and_timber_l3",
+          "bpmn_type": "bpmn:ServiceTask",
+          "name": "Lock Drum Staves, Steel Retort Cylinder & Fasteners in L3",
+          "ipc_socket": "l3_l4.sock",
+          "ipc_operation": "L3_QUERY_AND_LOCK_INVENTORY",
+          "required_inputs": [
+            { "item_id": "item.cedar_plank", "quantity_units": 6, "matter_phase": "DISCRETE_SOLID" }
+          ]
+        },
+        {
+          "id": "gw_materials_ok",
+          "bpmn_type": "bpmn:ExclusiveGateway",
+          "name": "Fabrication Stock Escrowed?"
+        },
+        {
+          "id": "yield_materials_l5",
+          "bpmn_type": "bpmn:IntermediateThrowEvent",
+          "name": "Yield Fabrication Deficit Upward to L5",
+          "ipc_socket": "l4_l5.sock",
+          "ipc_signal": "YIELD_UPWARD_L5",
+          "deficit_needs": ["need:thermophilic_compost", "need:pyrolysis_biochar"]
+        },
+        {
+          "id": "task_assemble_drum_and_tlud_in_garage",
+          "bpmn_type": "bpmn:UserTask",
+          "name": "Assemble 74 kg Insulated Rotating Compost Drum & 68 kg Concentric Secondary-Air TLUD Kiln at Garage Workbench",
+          "ipc_socket": "l3_l4.sock",
+          "station_capability": "WOODSHOP_JOINERY",
+          "physical_parameters": {
+            "compost_drum_mass_g": 74000,
+            "tlud_kiln_mass_g": 68000,
+            "tlud_primary_to_secondary_air_ratio": "1_TO_4_CONCENTRIC_DRAFT",
+            "duration_sim_seconds": 4200
+          }
+        },
+        {
+          "id": "task_heavy_haul_with_wheelbarrow_or_dolly",
+          "bpmn_type": "bpmn:UserTask",
+          "name": "Acquire Wheelbarrow or Hand Dolly & Roll Heavy Kiln (68 kg) + Compost Drum (74 kg) to Rear Yard Pad",
+          "ipc_socket": "l3_l4.sock",
+          "station_capability": "COMPOST_AND_PYROLYSIS_PAD",
+          "hauling_spec": {
+            "matter_phase": "DISCRETE_SOLID",
+            "unit_masses_g": [68000, 74000],
+            "exceeds_bare_hand_lift_limit_g": 40000,
+            "required_hauling_tools": ["wheelbarrow", "hand_dolly", "cargo_etrike", "forklift"],
+            "bare_hands_prohibited": true
+          },
+          "physical_parameters": {
+            "fire_safe_clearance_radius_mm": 1500,
+            "duration_sim_seconds": 1500
+          }
+        },
+        {
+          "id": "end_settle",
+          "bpmn_type": "bpmn:EndEvent",
+          "name": "Commission Compost Drum & TLUD Kiln in L3",
+          "ipc_socket": "l3_l4.sock",
+          "ipc_operation": "L3_CREDIT_PRODUCED_OUTPUTS"
+        }
+      ],
+      "sequence_flows": [
+        { "id": "f1", "sourceRef": "start", "targetRef": "lock_steel_and_timber_l3" },
+        { "id": "f2", "sourceRef": "lock_steel_and_timber_l3", "targetRef": "gw_materials_ok" },
+        { "id": "f3_miss", "sourceRef": "gw_materials_ok", "targetRef": "yield_materials_l5", "condition": "escrow_locked == false" },
+        { "id": "f3_ok", "sourceRef": "gw_materials_ok", "targetRef": "task_assemble_drum_and_tlud_in_garage", "condition": "escrow_locked == true" },
+        { "id": "f4", "sourceRef": "task_assemble_drum_and_tlud_in_garage", "targetRef": "task_heavy_haul_with_wheelbarrow_or_dolly" },
+        { "id": "f5", "sourceRef": "task_heavy_haul_with_wheelbarrow_or_dolly", "targetRef": "end_settle" }
+      ]
+    },
+    {
+      "workflow_id": "wf.fab.build_poultry_coop",
+      "workflow_name": "Build Elevated Timber Poultry Coop & BSFL Bioconversion Feeder (115 kg Heavy-Mass Haul)",
+      "governed_asset_id": "asset:backyard_poultry_coop",
+      "fulfills_need_ids": ["need:pasture_eggs"],
+      "automation_mode": "MANUAL_HUMAN_STEWARD",
+      "required_l2_schemas": [],
+      "required_skill_vc": "Solar_Grid_Apprentice_VC",
+      "nodes": [
+        {
+          "id": "start",
+          "bpmn_type": "bpmn:StartEvent",
+          "name": "Initiate Backyard Poultry Coop Construction",
+          "ipc_socket": "l4_l5.sock"
+        },
+        {
+          "id": "lock_coop_timber_l3",
+          "bpmn_type": "bpmn:ServiceTask",
+          "name": "Lock 12 Cedar/Fir Planks, Hardware Cloth & Biochar Litter Starter in L3",
+          "ipc_socket": "l3_l4.sock",
+          "ipc_operation": "L3_QUERY_AND_LOCK_INVENTORY",
+          "required_inputs": [
+            { "item_id": "item.cedar_plank", "quantity_units": 12, "matter_phase": "DISCRETE_SOLID" },
+            { "item_id": "item.pyrolysis_biochar", "quantity_g": 2000, "matter_phase": "GRANULAR_PARTICULATE" }
+          ]
+        },
+        {
+          "id": "gw_coop_stock_ok",
+          "bpmn_type": "bpmn:ExclusiveGateway",
+          "name": "Coop Materials Escrowed?"
+        },
+        {
+          "id": "yield_coop_l5",
+          "bpmn_type": "bpmn:IntermediateThrowEvent",
+          "name": "Yield Coop Timber/Biochar Deficit Upward to L5",
+          "ipc_socket": "l4_l5.sock",
+          "ipc_signal": "YIELD_UPWARD_L5",
+          "deficit_needs": ["need:raised_bed_frame", "need:pyrolysis_biochar"]
+        },
+        {
+          "id": "task_frame_coop_and_bsfl_ramp",
+          "bpmn_type": "bpmn:UserTask",
+          "name": "Frame 115 kg Predator-Proof Elevated Coop, Roost Bars, Nest Boxes & Self-Harvesting BSFL Larvae Ramp",
+          "ipc_socket": "l3_l4.sock",
+          "station_capability": "WOODSHOP_JOINERY",
+          "physical_parameters": {
+            "coop_module_mass_g": 115000,
+            "hardware_cloth_gauge_mm": 1.6,
+            "bsfl_self_harvest_ramp_angle_deg": 38,
+            "duration_sim_seconds": 5400
+          }
+        },
+        {
+          "id": "task_heavy_haul_coop_to_pasture",
+          "bpmn_type": "bpmn:UserTask",
+          "name": "Transport 115 kg Coop Module via Hand Dolly or Wheelbarrow to Backyard Run & Bed with Ammonia-Locking Biochar",
+          "ipc_socket": "l3_l4.sock",
+          "station_capability": "POULTRY_PASTURE_RUN",
+          "hauling_spec": {
+            "matter_phase": "DISCRETE_SOLID",
+            "total_batch_mass_g": 115000,
+            "exceeds_bare_hand_lift_limit_g": 40000,
+            "required_hauling_tools": ["hand_dolly", "wheelbarrow", "cargo_etrike", "forklift"],
+            "bare_hands_prohibited": true
+          },
+          "physical_parameters": {
+            "initial_biochar_litter_depth_mm": 80,
+            "target_nh3_ammonia_max_ppm": 5,
+            "duration_sim_seconds": 1800
+          }
+        },
+        {
+          "id": "end_settle",
+          "bpmn_type": "bpmn:EndEvent",
+          "name": "Register Active Backyard Poultry Coop in L3",
+          "ipc_socket": "l3_l4.sock",
+          "ipc_operation": "L3_CREDIT_PRODUCED_OUTPUTS"
+        }
+      ],
+      "sequence_flows": [
+        { "id": "f1", "sourceRef": "start", "targetRef": "lock_coop_timber_l3" },
+        { "id": "f2", "sourceRef": "lock_coop_timber_l3", "targetRef": "gw_coop_stock_ok" },
+        { "id": "f3_miss", "sourceRef": "gw_coop_stock_ok", "targetRef": "yield_coop_l5", "condition": "escrow_locked == false" },
+        { "id": "f3_ok", "sourceRef": "gw_coop_stock_ok", "targetRef": "task_frame_coop_and_bsfl_ramp", "condition": "escrow_locked == true" },
+        { "id": "f4", "sourceRef": "task_frame_coop_and_bsfl_ramp", "targetRef": "task_heavy_haul_coop_to_pasture" },
+        { "id": "f5", "sourceRef": "task_heavy_haul_coop_to_pasture", "targetRef": "end_settle" }
+      ]
+    },
+    {
+      "workflow_id": "wf.fab.fulfill_l7_custom_woodwork",
+      "workflow_name": "Mill & Oil-Finish Custom Mortised Joinery Commission for L5-Authorized Bill-Offset Surplus",
+      "governed_asset_id": "asset:garage_woodshop_alpha",
+      "fulfills_need_ids": ["need:raised_bed_frame"],
+      "automation_mode": "MANUAL_HUMAN_STEWARD",
+      "required_l2_schemas": [],
+      "required_skill_vc": "Solar_Grid_Apprentice_VC",
+      "nodes": [
+        {
+          "id": "start",
+          "bpmn_type": "bpmn:StartEvent",
+          "name": "Receive L5-Authorized Surplus Joinery Work Order Over l4_l5.sock",
+          "ipc_socket": "l4_l5.sock"
+        },
+        {
+          "id": "lock_surplus_timber_l3",
+          "bpmn_type": "bpmn:ServiceTask",
+          "name": "Lock Seasoned Timber Above R0/R1 Reserve Floor & 3.6 MJ Exergy in L3",
+          "ipc_socket": "l3_l4.sock",
+          "ipc_operation": "L3_QUERY_AND_LOCK_INVENTORY",
+          "required_inputs": [
+            { "item_id": "item.cedar_plank", "quantity_units": 10, "matter_phase": "DISCRETE_SOLID" }
+          ]
+        },
+        {
+          "id": "gw_surplus_ok",
+          "bpmn_type": "bpmn:ExclusiveGateway",
+          "name": "Surplus Timber & Acoustic Window Valid?"
+        },
+        {
+          "id": "yield_surplus_miss_l5",
+          "bpmn_type": "bpmn:IntermediateThrowEvent",
+          "name": "Yield Timber Deficit or Quiet-Hours Deferral Upward to L5",
+          "ipc_socket": "l4_l5.sock",
+          "ipc_signal": "YIELD_UPWARD_L5",
+          "deficit_needs": ["need:raised_bed_frame"]
+        },
+        {
+          "id": "task_verify_lumber_mc_and_mill_joinery",
+          "bpmn_type": "bpmn:UserTask",
+          "name": "Verify Kiln-Dried Lumber Moisture (800..1200 bp), Cut Precision Mortise-and-Tenon Joinery & Apply Linseed-Beeswax Finish",
+          "ipc_socket": "l3_l4.sock",
+          "station_capability": "WOODSHOP_JOINERY",
+          "physical_parameters": {
+            "wood_moisture_min_bp": 800,
+            "wood_moisture_max_bp": 1200,
+            "dimensional_tolerance_um": 500,
+            "finish_voc_free": "POLYMERIZED_LINSEED_AND_BEESWAX",
+            "finished_piece_mass_g": 48000,
+            "max_daytime_acoustic_cb": 550,
+            "duration_sim_seconds": 5400
+          }
+        },
+        {
+          "id": "task_dolly_stage_at_driveway_pickup",
+          "bpmn_type": "bpmn:UserTask",
+          "name": "Roll 48 kg Finished Joinery Piece on Hand Dolly to Garage Driveway Apron for Pickup",
+          "ipc_socket": "l3_l4.sock",
+          "station_capability": "DRIVEWAY_LOADING_APRON",
+          "hauling_spec": {
+            "matter_phase": "DISCRETE_SOLID",
+            "total_batch_mass_g": 48000,
+            "exceeds_bare_hand_lift_limit_g": 40000,
+            "required_hauling_tools": ["hand_dolly", "cargo_etrike", "forklift"],
+            "bare_hands_prohibited": true
+          },
+          "physical_parameters": {
+            "duration_sim_seconds": 600
+          }
+        },
+        {
+          "id": "notify_l5_completion_for_upward_settlement",
+          "bpmn_type": "bpmn:ServiceTask",
+          "name": "Emit Fabrication Completion Proof Over l4_l5.sock (L5->L6->L7 Settles Bill-Offset Invoice)",
+          "ipc_socket": "l4_l5.sock",
+          "ipc_operation": "L5_REPORT_SURPLUS_ORDER_READY"
+        },
+        {
+          "id": "end_settle",
+          "bpmn_type": "bpmn:EndEvent",
+          "name": "Release L3 Material Escrow & Log Embodied Exergy",
+          "ipc_socket": "l3_l4.sock",
+          "ipc_operation": "L3_SETTLE_ESCROW"
+        }
+      ],
+      "sequence_flows": [
+        { "id": "f1", "sourceRef": "start", "targetRef": "lock_surplus_timber_l3" },
+        { "id": "f2", "sourceRef": "lock_surplus_timber_l3", "targetRef": "gw_surplus_ok" },
+        { "id": "f3_miss", "sourceRef": "gw_surplus_ok", "targetRef": "yield_surplus_miss_l5", "condition": "escrow_locked == false" },
+        { "id": "f3_ok", "sourceRef": "gw_surplus_ok", "targetRef": "task_verify_lumber_mc_and_mill_joinery", "condition": "escrow_locked == true" },
+        { "id": "f4", "sourceRef": "task_verify_lumber_mc_and_mill_joinery", "targetRef": "task_dolly_stage_at_driveway_pickup" },
+        { "id": "f5", "sourceRef": "task_dolly_stage_at_driveway_pickup", "targetRef": "notify_l5_completion_for_upward_settlement" },
+        { "id": "f6", "sourceRef": "notify_l5_completion_for_upward_settlement", "targetRef": "end_settle" }
+      ]
+    }
+  ]
+}

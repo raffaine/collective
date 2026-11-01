@@ -55,20 +55,28 @@ emcmake cmake .. \
 echo "Compiling via emmake..."
 emmake make -j4
 
-# Stamp cache-busting version on oasis_engine.js and create index.html so both / and /oasis_engine.html work
+# Stamp cache-busting version on oasis_engine.js + modular web assets and create index.html
 CACHE_VER="$(date +%s)"
-python3 -c "
-import pathlib
-p = pathlib.Path('oasis_engine.html')
+CACHE_VER="$CACHE_VER" python3 - <<'PY'
+import os, pathlib, re
+ver = os.environ["CACHE_VER"]
+p = pathlib.Path("oasis_engine.html")
 txt = p.read_text()
-txt = txt.replace('src=\"oasis_engine.js\"', f'src=\"oasis_engine.js?v=${CACHE_VER}\"')
+txt = txt.replace('src="oasis_engine.js"', f'src="oasis_engine.js?v={ver}"')
+txt = txt.replace('href="web/css/oasis.css"', f'href="web/css/oasis.css?v={ver}"')
+txt = re.sub(r'src="(web/js/[^"]+\.js)"', rf'src="\1?v={ver}"', txt)
 p.write_text(txt)
-pathlib.Path('index.html').write_text(txt)
-"
+pathlib.Path("index.html").write_text(txt)
+PY
 
-# Bundle Layer 6 Cadastral Companion, Layer 4 BPMN Workflow Designer, and Layer 5 Governance Manager into build_wasm/web/
-mkdir -p web/companion web/orchestrator web/governance
-cp -f "$SCRIPT_DIR/web/companion/"* web/companion/ 2>/dev/null || true
+# Bundle modular CSS/JS, L6 Commons Companion, L4/L5 web tools, and data/ catalogs into build_wasm/
+mkdir -p web/css web/js web/companion web/orchestrator web/governance data
+cp -Rf "$SCRIPT_DIR/web/css/"* web/css/ 2>/dev/null || true
+cp -Rf "$SCRIPT_DIR/web/js/"* web/js/ 2>/dev/null || true
+cp -Rf "$SCRIPT_DIR/web/companion/"* web/companion/ 2>/dev/null || true
+if [ -d "$SCRIPT_DIR/../data" ]; then
+    cp -Rf "$SCRIPT_DIR/../data/"* data/ 2>/dev/null || true
+fi
 cp -f "$SCRIPT_DIR/../../3_ledger/node_proxies.json" web/companion/ 2>/dev/null || true
 cp -f "$SCRIPT_DIR/../../4_orchestrator/web/"* web/orchestrator/ 2>/dev/null || true
 cp -f "$SCRIPT_DIR/../../4_orchestrator/workflows/"*.json web/orchestrator/ 2>/dev/null || true
@@ -81,8 +89,9 @@ cp -f "$SCRIPT_DIR/../../4_orchestrator/workflows/"*.json web/governance/ 2>/dev
 # Also keep build_native synchronized if it exists so servers running from either directory serve identical artifacts
 if [ -d "$SCRIPT_DIR/build_native" ]; then
     cp -f oasis_engine.html oasis_engine.js oasis_engine.wasm index.html "$SCRIPT_DIR/build_native/" 2>/dev/null || true
-    mkdir -p "$SCRIPT_DIR/build_native/web"
+    mkdir -p "$SCRIPT_DIR/build_native/web" "$SCRIPT_DIR/build_native/data"
     cp -Rf web/* "$SCRIPT_DIR/build_native/web/" 2>/dev/null || true
+    cp -Rf data/* "$SCRIPT_DIR/build_native/data/" 2>/dev/null || true
 fi
 
 echo "=== Build Complete ==="

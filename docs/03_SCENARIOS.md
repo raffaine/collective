@@ -29,8 +29,8 @@ Click on any Scenario Name to view its detailed workflow, physical acceptance te
 
 | ID | Scenario Name | Primary Layers | Stage 1A: Household Seed ($R_0\text{–}R_1$) | Stage 1B: Neighborhood Mesh ($R_1\text{–}R_2$) | Stage 2: Cooperative Shell ($R_2\text{–}R_3$) | Stage 3: Sovereign Campus ($R_3\text{–}R_5$) | Blueprint & Policy Artifacts |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Gamma** | [The Commons Kitchen (Pea Soup & Bean Stew Baseline)](./scenarios/gamma_kitchen.md) | L2, L3, L4, L6 | 🟢 Ready (Hearth Baseline + Garden) | 🟡 In Progress (Porch Tote Meal Train) | 🔴 Planned (Subchapter T Commissary) | 🔴 Planned (Agro-Ecological Hearth) | `bp_gamma_stage1_commons_kitchen.jsonld` (🟢 Ready) |
-| **Alpha** | [The Fabrication Commons & Tool Library](./scenarios/alpha_fabrication.md) | L1, L2, L3, L4 | 🟢 Ready (400W Solar + Garage Bench) | 🟡 In Progress (Recursive DAG BOMs) | 🔴 Planned (Industrial Micro-Factory) | 🔴 Planned (Bioregional Foundry Hub) | `bp_alpha_stage1_solar_array.jsonld` (🟢 Ready) |
+| **Gamma** | [The Commons Kitchen (Pea Soup & Bean Stew Baseline)](./scenarios/gamma_kitchen.md) | L2, L3, L4, L6 | 🟢 Verified (Peas/Roots + Hens/Eggs/Meat + 24h Bone Broth + Communal Pea Soup) | 🟢 Verified (Neighborhood Tiffin Service) | 🔴 Planned (Subchapter T Commissary) | 🔴 Planned (Agro-Ecological Hearth) | `bp_gamma_stage1_hearth_and_garden.jsonld` (🟢 Verified) |
+| **Alpha** | [The Fabrication Commons & Tool Library](./scenarios/alpha_fabrication.md) | L1, L2, L3, L4 | 🟢 Verified (Garage Bench + Coop/Trellis Fab + 400W Solar) | 🟡 In Progress (Recursive DAG BOMs) | 🔴 Planned (Industrial Micro-Factory) | 🔴 Planned (Bioregional Foundry Hub) | `bp_alpha_stage1_solar_array.jsonld` (🟢 Verified) |
 | **Beta** | [Decentralized Transit & Five-Artery Logistics](./scenarios/beta_transit.md) | L3, L4, L5, L6 | 🟢 Ready (48V Cargo Trike + Cistern) | 🟡 In Progress (BCC Milk-Runs & LoRa) | 🔴 Planned (380V HVDC + Shared EVs) | 🔴 Planned (Watershed Barge/Rail Mesh) | `bp_beta_stage1_cargo_trike_depot.jsonld` (🟢 Ready) |
 
 ---
@@ -42,8 +42,8 @@ Click on any Scenario Name to view its detailed workflow, physical acceptance te
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | **Delta** | [Mutual Aid Childcare Pod & Perinatal Sanctuary](./scenarios/delta_childcare.md) | L3, L4, L5, L6 | 🟢 Ready (Living-Room Pod + 4th-Trimester Cocoon) | 🟡 In Progress (Diaper Loop + Dynamic Ratio) | 🔴 Planned (Co-Located Nursery Suite) | 🔴 Planned (Birthing & Forest School) | `bp_delta_stage1_childcare_pod.jsonld` (🟢 Ready) |
 | **Omicron**| [The Kinship Protocol (Trust Rings)](./scenarios/omicron_kinship.md) | L3, L4, L5, L6 | 🟡 Next Sprint ($R_0\text{–}R_2$ Pairwise `did:peer`) | 🔴 Planned | 🔴 Planned | 🔴 Planned | Planned (`Wave C` Sprint) |
-| **Kappa** | [The Apprenticeship Protocol (Learn to Govern)](./scenarios/kappa_apprenticeship.md) | L1, L3, L5, L6 | 🟡 Next Sprint (Supervised Mode + BBS+ ZKP) | 🔴 Planned | 🔴 Planned | 🔴 Planned | Planned (`Wave C` Sprint) |
-| **Zeta** | [Micro-Lodging Mesh & Hydronic Bathhouse](./scenarios/zeta_lodging.md) | L3, L4, L5, L6 | 🟡 Next Sprint ($B_{\mathrm{baseline}}$ Warm Shower/Guest Room) | 🔴 Planned | 🔴 Planned | 🔴 Planned | Planned (`Wave C` Sprint) |
+| **Kappa** | [The Apprenticeship Protocol (Learn to Govern)](./scenarios/kappa_apprenticeship.md) | L1, L3, L5, L6 | 🟢 Verified (Supervised Mode + $+600\,\mathrm{bp}\;\mathcal{R}$) | 🔴 Planned | 🔴 Planned | 🔴 Planned | `stage1_baseline_and_envelopes.json` (🟢 Verified) |
+| **Zeta** | [Micro-Lodging Mesh & Hydronic Bathhouse](./scenarios/zeta_lodging.md) | L3, L4, L5, L6 | 🟢 Verified (6-Room Furnished House + Warm Shower/Sanitation) | 🔴 Planned | 🔴 Planned | 🔴 Planned | `stage1_baseline_and_envelopes.json` (🟢 Verified) |
 
 ---
 
@@ -53,7 +53,7 @@ Click on any Scenario Name to view its detailed workflow, physical acceptance te
 | ID | Scenario Name | Primary Layers | Stage 1A: Household Seed ($R_0\text{–}R_1$) | Stage 1B: Neighborhood Mesh ($R_1\text{–}R_2$) | Stage 2: Cooperative Shell ($R_2\text{–}R_3$) | Stage 3: Sovereign Campus ($R_3\text{–}R_5$) | Blueprint & Policy Artifacts |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | **Eta** | [Coppice & Carbon Commons](./scenarios/eta_coppice.md) | L1, L2, L4 | 🔴 Planned (Backyard Micro-Nursery) | 🔴 Planned (Locust/Willow Coppice Lot) | 🔴 Planned (Solar Lumber Kiln) | 🔴 Planned (Watershed Agroforestry) | Planned (`Wave D` Sprint) |
-| **Mu** | [Regenerative Extraction (Biochar & Compost)](./scenarios/mu_extraction.md) | L1, L2, L3, L4 | 🔴 Planned (Thermophilic Hot Compost) | 🔴 Planned (TLUD Biochar Retort + PEX Heat) | 🔴 Planned (Urbanite Salvage Depot) | 🔴 Planned (Bioregional Soil Lab) | Planned (`Wave D` Sprint) |
+| **Mu** | [Regenerative Extraction (Biochar & Compost)](./scenarios/mu_extraction.md) | L1, L2, L3, L4 | 🟢 Verified (TLUD Biochar Kiln + $55^\circ\text{C}$ Compost Drum + Struvite + *Terra Preta*) | 🟡 In Progress (PEX Waste-Heat Hydronics) | 🔴 Planned (Urbanite Salvage Depot) | 🔴 Planned (Bioregional Soil Lab) | `bp_gamma_stage1_hearth_and_garden.jsonld` (🟢 Verified) |
 | **Theta** | [The Extraction & Refinement Foundry](./scenarios/theta_foundry.md) | L1, L2, L3, L4 | 🔴 Planned (E-Waste/Scrap Sorting Nook) | 🔴 Planned (Induction Crucible Micro-Melt) | 🔴 Planned (Recycled Bronze/Alu Foundry) | 🔴 Planned (Closed-Loop Metalworks) | Planned (`Wave D` Sprint) |
 | **Nu** | [Circular Textiles & Soft Infrastructure](./scenarios/nu_fashion.md) | L1, L4, L6 | 🔴 Planned (Mending & Cloth Diaper Repair) | 🔴 Planned (Shared Industrial Sewing Loft) | 🔴 Planned (Bast-Fiber/Wool Micro-Mill) | 🔴 Planned (Bioregional Textile Guild) | Planned (`Wave D` Sprint) |
 | **Xi** | [Algorithmic Architecture & Urban Retrofit](./scenarios/xi_architecture.md) | L1, L2, L4, L5 | 🔴 Planned (Blower-Door & Cellulose Insulation) | 🔴 Planned (Fence-Removal Yard Unification) | 🔴 Planned (Accessory Cooperative Suites) | 🔴 Planned (CLT Mass-Timber Village) | Planned (`Wave D` Sprint) |

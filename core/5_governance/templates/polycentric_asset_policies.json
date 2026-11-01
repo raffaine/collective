@@ -1,0 +1,306 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "bundle_id": "l5.governance.polycentric_asset_policies.v1",
+  "schema_version": "1.0.0",
+  "layer": "L5_GOVERNANCE",
+  "governance_spec_compliance": "core/5_governance/GOVERNANCE_SPEC.md",
+  "title": "Polycentric Asset Governance Templates & Upward L6 Approval Envelopes",
+  "description": "General-to-specific Layer 5 governance templates evaluated by col-kmsd over l4_l5.sock and l5_l6.sock, governing sourcing priority, constitutional baseline reserves, R0/R1 task release rings, and transitional L7 bill-offset surplus routing.",
+  "ipc_contracts": {
+    "downward_orchestrator_socket": "l4_l5.sock",
+    "upward_commons_socket": "l5_l6.sock",
+    "l4_stock_miss_signal": "YIELD_UPWARD_L5",
+    "l6_human_decision_signal": "ESCALATE_PENDING_DECISION_L6"
+  },
+  "constitutional_invariants": {
+    "law_3_baseline_formula": "Q_avail = max(0, Q_inventory - F_eco - B_baseline)",
+    "domestic_care_token_minting_prohibited": true,
+    "rbac_prohibited_use_dijkstra_trust_graph": true,
+    "anti_panopticon_sensor_class": "SCALAR_THERMODYNAMIC_AND_CHEMICAL_ONLY"
+  },
+  "policy_templates": [
+    {
+      "policy_id": "policy:r0_household_seed",
+      "specificity_tier": 1,
+      "inherits_from": null,
+      "title": "R0 Household Seed — Private Self-Provisioning & Larder Bootstrap",
+      "description": "Foundational Day-1 household governance template. Prioritizes building a resilient 14-day R0 household food, seed, and water reserve while keeping all tasks strictly private to the local Steward (R0_SELF).",
+      "sourcing_priority": [
+        "LOCAL",
+        "R1_MESH",
+        "L7_FALLBACK"
+      ],
+      "sourcing_ring_rules": {
+        "LOCAL": {
+          "enabled": true,
+          "respect_ecological_seed_stock_floor": true
+        },
+        "R1_MESH": {
+          "enabled": false,
+          "max_dijkstra_hops": 1.0,
+          "max_bcc_credit_exposure_mj": 0.0,
+          "note": "Disabled in pure R0 seed mode until Steward opts into neighborhood reciprocity."
+        },
+        "L7_FALLBACK": {
+          "enabled": true,
+          "allowed_channels": ["GROCERY_API", "HARDWARE_API"],
+          "auto_approve_max_single_order_usd_cents": 2000,
+          "monthly_fiat_budget_cap_usd_cents": 45000
+        }
+      },
+      "distribution_policy": {
+        "r0_household_reserve_days_min": 14,
+        "ecological_regeneration_floor_bp": 2000,
+        "r0_household_allocation_bp": 8000,
+        "r1_commons_share_bp": 0,
+        "l7_bill_offset_surplus_bp": 0,
+        "pricing_model": "NON_COMMENSURABLE_R0_HOUSEHOLD_SUBSISTENCE"
+      },
+      "task_release_policy": {
+        "task_release_ring": "R0_SELF",
+        "local_steward_claim_grace_s": 0,
+        "allow_external_peer_entry": false,
+        "required_dijkstra_distance_max": 0.0
+      },
+      "upward_l6_approval_triggers": [
+        {
+          "trigger_id": "TRIG_L7_SPEND_ABOVE_AUTO_CEILING",
+          "condition": "l7_fallback_order_usd_cents > 2000",
+          "prompt_summary": "Approve L7 legacy store expenditure exceeding $20.00 automatic R0 micro-procurement limit."
+        },
+        {
+          "trigger_id": "TRIG_CONSTITUTIONAL_BASELINE_LOW",
+          "condition": "r0_caloric_reserve_days < 3 || potable_water_reserve_ml < 20000",
+          "prompt_summary": "Household R0 food or potable water buffer below 72-hour floor; confirm replenishment plan."
+        },
+        {
+          "trigger_id": "TRIG_POLICY_RING_EXPANSION",
+          "condition": "requested_task_release_ring != 'R0_SELF'",
+          "prompt_summary": "Explicit human Steward consent required before opening homestead assets to R1 neighbors."
+        }
+      ]
+    },
+    {
+      "policy_id": "policy:r1_commons_hearth",
+      "specificity_tier": 2,
+      "inherits_from": "policy:r0_household_seed",
+      "title": "R1 Commons Hearth — Vouched Neighborhood Reciprocity & Tiffin Mutual Aid",
+      "description": "Extends R0 Household Seed into a polycentric neighborhood commons under UUNAA Section 6. Sources missing inputs across vouched R1 peer nodes via zero-interest L3 BCC clearing before touching L7 fiat stores, shares hot pea-soup tiffins unconditionally across R0/R1, and releases unclaimed outdoor/hearth tasks to credentialed R1 peers.",
+      "sourcing_priority": [
+        "LOCAL",
+        "R1_MESH",
+        "L7_FALLBACK"
+      ],
+      "sourcing_ring_rules": {
+        "LOCAL": {
+          "enabled": true,
+          "respect_ecological_seed_stock_floor": true
+        },
+        "R1_MESH": {
+          "enabled": true,
+          "max_dijkstra_hops": 1.5,
+          "max_bcc_credit_exposure_mj": 150.0,
+          "settlement_mechanism": "L3_BILATERAL_CLEARING_CHANNEL_EXERGY_PARITY"
+        },
+        "L7_FALLBACK": {
+          "enabled": true,
+          "allowed_channels": ["GROCERY_API", "HARDWARE_API"],
+          "auto_approve_max_single_order_usd_cents": 3500,
+          "monthly_fiat_budget_cap_usd_cents": 30000
+        }
+      },
+      "distribution_policy": {
+        "r0_household_reserve_days_min": 7,
+        "ecological_regeneration_floor_bp": 2000,
+        "r0_household_allocation_bp": 3000,
+        "r1_commons_share_bp": 5000,
+        "l7_bill_offset_surplus_bp": 0,
+        "pricing_model": "UNCONDITIONAL_R0_BASELINE_AND_R1_BCC_RECIPROCITY",
+        "reputational_stewardship_credit_bp": 400
+      },
+      "task_release_policy": {
+        "task_release_ring": "R1_TRUST_RING",
+        "local_steward_claim_grace_s": 1800,
+        "allow_external_peer_entry": true,
+        "required_dijkstra_distance_max": 1.5,
+        "require_bbs_plus_skill_vc": true,
+        "private_interior_rooms_override_ring": "R0_SELF"
+      },
+      "upward_l6_approval_triggers": [
+        {
+          "trigger_id": "TRIG_MESH_AND_LOCAL_CACHE_MISS_L7_FALLBACK",
+          "condition": "local_stock_sufficient == false && r1_mesh_offer_found == false && l7_fallback_order_usd_cents > 3500",
+          "prompt_summary": "Both local larder and R1 neighborhood mesh lack required inputs; approve L7 fallback purchase."
+        },
+        {
+          "trigger_id": "TRIG_PROBATIONARY_R2_R3_TASK_CLAIM",
+          "condition": "claimant_dijkstra_distance > 1.5 && claimant_dijkstra_distance <= 2.5",
+          "prompt_summary": "A vouched R2/R3 apprentice steward requested to co-work an R1 task under supervision; approve site access."
+        },
+        {
+          "trigger_id": "TRIG_ECOLOGICAL_FLOOR_DIP",
+          "condition": "soil_organic_carbon_bp < 220 || seed_reserve_batches < 2",
+          "prompt_summary": "Ecological soil carbon or heirloom seed reserve below regeneration threshold; prioritize compost/seed retention."
+        }
+      ]
+    },
+    {
+      "policy_id": "policy:commons_plus_l7_zero_bill",
+      "specificity_tier": 3,
+      "inherits_from": "policy:r1_commons_hearth",
+      "title": "Commons + L7 Zero-Bill Bridge — Transitional Municipal & Utility Bill Offset",
+      "description": "Specialized Stage-1 transitional policy for suburban nodes still carrying legacy L7 property taxes, water minimums, or grid connection fees. After satisfying R0 baseline, ecological soil/seed floors, and R1 tiffin reciprocity, routes bounded craft/culinary surplus through CUSTOM_WOODWORK_CHANNEL and COTTAGE_FOOD_CHANNEL strictly until monthly L7 fiat bills reach net $0.00.",
+      "sourcing_priority": [
+        "LOCAL",
+        "R1_MESH",
+        "L7_FALLBACK"
+      ],
+      "sourcing_ring_rules": {
+        "LOCAL": {
+          "enabled": true,
+          "respect_ecological_seed_stock_floor": true
+        },
+        "R1_MESH": {
+          "enabled": true,
+          "max_dijkstra_hops": 2.0,
+          "max_bcc_credit_exposure_mj": 240.0,
+          "settlement_mechanism": "L3_BILATERAL_CLEARING_CHANNEL_EXERGY_PARITY"
+        },
+        "L7_FALLBACK": {
+          "enabled": true,
+          "allowed_channels": ["GROCERY_API", "HARDWARE_API"],
+          "auto_approve_max_single_order_usd_cents": 3500,
+          "monthly_fiat_budget_cap_usd_cents": 25000
+        }
+      },
+      "distribution_policy": {
+        "r0_household_reserve_days_min": 7,
+        "ecological_regeneration_floor_bp": 2000,
+        "r0_household_allocation_bp": 2500,
+        "r1_commons_share_bp": 3500,
+        "l7_bill_offset_surplus_bp": 2000,
+        "allowed_l7_surplus_channels": [
+          "CUSTOM_WOODWORK_CHANNEL",
+          "COTTAGE_FOOD_CHANNEL"
+        ],
+        "target_monthly_net_l7_bill_usd_cents": 0,
+        "auto_redirect_surplus_to_r1_commons_when_bills_offset": true,
+        "pricing_model": "R0_R1_NON_PROFIT_COMMONS_WITH_CAPPED_L7_TAX_UTILITY_OFFSET"
+      },
+      "task_release_policy": {
+        "task_release_ring": "R1_TRUST_RING",
+        "local_steward_claim_grace_s": 1200,
+        "allow_external_peer_entry": true,
+        "required_dijkstra_distance_max": 2.0,
+        "require_bbs_plus_skill_vc": true,
+        "l7_commission_fabrication_ring": "R0_SELF"
+      },
+      "upward_l6_approval_triggers": [
+        {
+          "trigger_id": "TRIG_ACCEPT_L7_BILL_OFFSET_COMMISSION",
+          "condition": "channel in ['CUSTOM_WOODWORK_CHANNEL', 'COTTAGE_FOOD_CHANNEL'] && projected_net_l7_deficit_usd_cents > 0",
+          "prompt_summary": "Confirm acceptance of L7 bill-offset woodwork/cottage-food batch order and verify steward stamina/focus margin."
+        },
+        {
+          "trigger_id": "TRIG_L7_ADVERSARIAL_TARIFF_OR_INSPECTION",
+          "condition": "l7_utility_rate_multiplier >= 2.0 || l7_municipal_fsm_state != 'STATE_IDLE'",
+          "prompt_summary": "L7 utility rate spike or municipal inspection scheduled; review islanding and quiet-hours compliance posture."
+        },
+        {
+          "trigger_id": "TRIG_L7_SPEND_ABOVE_AUTO_CEILING",
+          "condition": "l7_fallback_order_usd_cents > 3500",
+          "prompt_summary": "Approve L7 fallback material purchase exceeding $35.00 auto-settlement envelope."
+        }
+      ]
+    }
+  ],
+  "governed_asset_bindings": [
+    {
+      "asset_id": "asset:backyard_pea_and_mirepoix_beds",
+      "display_name": "Backyard Raised Cedar Pea Trellis & Mirepoix Beds",
+      "default_policy_id": "policy:r1_commons_hearth",
+      "compatible_policies": [
+        "policy:r0_household_seed",
+        "policy:r1_commons_hearth",
+        "policy:commons_plus_l7_zero_bill"
+      ],
+      "required_skill_vc": "Hydro_Earthworks_VC",
+      "l2_schemas": ["l2.schema.soil_probe.v1", "l2.schema.irrigation_valve.v1"],
+      "suburban_ordinance_envelope": {
+        "front_setback_camouflage": "REAR_FENCED_YARD_ONLY",
+        "max_daytime_acoustic_cb": 550,
+        "quiet_hours_local": "20:00-07:00"
+      }
+    },
+    {
+      "asset_id": "asset:commons_kitchen_hearth",
+      "display_name": "Induction Kitchen Cauldron, Broth Stockpot & Tiffin Station",
+      "default_policy_id": "policy:r1_commons_hearth",
+      "compatible_policies": [
+        "policy:r0_household_seed",
+        "policy:r1_commons_hearth",
+        "policy:commons_plus_l7_zero_bill"
+      ],
+      "required_skill_vc": "Sovereign_Kitchen_Steward_VC",
+      "l2_schemas": ["l2.schema.culinary_vessel.v1", "l2.schema.enclosure_env.v1"],
+      "food_safety_envelope": {
+        "min_pasteurization_temp_mk": 347150,
+        "min_pasteurization_hold_s": 120,
+        "anaphylactic_allergen_zkp_check": true
+      }
+    },
+    {
+      "asset_id": "asset:garage_woodshop_alpha",
+      "display_name": "Attached Garage Joinery Workbench & Assembly Bay",
+      "default_policy_id": "policy:commons_plus_l7_zero_bill",
+      "compatible_policies": [
+        "policy:r0_household_seed",
+        "policy:r1_commons_hearth",
+        "policy:commons_plus_l7_zero_bill"
+      ],
+      "required_skill_vc": "Solar_Grid_Apprentice_VC",
+      "l2_schemas": ["l2.schema.enclosure_env.v1"],
+      "suburban_ordinance_envelope": {
+        "max_daytime_acoustic_cb": 550,
+        "max_quiet_hours_acoustic_cb": 380,
+        "quiet_hours_local": "20:00-07:00",
+        "dust_collection_closed_door_required": true
+      }
+    },
+    {
+      "asset_id": "asset:compost_and_pyrolysis_bay",
+      "display_name": "Thermophilic Composting Drum & Smokeless TLUD Biochar Kiln",
+      "default_policy_id": "policy:r1_commons_hearth",
+      "compatible_policies": [
+        "policy:r0_household_seed",
+        "policy:r1_commons_hearth"
+      ],
+      "required_skill_vc": "Biochar_Kiln_Operator_VC",
+      "l2_schemas": ["l2.schema.enclosure_env.v1", "l2.schema.soil_probe.v1"],
+      "environmental_envelope": {
+        "min_epa503_thermophilic_temp_mk": 328150,
+        "min_epa503_hold_hours": 72,
+        "max_perimeter_nh3_ppm": 10,
+        "secondary_flare_smokeless_required": true
+      }
+    },
+    {
+      "asset_id": "asset:backyard_poultry_coop",
+      "display_name": "Elevated Heritage Poultry Coop & BSFL Bioconversion Run",
+      "default_policy_id": "policy:r1_commons_hearth",
+      "compatible_policies": [
+        "policy:r0_household_seed",
+        "policy:r1_commons_hearth",
+        "policy:commons_plus_l7_zero_bill"
+      ],
+      "required_skill_vc": "Sovereign_Kitchen_Steward_VC",
+      "l2_schemas": ["l2.schema.enclosure_env.v1"],
+      "welfare_and_ordinance_envelope": {
+        "max_hens": 8,
+        "roosters_prohibited": true,
+        "trophic_non_competition_feed_only": true,
+        "max_coop_nh3_ammonia_ppm": 10
+      }
+    }
+  ]
+}

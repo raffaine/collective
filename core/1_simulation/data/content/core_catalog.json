@@ -1,0 +1,1309 @@
+{
+  "catalog_id": "oasis.content.core_catalog.v1",
+  "schema_version": "1.0.0",
+  "title": "Oasis Layer 1b Moddable Content Registry — Items, Matter-Phase Hauling Tools, Archetypes, Affordances & Steward Thought Rules",
+  "description": "Data-driven physical simulation definitions consumed by ContentRegistry, HaulingPhysics, AffordanceSystem, and UtilityAutonomy.",
+  "hauling_physics_constants": {
+    "bare_hands_max_liquid_ml": 0,
+    "bare_hands_max_granular_scoop_g": 500,
+    "bare_hands_granular_speed_multiplier": 0.55,
+    "bare_hands_max_discrete_solid_lift_g": 40000,
+    "heavy_discrete_comfortable_two_hand_g": 25000,
+    "two_hand_heavy_carry_speed_multiplier": 0.72
+  },
+  "items": [
+    {
+      "id": "item.potable_water",
+      "name": "Potable & Cistern Water",
+      "need_id": "need:potable_water",
+      "matter_phase": "LIQUID",
+      "unit_label": "1 L",
+      "unit_mass_g": 1000,
+      "unit_volume_ml": 1000,
+      "caloric_kcal": 0,
+      "tags": ["WATER", "IRRIGATION", "CULINARY_SOLVENT"]
+    },
+    {
+      "id": "item.bone_broth",
+      "name": "24-Hour Collagen Bone Broth",
+      "need_id": "need:bone_broth",
+      "matter_phase": "LIQUID",
+      "unit_label": "500 ml jar-equivalent",
+      "unit_mass_g": 515,
+      "unit_volume_ml": 500,
+      "caloric_kcal": 210,
+      "tags": ["NOURISHMENT", "COLLAGEN_STOCK", "PASTEURIZED_LIQUID"]
+    },
+    {
+      "id": "item.pea_soup",
+      "name": "Communal Split-Pea & Mirepoix Soup",
+      "need_id": "need:pea_soup",
+      "matter_phase": "LIQUID",
+      "unit_label": "500 ml hearty portion",
+      "unit_mass_g": 540,
+      "unit_volume_ml": 500,
+      "caloric_kcal": 650,
+      "tags": ["NOURISHMENT", "READY_MEAL", "R0_BASELINE", "PASTEURIZED_LIQUID"]
+    },
+    {
+      "id": "item.rhizobium_slurry",
+      "name": "Rhizobium leguminosarum Seed Inoculant Slurry",
+      "need_id": "need:rhizobium_seed_inoculant",
+      "matter_phase": "LIQUID",
+      "unit_label": "250 ml slurry batch",
+      "unit_mass_g": 260,
+      "unit_volume_ml": 250,
+      "caloric_kcal": 0,
+      "tags": ["AGRONOMIC_INOCULANT", "UV_SENSITIVE"]
+    },
+    {
+      "id": "item.compost_tea",
+      "name": "Aerated Humic Compost Tea",
+      "need_id": null,
+      "matter_phase": "LIQUID",
+      "unit_label": "1 L extract",
+      "unit_mass_g": 1005,
+      "unit_volume_ml": 1000,
+      "caloric_kcal": 0,
+      "tags": ["FOLIAR_FEED", "IRRIGATION"]
+    },
+    {
+      "id": "item.topsoil_loam",
+      "name": "Native Sandy-Loam Topsoil",
+      "need_id": null,
+      "matter_phase": "GRANULAR_PARTICULATE",
+      "unit_label": "1 kg loose loam",
+      "unit_mass_g": 1000,
+      "unit_volume_ml": 770,
+      "caloric_kcal": 0,
+      "tags": ["EARTHWORKS", "SOIL_SUBSTRATE"]
+    },
+    {
+      "id": "item.clay_subsoil",
+      "name": "Excavated Clay Subsoil",
+      "need_id": null,
+      "matter_phase": "GRANULAR_PARTICULATE",
+      "unit_label": "1 kg dense clay",
+      "unit_mass_g": 1000,
+      "unit_volume_ml": 625,
+      "caloric_kcal": 0,
+      "tags": ["EARTHWORKS", "COB_BINDER"]
+    },
+    {
+      "id": "item.crushed_gravel",
+      "name": "Compacted Crushed Drainage Gravel",
+      "need_id": null,
+      "matter_phase": "GRANULAR_PARTICULATE",
+      "unit_label": "1 kg angular gravel",
+      "unit_mass_g": 1000,
+      "unit_volume_ml": 590,
+      "caloric_kcal": 0,
+      "tags": ["EARTHWORKS", "FOUNDATION_AGGREGATE"]
+    },
+    {
+      "id": "item.thermophilic_compost",
+      "name": "EPA 503 Class-A Thermophilic Compost",
+      "need_id": "need:thermophilic_compost",
+      "matter_phase": "GRANULAR_PARTICULATE",
+      "unit_label": "1 kg cured humus",
+      "unit_mass_g": 1000,
+      "unit_volume_ml": 1400,
+      "caloric_kcal": 0,
+      "tags": ["SOIL_AMENDMENT", "NPK_ORGANIC"]
+    },
+    {
+      "id": "item.pyrolysis_biochar",
+      "name": "Quenched Smokeless TLUD Pyrolysis Biochar",
+      "need_id": "need:pyrolysis_biochar",
+      "matter_phase": "GRANULAR_PARTICULATE",
+      "unit_label": "1 kg microporous char",
+      "unit_mass_g": 1000,
+      "unit_volume_ml": 2500,
+      "caloric_kcal": 0,
+      "tags": ["SOIL_CARBON", "AMMONIA_ADSORBENT"]
+    },
+    {
+      "id": "item.split_peas_dry",
+      "name": "Dried Shelled Green Split Peas (< 14% Moisture)",
+      "need_id": "need:split_peas",
+      "matter_phase": "GRANULAR_PARTICULATE",
+      "unit_label": "500 g dry split peas",
+      "unit_mass_g": 500,
+      "unit_volume_ml": 620,
+      "caloric_kcal": 1700,
+      "tags": ["PULSE_LEGUME", "SHELF_STABLE", "CULINARY_INPUT"]
+    },
+    {
+      "id": "item.pea_seeds_heirloom",
+      "name": "Heirloom Climbing Pea & Mirepoix Seed Packet",
+      "need_id": "need:split_peas",
+      "matter_phase": "GRANULAR_PARTICULATE",
+      "unit_label": "100 g viable seed lot",
+      "unit_mass_g": 100,
+      "unit_volume_ml": 125,
+      "caloric_kcal": 0,
+      "tags": ["VIABLE_SEED", "SOWING_STOCK"]
+    },
+    {
+      "id": "item.bone_ash_calcium_grit",
+      "name": "Calcined Bone-Ash Calcium Grit",
+      "need_id": null,
+      "matter_phase": "GRANULAR_PARTICULATE",
+      "unit_label": "500 g mineral grit",
+      "unit_mass_g": 500,
+      "unit_volume_ml": 420,
+      "caloric_kcal": 0,
+      "tags": ["POULTRY_CALCIUM", "SOIL_PH_BUFFER"]
+    },
+    {
+      "id": "item.bsfl_organic_scraps",
+      "name": "Vegetable Trimmings & Black Soldier Fly Larvae Grubs",
+      "need_id": null,
+      "matter_phase": "GRANULAR_PARTICULATE",
+      "unit_label": "1 kg bioconversion feed",
+      "unit_mass_g": 1000,
+      "unit_volume_ml": 1250,
+      "caloric_kcal": 0,
+      "tags": ["TROPHIC_NON_COMPETITION_FEED", "COMPOST_INPUT"]
+    },
+    {
+      "id": "item.fresh_pea_pods",
+      "name": "Unhulled Harvested Pea Pods",
+      "need_id": "need:split_peas",
+      "matter_phase": "DISCRETE_SOLID",
+      "unit_label": "500 g pod bundle",
+      "unit_mass_g": 500,
+      "unit_volume_ml": 900,
+      "caloric_kcal": 410,
+      "tags": ["HARVEST_RAW", "THRESHING_INPUT"]
+    },
+    {
+      "id": "item.mirepoix_roots",
+      "name": "Fresh Mirepoix Roots (Carrots, Onions, Celery & Garlic)",
+      "need_id": "need:mirepoix_roots",
+      "matter_phase": "DISCRETE_SOLID",
+      "unit_label": "1 kg root bundle",
+      "unit_mass_g": 1000,
+      "unit_volume_ml": 1300,
+      "caloric_kcal": 410,
+      "tags": ["PRODUCE", "CULINARY_INPUT"]
+    },
+    {
+      "id": "item.pasture_egg",
+      "name": "Golden-Yolked Heritage Pasture Egg",
+      "need_id": "need:pasture_eggs",
+      "matter_phase": "DISCRETE_SOLID",
+      "unit_label": "1 shell egg",
+      "unit_mass_g": 60,
+      "unit_volume_ml": 58,
+      "caloric_kcal": 78,
+      "tags": ["AVIAN_PROTEIN", "CULINARY_INPUT"]
+    },
+    {
+      "id": "item.poultry_bones_raw",
+      "name": "Collagen-Rich Pasture Poultry Frame",
+      "need_id": "need:bone_broth",
+      "matter_phase": "DISCRETE_SOLID",
+      "unit_label": "850 g carcass frame",
+      "unit_mass_g": 850,
+      "unit_volume_ml": 1100,
+      "caloric_kcal": 0,
+      "tags": ["BROTH_PRECURSOR"]
+    },
+    {
+      "id": "item.cedar_plank",
+      "name": "Seasoned Aromatic Cedar Plank (2.4 m)",
+      "need_id": "need:raised_bed_frame",
+      "matter_phase": "DISCRETE_SOLID",
+      "unit_label": "1 dimensional plank",
+      "unit_mass_g": 4200,
+      "unit_volume_ml": 8400,
+      "caloric_kcal": 0,
+      "tags": ["LUMBER", "JOINERY_STOCK"]
+    },
+    {
+      "id": "item.trellis_aframe_kit",
+      "name": "Cedar & Galvanized-Mesh A-Frame Pea Trellis",
+      "need_id": "need:raised_bed_frame",
+      "matter_phase": "DISCRETE_SOLID",
+      "unit_label": "1 folding trellis frame",
+      "unit_mass_g": 18500,
+      "unit_volume_ml": 32000,
+      "caloric_kcal": 0,
+      "tags": ["GARDEN_STRUCTURE"]
+    },
+    {
+      "id": "item.raised_bed_frame_kit",
+      "name": "Mortised Cedar Raised Bed Frame Assembly",
+      "need_id": "need:raised_bed_frame",
+      "matter_phase": "DISCRETE_SOLID",
+      "unit_label": "1 mortised bed frame",
+      "unit_mass_g": 32000,
+      "unit_volume_ml": 55000,
+      "caloric_kcal": 0,
+      "tags": ["GARDEN_STRUCTURE", "JOINERY_PRODUCT"]
+    },
+    {
+      "id": "item.tlud_biochar_kiln_assembly",
+      "name": "Smokeless Concentric-Draft TLUD Pyrolysis Kiln",
+      "need_id": "need:pyrolysis_biochar",
+      "matter_phase": "DISCRETE_SOLID",
+      "unit_label": "1 heavy steel retort (68 kg)",
+      "unit_mass_g": 68000,
+      "unit_volume_ml": 210000,
+      "caloric_kcal": 0,
+      "tags": ["HEAVY_ASSEMBLY", "REQUIRES_MECHANICAL_HAUL", "PYROLYSIS_HARDWARE"]
+    },
+    {
+      "id": "item.thermophilic_compost_drum_assembly",
+      "name": "Insulated Rotating Thermophilic Composting Drum",
+      "need_id": "need:thermophilic_compost",
+      "matter_phase": "DISCRETE_SOLID",
+      "unit_label": "1 insulated drum on frame (74 kg)",
+      "unit_mass_g": 74000,
+      "unit_volume_ml": 320000,
+      "caloric_kcal": 0,
+      "tags": ["HEAVY_ASSEMBLY", "REQUIRES_MECHANICAL_HAUL", "COMPOST_HARDWARE"]
+    },
+    {
+      "id": "item.poultry_coop_module",
+      "name": "Elevated Predator-Proof Timber Poultry Coop & BSFL Feeder",
+      "need_id": "need:pasture_eggs",
+      "matter_phase": "DISCRETE_SOLID",
+      "unit_label": "1 coop module (115 kg)",
+      "unit_mass_g": 115000,
+      "unit_volume_ml": 480000,
+      "caloric_kcal": 0,
+      "tags": ["HEAVY_ASSEMBLY", "REQUIRES_MECHANICAL_HAUL", "AVIAN_HOUSING"]
+    },
+    {
+      "id": "item.custom_joinery_commission",
+      "name": "Oil-Finished Mortise-and-Tenon Custom Planter Bench",
+      "need_id": "need:raised_bed_frame",
+      "matter_phase": "DISCRETE_SOLID",
+      "unit_label": "1 artisan piece (48 kg)",
+      "unit_mass_g": 48000,
+      "unit_volume_ml": 140000,
+      "caloric_kcal": 0,
+      "tags": ["HEAVY_ASSEMBLY", "REQUIRES_MECHANICAL_HAUL", "L7_BILL_OFFSET_GOOD"]
+    },
+    {
+      "id": "item.l2_soil_probe",
+      "name": "RS-485 FDR Multiparameter Soil Probe (soil_probe_v1)",
+      "need_id": null,
+      "matter_phase": "DISCRETE_SOLID",
+      "unit_label": "1 L2 sensor probe",
+      "unit_mass_g": 450,
+      "unit_volume_ml": 300,
+      "caloric_kcal": 0,
+      "binds_l2_schema": "l2.schema.soil_probe.v1",
+      "tags": ["L2_HARDWARE", "SENSOR"]
+    },
+    {
+      "id": "item.l2_irrigation_valve",
+      "name": "24V Spring-Return Drip Solenoid & Hall Flowmeter (irrigation_valve_v1)",
+      "need_id": null,
+      "matter_phase": "DISCRETE_SOLID",
+      "unit_label": "1 L2 valve manifold",
+      "unit_mass_g": 680,
+      "unit_volume_ml": 450,
+      "caloric_kcal": 0,
+      "binds_l2_schema": "l2.schema.irrigation_valve.v1",
+      "tags": ["L2_HARDWARE", "ACTUATOR"]
+    },
+    {
+      "id": "item.l2_culinary_rtd_controller",
+      "name": "4-Wire PT100 Cauldron Probe & Induction Controller (culinary_vessel_v1)",
+      "need_id": null,
+      "matter_phase": "DISCRETE_SOLID",
+      "unit_label": "1 L2 kitchen controller",
+      "unit_mass_g": 920,
+      "unit_volume_ml": 600,
+      "caloric_kcal": 0,
+      "binds_l2_schema": "l2.schema.culinary_vessel.v1",
+      "tags": ["L2_HARDWARE", "SENSOR", "ACTUATOR"]
+    }
+  ],
+  "hauling_tools": [
+    {
+      "id": "bucket",
+      "name": "15L Galvanized Homestead Bucket",
+      "supported_phases": ["LIQUID", "GRANULAR_PARTICULATE", "DISCRETE_SOLID"],
+      "liquid_tight": true,
+      "food_contact_safe": false,
+      "max_mass_g": 22000,
+      "max_volume_ml": 15000,
+      "tare_mass_g": 1400,
+      "mechanical_advantage_ratio": 1.0,
+      "walk_speed_multiplier": 0.90,
+      "terrain_constraint": "ANY_WALKABLE",
+      "description": "Carries up to 15 L of irrigation water or 22 kg of granular compost, biochar, soil, or harvested pods."
+    },
+    {
+      "id": "watering_can",
+      "name": "10L Galvanized Rose-Spout Watering Can",
+      "supported_phases": ["LIQUID"],
+      "liquid_tight": true,
+      "food_contact_safe": true,
+      "max_mass_g": 11000,
+      "max_volume_ml": 10000,
+      "tare_mass_g": 1100,
+      "mechanical_advantage_ratio": 1.0,
+      "walk_speed_multiplier": 0.92,
+      "terrain_constraint": "ANY_WALKABLE",
+      "description": "Gentle brass-rose irrigation vessel delivering 10,000 ml directly to root crowns without compacting topsoil."
+    },
+    {
+      "id": "tiffin_carrier",
+      "name": "4-Tier 304-Stainless Insulated Tiffin Carrier",
+      "supported_phases": ["LIQUID", "DISCRETE_SOLID"],
+      "liquid_tight": true,
+      "food_contact_safe": true,
+      "max_mass_g": 8000,
+      "max_volume_ml": 4000,
+      "tare_mass_g": 1650,
+      "thermal_retention_half_life_s": 14400,
+      "mechanical_advantage_ratio": 1.0,
+      "walk_speed_multiplier": 0.95,
+      "terrain_constraint": "ANY_WALKABLE",
+      "description": "Gasket-sealed food-grade stainless tiffin stack holding up to 4,000 ml of pasteurized hot pea soup or bone broth."
+    },
+    {
+      "id": "wheelbarrow",
+      "name": "Pneumatic Single-Wheel Steel Contractor Wheelbarrow",
+      "supported_phases": ["GRANULAR_PARTICULATE", "DISCRETE_SOLID"],
+      "liquid_tight": false,
+      "food_contact_safe": false,
+      "max_mass_g": 140000,
+      "max_volume_ml": 110000,
+      "tare_mass_g": 18500,
+      "mechanical_advantage_ratio": 3.5,
+      "walk_speed_multiplier": 0.95,
+      "terrain_constraint": "EXTERIOR_OR_GARAGE_GRADE_LE_15_PCT",
+      "description": "Bulk earthmoving and heavy backyard transport tool enabling 140 kg loads of compost, excavated soil, kilns, or coop frames."
+    },
+    {
+      "id": "hand_dolly",
+      "name": "Heavy-Duty Steel Appliance & Joinery Hand Dolly",
+      "supported_phases": ["DISCRETE_SOLID"],
+      "liquid_tight": false,
+      "food_contact_safe": false,
+      "max_mass_g": 200000,
+      "max_volume_ml": 600000,
+      "tare_mass_g": 14000,
+      "mechanical_advantage_ratio": 4.5,
+      "walk_speed_multiplier": 0.88,
+      "terrain_constraint": "SLAB_DRIVEWAY_OR_FIRM_TURF_GRADE_LE_12_PCT",
+      "description": "Leveraged two-wheel hand truck for moving 48-200 kg joinery commissions, poultry coop modules, compost drums, and TLUD kilns."
+    },
+    {
+      "id": "cargo_etrike",
+      "name": "Scenario Beta 48V Front-Loader Cargo E-Trike",
+      "supported_phases": ["DISCRETE_SOLID", "GRANULAR_PARTICULATE", "LIQUID"],
+      "liquid_tight": false,
+      "requires_subcontainers_for_liquid": true,
+      "food_contact_safe": false,
+      "max_mass_g": 150000,
+      "max_volume_ml": 500000,
+      "tare_mass_g": 45000,
+      "mechanical_advantage_ratio": 10.0,
+      "walk_speed_multiplier": 2.40,
+      "terrain_constraint": "PAVED_ROAD_SIDEWALK_OR_DRIVEWAY",
+      "description": "48V 750W neighborhood milk-run vehicle hauling 150 kg of insulated tiffin totes, lumber bundles, or joinery deliveries across R1 nodes."
+    },
+    {
+      "id": "forklift",
+      "name": "Scenario Beta 48V Compact Counterbalance Yard Forklift",
+      "supported_phases": ["DISCRETE_SOLID", "GRANULAR_PARTICULATE"],
+      "liquid_tight": false,
+      "food_contact_safe": false,
+      "max_mass_g": 1500000,
+      "max_volume_ml": 2000000,
+      "tare_mass_g": 1850000,
+      "mechanical_advantage_ratio": 40.0,
+      "walk_speed_multiplier": 1.35,
+      "terrain_constraint": "REINFORCED_CONCRETE_OR_ASPHALT_GRADE_LE_5_PCT",
+      "description": "Regional depot pallet handler capable of lifting 1,500 kg IBC totes, timber bunks, and foundry machinery on paved surfaces."
+    }
+  ],
+  "entity_archetypes": [
+    {
+      "id": "arch.induction_hearth_stove",
+      "display_name": "Magnetic Induction Hearth & 40L Stockpot Station",
+      "category": "KITCHEN_APPLIANCE",
+      "voxel_material_id": 41,
+      "capabilities_provided": ["CULINARY_HEAT_SOURCE", "BROTH_SIMMER_STATION"],
+      "compatible_l2_schemas": ["l2.schema.culinary_vessel.v1"],
+      "look_text": "A high-efficiency magnetic induction range topped with a heavy 304-stainless communal soup stockpot.",
+      "inspect_properties": {
+        "manual_sensory_cues": ["vessel_fill_level", "simmer_bubble_cadence", "aromatic_steam_bouquet"],
+        "l2_telemetry_registers": ["core_temp_mk", "heater_power_mw", "volume_ml", "pasteurization_hold_s"]
+      },
+      "affordances": ["aff.look", "aff.inspect", "aff.simmer_bone_broth", "aff.cook_pea_soup", "aff.attach_l2_culinary_controller"]
+    },
+    {
+      "id": "arch.kitchen_prep_sink_cabinet",
+      "display_name": "Stainless Prep Sink & Tiffin Counter",
+      "category": "KITCHEN_FIXTURE",
+      "voxel_material_id": 42,
+      "capabilities_provided": ["KITCHEN_PREP_SINK", "POTABLE_WATER_TAP", "COMMONS_TIFFIN_HANDOFF"],
+      "compatible_l2_schemas": [],
+      "look_text": "A deep stainless washbasin and butcher-block prep counter for rinsing split peas, scrubbing roots, and filling tiffins.",
+      "inspect_properties": {
+        "manual_sensory_cues": ["tap_water_pressure", "clean_tiffin_stack_count"],
+        "l2_telemetry_registers": []
+      },
+      "affordances": ["aff.look", "aff.inspect", "aff.draw_potable_water", "aff.pack_and_deliver_tiffins"]
+    },
+    {
+      "id": "arch.refrigerator_larder",
+      "display_name": "Insulated Homestead Larder & Cold Box",
+      "category": "KITCHEN_STORAGE",
+      "voxel_material_id": 40,
+      "capabilities_provided": ["COLD_LARDER_STORAGE"],
+      "compatible_l2_schemas": ["l2.schema.enclosure_env.v1"],
+      "look_text": "An insulated refrigerator-larder storing chilled bone broth jars, mirepoix roots, pasture eggs, and dry split-pea canisters.",
+      "inspect_properties": {
+        "manual_sensory_cues": ["stored_food_portions", "seal_gasket_chill"],
+        "l2_telemetry_registers": ["ambient_temp_mk"]
+      },
+      "affordances": ["aff.look", "aff.inspect", "aff.eat_nourished_meal"]
+    },
+    {
+      "id": "arch.dining_table_set",
+      "display_name": "Oak Dining Table & Chairs",
+      "category": "FURNITURE",
+      "voxel_material_id": 43,
+      "capabilities_provided": ["DINING_SEATING"],
+      "compatible_l2_schemas": [],
+      "look_text": "A solid oak table set for quiet meals or sharing hot bowls of split-pea soup.",
+      "inspect_properties": {
+        "manual_sensory_cues": ["surface_cleanliness"],
+        "l2_telemetry_registers": []
+      },
+      "affordances": ["aff.look", "aff.inspect", "aff.eat_nourished_meal"]
+    },
+    {
+      "id": "arch.woodshop_joinery_workbench",
+      "display_name": "Scenario Alpha Joinery Workbench & Mortising Vise",
+      "category": "WORKSHOP_STATION",
+      "voxel_material_id": 54,
+      "capabilities_provided": ["WOODSHOP_JOINERY", "GARAGE_ASSEMBLY"],
+      "compatible_l2_schemas": ["l2.schema.enclosure_env.v1"],
+      "look_text": "A heavy laminated maple workbench fitted with a twin-screw joinery vise, hand planes, and mortising chisels.",
+      "inspect_properties": {
+        "manual_sensory_cues": ["blade_sharpness", "benchtop_flatness", "sawdust_sweep_state"],
+        "l2_telemetry_registers": ["acoustic_cb", "ambient_temp_mk"]
+      },
+      "affordances": [
+        "aff.look",
+        "aff.inspect",
+        "aff.mill_raised_bed_frame",
+        "aff.assemble_compost_and_kiln",
+        "aff.build_poultry_coop",
+        "aff.fulfill_l7_woodwork"
+      ]
+    },
+    {
+      "id": "arch.hand_tool_pegboard",
+      "display_name": "Garage Agronomic & Carpentry Tool Wall",
+      "category": "WORKSHOP_FIXTURE",
+      "voxel_material_id": 55,
+      "capabilities_provided": ["HAND_TOOL_RACK"],
+      "compatible_l2_schemas": [],
+      "look_text": "An organized pegboard holding a broadfork, dibber, spirit level, moisture meter, pruning shears, and chisels.",
+      "inspect_properties": {
+        "manual_sensory_cues": ["oiled_steel_condition"],
+        "l2_telemetry_registers": []
+      },
+      "affordances": ["aff.look", "aff.inspect"]
+    },
+    {
+      "id": "arch.garage_lumber_and_seed_rack",
+      "display_name": "Garage Cedar Lumber, Seed & L2 Hardware Rack",
+      "category": "WORKSHOP_STORAGE",
+      "voxel_material_id": 56,
+      "capabilities_provided": ["MATERIAL_STORAGE_RACK"],
+      "compatible_l2_schemas": [],
+      "look_text": "Stickered racks of seasoned aromatic cedar planks alongside sealed glass jars of heirloom pea seeds and boxed L2 probes.",
+      "inspect_properties": {
+        "manual_sensory_cues": ["plank_count", "seed_packet_count", "uninstalled_l2_modules"],
+        "l2_telemetry_registers": []
+      },
+      "affordances": ["aff.look", "aff.inspect"]
+    },
+    {
+      "id": "arch.raised_garden_bed",
+      "display_name": "Mortised Cedar Raised Garden Bed & Pea Trellis",
+      "category": "AGRONOMIC_ASSET",
+      "voxel_material_id": 19,
+      "capabilities_provided": ["SOIL_CULTIVATION_BED"],
+      "compatible_l2_schemas": ["l2.schema.soil_probe.v1", "l2.schema.irrigation_valve.v1"],
+      "look_text": "A 2.4 m mortised cedar raised bed filled with dark soil beneath an A-frame climbing pea trellis.",
+      "inspect_properties": {
+        "manual_sensory_cues": [
+          "knuckle_depth_soil_dampness",
+          "crumb_tilth_friability",
+          "earthworm_castings",
+          "pea_tendril_and_stipule_turgor",
+          "root_nodule_pink_leghemoglobin"
+        ],
+        "l2_telemetry_registers": [
+          "moisture_vwc_bp",
+          "soil_temp_mk",
+          "nitrogen_ppm",
+          "phosphorus_ppm",
+          "potassium_ppm",
+          "organic_carbon_bp",
+          "ph_centi",
+          "valve_open",
+          "flow_rate_ml_s"
+        ]
+      },
+      "affordances": [
+        "aff.look",
+        "aff.inspect",
+        "aff.plow_and_amend_bed",
+        "aff.erect_pea_trellis",
+        "aff.inoculate_and_sow_peas",
+        "aff.water_garden_manual",
+        "aff.harvest_peas_and_roots",
+        "aff.shell_dry_and_turn_bed",
+        "aff.install_l2_soil_probe",
+        "aff.install_l2_drip_valve"
+      ]
+    },
+    {
+      "id": "arch.thermophilic_compost_drum",
+      "display_name": "Insulated Rotating Thermophilic Compost Drum",
+      "category": "NUTRIENT_CYCLING_ASSET",
+      "voxel_material_id": 62,
+      "capabilities_provided": ["COMPOST_AND_PYROLYSIS_PAD"],
+      "compatible_l2_schemas": ["l2.schema.soil_probe.v1", "l2.schema.enclosure_env.v1"],
+      "look_text": "An insulated dual-chamber tumbling compost drum digesting kitchen peelings, spent pea vines, and biochar into black humus.",
+      "inspect_properties": {
+        "manual_sensory_cues": ["core_steam_warmth", "earthy_actinomycete_aroma", "sponge_squeeze_moisture"],
+        "l2_telemetry_registers": ["soil_temp_mk", "moisture_vwc_bp", "nh3_ammonia_ppm"]
+      },
+      "affordances": ["aff.look", "aff.inspect", "aff.turn_and_harvest_compost"]
+    },
+    {
+      "id": "arch.tlud_biochar_kiln",
+      "display_name": "Smokeless Concentric-Draft TLUD Biochar Kiln",
+      "category": "NUTRIENT_CYCLING_ASSET",
+      "voxel_material_id": 60,
+      "capabilities_provided": ["COMPOST_AND_PYROLYSIS_PAD"],
+      "compatible_l2_schemas": ["l2.schema.enclosure_env.v1"],
+      "look_text": "A double-walled stainless Top-Lit Updraft pyrolysis kiln that burns woodgas cleanly with zero visible smoke.",
+      "inspect_properties": {
+        "manual_sensory_cues": ["secondary_flare_clarity", "quenched_char_metallic_ring"],
+        "l2_telemetry_registers": ["ambient_temp_mk"]
+      },
+      "affordances": ["aff.look", "aff.inspect", "aff.pyrolyze_and_quench_biochar"]
+    },
+    {
+      "id": "arch.poultry_coop",
+      "display_name": "Elevated Heritage Poultry Coop & BSFL Hopper",
+      "category": "AVIAN_HUSBANDRY_ASSET",
+      "voxel_material_id": 58,
+      "capabilities_provided": ["POULTRY_PASTURE_RUN"],
+      "compatible_l2_schemas": ["l2.schema.enclosure_env.v1"],
+      "look_text": "An elevated timber hen house with predator-proof hardware cloth, biochar deep litter, and a self-harvesting BSFL grub ramp.",
+      "inspect_properties": {
+        "manual_sensory_cues": ["nest_box_egg_count", "litter_dryness_and_zero_odor", "waterer_clarity"],
+        "l2_telemetry_registers": ["ambient_temp_mk", "nh3_ammonia_ppm", "acoustic_cb"]
+      },
+      "affordances": ["aff.look", "aff.inspect", "aff.tend_hens_and_collect_eggs"]
+    },
+    {
+      "id": "arch.exterior_water_spigot",
+      "display_name": "Backyard Brass Hose Bibb & Rainwater Manifold",
+      "category": "WATER_SOURCE",
+      "voxel_material_id": 0,
+      "capabilities_provided": ["POTABLE_WATER_TAP", "EXTERIOR_IRRIGATION_TAP"],
+      "compatible_l2_schemas": ["l2.schema.irrigation_valve.v1"],
+      "look_text": "A frost-free red-brass garden spigot with an atmospheric RPZ backflow air-gap.",
+      "inspect_properties": {
+        "manual_sensory_cues": ["static_head_pressure", "packing_nut_dryness"],
+        "l2_telemetry_registers": ["valve_open", "flow_rate_ml_s"]
+      },
+      "affordances": ["aff.look", "aff.inspect", "aff.draw_potable_water"]
+    },
+    {
+      "id": "arch.homelab_cad_workstation",
+      "display_name": "Sovereign L6 Workstation & CAD Desk",
+      "category": "OFFICE_STATION",
+      "voxel_material_id": 120,
+      "capabilities_provided": ["L6_WORKSTATION"],
+      "compatible_l2_schemas": [],
+      "look_text": "A dual-monitor Linux workstation connected directly to Node 0's local col-gatewayd socket.",
+      "inspect_properties": {
+        "manual_sensory_cues": ["active_workflow_dags", "pending_l5_governance_prompts"],
+        "l2_telemetry_registers": []
+      },
+      "affordances": ["aff.look", "aff.inspect", "aff.study_at_workstation"]
+    },
+    {
+      "id": "arch.reference_archive_shelf",
+      "display_name": "Agronomy, Joinery & Permaculture Reference Shelf",
+      "category": "FURNITURE",
+      "voxel_material_id": 44,
+      "capabilities_provided": ["KNOWLEDGE_ARCHIVE"],
+      "compatible_l2_schemas": [],
+      "look_text": "Shelves lined with soil microbiology manuals, timber joinery plates, and Sovereign Stack specifications.",
+      "inspect_properties": { "manual_sensory_cues": ["indexed_treaties_and_manuals"], "l2_telemetry_registers": [] },
+      "affordances": ["aff.look", "aff.inspect"]
+    },
+    {
+      "id": "arch.sovereign_node_rack",
+      "display_name": "Node 0 Deterministic Daemon & LiFePO4 Microgrid Rack",
+      "category": "COMPUTE_AND_POWER",
+      "voxel_material_id": 30,
+      "capabilities_provided": ["NODE_DAEMON_HOST"],
+      "compatible_l2_schemas": ["l2.schema.enclosure_env.v1"],
+      "look_text": "A whisper-quiet convection-cooled server and 48V LiFePO4 battery cabinet running col-telemetryd through col-commonsd.",
+      "inspect_properties": {
+        "manual_sensory_cues": ["quorum_led_heartbeat", "battery_soc_bargraph"],
+        "l2_telemetry_registers": ["ambient_temp_mk", "acoustic_cb"]
+      },
+      "affordances": ["aff.look", "aff.inspect"]
+    },
+    {
+      "id": "arch.warm_shower_stall",
+      "display_name": "Hydronic Warm Shower",
+      "category": "SANITATION",
+      "voxel_material_id": 45,
+      "capabilities_provided": ["HYGIENE_SHOWER"],
+      "compatible_l2_schemas": [],
+      "look_text": "A tiled shower stall supplied with domestic hot water pre-warmed by the Node 0 hydronic heat-recovery loop.",
+      "inspect_properties": { "manual_sensory_cues": ["hot_water_temp_readiness"], "l2_telemetry_registers": [] },
+      "affordances": ["aff.look", "aff.inspect", "aff.take_warm_shower"]
+    },
+    {
+      "id": "arch.sanitation_toilet",
+      "display_name": "Low-Flow Sanitation Fixture",
+      "category": "SANITATION",
+      "voxel_material_id": 46,
+      "capabilities_provided": ["SANITATION_RELIEF"],
+      "compatible_l2_schemas": [],
+      "look_text": "A clean ceramic bathroom toilet.",
+      "inspect_properties": { "manual_sensory_cues": ["seal_and_valve_status"], "l2_telemetry_registers": [] },
+      "affordances": ["aff.look", "aff.inspect"]
+    },
+    {
+      "id": "arch.bathroom_vanity_sink",
+      "display_name": "Bathroom Washbasin & Vanity",
+      "category": "SANITATION",
+      "voxel_material_id": 47,
+      "capabilities_provided": ["HANDWASHING"],
+      "compatible_l2_schemas": [],
+      "look_text": "A porcelain washbasin stocked with castile soap and linen towels.",
+      "inspect_properties": { "manual_sensory_cues": ["water_clarity"], "l2_telemetry_registers": [] },
+      "affordances": ["aff.look", "aff.inspect"]
+    },
+    {
+      "id": "arch.living_room_couch",
+      "display_name": "Linen Living Room Couch",
+      "category": "FURNITURE",
+      "voxel_material_id": 48,
+      "capabilities_provided": ["COGNITIVE_DECOMPRESSION"],
+      "compatible_l2_schemas": [],
+      "look_text": "A deep, comfortable three-seat couch facing the warm acoustic hi-fi system.",
+      "inspect_properties": { "manual_sensory_cues": ["cushion_loft"], "l2_telemetry_registers": [] },
+      "affordances": ["aff.look", "aff.inspect", "aff.decompress_living_room"]
+    },
+    {
+      "id": "arch.media_display_console",
+      "display_name": "Living Room Media Display",
+      "category": "FURNITURE",
+      "voxel_material_id": 49,
+      "capabilities_provided": ["COGNITIVE_DECOMPRESSION"],
+      "compatible_l2_schemas": [],
+      "look_text": "A low timber console with an OLED screen for evening films and local co-op games.",
+      "inspect_properties": { "manual_sensory_cues": ["standby_power_mw"], "l2_telemetry_registers": [] },
+      "affordances": ["aff.look", "aff.inspect", "aff.decompress_living_room"]
+    },
+    {
+      "id": "arch.acoustic_sound_system",
+      "display_name": "Bookshelf Hi-Fi Speaker Tower",
+      "category": "FURNITURE",
+      "voxel_material_id": 50,
+      "capabilities_provided": ["COGNITIVE_DECOMPRESSION"],
+      "compatible_l2_schemas": [],
+      "look_text": "Warm birch-ply acoustic speakers calibrated well within quiet-hours decibel limits.",
+      "inspect_properties": { "manual_sensory_cues": ["cone_integrity"], "l2_telemetry_registers": [] },
+      "affordances": ["aff.look", "aff.inspect"]
+    },
+    {
+      "id": "arch.insulated_bed_mattress",
+      "display_name": "Timber Frame Bed & Wool Mattress",
+      "category": "FURNITURE",
+      "voxel_material_id": 23,
+      "capabilities_provided": ["SLEEP_RECOVERY"],
+      "compatible_l2_schemas": [],
+      "look_text": "A sturdy mortised bed frame dressed with breathable organic cotton and wool blankets.",
+      "inspect_properties": { "manual_sensory_cues": ["bedding_warmth"], "l2_telemetry_registers": [] },
+      "affordances": ["aff.look", "aff.inspect", "aff.sleep_in_bed"]
+    },
+    {
+      "id": "arch.bedside_nightstand",
+      "display_name": "Cedar Bedside Nightstand",
+      "category": "FURNITURE",
+      "voxel_material_id": 51,
+      "capabilities_provided": [],
+      "compatible_l2_schemas": [],
+      "look_text": "A small nightstand with a warm reading lamp and carafe of water.",
+      "inspect_properties": { "manual_sensory_cues": ["lamp_warmth"], "l2_telemetry_registers": [] },
+      "affordances": ["aff.look", "aff.inspect"]
+    },
+    {
+      "id": "arch.timber_wardrobe",
+      "display_name": "Cedar Clothing Wardrobe",
+      "category": "FURNITURE",
+      "voxel_material_id": 52,
+      "capabilities_provided": [],
+      "compatible_l2_schemas": [],
+      "look_text": "A tall wardrobe storing canvas work aprons, rain gear, and clean clothes.",
+      "inspect_properties": { "manual_sensory_cues": ["cedar_moth_protection_aroma"], "l2_telemetry_registers": [] },
+      "affordances": ["aff.look", "aff.inspect"]
+    },
+    {
+      "id": "arch.standing_mirror",
+      "display_name": "Full-Length Bedroom Mirror",
+      "category": "FURNITURE",
+      "voxel_material_id": 53,
+      "capabilities_provided": [],
+      "compatible_l2_schemas": [],
+      "look_text": "A simple timber-framed standing mirror reflecting natural window light.",
+      "inspect_properties": { "manual_sensory_cues": ["glass_clarity"], "l2_telemetry_registers": [] },
+      "affordances": ["aff.look", "aff.inspect"]
+    },
+    {
+      "id": "arch.hauling_tool_bucket",
+      "display_name": "15L Galvanized Homestead Bucket",
+      "category": "HAULING_TOOL_ENTITY",
+      "voxel_material_id": 0,
+      "hauling_tool_id": "bucket",
+      "capabilities_provided": ["HAUL_LIQUID", "HAUL_GRANULAR"],
+      "compatible_l2_schemas": [],
+      "look_text": "A riveted 15-liter galvanized steel bucket with a wooden bail grip.",
+      "inspect_properties": { "manual_sensory_cues": ["seam_watertightness", "current_fill_contents"], "l2_telemetry_registers": [] },
+      "affordances": ["aff.look", "aff.inspect", "aff.pickup_hauling_tool"]
+    },
+    {
+      "id": "arch.hauling_tool_watering_can",
+      "display_name": "10L Galvanized Rose-Spout Watering Can",
+      "category": "HAULING_TOOL_ENTITY",
+      "voxel_material_id": 0,
+      "hauling_tool_id": "watering_can",
+      "capabilities_provided": ["HAUL_LIQUID", "MANUAL_IRRIGATION_VESSEL"],
+      "compatible_l2_schemas": [],
+      "look_text": "A balanced 10-liter galvanized watering can with a removable fine-spray brass rose.",
+      "inspect_properties": { "manual_sensory_cues": ["rose_nozzle_clear", "water_volume_ml"], "l2_telemetry_registers": [] },
+      "affordances": ["aff.look", "aff.inspect", "aff.pickup_hauling_tool"]
+    },
+    {
+      "id": "arch.hauling_tool_tiffin_carrier",
+      "display_name": "4-Tier 304-Stainless Insulated Tiffin Carrier",
+      "category": "HAULING_TOOL_ENTITY",
+      "voxel_material_id": 0,
+      "hauling_tool_id": "tiffin_carrier",
+      "capabilities_provided": ["HAUL_LIQUID", "HAUL_HOT_FOOD_TIFFIN"],
+      "compatible_l2_schemas": [],
+      "look_text": "A gleaming 4-tier 304-stainless latching tiffin carrier tagged with a passive NFC return manifest.",
+      "inspect_properties": { "manual_sensory_cues": ["silicone_gasket_seal", "latched_tiers_count"], "l2_telemetry_registers": [] },
+      "affordances": ["aff.look", "aff.inspect", "aff.pickup_hauling_tool"]
+    },
+    {
+      "id": "arch.hauling_tool_wheelbarrow",
+      "display_name": "Pneumatic Steel Contractor Wheelbarrow",
+      "category": "HAULING_TOOL_ENTITY",
+      "voxel_material_id": 0,
+      "hauling_tool_id": "wheelbarrow",
+      "capabilities_provided": ["HAUL_GRANULAR_BULK", "HAUL_HEAVY_SOLID_140KG"],
+      "compatible_l2_schemas": [],
+      "look_text": "A deep-tray steel wheelbarrow on a knobby pneumatic tire built for 140 kg loads of compost, soil, or backyard assemblies.",
+      "inspect_properties": { "manual_sensory_cues": ["tire_pressure_firm", "axle_grease_smooth"], "l2_telemetry_registers": [] },
+      "affordances": ["aff.look", "aff.inspect", "aff.pickup_hauling_tool"]
+    },
+    {
+      "id": "arch.hauling_tool_hand_dolly",
+      "display_name": "Heavy-Duty Steel Hand Dolly",
+      "category": "HAULING_TOOL_ENTITY",
+      "voxel_material_id": 0,
+      "hauling_tool_id": "hand_dolly",
+      "capabilities_provided": ["HAUL_HEAVY_SOLID_200KG"],
+      "compatible_l2_schemas": [],
+      "look_text": "An upright welded-steel appliance and joinery hand dolly with ratcheting cinch straps rated to 200 kg.",
+      "inspect_properties": { "manual_sensory_cues": ["toe_plate_straight", "strap_ratchet_tension"], "l2_telemetry_registers": [] },
+      "affordances": ["aff.look", "aff.inspect", "aff.pickup_hauling_tool"]
+    }
+  ],
+  "affordances": [
+    {
+      "id": "aff.look",
+      "label": "Look",
+      "universal": true,
+      "requires_proximity": false,
+      "required_capabilities": [],
+      "duration_sim_seconds": 2,
+      "preconditions": { "min_caloric_kcal": 0, "required_items": [], "required_hauling_tool_any": [] },
+      "somatic_effects": { "caloric_burn_kcal": 0, "fatigue_delta": 0.0, "stress_delta": 0.0 },
+      "linked_l4_workflow_id": null
+    },
+    {
+      "id": "aff.inspect",
+      "label": "Inspect Closely",
+      "universal": true,
+      "requires_proximity": true,
+      "required_capabilities": [],
+      "duration_sim_seconds": 30,
+      "preconditions": { "min_caloric_kcal": 100, "required_items": [], "required_hauling_tool_any": [] },
+      "somatic_effects": { "caloric_burn_kcal": 4, "fatigue_delta": 0.002, "stress_delta": -0.01 },
+      "linked_l4_workflow_id": null
+    },
+    {
+      "id": "aff.pickup_hauling_tool",
+      "label": "Acquire Hauling Tool",
+      "universal": false,
+      "requires_proximity": true,
+      "required_capabilities": [],
+      "duration_sim_seconds": 12,
+      "preconditions": { "min_caloric_kcal": 250, "required_items": [], "required_hauling_tool_any": [] },
+      "somatic_effects": { "caloric_burn_kcal": 3, "fatigue_delta": 0.002, "stress_delta": 0.0 },
+      "linked_l4_workflow_id": null
+    },
+    {
+      "id": "aff.draw_potable_water",
+      "label": "Fill Vessel with Potable Water",
+      "universal": false,
+      "requires_proximity": true,
+      "required_capabilities": ["POTABLE_WATER_TAP"],
+      "duration_sim_seconds": 45,
+      "preconditions": {
+        "min_caloric_kcal": 200,
+        "required_items": [],
+        "required_hauling_tool_any": ["watering_can", "bucket", "tiffin_carrier"]
+      },
+      "somatic_effects": { "caloric_burn_kcal": 8, "fatigue_delta": 0.005, "stress_delta": 0.0 },
+      "linked_l4_workflow_id": null
+    },
+    {
+      "id": "aff.mill_raised_bed_frame",
+      "label": "Mill Cedar Raised Bed & Trellis Frame",
+      "universal": false,
+      "requires_proximity": true,
+      "required_capabilities": ["WOODSHOP_JOINERY"],
+      "duration_sim_seconds": 3600,
+      "preconditions": {
+        "min_caloric_kcal": 800,
+        "required_items": [{ "item_id": "item.cedar_plank", "min_count": 8 }],
+        "required_hauling_tool_any": []
+      },
+      "somatic_effects": { "caloric_burn_kcal": 260, "fatigue_delta": 0.14, "stress_delta": -0.04, "focus_delta": -0.08 },
+      "linked_l4_workflow_id": "wf.fab.mill_raised_bed_frame"
+    },
+    {
+      "id": "aff.assemble_compost_and_kiln",
+      "label": "Assemble & Dolly-Haul Compost Drum + TLUD Kiln",
+      "universal": false,
+      "requires_proximity": true,
+      "required_capabilities": ["WOODSHOP_JOINERY"],
+      "duration_sim_seconds": 4800,
+      "preconditions": {
+        "min_caloric_kcal": 950,
+        "required_items": [{ "item_id": "item.cedar_plank", "min_count": 6 }],
+        "required_hauling_tool_any": ["wheelbarrow", "hand_dolly", "cargo_etrike", "forklift"]
+      },
+      "somatic_effects": { "caloric_burn_kcal": 340, "fatigue_delta": 0.18, "stress_delta": -0.03, "focus_delta": -0.10 },
+      "linked_l4_workflow_id": "wf.fab.assemble_compost_and_kiln"
+    },
+    {
+      "id": "aff.build_poultry_coop",
+      "label": "Build & Dolly-Haul 115 kg Elevated Poultry Coop",
+      "universal": false,
+      "requires_proximity": true,
+      "required_capabilities": ["WOODSHOP_JOINERY"],
+      "duration_sim_seconds": 5400,
+      "preconditions": {
+        "min_caloric_kcal": 1000,
+        "required_items": [{ "item_id": "item.cedar_plank", "min_count": 12 }],
+        "required_hauling_tool_any": ["hand_dolly", "wheelbarrow", "cargo_etrike", "forklift"]
+      },
+      "somatic_effects": { "caloric_burn_kcal": 390, "fatigue_delta": 0.22, "stress_delta": -0.04, "focus_delta": -0.10 },
+      "linked_l4_workflow_id": "wf.fab.build_poultry_coop"
+    },
+    {
+      "id": "aff.fulfill_l7_woodwork",
+      "label": "Mill Custom Joinery Order (L7 Bill Offset)",
+      "universal": false,
+      "requires_proximity": true,
+      "required_capabilities": ["WOODSHOP_JOINERY"],
+      "duration_sim_seconds": 5400,
+      "preconditions": {
+        "min_caloric_kcal": 900,
+        "required_items": [{ "item_id": "item.cedar_plank", "min_count": 10 }],
+        "required_hauling_tool_any": ["hand_dolly", "cargo_etrike", "forklift"]
+      },
+      "somatic_effects": { "caloric_burn_kcal": 310, "fatigue_delta": 0.17, "stress_delta": 0.02, "focus_delta": -0.12 },
+      "linked_l4_workflow_id": "wf.fab.fulfill_l7_custom_woodwork"
+    },
+    {
+      "id": "aff.plow_and_amend_bed",
+      "label": "Broadfork & Amend Soil with Compost/Biochar",
+      "universal": false,
+      "requires_proximity": true,
+      "required_capabilities": ["SOIL_CULTIVATION_BED"],
+      "duration_sim_seconds": 2400,
+      "preconditions": {
+        "min_caloric_kcal": 750,
+        "required_items": [],
+        "required_hauling_tool_any": ["wheelbarrow", "bucket"]
+      },
+      "somatic_effects": { "caloric_burn_kcal": 240, "fatigue_delta": 0.13, "stress_delta": -0.06 },
+      "linked_l4_workflow_id": "wf.garden.plow_and_amend_soil"
+    },
+    {
+      "id": "aff.erect_pea_trellis",
+      "label": "Erect A-Frame Climbing Pea Trellis",
+      "universal": false,
+      "requires_proximity": true,
+      "required_capabilities": ["SOIL_CULTIVATION_BED"],
+      "duration_sim_seconds": 1500,
+      "preconditions": {
+        "min_caloric_kcal": 650,
+        "required_items": [{ "item_id": "item.trellis_aframe_kit", "min_count": 1 }],
+        "required_hauling_tool_any": []
+      },
+      "somatic_effects": { "caloric_burn_kcal": 135, "fatigue_delta": 0.08, "stress_delta": -0.04 },
+      "linked_l4_workflow_id": "wf.garden.erect_trellis"
+    },
+    {
+      "id": "aff.inoculate_and_sow_peas",
+      "label": "Inoculate (Rhizobium) & Sow Split Peas + Mirepoix",
+      "universal": false,
+      "requires_proximity": true,
+      "required_capabilities": ["SOIL_CULTIVATION_BED"],
+      "duration_sim_seconds": 2100,
+      "preconditions": {
+        "min_caloric_kcal": 600,
+        "required_items": [{ "item_id": "item.pea_seeds_heirloom", "min_count": 1 }],
+        "required_hauling_tool_any": []
+      },
+      "somatic_effects": { "caloric_burn_kcal": 120, "fatigue_delta": 0.07, "stress_delta": -0.08 },
+      "linked_l4_workflow_id": "wf.garden.inoculate_and_sow_peas"
+    },
+    {
+      "id": "aff.water_garden_manual",
+      "label": "Irrigate & Hand-Weed Bed (Watering Can / Bucket)",
+      "universal": false,
+      "requires_proximity": true,
+      "required_capabilities": ["SOIL_CULTIVATION_BED"],
+      "duration_sim_seconds": 900,
+      "preconditions": {
+        "min_caloric_kcal": 550,
+        "required_items": [{ "item_id": "item.potable_water", "min_count": 5 }],
+        "required_hauling_tool_any": ["watering_can", "bucket"]
+      },
+      "somatic_effects": { "caloric_burn_kcal": 85, "fatigue_delta": 0.05, "stress_delta": -0.07 },
+      "linked_l4_workflow_id": "wf.garden.irrigate_and_weed_manual"
+    },
+    {
+      "id": "aff.install_l2_soil_probe",
+      "label": "Install L2 FDR Soil Probe (soil_probe_v1)",
+      "universal": false,
+      "requires_proximity": true,
+      "required_capabilities": ["SOIL_CULTIVATION_BED"],
+      "duration_sim_seconds": 300,
+      "preconditions": {
+        "min_caloric_kcal": 400,
+        "required_items": [{ "item_id": "item.l2_soil_probe", "min_count": 1 }],
+        "required_hauling_tool_any": []
+      },
+      "somatic_effects": { "caloric_burn_kcal": 20, "fatigue_delta": 0.01, "stress_delta": -0.02 },
+      "linked_l4_workflow_id": null
+    },
+    {
+      "id": "aff.install_l2_drip_valve",
+      "label": "Plumb L2 24V Drip Solenoid Valve (irrigation_valve_v1)",
+      "universal": false,
+      "requires_proximity": true,
+      "required_capabilities": ["SOIL_CULTIVATION_BED"],
+      "duration_sim_seconds": 600,
+      "preconditions": {
+        "min_caloric_kcal": 450,
+        "required_items": [{ "item_id": "item.l2_irrigation_valve", "min_count": 1 }],
+        "required_hauling_tool_any": []
+      },
+      "somatic_effects": { "caloric_burn_kcal": 35, "fatigue_delta": 0.02, "stress_delta": -0.03 },
+      "linked_l4_workflow_id": "wf.garden.irrigate_l2_automated"
+    },
+    {
+      "id": "aff.harvest_peas_and_roots",
+      "label": "Harvest Mature Pea Pods & Mirepoix Roots",
+      "universal": false,
+      "requires_proximity": true,
+      "required_capabilities": ["SOIL_CULTIVATION_BED"],
+      "duration_sim_seconds": 1800,
+      "preconditions": {
+        "min_caloric_kcal": 600,
+        "required_items": [],
+        "required_hauling_tool_any": ["bucket"]
+      },
+      "somatic_effects": { "caloric_burn_kcal": 140, "fatigue_delta": 0.08, "stress_delta": -0.10 },
+      "linked_l4_workflow_id": "wf.garden.harvest_pods_and_roots"
+    },
+    {
+      "id": "aff.shell_dry_and_turn_bed",
+      "label": "Shell Dry Peas (<1400 bp MC) & Cut-In Root Nodules",
+      "universal": false,
+      "requires_proximity": true,
+      "required_capabilities": ["SOIL_CULTIVATION_BED"],
+      "duration_sim_seconds": 2100,
+      "preconditions": {
+        "min_caloric_kcal": 600,
+        "required_items": [],
+        "required_hauling_tool_any": ["bucket", "wheelbarrow"]
+      },
+      "somatic_effects": { "caloric_burn_kcal": 130, "fatigue_delta": 0.07, "stress_delta": -0.06 },
+      "linked_l4_workflow_id": "wf.garden.shell_dry_and_turn_bed"
+    },
+    {
+      "id": "aff.pyrolyze_and_quench_biochar",
+      "label": "Run Smokeless TLUD Pyrolysis & Quench Biochar",
+      "universal": false,
+      "requires_proximity": true,
+      "required_capabilities": ["COMPOST_AND_PYROLYSIS_PAD"],
+      "duration_sim_seconds": 2700,
+      "preconditions": {
+        "min_caloric_kcal": 650,
+        "required_items": [],
+        "required_hauling_tool_any": ["bucket"]
+      },
+      "somatic_effects": { "caloric_burn_kcal": 150, "fatigue_delta": 0.08, "stress_delta": -0.05 },
+      "linked_l4_workflow_id": null
+    },
+    {
+      "id": "aff.turn_and_harvest_compost",
+      "label": "Aerate & Screen Thermophilic Humus Compost",
+      "universal": false,
+      "requires_proximity": true,
+      "required_capabilities": ["COMPOST_AND_PYROLYSIS_PAD"],
+      "duration_sim_seconds": 1200,
+      "preconditions": {
+        "min_caloric_kcal": 600,
+        "required_items": [],
+        "required_hauling_tool_any": ["wheelbarrow", "bucket"]
+      },
+      "somatic_effects": { "caloric_burn_kcal": 110, "fatigue_delta": 0.06, "stress_delta": -0.04 },
+      "linked_l4_workflow_id": null
+    },
+    {
+      "id": "aff.tend_hens_and_collect_eggs",
+      "label": "Feed BSFL Grubs, Refresh Biochar Litter & Gather Eggs",
+      "universal": false,
+      "requires_proximity": true,
+      "required_capabilities": ["POULTRY_PASTURE_RUN"],
+      "duration_sim_seconds": 900,
+      "preconditions": {
+        "min_caloric_kcal": 500,
+        "required_items": [],
+        "required_hauling_tool_any": []
+      },
+      "somatic_effects": { "caloric_burn_kcal": 65, "fatigue_delta": 0.03, "stress_delta": -0.10 },
+      "linked_l4_workflow_id": null
+    },
+    {
+      "id": "aff.attach_l2_culinary_controller",
+      "label": "Clip PT100 Probe & L2 Controller to Cauldron",
+      "universal": false,
+      "requires_proximity": true,
+      "required_capabilities": ["CULINARY_HEAT_SOURCE"],
+      "duration_sim_seconds": 240,
+      "preconditions": {
+        "min_caloric_kcal": 350,
+        "required_items": [{ "item_id": "item.l2_culinary_rtd_controller", "min_count": 1 }],
+        "required_hauling_tool_any": []
+      },
+      "somatic_effects": { "caloric_burn_kcal": 15, "fatigue_delta": 0.01, "stress_delta": -0.02 },
+      "linked_l4_workflow_id": null
+    },
+    {
+      "id": "aff.simmer_bone_broth",
+      "label": "Start 24-Hour Collagen Bone Broth & Calcine Spent Bones",
+      "universal": false,
+      "requires_proximity": true,
+      "required_capabilities": ["CULINARY_HEAT_SOURCE"],
+      "duration_sim_seconds": 2400,
+      "preconditions": {
+        "min_caloric_kcal": 550,
+        "required_items": [
+          { "item_id": "item.potable_water", "min_count": 3 }
+        ],
+        "required_hauling_tool_any": []
+      },
+      "somatic_effects": { "caloric_burn_kcal": 95, "fatigue_delta": 0.05, "stress_delta": -0.12 },
+      "linked_l4_workflow_id": "wf.soup.simmer_bone_broth"
+    },
+    {
+      "id": "aff.cook_pea_soup",
+      "label": "Prep Mirepoix & Simmer Communal Split-Pea Soup (>= 74 C)",
+      "universal": false,
+      "requires_proximity": true,
+      "required_capabilities": ["CULINARY_HEAT_SOURCE"],
+      "duration_sim_seconds": 3600,
+      "preconditions": {
+        "min_caloric_kcal": 550,
+        "required_items": [
+          { "item_id": "item.split_peas_dry", "min_count": 1 },
+          { "item_id": "item.potable_water", "min_count": 2 }
+        ],
+        "required_hauling_tool_any": []
+      },
+      "somatic_effects": { "caloric_burn_kcal": 130, "fatigue_delta": 0.06, "stress_delta": -0.14 },
+      "linked_l4_workflow_id": "wf.soup.prep_and_simmer_pea_soup"
+    },
+    {
+      "id": "aff.pack_and_deliver_tiffins",
+      "label": "Fill Stainless Tiffin Carrier & Share Hot Pea Soup",
+      "universal": false,
+      "requires_proximity": true,
+      "required_capabilities": ["COMMONS_TIFFIN_HANDOFF"],
+      "duration_sim_seconds": 900,
+      "preconditions": {
+        "min_caloric_kcal": 500,
+        "required_items": [{ "item_id": "item.pea_soup", "min_count": 4 }],
+        "required_hauling_tool_any": ["tiffin_carrier", "cargo_etrike"]
+      },
+      "somatic_effects": { "caloric_burn_kcal": 70, "fatigue_delta": 0.04, "stress_delta": -0.18 },
+      "linked_l4_workflow_id": "wf.soup.package_and_distribute_tiffins"
+    },
+    {
+      "id": "aff.eat_nourished_meal",
+      "label": "Sit & Eat Warm Homestead Meal",
+      "universal": false,
+      "requires_proximity": true,
+      "required_capabilities": ["DINING_SEATING", "COLD_LARDER_STORAGE"],
+      "duration_sim_seconds": 1200,
+      "preconditions": { "min_caloric_kcal": 0, "required_items": [], "required_hauling_tool_any": [] },
+      "somatic_effects": { "caloric_burn_kcal": -750, "hydration_delta": 0.25, "fatigue_delta": -0.06, "stress_delta": -0.12 },
+      "linked_l4_workflow_id": null
+    },
+    {
+      "id": "aff.take_warm_shower",
+      "label": "Take Warm Hydronic Shower",
+      "universal": false,
+      "requires_proximity": true,
+      "required_capabilities": ["HYGIENE_SHOWER"],
+      "duration_sim_seconds": 900,
+      "preconditions": { "min_caloric_kcal": 0, "required_items": [], "required_hauling_tool_any": [] },
+      "somatic_effects": { "caloric_burn_kcal": 15, "hygiene_set": 1.0, "stress_delta": -0.16 },
+      "linked_l4_workflow_id": null
+    },
+    {
+      "id": "aff.decompress_living_room",
+      "label": "Unwind with Music & Reading on Couch",
+      "universal": false,
+      "requires_proximity": true,
+      "required_capabilities": ["COGNITIVE_DECOMPRESSION"],
+      "duration_sim_seconds": 2700,
+      "preconditions": { "min_caloric_kcal": 0, "required_items": [], "required_hauling_tool_any": [] },
+      "somatic_effects": { "caloric_burn_kcal": 35, "fatigue_delta": -0.10, "stress_delta": -0.24, "focus_delta": 0.16 },
+      "linked_l4_workflow_id": null
+    },
+    {
+      "id": "aff.study_at_workstation",
+      "label": "Review L6 Needs, Governance & Workflow Plans",
+      "universal": false,
+      "requires_proximity": true,
+      "required_capabilities": ["L6_WORKSTATION"],
+      "duration_sim_seconds": 1800,
+      "preconditions": { "min_caloric_kcal": 400, "required_items": [], "required_hauling_tool_any": [] },
+      "somatic_effects": { "caloric_burn_kcal": 40, "fatigue_delta": 0.04, "stress_delta": -0.04, "focus_delta": 0.10 },
+      "linked_l4_workflow_id": null
+    },
+    {
+      "id": "aff.sleep_in_bed",
+      "label": "Sleep Full Circadian Rest (8h)",
+      "universal": false,
+      "requires_proximity": true,
+      "required_capabilities": ["SLEEP_RECOVERY"],
+      "duration_sim_seconds": 28800,
+      "preconditions": { "min_caloric_kcal": 0, "required_items": [], "required_hauling_tool_any": [] },
+      "somatic_effects": { "caloric_burn_kcal": 420, "fatigue_set": 0.0, "stress_delta": -0.35, "focus_set": 1.0 },
+      "linked_l4_workflow_id": null
+    }
+  ],
+  "thought_rules": [
+    {
+      "id": "thought.hunger_low",
+      "priority": 100,
+      "condition": { "hunger_tier_max": 2 },
+      "cooldown_sim_seconds": 900,
+      "text": "My stomach is rumbling — time to ladle a warm bowl of split-pea soup or grab a meal from the kitchen larder before tackling heavy work."
+    },
+    {
+      "id": "thought.energy_exhausted",
+      "priority": 95,
+      "condition": { "energy_tier_max": 2 },
+      "cooldown_sim_seconds": 1200,
+      "text": "My arms feel heavy after today's hauling. Eight hours under the wool blanket in the bedroom will restore steady energy."
+    },
+    {
+      "id": "thought.mood_stressed",
+      "priority": 88,
+      "condition": { "mood_tier_max": 2 },
+      "cooldown_sim_seconds": 1200,
+      "text": "Pacing is everything in a resilient commons — I should sit on the living room couch with warm music and let the tension clear."
+    },
+    {
+      "id": "thought.hauling_liquid_vessel_needed",
+      "priority": 85,
+      "condition": { "context_event": "LIQUID_WITHOUT_VESSEL" },
+      "cooldown_sim_seconds": 300,
+      "text": "Can't carry liquids bare-handed — I'll grab the watering can or galvanized bucket from the garage first."
+    },
+    {
+      "id": "thought.hauling_heavy_tool_needed",
+      "priority": 84,
+      "condition": { "context_event": "HEAVY_MASS_REQUIRES_DOLLY_OR_BARROW" },
+      "cooldown_sim_seconds": 300,
+      "text": "That assembly weighs well over 40 kg — I'll fetch the hand dolly or pneumatic wheelbarrow from the garage bay."
+    },
+    {
+      "id": "thought.pending_l6_decision",
+      "priority": 80,
+      "condition": { "has_pending_l6_approval": true },
+      "cooldown_sim_seconds": 600,
+      "text": "Layer 5 paused an upward governance question for me — I can review the sourcing or bill-offset trade-off at the L6 Companion."
+    },
+    {
+      "id": "thought.manual_garden_observation",
+      "priority": 65,
+      "condition": { "has_garden_bed": true, "l2_soil_probe_installed": false },
+      "cooldown_sim_seconds": 3600,
+      "text": "Without an L2 soil probe wired in yet, a calm walk out to feel the topsoil dampness by hand keeps me tuned to the peas."
+    },
+    {
+      "id": "thought.l2_automated_drip_harmony",
+      "priority": 60,
+      "condition": { "has_garden_bed": true, "l2_soil_probe_installed": true, "l2_irrigation_valve_installed": true },
+      "cooldown_sim_seconds": 7200,
+      "text": "The FDR rhizosphere probe and 24V drip valve are holding field capacity automatically — freeing hours for joinery and soup."
+    },
+    {
+      "id": "thought.day1_clean_backyard_horizon",
+      "priority": 40,
+      "condition": { "has_garden_bed": false },
+      "cooldown_sim_seconds": 3600,
+      "text": "Open sandy-loam topsoil stretches across the fenced backyard, and the cedar planks, bucket, and wheelbarrow are ready in the garage."
+    },
+    {
+      "id": "thought.thriving_commons_equilibrium",
+      "priority": 20,
+      "condition": { "hunger_tier_min": 4, "energy_tier_min": 4, "mood_tier_min": 4 },
+      "cooldown_sim_seconds": 3600,
+      "text": "Solar reserve is steady, the house is quiet, and our little node is humming in gentle rhythm with the neighborhood mesh."
+    }
+  ]
+}

@@ -308,3 +308,189 @@ TEST_CASE("Test 4: Scenario Gamma (The Sovereign Kitchen) Cooking & Consequentia
     const VoxelContextMenu pantry_menu = EvaluateVoxelContext(pantry_hit);
     CHECK(pantry_menu.HasAction("[Cook Meal (Scenario Γ)]"));
 }
+
+TEST_CASE("Test 5: Sprint 18 Scenario Alpha + Gamma Backyard Pea Farming, Poultry Husbandry, Bone Broth & Communal Pea Soup", "[sprint-18][gamma][alpha][husbandry][peasoup]") {
+    GenesisCampStockComponent stock{};
+    stock.backyard_coop_built = false;
+    stock.pea_trellis_built = false;
+    stock.timber_planks_remaining = 6u;
+    stock.potable_water_liters = 60.0;
+    stock.ration_meals_remaining = 12u;
+    stock.split_peas_and_beans = 4u;
+    stock.root_mirepoix_veggies = 2u;
+    stock.bsfl_larvae_and_scraps = 3u;
+    stock.bone_ash_calcium_grit = 0u;
+    stock.flock_hens_count = 4u;
+    stock.fresh_eggs_count = 2u;
+    stock.chicken_meat_portions = 0u;
+    stock.poultry_broth_bones = 1u;
+    stock.bone_broth_jars = 1u;
+    stock.communal_pea_soup_tiffins = 0u;
+    stock.community_meals_served_total = 0u;
+    stock.biochar_kiln_char_batches = 0u;
+    stock.terra_preta_batches_charged = 0u;
+
+    double solar_kwh = 5.0;
+    uint32_t reputation_bp = 100u;
+    uint32_t value_tokens = 25u;
+
+    // 1. Scenario Alpha (1) Garage Fabrication: Build Backyard Chicken Coop & Keyline Pea/Bean Trellis
+    CHECK_FALSE(stock.backyard_coop_built);
+    CHECK_FALSE(stock.pea_trellis_built);
+    REQUIRE(BuildOrUpgradeCoopAndTrellisInGarage(stock));
+    CHECK(stock.backyard_coop_built);
+    CHECK(stock.pea_trellis_built);
+    CHECK(stock.timber_planks_remaining == 5u);
+    CHECK(stock.flock_hens_count == 5u);
+
+    // 2. Scenario Gamma (3) Backyard Pea/Bean & Root Mirepoix Harvest
+    const uint32_t peas_before_harvest = stock.split_peas_and_beans;
+    const uint32_t roots_before_harvest = stock.root_mirepoix_veggies;
+    const uint32_t scraps_before_harvest = stock.bsfl_larvae_and_scraps;
+    REQUIRE(HarvestPeaAndRootGarden(stock));
+    CHECK(stock.split_peas_and_beans == peas_before_harvest + 3u);
+    CHECK(stock.root_mirepoix_veggies == roots_before_harvest + 2u);
+    CHECK(stock.bsfl_larvae_and_scraps == scraps_before_harvest + 2u);
+
+    // 3. Trophic Non-Competition Poultry Husbandry: Tend Backyard Flock & Collect Eggs / Heritage Meat / Bones
+    const uint32_t human_peas_before_tend = stock.split_peas_and_beans;
+    const uint32_t human_meals_before_tend = stock.ration_meals_remaining;
+    const uint32_t scraps_before_tend = stock.bsfl_larvae_and_scraps;
+    const uint32_t eggs_before_tend = stock.fresh_eggs_count;
+    const uint32_t meat_before_tend = stock.chicken_meat_portions;
+    const uint32_t bones_before_tend = stock.poultry_broth_bones;
+    REQUIRE(TendBackyardFlockAndCollectEggs(stock));
+    // Must consume BSFL/scraps and NEVER touch human-grade split peas/beans or ration meals
+    CHECK(stock.bsfl_larvae_and_scraps == scraps_before_tend - 1u);
+    CHECK(stock.split_peas_and_beans == human_peas_before_tend);
+    CHECK(stock.ration_meals_remaining == human_meals_before_tend);
+    CHECK(stock.fresh_eggs_count == eggs_before_tend + 4u);
+    CHECK(stock.chicken_meat_portions == meat_before_tend + 1u);
+    CHECK(stock.poultry_broth_bones == bones_before_tend + 1u);
+
+    // 4. Closed-Loop Calcium & Collagen Cycle: Simmer Collagen Bone Broth
+    const uint32_t bones_before_broth = stock.poultry_broth_bones;
+    const uint32_t broth_before = stock.bone_broth_jars;
+    const uint32_t grit_before = stock.bone_ash_calcium_grit;
+    REQUIRE(SimmerCollagenBoneBroth(stock, solar_kwh));
+    CHECK(stock.poultry_broth_bones == bones_before_broth - 1u);
+    CHECK(stock.bone_broth_jars == broth_before + 3u);
+    CHECK(stock.bone_ash_calcium_grit == grit_before + 2u);
+    CHECK(solar_kwh == Catch::Approx(4.70));
+
+    // 5. Cook Communal Pea Soup & Heritage Poultry/Egg Potage Batch
+    const uint32_t peas_before_soup = stock.split_peas_and_beans;
+    const uint32_t roots_before_soup = stock.root_mirepoix_veggies;
+    const uint32_t broth_before_soup = stock.bone_broth_jars;
+    const uint32_t meat_before_soup = stock.chicken_meat_portions;
+    const uint32_t meals_before_soup = stock.ration_meals_remaining;
+    REQUIRE(CookCommunalPeaSoupBatch(stock, solar_kwh));
+    CHECK(stock.split_peas_and_beans == peas_before_soup - 1u);
+    CHECK(stock.root_mirepoix_veggies == roots_before_soup - 1u);
+    CHECK(stock.bone_broth_jars == broth_before_soup - 1u);
+    CHECK(stock.chicken_meat_portions == meat_before_soup - 1u);
+    CHECK(stock.communal_pea_soup_tiffins == 4u);
+    CHECK(stock.ration_meals_remaining == meals_before_soup + 3u);
+    CHECK(solar_kwh == Catch::Approx(4.35));
+
+    // 6. Serve Communal Pea Soup to Neighborhood (Ring R0 Baseline Hospitality & L3 Bounty)
+    REQUIRE(ServeCommunalPeaSoupToNeighborhood(stock, reputation_bp, value_tokens));
+    CHECK(stock.communal_pea_soup_tiffins == 0u);
+    CHECK(stock.community_meals_served_total == 4u);
+    CHECK(reputation_bp == 500u);
+    CHECK(value_tokens == 40u);
+
+    // 7. Scenario Mu (12): TLUD Biochar Kiln, 55°C Thermophilic Composting Drum, Struvite Recovery & Living Terra Preta Soil
+    CHECK(stock.biochar_kiln_char_batches == 0u);
+    CHECK(stock.terra_preta_batches_charged == 0u);
+    const uint32_t peas_before_mu = stock.split_peas_and_beans;
+    const uint32_t roots_before_mu = stock.root_mirepoix_veggies;
+    REQUIRE(RunScenarioMuBiocharAndThermophilicCompost(stock));
+    CHECK(stock.biochar_kiln_char_batches == 1u);
+    CHECK(stock.thermophilic_compost_temp_mk >= 328150u);
+    CHECK(stock.struvite_phosphorus_recovery_bp >= 9000u);
+    CHECK(stock.terra_preta_soil_moisture_bp >= 4000u);
+    CHECK(stock.terra_preta_batches_charged == 1u);
+    CHECK(stock.split_peas_and_beans == peas_before_mu + 1u);
+    CHECK(stock.root_mirepoix_veggies == roots_before_mu + 1u);
+}
+
+TEST_CASE("Test 6: Sprint 19 Clean-Slate Backyard, 1-to-5 Biological Feel Tiers & Granular L4 Lifecycle Workflows", "[sprint-19][feel][clean-slate][workflows]") {
+    flecs::world ecs;
+    auto camp_entity = BootstrapCleanSuburbanGenesisLot(ecs);
+    REQUIRE(camp_entity.is_alive());
+    auto& stock = camp_entity.get_mut<GenesisCampStockComponent>();
+
+    // 1. Clean-slate backyard on Day 1: no garden beds, coop, kiln, or compost drum built yet
+    CHECK_FALSE(stock.garden_bed_built);
+    CHECK_FALSE(stock.garden_planted);
+    CHECK_FALSE(stock.backyard_coop_built);
+    CHECK_FALSE(stock.compost_drum_built);
+    CHECK_FALSE(stock.biochar_kiln_built);
+    CHECK(GetDynamicVoxel(20, 1, 5) == 0u);
+    CHECK(GetDynamicVoxel(22, 1, 11) == 0u);
+    CHECK(GetDynamicVoxel(23, 1, 8) == 0u);
+    CHECK(GetDynamicVoxel(23, 1, 9) == 0u);
+
+    // 2. 1-to-5 Biological Feel Tier mapping (epistemic privacy without L2 biometric sensor)
+    SomaticVitalsComponent vitals{};
+    vitals.caloric_stamina_kcal = 2100.0f;
+    vitals.fatigue_factor = 0.15f;
+    vitals.hydration_pct = 0.85f;
+    vitals.focus_pool = 0.82f;
+    vitals.stress_accumulator = 0.12f;
+    vitals.entertainment_comfort = 0.80f;
+    vitals.social_comfort = 0.78f;
+    const BiologicalFeelTiers feel_thriving = ComputeBiologicalFeelTiers(vitals, 0.78f, false, false);
+    CHECK(feel_thriving.hunger_tier >= 4u);
+    CHECK(feel_thriving.energy_tier >= 4u);
+    CHECK(feel_thriving.focus_tier >= 4u);
+    CHECK(feel_thriving.mood_tier >= 4u);
+    CHECK(feel_thriving.social_tier >= 4u);
+    CHECK(feel_thriving.l2_biometric_sensor_installed == 0u);
+
+    vitals.caloric_stamina_kcal = 300.0f;
+    vitals.fatigue_factor = 0.90f;
+    vitals.hydration_pct = 0.15f;
+    vitals.focus_pool = 0.10f;
+    vitals.stress_accumulator = 0.92f;
+    vitals.entertainment_comfort = 0.10f;
+    const BiologicalFeelTiers feel_depleted = ComputeBiologicalFeelTiers(vitals, 0.10f, false, false);
+    CHECK(feel_depleted.hunger_tier == 1u);
+    CHECK(feel_depleted.energy_tier == 1u);
+    CHECK(feel_depleted.focus_tier == 1u);
+    CHECK(feel_depleted.mood_tier == 1u);
+    CHECK(feel_depleted.social_tier == 1u);
+
+    // 3. Granular L4 Gardening Lifecycle: Mill Bed in Garage -> Sow Peas -> Manual Observation -> Cleanup
+    REQUIRE(FabricateGardenBedKitInGarage(stock));
+    CHECK(stock.garden_bed_built);
+    CHECK(GetDynamicVoxel(20, 1, 5) == static_cast<uint8_t>(MAT_COVER_CROP));
+    CHECK(GetDynamicVoxel(20, 1, 6) == static_cast<uint8_t>(MAT_COVER_CROP));
+
+    REQUIRE(PlantBackyardPeaAndRootCrop(stock));
+    CHECK(stock.garden_planted);
+    CHECK(GetDynamicVoxel(20, 1, 4) == static_cast<uint8_t>(oasis::chill::MAT_MATURE_CROP));
+    CHECK(GetDynamicVoxel(20, 1, 5) == static_cast<uint8_t>(oasis::chill::MAT_MATURE_CROP));
+
+    const uint32_t peas_before_obs = stock.split_peas_and_beans;
+    REQUIRE(ObserveAndTendGardenManually(stock));
+    CHECK(stock.split_peas_and_beans == peas_before_obs + 1u);
+
+    const uint32_t scraps_before_clean = stock.bsfl_larvae_and_scraps;
+    REQUIRE(CleanupAndTurnGardenBed(stock));
+    CHECK(stock.bsfl_larvae_and_scraps >= scraps_before_clean + 2u);
+    CHECK(GetDynamicVoxel(20, 1, 4) == static_cast<uint8_t>(MAT_COVER_CROP));
+
+    // 4. Build Poultry Coop & Biochar/Compost Drum into DynamicVoxelStore
+    REQUIRE(BuildOrUpgradeCoopAndTrellisInGarage(stock));
+    CHECK(stock.backyard_coop_built);
+    CHECK(GetDynamicVoxel(22, 1, 11) == static_cast<uint8_t>(MAT_POULTRY_COOP));
+    CHECK(GetDynamicVoxel(21, 1, 11) == static_cast<uint8_t>(MAT_CHICKEN_HEN));
+
+    REQUIRE(RunScenarioMuBiocharAndThermophilicCompost(stock));
+    CHECK(stock.compost_drum_built);
+    CHECK(stock.biochar_kiln_built);
+    CHECK(GetDynamicVoxel(23, 1, 8) == static_cast<uint8_t>(MAT_MU_BIOCHAR_KILN));
+    CHECK(GetDynamicVoxel(23, 1, 9) == static_cast<uint8_t>(MAT_MU_COMPOST_DRUM));
+}

@@ -239,6 +239,37 @@ else()
         )
     endif()
 
+    # Sovereign Stack Layer 3/6 Peer-Cluster Swarm Daemon (col-swarmd)
+    set(COL_SWARMD_SRC "${CMAKE_CURRENT_SOURCE_DIR}/../../../src/daemons/col-swarmd/main.cpp")
+    if(NOT EXISTS "${COL_SWARMD_SRC}")
+        set(COL_SWARMD_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/daemons/col-swarmd/main.cpp")
+    endif()
+    if(EXISTS "${COL_SWARMD_SRC}")
+        add_executable(col_swarmd "${COL_SWARMD_SRC}")
+        target_include_directories(col_swarmd PRIVATE 
+            ${CMAKE_CURRENT_SOURCE_DIR}
+            ${CMAKE_CURRENT_SOURCE_DIR}/../../../src
+            ${CMAKE_CURRENT_SOURCE_DIR}/../../../src/daemons/col-swarmd
+        )
+        target_compile_options(col_swarmd PRIVATE
+            -Wall
+            -Wextra
+            -Wpadded
+            -Werror
+        )
+        target_link_libraries(col_swarmd PRIVATE 
+            spdlog::spdlog
+            $<$<PLATFORM_ID:Linux>:rt>
+        )
+        # Create col-swarmd symlink so both hyphenated and underscored names work
+        add_custom_command(TARGET col_swarmd POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E create_symlink
+                $<TARGET_FILE_NAME:col_swarmd>
+                ${CMAKE_CURRENT_BINARY_DIR}/col-swarmd
+            COMMENT "Creating col-swarmd symlink"
+        )
+    endif()
+
 
     # Native Catch2 Construction Caloric Burn Tests (Dual Sprint 5)
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/tests/test_construction_caloric_burn.cpp")
@@ -482,6 +513,31 @@ else()
             $<$<PLATFORM_ID:Linux>:rt>
         )
         add_test(NAME ScenarioZeroAndBlueprintRealignmentTests COMMAND test_scenario_zero_and_blueprint_realignment)
+    endif()
+
+    # Native Catch2 Modular Engine & Native Sovereign Stack Tests (Phase 3C - 19th CTest Suite)
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/tests/test_modular_engine_and_native_stack.cpp")
+        add_executable(test_modular_engine_and_native_stack tests/test_modular_engine_and_native_stack.cpp)
+        target_include_directories(test_modular_engine_and_native_stack PRIVATE 
+            ${CMAKE_CURRENT_SOURCE_DIR}
+            ${CMAKE_CURRENT_SOURCE_DIR}/../../../src
+            ${CMAKE_CURRENT_SOURCE_DIR}/../../../src/stack
+            ${CMAKE_CURRENT_SOURCE_DIR}/../../../src/daemons/col-swarmd
+        )
+        target_compile_options(test_modular_engine_and_native_stack PRIVATE
+            -Wall
+            -Wextra
+            -Wpadded
+            -Werror
+        )
+        target_link_libraries(test_modular_engine_and_native_stack PRIVATE 
+            Catch2::Catch2WithMain
+            $<IF:$<TARGET_EXISTS:flecs::flecs>,flecs::flecs,flecs::flecs_static>
+            glm::glm
+            spdlog::spdlog
+            $<$<PLATFORM_ID:Linux>:rt>
+        )
+        add_test(NAME ModularEngineAndNativeStackTests COMMAND test_modular_engine_and_native_stack)
     endif()
 endif()
 

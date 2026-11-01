@@ -46,6 +46,7 @@ static void PrintHelp(const char* prog_name) {
     std::cout << "Usage: " << prog_name << " [options]\n"
               << "Options:\n"
               << "  --port <port>         HTTPS/WSS listen port (default: 8443, VLAN 30)\n"
+              << "  --http-port <port>    Live non-blocking POSIX TCP/HTTP JSON-RPC API port (default: 8090)\n"
               << "  --shm-name <name>     UHAI telemetry shared memory name (default: "
               << oasis::uhai::DEFAULT_GATEWAY_SHM_NAME << ")\n"
               << "  --frequency <Hz>      Telemetry polling frequency in Hz (default: 10)\n"
@@ -62,6 +63,9 @@ int main(int argc, char* argv[]) {
     security_cfg.did_auth_required = true;
 
     int port = static_cast<int>(security_cfg.port);
+    int http_port = 8090;
+    bool port_specified = false;
+    bool http_port_specified = false;
     std::string shm_name = oasis::uhai::DEFAULT_GATEWAY_SHM_NAME;
     int frequency_hz = 10;
     int max_ticks = 0;
@@ -74,6 +78,10 @@ int main(int argc, char* argv[]) {
         } else if (arg == "--port" && i + 1 < argc) {
             port = std::atoi(argv[++i]);
             security_cfg.port = static_cast<uint16_t>(port);
+            port_specified = true;
+        } else if (arg == "--http-port" && i + 1 < argc) {
+            http_port = std::atoi(argv[++i]);
+            http_port_specified = true;
         } else if (arg == "--shm-name" && i + 1 < argc) {
             shm_name = argv[++i];
         } else if (arg == "--frequency" && i + 1 < argc) {
@@ -89,12 +97,33 @@ int main(int argc, char* argv[]) {
 
     std::signal(SIGINT, SignalHandler);
     std::signal(SIGTERM, SignalHandler);
+#ifdef SIGPIPE
+    std::signal(SIGPIPE, SIG_IGN);
+#endif
+
+    int primary_listen_port = port;
+    int secondary_listen_port = 0;
+    if (port_specified && http_port_specified) {
+        primary_listen_port = port;
+        secondary_listen_port = http_port;
+    } else if (port_specified && !http_port_specified) {
+        primary_listen_port = port;
+        secondary_listen_port = 0;
+    } else if (!port_specified && http_port_specified) {
+        primary_listen_port = http_port;
+        secondary_listen_port = 0;
+    } else {
+        primary_listen_port = http_port;
+        secondary_listen_port = port;
+    }
 
     spdlog::info("[col-gatewayd] ========================================================");
     spdlog::info("[col-gatewayd] Sovereign Stack Layer 6 Semantic Gateway Daemon (SS-EP6-006)");
-    spdlog::info("[col-gatewayd] Port: {}, VLAN: {}, TLS 1.3: {}, DID Auth: {}, ShmName: '{}', TargetHz: {}, MaxTicks: {}",
-                 security_cfg.port, security_cfg.vlan_id, security_cfg.tls_1_3_enforced,
+    spdlog::info("[col-gatewayd] SecurityPort: {}, ListenPrimary: {}, ListenSecondary: {}, VLAN: {}, TLS 1.3: {}, DID Auth: {}, ShmName: '{}', TargetHz: {}, MaxTicks: {}",
+                 security_cfg.port, primary_listen_port, secondary_listen_port,
+                 security_cfg.vlan_id, security_cfg.tls_1_3_enforced,
                  security_cfg.did_auth_required, shm_name, frequency_hz, max_ticks);
+    spdlog::info("[col-gatewayd] Live Stack HTTP/JSON-RPC endpoints active: GET /api/v1/snapshot, POST /api/v1/command, GET|POST /api/v1/l2_pins");
     spdlog::info("[col-gatewayd] Read-Only Cybernetic Hood active on /api/v1/l2/*, /api/v1/l3/*, /api/v1/l4/*, /api/v1/l5/*, /api/v1/l7/* (403/405)");
     spdlog::info("[col-gatewayd] Strict Intent U-Turn: Human -> L6 -> L5 -> L4 -> [upward-yield] -> L5 -> L6 -> L7 via POST /api/v1/l6/intent");
     spdlog::info("[col-gatewayd] ========================================================");
@@ -102,7 +131,7 @@ int main(int argc, char* argv[]) {
     oasis::gateway::GatewayServer server(shm_name);
     server.SetSecurityConfig(security_cfg);
 
-    int exit_code = server.RunSocketServer(port, max_ticks, &g_running);
+    int exit_code = server.RunSocketServer(primary_listen_port, max_ticks, &g_running, secondary_listen_port);
 
     spdlog::info("[col-gatewayd] Gateway daemon shutdown complete. Requests handled: {}. Clean exit.",
                  server.GetTotalRequestsHandled());

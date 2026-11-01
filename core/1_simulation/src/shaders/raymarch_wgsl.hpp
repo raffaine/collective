@@ -38,6 +38,61 @@ struct DynamicVoxelStore {
 @group(0) @binding(1)
 var<storage, read> dynamic_voxels : DynamicVoxelStore;
 
+struct WorldChunkBuffer {
+    is_loaded : u32,      // 1u when populated by IMapProvider (Static JSON or Procedural Generator)
+    origin_x  : i32,      // e.g. -16
+    origin_y  : i32,      // e.g. -2 (includes subsurface strata y = -2..-1!)
+    origin_z  : i32,      // e.g. -8
+    size_x    : u32,      // 64
+    size_y    : u32,      // 16 (covers y in [-2..13])
+    size_z    : u32,      // 32 (covers z in [-8..23])
+    flags     : u32,      // bit 0: enable distant neighbor fog silhouettes outside loaded chunk
+    cells     : array<u32, 32768>, // 64 * 16 * 32 = 32,768 O(1) voxel material IDs
+};
+
+@group(0) @binding(2)
+var<storage, read> world_chunk : WorldChunkBuffer;
+
+fn is_inside_loaded_chunk(pos: vec3<i32>) -> bool {
+    if (world_chunk.is_loaded == 0u) {
+        return false;
+    }
+    let lx = pos.x - world_chunk.origin_x;
+    let ly = pos.y - world_chunk.origin_y;
+    let lz = pos.z - world_chunk.origin_z;
+    return lx >= 0 && lx < i32(world_chunk.size_x) &&
+           ly >= 0 && ly < i32(world_chunk.size_y) &&
+           lz >= 0 && lz < i32(world_chunk.size_z);
+}
+
+fn is_inside_loaded_chunk_xz(pos: vec3<i32>) -> bool {
+    if (world_chunk.is_loaded == 0u) {
+        return false;
+    }
+    let lx = pos.x - world_chunk.origin_x;
+    let lz = pos.z - world_chunk.origin_z;
+    return lx >= 0 && lx < i32(world_chunk.size_x) &&
+           lz >= 0 && lz < i32(world_chunk.size_z);
+}
+
+fn get_loaded_chunk_material(pos: vec3<i32>) -> u32 {
+    let lx = u32(pos.x - world_chunk.origin_x);
+    let ly = u32(pos.y - world_chunk.origin_y);
+    let lz = u32(pos.z - world_chunk.origin_z);
+    let idx = (ly * world_chunk.size_z + lz) * world_chunk.size_x + lx;
+    if (idx >= 32768u) {
+        return 0u;
+    }
+    return world_chunk.cells[idx] & 0xFFu;
+}
+
+fn is_playable_chunk_cell(pos: vec3<i32>) -> bool {
+    if (world_chunk.is_loaded != 0u) {
+        return is_inside_loaded_chunk_xz(pos);
+    }
+    return pos.x >= 4 && pos.x <= 26 && pos.z >= 0 && pos.z <= 15;
+}
+
 fn get_dynamic_voxel_material(pos : vec3<i32>) -> u32 {
     let count = dynamic_voxels.count;
     if (count == 0u) {
@@ -83,237 +138,119 @@ fn vs_main(@builtin(vertex_index) vertex_index : u32) -> VertexOutput {
     return out;
 }
 
-// Helper: True only for Player Lot 402 (keeps neighbor houses sealed in fog without interior props or cutaway)
-fn is_player_lot_402(pos: vec3<i32>) -> bool {
-    return pos.x >= 4 && pos.x <= 26 && pos.z >= 0 && pos.z <= 15;
-}
-
-// Visual-only Stylized Low-Poly Diorama Trees, Shrubs & Curbside Mailbox
-// Placed on suburban lots completely clear of house footprints, doors, walkways, and Lot 402 garage
-fn get_decorative_prop_material(pos: vec3<i32>) -> u32 {
-    if (pos.y < 1 || pos.y > 3) {
+// Generic Sealed Exterior Neighbor Silhouettes for Distant Horizon Fog (outside loaded WorldChunkBuffer)
+fn get_distant_neighbor_silhouette_material(pos: vec3<i32>) -> u32 {
+    let absX = abs(pos.x);
+    if (absX > 64) {
         return 0u;
     }
-    let absX = abs(pos.x);
     let lotZ = (pos.z % 16 + 16) % 16;
 
-    // Low-Poly Trees (35u = Tapered Cedar Trunk at y == 1, 36u = Faceted Octahedron Crown at y == 2..3)
-    let is_tree_xz = (absX == 7 && lotZ == 14 && !is_player_lot_402(pos)) ||
-                     (pos.x == 7 && pos.z == 14) ||
-                     (pos.x == 23 && (lotZ == 3 || lotZ == 13)) ||
-                     (pos.x == -21 && (lotZ == 4 || lotZ == 12));
-    if (is_tree_xz) {
-        if (pos.y == 1) {
-            return 35u; // MAT_TREE_TRUNK
+    // Subsurface Horizon Continuity outside loaded chunk
+    if (pos.y == -2) {
+        return 64u; // STRATA_CLAY_SUBSOIL
+    }
+    if (pos.y == -1) {
+        if (absX <= 5) {
+            return 65u; // STRATA_COMPACTED_GRAVEL_PAD
         }
-        if (pos.y == 2 || pos.y == 3) {
-            return 36u; // MAT_TREE_CROWN
-        }
+        return 67u; // STRATA_TOPSOIL_LOAM
     }
 
-    // Low-Poly Front Garden Shrubs (38u) flanking front lawn (kept clear of Lot 402 Garage at z in [10..14])
-    if (pos.y == 1 && absX == 8) {
-        if (is_player_lot_402(pos)) {
-            if (pos.z == 4 || pos.z == 8) {
-                return 38u; // MAT_SHRUB flanking Lot 402 front windows
+    // Layer 0: Street, Sidewalks, Driveways & Distant Neighbor Lawn
+    if (pos.y == 0) {
+        if (absX <= 3) {
+            if (pos.x == 0 && (pos.z % 4 >= 2 || pos.z % 4 <= -2)) {
+                return 2u; // Yellow centerline
             }
-        } else if (lotZ == 11 || lotZ == 12) {
-            return 38u; // MAT_SHRUB on neighbor lots
+            return 1u; // Asphalt roadway
+        }
+        if (absX == 4 || absX == 5) {
+            return 3u; // Concrete sidewalk/curbs
+        }
+        if (absX >= 6 && absX <= 8 && lotZ >= 1 && lotZ <= 3) {
+            return 3u; // Concrete driveway
+        }
+        return 4u; // Neighbor lawn ground
+    }
+
+    // Distant Electrical Grid Infrastructure in Fog
+    if (pos.y >= 1 && pos.y <= 8 && (pos.z < -2 || pos.z > 14)) {
+        if (pos.x == 5 && lotZ == 0 && pos.y <= 7) {
+            return 8u;
+        }
+        if (pos.x >= 4 && pos.x <= 6 && lotZ == 0 && pos.y == 7) {
+            return 8u;
+        }
+        if (pos.x == 5 && lotZ == 1 && pos.y == 6) {
+            return 9u;
+        }
+        if (pos.x == 4 && pos.y == 7 && pos.z >= -10 && pos.z <= 40) {
+            return 9u;
         }
     }
 
-    // Low-Poly Curbside Mailbox (37u) by Lot 402 front driveway/walkway
-    if (pos.y == 1 && pos.x == 6 && lotZ == 4) {
-        return 37u; // MAT_MAILBOX
+    // Generic Sealed Exterior Neighbor House Shells (zero interior furniture)
+    if (absX >= 9 && absX <= 17 && lotZ >= 2 && lotZ <= 10) {
+        if (pos.y >= 4 && pos.y <= 6) {
+            let roof_inset = pos.y - 3;
+            if (absX >= (9 + roof_inset) && absX <= (17 - roof_inset) &&
+                lotZ >= (2 + roof_inset) && lotZ <= (10 - roof_inset)) {
+                return 6u;
+            }
+        }
+        if (pos.y >= 1 && pos.y <= 3) {
+            if ((absX == 9 || absX == 17) && lotZ == 6 && pos.y <= 2) {
+                return 15u;
+            }
+            if (pos.y == 2 &&
+                (((absX == 9 || absX == 17) && (lotZ == 4 || lotZ == 8)) ||
+                 ((lotZ == 2 || lotZ == 10) && (absX == 11 || absX == 15)))) {
+                return 7u;
+            }
+            if (absX == 9 || absX == 17 || lotZ == 2 || lotZ == 10) {
+                return 5u;
+            }
+        }
+    }
+
+    // Distant Neighbor Boundary Fences & Trees/Shrubs
+    if (pos.y == 1 && (lotZ == 15 || lotZ == 1) && absX >= 7 && absX <= 20) {
+        return 10u;
+    }
+    if (pos.y >= 1 && pos.y <= 3) {
+        let is_tree_xz = (absX == 7 && lotZ == 14) ||
+                         (absX == 21 && (lotZ == 4 || lotZ == 12));
+        if (is_tree_xz) {
+            if (pos.y == 1) { return 35u; }
+            return 36u;
+        }
+        if (pos.y == 1 && absX == 8 && (lotZ == 11 || lotZ == 12)) {
+            return 38u;
+        }
     }
 
     return 0u;
 }
 
-// Procedural Suburban Sprawl & Furnished 6-Room Lot 402 Homestead + Attached Garage
+// Map-Agnostic O(1) Voxel Material Lookup via WorldChunkBuffer + DynamicVoxelStore
 fn get_voxel_material(pos: vec3<i32>) -> u32 {
-    let lot402 = is_player_lot_402(pos);
     let dyn_mat = get_dynamic_voxel_material(pos);
     if (dyn_mat != 0u) {
-        if (lot402) {
-            // Suppress ugly front-driveway crate at (8, 1, 3) so driveway is 100% clean concrete
-            if (pos.x == 8 && pos.y == 1 && pos.z == 3 && dyn_mat == 24u) {
-                return 0u;
-            }
-            // Remap legacy interior bootstrap markers to proper 6-room furniture appliances
-            if (pos.x == 11 && pos.y == 1 && (pos.z == 3 || pos.z == 4) && dyn_mat == 24u) {
-                return 41u; // MAT_OVEN_STOVE
-            }
-            if (pos.x == 11 && pos.y == 1 && pos.z == 8 && dyn_mat == 23u) {
-                return 0u; // Open Living Space rug between Couch and TV (Bed is in Bedroom at 15..16, 1, 9)
-            }
-            if (pos.x == 11 && pos.y == 1 && pos.z == 9 && dyn_mat == 21u) {
-                return 49u; // MAT_TV_MEDIA_SET
-            }
-            if (pos.x == 14 && pos.y == 1 && pos.z == 4 && dyn_mat == 12u) {
-                return 0u; // Keep Office floor clear of outdoor water tank
-            }
-        }
         return dyn_mat;
     }
 
-    let absX = abs(pos.x);
-    let lotZ = (pos.z % 16 + 16) % 16; // 16-voxel periodic residential lot pitch
+    if (is_inside_loaded_chunk(pos)) {
+        return get_loaded_chunk_material(pos);
+    }
 
-    // --- Layer 0: Ground Plane, Road Infrastructure, Interior Floor & Backyard ---
-    if (pos.y == 0) {
-        // Central Asphalt Roadway (|x| <= 3)
-        if (absX <= 3) {
-            if (pos.x == 0 && (pos.z % 4 >= 2 || pos.z % 4 <= -2)) {
-                return 2u; // Material 2: Yellow centerline
-            }
-            return 1u; // Material 1: Asphalt roadway
-        }
-        // Concrete Curbs & Sidewalks (|x| in [4, 5])
-        if (absX == 4 || absX == 5) {
-            return 3u; // Material 3: Concrete sidewalk/curbs
-        }
-        // Concrete driveways leading to garages (including Lot 402 garage apron at z in [11, 12])
-        if ((absX >= 6 && absX <= 8 && lotZ >= 1 && lotZ <= 3) ||
-            (lot402 && pos.x >= 6 && pos.x <= 7 && (pos.z == 11 || pos.z == 12))) {
-            return 3u; // Material 3: Concrete driveway
-        }
-        // Lawn / Interior Room Floors / Garage Slab / Backyard Loam (|x| in [6, 64])
-        if (absX >= 6 && absX <= 64) {
-            return 4u; // Material 4: Context-shaded ground & room floors
+    if (world_chunk.is_loaded != 0u) {
+        if (is_inside_loaded_chunk_xz(pos) || (world_chunk.flags & 1u) == 0u) {
+            return 0u;
         }
     }
 
-    // --- Layer 1-8: Legacy Electrical Grid Infrastructure (kept clear of Lot 402 foreground camera at z in [-2, 14]) ---
-    if (pos.y >= 1 && pos.y <= 8 && (pos.z < -2 || pos.z > 14)) {
-        if (pos.x == 5 && lotZ == 0 && pos.y <= 7) {
-            return 8u; // Material 8: Utility timber pole
-        }
-        if (pos.x >= 4 && pos.x <= 6 && lotZ == 0 && pos.y == 7) {
-            return 8u; // Material 8: Utility timber crossarm
-        }
-        if (pos.x == 5 && lotZ == 1 && pos.y == 6) {
-            return 9u; // Material 9: Transformer / grid hardware
-        }
-        if (pos.x == 4 && pos.y == 7 && pos.z >= -10 && pos.z <= 40) {
-            return 9u; // Material 9: Conductor wire / grid hardware
-        }
-    }
-
-    // --- Lot 402 Attached Garage Wing (x in [8..12], z in [10..14], y in [1..4]) ---
-    if (lot402 && pos.x >= 8 && pos.x <= 12 && pos.z >= 10 && pos.z <= 14) {
-        if (pos.z >= 11 || pos.x == 8) {
-            if (pos.y == 4) {
-                return 6u; // Material 6: Garage pitched/flat roof
-            }
-            if (pos.y >= 1 && pos.y <= 3) {
-                // Roll-Up Sectional Garage Door facing street at x == 8, z in [11, 12], y <= 2
-                if (pos.x == 8 && (pos.z == 11 || pos.z == 12) && pos.y <= 2) {
-                    return 57u; // MAT_GARAGE_DOOR
-                }
-                // Garage Exterior Clapboard Walls
-                if (pos.x == 8 || pos.x == 12 || pos.z == 14) {
-                    return 5u; // Material 5: Clapboard siding
-                }
-                // Room 6 — Garage Interior Furniture along back wall z == 13 (y == 1)
-                if (pos.y == 1 && pos.z == 13) {
-                    if (pos.x == 9)  { return 54u; } // MAT_GARAGE_WORKBENCH
-                    if (pos.x == 10) { return 55u; } // MAT_TOOL_WALL
-                    if (pos.x == 11) { return 56u; } // MAT_GARAGE_STORAGE
-                }
-                return 0u; // Walkable open garage interior
-            }
-        }
-    }
-
-    // --- Layer 1-6: Suburban Residences (Lot 402 6-Room House & Sealed Neighbor Shells) ---
-    if (absX >= 9 && absX <= 17 && lotZ >= 2 && lotZ <= 10) {
-        // Sloped gable roof (y in [4, 6])
-        if (pos.y >= 4 && pos.y <= 6) {
-            let roof_inset = pos.y - 3;
-            if (absX >= (9 + roof_inset) && absX <= (17 - roof_inset) &&
-                lotZ >= (2 + roof_inset) && lotZ <= (10 - roof_inset)) {
-                return 6u; // Material 6: Architectural shingle roof
-            }
-        }
-        // Ground Floor Walls, Doors, Windows, & Lot 402 6-Room Interior Furniture (y in [1, 3])
-        if (pos.y >= 1 && pos.y <= 3) {
-            // Front Door (absX == 9) & Back Patio Door (absX == 17) at lotZ == 6, y <= 2
-            if ((absX == 9 || absX == 17) && lotZ == 6 && pos.y <= 2) {
-                return 15u; // Material 15: Insulated Timber Door (airtight & passable)
-            }
-            // Connecting interior doorway between Lot 402 House and Attached Garage at (10, 1..2, 10)
-            if (lot402 && pos.x == 10 && pos.z == 10 && pos.y <= 2) {
-                return 0u; // Open interior archway into Garage
-            }
-            // Architectural Windows at y == 2 (skip (11, 2, 10) on Lot 402 where Garage attaches)
-            if (pos.y == 2 &&
-                (((absX == 9 || absX == 17) && (lotZ == 4 || lotZ == 8)) ||
-                 ((lotZ == 2 || lotZ == 10) && (absX == 11 || absX == 15) && !(lot402 && pos.x == 11 && pos.z == 10)))) {
-                return 7u; // Material 7: Window glass
-            }
-            // Exterior Perimeter Clapboard Walls
-            if (absX == 9 || absX == 17 || lotZ == 2 || lotZ == 10) {
-                return 5u; // Material 5: Painted architectural clapboard siding
-            }
-
-            // Sculpted Low-Poly 3D Furniture & Appliances ONLY inside Player Lot 402 (y == 1)
-            // Central walking corridors z == 6 (x=10..16) and x == 13 (z=4..9) stay 100% open air (0u)
-            if (lot402 && pos.y == 1) {
-                // Room 1 — Kitchen + Dining (x in [10..12], z in [3..5])
-                if (pos.x == 10 && pos.z == 3) { return 40u; } // MAT_FRIDGE
-                if (pos.x == 11 && (pos.z == 3 || pos.z == 4)) { return 41u; } // MAT_OVEN_STOVE
-                if (pos.x == 12 && pos.z == 3) { return 42u; } // MAT_KITCHEN_CABINET
-                if (pos.x == 10 && pos.z == 5) { return 43u; } // MAT_DINING_TABLE_CHAIR
-
-                // Room 2 — Office (x in [13..14], z in [3..5])
-                if (pos.x == 13 && pos.z == 3) { return 120u; } // MAT_OFFICE_DESK_PC
-                if (pos.x == 14 && pos.z == 3) { return 44u; }  // MAT_OFFICE_STORAGE
-
-                // Room 3 — Bathroom (x in [15..16], z in [3..5])
-                if (pos.x == 16 && pos.z == 3) { return 45u; } // MAT_SHOWER
-                if (pos.x == 16 && pos.z == 4) { return 46u; } // MAT_TOILET
-                if (pos.x == 15 && pos.z == 3) { return 47u; } // MAT_BATH_SINK_CABINET
-
-                // Room 4 — Living Space (x in [10..12], z in [7..9])
-                if ((pos.x == 10 || pos.x == 11) && pos.z == 7) { return 48u; } // MAT_COUCH
-                if (pos.x == 11 && pos.z == 9) { return 49u; } // MAT_TV_MEDIA_SET
-                if ((pos.x == 10 || pos.x == 12) && pos.z == 9) { return 50u; } // MAT_SOUNDSYSTEM
-
-                // Room 5 — Bedroom (x in [14..16], z in [7..9])
-                if ((pos.x == 15 || pos.x == 16) && pos.z == 9) { return 23u; } // MAT_BED
-                if (pos.x == 16 && pos.z == 8) { return 51u; } // MAT_NIGHTSTAND
-                if (pos.x == 14 && pos.z == 9) { return 52u; } // MAT_WARDROBE
-                if (pos.x == 14 && pos.z == 8) { return 53u; } // MAT_MIRROR
-            }
-        }
-    }
-
-    // --- Lot 402 Exterior Roof Access Ladder (x == 18, z == 3, y in [1, 4]) ---
-    if (pos.x == 18 && pos.z == 3 && pos.y >= 1 && pos.y <= 4) {
-        return 32u; // Material 32: Exterior roof access ladder against back wall
-    }
-
-    // --- Layer 1: Property Boundary Fences & Lot 402 Fenced Backyard ---
-    if (pos.y == 1) {
-        if (pos.x > 0 && pos.z >= 1 && pos.z <= 15) {
-            if ((pos.z == 1 || pos.z == 15) && pos.x >= 7 && pos.x <= 25) {
-                return 10u; // Lot 402 side fences extending around backyard
-            }
-            if (pos.x == 25 && pos.z >= 1 && pos.z <= 15 && pos.z != 8) {
-                return 10u; // Lot 402 rear backyard fence (with gate opening at z == 8)
-            }
-        } else if ((lotZ == 15 || lotZ == 1) && absX >= 7 && absX <= 20) {
-            return 10u; // Neighbor boundary fences
-        }
-    }
-
-    let deco_mat = get_decorative_prop_material(pos);
-    if (deco_mat != 0u) {
-        return deco_mat;
-    }
-
-    return 0u; // Air
+    return get_distant_neighbor_silhouette_material(pos);
 }
 
 fn get_sky_color(rd: vec3<f32>) -> vec3<f32> {
@@ -461,7 +398,15 @@ fn intersect_octahedron(ro: vec3<f32>, rd: vec3<f32>, center: vec3<f32>, rad: ve
     return vec4<f32>(n_enter, max(0.001, t_enter));
 }
 
-// Smooth 45-degree Pitched Hip/Gable Low-Poly Roof Intersection inside DDA cell [mapPos, mapPos + 1]
+fn is_roof_or_wall_neighbor(mat: u32) -> bool {
+    return mat == 6u || mat == 17u || mat == 5u || mat == 13u || mat == 14u;
+}
+
+fn is_wall_or_opening_neighbor(mat: u32) -> bool {
+    return mat == 5u || mat == 7u || mat == 13u || mat == 14u || mat == 15u || mat == 57u;
+}
+
+// Data-Driven Smooth 45-degree Pitched Hip/Gable Low-Poly Roof Intersection inside DDA cell [mapPos, mapPos + 1]
 fn intersect_sloped_roof_voxel(ro: vec3<f32>, rd: vec3<f32>, mapPos: vec3<i32>) -> vec4<f32> {
     let cell_min = vec3<f32>(f32(mapPos.x), f32(mapPos.y), f32(mapPos.z));
     let lro = ro - cell_min;
@@ -470,61 +415,10 @@ fn intersect_sloped_roof_voxel(ro: vec3<f32>, rd: vec3<f32>, mapPos: vec3<i32>) 
     let t1s = (vec3<f32>(1.0) - lro) * inv_rd;
     let tsmaller = min(t0s, t1s);
     let tbigger  = max(t0s, t1s);
-    let t_cell_enter = max(tsmaller.x, max(tsmaller.y, tsmaller.z));
-    let t_cell_exit  = min(tbigger.x, min(tbigger.y, tbigger.z));
-    if (t_cell_enter > t_cell_exit || t_cell_exit <= 0.0) {
+    var t_enter = max(tsmaller.x, max(tsmaller.y, tsmaller.z));
+    var t_exit  = min(tbigger.x, min(tbigger.y, tbigger.z));
+    if (t_enter > t_exit || t_exit <= 0.0) {
         return vec4<f32>(0.0, 1.0, 0.0, -1.0);
-    }
-
-    let absX = abs(mapPos.x);
-    let lotZ = (mapPos.z % 16 + 16) % 16;
-    if (mapPos.y >= 4 && mapPos.y <= 6 && absX >= 9 && absX <= 17 && lotZ >= 2 && lotZ <= 10) {
-        let house_cx = select(-13.5, 13.5, mapPos.x > 0);
-        let house_cz = f32(mapPos.z - lotZ) + 6.5;
-        let pro = vec3<f32>(ro.x - house_cx, ro.y - 4.0, ro.z - house_cz);
-
-        var t_pyr_enter: f32 = -1e9;
-        var t_pyr_exit: f32  =  1e9;
-        var n_pyr = vec3<f32>(0.0, 1.0, 0.0);
-
-        for (var p_idx = 0; p_idx < 6; p_idx++) {
-            var n_p = vec3<f32>(0.0, 1.0, 0.0);
-            var d_lim: f32 = 3.50;
-            if (p_idx == 0) { n_p = vec3<f32>( 1.0, 1.0, 0.0); d_lim = 3.50; }
-            else if (p_idx == 1) { n_p = vec3<f32>(-1.0, 1.0, 0.0); d_lim = 3.50; }
-            else if (p_idx == 2) { n_p = vec3<f32>(0.0, 1.0,  1.0); d_lim = 3.50; }
-            else if (p_idx == 3) { n_p = vec3<f32>(0.0, 1.0, -1.0); d_lim = 3.50; }
-            else if (p_idx == 4) { n_p = vec3<f32>(0.0, 1.0,  0.0); d_lim = 2.85; }
-            else { n_p = vec3<f32>(0.0, -1.0, 0.0); d_lim = 0.0; }
-
-            let denom = dot(n_p, rd);
-            let dist = d_lim - dot(n_p, pro);
-            if (abs(denom) < 1e-6) {
-                if (dist < 0.0) {
-                    return vec4<f32>(0.0, 1.0, 0.0, -1.0);
-                }
-            } else {
-                let t_c = dist / denom;
-                if (denom < 0.0) {
-                    if (t_c > t_pyr_enter) {
-                        t_pyr_enter = t_c;
-                        n_pyr = normalize(n_p);
-                    }
-                } else {
-                    t_pyr_exit = min(t_pyr_exit, t_c);
-                }
-            }
-        }
-
-        if (t_pyr_enter > t_pyr_exit || t_pyr_exit <= 0.0) {
-            return vec4<f32>(0.0, 1.0, 0.0, -1.0);
-        }
-        let t_overlap_enter = max(t_cell_enter, t_pyr_enter);
-        let t_overlap_exit  = min(t_cell_exit, t_pyr_exit);
-        if (t_overlap_enter > t_overlap_exit || t_overlap_exit <= 0.0) {
-            return vec4<f32>(0.0, 1.0, 0.0, -1.0);
-        }
-        return vec4<f32>(n_pyr, max(0.001, t_overlap_enter));
     }
 
     var n_enter = vec3<f32>(0.0, 1.0, 0.0);
@@ -535,10 +429,85 @@ fn intersect_sloped_roof_voxel(ro: vec3<f32>, rd: vec3<f32>, mapPos: vec3<i32>) 
     } else {
         n_enter = vec3<f32>(0.0, 0.0, -sign(rd.z));
     }
-    return vec4<f32>(n_enter, max(0.001, t_cell_enter));
+
+    // Check neighbor cells (-x, +x, -z, +z) to determine which side(s) slope at 45 degrees
+    let open_nx = !is_roof_or_wall_neighbor(get_voxel_material(mapPos + vec3<i32>(-1, 0, 0))) &&
+                  !is_roof_or_wall_neighbor(get_voxel_material(mapPos + vec3<i32>(-1, 1, 0)));
+    let open_px = !is_roof_or_wall_neighbor(get_voxel_material(mapPos + vec3<i32>( 1, 0, 0))) &&
+                  !is_roof_or_wall_neighbor(get_voxel_material(mapPos + vec3<i32>( 1, 1, 0)));
+    let open_nz = !is_roof_or_wall_neighbor(get_voxel_material(mapPos + vec3<i32>( 0, 0, -1))) &&
+                  !is_roof_or_wall_neighbor(get_voxel_material(mapPos + vec3<i32>( 0, 1, -1)));
+    let open_pz = !is_roof_or_wall_neighbor(get_voxel_material(mapPos + vec3<i32>( 0, 0,  1))) &&
+                  !is_roof_or_wall_neighbor(get_voxel_material(mapPos + vec3<i32>( 0, 1,  1)));
+
+    if (open_nx) {
+        let n_p = vec3<f32>(-1.0, 1.0, 0.0);
+        let denom = dot(n_p, rd);
+        let dist = 0.0 - dot(n_p, lro);
+        if (abs(denom) < 1e-6) {
+            if (dist < 0.0) { return vec4<f32>(0.0, 1.0, 0.0, -1.0); }
+        } else {
+            let t_c = dist / denom;
+            if (denom < 0.0) {
+                if (t_c > t_enter) { t_enter = t_c; n_enter = normalize(n_p); }
+            } else {
+                t_exit = min(t_exit, t_c);
+            }
+        }
+    }
+    if (open_px) {
+        let n_p = vec3<f32>(1.0, 1.0, 0.0);
+        let denom = dot(n_p, rd);
+        let dist = 1.0 - dot(n_p, lro);
+        if (abs(denom) < 1e-6) {
+            if (dist < 0.0) { return vec4<f32>(0.0, 1.0, 0.0, -1.0); }
+        } else {
+            let t_c = dist / denom;
+            if (denom < 0.0) {
+                if (t_c > t_enter) { t_enter = t_c; n_enter = normalize(n_p); }
+            } else {
+                t_exit = min(t_exit, t_c);
+            }
+        }
+    }
+    if (open_nz) {
+        let n_p = vec3<f32>(0.0, 1.0, -1.0);
+        let denom = dot(n_p, rd);
+        let dist = 0.0 - dot(n_p, lro);
+        if (abs(denom) < 1e-6) {
+            if (dist < 0.0) { return vec4<f32>(0.0, 1.0, 0.0, -1.0); }
+        } else {
+            let t_c = dist / denom;
+            if (denom < 0.0) {
+                if (t_c > t_enter) { t_enter = t_c; n_enter = normalize(n_p); }
+            } else {
+                t_exit = min(t_exit, t_c);
+            }
+        }
+    }
+    if (open_pz) {
+        let n_p = vec3<f32>(0.0, 1.0, 1.0);
+        let denom = dot(n_p, rd);
+        let dist = 1.0 - dot(n_p, lro);
+        if (abs(denom) < 1e-6) {
+            if (dist < 0.0) { return vec4<f32>(0.0, 1.0, 0.0, -1.0); }
+        } else {
+            let t_c = dist / denom;
+            if (denom < 0.0) {
+                if (t_c > t_enter) { t_enter = t_c; n_enter = normalize(n_p); }
+            } else {
+                t_exit = min(t_exit, t_c);
+            }
+        }
+    }
+
+    if (t_enter > t_exit || t_exit <= 0.0) {
+        return vec4<f32>(0.0, 1.0, 0.0, -1.0);
+    }
+    return vec4<f32>(n_enter, max(0.001, t_enter));
 }
 
-// Sculpted Sub-Voxel Low-Poly Props, 6-Room Furniture/Appliances, Doors/Windows & Faceted Trees
+// Sculpted Sub-Voxel Low-Poly Props, Furniture/Appliances, Hauling Tools, Doors/Windows & Faceted Trees
 fn intersect_subvoxel_prop(ro: vec3<f32>, rd: vec3<f32>, mapPos: vec3<i32>, mat: u32) -> vec4<f32> {
     if (mat == 6u || mat == 17u) {
         return intersect_sloped_roof_voxel(ro, rd, mapPos);
@@ -546,8 +515,6 @@ fn intersect_subvoxel_prop(ro: vec3<f32>, rd: vec3<f32>, mapPos: vec3<i32>, mat:
 
     let cell_min = vec3<f32>(f32(mapPos.x), f32(mapPos.y), f32(mapPos.z));
     let lro = ro - cell_min;
-    let absX = abs(mapPos.x);
-    let lotZ = (mapPos.z % 16 + 16) % 16;
 
     var best_hit = vec4<f32>(0.0, 1.0, 0.0, 1e9);
 
@@ -555,8 +522,12 @@ fn intersect_subvoxel_prop(ro: vec3<f32>, rd: vec3<f32>, mapPos: vec3<i32>, mat:
         let post = intersect_aabb_normal(lro, rd, vec3<f32>(0.37, 0.0, 0.37), vec3<f32>(0.63, 0.92, 0.63));
         if (post.w > 0.0 && post.w < best_hit.w) { best_hit = post; }
 
-        let runs_z = (mapPos.x == 25);
-        let runs_x = (lotZ == 1 || lotZ == 15 || !runs_z);
+        let conn_x = (get_voxel_material(mapPos + vec3<i32>(-1, 0, 0)) == 10u) ||
+                     (get_voxel_material(mapPos + vec3<i32>( 1, 0, 0)) == 10u);
+        let conn_z = (get_voxel_material(mapPos + vec3<i32>( 0, 0, -1)) == 10u) ||
+                     (get_voxel_material(mapPos + vec3<i32>( 0, 0,  1)) == 10u);
+        let runs_x = conn_x || !conn_z;
+        let runs_z = conn_z;
         if (runs_x) {
             let rail_x1 = intersect_aabb_normal(lro, rd, vec3<f32>(0.0, 0.26, 0.44), vec3<f32>(1.0, 0.40, 0.56));
             if (rail_x1.w > 0.0 && rail_x1.w < best_hit.w) { best_hit = rail_x1; }
@@ -587,7 +558,11 @@ fn intersect_subvoxel_prop(ro: vec3<f32>, rd: vec3<f32>, mapPos: vec3<i32>, mat:
             if (drum.w > 0.0 && drum.w < best_hit.w) { best_hit = drum; }
         }
     } else if (mat == 7u) {
-        let on_x_wall = (absX == 9 || absX == 17);
+        let wall_z = is_wall_or_opening_neighbor(get_voxel_material(mapPos + vec3<i32>(0, 0, -1))) ||
+                     is_wall_or_opening_neighbor(get_voxel_material(mapPos + vec3<i32>(0, 0,  1)));
+        let wall_x = is_wall_or_opening_neighbor(get_voxel_material(mapPos + vec3<i32>(-1, 0, 0))) ||
+                     is_wall_or_opening_neighbor(get_voxel_material(mapPos + vec3<i32>( 1, 0, 0)));
+        let on_x_wall = wall_z && !wall_x;
         if (on_x_wall) {
             let pane = intersect_aabb_normal(lro, rd, vec3<f32>(0.32, 0.0, 0.0), vec3<f32>(0.68, 1.0, 1.0));
             if (pane.w > 0.0 && pane.w < best_hit.w) { best_hit = pane; }
@@ -604,7 +579,11 @@ fn intersect_subvoxel_prop(ro: vec3<f32>, rd: vec3<f32>, mapPos: vec3<i32>, mat:
             if (lintel.w > 0.0 && lintel.w < best_hit.w) { best_hit = lintel; }
         }
     } else if (mat == 15u) {
-        let on_x_wall = (absX == 9 || absX == 17);
+        let wall_z = is_wall_or_opening_neighbor(get_voxel_material(mapPos + vec3<i32>(0, 0, -1))) ||
+                     is_wall_or_opening_neighbor(get_voxel_material(mapPos + vec3<i32>(0, 0,  1)));
+        let wall_x = is_wall_or_opening_neighbor(get_voxel_material(mapPos + vec3<i32>(-1, 0, 0))) ||
+                     is_wall_or_opening_neighbor(get_voxel_material(mapPos + vec3<i32>( 1, 0, 0)));
+        let on_x_wall = wall_z && !wall_x;
         if (on_x_wall) {
             let door = intersect_aabb_normal(lro, rd, vec3<f32>(0.30, 0.0, 0.0), vec3<f32>(0.70, 1.0, 1.0));
             if (door.w > 0.0 && door.w < best_hit.w) { best_hit = door; }
@@ -622,8 +601,18 @@ fn intersect_subvoxel_prop(ro: vec3<f32>, rd: vec3<f32>, mapPos: vec3<i32>, mat:
         }
     } else if (mat == 57u) {
         // MAT_GARAGE_DOOR: Ribbed White/Slate Sectional Roll-Up Garage Door
-        let gdoor = intersect_aabb_normal(lro, rd, vec3<f32>(0.26, 0.0, 0.0), vec3<f32>(0.68, 1.0, 1.0));
-        if (gdoor.w > 0.0 && gdoor.w < best_hit.w) { best_hit = gdoor; }
+        let wall_z = is_wall_or_opening_neighbor(get_voxel_material(mapPos + vec3<i32>(0, 0, -1))) ||
+                     is_wall_or_opening_neighbor(get_voxel_material(mapPos + vec3<i32>(0, 0,  1)));
+        let wall_x = is_wall_or_opening_neighbor(get_voxel_material(mapPos + vec3<i32>(-1, 0, 0))) ||
+                     is_wall_or_opening_neighbor(get_voxel_material(mapPos + vec3<i32>( 1, 0, 0)));
+        let on_x_wall = !wall_x || wall_z;
+        if (on_x_wall) {
+            let gdoor = intersect_aabb_normal(lro, rd, vec3<f32>(0.26, 0.0, 0.0), vec3<f32>(0.68, 1.0, 1.0));
+            if (gdoor.w > 0.0 && gdoor.w < best_hit.w) { best_hit = gdoor; }
+        } else {
+            let gdoor = intersect_aabb_normal(lro, rd, vec3<f32>(0.0, 0.0, 0.26), vec3<f32>(1.0, 1.0, 0.68));
+            if (gdoor.w > 0.0 && gdoor.w < best_hit.w) { best_hit = gdoor; }
+        }
     } else if (mat == 11u) {
         let rack = intersect_aabb_normal(lro, rd, vec3<f32>(0.08, 0.0, 0.08), vec3<f32>(0.92, 0.14, 0.92));
         if (rack.w > 0.0 && rack.w < best_hit.w) { best_hit = rack; }
@@ -675,7 +664,7 @@ fn intersect_subvoxel_prop(ro: vec3<f32>, rd: vec3<f32>, mapPos: vec3<i32>, mat:
         let riser = intersect_aabb_normal(lro, rd, vec3<f32>(0.30, 0.52, 0.30), vec3<f32>(0.70, 1.0, 0.70));
         if (riser.w > 0.0 && riser.w < best_hit.w) { best_hit = riser; }
     } else if (mat == 23u) {
-        // Room 5 — Bedroom Bed + Mattress + Headboard + Plump Pillows
+        // Bedroom Bed + Mattress + Headboard + Plump Pillows
         let mattress = intersect_aabb_normal(lro, rd, vec3<f32>(0.02, 0.0, 0.08), vec3<f32>(0.98, 0.45, 0.94));
         if (mattress.w > 0.0 && mattress.w < best_hit.w) { best_hit = mattress; }
         let headboard = intersect_aabb_normal(lro, rd, vec3<f32>(0.02, 0.45, 0.76), vec3<f32>(0.98, 0.84, 0.94));
@@ -683,25 +672,25 @@ fn intersect_subvoxel_prop(ro: vec3<f32>, rd: vec3<f32>, mapPos: vec3<i32>, mat:
         let pillow = intersect_aabb_normal(lro, rd, vec3<f32>(0.14, 0.45, 0.52), vec3<f32>(0.86, 0.58, 0.76));
         if (pillow.w > 0.0 && pillow.w < best_hit.w) { best_hit = pillow; }
     } else if (mat == 24u || mat == 41u) {
-        // Room 1 — Low-Poly Oven + Stove (0.84m counter height + simmering pot on top burner)
+        // Low-Poly Oven + Stove (0.82m counter height + Communal Pea Soup & Bone Broth Stockpot on top burner)
         let oven = intersect_aabb_normal(lro, rd, vec3<f32>(0.04, 0.0, 0.08), vec3<f32>(0.96, 0.82, 0.88));
         if (oven.w > 0.0 && oven.w < best_hit.w) { best_hit = oven; }
-        let pot = intersect_aabb_normal(lro, rd, vec3<f32>(0.26, 0.82, 0.28), vec3<f32>(0.64, 0.98, 0.66));
+        let pot = intersect_aabb_normal(lro, rd, vec3<f32>(0.22, 0.82, 0.24), vec3<f32>(0.70, 0.99, 0.72));
         if (pot.w > 0.0 && pot.w < best_hit.w) { best_hit = pot; }
     } else if (mat == 40u) {
-        // Room 1 — Tall Brushed Stainless/Mint Refrigerator + Vertical Handles
+        // Tall Brushed Stainless/Mint Refrigerator + Vertical Handles
         let body = intersect_aabb_normal(lro, rd, vec3<f32>(0.08, 0.0, 0.08), vec3<f32>(0.92, 0.96, 0.86));
         if (body.w > 0.0 && body.w < best_hit.w) { best_hit = body; }
         let handle = intersect_aabb_normal(lro, rd, vec3<f32>(0.16, 0.26, 0.86), vec3<f32>(0.24, 0.88, 0.94));
         if (handle.w > 0.0 && handle.w < best_hit.w) { best_hit = handle; }
     } else if (mat == 42u) {
-        // Room 1 — Kitchen Cabinets & Counter with Butcher-Block Top + Recessed Sink + Chrome Faucet
+        // Kitchen Cabinets & Counter with Butcher-Block Top + Recessed Sink + Chrome Faucet
         let cab = intersect_aabb_normal(lro, rd, vec3<f32>(0.02, 0.0, 0.08), vec3<f32>(0.98, 0.82, 0.88));
         if (cab.w > 0.0 && cab.w < best_hit.w) { best_hit = cab; }
         let faucet = intersect_aabb_normal(lro, rd, vec3<f32>(0.44, 0.82, 0.14), vec3<f32>(0.56, 0.98, 0.36));
         if (faucet.w > 0.0 && faucet.w < best_hit.w) { best_hit = faucet; }
     } else if (mat == 43u) {
-        // Room 1 — Dining Table + Tucked Chair + Dinner Plate
+        // Dining Table + Tucked Chair + Dinner Plate
         let top = intersect_aabb_normal(lro, rd, vec3<f32>(0.08, 0.44, 0.14), vec3<f32>(0.92, 0.52, 0.88));
         if (top.w > 0.0 && top.w < best_hit.w) { best_hit = top; }
         let ped = intersect_aabb_normal(lro, rd, vec3<f32>(0.36, 0.0, 0.38), vec3<f32>(0.64, 0.44, 0.64));
@@ -711,42 +700,43 @@ fn intersect_subvoxel_prop(ro: vec3<f32>, rd: vec3<f32>, mapPos: vec3<i32>, mat:
         let plate = intersect_aabb_normal(lro, rd, vec3<f32>(0.34, 0.52, 0.38), vec3<f32>(0.66, 0.56, 0.68));
         if (plate.w > 0.0 && plate.w < best_hit.w) { best_hit = plate; }
     } else if (mat == 44u) {
-        // Room 2 — Office Bookshelf & Storage Cabinet
+        // Office Bookshelf & Storage Cabinet
         let shelf = intersect_aabb_normal(lro, rd, vec3<f32>(0.06, 0.0, 0.08), vec3<f32>(0.94, 0.94, 0.62));
         if (shelf.w > 0.0 && shelf.w < best_hit.w) { best_hit = shelf; }
     } else if (mat == 45u) {
-        // Room 3 — Shower Stall (Ceramic Base Tray + Frosted Glass Enclosure + Chrome Showerhead)
+        // Shower Stall (Ceramic Base Tray + Frosted Glass Enclosure + Chrome Showerhead)
         let tray = intersect_aabb_normal(lro, rd, vec3<f32>(0.06, 0.0, 0.06), vec3<f32>(0.94, 0.14, 0.94));
         if (tray.w > 0.0 && tray.w < best_hit.w) { best_hit = tray; }
         let glass = intersect_aabb_normal(lro, rd, vec3<f32>(0.08, 0.14, 0.08), vec3<f32>(0.92, 0.96, 0.92));
         if (glass.w > 0.0 && glass.w < best_hit.w) { best_hit = glass; }
     } else if (mat == 46u) {
-        // Room 3 — Sculpted White Porcelain Toilet (Bowl + Rear Tank)
+        // Sculpted White Porcelain Toilet (Bowl + Rear Tank)
         let bowl = intersect_aabb_normal(lro, rd, vec3<f32>(0.20, 0.0, 0.18), vec3<f32>(0.80, 0.42, 0.78));
         if (bowl.w > 0.0 && bowl.w < best_hit.w) { best_hit = bowl; }
         let tank = intersect_aabb_normal(lro, rd, vec3<f32>(0.54, 0.42, 0.20), vec3<f32>(0.88, 0.80, 0.76));
         if (tank.w > 0.0 && tank.w < best_hit.w) { best_hit = tank; }
     } else if (mat == 47u) {
-        // Room 3 — Bathroom Sink + Vanity Cabinet + Wall Mirror
+        // Bathroom Sink + Vanity Cabinet + Wall Mirror
         let vanity = intersect_aabb_normal(lro, rd, vec3<f32>(0.12, 0.0, 0.08), vec3<f32>(0.88, 0.68, 0.68));
         if (vanity.w > 0.0 && vanity.w < best_hit.w) { best_hit = vanity; }
         let mirror = intersect_aabb_normal(lro, rd, vec3<f32>(0.18, 0.68, 0.06), vec3<f32>(0.82, 0.96, 0.18));
         if (mirror.w > 0.0 && mirror.w < best_hit.w) { best_hit = mirror; }
     } else if (mat == 48u) {
-        // Room 4 — Cozy Low-Poly Couch / Sofa (Seat Cushions + Backrest + Side Armrests)
+        // Cozy Low-Poly Couch / Sofa (Seat Cushions + Backrest + Data-Driven End Armrests)
         let seat = intersect_aabb_normal(lro, rd, vec3<f32>(0.02, 0.0, 0.10), vec3<f32>(0.98, 0.38, 0.86));
         if (seat.w > 0.0 && seat.w < best_hit.w) { best_hit = seat; }
         let back = intersect_aabb_normal(lro, rd, vec3<f32>(0.02, 0.38, 0.08), vec3<f32>(0.98, 0.74, 0.32));
         if (back.w > 0.0 && back.w < best_hit.w) { best_hit = back; }
-        if (mapPos.x == 10) {
+        if (get_voxel_material(mapPos + vec3<i32>(-1, 0, 0)) != 48u) {
             let arm_l = intersect_aabb_normal(lro, rd, vec3<f32>(0.02, 0.38, 0.10), vec3<f32>(0.22, 0.56, 0.86));
             if (arm_l.w > 0.0 && arm_l.w < best_hit.w) { best_hit = arm_l; }
-        } else {
+        }
+        if (get_voxel_material(mapPos + vec3<i32>( 1, 0, 0)) != 48u) {
             let arm_r = intersect_aabb_normal(lro, rd, vec3<f32>(0.78, 0.38, 0.10), vec3<f32>(0.98, 0.56, 0.86));
             if (arm_r.w > 0.0 && arm_r.w < best_hit.w) { best_hit = arm_r; }
         }
     } else if (mat == 49u) {
-        // Room 4 — TV on Media Furniture + VideoGame Console
+        // TV on Media Furniture + VideoGame Console
         let stand = intersect_aabb_normal(lro, rd, vec3<f32>(0.02, 0.0, 0.32), vec3<f32>(0.98, 0.36, 0.92));
         if (stand.w > 0.0 && stand.w < best_hit.w) { best_hit = stand; }
         let tv = intersect_aabb_normal(lro, rd, vec3<f32>(0.08, 0.38, 0.55), vec3<f32>(0.92, 0.88, 0.73));
@@ -754,39 +744,151 @@ fn intersect_subvoxel_prop(ro: vec3<f32>, rd: vec3<f32>, mapPos: vec3<i32>, mat:
         let console_box = intersect_aabb_normal(lro, rd, vec3<f32>(0.62, 0.36, 0.34), vec3<f32>(0.88, 0.46, 0.52));
         if (console_box.w > 0.0 && console_box.w < best_hit.w) { best_hit = console_box; }
     } else if (mat == 50u) {
-        // Room 4 — Sound System Tower Speakers
+        // Sound System Tower Speakers
         let spk = intersect_aabb_normal(lro, rd, vec3<f32>(0.22, 0.0, 0.36), vec3<f32>(0.78, 0.80, 0.88));
         if (spk.w > 0.0 && spk.w < best_hit.w) { best_hit = spk; }
     } else if (mat == 51u) {
-        // Room 5 — Nightstand + Glowing Bedside Lamp
+        // Nightstand + Glowing Bedside Lamp
         let tbl = intersect_aabb_normal(lro, rd, vec3<f32>(0.20, 0.0, 0.20), vec3<f32>(0.80, 0.46, 0.80));
         if (tbl.w > 0.0 && tbl.w < best_hit.w) { best_hit = tbl; }
         let shade = intersect_aabb_normal(lro, rd, vec3<f32>(0.30, 0.46, 0.30), vec3<f32>(0.70, 0.78, 0.70));
         if (shade.w > 0.0 && shade.w < best_hit.w) { best_hit = shade; }
     } else if (mat == 52u) {
-        // Room 5 — Walnut Wardrobe / Dresser
+        // Walnut Wardrobe / Dresser
         let ward = intersect_aabb_normal(lro, rd, vec3<f32>(0.08, 0.0, 0.16), vec3<f32>(0.92, 0.94, 0.92));
         if (ward.w > 0.0 && ward.w < best_hit.w) { best_hit = ward; }
     } else if (mat == 53u) {
-        // Room 5 — Full-Length Standing Mirror
+        // Full-Length Standing Mirror
         let mir = intersect_aabb_normal(lro, rd, vec3<f32>(0.16, 0.0, 0.38), vec3<f32>(0.84, 0.92, 0.58));
         if (mir.w > 0.0 && mir.w < best_hit.w) { best_hit = mir; }
     } else if (mat == 54u) {
-        // Room 6 — Garage Workbench + Red Machinist Vise
+        // Garage Workbench + Red Machinist Vise + Brass/Copper Tool Caddy
         let bench = intersect_aabb_normal(lro, rd, vec3<f32>(0.04, 0.0, 0.12), vec3<f32>(0.96, 0.76, 0.90));
         if (bench.w > 0.0 && bench.w < best_hit.w) { best_hit = bench; }
-        let vise = intersect_aabb_normal(lro, rd, vec3<f32>(0.20, 0.76, 0.16), vec3<f32>(0.48, 0.92, 0.44));
+        let vise = intersect_aabb_normal(lro, rd, vec3<f32>(0.18, 0.76, 0.16), vec3<f32>(0.48, 0.94, 0.46));
         if (vise.w > 0.0 && vise.w < best_hit.w) { best_hit = vise; }
+        let toolbox = intersect_aabb_normal(lro, rd, vec3<f32>(0.60, 0.76, 0.46), vec3<f32>(0.90, 0.90, 0.82));
+        if (toolbox.w > 0.0 && toolbox.w < best_hit.w) { best_hit = toolbox; }
     } else if (mat == 55u) {
-        // Room 6 — Tool-Hanging Pegboard Wall + Bench
+        // Tool-Hanging Pegboard Wall + Bench
         let bench = intersect_aabb_normal(lro, rd, vec3<f32>(0.02, 0.0, 0.14), vec3<f32>(0.98, 0.74, 0.90));
         if (bench.w > 0.0 && bench.w < best_hit.w) { best_hit = bench; }
         let peg = intersect_aabb_normal(lro, rd, vec3<f32>(0.04, 0.50, 0.72), vec3<f32>(0.96, 0.98, 0.94));
         if (peg.w > 0.0 && peg.w < best_hit.w) { best_hit = peg; }
     } else if (mat == 56u) {
-        // Room 6 — Heavy-Duty Garage Storage Rack
+        // Heavy-Duty Garage Storage Rack
         let rack = intersect_aabb_normal(lro, rd, vec3<f32>(0.06, 0.0, 0.12), vec3<f32>(0.94, 0.95, 0.90));
         if (rack.w > 0.0 && rack.w < best_hit.w) { best_hit = rack; }
+    } else if (mat == 19u || mat == 34u) {
+        // Backyard Raised Cedar Planter Bed (y in [0.0..0.24]) + A-Frame Pea/Bean Trellis & Root Veggies
+        let planter = intersect_aabb_normal(lro, rd, vec3<f32>(0.04, 0.0, 0.04), vec3<f32>(0.96, 0.24, 0.96));
+        if (planter.w > 0.0 && planter.w < best_hit.w) { best_hit = planter; }
+        if (mat == 19u) {
+            let sprouts = intersect_aabb_normal(lro, rd, vec3<f32>(0.12, 0.24, 0.10), vec3<f32>(0.88, 0.34, 0.90));
+            if (sprouts.w > 0.0 && sprouts.w < best_hit.w) { best_hit = sprouts; }
+        } else {
+            let root_row = intersect_aabb_normal(lro, rd, vec3<f32>(0.12, 0.24, 0.10), vec3<f32>(0.88, 0.38, 0.90));
+            if (root_row.w > 0.0 && root_row.w < best_hit.w) { best_hit = root_row; }
+            let trellis_low = intersect_aabb_normal(lro, rd, vec3<f32>(0.24, 0.38, 0.08), vec3<f32>(0.76, 0.58, 0.92));
+            if (trellis_low.w > 0.0 && trellis_low.w < best_hit.w) { best_hit = trellis_low; }
+            let trellis_top = intersect_aabb_normal(lro, rd, vec3<f32>(0.35, 0.58, 0.06), vec3<f32>(0.65, 0.78, 0.94));
+            if (trellis_top.w > 0.0 && trellis_top.w < best_hit.w) { best_hit = trellis_top; }
+        }
+    } else if (mat == 58u) {
+        // MAT_POULTRY_COOP: Elevated Timber Chicken Coop & BSFL Bioconversion Feeder
+        let is_feeder_half = (get_voxel_material(mapPos + vec3<i32>(0, 0, -1)) == 58u);
+        if (!is_feeder_half) {
+            let legs_f = intersect_aabb_normal(lro, rd, vec3<f32>(0.18, 0.0, 0.12), vec3<f32>(0.86, 0.18, 0.26));
+            if (legs_f.w > 0.0 && legs_f.w < best_hit.w) { best_hit = legs_f; }
+            let legs_b = intersect_aabb_normal(lro, rd, vec3<f32>(0.18, 0.0, 0.74), vec3<f32>(0.86, 0.18, 0.88));
+            if (legs_b.w > 0.0 && legs_b.w < best_hit.w) { best_hit = legs_b; }
+            let coop_body = intersect_aabb_normal(lro, rd, vec3<f32>(0.18, 0.18, 0.10), vec3<f32>(0.88, 0.76, 0.90));
+            if (coop_body.w > 0.0 && coop_body.w < best_hit.w) { best_hit = coop_body; }
+            let roof_eaves = intersect_aabb_normal(lro, rd, vec3<f32>(0.12, 0.74, 0.06), vec3<f32>(0.94, 0.86, 0.94));
+            if (roof_eaves.w > 0.0 && roof_eaves.w < best_hit.w) { best_hit = roof_eaves; }
+            let roof_peak = intersect_aabb_normal(lro, rd, vec3<f32>(0.30, 0.86, 0.06), vec3<f32>(0.76, 0.96, 0.94));
+            if (roof_peak.w > 0.0 && roof_peak.w < best_hit.w) { best_hit = roof_peak; }
+            let nest_box = intersect_aabb_normal(lro, rd, vec3<f32>(0.04, 0.28, 0.22), vec3<f32>(0.28, 0.56, 0.78));
+            if (nest_box.w > 0.0 && nest_box.w < best_hit.w) { best_hit = nest_box; }
+            let ramp = intersect_aabb_normal(lro, rd, vec3<f32>(0.02, 0.0, 0.36), vec3<f32>(0.24, 0.22, 0.64));
+            if (ramp.w > 0.0 && ramp.w < best_hit.w) { best_hit = ramp; }
+        } else {
+            let trough = intersect_aabb_normal(lro, rd, vec3<f32>(0.08, 0.0, 0.14), vec3<f32>(0.92, 0.18, 0.86));
+            if (trough.w > 0.0 && trough.w < best_hit.w) { best_hit = trough; }
+            let hopper = intersect_aabb_normal(lro, rd, vec3<f32>(0.42, 0.18, 0.18), vec3<f32>(0.90, 0.46, 0.82));
+            if (hopper.w > 0.0 && hopper.w < best_hit.w) { best_hit = hopper; }
+            let waterer = intersect_aabb_normal(lro, rd, vec3<f32>(0.12, 0.18, 0.24), vec3<f32>(0.38, 0.38, 0.72));
+            if (waterer.w > 0.0 && waterer.w < best_hit.w) { best_hit = waterer; }
+        }
+    } else if (mat == 59u) {
+        // MAT_CHICKEN_HEN: 2 Animated Low-Poly 3D Heritage Hens per cell in the Backyard Poultry Run
+        let t_hen = camera.avatar_pos.w;
+        let wx1 = sin(t_hen * 1.3 + f32(mapPos.x * 5 + mapPos.z * 3)) * 0.14;
+        let wz1 = cos(t_hen * 0.9 + f32(mapPos.z * 7)) * 0.14;
+        let off1 = vec3<f32>(wx1, 0.0, wz1);
+        let off2 = vec3<f32>(-wz1 * 0.8, 0.0, wx1 * 0.8);
+        let peck = abs(sin(t_hen * 6.0 + f32(mapPos.x * 3 + mapPos.z * 5))) * 0.12;
+        let peck2 = abs(cos(t_hen * 5.2 + f32(mapPos.x * 7 + mapPos.z * 3))) * 0.11;
+
+        let hen_legs1 = intersect_aabb_normal(lro, rd, vec3<f32>(0.29, 0.0, 0.32) + off1, vec3<f32>(0.41, 0.08, 0.44) + off1);
+        if (hen_legs1.w > 0.0 && hen_legs1.w < best_hit.w) { best_hit = hen_legs1; }
+        let hen_body = intersect_aabb_normal(lro, rd, vec3<f32>(0.22, 0.08, 0.25) + off1, vec3<f32>(0.48, 0.32, 0.53) + off1);
+        if (hen_body.w > 0.0 && hen_body.w < best_hit.w) { best_hit = hen_body; }
+        let hen_tail = intersect_aabb_normal(lro, rd, vec3<f32>(0.25, 0.22, 0.49) + off1, vec3<f32>(0.45, 0.38, 0.62) + off1);
+        if (hen_tail.w > 0.0 && hen_tail.w < best_hit.w) { best_hit = hen_tail; }
+        let h1_y = 0.24 - peck;
+        let hen_head = intersect_aabb_normal(lro, rd, vec3<f32>(0.26, h1_y, 0.22) + off1, vec3<f32>(0.44, h1_y + 0.15, 0.35) + off1);
+        if (hen_head.w > 0.0 && hen_head.w < best_hit.w) { best_hit = hen_head; }
+        let hen_comb = intersect_aabb_normal(lro, rd, vec3<f32>(0.32, h1_y + 0.15, 0.24) + off1, vec3<f32>(0.38, h1_y + 0.20, 0.33) + off1);
+        if (hen_comb.w > 0.0 && hen_comb.w < best_hit.w) { best_hit = hen_comb; }
+
+        let hen_legs2 = intersect_aabb_normal(lro, rd, vec3<f32>(0.62, 0.0, 0.58) + off2, vec3<f32>(0.74, 0.08, 0.70) + off2);
+        if (hen_legs2.w > 0.0 && hen_legs2.w < best_hit.w) { best_hit = hen_legs2; }
+        let hen_body2 = intersect_aabb_normal(lro, rd, vec3<f32>(0.55, 0.08, 0.50) + off2, vec3<f32>(0.80, 0.30, 0.76) + off2);
+        if (hen_body2.w > 0.0 && hen_body2.w < best_hit.w) { best_hit = hen_body2; }
+        let hen_tail2 = intersect_aabb_normal(lro, rd, vec3<f32>(0.58, 0.20, 0.70) + off2, vec3<f32>(0.76, 0.36, 0.80) + off2);
+        if (hen_tail2.w > 0.0 && hen_tail2.w < best_hit.w) { best_hit = hen_tail2; }
+        let h2_y = 0.23 - peck2;
+        let hen_head2 = intersect_aabb_normal(lro, rd, vec3<f32>(0.59, h2_y, 0.40) + off2, vec3<f32>(0.77, h2_y + 0.14, 0.54) + off2);
+        if (hen_head2.w > 0.0 && hen_head2.w < best_hit.w) { best_hit = hen_head2; }
+        let hen_comb2 = intersect_aabb_normal(lro, rd, vec3<f32>(0.65, h2_y + 0.14, 0.42) + off2, vec3<f32>(0.71, h2_y + 0.19, 0.51) + off2);
+        if (hen_comb2.w > 0.0 && hen_comb2.w < best_hit.w) { best_hit = hen_comb2; }
+    } else if (mat == 60u) {
+        // MAT_MU_BIOCHAR_KILN: Scenario Mu Smokeless TLUD / Flame-Cap Pyrolysis Biochar Kiln
+        let retort = intersect_aabb_normal(lro, rd, vec3<f32>(0.18, 0.0, 0.18), vec3<f32>(0.82, 0.76, 0.82));
+        if (retort.w > 0.0 && retort.w < best_hit.w) { best_hit = retort; }
+        let collar = intersect_aabb_normal(lro, rd, vec3<f32>(0.32, 0.76, 0.32), vec3<f32>(0.68, 0.98, 0.68));
+        if (collar.w > 0.0 && collar.w < best_hit.w) { best_hit = collar; }
+    } else if (mat == 61u || mat == 62u) {
+        // MAT_MU_COMPOST_DRUM: Scenario Mu Insulated Thermophilic Composting Drum & Struvite Carboy
+        let stand = intersect_aabb_normal(lro, rd, vec3<f32>(0.14, 0.0, 0.42), vec3<f32>(0.86, 0.24, 0.68));
+        if (stand.w > 0.0 && stand.w < best_hit.w) { best_hit = stand; }
+        let drum = intersect_aabb_normal(lro, rd, vec3<f32>(0.12, 0.22, 0.14), vec3<f32>(0.88, 0.78, 0.86));
+        if (drum.w > 0.0 && drum.w < best_hit.w) { best_hit = drum; }
+        let carboy = intersect_aabb_normal(lro, rd, vec3<f32>(0.14, 0.0, 0.14), vec3<f32>(0.42, 0.48, 0.42));
+        if (carboy.w > 0.0 && carboy.w < best_hit.w) { best_hit = carboy; }
+    } else if (mat == 70u) {
+        // MAT_TOOL_WHEELBARROW: Low-poly Garden Wheelbarrow (front dark-rubber wheel + emerald steel tray tub + wooden push handles & rear legs)
+        let wheel = intersect_aabb_normal(lro, rd, vec3<f32>(0.38, 0.0, 0.10), vec3<f32>(0.62, 0.28, 0.34));
+        if (wheel.w > 0.0 && wheel.w < best_hit.w) { best_hit = wheel; }
+        let tray = intersect_aabb_normal(lro, rd, vec3<f32>(0.20, 0.22, 0.24), vec3<f32>(0.80, 0.56, 0.78));
+        if (tray.w > 0.0 && tray.w < best_hit.w) { best_hit = tray; }
+        let handles_legs = intersect_aabb_normal(lro, rd, vec3<f32>(0.24, 0.0, 0.72), vec3<f32>(0.76, 0.48, 0.92));
+        if (handles_legs.w > 0.0 && handles_legs.w < best_hit.w) { best_hit = handles_legs; }
+    } else if (mat == 71u) {
+        // MAT_TOOL_BUCKET_CAN: Low-poly Galvanized Steel Bucket & Copper-Spout Watering Can
+        let bucket = intersect_aabb_normal(lro, rd, vec3<f32>(0.16, 0.0, 0.24), vec3<f32>(0.52, 0.40, 0.60));
+        if (bucket.w > 0.0 && bucket.w < best_hit.w) { best_hit = bucket; }
+        let wcan = intersect_aabb_normal(lro, rd, vec3<f32>(0.54, 0.0, 0.30), vec3<f32>(0.86, 0.38, 0.68));
+        if (wcan.w > 0.0 && wcan.w < best_hit.w) { best_hit = wcan; }
+        let spout = intersect_aabb_normal(lro, rd, vec3<f32>(0.65, 0.18, 0.16), vec3<f32>(0.75, 0.42, 0.30));
+        if (spout.w > 0.0 && spout.w < best_hit.w) { best_hit = spout; }
+    } else if (mat == 72u) {
+        // MAT_TOOL_HAND_DOLLY: Low-poly Heavy-Duty Red Steel Hand Truck / Dolly
+        let toe_wheels = intersect_aabb_normal(lro, rd, vec3<f32>(0.22, 0.0, 0.20), vec3<f32>(0.78, 0.16, 0.74));
+        if (toe_wheels.w > 0.0 && toe_wheels.w < best_hit.w) { best_hit = toe_wheels; }
+        let l_frame = intersect_aabb_normal(lro, rd, vec3<f32>(0.26, 0.16, 0.60), vec3<f32>(0.74, 0.92, 0.76));
+        if (l_frame.w > 0.0 && l_frame.w < best_hit.w) { best_hit = l_frame; }
     } else if (mat == 32u) {
         let ladder = intersect_aabb_normal(lro, rd, vec3<f32>(0.0, 0.0, 0.18), vec3<f32>(0.26, 1.0, 0.82));
         if (ladder.w > 0.0 && ladder.w < best_hit.w) { best_hit = ladder; }
@@ -812,7 +914,7 @@ fn intersect_subvoxel_prop(ro: vec3<f32>, rd: vec3<f32>, mapPos: vec3<i32>, mat:
         let shrub = intersect_octahedron(lro, rd, vec3<f32>(0.5, 0.28, 0.5), vec3<f32>(0.46, 0.38, 0.46));
         if (shrub.w > 0.0 && shrub.w < best_hit.w) { best_hit = shrub; }
     } else if (mat == 120u || mat == 122u) {
-        // Room 2 — Office Desk + PC Tower + Dual Low-Poly Monitors + Swivel Office Chair
+        // Office Desk + PC Tower + Dual Low-Poly Monitors + Swivel Office Chair
         let desk = intersect_aabb_normal(lro, rd, vec3<f32>(0.04, 0.42, 0.08), vec3<f32>(0.96, 0.50, 0.70));
         if (desk.w > 0.0 && desk.w < best_hit.w) { best_hit = desk; }
         let pc_legs = intersect_aabb_normal(lro, rd, vec3<f32>(0.06, 0.0, 0.10), vec3<f32>(0.94, 0.42, 0.66));
@@ -829,18 +931,16 @@ fn intersect_subvoxel_prop(ro: vec3<f32>, rd: vec3<f32>, mapPos: vec3<i32>, mat:
     return best_hit;
 }
 
-// Sub-voxel vertical slab height (1.0 = full 1m block; < 0.99 = low ground feature)
+// Sub-voxel vertical slab height (1.0 = full 1m block or sub-voxel prop; < 0.99 = low flat ground slab)
 fn get_voxel_max_local_y(mat: u32) -> f32 {
     if (mat == 18u) { return 0.05; }
     if (mat == 20u || mat == 21u || mat == 22u || mat == 25u) { return 0.06; }
     if (mat == 26u) { return 0.14; }
-    if (mat == 19u) { return 0.18; }
-    if (mat == 34u) { return 0.38; }
     if (mat == 33u) { return 0.55; }
     return 1.0;
 }
 
-// 16-Step Directional Sun Shadow Ray (respects Lot 402 roof cutaway while keeping neighbor roofs sealed)
+// 16-Step Directional Sun Shadow Ray (respects active map chunk roof cutaway while keeping distant neighbor roofs sealed)
 fn trace_sun_shadow(origin: vec3<f32>, sun_dir: vec3<f32>, z_cutaway: i32) -> f32 {
     var sPos = vec3<i32>(floor(origin));
     var sStep = vec3<i32>(1, 1, 1);
@@ -857,6 +957,7 @@ fn trace_sun_shadow(origin: vec3<f32>, sun_dir: vec3<f32>, z_cutaway: i32) -> f3
     if (sStep.z > 0) { sSide.z = (f32(sPos.z + 1) - origin.z) * sDelta.z; }
     else { sSide.z = (origin.z - f32(sPos.z)) * sDelta.z; }
 
+    let min_shadow_y = select(-2, min(-2, world_chunk.origin_y), world_chunk.is_loaded != 0u);
     var shadow_atten: f32 = 1.0;
     for (var s = 0; s < 16; s++) {
         if (sSide.x < sSide.y) {
@@ -866,14 +967,14 @@ fn trace_sun_shadow(origin: vec3<f32>, sun_dir: vec3<f32>, z_cutaway: i32) -> f3
             if (sSide.y < sSide.z) { sSide.y += sDelta.y; sPos.y += sStep.y; }
             else { sSide.z += sDelta.z; sPos.z += sStep.z; }
         }
-        let s_cutaway = select(32, z_cutaway, is_player_lot_402(sPos));
-        if (sPos.y >= s_cutaway || sPos.y > 16 || sPos.y < 0) {
+        let s_cutaway = select(32, z_cutaway, is_playable_chunk_cell(sPos));
+        if (sPos.y >= s_cutaway || sPos.y > 16 || sPos.y < min_shadow_y) {
             break;
         }
         let sm = get_voxel_material(sPos);
-        if (sm == 35u || sm == 36u) {
+        if (sm == 35u || sm == 36u || sm == 34u || sm == 58u || sm == 60u || sm == 62u || (sm >= 70u && sm <= 72u)) {
             shadow_atten = min(shadow_atten, 0.52);
-        } else if (sm != 0u && sm < 26u && get_voxel_max_local_y(sm) >= 0.99) {
+        } else if (sm != 0u && sm != 19u && (sm < 26u || sm == 57u || (sm >= 64u && sm <= 68u)) && get_voxel_max_local_y(sm) >= 0.99) {
             if (sm == 7u || sm == 10u) {
                 shadow_atten = min(shadow_atten, 0.72);
             } else {
@@ -952,6 +1053,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
     // Roof / Wall Cutaway level encoded in camera.camera_target.w when in (1.5, 31.5)
     let cutaway_active = camera.camera_target.w > 1.5 && camera.camera_target.w < 31.5;
     let z_cutaway_level = select(32, i32(floor(camera.camera_target.w + 0.5)), cutaway_active);
+    let min_voxel_y = select(-2, min(-2, world_chunk.origin_y), world_chunk.is_loaded != 0u);
 
     const MAX_STEPS: i32 = 192;
     for (var i = 0; i < MAX_STEPS; i++) {
@@ -982,15 +1084,15 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             }
         }
 
-        // Bounding space early exit: volume y in [0, 32], z in [-64, 64], |x| <= 64
-        if ((mapPos.y > 32 && dda_step.y > 0) || (mapPos.y < 0 && dda_step.y < 0) ||
+        // Bounding space early exit: volume y in [min_voxel_y, 32], z in [-64, 64], |x| <= 64
+        if ((mapPos.y > 32 && dda_step.y > 0) || (mapPos.y < min_voxel_y && dda_step.y < 0) ||
             (mapPos.z > 64 && dda_step.z > 0) || (mapPos.z < -64 && dda_step.z < 0) ||
             (mapPos.x > 64 && dda_step.x > 0) || (mapPos.x < -64 && dda_step.x < 0)) {
             break;
         }
 
         var mat: u32 = 0u;
-        let local_cutaway = select(32, z_cutaway_level, is_player_lot_402(mapPos));
+        let local_cutaway = select(32, z_cutaway_level, is_playable_chunk_cell(mapPos));
         if (mapPos.y < local_cutaway) {
             mat = get_voxel_material(mapPos);
         }
@@ -1064,8 +1166,8 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                 }
             } else if (mat == 6u || mat == 7u || mat == 8u || mat == 9u || mat == 10u ||
                        mat == 11u || mat == 12u || mat == 15u || mat == 16u || mat == 17u ||
-                       mat == 23u || mat == 24u || mat == 32u || (mat >= 35u && mat <= 38u) ||
-                       (mat >= 40u && mat <= 57u) || mat == 120u || mat == 122u) {
+                       mat == 19u || mat == 23u || mat == 24u || mat == 32u || (mat >= 34u && mat <= 38u) ||
+                       (mat >= 40u && mat <= 62u) || (mat >= 70u && mat <= 72u) || mat == 120u || mat == 122u) {
                 let sub_hit = intersect_subvoxel_prop(ro, rd, mapPos, mat);
                 if (sub_hit.w > 0.0) {
                     hit_dist = sub_hit.w;
@@ -1237,7 +1339,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
     let hit_frac = clamp(hit_pos - cell_origin, vec3<f32>(0.0), vec3<f32>(1.0));
     let lotZ_hit = (mapPos.z % 16 + 16) % 16;
     let absX_hit = abs(mapPos.x);
-    let hit_lot402 = is_player_lot_402(mapPos);
+    let in_playable_chunk = is_playable_chunk_cell(mapPos);
 
     // Stylized Low-Poly Diorama Materials (albedo, roughness, metallic, emissive)
     var base_color: vec3<f32> = vec3<f32>(0.5);
@@ -1257,33 +1359,59 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         base_color = mix(vec3<f32>(0.78, 0.77, 0.74), vec3<f32>(0.58, 0.57, 0.54), joint * 0.60);
         roughness = 0.60;
     } else if (hit_mat == 4u) {
-        // Material 4: Context-aware Ground (Lot 402 6-Room Differentiated Floors + Threshold Strips / Garage Slab / Patio / Backyard Lawn)
-        if (hit_lot402 && mapPos.x >= 8 && mapPos.x <= 12 && mapPos.z >= 11 && mapPos.z <= 14) {
-            // Room 6 — Garage: Smooth Epoxy-Grey Workshop Concrete Slab
-            let slab_joint = select(0.0, 1.0, fract(hit_pos.x * 0.5) < 0.025 || fract(hit_pos.z * 0.5) < 0.025);
-            base_color = mix(vec3<f32>(0.54, 0.57, 0.60), vec3<f32>(0.38, 0.40, 0.43), slab_joint * 0.55);
-            roughness = 0.32;
-            metallic = 0.10;
-        } else if (absX_hit >= 9 && absX_hit <= 17 && lotZ_hit >= 2 && lotZ_hit <= 10) {
-            // Crisp low-poly dark oak interior room partition threshold strips on Lot 402
-            let is_part_x = hit_lot402 && ((abs(hit_pos.x - 13.0) < 0.045 && hit_pos.z >= 3.0 && hit_pos.z <= 6.0) ||
-                                           (abs(hit_pos.x - 15.0) < 0.045 && hit_pos.z >= 3.0 && hit_pos.z <= 6.0) ||
-                                           (abs(hit_pos.x - 13.5) < 0.045 && hit_pos.z >= 6.8 && hit_pos.z <= 10.0));
-            let is_part_z = hit_lot402 && ((abs(hit_pos.z - 5.95) < 0.045 || abs(hit_pos.z - 6.95) < 0.045) &&
-                                           hit_pos.x >= 9.8 && hit_pos.x <= 17.0);
-            if (is_part_x || is_part_z) {
-                base_color = vec3<f32>(0.34, 0.22, 0.12);
-                roughness = 0.26;
-            } else if (hit_lot402 && mapPos.x >= 10 && mapPos.x <= 12 && mapPos.z >= 3 && mapPos.z <= 5) {
-                // Room 1 — Kitchen + Dining: Warm Terracotta & Cream Checkerboard Ceramic Tile
+        // Material 4: Data-Driven Context-Aware Ground (Workshop Slab / Interior Tile & Oak Floors / Planter Soil / Poultry Litter / Lawn Turf)
+        let above_1 = get_voxel_material(mapPos + vec3<i32>(0, 1, 0));
+        let n_nx = get_voxel_material(mapPos + vec3<i32>(-1, 1, 0));
+        let n_px = get_voxel_material(mapPos + vec3<i32>( 1, 1, 0));
+        let n_nz = get_voxel_material(mapPos + vec3<i32>( 0, 1, -1));
+        let n_pz = get_voxel_material(mapPos + vec3<i32>( 0, 1,  1));
+        let has_roof_above = is_roof_or_wall_neighbor(get_voxel_material(mapPos + vec3<i32>(0, 4, 0))) ||
+                             is_roof_or_wall_neighbor(get_voxel_material(mapPos + vec3<i32>(0, 3, 0)));
+        let is_interior_slab = has_roof_above || is_wall_or_opening_neighbor(above_1) ||
+                               (above_1 >= 40u && above_1 <= 56u) || above_1 == 23u || above_1 == 120u;
+
+        if (above_1 == 19u || above_1 == 34u) {
+            // Cultivated garden bed dark biochar-loam soil base
+            base_color = vec3<f32>(0.26, 0.19, 0.13);
+            roughness = 0.74;
+        } else if (above_1 == 58u || above_1 == 59u || n_nz == 58u || n_pz == 58u) {
+            // Poultry Run: Deep-Litter Biochar & Golden Straw Pasture Bedding
+            let straw_tex = sin(hit_pos.x * 16.0 + cos(hit_pos.z * 14.0) * 2.5) * 0.04;
+            let biochar_fleck = step(0.86, sin(hit_pos.x * 24.0) * cos(hit_pos.z * 24.0));
+            base_color = mix(vec3<f32>(0.62, 0.54, 0.32) + vec3<f32>(straw_tex), vec3<f32>(0.24, 0.20, 0.16), biochar_fleck * 0.45);
+            roughness = 0.74;
+        } else if (is_interior_slab) {
+            let n_nz2 = get_voxel_material(mapPos + vec3<i32>(0, 1, -2));
+            let n_pz2 = get_voxel_material(mapPos + vec3<i32>(0, 1,  2));
+            let n_px_nz = get_voxel_material(mapPos + vec3<i32>(1, 1, -1));
+            let is_workshop = (above_1 >= 54u && above_1 <= 57u) || (above_1 >= 70u && above_1 <= 72u) ||
+                              (n_pz >= 54u && n_pz <= 57u) || (n_nx == 57u) ||
+                              ((n_pz2 >= 54u && n_pz2 <= 56u) && !is_wall_or_opening_neighbor(n_pz));
+            let is_kitchen = (above_1 == 24u || (above_1 >= 40u && above_1 <= 43u)) ||
+                             (n_nz == 24u || (n_nz >= 40u && n_nz <= 42u)) ||
+                             (n_nx == 43u) ||
+                             ((n_nz2 == 24u || (n_nz2 >= 40u && n_nz2 <= 42u)) && n_nz == 0u);
+            let is_bath = (above_1 >= 45u && above_1 <= 47u) ||
+                          (n_nz >= 45u && n_nz <= 47u) ||
+                          (n_px >= 45u && n_px <= 47u) ||
+                          (n_px_nz >= 45u && n_px_nz <= 47u);
+
+            if (is_workshop) {
+                // Workshop / Attached Garage: Smooth Troweled Epoxy-Grey Concrete Slab
+                let slab_joint = select(0.0, 1.0, fract(hit_pos.x * 0.5) < 0.025 || fract(hit_pos.z * 0.5) < 0.025);
+                base_color = mix(vec3<f32>(0.54, 0.57, 0.60), vec3<f32>(0.38, 0.40, 0.43), slab_joint * 0.55);
+                roughness = 0.32;
+                metallic = 0.10;
+            } else if (is_kitchen) {
+                // Kitchen & Hearth: Warm Terracotta & Cream Checkerboard Ceramic Quarry Tile
                 let grout = select(0.0, 1.0, fract(hit_pos.x * 2.0) < 0.07 || fract(hit_pos.z * 2.0) < 0.07);
                 let chk = (i32(floor(hit_pos.x * 2.0)) + i32(floor(hit_pos.z * 2.0))) & 1;
                 let tile_c = select(vec3<f32>(0.88, 0.78, 0.66), vec3<f32>(0.76, 0.44, 0.30), chk == 0);
                 base_color = mix(tile_c, vec3<f32>(0.48, 0.42, 0.36), grout * 0.65);
                 roughness = 0.20;
                 metallic = 0.08;
-            } else if (hit_lot402 && mapPos.x >= 15 && mapPos.x <= 16 && mapPos.z >= 3 && mapPos.z <= 5) {
-                // Room 3 — Bathroom: Clean Aqua-White Ceramic Bathroom Tile
+            } else if (is_bath) {
+                // Bathroom & Sanitation: Clean Aqua-White Waterproof Porcelain Tile
                 let grout = select(0.0, 1.0, fract(hit_pos.x * 3.0) < 0.08 || fract(hit_pos.z * 3.0) < 0.08);
                 let b_chk = (i32(floor(hit_pos.x * 3.0)) + i32(floor(hit_pos.z * 3.0))) & 1;
                 let aqua_tile = select(vec3<f32>(0.88, 0.95, 0.96), vec3<f32>(0.68, 0.88, 0.90), b_chk == 0);
@@ -1291,40 +1419,30 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
                 roughness = 0.14;
                 metallic = 0.12;
             } else {
-                // Warm Honey-Oak Hardwood Planks (Office, Hallway, Living Space & Bedroom)
+                // Warm Honey-Oak Hardwood Planks (Study, Circulation Hallways, Living Space & Bedroom)
                 let plank_seam = select(0.0, 1.0, fract(hit_pos.x * 3.0) < 0.06 || fract(hit_pos.z * 0.75) < 0.04);
                 let grain = sin(hit_pos.z * 14.0 + floor(hit_pos.x * 3.0) * 2.3) * 0.025;
                 var oak_col = mix(vec3<f32>(0.68, 0.48, 0.28) + vec3<f32>(grain), vec3<f32>(0.44, 0.29, 0.16), plank_seam * 0.60);
                 roughness = 0.28;
                 metallic = 0.06;
-                // Cozy woven area rug in Living Space (under Couch & TV)
-                if (hit_lot402 && hit_pos.x >= 10.15 && hit_pos.x <= 12.75 && hit_pos.z >= 7.25 && hit_pos.z <= 9.25) {
-                    let rug_border = hit_pos.x < 10.32 || hit_pos.x > 12.58 || hit_pos.z < 7.42 || hit_pos.z > 9.08;
+                if (above_1 == 48u || n_nz == 48u) {
+                    let rug_border = hit_frac.x < 0.12 || hit_frac.x > 0.88 || hit_frac.z < 0.12 || hit_frac.z > 0.88;
                     oak_col = select(vec3<f32>(0.76, 0.36, 0.24), vec3<f32>(0.90, 0.78, 0.56), rug_border);
                     roughness = 0.68;
-                }
-                // Soft woven area rug in Bedroom
-                if (hit_lot402 && hit_pos.x >= 14.55 && hit_pos.x <= 16.75 && hit_pos.z >= 7.35 && hit_pos.z <= 9.35) {
-                    let b_border = hit_pos.x < 14.70 || hit_pos.x > 16.60 || hit_pos.z < 7.50 || hit_pos.z > 9.20;
+                } else if (above_1 == 23u || n_pz == 23u) {
+                    let b_border = hit_frac.x < 0.12 || hit_frac.x > 0.88 || hit_frac.z < 0.12 || hit_frac.z > 0.88;
                     oak_col = select(vec3<f32>(0.34, 0.48, 0.64), vec3<f32>(0.84, 0.86, 0.90), b_border);
                     roughness = 0.68;
                 }
                 base_color = oak_col;
             }
-        } else if (mapPos.x >= 18 && mapPos.x <= 19 && mapPos.z >= 4 && mapPos.z <= 8) {
-            let paver_seam = select(0.0, 1.0, fract(hit_pos.x * 2.0) < 0.06 || fract(hit_pos.z * 2.0) < 0.06);
-            base_color = mix(vec3<f32>(0.74, 0.70, 0.64), vec3<f32>(0.52, 0.48, 0.44), paver_seam * 0.60);
-            roughness = 0.48;
-        } else if (mapPos.x >= 18 && mapPos.x <= 25 && mapPos.z >= 1 && mapPos.z <= 15) {
-            let checker = f32((mapPos.x + mapPos.z) & 1) * 0.028;
-            let turf_var = sin(hit_pos.x * 5.0) * cos(hit_pos.z * 5.0) * 0.025;
-            base_color = vec3<f32>(0.32, 0.60, 0.26) + vec3<f32>(checker + turf_var);
-            roughness = 0.68;
         } else {
-            let stripe = sin(hit_pos.x * 1.5708) * 0.022;
-            let lawn_var = sin(hit_pos.x * 4.0) * cos(hit_pos.z * 4.0) * 0.020;
-            base_color = vec3<f32>(0.36, 0.63, 0.29) + vec3<f32>(stripe + lawn_var);
-            roughness = 0.72;
+            // Exterior Lawn Turf over Sandy-Loam Topsoil Horizon
+            let checker = f32((mapPos.x + mapPos.z) & 1) * 0.022;
+            let stripe = sin(hit_pos.x * 1.5708) * 0.018;
+            let lawn_var = sin(hit_pos.x * 4.5) * cos(hit_pos.z * 4.5) * 0.022;
+            base_color = vec3<f32>(0.34, 0.62, 0.27) + vec3<f32>(checker + stripe + lawn_var);
+            roughness = 0.70;
         }
     } else if (hit_mat == 5u || hit_mat == 30u) {
         if (hit_mat == 30u) {
@@ -1333,13 +1451,16 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             roughness = 0.28;
             metallic = 0.65;
         } else {
-            // Warm Cream/Ivory Architectural Clapboard Siding with Crisp White Corner Trim & Baseboard Plinth
+            // Warm Cream/Ivory Architectural Clapboard Siding with Data-Driven Corner Trim & Baseboard Plinth
             let clapboard_rib = fract(hit_pos.y * 4.0);
             let rib_shadow = smoothstep(0.0, 0.18, clapboard_rib);
-            let is_corner_trim = ((absX_hit == 9 || absX_hit == 17) && (lotZ_hit == 2 || lotZ_hit == 10)) ||
-                                 (hit_lot402 && (mapPos.x == 8 || mapPos.x == 12) && mapPos.z == 14);
+            let wx_n = is_wall_or_opening_neighbor(get_voxel_material(mapPos + vec3<i32>(-1, 0, 0)));
+            let wx_p = is_wall_or_opening_neighbor(get_voxel_material(mapPos + vec3<i32>( 1, 0, 0)));
+            let wz_n = is_wall_or_opening_neighbor(get_voxel_material(mapPos + vec3<i32>( 0, 0, -1)));
+            let wz_p = is_wall_or_opening_neighbor(get_voxel_material(mapPos + vec3<i32>( 0, 0,  1)));
+            let is_corner_trim = !(wx_n && wx_p) && !(wz_n && wz_p) && ((wx_n || wx_p) && (wz_n || wz_p));
             let is_plinth = mapPos.y == 1 && hit_frac.y < 0.18;
-            let wall_cream = select(vec3<f32>(0.92, 0.89, 0.83), vec3<f32>(0.86, 0.89, 0.84), mapPos.x < 0);
+            let wall_cream = select(vec3<f32>(0.92, 0.89, 0.83), vec3<f32>(0.86, 0.89, 0.84), !in_playable_chunk && mapPos.x < 0);
             var siding_base = select(wall_cream * (0.90 + 0.10 * rib_shadow), vec3<f32>(0.97, 0.96, 0.93), is_corner_trim);
             if (is_plinth && !is_corner_trim) {
                 siding_base = vec3<f32>(0.62, 0.59, 0.55);
@@ -1350,18 +1471,18 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
     } else if (hit_mat == 6u) {
         let course_y = fract(hit_pos.y * 3.0);
         let shingle_line = select(1.0, 0.90, course_y < 0.10);
-        let roof_palette = select(vec3<f32>(0.72, 0.34, 0.24), vec3<f32>(0.28, 0.36, 0.48), hit_lot402);
+        let roof_palette = select(vec3<f32>(0.72, 0.34, 0.24), vec3<f32>(0.28, 0.36, 0.48), in_playable_chunk);
         base_color = roof_palette * shingle_line;
         roughness = 0.50;
         metallic = 0.08;
     } else if (hit_mat == 7u) {
         let is_sill_or_frame = hit_frac.y < 0.15 || hit_frac.y > 0.86 || hit_frac.x < 0.10 || hit_frac.x > 0.90 || hit_frac.z < 0.10 || hit_frac.z > 0.90 || abs(hit_frac.x - 0.5) < 0.04 || abs(hit_frac.z - 0.5) < 0.04;
-        let pane_col = select(vec3<f32>(0.72, 0.58, 0.38), vec3<f32>(0.24, 0.46, 0.64), hit_lot402);
+        let pane_col = select(vec3<f32>(0.72, 0.58, 0.38), vec3<f32>(0.24, 0.46, 0.64), in_playable_chunk);
         base_color = select(pane_col, vec3<f32>(0.95, 0.94, 0.91), is_sill_or_frame);
         roughness = select(0.14, 0.42, is_sill_or_frame);
         metallic = select(0.75, 0.05, is_sill_or_frame);
         if (!is_sill_or_frame) {
-            emissive = select(vec3<f32>(0.34, 0.24, 0.11), vec3<f32>(0.22, 0.16, 0.08), hit_lot402);
+            emissive = select(vec3<f32>(0.34, 0.24, 0.11), vec3<f32>(0.22, 0.16, 0.08), in_playable_chunk);
         }
     } else if (hit_mat == 8u) {
         base_color = vec3<f32>(0.44, 0.28, 0.18);
@@ -1428,10 +1549,18 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
             roughness = 0.68;
         }
     } else if (hit_mat == 19u) {
-        let furrow = sin(hit_pos.z * 18.85);
-        let is_foliage = furrow > -0.15 && abs(hit_frac.x - 0.5) < 0.42;
-        base_color = select(vec3<f32>(0.28, 0.20, 0.14), vec3<f32>(0.32, 0.64, 0.22) * (0.90 + 0.10 * furrow), is_foliage);
-        roughness = select(0.75, 0.52, is_foliage);
+        // MAT_COVER_CROP: Raised Cedar Planter Bed (y in [0.0..0.24]) + Dark Biochar-Loam + Sprouting Cover Crop
+        let is_cedar_rim = hit_frac.y < 0.235 && (hit_frac.x < 0.12 || hit_frac.x > 0.88 || hit_frac.z < 0.12 || hit_frac.z > 0.88);
+        if (is_cedar_rim) {
+            let plank_seam = abs(hit_frac.y - 0.12) < 0.018;
+            base_color = select(vec3<f32>(0.68, 0.42, 0.22), vec3<f32>(0.46, 0.28, 0.14), plank_seam);
+            roughness = 0.50;
+        } else {
+            let furrow = sin(hit_pos.z * 18.85);
+            let is_foliage = hit_frac.y >= 0.235 && furrow > -0.15;
+            base_color = select(vec3<f32>(0.22, 0.16, 0.11), vec3<f32>(0.32, 0.66, 0.24) * (0.90 + 0.10 * furrow), is_foliage);
+            roughness = select(0.76, 0.50, is_foliage);
+        }
     } else if (hit_mat == 20u) {
         let haul_border = select(0.0, 1.0, hit_frac.x < 0.10 || hit_frac.x > 0.90 || hit_frac.z < 0.10 || hit_frac.z > 0.90);
         base_color = mix(vec3<f32>(0.08, 0.56, 0.66), vec3<f32>(0.00, 0.76, 0.86), 0.45 + 0.55 * haul_border);
@@ -1458,15 +1587,26 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         }
         roughness = 0.48;
     } else if (hit_mat == 24u || hit_mat == 41u) {
-        // Room 1 — MAT_OVEN_STOVE: Brushed Stainless Stove + Dark Glass Oven Window + 4 Glowing Burners + Stockpot
+        // Room 1 — MAT_OVEN_STOVE: Brushed Stainless Stove + 4 Glowing Burners + Simmering Communal Pea Soup & Bone Broth Stockpot
         let is_pot = hit_frac.y > 0.825;
         let is_cooktop = hit_frac.y >= 0.78 && !is_pot;
         let is_oven_glass = hit_frac.z > 0.85 && hit_frac.y > 0.18 && hit_frac.y < 0.64 && hit_frac.x > 0.16 && hit_frac.x < 0.84;
         if (is_pot) {
-            let is_broth = hit_frac.y > 0.95;
-            base_color = select(vec3<f32>(0.78, 0.80, 0.84), vec3<f32>(0.94, 0.68, 0.20), is_broth);
-            roughness = 0.22;
-            metallic = select(0.85, 0.15, is_broth);
+            let pot_top = hit_frac.y > 0.96 || (hit_normal.y > 0.5 && hit_frac.y > 0.92);
+            let in_soup = pot_top && hit_frac.x > 0.26 && hit_frac.x < 0.66 && hit_frac.z > 0.28 && hit_frac.z < 0.68;
+            if (in_soup) {
+                let simmer_swirl = 0.5 + 0.5 * sin(camera.avatar_pos.w * 5.0 + hit_pos.x * 18.0 + hit_pos.z * 16.0);
+                let soup_col = mix(vec3<f32>(0.34, 0.76, 0.24), vec3<f32>(0.96, 0.76, 0.20), simmer_swirl * 0.65);
+                base_color = soup_col;
+                roughness = 0.14;
+                metallic = 0.10;
+                emissive = soup_col * 0.38;
+            } else {
+                let is_stainless_rim = hit_frac.y > 0.93;
+                base_color = select(vec3<f32>(0.86, 0.52, 0.30), vec3<f32>(0.84, 0.88, 0.92), is_stainless_rim);
+                roughness = 0.18;
+                metallic = 0.88;
+            }
         } else if (is_cooktop) {
             let b_dist = length(fract(hit_frac.xz * 2.0) - vec2<f32>(0.5));
             let burner_ring = abs(b_dist - 0.26) < 0.055;
@@ -1636,11 +1776,12 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         roughness = select(0.04, 0.40, is_frame);
         metallic = select(0.95, 0.06, is_frame);
     } else if (hit_mat == 54u) {
-        // Room 6 — MAT_GARAGE_WORKBENCH: Steel Frame + Butcher-Block Top + Red Machinist Vise
+        // Room 6 — MAT_GARAGE_WORKBENCH: Steel Frame + Butcher-Block Top + Red Machinist Vise + Brass/Copper Tool Caddy
         if (hit_frac.y > 0.765) {
-            base_color = vec3<f32>(0.86, 0.20, 0.18);
-            roughness = 0.28;
-            metallic = 0.65;
+            let is_tool_caddy = hit_frac.x > 0.55;
+            base_color = select(vec3<f32>(0.86, 0.20, 0.18), vec3<f32>(0.88, 0.64, 0.24), is_tool_caddy);
+            roughness = 0.24;
+            metallic = select(0.68, 0.82, is_tool_caddy);
         } else if (hit_frac.y > 0.64) {
             base_color = vec3<f32>(0.80, 0.62, 0.38);
             roughness = 0.34;
@@ -1677,6 +1818,249 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         }
         roughness = select(0.32, 0.12, is_lite);
         metallic = 0.25;
+    } else if (hit_mat == 58u) {
+        // MAT_POULTRY_COOP: Elevated Timber Chicken Coop & BSFL Bioconversion Feeder + Waterer (data-driven orientation)
+        let is_feeder_half = (get_voxel_material(mapPos + vec3<i32>(0, 0, -1)) == 58u);
+        if (!is_feeder_half) {
+            if (hit_frac.y > 0.735) {
+                let roof_rib = fract(hit_pos.z * 6.0) < 0.16;
+                base_color = select(vec3<f32>(0.24, 0.48, 0.30), vec3<f32>(0.18, 0.36, 0.22), roof_rib);
+                roughness = 0.42;
+            } else if (hit_frac.x < 0.19 && hit_frac.y >= 0.27 && hit_frac.y <= 0.57) {
+                let in_nest = hit_frac.y > 0.33 && hit_frac.y < 0.50 && hit_frac.z > 0.28 && hit_frac.z < 0.72;
+                let egg_cell = fract(hit_frac.z * 5.0);
+                let is_egg = in_nest && egg_cell > 0.22 && egg_cell < 0.78 && hit_frac.y > 0.37;
+                if (is_egg) {
+                    base_color = select(vec3<f32>(0.96, 0.94, 0.88), vec3<f32>(0.88, 0.66, 0.44), hit_frac.z > 0.5);
+                    roughness = 0.22;
+                } else if (in_nest) {
+                    base_color = vec3<f32>(0.84, 0.70, 0.32);
+                    roughness = 0.68;
+                } else {
+                    base_color = vec3<f32>(0.72, 0.42, 0.22);
+                    roughness = 0.48;
+                }
+            } else if (hit_frac.x < 0.25 && hit_frac.y < 0.23) {
+                let cleat = fract(hit_frac.x * 10.0) < 0.24;
+                base_color = select(vec3<f32>(0.76, 0.54, 0.28), vec3<f32>(0.50, 0.32, 0.16), cleat);
+                roughness = 0.52;
+            } else if (hit_frac.y < 0.185) {
+                base_color = vec3<f32>(0.48, 0.30, 0.16);
+                roughness = 0.58;
+            } else {
+                let is_door = hit_frac.x < 0.22 && hit_frac.z > 0.38 && hit_frac.z < 0.62 && hit_frac.y < 0.46;
+                let is_trim = hit_frac.z < 0.15 || hit_frac.z > 0.85 || hit_frac.y > 0.70;
+                let plank = fract(hit_pos.y * 6.0) < 0.14;
+                var wall_c = select(vec3<f32>(0.78, 0.44, 0.22), vec3<f32>(0.60, 0.32, 0.15), plank);
+                if (is_trim) { wall_c = vec3<f32>(0.94, 0.90, 0.82); }
+                if (is_door) { wall_c = vec3<f32>(0.20, 0.14, 0.10); }
+                base_color = wall_c;
+                roughness = 0.46;
+            }
+        } else {
+            if (hit_frac.y >= 0.18 && hit_frac.x > 0.40) {
+                let is_lid = hit_frac.y > 0.41;
+                let is_band = abs(hit_frac.y - 0.31) < 0.025;
+                base_color = select(vec3<f32>(0.18, 0.58, 0.32), vec3<f32>(0.18, 0.22, 0.20), is_lid);
+                if (is_band) { base_color = vec3<f32>(0.94, 0.74, 0.18); }
+                roughness = 0.34;
+            } else if (hit_frac.y >= 0.18) {
+                let is_base_lip = hit_frac.y < 0.23;
+                base_color = select(vec3<f32>(0.28, 0.70, 0.90), vec3<f32>(0.88, 0.20, 0.18), is_base_lip);
+                roughness = 0.20;
+            } else {
+                let in_feed = hit_frac.y > 0.13 && abs(hit_frac.z - 0.5) < 0.24 && hit_frac.x > 0.14 && hit_frac.x < 0.86;
+                base_color = select(vec3<f32>(0.74, 0.78, 0.82), vec3<f32>(0.86, 0.72, 0.34), in_feed);
+                roughness = select(0.26, 0.62, in_feed);
+                metallic = select(0.78, 0.08, in_feed);
+            }
+        }
+    } else if (hit_mat == 59u) {
+        // MAT_CHICKEN_HEN: Animated 3D Heritage Hens (Speckled Buff Orpington, Rhode Island Red, Sussex Pearl-White)
+        let t_hen = camera.avatar_pos.w;
+        let wx1 = sin(t_hen * 1.3 + f32(mapPos.x * 5 + mapPos.z * 3)) * 0.14;
+        let wz1 = cos(t_hen * 0.9 + f32(mapPos.z * 7)) * 0.14;
+        let h1_center = vec2<f32>(0.35 + wx1, 0.38 + wz1);
+        let h2_center = vec2<f32>(0.68 - wz1 * 0.8, 0.63 + wx1 * 0.8);
+        let is_hen2 = length(hit_frac.xz - h2_center) < length(hit_frac.xz - h1_center);
+        let hen_local_xz = hit_frac.xz - select(vec2<f32>(wx1, wz1), vec2<f32>(-wz1 * 0.8, wx1 * 0.8), is_hen2);
+        let peck_val = select(
+            abs(sin(t_hen * 6.0 + f32(mapPos.x * 3 + mapPos.z * 5))) * 0.12,
+            abs(cos(t_hen * 5.2 + f32(mapPos.x * 7 + mapPos.z * 3))) * 0.11,
+            is_hen2
+        );
+        let head_top = select(0.39, 0.37, is_hen2) - peck_val;
+        let in_head_z = select(hen_local_xz.y < 0.36, hen_local_xz.y < 0.55 && hen_local_xz.x > 0.56, is_hen2);
+        let is_comb = (in_head_z && hit_frac.y > head_top - 0.01) || hit_frac.y > 0.365;
+        let is_beak_or_legs = hit_frac.y < 0.085 || (in_head_z && select(hen_local_xz.y < 0.25, hen_local_xz.y < 0.44, is_hen2) && hit_frac.y < head_top - 0.04);
+
+        let breed_id = (u32(mapPos.x + mapPos.z * 2) + select(0u, 1u, is_hen2)) % 3u;
+        var plumage = vec3<f32>(0.88, 0.64, 0.28); // Speckled Buff Orpington golden-ochre
+        if (breed_id == 1u) {
+            plumage = vec3<f32>(0.68, 0.26, 0.16); // Rhode Island Red warm chestnut
+        } else if (breed_id == 2u) {
+            plumage = vec3<f32>(0.94, 0.92, 0.88); // Light Sussex pearl-white
+        }
+        let speckle = step(0.65, sin(hit_pos.x * 28.0) * cos(hit_pos.y * 28.0 + hit_pos.z * 28.0));
+        plumage = plumage * (0.92 + 0.08 * speckle);
+
+        if (is_comb) {
+            base_color = vec3<f32>(0.92, 0.14, 0.16);
+            roughness = 0.38;
+        } else if (is_beak_or_legs) {
+            base_color = vec3<f32>(0.96, 0.68, 0.14);
+            roughness = 0.34;
+        } else {
+            base_color = plumage;
+            roughness = 0.54;
+        }
+    } else if (hit_mat == 60u) {
+        // MAT_MU_BIOCHAR_KILN: Scenario Mu Smokeless TLUD / Flame-Cap Pyrolysis Biochar Kiln
+        let flame_pulse = 0.86 + 0.14 * sin(camera.avatar_pos.w * 6.5);
+        let is_flame_cap = hit_frac.y > 0.72;
+        let is_biochar_base = hit_frac.y < 0.18;
+        let barrel_rib = abs(hit_frac.y - 0.38) < 0.025 || abs(hit_frac.y - 0.62) < 0.025;
+        if (is_flame_cap) {
+            let in_collar_flame = hit_frac.y > 0.88 || (hit_normal.y > 0.5 && length(hit_frac.xz - vec2<f32>(0.5)) < 0.20);
+            base_color = select(vec3<f32>(0.24, 0.22, 0.20), vec3<f32>(1.00, 0.52, 0.12) * flame_pulse, in_collar_flame);
+            roughness = select(0.36, 0.18, in_collar_flame);
+            metallic = select(0.72, 0.10, in_collar_flame);
+            emissive = select(vec3<f32>(0.28, 0.10, 0.02), vec3<f32>(0.88, 0.38, 0.06) * flame_pulse, in_collar_flame);
+        } else if (is_biochar_base) {
+            base_color = vec3<f32>(0.10, 0.10, 0.11);
+            roughness = 0.82;
+        } else {
+            base_color = select(vec3<f32>(0.20, 0.22, 0.25), vec3<f32>(0.36, 0.38, 0.42), barrel_rib);
+            roughness = 0.38;
+            metallic = 0.76;
+        }
+    } else if (hit_mat == 61u || hit_mat == 62u) {
+        // MAT_MU_COMPOST_DRUM: Scenario Mu Insulated Thermophilic Composting Drum & Translucent-Amber Struvite Carboy
+        let is_carboy = hit_frac.x < 0.43 && hit_frac.z < 0.43 && hit_frac.y < 0.49;
+        let is_stand = hit_frac.y < 0.23 && !is_carboy;
+        if (is_carboy) {
+            let is_crystal_bed = hit_frac.y < 0.16;
+            let is_cap = hit_frac.y > 0.42;
+            base_color = select(vec3<f32>(0.88, 0.58, 0.18), vec3<f32>(0.94, 0.90, 0.76), is_crystal_bed);
+            if (is_cap) { base_color = vec3<f32>(0.76, 0.36, 0.22); }
+            roughness = 0.16;
+            metallic = 0.25;
+            emissive = vec3<f32>(0.14, 0.08, 0.02);
+        } else if (is_stand) {
+            base_color = vec3<f32>(0.38, 0.28, 0.20);
+            roughness = 0.52;
+        } else {
+            let drum_band = abs(hit_frac.x - 0.5) < 0.045 || abs(hit_frac.y - 0.50) < 0.03;
+            base_color = select(vec3<f32>(0.22, 0.50, 0.30), vec3<f32>(0.74, 0.42, 0.24), drum_band);
+            roughness = 0.40;
+        }
+    } else if (hit_mat == 64u) {
+        // STRATA_CLAY_SUBSOIL: Dense terracotta-ochre clay subsoil horizon with sedimentary banding
+        let horizon_band = sin(hit_pos.y * 14.0 + sin(hit_pos.x * 3.5 + hit_pos.z * 3.5) * 0.8) * 0.045;
+        let clay_mottle = sin(hit_pos.x * 11.0) * cos(hit_pos.z * 11.0) * 0.025;
+        base_color = vec3<f32>(0.58, 0.33, 0.20) + vec3<f32>(horizon_band + clay_mottle, (horizon_band + clay_mottle) * 0.65, 0.0);
+        roughness = 0.78;
+    } else if (hit_mat == 65u) {
+        // STRATA_COMPACTED_GRAVEL_PAD: Engineered crushed-stone capillary-break grading aggregate
+        let pebble_a = sin(hit_pos.x * 26.0 + hit_pos.y * 19.0) * cos(hit_pos.z * 26.0 - hit_pos.y * 17.0);
+        let pebble_b = step(0.45, sin(hit_pos.x * 37.0) * cos(hit_pos.z * 39.0));
+        let gravel_base = mix(vec3<f32>(0.46, 0.48, 0.50), vec3<f32>(0.62, 0.63, 0.65), pebble_b * 0.65);
+        base_color = gravel_base + vec3<f32>(pebble_a * 0.045);
+        roughness = 0.80;
+    } else if (hit_mat == 66u) {
+        // STRATA_CONCRETE_FOOTING_SLAB: Poured reinforced structural concrete perimeter foundation footing
+        let form_seam = select(0.0, 1.0, hit_frac.x < 0.04 || hit_frac.z < 0.04 || abs(hit_frac.y - 0.5) < 0.025);
+        let pour_agg = sin(hit_pos.x * 20.0) * cos(hit_pos.z * 20.0) * 0.018;
+        base_color = mix(vec3<f32>(0.64, 0.65, 0.63) + vec3<f32>(pour_agg), vec3<f32>(0.45, 0.46, 0.45), form_seam * 0.60);
+        roughness = 0.58;
+        metallic = 0.06;
+    } else if (hit_mat == 67u) {
+        // STRATA_TOPSOIL_LOAM: Dark nutrient-rich sandy-loam topsoil horizon
+        let loam_crumb = sin(hit_pos.x * 22.0 + hit_pos.y * 15.0) * cos(hit_pos.z * 22.0) * 0.028;
+        let sand_fleck = step(0.78, sin(hit_pos.x * 31.0) * cos(hit_pos.z * 29.0 + hit_pos.y * 23.0));
+        base_color = mix(vec3<f32>(0.24, 0.18, 0.13) + vec3<f32>(loam_crumb), vec3<f32>(0.38, 0.30, 0.20), sand_fleck * 0.35);
+        roughness = 0.82;
+    } else if (hit_mat == 68u) {
+        // STRATA_UTILITY_TRENCH: Bedding gravel utility trench with potable water & electrical conduit runs
+        let in_water_pipe = abs(hit_frac.z - 0.36) < 0.11 && hit_frac.y > 0.34 && hit_frac.y < 0.66;
+        let in_elec_conduit = abs(hit_frac.z - 0.66) < 0.09 && hit_frac.y > 0.38 && hit_frac.y < 0.64;
+        if (in_water_pipe) {
+            base_color = vec3<f32>(0.16, 0.52, 0.84);
+            roughness = 0.26;
+            metallic = 0.25;
+        } else if (in_elec_conduit) {
+            base_color = vec3<f32>(0.92, 0.44, 0.12);
+            roughness = 0.28;
+            metallic = 0.20;
+        } else {
+            let bedding_speck = sin(hit_pos.x * 28.0) * cos(hit_pos.z * 28.0) * 0.035;
+            base_color = vec3<f32>(0.42, 0.43, 0.44) + vec3<f32>(bedding_speck);
+            roughness = 0.78;
+        }
+    } else if (hit_mat == 70u) {
+        // MAT_TOOL_WHEELBARROW: Front dark-rubber wheel + emerald powder-coated steel tray + ash-wood handles & rear legs
+        let is_wheel = hit_frac.z < 0.238 || (hit_frac.z < 0.345 && hit_frac.y < 0.218);
+        let is_handles_legs = !is_wheel && (hit_frac.z > 0.782 || hit_frac.y < 0.218);
+        if (is_wheel) {
+            let is_hub = abs(hit_frac.y - 0.14) < 0.055 && abs(hit_frac.z - 0.22) < 0.055;
+            base_color = select(vec3<f32>(0.15, 0.16, 0.18), vec3<f32>(0.78, 0.82, 0.86), is_hub);
+            roughness = select(0.68, 0.22, is_hub);
+            metallic = select(0.05, 0.84, is_hub);
+        } else if (is_handles_legs) {
+            let is_ash_handle = hit_frac.y > 0.28;
+            let is_grip = is_ash_handle && hit_frac.z > 0.87;
+            base_color = select(vec3<f32>(0.22, 0.25, 0.28), vec3<f32>(0.76, 0.56, 0.34), is_ash_handle);
+            if (is_grip) {
+                base_color = vec3<f32>(0.74, 0.22, 0.18);
+            }
+            roughness = select(0.36, 0.42, is_ash_handle);
+            metallic = select(0.68, 0.06, is_ash_handle);
+        } else {
+            let is_rim = hit_frac.y > 0.51;
+            base_color = select(vec3<f32>(0.14, 0.46, 0.28), vec3<f32>(0.22, 0.58, 0.38), is_rim);
+            roughness = 0.28;
+            metallic = 0.48;
+        }
+    } else if (hit_mat == 71u) {
+        // MAT_TOOL_BUCKET_CAN: Brushed galvanized zinc bucket with water shimmer + sage watering can with copper spout
+        if (hit_frac.x < 0.53) {
+            let in_water = hit_normal.y > 0.5 && hit_frac.y > 0.36 &&
+                           hit_frac.x > 0.19 && hit_frac.x < 0.49 &&
+                           hit_frac.z > 0.27 && hit_frac.z < 0.57;
+            if (in_water) {
+                let shimmer = 0.90 + 0.10 * sin(camera.avatar_pos.w * 4.5 + hit_pos.x * 16.0 + hit_pos.z * 16.0);
+                base_color = vec3<f32>(0.22, 0.68, 0.86) * shimmer;
+                roughness = 0.10;
+                metallic = 0.35;
+                emissive = vec3<f32>(0.03, 0.11, 0.16) * shimmer;
+            } else {
+                let zinc_rib = abs(hit_frac.y - 0.14) < 0.018 || abs(hit_frac.y - 0.28) < 0.018 || hit_frac.y > 0.37;
+                let spangle = sin(hit_pos.x * 32.0 + hit_pos.y * 28.0) * cos(hit_pos.z * 32.0) * 0.03;
+                base_color = select(vec3<f32>(0.72, 0.76, 0.80) + vec3<f32>(spangle), vec3<f32>(0.84, 0.88, 0.92), zinc_rib);
+                roughness = 0.24;
+                metallic = 0.84;
+            }
+        } else {
+            let is_copper_spout = hit_frac.z < 0.302 || hit_frac.y > 0.382;
+            base_color = select(vec3<f32>(0.38, 0.62, 0.44), vec3<f32>(0.88, 0.52, 0.28), is_copper_spout);
+            roughness = select(0.30, 0.18, is_copper_spout);
+            metallic = select(0.32, 0.88, is_copper_spout);
+        }
+    } else if (hit_mat == 72u) {
+        // MAT_TOOL_HAND_DOLLY: Gunmetal steel toe-plate + rear rubber wheels + upright crimson-red tubular steel L-frame
+        if (hit_frac.y <= 0.162) {
+            let is_rear_wheel = hit_frac.z > 0.54 && (hit_frac.x < 0.32 || hit_frac.x > 0.68);
+            base_color = select(vec3<f32>(0.58, 0.62, 0.66), vec3<f32>(0.15, 0.16, 0.18), is_rear_wheel);
+            roughness = select(0.28, 0.68, is_rear_wheel);
+            metallic = select(0.82, 0.05, is_rear_wheel);
+        } else {
+            let is_top_grip = hit_frac.y > 0.85;
+            let cross_strap = abs(fract(hit_frac.y * 4.0) - 0.5) < 0.08;
+            let frame_red = select(vec3<f32>(0.84, 0.18, 0.16), vec3<f32>(0.72, 0.14, 0.13), cross_strap);
+            base_color = select(frame_red, vec3<f32>(0.18, 0.20, 0.22), is_top_grip);
+            roughness = select(0.26, 0.52, is_top_grip);
+            metallic = select(0.52, 0.10, is_top_grip);
+        }
     } else if (hit_mat == 25u) {
         let leak_beacon = 0.78 + 0.22 * sin(camera.avatar_pos.w * 7.0);
         base_color = vec3<f32>(0.20, 0.85, 1.00) * leak_beacon;
@@ -1729,14 +2113,30 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         metallic = 0.45;
         emissive = status_glow * select(0.18, 0.55, truss_edge);
     } else if (hit_mat == 34u) {
-        let row_pat = 0.88 + 0.12 * sin(hit_pos.z * 12.0);
-        let crop_clusters = step(0.35, sin(hit_pos.x * 16.0) * cos(hit_pos.z * 16.0));
-        let is_top_crown = hit_normal.y > 0.5 || hit_frac.y > 0.72;
-        let foliage_col = vec3<f32>(0.36, 0.62, 0.18) * row_pat;
-        let ripe_head_col = vec3<f32>(0.96, 0.74, 0.16);
-        base_color = select(foliage_col, mix(foliage_col, ripe_head_col, 0.65 + 0.35 * crop_clusters), is_top_crown);
-        roughness = 0.48;
-        emissive = select(vec3<f32>(0.0), vec3<f32>(0.18, 0.12, 0.02), is_top_crown);
+        // MAT_MATURE_CROP: Raised Cedar Planter Bed (y in [0.0..0.24]) + Carrot/Root Veggie Crowns + A-Frame Pea/Bean Trellis
+        let is_cedar_rim = hit_frac.y < 0.235 && (hit_frac.x < 0.12 || hit_frac.x > 0.88 || hit_frac.z < 0.12 || hit_frac.z > 0.88);
+        if (is_cedar_rim) {
+            let plank_seam = abs(hit_frac.y - 0.12) < 0.018;
+            base_color = select(vec3<f32>(0.68, 0.42, 0.22), vec3<f32>(0.46, 0.28, 0.14), plank_seam);
+            roughness = 0.50;
+        } else if (hit_frac.y < 0.235) {
+            base_color = vec3<f32>(0.20, 0.15, 0.10);
+            roughness = 0.76;
+        } else if (hit_frac.y < 0.385) {
+            let root_spot = sin(hit_pos.z * 16.0) * cos(hit_pos.x * 14.0);
+            let is_carrot = root_spot > 0.35;
+            base_color = select(vec3<f32>(0.28, 0.64, 0.20), vec3<f32>(0.96, 0.48, 0.12), is_carrot);
+            roughness = 0.48;
+        } else {
+            let is_trellis_wood = hit_frac.z < 0.14 || hit_frac.z > 0.86 || hit_frac.y > 0.74 || abs(fract(hit_pos.z * 3.0) - 0.5) < 0.07;
+            let pea_pod = step(0.45, sin(hit_pos.y * 22.0) * cos(hit_pos.z * 18.0));
+            let vine_col = mix(vec3<f32>(0.24, 0.66, 0.22), vec3<f32>(0.58, 0.90, 0.24), pea_pod * 0.75);
+            base_color = select(vine_col, vec3<f32>(0.72, 0.48, 0.26), is_trellis_wood);
+            roughness = 0.46;
+            if (!is_trellis_wood && pea_pod > 0.5) {
+                emissive = vec3<f32>(0.08, 0.14, 0.02);
+            }
+        }
     } else if (hit_mat == 35u) {
         base_color = vec3<f32>(0.48, 0.30, 0.18);
         roughness = 0.68;
@@ -1805,7 +2205,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
     let half_vec = normalize(light_dir + view_dir);
 
     var edge_ao: f32 = 1.0;
-    if (hit_mat < 26u && hit_mat != 6u && hit_mat != 17u && mapPos.y >= 1) {
+    if (((hit_mat < 26u && mapPos.y >= 1) || (hit_mat >= 64u && hit_mat <= 68u)) && hit_mat != 6u && hit_mat != 17u) {
         let ex = min(hit_frac.x, 1.0 - hit_frac.x);
         let ey = min(hit_frac.y, 1.0 - hit_frac.y);
         let ez = min(hit_frac.z, 1.0 - hit_frac.z);
@@ -1816,7 +2216,7 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         }
     }
 
-    let sun_shadow = select(trace_sun_shadow(hit_pos + hit_normal * 0.03, light_dir, z_cutaway_level), 1.0, (hit_mat >= 26u && hit_mat <= 57u) || hit_mat == 6u || hit_mat == 17u);
+    let sun_shadow = select(trace_sun_shadow(hit_pos + hit_normal * 0.03, light_dir, z_cutaway_level), 1.0, (hit_mat >= 26u && hit_mat <= 62u) || (hit_mat >= 70u && hit_mat <= 72u) || hit_mat == 6u || hit_mat == 17u || hit_mat == 19u);
     let n_dot_l = max(dot(hit_normal, light_dir), 0.0);
     let stylized_diff = mix(n_dot_l, floor(n_dot_l * 4.0 + 0.5) / 4.0, 0.35);
     let hemi_t = hit_normal.y * 0.5 + 0.5;
@@ -1839,10 +2239,11 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         let leak_pulse = 0.65 + 0.35 * sin(camera.avatar_pos.w * 8.0);
         if (hit_mat == 25u || hit_mat == 7u) {
             lit_color = mix(lit_color, vec3<f32>(0.20, 0.85, 1.00), leak_pulse);
-        } else if (hit_mat == 16u || hit_mat == 22u || hit_mat == 41u) {
+        } else if (hit_mat == 16u || hit_mat == 22u || hit_mat == 41u || hit_mat == 60u) {
             lit_color = mix(lit_color, vec3<f32>(1.00, 0.50, 0.10), 0.75);
         } else if (hit_mat == 23u || hit_mat == 21u || hit_mat == 5u || hit_mat == 6u ||
-                   hit_mat == 13u || hit_mat == 14u || hit_mat == 15u || hit_mat == 17u || hit_mat == 57u) {
+                   hit_mat == 13u || hit_mat == 14u || hit_mat == 15u || hit_mat == 17u ||
+                   hit_mat == 57u || hit_mat == 66u) {
             lit_color = mix(lit_color, vec3<f32>(0.15, 0.92, 0.55), 0.65);
         } else {
             lit_color = lit_color * 0.45;
@@ -1851,14 +2252,16 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         if (hit_mat == 11u || hit_mat == 8u || hit_mat == 9u || hit_mat == 120u || hit_mat == 49u) {
             lit_color = mix(lit_color, vec3<f32>(1.00, 0.85, 0.15), 0.70);
         } else if (hit_mat == 12u || hit_mat == 18u || hit_mat == 19u || hit_mat == 34u ||
-                   hit_mat == 42u || hit_mat == 45u || hit_mat == 46u || hit_mat == 47u) {
+                   hit_mat == 42u || hit_mat == 45u || hit_mat == 46u || hit_mat == 47u ||
+                   (hit_mat >= 58u && hit_mat <= 62u) || hit_mat == 68u || hit_mat == 71u) {
             lit_color = mix(lit_color, vec3<f32>(0.00, 0.92, 1.00), 0.70);
         } else {
             lit_color = lit_color * 0.45;
         }
     } else if (overlay_mode == 3u) {
-        if (hit_mat == 20u || hit_mat == 24u || hit_mat == 33u || hit_mat == 34u ||
-            (hit_mat >= 40u && hit_mat <= 44u) || (hit_mat >= 54u && hit_mat <= 56u)) {
+        if (hit_mat == 19u || hit_mat == 20u || hit_mat == 24u || hit_mat == 33u || hit_mat == 34u ||
+            (hit_mat >= 40u && hit_mat <= 44u) || (hit_mat >= 54u && hit_mat <= 62u) ||
+            hit_mat == 67u || (hit_mat >= 70u && hit_mat <= 72u)) {
             lit_color = mix(lit_color, vec3<f32>(0.00, 0.98, 0.75), 0.75);
         } else {
             lit_color = lit_color * 0.45;
@@ -1883,8 +2286,8 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         }
     }
 
-    // Roof / Wall Cutaway top-face architectural cross-section cap (ONLY on Player Lot 402!)
-    if (cutaway_active && hit_lot402 && mapPos.y == i32(floor(camera.camera_target.w + 0.5)) - 1 && hit_normal.y > 0.5) {
+    // Roof / Wall Cutaway top-face architectural cross-section cap (active loaded map chunk only)
+    if (cutaway_active && in_playable_chunk && mapPos.y == i32(floor(camera.camera_target.w + 0.5)) - 1 && hit_normal.y > 0.5) {
         lit_color = mix(lit_color, vec3<f32>(0.88, 0.72, 0.45), 0.55);
     }
 
@@ -1928,10 +2331,10 @@ fn fs_main(in : VertexOutput) -> @location(0) vec4<f32> {
         }
     }
 
-    // Distance fog blend into horizon & Neighbor Fog Envelope (Lot 402 stays crystal-clear)
+    // Distance fog blend into horizon & Neighbor Fog Envelope (active loaded map chunk stays crystal-clear)
     let sky = get_sky_color(rd);
     var fog = 1.0 - exp(-hit_dist * 0.0075);
-    if (!hit_lot402 && abs(mapPos.x) >= 6) {
+    if (!in_playable_chunk && abs(mapPos.x) >= 6) {
         let neighbor_fog = clamp(fog + 0.42, 0.0, 0.86);
         fog = neighbor_fog;
     }

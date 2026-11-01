@@ -1,0 +1,713 @@
+{
+  "map_id": "env.suburban_lot_402",
+  "schema_version": "1.0.0",
+  "title": "Suburban Lot 402 — Clean-Slate Day-1 6-Room Homestead, Attached Garage & Graded Subsurface Strata",
+  "description": "Loadable static map asset for IMapProvider / StaticJsonMapProvider. Models subsurface clay subsoil (y = -2), engineered gravel pad + concrete perimeter footings + yard topsoil horizon (y = -1), slab/road/flooring/lawn ground plane (y = 0), 6-room residence + attached garage structure (y = 1..6), and clean-slate Day-1 furniture & garage hauling tools with zero pre-built backyard facilities.",
+  "coordinate_system": {
+    "voxel_scale_meters": 1.0,
+    "up_axis": "+Y",
+    "grid_bounds": {
+      "min": [-6, -2, -2],
+      "max": [28, 8, 17]
+    },
+    "parcel_lot_bounds": {
+      "min": [4, -2, 0],
+      "max": [26, 8, 15]
+    },
+    "steward_spawn": {
+      "entity_id": "agent.founder_steward",
+      "did": "did:mesh:node00:lot402",
+      "position": [12, 1, 6],
+      "facing_deg": 0
+    }
+  },
+  "day1_clean_slate_invariants": {
+    "pre_built_garden_beds": 0,
+    "pre_built_trellises": 0,
+    "pre_built_poultry_coop": 0,
+    "pre_built_biochar_kiln": 0,
+    "pre_built_compost_drum": 0,
+    "pre_installed_l2_sensors": 0,
+    "backyard_clear_aabb": {
+      "min": [19, 1, 2],
+      "max": [24, 4, 14],
+      "note": "Entire backyard lawn (aside from two perimeter shade trees at x=23, z=3 and z=13) starts as open grass over native topsoil horizon."
+    }
+  },
+  "material_palette": {
+    "0":  { "name": "MAT_AIR", "passable": true, "airtight": false, "excavatable": false },
+    "1":  { "name": "MAT_ASPHALT_ROAD", "passable": false, "airtight": true, "surface_class": "PAVED_ASPHALT" },
+    "2":  { "name": "MAT_ROAD_CENTERLINE", "passable": false, "airtight": true, "surface_class": "PAVED_ASPHALT" },
+    "3":  { "name": "MAT_CONCRETE_PAVING", "passable": false, "airtight": true, "surface_class": "CONCRETE_SLAB" },
+    "4":  { "name": "MAT_GROUND_SLAB_OR_LAWN", "passable": false, "airtight": true, "surface_class": "CONTEXT_FLOOR_OR_TURF" },
+    "5":  { "name": "MAT_CLAPBOARD_WALL", "passable": false, "airtight": true },
+    "6":  { "name": "MAT_SHINGLE_ROOF", "passable": false, "airtight": true },
+    "7":  { "name": "MAT_WINDOW_GLASS", "passable": false, "airtight": true },
+    "10": { "name": "MAT_TIMBER_FENCE", "passable": false, "airtight": false },
+    "15": { "name": "MAT_INSULATED_TIMBER_DOOR", "passable": true, "airtight": true },
+    "23": { "name": "MAT_BED_MATTRESS", "passable": true, "airtight": false },
+    "30": { "name": "MAT_NODE_SERVER_RACK", "passable": false, "airtight": false },
+    "32": { "name": "MAT_ROOF_ACCESS_LADDER", "passable": true, "airtight": false },
+    "35": { "name": "MAT_CEDAR_TREE_TRUNK", "passable": false, "airtight": false },
+    "36": { "name": "MAT_TREE_CROWN_FOLIAGE", "passable": false, "airtight": false },
+    "37": { "name": "MAT_CURBSIDE_MAILBOX", "passable": false, "airtight": false },
+    "38": { "name": "MAT_GARDEN_SHRUB", "passable": false, "airtight": false },
+    "40": { "name": "MAT_FRIDGE", "passable": false, "airtight": false },
+    "41": { "name": "MAT_INDUCTION_OVEN_STOVE", "passable": false, "airtight": false },
+    "42": { "name": "MAT_KITCHEN_SINK_CABINET", "passable": false, "airtight": false },
+    "43": { "name": "MAT_DINING_TABLE_SET", "passable": false, "airtight": false },
+    "44": { "name": "MAT_OFFICE_STORAGE_SHELF", "passable": false, "airtight": false },
+    "45": { "name": "MAT_WARM_SHOWER", "passable": false, "airtight": false },
+    "46": { "name": "MAT_TOILET", "passable": false, "airtight": false },
+    "47": { "name": "MAT_BATH_SINK_VANITY", "passable": false, "airtight": false },
+    "48": { "name": "MAT_LIVING_COUCH", "passable": false, "airtight": false },
+    "49": { "name": "MAT_TV_MEDIA_CONSOLE", "passable": false, "airtight": false },
+    "50": { "name": "MAT_HIFI_SOUNDSYSTEM", "passable": false, "airtight": false },
+    "51": { "name": "MAT_NIGHTSTAND", "passable": false, "airtight": false },
+    "52": { "name": "MAT_WARDROBE", "passable": false, "airtight": false },
+    "53": { "name": "MAT_STANDING_MIRROR", "passable": false, "airtight": false },
+    "54": { "name": "MAT_GARAGE_WORKBENCH", "passable": false, "airtight": false },
+    "55": { "name": "MAT_GARAGE_TOOL_WALL", "passable": false, "airtight": false },
+    "56": { "name": "MAT_GARAGE_STORAGE_RACK", "passable": false, "airtight": false },
+    "57": { "name": "MAT_SECTIONAL_GARAGE_DOOR", "passable": true, "airtight": true },
+    "64": { "name": "MAT_CLAY_SUBSOIL", "passable": false, "airtight": true, "excavatable": true, "excavation_yield_item": "item.clay_subsoil", "excavation_yield_units": 120 },
+    "65": { "name": "MAT_COMPACTED_GRAVEL_PAD", "passable": false, "airtight": true, "excavatable": true, "excavation_yield_item": "item.crushed_gravel", "excavation_yield_units": 140 },
+    "66": { "name": "MAT_CONCRETE_PERIMETER_FOOTING", "passable": false, "airtight": true, "excavatable": false },
+    "67": { "name": "MAT_TOPSOIL_HORIZON", "passable": false, "airtight": true, "excavatable": true, "excavation_yield_item": "item.topsoil_loam", "excavation_yield_units": 110 },
+    "68": { "name": "MAT_UTILITY_CONDUIT_TRENCH", "passable": false, "airtight": true, "excavatable": false },
+    "120": { "name": "MAT_OFFICE_DESK_WORKSTATION", "passable": true, "airtight": false }
+  },
+  "subsurface_soil_baseline": {
+    "applies_to_material_ids": [4, 67],
+    "initial_registers": {
+      "moisture_vwc_bp": 2600,
+      "soil_temp_mk": 288150,
+      "nitrogen_ppm": 38,
+      "phosphorus_ppm": 24,
+      "potassium_ppm": 125,
+      "organic_carbon_bp": 210,
+      "ph_centi": 655
+    }
+  },
+  "rooms_and_zones": [
+    {
+      "zone_id": "room.kitchen_dining",
+      "display_name": "Room 1 — Kitchen & Communal Hearth",
+      "category": "INTERIOR_HABITATION",
+      "floor_finish": "CERAMIC_QUARRY_TILE_ON_CONCRETE_SLAB",
+      "bounds": { "min": [10, 1, 3], "max": [12, 3, 5] }
+    },
+    {
+      "zone_id": "room.office_homelab",
+      "display_name": "Room 2 — Study & Sovereign Node Office",
+      "category": "INTERIOR_HABITATION",
+      "floor_finish": "OAK_HARDWOOD_ON_CONCRETE_SLAB",
+      "bounds": { "min": [13, 1, 3], "max": [14, 3, 5] }
+    },
+    {
+      "zone_id": "room.bathroom",
+      "display_name": "Room 3 — Bathroom & Sanitation",
+      "category": "INTERIOR_HABITATION",
+      "floor_finish": "WATERPROOF_PORCELAIN_TILE_ON_CONCRETE_SLAB",
+      "bounds": { "min": [15, 1, 3], "max": [16, 3, 5] }
+    },
+    {
+      "zone_id": "room.living_space",
+      "display_name": "Room 4 — Living Space & Acoustic Sanctuary",
+      "category": "INTERIOR_HABITATION",
+      "floor_finish": "OAK_HARDWOOD_ON_CONCRETE_SLAB",
+      "bounds": { "min": [10, 1, 7], "max": [12, 3, 9] }
+    },
+    {
+      "zone_id": "room.bedroom",
+      "display_name": "Room 5 — Bedroom",
+      "category": "INTERIOR_HABITATION",
+      "floor_finish": "OAK_HARDWOOD_ON_CONCRETE_SLAB",
+      "bounds": { "min": [14, 1, 7], "max": [16, 3, 9] }
+    },
+    {
+      "zone_id": "room.attached_garage",
+      "display_name": "Room 6 — Attached Garage Woodshop & Tool Bay",
+      "category": "INTERIOR_WORKSHOP",
+      "floor_finish": "TROWELED_CONCRETE_SLAB",
+      "bounds": { "min": [9, 1, 11], "max": [11, 3, 13] }
+    },
+    {
+      "zone_id": "zone.interior_hallways",
+      "display_name": "Central Interior Circulation Corridors",
+      "category": "INTERIOR_CIRCULATION",
+      "floor_finish": "OAK_HARDWOOD_ON_CONCRETE_SLAB",
+      "bounds": { "min": [10, 1, 6], "max": [16, 3, 6] }
+    },
+    {
+      "zone_id": "zone.front_driveway_and_apron",
+      "display_name": "Concrete Driveway & Garage Loading Apron",
+      "category": "EXTERIOR_PAVED",
+      "floor_finish": "BROOMED_PORTLAND_CONCRETE",
+      "bounds": { "min": [6, 1, 11], "max": [7, 3, 12] }
+    },
+    {
+      "zone_id": "zone.fenced_backyard",
+      "display_name": "Fenced Backyard Lawn (Clean-Slate Day 1)",
+      "category": "EXTERIOR_CULTIVATION_YARD",
+      "floor_finish": "TURF_GRASS_OVER_SANDY_LOAM_TOPSOIL",
+      "bounds": { "min": [18, 1, 2], "max": [24, 4, 14] }
+    }
+  ],
+  "voxel_fill_operations": [
+    {
+      "op": "FILL_BOX",
+      "layer_group": "SUBSURFACE_Y_MINUS_2_CLAY_SUBSOIL",
+      "min": [-6, -2, -2],
+      "max": [28, -2, 17],
+      "material_id": 64,
+      "comment": "y = -2: Undisturbed dense clay subsoil horizon across entire parcel and street."
+    },
+    {
+      "op": "FILL_BOX",
+      "layer_group": "SUBSURFACE_Y_MINUS_1_YARD_TOPSOIL",
+      "min": [-6, -1, -2],
+      "max": [28, -1, 17],
+      "material_id": 67,
+      "comment": "y = -1: Native sandy-loam topsoil horizon beneath front, side, and rear yards."
+    },
+    {
+      "op": "FILL_BOX",
+      "layer_group": "SUBSURFACE_Y_MINUS_1_ROADBASE_GRAVEL",
+      "min": [-5, -1, -2],
+      "max": [5, -1, 17],
+      "material_id": 65,
+      "comment": "y = -1: Compacted crushed-stone gravel roadbase under street and sidewalks."
+    },
+    {
+      "op": "FILL_BOX",
+      "layer_group": "SUBSURFACE_Y_MINUS_1_DRIVEWAY_GRAVEL_PAD",
+      "min": [6, -1, 1],
+      "max": [8, -1, 3],
+      "material_id": 65,
+      "comment": "y = -1: Compacted gravel pad beneath north driveway strip."
+    },
+    {
+      "op": "FILL_BOX",
+      "layer_group": "SUBSURFACE_Y_MINUS_1_GARAGE_APRON_GRAVEL_PAD",
+      "min": [6, -1, 11],
+      "max": [7, -1, 12],
+      "material_id": 65,
+      "comment": "y = -1: Compacted gravel pad beneath attached garage driveway apron."
+    },
+    {
+      "op": "FILL_BOX",
+      "layer_group": "SUBSURFACE_Y_MINUS_1_HOUSE_GRAVEL_PAD",
+      "min": [10, -1, 3],
+      "max": [16, -1, 9],
+      "material_id": 65,
+      "comment": "y = -1: Compacted capillary-break gravel earthworks pad under main house slab."
+    },
+    {
+      "op": "FILL_BOX",
+      "layer_group": "SUBSURFACE_Y_MINUS_1_GARAGE_GRAVEL_PAD",
+      "min": [9, -1, 11],
+      "max": [11, -1, 13],
+      "material_id": 65,
+      "comment": "y = -1: Compacted gravel earthworks pad under attached garage slab."
+    },
+    {
+      "op": "HOLLOW_PERIMETER_XZ",
+      "layer_group": "SUBSURFACE_Y_MINUS_1_HOUSE_CONCRETE_FOOTINGS",
+      "min": [9, -1, 2],
+      "max": [17, -1, 10],
+      "material_id": 66,
+      "comment": "y = -1: Poured reinforced concrete perimeter foundation footings supporting main house load-bearing walls."
+    },
+    {
+      "op": "HOLLOW_PERIMETER_XZ",
+      "layer_group": "SUBSURFACE_Y_MINUS_1_GARAGE_CONCRETE_FOOTINGS",
+      "min": [8, -1, 10],
+      "max": [12, -1, 14],
+      "material_id": 66,
+      "comment": "y = -1: Poured reinforced concrete perimeter foundation footings supporting attached garage wing."
+    },
+    {
+      "op": "FILL_BOX",
+      "layer_group": "SUBSURFACE_Y_MINUS_1_UTILITY_TRENCH",
+      "min": [4, -1, 5],
+      "max": [8, -1, 5],
+      "material_id": 68,
+      "comment": "y = -1: Subsurface municipal water & electrical service conduit trench from street curb to house footing."
+    },
+    {
+      "op": "FILL_BOX",
+      "layer_group": "GROUND_Y_0_YARD_AND_SLAB_BASE",
+      "min": [-6, 0, -2],
+      "max": [28, 0, 17],
+      "material_id": 4,
+      "comment": "y = 0: Lot 402 lawn, room slab flooring, and garage concrete slab."
+    },
+    {
+      "op": "FILL_BOX",
+      "layer_group": "GROUND_Y_0_ASPHALT_ROADWAY",
+      "min": [-3, 0, -2],
+      "max": [3, 0, 17],
+      "material_id": 1,
+      "comment": "y = 0: Residential cul-de-sac asphalt street."
+    },
+    {
+      "op": "VOXEL_LIST",
+      "layer_group": "GROUND_Y_0_ROAD_CENTERLINE",
+      "material_id": 2,
+      "positions": [
+        [0, 0, -2], [0, 0, 2], [0, 0, 3], [0, 0, 6], [0, 0, 7],
+        [0, 0, 10], [0, 0, 11], [0, 0, 14], [0, 0, 15]
+      ]
+    },
+    {
+      "op": "FILL_BOX",
+      "layer_group": "GROUND_Y_0_WEST_SIDEWALK",
+      "min": [-5, 0, -2],
+      "max": [-4, 0, 17],
+      "material_id": 3
+    },
+    {
+      "op": "FILL_BOX",
+      "layer_group": "GROUND_Y_0_LOT402_SIDEWALK",
+      "min": [4, 0, -2],
+      "max": [5, 0, 17],
+      "material_id": 3
+    },
+    {
+      "op": "FILL_BOX",
+      "layer_group": "GROUND_Y_0_NORTH_DRIVEWAY",
+      "min": [6, 0, 1],
+      "max": [8, 0, 3],
+      "material_id": 3
+    },
+    {
+      "op": "FILL_BOX",
+      "layer_group": "GROUND_Y_0_GARAGE_APRON",
+      "min": [6, 0, 11],
+      "max": [7, 0, 12],
+      "material_id": 3
+    },
+    {
+      "op": "HOLLOW_PERIMETER_XZ",
+      "layer_group": "STRUCTURE_HOUSE_EXTERIOR_WALLS",
+      "min": [9, 1, 2],
+      "max": [17, 3, 10],
+      "material_id": 5,
+      "comment": "y = 1..3: Main 6-room house clapboard exterior walls."
+    },
+    {
+      "op": "FILL_BOX",
+      "layer_group": "STRUCTURE_HOUSE_GABLE_ROOF_Y4",
+      "min": [10, 4, 3],
+      "max": [16, 4, 9],
+      "material_id": 6
+    },
+    {
+      "op": "FILL_BOX",
+      "layer_group": "STRUCTURE_HOUSE_GABLE_ROOF_Y5",
+      "min": [11, 5, 4],
+      "max": [15, 5, 8],
+      "material_id": 6
+    },
+    {
+      "op": "FILL_BOX",
+      "layer_group": "STRUCTURE_HOUSE_GABLE_ROOF_Y6",
+      "min": [12, 6, 5],
+      "max": [14, 6, 7],
+      "material_id": 6
+    },
+    {
+      "op": "FILL_BOX",
+      "layer_group": "STRUCTURE_GARAGE_FRONT_WALL",
+      "min": [8, 1, 10],
+      "max": [8, 3, 14],
+      "material_id": 5
+    },
+    {
+      "op": "FILL_BOX",
+      "layer_group": "STRUCTURE_GARAGE_REAR_WALL",
+      "min": [12, 1, 11],
+      "max": [12, 3, 14],
+      "material_id": 5
+    },
+    {
+      "op": "FILL_BOX",
+      "layer_group": "STRUCTURE_GARAGE_SOUTH_WALL",
+      "min": [8, 1, 14],
+      "max": [12, 3, 14],
+      "material_id": 5
+    },
+    {
+      "op": "FILL_BOX",
+      "layer_group": "STRUCTURE_GARAGE_ROOF_MAIN",
+      "min": [8, 4, 11],
+      "max": [12, 4, 14],
+      "material_id": 6
+    },
+    {
+      "op": "VOXEL_LIST",
+      "layer_group": "STRUCTURE_GARAGE_ROOF_EAVE",
+      "material_id": 6,
+      "positions": [[8, 4, 10]]
+    },
+    {
+      "op": "FILL_BOX",
+      "layer_group": "STRUCTURE_GARAGE_ROLLUP_DOOR",
+      "min": [8, 1, 11],
+      "max": [8, 2, 12],
+      "material_id": 57,
+      "comment": "Passable & airtight sectional garage roll-up door facing street apron."
+    },
+    {
+      "op": "FILL_BOX",
+      "layer_group": "STRUCTURE_HOUSE_TO_GARAGE_ARCHWAY",
+      "min": [10, 1, 10],
+      "max": [10, 2, 10],
+      "material_id": 0,
+      "comment": "Open interior connecting doorway between house living corridor and attached garage."
+    },
+    {
+      "op": "VOXEL_LIST",
+      "layer_group": "STRUCTURE_HOUSE_EXTERIOR_DOORS",
+      "material_id": 15,
+      "positions": [
+        [9, 1, 6], [9, 2, 6],
+        [17, 1, 6], [17, 2, 6]
+      ],
+      "comment": "Front entry door (x=9, z=6) and rear backyard patio door (x=17, z=6)."
+    },
+    {
+      "op": "VOXEL_LIST",
+      "layer_group": "STRUCTURE_HOUSE_WINDOWS",
+      "material_id": 7,
+      "positions": [
+        [9, 2, 4], [9, 2, 8],
+        [17, 2, 4], [17, 2, 8],
+        [11, 2, 2], [15, 2, 2],
+        [15, 2, 10]
+      ]
+    },
+    {
+      "op": "FILL_BOX",
+      "layer_group": "STRUCTURE_ROOF_ACCESS_LADDER",
+      "min": [18, 1, 3],
+      "max": [18, 4, 3],
+      "material_id": 32
+    },
+    {
+      "op": "FILL_BOX",
+      "layer_group": "PERIMETER_NORTH_FENCE",
+      "min": [7, 1, 1],
+      "max": [25, 1, 1],
+      "material_id": 10
+    },
+    {
+      "op": "FILL_BOX",
+      "layer_group": "PERIMETER_SOUTH_FENCE",
+      "min": [7, 1, 15],
+      "max": [25, 1, 15],
+      "material_id": 10
+    },
+    {
+      "op": "FILL_BOX",
+      "layer_group": "PERIMETER_REAR_FENCE_NORTH_HALF",
+      "min": [25, 1, 1],
+      "max": [25, 1, 7],
+      "material_id": 10
+    },
+    {
+      "op": "FILL_BOX",
+      "layer_group": "PERIMETER_REAR_FENCE_SOUTH_HALF",
+      "min": [25, 1, 9],
+      "max": [25, 1, 15],
+      "material_id": 10,
+      "comment": "Leaves rear alley gate opening at (25, 1, 8)."
+    },
+    {
+      "op": "VOXEL_LIST",
+      "layer_group": "LANDSCAPE_CURBSIDE_MAILBOX",
+      "material_id": 37,
+      "positions": [[6, 1, 4]]
+    },
+    {
+      "op": "VOXEL_LIST",
+      "layer_group": "LANDSCAPE_FRONT_SHRUBS",
+      "material_id": 38,
+      "positions": [[8, 1, 4], [8, 1, 8]]
+    },
+    {
+      "op": "VOXEL_LIST",
+      "layer_group": "LANDSCAPE_TREE_TRUNKS",
+      "material_id": 35,
+      "positions": [[7, 1, 14], [23, 1, 3], [23, 1, 13]]
+    },
+    {
+      "op": "VOXEL_LIST",
+      "layer_group": "LANDSCAPE_TREE_CROWNS",
+      "material_id": 36,
+      "positions": [
+        [7, 2, 14], [7, 3, 14],
+        [23, 2, 3], [23, 3, 3],
+        [23, 2, 13], [23, 3, 13]
+      ]
+    }
+  ],
+  "placed_entities": [
+    {
+      "entity_id": "entity.kitchen_fridge",
+      "archetype_id": "arch.refrigerator_larder",
+      "room_id": "room.kitchen_dining",
+      "position": [10, 1, 3],
+      "footprint_voxels": [[10, 1, 3]],
+      "interaction_stand_pos": [10, 1, 4],
+      "voxel_material_id": 40,
+      "initial_inventory": [
+        { "item_id": "item.potable_water", "count": 12 },
+        { "item_id": "item.mirepoix_roots", "count": 2 },
+        { "item_id": "item.split_peas_dry", "count": 2 }
+      ]
+    },
+    {
+      "entity_id": "entity.kitchen_induction_hearth",
+      "archetype_id": "arch.induction_hearth_stove",
+      "room_id": "room.kitchen_dining",
+      "position": [11, 1, 3],
+      "footprint_voxels": [[11, 1, 3]],
+      "interaction_stand_pos": [11, 1, 4],
+      "voxel_material_id": 41,
+      "attached_l2_device": null
+    },
+    {
+      "entity_id": "entity.kitchen_sink_cabinet",
+      "archetype_id": "arch.kitchen_prep_sink_cabinet",
+      "room_id": "room.kitchen_dining",
+      "position": [12, 1, 3],
+      "footprint_voxels": [[12, 1, 3]],
+      "interaction_stand_pos": [12, 1, 4],
+      "voxel_material_id": 42
+    },
+    {
+      "entity_id": "entity.dining_table",
+      "archetype_id": "arch.dining_table_set",
+      "room_id": "room.kitchen_dining",
+      "position": [10, 1, 5],
+      "footprint_voxels": [[10, 1, 5]],
+      "interaction_stand_pos": [11, 1, 5],
+      "voxel_material_id": 43
+    },
+    {
+      "entity_id": "tool.tiffin_carrier",
+      "archetype_id": "arch.hauling_tool_tiffin_carrier",
+      "hauling_tool_id": "tiffin_carrier",
+      "room_id": "room.kitchen_dining",
+      "position": [12, 1, 4],
+      "footprint_voxels": [],
+      "voxel_material_id": 0,
+      "portable_entity": true
+    },
+    {
+      "entity_id": "entity.office_workstation",
+      "archetype_id": "arch.homelab_cad_workstation",
+      "room_id": "room.office_homelab",
+      "position": [13, 1, 3],
+      "footprint_voxels": [[13, 1, 3]],
+      "interaction_stand_pos": [13, 1, 4],
+      "voxel_material_id": 120
+    },
+    {
+      "entity_id": "entity.office_bookshelf",
+      "archetype_id": "arch.reference_archive_shelf",
+      "room_id": "room.office_homelab",
+      "position": [14, 1, 3],
+      "footprint_voxels": [[14, 1, 3]],
+      "voxel_material_id": 44
+    },
+    {
+      "entity_id": "entity.node0_server_rack",
+      "archetype_id": "arch.sovereign_node_rack",
+      "room_id": "zone.interior_hallways",
+      "position": [12, 1, 6],
+      "footprint_voxels": [],
+      "voxel_material_id": 0
+    },
+    {
+      "entity_id": "entity.bathroom_shower",
+      "archetype_id": "arch.warm_shower_stall",
+      "room_id": "room.bathroom",
+      "position": [16, 1, 3],
+      "footprint_voxels": [[16, 1, 3]],
+      "interaction_stand_pos": [15, 1, 4],
+      "voxel_material_id": 45
+    },
+    {
+      "entity_id": "entity.bathroom_toilet",
+      "archetype_id": "arch.sanitation_toilet",
+      "room_id": "room.bathroom",
+      "position": [16, 1, 4],
+      "footprint_voxels": [[16, 1, 4]],
+      "interaction_stand_pos": [15, 1, 4],
+      "voxel_material_id": 46
+    },
+    {
+      "entity_id": "entity.bathroom_sink",
+      "archetype_id": "arch.bathroom_vanity_sink",
+      "room_id": "room.bathroom",
+      "position": [15, 1, 3],
+      "footprint_voxels": [[15, 1, 3]],
+      "interaction_stand_pos": [15, 1, 4],
+      "voxel_material_id": 47
+    },
+    {
+      "entity_id": "entity.living_couch",
+      "archetype_id": "arch.living_room_couch",
+      "room_id": "room.living_space",
+      "position": [10, 1, 7],
+      "footprint_voxels": [[10, 1, 7], [11, 1, 7]],
+      "interaction_stand_pos": [11, 1, 8],
+      "voxel_material_id": 48
+    },
+    {
+      "entity_id": "entity.living_hifi_left",
+      "archetype_id": "arch.acoustic_sound_system",
+      "room_id": "room.living_space",
+      "position": [11, 1, 9],
+      "footprint_voxels": [[11, 1, 9]],
+      "interaction_stand_pos": [11, 1, 8],
+      "voxel_material_id": 50
+    },
+    {
+      "entity_id": "entity.living_media_tv",
+      "archetype_id": "arch.media_display_console",
+      "room_id": "room.living_space",
+      "position": [12, 1, 9],
+      "footprint_voxels": [[12, 1, 9]],
+      "interaction_stand_pos": [12, 1, 8],
+      "voxel_material_id": 49
+    },
+    {
+      "entity_id": "entity.living_hifi_right",
+      "archetype_id": "arch.acoustic_sound_system",
+      "room_id": "room.living_space",
+      "position": [13, 1, 9],
+      "footprint_voxels": [[13, 1, 9]],
+      "interaction_stand_pos": [13, 1, 8],
+      "voxel_material_id": 50
+    },
+    {
+      "entity_id": "entity.bedroom_bed",
+      "archetype_id": "arch.insulated_bed_mattress",
+      "room_id": "room.bedroom",
+      "position": [15, 1, 9],
+      "footprint_voxels": [[15, 1, 9], [16, 1, 9]],
+      "interaction_stand_pos": [15, 1, 8],
+      "voxel_material_id": 23
+    },
+    {
+      "entity_id": "entity.bedroom_nightstand",
+      "archetype_id": "arch.bedside_nightstand",
+      "room_id": "room.bedroom",
+      "position": [16, 1, 8],
+      "footprint_voxels": [[16, 1, 8]],
+      "voxel_material_id": 51
+    },
+    {
+      "entity_id": "entity.bedroom_wardrobe",
+      "archetype_id": "arch.timber_wardrobe",
+      "room_id": "room.bedroom",
+      "position": [14, 1, 9],
+      "footprint_voxels": [[14, 1, 9]],
+      "voxel_material_id": 52
+    },
+    {
+      "entity_id": "entity.bedroom_mirror",
+      "archetype_id": "arch.standing_mirror",
+      "room_id": "room.bedroom",
+      "position": [14, 1, 8],
+      "footprint_voxels": [[14, 1, 8]],
+      "voxel_material_id": 53
+    },
+    {
+      "entity_id": "entity.garage_workbench",
+      "archetype_id": "arch.woodshop_joinery_workbench",
+      "room_id": "room.attached_garage",
+      "position": [9, 1, 13],
+      "footprint_voxels": [[9, 1, 13]],
+      "interaction_stand_pos": [9, 1, 12],
+      "voxel_material_id": 54
+    },
+    {
+      "entity_id": "entity.garage_tool_wall",
+      "archetype_id": "arch.hand_tool_pegboard",
+      "room_id": "room.attached_garage",
+      "position": [10, 1, 13],
+      "footprint_voxels": [[10, 1, 13]],
+      "interaction_stand_pos": [10, 1, 12],
+      "voxel_material_id": 55
+    },
+    {
+      "entity_id": "entity.garage_material_rack",
+      "archetype_id": "arch.garage_lumber_and_seed_rack",
+      "room_id": "room.attached_garage",
+      "position": [11, 1, 13],
+      "footprint_voxels": [[11, 1, 13]],
+      "interaction_stand_pos": [11, 1, 12],
+      "voxel_material_id": 56,
+      "initial_inventory": [
+        { "item_id": "item.cedar_plank", "count": 14 },
+        { "item_id": "item.pea_seeds_heirloom", "count": 4 },
+        { "item_id": "item.l2_soil_probe", "count": 1 },
+        { "item_id": "item.l2_irrigation_valve", "count": 1 },
+        { "item_id": "item.l2_culinary_rtd_controller", "count": 1 }
+      ]
+    },
+    {
+      "entity_id": "tool.galvanized_bucket",
+      "archetype_id": "arch.hauling_tool_bucket",
+      "hauling_tool_id": "bucket",
+      "room_id": "room.attached_garage",
+      "position": [9, 1, 12],
+      "footprint_voxels": [],
+      "voxel_material_id": 0,
+      "portable_entity": true
+    },
+    {
+      "entity_id": "tool.watering_can",
+      "archetype_id": "arch.hauling_tool_watering_can",
+      "hauling_tool_id": "watering_can",
+      "room_id": "room.attached_garage",
+      "position": [10, 1, 12],
+      "footprint_voxels": [],
+      "voxel_material_id": 0,
+      "portable_entity": true
+    },
+    {
+      "entity_id": "tool.wheelbarrow",
+      "archetype_id": "arch.hauling_tool_wheelbarrow",
+      "hauling_tool_id": "wheelbarrow",
+      "room_id": "room.attached_garage",
+      "position": [11, 1, 12],
+      "footprint_voxels": [],
+      "voxel_material_id": 0,
+      "portable_entity": true
+    },
+    {
+      "entity_id": "tool.hand_dolly",
+      "archetype_id": "arch.hauling_tool_hand_dolly",
+      "hauling_tool_id": "hand_dolly",
+      "room_id": "room.attached_garage",
+      "position": [11, 1, 11],
+      "footprint_voxels": [],
+      "voxel_material_id": 0,
+      "portable_entity": true
+    },
+    {
+      "entity_id": "entity.exterior_hose_spigot",
+      "archetype_id": "arch.exterior_water_spigot",
+      "room_id": "zone.fenced_backyard",
+      "position": [18, 1, 5],
+      "footprint_voxels": [],
+      "voxel_material_id": 0
+    }
+  ]
+}

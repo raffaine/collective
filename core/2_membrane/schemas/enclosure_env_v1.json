@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schema_id": "l2.schema.enclosure_env.v1",
+  "schema_version": "1.0.0",
+  "layer": "L2_MEMBRANE",
+  "device_class": "ENCLOSURE_MICROCLIMATE_GAS_AND_SPL_NODE",
+  "title": "Enclosure Microclimate, NDIR CO2, Electrochemical NH3 & Scalar RMS Acoustic Envelope Node",
+  "description": "Canonical Layer 2 environmental welfare and ordinance-compliance sensor schema for residential rooms, garage workshops, poultry coops, and composting bays.",
+  "transport_binding": {
+    "physical_bus": ["RS485_MODBUS_RTU", "LORAWAN_CLASS_A", "VIRTUAL_L1_PIN_BUS"],
+    "ipc_upstream_socket": "l2_l3.sock",
+    "ipc_downstream_socket": "l1_l2.sock"
+  },
+  "sampling_policy": {
+    "nominal_sampling_interval_ms": 10000,
+    "acoustic_rms_integration_window_ms": 1000,
+    "sampling_rate_hz_max": 1.0,
+    "watchdog_stale_timeout_ms": 120000
+  },
+  "registers": [
+    {
+      "name": "ambient_temp_mk",
+      "address_offset": 0,
+      "access": "READ_ONLY",
+      "data_type": "uint32",
+      "unit": "mK",
+      "si_equivalent": "millikelvin (293150 mK = 20.00 C)",
+      "min": 233150,
+      "max": 353150,
+      "default_uninitialized": 293150,
+      "welfare_bands_mk": {
+        "habitation_comfort_min_mk": 291150,
+        "habitation_comfort_max_mk": 297150,
+        "poultry_coop_safe_min_mk": 277150,
+        "poultry_coop_heat_stress_mk": 303150
+      },
+      "description": "Dry-bulb enclosure air temperature in millikelvin."
+    },
+    {
+      "name": "nh3_ammonia_ppm",
+      "address_offset": 4,
+      "access": "READ_ONLY",
+      "data_type": "uint16",
+      "unit": "ppm",
+      "si_equivalent": "micromoles per mole gaseous NH3",
+      "min": 0,
+      "max": 200,
+      "default_uninitialized": 1,
+      "welfare_bands_ppm": {
+        "odor_free_biochar_litter_max_ppm": 5,
+        "avian_respiratory_advisory_ppm": 10,
+        "mandatory_biochar_topdress_or_vent_ppm": 20
+      },
+      "description": "Gaseous ammonia concentration in ppm. Validates biochar deep-litter ammonia adsorption in backyard poultry coops and compost headspaces."
+    },
+    {
+      "name": "co2_ppm",
+      "address_offset": 6,
+      "access": "READ_ONLY",
+      "data_type": "uint16",
+      "unit": "ppm",
+      "si_equivalent": "micromoles per mole gaseous CO2 via dual-channel NDIR",
+      "min": 350,
+      "max": 10000,
+      "default_uninitialized": 430,
+      "welfare_bands_ppm": {
+        "outdoor_baseline_ppm": 420,
+        "cognitive_clarity_ceiling_ppm": 1000,
+        "erv_ventilation_boost_ppm": 1200,
+        "occupational_safety_ceiling_ppm": 5000
+      },
+      "description": "Enclosure carbon dioxide concentration in ppm governing indoor cognitive focus and coop/workshop fresh-air exchange."
+    },
+    {
+      "name": "acoustic_cb",
+      "address_offset": 8,
+      "access": "READ_ONLY",
+      "data_type": "uint16",
+      "unit": "cb",
+      "si_equivalent": "centibels A-weighted SPL (550 cb = 55.0 dBA, 380 cb = 38.0 dBA)",
+      "min": 0,
+      "max": 1300,
+      "default_uninitialized": 320,
+      "ordinance_envelopes_cb": {
+        "quiet_hours_homelab_max_cb": 380,
+        "daytime_suburban_workshop_max_cb": 550,
+        "hearing_protection_advisory_cb": 850
+      },
+      "description": "Hardware-integrated A-weighted RMS sound pressure level in centibels. Hardware omits PCM audio buffers so speech/conversations can never be recorded."
+    }
+  ],
+  "safety_invariants": [
+    {
+      "id": "INV_ENV_ANALOG_RMS_NO_AUDIO_CAPTURE",
+      "rule": "pcm_waveform_capture_capable == false",
+      "severity": "CONSTITUTIONAL_HARD_LOCK",
+      "rationale": "Anti-Panopticon Law: acoustic_cb is produced by an analog/hardware RMS SPL envelope detector incapable of capturing intelligible audio."
+    },
+    {
+      "id": "INV_ENV_POULTRY_AMMONIA_WELFARE",
+      "rule": "nh3_ammonia_ppm >= 20 => emit_alert('AMMONIA_HIGH_ADD_PYROLYSIS_BIOCHAR_LITTER')",
+      "severity": "WELFARE_ALERT",
+      "rationale": "Protects avian respiratory epithelium and eliminates suburban neighbor odor nuisances before municipal complaints arise."
+    },
+    {
+      "id": "INV_ENV_SUBURBAN_ACOUSTIC_ENVELOPE",
+      "rule": "(is_quiet_hours && acoustic_cb > 380) || (!is_quiet_hours && acoustic_cb > 550) => throttle_noisy_fabrication == true",
+      "severity": "GOVERNANCE_ENVELOPE",
+      "rationale": "Maintains Stage-1 suburban zoning camouflage and good-neighbor tranquility."
+    }
+  ]
+}

@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schema_id": "l2.schema.irrigation_valve.v1",
+  "schema_version": "1.0.0",
+  "layer": "L2_MEMBRANE",
+  "device_class": "NORMALLY_CLOSED_24V_DRIP_SOLENOID_AND_FLOWMETER",
+  "title": "24V Spring-Return Drip Irrigation Solenoid Valve, Hall Flowmeter & Red-Brass Manual Override",
+  "description": "Canonical Layer 2 actuator and flow-metering register schema for closed-loop gravity cistern or mains-reduced drip irrigation manifolds.",
+  "transport_binding": {
+    "physical_bus": ["RS485_MODBUS_RTU", "GPIO_24V_OPTOISOLATED_RELAY", "VIRTUAL_L1_PIN_BUS"],
+    "ipc_upstream_socket": "l2_l3.sock",
+    "ipc_downstream_socket": "l1_l2.sock",
+    "hardware_airgap_enforced": true,
+    "has_physical_manual_override_lever": true
+  },
+  "sampling_policy": {
+    "nominal_sampling_interval_ms": 1000,
+    "closed_idle_heartbeat_ms": 30000,
+    "sampling_rate_hz_max": 10.0,
+    "actuation_watchdog_max_open_s": 1800
+  },
+  "registers": [
+    {
+      "name": "valve_open",
+      "address_offset": 0,
+      "access": "READ_WRITE",
+      "data_type": "uint8",
+      "unit": "boolean_int",
+      "si_equivalent": "0 = de-energized closed (fail-safe spring), 1 = energized open",
+      "min": 0,
+      "max": 1,
+      "default_uninitialized": 0,
+      "description": "Solenoid coil actuation and reed-switch state register (0|1). Automatically resets to 0 upon reaching target_volume_ml, hitting max_moisture_cutoff_bp, or watchdog expiry."
+    },
+    {
+      "name": "target_volume_ml",
+      "address_offset": 2,
+      "access": "READ_WRITE",
+      "data_type": "uint32",
+      "unit": "ml",
+      "si_equivalent": "milliliters (1e-6 m3)",
+      "min": 0,
+      "max": 500000,
+      "default_uninitialized": 0,
+      "description": "Commanded batch dispense volume in milliliters. Local MCU counts Hall-effect turbine pulses and closes valve_open when dispensed volume reaches target_volume_ml."
+    },
+    {
+      "name": "flow_rate_ml_s",
+      "address_offset": 6,
+      "access": "READ_ONLY",
+      "data_type": "uint16",
+      "unit": "ml/s",
+      "si_equivalent": "milliliters per second (1e-6 m3/s)",
+      "min": 0,
+      "max": 2500,
+      "default_uninitialized": 0,
+      "description": "Real-time volumetric flow rate measured downstream of the RPZ atmospheric air-gap manifold."
+    },
+    {
+      "name": "max_moisture_cutoff_bp",
+      "address_offset": 8,
+      "access": "READ_WRITE",
+      "data_type": "uint16",
+      "unit": "bp",
+      "si_equivalent": "0.01 % volumetric water content cutoff threshold",
+      "min": 500,
+      "max": 10000,
+      "default_uninitialized": 4600,
+      "description": "Hardware moisture cutoff threshold in basis points. Forces valve_open = 0 immediately when paired soil_probe_v1.moisture_vwc_bp >= max_moisture_cutoff_bp."
+    }
+  ],
+  "safety_invariants": [
+    {
+      "id": "INV_VALVE_AIRGAP_SITL_ISOLATION",
+      "rule": "packet.quality_flag == 1 => physical_relay_energize_prohibited == true",
+      "severity": "HARDWARE_AIRGAP_FILTER",
+      "rationale": "Synthetic simulation packets (QUALITY_SIMULATED = 0x01) must never actuate physical 24V irrigation relays."
+    },
+    {
+      "id": "INV_VALVE_MOISTURE_SATURATION_CUTOFF",
+      "rule": "paired_soil_probe.moisture_vwc_bp >= max_moisture_cutoff_bp => valve_open == 0",
+      "severity": "HARDWARE_INTERLOCK",
+      "rationale": "Prevents waterlogging, nutrient leaching, and cistern depletion even if upstream L4 orchestrator disconnects."
+    },
+    {
+      "id": "INV_VALVE_UNCOMMANDED_FLOW_LEAK_DETECT",
+      "rule": "(valve_open == 0 && flow_rate_ml_s > 5) => emit_fault('DIAPHRAGM_SEAT_LEAK')",
+      "severity": "CRITICAL_ALERT",
+      "rationale": "Detects debris-fouled solenoid diaphragm or manual bypass left open unintentionally."
+    },
+    {
+      "id": "INV_VALVE_DRY_RUN_PROTECTION",
+      "rule": "(valve_open == 1 && elapsed_open_s > 15 && flow_rate_ml_s == 0) => (valve_open = 0 && emit_fault('SUPPLY_CISTERN_EMPTY_OR_BLOCKED'))",
+      "severity": "HARDWARE_INTERLOCK",
+      "rationale": "De-energizes coil to save 24V bus power and alert steward when cistern head drops to zero."
+    }
+  ]
+}

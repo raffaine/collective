@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "schema_id": "l2.schema.culinary_vessel.v1",
+  "schema_version": "1.0.0",
+  "layer": "L2_MEMBRANE",
+  "device_class": "INDUCTION_STOCKPOT_PT100_LOADCELL_CONTROLLER",
+  "title": "Magnetic Induction Culinary Cauldron with 4-Wire PT100 Core Probe & Gravimetric Load Cell",
+  "description": "Canonical Layer 2 sensor and actuator register schema for communal soup kettles and 24-hour collagen bone-broth vessels enforcing Bigelow F0 pathogen lethality.",
+  "transport_binding": {
+    "physical_bus": ["RS485_MODBUS_RTU", "CAN_FD_KITCHEN_BUS", "VIRTUAL_L1_PIN_BUS"],
+    "ipc_upstream_socket": "l2_l3.sock",
+    "ipc_downstream_socket": "l1_l2.sock",
+    "hardware_airgap_enforced": true
+  },
+  "sampling_policy": {
+    "nominal_sampling_interval_ms": 1000,
+    "idle_ambient_interval_ms": 15000,
+    "sampling_rate_hz_max": 5.0,
+    "watchdog_command_lease_ms": 60000
+  },
+  "registers": [
+    {
+      "name": "core_temp_mk",
+      "address_offset": 0,
+      "access": "READ_ONLY",
+      "data_type": "uint32",
+      "unit": "mK",
+      "si_equivalent": "millikelvin (347150 mK = 74.00 C pasteurization floor; 373150 mK = 100.00 C boil)",
+      "min": 250000,
+      "max": 423150,
+      "default_uninitialized": 293150,
+      "thermal_landmarks_mk": {
+        "haccp_danger_zone_lower_mk": 277150,
+        "haccp_danger_zone_upper_mk": 333150,
+        "pasteurization_lethality_floor_mk": 347150,
+        "collagen_simmer_band_min_mk": 358150,
+        "collagen_simmer_band_max_mk": 369150,
+        "aqueous_boil_sea_level_mk": 373150
+      },
+      "description": "Liquid geometric-center temperature measured via Class-A 4-wire PT100 RTD probe in millikelvin."
+    },
+    {
+      "name": "heater_power_mw",
+      "address_offset": 4,
+      "access": "READ_WRITE",
+      "data_type": "uint32",
+      "unit": "mW",
+      "si_equivalent": "milliwatts (1000000 mW = 1.00 kW)",
+      "min": 0,
+      "max": 3500000,
+      "default_uninitialized": 0,
+      "description": "Commanded and actively regulated magnetic induction coil power in milliwatts."
+    },
+    {
+      "name": "volume_ml",
+      "address_offset": 8,
+      "access": "READ_ONLY",
+      "data_type": "uint32",
+      "unit": "ml",
+      "si_equivalent": "milliliters derived from tare-subtracted strain-gauge load cell",
+      "min": 0,
+      "max": 40000,
+      "default_uninitialized": 0,
+      "description": "Net liquid/stew contents volume in milliliters (0..40,000 ml for 40L 304-stainless stockpot)."
+    },
+    {
+      "name": "pasteurization_hold_s",
+      "address_offset": 12,
+      "access": "READ_ONLY",
+      "data_type": "uint32",
+      "unit": "s",
+      "si_equivalent": "seconds held continuously at core_temp_mk >= 347150 mK",
+      "min": 0,
+      "max": 172800,
+      "default_uninitialized": 0,
+      "lethality_thresholds": {
+        "pasteurization_min_temp_mk": 347150,
+        "soup_lethality_min_hold_s": 120,
+        "collagen_bone_broth_target_hold_s": 86400
+      },
+      "description": "Monotonic dwell counter in seconds incremented while core_temp_mk >= 347150 mK (74.0 C). Resets to 0 if contents enter the 277150..333150 mK danger zone prior to completion."
+    }
+  ],
+  "safety_invariants": [
+    {
+      "id": "INV_VESSEL_BOIL_DRY_CUTOFF",
+      "rule": "volume_ml < 250 => heater_power_mw == 0",
+      "severity": "HARDWARE_INTERLOCK",
+      "rationale": "Hard boil-dry cutoff prevents vessel warping, scorched legumes, and induction glass thermal shock."
+    },
+    {
+      "id": "INV_VESSEL_PASTEURIZATION_GATE",
+      "rule": "batch_certified_safe_for_commons_service == (core_temp_mk >= 347150 && pasteurization_hold_s >= 120)",
+      "severity": "FOOD_SAFETY_GATE",
+      "rationale": "Enforces >= 7-log Salmonella/Listeria Bigelow lethality before communal R0/R1 tiffin packaging."
+    },
+    {
+      "id": "INV_VESSEL_OVER_TEMP_THERMAL_FUSE",
+      "rule": "core_temp_mk >= 385150 => heater_power_mw == 0",
+      "severity": "HARDWARE_INTERLOCK",
+      "rationale": "Core temperature exceeding 112 C in an unpressurized stockpot indicates dry scorching and trips solid-state contactor."
+    },
+    {
+      "id": "INV_VESSEL_ANTI_PANOPTICON",
+      "rule": "zero_optical_or_audio_capture == true",
+      "severity": "CONSTITUTIONAL_HARD_LOCK",
+      "rationale": "Kitchen sovereignty guaranteed: verification uses strictly thermodynamic RTD (mK) and gravimetric (ml) telemetry."
+    }
+  ]
+}
