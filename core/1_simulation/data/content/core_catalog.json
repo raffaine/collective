@@ -453,7 +453,7 @@
         "manual_sensory_cues": ["tap_water_pressure", "clean_tiffin_stack_count"],
         "l2_telemetry_registers": []
       },
-      "affordances": ["aff.look", "aff.inspect", "aff.draw_potable_water", "aff.pack_and_deliver_tiffins"]
+      "affordances": ["aff.look", "aff.inspect", "aff.draw_potable_water", "aff.gather_soup_inputs", "aff.pack_and_deliver_tiffins"]
     },
     {
       "id": "arch.refrigerator_larder",
@@ -837,6 +837,17 @@
       "look_text": "An upright welded-steel appliance and joinery hand dolly with ratcheting cinch straps rated to 200 kg.",
       "inspect_properties": { "manual_sensory_cues": ["toe_plate_straight", "strap_ratchet_tension"], "l2_telemetry_registers": [] },
       "affordances": ["aff.look", "aff.inspect", "aff.pickup_hauling_tool"]
+    },
+    {
+      "id": "arch.yard_earthwork_plot",
+      "display_name": "Backyard Loam & Subsurface Earthworks Plot",
+      "category": "TERRAIN_PLOT",
+      "voxel_material_id": 4,
+      "capabilities_provided": [],
+      "compatible_l2_schemas": [],
+      "look_text": "Level backyard turf grass resting over native sandy-loam topsoil (y=-1) and clay subsoil (y=-2). Mill a Raised Bed Frame at the Garage Workbench first before cultivating soil.",
+      "inspect_properties": { "manual_sensory_cues": ["topsoil_horizon_depth", "subsoil_drainage"], "l2_telemetry_registers": [] },
+      "affordances": []
     }
   ],
   "affordances": [
@@ -954,6 +965,9 @@
       "universal": false,
       "requires_proximity": true,
       "required_capabilities": ["SOIL_CULTIVATION_BED"],
+      "required_property_key": "bed_stage",
+      "min_property_val": 0,
+      "max_property_val": 0,
       "duration_sim_seconds": 2400,
       "preconditions": {
         "min_caloric_kcal": 750,
@@ -969,6 +983,9 @@
       "universal": false,
       "requires_proximity": true,
       "required_capabilities": ["SOIL_CULTIVATION_BED"],
+      "required_property_key": "bed_stage",
+      "min_property_val": 1,
+      "max_property_val": 1,
       "duration_sim_seconds": 1500,
       "preconditions": {
         "min_caloric_kcal": 650,
@@ -984,6 +1001,9 @@
       "universal": false,
       "requires_proximity": true,
       "required_capabilities": ["SOIL_CULTIVATION_BED"],
+      "required_property_key": "bed_stage",
+      "min_property_val": 2,
+      "max_property_val": 2,
       "duration_sim_seconds": 2100,
       "preconditions": {
         "min_caloric_kcal": 600,
@@ -999,6 +1019,9 @@
       "universal": false,
       "requires_proximity": true,
       "required_capabilities": ["SOIL_CULTIVATION_BED"],
+      "required_property_key": "bed_stage",
+      "min_property_val": 3,
+      "max_property_val": 4,
       "duration_sim_seconds": 900,
       "preconditions": {
         "min_caloric_kcal": 550,
@@ -1014,6 +1037,9 @@
       "universal": false,
       "requires_proximity": true,
       "required_capabilities": ["SOIL_CULTIVATION_BED"],
+      "required_property_key": "l2_probe_installed",
+      "min_property_val": 0,
+      "max_property_val": 0,
       "duration_sim_seconds": 300,
       "preconditions": {
         "min_caloric_kcal": 400,
@@ -1029,6 +1055,9 @@
       "universal": false,
       "requires_proximity": true,
       "required_capabilities": ["SOIL_CULTIVATION_BED"],
+      "required_property_key": "l2_valve_installed",
+      "min_property_val": 0,
+      "max_property_val": 0,
       "duration_sim_seconds": 600,
       "preconditions": {
         "min_caloric_kcal": 450,
@@ -1044,6 +1073,9 @@
       "universal": false,
       "requires_proximity": true,
       "required_capabilities": ["SOIL_CULTIVATION_BED"],
+      "required_property_key": "bed_stage",
+      "min_property_val": 4,
+      "max_property_val": 4,
       "duration_sim_seconds": 1800,
       "preconditions": {
         "min_caloric_kcal": 600,
@@ -1059,6 +1091,9 @@
       "universal": false,
       "requires_proximity": true,
       "required_capabilities": ["SOIL_CULTIVATION_BED"],
+      "required_property_key": "bed_stage",
+      "min_property_val": 5,
+      "max_property_val": 5,
       "duration_sim_seconds": 2100,
       "preconditions": {
         "min_caloric_kcal": 600,
@@ -1114,11 +1149,32 @@
       "linked_l4_workflow_id": null
     },
     {
+      "id": "aff.gather_soup_inputs",
+      "label": "Gather & Rinse Split Peas, Mirepoix & Broth Bones",
+      "universal": false,
+      "requires_proximity": true,
+      "required_capabilities": ["KITCHEN_PREP_SINK"],
+      "required_property_key": "hearth_stage",
+      "min_property_val": 0,
+      "max_property_val": 0,
+      "duration_sim_seconds": 300,
+      "preconditions": {
+        "min_caloric_kcal": 350,
+        "required_items": [],
+        "required_hauling_tool_any": []
+      },
+      "somatic_effects": { "caloric_burn_kcal": 30, "fatigue_delta": 0.02, "stress_delta": -0.05 },
+      "linked_l4_workflow_id": "wf.soup.gather_inputs"
+    },
+    {
       "id": "aff.attach_l2_culinary_controller",
       "label": "Clip PT100 Probe & L2 Controller to Cauldron",
       "universal": false,
       "requires_proximity": true,
       "required_capabilities": ["CULINARY_HEAT_SOURCE"],
+      "required_property_key": "l2_culinary_installed",
+      "min_property_val": 0,
+      "max_property_val": 0,
       "duration_sim_seconds": 240,
       "preconditions": {
         "min_caloric_kcal": 350,
@@ -1134,6 +1190,9 @@
       "universal": false,
       "requires_proximity": true,
       "required_capabilities": ["CULINARY_HEAT_SOURCE"],
+      "required_property_key": "hearth_stage",
+      "min_property_val": 1,
+      "max_property_val": 1,
       "duration_sim_seconds": 2400,
       "preconditions": {
         "min_caloric_kcal": 550,
@@ -1151,6 +1210,9 @@
       "universal": false,
       "requires_proximity": true,
       "required_capabilities": ["CULINARY_HEAT_SOURCE"],
+      "required_property_key": "hearth_stage",
+      "min_property_val": 2,
+      "max_property_val": 2,
       "duration_sim_seconds": 3600,
       "preconditions": {
         "min_caloric_kcal": 550,
@@ -1169,6 +1231,9 @@
       "universal": false,
       "requires_proximity": true,
       "required_capabilities": ["COMMONS_TIFFIN_HANDOFF"],
+      "required_property_key": "hearth_stage",
+      "min_property_val": 3,
+      "max_property_val": 3,
       "duration_sim_seconds": 900,
       "preconditions": {
         "min_caloric_kcal": 500,

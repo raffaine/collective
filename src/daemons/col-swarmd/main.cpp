@@ -37,13 +37,14 @@ void SignalHandler(int signum) {
 void PrintHelp(const char* prog_name) {
     std::cout << "Usage: " << prog_name << " [options]\n"
               << "Options:\n"
-              << "  --once                Execute a single deterministic swarm tick and exit\n"
-              << "  --max-ticks <N>       Exit cleanly after executing N deterministic ticks\n"
-              << "  --ticks <N>           Alias for --max-ticks\n"
-              << "  --frequency <Hz>      Tick frequency in Hz (default: 2)\n"
-              << "  --seed <uint64>       Deterministic SplitMix64 integer PRNG seed\n"
-              << "  --snapshot-json       Print final node snapshot JSON on exit\n"
-              << "  --help, -h            Display this help message\n";
+              << "  --once                  Execute a single deterministic cluster/swarm tick and exit\n"
+              << "  --max-ticks <N>         Exit cleanly after executing N deterministic ticks\n"
+              << "  --ticks <N>             Alias for --max-ticks\n"
+              << "  --frequency <Hz>        Tick frequency in Hz (default: 2)\n"
+              << "  --seed <uint64>         Deterministic SplitMix64 integer PRNG seed\n"
+              << "  --enable-external-npcs  Enable external R1 peer-cluster NPC swarm (default: solo 4-node cluster)\n"
+              << "  --snapshot-json         Print final node snapshot JSON on exit\n"
+              << "  --help, -h              Display this help message\n";
 }
 
 } // namespace
@@ -53,6 +54,7 @@ int main(int argc, char* argv[]) {
     int frequency_hz = 2;
     uint64_t seed = 0xC011EC717E2026ULL;
     bool print_snapshot = false;
+    bool enable_external_npcs = false;
 
     for (int i = 1; i < argc; ++i) {
         std::string arg = argv[i];
@@ -70,6 +72,8 @@ int main(int argc, char* argv[]) {
             }
         } else if (arg == "--seed" && (i + 1) < argc) {
             seed = std::strtoull(argv[++i], nullptr, 10);
+        } else if (arg == "--enable-external-npcs") {
+            enable_external_npcs = true;
         } else if (arg == "--snapshot-json") {
             print_snapshot = true;
         } else {
@@ -86,12 +90,20 @@ int main(int argc, char* argv[]) {
     oasis::stack::SharedStackRuntime runtime{};
     oasis::swarm::SwarmState swarm{seed};
 
-    std::cout << "[col-swarmd] Starting Peer-Cluster Neighborhood Swarm Daemon (frequency="
-              << frequency_hz << "Hz, clusters=" << swarm.clusters.size()
-              << ", jsonld=" << (runtime.BootstrappedFromJsonLd() ? "true" : "false") << ")\n";
-
-    // Release one baseline R1 garage task in standalone daemon mode so peer-cluster BCC clearing is verified
-    (void)runtime.ReleaseTaskToR1Peers("task:fab_1_mill_raised_bed");
+    if (enable_external_npcs) {
+        runtime.SetExternalR1SwarmEnabled(true);
+        (void)runtime.ApproveOrAdaptGovernanceDecision("dec:pea_cultivation", true);
+        (void)runtime.ReleaseTaskToR1Peers("task:fab_1_mill_raised_bed");
+        std::cout << "[col-swarmd] Starting R1 Federated Peer-Cluster Swarm Daemon (frequency="
+                  << frequency_hz << "Hz, local_nodes=" << runtime.GetClusterNodes().size()
+                  << ", external_clusters=" << swarm.clusters.size()
+                  << ", jsonld=" << (runtime.BootstrappedFromJsonLd() ? "true" : "false") << ")\n";
+    } else {
+        std::cout << "[col-swarmd] Starting Solo Steward 4-Node Personal Homestead Cluster Coordinator (frequency="
+                  << frequency_hz << "Hz, local_nodes=" << runtime.GetClusterNodes().size()
+                  << ", external_r1_swarm=deferred"
+                  << ", jsonld=" << (runtime.BootstrappedFromJsonLd() ? "true" : "false") << ")\n";
+    }
 
     const auto tick_interval = std::chrono::microseconds(1'000'000 / frequency_hz);
     uint64_t tick = 0ULL;
@@ -115,7 +127,9 @@ int main(int argc, char* argv[]) {
         std::cout << runtime.SerializeFullNodeSnapshotJson();
     } else {
         std::cout << "[col-swarmd] Completed " << tick
-                  << " deterministic swarm ticks (clusters=" << swarm.clusters.size()
+                  << " deterministic ticks (mode="
+                  << (runtime.IsExternalR1SwarmEnabled() ? "R1_SWARM" : "SOLO_4_NODE_CLUSTER")
+                  << ", local_nodes=" << runtime.GetClusterNodes().size()
                   << ", events=" << swarm.total_events_emitted
                   << ", bcc_settled_uj=" << swarm.total_bcc_settled_uj
                   << ", bcc_zero_sum="

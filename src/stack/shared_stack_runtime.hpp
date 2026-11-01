@@ -69,6 +69,14 @@ enum class HaulModality : uint8_t {
     TIFFIN_CARRIER_HAUL          = 4
 };
 
+enum class BpmnTokenState : uint8_t {
+    WAITING_SEQUENCE_FLOW   = 0,
+    BLOCKED_BY_PRECONDITION = 1,
+    ACTIVE_TOKEN            = 2,
+    COMPLETED               = 3,
+    WAITING_TIMER           = 4
+};
+
 // ============================================================================
 // String Conversion Helpers for Stack Enumerations
 // ============================================================================
@@ -145,6 +153,17 @@ enum class HaulModality : uint8_t {
         case HaulModality::TIFFIN_CARRIER_HAUL:          return "TIFFIN_CARRIER_HAUL";
     }
     return "NONE";
+}
+
+[[nodiscard]] constexpr const char* ToString(BpmnTokenState state) noexcept {
+    switch (state) {
+        case BpmnTokenState::WAITING_SEQUENCE_FLOW:   return "WAITING_SEQUENCE_FLOW";
+        case BpmnTokenState::BLOCKED_BY_PRECONDITION: return "BLOCKED_BY_PRECONDITION";
+        case BpmnTokenState::ACTIVE_TOKEN:            return "ACTIVE_TOKEN";
+        case BpmnTokenState::COMPLETED:               return "COMPLETED";
+        case BpmnTokenState::WAITING_TIMER:           return "WAITING_TIMER";
+    }
+    return "WAITING_SEQUENCE_FLOW";
 }
 
 [[nodiscard]] inline NeedTimingMode ParseNeedTimingMode(std::string_view raw) noexcept {
@@ -394,15 +413,135 @@ struct alignas(8) L2SensorRegister {
     uint64_t    cumulative_exergy_uj{0};
     uint32_t    temperature_mk{293150};   // Millikelvin (293150 mK = 20.0 C)
     uint32_t    moisture_bp{0};           // Basis points (0..10000)
-    uint32_t    concentration_ppm{0};     // Parts per million
+    uint32_t    concentration_ppm{0};     // Parts per million (e.g. mineral N ppm)
     uint32_t    actuator_level_bp{0};     // Basis points (0..10000)
     uint32_t    hold_duration_ms{0};      // Milliseconds at target lethality/hold
+    uint32_t    crop_growth_bp{0};        // Phenological maturity basis points (0..10000)
     uint8_t     is_online{0};             // 0 = absent/offline, 1 = active in L2TelemetryTable
     uint8_t     is_actuator{0};           // 0 = sensor, 1 = actuator
     uint8_t     actuator_commanded_on{0}; // 1 = open/energized by L4 controller
     uint8_t     quality_flags{1};         // 1 = QUALITY_SIMULATED, 2 = QUALITY_HARDWARE_ROOT
+    [[maybe_unused]] uint8_t pad_[4]{0};
 };
 static_assert(alignof(L2SensorRegister) == 8, "L2SensorRegister must be 8-byte aligned.");
+
+// ============================================================================
+// Parameterized Legume Cultivar Specification (Fabaceae Real & Sim-Tuned)
+// ============================================================================
+
+struct alignas(8) CultivarWorkflowSpec {
+    uint64_t    seed_exergy_uj{400000000ULL};
+    std::string cultivar_id{};
+    std::string title{};
+    std::string species_binomial{};
+    std::string agronomic_notes{};
+    uint32_t    maturity_sim_seconds{43200U};        // Ideal 1.0x growth duration 0 -> 10000 bp
+    uint32_t    verification_interval_sim_s{10800U}; // BPMN IntermediateCatchEvent timer cadence
+    uint32_t    min_growth_temp_mk{277150U};         // Lower thermal cutoff (mK)
+    uint32_t    opt_low_temp_mk{285150U};            // Optimal thermal plateau start (mK)
+    uint32_t    opt_high_temp_mk{302150U};           // Optimal thermal plateau end (mK)
+    uint32_t    max_growth_temp_mk{313150U};         // Upper heat-stress cutoff (mK)
+    uint32_t    target_min_vwc_bp{3000U};            // Verification moisture trigger (bp)
+    uint32_t    target_opt_vwc_bp{4200U};            // Post-watering target root-zone VWC (bp)
+    uint32_t    target_max_vwc_bp{4900U};            // Upper optimal VWC bound (bp)
+    uint32_t    irrigation_dose_ml{4500U};           // Per-actuation water dose (ml)
+    uint32_t    et_multiplier_bp{15000U};            // Evapotranspiration multiplier (10000 = 1.0x)
+    uint32_t    n_fixation_rate_bp{14000U};          // Rhizobium N2 fixation multiplier (10000 = 1.0x)
+    uint32_t    harvest_mature_bp{9500U};            // Maturity threshold to unlock Harvest step (bp)
+    uint16_t    trellis_ridge_height_mm{1500U};      // Required A-frame trellis ridge height (mm)
+    uint16_t    sowing_depth_mm{30U};                // Seed placement depth (mm)
+    uint8_t     n_draw_per_band_ppm{0U};             // Mineral N draw per 250 bp biomass band (ppm)
+    uint8_t     p_draw_per_band_ppm{1U};             // Available P draw per 250 bp biomass band (ppm)
+    uint8_t     k_draw_per_band_ppm{1U};             // Exchangeable K draw per 250 bp biomass band (ppm)
+    uint8_t     fixes_atmospheric_n2{1U};            // 1 = active Rhizobium symbiosis, 0 = soil-N consumer
+    uint8_t     is_virtual_sim_tuned{1U};            // 1 = game-tuned virtual physics, 0 = heritage agronomy
+    uint8_t     harvest_legume_batches{2U};          // Harvested legume batches per bed cycle
+    uint8_t     harvest_mirepoix_batches{1U};        // Companion understory mirepoix batches per cycle
+    [[maybe_unused]] uint8_t pad_{0U};
+};
+static_assert(alignof(CultivarWorkflowSpec) == 8, "CultivarWorkflowSpec must be 8-byte aligned.");
+
+[[nodiscard]] inline std::string FormatSimDurationCompact(uint64_t sim_s) {
+    if (sim_s == 0ULL) {
+        return "due now";
+    }
+    if (sim_s >= 86400ULL) {
+        const uint64_t days  = sim_s / 86400ULL;
+        const uint64_t hours = (sim_s % 86400ULL) / 3600ULL;
+        if (hours == 0ULL) {
+            return std::to_string(days) + "d";
+        }
+        return std::to_string(days) + "d " + std::to_string(hours) + "h";
+    }
+    if (sim_s >= 3600ULL) {
+        const uint64_t hours = sim_s / 3600ULL;
+        const uint64_t mins  = (sim_s % 3600ULL) / 60ULL;
+        if (mins == 0ULL) {
+            return std::to_string(hours) + "h";
+        }
+        return std::to_string(hours) + "h " + std::to_string(mins) + "m";
+    }
+    const uint64_t mins = std::max<uint64_t>(1ULL, (sim_s + 59ULL) / 60ULL);
+    return std::to_string(mins) + "m";
+}
+
+[[nodiscard]] constexpr const char* ComputePhenologyLabel(
+    uint32_t crop_growth_bp,
+    uint8_t  crop_sown,
+    uint32_t harvest_mature_bp = 9500U
+) noexcept {
+    if (crop_sown == 0U) {
+        return "Unsown Bed";
+    }
+    if (crop_growth_bp >= harvest_mature_bp) {
+        return "Mature Pods Ready for Harvest";
+    }
+    if (crop_growth_bp >= 6800U) {
+        return "Flowering & Pod Fill";
+    }
+    if (crop_growth_bp >= 2500U) {
+        return "Vegetative Tendril Climb";
+    }
+    return "Germinating Radicle & Shoots";
+}
+
+[[nodiscard]] constexpr uint32_t EvaluateStackCultivarTempFactorBp(
+    uint32_t soil_temp_mk,
+    const CultivarWorkflowSpec& spec
+) noexcept {
+    if (soil_temp_mk <= spec.min_growth_temp_mk || soil_temp_mk >= spec.max_growth_temp_mk) {
+        return 0U;
+    }
+    if (soil_temp_mk < spec.opt_low_temp_mk) {
+        const uint32_t span = std::max(1U, spec.opt_low_temp_mk - spec.min_growth_temp_mk);
+        return ((soil_temp_mk - spec.min_growth_temp_mk) * 10000U) / span;
+    }
+    if (soil_temp_mk <= spec.opt_high_temp_mk) {
+        return 10000U;
+    }
+    const uint32_t span = std::max(1U, spec.max_growth_temp_mk - spec.opt_high_temp_mk);
+    return ((spec.max_growth_temp_mk - soil_temp_mk) * 10000U) / span;
+}
+
+[[nodiscard]] constexpr uint32_t EvaluateStackCultivarMoistureFactorBp(
+    uint32_t moisture_bp,
+    const CultivarWorkflowSpec& spec
+) noexcept {
+    constexpr uint32_t kWiltingBp     = 1000U;
+    constexpr uint32_t kWaterloggedBp = 7800U;
+    if (moisture_bp <= kWiltingBp || moisture_bp >= kWaterloggedBp) {
+        return 0U;
+    }
+    const uint32_t opt_low  = std::max(kWiltingBp + 200U, spec.target_min_vwc_bp);
+    const uint32_t opt_high = std::max(opt_low + 400U, spec.target_max_vwc_bp);
+    if (moisture_bp < opt_low) {
+        return ((moisture_bp - kWiltingBp) * 10000U) / (opt_low - kWiltingBp);
+    }
+    if (moisture_bp <= opt_high) {
+        return 10000U;
+    }
+    return ((kWaterloggedBp - moisture_bp) * 10000U) / std::max(1U, kWaterloggedBp - opt_high);
+}
 
 struct alignas(8) L2TelemetryTable {
     std::vector<L2SensorRegister> registers{};
@@ -559,13 +698,34 @@ struct alignas(8) L5GovernedAsset {
 static_assert(alignof(L5GovernedAsset) == 8, "L5GovernedAsset must be 8-byte aligned.");
 
 // ============================================================================
-// Layer 4: Real-Life Multi-Workflow Orchestrator Models
+// Layer 4: Real-Life Multi-Workflow Orchestrator & Personal Cluster Node Models
 // ============================================================================
+
+struct alignas(8) HomesteadClusterNode {
+    std::string node_id{};
+    std::string node_did{};
+    std::string title{};
+    std::string zone_label{};
+    std::string daemons_hosted{};
+    std::string role_summary{};
+    std::string active_token_summary{};
+    std::string inventory_summary{};
+    uint64_t    accounted_exergy_uj{0};
+    uint32_t    active_workflow_count{0};
+    uint32_t    completed_task_count{0};
+    uint32_t    online_l2_pin_count{0};
+    uint8_t     is_online{1};
+    [[maybe_unused]] uint8_t pad_[3]{0};
+};
+static_assert(alignof(HomesteadClusterNode) == 8, "HomesteadClusterNode must be 8-byte aligned.");
 
 struct alignas(8) L4TaskItem {
     std::string           task_id{};
     std::string           workflow_id{};
     std::string           asset_id{};
+    std::string           assigned_node_id{};
+    std::string           mapped_affordance_id{};
+    std::string           precondition_blocker_note{};
     std::string           title{};
     std::string           location_label{};
     std::string           l2_sensor_register_id{};
@@ -576,28 +736,54 @@ struct alignas(8) L4TaskItem {
     uint64_t              exergy_cost_uj{0};
     int64_t               l7_revenue_offset_cents{0};
     uint64_t              last_state_change_tick{0};
+    uint64_t              timer_due_sim_s{0};
+    uint64_t              timer_remaining_sim_s{0};
     uint32_t              step_index{1};
     uint32_t              oasis_action_code{0};
     uint32_t              target_temp_min_mk{0};
     uint32_t              target_moisture_max_bp{0};
+    uint32_t              timer_interval_sim_s{0};
+    uint32_t              verification_cycle_index{0};
     TaskCommitmentState   task_commitment_state{TaskCommitmentState::UNASSIGNED};
     TaskExecutionModality execution_modality{TaskExecutionModality::MANUAL_HUMAN_OBSERVATION};
     HaulModality          haul_modality{HaulModality::NONE};
+    BpmnTokenState        bpmn_token_state{BpmnTokenState::WAITING_SEQUENCE_FLOW};
     uint8_t               has_unmodeled_micro_detail{0};
     uint8_t               unmodeled_prompt_resolved{0};
-    [[maybe_unused]] uint8_t pad_[3]{0};
+    [[maybe_unused]] uint8_t pad_[2]{0};
 };
 static_assert(alignof(L4TaskItem) == 8, "L4TaskItem must be 8-byte aligned.");
 
 struct alignas(8) L4WorkflowInstance {
     std::string             workflow_id{};
     std::string             asset_id{};
+    std::string             assigned_node_id{};
     std::string             title{};
+    std::string             input_cultivar_id{};
+    std::string             input_cultivar_title{};
+    std::string             species_binomial{};
+    std::string             phenology_stage_label{};
     std::vector<L4TaskItem> tasks{};
     uint64_t                spawned_tick{0};
+    uint64_t                crop_sown_sim_s{0};
+    uint64_t                last_growth_eval_sim_s{0};
+    uint64_t                next_verification_due_sim_s{0};
     uint32_t                completed_cycles{0};
+    uint32_t                crop_growth_bp{0};
+    uint32_t                harvest_mature_bp{9500};
+    uint32_t                maturity_sim_seconds{0};
+    uint32_t                verification_interval_sim_s{0};
+    uint32_t                estimated_moisture_bp{3200};
+    uint32_t                estimated_nitrogen_ppm{48};
+    uint32_t                growth_sub_accum{0};
+    uint32_t                moisture_et_sub_accum{0};
+    uint32_t                nitrogen_sub_accum{0};
+    uint16_t                verification_checks_completed{0};
+    uint16_t                auto_l2_checks_completed{0};
     uint8_t                 is_active{1};
-    [[maybe_unused]] uint8_t pad_[3]{0};
+    uint8_t                 crop_sown{0};
+    uint8_t                 is_virtual_cultivar{0};
+    uint8_t                 fixes_atmospheric_n2{1};
 };
 static_assert(alignof(L4WorkflowInstance) == 8, "L4WorkflowInstance must be 8-byte aligned.");
 
@@ -719,36 +905,179 @@ public:
         governed_assets_.clear();
         workflows_.clear();
         last_search_results_.clear();
+        cluster_nodes_.clear();
+        cultivars_.clear();
 
         l2_telemetry_ = L2TelemetryTable{};
         ledger_ = L3NodeLedger{};
         current_tick_ = 1ULL;
         custom_counter_ = 0ULL;
+        sim_clock_seconds_ = 28800ULL; // Day 1, 08:00:00
         sim_day_ = 1U;
+        ambient_temp_override_mk_ = 0U;
+        cultivars_enriched_count_ = 0U;
+        raised_bed_frames_built_ = 0U;
+        compost_kiln_units_built_ = 0U;
+        poultry_coops_built_ = 0U;
+        harvested_split_pea_batches_ = 0U;
+        harvested_mirepoix_batches_ = 0U;
+        poultry_bones_and_eggs_batches_ = 0U;
+        thermophilic_compost_batches_ = 0U;
+        biochar_batches_ = 0U;
+        simmered_bone_broth_batches_ = 0U;
+        served_pea_soup_tiffin_batches_ = 0U;
         bootstrapped_from_jsonld_ = 0U;
+        external_r1_swarm_enabled_ = 0U; // Default: Solo Steward 4-Node Personal Homestead Cluster
         bootstrap_source_path_ = "builtin:pea_to_soup_canonical_v1";
+        selected_garden_cultivar_id_ = "cultivar:chrono_virtual_pea";
         last_command_action_ = "bootstrap";
         last_command_status_ = "OK";
 
-        InitializePeerBccChannels();
+        InitializeHomesteadClusterNodes();
+        InitializeCanonicalCultivars();
+        TryEnrichCultivarsFromJsonLd();
         InitializeGovernedAssets();
         InitializeCanonicalNeeds();
         TryEnrichNeedsFromJsonLd(jsonld_hint_path);
         InitializeGenesisDecisionsAndWorkflows();
+        EvaluateBpmnTokensAndDependencies();
         RefreshL4AutomationModalities();
+        RefreshClusterNodeSummaries();
     }
 
     void AdvanceToTick(uint64_t tick) noexcept {
         if (tick > current_tick_) {
             current_tick_ = tick;
-            sim_day_ = 1U + static_cast<uint32_t>(current_tick_ / 28800ULL);
+            sim_day_ = std::max(sim_day_, 1U + static_cast<uint32_t>(sim_clock_seconds_ / 86400ULL));
         }
     }
 
+    void AdvanceSimClockSeconds(uint64_t delta_sim_s) {
+        if (delta_sim_s == 0ULL) {
+            EvaluateBpmnTokensAndDependencies();
+            RefreshL4AutomationModalities();
+            RefreshClusterNodeSummaries();
+            return;
+        }
+        sim_clock_seconds_ += delta_sim_s;
+        sim_day_ = 1U + static_cast<uint32_t>(sim_clock_seconds_ / 86400ULL);
+        ++current_tick_;
+        EvaluateBpmnTokensAndDependencies();
+        RefreshL4AutomationModalities();
+        RefreshClusterNodeSummaries();
+    }
+
+    void SyncSimClockSeconds(uint64_t total_sim_s) {
+        if (total_sim_s > sim_clock_seconds_) {
+            sim_clock_seconds_ = total_sim_s;
+            sim_day_ = 1U + static_cast<uint32_t>(sim_clock_seconds_ / 86400ULL);
+        }
+        EvaluateBpmnTokensAndDependencies();
+        RefreshL4AutomationModalities();
+        RefreshClusterNodeSummaries();
+    }
+
+    void SetAmbientTempOverrideMk(uint32_t temp_mk) noexcept {
+        ambient_temp_override_mk_ = temp_mk;
+    }
+
+    [[nodiscard]] uint32_t CurrentAmbientTempMk() const noexcept {
+        if (ambient_temp_override_mk_ > 0U) {
+            return ambient_temp_override_mk_;
+        }
+        if (const L2SensorRegister* soil = l2_telemetry_.FindRegister("soil_probe_v1")) {
+            if (soil->is_online != 0U && soil->temperature_mk > 0U) {
+                return soil->temperature_mk;
+            }
+        }
+        // Pure-integer diurnal ambient temperature curve: 287150 mK (14C night) .. 296150 mK (23C afternoon)
+        const uint64_t rem_day_s = sim_clock_seconds_ % 86400ULL;
+        const uint64_t shifted_s = (rem_day_s + 86400ULL - 14400ULL) % 86400ULL;
+        const uint64_t dist_s    = (shifted_s <= 43200ULL) ? shifted_s : (86400ULL - shifted_s);
+        return 287150U + static_cast<uint32_t>((9000ULL * dist_s) / 43200ULL);
+    }
+
     [[nodiscard]] uint64_t CurrentTick() const noexcept { return current_tick_; }
+    [[nodiscard]] uint64_t SimClockSeconds() const noexcept { return sim_clock_seconds_; }
     [[nodiscard]] uint32_t CurrentSimDay() const noexcept { return sim_day_; }
     [[nodiscard]] bool BootstrappedFromJsonLd() const noexcept { return bootstrapped_from_jsonld_ != 0U; }
     [[nodiscard]] const std::string& BootstrapSourcePath() const noexcept { return bootstrap_source_path_; }
+    [[nodiscard]] const std::string& SelectedGardenCultivarId() const noexcept { return selected_garden_cultivar_id_; }
+    [[nodiscard]] const std::vector<CultivarWorkflowSpec>& GetAvailableCultivars() const noexcept { return cultivars_; }
+    [[nodiscard]] bool IsExternalR1SwarmEnabled() const noexcept { return external_r1_swarm_enabled_ != 0U; }
+
+    [[nodiscard]] const CultivarWorkflowSpec* FindCultivar(std::string_view cultivar_id) const noexcept {
+        if (cultivar_id.empty()) {
+            return nullptr;
+        }
+        for (const auto& c : cultivars_) {
+            if (c.cultivar_id == cultivar_id ||
+                (c.cultivar_id.rfind("cultivar:", 0U) == 0U &&
+                 std::string_view(c.cultivar_id).substr(9U) == cultivar_id)) {
+                return &c;
+            }
+        }
+        return nullptr;
+    }
+
+    bool SetGardenCultivar(std::string_view cultivar_id) {
+        const CultivarWorkflowSpec* spec = FindCultivar(cultivar_id);
+        if (spec == nullptr) {
+            return false;
+        }
+        selected_garden_cultivar_id_ = spec->cultivar_id;
+        for (auto& wf : workflows_) {
+            if (wf.workflow_id == "wf:pea_cultivation" && wf.crop_sown == 0U) {
+                ApplyCultivarParametersToWorkflow(wf, *spec);
+            }
+        }
+        EvaluateBpmnTokensAndDependencies();
+        RefreshL4AutomationModalities();
+        RefreshClusterNodeSummaries();
+        return true;
+    }
+
+    void SetExternalR1SwarmEnabled(bool enabled) {
+        external_r1_swarm_enabled_ = enabled ? 1U : 0U;
+        if (enabled) {
+            if (ledger_.peer_bcc_channels.empty()) {
+                InitializePeerBccChannels();
+            }
+            EmitLocalClusterChoreographyEvent(
+                "node-01:office-coordinator",
+                "Node 01 — Office Sovereign Coordinator",
+                "R1_SWARM_ENABLED",
+                "External R1 neighborhood peer-cluster swarm enabled alongside the 4-node Lot 402 cluster.",
+                0ULL
+            );
+        } else {
+            // Recall any unassigned external R1 releases back to the solo Steward's R0 cluster
+            for (auto& wf : workflows_) {
+                for (auto& t : wf.tasks) {
+                    if (t.task_commitment_state == TaskCommitmentState::RELEASED_TO_R1_PEERS) {
+                        t.task_commitment_state = TaskCommitmentState::UNASSIGNED;
+                        t.claimed_by_cluster_id.clear();
+                        t.last_state_change_tick = current_tick_;
+                    }
+                }
+            }
+            EmitLocalClusterChoreographyEvent(
+                "node-01:office-coordinator",
+                "Node 01 — Office Sovereign Coordinator",
+                "SOLO_CLUSTER_MODE",
+                "External R1 peer swarm paused; running strictly on the solo Steward's 4-node Homestead Cluster.",
+                0ULL
+            );
+        }
+        EvaluateBpmnTokensAndDependencies();
+        RefreshClusterNodeSummaries();
+    }
+
+    void StepLocalHomesteadClusterHeartbeat(uint64_t tick) {
+        AdvanceToTick(tick);
+        EvaluateBpmnTokensAndDependencies();
+        RefreshClusterNodeSummaries();
+    }
 
     // ------------------------------------------------------------------------
     // Direct State Accessors
@@ -760,10 +1089,16 @@ public:
     [[nodiscard]] const std::vector<L5GovernedAsset>& GetGovernedAssets() const noexcept { return governed_assets_; }
     [[nodiscard]] const std::vector<L4WorkflowInstance>& GetWorkflows() const noexcept { return workflows_; }
     [[nodiscard]] std::vector<L4WorkflowInstance>& GetWorkflowsMutable() noexcept { return workflows_; }
+    [[nodiscard]] const std::vector<HomesteadClusterNode>& GetClusterNodes() const noexcept { return cluster_nodes_; }
     [[nodiscard]] const L3NodeLedger& GetLedger() const noexcept { return ledger_; }
     [[nodiscard]] L3NodeLedger& GetLedgerMutable() noexcept { return ledger_; }
     [[nodiscard]] const L2TelemetryTable& GetL2TelemetryTable() const noexcept { return l2_telemetry_; }
     [[nodiscard]] L2TelemetryTable& GetL2TelemetryTableMutable() noexcept { return l2_telemetry_; }
+    [[nodiscard]] uint32_t RaisedBedFramesBuilt() const noexcept { return raised_bed_frames_built_; }
+    [[nodiscard]] uint32_t CompostKilnUnitsBuilt() const noexcept { return compost_kiln_units_built_; }
+    [[nodiscard]] uint32_t PoultryCoopsBuilt() const noexcept { return poultry_coops_built_; }
+    [[nodiscard]] uint32_t HarvestedSplitPeaBatches() const noexcept { return harvested_split_pea_batches_; }
+    [[nodiscard]] uint32_t HarvestedMirepoixBatches() const noexcept { return harvested_mirepoix_batches_; }
 
     // ------------------------------------------------------------------------
     // L6 Needs & Intent Commons Operations
@@ -838,9 +1173,17 @@ public:
                 }
                 EnsurePendingDecisionForAsset(need->governed_asset_id, need->need_id);
             } else {
-                // Local R0 workflows or R1 mesh peers
+                // Local R0 workflows or R1 mesh peers — instantiate only the specific BPMN workflow needed
                 ledger_.total_exergy_accounted_uj += need->exergy_cost_uj * static_cast<uint64_t>(qty);
-                EnsureWorkflowsSpawnedForAsset(need->governed_asset_id);
+                if (need->need_id == "need:raised_bed_frame") {
+                    EnsureSpecificWorkflowSpawned("wf:fab_raised_bed");
+                } else if (need->governed_asset_id == "asset:water_and_power") {
+                    EnsureSpecificWorkflowSpawned("wf:water_and_power");
+                } else {
+                    EnsureWorkflowsSpawnedForAsset(need->governed_asset_id);
+                }
+                EvaluateBpmnTokensAndDependencies();
+                RefreshClusterNodeSummaries();
 
                 if (timing_mode == NeedTimingMode::SCHEDULED_FUTURE) {
                     req.fulfilled = 0U;
@@ -977,12 +1320,20 @@ public:
         dec->proposed_task_release_ring = task_release_ring;
         dec->status = params_changed ? DecisionStatus::ADAPTED_AND_APPROVED : DecisionStatus::APPROVED;
 
-        return ApplyGovernancePolicyToAsset(
-            dec->governed_asset_id,
+        const std::string target_asset_id = dec->governed_asset_id;
+        const bool ok = ApplyGovernancePolicyToAsset(
+            target_asset_id,
             sourcing_mode,
             distribution_policy,
             task_release_ring
         );
+        if (ok && decision_id == "dec:garage_l7_woodwork" &&
+            sourcing_mode != SourcingMode::L7_LEGACY_CHANNEL) {
+            EnsureSpecificWorkflowSpawned("wf:fab_l7_woodwork");
+            EvaluateBpmnTokensAndDependencies();
+            RefreshClusterNodeSummaries();
+        }
+        return ok;
     }
 
     bool AdaptAssetGovernancePolicy(
@@ -1010,76 +1361,180 @@ public:
     }
 
     // ------------------------------------------------------------------------
-    // L4 Multi-Workflow Task Lifecycle Operations
+    // L4 Multi-Workflow BPMN Token Lifecycle Operations
     // ------------------------------------------------------------------------
 
     bool CommitTask(const std::string& task_id) {
+        EvaluateBpmnTokensAndDependencies();
         L4TaskItem* task = FindTaskMutable(task_id);
-        if (task == nullptr) {
+        if (task == nullptr || task->bpmn_token_state != BpmnTokenState::ACTIVE_TOKEN) {
             return false;
         }
         task->task_commitment_state = TaskCommitmentState::COMMITTED_BY_PLAYER;
         task->claimed_by_cluster_id.clear();
         task->last_state_change_tick = current_tick_;
+        RefreshClusterNodeSummaries();
         return true;
     }
 
     bool ReleaseTaskToR1Peers(const std::string& task_id) {
+        if (!IsExternalR1SwarmEnabled()) {
+            return false;
+        }
+        EvaluateBpmnTokensAndDependencies();
         L4TaskItem* task = FindTaskMutable(task_id);
-        if (task == nullptr) {
+        if (task == nullptr || task->bpmn_token_state != BpmnTokenState::ACTIVE_TOKEN) {
             return false;
         }
         task->task_commitment_state = TaskCommitmentState::RELEASED_TO_R1_PEERS;
         task->claimed_by_cluster_id.clear();
         task->last_state_change_tick = current_tick_;
+        RefreshClusterNodeSummaries();
         return true;
     }
 
     bool ClaimTaskByPeerCluster(const std::string& task_id, const std::string& cluster_id) {
+        if (!IsExternalR1SwarmEnabled()) {
+            return false;
+        }
+        EvaluateBpmnTokensAndDependencies();
         L4TaskItem* task = FindTaskMutable(task_id);
-        if (task == nullptr || task->task_commitment_state != TaskCommitmentState::RELEASED_TO_R1_PEERS) {
+        if (task == nullptr ||
+            task->bpmn_token_state != BpmnTokenState::ACTIVE_TOKEN ||
+            task->task_commitment_state != TaskCommitmentState::RELEASED_TO_R1_PEERS) {
             return false;
         }
         task->task_commitment_state = TaskCommitmentState::CLAIMED_BY_PEER_CLUSTER;
         task->claimed_by_cluster_id = cluster_id;
         task->last_state_change_tick = current_tick_;
+        RefreshClusterNodeSummaries();
         return true;
     }
 
-    bool CompleteTask(const std::string& task_id, const std::string& completed_by_cluster_id = "") {
+    bool CompleteTask(
+        const std::string& task_id,
+        const std::string& completed_by_cluster_id = "",
+        uint32_t observed_growth_bp = 0U,
+        uint32_t observed_moisture_bp = 0U
+    ) {
+        EvaluateBpmnTokensAndDependencies();
         L4TaskItem* task = FindTaskMutable(task_id);
-        if (task == nullptr) {
+        if (task == nullptr || task->bpmn_token_state != BpmnTokenState::ACTIVE_TOKEN) {
             return false;
         }
 
-        const bool already_completed = (task->task_commitment_state == TaskCommitmentState::COMPLETED);
+        const std::string parent_wf_id = task->workflow_id;
+        const std::string assigned_node = task->assigned_node_id;
+        const uint64_t task_exergy = task->exergy_cost_uj;
+        const int64_t l7_cents = task->l7_revenue_offset_cents;
+
+        // Special BPMN IntermediateCatchEvent + ExclusiveGateway loop for Step 4 Timed Verification & Watering:
+        // Completing a check before crop_growth_bp >= harvest_mature_bp re-arms WAITING_TIMER instead of unlocking Harvest!
+        if (task_id == "task:pea_4_irrigate_weed") {
+            if (L4WorkflowInstance* wf = FindWorkflowMutable(parent_wf_id)) {
+                const CultivarWorkflowSpec spec = ResolveCultivarSpecOrDefault(wf->input_cultivar_id);
+                if (observed_growth_bp > wf->crop_growth_bp) {
+                    wf->crop_growth_bp = std::min(10000U, observed_growth_bp);
+                }
+                wf->estimated_moisture_bp = (observed_moisture_bp > 0U)
+                                                ? std::max(observed_moisture_bp, spec.target_opt_vwc_bp)
+                                                : spec.target_opt_vwc_bp;
+                ++wf->verification_checks_completed;
+                wf->phenology_stage_label = ComputePhenologyLabel(
+                    wf->crop_growth_bp, wf->crop_sown, spec.harvest_mature_bp);
+
+                ledger_.total_exergy_accounted_uj += task_exergy;
+                AccountNodeTaskCompletion(assigned_node, task_exergy);
+                if (completed_by_cluster_id.empty()) {
+                    ledger_.steward_reputation_bp =
+                        std::min<uint32_t>(10000U, ledger_.steward_reputation_bp + 50U);
+                }
+
+                if (wf->crop_growth_bp < spec.harvest_mature_bp) {
+                    wf->next_verification_due_sim_s =
+                        sim_clock_seconds_ + static_cast<uint64_t>(spec.verification_interval_sim_s);
+                    task->task_commitment_state = TaskCommitmentState::UNASSIGNED;
+                    task->claimed_by_cluster_id.clear();
+                    task->bpmn_token_state = BpmnTokenState::WAITING_TIMER;
+                    task->timer_due_sim_s = wf->next_verification_due_sim_s;
+                    task->timer_remaining_sim_s = spec.verification_interval_sim_s;
+                    task->verification_cycle_index =
+                        static_cast<uint32_t>(wf->verification_checks_completed) + 1U;
+                    task->last_state_change_tick = current_tick_;
+
+                    EmitLocalClusterChoreographyEvent(
+                        "node-03:garden-agro",
+                        "Node 03 — Backyard Agroecology & Soil Node",
+                        "AGRO_TIMED_VERIFICATION",
+                        "Completed verification & watering check #" +
+                            std::to_string(wf->verification_checks_completed) + " on " + spec.title +
+                            " (" + std::to_string(wf->crop_growth_bp / 100U) + "% maturity · " +
+                            wf->phenology_stage_label + "); next BPMN timer check in " +
+                            FormatSimDurationCompact(spec.verification_interval_sim_s) + ".",
+                        task_exergy
+                    );
+
+                    EvaluateBpmnTokensAndDependencies();
+                    RefreshL4AutomationModalities();
+                    RefreshClusterNodeSummaries();
+                    return true;
+                }
+
+                // Maturity reached (>= harvest_mature_bp): exit loop and mark Step 4 COMPLETED!
+                task->task_commitment_state = TaskCommitmentState::COMPLETED;
+                task->bpmn_token_state = BpmnTokenState::COMPLETED;
+                task->timer_remaining_sim_s = 0ULL;
+                task->precondition_blocker_note.clear();
+                if (!completed_by_cluster_id.empty()) {
+                    task->claimed_by_cluster_id = completed_by_cluster_id;
+                }
+                task->last_state_change_tick = current_tick_;
+                EmitLocalClusterChoreographyEvent(
+                    "node-03:garden-agro",
+                    "Node 03 — Backyard Agroecology & Soil Node",
+                    "AGRO_MATURITY_VERIFIED",
+                    "Verified " + spec.title + " reached harvest maturity (" +
+                        std::to_string(wf->crop_growth_bp / 100U) + "%); Step 5 Harvest BPMN token unlocked.",
+                    task_exergy
+                );
+                EvaluateBpmnTokensAndDependencies();
+                RefreshL4AutomationModalities();
+                RefreshClusterNodeSummaries();
+                return true;
+            }
+        }
+
         task->task_commitment_state = TaskCommitmentState::COMPLETED;
+        task->bpmn_token_state = BpmnTokenState::COMPLETED;
+        task->precondition_blocker_note.clear();
         if (!completed_by_cluster_id.empty()) {
             task->claimed_by_cluster_id = completed_by_cluster_id;
         }
         task->last_state_change_tick = current_tick_;
 
-        if (!already_completed) {
-            ledger_.total_exergy_accounted_uj += task->exergy_cost_uj;
-            if (completed_by_cluster_id.empty()) {
-                ledger_.steward_reputation_bp =
-                    std::min<uint32_t>(10000U, ledger_.steward_reputation_bp + 120U);
-            }
-            if (task->l7_revenue_offset_cents > 0) {
-                ledger_.monthly_l7_offset_revenue_cents += task->l7_revenue_offset_cents;
-                ledger_.household_reserve_cents += task->l7_revenue_offset_cents;
-                ++ledger_.completed_l7_offset_orders;
-                if (ledger_.dependency_ratio_bp > 300U) {
-                    ledger_.dependency_ratio_bp -= 300U;
-                } else {
-                    ledger_.dependency_ratio_bp = 0U;
-                }
+        ledger_.total_exergy_accounted_uj += task_exergy;
+        AccountNodeTaskCompletion(assigned_node, task_exergy);
+
+        if (completed_by_cluster_id.empty()) {
+            ledger_.steward_reputation_bp =
+                std::min<uint32_t>(10000U, ledger_.steward_reputation_bp + 120U);
+        }
+        if (l7_cents > 0) {
+            ledger_.monthly_l7_offset_revenue_cents += l7_cents;
+            ledger_.household_reserve_cents += l7_cents;
+            ++ledger_.completed_l7_offset_orders;
+            if (ledger_.dependency_ratio_bp > 300U) {
+                ledger_.dependency_ratio_bp -= 300U;
+            } else {
+                ledger_.dependency_ratio_bp = 0U;
             }
         }
 
+        ApplyPhysicalChoreographyOnTaskCompleted(task_id, task_exergy);
+
         // Check if all tasks in parent workflow are completed
         for (auto& wf : workflows_) {
-            if (wf.workflow_id == task->workflow_id) {
+            if (wf.workflow_id == parent_wf_id) {
                 bool all_done = !wf.tasks.empty();
                 for (const auto& step : wf.tasks) {
                     if (step.task_commitment_state != TaskCommitmentState::COMPLETED) {
@@ -1087,13 +1542,73 @@ public:
                         break;
                     }
                 }
-                if (all_done && !already_completed) {
+                if (all_done) {
                     ++wf.completed_cycles;
                 }
                 break;
             }
         }
+
+        EvaluateBpmnTokensAndDependencies();
+        RefreshL4AutomationModalities();
+        RefreshClusterNodeSummaries();
         return true;
+    }
+
+    bool StartNewWorkflowCycle(const std::string& workflow_id, const std::string& optional_cultivar_id = "") {
+        if (!optional_cultivar_id.empty()) {
+            if (const CultivarWorkflowSpec* c = FindCultivar(optional_cultivar_id)) {
+                selected_garden_cultivar_id_ = c->cultivar_id;
+            }
+        }
+        for (auto& wf : workflows_) {
+            if (wf.workflow_id != workflow_id || wf.tasks.empty()) {
+                continue;
+            }
+            for (const auto& step : wf.tasks) {
+                if (step.task_commitment_state != TaskCommitmentState::COMPLETED) {
+                    return false; // Current cycle still in progress
+                }
+            }
+            wf.crop_sown = 0U;
+            wf.crop_sown_sim_s = 0ULL;
+            wf.last_growth_eval_sim_s = 0ULL;
+            wf.next_verification_due_sim_s = 0ULL;
+            wf.crop_growth_bp = 0U;
+            wf.estimated_moisture_bp = 3200U;
+            wf.estimated_nitrogen_ppm = 72U;
+            wf.growth_sub_accum = 0U;
+            wf.moisture_et_sub_accum = 0U;
+            wf.nitrogen_sub_accum = 0U;
+            wf.verification_checks_completed = 0U;
+            wf.auto_l2_checks_completed = 0U;
+            wf.phenology_stage_label = "Unsown Bed";
+            if (wf.workflow_id == "wf:pea_cultivation") {
+                ApplyCultivarParametersToWorkflow(wf, ResolveCultivarSpecOrDefault(selected_garden_cultivar_id_));
+            }
+            const L5GovernedAsset* asset = FindAsset(wf.asset_id);
+            const bool auto_release_r1 =
+                IsExternalR1SwarmEnabled() &&
+                (asset != nullptr) &&
+                (asset->task_release_ring == TaskReleaseRing::R1_PEER_CLUSTERS);
+            for (auto& step : wf.tasks) {
+                step.task_commitment_state = auto_release_r1
+                                                 ? TaskCommitmentState::RELEASED_TO_R1_PEERS
+                                                 : TaskCommitmentState::UNASSIGNED;
+                step.bpmn_token_state = BpmnTokenState::WAITING_SEQUENCE_FLOW;
+                step.timer_due_sim_s = 0ULL;
+                step.timer_remaining_sim_s = 0ULL;
+                step.verification_cycle_index = 0U;
+                step.claimed_by_cluster_id.clear();
+                step.precondition_blocker_note.clear();
+                step.last_state_change_tick = current_tick_;
+            }
+            EvaluateBpmnTokensAndDependencies();
+            RefreshL4AutomationModalities();
+            RefreshClusterNodeSummaries();
+            return true;
+        }
+        return false;
     }
 
     bool AnswerUnmodeledMicroDetailPrompt(const std::string& task_id, const std::string& answer) {
@@ -1145,11 +1660,12 @@ public:
                 valve = l2_telemetry_.FindRegisterMutable("irrigation_valve_v1");
             }
             if (valve != nullptr) {
-                // Target Living Terra Preta moisture >= 4000 bp (40.0%); open below 3800 bp
-                if (soil->moisture_bp < 3800U) {
+                const CultivarWorkflowSpec spec = ResolveCultivarSpecOrDefault(selected_garden_cultivar_id_);
+                const uint32_t open_below_bp = std::max(3200U, spec.target_min_vwc_bp + 400U);
+                if (soil->moisture_bp < open_below_bp) {
                     valve->actuator_commanded_on = 1U;
                     valve->actuator_level_bp = 10000U;
-                } else if (soil->moisture_bp >= 4200U) {
+                } else if (soil->moisture_bp >= spec.target_opt_vwc_bp) {
                     valve->actuator_commanded_on = 0U;
                     valve->actuator_level_bp = 0U;
                 }
@@ -1174,6 +1690,7 @@ public:
                 }
             }
         }
+        RefreshClusterNodeSummaries();
     }
 
     void IngestL2Register(const L2SensorRegister& reg) {
@@ -1186,11 +1703,22 @@ public:
         if (copy.cumulative_exergy_uj > 0ULL) {
             ledger_.total_exergy_accounted_uj += copy.cumulative_exergy_uj;
         }
+        EvaluateBpmnTokensAndDependencies();
         RefreshL4AutomationModalities();
     }
 
     std::string IngestL2PinsPayload(std::string_view payload) {
         ++current_tick_;
+
+        // 0. Synchronize simulation clock seconds when forwarded by 3D engine (epistemic-safe: carries no private registers)
+        if (json_util::HasKey(payload, "sim_clock_seconds")) {
+            const uint64_t incoming_clock_s =
+                json_util::ExtractUint64(payload, "sim_clock_seconds", sim_clock_seconds_);
+            if (incoming_clock_s > sim_clock_seconds_) {
+                sim_clock_seconds_ = incoming_clock_s;
+                sim_day_ = 1U + static_cast<uint32_t>(sim_clock_seconds_ / 86400ULL);
+            }
+        }
 
         // 1. Nested object or flat keys for soil_probe_v1
         std::string_view soil_obj = json_util::ExtractObjectSlice(payload, "soil_probe_v1");
@@ -1219,6 +1747,9 @@ public:
             soil.concentration_ppm = static_cast<uint32_t>(json_util::ExtractUint64(
                 src, "concentration_ppm",
                 json_util::ExtractUint64(src, "nitrogen_ppm", soil.concentration_ppm)));
+            soil.crop_growth_bp = static_cast<uint32_t>(json_util::ExtractUint64(
+                src, "crop_growth_bp",
+                json_util::ExtractUint64(payload, "crop_growth_bp", soil.crop_growth_bp)));
             l2_telemetry_.UpsertRegister(soil);
         }
 
@@ -1296,6 +1827,8 @@ public:
                 json_util::ExtractUint64(payload, "actuator_level_bp", reg.actuator_level_bp));
             reg.hold_duration_ms = static_cast<uint32_t>(
                 json_util::ExtractUint64(payload, "hold_duration_ms", reg.hold_duration_ms));
+            reg.crop_growth_bp = static_cast<uint32_t>(
+                json_util::ExtractUint64(payload, "crop_growth_bp", reg.crop_growth_bp));
             reg.actuator_commanded_on = (reg.actuator_level_bp > 0U ||
                                          json_util::ExtractBool(payload, "actuator_commanded_on", false))
                                             ? 1U
@@ -1305,6 +1838,8 @@ public:
 
         l2_telemetry_.last_update_tick = current_tick_;
         RefreshL4AutomationModalities();
+        EvaluateBpmnTokensAndDependencies();
+        RefreshClusterNodeSummaries();
 
         // Serialize L2 actuator pin command response
         const L2SensorRegister* valve = l2_telemetry_.FindRegister("irrigation_valve_v1");
@@ -1428,6 +1963,10 @@ public:
             if (decision_id.empty()) {
                 decision_id = json_util::ExtractString(args, "id");
             }
+            const std::string cultivar_id = json_util::ExtractString(args, "cultivar_id");
+            if (!cultivar_id.empty()) {
+                (void)SetGardenCultivar(cultivar_id);
+            }
             const bool approve = json_util::ExtractBool(args, "approve", true);
             bool ok = false;
             if (L6PendingDecision* dec = FindDecisionMutable(decision_id)) {
@@ -1459,6 +1998,10 @@ public:
             if (target_id.empty()) {
                 target_id = json_util::ExtractString(args, "id");
             }
+            const std::string cultivar_id = json_util::ExtractString(args, "cultivar_id");
+            if (!cultivar_id.empty()) {
+                (void)SetGardenCultivar(cultivar_id);
+            }
             SourcingMode sm_default = SourcingMode::R0_LOCAL_WORKFLOWS;
             DistributionPolicy dp_default = DistributionPolicy::R1_TRUST_RING_COMMONS;
             TaskReleaseRing tr_default = TaskReleaseRing::R0_STEWARD_ONLY;
@@ -1482,13 +2025,37 @@ public:
             return SerializeFullNodeSnapshotJson();
         }
 
+        if (resolved_action == "set_cultivar") {
+            std::string cultivar_id = json_util::ExtractString(args, "cultivar_id");
+            if (cultivar_id.empty()) {
+                cultivar_id = json_util::ExtractString(args, "id");
+            }
+            const bool ok = SetGardenCultivar(cultivar_id);
+            last_command_status_ = ok ? "OK" : "UNKNOWN_CULTIVAR";
+            return SerializeFullNodeSnapshotJson();
+        }
+
+        if (resolved_action == "advance_sim_clock") {
+            if (json_util::HasKey(args, "ambient_temp_mk")) {
+                SetAmbientTempOverrideMk(
+                    static_cast<uint32_t>(json_util::ExtractUint64(args, "ambient_temp_mk", 0ULL)));
+            }
+            uint64_t delta_s = json_util::ExtractUint64(args, "delta_sim_seconds", 0ULL);
+            if (delta_s == 0ULL) {
+                delta_s = json_util::ExtractUint64(args, "seconds", 0ULL);
+            }
+            AdvanceSimClockSeconds(delta_s);
+            last_command_status_ = "OK";
+            return SerializeFullNodeSnapshotJson();
+        }
+
         if (resolved_action == "commit_task") {
             std::string task_id = json_util::ExtractString(args, "task_id");
             if (task_id.empty()) {
                 task_id = json_util::ExtractString(args, "id");
             }
             const bool ok = CommitTask(task_id);
-            last_command_status_ = ok ? "OK" : "NOT_FOUND";
+            last_command_status_ = ok ? "OK" : "BLOCKED_OR_NOT_ACTIVE_TOKEN";
             return SerializeFullNodeSnapshotJson();
         }
 
@@ -1498,7 +2065,7 @@ public:
                 task_id = json_util::ExtractString(args, "id");
             }
             const bool ok = ReleaseTaskToR1Peers(task_id);
-            last_command_status_ = ok ? "OK" : "NOT_FOUND";
+            last_command_status_ = ok ? "OK" : "SOLO_CLUSTER_OR_NOT_ACTIVE_TOKEN";
             return SerializeFullNodeSnapshotJson();
         }
 
@@ -1508,8 +2075,31 @@ public:
                 task_id = json_util::ExtractString(args, "id");
             }
             const std::string cluster_id = json_util::ExtractString(args, "cluster_id");
-            const bool ok = CompleteTask(task_id, cluster_id);
-            last_command_status_ = ok ? "OK" : "NOT_FOUND";
+            const uint32_t obs_growth_bp = static_cast<uint32_t>(
+                json_util::ExtractUint64(args, "observed_growth_bp", 0ULL));
+            const uint32_t obs_moisture_bp = static_cast<uint32_t>(
+                json_util::ExtractUint64(args, "observed_moisture_bp", 0ULL));
+            const bool ok = CompleteTask(task_id, cluster_id, obs_growth_bp, obs_moisture_bp);
+            last_command_status_ = ok ? "OK" : "BLOCKED_OR_NOT_ACTIVE_TOKEN";
+            return SerializeFullNodeSnapshotJson();
+        }
+
+        if (resolved_action == "start_workflow_cycle") {
+            std::string wf_id = json_util::ExtractString(args, "workflow_id");
+            if (wf_id.empty()) {
+                wf_id = json_util::ExtractString(args, "id");
+            }
+            const std::string cultivar_id = json_util::ExtractString(args, "cultivar_id");
+            const bool ok = StartNewWorkflowCycle(wf_id, cultivar_id);
+            last_command_status_ = ok ? "OK" : "CYCLE_IN_PROGRESS_OR_NOT_FOUND";
+            return SerializeFullNodeSnapshotJson();
+        }
+
+        if (resolved_action == "set_external_swarm") {
+            const bool enabled = json_util::ExtractBool(
+                args, "enabled", !IsExternalR1SwarmEnabled());
+            SetExternalR1SwarmEnabled(enabled);
+            last_command_status_ = "OK";
             return SerializeFullNodeSnapshotJson();
         }
 
@@ -1533,6 +2123,13 @@ public:
             return SerializeFullNodeSnapshotJson();
         }
 
+        if (resolved_action == "reset_homestead_cluster") {
+            Bootstrap();
+            last_command_action_ = "reset_homestead_cluster";
+            last_command_status_ = "OK";
+            return SerializeFullNodeSnapshotJson();
+        }
+
         last_command_status_ = "UNSUPPORTED_ACTION";
         std::ostringstream err;
         err << "{\n"
@@ -1547,14 +2144,88 @@ public:
         std::ostringstream oss;
         oss << "{\n"
             << "  \"ok\": true,\n"
-            << "  \"schema_version\": \"oasis.stack.snapshot.v1\",\n"
-            << "  \"node_did\": \"did:mesh:node01:homestead\",\n"
+            << "  \"schema_version\": \"oasis.stack.snapshot.v2\",\n"
+            << "  \"node_did\": \"did:mesh:lot402:homestead-cluster\",\n"
+            << "  \"cluster_mode\": \"" << (IsExternalR1SwarmEnabled() ? "R1_FEDERATED_SWARM" : "SOLO_STEWARD_4_NODE_CLUSTER") << "\",\n"
+            << "  \"external_r1_swarm_enabled\": " << (IsExternalR1SwarmEnabled() ? "true" : "false") << ",\n"
             << "  \"tick\": " << current_tick_ << ",\n"
             << "  \"sim_day\": " << sim_day_ << ",\n"
+            << "  \"sim_clock_seconds\": " << sim_clock_seconds_ << ",\n"
+            << "  \"ambient_temp_mk\": " << CurrentAmbientTempMk() << ",\n"
+            << "  \"selected_cultivar_id\": \"" << json_util::Escape(selected_garden_cultivar_id_) << "\",\n"
             << "  \"bootstrapped_from_jsonld\": " << (bootstrapped_from_jsonld_ != 0U ? "true" : "false") << ",\n"
             << "  \"bootstrap_source\": \"" << json_util::Escape(bootstrap_source_path_) << "\",\n"
             << "  \"last_command_action\": \"" << json_util::Escape(last_command_action_) << "\",\n"
-            << "  \"last_command_status\": \"" << json_util::Escape(last_command_status_) << "\",\n";
+            << "  \"last_command_status\": \"" << json_util::Escape(last_command_status_) << "\",\n"
+            << "  \"homestead_physical_state\": {\n"
+            << "    \"raised_bed_frames_built\": " << raised_bed_frames_built_ << ",\n"
+            << "    \"compost_kiln_units_built\": " << compost_kiln_units_built_ << ",\n"
+            << "    \"poultry_coops_built\": " << poultry_coops_built_ << ",\n"
+            << "    \"harvested_split_pea_batches\": " << harvested_split_pea_batches_ << ",\n"
+            << "    \"harvested_mirepoix_batches\": " << harvested_mirepoix_batches_ << ",\n"
+            << "    \"poultry_bones_and_eggs_batches\": " << poultry_bones_and_eggs_batches_ << ",\n"
+            << "    \"thermophilic_compost_batches\": " << thermophilic_compost_batches_ << ",\n"
+            << "    \"biochar_batches\": " << biochar_batches_ << ",\n"
+            << "    \"simmered_bone_broth_batches\": " << simmered_bone_broth_batches_ << ",\n"
+            << "    \"served_pea_soup_tiffin_batches\": " << served_pea_soup_tiffin_batches_ << "\n"
+            << "  },\n";
+
+        // 0A. Parameterized Legume Cultivars (Fabaceae Real & Sim-Tuned Virtual Varieties)
+        oss << "  \"available_cultivars\": [";
+        for (size_t i = 0U; i < cultivars_.size(); ++i) {
+            const auto& c = cultivars_[i];
+            oss << (i == 0U ? "\n" : ",\n")
+                << "    {\n"
+                << "      \"cultivar_id\": \"" << json_util::Escape(c.cultivar_id) << "\",\n"
+                << "      \"title\": \"" << json_util::Escape(c.title) << "\",\n"
+                << "      \"species_binomial\": \"" << json_util::Escape(c.species_binomial) << "\",\n"
+                << "      \"agronomic_notes\": \"" << json_util::Escape(c.agronomic_notes) << "\",\n"
+                << "      \"maturity_sim_seconds\": " << c.maturity_sim_seconds << ",\n"
+                << "      \"maturity_label\": \"" << json_util::Escape(FormatSimDurationCompact(c.maturity_sim_seconds)) << "\",\n"
+                << "      \"verification_interval_sim_s\": " << c.verification_interval_sim_s << ",\n"
+                << "      \"verification_interval_label\": \"" << json_util::Escape(FormatSimDurationCompact(c.verification_interval_sim_s)) << "\",\n"
+                << "      \"min_growth_temp_mk\": " << c.min_growth_temp_mk << ",\n"
+                << "      \"opt_low_temp_mk\": " << c.opt_low_temp_mk << ",\n"
+                << "      \"opt_high_temp_mk\": " << c.opt_high_temp_mk << ",\n"
+                << "      \"max_growth_temp_mk\": " << c.max_growth_temp_mk << ",\n"
+                << "      \"target_min_vwc_bp\": " << c.target_min_vwc_bp << ",\n"
+                << "      \"target_opt_vwc_bp\": " << c.target_opt_vwc_bp << ",\n"
+                << "      \"target_max_vwc_bp\": " << c.target_max_vwc_bp << ",\n"
+                << "      \"irrigation_dose_ml\": " << c.irrigation_dose_ml << ",\n"
+                << "      \"harvest_mature_bp\": " << c.harvest_mature_bp << ",\n"
+                << "      \"trellis_ridge_height_mm\": " << c.trellis_ridge_height_mm << ",\n"
+                << "      \"sowing_depth_mm\": " << c.sowing_depth_mm << ",\n"
+                << "      \"n_draw_per_band_ppm\": " << static_cast<uint32_t>(c.n_draw_per_band_ppm) << ",\n"
+                << "      \"fixes_atmospheric_n2\": " << (c.fixes_atmospheric_n2 != 0U ? "true" : "false") << ",\n"
+                << "      \"is_virtual_sim_tuned\": " << (c.is_virtual_sim_tuned != 0U ? "true" : "false") << ",\n"
+                << "      \"harvest_legume_batches\": " << static_cast<uint32_t>(c.harvest_legume_batches) << ",\n"
+                << "      \"harvest_mirepoix_batches\": " << static_cast<uint32_t>(c.harvest_mirepoix_batches) << "\n"
+                << "    }";
+        }
+        oss << (cultivars_.empty() ? "],\n" : "\n  ],\n");
+
+        // 0B. Solo Steward 4-Node Personal Homestead Cluster Topology
+        oss << "  \"homestead_cluster_nodes\": [";
+        for (size_t i = 0U; i < cluster_nodes_.size(); ++i) {
+            const auto& cn = cluster_nodes_[i];
+            oss << (i == 0U ? "\n" : ",\n")
+                << "    {\n"
+                << "      \"node_id\": \"" << json_util::Escape(cn.node_id) << "\",\n"
+                << "      \"node_did\": \"" << json_util::Escape(cn.node_did) << "\",\n"
+                << "      \"title\": \"" << json_util::Escape(cn.title) << "\",\n"
+                << "      \"zone_label\": \"" << json_util::Escape(cn.zone_label) << "\",\n"
+                << "      \"daemons_hosted\": \"" << json_util::Escape(cn.daemons_hosted) << "\",\n"
+                << "      \"role_summary\": \"" << json_util::Escape(cn.role_summary) << "\",\n"
+                << "      \"active_token_summary\": \"" << json_util::Escape(cn.active_token_summary) << "\",\n"
+                << "      \"inventory_summary\": \"" << json_util::Escape(cn.inventory_summary) << "\",\n"
+                << "      \"accounted_exergy_uj\": " << cn.accounted_exergy_uj << ",\n"
+                << "      \"active_workflow_count\": " << cn.active_workflow_count << ",\n"
+                << "      \"completed_task_count\": " << cn.completed_task_count << ",\n"
+                << "      \"online_l2_pin_count\": " << cn.online_l2_pin_count << ",\n"
+                << "      \"is_online\": " << (cn.is_online != 0U ? "true" : "false") << "\n"
+                << "    }";
+        }
+        oss << (cluster_nodes_.empty() ? "],\n" : "\n  ],\n");
 
         // Optional search_results from last search_needs command
         oss << "  \"search_results\": [";
@@ -1652,24 +2323,53 @@ public:
         }
         oss << (governed_assets_.empty() ? "],\n" : "\n  ],\n");
 
-        // 5. L4 Workflows & Tasks
+        // 5. L4 Workflows & Tasks (Strictly BPMN Token-Sequenced + Timed Catch Events)
         oss << "  \"l4_workflows\": [";
         std::vector<const L4TaskItem*> committed_tasks;
+        std::vector<const L4TaskItem*> available_tasks;
+        std::vector<const L4TaskItem*> waiting_timer_tasks;
+        std::vector<const L4TaskItem*> active_token_tasks;
         for (size_t i = 0U; i < workflows_.size(); ++i) {
             const auto& wf = workflows_[i];
             oss << (i == 0U ? "\n" : ",\n")
                 << "    {\n"
                 << "      \"workflow_id\": \"" << json_util::Escape(wf.workflow_id) << "\",\n"
                 << "      \"asset_id\": \"" << json_util::Escape(wf.asset_id) << "\",\n"
+                << "      \"assigned_node_id\": \"" << json_util::Escape(wf.assigned_node_id) << "\",\n"
                 << "      \"title\": \"" << json_util::Escape(wf.title) << "\",\n"
+                << "      \"input_cultivar_id\": \"" << json_util::Escape(wf.input_cultivar_id) << "\",\n"
+                << "      \"input_cultivar_title\": \"" << json_util::Escape(wf.input_cultivar_title) << "\",\n"
+                << "      \"species_binomial\": \"" << json_util::Escape(wf.species_binomial) << "\",\n"
+                << "      \"phenology_stage_label\": \"" << json_util::Escape(wf.phenology_stage_label) << "\",\n"
+                << "      \"crop_sown\": " << (wf.crop_sown != 0U ? "true" : "false") << ",\n"
+                << "      \"is_virtual_cultivar\": " << (wf.is_virtual_cultivar != 0U ? "true" : "false") << ",\n"
+                << "      \"fixes_atmospheric_n2\": " << (wf.fixes_atmospheric_n2 != 0U ? "true" : "false") << ",\n"
+                << "      \"crop_growth_bp\": " << wf.crop_growth_bp << ",\n"
+                << "      \"harvest_mature_bp\": " << wf.harvest_mature_bp << ",\n"
+                << "      \"maturity_sim_seconds\": " << wf.maturity_sim_seconds << ",\n"
+                << "      \"verification_interval_sim_s\": " << wf.verification_interval_sim_s << ",\n"
+                << "      \"estimated_moisture_bp\": " << wf.estimated_moisture_bp << ",\n"
+                << "      \"estimated_nitrogen_ppm\": " << wf.estimated_nitrogen_ppm << ",\n"
+                << "      \"verification_checks_completed\": " << wf.verification_checks_completed << ",\n"
+                << "      \"auto_l2_checks_completed\": " << wf.auto_l2_checks_completed << ",\n"
+                << "      \"next_verification_due_sim_s\": " << wf.next_verification_due_sim_s << ",\n"
                 << "      \"is_active\": " << (wf.is_active != 0U ? "true" : "false") << ",\n"
                 << "      \"completed_cycles\": " << wf.completed_cycles << ",\n"
                 << "      \"spawned_tick\": " << wf.spawned_tick << ",\n"
                 << "      \"tasks\": [";
             for (size_t j = 0U; j < wf.tasks.size(); ++j) {
                 const auto& t = wf.tasks[j];
-                if (t.task_commitment_state == TaskCommitmentState::COMMITTED_BY_PLAYER) {
+                if (t.task_commitment_state == TaskCommitmentState::COMMITTED_BY_PLAYER &&
+                    t.bpmn_token_state == BpmnTokenState::ACTIVE_TOKEN) {
                     committed_tasks.push_back(&t);
+                }
+                if (t.bpmn_token_state == BpmnTokenState::ACTIVE_TOKEN) {
+                    active_token_tasks.push_back(&t);
+                    if (t.task_commitment_state == TaskCommitmentState::UNASSIGNED) {
+                        available_tasks.push_back(&t);
+                    }
+                } else if (t.bpmn_token_state == BpmnTokenState::WAITING_TIMER) {
+                    waiting_timer_tasks.push_back(&t);
                 }
                 oss << (j == 0U ? "\n" : ",\n");
                 AppendTaskJson(oss, t, 8U);
@@ -1679,7 +2379,39 @@ public:
         }
         oss << (workflows_.empty() ? "],\n" : "\n  ],\n");
 
-        // 6. Flat L4 Committed Player Tasks
+        // 5B. Active BPMN Execution Tokens (used by 3D Spatial Context Menu & HUD)
+        oss << "  \"active_bpmn_tokens\": [";
+        for (size_t i = 0U; i < active_token_tasks.size(); ++i) {
+            const auto& t = *active_token_tasks[i];
+            oss << (i == 0U ? "\n" : ",\n")
+                << "    {\n"
+                << "      \"task_id\": \"" << json_util::Escape(t.task_id) << "\",\n"
+                << "      \"workflow_id\": \"" << json_util::Escape(t.workflow_id) << "\",\n"
+                << "      \"assigned_node_id\": \"" << json_util::Escape(t.assigned_node_id) << "\",\n"
+                << "      \"mapped_affordance_id\": \"" << json_util::Escape(t.mapped_affordance_id) << "\",\n"
+                << "      \"title\": \"" << json_util::Escape(t.title) << "\",\n"
+                << "      \"task_commitment_state\": \"" << ToString(t.task_commitment_state) << "\"\n"
+                << "    }";
+        }
+        oss << (active_token_tasks.empty() ? "],\n" : "\n  ],\n");
+
+        // 6A. Flat L4 Available Unassigned Tasks (Active Token Only — powers HUD Available Tasks window)
+        oss << "  \"l4_available_tasks\": [";
+        for (size_t i = 0U; i < available_tasks.size(); ++i) {
+            oss << (i == 0U ? "\n" : ",\n");
+            AppendTaskJson(oss, *available_tasks[i], 4U);
+        }
+        oss << (available_tasks.empty() ? "],\n" : "\n  ],\n");
+
+        // 6B. Flat L4 Active BPMN Timer Catch Events (powers HUD timer countdown badges)
+        oss << "  \"l4_waiting_timers\": [";
+        for (size_t i = 0U; i < waiting_timer_tasks.size(); ++i) {
+            oss << (i == 0U ? "\n" : ",\n");
+            AppendTaskJson(oss, *waiting_timer_tasks[i], 4U);
+        }
+        oss << (waiting_timer_tasks.empty() ? "],\n" : "\n  ],\n");
+
+        // 6C. Flat L4 Committed Player Tasks (Active Token Only)
         oss << "  \"l4_committed_tasks\": [";
         for (size_t i = 0U; i < committed_tasks.size(); ++i) {
             oss << (i == 0U ? "\n" : ",\n");
@@ -1687,7 +2419,7 @@ public:
         }
         oss << (committed_tasks.empty() ? "],\n" : "\n  ],\n");
 
-        // 7. L3 Exergy, Pairwise BCC & Peer Weather
+        // 7. L3 Exergy, Pairwise BCC & Inter-Node / Peer Weather
         oss << "  \"l3_ledger\": {\n"
             << "    \"total_exergy_accounted_uj\": " << ledger_.total_exergy_accounted_uj << ",\n"
             << "    \"bcc_zero_sum_invariant_ok\": " << (ledger_.VerifyPairwiseZeroSumInvariant() ? "true" : "false") << ",\n"
@@ -1817,6 +2549,10 @@ private:
             << pad << "  \"task_id\": \"" << json_util::Escape(t.task_id) << "\",\n"
             << pad << "  \"workflow_id\": \"" << json_util::Escape(t.workflow_id) << "\",\n"
             << pad << "  \"asset_id\": \"" << json_util::Escape(t.asset_id) << "\",\n"
+            << pad << "  \"assigned_node_id\": \"" << json_util::Escape(t.assigned_node_id) << "\",\n"
+            << pad << "  \"mapped_affordance_id\": \"" << json_util::Escape(t.mapped_affordance_id) << "\",\n"
+            << pad << "  \"bpmn_token_state\": \"" << ToString(t.bpmn_token_state) << "\",\n"
+            << pad << "  \"precondition_blocker_note\": \"" << json_util::Escape(t.precondition_blocker_note) << "\",\n"
             << pad << "  \"step_index\": " << t.step_index << ",\n"
             << pad << "  \"title\": \"" << json_util::Escape(t.title) << "\",\n"
             << pad << "  \"location_label\": \"" << json_util::Escape(t.location_label) << "\",\n"
@@ -1830,6 +2566,11 @@ private:
             << pad << "  \"l2_actuator_register_id\": \"" << json_util::Escape(t.l2_actuator_register_id) << "\",\n"
             << pad << "  \"target_temp_min_mk\": " << t.target_temp_min_mk << ",\n"
             << pad << "  \"target_moisture_max_bp\": " << t.target_moisture_max_bp << ",\n"
+            << pad << "  \"timer_due_sim_s\": " << t.timer_due_sim_s << ",\n"
+            << pad << "  \"timer_remaining_sim_s\": " << t.timer_remaining_sim_s << ",\n"
+            << pad << "  \"timer_remaining_label\": \"" << json_util::Escape(FormatSimDurationCompact(t.timer_remaining_sim_s)) << "\",\n"
+            << pad << "  \"timer_interval_sim_s\": " << t.timer_interval_sim_s << ",\n"
+            << pad << "  \"verification_cycle_index\": " << t.verification_cycle_index << ",\n"
             << pad << "  \"claimed_by_cluster_id\": \"" << json_util::Escape(t.claimed_by_cluster_id) << "\",\n"
             << pad << "  \"has_unmodeled_micro_detail\": " << (t.has_unmodeled_micro_detail != 0U ? "true" : "false") << ",\n"
             << pad << "  \"unmodeled_prompt_resolved\": " << (t.unmodeled_prompt_resolved != 0U ? "true" : "false") << ",\n"
@@ -1862,6 +2603,7 @@ private:
                 << pad << "      \"temperature_mk\": " << r.temperature_mk << ",\n"
                 << pad << "      \"moisture_bp\": " << r.moisture_bp << ",\n"
                 << pad << "      \"concentration_ppm\": " << r.concentration_ppm << ",\n"
+                << pad << "      \"crop_growth_bp\": " << r.crop_growth_bp << ",\n"
                 << pad << "      \"actuator_level_bp\": " << r.actuator_level_bp << ",\n"
                 << pad << "      \"hold_duration_ms\": " << r.hold_duration_ms << ",\n"
                 << pad << "      \"cumulative_exergy_uj\": " << r.cumulative_exergy_uj << ",\n"
@@ -1946,8 +2688,716 @@ private:
         return nullptr;
     }
 
+    [[nodiscard]] const L4WorkflowInstance* FindWorkflow(std::string_view wf_id) const noexcept {
+        for (const auto& wf : workflows_) {
+            if (wf.workflow_id == wf_id) {
+                return &wf;
+            }
+        }
+        return nullptr;
+    }
+
+    [[nodiscard]] L4WorkflowInstance* FindWorkflowMutable(std::string_view wf_id) noexcept {
+        for (auto& wf : workflows_) {
+            if (wf.workflow_id == wf_id) {
+                return &wf;
+            }
+        }
+        return nullptr;
+    }
+
+    [[nodiscard]] bool HasWorkflow(std::string_view wf_id) const noexcept {
+        return FindWorkflow(wf_id) != nullptr;
+    }
+
+    [[nodiscard]] CultivarWorkflowSpec ResolveCultivarSpecOrDefault(std::string_view cultivar_id) const {
+        if (const CultivarWorkflowSpec* found = FindCultivar(cultivar_id)) {
+            return *found;
+        }
+        if (const CultivarWorkflowSpec* selected = FindCultivar(selected_garden_cultivar_id_)) {
+            return *selected;
+        }
+        if (!cultivars_.empty()) {
+            return cultivars_.front();
+        }
+        CultivarWorkflowSpec fallback{};
+        fallback.cultivar_id = "cultivar:chrono_virtual_pea";
+        fallback.title = "Chrono-Pod Virtual Pea (Sim-Tuned Fast Cycle)";
+        fallback.species_binomial = "Pisum virtualis";
+        return fallback;
+    }
+
     // ------------------------------------------------------------------------
-    // Initialization & L4 Lifecycle Spawning
+    // Solo Steward 4-Node Personal Homestead Cluster & BPMN Token Choreography
+    // ------------------------------------------------------------------------
+
+    void InitializeHomesteadClusterNodes() {
+        auto add_node = [&](const char* node_id,
+                            const char* node_did,
+                            const char* title,
+                            const char* zone_label,
+                            const char* daemons_hosted,
+                            const char* role_summary,
+                            uint64_t initial_exergy_uj) {
+            HomesteadClusterNode cn{};
+            cn.node_id = node_id;
+            cn.node_did = node_did;
+            cn.title = title;
+            cn.zone_label = zone_label;
+            cn.daemons_hosted = daemons_hosted;
+            cn.role_summary = role_summary;
+            cn.active_token_summary = "Idle — awaiting L5 governance or BPMN token";
+            cn.inventory_summary = "Baseline R0 ready";
+            cn.accounted_exergy_uj = initial_exergy_uj;
+            cn.is_online = 1U;
+            cluster_nodes_.push_back(cn);
+        };
+
+        add_node(
+            "node-01:office-coordinator",
+            "did:mesh:lot402:node-01-office",
+            "Node 01 — Office Sovereign Coordinator",
+            "Office Workstation (13, 1, 3)",
+            "col-gatewayd · col-commonsd · col-kmsd · col-adversaryd",
+            "L6/L5 Policy Coordination, KMS Identity & Solar/Cistern Stewardship",
+            30600000000ULL
+        );
+        add_node(
+            "node-02:garage-fab",
+            "did:mesh:lot402:node-02-garage",
+            "Node 02 — Garage Mini-Fab & Joinery Node",
+            "Garage Joinery Bench (9, 1, 13)",
+            "col-execd (fab-lane) · col-storaged",
+            "On-demand Raised Bed Milling, Compost/Kiln Hardware, Poultry Coops & L7 Woodwork",
+            0ULL
+        );
+        add_node(
+            "node-03:garden-agro",
+            "did:mesh:lot402:node-03-garden",
+            "Node 03 — Backyard Agroecology & Soil Node",
+            "Backyard Keyline & Coop (20, 1, 5)",
+            "col-telemetryd (soil_probe_v1 / irrigation_valve_v1) · col-execd (agro-lane) · col-meshd",
+            "Keyline Pea Cultivation, Thermophilic Compost, TLUD Biochar & Pasture Poultry",
+            0ULL
+        );
+        add_node(
+            "node-04:hearth-galley",
+            "did:mesh:lot402:node-04-hearth",
+            "Node 04 — Kitchen Induction Hearth & Galley Node",
+            "Kitchen Induction Hearth (11, 1, 3)",
+            "col-execd (hearth-lane) · col-telemetryd (culinary_vessel_v1)",
+            "24h Collagen Bone Broth, >=74C Bigelow Pea Soup & Stainless Tiffin Service",
+            0ULL
+        );
+
+        EmitLocalClusterChoreographyEvent(
+            "node-01:office-coordinator",
+            "Node 01 — Office Sovereign Coordinator",
+            "CLUSTER_BOOT",
+            "Solo 4-Node Homestead Cluster booted on Lot 402 (node-01..node-04 online over local L3 mesh; external R1 peer swarm deferred).",
+            0ULL
+        );
+    }
+
+    void EmitLocalClusterChoreographyEvent(
+        const std::string& node_id,
+        const std::string& node_title,
+        const std::string& category,
+        const std::string& summary,
+        uint64_t exergy_delta_uj
+    ) {
+        L3MeshWeatherEvent ev{};
+        ev.event_id = "l3-local:" + std::to_string(current_tick_) + ":" +
+                      std::to_string(ledger_.mesh_weather_feed.size() + 1U);
+        ev.cluster_id = node_id;
+        ev.cluster_title = node_title;
+        ev.event_category = category;
+        ev.summary = summary;
+        ev.exergy_delta_uj = exergy_delta_uj;
+        ev.tick = current_tick_;
+        PushMeshWeatherEvent(ev);
+    }
+
+    void AccountNodeTaskCompletion(const std::string& node_id, uint64_t exergy_uj) {
+        for (auto& cn : cluster_nodes_) {
+            if (cn.node_id == node_id) {
+                ++cn.completed_task_count;
+                cn.accounted_exergy_uj += exergy_uj;
+                return;
+            }
+        }
+        if (!cluster_nodes_.empty()) {
+            ++cluster_nodes_.front().completed_task_count;
+            cluster_nodes_.front().accounted_exergy_uj += exergy_uj;
+        }
+    }
+
+    void ApplyPhysicalChoreographyOnTaskCompleted(const std::string& task_id, uint64_t exergy_uj) {
+        if (task_id == "task:fab_1_mill_raised_bed") {
+            ++raised_bed_frames_built_;
+            EmitLocalClusterChoreographyEvent(
+                "node-02:garage-fab",
+                "Node 02 (Garage Fab) -> Node 03 (Garden Agro)",
+                "L3_INTERNODE_HANDOFF",
+                "Milled cedar raised bed frame delivered to Backyard Keyline plot; Pea Cultivation Step 1 token unlocked.",
+                exergy_uj
+            );
+        } else if (task_id == "task:fab_2_assemble_compost_kiln") {
+            ++compost_kiln_units_built_;
+            EmitLocalClusterChoreographyEvent(
+                "node-02:garage-fab",
+                "Node 02 (Garage Fab) -> Node 03 (Garden Agro)",
+                "L3_INTERNODE_HANDOFF",
+                "Insulated compost drum & TLUD pyrolysis kiln commissioned on Backyard Node 03.",
+                exergy_uj
+            );
+        } else if (task_id == "task:fab_3_build_poultry_coop") {
+            ++poultry_coops_built_;
+            EmitLocalClusterChoreographyEvent(
+                "node-02:garage-fab",
+                "Node 02 (Garage Fab) -> Node 03 (Garden Agro)",
+                "L3_INTERNODE_HANDOFF",
+                "Elevated cedar poultry coop & BSFL bioconversion feeder commissioned on Backyard Node 03.",
+                exergy_uj
+            );
+        } else if (task_id == "task:fab_4_l7_custom_woodwork_order") {
+            EmitLocalClusterChoreographyEvent(
+                "node-02:garage-fab",
+                "Node 02 — Garage Mini-Fab & Joinery Node",
+                "L7_BILL_OFFSET",
+                "Completed custom mortise-and-tenon woodwork order (+$180.00 Zero-Bill offset credited to Node 01 ledger).",
+                exergy_uj
+            );
+        } else if (task_id == "task:pea_3_rhizobium_sow") {
+            if (L4WorkflowInstance* wf = FindWorkflowMutable("wf:pea_cultivation")) {
+                const CultivarWorkflowSpec spec = ResolveCultivarSpecOrDefault(wf->input_cultivar_id);
+                const bool full_l2_auto =
+                    l2_telemetry_.IsRegisterOnline("soil_probe_v1") &&
+                    l2_telemetry_.IsRegisterOnline("irrigation_valve_v1");
+
+                wf->crop_sown = 1U;
+                wf->crop_sown_sim_s = sim_clock_seconds_;
+                wf->last_growth_eval_sim_s = sim_clock_seconds_;
+                wf->crop_growth_bp = 200U;
+                wf->estimated_moisture_bp = full_l2_auto ? spec.target_opt_vwc_bp : 2900U;
+                wf->estimated_nitrogen_ppm = 72U;
+                wf->growth_sub_accum = 0U;
+                wf->moisture_et_sub_accum = 0U;
+                wf->nitrogen_sub_accum = 0U;
+                wf->verification_checks_completed = 0U;
+                wf->auto_l2_checks_completed = full_l2_auto ? 1U : 0U;
+                wf->next_verification_due_sim_s =
+                    full_l2_auto
+                        ? (sim_clock_seconds_ + static_cast<uint64_t>(spec.verification_interval_sim_s))
+                        : sim_clock_seconds_;
+                wf->phenology_stage_label =
+                    ComputePhenologyLabel(wf->crop_growth_bp, wf->crop_sown, spec.harvest_mature_bp);
+
+                if (L2SensorRegister* soil = l2_telemetry_.FindRegisterMutable("soil_probe_v1")) {
+                    soil->crop_growth_bp = wf->crop_growth_bp;
+                    if (full_l2_auto) {
+                        soil->moisture_bp = wf->estimated_moisture_bp;
+                    }
+                }
+
+                EmitLocalClusterChoreographyEvent(
+                    "node-03:garden-agro",
+                    "Node 03 — Backyard Agroecology & Soil Node",
+                    "AGRO_CULTIVAR_SOWN",
+                    "Sowed " + spec.title + " (" + spec.species_binomial + ", ideal cycle " +
+                        FormatSimDurationCompact(spec.maturity_sim_seconds) +
+                        ", check cadence " + FormatSimDurationCompact(spec.verification_interval_sim_s) + ").",
+                    exergy_uj
+                );
+            }
+        } else if (task_id == "task:pea_5_harvest_pods_roots") {
+            const L4WorkflowInstance* wf = FindWorkflow("wf:pea_cultivation");
+            const CultivarWorkflowSpec spec = ResolveCultivarSpecOrDefault(
+                (wf != nullptr && !wf->input_cultivar_id.empty())
+                    ? std::string_view(wf->input_cultivar_id)
+                    : std::string_view(selected_garden_cultivar_id_));
+            const uint32_t leg_yield  = std::max<uint32_t>(1U, spec.harvest_legume_batches);
+            const uint32_t root_yield = std::max<uint32_t>(1U, spec.harvest_mirepoix_batches);
+            harvested_split_pea_batches_ += leg_yield;
+            harvested_mirepoix_batches_  += root_yield;
+            EmitLocalClusterChoreographyEvent(
+                "node-03:garden-agro",
+                "Node 03 (Garden Agro) -> Node 04 (Hearth Galley)",
+                "L3_INTERNODE_HANDOFF",
+                "Harvested +" + std::to_string(leg_yield) + " legume batch(es) & +" +
+                    std::to_string(root_yield) + " mirepoix batch(es) from " + spec.title +
+                    "; transferred to Kitchen Hearth Node 04 (Pea Soup Step 1 unlocked).",
+                exergy_uj
+            );
+        } else if (task_id == "task:mu_2_thermophilic_compost_55c") {
+            ++thermophilic_compost_batches_;
+            EmitLocalClusterChoreographyEvent(
+                "node-03:garden-agro",
+                "Node 03 — Backyard Agroecology & Soil Node",
+                "SOIL_CLOSURE",
+                "Sanitized >=55C (328150 mK) thermophilic compost batch cured for keyline Terra Preta.",
+                exergy_uj
+            );
+        } else if (task_id == "task:mu_3_tlud_biochar_charge") {
+            ++biochar_batches_;
+            EmitLocalClusterChoreographyEvent(
+                "node-03:garden-agro",
+                "Node 03 — Backyard Agroecology & Soil Node",
+                "SOIL_CLOSURE",
+                "Pyrolyzed >=8000 bp fixed-carbon TLUD biochar batch and charged Terra Preta matrix.",
+                exergy_uj
+            );
+        } else if (task_id == "task:mu_1_feed_bsfl_collect_eggs") {
+            ++poultry_bones_and_eggs_batches_;
+            EmitLocalClusterChoreographyEvent(
+                "node-03:garden-agro",
+                "Node 03 (Garden Agro) -> Node 04 (Hearth Galley)",
+                "L3_INTERNODE_HANDOFF",
+                "Pasture eggs & rotational poultry broth bones transferred to Kitchen Hearth Node 04.",
+                exergy_uj
+            );
+        } else if (task_id == "task:soup_2_simmer_bone_broth") {
+            ++simmered_bone_broth_batches_;
+            EmitLocalClusterChoreographyEvent(
+                "node-04:hearth-galley",
+                "Node 04 — Kitchen Induction Hearth & Galley Node",
+                "CULINARY_BATCH",
+                "24-hour collagen bone broth batch simmered (>=347150 mK) with bone-ash calcium grit returned to Node 03.",
+                exergy_uj
+            );
+        } else if (task_id == "task:soup_4_package_distribute_tiffins") {
+            ++served_pea_soup_tiffin_batches_;
+            EmitLocalClusterChoreographyEvent(
+                "node-04:hearth-galley",
+                "Node 04 — Kitchen Induction Hearth & Galley Node",
+                "HEARTH_TIFFIN_BATCH",
+                "Bigelow-pasteurized Pea Soup & Collagen Bone Broth packaged in 304-stainless tiffins.",
+                exergy_uj
+            );
+        }
+    }
+
+    void StepGardenWorkflowBiologyAndTimers() {
+        const L2SensorRegister* soil_reg = l2_telemetry_.FindRegister("soil_probe_v1");
+        const bool probe_online = (soil_reg != nullptr) && (soil_reg->is_online != 0U);
+        const bool valve_online = l2_telemetry_.IsRegisterOnline("irrigation_valve_v1");
+        const bool full_l2_auto = probe_online && valve_online;
+
+        for (auto& wf : workflows_) {
+            if (wf.workflow_id != "wf:pea_cultivation" || wf.is_active == 0U || wf.crop_sown == 0U) {
+                continue;
+            }
+
+            const CultivarWorkflowSpec spec = ResolveCultivarSpecOrDefault(wf.input_cultivar_id);
+
+            L4TaskItem* step4 = nullptr;
+            for (auto& t : wf.tasks) {
+                if (t.task_id == "task:pea_4_irrigate_weed") {
+                    step4 = &t;
+                    break;
+                }
+            }
+
+            if (probe_online) {
+                if (soil_reg->crop_growth_bp > wf.crop_growth_bp) {
+                    wf.crop_growth_bp = std::min(10000U, soil_reg->crop_growth_bp);
+                }
+                if (soil_reg->moisture_bp > 0U && wf.last_growth_eval_sim_s == sim_clock_seconds_) {
+                    wf.estimated_moisture_bp = soil_reg->moisture_bp;
+                }
+            }
+
+            if (wf.last_growth_eval_sim_s == 0ULL) {
+                wf.last_growth_eval_sim_s = sim_clock_seconds_;
+            }
+
+            // If L2 came online after sowing while next_verification_due_sim_s was due, satisfy check immediately via L2
+            if (full_l2_auto && step4 != nullptr &&
+                step4->task_commitment_state != TaskCommitmentState::COMPLETED &&
+                wf.next_verification_due_sim_s <= sim_clock_seconds_ &&
+                wf.last_growth_eval_sim_s == sim_clock_seconds_) {
+                wf.estimated_moisture_bp = std::max(wf.estimated_moisture_bp, spec.target_opt_vwc_bp);
+                ++wf.auto_l2_checks_completed;
+                wf.next_verification_due_sim_s =
+                    sim_clock_seconds_ + static_cast<uint64_t>(std::max(1U, spec.verification_interval_sim_s));
+            }
+
+            // Pure-integer sub-stepping (<= 1800 s chunks) of cultivar thermal/moisture/N-P-K growth & ET
+            while (wf.last_growth_eval_sim_s < sim_clock_seconds_) {
+                const uint64_t remaining_s = sim_clock_seconds_ - wf.last_growth_eval_sim_s;
+                const uint64_t chunk_s = std::min<uint64_t>(1800ULL, remaining_s);
+                wf.last_growth_eval_sim_s += chunk_s;
+
+                uint32_t temp_mk = ambient_temp_override_mk_;
+                if (temp_mk == 0U && probe_online && soil_reg->temperature_mk > 0U) {
+                    temp_mk = soil_reg->temperature_mk;
+                }
+                if (temp_mk == 0U) {
+                    const uint64_t rem_day_s = wf.last_growth_eval_sim_s % 86400ULL;
+                    const uint64_t shifted_s = (rem_day_s + 86400ULL - 14400ULL) % 86400ULL;
+                    const uint64_t dist_s =
+                        (shifted_s <= 43200ULL) ? shifted_s : (86400ULL - shifted_s);
+                    temp_mk = 287150U + static_cast<uint32_t>((9000ULL * dist_s) / 43200ULL);
+                }
+
+                if (full_l2_auto && step4 != nullptr &&
+                    step4->task_commitment_state != TaskCommitmentState::COMPLETED) {
+                    if (wf.estimated_moisture_bp < spec.target_min_vwc_bp + 200U) {
+                        wf.estimated_moisture_bp = spec.target_opt_vwc_bp;
+                    }
+                    while (wf.next_verification_due_sim_s <= wf.last_growth_eval_sim_s) {
+                        ++wf.auto_l2_checks_completed;
+                        wf.estimated_moisture_bp = std::max(wf.estimated_moisture_bp, spec.target_opt_vwc_bp);
+                        wf.next_verification_due_sim_s +=
+                            static_cast<uint64_t>(std::max(1U, spec.verification_interval_sim_s));
+                    }
+                }
+
+                const uint32_t f_temp  = EvaluateStackCultivarTempFactorBp(temp_mk, spec);
+                const uint32_t f_moist = EvaluateStackCultivarMoistureFactorBp(wf.estimated_moisture_bp, spec);
+                const uint32_t f_npk =
+                    (spec.fixes_atmospheric_n2 != 0U)
+                        ? ((wf.estimated_nitrogen_ppm >= 15U) ? 10000U : 7500U)
+                        : ((wf.estimated_nitrogen_ppm >= 30U)
+                               ? 10000U
+                               : (4000U + (wf.estimated_nitrogen_ppm * 6000U) / 30U));
+
+                if (wf.crop_growth_bp < 10000U && f_temp > 0U && f_moist > 0U) {
+                    const uint64_t combined_bp =
+                        (((static_cast<uint64_t>(f_temp) * static_cast<uint64_t>(f_moist)) / 10000ULL) *
+                         static_cast<uint64_t>(f_npk)) /
+                        10000ULL;
+                    const uint64_t mat_s =
+                        static_cast<uint64_t>(std::max(1U, spec.maturity_sim_seconds));
+                    const uint64_t total_num =
+                        static_cast<uint64_t>(wf.growth_sub_accum) + (combined_bp * chunk_s);
+                    const uint32_t delta_growth_bp = static_cast<uint32_t>(total_num / mat_s);
+                    wf.growth_sub_accum = static_cast<uint32_t>(total_num % mat_s);
+
+                    if (delta_growth_bp > 0U) {
+                        const uint32_t prev_band = wf.crop_growth_bp / 250U;
+                        wf.crop_growth_bp = std::min(10000U, wf.crop_growth_bp + delta_growth_bp);
+                        const uint32_t next_band = wf.crop_growth_bp / 250U;
+                        if (next_band > prev_band && spec.n_draw_per_band_ppm > 0U) {
+                            const uint32_t draw =
+                                (next_band - prev_band) * static_cast<uint32_t>(spec.n_draw_per_band_ppm);
+                            wf.estimated_nitrogen_ppm =
+                                (wf.estimated_nitrogen_ppm > draw + 4U)
+                                    ? (wf.estimated_nitrogen_ppm - draw)
+                                    : 4U;
+                        }
+                    }
+
+                    if (spec.fixes_atmospheric_n2 != 0U && spec.n_fixation_rate_bp > 0U &&
+                        wf.crop_growth_bp >= 1500U && wf.estimated_nitrogen_ppm < 180U) {
+                        const uint64_t n_num =
+                            static_cast<uint64_t>(wf.nitrogen_sub_accum) +
+                            (static_cast<uint64_t>(spec.n_fixation_rate_bp) * chunk_s);
+                        constexpr uint64_t kFixDenom = 10000ULL * 3600ULL;
+                        const uint32_t add_n = static_cast<uint32_t>(n_num / kFixDenom);
+                        wf.nitrogen_sub_accum = static_cast<uint32_t>(n_num % kFixDenom);
+                        wf.estimated_nitrogen_ppm = std::min(180U, wf.estimated_nitrogen_ppm + add_n);
+                    }
+                }
+
+                // Pure-integer evapotranspiration decay: 95 bp/hr * (et_multiplier_bp / 10000)
+                const uint64_t et_num =
+                    static_cast<uint64_t>(wf.moisture_et_sub_accum) +
+                    (95ULL * static_cast<uint64_t>(spec.et_multiplier_bp) * chunk_s);
+                constexpr uint64_t kEtDenom = 3600ULL * 10000ULL;
+                const uint32_t et_loss_bp = static_cast<uint32_t>(et_num / kEtDenom);
+                wf.moisture_et_sub_accum = static_cast<uint32_t>(et_num % kEtDenom);
+                if (et_loss_bp > 0U) {
+                    wf.estimated_moisture_bp =
+                        (wf.estimated_moisture_bp > 700U + et_loss_bp)
+                            ? (wf.estimated_moisture_bp - et_loss_bp)
+                            : 700U;
+                }
+            }
+
+            wf.phenology_stage_label =
+                ComputePhenologyLabel(wf.crop_growth_bp, wf.crop_sown, spec.harvest_mature_bp);
+
+            if (L2SensorRegister* mut_soil = l2_telemetry_.FindRegisterMutable("soil_probe_v1")) {
+                if (mut_soil->is_online != 0U) {
+                    mut_soil->crop_growth_bp = std::max(mut_soil->crop_growth_bp, wf.crop_growth_bp);
+                    if (full_l2_auto) {
+                        mut_soil->moisture_bp = wf.estimated_moisture_bp;
+                        mut_soil->concentration_ppm = wf.estimated_nitrogen_ppm;
+                    }
+                }
+            }
+
+            // Closed-loop L2 maturity verification: when soil_probe_v1 + irrigation_valve_v1 are online,
+            // Step 4 auto-completes once biological maturity (>= harvest_mature_bp) is reached!
+            if (full_l2_auto && step4 != nullptr &&
+                step4->task_commitment_state != TaskCommitmentState::COMPLETED &&
+                wf.crop_growth_bp >= spec.harvest_mature_bp) {
+                step4->task_commitment_state = TaskCommitmentState::COMPLETED;
+                step4->bpmn_token_state = BpmnTokenState::COMPLETED;
+                step4->timer_remaining_sim_s = 0ULL;
+                step4->precondition_blocker_note.clear();
+                step4->last_state_change_tick = current_tick_;
+                ledger_.total_exergy_accounted_uj += step4->exergy_cost_uj;
+                AccountNodeTaskCompletion(step4->assigned_node_id, step4->exergy_cost_uj);
+
+                EmitLocalClusterChoreographyEvent(
+                    "node-03:garden-agro",
+                    "Node 03 — Backyard Agroecology & Soil Node",
+                    "L2_AUTO_MATURITY_UNLOCK",
+                    "Closed-loop L2 (soil_probe_v1 + irrigation_valve_v1) completed " +
+                        std::to_string(wf.auto_l2_checks_completed) + " timed checks on " +
+                        spec.title + " and verified " + std::to_string(wf.crop_growth_bp / 100U) +
+                        "% maturity; Step 5 Harvest BPMN token unlocked.",
+                    step4->exergy_cost_uj
+                );
+            }
+        }
+    }
+
+    void EvaluateBpmnTokensAndDependencies() {
+        StepGardenWorkflowBiologyAndTimers();
+
+        for (uint32_t pass = 0U; pass < 4U; ++pass) {
+            std::vector<std::string> pending_spawns{};
+
+            for (auto& wf : workflows_) {
+                if (wf.is_active == 0U || wf.tasks.empty()) {
+                    continue;
+                }
+
+                // Locate the first incomplete step in BPMN sequence flow order
+                size_t token_candidate_idx = wf.tasks.size();
+                for (size_t i = 0U; i < wf.tasks.size(); ++i) {
+                    if (wf.tasks[i].task_commitment_state == TaskCommitmentState::COMPLETED) {
+                        wf.tasks[i].bpmn_token_state = BpmnTokenState::COMPLETED;
+                        wf.tasks[i].timer_remaining_sim_s = 0ULL;
+                        wf.tasks[i].precondition_blocker_note.clear();
+                    } else if (token_candidate_idx == wf.tasks.size()) {
+                        token_candidate_idx = i;
+                    }
+                }
+
+                // If every step in this workflow cycle is completed, no active token remains
+                if (token_candidate_idx == wf.tasks.size()) {
+                    continue;
+                }
+
+                const uint32_t gating_step_number = wf.tasks[token_candidate_idx].step_index;
+
+                // Strictly lock all downstream steps behind sequence flow
+                for (size_t i = token_candidate_idx + 1U; i < wf.tasks.size(); ++i) {
+                    auto& downstream = wf.tasks[i];
+                    if (downstream.task_commitment_state == TaskCommitmentState::COMPLETED) {
+                        downstream.bpmn_token_state = BpmnTokenState::COMPLETED;
+                        downstream.timer_remaining_sim_s = 0ULL;
+                        downstream.precondition_blocker_note.clear();
+                    } else {
+                        downstream.bpmn_token_state = BpmnTokenState::WAITING_SEQUENCE_FLOW;
+                        downstream.timer_remaining_sim_s = 0ULL;
+                        downstream.precondition_blocker_note =
+                            "Queued behind Step " + std::to_string(gating_step_number) + " in BPMN sequence flow.";
+                        if (downstream.task_commitment_state != TaskCommitmentState::UNASSIGNED) {
+                            downstream.task_commitment_state = TaskCommitmentState::UNASSIGNED;
+                            downstream.claimed_by_cluster_id.clear();
+                        }
+                    }
+                }
+
+                // Evaluate physical, cross-node, and BPMN IntermediateCatchEvent timer gates on candidate step
+                auto& candidate = wf.tasks[token_candidate_idx];
+                std::string blocker{};
+
+                if (candidate.task_id == "task:pea_1_plow_amend" && raised_bed_frames_built_ == 0U) {
+                    blocker = "Blocked: requires Raised Cedar Bed Frame from Node 02 (Garage Fab: Mill Raised Bed Frame).";
+                    if (!HasWorkflow("wf:fab_raised_bed")) {
+                        pending_spawns.emplace_back("wf:fab_raised_bed");
+                    }
+                } else if ((candidate.task_id == "task:mu_2_thermophilic_compost_55c" ||
+                            candidate.task_id == "task:mu_3_tlud_biochar_charge") &&
+                           compost_kiln_units_built_ == 0U) {
+                    blocker = "Blocked: requires Compost Drum & TLUD Kiln from Node 02 (Garage Fab: Assemble Compost & Kiln).";
+                    if (!HasWorkflow("wf:fab_compost_kiln")) {
+                        pending_spawns.emplace_back("wf:fab_compost_kiln");
+                    }
+                } else if (candidate.task_id == "task:mu_1_feed_bsfl_collect_eggs" && poultry_coops_built_ == 0U) {
+                    blocker = "Blocked: requires Elevated Timber Poultry Coop from Node 02 (Garage Fab: Build Poultry Coop).";
+                    if (!HasWorkflow("wf:fab_poultry_coop")) {
+                        pending_spawns.emplace_back("wf:fab_poultry_coop");
+                    }
+                } else if (candidate.task_id == "task:soup_1_gather_inputs" && harvested_split_pea_batches_ == 0U) {
+                    if (HasWorkflow("wf:pea_cultivation")) {
+                        blocker = "Blocked: waiting on Node 03 (Garden Agro) Step 5 — Harvest Mature Legumes & Mirepoix.";
+                    } else {
+                        blocker = "Blocked: no harvested Split Peas in larder — approve Pea Cultivation in L6 Decisions first.";
+                        EnsurePendingDecisionForAsset("asset:pea_cultivation", "need:split_peas");
+                    }
+                }
+
+                if (!blocker.empty()) {
+                    candidate.bpmn_token_state = BpmnTokenState::BLOCKED_BY_PRECONDITION;
+                    candidate.timer_remaining_sim_s = 0ULL;
+                    candidate.precondition_blocker_note = blocker;
+                    if (candidate.task_commitment_state != TaskCommitmentState::UNASSIGNED) {
+                        candidate.task_commitment_state = TaskCommitmentState::UNASSIGNED;
+                        candidate.claimed_by_cluster_id.clear();
+                    }
+                } else if (candidate.task_id == "task:pea_4_irrigate_weed" &&
+                           wf.crop_sown != 0U &&
+                           sim_clock_seconds_ < wf.next_verification_due_sim_s) {
+                    const uint64_t rem_s = wf.next_verification_due_sim_s - sim_clock_seconds_;
+                    const bool full_l2_auto =
+                        l2_telemetry_.IsRegisterOnline("soil_probe_v1") &&
+                        l2_telemetry_.IsRegisterOnline("irrigation_valve_v1");
+                    candidate.bpmn_token_state = BpmnTokenState::WAITING_TIMER;
+                    candidate.timer_due_sim_s = wf.next_verification_due_sim_s;
+                    candidate.timer_remaining_sim_s = rem_s;
+                    candidate.timer_interval_sim_s = wf.verification_interval_sim_s;
+                    candidate.verification_cycle_index =
+                        static_cast<uint32_t>(wf.verification_checks_completed + wf.auto_l2_checks_completed) + 1U;
+                    candidate.precondition_blocker_note =
+                        (full_l2_auto ? "L2 Automated Growth Timer: " : "BPMN Growth Timer: ") +
+                        wf.input_cultivar_title + " at " + std::to_string(wf.crop_growth_bp / 100U) +
+                        "% (" + wf.phenology_stage_label + ") — next check in " +
+                        FormatSimDurationCompact(rem_s) + ".";
+                    if (candidate.task_commitment_state != TaskCommitmentState::UNASSIGNED) {
+                        candidate.task_commitment_state = TaskCommitmentState::UNASSIGNED;
+                        candidate.claimed_by_cluster_id.clear();
+                    }
+                } else {
+                    candidate.bpmn_token_state = BpmnTokenState::ACTIVE_TOKEN;
+                    candidate.timer_remaining_sim_s = 0ULL;
+                    if (candidate.task_id == "task:pea_4_irrigate_weed") {
+                        candidate.timer_due_sim_s = wf.next_verification_due_sim_s;
+                        candidate.timer_interval_sim_s = wf.verification_interval_sim_s;
+                        candidate.verification_cycle_index =
+                            static_cast<uint32_t>(wf.verification_checks_completed + wf.auto_l2_checks_completed) + 1U;
+                    }
+                    candidate.precondition_blocker_note.clear();
+                    if (IsExternalR1SwarmEnabled() &&
+                        candidate.task_commitment_state == TaskCommitmentState::UNASSIGNED) {
+                        const L5GovernedAsset* asset = FindAsset(candidate.asset_id);
+                        if (asset != nullptr && asset->task_release_ring == TaskReleaseRing::R1_PEER_CLUSTERS) {
+                            candidate.task_commitment_state = TaskCommitmentState::RELEASED_TO_R1_PEERS;
+                            candidate.last_state_change_tick = current_tick_;
+                        }
+                    }
+                }
+            }
+
+            if (pending_spawns.empty()) {
+                break;
+            }
+            for (const auto& req_wf_id : pending_spawns) {
+                if (!HasWorkflow(req_wf_id)) {
+                    EnsureSpecificWorkflowSpawned(req_wf_id);
+                    EmitLocalClusterChoreographyEvent(
+                        "node-03:garden-agro",
+                        "Node 03 (Garden Agro) -> Node 02 (Garage Fab)",
+                        "L4_CROSS_NODE_REQUISITION",
+                        "BPMN precondition requisitioned prerequisite Garage Fab workflow '" + req_wf_id + "' on Node 02.",
+                        0ULL
+                    );
+                }
+            }
+        }
+    }
+
+    void RefreshClusterNodeSummaries() {
+        for (auto& cn : cluster_nodes_) {
+            cn.active_workflow_count = 0U;
+            cn.online_l2_pin_count = 0U;
+            std::string active_tokens{};
+            std::string timer_notes{};
+            std::string blocked_notes{};
+
+            for (const auto& wf : workflows_) {
+                if (wf.assigned_node_id != cn.node_id || wf.is_active == 0U) {
+                    continue;
+                }
+                bool has_incomplete = false;
+                for (const auto& t : wf.tasks) {
+                    if (t.task_commitment_state != TaskCommitmentState::COMPLETED) {
+                        has_incomplete = true;
+                    }
+                    if (t.bpmn_token_state == BpmnTokenState::ACTIVE_TOKEN) {
+                        if (!active_tokens.empty()) {
+                            active_tokens += " | ";
+                        }
+                        active_tokens += t.title;
+                    } else if (t.bpmn_token_state == BpmnTokenState::WAITING_TIMER &&
+                               timer_notes.empty()) {
+                        timer_notes = t.precondition_blocker_note;
+                    } else if (t.bpmn_token_state == BpmnTokenState::BLOCKED_BY_PRECONDITION &&
+                               blocked_notes.empty()) {
+                        blocked_notes = t.precondition_blocker_note;
+                    }
+                }
+                if (has_incomplete) {
+                    ++cn.active_workflow_count;
+                }
+            }
+
+            if (!active_tokens.empty()) {
+                cn.active_token_summary = "ACTIVE TOKEN: " + active_tokens;
+            } else if (!timer_notes.empty()) {
+                cn.active_token_summary = timer_notes;
+            } else if (!blocked_notes.empty()) {
+                cn.active_token_summary = blocked_notes;
+            } else {
+                cn.active_token_summary = "Idle — 0 active BPMN tokens";
+            }
+
+            if (cn.node_id == "node-01:office-coordinator") {
+                if (l2_telemetry_.IsRegisterOnline("solar_bus_meter_v1")) {
+                    ++cn.online_l2_pin_count;
+                }
+                uint32_t pending_dec_count = 0U;
+                for (const auto& d : pending_decisions_) {
+                    if (d.status == DecisionStatus::PENDING) {
+                        ++pending_dec_count;
+                    }
+                }
+                cn.inventory_summary =
+                    std::to_string(pending_dec_count) + " pending L5->L6 decisions · " +
+                    (IsExternalR1SwarmEnabled() ? "R1 Swarm ON" : "Solo 4-Node Cluster");
+            } else if (cn.node_id == "node-02:garage-fab") {
+                cn.inventory_summary =
+                    "Built: " + std::to_string(raised_bed_frames_built_) + " Bed Frame(s) · " +
+                    std::to_string(compost_kiln_units_built_) + " Compost/Kiln · " +
+                    std::to_string(poultry_coops_built_) + " Coop(s)";
+            } else if (cn.node_id == "node-03:garden-agro") {
+                if (l2_telemetry_.IsRegisterOnline("soil_probe_v1")) {
+                    ++cn.online_l2_pin_count;
+                }
+                if (l2_telemetry_.IsRegisterOnline("irrigation_valve_v1")) {
+                    ++cn.online_l2_pin_count;
+                }
+                if (l2_telemetry_.IsRegisterOnline("compost_drum_probe_v1")) {
+                    ++cn.online_l2_pin_count;
+                }
+                if (l2_telemetry_.IsRegisterOnline("kiln_thermocouple_v1")) {
+                    ++cn.online_l2_pin_count;
+                }
+                cn.inventory_summary =
+                    "Legumes: " + std::to_string(harvested_split_pea_batches_) +
+                    " · Mirepoix: " + std::to_string(harvested_mirepoix_batches_) +
+                    " · Compost: " + std::to_string(thermophilic_compost_batches_) +
+                    " · Biochar: " + std::to_string(biochar_batches_);
+            } else if (cn.node_id == "node-04:hearth-galley") {
+                if (l2_telemetry_.IsRegisterOnline("culinary_vessel_v1")) {
+                    ++cn.online_l2_pin_count;
+                }
+                cn.inventory_summary =
+                    "Bone Broth: " + std::to_string(simmered_bone_broth_batches_) +
+                    " batch(es) · Pea Soup Tiffins Served: " +
+                    std::to_string(served_pea_soup_tiffin_batches_) + " batch(es)";
+            }
+        }
+    }
+
+    // ------------------------------------------------------------------------
+    // Initialization & On-Demand BPMN L4 Lifecycle Spawning
     // ------------------------------------------------------------------------
 
     void InitializePeerBccChannels() {
@@ -2029,7 +3479,7 @@ private:
             poultry_soil.steward_reputation_credit_bp = 240U;
             poultry_soil.sourcing_mode = SourcingMode::L7_LEGACY_CHANNEL;
             poultry_soil.distribution_policy = DistributionPolicy::R1_TRUST_RING_COMMONS;
-            poultry_soil.task_release_ring = TaskReleaseRing::R1_PEER_CLUSTERS;
+            poultry_soil.task_release_ring = TaskReleaseRing::R0_STEWARD_ONLY;
             poultry_soil.local_workflows_instantiated = 0U;
             governed_assets_.push_back(poultry_soil);
         }
@@ -2075,7 +3525,7 @@ private:
             n.governed_asset_id = asset_id;
             n.last_status_note = (mode == SourcingMode::L7_LEGACY_CHANNEL)
                                      ? "Sourced via L7 fallback pending L5 local governance approval."
-                                     : "Active on local L5 stewarded infrastructure ($0 L7 spend).";
+                                     : "Ready for on-demand local L5/L4 workflow instantiation ($0 L7 spend).";
             n.exergy_cost_uj = exergy_uj;
             n.l7_unit_cost_cents = l7_cents;
             n.action_code = action_code;
@@ -2211,19 +3661,18 @@ private:
     }
 
     void InitializeGenesisDecisionsAndWorkflows() {
-        // Garage Fab & Water/Power start locally active on Day 1
-        EnsureWorkflowsSpawnedForAsset("asset:garage_fab");
-        EnsureWorkflowsSpawnedForAsset("asset:water_and_power");
+        // Strict BPMN Clean-Slate Invariant: Day 1 starts with ZERO unsolicited L4 workflows!
+        // Workflows instantiate strictly when the Steward ratifies an L5 Governance Decision or requests a Need,
+        // and cross-node prerequisite fabrication workflows auto-requisition via BPMN preconditions.
 
-        // Emit pending L5 -> L6 polycentric decisions for L7-sourced assets
         {
             L6PendingDecision dec_peas{};
             dec_peas.decision_id = "dec:pea_cultivation";
-            dec_peas.title = "L5 Proposal: Cultivate Split Peas & Mirepoix Locally in Backyard Keyline Bed";
+            dec_peas.title = "L5 Proposal: Cultivate Split Peas & Mirepoix Locally on Node 03 (Garden Agro)";
             dec_peas.governed_asset_id = "asset:pea_cultivation";
             dec_peas.rationale =
                 "Split Peas and Mirepoix Vegetables are currently procured via L7 supply chains. "
-                "Approving spawns the 6-stage Pea Cultivation L4 workflow (soil amendment, trellis, Rhizobium sowing, irrigation, harvest, <14% moisture check).";
+                "Approving spawns the 6-stage Pea Cultivation BPMN workflow on Node 03 (and automatically requisitions a Raised Bed Frame from Garage Node 02 first).";
             dec_peas.linked_need_ids = {"need:split_peas", "need:mirepoix_vegetables"};
             dec_peas.estimated_exergy_savings_uj = 4700000000ULL;
             dec_peas.estimated_monthly_l7_savings_cents = 18000;
@@ -2237,11 +3686,11 @@ private:
         {
             L6PendingDecision dec_soup{};
             dec_soup.decision_id = "dec:pea_soup_hearth";
-            dec_soup.title = "L5 Proposal: Transition Pea Soup & Bone Broth from L7 Delivery to Local Hearth & R1 Tiffins";
+            dec_soup.title = "L5 Proposal: Commission Pea Soup & 24h Bone Broth Hearth on Node 04 (Hearth Galley)";
             dec_soup.governed_asset_id = "asset:pea_soup_hearth";
             dec_soup.rationale =
-                "Eliminates $14.00/batch L7 delivery drain by instantiating the 4-stage Kitchen Pea Soup L4 workflow "
-                "(input gathering, 24h collagen bone broth, >=74C Bigelow pasteurization simmer, stainless tiffin distribution).";
+                "Eliminates $14.00/batch L7 delivery drain by instantiating the 4-stage Kitchen Pea Soup BPMN workflow "
+                "(waits on harvested Split Peas from Node 03 -> 24h collagen bone broth -> >=74C Bigelow simmer -> stainless tiffins).";
             dec_soup.linked_need_ids = {"need:pea_soup", "need:collagen_bone_broth"};
             dec_soup.estimated_exergy_savings_uj = 7800000000ULL;
             dec_soup.estimated_monthly_l7_savings_cents = 34000;
@@ -2255,19 +3704,36 @@ private:
         {
             L6PendingDecision dec_poultry{};
             dec_poultry.decision_id = "dec:poultry_and_soil";
-            dec_poultry.title = "L5 Proposal: Commission Pasture Poultry Coop, Thermophilic Compost & TLUD Biochar Loop";
+            dec_poultry.title = "L5 Proposal: Commission Thermophilic Compost, TLUD Biochar & Pasture Poultry Loop";
             dec_poultry.governed_asset_id = "asset:poultry_and_soil";
             dec_poultry.rationale =
-                "Closes Scenario Mu nitrogen/phosphorus/calcium cycle locally for Pasture Eggs, Thermophilic Compost, and Pyrolysis Biochar.";
+                "Closes Scenario Mu nitrogen/phosphorus/calcium cycle across Node 02 (Compost/Kiln & Coop fabrication) and Node 03 (Compost, Biochar & Pasture Eggs).";
             dec_poultry.linked_need_ids = {"need:pasture_eggs", "need:thermophilic_compost", "need:pyrolysis_biochar"};
             dec_poultry.estimated_exergy_savings_uj = 8700000000ULL;
             dec_poultry.estimated_monthly_l7_savings_cents = 15000;
             dec_poultry.emitted_tick = current_tick_;
             dec_poultry.proposed_sourcing_mode = SourcingMode::R0_LOCAL_WORKFLOWS;
             dec_poultry.proposed_distribution_policy = DistributionPolicy::R1_TRUST_RING_COMMONS;
-            dec_poultry.proposed_task_release_ring = TaskReleaseRing::R1_PEER_CLUSTERS;
+            dec_poultry.proposed_task_release_ring = TaskReleaseRing::R0_STEWARD_ONLY;
             dec_poultry.status = DecisionStatus::PENDING;
             pending_decisions_.push_back(dec_poultry);
+        }
+        {
+            L6PendingDecision dec_woodwork{};
+            dec_woodwork.decision_id = "dec:garage_l7_woodwork";
+            dec_woodwork.title = "L5 Proposal: Open Node 02 (Garage Fab) for L7 Custom Woodwork Orders (+$180/order Bill Offset)";
+            dec_woodwork.governed_asset_id = "asset:garage_fab";
+            dec_woodwork.rationale =
+                "Authorizes discretionary Tier-5 custom mortise-and-tenon woodwork commissions on Garage Node 02 to offset $220/mo legacy utility bills toward $0 net cost.";
+            dec_woodwork.linked_need_ids = {"need:raised_bed_frame"};
+            dec_woodwork.estimated_exergy_savings_uj = 1500000000ULL;
+            dec_woodwork.estimated_monthly_l7_savings_cents = 18000;
+            dec_woodwork.emitted_tick = current_tick_;
+            dec_woodwork.proposed_sourcing_mode = SourcingMode::R0_LOCAL_WORKFLOWS;
+            dec_woodwork.proposed_distribution_policy = DistributionPolicy::COMMONS_PLUS_L7_BILL_OFFSET;
+            dec_woodwork.proposed_task_release_ring = TaskReleaseRing::R0_STEWARD_ONLY;
+            dec_woodwork.status = DecisionStatus::PENDING;
+            pending_decisions_.push_back(dec_woodwork);
         }
     }
 
@@ -2337,15 +3803,20 @@ private:
                 std::min<uint32_t>(10000U, ledger_.steward_reputation_bp + asset->steward_reputation_credit_bp);
         }
 
-        // Propagate task_release_ring policy to unassigned tasks of this asset
+        EvaluateBpmnTokensAndDependencies();
+
+        // Propagate task_release_ring policy strictly to ACTIVE_TOKEN unassigned tasks when R1 swarm is enabled
         for (auto& wf : workflows_) {
             if (wf.asset_id == asset_id) {
                 for (auto& task : wf.tasks) {
-                    if (task_release_ring == TaskReleaseRing::R1_PEER_CLUSTERS &&
+                    if (IsExternalR1SwarmEnabled() &&
+                        task_release_ring == TaskReleaseRing::R1_PEER_CLUSTERS &&
+                        task.bpmn_token_state == BpmnTokenState::ACTIVE_TOKEN &&
                         task.task_commitment_state == TaskCommitmentState::UNASSIGNED) {
                         task.task_commitment_state = TaskCommitmentState::RELEASED_TO_R1_PEERS;
                         task.last_state_change_tick = current_tick_;
-                    } else if (task_release_ring == TaskReleaseRing::R0_STEWARD_ONLY &&
+                    } else if ((!IsExternalR1SwarmEnabled() ||
+                                task_release_ring == TaskReleaseRing::R0_STEWARD_ONLY) &&
                                task.task_commitment_state == TaskCommitmentState::RELEASED_TO_R1_PEERS) {
                         task.task_commitment_state = TaskCommitmentState::UNASSIGNED;
                         task.last_state_change_tick = current_tick_;
@@ -2353,16 +3824,21 @@ private:
                 }
             }
         }
+
+        RefreshL4AutomationModalities();
+        RefreshClusterNodeSummaries();
         return true;
     }
 
-    void EnsureWorkflowsSpawnedForAsset(const std::string& asset_id) {
-        L5GovernedAsset* asset = FindAssetMutable(asset_id);
-        if (asset == nullptr || asset->local_workflows_instantiated != 0U) {
+    void EnsureSpecificWorkflowSpawned(const std::string& wf_id) {
+        if (wf_id.empty() || HasWorkflow(wf_id)) {
             return;
         }
 
-        auto make_task = [&](const std::string& wf_id,
+        auto make_task = [&](const std::string& workflow_id,
+                             const std::string& asset_id,
+                             const std::string& assigned_node_id,
+                             const std::string& mapped_affordance_id,
                              uint32_t step_idx,
                              const std::string& task_id,
                              const std::string& title,
@@ -2378,8 +3854,10 @@ private:
                              int64_t l7_offset_cents = 0) {
             L4TaskItem t{};
             t.task_id = task_id;
-            t.workflow_id = wf_id;
+            t.workflow_id = workflow_id;
             t.asset_id = asset_id;
+            t.assigned_node_id = assigned_node_id;
+            t.mapped_affordance_id = mapped_affordance_id;
             t.title = title;
             t.location_label = loc;
             t.l2_sensor_register_id = l2_sensor;
@@ -2391,10 +3869,8 @@ private:
             t.oasis_action_code = action_code;
             t.target_temp_min_mk = min_mk;
             t.target_moisture_max_bp = max_moisture_bp;
-            t.task_commitment_state =
-                (asset->task_release_ring == TaskReleaseRing::R1_PEER_CLUSTERS)
-                    ? TaskCommitmentState::RELEASED_TO_R1_PEERS
-                    : TaskCommitmentState::UNASSIGNED;
+            t.task_commitment_state = TaskCommitmentState::UNASSIGNED;
+            t.bpmn_token_state = BpmnTokenState::WAITING_SEQUENCE_FLOW;
             t.haul_modality = haul;
             if (micro_prompt != nullptr && micro_prompt[0] != '\0') {
                 t.has_unmodeled_micro_detail = 1U;
@@ -2404,136 +3880,275 @@ private:
         };
 
         L4WorkflowInstance wf{};
-        wf.asset_id = asset_id;
+        wf.workflow_id = wf_id;
         wf.spawned_tick = current_tick_;
         wf.is_active = 1U;
 
-        if (asset_id == "asset:pea_cultivation") {
-            wf.workflow_id = "wf:pea_cultivation";
-            wf.title = "Pea Cultivation & Keyline Bed Lifecycle";
+        if (wf_id == "wf:fab_raised_bed") {
+            wf.asset_id = "asset:garage_fab";
+            wf.assigned_node_id = "node-02:garage-fab";
+            wf.title = "Garage Fab: Mill Raised Cedar Garden Bed Frame";
             wf.tasks.push_back(make_task(
-                wf.workflow_id, 1U, "task:pea_1_plow_amend",
-                "1. Plow & Amend Soil [Granular Haul]",
-                "Backyard Keyline Bed (20,1,5)", 800000000ULL, 24U, HaulModality::GRANULAR_HAUL));
+                wf.workflow_id, wf.asset_id, wf.assigned_node_id, "aff.mill_raised_bed_frame",
+                1U, "task:fab_1_mill_raised_bed",
+                "1. Mill Raised Cedar Bed Frame [Wheelbarrow/Dolly Haul to Backyard]",
+                "Node 02: Garage Joinery Bench (9,1,13)", 800000000ULL, 25U,
+                HaulModality::WHEELBARROW_DOLLY_HEAVY_HAUL));
+        } else if (wf_id == "wf:fab_compost_kiln") {
+            wf.asset_id = "asset:garage_fab";
+            wf.assigned_node_id = "node-02:garage-fab";
+            wf.title = "Garage Fab: Assemble Thermophilic Compost Drum & TLUD Kiln";
             wf.tasks.push_back(make_task(
-                wf.workflow_id, 2U, "task:pea_2_erect_trellis",
-                "2. Erect Trellis",
-                "Backyard Keyline Bed (20,1,5)", 600000000ULL, 25U, HaulModality::NONE));
+                wf.workflow_id, wf.asset_id, wf.assigned_node_id, "aff.assemble_compost_and_kiln",
+                1U, "task:fab_2_assemble_compost_kiln",
+                "1. Assemble Compost Drum & TLUD Kiln [Wheelbarrow/Dolly Heavy Haul]",
+                "Node 02 -> Backyard Kiln Pad (23,1,8)", 1100000000ULL, 24U,
+                HaulModality::WHEELBARROW_DOLLY_HEAVY_HAUL));
+        } else if (wf_id == "wf:fab_poultry_coop") {
+            wf.asset_id = "asset:garage_fab";
+            wf.assigned_node_id = "node-02:garage-fab";
+            wf.title = "Garage Fab: Build Elevated Timber Poultry Coop & BSFL Feeder";
             wf.tasks.push_back(make_task(
-                wf.workflow_id, 3U, "task:pea_3_rhizobium_sow",
-                "3. Rhizobium Inoculation & Sow Peas [Unmodeled micro-detail included]",
-                "Backyard Keyline Bed (20,1,5)", 400000000ULL, 26U, HaulModality::NONE,
-                "", "", 0U, 0U,
-                "Confirm pea seeds were dampened and coated with Rhizobium leguminosarum inoculant out of direct UV before sowing 3-4 cm deep?"));
+                wf.workflow_id, wf.asset_id, wf.assigned_node_id, "aff.build_poultry_coop",
+                1U, "task:fab_3_build_poultry_coop",
+                "1. Build Elevated Poultry Coop [Wheelbarrow/Dolly Heavy Haul]",
+                "Node 02 -> Backyard Coop Run (22,1,11)", 1600000000ULL, 19U,
+                HaulModality::WHEELBARROW_DOLLY_HEAVY_HAUL));
+        } else if (wf_id == "wf:fab_l7_woodwork") {
+            wf.asset_id = "asset:garage_fab";
+            wf.assigned_node_id = "node-02:garage-fab";
+            wf.title = "Garage Fab: L7 Custom Woodwork Commission (+$180 Zero-Bill Offset)";
             wf.tasks.push_back(make_task(
-                wf.workflow_id, 4U, "task:pea_4_irrigate_weed",
-                "4. Irrigate & Weed [Bucket Liquid Haul + Manual Soil Inspection OR L2 Automated Probe/Valve]",
-                "Cistern -> Keyline Bed (20,1,5)", 350000000ULL, 27U, HaulModality::BUCKET_LIQUID_HAUL,
-                "soil_probe_v1", "irrigation_valve_v1", 0U, 4500U));
-            wf.tasks.push_back(make_task(
-                wf.workflow_id, 5U, "task:pea_5_harvest_pods_roots",
-                "5. Harvest Pods & Roots",
-                "Backyard Keyline Bed (20,1,5)", 500000000ULL, 13U, HaulModality::GRANULAR_HAUL));
-            wf.tasks.push_back(make_task(
-                wf.workflow_id, 6U, "task:pea_6_shell_moisture_turn",
-                "6. Shell, Check <14% Moisture & Turn Bed",
-                "Larder Porch & Keyline Bed (20,1,5)", 450000000ULL, 28U, HaulModality::GRANULAR_HAUL,
-                "soil_probe_v1", "", 0U, 1400U,
-                "Confirm shelled split peas tested <1400 bp (<14%) moisture before jar sealing and nitrogenous vines turned into soil?"));
-        } else if (asset_id == "asset:pea_soup_hearth") {
-            wf.workflow_id = "wf:pea_soup_hearth";
-            wf.title = "Pea Soup & 24h Bone Broth Culinary Lifecycle";
-            wf.tasks.push_back(make_task(
-                wf.workflow_id, 1U, "task:soup_1_gather_inputs",
-                "1. Gather/Procure Inputs",
-                "Larder -> Kitchen Prep Table (10,1,4)", 300000000ULL, 14U, HaulModality::GRANULAR_HAUL));
-            wf.tasks.push_back(make_task(
-                wf.workflow_id, 2U, "task:soup_2_simmer_bone_broth",
-                "2. Simmer Bone Broth",
-                "Kitchen Induction Hearth (11,1,4)", 1200000000ULL, 21U, HaulModality::BUCKET_LIQUID_HAUL,
-                "culinary_vessel_v1", "", 347150U, 0U));
-            wf.tasks.push_back(make_task(
-                wf.workflow_id, 3U, "task:soup_3_simmer_pea_soup_74c",
-                "3. Simmer Pea Soup >=74C",
-                "Kitchen Induction Hearth (11,1,4)", 1400000000ULL, 22U, HaulModality::NONE,
-                "culinary_vessel_v1", "", 347150U, 0U,
-                "Confirm core soup temperature held >= 74C (347150 mK) for >= 120s Bigelow lethality with bay leaf and iodized sea salt?"));
-            wf.tasks.push_back(make_task(
-                wf.workflow_id, 4U, "task:soup_4_package_distribute_tiffins",
-                "4. Package & Distribute Tiffins",
-                "Hearth -> R1 Neighborhood Tiffin Rack", 500000000ULL, 23U, HaulModality::TIFFIN_CARRIER_HAUL));
-        } else if (asset_id == "asset:garage_fab") {
-            wf.workflow_id = "wf:garage_fab";
-            wf.title = "Garage Fabrication & L7 Zero-Bill Woodwork Lifecycle";
-            wf.tasks.push_back(make_task(
-                wf.workflow_id, 1U, "task:fab_1_mill_raised_bed",
-                "1. Mill Raised Bed Frame",
-                "Garage Workbench (9,1,13)", 800000000ULL, 25U, HaulModality::WHEELBARROW_DOLLY_HEAVY_HAUL));
-            wf.tasks.push_back(make_task(
-                wf.workflow_id, 2U, "task:fab_2_assemble_compost_kiln",
-                "2. Assemble Compost & Kiln [Wheelbarrow/Dolly Heavy Haul]",
-                "Garage -> Backyard Kiln Pad (23,1,8)", 1100000000ULL, 24U, HaulModality::WHEELBARROW_DOLLY_HEAVY_HAUL));
-            wf.tasks.push_back(make_task(
-                wf.workflow_id, 3U, "task:fab_3_build_poultry_coop",
-                "3. Build Poultry Coop [Wheelbarrow/Dolly Heavy Haul]",
-                "Garage -> Backyard Coop Run (22,1,11)", 1600000000ULL, 19U, HaulModality::WHEELBARROW_DOLLY_HEAVY_HAUL));
-            wf.tasks.push_back(make_task(
-                wf.workflow_id, 4U, "task:fab_4_l7_custom_woodwork_order",
-                "4. L7 Custom Woodwork Order [+$180 Bill Offset]",
-                "Garage Joinery Bench (9,1,13)", 1500000000ULL, 29U, HaulModality::WHEELBARROW_DOLLY_HEAVY_HAUL,
+                wf.workflow_id, wf.asset_id, wf.assigned_node_id, "aff.fulfill_l7_woodwork",
+                1U, "task:fab_4_l7_custom_woodwork_order",
+                "1. Fulfill L7 Custom Woodwork Order [+$180 Bill Offset]",
+                "Node 02: Garage Joinery Bench (9,1,13)", 1500000000ULL, 29U,
+                HaulModality::WHEELBARROW_DOLLY_HEAVY_HAUL,
                 "", "", 0U, 0U,
                 "Confirm mortise-and-tenon joinery tolerances inspected and natural linseed finish cured before L7 client pickup?",
                 18000));
-        } else if (asset_id == "asset:poultry_and_soil") {
-            wf.workflow_id = "wf:poultry_and_soil";
-            wf.title = "Pasture Poultry, Thermophilic Compost & Biochar Lifecycle";
+        } else if (wf_id == "wf:pea_cultivation") {
+            wf.asset_id = "asset:pea_cultivation";
+            wf.assigned_node_id = "node-03:garden-agro";
+            wf.title = "Legume Cultivation & Keyline Bed BPMN Lifecycle";
             wf.tasks.push_back(make_task(
-                wf.workflow_id, 1U, "task:mu_1_feed_bsfl_collect_eggs",
-                "1. Feed BSFL Larvae & Collect Pasture Eggs [Granular Haul]",
-                "Backyard Poultry Coop (22,1,11)", 400000000ULL, 20U, HaulModality::GRANULAR_HAUL));
-            wf.tasks.push_back(make_task(
-                wf.workflow_id, 2U, "task:mu_2_thermophilic_compost_55c",
-                "2. Turn Thermophilic Compost Drum >=55C (328150 mK)",
-                "Backyard Compost Bay (23,1,8)", 500000000ULL, 24U, HaulModality::GRANULAR_HAUL,
-                "compost_drum_probe_v1", "", 328150U, 0U));
-            wf.tasks.push_back(make_task(
-                wf.workflow_id, 3U, "task:mu_3_tlud_biochar_charge",
-                "3. Run TLUD Pyrolysis Biochar Kiln & Charge Terra Preta",
-                "Backyard Kiln Pad (23,1,8)", 900000000ULL, 24U, HaulModality::WHEELBARROW_DOLLY_HEAVY_HAUL,
-                "kiln_thermocouple_v1", "", 773150U, 0U));
-        } else if (asset_id == "asset:water_and_power") {
-            wf.workflow_id = "wf:water_and_power";
-            wf.title = "Rainwater Cistern & Solar Microgrid Stewardship";
-            wf.tasks.push_back(make_task(
-                wf.workflow_id, 1U, "task:infra_1_cistern_first_flush",
-                "1. Inspect Cistern First-Flush Diverter & Ceramic Filter",
-                "Cistern Pad (18,1,3)", 450000000ULL, 27U, HaulModality::BUCKET_LIQUID_HAUL));
-            wf.tasks.push_back(make_task(
-                wf.workflow_id, 2U, "task:infra_2_solar_bus_balance",
-                "2. Dust 400W PV Array & Verify 48V LiFePO4 Cell Balance",
-                "Roof Solar Array (12,4,8)", 750000000ULL, 18U, HaulModality::NONE,
-                "solar_bus_meter_v1", "", 0U, 0U));
-        } else {
-            const std::string slug = MakeSlug(asset_id);
-            wf.workflow_id = "wf:" + slug;
-            wf.title = asset->title + " Local Stewardship Lifecycle";
-            wf.tasks.push_back(make_task(
-                wf.workflow_id, 1U, "task:" + slug + "_1_stage",
-                "1. Stage Local Materials & Tooling [Granular Haul]",
-                "Homestead Workspace", asset->maintenance_exergy_uj / 3ULL + 100000000ULL, 18U,
+                wf.workflow_id, wf.asset_id, wf.assigned_node_id, "aff.plow_and_amend_bed",
+                1U, "task:pea_1_plow_amend",
+                "1. Plow & Amend Keyline Soil [Granular Haul]",
+                "Node 03: Backyard Keyline Bed (20,1,5)", 800000000ULL, 24U,
                 HaulModality::GRANULAR_HAUL));
             wf.tasks.push_back(make_task(
-                wf.workflow_id, 2U, "task:" + slug + "_2_execute",
-                "2. Execute Local Commons Production [Unmodeled micro-detail included]",
-                "Homestead Workspace", asset->maintenance_exergy_uj / 2ULL + 200000000ULL, 18U,
-                HaulModality::NONE, "", "", 0U, 0U,
-                "Confirm physical quality check and local safety envelope verified by steward?"));
+                wf.workflow_id, wf.asset_id, wf.assigned_node_id, "aff.erect_pea_trellis",
+                2U, "task:pea_2_erect_trellis",
+                "2. Erect A-Frame Wire Pea Trellis",
+                "Node 03: Backyard Keyline Bed (20,1,5)", 600000000ULL, 25U,
+                HaulModality::NONE));
             wf.tasks.push_back(make_task(
-                wf.workflow_id, 3U, "task:" + slug + "_3_distribute",
-                "3. Package & Share Output Across Governed Ring",
-                "Node Commons Rack", asset->maintenance_exergy_uj / 4ULL + 100000000ULL, 23U,
+                wf.workflow_id, wf.asset_id, wf.assigned_node_id, "aff.inoculate_and_sow_peas",
+                3U, "task:pea_3_rhizobium_sow",
+                "3. Rhizobium Inoculation & Sow Split Peas + Mirepoix",
+                "Node 03: Backyard Keyline Bed (20,1,5)", 400000000ULL, 26U,
+                HaulModality::NONE, "", "", 0U, 0U,
+                "Confirm pea seeds were dampened and coated with Rhizobium leguminosarum inoculant out of direct UV before sowing 3-4 cm deep?"));
+            wf.tasks.push_back(make_task(
+                wf.workflow_id, wf.asset_id, wf.assigned_node_id, "aff.water_garden_manual",
+                4U, "task:pea_4_irrigate_weed",
+                "4. Timed Verification & Irrigate [Bucket Liquid Haul OR L2 Probe/Valve]",
+                "Node 03: Cistern -> Keyline Bed (20,1,5)", 350000000ULL, 27U,
+                HaulModality::BUCKET_LIQUID_HAUL, "soil_probe_v1", "irrigation_valve_v1", 0U, 4500U));
+            wf.tasks.push_back(make_task(
+                wf.workflow_id, wf.asset_id, wf.assigned_node_id, "aff.harvest_peas_and_roots",
+                5U, "task:pea_5_harvest_pods_roots",
+                "5. Harvest Mature Pea Pods & Mirepoix Roots",
+                "Node 03: Backyard Keyline Bed (20,1,5)", 500000000ULL, 13U,
+                HaulModality::GRANULAR_HAUL));
+            wf.tasks.push_back(make_task(
+                wf.workflow_id, wf.asset_id, wf.assigned_node_id, "aff.shell_dry_and_turn_bed",
+                6U, "task:pea_6_shell_moisture_turn",
+                "6. Shell Dry Legumes (<14% Moisture) & Turn Biomass Vines",
+                "Node 03: Larder Porch & Keyline Bed (20,1,5)", 450000000ULL, 28U,
+                HaulModality::GRANULAR_HAUL, "soil_probe_v1", "", 0U, 1400U,
+                "Confirm shelled split legumes tested <1400 bp (<14%) moisture before jar sealing and residue vines turned into soil?"));
+            ApplyCultivarParametersToWorkflow(
+                wf, ResolveCultivarSpecOrDefault(selected_garden_cultivar_id_));
+        } else if (wf_id == "wf:pea_soup_hearth") {
+            wf.asset_id = "asset:pea_soup_hearth";
+            wf.assigned_node_id = "node-04:hearth-galley";
+            wf.title = "Pea Soup & 24h Collagen Bone Broth BPMN Lifecycle";
+            wf.tasks.push_back(make_task(
+                wf.workflow_id, wf.asset_id, wf.assigned_node_id, "aff.gather_soup_inputs",
+                1U, "task:soup_1_gather_inputs",
+                "1. Gather & Rinse Split Peas, Mirepoix & Broth Bones",
+                "Node 04: Kitchen Prep Sink (12,1,3)", 300000000ULL, 14U,
+                HaulModality::GRANULAR_HAUL));
+            wf.tasks.push_back(make_task(
+                wf.workflow_id, wf.asset_id, wf.assigned_node_id, "aff.simmer_bone_broth",
+                2U, "task:soup_2_simmer_bone_broth",
+                "2. Simmer 24h Collagen Bone Broth (>=347150 mK)",
+                "Node 04: Kitchen Induction Hearth (11,1,3)", 1200000000ULL, 21U,
+                HaulModality::BUCKET_LIQUID_HAUL, "culinary_vessel_v1", "", 347150U, 0U));
+            wf.tasks.push_back(make_task(
+                wf.workflow_id, wf.asset_id, wf.assigned_node_id, "aff.cook_pea_soup",
+                3U, "task:soup_3_simmer_pea_soup_74c",
+                "3. Simmer Split-Pea Soup >=74C (Bigelow Pasteurization)",
+                "Node 04: Kitchen Induction Hearth (11,1,3)", 1400000000ULL, 22U,
+                HaulModality::NONE, "culinary_vessel_v1", "", 347150U, 0U,
+                "Confirm core soup temperature held >= 74C (347150 mK) for >= 120s Bigelow lethality with bay leaf and iodized sea salt?"));
+            wf.tasks.push_back(make_task(
+                wf.workflow_id, wf.asset_id, wf.assigned_node_id, "aff.pack_and_deliver_tiffins",
+                4U, "task:soup_4_package_distribute_tiffins",
+                "4. Package & Serve 304-Stainless Pea Soup Tiffins",
+                "Node 04: Hearth -> Commons Tiffin Rack", 500000000ULL, 23U,
                 HaulModality::TIFFIN_CARRIER_HAUL));
+        } else if (wf_id == "wf:poultry_and_soil") {
+            wf.asset_id = "asset:poultry_and_soil";
+            wf.assigned_node_id = "node-03:garden-agro";
+            wf.title = "Thermophilic Compost, TLUD Biochar & Pasture Poultry BPMN Lifecycle";
+            wf.tasks.push_back(make_task(
+                wf.workflow_id, wf.asset_id, wf.assigned_node_id, "aff.turn_and_harvest_compost",
+                1U, "task:mu_2_thermophilic_compost_55c",
+                "1. Turn Thermophilic Compost Drum >=55C (328150 mK)",
+                "Node 03: Backyard Compost Bay (23,1,9)", 500000000ULL, 24U,
+                HaulModality::GRANULAR_HAUL, "compost_drum_probe_v1", "", 328150U, 0U));
+            wf.tasks.push_back(make_task(
+                wf.workflow_id, wf.asset_id, wf.assigned_node_id, "aff.pyrolyze_and_quench_biochar",
+                2U, "task:mu_3_tlud_biochar_charge",
+                "2. Run TLUD Pyrolysis Biochar Kiln & Charge Terra Preta",
+                "Node 03: Backyard Kiln Pad (23,1,8)", 900000000ULL, 24U,
+                HaulModality::WHEELBARROW_DOLLY_HEAVY_HAUL, "kiln_thermocouple_v1", "", 773150U, 0U));
+            wf.tasks.push_back(make_task(
+                wf.workflow_id, wf.asset_id, wf.assigned_node_id, "aff.tend_hens_and_collect_eggs",
+                3U, "task:mu_1_feed_bsfl_collect_eggs",
+                "3. Feed BSFL Larvae & Collect Pasture Eggs [Trophic Closure]",
+                "Node 03: Backyard Poultry Coop (22,1,11)", 400000000ULL, 20U,
+                HaulModality::GRANULAR_HAUL));
+        } else if (wf_id == "wf:water_and_power") {
+            wf.asset_id = "asset:water_and_power";
+            wf.assigned_node_id = "node-01:office-coordinator";
+            wf.title = "Rainwater Cistern & 48V Solar Microgrid BPMN Lifecycle";
+            wf.tasks.push_back(make_task(
+                wf.workflow_id, wf.asset_id, wf.assigned_node_id, "aff.draw_potable_water",
+                1U, "task:infra_1_cistern_first_flush",
+                "1. Inspect Cistern First-Flush Diverter & Draw Potable Water",
+                "Node 01: Cistern Pad (18,1,3)", 450000000ULL, 27U,
+                HaulModality::BUCKET_LIQUID_HAUL));
+            wf.tasks.push_back(make_task(
+                wf.workflow_id, wf.asset_id, wf.assigned_node_id, "aff.study_at_workstation",
+                2U, "task:infra_2_solar_bus_balance",
+                "2. Audit 400W PV Array & Verify 48V LiFePO4 Cell Balance",
+                "Node 01: Office Workstation (13,1,3)", 750000000ULL, 18U,
+                HaulModality::NONE, "solar_bus_meter_v1", "", 0U, 0U));
+        } else {
+            return;
         }
+
+        if (L5GovernedAsset* asset = FindAssetMutable(wf.asset_id)) {
+            asset->local_workflows_instantiated = 1U;
+            bool already_listed = false;
+            for (const auto& existing_id : asset->workflow_ids) {
+                if (existing_id == wf.workflow_id) {
+                    already_listed = true;
+                    break;
+                }
+            }
+            if (!already_listed) {
+                asset->workflow_ids.push_back(wf.workflow_id);
+            }
+        }
+        workflows_.push_back(wf);
+        RefreshL4AutomationModalities();
+    }
+
+    void EnsureWorkflowsSpawnedForAsset(const std::string& asset_id) {
+        L5GovernedAsset* asset = FindAssetMutable(asset_id);
+        if (asset == nullptr) {
+            return;
+        }
+
+        if (asset_id == "asset:pea_cultivation") {
+            EnsureSpecificWorkflowSpawned("wf:pea_cultivation");
+            return;
+        }
+        if (asset_id == "asset:pea_soup_hearth") {
+            EnsureSpecificWorkflowSpawned("wf:pea_soup_hearth");
+            return;
+        }
+        if (asset_id == "asset:poultry_and_soil") {
+            EnsureSpecificWorkflowSpawned("wf:poultry_and_soil");
+            return;
+        }
+        if (asset_id == "asset:garage_fab") {
+            EnsureSpecificWorkflowSpawned("wf:fab_l7_woodwork");
+            return;
+        }
+        if (asset_id == "asset:water_and_power") {
+            EnsureSpecificWorkflowSpawned("wf:water_and_power");
+            return;
+        }
+
+        const std::string slug = MakeSlug(asset_id);
+        const std::string custom_wf_id = "wf:" + slug;
+        if (HasWorkflow(custom_wf_id)) {
+            return;
+        }
+
+        L4WorkflowInstance wf{};
+        wf.workflow_id = custom_wf_id;
+        wf.asset_id = asset_id;
+        wf.assigned_node_id = "node-01:office-coordinator";
+        wf.title = asset->title + " Local Stewardship BPMN Lifecycle";
+        wf.spawned_tick = current_tick_;
+        wf.is_active = 1U;
+
+        auto make_custom_step = [&](uint32_t step_idx,
+                                    const std::string& suffix,
+                                    const std::string& title,
+                                    const char* affordance_id,
+                                    uint64_t exergy_uj,
+                                    uint32_t action_code,
+                                    HaulModality haul,
+                                    const char* prompt) {
+            L4TaskItem t{};
+            t.task_id = "task:" + slug + "_" + suffix;
+            t.workflow_id = custom_wf_id;
+            t.asset_id = asset_id;
+            t.assigned_node_id = "node-01:office-coordinator";
+            t.mapped_affordance_id = affordance_id;
+            t.title = title;
+            t.location_label = "Node 01: Homestead Commons Workspace";
+            t.exergy_cost_uj = exergy_uj;
+            t.last_state_change_tick = current_tick_;
+            t.step_index = step_idx;
+            t.oasis_action_code = action_code;
+            t.task_commitment_state = TaskCommitmentState::UNASSIGNED;
+            t.bpmn_token_state = BpmnTokenState::WAITING_SEQUENCE_FLOW;
+            t.haul_modality = haul;
+            if (prompt != nullptr && prompt[0] != '\0') {
+                t.has_unmodeled_micro_detail = 1U;
+                t.unmodeled_prompt_question = prompt;
+            }
+            return t;
+        };
+
+        wf.tasks.push_back(make_custom_step(
+            1U, "1_stage",
+            "1. Stage Local Materials & Tooling [Granular Haul]",
+            "aff.study_at_workstation",
+            asset->maintenance_exergy_uj / 3ULL + 100000000ULL, 18U,
+            HaulModality::GRANULAR_HAUL, ""));
+        wf.tasks.push_back(make_custom_step(
+            2U, "2_execute",
+            "2. Execute Local Commons Production [Unmodeled micro-detail included]",
+            "aff.study_at_workstation",
+            asset->maintenance_exergy_uj / 2ULL + 200000000ULL, 18U,
+            HaulModality::NONE,
+            "Confirm physical quality check and local safety envelope verified by steward?"));
+        wf.tasks.push_back(make_custom_step(
+            3U, "3_distribute",
+            "3. Package & Share Output Across Governed Ring",
+            "aff.pack_and_deliver_tiffins",
+            asset->maintenance_exergy_uj / 4ULL + 100000000ULL, 23U,
+            HaulModality::TIFFIN_CARRIER_HAUL, ""));
 
         asset->local_workflows_instantiated = 1U;
         asset->workflow_ids.push_back(wf.workflow_id);
@@ -2542,24 +4157,294 @@ private:
     }
 
     // ------------------------------------------------------------------------
+    // Fabaceae Cultivar Catalog & Reusable Workflow Parameterization
+    // ------------------------------------------------------------------------
+
+    void InitializeCanonicalCultivars() {
+        cultivars_.clear();
+
+        {
+            CultivarWorkflowSpec c{};
+            c.seed_exergy_uj = 400000000ULL;
+            c.cultivar_id = "cultivar:chrono_virtual_pea";
+            c.title = "Chrono-Pod Virtual Pea (Sim-Tuned Fast Cycle)";
+            c.species_binomial = "Pisum virtualis";
+            c.agronomic_notes =
+                "Game-tuned virtual cultivar: 12h seed-to-pod cycle with 3h timed verification checks and 1.4x Rhizobium N2 fixation.";
+            c.maturity_sim_seconds = 43200U;        // 12 sim hours
+            c.verification_interval_sim_s = 10800U; // 3 sim hours
+            c.min_growth_temp_mk = 277150U;
+            c.opt_low_temp_mk = 285150U;
+            c.opt_high_temp_mk = 302150U;
+            c.max_growth_temp_mk = 313150U;
+            c.target_min_vwc_bp = 3000U;
+            c.target_opt_vwc_bp = 4200U;
+            c.target_max_vwc_bp = 4900U;
+            c.irrigation_dose_ml = 4500U;
+            c.et_multiplier_bp = 15000U;
+            c.n_fixation_rate_bp = 14000U;
+            c.harvest_mature_bp = 9500U;
+            c.trellis_ridge_height_mm = 1500U;
+            c.sowing_depth_mm = 30U;
+            c.n_draw_per_band_ppm = 0U;
+            c.p_draw_per_band_ppm = 1U;
+            c.k_draw_per_band_ppm = 1U;
+            c.fixes_atmospheric_n2 = 1U;
+            c.is_virtual_sim_tuned = 1U;
+            c.harvest_legume_batches = 2U;
+            c.harvest_mirepoix_batches = 1U;
+            cultivars_.push_back(c);
+        }
+        {
+            CultivarWorkflowSpec c{};
+            c.seed_exergy_uj = 380000000ULL;
+            c.cultivar_id = "cultivar:little_marvel_pea";
+            c.title = "Little Marvel Bush Pea";
+            c.species_binomial = "Pisum sativum var. humile";
+            c.agronomic_notes =
+                "Compact 900 mm cool-season dwarf pea: 48h (2-day) cycle with 6h soil verification checks and steady Rhizobium N2 fixation.";
+            c.maturity_sim_seconds = 172800U;       // 48 sim hours (2 days)
+            c.verification_interval_sim_s = 21600U; // 6 sim hours
+            c.min_growth_temp_mk = 278150U;
+            c.opt_low_temp_mk = 286150U;
+            c.opt_high_temp_mk = 297150U;
+            c.max_growth_temp_mk = 306150U;
+            c.target_min_vwc_bp = 3000U;
+            c.target_opt_vwc_bp = 4100U;
+            c.target_max_vwc_bp = 4700U;
+            c.irrigation_dose_ml = 4000U;
+            c.et_multiplier_bp = 9500U;
+            c.n_fixation_rate_bp = 10000U;
+            c.harvest_mature_bp = 9500U;
+            c.trellis_ridge_height_mm = 900U;
+            c.sowing_depth_mm = 35U;
+            c.n_draw_per_band_ppm = 0U;
+            c.p_draw_per_band_ppm = 1U;
+            c.k_draw_per_band_ppm = 1U;
+            c.fixes_atmospheric_n2 = 1U;
+            c.is_virtual_sim_tuned = 0U;
+            c.harvest_legume_batches = 2U;
+            c.harvest_mirepoix_batches = 1U;
+            cultivars_.push_back(c);
+        }
+        {
+            CultivarWorkflowSpec c{};
+            c.seed_exergy_uj = 460000000ULL;
+            c.cultivar_id = "cultivar:alderman_telephone_pea";
+            c.title = "Alderman Heritage Climbing Pea";
+            c.species_binomial = "Pisum sativum";
+            c.agronomic_notes =
+                "Tall 1.9 m heirloom shelling pea: 7-day cycle with 12h verification checks, high N2 fixation, and +3 split-pea batches.";
+            c.maturity_sim_seconds = 604800U;       // 7 sim days
+            c.verification_interval_sim_s = 43200U; // 12 sim hours
+            c.min_growth_temp_mk = 278150U;
+            c.opt_low_temp_mk = 286150U;
+            c.opt_high_temp_mk = 296150U;
+            c.max_growth_temp_mk = 305150U;
+            c.target_min_vwc_bp = 3200U;
+            c.target_opt_vwc_bp = 4300U;
+            c.target_max_vwc_bp = 4900U;
+            c.irrigation_dose_ml = 5000U;
+            c.et_multiplier_bp = 10500U;
+            c.n_fixation_rate_bp = 12000U;
+            c.harvest_mature_bp = 9500U;
+            c.trellis_ridge_height_mm = 1900U;
+            c.sowing_depth_mm = 40U;
+            c.n_draw_per_band_ppm = 0U;
+            c.p_draw_per_band_ppm = 1U;
+            c.k_draw_per_band_ppm = 2U;
+            c.fixes_atmospheric_n2 = 1U;
+            c.is_virtual_sim_tuned = 0U;
+            c.harvest_legume_batches = 3U;
+            c.harvest_mirepoix_batches = 2U;
+            cultivars_.push_back(c);
+        }
+        {
+            CultivarWorkflowSpec c{};
+            c.seed_exergy_uj = 520000000ULL;
+            c.cultivar_id = "cultivar:kentucky_wonder_bean";
+            c.title = "Kentucky Wonder Heritage Pole Bean";
+            c.species_binomial = "Phaseolus vulgaris";
+            c.agronomic_notes =
+                "Warm-season Fabaceae pole bean (requires >=12C / 285150 mK soil): 10-day cycle, 12h checks, draws soil mineral N-P-K, yields +4 legume batches.";
+            c.maturity_sim_seconds = 864000U;       // 10 sim days
+            c.verification_interval_sim_s = 43200U; // 12 sim hours
+            c.min_growth_temp_mk = 285150U;         // 12.0 C warm-soil minimum!
+            c.opt_low_temp_mk = 291150U;
+            c.opt_high_temp_mk = 303150U;
+            c.max_growth_temp_mk = 311150U;
+            c.target_min_vwc_bp = 3300U;
+            c.target_opt_vwc_bp = 4400U;
+            c.target_max_vwc_bp = 5000U;
+            c.irrigation_dose_ml = 5500U;
+            c.et_multiplier_bp = 11500U;
+            c.n_fixation_rate_bp = 0U;
+            c.harvest_mature_bp = 9500U;
+            c.trellis_ridge_height_mm = 2100U;
+            c.sowing_depth_mm = 25U;
+            c.n_draw_per_band_ppm = 1U;
+            c.p_draw_per_band_ppm = 2U;
+            c.k_draw_per_band_ppm = 3U;
+            c.fixes_atmospheric_n2 = 0U;
+            c.is_virtual_sim_tuned = 0U;
+            c.harvest_legume_batches = 4U;
+            c.harvest_mirepoix_batches = 2U;
+            cultivars_.push_back(c);
+        }
+    }
+
+    void TryEnrichCultivarsFromJsonLd() {
+        const std::vector<std::string> candidate_paths = {
+            "core/6_intent/cultivars/fabaceae_cultivars.jsonld",
+            "../core/6_intent/cultivars/fabaceae_cultivars.jsonld",
+            "../../core/6_intent/cultivars/fabaceae_cultivars.jsonld",
+            "../../../core/6_intent/cultivars/fabaceae_cultivars.jsonld",
+            "../../../../core/6_intent/cultivars/fabaceae_cultivars.jsonld"
+        };
+
+        for (const auto& path : candidate_paths) {
+            std::ifstream in(path, std::ios::in | std::ios::binary);
+            if (!in.is_open()) {
+                continue;
+            }
+            std::ostringstream buf;
+            buf << in.rdbuf();
+            const std::string content = buf.str();
+            if (content.empty()) {
+                continue;
+            }
+
+            uint32_t enriched = 0U;
+            for (auto& c : cultivars_) {
+                const std::string lookup_key = "\"@id\": \"" + c.cultivar_id + "\"";
+                const size_t hit = content.find(lookup_key);
+                if (hit == std::string::npos) {
+                    continue;
+                }
+                const size_t next_id = content.find("\"@id\":", hit + 6U);
+                const size_t window_end = (next_id != std::string::npos)
+                                              ? std::min(next_id, hit + 3200U)
+                                              : std::min(content.size(), hit + 3200U);
+                std::string_view slice(content.data() + hit, window_end - hit);
+                const uint64_t mat_s = json_util::ExtractUint64(slice, "maturity_sim_seconds", 0ULL);
+                if (mat_s > 0ULL) {
+                    c.maturity_sim_seconds = static_cast<uint32_t>(mat_s);
+                }
+                const uint64_t chk_s = json_util::ExtractUint64(slice, "verification_interval_sim_s", 0ULL);
+                if (chk_s > 0ULL) {
+                    c.verification_interval_sim_s = static_cast<uint32_t>(chk_s);
+                }
+                const uint64_t min_mk = json_util::ExtractUint64(slice, "min_growth_temp_mk", 0ULL);
+                if (min_mk > 0ULL) {
+                    c.min_growth_temp_mk = static_cast<uint32_t>(min_mk);
+                }
+                const uint64_t batches = json_util::ExtractUint64(slice, "harvest_legume_batches", 0ULL);
+                if (batches > 0ULL) {
+                    c.harvest_legume_batches = static_cast<uint8_t>(batches);
+                }
+                const std::string desc = json_util::ExtractString(slice, "schema:description");
+                if (!desc.empty()) {
+                    c.agronomic_notes = desc;
+                }
+                ++enriched;
+            }
+            cultivars_enriched_count_ = enriched;
+            break;
+        }
+    }
+
+    static void ApplyCultivarParametersToWorkflow(
+        L4WorkflowInstance& wf,
+        const CultivarWorkflowSpec& spec
+    ) {
+        wf.input_cultivar_id = spec.cultivar_id;
+        wf.input_cultivar_title = spec.title;
+        wf.species_binomial = spec.species_binomial;
+        wf.harvest_mature_bp = spec.harvest_mature_bp;
+        wf.maturity_sim_seconds = spec.maturity_sim_seconds;
+        wf.verification_interval_sim_s = spec.verification_interval_sim_s;
+        wf.is_virtual_cultivar = spec.is_virtual_sim_tuned;
+        wf.fixes_atmospheric_n2 = spec.fixes_atmospheric_n2;
+        wf.phenology_stage_label =
+            ComputePhenologyLabel(wf.crop_growth_bp, wf.crop_sown, spec.harvest_mature_bp);
+        wf.title = "Legume Cultivation BPMN — " + spec.title + " (" +
+                   FormatSimDurationCompact(spec.maturity_sim_seconds) + " cycle)";
+
+        for (auto& t : wf.tasks) {
+            if (t.task_id == "task:pea_2_erect_trellis") {
+                t.title = "2. Erect A-Frame Wire Trellis (" +
+                          std::to_string(spec.trellis_ridge_height_mm) + " mm Ridge)";
+            } else if (t.task_id == "task:pea_3_rhizobium_sow") {
+                t.exergy_cost_uj = spec.seed_exergy_uj;
+                t.target_temp_min_mk = spec.min_growth_temp_mk;
+                if (spec.fixes_atmospheric_n2 != 0U) {
+                    t.title = "3. Rhizobium Inoculation & Sow " + spec.title + " (" +
+                              std::to_string(spec.sowing_depth_mm) + " mm)";
+                    t.unmodeled_prompt_question =
+                        "Confirm " + spec.species_binomial +
+                        " seeds were dampened and coated with Rhizobium leguminosarum inoculant out of direct UV before sowing " +
+                        std::to_string(spec.sowing_depth_mm) + " mm deep?";
+                } else {
+                    t.title = "3. Warm-Soil Check (>=" +
+                              std::to_string((spec.min_growth_temp_mk - 273150U) / 1000U) +
+                              "C) & Sow " + spec.title + " (" +
+                              std::to_string(spec.sowing_depth_mm) + " mm)";
+                    t.unmodeled_prompt_question =
+                        "Confirm soil bed exceeded " + std::to_string(spec.min_growth_temp_mk) +
+                        " mK warm-season threshold and received compost mineral-N side-dressing for non-nodulating " +
+                        spec.species_binomial + "?";
+                }
+            } else if (t.task_id == "task:pea_4_irrigate_weed") {
+                t.timer_interval_sim_s = spec.verification_interval_sim_s;
+                t.target_temp_min_mk = spec.min_growth_temp_mk;
+                t.target_moisture_max_bp = spec.target_opt_vwc_bp;
+                t.title = "4. Timed Verification & Irrigate [Every " +
+                          FormatSimDurationCompact(spec.verification_interval_sim_s) +
+                          " · Bucket OR L2]";
+            } else if (t.task_id == "task:pea_5_harvest_pods_roots") {
+                t.title = "5. Harvest Mature " + spec.title + " (+" +
+                          std::to_string(spec.harvest_legume_batches) + " Legume / +" +
+                          std::to_string(spec.harvest_mirepoix_batches) + " Root Batches)";
+            }
+        }
+    }
+
+    // ------------------------------------------------------------------------
     // Strictly 8-Byte Aligned Member Layout (-Wpadded Clean)
     // ------------------------------------------------------------------------
-    std::vector<L6NeedRecord>       needs_{};
-    std::vector<L6IntentRequest>    requests_{};
-    std::vector<L6PendingDecision>  pending_decisions_{};
-    std::vector<L5GovernedAsset>    governed_assets_{};
-    std::vector<L4WorkflowInstance> workflows_{};
-    std::vector<L6NeedRecord>       last_search_results_{};
-    L2TelemetryTable                l2_telemetry_{};
-    L3NodeLedger                    ledger_{};
-    std::string                     bootstrap_source_path_{};
-    std::string                     last_command_action_{};
-    std::string                     last_command_status_{};
-    uint64_t                        current_tick_{1ULL};
-    uint64_t                        custom_counter_{0ULL};
-    uint32_t                        sim_day_{1U};
-    uint8_t                         bootstrapped_from_jsonld_{0U};
-    [[maybe_unused]] uint8_t        pad_[3]{0U};
+    std::vector<L6NeedRecord>         needs_{};
+    std::vector<L6IntentRequest>      requests_{};
+    std::vector<L6PendingDecision>    pending_decisions_{};
+    std::vector<L5GovernedAsset>      governed_assets_{};
+    std::vector<L4WorkflowInstance>   workflows_{};
+    std::vector<L6NeedRecord>         last_search_results_{};
+    std::vector<HomesteadClusterNode> cluster_nodes_{};
+    std::vector<CultivarWorkflowSpec> cultivars_{};
+    L2TelemetryTable                  l2_telemetry_{};
+    L3NodeLedger                      ledger_{};
+    std::string                       bootstrap_source_path_{};
+    std::string                       selected_garden_cultivar_id_{"cultivar:chrono_virtual_pea"};
+    std::string                       last_command_action_{};
+    std::string                       last_command_status_{};
+    uint64_t                          current_tick_{1ULL};
+    uint64_t                          custom_counter_{0ULL};
+    uint64_t                          sim_clock_seconds_{28800ULL};
+    uint32_t                          sim_day_{1U};
+    uint32_t                          ambient_temp_override_mk_{0U};
+    uint32_t                          cultivars_enriched_count_{0U};
+    uint32_t                          raised_bed_frames_built_{0U};
+    uint32_t                          compost_kiln_units_built_{0U};
+    uint32_t                          poultry_coops_built_{0U};
+    uint32_t                          harvested_split_pea_batches_{0U};
+    uint32_t                          harvested_mirepoix_batches_{0U};
+    uint32_t                          poultry_bones_and_eggs_batches_{0U};
+    uint32_t                          thermophilic_compost_batches_{0U};
+    uint32_t                          biochar_batches_{0U};
+    uint32_t                          simmered_bone_broth_batches_{0U};
+    uint32_t                          served_pea_soup_tiffin_batches_{0U};
+    uint8_t                           bootstrapped_from_jsonld_{0U};
+    uint8_t                           external_r1_swarm_enabled_{0U};
+    [[maybe_unused]] uint8_t          pad_[2]{0U};
 };
 static_assert(alignof(SharedStackRuntime) == 8, "SharedStackRuntime must be 8-byte aligned.");
 

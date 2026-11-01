@@ -194,18 +194,27 @@
         return !isLookId(id) && !isInspectId(id);
       });
 
+      const bpmnBlockedCount = Number(data.bpmn_blocked_count || 0);
+      const bpmnChoreographyNote = bpmnBlockedCount > 0
+        ? `<div class="committed-empty" style="margin-top:6px;border-top:1px dashed rgba(148,163,184,0.18);padding-top:6px;">🔒 ${bpmnBlockedCount} production step${bpmnBlockedCount === 1 ? '' : 's'} gated by BPMN workflow tokens — approve a Decision or check the active step in L6 Companion.</div>`
+        : '';
+
       const affordanceButtonsHtml = domainAffordances.length === 0
-        ? '<div class="committed-empty">No physical interventions unlocked for current tools & capabilities. Use Look or Inspect above.</div>'
+        ? `<div class="committed-empty">No physical actions currently unlocked at this station. Use Look or Inspect above.</div>${bpmnChoreographyNote}`
         : domainAffordances.map((aff, idx) => {
             const affId = aff.affordance_id || aff.id || `aff_${idx}`;
             const label = aff.label || aff.title || affId;
             const dur = formatDurationLabel(aff);
             const cap = formatCapabilityTag(aff.required_capability_tag || aff.required_capability);
             const haul = resolveHaulBadge(aff);
+            const l4TaskId = aff.l4_task_id || '';
             const disabledReason = aff.disabled_reason || aff.locked_reason || (aff.enabled === false ? 'Requirements unmet' : '');
             const isDisabled = Boolean(disabledReason) || aff.enabled === false;
 
             const badges = [];
+            if (l4TaskId) {
+              badges.push(`<span class="hud-tag l2-active" style="border-color:rgba(52,211,153,0.65);color:#6ee7b7;">🟢 BPMN Token</span>`);
+            }
             if (cap) badges.push(`<span class="hud-tag">🛠️ ${escapeHtml(cap)}</span>`);
             if (haul) badges.push(`<span class="hud-tag l2-active">${escapeHtml(haul)}</span>`);
             if (disabledReason) {
@@ -226,7 +235,7 @@
                 ${badges.length > 0 ? `<div class="ctx-aff-badges">${badges.join('')}</div>` : ''}
               </button>
             `;
-          }).join('');
+          }).join('') + bpmnChoreographyNote;
 
       menuEl.innerHTML = `
         <div class="ctx-header">

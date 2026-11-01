@@ -45,6 +45,21 @@
           </div>
         </div>
 
+        <div id="hud-available-card" class="hud-panel">
+          <div class="hud-section-header">
+            <span class="hud-section-title">📋 Available Tasks</span>
+            <div class="hud-pager-controls">
+              <span id="hud-available-count" class="hud-tag">0</span>
+              <button type="button" class="hud-pager-btn" id="btn-avail-prev" title="Previous Page" aria-label="Previous Available Tasks Page">◀</button>
+              <span id="hud-available-page" class="hud-page-indicator">1/1</span>
+              <button type="button" class="hud-pager-btn" id="btn-avail-next" title="Next Page" aria-label="Next Available Tasks Page">▶</button>
+            </div>
+          </div>
+          <div id="hud-available-list">
+            <div class="committed-empty">Syncing available BPMN tokens (:8090)...</div>
+          </div>
+        </div>
+
         <div id="hud-committed-card" class="hud-panel">
           <div class="hud-section-header">
             <span class="hud-section-title">📌 My Committed Tasks</span>

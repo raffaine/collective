@@ -112,6 +112,9 @@
     roofCutaway: true,
     mapMode: 'static',
     drawerOpen: false,
+    availablePage: 0,
+    availablePageSize: 2,
+    availableTotalPages: 1,
     committedTasksById: new Map(),
     executingTaskState: null, // { taskId, sawEngineProgress, startedAtMs }
     _completedSentIds: new Set(),
@@ -168,6 +171,38 @@
       if (audioBtn) {
         audioBtn.addEventListener('click', () => {
           if (window.OasisAudio) window.OasisAudio.toggle();
+        });
+      }
+
+      const prevAvailBtn = document.getElementById('btn-avail-prev');
+      if (prevAvailBtn) {
+        prevAvailBtn.addEventListener('click', () => {
+          if (this.availablePage > 0) {
+            this.availablePage -= 1;
+            if (window.OasisAudio) window.OasisAudio.playClick();
+            if (window.OasisDaemonClient && window.OasisDaemonClient.latestSnapshot) {
+              this._renderAvailableTasksCard(
+                window.OasisDaemonClient.latestSnapshot,
+                window.OasisDaemonClient.isOnline
+              );
+            }
+          }
+        });
+      }
+
+      const nextAvailBtn = document.getElementById('btn-avail-next');
+      if (nextAvailBtn) {
+        nextAvailBtn.addEventListener('click', () => {
+          if (this.availablePage + 1 < this.availableTotalPages) {
+            this.availablePage += 1;
+            if (window.OasisAudio) window.OasisAudio.playClick();
+            if (window.OasisDaemonClient && window.OasisDaemonClient.latestSnapshot) {
+              this._renderAvailableTasksCard(
+                window.OasisDaemonClient.latestSnapshot,
+                window.OasisDaemonClient.isOnline
+              );
+            }
+          }
         });
       }
 
@@ -510,10 +545,159 @@
       }, 14000);
     },
 
+    _renderAvailableTasksCard(snapshot, isOnline) {
+      const availCountEl = document.getElementById('hud-available-count');
+      const availPageEl = document.getElementById('hud-available-page');
+      const prevBtn = document.getElementById('btn-avail-prev');
+      const nextBtn = document.getElementById('btn-avail-next');
+      const availListEl = document.getElementById('hud-available-list');
+      if (!availListEl) return;
+
+      if (!isOnline || !snapshot) {
+        if (availCountEl) availCountEl.textContent = '0';
+        if (availPageEl) availPageEl.textContent = '1/1';
+        if (prevBtn) prevBtn.disabled = true;
+        if (nextBtn) nextBtn.disabled = true;
+        availListEl.innerHTML = '<div class="committed-empty">Start native POSIX daemons (./scripts/run_native_daemons.sh start) to browse available BPMN tasks.</div>';
+        return;
+      }
+
+      const wfMap = new Map();
+      if (Array.isArray(snapshot.l4_workflows)) {
+        snapshot.l4_workflows.forEach((wf) => {
+          if (wf && wf.workflow_id) wfMap.set(wf.workflow_id, wf);
+        });
+      }
+
+      let available = Array.isArray(snapshot.l4_available_tasks)
+        ? snapshot.l4_available_tasks.slice()
+        : [];
+      if (available.length === 0 && Array.isArray(snapshot.l4_workflows)) {
+        snapshot.l4_workflows.forEach((wf) => {
+          (wf.tasks || []).forEach((t) => {
+            if (
+              t &&
+              t.bpmn_token_state === 'ACTIVE_TOKEN' &&
+              t.task_commitment_state === 'UNASSIGNED'
+            ) {
+              available.push(t);
+            }
+          });
+        });
+      }
+
+      let waitingTimers = Array.isArray(snapshot.l4_waiting_timers)
+        ? snapshot.l4_waiting_timers.slice()
+        : [];
+      if (waitingTimers.length === 0 && Array.isArray(snapshot.l4_workflows)) {
+        snapshot.l4_workflows.forEach((wf) => {
+          (wf.tasks || []).forEach((t) => {
+            if (t && t.bpmn_token_state === 'WAITING_TIMER') {
+              waitingTimers.push(t);
+            }
+          });
+        });
+      }
+
+      const entries = [
+        ...available.map((task) => ({ kind: 'available', task })),
+        ...waitingTimers.map((task) => ({ kind: 'timer', task }))
+      ];
+
+      if (availCountEl) {
+        availCountEl.textContent = waitingTimers.length > 0
+          ? `${available.length} · ${waitingTimers.length}⏳`
+          : String(available.length);
+      }
+
+      this.availableTotalPages = Math.max(1, Math.ceil(entries.length / this.availablePageSize));
+      if (this.availablePage >= this.availableTotalPages) {
+        this.availablePage = this.availableTotalPages - 1;
+      }
+      if (this.availablePage < 0) {
+        this.availablePage = 0;
+      }
+
+      if (availPageEl) {
+        availPageEl.textContent = `${this.availablePage + 1}/${this.availableTotalPages}`;
+      }
+      if (prevBtn) prevBtn.disabled = this.availablePage <= 0;
+      if (nextBtn) nextBtn.disabled = this.availablePage + 1 >= this.availableTotalPages;
+
+      if (entries.length === 0) {
+        const hasWorkflows = Array.isArray(snapshot.l4_workflows) && snapshot.l4_workflows.length > 0;
+        availListEl.innerHTML = hasWorkflows
+          ? '<div class="committed-empty">All active BPMN tokens are committed or completed. Execute your committed task below or start a new cycle in L6 Companion.</div>'
+          : '<div class="committed-empty">0 unsolicited tasks on Day 1. Approve an L5 Decision (🔔 below) to unlock its first BPMN step.</div>';
+        return;
+      }
+
+      const startIdx = this.availablePage * this.availablePageSize;
+      const pageEntries = entries.slice(startIdx, startIdx + this.availablePageSize);
+
+      availListEl.innerHTML = pageEntries.map((entry) => {
+        const task = entry.task;
+        if (entry.kind === 'timer') {
+          const wf = wfMap.get(task.workflow_id) || {};
+          const cultTitle = wf.input_cultivar_title || 'Legume Crop';
+          const growthPct = Math.round(Number(wf.crop_growth_bp || 0) / 100);
+          const remLabel = task.timer_remaining_label || `${task.timer_remaining_sim_s || 0}s`;
+          const stageLabel = wf.phenology_stage_label || 'Growing';
+          return `
+            <div class="waiting-timer-item">
+              <div class="committed-item-info">
+                <div class="committed-item-title" style="color:var(--amber);" title="${escapeHtml(task.title)}">
+                  ⏳ ${escapeHtml(task.title)}
+                </div>
+                <div class="committed-item-meta" style="color:#fde68a;">
+                  ${escapeHtml(cultTitle)} · ${growthPct}% (${escapeHtml(stageLabel)}) · Next in ${escapeHtml(remLabel)}
+                </div>
+              </div>
+              <span class="hud-tag" style="border-color:var(--border-amber);color:var(--amber);">⏱ ${escapeHtml(remLabel)}</span>
+            </div>
+          `;
+        }
+
+        const haulTag = HAUL_BADGES[task.haul_modality] || '';
+        const metaParts = [];
+        if (task.assigned_node_id) metaParts.push(task.assigned_node_id);
+        if (task.location_label) metaParts.push(task.location_label);
+        if (haulTag) metaParts.push(haulTag);
+
+        return `
+          <div class="available-item">
+            <div class="committed-item-info">
+              <div class="committed-item-title" title="${escapeHtml(task.title)}">${escapeHtml(task.title)}</div>
+              <div class="committed-item-meta">${escapeHtml(metaParts.join(' · ') || task.workflow_id || 'Homestead')}</div>
+            </div>
+            <button type="button" class="hud-btn" data-hud-commit-task="${escapeHtml(task.task_id)}" title="Commit active BPMN token to My Committed Tasks">📌 Commit</button>
+          </div>
+        `;
+      }).join('');
+
+      availListEl.querySelectorAll('[data-hud-commit-task]').forEach((btn) => {
+        btn.addEventListener('click', async () => {
+          const taskId = btn.getAttribute('data-hud-commit-task');
+          if (!taskId || !window.OasisDaemonClient) return;
+          btn.disabled = true;
+          if (window.OasisAudio) window.OasisAudio.playClick();
+          try {
+            await window.OasisDaemonClient.sendCommand('commit_task', { task_id: taskId });
+          } catch (err) {
+            btn.disabled = false;
+            console.warn('[OasisUI] Failed to commit available task:', err);
+          }
+        });
+      });
+    },
+
     _onDaemonSnapshot(snapshot, isOnline) {
       const pillBtn = document.getElementById('hud-decision-pill');
       const countBadge = document.getElementById('hud-committed-count');
       const listEl = document.getElementById('hud-committed-list');
+
+      // Render Available Tasks & BPMN Timers window directly above My Committed Tasks
+      this._renderAvailableTasksCard(snapshot, isOnline);
 
       if (!isOnline || !snapshot) {
         if (pillBtn) {
@@ -541,7 +725,18 @@
         }
       }
 
-      // 2. Populate My Committed Tasks Checklist from COMMITTED_BY_PLAYER tasks
+      // 2. Clear completion cache for any workflow tasks reset or re-armed by a BPMN timer
+      if (Array.isArray(snapshot.l4_workflows)) {
+        snapshot.l4_workflows.forEach((wf) => {
+          (wf.tasks || []).forEach((t) => {
+            if (t && t.task_id && t.task_commitment_state !== 'COMPLETED') {
+              this._completedSentIds.delete(t.task_id);
+            }
+          });
+        });
+      }
+
+      // 3. Populate My Committed Tasks Checklist from COMMITTED_BY_PLAYER tasks
       let committed = Array.isArray(snapshot.l4_committed_tasks)
         ? snapshot.l4_committed_tasks.filter((t) => t.task_commitment_state === 'COMMITTED_BY_PLAYER')
         : [];
@@ -569,20 +764,25 @@
 
       if (!listEl) return;
       if (committed.length === 0) {
-        listEl.innerHTML = '<div class="committed-empty">No tasks committed to you. Open L6 Companion → Workflows to commit tasks.</div>';
+        listEl.innerHTML = '<div class="committed-empty">No tasks committed to you. Click 📌 Commit in Available Tasks above or in L6 Companion.</div>';
         return;
       }
 
       listEl.innerHTML = committed.map((task) => {
         const isExecuting = this.executingTaskState && this.executingTaskState.taskId === task.task_id;
+        const hasActiveToken = !task.bpmn_token_state || task.bpmn_token_state === 'ACTIVE_TOKEN';
         const haulTag = HAUL_BADGES[task.haul_modality] || '';
         const metaParts = [];
+        if (task.assigned_node_id) metaParts.push(task.assigned_node_id);
         if (task.location_label) metaParts.push(task.location_label);
         if (haulTag) metaParts.push(haulTag);
 
-        const actionBtn = isExecuting
-          ? `<button type="button" class="hud-btn active" data-finish-task="${escapeHtml(task.task_id)}" title="Confirm completion with col-gatewayd">✓ Complete</button>`
-          : `<button type="button" class="hud-btn" data-exec-task="${escapeHtml(task.task_id)}">▶ Execute</button>`;
+        let actionBtn = '<span class="hud-tag">⏳ Queued</span>';
+        if (isExecuting) {
+          actionBtn = `<button type="button" class="hud-btn active" data-finish-task="${escapeHtml(task.task_id)}" title="Confirm completion with col-gatewayd">✓ Complete</button>`;
+        } else if (hasActiveToken) {
+          actionBtn = `<button type="button" class="hud-btn" data-exec-task="${escapeHtml(task.task_id)}">▶ Execute</button>`;
+        }
 
         return `
           <div class="committed-item">
@@ -684,8 +884,23 @@
       if (window.OasisAudio) window.OasisAudio.playApprove();
 
       if (window.OasisDaemonClient) {
+        const payload = { task_id: taskId };
+        if (this.latestFrame) {
+          if (
+            typeof this.latestFrame.observed_garden_growth_bp === 'number' &&
+            this.latestFrame.observed_garden_growth_bp > 0
+          ) {
+            payload.observed_growth_bp = Math.round(this.latestFrame.observed_garden_growth_bp);
+          }
+          if (
+            typeof this.latestFrame.observed_garden_moisture_bp === 'number' &&
+            this.latestFrame.observed_garden_moisture_bp > 0
+          ) {
+            payload.observed_moisture_bp = Math.round(this.latestFrame.observed_garden_moisture_bp);
+          }
+        }
         try {
-          await window.OasisDaemonClient.sendCommand('complete_task', { task_id: taskId });
+          await window.OasisDaemonClient.sendCommand('complete_task', payload);
         } catch (err) {
           this._completedSentIds.delete(taskId);
           console.warn('[OasisUI] Failed to report complete_task to col-gatewayd:', err);

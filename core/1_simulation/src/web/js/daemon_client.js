@@ -49,6 +49,7 @@
     _pollInFlight: false,
     _l2SyncInFlight: false,
     _channel: null,
+    _lastSyncedBpmnTokenSig: '',
 
     init() {
       ensureEngineQueue();
@@ -107,12 +108,38 @@
       };
     },
 
+    _syncBpmnTokensToEngine(active, tokens, cultivarId) {
+      const normalized = Array.isArray(tokens) ? tokens : [];
+      const cult = String(cultivarId || '');
+      const sig = `${active ? '1' : '0'}:${cult}:${JSON.stringify(normalized)}`;
+      if (this._lastSyncedBpmnTokenSig === sig) return;
+      this._lastSyncedBpmnTokenSig = sig;
+
+      const cmd = {
+        type: 'sync_bpmn_tokens',
+        action: 'sync_bpmn_tokens',
+        active: Boolean(active),
+        cultivar_id: cult,
+        tokens: normalized
+      };
+      const queue = ensureEngineQueue();
+      const existingIdx = queue.findIndex((item) => item && item.type === 'sync_bpmn_tokens');
+      if (existingIdx >= 0) {
+        queue[existingIdx] = cmd;
+      } else {
+        queue.push(cmd);
+      }
+    },
+
     _setOnlineState(online, errMsg) {
       const changed = this.isOnline !== online || this.lastError !== (errMsg || null);
       this.isOnline = online;
       this.lastError = errMsg || null;
       this._renderConnectionBadges();
       if (changed) {
+        if (!online) {
+          this._syncBpmnTokensToEngine(false, [], '');
+        }
         this._statusListeners.forEach((fn) => {
           try {
             fn(this.isOnline, this.lastError);
@@ -131,8 +158,12 @@
     _renderConnectionBadges() {
       const portMatch = this.baseUrl.match(/:(\d+)$/);
       const portLabel = portMatch ? `:${portMatch[1]}` : ':8090';
+      const r1SwarmOn = Boolean(this.latestSnapshot && this.latestSnapshot.external_r1_swarm_enabled);
+      const onlineText = r1SwarmOn
+        ? `🟢 4-Node Cluster + R1 Swarm (${portLabel})`
+        : `🟢 4-Node Homestead Cluster (${portLabel})`;
       const text = this.isOnline
-        ? `🟢 Native POSIX Daemons Online (${portLabel})`
+        ? onlineText
         : '🟠 Native Daemons Offline — Run ./scripts/run_native_daemons.sh start';
 
       const targets = new Set();
@@ -150,7 +181,13 @@
     _ingestSnapshot(snapshot, broadcastToTabs) {
       if (!snapshot || typeof snapshot !== 'object') return;
       this.latestSnapshot = snapshot;
+      this._syncBpmnTokensToEngine(
+        true,
+        snapshot.active_bpmn_tokens || [],
+        snapshot.selected_cultivar_id || ''
+      );
       this._setOnlineState(true, null);
+      this._renderConnectionBadges();
 
       this._subscribers.forEach((fn) => {
         try {
@@ -195,14 +232,14 @@
       if (this._pollInFlight) return this.latestSnapshot;
       this._pollInFlight = true;
       try {
-        const snap = await this._fetchJson('/api/v1/snapshot', { method: 'GET' });
-        this._ingestSnapshot(snap, false);
-
-        // If running inside the 3D shell and active L2 virtual pins exist, forward them
+        // Forward 3D sim clock & any active L2 virtual pins before/with snapshot poll so BPMN timers stay in lockstep
         const activePins = window.OasisUI && window.OasisUI.latestL2Pins;
         if (activePins && typeof activePins === 'object') {
-          this.syncL2Pins(activePins).catch(() => {});
+          await this.syncL2Pins(activePins).catch(() => {});
         }
+
+        const snap = await this._fetchJson('/api/v1/snapshot', { method: 'GET' });
+        this._ingestSnapshot(snap, false);
         return snap;
       } catch (err) {
         this._setOnlineState(false, err && err.message ? err.message : 'Connection refused');
@@ -236,12 +273,21 @@
     _buildL2PinPayload(rawPins) {
       if (!rawPins || typeof rawPins !== 'object') return null;
 
-      // Support either flat sensor readings or structured register objects
+      // Support epistemic-safe sim_clock_seconds forwarding + structured register objects
       const payload = {};
       let hasData = false;
 
+      if (typeof rawPins.sim_clock_seconds === 'number' && rawPins.sim_clock_seconds > 0) {
+        payload.sim_clock_seconds = Math.round(rawPins.sim_clock_seconds);
+        hasData = true;
+      }
+
       if (rawPins.soil_probe_v1 && typeof rawPins.soil_probe_v1 === 'object') {
         payload.soil_probe_v1 = rawPins.soil_probe_v1;
+        hasData = true;
+      }
+      if (rawPins.irrigation_valve_v1 && typeof rawPins.irrigation_valve_v1 === 'object') {
+        payload.irrigation_valve_v1 = rawPins.irrigation_valve_v1;
         hasData = true;
       }
       if (rawPins.culinary_vessel_v1 && typeof rawPins.culinary_vessel_v1 === 'object') {

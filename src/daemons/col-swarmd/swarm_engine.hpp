@@ -252,12 +252,20 @@ inline void StepPeerClusterSwarm(
     SwarmState& swarm,
     uint64_t tick
 ) {
-    swarm.InitializeDefaultClusters();
     const uint64_t effective_tick = std::max(tick, target_node.CurrentTick() + 1ULL);
-    target_node.AdvanceToTick(effective_tick);
     swarm.last_stepped_tick = effective_tick;
 
-    // 1. Collect R1 tasks to complete and R1 tasks to claim
+    // Default Solo Steward 4-Node Personal Homestead Cluster Mode:
+    // Defer external R1 neighborhood NPC swarm until explicitly enabled.
+    if (!target_node.IsExternalR1SwarmEnabled()) {
+        target_node.StepLocalHomesteadClusterHeartbeat(effective_tick);
+        return;
+    }
+
+    swarm.InitializeDefaultClusters();
+    target_node.AdvanceToTick(effective_tick);
+
+    // 1. Collect ACTIVE_TOKEN R1 tasks to complete and R1 tasks to claim
     struct PendingAction {
         std::string task_id{};
         std::string task_title{};
@@ -270,6 +278,9 @@ inline void StepPeerClusterSwarm(
     std::vector<PendingAction> actions;
     for (const auto& wf : target_node.GetWorkflows()) {
         for (const auto& task : wf.tasks) {
+            if (task.bpmn_token_state != oasis::stack::BpmnTokenState::ACTIVE_TOKEN) {
+                continue;
+            }
             if (task.task_commitment_state == oasis::stack::TaskCommitmentState::CLAIMED_BY_PEER_CLUSTER &&
                 effective_tick > task.last_state_change_tick) {
                 PendingAction act{};

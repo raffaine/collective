@@ -823,16 +823,36 @@ TEST_CASE("Pillar 5: Community mod JSON bundle hot-loads custom item, archetype 
 }
 
 // =============================================================================
-// PILLAR 6: Native Stack Runtime & col-swarmd Peer-Cluster Swarm
+// PILLAR 6: Solo 4-Node Personal Homestead Cluster, Strict BPMN Token Sequencing & Opt-In R1 Swarm
 // =============================================================================
 
-TEST_CASE("Pillar 6: SharedStackRuntime L6/L5/L4/L3/L2/L7 lifecycle & col-swarmd zero-sum BCC peer-cluster swarm",
-          "[native_stack][swarmd][bcc]") {
+TEST_CASE("Pillar 6: Solo 4-Node Homestead Cluster, strict cross-node BPMN token & physical stage sequencing, and opt-in R1 BCC swarm",
+          "[native_stack][bpmn_tokens][swarmd][bcc]") {
     using namespace oasis::stack;
 
     SharedStackRuntime runtime{};
 
-    // 1. L6 Need search, L7 fallback request, and user-defined new mesh need
+    // 1. Solo Steward 4-Node Personal Homestead Cluster defaults (0 upfront workflows, external R1 swarm OFF)
+    REQUIRE(runtime.GetClusterNodes().size() == 4u);
+    REQUIRE(runtime.GetClusterNodes()[0].node_id == "node-01:office-coordinator");
+    REQUIRE(runtime.GetClusterNodes()[1].node_id == "node-02:garage-fab");
+    REQUIRE(runtime.GetClusterNodes()[2].node_id == "node-03:garden-agro");
+    REQUIRE(runtime.GetClusterNodes()[3].node_id == "node-04:hearth-galley");
+    REQUIRE_FALSE(runtime.IsExternalR1SwarmEnabled());
+    REQUIRE(runtime.GetWorkflows().empty());
+    REQUIRE(runtime.RaisedBedFramesBuilt() == 0u);
+    REQUIRE(runtime.HarvestedSplitPeaBatches() == 0u);
+
+    // Stepping col-swarmd in default Solo 4-Node Cluster mode performs local cluster heartbeats with ZERO external NPC interference
+    oasis::swarm::SwarmState swarm{0xC011EC717E2026ULL};
+    REQUIRE(swarm.clusters.size() == 3u);
+    oasis::swarm::StepPeerClusterSwarm(runtime, swarm, runtime.CurrentTick() + 1ULL);
+    REQUIRE(swarm.total_bcc_settled_uj == 0ULL);
+    REQUIRE(swarm.total_events_emitted == 0ULL);
+    REQUIRE(runtime.GetClusterNodes()[0].is_online == 1u);
+    REQUIRE(runtime.CurrentTick() >= 2ULL);
+
+    // 2. L6 Need search, L7 fallback request, and user-defined new mesh need
     const std::vector<L6NeedRecord> pea_matches = runtime.SearchNeeds("pea");
     REQUIRE(pea_matches.size() >= 2u);
 
@@ -855,36 +875,56 @@ TEST_CASE("Pillar 6: SharedStackRuntime L6/L5/L4/L3/L2/L7 lifecycle & col-swarmd
     REQUIRE(custom_need.is_custom_mesh_need == 1u);
     REQUIRE_FALSE(runtime.SearchNeeds("Vinegar").empty());
 
-    // 2. L5 polycentric governance approval spawns 6-step Pea Cultivation & 4-step Pea Soup L4 lifecycles
-    REQUIRE(FindWorkflowById(runtime, "wf:pea_cultivation") == nullptr);
-    REQUIRE(FindWorkflowById(runtime, "wf:pea_soup_hearth") == nullptr);
-
+    // 3. Approving Pea Cultivation & Pea Soup spawns cross-node BPMN choreography:
+    //    - wf:pea_cultivation on node-03:garden-agro starts BLOCKED_BY_PRECONDITION (no raised bed built yet!)
+    //    - wf:fab_raised_bed is auto-requisitioned onto node-02:garage-fab with ACTIVE_TOKEN on fab_1
+    //    - wf:pea_soup_hearth on node-04:hearth-galley starts BLOCKED_BY_PRECONDITION (no harvested peas yet!)
     REQUIRE(runtime.ApproveOrAdaptGovernanceDecision("dec:pea_cultivation", true));
     REQUIRE(runtime.ApproveOrAdaptGovernanceDecision("dec:pea_soup_hearth", true));
 
-    const L4WorkflowInstance* pea_wf  = FindWorkflowById(runtime, "wf:pea_cultivation");
-    const L4WorkflowInstance* soup_wf = FindWorkflowById(runtime, "wf:pea_soup_hearth");
+    const L4WorkflowInstance* fab_bed_wf = FindWorkflowById(runtime, "wf:fab_raised_bed");
+    const L4WorkflowInstance* pea_wf     = FindWorkflowById(runtime, "wf:pea_cultivation");
+    const L4WorkflowInstance* soup_wf    = FindWorkflowById(runtime, "wf:pea_soup_hearth");
+    REQUIRE(fab_bed_wf != nullptr);
     REQUIRE(pea_wf != nullptr);
     REQUIRE(soup_wf != nullptr);
-    REQUIRE(pea_wf->tasks.size() == 6u);
-    REQUIRE(soup_wf->tasks.size() == 4u);
+    REQUIRE(fab_bed_wf->assigned_node_id == "node-02:garage-fab");
+    REQUIRE(pea_wf->assigned_node_id == "node-03:garden-agro");
+    REQUIRE(soup_wf->assigned_node_id == "node-04:hearth-galley");
 
-    // Local L5/L4 sourcing now fulfills Pea Soup at $0 L7 fiat spend
+    const L4TaskItem* fab_1  = FindTaskById(runtime, "task:fab_1_mill_raised_bed");
+    const L4TaskItem* pea_1  = FindTaskById(runtime, "task:pea_1_plow_amend");
+    const L4TaskItem* pea_2  = FindTaskById(runtime, "task:pea_2_erect_trellis");
+    const L4TaskItem* soup_1 = FindTaskById(runtime, "task:soup_1_gather_inputs");
+    const L4TaskItem* soup_4 = FindTaskById(runtime, "task:soup_4_package_distribute_tiffins");
+    REQUIRE(fab_1 != nullptr);
+    REQUIRE(pea_1 != nullptr);
+    REQUIRE(pea_2 != nullptr);
+    REQUIRE(soup_1 != nullptr);
+    REQUIRE(soup_4 != nullptr);
+
+    REQUIRE(fab_1->bpmn_token_state == BpmnTokenState::ACTIVE_TOKEN);
+    REQUIRE(pea_1->bpmn_token_state == BpmnTokenState::BLOCKED_BY_PRECONDITION);
+    REQUIRE(pea_2->bpmn_token_state == BpmnTokenState::WAITING_SEQUENCE_FLOW);
+    REQUIRE(soup_1->bpmn_token_state == BpmnTokenState::BLOCKED_BY_PRECONDITION);
+    REQUIRE(soup_4->bpmn_token_state == BpmnTokenState::WAITING_SEQUENCE_FLOW);
+
+    // Out-of-order CommitTask / CompleteTask / ReleaseTaskToR1Peers on blocked or downstream steps MUST fail!
+    REQUIRE_FALSE(runtime.CommitTask("task:pea_1_plow_amend"));
+    REQUIRE_FALSE(runtime.CompleteTask("task:pea_1_plow_amend"));
+    REQUIRE_FALSE(runtime.CommitTask("task:pea_2_erect_trellis"));
+    REQUIRE_FALSE(runtime.CompleteTask("task:pea_3_rhizobium_sow"));
+    REQUIRE_FALSE(runtime.CommitTask("task:soup_1_gather_inputs"));
+    REQUIRE_FALSE(runtime.CompleteTask("task:soup_4_package_distribute_tiffins"));
+    REQUIRE_FALSE(runtime.ReleaseTaskToR1Peers("task:fab_1_mill_raised_bed")); // External R1 swarm is disabled!
+
+    // Local L5/L4 ratification now fulfills Pea Soup intents via R0_LOCAL_WORKFLOWS at $0 L7 fiat spend
     const int64_t reserve_after_ratification = runtime.GetLedger().household_reserve_cents;
     const L6IntentRequest local_req = runtime.RequestNeed("need:pea_soup", NeedTimingMode::NOW, 0u, 1u);
     REQUIRE(local_req.resolved_sourcing_mode == SourcingMode::R0_LOCAL_WORKFLOWS);
     REQUIRE(runtime.GetLedger().household_reserve_cents == reserve_after_ratification);
 
-    // Answer unmodeled micro-detail prompt on step 3 (Rhizobium inoculation)
-    REQUIRE(runtime.AnswerUnmodeledMicroDetailPrompt(
-        "task:pea_3_rhizobium_sow",
-        "Dampened seeds and coated with Rhizobium slurry in shade before sowing 3.5 cm deep."
-    ));
-    const L4TaskItem* rhizobium_task = FindTaskById(runtime, "task:pea_3_rhizobium_sow");
-    REQUIRE(rhizobium_task != nullptr);
-    REQUIRE(rhizobium_task->unmodeled_prompt_resolved == 1u);
-
-    // 3. L2 pin ingestion switches task:pea_4_irrigate_weed from MANUAL_HUMAN_OBSERVATION to AUTOMATED_L2_EXECUTION
+    // 4. L2 pin ingestion switches task:pea_4_irrigate_weed from MANUAL_HUMAN_OBSERVATION to AUTOMATED_L2_EXECUTION
     const L4TaskItem* irrigate_before = FindTaskById(runtime, "task:pea_4_irrigate_weed");
     REQUIRE(irrigate_before != nullptr);
     REQUIRE(irrigate_before->execution_modality == TaskExecutionModality::MANUAL_HUMAN_OBSERVATION);
@@ -904,7 +944,6 @@ TEST_CASE("Pillar 6: SharedStackRuntime L6/L5/L4/L3/L2/L7 lifecycle & col-swarmd
     REQUIRE(valve_reg->actuator_commanded_on == 1u);
     REQUIRE(valve_reg->actuator_level_bp == 10000u);
 
-    // Once moisture reaches >= 4200 bp, closed-loop L2 control closes irrigation_valve_v1
     (void)runtime.IngestL2PinsPayload(
         R"({"soil_probe_v1":{"is_online":true,"moisture_bp":4350,"temperature_mk":291150,"nitrogen_ppm":55}})"
     );
@@ -913,34 +952,141 @@ TEST_CASE("Pillar 6: SharedStackRuntime L6/L5/L4/L3/L2/L7 lifecycle & col-swarmd
     REQUIRE(valve_reg->actuator_commanded_on == 0u);
     REQUIRE(valve_reg->actuator_level_bp == 0u);
 
-    // 4. R1 task claiming & pairwise zero-sum BCC exergy clearing by col-swarmd peer clusters
+    // 5. Completing fab_1 on node-02 builds the raised bed frame and unblocks ONLY pea_1 on node-03!
+    REQUIRE(runtime.CommitTask("task:fab_1_mill_raised_bed"));
+    REQUIRE(runtime.CompleteTask("task:fab_1_mill_raised_bed"));
+    REQUIRE(runtime.RaisedBedFramesBuilt() == 1u);
+
+    pea_1 = FindTaskById(runtime, "task:pea_1_plow_amend");
+    pea_2 = FindTaskById(runtime, "task:pea_2_erect_trellis");
+    REQUIRE(pea_1->bpmn_token_state == BpmnTokenState::ACTIVE_TOKEN);
+    REQUIRE(pea_2->bpmn_token_state == BpmnTokenState::WAITING_SEQUENCE_FLOW);
+    REQUIRE_FALSE(runtime.CompleteTask("task:pea_2_erect_trellis"));
+
+    // Answer unmodeled micro-detail prompt on step 3 (Rhizobium inoculation) and step strictly pea_1 -> pea_5
+    REQUIRE(runtime.AnswerUnmodeledMicroDetailPrompt(
+        "task:pea_3_rhizobium_sow",
+        "Dampened seeds and coated with Rhizobium slurry in shade before sowing 3.5 cm deep."
+    ));
+    REQUIRE(FindTaskById(runtime, "task:pea_3_rhizobium_sow")->unmodeled_prompt_resolved == 1u);
+
+    REQUIRE(runtime.CompleteTask("task:pea_1_plow_amend"));
+    REQUIRE(FindTaskById(runtime, "task:pea_2_erect_trellis")->bpmn_token_state == BpmnTokenState::ACTIVE_TOKEN);
+    REQUIRE(runtime.CompleteTask("task:pea_2_erect_trellis"));
+    REQUIRE(FindTaskById(runtime, "task:pea_3_rhizobium_sow")->bpmn_token_state == BpmnTokenState::ACTIVE_TOKEN);
+    REQUIRE(runtime.CompleteTask("task:pea_3_rhizobium_sow"));
+
+    // Right after sowing (0 elapsed seconds), harvest MUST be impossible even with L2 probe + valve online!
+    // Step 4 enters WAITING_TIMER while L2 monitors biological growth across the 12h (43,200 s) cultivar cycle.
+    REQUIRE(FindTaskById(runtime, "task:pea_4_irrigate_weed")->bpmn_token_state == BpmnTokenState::WAITING_TIMER);
+    REQUIRE(FindTaskById(runtime, "task:pea_5_harvest_pods_roots")->bpmn_token_state == BpmnTokenState::WAITING_SEQUENCE_FLOW);
+    REQUIRE_FALSE(runtime.CompleteTask("task:pea_5_harvest_pods_roots"));
+
+    // Advance 6 hours (21,600 s): mid-vegetative/flowering (~52%), still waiting on biological maturity
+    runtime.AdvanceSimClockSeconds(21600ULL);
+    REQUIRE(FindWorkflowById(runtime, "wf:pea_cultivation")->crop_growth_bp > 4500u);
+    REQUIRE(FindWorkflowById(runtime, "wf:pea_cultivation")->crop_growth_bp < 9500u);
+    REQUIRE(FindTaskById(runtime, "task:pea_4_irrigate_weed")->bpmn_token_state == BpmnTokenState::WAITING_TIMER);
+    REQUIRE_FALSE(runtime.CompleteTask("task:pea_5_harvest_pods_roots"));
+
+    // Advance remaining 6 hours (total 43,200 s = 12h): L2 auto-verifies >= 9500 bp maturity, completes Step 4, and unlocks Step 5 Harvest!
+    runtime.AdvanceSimClockSeconds(21600ULL);
+    REQUIRE(FindWorkflowById(runtime, "wf:pea_cultivation")->crop_growth_bp >= 9500u);
+    REQUIRE(FindTaskById(runtime, "task:pea_4_irrigate_weed")->bpmn_token_state == BpmnTokenState::COMPLETED);
+
+    // Before harvest (pea_5), Pea Soup step 1 on node-04 is STILL blocked!
+    REQUIRE(FindTaskById(runtime, "task:soup_1_gather_inputs")->bpmn_token_state == BpmnTokenState::BLOCKED_BY_PRECONDITION);
+    REQUIRE(FindTaskById(runtime, "task:pea_5_harvest_pods_roots")->bpmn_token_state == BpmnTokenState::ACTIVE_TOKEN);
+    REQUIRE(runtime.CompleteTask("task:pea_5_harvest_pods_roots"));
+    REQUIRE(runtime.HarvestedSplitPeaBatches() == 2u); // Chrono-Pod Virtual Pea yields +2 legume batches
+
+    // Harvest immediately unblocks soup_1 on node-04:hearth-galley AND advances garden token to pea_6!
+    const L4TaskItem* pea_6 = FindTaskById(runtime, "task:pea_6_shell_moisture_turn");
+    REQUIRE(pea_6 != nullptr);
+    REQUIRE(pea_6->bpmn_token_state == BpmnTokenState::ACTIVE_TOKEN);
+    REQUIRE(FindTaskById(runtime, "task:soup_1_gather_inputs")->bpmn_token_state == BpmnTokenState::ACTIVE_TOKEN);
+    REQUIRE_FALSE(runtime.CompleteTask("task:soup_2_simmer_bone_broth"));
+
+    REQUIRE(runtime.CompleteTask("task:pea_6_shell_moisture_turn"));
+    REQUIRE(FindWorkflowById(runtime, "wf:pea_cultivation")->completed_cycles == 1u);
+
+    REQUIRE(runtime.CompleteTask("task:soup_1_gather_inputs"));
+    REQUIRE(runtime.CompleteTask("task:soup_2_simmer_bone_broth"));
+    REQUIRE(runtime.CompleteTask("task:soup_3_simmer_pea_soup_74c"));
+    REQUIRE(runtime.CompleteTask("task:soup_4_package_distribute_tiffins"));
+    REQUIRE(FindWorkflowById(runtime, "wf:pea_soup_hearth")->completed_cycles == 1u);
+
+    // 6. Verify 3D Physical Stage Preconditions in core_catalog.json (bed_stage 0..5 & empty grass plot)
+    {
+        using namespace oasis::engine;
+        ContentRegistry catalog{};
+        catalog.BootstrapCoreCatalog();
+        const std::filesystem::path core_catalog_path =
+            FindRepoAssetPath("core/1_simulation/data/content/core_catalog.json");
+        REQUIRE(std::filesystem::exists(core_catalog_path));
+        REQUIRE(catalog.LoadModBundleFromJson(ReadTextFile(core_catalog_path)));
+
+        const EntityArchetypeDef* yard_plot  = catalog.FindArchetype("arch.yard_earthwork_plot");
+        const EntityArchetypeDef* raised_bed = catalog.FindArchetype("arch.raised_garden_bed");
+        REQUIRE(yard_plot != nullptr);
+        REQUIRE(raised_bed != nullptr);
+
+        AgentCapabilitiesComponent caps{};
+        caps.GrantCapability("SOIL_CULTIVATION_BED");
+        caps.GrantCapability("SOIL_EARTHWORKS");
+        EquippedHaulingToolComponent wheelbarrow{"wheelbarrow", "ent.tool_wheelbarrow"};
+
+        // Empty lawn plot ONLY offers Look + Inspect (no upfront digging or sowing on unbuilt grass!)
+        const auto lawn_affs = QueryEntityAffordances(catalog, *yard_plot, nullptr, &caps, &wheelbarrow);
+        REQUIRE(lawn_affs.size() == 2u);
+        REQUIRE(HasAffordanceId(lawn_affs, "affordance.look"));
+        REQUIRE(HasAffordanceId(lawn_affs, "affordance.inspect"));
+
+        // Newly milled raised bed (bed_stage == 0): ONLY Broadfork & Amend is unlocked; trellis/sow/harvest hidden!
+        PropertyBagComponent bed_props{};
+        bed_props.Set("bed_stage", 0);
+        bed_props.Set("l2_probe_installed", 0);
+        bed_props.Set("l2_valve_installed", 0);
+
+        const auto stage0_affs = QueryEntityAffordances(catalog, *raised_bed, &bed_props, &caps, &wheelbarrow);
+        REQUIRE(HasAffordanceId(stage0_affs, "aff.plow_and_amend_bed"));
+        REQUIRE_FALSE(HasAffordanceId(stage0_affs, "aff.erect_pea_trellis"));
+        REQUIRE_FALSE(HasAffordanceId(stage0_affs, "aff.inoculate_and_sow_peas"));
+        REQUIRE_FALSE(HasAffordanceId(stage0_affs, "aff.harvest_peas_and_roots"));
+        REQUIRE_FALSE(HasAffordanceId(stage0_affs, "aff.shell_dry_and_turn_bed"));
+
+        // After Broadfork & Amend advances bed_stage -> 1: Erect Trellis unlocks and Broadfork disappears!
+        bed_props.Set("bed_stage", 1);
+        const auto stage1_affs = QueryEntityAffordances(catalog, *raised_bed, &bed_props, &caps, &wheelbarrow);
+        REQUIRE_FALSE(HasAffordanceId(stage1_affs, "aff.plow_and_amend_bed"));
+        REQUIRE(HasAffordanceId(stage1_affs, "aff.erect_pea_trellis"));
+        REQUIRE_FALSE(HasAffordanceId(stage1_affs, "aff.inoculate_and_sow_peas"));
+    }
+
+    // 7. Start a repeatable cycle + opt into External R1 Peer-Cluster Swarm -> pairwise zero-sum BCC clearing
+    REQUIRE(runtime.StartNewWorkflowCycle("wf:pea_cultivation"));
+    REQUIRE(FindTaskById(runtime, "task:pea_1_plow_amend")->bpmn_token_state == BpmnTokenState::ACTIVE_TOKEN);
+
+    runtime.SetExternalR1SwarmEnabled(true);
+    REQUIRE(runtime.IsExternalR1SwarmEnabled());
+    REQUIRE_FALSE(runtime.ReleaseTaskToR1Peers("task:pea_3_rhizobium_sow")); // Not holding ACTIVE_TOKEN!
     REQUIRE(runtime.ReleaseTaskToR1Peers("task:pea_1_plow_amend"));
-    REQUIRE(runtime.ReleaseTaskToR1Peers("task:soup_4_package_distribute_tiffins"));
 
-    oasis::swarm::SwarmState swarm{0xC011EC717E2026ULL};
-    REQUIRE(swarm.clusters.size() == 3u);
-
-    // First swarm step claims released R1 tasks
     oasis::swarm::StepPeerClusterSwarm(runtime, swarm, runtime.CurrentTick() + 1ULL);
-    const L4TaskItem* claimed_pea  = FindTaskById(runtime, "task:pea_1_plow_amend");
-    const L4TaskItem* claimed_soup = FindTaskById(runtime, "task:soup_4_package_distribute_tiffins");
+    const L4TaskItem* claimed_pea = FindTaskById(runtime, "task:pea_1_plow_amend");
     REQUIRE(claimed_pea != nullptr);
-    REQUIRE(claimed_soup != nullptr);
     REQUIRE(claimed_pea->task_commitment_state == TaskCommitmentState::CLAIMED_BY_PEER_CLUSTER);
-    REQUIRE(claimed_soup->task_commitment_state == TaskCommitmentState::CLAIMED_BY_PEER_CLUSTER);
     REQUIRE_FALSE(claimed_pea->claimed_by_cluster_id.empty());
 
-    // Subsequent swarm steps complete claimed R1 tasks, settle zero-sum BCC exergy, and emit L6/L3 peer events
     for (uint32_t step = 0u; step < 5u; ++step) {
         oasis::swarm::StepPeerClusterSwarm(runtime, swarm, runtime.CurrentTick() + 1ULL);
     }
 
-    claimed_pea  = FindTaskById(runtime, "task:pea_1_plow_amend");
-    claimed_soup = FindTaskById(runtime, "task:soup_4_package_distribute_tiffins");
+    claimed_pea = FindTaskById(runtime, "task:pea_1_plow_amend");
     REQUIRE(claimed_pea->task_commitment_state == TaskCommitmentState::COMPLETED);
-    REQUIRE(claimed_soup->task_commitment_state == TaskCommitmentState::COMPLETED);
-    REQUIRE(swarm.total_bcc_settled_uj == (800000000ULL + 500000000ULL));
-    REQUIRE(swarm.total_events_emitted >= 4ULL);
+    REQUIRE(FindTaskById(runtime, "task:pea_2_erect_trellis")->bpmn_token_state == BpmnTokenState::ACTIVE_TOKEN);
+    REQUIRE(swarm.total_bcc_settled_uj == 800000000ULL);
+    REQUIRE(swarm.total_events_emitted >= 2ULL);
     REQUIRE(runtime.GetLedger().VerifyPairwiseZeroSumInvariant());
     REQUIRE_FALSE(runtime.GetLedger().mesh_weather_feed.empty());
 
@@ -950,11 +1096,13 @@ TEST_CASE("Pillar 6: SharedStackRuntime L6/L5/L4/L3/L2/L7 lifecycle & col-swarmd
         REQUIRE((ch.balance_local_to_peer_uj + ch.balance_peer_to_local_uj) == 0);
         total_mutual_tasks += ch.completed_mutual_tasks;
     }
-    REQUIRE(total_mutual_tasks == 2u);
+    REQUIRE(total_mutual_tasks == 1u);
 
-    // 5. +$180 (18,000 cents) L7 custom woodwork bill-offset accounting
+    // 8. Ratify dec:garage_l7_woodwork and complete +$180 (18,000 cents) L7 custom woodwork bill-offset order
     const int64_t reserve_before_woodwork = runtime.GetLedger().household_reserve_cents;
     REQUIRE(runtime.GetLedger().monthly_l7_offset_revenue_cents == 0);
+    REQUIRE(runtime.ApproveOrAdaptGovernanceDecision("dec:garage_l7_woodwork", true));
+    REQUIRE(FindTaskById(runtime, "task:fab_4_l7_custom_woodwork_order")->bpmn_token_state == BpmnTokenState::ACTIVE_TOKEN);
 
     REQUIRE(runtime.CompleteTask("task:fab_4_l7_custom_woodwork_order"));
     REQUIRE(runtime.GetLedger().monthly_l7_offset_revenue_cents == 18000);
@@ -965,4 +1113,169 @@ TEST_CASE("Pillar 6: SharedStackRuntime L6/L5/L4/L3/L2/L7 lifecycle & col-swarmd
     const std::string snapshot_json = runtime.SerializeFullNodeSnapshotJson();
     REQUIRE(snapshot_json.find("\"bcc_zero_sum_invariant_ok\": true") != std::string::npos);
     REQUIRE(snapshot_json.find("\"monthly_l7_offset_revenue_cents\": 18000") != std::string::npos);
+    REQUIRE(snapshot_json.find("\"homestead_cluster_nodes\"") != std::string::npos);
+    REQUIRE(snapshot_json.find("\"active_bpmn_tokens\"") != std::string::npos);
+    REQUIRE(snapshot_json.find("\"l4_available_tasks\"") != std::string::npos);
+    REQUIRE(snapshot_json.find("\"available_cultivars\"") != std::string::npos);
+}
+
+TEST_CASE("Pillar 7: Biological Timing, Manual BPMN WAITING_TIMER Loops & Parameterized Fabaceae Cultivars",
+          "[modular][cultivar][timing][bpmn]") {
+    using namespace oasis::stack;
+
+    SECTION("Manual workflow requires periodic timed verification & watering loops before unlocking Harvest") {
+        SharedStackRuntime runtime{};
+        REQUIRE(runtime.GetAvailableCultivars().size() == 4u);
+        REQUIRE(runtime.SelectedGardenCultivarId() == "cultivar:chrono_virtual_pea");
+
+        // Approve Pea Cultivation (no L2 soil_probe_v1 installed -> strictly MANUAL_HUMAN_OBSERVATION!)
+        REQUIRE(runtime.ApproveOrAdaptGovernanceDecision("dec:pea_cultivation", true));
+        REQUIRE(runtime.CompleteTask("task:fab_1_mill_raised_bed"));
+        REQUIRE(runtime.CompleteTask("task:pea_1_plow_amend"));
+        REQUIRE(runtime.CompleteTask("task:pea_2_erect_trellis"));
+        REQUIRE(runtime.CompleteTask("task:pea_3_rhizobium_sow"));
+
+        const L4TaskItem* step4 = FindTaskById(runtime, "task:pea_4_irrigate_weed");
+        const L4TaskItem* step5 = FindTaskById(runtime, "task:pea_5_harvest_pods_roots");
+        REQUIRE(step4 != nullptr);
+        REQUIRE(step5 != nullptr);
+        REQUIRE(step4->execution_modality == TaskExecutionModality::MANUAL_HUMAN_OBSERVATION);
+        REQUIRE(step4->bpmn_token_state == BpmnTokenState::ACTIVE_TOKEN);
+        REQUIRE(step5->bpmn_token_state == BpmnTokenState::WAITING_SEQUENCE_FLOW);
+
+        // Check #1 right after sowing waters the bed to optimal VWC, sees 2% growth (< 95%), and arms 3h WAITING_TIMER!
+        REQUIRE(runtime.CompleteTask("task:pea_4_irrigate_weed"));
+        step4 = FindTaskById(runtime, "task:pea_4_irrigate_weed");
+        step5 = FindTaskById(runtime, "task:pea_5_harvest_pods_roots");
+        REQUIRE(step4->bpmn_token_state == BpmnTokenState::WAITING_TIMER);
+        REQUIRE(step4->timer_remaining_sim_s == 10800ULL);
+        REQUIRE(step5->bpmn_token_state == BpmnTokenState::WAITING_SEQUENCE_FLOW);
+
+        // Cannot bypass timer or harvest prematurely!
+        REQUIRE_FALSE(runtime.CompleteTask("task:pea_4_irrigate_weed"));
+        REQUIRE_FALSE(runtime.CommitTask("task:pea_4_irrigate_weed"));
+        REQUIRE_FALSE(runtime.CompleteTask("task:pea_5_harvest_pods_roots"));
+
+        const std::string timer_snap = runtime.SerializeFullNodeSnapshotJson();
+        REQUIRE(timer_snap.find("\"WAITING_TIMER\"") != std::string::npos);
+
+        // Advance 4 timed verification intervals of 3 hours (4 * 10,800 s = 43,200 s = 12h)
+        for (uint32_t check = 0u; check < 4u; ++check) {
+            runtime.AdvanceSimClockSeconds(10800ULL);
+            step4 = FindTaskById(runtime, "task:pea_4_irrigate_weed");
+            REQUIRE(step4->bpmn_token_state == BpmnTokenState::ACTIVE_TOKEN);
+            // Even when biological growth reaches >= 95% on the 4th interval, without L2 sensors
+            // Harvest stays gated until the Steward performs the manual verification check!
+            REQUIRE(FindTaskById(runtime, "task:pea_5_harvest_pods_roots")->bpmn_token_state ==
+                    BpmnTokenState::WAITING_SEQUENCE_FLOW);
+            REQUIRE(runtime.CompleteTask("task:pea_4_irrigate_weed"));
+        }
+
+        // After the 4th timed check verifies >= 9500 bp maturity, Step 4 completes and Step 5 Harvest unlocks!
+        REQUIRE(FindWorkflowById(runtime, "wf:pea_cultivation")->crop_growth_bp >= 9500u);
+        REQUIRE(FindWorkflowById(runtime, "wf:pea_cultivation")->estimated_nitrogen_ppm > 48u); // Rhizobium N2 fixation!
+        REQUIRE(FindTaskById(runtime, "task:pea_4_irrigate_weed")->bpmn_token_state == BpmnTokenState::COMPLETED);
+        REQUIRE(FindTaskById(runtime, "task:pea_5_harvest_pods_roots")->bpmn_token_state == BpmnTokenState::ACTIVE_TOKEN);
+        REQUIRE(runtime.CompleteTask("task:pea_5_harvest_pods_roots"));
+        REQUIRE(runtime.HarvestedSplitPeaBatches() == 2u);
+        REQUIRE(runtime.HarvestedMirepoixBatches() == 1u);
+    }
+
+    SECTION("Parameterized cultivar input adapts workflow to Kentucky Wonder Pole Bean (warm-soil gate, N-draw & 10-day cycle)") {
+        SharedStackRuntime runtime{};
+        REQUIRE(runtime.SetGardenCultivar("cultivar:kentucky_wonder_bean"));
+        REQUIRE(runtime.SelectedGardenCultivarId() == "cultivar:kentucky_wonder_bean");
+
+        REQUIRE(runtime.ApproveOrAdaptGovernanceDecision("dec:pea_cultivation", true));
+        const L4WorkflowInstance* wf = FindWorkflowById(runtime, "wf:pea_cultivation");
+        REQUIRE(wf != nullptr);
+        REQUIRE(wf->input_cultivar_id == "cultivar:kentucky_wonder_bean");
+        REQUIRE(wf->species_binomial == "Phaseolus vulgaris");
+        REQUIRE(wf->fixes_atmospheric_n2 == 0u);
+        REQUIRE(wf->is_virtual_cultivar == 0u);
+        REQUIRE(wf->maturity_sim_seconds == 864000u);       // 10 sim days
+        REQUIRE(wf->verification_interval_sim_s == 43200u); // 12 sim hours
+
+        // Verify workflow task titles & prompts dynamically adapted to Pole Bean specifications (2100 mm ridge, >=12C warm soil)
+        REQUIRE(FindTaskById(runtime, "task:pea_2_erect_trellis")->title.find("2100 mm") != std::string::npos);
+        REQUIRE(FindTaskById(runtime, "task:pea_3_rhizobium_sow")->title.find("Warm-Soil Check") != std::string::npos);
+
+        REQUIRE(runtime.CompleteTask("task:fab_1_mill_raised_bed"));
+        REQUIRE(runtime.CompleteTask("task:pea_1_plow_amend"));
+        REQUIRE(runtime.CompleteTask("task:pea_2_erect_trellis"));
+        REQUIRE(runtime.CompleteTask("task:pea_3_rhizobium_sow"));
+
+        // Put L2 probe + valve online for closed-loop irrigation across the 10-day growth test
+        (void)runtime.IngestL2PinsPayload(
+            R"({"soil_probe_v1":{"is_online":true,"moisture_bp":4400,"temperature_mk":282150,"nitrogen_ppm":48}})"
+        );
+
+        // Cold spring soil (9 C = 282150 mK < 285150 mK Pole Bean floor): growth completely stalls at 200 bp!
+        runtime.SetAmbientTempOverrideMk(282150U);
+        runtime.AdvanceSimClockSeconds(86400ULL);
+        wf = FindWorkflowById(runtime, "wf:pea_cultivation");
+        REQUIRE(wf->crop_growth_bp == 200u);
+        REQUIRE_FALSE(runtime.CompleteTask("task:pea_5_harvest_pods_roots"));
+
+        // Warm summer soil (22 C = 295150 mK): Pole Bean grows across 10 days, consumes soil mineral N, and yields +4 batches!
+        runtime.SetAmbientTempOverrideMk(295150U);
+        runtime.AdvanceSimClockSeconds(864000ULL);
+        wf = FindWorkflowById(runtime, "wf:pea_cultivation");
+        REQUIRE(wf->crop_growth_bp >= 9500u);
+        REQUIRE(wf->estimated_nitrogen_ppm < 48u); // Non-nodulating Phaseolus drew mineral N!
+        REQUIRE(FindTaskById(runtime, "task:pea_5_harvest_pods_roots")->bpmn_token_state == BpmnTokenState::ACTIVE_TOKEN);
+        REQUIRE(runtime.CompleteTask("task:pea_5_harvest_pods_roots"));
+        REQUIRE(runtime.HarvestedSplitPeaBatches() == 4u);
+        REQUIRE(runtime.HarvestedMirepoixBatches() == 2u);
+    }
+
+    SECTION("3D SoilCellRegisters cultivar physics matches Fabaceae N-fixation vs. Pole Bean thermal & N-draw behavior") {
+        using namespace oasis::engine;
+
+        const CultivarPhysicsSpec& chrono_pea = ResolveCultivarByCode(kCultivarCodeChronoVirtualPea);
+        const CultivarPhysicsSpec& pole_bean  = ResolveCultivarByCode(kCultivarCodeKentuckyWonderBean);
+
+        SoilCellRegisters pea_soil{};
+        pea_soil.moisture_vwc_bp   = 4200U;
+        pea_soil.soil_temp_mk      = 282150U; // 9 C cool spring soil
+        pea_soil.organic_carbon_bp = 4500U;
+        pea_soil.nitrogen_ppm      = 45U;
+        pea_soil.phosphorus_ppm    = 35U;
+        pea_soil.potassium_ppm     = 140U;
+        pea_soil.crop_growth_bp    = 200U;
+        pea_soil.crop_planted      = 1U;
+        for (uint32_t step = 0U; step < 12U; ++step) {
+            pea_soil.moisture_vwc_bp = 4200U;
+            StepCultivarSoilPhysics(pea_soil, chrono_pea, 282150U, 0U, 900U); // 12 * 900 s = 3h
+        }
+        REQUIRE(pea_soil.crop_growth_bp > 1000U); // Cool-season Pisum thrives at 9 C
+        REQUIRE(pea_soil.nitrogen_ppm >= 45U);    // Rhizobium N2 fixation replenishes soil N
+
+        SoilCellRegisters bean_soil{};
+        bean_soil.moisture_vwc_bp   = 4400U;
+        bean_soil.soil_temp_mk      = 282150U; // 9 C cold stall!
+        bean_soil.organic_carbon_bp = 4500U;
+        bean_soil.nitrogen_ppm      = 100U;    // Compost-amended raised bed
+        bean_soil.phosphorus_ppm    = 115U;
+        bean_soil.potassium_ppm     = 240U;
+        bean_soil.crop_growth_bp    = 200U;
+        bean_soil.crop_planted      = 1U;
+        for (uint32_t step = 0U; step < 12U; ++step) {
+            bean_soil.moisture_vwc_bp = 4400U;
+            StepCultivarSoilPhysics(bean_soil, pole_bean, 282150U, 0U, 900U);
+        }
+        REQUIRE(bean_soil.crop_growth_bp == 200U);
+
+        // Warm soil (24 C = 297150 mK) over 10 days (480 * 1800 s) matures Pole Bean and draws N-P-K
+        bean_soil.soil_temp_mk = 297150U;
+        for (uint32_t step = 0U; step < 480U; ++step) {
+            if (bean_soil.moisture_vwc_bp < 3800U) {
+                bean_soil.moisture_vwc_bp = 4400U;
+            }
+            StepCultivarSoilPhysics(bean_soil, pole_bean, 297150U, 0U, 1800U);
+        }
+        REQUIRE(bean_soil.crop_growth_bp >= 9500U);
+        REQUIRE(bean_soil.nitrogen_ppm < 70U);
+        REQUIRE(bean_soil.potassium_ppm < 150U);
+    }
 }

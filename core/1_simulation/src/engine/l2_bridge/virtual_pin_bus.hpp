@@ -5,6 +5,7 @@
 #include <string_view>
 #include <vector>
 
+#include "../domains/crop_cultivar.hpp"
 #include "../domains/soil_physics.hpp"
 #include "../domains/thermal_vessel.hpp"
 #include "../ecs/affordance_system.hpp"
@@ -44,7 +45,8 @@ struct alignas(8) SoilBusEndpoint {
     SoilCellRegisters*               soil{nullptr};
     uint32_t                         valve_flow_ml_per_s{kDefaultIrrigationFlowMlPerSec};
     bool                             irrigation_valve_open{false};
-    uint8_t                          pad_[3]{0u, 0u, 0u};
+    uint8_t                          cultivar_code{kCultivarCodeUnset};
+    uint8_t                          pad_[2]{0u, 0u};
 };
 
 struct alignas(8) ThermalBusEndpoint {
@@ -156,17 +158,19 @@ public:
         uint64_t entity_uid,
         const SensorAttachmentComponent* sensor,
         SoilCellRegisters* soil,
-        uint32_t valve_flow_ml_per_s = kDefaultIrrigationFlowMlPerSec
+        uint32_t valve_flow_ml_per_s = kDefaultIrrigationFlowMlPerSec,
+        uint8_t cultivar_code = kCultivarCodeUnset
     ) {
         for (auto& ep : soil_endpoints_) {
             if (ep.entity_uid == entity_uid) {
                 ep.sensor = sensor;
                 ep.soil = soil;
                 ep.valve_flow_ml_per_s = valve_flow_ml_per_s;
+                ep.cultivar_code = cultivar_code;
                 return;
             }
         }
-        soil_endpoints_.push_back(SoilBusEndpoint{entity_uid, sensor, soil, valve_flow_ml_per_s, false});
+        soil_endpoints_.push_back(SoilBusEndpoint{entity_uid, sensor, soil, valve_flow_ml_per_s, false, cultivar_code});
     }
 
     void BindThermalEntity(
@@ -263,7 +267,17 @@ public:
                 const uint32_t water_ml = ep.irrigation_valve_open
                     ? (ep.valve_flow_ml_per_s * sim_dt_s)
                     : 0u;
-                StepSoilPhysics(*ep.soil, ambient_temp_mk, water_ml, sim_dt_s);
+                if (ep.cultivar_code != kCultivarCodeUnset) {
+                    StepCultivarSoilPhysics(
+                        *ep.soil,
+                        ResolveCultivarByCode(ep.cultivar_code),
+                        ambient_temp_mk,
+                        water_ml,
+                        sim_dt_s
+                    );
+                } else {
+                    StepSoilPhysics(*ep.soil, ambient_temp_mk, water_ml, sim_dt_s);
+                }
             }
         }
         for (auto& ep : thermal_endpoints_) {

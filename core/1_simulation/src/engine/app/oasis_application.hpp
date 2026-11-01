@@ -196,6 +196,55 @@ namespace detail {
            mat == kVoxelMatHandDolly;
 }
 
+[[nodiscard]] inline bool IsWorkflowGovernedAffordance(std::string_view aff_id) noexcept {
+    return aff_id == "aff.mill_raised_bed_frame" ||
+           aff_id == "aff.assemble_compost_and_kiln" ||
+           aff_id == "aff.build_poultry_coop" ||
+           aff_id == "aff.fulfill_l7_woodwork" ||
+           aff_id == "aff.plow_and_amend_bed" ||
+           aff_id == "aff.erect_pea_trellis" ||
+           aff_id == "aff.inoculate_and_sow_peas" ||
+           aff_id == "aff.water_garden_manual" ||
+           aff_id == "aff.harvest_peas_and_roots" ||
+           aff_id == "aff.shell_dry_and_turn_bed" ||
+           aff_id == "aff.pyrolyze_and_quench_biochar" ||
+           aff_id == "aff.turn_and_harvest_compost" ||
+           aff_id == "aff.tend_hens_and_collect_eggs" ||
+           aff_id == "aff.gather_soup_inputs" ||
+           aff_id == "aff.simmer_bone_broth" ||
+           aff_id == "aff.cook_pea_soup" ||
+           aff_id == "aff.pack_and_deliver_tiffins";
+}
+
+inline void ApplyStagePreconditionsToCatalog(ContentRegistry& reg) {
+    auto gate_prop = [&](std::string_view aff_id, std::string_view key, int64_t min_v, int64_t max_v) {
+        const AffordanceDef* existing = reg.FindAffordance(aff_id);
+        if (existing == nullptr) {
+            return;
+        }
+        AffordanceDef copy         = *existing;
+        copy.required_property_key = std::string(key);
+        copy.min_property_val      = min_v;
+        copy.max_property_val      = max_v;
+        reg.RegisterAffordance(std::move(copy));
+    };
+
+    gate_prop("aff.plow_and_amend_bed", "bed_stage", 0, 0);
+    gate_prop("aff.erect_pea_trellis", "bed_stage", 1, 1);
+    gate_prop("aff.inoculate_and_sow_peas", "bed_stage", 2, 2);
+    gate_prop("aff.water_garden_manual", "bed_stage", 3, 4);
+    gate_prop("aff.harvest_peas_and_roots", "bed_stage", 4, 4);
+    gate_prop("aff.shell_dry_and_turn_bed", "bed_stage", 5, 5);
+    gate_prop("aff.install_l2_soil_probe", "l2_probe_installed", 0, 0);
+    gate_prop("aff.install_l2_drip_valve", "l2_valve_installed", 0, 0);
+
+    gate_prop("aff.gather_soup_inputs", "hearth_stage", 0, 0);
+    gate_prop("aff.simmer_bone_broth", "hearth_stage", 1, 1);
+    gate_prop("aff.cook_pea_soup", "hearth_stage", 2, 2);
+    gate_prop("aff.pack_and_deliver_tiffins", "hearth_stage", 3, 3);
+    gate_prop("aff.attach_l2_culinary_controller", "l2_culinary_installed", 0, 0);
+}
+
 // Seeds complete core_catalog.json definitions inline so WASM builds (without embedded FS) have 100% parity.
 inline void SeedHomesteadCoreCatalog(ContentRegistry& reg) {
     // Items from core_catalog.json
@@ -278,6 +327,7 @@ inline void SeedHomesteadCoreCatalog(ContentRegistry& reg) {
     reg_aff("aff.pyrolyze_and_quench_biochar", "Run Smokeless TLUD Pyrolysis & Quench Biochar (8 kg)", 720u, "", 0u, "item.pyrolysis_biochar", 8u);
     reg_aff("aff.turn_and_harvest_compost", "Aerate & Screen Thermophilic Humus Compost (25 kg)", 480u, "", 0u, "item.thermophilic_compost", 25u);
     reg_aff("aff.tend_hens_and_collect_eggs", "Feed BSFL Grubs, Refresh Litter & Gather Eggs", 360u, "", 0u, "item.pasture_egg", 4u, "mood", 900);
+    reg_aff("aff.gather_soup_inputs", "Gather & Rinse Split Peas, Mirepoix & Broth Bones", 300u, "", 0u, "", 0u, "introspection", 600);
     reg_aff("aff.attach_l2_culinary_controller", "Clip PT100 Probe & L2 Controller to Cauldron", 180u);
     reg_aff("aff.simmer_bone_broth", "Start 24-Hour Collagen Bone Broth", 900u, "", 0u, "item.bone_broth", 4u, "hunger", 1600);
     reg_aff("aff.cook_pea_soup", "Prep Mirepoix & Simmer Communal Split-Pea Soup (>= 74 C)", 900u, "", 0u, "item.pea_soup", 6u, "hunger", 2800);
@@ -288,6 +338,8 @@ inline void SeedHomesteadCoreCatalog(ContentRegistry& reg) {
     reg_aff("aff.study_at_workstation", "Review L6 Needs, Governance & Workflow Plans", 900u, "", 0u, "", 0u, "introspection", 2200);
     reg_aff("aff.sleep_in_bed", "Sleep Circadian Rest", 3600u, "", 0u, "", 0u, "energy", 4500);
     reg_aff("aff.excavate_earthwork_tile", "Excavate Subsurface Earthwork Horizon (110 kg Spoil)", 600u, "", 0u, "item.topsoil_loam", 110u);
+
+    ApplyStagePreconditionsToCatalog(reg);
 
     auto reg_arch = [&](
         std::string_view              id,
@@ -314,7 +366,7 @@ inline void SeedHomesteadCoreCatalog(ContentRegistry& reg) {
              41u, false, {"aff.simmer_bone_broth", "aff.cook_pea_soup", "aff.attach_l2_culinary_controller"});
     reg_arch("arch.kitchen_prep_sink_cabinet", "Stainless Prep Sink & Tiffin Counter",
              "A deep stainless washbasin and butcher-block prep counter for rinsing split peas, scrubbing roots, and filling tiffins.",
-             42u, false, {"aff.draw_potable_water", "aff.pack_and_deliver_tiffins"});
+             42u, false, {"aff.draw_potable_water", "aff.gather_soup_inputs", "aff.pack_and_deliver_tiffins"});
     reg_arch("arch.refrigerator_larder", "Insulated Homestead Larder & Cold Box",
              "An insulated refrigerator-larder storing chilled bone broth jars, mirepoix roots, pasture eggs, and dry split-pea canisters.",
              40u, false, {"aff.eat_nourished_meal"});
@@ -375,9 +427,9 @@ inline void SeedHomesteadCoreCatalog(ContentRegistry& reg) {
     reg_arch("arch.hauling_tool_tiffin_carrier", "4-Tier 304-Stainless Insulated Tiffin Carrier", "A gleaming 4-tier 304-stainless latching tiffin carrier tagged with an NFC return manifest.", kVoxelMatLiquidVessel, true, {"aff.pickup_hauling_tool"});
     reg_arch("arch.hauling_tool_wheelbarrow", "Pneumatic Steel Contractor Wheelbarrow", "A deep-tray steel wheelbarrow on a knobby pneumatic tire built for 140 kg loads.", kVoxelMatWheelbarrow, true, {"aff.pickup_hauling_tool"});
     reg_arch("arch.hauling_tool_hand_dolly", "Heavy-Duty Steel Hand Dolly", "An upright welded-steel appliance and joinery hand dolly rated to 200 kg.", kVoxelMatHandDolly, true, {"aff.pickup_hauling_tool"});
-    reg_arch("arch.yard_earthwork_plot", "Graded Yard Plot & Subsurface Horizon",
-             "Open parcel ground overlying sandy-loam topsoil and deep clay subsoil horizons.",
-             MAT_SURFACE_LAWN_OR_FLOOR, true, {"aff.excavate_earthwork_tile", "aff.mill_raised_bed_frame"});
+    reg_arch("arch.yard_earthwork_plot", "Unimproved Backyard Lawn & Topsoil Plot",
+             "Open backyard grass overlying sandy-loam topsoil and deep clay subsoil horizons. Mill a raised bed frame at the garage workbench first.",
+             MAT_SURFACE_LAWN_OR_FLOOR, true, {});
 
     reg.RegisterThoughtRule(ThoughtRuleDef{"thought.day1_clean_backyard_horizon", "introspection", "introspection",
         "Clean morning air over open backyard grass — ready to mill our first cedar raised bed whenever we choose.", 4000, 10000, 150, 900u});
@@ -429,12 +481,13 @@ public:
         registry_.BootstrapCoreCatalog();
         detail::SeedHomesteadCoreCatalog(registry_);
         LoadCatalogAndModsFromDisk();
+        detail::ApplyStagePreconditionsToCatalog(registry_);
 
         // 3. Grant Steward full homestead craft & domestic capabilities
         for (const std::string_view cap : {
                  "WOODSHOP_JOINERY", "GARAGE_ASSEMBLY", "POTABLE_WATER_TAP",
                  "SOIL_CULTIVATION_BED", "COMPOST_AND_PYROLYSIS_PAD", "POULTRY_PASTURE_RUN",
-                 "CULINARY_HEAT_SOURCE", "COMMONS_TIFFIN_HANDOFF", "DINING_SEATING",
+                 "CULINARY_HEAT_SOURCE", "KITCHEN_PREP_SINK", "COMMONS_TIFFIN_HANDOFF", "DINING_SEATING",
                  "COLD_LARDER_STORAGE", "HYGIENE_SHOWER", "COGNITIVE_DECOMPRESSION",
                  "L6_WORKSTATION", "SLEEP_RECOVERY", "cap.soil_amendment"}) {
             steward_caps_.GrantCapability(cap);
@@ -584,6 +637,7 @@ private:
         bind_io("aff.pyrolyze_and_quench_biochar", "", 0u, "item.pyrolysis_biochar", 8u);
         bind_io("aff.turn_and_harvest_compost", "", 0u, "item.thermophilic_compost", 25u);
         bind_io("aff.pack_and_deliver_tiffins", "item.pea_soup", 4u, "", 0u);
+        detail::ApplyStagePreconditionsToCatalog(registry_);
     }
 
     void RebuildWorldFromMapProvider(bool use_procedural) {
@@ -827,6 +881,15 @@ private:
         props.Set("voxel_x", seed.x, "m");
         props.Set("voxel_y", seed.y, "m");
         props.Set("voxel_z", seed.z, "m");
+        if (seed.archetype_id == "arch.raised_garden_bed") {
+            props.Set("bed_stage", 0, "stage");
+            props.Set("l2_probe_installed", 0, "flag");
+            props.Set("l2_valve_installed", 0, "flag");
+        } else if (seed.archetype_id == "arch.induction_hearth_stove" ||
+                   seed.archetype_id == "arch.kitchen_prep_sink_cabinet") {
+            props.Set("hearth_stage", 0, "stage");
+            props.Set("l2_culinary_installed", 0, "flag");
+        }
 
         SensorAttachmentComponent sensor{};
         sensor.sensor_node_id      = static_cast<uint32_t>(uid);
@@ -862,6 +925,28 @@ private:
         return e;
     }
 
+    void SetKitchenHearthStage(int64_t stage) {
+        for (flecs::entity e : map_entities_) {
+            if (!e.is_alive() || !e.has<EntitySpatialMetaComponent>() || !e.has<PropertyBagComponent>()) {
+                continue;
+            }
+            const auto& m = e.get<EntitySpatialMetaComponent>();
+            if (m.archetype_id == "arch.induction_hearth_stove" ||
+                m.archetype_id == "arch.kitchen_prep_sink_cabinet") {
+                e.get_mut<PropertyBagComponent>().Set("hearth_stage", stage, "stage");
+            }
+        }
+    }
+
+    [[nodiscard]] std::string FindActiveBpmnTaskForAffordance(std::string_view aff_id) const {
+        for (const auto& [mapped_aff, l4_task_id] : active_bpmn_affordance_to_task_) {
+            if (mapped_aff == aff_id) {
+                return l4_task_id;
+            }
+        }
+        return {};
+    }
+
     // Re-binds live Flecs component addresses into VirtualPinBus so table reallocations never leave stale pointers.
     void RefreshVirtualPinBusEndpoints() {
         for (flecs::entity e : map_entities_) {
@@ -871,7 +956,26 @@ private:
             const auto& meta   = e.get<EntitySpatialMetaComponent>();
             const auto* sensor = &e.get<SensorAttachmentComponent>();
             if (e.has<SoilCellRegisters>()) {
-                pin_bus_.BindSoilEntity(meta.entity_uid, sensor, &e.get_mut<SoilCellRegisters>());
+                uint8_t c_code = kCultivarCodeUnset;
+                if (meta.archetype_id == "arch.raised_garden_bed") {
+                    c_code = active_cultivar_code_;
+                    if (e.has<PropertyBagComponent>()) {
+                        const int64_t stored = e.get<PropertyBagComponent>().Get(
+                            "cultivar_code",
+                            static_cast<int64_t>(active_cultivar_code_)
+                        );
+                        if (stored >= 0 && stored <= 3) {
+                            c_code = static_cast<uint8_t>(stored);
+                        }
+                    }
+                }
+                pin_bus_.BindSoilEntity(
+                    meta.entity_uid,
+                    sensor,
+                    &e.get_mut<SoilCellRegisters>(),
+                    kDefaultIrrigationFlowMlPerSec,
+                    c_code
+                );
             }
             if (e.has<ThermalVesselRegisters>()) {
                 pin_bus_.BindThermalEntity(meta.entity_uid, sensor, &e.get_mut<ThermalVesselRegisters>());
@@ -1225,6 +1329,7 @@ private:
         task.affordance_id    = aff->affordance_id;
         task.label            = aff->label;
         task.target_entity_id = resolved_target_id;
+        task.l4_task_id       = FindActiveBpmnTaskForAffordance(aff->affordance_id);
         task.target_x         = tx;
         task.target_y         = ty;
         task.target_z         = tz;
@@ -1325,7 +1430,7 @@ private:
         } else if (task_id == "task:soup_1_gather_inputs") {
             if (spec.step_action_uri.empty()) spec.step_action_uri = "col://workflow/soup/gather_inputs";
             spec.preferred_station_archetype = "arch.kitchen_prep_sink_cabinet";
-            mapped_affordance                = "aff.eat_nourished_meal";
+            mapped_affordance                = "aff.gather_soup_inputs";
         } else if (task_id == "task:soup_1" || task_id.starts_with("task:soup_2")) {
             if (spec.step_action_uri.empty()) spec.step_action_uri = "col://domain/thermal/simmer_bone_broth";
             spec.preferred_station_archetype = "arch.induction_hearth_stove";
@@ -1342,15 +1447,15 @@ private:
             mapped_affordance                = "aff.pack_and_deliver_tiffins";
         } else if (task_id.find("feed_bsfl") != std::string_view::npos ||
                    task_id.find("collect_eggs") != std::string_view::npos ||
-                   task_id == "task:mu_3") {
+                   task_id.starts_with("task:mu_1")) {
             if (spec.step_action_uri.empty()) spec.step_action_uri = "col://workflow/mu/tend_pasture_hens";
             spec.preferred_station_archetype = "arch.poultry_coop";
             mapped_affordance                = "aff.tend_hens_and_collect_eggs";
-        } else if (task_id.find("compost") != std::string_view::npos || task_id == "task:mu_2") {
+        } else if (task_id.find("compost") != std::string_view::npos || task_id.starts_with("task:mu_2")) {
             if (spec.step_action_uri.empty()) spec.step_action_uri = "col://workflow/mu/turn_compost";
             spec.preferred_station_archetype = "arch.thermophilic_compost_drum";
             mapped_affordance                = "aff.turn_and_harvest_compost";
-        } else if (task_id.find("biochar") != std::string_view::npos || task_id == "task:mu_1") {
+        } else if (task_id.find("biochar") != std::string_view::npos || task_id.starts_with("task:mu_3")) {
             if (spec.step_action_uri.empty()) spec.step_action_uri = "col://workflow/mu/pyrolyze_biochar";
             spec.preferred_station_archetype = "arch.tlud_biochar_kiln";
             mapped_affordance                = "aff.pyrolyze_and_quench_biochar";
@@ -1419,6 +1524,30 @@ private:
         if (whole_sim_s > 0u) {
             RefreshVirtualPinBusEndpoints();
             pin_bus_.StepBoundDomains(clock_.AmbientTempMilliKelvin(), whole_sim_s);
+
+            for (flecs::entity e : map_entities_) {
+                if (!e.is_alive() || !e.has<EntitySpatialMetaComponent>() ||
+                    !e.has<SoilCellRegisters>() || !e.has<PropertyBagComponent>()) {
+                    continue;
+                }
+                const auto& meta = e.get<EntitySpatialMetaComponent>();
+                if (meta.archetype_id != "arch.raised_garden_bed") {
+                    continue;
+                }
+                const auto& soil  = e.get<SoilCellRegisters>();
+                auto&       props = e.get_mut<PropertyBagComponent>();
+                if (soil.crop_planted != 0u && props.Get("bed_stage", 0) == 3) {
+                    const uint8_t c_code = static_cast<uint8_t>(
+                        std::clamp<int64_t>(props.Get("cultivar_code", static_cast<int64_t>(active_cultivar_code_)), 0, 3)
+                    );
+                    const CultivarPhysicsSpec spec = ResolveCultivarByCode(c_code);
+                    if (soil.crop_growth_bp >= spec.harvest_mature_bp) {
+                        props.Set("bed_stage", 4, "stage");
+                        inner_thought_ = "The " + std::string(CultivarDisplayNameFromCode(c_code)) +
+                                         " vines on the backyard trellis have reached full pod maturity — ready to harvest!";
+                    }
+                }
+            }
         }
 
         // 2. Step active Steward task & hauling physics state machine
@@ -1751,30 +1880,47 @@ private:
             auto& soil = target.get_mut<SoilCellRegisters>();
             AmendSoilWithCompost(soil, 8000u);
             AmendSoilWithBiochar(soil, 3000u);
-            inner_thought_ = "Worked cured compost and microporous biochar deep into the root zone — field capacity jumped cleanly.";
+            if (target.has<PropertyBagComponent>()) {
+                target.get_mut<PropertyBagComponent>().Set("bed_stage", 1, "stage");
+            }
+            inner_thought_ = "Worked cured compost and microporous biochar deep into the root zone — ready for the A-frame trellis.";
             return;
         }
 
         if (aff_id == "aff.erect_pea_trellis" && target.is_alive() && target.has<EntitySpatialMetaComponent>()) {
             const auto& m = target.get<EntitySpatialMetaComponent>();
             (void)world_grid_.SetVoxel(m.x, m.y, m.z, 34u);
+            if (target.has<PropertyBagComponent>()) {
+                target.get_mut<PropertyBagComponent>().Set("bed_stage", 2, "stage");
+            }
             renderer_->SyncWorldChunkFromGrid(world_grid_, 1u);
-            inner_thought_ = "Anchored the A-frame cedar and galvanized twine trellis over the raised bed.";
+            inner_thought_ = "Anchored the A-frame cedar and galvanized twine trellis over the raised bed — ready to sow inoculated peas.";
             return;
         }
 
         if (aff_id == "aff.inoculate_and_sow_peas" && target.is_alive() && target.has<SoilCellRegisters>()) {
             ConsumeItemFromParcel("item.pea_seeds_heirloom", 1u);
+            const CultivarPhysicsSpec spec = ResolveCultivarByCode(active_cultivar_code_);
             auto& soil              = target.get_mut<SoilCellRegisters>();
             soil.crop_planted       = 1u;
-            soil.is_legume_fixing_n = 1u;
-            soil.crop_growth_bp     = std::max(soil.crop_growth_bp, 1200u);
+            soil.is_legume_fixing_n = spec.fixes_atmospheric_n2;
+            soil.crop_growth_bp     = 200u; // Newly sown seed cohort (2.0% initial radicle emergence)
+            soil.growth_sub_accum   = 0u;
+            if (target.has<PropertyBagComponent>()) {
+                auto& props = target.get_mut<PropertyBagComponent>();
+                props.Set("bed_stage", 3, "stage");
+                props.Set("cultivar_code", static_cast<int64_t>(active_cultivar_code_), "code");
+            }
+            last_observed_garden_growth_bp_   = soil.crop_growth_bp;
+            last_observed_garden_moisture_bp_ = soil.moisture_vwc_bp;
+            RefreshVirtualPinBusEndpoints();
             if (target.has<EntitySpatialMetaComponent>()) {
                 const auto& m = target.get<EntitySpatialMetaComponent>();
                 (void)world_grid_.SetVoxel(m.x, m.y, m.z, 34u);
                 renderer_->SyncWorldChunkFromGrid(world_grid_, 1u);
             }
-            inner_thought_ = "Sowed Rhizobium-inoculated climbing peas and mirepoix roots along the trellis.";
+            inner_thought_ = "Sowed " + std::string(CultivarDisplayNameFromCode(active_cultivar_code_)) +
+                             " at " + std::to_string(spec.sowing_depth_mm) + " mm depth along the trellis — timed growth & moisture checks begin now.";
             return;
         }
 
@@ -1786,15 +1932,57 @@ private:
         }
 
         if (aff_id == "aff.water_garden_manual" && target.is_alive() && target.has<SoilCellRegisters>()) {
+            uint8_t c_code = active_cultivar_code_;
+            if (target.has<PropertyBagComponent>()) {
+                c_code = static_cast<uint8_t>(
+                    std::clamp<int64_t>(target.get<PropertyBagComponent>().Get("cultivar_code", static_cast<int64_t>(c_code)), 0, 3)
+                );
+            }
+            const CultivarPhysicsSpec spec = ResolveCultivarByCode(c_code);
             auto& soil = target.get_mut<SoilCellRegisters>();
-            StepSoilPhysics(soil, clock_.AmbientTempMilliKelvin(), 5000u, 1u);
-            inner_thought_ = "Watered the garden bed evenly with the rose-spout can — dark loam drank up 5 liters.";
+            const uint32_t dose_ml = (soil.moisture_vwc_bp < spec.target_max_vwc_bp) ? spec.irrigation_dose_ml : 1000u;
+            StepCultivarSoilPhysics(soil, spec, clock_.AmbientTempMilliKelvin(), dose_ml, 1u);
+
+            last_observed_garden_growth_bp_   = soil.crop_growth_bp;
+            last_observed_garden_moisture_bp_ = soil.moisture_vwc_bp;
+
+            const CropPhenologyStage stage = EvaluateCropPhenologyStage(
+                soil.crop_growth_bp, soil.crop_planted, spec.harvest_mature_bp
+            );
+            if (target.has<PropertyBagComponent>()) {
+                target.get_mut<PropertyBagComponent>().Set(
+                    "bed_stage",
+                    (soil.crop_growth_bp >= spec.harvest_mature_bp) ? 4 : 3,
+                    "stage"
+                );
+            }
+
+            const std::string c_name(CultivarDisplayNameFromCode(c_code));
+            const std::string s_name(PhenologyStageLabel(stage));
+            inner_thought_ = "Verified " + c_name + " (" + std::to_string(soil.crop_growth_bp / 100u) + "% · " +
+                             s_name + ") and watered root zone to " + std::to_string(soil.moisture_vwc_bp / 100u) + "% VWC.";
+
+            std::ostringstream ioss;
+            ioss << "{"
+                 << "\"headline\":\"" << detail::JsonEscape(c_name + " — " + s_name) << "\","
+                 << "\"look_description\":\"" << detail::JsonEscape(inner_thought_) << "\","
+                 << "\"has_live_l2_telemetry\":false,"
+                 << "\"revealed_properties\":["
+                 << "{\"key\":\"crop_growth_bp\",\"value\":" << soil.crop_growth_bp << ",\"unit_hint\":\"bp\"},"
+                 << "{\"key\":\"moisture_vwc_bp\",\"value\":" << soil.moisture_vwc_bp << ",\"unit_hint\":\"bp\"},"
+                 << "{\"key\":\"soil_temp_mk\",\"value\":" << soil.soil_temp_mk << ",\"unit_hint\":\"mK\"},"
+                 << "{\"key\":\"nitrogen_ppm\",\"value\":" << soil.nitrogen_ppm << ",\"unit_hint\":\"ppm\"}"
+                 << "],\"revealed_inventory\":[]}";
+            pending_inspection_report_json_ = ioss.str();
             return;
         }
 
         if (aff_id == "aff.install_l2_soil_probe" && target.is_alive() && target.has<SensorAttachmentComponent>()) {
             ConsumeItemFromParcel("item.l2_soil_probe", 1u);
             target.get_mut<SensorAttachmentComponent>().has_l2_sensor = true;
+            if (target.has<PropertyBagComponent>()) {
+                target.get_mut<PropertyBagComponent>().Set("l2_probe_installed", 1, "flag");
+            }
             RefreshVirtualPinBusEndpoints();
             inner_thought_ = "Seated the FDR soil probe into the root zone — VirtualPinBus is now streaming live soil_probe_v1 telemetry.";
             return;
@@ -1804,22 +1992,51 @@ private:
             ConsumeItemFromParcel("item.l2_irrigation_valve", 1u);
             target.get_mut<SensorAttachmentComponent>().has_l2_sensor      = true;
             target.get_mut<EntitySpatialMetaComponent>().has_drip_valve_hardware = true;
+            if (target.has<PropertyBagComponent>()) {
+                target.get_mut<PropertyBagComponent>().Set("l2_valve_installed", 1, "flag");
+            }
             RefreshVirtualPinBusEndpoints();
             inner_thought_ = "Plumbed the 24V latching drip solenoid valve — L2 automated moisture regulation is online.";
             return;
         }
 
         if (aff_id == "aff.harvest_peas_and_roots" && target.is_alive() && target.has<SoilCellRegisters>()) {
+            uint8_t c_code = active_cultivar_code_;
+            if (target.has<PropertyBagComponent>()) {
+                c_code = static_cast<uint8_t>(
+                    std::clamp<int64_t>(target.get<PropertyBagComponent>().Get("cultivar_code", static_cast<int64_t>(c_code)), 0, 3)
+                );
+            }
+            const CultivarPhysicsSpec spec = ResolveCultivarByCode(c_code);
             auto& soil          = target.get_mut<SoilCellRegisters>();
-            soil.crop_growth_bp = 2000u;
-            steward_inventory_.AddItem("item.fresh_pea_pods", 4u);
-            steward_inventory_.AddItem("item.mirepoix_roots", 2u);
-            inner_thought_ = "Filled the bucket with crisp pea pods and sweet mirepoix roots.";
+            soil.crop_growth_bp = 1500u;
+            if (target.has<PropertyBagComponent>()) {
+                target.get_mut<PropertyBagComponent>().Set("bed_stage", 5, "stage");
+            }
+            steward_inventory_.AddItem("item.fresh_pea_pods", static_cast<uint32_t>(spec.harvest_legume_batches) * 2u);
+            steward_inventory_.AddItem("item.mirepoix_roots", static_cast<uint32_t>(spec.harvest_mirepoix_batches));
+            inner_thought_ = "Harvested " + std::to_string(spec.harvest_legume_batches) + " batches of mature " +
+                             std::string(CultivarDisplayNameFromCode(c_code)) + " pods and sweet mirepoix roots.";
             return;
         }
 
         if (aff_id == "aff.shell_dry_and_turn_bed") {
             steward_inventory_.AddItem("item.split_peas_dry", 3u);
+            if (target.is_alive()) {
+                if (target.has<PropertyBagComponent>()) {
+                    target.get_mut<PropertyBagComponent>().Set("bed_stage", 0, "stage");
+                }
+                if (target.has<SoilCellRegisters>()) {
+                    auto& soil          = target.get_mut<SoilCellRegisters>();
+                    soil.crop_planted   = 0u;
+                    soil.crop_growth_bp = 0u;
+                }
+                if (target.has<EntitySpatialMetaComponent>()) {
+                    const auto& m = target.get<EntitySpatialMetaComponent>();
+                    (void)world_grid_.SetVoxel(m.x, m.y, m.z, MAT_TILLED_GARDEN_SOIL);
+                    renderer_->SyncWorldChunkFromGrid(world_grid_, 1u);
+                }
+            }
             inner_thought_ = "Shelled dry green split peas (< 14% moisture) and turned nitrogen-rich nodules back into the bed.";
             return;
         }
@@ -1852,9 +2069,18 @@ private:
             return;
         }
 
+        if (aff_id == "aff.gather_soup_inputs") {
+            SetKitchenHearthStage(1);
+            inner_thought_ = "Rinsed split peas, scrubbed mirepoix roots, and staged broth bones at the kitchen prep sink.";
+            return;
+        }
+
         if (aff_id == "aff.attach_l2_culinary_controller" && target.is_alive() && target.has<SensorAttachmentComponent>()) {
             ConsumeItemFromParcel("item.l2_culinary_rtd_controller", 1u);
             target.get_mut<SensorAttachmentComponent>().has_l2_sensor = true;
+            if (target.has<PropertyBagComponent>()) {
+                target.get_mut<PropertyBagComponent>().Set("l2_culinary_installed", 1, "flag");
+            }
             RefreshVirtualPinBusEndpoints();
             inner_thought_ = "Clipped the PT100 RTD probe onto the stockpot — culinary_vessel_v1 pasteurization telemetry is live.";
             return;
@@ -1870,9 +2096,11 @@ private:
             StepThermalVessel(vessel, clock_.AmbientTempMilliKelvin(), 480u);
             if (aff_id == "aff.simmer_bone_broth") {
                 steward_inventory_.AddItem("item.bone_broth", 4u);
+                SetKitchenHearthStage(2);
                 inner_thought_ = "Rich 24-hour collagen bone broth is simmering gently on the induction hearth.";
             } else {
                 steward_inventory_.AddItem("item.pea_soup", 6u);
+                SetKitchenHearthStage(3);
                 steward_drives_.hunger_bp = std::min(kDriveMaxBp, steward_drives_.hunger_bp + 2400u);
                 inner_thought_            = "Simmered a fragrant pot of split-pea and mirepoix soup past 74 C pasteurization.";
             }
@@ -1881,6 +2109,7 @@ private:
 
         if (aff_id == "aff.pack_and_deliver_tiffins") {
             (void)steward_inventory_.RemoveItem("item.pea_soup", 2u);
+            SetKitchenHearthStage(0);
             steward_drives_.social_bp = std::min(kDriveMaxBp, steward_drives_.social_bp + 2200u);
             inner_thought_            = "Latched four hot 304-stainless tiffin tiers of split-pea soup for our R0/R1 neighbors.";
             return;
@@ -2196,7 +2425,12 @@ private:
             if (ent.has<InventoryComponent>()) inv = &ent.get<InventoryComponent>();
             if (ent.has<SensorAttachmentComponent>()) sensor = &ent.get<SensorAttachmentComponent>();
         } else {
-            arch = registry_.FindArchetype("arch.yard_earthwork_plot");
+            const bool inside_house  = (hit.vx >= 9 && hit.vx <= 17 && hit.vz >= 2 && hit.vz <= 10);
+            const bool inside_garage = (hit.vx >= 8 && hit.vx <= 12 && hit.vz >= 10 && hit.vz <= 14);
+            if (!inside_house && !inside_garage &&
+                (hit.material_id == MAT_SURFACE_LAWN_OR_FLOOR || hit.material_id == STRATA_TOPSOIL_LOAM)) {
+                arch = registry_.FindArchetype("arch.yard_earthwork_plot");
+            }
         }
 
         EntityArchetypeDef fallback_arch{};
@@ -2240,6 +2474,22 @@ private:
             }
         }
 
+        // 1b. When synced with col-gatewayd (:8090), gate workflow-governed production affordances on ACTIVE_TOKEN!
+        uint32_t bpmn_blocked_count = 0u;
+        if (bpmn_token_sync_active_) {
+            std::vector<AffordanceDef> token_gated;
+            token_gated.reserve(filtered.size());
+            for (auto& aff : filtered) {
+                if (detail::IsWorkflowGovernedAffordance(aff.affordance_id) &&
+                    FindActiveBpmnTaskForAffordance(aff.affordance_id).empty()) {
+                    ++bpmn_blocked_count;
+                    continue;
+                }
+                token_gated.push_back(std::move(aff));
+            }
+            filtered = std::move(token_gated);
+        }
+
         // 2. Inspect subsurface strata at y = -1 and y = -2 beneath clicked (vx, vz)
         const uint16_t    strata_y1      = world_grid_.GetVoxel(hit.vx, -1, hit.vz);
         const uint16_t    strata_y2      = world_grid_.GetVoxel(hit.vx, -2, hit.vz);
@@ -2262,6 +2512,8 @@ private:
             << "\"name\":\"" << detail::JsonEscape(arch->display_name) << "\","
             << "\"room_tag\":\"" << detail::JsonEscape(room_tag) << "\","
             << "\"has_l2_sensor\":" << ((sensor != nullptr && sensor->has_l2_sensor) ? "true" : "false") << ","
+            << "\"bpmn_token_sync_active\":" << (bpmn_token_sync_active_ ? "true" : "false") << ","
+            << "\"bpmn_blocked_count\":" << bpmn_blocked_count << ","
             << "\"look_description\":\"" << detail::JsonEscape(arch->look_description) << "\","
             << "\"look_text\":\"" << detail::JsonEscape(arch->look_description) << "\","
             << "\"strata_summary\":\"" << detail::JsonEscape(strata_summary) << "\","
@@ -2289,11 +2541,13 @@ private:
                 hx = 21;
                 hz = 10;
             }
-            const auto haul_note = EvaluateAffordanceHaulRequirement(aff, hx, hz);
+            const auto        haul_note  = EvaluateAffordanceHaulRequirement(aff, hx, hz);
+            const std::string l4_task_id = FindActiveBpmnTaskForAffordance(aff.affordance_id);
             if (i > 0u) oss << ",";
             oss << "{"
                 << "\"id\":\"" << detail::JsonEscape(aff.affordance_id) << "\","
                 << "\"affordance_id\":\"" << detail::JsonEscape(aff.affordance_id) << "\","
+                << "\"l4_task_id\":\"" << detail::JsonEscape(l4_task_id) << "\","
                 << "\"label\":\"" << detail::JsonEscape(aff.label) << "\","
                 << "\"duration_sim_s\":" << aff.duration_sim_s << ","
                 << "\"required_capability_tag\":\"" << detail::JsonEscape(aff.required_capability_tag) << "\","
@@ -2429,9 +2683,62 @@ private:
             } else {
                 RebuildWorldFromMapProvider(!procedural_mode_active_);
             }
+        } else if (cmd_type == "set_cultivar") {
+            std::string cultivar_id;
+            if (!json_util::ReadString(cmd_json, "cultivar_id", cultivar_id)) {
+                (void)json_util::ReadString(cmd_json, "id", cultivar_id);
+            }
+            if (!cultivar_id.empty()) {
+                ApplyActiveCultivarSelection(cultivar_id);
+            }
+        } else if (cmd_type == "sync_bpmn_tokens") {
+            std::string synced_cultivar_id;
+            if (json_util::ReadString(cmd_json, "cultivar_id", synced_cultivar_id) ||
+                json_util::ReadString(cmd_json, "selected_cultivar_id", synced_cultivar_id)) {
+                if (!synced_cultivar_id.empty()) {
+                    ApplyActiveCultivarSelection(synced_cultivar_id);
+                }
+            }
+            bool sync_active = false;
+            (void)json_util::ReadBool(cmd_json, "active", sync_active);
+            bpmn_token_sync_active_ = sync_active;
+            active_bpmn_affordance_to_task_.clear();
+            if (sync_active) {
+                for (const std::string_view tok_obj : json_util::SplitObjectArray(cmd_json, "tokens")) {
+                    std::string aff_id;
+                    std::string task_id;
+                    if (!json_util::ReadString(tok_obj, "mapped_affordance_id", aff_id)) {
+                        (void)json_util::ReadString(tok_obj, "affordance_id", aff_id);
+                    }
+                    (void)json_util::ReadString(tok_obj, "task_id", task_id);
+                    if (!aff_id.empty() && !task_id.empty()) {
+                        active_bpmn_affordance_to_task_.emplace_back(std::move(aff_id), std::move(task_id));
+                    }
+                }
+            }
         }
     }
+#endif
 
+    void ApplyActiveCultivarSelection(std::string_view cultivar_id) {
+        const uint8_t next_code = ResolveCultivarCodeFromId(cultivar_id);
+        active_cultivar_code_   = next_code;
+        for (flecs::entity e : map_entities_) {
+            if (!e.is_alive() || !e.has<EntitySpatialMetaComponent>() || !e.has<PropertyBagComponent>()) {
+                continue;
+            }
+            if (e.get<EntitySpatialMetaComponent>().archetype_id != "arch.raised_garden_bed") {
+                continue;
+            }
+            const bool already_sown = e.has<SoilCellRegisters>() && (e.get<SoilCellRegisters>().crop_planted != 0u);
+            if (!already_sown) {
+                e.get_mut<PropertyBagComponent>().Set("cultivar_code", static_cast<int64_t>(next_code), "code");
+            }
+        }
+        RefreshVirtualPinBusEndpoints();
+    }
+
+#ifdef __EMSCRIPTEN__
     void PushBrowserFrameSnapshot() {
         RefreshVirtualPinBusEndpoints();
         const auto              tiers    = ComputeCurrentStewardFeelTiers();
@@ -2519,6 +2826,7 @@ private:
         std::ostringstream oss;
         oss << "{"
             << "\"tick\":" << tick_count_ << ","
+            << "\"sim_clock_seconds\":" << clock_.TotalSimSeconds() << ","
             << "\"clock_label\":\"" << detail::JsonEscape(cal_text) << "\","
             << "\"sim_clock\":\"" << detail::JsonEscape(cal_text) << "\","
             << "\"calendar\":\"" << detail::JsonEscape(cal_text) << "\","
@@ -2529,6 +2837,10 @@ private:
             << "\"time_warp\":" << static_cast<unsigned>(clock_.WarpMultiplier()) << ","
             << "\"cutaway_z\":" << renderer_->CutawayLevel() << ","
             << "\"map_generator\":\"" << (procedural_mode_active_ ? "procedural" : "static") << "\","
+            << "\"active_cultivar_id\":\"" << detail::JsonEscape(CultivarIdFromCode(active_cultivar_code_)) << "\","
+            << "\"active_cultivar_name\":\"" << detail::JsonEscape(CultivarDisplayNameFromCode(active_cultivar_code_)) << "\","
+            << "\"observed_garden_growth_bp\":" << last_observed_garden_growth_bp_ << ","
+            << "\"observed_garden_moisture_bp\":" << last_observed_garden_moisture_bp_ << ","
             << "\"feel\":{"
             << "\"hunger\":" << static_cast<unsigned>(tiers.hunger_tier) << ","
             << "\"energy\":" << static_cast<unsigned>(tiers.energy_tier) << ","
@@ -2573,6 +2885,7 @@ private:
         last_completed_l4_task_id_.clear();
 
         oss << ",\"l2_pins\":{"
+            << "\"sim_clock_seconds\":" << clock_.TotalSimSeconds() << ","
             << "\"has_active_pins\":" << ((has_soil_pin || has_thermal_pin) ? "true" : "false");
 
         if (has_soil_pin) {
@@ -2641,6 +2954,7 @@ private:
     std::vector<flecs::entity>                           map_entities_{};
     std::vector<PastureHenAgent>                         hens_{};
     std::vector<GridCoord>                               autonomy_walk_path_{};
+    std::vector<std::pair<std::string, std::string>>     active_bpmn_affordance_to_task_{};
     size_t                                               autonomy_walk_cursor_{0u};
     std::string                                          inner_thought_{};
     std::string                                          last_completed_l4_task_id_{};
@@ -2650,6 +2964,8 @@ private:
     glm::vec3                steward_pos_{12.0f, 1.0f, 6.0f};
     uint32_t                 domain_sub_sec_ms_{0u};
     uint32_t                 built_bed_count_{0u};
+    uint32_t                 last_observed_garden_growth_bp_{0u};
+    uint32_t                 last_observed_garden_moisture_bp_{0u};
     int32_t                  last_mouse_x_{0};
     int32_t                  last_mouse_y_{0};
     bool                     running_{false};
@@ -2657,7 +2973,9 @@ private:
     bool                     shift_down_{false};
     bool                     orbiting_camera_{false};
     bool                     panning_camera_{false};
-    [[maybe_unused]] uint8_t app_pad_[7]{0u, 0u, 0u, 0u, 0u, 0u, 0u};
+    bool                     bpmn_token_sync_active_{false};
+    uint8_t                  active_cultivar_code_{kCultivarCodeChronoVirtualPea};
+    [[maybe_unused]] uint8_t app_pad_[5]{0u, 0u, 0u, 0u, 0u};
 };
 
 } // namespace oasis::engine::app

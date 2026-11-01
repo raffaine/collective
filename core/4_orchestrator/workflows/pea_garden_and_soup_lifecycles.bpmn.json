@@ -11,6 +11,26 @@
     "prohibited_non_adjacent_layers": ["L1", "L2", "L6", "L7"],
     "stock_miss_protocol": "EMIT_YIELD_UPWARD_L5_OVER_L4_L5_SOCK"
   },
+  "workflow_input_parameters": {
+    "cultivar_id": {
+      "type": "col:LegumeCultivarSpec",
+      "catalog_ref": "core/6_intent/cultivars/fabaceae_cultivars.jsonld",
+      "default": "cultivar:chrono_virtual_pea",
+      "supported_families": ["Fabaceae"],
+      "parameterizes": [
+        "maturity_sim_seconds",
+        "verification_interval_sim_s",
+        "target_min_vwc_bp",
+        "target_opt_vwc_bp",
+        "irrigation_dose_ml",
+        "min_growth_temp_mk",
+        "fixes_atmospheric_n2",
+        "sowing_depth_mm",
+        "trellis_ridge_height_mm",
+        "harvest_legume_batches"
+      ]
+    }
+  },
   "workflows": [
     {
       "workflow_id": "wf.garden.plow_and_amend_soil",
@@ -340,9 +360,24 @@
           }
         },
         {
+          "id": "timer_wait_cultivar_interval",
+          "bpmn_type": "bpmn:IntermediateCatchEvent",
+          "event_definition": "bpmn:TimerEventDefinition",
+          "name": "Wait Cultivar Phenology Verification Interval (${cultivar.verification_interval_sim_s})",
+          "timer_parameters": {
+            "duration_sim_seconds_expr": "${cultivar.verification_interval_sim_s}",
+            "auto_bypass_when_l2_closed_loop": ["l2.schema.soil_probe.v1", "l2.schema.irrigation_valve.v1"]
+          }
+        },
+        {
+          "id": "gw_crop_maturity_reached",
+          "bpmn_type": "bpmn:ExclusiveGateway",
+          "name": "Observed crop_growth_bp >= ${cultivar.harvest_mature_bp}?"
+        },
+        {
           "id": "end_settle",
           "bpmn_type": "bpmn:EndEvent",
-          "name": "Settle Manual Irrigation & Weeding in L3",
+          "name": "Settle Timed Verification Loop & Advance Token to Harvest",
           "ipc_socket": "l3_l4.sock",
           "ipc_operation": "L3_SETTLE_ESCROW"
         }
@@ -353,7 +388,10 @@
         { "id": "f3", "sourceRef": "check_water_l3", "targetRef": "gw_water_ok" },
         { "id": "f4_miss", "sourceRef": "gw_water_ok", "targetRef": "yield_water_l5", "condition": "escrow_locked == false" },
         { "id": "f4_ok", "sourceRef": "gw_water_ok", "targetRef": "task_haul_water_vessel_and_irrigate", "condition": "escrow_locked == true" },
-        { "id": "f5", "sourceRef": "task_haul_water_vessel_and_irrigate", "targetRef": "end_settle" }
+        { "id": "f5", "sourceRef": "task_haul_water_vessel_and_irrigate", "targetRef": "gw_crop_maturity_reached" },
+        { "id": "f6_loop", "sourceRef": "gw_crop_maturity_reached", "targetRef": "timer_wait_cultivar_interval", "condition": "crop_growth_bp < cultivar.harvest_mature_bp" },
+        { "id": "f7_recheck", "sourceRef": "timer_wait_cultivar_interval", "targetRef": "task_manual_inspect_soil_and_leaves" },
+        { "id": "f6_mature", "sourceRef": "gw_crop_maturity_reached", "targetRef": "end_settle", "condition": "crop_growth_bp >= cultivar.harvest_mature_bp" }
       ]
     },
     {

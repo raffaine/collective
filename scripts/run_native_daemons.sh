@@ -158,27 +158,33 @@ stop_daemons() {
     local name="${DAEMONS[idx]}"
     local pid_file="${RUN_DIR}/${name}.pid"
 
-    if [[ ! -f "${pid_file}" ]]; then
-      continue
+    if [[ -f "${pid_file}" ]]; then
+      local pid
+      pid="$(cat "${pid_file}" 2>/dev/null || true)"
+      if [[ -n "${pid}" ]] && kill -0 "${pid}" 2>/dev/null; then
+        kill -TERM "${pid}" 2>/dev/null || true
+        for _ in {1..20}; do
+          if ! kill -0 "${pid}" 2>/dev/null; then
+            break
+          fi
+          sleep 0.1
+        done
+        if kill -0 "${pid}" 2>/dev/null; then
+          kill -KILL "${pid}" 2>/dev/null || true
+        fi
+        echo "[daemons] Stopped ${name} (PID ${pid})"
+        stopped=$((stopped + 1))
+      fi
+      rm -f "${pid_file}"
     fi
 
-    local pid
-    pid="$(cat "${pid_file}" 2>/dev/null || true)"
-    if [[ -n "${pid}" ]] && kill -0 "${pid}" 2>/dev/null; then
-      kill -TERM "${pid}" 2>/dev/null || true
-      for _ in {1..20}; do
-        if ! kill -0 "${pid}" 2>/dev/null; then
-          break
-        fi
-        sleep 0.1
-      done
-      if kill -0 "${pid}" 2>/dev/null; then
-        kill -KILL "${pid}" 2>/dev/null || true
-      fi
-      echo "[daemons] Stopped ${name} (PID ${pid})"
+    # Fallback: terminate any orphaned instance of this exact binary still holding a socket
+    if pgrep -f "${BUILD_DIR}/${name}" >/dev/null 2>&1; then
+      pkill -TERM -f "${BUILD_DIR}/${name}" 2>/dev/null || true
+      sleep 0.15
+      echo "[daemons] Cleaned up previous ${name} instance"
       stopped=$((stopped + 1))
     fi
-    rm -f "${pid_file}"
   done
 
   echo "[daemons] Shutdown summary: ${stopped} daemon(s) stopped."

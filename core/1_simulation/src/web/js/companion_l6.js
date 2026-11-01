@@ -147,7 +147,7 @@
             <button type="button" class="l6-tab-btn active" data-l6-tab="needs">🔍 Needs &amp; Requests</button>
             <button type="button" class="l6-tab-btn" data-l6-tab="decisions" id="l6-tab-btn-decisions">⚖️ L5 Decisions</button>
             <button type="button" class="l6-tab-btn" data-l6-tab="workflows">📋 L4 Workflows</button>
-            <button type="button" class="l6-tab-btn" data-l6-tab="node">🏛️ Node, L3 &amp; Bills</button>
+            <button type="button" class="l6-tab-btn" data-l6-tab="node">🏛️ Cluster, L3 &amp; Bills</button>
           </div>
 
           <div id="l6-cmd-toast" class="l6-status-toast hidden"></div>
@@ -232,19 +232,22 @@
 
             <!-- TAB 3: L4 WORKFLOWS & TASKS -->
             <div class="l6-tab-panel" id="l6-panel-workflows">
-              <div class="l6-section-label">Multi-Workflow Lifecycles &amp; Task Routing (col-execd)</div>
+              <div class="l6-section-label">BPMN 2.0 Token-Sequenced Workflows &amp; Cross-Node Choreography (col-execd)</div>
               <div id="l6-workflows-list-container"></div>
             </div>
 
-            <!-- TAB 4: NODE, L3 SWARM & BILLS -->
+            <!-- TAB 4: CLUSTER, L3 & BILLS -->
             <div class="l6-tab-panel" id="l6-panel-node">
+              <div class="l6-section-label">Lot 402 Personal Homestead Cluster (4 Sovereign Nodes · R0)</div>
+              <div id="l6-cluster-nodes-container"></div>
+
               <div class="l6-section-label">L7 Monthly Bill-Offset &amp; Household Reserve (col-adversaryd)</div>
               <div id="l6-l7-bills-container"></div>
 
-              <div class="l6-section-label">L3 Exergy &amp; Pairwise BCC Peer Clusters (col-swarmd)</div>
+              <div class="l6-section-label" id="l6-l3-bcc-section-label">L3 Inter-Node Choreography &amp; Exergy Ledger</div>
               <div id="l6-l3-bcc-container"></div>
 
-              <div class="l6-section-label">Live L3 Swarm Weather Event Feed</div>
+              <div class="l6-section-label" id="l6-l3-weather-section-label">Live L3 Inter-Node Choreography &amp; Mesh Event Feed</div>
               <div id="l6-l3-weather-container"></div>
 
               <div class="l6-section-label">Active L2 Hardware &amp; Virtual Pin Registers (col-telemetryd)</div>
@@ -421,8 +424,11 @@
       }
 
       if (submeta) {
+        const modeTag = snapshot.external_r1_swarm_enabled
+          ? '4-Node Cluster + External R1 Swarm'
+          : 'Solo Steward 4-Node Cluster (R0)';
         const srcTag = snapshot.bootstrapped_from_jsonld ? 'JSON-LD Live' : (snapshot.bootstrap_source || 'Native');
-        submeta.textContent = `${snapshot.node_did || 'did:mesh:node01'} · Sim Day ${snapshot.sim_day ?? 1} · Tick ${snapshot.tick ?? 0} · ${srcTag}`;
+        submeta.textContent = `${modeTag} · Sim Day ${snapshot.sim_day ?? 1} · Tick ${snapshot.tick ?? 0} · ${srcTag}`;
       }
 
       const pendingCount = (snapshot.l6_pending_decisions || []).filter(
@@ -610,9 +616,17 @@
       const assetsContainer = document.getElementById('l6-assets-list-container');
       if (!pendingContainer || !assetsContainer) return;
 
+      const cultivars = Array.isArray(snapshot.available_cultivars) ? snapshot.available_cultivars : [];
+      const selectedCultivarId = snapshot.selected_cultivar_id || (cultivars[0] && cultivars[0].cultivar_id) || 'cultivar:chrono_virtual_pea';
+      const findCultivarSpec = (cid) => cultivars.find((c) => c.cultivar_id === cid) || cultivars[0] || null;
+      const peaWorkflow = (Array.isArray(snapshot.l4_workflows) ? snapshot.l4_workflows : []).find(
+        (w) => w.workflow_id === 'wf:pea_cultivation'
+      );
+      const cropCurrentlySown = Boolean(peaWorkflow && peaWorkflow.crop_sown);
+
       const decisions = Array.isArray(snapshot.l6_pending_decisions) ? snapshot.l6_pending_decisions : [];
       const pending = decisions.filter((d) => !d.status || d.status === 'PENDING');
-      const decHash = JSON.stringify(pending);
+      const decHash = JSON.stringify({ pending, selectedCultivarId, cultivarsCount: cultivars.length });
 
       if (!hasFocusedInputInside(pendingContainer) && this._sectionHashes.decisions !== decHash) {
         this._sectionHashes.decisions = decHash;
@@ -624,9 +638,44 @@
             const draft = this.decisionDrafts[dec.decision_id] || {
               sourcing_mode: dec.proposed_sourcing_mode || 'R0_LOCAL_WORKFLOWS',
               distribution_policy: dec.proposed_distribution_policy || 'R1_TRUST_RING_COMMONS',
-              task_release_ring: dec.proposed_task_release_ring || 'R0_STEWARD_ONLY'
+              task_release_ring: dec.proposed_task_release_ring || 'R0_STEWARD_ONLY',
+              cultivar_id: selectedCultivarId
             };
+            if (!draft.cultivar_id) draft.cultivar_id = selectedCultivarId;
             this.decisionDrafts[dec.decision_id] = draft;
+
+            const isGardenDecision =
+              dec.governed_asset_id === 'asset:backyard_pea_garden' ||
+              dec.decision_id === 'dec:pea_cultivation';
+            const chosenSpec = isGardenDecision ? findCultivarSpec(draft.cultivar_id) : null;
+
+            const cultivarInputHtml = (isGardenDecision && cultivars.length > 0) ? `
+              <div style="margin-top:4px;padding:7px 8px;border-radius:5px;background:rgba(6,78,59,0.28);border:1px solid rgba(52,211,153,0.36);">
+                <label class="l6-kv-label" style="color:var(--emerald);">🌱 Workflow Input Parameter — Fabaceae Variety (<code>cultivar_id</code>)</label>
+                <select class="l6-select" style="margin-top:3px;" data-dec-cultivar="${escapeHtml(dec.decision_id)}">
+                  ${cultivars.map((c) => `
+                    <option value="${escapeHtml(c.cultivar_id)}" ${c.cultivar_id === draft.cultivar_id ? 'selected' : ''}>
+                      ${escapeHtml(c.title)} (${escapeHtml(c.maturity_label)} cycle · ${escapeHtml(c.verification_interval_label)} checks${c.is_virtual_sim_tuned ? ' · Sim-Tuned' : ''})
+                    </option>
+                  `).join('')}
+                </select>
+                ${chosenSpec ? `
+                  <div class="l6-meta-row" style="margin-top:5px;margin-bottom:2px;">
+                    <span class="l6-pill ${chosenSpec.is_virtual_sim_tuned ? 'violet' : 'emerald'}">
+                      ${chosenSpec.is_virtual_sim_tuned ? '⚡ Virtual Sim-Tuned' : `🌿 ${escapeHtml(chosenSpec.species_binomial)}`}
+                    </span>
+                    <span class="l6-pill cyan">⏱️ Maturity: ${escapeHtml(chosenSpec.maturity_label)}</span>
+                    <span class="l6-pill amber">🔍 Check Every ${escapeHtml(chosenSpec.verification_interval_label)}</span>
+                    <span class="l6-pill">${chosenSpec.fixes_atmospheric_n2 ? '🦠 Rhizobium N₂-Fixing' : '🧪 Draws Soil Mineral N'}</span>
+                    <span class="l6-pill">🌡️ ≥${((chosenSpec.min_growth_temp_mk - 273150) / 1000).toFixed(0)}°C</span>
+                    <span class="l6-pill emerald">🧺 +${chosenSpec.harvest_legume_batches} Legume / +${chosenSpec.harvest_mirepoix_batches} Root</span>
+                  </div>
+                  <div style="font-family:var(--font-mono);font-size:8.6px;color:var(--text-secondary);">
+                    ${escapeHtml(chosenSpec.agronomic_notes || '')}
+                  </div>
+                ` : ''}
+              </div>
+            ` : '';
 
             return `
               <div class="l6-card amber">
@@ -646,6 +695,7 @@
                 </div>
 
                 <div class="l6-form-grid" style="grid-template-columns:1fr;">
+                  ${cultivarInputHtml}
                   <div>
                     <label class="l6-kv-label">Sourcing Mode</label>
                     <select class="l6-select" data-dec-id="${escapeHtml(dec.decision_id)}" data-dec-field="sourcing_mode">
@@ -684,20 +734,37 @@
             });
           });
 
+          pendingContainer.querySelectorAll('[data-dec-cultivar]').forEach((sel) => {
+            sel.addEventListener('change', () => {
+              const id = sel.getAttribute('data-dec-cultivar');
+              if (!this.decisionDrafts[id]) this.decisionDrafts[id] = {};
+              this.decisionDrafts[id].cultivar_id = sel.value;
+              this.dispatchDaemonCommand(
+                'set_cultivar',
+                { cultivar_id: sel.value },
+                `Selected garden workflow input cultivar: ${sel.value}.`
+              );
+            });
+          });
+
           pendingContainer.querySelectorAll('[data-approve-dec]').forEach((btn) => {
             btn.addEventListener('click', () => {
               const id = btn.getAttribute('data-approve-dec');
               const draft = this.decisionDrafts[id] || {};
+              const payload = {
+                decision_id: id,
+                approve: true,
+                sourcing_mode: draft.sourcing_mode,
+                distribution_policy: draft.distribution_policy,
+                task_release_ring: draft.task_release_ring
+              };
+              if (draft.cultivar_id) {
+                payload.cultivar_id = draft.cultivar_id;
+              }
               this.dispatchDaemonCommand(
                 'approve_decision',
-                {
-                  decision_id: id,
-                  approve: true,
-                  sourcing_mode: draft.sourcing_mode,
-                  distribution_policy: draft.distribution_policy,
-                  task_release_ring: draft.task_release_ring
-                },
-                `Approved ${id} and instantiated L4 workflows!`
+                payload,
+                `Approved ${id} and instantiated L4 BPMN workflows!`
               );
             });
           });
@@ -706,14 +773,18 @@
             btn.addEventListener('click', () => {
               const id = btn.getAttribute('data-adapt-dec');
               const draft = this.decisionDrafts[id] || {};
+              const payload = {
+                decision_id: id,
+                sourcing_mode: draft.sourcing_mode,
+                distribution_policy: draft.distribution_policy,
+                task_release_ring: draft.task_release_ring
+              };
+              if (draft.cultivar_id) {
+                payload.cultivar_id = draft.cultivar_id;
+              }
               this.dispatchDaemonCommand(
                 'adapt_policy',
-                {
-                  decision_id: id,
-                  sourcing_mode: draft.sourcing_mode,
-                  distribution_policy: draft.distribution_policy,
-                  task_release_ring: draft.task_release_ring
-                },
+                payload,
                 `Adapted governance policy for ${id}.`
               );
             });
@@ -733,7 +804,7 @@
       }
 
       const assets = Array.isArray(snapshot.l5_governed_assets) ? snapshot.l5_governed_assets : [];
-      const assetsHash = JSON.stringify(assets);
+      const assetsHash = JSON.stringify({ assets, selectedCultivarId, cropCurrentlySown });
       if (!hasFocusedInputInside(assetsContainer) && this._sectionHashes.assets !== assetsHash) {
         this._sectionHashes.assets = assetsHash;
         assetsContainer.innerHTML = assets.map((asset) => {
@@ -743,6 +814,9 @@
             task_release_ring: asset.task_release_ring
           };
           this.assetDrafts[asset.asset_id] = draft;
+          const isGardenAsset =
+            asset.asset_id === 'asset:pea_cultivation' ||
+            asset.asset_id === 'asset:backyard_pea_garden';
 
           return `
             <div class="l6-card ${asset.local_workflows_instantiated ? 'emerald' : ''}">
@@ -762,6 +836,18 @@
                   ${asset.local_workflows_instantiated ? '⚙️ L4 Workflows Active' : '⏸ Awaiting Approval'}
                 </span>
               </div>
+              ${(isGardenAsset && cultivars.length > 0) ? `
+                <div style="margin-bottom:6px;">
+                  <label class="l6-kv-label">🌱 Active Legume Cultivar Input ${cropCurrentlySown ? '(Locked while sown crop grows)' : '(Switchable prior to sowing)'}</label>
+                  <select class="l6-select" style="margin-top:2px;" data-asset-cultivar="${escapeHtml(asset.asset_id)}" ${cropCurrentlySown ? 'disabled' : ''}>
+                    ${cultivars.map((c) => `
+                      <option value="${escapeHtml(c.cultivar_id)}" ${c.cultivar_id === selectedCultivarId ? 'selected' : ''}>
+                        ${escapeHtml(c.title)} · ${escapeHtml(c.maturity_label)} cycle · ${escapeHtml(c.verification_interval_label)} checks
+                      </option>
+                    `).join('')}
+                  </select>
+                </div>
+              ` : ''}
               <div class="l6-form-grid" style="grid-template-columns:1fr 1fr 1fr;">
                 <select class="l6-select" data-asset-id="${escapeHtml(asset.asset_id)}" data-asset-field="sourcing_mode" title="Sourcing Mode">
                   ${renderSelectOptions(SOURCING_OPTIONS, asset.sourcing_mode)}
@@ -780,6 +866,16 @@
           `;
         }).join('');
 
+        assetsContainer.querySelectorAll('[data-asset-cultivar]').forEach((sel) => {
+          sel.addEventListener('change', () => {
+            this.dispatchDaemonCommand(
+              'set_cultivar',
+              { cultivar_id: sel.value },
+              `Updated garden workflow cultivar input to ${sel.value}.`
+            );
+          });
+        });
+
         assetsContainer.querySelectorAll('[data-asset-id]').forEach((sel) => {
           sel.addEventListener('change', () => {
             const id = sel.getAttribute('data-asset-id');
@@ -797,6 +893,10 @@
             rowSelects.forEach((s) => {
               payload[s.getAttribute('data-asset-field')] = s.value;
             });
+            const cultSel = assetsContainer.querySelector(`[data-asset-cultivar="${CSS.escape(id)}"]`);
+            if (cultSel && !cultSel.disabled) {
+              payload.cultivar_id = cultSel.value;
+            }
             this.dispatchDaemonCommand('adapt_policy', payload, `Updated L5 governance policy for ${id}.`);
           });
         });
@@ -804,39 +904,126 @@
     },
 
     /* ------------------------------------------------------------------------
-     * TAB 3: L4 Workflows & Tasks (col-execd)
+     * TAB 3: L4 Workflows & Tasks (col-execd · Strict BPMN Token & Timer Sequencing)
      * ------------------------------------------------------------------------ */
     _renderWorkflowsTab(snapshot) {
       const container = document.getElementById('l6-workflows-list-container');
       if (!container) return;
 
       const workflows = Array.isArray(snapshot.l4_workflows) ? snapshot.l4_workflows : [];
-      const wfHash = JSON.stringify(workflows);
+      const cultivars = Array.isArray(snapshot.available_cultivars) ? snapshot.available_cultivars : [];
+      const selectedCultivarId = snapshot.selected_cultivar_id || '';
+      const r1SwarmEnabled = Boolean(snapshot.external_r1_swarm_enabled);
+      const wfHash = JSON.stringify({ r1SwarmEnabled, selectedCultivarId, workflows });
       if (hasFocusedInputInside(container) || this._sectionHashes.workflows === wfHash) {
         return;
       }
       this._sectionHashes.workflows = wfHash;
 
       if (workflows.length === 0) {
-        container.innerHTML = '<div class="l6-card"><div class="l6-card-desc">No L4 workflows instantiated yet. Approve an L5 Decision in Tab 2 to spawn local workflows.</div></div>';
+        container.innerHTML = `
+          <div class="l6-card">
+            <div class="l6-card-title" style="margin-bottom:4px;">🌱 Clean Day-1 BPMN Slate — 0 Unsolicited Workflows</div>
+            <div class="l6-card-desc">
+              No L4 workflows are dumped upfront. Approve an L5 Governance Proposal in <strong>⚖️ L5 Decisions</strong> (for example, <em>Backyard Keyline Pea &amp; Mirepoix Garden</em> with your chosen <em>Fabaceae</em> cultivar) to spawn its BPMN workflow — cross-node preconditions will automatically requisition prerequisite Garage fabrication on <code>node-02:garage-fab</code>!
+            </div>
+          </div>
+        `;
         return;
       }
 
       const tasksIndex = new Map();
+      const workflowRank = (wf) => {
+        const wTasks = Array.isArray(wf.tasks) ? wf.tasks : [];
+        if (wTasks.some((t) => t.bpmn_token_state === 'ACTIVE_TOKEN')) return 0;
+        if (wTasks.some((t) => t.bpmn_token_state === 'WAITING_TIMER')) return 1;
+        if (wTasks.length > 0 && wTasks.every((t) => t.task_commitment_state === 'COMPLETED')) return 3;
+        return 2;
+      };
+      const sortedWorkflows = workflows.slice().sort((a, b) => workflowRank(a) - workflowRank(b));
 
-      container.innerHTML = workflows.map((wf) => {
+      container.innerHTML = sortedWorkflows.map((wf) => {
         const tasks = Array.isArray(wf.tasks) ? wf.tasks : [];
         tasks.forEach((t) => tasksIndex.set(t.task_id, t));
+        const allCompleted = tasks.length > 0 && tasks.every((t) => t.task_commitment_state === 'COMPLETED');
+        const isGardenWf = wf.workflow_id === 'wf:pea_cultivation';
+
+        let gardenPhenologyBannerHtml = '';
+        if (isGardenWf) {
+          const activeCultId = wf.input_cultivar_id || selectedCultivarId || 'cultivar:chrono_virtual_pea';
+          const cSpec = cultivars.find((c) => c.cultivar_id === activeCultId) || null;
+          const growthPct = Math.min(100, Math.max(0, Number(wf.crop_growth_bp || 0) / 100));
+          const maturePct = Number(wf.harvest_mature_bp || 9500) / 100;
+          const moistPct = (Number(wf.estimated_moisture_bp || 0) / 100).toFixed(1);
+          const nPpm = Number(wf.estimated_nitrogen_ppm || 0);
+          const canSwitchCultivar = !wf.crop_sown || allCompleted;
+
+          gardenPhenologyBannerHtml = `
+            <div style="margin:6px 0 8px 0;padding:8px 9px;border-radius:6px;background:rgba(6,46,38,0.45);border:1px solid rgba(52,211,153,0.38);">
+              <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:5px;">
+                <div style="font-family:var(--font-mono);font-size:9.5px;font-weight:800;color:var(--emerald);">
+                  🌱 Cultivar Input: ${escapeHtml(wf.input_cultivar_title || (cSpec && cSpec.title) || activeCultId)}
+                  ${wf.species_binomial ? `<span style="font-weight:400;color:var(--text-muted);">(${escapeHtml(wf.species_binomial)})</span>` : ''}
+                </div>
+                <span class="l6-pill ${wf.crop_growth_bp >= (wf.harvest_mature_bp || 9500) ? 'emerald' : (wf.crop_sown ? 'amber' : 'cyan')}">
+                  ${escapeHtml(wf.phenology_stage_label || 'Unsown Bed')} · ${growthPct.toFixed(0)}% / ${maturePct.toFixed(0)}% Mature
+                </span>
+              </div>
+
+              ${(canSwitchCultivar && cultivars.length > 0) ? `
+                <div style="margin-bottom:6px;">
+                  <select class="l6-select" data-wf-cultivar-select="${escapeHtml(wf.workflow_id)}" title="Select Fabaceae variety for this workflow cycle">
+                    ${cultivars.map((c) => `
+                      <option value="${escapeHtml(c.cultivar_id)}" ${c.cultivar_id === activeCultId ? 'selected' : ''}>
+                        ${escapeHtml(c.title)} (${escapeHtml(c.maturity_label)} cycle · ${escapeHtml(c.verification_interval_label)} checks${c.is_virtual_sim_tuned ? ' · Virtual Sim-Tuned' : ''})
+                      </option>
+                    `).join('')}
+                  </select>
+                </div>
+              ` : ''}
+
+              <div class="progress-track" style="height:6px;margin-bottom:6px;">
+                <div class="progress-fill" style="width:${growthPct.toFixed(1)}%;"></div>
+              </div>
+
+              <div class="l6-meta-row" style="margin-bottom:0;">
+                ${wf.is_virtual_cultivar ? '<span class="l6-pill violet">⚡ Virtual Sim-Tuned Physics</span>' : ''}
+                <span class="l6-pill cyan">💧 Est. VWC: ${moistPct}%</span>
+                <span class="l6-pill">${wf.fixes_atmospheric_n2 ? `🦠 Rhizobium N₂-Fixing (Soil N: ${nPpm} ppm)` : `🧪 Mineral-N Draw (Soil N: ${nPpm} ppm)`}</span>
+                <span class="l6-pill">🔍 Manual Checks: ${wf.verification_checks_completed ?? 0}</span>
+                ${Number(wf.auto_l2_checks_completed || 0) > 0 ? `<span class="l6-pill cyan">🤖 L2 Auto Checks: ${wf.auto_l2_checks_completed}</span>` : ''}
+              </div>
+            </div>
+          `;
+        }
 
         const tasksHtml = tasks.map((task) => {
           const isAutoL2 = task.execution_modality === 'AUTOMATED_L2_EXECUTION';
           const haulLabel = HAUL_LABELS[task.haul_modality] || '';
           const state = task.task_commitment_state || 'UNASSIGNED';
+          const tokenState = task.bpmn_token_state || (state === 'COMPLETED' ? 'COMPLETED' : 'ACTIVE_TOKEN');
 
-          let statePillClass = '';
-          if (state === 'COMPLETED' || state === 'COMMITTED_BY_PLAYER') statePillClass = 'emerald';
-          else if (state === 'RELEASED_TO_R1_PEERS' || state === 'CLAIMED_BY_PEER_CLUSTER') statePillClass = 'cyan';
-          else statePillClass = 'amber';
+          let tokenBadgeHtml = '';
+          let rowStyle = '';
+          if (tokenState === 'COMPLETED') {
+            tokenBadgeHtml = '<span class="l6-pill emerald">✓ COMPLETED</span>';
+            rowStyle = 'opacity:0.78;border-left:3px solid rgba(16,185,129,0.55);';
+          } else if (tokenState === 'ACTIVE_TOKEN') {
+            const claimSuffix = task.claimed_by_cluster_id ? ` · ${escapeHtml(task.claimed_by_cluster_id)}` : '';
+            const stateSuffix = state !== 'UNASSIGNED' ? ` · ${escapeHtml(humanizeEnum(state))}` : '';
+            tokenBadgeHtml = `<span class="l6-pill emerald">🟢 ACTIVE BPMN TOKEN${stateSuffix}${claimSuffix}</span>`;
+            rowStyle = 'border-left:3px solid #10b981;background:rgba(16,185,129,0.08);';
+          } else if (tokenState === 'WAITING_TIMER') {
+            const remLabel = task.timer_remaining_label || `${task.timer_remaining_sim_s || 0}s`;
+            tokenBadgeHtml = `<span class="l6-pill amber">⏳ BPMN TIMER (${escapeHtml(remLabel)})</span>`;
+            rowStyle = 'border-left:3px solid #fbbf24;background:rgba(251,191,36,0.09);';
+          } else if (tokenState === 'BLOCKED_BY_PRECONDITION') {
+            tokenBadgeHtml = '<span class="l6-pill amber">🔒 BLOCKED BY PRECONDITION</span>';
+            rowStyle = 'border-left:3px solid #f59e0b;background:rgba(245,158,11,0.06);opacity:0.92;';
+          } else {
+            tokenBadgeHtml = '<span class="l6-pill">⏳ QUEUED</span>';
+            rowStyle = 'opacity:0.62;';
+          }
 
           const sensorDetails = [];
           if (task.l2_sensor_register_id) sensorDetails.push(`Sensor: ${task.l2_sensor_register_id}`);
@@ -848,9 +1035,36 @@
             sensorDetails.push(`Moisture ≤ ${(task.target_moisture_max_bp / 100).toFixed(0)}%`);
           }
 
+          let blockerHtml = '';
+          if (tokenState === 'WAITING_TIMER') {
+            blockerHtml = `
+              <div style="margin-top:5px;padding:5px 7px;border-radius:4px;background:rgba(120,53,15,0.40);border:1px dashed rgba(251,191,36,0.48);font-family:var(--font-mono);font-size:8.8px;color:#fde68a;">
+                ⏳ ${escapeHtml(task.precondition_blocker_note || `BPMN IntermediateCatchEvent timer active — next verification check unlocks in ${task.timer_remaining_label || 'scheduled interval'}.`)}
+              </div>
+            `;
+          } else if (tokenState === 'BLOCKED_BY_PRECONDITION' && task.precondition_blocker_note) {
+            blockerHtml = `
+              <div style="margin-top:5px;padding:5px 7px;border-radius:4px;background:rgba(120,53,15,0.35);border:1px solid rgba(251,191,36,0.35);font-family:var(--font-mono);font-size:8.8px;color:#fde68a;">
+                🔗 ${escapeHtml(task.precondition_blocker_note)}
+              </div>
+            `;
+          } else if (tokenState === 'WAITING_SEQUENCE_FLOW' && task.precondition_blocker_note) {
+            blockerHtml = `
+              <div style="margin-top:4px;font-family:var(--font-mono);font-size:8.6px;color:var(--text-muted);">
+                ↳ ${escapeHtml(task.precondition_blocker_note)}
+              </div>
+            `;
+          }
+
           let unmodeledHtml = '';
           if (task.has_unmodeled_micro_detail) {
-            if (!task.unmodeled_prompt_resolved) {
+            if (task.unmodeled_prompt_resolved) {
+              unmodeledHtml = `
+                <div style="margin-top:5px;">
+                  <span class="l6-pill violet">🧩 Unmodeled Step Resolved: ${escapeHtml(task.unmodeled_prompt_answer || 'Safe Heuristic Default')}</span>
+                </div>
+              `;
+            } else if (tokenState === 'ACTIVE_TOKEN') {
               const draftAns = this.promptDrafts[task.task_id] || '';
               unmodeledHtml = `
                 <div class="l6-prompt-box">
@@ -869,40 +1083,35 @@
                   </div>
                 </div>
               `;
-            } else {
-              unmodeledHtml = `
-                <div style="margin-top:5px;">
-                  <span class="l6-pill violet">🧩 Unmodeled Step Resolved: ${escapeHtml(task.unmodeled_prompt_answer || 'Safe Heuristic Default')}</span>
-                </div>
-              `;
             }
           }
 
+          // Strict BPMN gating: ONLY the ACTIVE_TOKEN step can be committed, executed, or released!
           const actions = [];
-          if (state !== 'COMPLETED') {
+          if (tokenState === 'ACTIVE_TOKEN' && state !== 'COMPLETED') {
             if (state !== 'COMMITTED_BY_PLAYER') {
               actions.push(`<button type="button" class="l6-btn" data-commit-task="${escapeHtml(task.task_id)}">📌 Commit to Me</button>`);
             }
             if (state === 'COMMITTED_BY_PLAYER') {
               actions.push(`<button type="button" class="l6-btn" data-exec-oasis-task="${escapeHtml(task.task_id)}">▶ Execute in Oasis</button>`);
             }
-            if (state !== 'RELEASED_TO_R1_PEERS' && state !== 'CLAIMED_BY_PEER_CLUSTER') {
+            if (r1SwarmEnabled && state !== 'RELEASED_TO_R1_PEERS' && state !== 'CLAIMED_BY_PEER_CLUSTER') {
               actions.push(`<button type="button" class="l6-btn secondary" data-release-task="${escapeHtml(task.task_id)}">🌐 Release to R1 Peer Swarm</button>`);
             }
           }
 
+          const hasNumericPrefix = /^\d+\./.test(String(task.title || '').trim());
           return `
-            <div class="l6-task-row">
+            <div class="l6-task-row" style="${rowStyle}">
               <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:6px;">
                 <div style="font-family:var(--font-mono);font-size:10px;font-weight:800;color:var(--text-primary);">
-                  ${task.step_index !== undefined ? `#${task.step_index + 1} ` : ''}${escapeHtml(task.title)}
+                  ${(!hasNumericPrefix && task.step_index) ? `Step ${task.step_index}: ` : ''}${escapeHtml(task.title)}
                 </div>
-                <span class="l6-pill ${statePillClass}">
-                  ${escapeHtml(humanizeEnum(state))}${task.claimed_by_cluster_id ? ` (${escapeHtml(task.claimed_by_cluster_id)})` : ''}
-                </span>
+                ${tokenBadgeHtml}
               </div>
 
               <div class="l6-meta-row" style="margin-top:4px;margin-bottom:2px;">
+                ${task.assigned_node_id ? `<span class="l6-pill cyan">🖥️ ${escapeHtml(task.assigned_node_id)}</span>` : ''}
                 <span class="l6-pill ${isAutoL2 ? 'cyan' : ''}">
                   ${isAutoL2 ? '🤖 L2 Sensor-Automated' : '🖐️ Manual Steward Action'}
                 </span>
@@ -913,6 +1122,7 @@
               </div>
 
               ${sensorDetails.length > 0 ? `<div style="font-family:var(--font-mono);font-size:8.8px;color:var(--cyan);margin-top:2px;">${escapeHtml(sensorDetails.join(' · '))}</div>` : ''}
+              ${blockerHtml}
               ${unmodeledHtml}
               ${actions.length > 0 ? `<div class="l6-btn-row">${actions.join('')}</div>` : ''}
             </div>
@@ -925,29 +1135,55 @@
               <div>
                 <div class="l6-card-title">⚙️ ${escapeHtml(wf.title)}</div>
                 <div style="font-family:var(--font-mono);font-size:9px;color:var(--text-muted);">
-                  Workflow <code>${escapeHtml(wf.workflow_id)}</code> · Asset <code>${escapeHtml(wf.asset_id)}</code>
+                  Node <code>${escapeHtml(wf.assigned_node_id || 'node-01:office-coordinator')}</code> · Workflow <code>${escapeHtml(wf.workflow_id)}</code> · Asset <code>${escapeHtml(wf.asset_id)}</code>
                 </div>
               </div>
-              <span class="l6-pill ${wf.is_active ? 'emerald' : ''}">
-                ${wf.is_active ? 'ACTIVE' : 'PAUSED'} · Cycles: ${wf.completed_cycles ?? 0}
-              </span>
+              <div style="display:flex;align-items:center;gap:5px;">
+                <span class="l6-pill ${allCompleted ? 'emerald' : (wf.is_active ? 'cyan' : '')}">
+                  ${allCompleted ? 'CYCLE COMPLETE' : (wf.is_active ? 'BPMN ACTIVE' : 'PAUSED')} · Cycles: ${wf.completed_cycles ?? 0}
+                </span>
+                ${allCompleted ? `<button type="button" class="l6-btn secondary" data-start-wf-cycle="${escapeHtml(wf.workflow_id)}">🔄 Start Next Cycle</button>` : ''}
+              </div>
             </div>
+            ${gardenPhenologyBannerHtml}
             ${tasksHtml}
           </div>
         `;
       }).join('');
 
+      container.querySelectorAll('[data-wf-cultivar-select]').forEach((sel) => {
+        sel.addEventListener('change', () => {
+          this.dispatchDaemonCommand(
+            'set_cultivar',
+            { cultivar_id: sel.value },
+            `Parameterized Legume Cultivation workflow for ${sel.value}.`
+          );
+        });
+      });
+
+      container.querySelectorAll('[data-start-wf-cycle]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const wfId = btn.getAttribute('data-start-wf-cycle');
+          const cultSel = container.querySelector(`[data-wf-cultivar-select="${CSS.escape(wfId)}"]`);
+          const payload = { workflow_id: wfId };
+          if (cultSel) {
+            payload.cultivar_id = cultSel.value;
+          }
+          this.dispatchDaemonCommand('start_workflow_cycle', payload, `Started a fresh BPMN token cycle for ${wfId}.`);
+        });
+      });
+
       container.querySelectorAll('[data-commit-task]').forEach((btn) => {
         btn.addEventListener('click', () => {
           const taskId = btn.getAttribute('data-commit-task');
-          this.dispatchDaemonCommand('commit_task', { task_id: taskId }, `Committed ${taskId} to your Top-Right HUD checklist.`);
+          this.dispatchDaemonCommand('commit_task', { task_id: taskId }, `Committed active BPMN step ${taskId} to your Top-Right HUD checklist.`);
         });
       });
 
       container.querySelectorAll('[data-release-task]').forEach((btn) => {
         btn.addEventListener('click', () => {
           const taskId = btn.getAttribute('data-release-task');
-          this.dispatchDaemonCommand('release_task_r1', { task_id: taskId }, `Released ${taskId} to R1 Peer Clusters Swarm.`);
+          this.dispatchDaemonCommand('release_task_r1', { task_id: taskId }, `Released ${taskId} to External R1 Peer Clusters Swarm.`);
         });
       });
 
@@ -996,9 +1232,10 @@
     },
 
     /* ------------------------------------------------------------------------
-     * TAB 4: Node, L3 Swarm & L7 Bill-Offset Ledger
+     * TAB 4: 4-Node Personal Homestead Cluster, L3 Ledger & L7 Bill-Offset
      * ------------------------------------------------------------------------ */
     _renderNodeSwarmBillsTab(snapshot) {
+      const clusterEl = document.getElementById('l6-cluster-nodes-container');
       const billsEl = document.getElementById('l6-l7-bills-container');
       const bccEl = document.getElementById('l6-l3-bcc-container');
       const weatherEl = document.getElementById('l6-l3-weather-container');
@@ -1006,12 +1243,100 @@
       if (!billsEl || !bccEl || !weatherEl || !l2El) return;
 
       const nodeHash = JSON.stringify({
+        mode: snapshot.cluster_mode,
+        r1: snapshot.external_r1_swarm_enabled,
+        phys: snapshot.homestead_physical_state,
+        nodes: snapshot.homestead_cluster_nodes,
         l7: snapshot.l7_bill_offset_ledger,
         l3: snapshot.l3_ledger,
         l2: snapshot.l2_telemetry
       });
       if (this._sectionHashes.node === nodeHash) return;
       this._sectionHashes.node = nodeHash;
+
+      const r1Enabled = Boolean(snapshot.external_r1_swarm_enabled);
+      const phys = snapshot.homestead_physical_state || {};
+      const clusterNodes = Array.isArray(snapshot.homestead_cluster_nodes)
+        ? snapshot.homestead_cluster_nodes
+        : [];
+
+      const bccLabelEl = document.getElementById('l6-l3-bcc-section-label');
+      if (bccLabelEl) {
+        bccLabelEl.textContent = r1Enabled
+          ? 'L3 Exergy & External R1 Pairwise BCC Peer Clusters (col-swarmd)'
+          : 'L3 Inter-Node Choreography & Exergy Ledger (Solo 4-Node Mode — External R1 NPC Swarm Deferred)';
+      }
+
+      // 0. 4-Node Personal Homestead Cluster Topology (Lot 402 R0 Cluster)
+      if (clusterEl) {
+        clusterEl.innerHTML = `
+          <div class="l6-card emerald">
+            <div class="l6-card-header">
+              <div>
+                <div class="l6-card-title">🏡 ${r1Enabled ? '4-Node Homestead Cluster + External R1 Swarm' : 'Solo Steward 4-Node Personal Homestead Cluster'}</div>
+                <div style="font-family:var(--font-mono);font-size:9px;color:var(--text-muted);">
+                  One Steward coordinating 4 room-scoped Sovereign Nodes across Lot 402 (${clusterNodes.length || 4} active R0 nodes · ${r1Enabled ? '3 external R1 peer clusters online' : '0 external NPC clusters active'})
+                </div>
+              </div>
+              <button type="button" class="l6-btn ${r1Enabled ? 'amber' : 'secondary'}" id="l6-toggle-r1-swarm-btn">
+                ${r1Enabled ? '🏡 Return to Solo 4-Node Mode' : '🌐 Enable External R1 Peer Swarm'}
+              </button>
+            </div>
+
+            <div class="l6-meta-row">
+              <span class="l6-pill ${Number(phys.raised_bed_frames_built || 0) > 0 ? 'emerald' : ''}">🪵 Beds Milled: ${phys.raised_bed_frames_built ?? 0}</span>
+              <span class="l6-pill ${Number(phys.compost_kiln_units_built || 0) > 0 ? 'emerald' : ''}">♻️ Compost/Kiln: ${phys.compost_kiln_units_built ?? 0}</span>
+              <span class="l6-pill ${Number(phys.poultry_coops_built || 0) > 0 ? 'emerald' : ''}">🐔 Coops: ${phys.poultry_coops_built ?? 0}</span>
+              <span class="l6-pill ${Number(phys.harvested_split_pea_batches || 0) > 0 ? 'cyan' : ''}">🌱 Pea Harvests: ${phys.harvested_split_pea_batches ?? 0}</span>
+              <span class="l6-pill ${Number(phys.simmered_bone_broth_batches || 0) > 0 ? 'cyan' : ''}">🦴 Broth: ${phys.simmered_bone_broth_batches ?? 0}</span>
+              <span class="l6-pill ${Number(phys.served_pea_soup_tiffin_batches || 0) > 0 ? 'emerald' : ''}">🍲 Soup Tiffins: ${phys.served_pea_soup_tiffin_batches ?? 0}</span>
+            </div>
+
+            ${clusterNodes.map((cn) => {
+              const tokSummary = String(cn.active_token_summary || 'Idle');
+              const isTokActive = tokSummary.startsWith('ACTIVE TOKEN:');
+              const isTokBlocked = tokSummary.startsWith('Blocked:');
+              const pillCls = isTokActive ? 'emerald' : (isTokBlocked ? 'amber' : '');
+              const zoneText = cn.zone_label || cn.host_location_label || '';
+              const daemonsText = cn.daemons_hosted || cn.hosted_daemons || '';
+              return `
+                <div class="l6-task-row" style="${isTokActive ? 'border-left:3px solid #10b981;' : (isTokBlocked ? 'border-left:3px solid #f59e0b;' : '')}">
+                  <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:6px;">
+                    <div>
+                      <strong style="font-family:var(--font-mono);font-size:10px;">🖥️ ${escapeHtml(cn.title)}</strong>
+                      <div style="font-family:var(--font-mono);font-size:8.6px;color:var(--text-muted);">
+                        <code>${escapeHtml(cn.node_id)}</code>${zoneText ? ` · 📍 ${escapeHtml(zoneText)}` : ''}${daemonsText ? ` · <code>${escapeHtml(daemonsText)}</code>` : ''}
+                      </div>
+                    </div>
+                    <span class="l6-pill cyan">⚡ ${formatExergyMj(cn.accounted_exergy_uj)}</span>
+                  </div>
+                  <div style="margin-top:4px;display:flex;flex-wrap:wrap;gap:4px;align-items:center;">
+                    <span class="l6-pill ${pillCls}">${escapeHtml(tokSummary)}</span>
+                    <span class="l6-pill">✓ Tasks: ${cn.completed_task_count ?? 0}</span>
+                    <span class="l6-pill ${Number(cn.online_l2_pin_count || 0) > 0 ? 'cyan' : ''}">📡 L2 Pins: ${cn.online_l2_pin_count ?? 0}</span>
+                  </div>
+                  <div style="font-family:var(--font-mono);font-size:8.6px;color:var(--text-secondary);margin-top:3px;">
+                    ${escapeHtml(cn.inventory_summary || '')}
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        `;
+
+        const toggleSwarmBtn = document.getElementById('l6-toggle-r1-swarm-btn');
+        if (toggleSwarmBtn) {
+          toggleSwarmBtn.addEventListener('click', () => {
+            this.dispatchDaemonCommand(
+              'set_external_swarm',
+              { enabled: !r1Enabled },
+              !r1Enabled
+                ? 'Enabled External R1 Neighborhood Peer Swarm alongside your 4-node cluster.'
+                : 'Returned to Solo Steward 4-Node Personal Homestead Cluster mode.'
+            );
+          });
+        }
+      }
 
       // 1. L7 Monthly Bill-Offset Ledger (strictly inside Companion App!)
       const l7 = snapshot.l7_bill_offset_ledger || {};
@@ -1064,12 +1389,16 @@
       bccEl.innerHTML = `
         <div class="l6-card">
           <div class="l6-card-header">
-            <span class="l6-card-title">⚡ Total Accounted Exergy: ${formatExergyMj(l3.total_exergy_accounted_uj)}</span>
+            <span class="l6-card-title">⚡ Total Accounted Cluster Exergy: ${formatExergyMj(l3.total_exergy_accounted_uj)}</span>
             <span class="l6-pill ${l3.bcc_zero_sum_invariant_ok ? 'emerald' : 'amber'}">
               ${l3.bcc_zero_sum_invariant_ok ? '✅ Zero-Sum Invariant OK' : '⚠️ Invariant Check'}
             </span>
           </div>
-          ${channels.map((ch) => `
+          ${!r1Enabled ? `
+            <div class="l6-card-desc" style="margin-bottom:0;">
+              Running strictly on your <strong>Solo Steward 4-Node Personal Homestead Cluster</strong> (<code>node-01</code> Office Coordinator ↔ <code>node-02</code> Garage Fab ↔ <code>node-03</code> Garden Agro ↔ <code>node-04</code> Kitchen Hearth). External R1 neighborhood NPC swarm traffic is paused until you opt in above.
+            </div>
+          ` : channels.map((ch) => `
             <div class="l6-task-row">
               <div style="display:flex;justify-content:space-between;align-items:center;">
                 <strong style="font-family:var(--font-mono);font-size:10px;">🏘️ ${escapeHtml(ch.peer_cluster_title)} (${ch.household_count} households)</strong>
@@ -1081,7 +1410,7 @@
             </div>
           `).join('')}
 
-          ${offers.length > 0 ? `
+          ${r1Enabled && offers.length > 0 ? `
             <div class="l6-section-label" style="margin-top:8px;">Active R1 Peer Surplus Offers</div>
             <div class="l6-meta-row" style="margin-bottom:0;">
               ${offers.slice(0, 6).map((of) => `
@@ -1092,15 +1421,15 @@
         </div>
       `;
 
-      // 3. L3 Swarm Weather Event Feed
+      // 3. L3 Inter-Node Choreography & Mesh Event Feed
       const weather = Array.isArray(l3.mesh_weather_feed) ? l3.mesh_weather_feed : [];
       weatherEl.innerHTML = weather.length === 0
-        ? '<div class="l6-card"><div class="l6-card-desc">Awaiting peer cluster swarm weather events...</div></div>'
+        ? '<div class="l6-card"><div class="l6-card-desc">Awaiting inter-node BPMN choreography events across Lot 402...</div></div>'
         : `<div class="l6-feed-list">${weather.slice(0, 14).map((ev) => `
             <div class="l6-feed-item">
               <div style="display:flex;justify-content:space-between;gap:6px;">
                 <strong>[Tick ${ev.tick}] ${escapeHtml(ev.cluster_title || ev.cluster_id)}</strong>
-                <span class="l6-pill cyan">${escapeHtml(ev.event_category || 'SWARM')} · ${formatSignedExergyMj(ev.exergy_delta_uj)}</span>
+                <span class="l6-pill cyan">${escapeHtml(ev.event_category || 'CLUSTER')} · ${formatSignedExergyMj(ev.exergy_delta_uj)}</span>
               </div>
               <div style="margin-top:2px;">${escapeHtml(ev.summary)}</div>
             </div>
