@@ -1,0 +1,502 @@
+\chapter{Cybernetics of Living Matter: Actuation Envelopes, Phenology, and Salvage Sagas}
+\label{ch:cybernetics-salvage}
+
+\epigraph{``Matter-energy enters the economic process in a state of low entropy and comes out of it in a state of high entropy; no mechanical equation can run a living or thermal transformation backward.''}{\textsc{Nicholas Georgescu-Roegen}, \textit{The Entropy Law and the Economic Process} (1971)}
+
+A cloud workflow engine orchestrates symbols that obey reversible algebra. If an airline
+reservation microservice crashes mid-transaction, rolling back a PostgreSQL row restores the
+universe of discourse to a state indistinguishable from before the transaction began
+\parencite{garciamolina1987sagas}. A sovereign orchestrator embedded in soil, broth, timber,
+molten bronze, and microbial cultures enjoys no such luxury. Physical and biological matter
+evolves continuously between discrete orchestrator ticks, integrates thermal and radiative
+history non-linearly, and obeys the Second Law of Thermodynamics \parencite{georgescu1971,odum1971}.
+One cannot un-boil split-pea potage, un-pour a cold-shut bronze casting, or un-lyse frost-damaged
+pea meristems by executing a database \texttt{ROLLBACK}.
+
+At the same time, attempting to turn Layer 4 (\texttt{col-execd}) into a hard-real-time
+continuous differential-equation solver or raw GPIO bit-banger would destroy its deterministic
+simplicity and violate functional safety engineering \parencite{iec61508,astrom2008feedback}. A
+POSIX userspace process running Wasmtime bytecode at $10\,\mathrm{Hz}$ ($100\,\mathrm{ms}$ ticks)
+is a \emph{supervisory cybernetic coordinator}---System 2 and System 3 in Beer's Viable System
+Model \parencite{beer1972,cannon1932}---never a $1\,\mathrm{kHz}$ proportional-integral-derivative
+(\texttt{PID}) loop or MOSFET gate driver. This chapter establishes the three foundational
+bridges by which discrete $10\,\mathrm{Hz}$ integer choreography safely governs continuous
+living and thermodynamic matter: (1) hardware-leased \texttt{ActuationEnvelopeV1} contracts
+enforced autonomously on Layer 2 microcontrollers, (2) photo-thermal biological phenology and
+piecewise-quadratic integer Bigelow lethality ($F_0$), and (3) the Two-Regime Saga Model
+pivoted at physical actuation ($t_{\mathrm{actuate}}$) to conserve $10{,}000\,\mathrm{bp}$ of
+milligram mass across forward physical salvage sagas.
+
+\section{Hardware-Leased \texttt{ActuationEnvelopeV1} and Edge Reflexes}
+\label{sec:actuation-envelope-reflexes}
+
+In naive domestic automation stacks, a high-level script opens a water valve or energizes a
+$2.4\,\mathrm{kW}$ heating element by writing an unguarded boolean register (\texttt{valve\_open
+= 1} or \texttt{heater\_on = true}) over a serial bus, intending to write \texttt{0} once a
+subsequent poll observes the target moisture or temperature. During our audit of early Oasis
+workflow definitions (Council Ceiling \#3), we noted how dangerous raw boolean actuation becomes
+under fault injection: if \texttt{col-execd} stalls, if a UNIX socket buffer saturates, or if a
+cable is unplugged while \texttt{valve\_open == 1}, a cistern can drain into a waterlogged root
+zone (\texttt{moisture\_vwc\_bp >= 9200}) or a dry kettle shell can climb toward element burnout
+(\texttt{kMaxDryVesselSafetyTempMk = 523150 mK}).
+
+Furthermore, high-frequency physical stabilization---such as $1\,\mathrm{kHz}$ pulse-width
+modulation (\texttt{PWM}) of an induction coil, zero-crossing triac firing, or over-current
+crowbar tripping---requires microsecond interrupt determinism that non-real-time Linux userspace
+cannot guarantee \parencite{liu1973scheduling,zephyr2024}. Layer 4 resolves both hazards by
+strictly prohibiting raw GPIO or open-ended boolean actuator writes. Instead, \texttt{col-execd}
+issues bounded, time-leased \textbf{Supervisory Actuation Envelopes} routed via Layer 3 down to
+Layer 2 Zephyr RTOS field microcontrollers \parencite{zephyr2024}.
+
+\subsection{Exact 64-Byte \texttt{ActuationEnvelopeV1} Memory Contract}
+
+Every physical actuation command crossing from \texttt{col-execd} through \texttt{l3\_l4.sock}
+to Layer 2 conforms to the cache-line-sized $64$-byte \texttt{ActuationEnvelopeV1} binary frame
+shown in Listing~\ref{lst:actuation-envelope-v1}.
+
+\begin{lstlisting}[language=C++, label={lst:actuation-envelope-v1}, caption={Exact 64-byte hardware-leased \texttt{ActuationEnvelopeV1} contract enforced by Layer 2 RTOS.}]
+struct alignas(64) ActuationEnvelopeV1 {
+    uint64_t fencing_token{0ULL};        // [0..7]   Monotonic L3 lease epoch token
+    uint64_t issued_hlc{0ULL};           // [8..15]  Hybrid Logical Clock issue stamp
+    uint32_t target_pin_id{0U};          // [16..19] Canonical UHAI L2 actuator ID
+    uint32_t lease_ttl_ms{5000U};        // [20..23] Autonomous L2 expiry horizon (ms)
+    int32_t  setpoint_low{0};            // [24..27] Lower Schmitt band (mK, bp, or mL)
+    int32_t  setpoint_high{0};           // [28..31] Upper Schmitt cutoff (mK, bp, or mL)
+    uint32_t deadband{0U};               // [32..35] Hysteresis margin preventing chatter
+    uint32_t dose_cap_units{0U};         // [36..39] Hard cumulative cap (mL or mJ)
+    uint16_t max_duty_bp{10000U};        // [40..41] PWM / power ceiling [0..10000] bp
+    uint16_t safe_fallback_state{0U};    // [42..43] Fail-safe park level (0=CLOSED/OFF)
+    uint32_t workflow_instance_id{0U};   // [44..47] Auditing correlation instance ID
+    uint8_t  control_mode{0U};           // [48]     0=PARK, 1=HYSTERESIS, 2=DOSE_CAP
+    uint8_t  provenance_req_mask{0x20U}; // [49]     Required L2 sensor root (ATECC608A)
+    uint16_t crc16_ccitt{0U};            // [50..51] Frame integrity checksum
+    uint8_t  reserved_pad[12]{};         // [52..63] Explicit zero-fill to 64 bytes
+};
+static_assert(sizeof(ActuationEnvelopeV1) == 64, "ActuationEnvelopeV1 must be 64 bytes.");
+static_assert(alignof(ActuationEnvelopeV1) == 64, "Envelope must be cache-line aligned.");
+\end{lstlisting}
+
+Each field in \texttt{ActuationEnvelopeV1} plays a distinct cybernetic and safety-critical role:
+
+\begin{itemize}
+    \item \textbf{Monotonic Fencing (\texttt{fencing\_token}):} Derived from the Layer 3
+    \texttt{L3ResourceLeaseLock} sequence counter \parencite{kleppmann2017designing}. The Layer 2
+    Zephyr driver stores \texttt{max\_seen\_fencing\_token} per actuator pin and immediately drops
+    any delayed or replayed frame with $\texttt{fencing\_token} < \texttt{max\_seen\_fencing\_token}$,
+    making zombie-process actuation physically impossible.
+    \item \textbf{Schmitt Hysteresis \& Duty Capping (\texttt{setpoint\_low}, \texttt{setpoint\_high},
+    \texttt{deadband}, \texttt{max\_duty\_bp}):} Rather than toggling a relay across IPC ten
+    times per second, Layer 2 runs a local $100\,\mathrm{Hz}\text{--}1\,\mathrm{kHz}$ closed
+    reflex loop inside $[\texttt{setpoint\_low} - \texttt{deadband},\; \texttt{setpoint\_high} +
+    \texttt{deadband}]$ capped at $\texttt{max\_duty\_bp} \in [0, 10{,}000]$ (enabling non-interrupting
+    solar curtailment to cap heater power at $4{,}300\,\mathrm{bp}$ without changing thermal
+    setpoints).
+    \item \textbf{Hard Autonomous Lease Expiry (\texttt{lease\_ttl\_ms}, \texttt{safe\_fallback\_state}):}
+    Upon accepting an envelope, the Layer 2 microcontroller arms a hardware watchdog countdown for
+    \texttt{lease\_ttl\_ms} (typically $2{,}000\text{--}10{,}000\,\mathrm{ms}$). Active Layer 4
+    workflows renew the lease periodically prior to half-TTL; if \texttt{col-execd} crashes, is
+    killed by \texttt{SIGKILL}, or loses bus power, the Layer 2 timer expires and drives the
+    actuator directly to \texttt{safe\_fallback\_state} (closing irrigation solenoids, de-energizing
+    induction coils, and opening fail-safe vent dampers) within $< 1\,\mathrm{ms}$.
+\end{itemize}
+
+\begin{invariant}[Autonomous Layer 2 Safe-Parking Under Orchestrator Fault]
+\label{inv:l2-safe-parking}
+For any physical actuator controlled via \texttt{ActuationEnvelopeV1}, total uncommanded energy
+or fluid delivery following an arbitrary crash, hang, or IPC severance of \texttt{col-execd} at
+time $t_{\mathrm{fault}}$ is strictly upper-bounded by $\min\bigl(\texttt{dose\_cap\_units},\;
+P_{\max} \cdot (\texttt{max\_duty\_bp}/10{,}000) \cdot \texttt{lease\_ttl\_ms}\bigr)$, after
+which the hardware deterministically enters \texttt{safe\_fallback\_state} with zero Layer 4
+intervention.
+\end{invariant}
+
+\subsection{Edge-Triggered \texttt{L3WatchSubscription} Wakeups and Modality Switching}
+
+In the upward telemetry direction, \texttt{col-execd} never busy-polls physical transducers on
+every $100\,\mathrm{ms}$ tick. Instead, when a BPMN token reaches an \texttt{IntermediateCatchEvent}
+or arms a boundary event subprocess, it registers an \texttt{L3WatchSubscription} over
+\texttt{l3\_l4.sock} targeting canonical schema registers: \texttt{soil\_probe\_v1} (root-zone
+\texttt{moisture\_vwc\_bp} and \texttt{soil\_temp\_mk}), \texttt{irrigation\_valve\_v1}
+(\texttt{valve\_open} and cumulative flow milliliters), \texttt{culinary\_vessel\_v1}
+(\texttt{core\_temp\_mk}, \texttt{liquid\_volume\_ml}, and \texttt{lethality\_equivalent\_ms}),
+and \texttt{enclosure\_env\_v1} (ambient temperature, relative humidity, and \texttt{AQI}
+particulates). \texttt{col-storaged} evaluates incoming \texttt{col-telemetryd} ring-buffer
+updates against registered threshold crossings and wakes \texttt{col-execd} strictly on band
+transitions.
+
+What if a household in early Stage 1A has not yet wired an FDR dielectric probe into its raised
+pea bed? Rather than fabricating fake sensor readings, \texttt{VirtualPinBus} returns
+\texttt{DENIED\_NO\_L2\_SENSOR}, and \texttt{col-execd} cleanly selects the
+\texttt{MANUAL\_HUMAN\_OBSERVATION} BPMN modality (\texttt{wf.garden.irrigate\_and\_weed\_manual}),
+scheduling calm periodic human knuckle-depth soil checks (\texttt{WAITING\_TIMER}) attested via
+signed steward observations. The instant \texttt{soil\_probe\_v1} and \texttt{irrigation\_valve\_v1}
+come online with hardware \texttt{ATECC608A} provenance \parencite{microchip_atecc608a}, the
+workflow seamlessly transitions to \texttt{AUTOMATED\_L2\_EXECUTION}
+(\texttt{wf.garden.irrigate\_l2\_automated}) without losing crop cohort state.
+
+\section{Biological Time vs.\ Wall-Clock Time}
+\label{sec:biological-vs-wallclock}
+
+During the Specialist Council review (Ceiling \#3), two subtle biological modeling defects were
+uncovered in early prototype code: first, \texttt{L4WorkflowInstance} ran a shadow soil
+estimator inside Layer 4 gated by fixed wall-clock \texttt{maturity\_sim\_seconds}, diverging
+from Layer 1b's physical \texttt{SoilCellRegisters}; second, \texttt{thermal\_vessel.hpp}
+accumulated pasteurization seconds monotonically without resetting when a pot cooled back into
+the bacterial danger zone. Living cells and bacterial spores do not read wall clocks---they
+respond to continuous thermodynamic integrals.
+
+\subsection{Photo-Thermal Growing Degree-Days (\texttt{thermal\_time\_mks}) and Rhizosphere Moisture}
+
+In the ratified architecture, Layer 4 contains \emph{zero} biological solvers; it subscribes
+strictly to physical or simulated rhizosphere state in \texttt{soil\_physics.hpp}. Rather than
+declaring a pea crop mature after a fixed $43{,}200\,\mathrm{s}$ wall-clock timer regardless of
+spring chill or overcast skies, phenological progression integrates photo-thermal biological
+time (\texttt{thermal\_time\_mks}, measured in integer milli-Kelvin-seconds $\mathrm{mK\cdot s}$
+above cultivar base temperature $T_{\mathrm{base}} = \texttt{min\_growth\_temp\_mk}$, e.g.,
+$277{,}150\,\mathrm{mK} = 4.00^\circ\mathrm{C}$ for \emph{Pisum sativum}):
+\begin{equation}
+\label{eq:photo-thermal-mks}
+\Delta \Theta_{\mathrm{mks}} = \left\lfloor
+\frac{\Delta T_{\mathrm{eff,mk}}(T_{\mathrm{soil}}) \cdot \Phi_{\mathrm{PAR,bp}} \cdot \Phi_{\mathrm{VWC,bp}}(\theta) \cdot \Phi_{\mathrm{NPK,bp}}}{10^{12}}
+\cdot \Delta t_{\mathrm{s}}
+\right\rfloor,
+\end{equation}
+where $\Delta T_{\mathrm{eff,mk}}$ ramps linearly up to optimal plateau $[288{,}150,\,
+301{,}150]\,\mathrm{mK}$ and tapers to zero at heat-stress ceiling $313{,}150\,\mathrm{mK}$
+($40.0^\circ\mathrm{C}$), $\Phi_{\mathrm{PAR,bp}} \in [0, 10{,}000]$ captures photosynthetically
+active radiation, and Euclidean remainder accumulators (\texttt{growth\_sub\_accum},
+\texttt{moisture\_sub\_accum}, \texttt{nitrogen\_sub\_accum}) preserve sub-unit remainders so
+$\Delta t_{\mathrm{s}} = 1\,\mathrm{s}$ and $\Delta t_{\mathrm{s}} = 60\,\mathrm{s}$ produce
+identical trajectories.
+
+Root-zone Volumetric Water Content (\texttt{moisture\_vwc\_bp} $\in [0, 10{,}000]\,\mathrm{bp}$)
+couples directly to soil carbon regeneration. Incorporating pyrolysis biochar and thermophilic
+compost (\texttt{AmendSoilWithBiochar}, \texttt{AmendSoilWithCompost}) raises
+\texttt{organic\_carbon\_bp}, expanding Terra Preta field water-holding capacity
+(\texttt{ComputeSoilFieldCapacityBp}) linearly from $2{,}500\,\mathrm{bp}$ ($25.0\%$ VWC in
+unamended mineral soil) up to $4{,}800\,\mathrm{bp}$ ($48.0\%$ VWC), cutting evaporative water
+loss by up to $55\%$ via micropore capillarity, lengthening thermal relaxation time constant
+$\tau_{\mathrm{soil}} \in [3{,}600,\, 18{,}000]\,\mathrm{s}$ against cold snaps, and supporting
+symbiotic \emph{Rhizobium leguminosarum} nitrogen fixation (\texttt{+1 ppm} mineral $\mathrm{N}$
+per $600\,\mathrm{s}$ at optimal warmth when \texttt{is\_legume\_fixing\_n == 1}).
+
+\subsection{Continuous Cellular Stress Integral (\texttt{necrosis\_damage\_bp})}
+
+When soil freezes or parches, growth does not merely pause harmlessly until next month: living
+tissues accumulate irreversible cellular necrosis. Layer 1b/Layer 2 therefore integrates a
+monotonic stress register $\texttt{necrosis\_damage\_bp} \in [0, 10{,}000]\,\mathrm{bp}$ driven
+by four physiological hazard regimes:
+
+\begin{enumerate}
+    \item \textbf{Root-Zone Anoxia (\texttt{moisture\_vwc\_bp >= 9200 bp}):} Waterlogged pore
+    spaces starve roots of dissolved $\mathrm{O_2}$ and invite \emph{Pythium} root rot.
+    \item \textbf{Permanent Wilting Desiccation (\texttt{moisture\_vwc\_bp <= 600 bp}):} Xylem
+    cavitation collapses leaf stipule turgor beyond rehydration recovery.
+    \item \textbf{Intracellular Frost Lysis (\texttt{soil\_temp\_mk < 273150 mK}):} Sub-zero ice
+    crystal nucleation ruptures unhardened meristem cell membranes.
+    \item \textbf{Protein Heat Scald (\texttt{soil\_temp\_mk > 313150 mK}):} Supra-optimal soil
+    and canopy temperatures denature Rubisco and abort legume blossom set.
+\end{enumerate}
+
+Whenever $\texttt{necrosis\_damage\_bp}$ crosses an interrupting boundary threshold (canonically
+$6{,}500\,\mathrm{bp}$), \texttt{col-storaged} fires an interrupting conditional event to
+\texttt{col-execd}, aborting the doomed cultivation workflow immediately rather than wasting
+weeks of scarce cistern water on dead vines, and transitioning into phytosanitary crop salvage.
+
+\subsection{Piecewise-Quadratic Integer Bigelow Thermal Lethality ($F_0$) and the Danger-Zone Reset Rule}
+
+Thermal food safety and bioprocess sterilization obey logarithmic first-order microbial death
+kinetics established by \textcite{bigelow1921thermal}. The instantaneous lethality rate relative
+to a reference temperature $T_{\mathrm{ref}}$ with thermal resistance constant $z$ (the
+temperature increment required for a tenfold reduction in decimal reduction time $D$) is:
+\begin{equation}
+\label{eq:bigelow-exact}
+L(T) = 10^{(T - T_{\mathrm{ref}}) / z}.
+\end{equation}
+Evaluating $\texttt{pow}(10.0, \dots)$ via IEEE-754 \texttt{libm} inside a workflow predicate
+is forbidden in \texttt{col-execd} because transcendental floating-point approximations vary in
+their least-significant bits across C standard libraries and CPU microarchitectures. Instead,
+the Sovereign Stack evaluates Bigelow lethality across two canonical biological regimes using
+\textbf{exact integer decade-splitting and piecewise-quadratic interpolation}:
+
+\begin{itemize}
+    \item \textbf{Open-Kettle Vegetative Pasteurization (\texttt{thermal\_vessel.hpp}):} Targets
+    \emph{Salmonella}, \emph{Listeria}, and vegetative pathogens in atmospheric simmered potage
+    using $T_{\mathrm{pasteur}} = 347{,}150\,\mathrm{mK}$ ($74.00^\circ\mathrm{C}$) and
+    $z_{\mathrm{veg}} = 5{,}000\,\mathrm{mK}$ ($5.0^\circ\mathrm{C}$), requiring cumulative
+    $\ge 120\,\mathrm{s}$ equivalent hold ($120{,}000\,\mathrm{ms}_{\mathrm{eq}}$).
+    \item \textbf{Pressure-Retort Spore Sterilization ($F_0$):} Targets proteolytic
+    \emph{Clostridium botulinum} spores in low-acid ($\mathrm{mpH} \ge 4{,}600$) shelf-stable
+    commissary jars and medical autoclaves using canonical reference temperature
+    $T_{\mathrm{ref}} = 394{,}260\,\mathrm{mK}$ ($121.11^\circ\mathrm{C}$ / $250^\circ\mathrm{F}$)
+    and $z = 10{,}000\,\mathrm{mK}$ ($10.0^\circ\mathrm{C}$).
+\end{itemize}
+
+For $F_0$ integration starting at lethal onset $T_{\mathrm{onset}} = T_{\mathrm{ref}} - 2z =
+374{,}260\,\mathrm{mK}$ ($101.11^\circ\mathrm{C}$, where $L = 10^{-2}$), let $u = T -
+T_{\mathrm{onset}}$, decade index $d = \min(4, \lfloor u / z \rfloor)$, and intra-decade
+remainder $r = u \bmod z \in [0, 10{,}000)$. Over $r \in [0, z]$, the integer polynomial
+$Q(r) = 1{,}000 + \lfloor 800 r / z \rfloor + \lfloor 8{,}200 r^2 / z^2 \rfloor$ maps $[0, z]
+\to [1{,}000, 10{,}000]$ smoothly, monotonically, and with zero floating-point instructions!
+
+Crucially, the Council also ratified the \textbf{Danger-Zone Non-Monotonic Reset Rule}: if an
+unsealed culinary vessel cools below $327{,}000\,\mathrm{mK}$ ($53.85^\circ\mathrm{C}$),
+entering the thermophilic and mesophilic bacterial incubation zone, any incomplete vegetative
+pasteurization hold (\texttt{pasteurization\_hold\_s}, \texttt{lethality\_equivalent\_ms})
+\textbf{must reset to zero}. Worse, if cumulative dwell below $327{,}000\,\mathrm{mK}$ (and
+above refrigeration ceiling $277{,}150\,\mathrm{mK}$) exceeds $7{,}200\,\mathrm{s}$ ($2\,\mathrm{h}$),
+re-boiling is strictly prohibited: heat-stable enterotoxins synthesized by \emph{Staphylococcus
+aureus} or \emph{Bacillus cereus} survive $373{,}150\,\mathrm{mK}$ boiling, forcing an immediate
+interrupting condemnation into non-food salvage!
+
+\begin{lstlisting}[language=C++, caption={Float-free piecewise-quadratic Bigelow $F_0$ rate and danger-zone non-monotonic reset.}]
+inline constexpr uint32_t kDangerZoneUpperMk = 327000U; // 53.85 C incubation ceiling
+inline constexpr uint32_t kF0ReferenceTempMk = 394260U; // 121.11 C botulinum reference
+inline constexpr uint32_t kF0ZValueMk        = 10000U;  // 10.00 C decade z-slope
+inline constexpr uint32_t kF0OnsetTempMk     = kF0ReferenceTempMk - (2U * kF0ZValueMk);
+
+// Returns F_0 equivalent microseconds accumulated per 1 real second of hold:
+// At 374,260 mK: 10,000 us/s (0.01x); at 394,260 mK: 1,000,000 us/s (1.00x).
+[[nodiscard]] constexpr uint64_t ComputeBigelowF0RateUsPerSec(uint32_t temp_mk) noexcept {
+    if (temp_mk < kF0OnsetTempMk) {
+        return 0ULL;
+    }
+    const uint32_t over_mk = temp_mk - kF0OnsetTempMk;
+    const uint32_t decades = (over_mk / kF0ZValueMk > 4U) ? 4U : (over_mk / kF0ZValueMk);
+    const uint64_t r       = (decades >= 4U) ? 0ULL : static_cast<uint64_t>(over_mk % kF0ZValueMk);
+
+    uint64_t mult = 10ULL; // 10 * 1000 = 10,000 us/s at -2 decades (374.26 K)
+    for (uint32_t d = 0U; d < decades; ++d) {
+        mult *= 10ULL;
+    }
+    const uint64_t quad = 1000ULL + ((800ULL * r) / 10000ULL)
+                                  + ((8200ULL * r * r) / 100000000ULL);
+    return mult * quad;
+}
+
+inline void StepCulinarySafetyGate(
+    uint32_t core_temp_mk,
+    uint32_t dt_s,
+    uint8_t  vessel_hermetically_sealed,
+    uint32_t& vegetative_hold_s,
+    uint32_t& danger_zone_dwell_s,
+    uint8_t&  condemned_enterotoxin_risk
+) noexcept {
+    if (core_temp_mk < kDangerZoneUpperMk && core_temp_mk > 277150U) {
+        if (vessel_hermetically_sealed == 0U) {
+            vegetative_hold_s = 0U; // Non-monotonic reset on danger-zone dip!
+        }
+        danger_zone_dwell_s += dt_s;
+        if (danger_zone_dwell_s > 7200U) {
+            condemned_enterotoxin_risk = 1U; // Irreversible >2h toxin condemnation
+        }
+    }
+}
+\end{lstlisting}
+
+\section{Irreversible Entropy and the Two-Regime Saga Model}
+\label{sec:two-regime-salvage-sagas}
+
+What happens when a workflow must abort mid-flight---because solar curtailment starves an
+induction furnace, a blizzard freezes a pea bed, or a power dip stalls a soup kettle in the
+danger zone for three hours? In distributed database theory, \textcite{garciamolina1987sagas}
+defined a \emph{Saga} as a sequence of local transactions $T_1, T_2, \dots, T_n$ paired with
+backward compensating transactions $C_1, C_2, \dots, C_{n-1}$ such that executing
+$T_1, \dots, T_k, C_k, \dots, C_1$ semantically erases the partial execution.
+
+In cyber-physical orchestration, backward compensation hits a hard thermodynamic wall at the
+exact Hybrid Logical Clock instant $t_{\mathrm{actuate}}$ when the first physical actuation
+envelope opens or human hand transforms matter. Layer 4 formalizes this asymmetry as the
+\textbf{Two-Regime Saga Model}:
+
+\begin{definition}[The Thermodynamic Actuation Horizon ($t_{\mathrm{actuate}}$)]
+\label{def:two-regime-saga}
+Every BPMN workflow instance $W$ partitions its execution timeline at the irreversible physical
+horizon $t_{\mathrm{actuate}}$:
+\begin{enumerate}
+    \item \textbf{Regime 1 ($t < t_{\mathrm{actuate}}$, Pre-Actuation Digital Escrow):} The
+    workflow holds only informational reservations---Layer 3 inventory locks
+    (\texttt{L3\_QUERY\_AND\_LOCK\_INVENTORY}), ordered station leases
+    (\texttt{L3ResourceLeaseLock}), and unrevealed mesh \texttt{HTLC}s. Zero physical atoms have
+    mixed, heated, cut, or moved. Aborting at $t < t_{\mathrm{actuate}}$ executes classical
+    \emph{Backward Digital Rollback}, releasing all escrows in exact reverse acquisition order
+    with zero mass or exergy loss ($\Delta S_{\mathrm{matter}} = 0$).
+    \item \textbf{Regime 2 ($t \ge t_{\mathrm{actuate}}$, Post-Actuation Physical Entropy):}
+    Physical matter has undergone irreversible chemical, thermal, mechanical, or biological
+    change ($\Delta S_{\mathrm{univ}} > 0$). Backward rollback is forbidden by the Second Law of
+    Thermodynamics. Any interrupting fault, timeout, or contamination boundary at
+    $t \ge t_{\mathrm{actuate}}$ transitions the \texttt{BpmnTokenFrame} into state
+    \texttt{SALVAGE\_COMPENSATING}, invoking a \textbf{Forward Physical Salvage Saga} that parks
+    L2 hardware safely and routes every milligram of degraded matter down the ecological exergy
+    cascade (\texttt{Scenario Mu} Biorefinery, Foundry Remelt, or Phytoremediation) while
+    strictly conserving $10{,}000\,\mathrm{bp}$ ($100.00\%$) of mass!
+\end{enumerate}
+\end{definition}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[
+    font=\footnotesize,
+    >=Latex,
+    box/.style={draw=black!75, rounded corners=2pt, fill=white, align=center, inner sep=4pt, minimum height=0.8cm},
+    reg1/.style={draw=blue!65!black, rounded corners=3pt, fill=blue!5, inner sep=6pt},
+    reg2/.style={draw=red!70!black, rounded corners=3pt, fill=red!4, inner sep=6pt},
+    salv/.style={draw=teal!75!black, thick, rounded corners=2pt, fill=teal!6, align=center, inner sep=4pt}
+]
+    % Regime 1 Box
+    \node[reg1, minimum width=5.4cm, minimum height=3.8cm] (r1) at (-4.1, 0) {};
+    \node[anchor=north, font=\scriptsize\bfseries, text=blue!75!black] at ($(r1.north)+(0,-0.1)$) {Regime 1 ($t < t_{\mathrm{actuate}}$): Digital Only};
+    \node[box, text width=4.5cm] (esc) at (-4.1, 0.65) {L3 Inventory \& Station Leases\\+ Staggered \texttt{HTLC} Escrow};
+    \node[box, fill=blue!10, text width=4.5cm] (rev) at (-4.1, -0.95) {Backward Algebraic Rollback:\\Release Locks ($\Delta m = 0, \Delta S = 0$)};
+    \draw[->, thick, blue!70!black] (esc.south) -- node[right, font=\scriptsize] {Abort $< t_{\mathrm{actuate}}$} (rev.north);
+
+    % Horizon Line
+    \draw[very thick, dashed, red!80!black] (-1.05, 2.15) -- (-1.05, -2.15);
+    \node[fill=white, inner sep=2pt, font=\scriptsize\bfseries, text=red!80!black] at (-1.05, 2.35) {Horizon $t_{\mathrm{actuate}}$};
+
+    % Regime 2 Box
+    \node[reg2, minimum width=7.5cm, minimum height=3.8cm] (r2) at (3.05, 0) {};
+    \node[anchor=north, font=\scriptsize\bfseries, text=red!75!black] at ($(r2.north)+(0,-0.1)$) {Regime 2 ($t \ge t_{\mathrm{actuate}}$): Second-Law Irreversible};
+    \node[box, text width=6.6cm] (act) at (3.05, 0.72) {Active Thermal / Biological / Foundry Step\\(Boundary Breach: Danger Zone, Necrosis, Cold-Shut)};
+    \node[salv, text width=6.6cm] (fwd) at (3.05, -0.95) {\textbf{Forward Physical Salvage Saga} (\texttt{SALVAGE\_COMPENSATING})\\Park L2 Safe $\to$ Route $10{,}000\,\mathrm{bp}$ Mass (\texttt{BSFL} / Kiln / Remelt)};
+
+    \draw[->, very thick] (esc.east) -- (act.west);
+    \draw[->, thick, red!75!black] (act.south) -- node[right, font=\scriptsize] {Interrupt $\ge t_{\mathrm{actuate}}$} (fwd.north);
+\end{tikzpicture}
+\caption{The Two-Regime Saga Model across the thermodynamic actuation horizon $t_{\mathrm{actuate}}$. Pre-actuation aborts roll back digitally; post-actuation faults route forward into $10{,}000\,\mathrm{bp}$ mass-conserving physical salvage.}
+\label{fig:two-regime-salvage-saga}
+\end{figure}
+
+\begin{theorem}[Exact Milligram Mass Conservation Across Forward Salvage Sagas]
+\label{thm:mass-conserving-salvage}
+Let an interrupted Regime 2 workflow hold total escrowed physical input mass $M_{\mathrm{in}} \in
+\mathbb{N}$ milligrams (adjusted for metered evaporative gas exchange $M_{\mathrm{evap}}$ logged
+in \texttt{ThermalVesselRegisters}), and let a ratified salvage routing vector specify $k \ge 1$
+downstream sink pools with integer basis-point weights $(w_1, \dots, w_k) \in \mathbb{N}^k$
+satisfying $\sum_{j=1}^k w_j = 10{,}000\,\mathrm{bp}$. Under deterministic quotient-and-remainder
+allocation
+\begin{equation}
+\label{eq:salvage-mass-conservation}
+m_j = \left\lfloor \frac{M_{\mathrm{rem}} \cdot w_j}{10{,}000} \right\rfloor + \mathbb{I}(j = j^*)\cdot R_{\mathrm{rem}}, \qquad
+R_{\mathrm{rem}} = M_{\mathrm{rem}} - \sum_{i=1}^k \left\lfloor \frac{M_{\mathrm{rem}} \cdot w_i}{10{,}000} \right\rfloor,
+\end{equation}
+where $M_{\mathrm{rem}} = M_{\mathrm{in}} - M_{\mathrm{evap}}$ and $j^* = \arg\max_j w_j$
+(breaking ties by lowest index), total credited salvage mass satisfies
+$\sum_{j=1}^k m_j = M_{\mathrm{rem}}$ with zero phantom ledger loss or creation, while every sink
+lot $\ell_j$ receives a strictly lower thermodynamic exergy grade $\mathcal{G}(\ell_j) <
+\mathcal{G}(\text{primary})$, preventing infinite salvage-to-primary oscillation.
+\end{theorem}
+
+\begin{proof}
+Summing Equation~\ref{eq:salvage-mass-conservation} across $j = 1, \dots, k$ yields:
+\[
+\sum_{j=1}^k m_j = \sum_{j=1}^k \left\lfloor \frac{M_{\mathrm{rem}} \cdot w_j}{10{,}000} \right\rfloor
++ R_{\mathrm{rem}} \cdot \sum_{j=1}^k \mathbb{I}(j = j^*)
+= \sum_{j=1}^k \left\lfloor \frac{M_{\mathrm{rem}} \cdot w_j}{10{,}000} \right\rfloor + R_{\mathrm{rem}} = M_{\mathrm{rem}},
+\]
+since $j^*$ is uniquely selected and $0 \le R_{\mathrm{rem}} < k$ is non-negative because
+$\sum_i \lfloor M_{\mathrm{rem}} w_i / 10{,}000 \rfloor \le M_{\mathrm{rem}} \sum_i w_i / 10{,}000
+= M_{\mathrm{rem}}$. Furthermore, because each salvage sink class $\mathcal{G}(\ell_j)$ sits
+strictly below culinary/structural primary grade in the finite lattice of material grades
+($\text{Potable/Edible} \succ \text{Feed/Vinegar} \succ \text{BSFL/Digester} \succ
+\text{Thermophilic/Pyrolysis} \succ \text{Inert Mineral}$), any chained secondary fault in a
+salvage workflow can descend at most $4$ steps before terminating in inert mineral ash or
+containment, guaranteeing finite termination.
+\end{proof}
+
+\subsection{The Six Canonical Physical Salvage Domains}
+
+Table~\ref{tab:six-domain-salvage-sagas} codifies the six canonical Regime 2 salvage sagas
+standardized across Part~II's twenty-five Sovereign Scenarios, demonstrating how Layer 4 turns
+every spoiled batch or aborted pour into closed-loop ecological feedstock rather than unrecorded
+landfill waste.
+
+\begin{table}[htbp]
+\centering
+\caption{The six canonical $10{,}000\,\mathrm{bp}$ mass-conserving Forward Physical Salvage Sagas.}
+\label{tab:six-domain-salvage-sagas}
+\footnotesize
+\begin{tabular}{@{}llll@{}}
+\toprule
+\textbf{Domain \& Trigger Predicate} & \textbf{L2 Safe Park} & \textbf{$10{,}000\,\mathrm{bp}$ Forward Mass Split} & \textbf{Mandatory Quarantine / Gate} \\
+\midrule
+1. \textbf{Culinary Danger-Zone} & Heater \texttt{0 mW}, & $7{,}200\,\mathrm{bp}$ liquid $\to$ biogas/struvite; & \texttt{CompostRoutingIntent} + \\
+($< 327{,}000\,\mathrm{mK}$ for $> 7{,}200\,\mathrm{s}$) & lid latched & $2{,}800\,\mathrm{bp}$ solids $\to$ \texttt{BSFL} / compost & pot autoclave lock \\
+\addlinespace[2pt]
+2. \textbf{Crop Necrosis} & Drip valve \texttt{0}, & \emph{Blight:} $10{,}000\,\mathrm{bp} \to$ \texttt{TLUD} biochar; & Phytosanitary flag bans \\
+(\texttt{necrosis\_damage\_bp >= 6500}) & bed fallow & \emph{Frost:} $8{,}500$ mulch, $1{,}500$ roots & cold mulch on blight \\
+\addlinespace[2pt]
+3. \textbf{Foundry Cold-Shut} & Induction \texttt{0}, & $9{,}600\,\mathrm{bp}$ alloy-tagged remelt ingot; & Strict alloy-CID bin \\
+($T_{\mathrm{pour}} < T_{\mathrm{liquidus}}$) & mold cool & $400\,\mathrm{bp}$ skimmed silicate slag grit & prevents $\mathrm{Cu}$ poisoning \\
+\addlinespace[2pt]
+4. \textbf{Fermentation pH Stall} & Jacket \texttt{OFF}, & \emph{Clean:} $10{,}000\,\mathrm{bp} \to$ vinegar/distill; & Botulism gate forbids \\
+($\mathrm{mpH} \ge 4{,}600$ at $t > 48\,\mathrm{h}$) & airlock seal & \emph{Putrid:} $10{,}000\,\mathrm{bp} \to$ biodigester & larder entry $\ge 4{,}600\,\mathrm{mpH}$ \\
+\addlinespace[2pt]
+5. \textbf{Cold-Chain Excursion} & Peltier max & \emph{Reagent:} $10{,}000\,\mathrm{bp}$ quarantine lot; & Revoke primary VC; \\
+($T_{\mathrm{MKT}} > 281{,}150\,\mathrm{mK}$) & or chest lock & \emph{Broth:} immediate retort / \texttt{BSFL} & require assay or retort \\
+\addlinespace[2pt]
+6. \textbf{Greywater Turbidity} & 3-way valve & $10{,}000\,\mathrm{bp}$ hydraulic bypass to lined & Protect reed-bed roots \\
+(Turbidity / EC breach) & $< 50\,\mathrm{ms}$ flip & phytoremediation / evap tank & from solvent/salt shock \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{lstlisting}[language=C++, caption={Deterministic $10{,}000\,\mathrm{bp}$ mass-conserving \texttt{CompostRoutingIntent} salvage split.}]
+enum class SalvageSinkPool : uint8_t {
+    BSFL_LARVAE_RAMP          = 0,
+    STRUVITE_BIOGAS_DIGESTER  = 1,
+    THERMOPHILIC_COMPOST_DRUM = 2,
+    TLUD_PYROLYSIS_KILN       = 3, // Mandatory >= 773,150 mK (500 C) for blighted biomass
+    ALLOY_SEGREGATED_REMELT   = 4,
+    ACETIC_DISTILLATION_STILL = 5,
+    LINED_GREYWATER_BYPASS    = 6
+};
+
+struct alignas(8) CompostRoutingIntent {
+    uint64_t        source_lot_cid_lo{0ULL};
+    uint64_t        total_salvage_mass_mg{0ULL};
+    uint64_t        sink_masses_mg[3]{0ULL, 0ULL, 0ULL};
+    uint16_t        sink_weights_bp[3]{7200U, 2800U, 0U}; // Must sum to 10,000 bp
+    SalvageSinkPool sink_pools[3]{
+        SalvageSinkPool::STRUVITE_BIOGAS_DIGESTER,
+        SalvageSinkPool::BSFL_LARVAE_RAMP,
+        SalvageSinkPool::THERMOPHILIC_COMPOST_DRUM
+    };
+    uint8_t         requires_vessel_sanitization{1U};
+};
+
+[[nodiscard]] constexpr bool ComputeMassBalancedSalvage(CompostRoutingIntent& intent) noexcept {
+    const uint32_t w_sum = static_cast<uint32_t>(intent.sink_weights_bp[0]) +
+                           static_cast<uint32_t>(intent.sink_weights_bp[1]) +
+                           static_cast<uint32_t>(intent.sink_weights_bp[2]);
+    if (w_sum != 10000U) {
+        return false;
+    }
+    uint64_t allocated_mg = 0ULL;
+    size_t   max_idx      = 0U;
+    for (size_t i = 0U; i < 3U; ++i) {
+        intent.sink_masses_mg[i] =
+            (intent.total_salvage_mass_mg * static_cast<uint64_t>(intent.sink_weights_bp[i])) / 10000ULL;
+        allocated_mg += intent.sink_masses_mg[i];
+        if (intent.sink_weights_bp[i] > intent.sink_weights_bp[max_idx]) {
+            max_idx = i;
+        }
+    }
+    intent.sink_masses_mg[max_idx] += (intent.total_salvage_mass_mg - allocated_mg);
+    return (intent.sink_masses_mg[0] + intent.sink_masses_mg[1] + intent.sink_masses_mg[2]) ==
+           intent.total_salvage_mass_mg;
+}
+\end{lstlisting}
+
+Notice the ecological intelligence encoded into these six forward sagas. In Domain 1, when a
+power failure condemns $4{,}000\,\mathrm{mL}$ of split-pea potage in the danger zone,
+\texttt{col-execd} neither allows a distracted human to serve unsafe soup nor dumps high-BOD
+organics down a drain: \texttt{CompostRoutingIntent} routes the aqueous fraction to phosphorus
+struvite recovery and the solids to \texttt{BSFL} poultry protein ramps while placing a hard L3
+quarantine lease on the cauldron until a sanitization workflow completes. In Domain 2, if a
+pea bed suffers \emph{Ascochyta} blight necrosis, cold mulching would spread fungal spores into
+next season's soil; the salvage gateway inspects the phytosanitary flag and routes $10{,}000\,\mathrm{bp}$
+exclusively to the $> 773{,}150\,\mathrm{mK}$ ($500^\circ\mathrm{C}$) \texttt{TLUD} pyrolysis
+kiln, sterilizing every spore into stable Terra Preta carbon. Thus Layer 4 honors the arrow of
+time: digital promises roll back cleanly before actuation, while living matter flows forward
+without waste through the metabolic web of the commons.

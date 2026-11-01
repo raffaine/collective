@@ -1,0 +1,423 @@
+\chapter{Oasis (\texttt{Layer 1b}) in Practice: Highlights, Specialist Council Audit, and Evolution}
+\label{ch:oasis-council}
+
+\epigraph{A simulation model is not a crystal ball for predicting the exact future of an inhabited home; it is an air-gapped laboratory where structural flaws fail safely in silicon before they ever touch soil, timber, or flesh.}{--- Adapted from Jay W.\ Forrester, \emph{Industrial Dynamics} \parencite{forrester1961}, and Michael Grieves \parencite{grieves2014digital}}
+
+Architectural specifications for deterministic workflow engines routinely look airtight on paper while concealing subtle unit mismatches, lock-ordering deadlocks, or thermodynamic split-brain bugs that surface only when coupled to continuous physical dynamics \parencite{meadows2008,astrom2008feedback}. Yet testing unverified orchestration bytecode directly against a living homestead's 48\,V battery bus, irrigation manifolds, or food-pasteurization vessels violates every principle of safety-critical engineering \parencite{iec61508}. To bridge the chasm between static formal verification and physical actuation, the Sovereign Stack pairs the physical hardware plane (\texttt{Layer 1a}) with an in-silico voxel and fixed-point physics laboratory: \textbf{Oasis (\texttt{Layer 1b})}, instantiated on the canonical reference parcel known as \textbf{Lot~402}.
+
+This closing chapter examines Layer~4 where theory meets running code. First, we establish the constitutional demarcation between \texttt{Layer 1b} synthetic simulation and \texttt{Layer 1a} physical hardware, detailing the \texttt{HardwareAirgapFilter} in \texttt{col-telemetryd} and the $10{,}000$-tick \emph{Scenario Zero} canary gate in \texttt{col-execd}. Second, we tour six working architectural highlights already executing end-to-end across Lot~402 in C++20 and JSON-LD. Third, we present the complete findings of the \textbf{Five-Specialist Architectural Council Audit}, diagnosing seven concrete runtime ceilings in the current prototype---down to exact file names, line numbers, and struct layouts---alongside their ratified v3.1 fixes. Finally, we lay out the prioritized four-milestone engineering roadmap that promotes \texttt{col-execd} from its Lot~402 prototype to full $300$-workflow Wasmtime production sovereignty.
+
+\section{Constitutional Demarcation of \texttt{Layer 1b} and the SITL Canary Gate}
+\label{sec:oasis-constitutional-demarcation}
+
+In conventional ``smart home'' and industrial Internet-of-Things platforms, a digital twin ingests continuous live telemetry from cameras, motion detectors, smart meters, and wearables inside an occupied dwelling to render a real-time mirror of its residents \parencite{zuboff2019}. The Sovereign Stack categorically forbids that architecture. Under the ratified stack constitution, Oasis (\texttt{Layer 1b}) is \emph{never} a live mirror-world dashboard of a physical household, \emph{never} ingests telemetry from inhabited homes, and is \emph{never} a transitional user interface wrapped around physical surveillance.
+
+Instead, Oasis serves three strictly bounded, non-surveillant roles:
+\begin{enumerate}
+  \item \textbf{Deterministic Software-in-the-Loop (SITL) Canary Harness:} Exercising exact production Layer~3--Layer~6 daemons against synthetic soil, hydrology, thermal, structural, and hauling physics prior to hardware deployment \parencite{grieves2014digital}.
+  \item \textbf{Ecological and Stoichiometric Foresight Laboratory:} Allowing stewards and curriculum learners to explore multi-season crop rotations, battery sizing, and watershed keyline earthworks under accelerated time-warp (\texttt{2x}, \texttt{5x}, \texttt{10x}) with Bayesian Knowledge Tracing (\texttt{BKT}) pedagogical scaffolding \parencite{corbett1995bkt,forrester1961}.
+  \item \textbf{Unidirectional Synthetic Telemetry Producer:} Emitting synthetic sensor frames strictly outward across the Unified Hardware Abstraction Interface (\texttt{UHAI}) ring buffer tagged with provenance byte \texttt{QUALITY\_SIMULATED = 0x01}.
+\end{enumerate}
+
+\subsection{\texttt{QUALITY\_SIMULATED} (\texttt{0x01}) vs.\ \texttt{QUALITY\_HARDWARE\_ROOT} (\texttt{0x02})}
+
+The binary demarcation between simulated silicon and physical reality is enforced at two independent choke points: the \texttt{UHAI} shared-memory ring (\texttt{core/1\_simulation/src/uhai/uhai\_ring\_buffer.hpp}) and the Layer~2 Hardware Airgap Filter (\texttt{src/daemons/col-telemetryd/airgap\_filter.hpp}). Every \texttt{TelemetrySample} frame carries an explicit \texttt{quality\_flags} byte:
+\begin{itemize}
+  \item \texttt{QUALITY\_SIMULATED = 0x01}: Assigned unconditionally to all frames synthesized by Oasis (\texttt{Layer 1b}) or \texttt{col-sim}.
+  \item \texttt{QUALITY\_HARDWARE\_ROOT = 0x02}: Assigned exclusively to physical telemetry frames whose payload MAC or Ed25519/ECDSA signature chains to a hardware-rooted Layer~2 secure element (\texttt{ATECC608A}) on an air-gapped field bus \parencite{microchip_atecc608a,rose2020zero}.
+\end{itemize}
+
+Inside \texttt{col-telemetryd}, \texttt{oasis::airgap::HardwareAirgapFilter::Evaluate()} inspects every incoming sample before any physical Hardware Abstraction Layer (\texttt{HAL}) relay, MOSFET driver, or motorized ball valve can be addressed. If \texttt{quality\_flags == QUALITY\_SIMULATED}, the filter increments \texttt{stats\_.dropped\_simulated} and returns \texttt{AirgapDecision::DROPPED\_SIMULATED\_SECURITY\_VIOLATION}; any unrecognized flag yields \texttt{DROPPED\_INVALID\_FLAG}. Consequently, a synthetic Lot~402 drought frame can never open a physical garden solenoid, even if a developer accidentally bridges test sockets on the same host.
+
+\begin{invariant}[Unidirectional SITL Demarcation and Hardware Airgap Isolation]
+\label{inv:sitl-airgap}
+Let $\mathcal{F}_{1b}$ denote the stream of frames emitted by Oasis (\texttt{Layer 1b}) and $\mathcal{A}_{1a}$ denote the set of physical GPIO/fieldbus actuation registers in \texttt{Layer 1a}. (i)~Data flow from \texttt{Layer 1a} live domestic sensors into \texttt{Layer 1b} is identically empty ($\mathcal{F}_{1a \to 1b} = \varnothing$); (ii)~every frame $f \in \mathcal{F}_{1b}$ carries \texttt{quality\_flags = 0x01}; and (iii)~\texttt{HardwareAirgapFilter} authorizes physical actuation on $a \in \mathcal{A}_{1a}$ if and only if \texttt{quality\_flags == 0x02} verified against a live \texttt{ATECC608A} hardware root.
+\end{invariant}
+
+\subsection{The \emph{Scenario Zero} $10{,}000$-Tick Canary Gate}
+
+While \texttt{0x01} frames are barred from physical relays, they are indispensable for gating software upgrades to Layer~4 itself. When a commune or developer compiles an upgraded \texttt{col-execd} binary or ratifies a new BPMN workflow bundle under \emph{Scenario Zero} (\texttt{src/daemons/col-execd/execd\_self\_host.hpp}), \texttt{ExecdSelfHostEngine::VerifyCanaryGate()} enforces three non-negotiable promotion predicates before atomic symlink activation:
+\begin{enumerate}
+  \item \texttt{floating\_point\_opcodes\_detected == 0}: Static binary audit confirming zero IEEE-754 \texttt{f32}/\texttt{f64} instructions inside deterministic state-transition code paths.
+  \item \texttt{layer\_skipping\_imports\_detected == 0}: Zero direct socket or library imports bypassing adjacent stack layers \parencite{saltzer1984end}.
+  \item \texttt{oasis\_shadow\_soak\_ticks >= 10000U}: At least $10{,}000$ consecutive deterministic Lot~402 shadow-soak ticks executed with \texttt{invariant\_violations == 0}, verifying mass conservation, exergy accounting, and lock freedom prior to touching physical hardware.
+\end{enumerate}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[
+    >=Stealth,
+    plane/.style={
+        rectangle, rounded corners=4pt, draw=black!85, thick,
+        fill=gray!8, minimum width=4.3cm, minimum height=1.35cm,
+        align=center, font=\footnotesize\sffamily
+    },
+    gate/.style={
+        rectangle, rounded corners=3pt, draw=black!90, very thick,
+        fill=gray!20, minimum width=4.6cm, minimum height=1.2cm,
+        align=center, font=\footnotesize\sffamily\bfseries
+    },
+    corebox/.style={
+        rectangle, rounded corners=4pt, draw=black!80, thick,
+        fill=white, minimum width=4.4cm, minimum height=1.15cm,
+        align=center, font=\footnotesize\sffamily
+    },
+    lbl/.style={font=\scriptsize\ttfamily, align=center}
+]
+    \node[plane] (l1b) {\textbf{Layer 1b: Oasis SITL (Lot 402)}\\ {\scriptsize Deterministic Voxel + SI Physics}\\ {\scriptsize Tags Outward Frames: \texttt{0x01}}};
+    \node[plane, right=3.8cm of l1b] (l1a) {\textbf{Layer 1a: Physical Homestead}\\ {\scriptsize Zephyr MCU + \texttt{ATECC608A} Root}\\ {\scriptsize Signs Hardware Frames: \texttt{0x02}}};
+
+    \node[gate, below=1.6cm of l1b] (canary) {\texttt{Scenario Zero} Canary Gate\\ {\normalfont\scriptsize \texttt{oasis\_shadow\_soak >= 10000}}\\ {\normalfont\scriptsize Zero Floats / Zero Invariant Faults}};
+    \node[gate, below=1.6cm of l1a] (airgap) {L2 \texttt{HardwareAirgapFilter}\\ {\normalfont\scriptsize Accepts \texttt{0x02} $\to$ Physical HAL}\\ {\normalfont\scriptsize Drops \texttt{0x01} (\texttt{SECURITY\_VIOLATION})}};
+
+    \node[corebox, below=1.6cm of canary] (l3l4sitl) {\textbf{Shadow \texttt{col-storaged} + \texttt{col-execd}}\\ {\scriptsize SITL Verification \& Foresight Bus}};
+    \node[corebox, below=1.6cm of airgap] (l3l4hitl) {\textbf{Live \texttt{col-storaged} + \texttt{col-execd}}\\ {\scriptsize Production Homestead Orchestration}};
+
+    \draw[->, thick] (l1b) -- node[left, lbl] {\texttt{UHAI} Ring (\texttt{0x01})} (canary);
+    \draw[->, thick] (canary) -- node[left, lbl] {Shadow Replay} (l3l4sitl);
+    \draw[->, thick] (l1a) -- node[right, lbl] {Signed Fieldbus (\texttt{0x02})} (airgap);
+    \draw[->, thick] (airgap) -- node[right, lbl] {Verified L2$\to$L3} (l3l4hitl);
+    \draw[->, very thick, dashed] (l3l4sitl.east) -- node[above, lbl] {Promote Binary /} node[below, lbl] {\texttt{workflow\_def\_cid}} (l3l4hitl.west);
+    \draw[->, thick, dotted] (l1b.south east) -- node[sloped, above, lbl] {\texttt{0x01} Blocked at HAL} (airgap.north west);
+\end{tikzpicture}
+\caption{Dual-membrane isolation between Oasis (\texttt{Layer 1b}, \texttt{QUALITY\_SIMULATED = 0x01}) and the physical homestead (\texttt{Layer 1a}, \texttt{QUALITY\_HARDWARE\_ROOT = 0x02}). Live home data never enters \texttt{Layer 1b}; synthetic \texttt{0x01} packets never actuate physical relays; promoted \texttt{col-execd} binaries must pass $10{,}000$ SITL soak ticks.}
+\label{fig:dual-membrane-airgap}
+\end{figure}
+
+\section{Six Working Architectural Highlights Live on Lot~402}
+\label{sec:six-oasis-highlights}
+
+Before examining the limitations uncovered by the Specialist Council, it is essential to document what the Lot~402 reference stack already achieves in running code. Across \texttt{src/stack/shared\_stack\_runtime.hpp} ($4{,}452$ lines), \texttt{core/1\_simulation/src/engine/}, and \texttt{core/4\_orchestrator/workflows/}, six nontrivial architectural patterns operate deterministically today.
+
+\subsection{Highlight 1: Clean-Slate Genesis and Garden-to-Soup Upward-Yield Coupling}
+
+At \texttt{tick = 0}, \texttt{InitializeGenesisDecisionsAndWorkflows()} (\texttt{shared\_stack\_runtime.hpp:3663}) boots with zero pre-spawned workflows, awaiting Layer~6 ratification of governance proposals (\texttt{dec:pea\_cultivation}, \texttt{dec:pea\_soup\_hearth}). Once ratified, \texttt{core/4\_orchestrator/workflows/pea\_garden\_and\_soup\_lifecycles.bpmn.json} orchestrates coupled agricultural (\texttt{wf.garden.*}) and culinary (\texttt{wf.soup.*}) lifecycles without violating layer isolation. When the kitchen workflow attempts to lock harvested legumes via \texttt{L3\_QUERY\_AND\_LOCK\_INVENTORY} over \texttt{l3\_l4.sock} and discovers zero stock in the pantry, \texttt{wf.soup.*} \emph{cannot} directly spawn or mutate \texttt{wf.garden.*}. Instead, it emits an upward \texttt{YIELD\_UPWARD\_L5} stock-miss packet over \texttt{l4\_l5.sock}, allowing Layer~5 governance policy to correlate the deficit with ratified cultivation policy and instantiate or bind the upstream garden workflow cleanly.
+
+\subsection{Highlight 2: Four-Node Homestead Cluster vs.\ Ring-1 Federated Mutual Aid}
+
+Lot~402 models both intra-homestead topological specialization and inter-neighborhood federation without conflating the two:
+\begin{itemize}
+  \item \textbf{Intra-Homestead (\texttt{SOLO\_STEWARD\_4\_NODE\_CLUSTER}):} \texttt{InitializeFourNodeTopology()} (\texttt{shared\_stack\_runtime.hpp:3351--3395}) partitions local execution across four physical station nodes---\texttt{node-01:office-coordinator}, \texttt{node-02:garage-fab}, \texttt{node-03:garden-agro}, and \texttt{node-04:hearth-galley}---routing cross-station material dependencies (such as timber trellis stakes fabricated in \texttt{node-02} required by tall peas in \texttt{node-03}) via \texttt{L4\_CROSS\_NODE\_REQUISITION}.
+  \item \textbf{Inter-Neighborhood (\texttt{R1\_FEDERATED\_SWARM}):} In \texttt{src/daemons/col-swarmd/swarm\_engine.hpp} (lines~22--143 and 250--377), \texttt{SwarmEngine} federates across three Ring-1 neighborhood clusters (\texttt{cluster:north\_oak\_commons}, \texttt{cluster:creekside\_guild}, and \texttt{cluster:sunnyside\_care\_ring}) using deterministic $75\%$ domain-affinity routing paired with $25\%$ \texttt{SplitMix64} load sharing. Cross-cluster assistance settles through zero-sum Bilateral Mutual Credit (\texttt{PairwiseBccChannel} and \texttt{L3PeerBccRecord}) \parencite{grigg2004,ostrom1990}, enforcing strict conservation $\text{local\_balance} + \text{remote\_balance} = 0$ without speculative tokens.
+\end{itemize}
+
+\subsection{Highlight 3: \texttt{VirtualPinBus} Epistemic Privacy and Dynamic Modality Switching}
+
+In \texttt{core/1\_simulation/src/engine/l2\_bridge/virtual\_pin\_bus.hpp} (lines~60--289), \texttt{VirtualPinBus} refuses to leak omniscient simulation state to Layer~4. Calling \texttt{ReadSoilProbe()} when \texttt{has\_l2\_sensor == false} returns \texttt{PinReadStatus::DENIED\_NO\_L2\_SENSOR} with zeroed registers, forcing Layer~4 to yield upward for human qualitative observation. The moment the steward fabricates and installs physical Layer~2 probes or actuators on Lot~402 (\texttt{soil\_probe\_v1}, \texttt{irrigation\_valve\_v1}, or \texttt{culinary\_vessel\_v1}), \texttt{RefreshL4AutomationModalities()} hot-swaps the corresponding BPMN task bindings from \texttt{MANUAL\_HUMAN\_OBSERVATION} to \texttt{AUTOMATED\_L2\_EXECUTION} without restarting active workflow tokens.
+
+\subsection{Highlight 4: Euclidean Sub-LSB Remainder Accumulators and Bigelow Lethality}
+
+Standard discrete-time simulations lose mass or thermal energy whenever per-tick increments fall below integer truncation thresholds. Both \texttt{SoilCellRegisters} ($40$ bytes, \texttt{core/1\_simulation/src/engine/domains/soil\_physics.hpp:26--41}) and \texttt{ThermalVesselRegisters} ($32$ bytes, \texttt{core/1\_simulation/src/engine/domains/thermal\_vessel.hpp:23--56}) eliminate truncation drift without a single floating-point variable via \textbf{Euclidean carry-save remainder accumulators} (\texttt{growth\_sub\_accum}, \texttt{nitrogen\_sub\_accum}, \texttt{moisture\_sub\_accum}, \texttt{evap\_sub\_ml\_accum}, and \texttt{energy\_sub\_mj\_accum}). Given numerator impulse $\Delta N$ and divisor $D$:
+\[
+  A_{t+1} = A_t + \Delta N, \qquad \Delta Q = \lfloor A_{t+1} / D \rfloor, \qquad R_{t+1} = A_{t+1} \bmod D,
+\]
+conserving every sub-milligram and sub-millijoule across arbitrary tick rates. Simultaneously, \texttt{ComputeBigelowLethalityRateMsPerSec()} (\texttt{thermal\_vessel.hpp:64--92}) integrates food-safety pathogen lethality \parencite{bigelow1921thermal} around reference temperature $T_{\text{ref}} = 358{,}150\,\text{mK}$ ($85.0\,^\circ\text{C}$) with $z = 5{,}000\,\text{mK}$ ($5.0\,\text{K}$) using pure integer piecewise-quadratic interpolation.
+
+\subsection{Highlight 5: JSON-LD Cultivar Parameterization and Three-Law Hauling Physics}
+
+Rather than hardcoding one generic ``crop,'' \texttt{CultivarWorkflowSpec} (\texttt{shared\_stack\_runtime.hpp:432--462, 4163--4354}) ingests W3C JSON-LD agronomic ontologies (\texttt{fabaceae\_cultivars.jsonld}) \parencite{w3c2020jsonld} spanning four distinct phenotypes: rapid SITL canary \texttt{chrono\_virtual\_pea}, bush \texttt{little\_marvel\_pea}, climbing \texttt{alderman\_telephone\_pea} ($180\,\text{cm}$ vine height triggering a structural trellis gate), and warm-season \texttt{kentucky\_wonder\_bean} (\emph{Phaseolus vulgaris}, requiring soil temperature $\ge 288{,}650\,\text{mK}$ and disabling rhizobial $\text{N}_2$-fixation credits). Material movement between stations obeys \texttt{HaulingPhysics} (\texttt{core/1\_simulation/src/engine/logistics/hauling\_physics.hpp:112--243}), enforcing three matter-phase laws:
+\begin{enumerate}
+  \item \textbf{Law~1 (\texttt{LIQUID}):} \texttt{0 ml} barehand transport---water and soup strictly require sealed vessels or plumbed pipework.
+  \item \textbf{Law~2 (\texttt{GRANULAR\_PARTICULATE}):} \texttt{500 g} barehand pocket/palm ceiling with a \texttt{3500 bp} ($35\%$) walking speed penalty unless carried in a sack, bucket, or barrow.
+  \item \textbf{Law~3 (\texttt{DISCRETE\_SOLID}):} \texttt{35,000 g} ($35\,\text{kg}$) human ergonomic lift cap, plus a voxel surface check requiring contiguous paved flagstones for small-caster \texttt{hand\_dolly} transport while permitting pneumatic \texttt{wheelbarrow} traversal over unpaved loam.
+\end{enumerate}
+
+\subsection{Highlight 6: Three-Mode \texttt{UnmodeledStepAdapter} Ontology Bridge}
+
+A BPMN library describing $300+$ real-world crafts inevitably references specialized URIs (\texttt{col://process/ferment\_tempeh}, \texttt{col://process/dress\_millstone}) before Oasis possesses bespoke 3D C++ fluid or fracture solvers for every step. In \texttt{core/1\_simulation/src/engine/l2\_bridge/unmodeled\_step\_adapter.hpp} (lines~16--20 and 154--198), \texttt{UnmodeledStepAdapter} classifies every workflow step into one of three execution modes---\texttt{MODELED\_PHYSICAL\_DOMAIN}, \texttt{PLAYER\_OBSERVATION\_PROMPT}, or \texttt{DEFAULT\_VALUES\_AND\_TIMED\_STATION\_WORK}---allowing arbitrary \texttt{col://} BPMN graphs to execute timed station work and stoichiometric mass transfers on Lot~402 without crashing on unmodeled micro-physics.
+
+\section{The Five-Specialist Council Audit: Seven Runtime Ceilings and Fixes}
+\label{sec:council-audit-seven-ceilings}
+
+To prepare Layer~4 for promotion from the Lot~402 prototype to self-hosted $300$-workflow production, a \textbf{Five-Specialist Architectural Council}---comprising specialists in (1)~Deterministic Virtual Machines, (2)~Distributed Concurrency \& Storage, (3)~Soil/Thermal/Control Physics, (4)~Zero-Trust Cryptography, and (5)~Human-Factors Calm UX---conducted a line-by-line audit of the repository. The Council identified \textbf{seven structural runtime ceilings} in the current prototype and ratified exact binary and algorithmic remedies for each.
+
+\subsection{Ceiling 1: Imperative C++ \texttt{if/else} Ladders and the \texttt{col-execd} Daemon Stub}
+
+\paragraph{Audit Diagnosis.}
+In \texttt{src/stack/shared\_stack\_runtime.hpp}, workflow instantiation inside \texttt{EnsureSpecificWorkflowSpawned()} (line~3833) and token advancement inside \texttt{EvaluateBpmnTokensAndDependencies()} (line~3158) are encoded as monolithic C++ \texttt{if/else} string-matching ladders over specific IDs (\texttt{"wf.garden.pea\_lifecycle"}, \texttt{"wf.soup.pea\_hearth"}). Meanwhile, the standalone daemon binary \texttt{src/daemons/col-execd/main.cpp} (line~157) currently executes a $10\,\text{Hz}$ \texttt{UHAI} ring-buffer heartbeat stub rather than hosting the real state machine. Adding $300$ workflows as C++ branches would require recompiling the orchestrator binary for every governance amendment.
+
+\paragraph{Ratified v3.1 Fix.}
+Compile ratified BPMN 2.0 JSON-LD definitions offline into canonical, content-addressed flat bytecode bundles identified by a 32-byte Blake3 \texttt{workflow\_def\_cid}, executed inside \texttt{col-execd} by an embedded, float-free \textbf{Wasmtime} sandbox \parencite{haas2017wasm}. Module validation rejects Wasm floating-point opcodes (\texttt{0x43} \texttt{f32.const}, \texttt{0x44} \texttt{f64.const}, and all IEEE-754 arithmetic instructions \texttt{0x8B..0xA6}) at load time, exposes a minimal 4-import deterministic host ABI, and enforces 5-tier battery-SoC-aware deterministic instruction fuel metering (Listing~\ref{lst:wasm-host-abi}).
+
+\begin{lstlisting}[language=C++,label={lst:wasm-host-abi},caption={Float-free Wasmtime opcode gate and 4-import deterministic Layer~4 host ABI (Ceiling 1).}]
+#include <cstdint>
+#include <span>
+
+// Rejects any Wasm module containing IEEE-754 f32/f64 constants, loads, or arithmetic
+constexpr bool HasForbiddenWasmFloatOpcode(std::span<const uint8_t> wasm_code_sec) noexcept {
+    for (const uint8_t op : wasm_code_sec) {
+        if (op == 0x43U || op == 0x44U) return true; // f32.const, f64.const
+        if (op >= 0x2AU && op <= 0x2BU) return true; // f32.load, f64.load
+        if (op >= 0x38U && op <= 0x39U) return true; // f32.store, f64.store
+        if (op >= 0x5BU && op <= 0x66U) return true; // f32/f64 comparisons
+        if (op >= 0x8BU && op <= 0xA6U) return true; // f32/f64 arithmetic & casts
+    }
+    return false;
+}
+
+// Complete 4-import host ABI exposed to sandboxed Layer 4 BPMN Wasm modules
+struct ColExecdDeterministicHostAbi {
+    int64_t (*l3_read_slot)(uint64_t scope_entity_id, uint64_t prop_hash) noexcept;
+    int32_t (*l3_request_lease)(uint8_t res_class, uint64_t res_id, uint64_t ttl_hlc) noexcept;
+    int32_t (*l4_emit_actuation_envelope)(uint64_t env_ptr_offset) noexcept;
+    int32_t (*l4_yield_upward)(uint8_t yield_reason, uint64_t payload_hash) noexcept;
+};
+\end{lstlisting}
+
+\subsection{Ceiling 2: Single-Instance \texttt{HasWorkflow} Lock, Linear Scan, and State Pollution}
+
+\paragraph{Audit Diagnosis.}
+Line~3834 of \texttt{shared\_stack\_runtime.hpp} guards workflow creation with \texttt{if (HasWorkflow(wf\_id)) return;}, restricting the homestead to at most \emph{one} instance per workflow definition---making it impossible to cultivate four staggered pea beds two weeks apart or simmer two soup pots concurrently. Furthermore, \texttt{EvaluateBpmnTokensAndDependencies()} (lines~3170--3205) performs an $O(N)$ linear scan assuming a single active step cursor per workflow (blocking true parallel \texttt{AND}-split and inclusive \texttt{OR}-join Petri-net token semantics \parencite{petri1962kommunikation,vanderaalst1998application}), while \texttt{L4WorkflowInstance} (lines~757--788) embeds pea-specific agronomic fields (\texttt{cultivar\_id}, \texttt{vine\_height\_cm}, \texttt{inoculated\_rhizobia}) directly inside the generic orchestrator struct.
+
+\paragraph{Ratified v3.1 Fix.}
+Key workflow instances by unique \texttt{(workflow\_def\_cid, scope\_entity\_id, instance\_nonce)} tuples so arbitrary concurrent beds and vessels instantiate freely. Replace \texttt{L4WorkflowInstance} domain fields with Layer~3 RocksDB property slots keyed by \texttt{(scope\_entity\_id, prop\_hash)}. Represent execution state using cache-aligned 64-byte \texttt{BpmnTokenFrame} arenas indexed by a 64-bit \texttt{active\_token\_bitset} (\texttt{std::countr\_zero} $O(1)$ runnable dispatch) across a formal 12-state token lifecycle supporting parallel \texttt{AND}/\texttt{OR} join barriers.
+
+\subsection{Ceiling 3: Split-Brain L4 Physics, Non-Resetting Lethality, and Boolean Valves}
+
+\paragraph{Audit Diagnosis.}
+The Physics Specialist uncovered four coupled control anomalies:
+\begin{enumerate}
+  \item \emph{Duplicate Split-Brain Physics:} \texttt{StepGardenWorkflowBiologyAndTimers()} (\texttt{shared\_stack\_runtime.hpp:2980--3156}) recomputes simplified soil moisture decay and crop growth inside Layer~4, diverging over multi-week runs from the authoritative \texttt{SoilCellRegisters} model in \texttt{soil\_physics.hpp}.
+  \item \emph{Wall-Clock Crop Maturity:} Crop progression uses elapsed simulated seconds (\texttt{maturity\_sim\_seconds}) rather than photo-thermal Growing Degree-Days ($\text{GDD}$), and omits irreversible cellular \texttt{necrosis\_damage\_bp} under hard frost ($<271{,}150\,\text{mK}$) or wilting-point drought.
+  \item \emph{Pasteurization Danger-Zone Hold Bug:} \texttt{thermal\_vessel.hpp:18} hardcodes \texttt{kTargetPasteurizationHoldSec = 15u} whereas \texttt{shared\_stack\_runtime.hpp:1679} checks for \texttt{120} seconds; worse, \texttt{thermal\_vessel.hpp:154--164} accumulates \texttt{pasteurization\_hold\_s} and \texttt{lethality\_equivalent\_ms} monotonically \emph{without resetting to zero} if power curtailment lets \texttt{core\_temp\_mk} cool back into the $[277{,}150, 333{,}150]\,\text{mK}$ ($4\,^\circ\text{C}\text{--}60\,^\circ\text{C}$) bacterial spore germination danger zone.
+  \item \emph{Open-Loop Boolean Actuation:} Layer~4 toggles raw open/closed valve booleans; if \texttt{col-execd} stalls mid-irrigation, an unleased valve stays open indefinitely.
+\end{enumerate}
+
+\paragraph{Ratified v3.1 Fix.}
+Purge all biological and thermal integration from Layer~4 so \texttt{col-execd} reads state solely via Layer~3 projections. Upgrade \texttt{soil\_physics.hpp} to integrate photo-thermal \texttt{thermal\_time\_mks} (kelvin-seconds above cultivar base temperature) and cumulative \texttt{necrosis\_damage\_bp}. Unify pasteurization targets in JSON-LD cultivar/recipe parameters and strictly zero \texttt{lethality\_equivalent\_ms} whenever unsealed \texttt{core\_temp\_mk < 333150U} (Listing~\ref{lst:bigelow-reset}). Replace boolean pin writes with a 64-byte hardware-leased \texttt{ActuationEnvelopeV1} carrying Schmitt-trigger deadband bounds \parencite{astrom2008feedback} and a hard HLC lease \texttt{expiry\_hlc} enforced autonomously by the Layer~2 MCU to park actuators in \texttt{safe\_park\_state} upon timeout.
+
+\begin{lstlisting}[language=C++,label={lst:bigelow-reset},caption={Safe Bigelow pasteurization accumulator resetting hold lethality on $<60\,^\circ\text{C}$ danger-zone dips (Ceiling 3).}]
+constexpr void StepPasteurizationHoldSafe(
+    uint32_t core_temp_mk,
+    uint32_t dt_sec,
+    uint32_t lethality_rate_ms_per_sec,
+    uint32_t target_lethality_ms,
+    bool     hermetically_sealed,
+    uint32_t& io_lethality_equiv_ms,
+    bool&     io_pasteurized_valid) noexcept
+{
+    constexpr uint32_t kDangerZoneCeilingMk = 333150U; // 60.00 C (333.15 K)
+    if (!hermetically_sealed && core_temp_mk < kDangerZoneCeilingMk) {
+        // Cooling into [4 C, 60 C] allows spore outgrowth; reset accumulated hold
+        io_lethality_equiv_ms = 0U;
+        io_pasteurized_valid  = false;
+        return;
+    }
+    if (core_temp_mk >= kDangerZoneCeilingMk) {
+        io_lethality_equiv_ms += lethality_rate_ms_per_sec * dt_sec;
+        if (io_lethality_equiv_ms >= target_lethality_ms) {
+            io_pasteurized_valid = true;
+        }
+    }
+}
+\end{lstlisting}
+
+\subsection{Ceiling 4: Five-State Token Enum, Missing Boundary Events, and Physical Entropy}
+
+\paragraph{Audit Diagnosis.}
+The prototype \texttt{BpmnTokenState} enum contains only five coarse states and lacks BPMN 2.0 interrupting/non-interrupting boundary timer, error, and escalation events \parencite{omg2011bpmn,chinosi2012bpmn,harel1987statecharts}. Moreover, classical database compensation sagas \parencite{garciamolina1987sagas} assume every step has an algebraic inverse $T_k^{-1}$---a physical impossibility under the Second Law of Thermodynamics \parencite{georgescu1971} once timber has been crosscut or soup has soured.
+
+\paragraph{Ratified v3.1 Fix.}
+Expand token execution to a 12-state lifecycle with interrupting and non-interrupting Event Subprocesses, paired with a \textbf{Two-Regime Saga Model} pivoted at the physical actuation boundary $t_{\text{actuate}}$:
+\begin{itemize}
+  \item \textbf{Pre-Actuation Regime ($t < t_{\text{actuate}}$):} Pure informational rollback---releasing Layer~3 inventory reservations, exergy escrows, and station leases cleanly with zero entropy production.
+  \item \textbf{Post-Actuation Regime ($t \ge t_{\text{actuate}}$):} Irreversible physical faults trigger mandatory \textbf{Forward Physical Salvage Sagas} that conserve $10{,}000\,\text{bp}$ ($100.00\%$) of input milligram mass by routing spoiled culinary biomass ($\Gamma \to \text{M}$) into Black Soldier Fly Larvae (\texttt{BSFL}) or thermophilic compost workflows, split scrap timber ($\text{H} \to \text{M}$) into \texttt{TLUD} biochar pyrolysis, and out-of-spec metal castings ($\Theta \to \text{Tier-2}$) into foundry remelt stock.
+\end{itemize}
+
+\begin{invariant}[Two-Regime Second-Law Mass Conservation Across Saga Boundaries]
+\label{inv:two-regime-saga}
+For any workflow instance $w$ locking initial dry/wet substrate mass $M_{\text{in}} \in \mathbb{N}$ (in milligrams) and crossing its first physical actuation envelope at HLC instant $t_{\text{actuate}}$: (i)~if $w$ aborts at $t < t_{\text{actuate}}$, informational escrow release restores the exact Layer~3 lot balances $\Delta M = 0$; (ii)~if $w$ faults at $t \ge t_{\text{actuate}}$, backward state erasure is forbidden, and the bound Forward Physical Salvage Saga must partition $M_{\text{in}} = M_{\text{salvage}} + M_{\text{evap\_gas}} + M_{\text{compost}}$ such that $\sum_i M_i = M_{\text{in}}$ ($10{,}000\,\text{bp}$ stoichiometric closure).
+\end{invariant}
+
+\subsection{Ceiling 5: Station Collisions, Shared-RAM Nodes, and Unleased Peer Claims}
+
+\paragraph{Audit Diagnosis.}
+Concurrent workflows currently lack mutual-exclusion locks over shared physical fixtures (two culinary workflows can simultaneously energize one induction hob; two fabrication tokens can claim one joinery bench or the single wheelbarrow). Additionally, \texttt{SOLO\_STEWARD\_4\_NODE\_CLUSTER} mutates shared C++ memory in-process rather than framing IPC packets, and \texttt{CLAIMED\_BY\_PEER\_CLUSTER} (\texttt{shared\_stack\_runtime.hpp:1407}) holds tasks indefinitely without an HLC lease TTL if a neighboring Ring-1 mesh router partitions \parencite{fall2003}.
+
+\paragraph{Ratified v3.1 Fix.}
+Eliminate Coffman circular-wait deadlocks \parencite{coffman1971deadlocks} by acquiring atomic RocksDB \texttt{L3ResourceLeaseLock} records in strict global lexicographic order $\prec_{\text{res}}$:
+\[
+  \texttt{0:EXERGY\_BUDGET} \;\prec_{\text{res}}\; \texttt{1:PHYSICAL\_STATION} \;\prec_{\text{res}}\; \texttt{2:HAUL\_TOOL} \;\prec_{\text{res}}\; \texttt{3:MATERIAL\_LOT},
+\]
+sorted secondarily by ascending 64-bit entity ID, with mandatory HLC lease expiration (\texttt{lease\_expiry\_hlc}) on both local station locks and \texttt{col-swarmd} peer claims, backed by Lookahead Horizon Admission Control and true \texttt{SOCK\_SEQPACKET} daemon framing.
+
+\begin{theorem}[Deadlock and Livelock Freedom Under Lexicographic HLC Resource Leases]
+\label{thm:lexicographic-deadlock-freedom}
+Let $\mathcal{R}$ be the finite set of Layer~3 homestead resources totally ordered by $(c(r), \text{\texttt{id}}(r))$ under $\prec_{\text{res}}$. If every token $\tau$ acquires leases strictly in increasing $\prec_{\text{res}}$ order and every granted lease carries a finite Hybrid Logical Clock bound $L(r) = t_{\text{grant}} + \Delta_{\text{ttl}} < \infty$, then the \texttt{col-execd}/\texttt{col-storaged} lock graph $G_{\text{wait}}(t)$ is strictly acyclic at every tick $t$, and no crashed or network-partitioned peer cluster can wedge a station beyond $\Delta_{\text{ttl}}$.
+\end{theorem}
+
+\begin{proof}
+Suppose for contradiction that $G_{\text{wait}}(t)$ contains a directed wait-for cycle $\tau_1 \to \tau_2 \to \cdots \to \tau_k \to \tau_1$. Each edge $\tau_i \to \tau_{i+1}$ implies $\tau_i$ holds some resource $r_i$ acquired earlier while waiting on $r_{i+1}$ held by $\tau_{i+1}$, which by ascending acquisition discipline implies $r_1 \prec_{\text{res}} r_2 \prec_{\text{res}} \cdots \prec_{\text{res}} r_k \prec_{\text{res}} r_1$, contradicting the irreflexivity of the strict total order $\prec_{\text{res}}$ \parencite{coffman1971deadlocks}. Furthermore, if holder $\tau_j$ stalls across a Ring-1 partition, monotonic HLC progression drives $t_{\text{hlc}} > L(r_j)$, deterministically revoking the expired lease and parking any associated Layer~2 actuator via \texttt{ActuationEnvelopeV1::expiry\_hlc}.
+\end{proof}
+
+\subsection{Ceiling 6: The $1000\times$ Microjoule Bug, Residual Floats, and Cleartext DIDs}
+
+\paragraph{Audit Diagnosis.}
+Line-by-line inspection of \texttt{src/daemons/col-execd/execd\_self\_host.hpp:324} exposed a critical $1000\times$ SI scaling bug in the self-hosting exergy accounting path:
+\begin{lstlisting}[language=C++,caption={Exact $1000\times$ unit-conversion bug at \texttt{execd\_self\_host.hpp:324} and its v3.1 fix.}]
+// PROTOTYPE BUG at src/daemons/col-execd/execd_self_host.hpp:324:
+// 1 MJ = 10^6 J = 10^12 uJ, NOT 10^9 uJ (10^9 uJ is 1 kilojoule!).
+req.required_exergy_mj = static_cast<uint32_t>(spec.required_exergy_uj / 1000000000ULL);
+
+// RATIFIED v3.1 FIX: End-to-end uint64_t microjoule escrow (zero truncation, 1 mW * 1 ms = 1 uJ)
+constexpr uint64_t kMicrojoulesPerMegajoule = 1000000000000ULL; // 10^12 uJ == 1 MJ
+req.required_exergy_uj = spec.required_exergy_uj;
+const uint64_t display_mj_ceil =
+    (spec.required_exergy_uj + kMicrojoulesPerMegajoule - 1ULL) / kMicrojoulesPerMegajoule;
+\end{lstlisting}
+Dividing microjoules ($\mu\text{J}$) by $10^9$ computes \emph{kilojoules} while labeling the register \texttt{required\_exergy\_mj}, inflating escrowed megajoule deductions by three orders of magnitude! In the same sweep, the Council flagged residual IEEE-754 \texttt{float}/\texttt{double} fields inside \texttt{uhai\_ring\_buffer.hpp} (\texttt{fps}, \texttt{founder\_stress}, \texttt{rate\_per\_tick}, \texttt{vm\_tick\_rate\_hz}, \texttt{verified\_sweat\_equity\_mj}), \texttt{chill\_loop.hpp}, and \texttt{bpmn\_scheduler.js}, alongside cleartext identity strings (\texttt{claimant\_did} in \texttt{UpwardYieldPacket} at \texttt{shared\_stack\_runtime.hpp:226} and \texttt{requester\_did} in \texttt{L6IntentRequest} at line~648).
+
+\paragraph{Ratified v3.1 Fix.}
+Standardize end-to-end energy accounting on unsigned 64-bit integer microjoules (\texttt{\_uj}, leveraging the exact identity $1\,\text{mW} \times 1\,\text{ms} = 1\,\mu\text{J}$ with $1\,\text{MJ} = 1{,}000{,}000{,}000{,}000\,\mu\text{J}$), convert all remaining ring-buffer floats to millihertz (\texttt{mHz}), millipH (\texttt{mpH}), and basis points (\texttt{bp}), and replace all Layer~4 DID strings with the 24-byte blinded \texttt{ClaimHandle} (Section~\ref{sec:clean-slate-voluntary-pull}).
+
+\subsection{Ceiling 7: Unsigned Observation Strings, Synthetic Safety Spoofing, and UI Paging}
+
+\paragraph{Audit Diagnosis.}
+In \texttt{AnswerUnmodeledMicroDetailPrompt()} (\texttt{shared\_stack\_runtime.hpp:1614}), Layer~4 accepts any non-empty string (\texttt{!answer.empty()}) as valid step completion without cryptographic signature or physical bounds checking. Even more dangerously, \texttt{UnmodeledStepAdapter} (\texttt{unmodeled\_step\_adapter.hpp:134}) populates fallback dry-storage checks with a synthetic default \texttt{pod\_moisture\_bp = 1380} ($13.80\%$), silently auto-passing the $<1400\,\text{bp}$ ($14.00\%$) Aspergillus/aflatoxin mold-safety gate without real measurement! On the frontend, \texttt{hud\_feel.js:116} hardcodes \texttt{availablePageSize: 2}, fracturing $300$ workflows across $150$ pages.
+
+\paragraph{Ratified v3.1 Fix.}
+Enforce a 6-tier \texttt{TelemetryProvenanceFlags} bitmask across Layer~3 and Layer~4: synthetic defaults (\texttt{0x01}) are strictly banned outside \texttt{Layer 1b} SITL mode; routine agronomic observations accept signed single-steward Ed25519 attestations (\texttt{0x04}); and life-critical or food-safety gates (pasteurization lethality, grain storage moisture $<1400\,\text{bp}$, structural load sign-offs) require either two-steward \textbf{Witness Quorum} (\texttt{0x08}) or \texttt{ATECC608A} hardware-rooted telemetry (\texttt{0x20}), paired with the Four Calm-Technology Scaling Laws established in Chapter~\ref{ch:somatic-ux}.
+
+Listing~\ref{lst:v31-ratified-structs} specifies the ratified fixed-point C++20 binary structs that resolve Ceilings~2, 3, 5, 6, and~7 across \texttt{col-execd} and \texttt{col-storaged}.
+
+\begin{lstlisting}[language=C++,label={lst:v31-ratified-structs},caption={Ratified v3.1 C++20 binary structures resolving Ceilings 2, 3, 5, 6, and 7.}]
+#include <array>
+#include <cstdint>
+
+// Ceiling 7: 6-tier provenance bitmask barring synthetic defaults from safety gates
+enum TelemetryProvenanceFlags : uint8_t {
+    PROV_SYNTHETIC_SITL_ONLY = 0x01, // Oasis Layer 1b only; rejected in live Layer 1a
+    PROV_UNVERIFIED_DRAFT    = 0x02, // Planning scratchpad; cannot advance tokens
+    PROV_STEWARD_ATTESTED    = 0x04, // Single-steward Ed25519 signed observation
+    PROV_WITNESS_QUORUM_2OF2 = 0x08, // Dual-steward co-signed safety attestation
+    PROV_CALIBRATED_L2_BUS   = 0x10, // CRC-checked wired L2 fieldbus sensor
+    PROV_ATECC608A_HW_ROOT   = 0x20  // Hardware-rooted cryptographic sensor attestation
+};
+
+// Ceiling 2 & 6: Domain-agnostic 64-byte cache-aligned BPMN token frame (zero floats/DIDs)
+struct alignas(64) BpmnTokenFrame {
+    uint64_t token_id;
+    uint64_t workflow_instance_id;
+    uint64_t scope_entity_id;        // L3 entity key (e.g., bed_03, vessel_01)
+    uint64_t wake_deadline_hlc;      // Boundary timer / lease expiry HLC
+    uint64_t escrowed_exergy_uj;     // Exact microjoules (1 MJ = 10^12 uJ)
+    uint32_t current_node_idx;       // Flat bytecode instruction offset
+    uint32_t join_barrier_mask;      // Parallel AND / inclusive OR gateway bitmask
+    uint8_t  lifecycle_state;        // 12-state deterministic token enum
+    uint8_t  priority_tier;          // 1..5 thermodynamic / ecological tier
+    uint8_t  required_prov_mask;     // Minimum TelemetryProvenanceFlags required
+    std::array<uint8_t, 13> pad_zero;
+};
+static_assert(sizeof(BpmnTokenFrame) == 64, "Token frame must fit one 64B cache line");
+
+// Ceiling 3: 64-byte closed-loop Schmitt-deadband & HLC-leased actuation envelope
+struct alignas(64) ActuationEnvelopeV1 {
+    uint64_t envelope_id;
+    uint64_t target_pin_uid;
+    uint64_t issued_hlc;
+    uint64_t expiry_hlc;             // L2 MCU auto-parks actuator if HLC > expiry_hlc
+    int32_t  setpoint_low_si;        // Lower Schmitt threshold (e.g., 1800 bp VWC)
+    int32_t  setpoint_high_si;       // Upper Schmitt threshold (e.g., 2600 bp VWC)
+    int32_t  safe_park_value_si;     // Fail-safe de-energized state (0 = closed/off)
+    uint32_t max_pulse_exergy_uj;    // Per-envelope energy cap in microjoules
+    uint16_t max_acoustic_cb;        // Acoustic ceiling (450 cB = 45.0 dBA night cap)
+    uint8_t  required_quality_flag;  // 0x02 for physical HAL; 0x01 in SITL shadow
+    std::array<uint8_t, 13> signature_mac_trunc;
+};
+static_assert(sizeof(ActuationEnvelopeV1) == 64, "Actuation envelope must be 64 bytes");
+
+// Ceiling 5: Lexicographically ordered Layer 3 physical station & tool mutex lease
+enum class LockResourceClass : uint8_t {
+    EXERGY_BUDGET    = 0,
+    PHYSICAL_STATION = 1,
+    HAUL_TOOL        = 2,
+    MATERIAL_LOT     = 3
+};
+
+struct L3ResourceLeaseLock {
+    LockResourceClass resource_class; // Acquired strictly in ascending 0 -> 1 -> 2 -> 3 order
+    uint8_t           reserved_pad[7];
+    uint64_t          resource_entity_id;
+    uint64_t          holder_token_id;
+    uint64_t          lease_expiry_hlc;
+};
+
+// Ceiling 7: Signed human observation attestation replacing unsigned !answer.empty()
+struct alignas(64) StewardObservationAttestation {
+    uint64_t                token_id;
+    uint64_t                observed_hlc;
+    int64_t                 observed_value_si;   // Bounded integer SI or 1..5 feel tier
+    uint8_t                 provenance_flags;    // 0x04 single or 0x08 2-of-2 witness quorum
+    std::array<uint8_t, 7>  claim_mac_prefix;    // Bound to active 24B ClaimHandle
+    std::array<uint8_t, 64> ed25519_sig_primary; // Verified at L5; stripped or blinded at L4
+    std::array<uint8_t, 32> witness_quorum_hash; // Non-zero when 0x08 safety gate applies
+};
+static_assert(sizeof(StewardObservationAttestation) == 128, "Two cache lines (128B)");
+\end{lstlisting}
+
+\begin{table}[htbp]
+\centering
+\caption{Summary of the Seven Runtime Ceilings identified by the Five-Specialist Architectural Council and their ratified v3.1 engineering resolutions.}
+\label{tab:seven-ceilings-summary}
+\footnotesize
+\begin{tabular}{@{}cp{3.6cm}p{4.1cm}p{4.6cm}@{}}
+\toprule
+\textbf{\#} & \textbf{Codebase Location} & \textbf{Diagnosed Prototype Ceiling} & \textbf{Ratified v3.1 Resolution} \\
+\midrule
+\textbf{1} & \texttt{shared\_stack\_runtime.hpp} (\texttt{:3158, :3833}); \texttt{col-execd/main.cpp:157} & Hardcoded C++ \texttt{if/else} workflow ladders; standalone daemon runs $10\,\text{Hz}$ stub. & Content-addressed \texttt{workflow\_def\_cid} bytecode + float-free Wasmtime VM ($4$ host imports, SoC fuel metering). \\
+\addlinespace[3pt]
+\textbf{2} & \texttt{shared\_stack\_runtime.hpp} (\texttt{:757, :3170, :3834}) & Single-instance \texttt{HasWorkflow} lock; linear 1-token scan; pea fields inside \texttt{L4WorkflowInstance}. & Multi-instance 64B \texttt{BpmnTokenFrame} slab + 64-bit active bitset + domain props moved to L3 RocksDB. \\
+\addlinespace[3pt]
+\textbf{3} & \texttt{shared\_stack\_runtime.hpp} (\texttt{:1679, :2980}); \texttt{thermal\_vessel.hpp:18,154} & Duplicate L4 biology; wall-clock maturity; non-resetting $15\,\text{s}$ vs.\ $120\,\text{s}$ lethality hold; boolean valves. & Purge L4 physics; photo-thermal $\text{GDD}$ + necrosis in L1b; reset hold on $<60\,^\circ\text{C}$ dip; 64B \texttt{ActuationEnvelopeV1}. \\
+\addlinespace[3pt]
+\textbf{4} & \texttt{shared\_stack\_runtime.hpp} (5-state token enum) & Missing BPMN boundary timers/errors; naive rollback violates Second Law after actuation. & 12-state token lifecycle + Event Subprocesses + Two-Regime Sagas (Forward Salvage for $t \ge t_{\text{actuate}}$). \\
+\addlinespace[3pt]
+\textbf{5} & \texttt{shared\_stack\_runtime.hpp} (\texttt{:1407, :3351}) & Station/barrow collisions; in-process 4-node RAM sharing; TTL-free \texttt{CLAIMED\_BY\_PEER\_CLUSTER}. & Lexicographic $\prec_{\text{res}}$ (\texttt{0..3}) \texttt{L3ResourceLeaseLock} + HLC lease TTLs + \texttt{SOCK\_SEQPACKET} IPC. \\
+\addlinespace[3pt]
+\textbf{6} & \texttt{execd\_self\_host.hpp:324}; \texttt{uhai\_ring\_buffer.hpp}; \texttt{:226, :648} & $1000\times$ $\mu\text{J}\to\text{MJ}$ bug ($\div 10^9$ vs.\ $10^{12}$); residual ring floats; cleartext \texttt{claimant\_did}. & End-to-end \texttt{uint64\_t \_uj}; fixed-point integer rings (\texttt{mHz}, \texttt{mpH}, \texttt{bp}); 24B blinded \texttt{ClaimHandle}. \\
+\addlinespace[3pt]
+\textbf{7} & \texttt{shared\_stack\_runtime.hpp} (\texttt{:1614}); \texttt{unmodeled\_step\_adapter.hpp:134}; \texttt{hud\_feel.js:116} & Unsigned \texttt{!answer.empty()} strings; synthetic \texttt{1380 bp} spoofing mold gate; \texttt{pageSize: 2} UI collapse. & 6-tier \texttt{TelemetryProvenanceFlags} (\texttt{0x08}/\texttt{0x20} for safety gates) + Ed25519 attestations + 4 Calm UX Laws. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Prioritized Four-Milestone Engineering Roadmap}
+\label{sec:next-sprint-roadmap}
+
+Because each ceiling interacts with adjacent layers---fixing split-brain physics (Ceiling~3) presupposes clean Layer~3 property slots (Ceiling~2), while promoting the Wasmtime runner (Ceiling~1) requires passing the corrected microjoule and provenance invariants (Ceilings~6 and~7) under \emph{Scenario Zero}---the Council ratified a strictly sequenced, four-milestone engineering roadmap (Table~\ref{tab:engineering-roadmap}).
+
+\begin{table}[htbp]
+\centering
+\caption{Prioritized four-milestone engineering roadmap from the Lot~402 prototype to $300$-workflow self-hosted production.}
+\label{tab:engineering-roadmap}
+\footnotesize
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}clp{4.4cm}p{5.1cm}@{}}
+\toprule
+\textbf{Milestone} & \textbf{Target Daemons} & \textbf{Core Engineering Deliverables} & \textbf{Exit \& Canary Verification Gate} \\
+\midrule
+\textbf{M1: Numeric, Privacy \& Safety Hygiene} & \texttt{col-execd}, \texttt{col-telemetryd}, \texttt{uhai} & Fix $10^{12}\,\mu\text{J}/\text{MJ}$ bug (\texttt{execd\_self\_host.hpp:324}); purge ring floats; replace DIDs with 24B \texttt{ClaimHandle}; enforce 6-tier provenance \& reset Bigelow hold below $333{,}150\,\text{mK}$. & Zero IEEE-754 floats in \texttt{uhai}/\texttt{col-execd} headers; synthetic \texttt{0x01} rejected by food-safety gates; danger-zone dip test passes. \\
+\addlinespace[4pt]
+\textbf{M2: Multi-Instance Slab \& L3 Locks} & \texttt{col-storaged}, \texttt{col-execd}, \texttt{col-swarmd} & Evict pea fields from L4 to L3 RocksDB; deploy 64B \texttt{BpmnTokenFrame} slab + 64-bit bitset; remove \texttt{HasWorkflow} singleton; add $\prec_{\text{res}}$ \texttt{L3ResourceLeaseLock} + HLC TTLs. & $4$ staggered pea beds + $2$ soup vessels execute concurrently with zero station collisions and zero deadlock across $50{,}000$ ticks. \\
+\addlinespace[4pt]
+\textbf{M3: Closed-Loop L1b Physics \& Salvage} & \texttt{Oasis (L1b)}, \texttt{col-execd} & Purge L4 biology timers; add photo-thermal $\text{GDD}$ \& frost/drought necrosis to \texttt{soil\_physics.hpp}; wire 64B \texttt{ActuationEnvelopeV1}; implement 12-state tokens \& Forward Salvage Sagas. & $100.00\%$ ($10{,}000\,\text{bp}$) mass conservation verified across simulated power blackouts, frost events, and spoiled-batch BSFL salvage. \\
+\addlinespace[4pt]
+\textbf{M4: Wasmtime VM \& Calm 300-WF Scale} & \texttt{col-execd}, \texttt{col-governanced}, \texttt{L6 Web} & Embed float-free Wasmtime bytecode engine in \texttt{col-execd/main.cpp}; cut over to \texttt{SOCK\_SEQPACKET}; ship 4 Calm UX Scaling Laws ($\Pi_{\text{calm}}$, $\rho_{\text{human}} \le 0.70$). & \emph{Scenario Zero} gate green: $N = 320$ concurrent workflows soak $\ge 10{,}000$ Lot~402 ticks at $<5$ visible daily rounds and zero faults. \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+\subsection{Deterministic Canary Regression Matrix and Self-Hosting Cutover}
+
+To prevent architectural backsliding once Milestones~M1 through~M4 land, every commit touching \texttt{core/4\_orchestrator/} or \texttt{src/daemons/col-execd/} executes a deterministic four-fault SITL injection suite on Lot~402 prior to \emph{Scenario Zero} promotion \parencite{kleppmann2017designing}:
+\begin{enumerate}
+  \item \textbf{Mid-Pasteurization Solar Blackout:} Drops microgrid battery SoC below $25\%$ while \texttt{culinary\_vessel\_v1} sits at $355{,}150\,\text{mK}$, verifying curtailment suspension, cooling below $333{,}150\,\text{mK}$, Bigelow lethality hold reset to zero, and subsequent BSFL forward salvage ($\Gamma \to \text{M}$) if thermal recovery times out.
+  \item \textbf{Concurrent Four-Bed + Dual-Hearth Contention:} Instantiates four staggered \texttt{alderman\_telephone\_pea} beds and two concurrent \texttt{wf.soup.*} pots contending for one \texttt{wheelbarrow} and one induction hob, verifying acyclic $\prec_{\text{res}}$ lock acquisition and zero starvation.
+  \item \textbf{Ring-1 Mesh Partition During Peer Claim:} Severs the simulated link to \texttt{cluster:creekside\_guild} while a delegated harvesting round is active, verifying deterministic HLC lease expiry and clean return to the local \texttt{WAITING\_HUMAN} Commons Pool.
+  \item \textbf{Cross-Architecture State-Root Replay:} Replays identical $10{,}000$-tick \texttt{UHAI} (\texttt{0x01}) input logs on \texttt{x86\_64} and \texttt{aarch64} runners, asserting bit-identical RocksDB Blake3 Merkle roots at every checkpoint tick.
+\end{enumerate}
+
+\subsection{Synthesis: The Deterministic Orchestrator in Full Perspective}
+
+Across the eight chapters of this companion volume, a single architectural thesis has governed every design decision: \emph{freedom in a material commons requires determinism in its physical substrate and restraint in its human interface} \parencite{beer1974,illich1973,ostrom1990}. When a workflow engine relies on nondeterministic cloud services, IEEE-754 floating-point drift, untyped string prompts, or coercive push notifications, inhabitants can trust neither its safety envelopes nor its social neutrality. Conversely, when Layer~4 is reduced to a content-addressed, float-free state machine---reading conserved SI integers from Layer~3, delegating closed-loop Schmitt-deadband actuation to hardware-rooted Layer~2 microcontrollers, routing irreversible entropy through mass-conserving physical salvage sagas, testing every upgrade across $10{,}000$ air-gapped Lot~402 canary ticks, and presenting human stewards with calm, DID-blinded voluntary rounds bounded by $\rho_{\text{human}} \le 0.70$---orchestration disappears into the quiet background of daily life. What remains in the foreground is what mattered all along: fertile soil, shared hearths, resilient neighborhoods, and unhurried human agency.

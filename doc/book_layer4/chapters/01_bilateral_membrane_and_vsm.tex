@@ -1,0 +1,557 @@
+\chapter{The Bilateral Membrane, Keyless Blindness, and VSM Closure}
+\label{ch:bilateral-membrane}
+
+\epigraph{Control in viable systems is never a matter of shouting commands down a pyramid. It is the art of designing membranes across which requisite variety is attenuated and amplified without destroying the autonomy of the living parts.}{---Adapted from \textcite{beer1979}}
+
+An orchestrator is defined less by the expressiveness of the programs it can run than by the
+boundaries it cannot cross. In conventional cloud and industrial control architectures, the
+workflow engine gradually becomes an omniscient integration hub: it opens TCP connections to
+external REST APIs, queries user identity databases directly, polls Modbus sensors over
+local Ethernet, writes raw actuation bits to programmable logic controllers, and exposes
+mutable administrative endpoints to web dashboards. Convenience in early prototyping soon
+hardens into a catastrophic blast radius. A single compromised credential, misparsed HTTP
+payload, or errant script gains simultaneous visibility into personal human behavior and
+unmediated authority over physical machinery \parencite{rose2020zero,saltzer1984end}.
+
+Layer~4 of the Sovereign Stack (\texttt{col-execd}) inverts this tradition through
+\textbf{structural containment}. Because \texttt{col-execd} sits at the exact locus where
+collective digital intent becomes kinetic consequence, its power is made safe by stripping
+away every channel of perception and action save two strictly typed, kernel-authenticated
+POSIX sockets. It holds no network interfaces, possesses no cryptographic identity keys,
+knows no citizen's name, touches no hardware pins, and rejects every direct mutation from
+user-facing interfaces.
+
+In this opening chapter of Part~I, we establish the four constitutional pillars that bound
+\texttt{col-execd} within a Sovereign Node: (1) strict seven-layer adjacency across the
+bilateral Unix-domain socket membrane; (2) clean-slate genesis and the Constitutional Intent
+U-Turn; (3) keyless cryptographic blindness via 24-byte capability handles; and (4)
+cybernetic closure at Recursion Level~$N$ of Stafford Beer's Viable System Model
+\parencite{beer1972,beer1979}.
+
+\section{Strict Seven-Layer Adjacency and the Bilateral Socket Membrane}
+\label{sec:ch1-bilateral-sockets}
+
+The Sovereign Stack enforces a strict linear topology across its seven layers: Layer~1
+(Physical Reality and the Layer~1b Oasis Digital Twin), Layer~2 (Hardware Reflexes,
+\texttt{col-peripheral}), Layer~3 (Thermodynamic Ledger and CRDT Storage,
+\texttt{col-storaged}), Layer~4 (Deterministic Orchestrator, \texttt{col-execd}), Layer~5
+(Polycentric Governance and Web of Trust, \texttt{col-kmsd}), Layer~6 (Semantic Intent and
+Calm Agora Interface, \texttt{col-gatewayd} / \texttt{col-intentd}), and Layer~7 (Legal,
+Fiscal, and Adversarial Carapace, \texttt{col-adversaryd}). Under the \textbf{Law of Strict
+Adjacency}, any daemon at Layer~$k$ may exchange IPC frames solely with Layer~$k-1$ and
+Layer~$k+1$.
+
+For \texttt{col-execd} ($k = 4$), the entire external universe is reduced to two POSIX
+\texttt{AF\_UNIX} sockets configured in \texttt{SOCK\_SEQPACKET} mode:
+
+\begin{enumerate}
+\item \textbf{Downward Adjacency (\texttt{/run/collective/ipc/l3\_l4.sock}):} Point-to-point
+        channel connecting \texttt{col-execd} exclusively to Layer~3
+        (\texttt{col-storaged}). Across this downward membrane, \texttt{col-execd} reads
+        immutable Hybrid Logical Clock (HLC) state snapshots, acquires lexicographically
+        ordered resource and exergy leases (\texttt{L3ResourceLeaseLock}), writes bounded
+        64-byte hardware actuation envelopes (\texttt{ActuationEnvelopeV1}), and commits
+        atomic step transitions (\texttt{BatchStepCommit}).
+\item \textbf{Upward Adjacency (\texttt{/run/collective/ipc/l4\_l5.sock}):} Point-to-point
+        channel connecting \texttt{col-execd} exclusively to Layer~5 (\texttt{col-kmsd}).
+        Across this upward membrane, \texttt{col-execd} ingests governance-ratified BPMN
+        bytecode bundles (\texttt{workflow\_def\_cid}), Ricardian treaty invariants
+        (\texttt{Invariants\_BPMN}), standing ecological floor tables, compiled Bioregional
+        Path-Vector Protocol (BPVP) Forwarding Information Base (\texttt{FIB}) entries, and
+        blinded 24-byte task claim handles (\texttt{ClaimHandle}), while emitting structured
+        upward yield packets (\texttt{UpwardYieldPacket}).
+\end{enumerate}
+
+\begin{table}[htbp]
+\centering
+\caption{Seven-Layer Daemon Topology and Adjacency Enforcement Relative to Layer~4 (\texttt{col-execd})}
+\label{tab:ch1-layer-adjacency}
+\small
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}clll@{}}
+\toprule
+\textbf{Layer} & \textbf{POSIX Daemon / Domain} & \textbf{Channel to \texttt{col-execd}} & \textbf{Enforcement Mechanism} \\
+\midrule
+L7 & \texttt{col-adversaryd} (Legal/GPO) & \textit{Forbidden} (0 direct paths) & Routed strictly via $\mathrm{L4}\leftrightarrow\mathrm{L5}\leftrightarrow\mathrm{L6}\leftrightarrow\mathrm{L7}$ \\
+L6 & \texttt{col-gatewayd} (Agora UI/LLM) & \textit{Read-Only Telemetry} (\texttt{405}) & \texttt{POST/PUT/DELETE} rejected at gateway \\
+L5 & \texttt{col-kmsd} (Governance/WoT) & \texttt{l4\_l5.sock} (\texttt{SEQPACKET}) & \texttt{SO\_PEERCRED} UID == \texttt{uid\_col\_kmsd} \\
+\textbf{L4} & \textbf{\texttt{col-execd} (Orchestrator)} & \textbf{Self (10 Hz Wasmtime VM)} & \textbf{\texttt{seccomp-bpf}: \texttt{AF\_INET/6} blocked} \\
+L3 & \texttt{col-storaged} (CRDT/Ledger) & \texttt{l3\_l4.sock} (\texttt{SEQPACKET}) & \texttt{SO\_PEERCRED} UID == \texttt{uid\_col\_storaged} \\
+L2 & \texttt{col-peripheral} (MCU/Zephyr) & \textit{Forbidden} (0 GPIO/I2C FDs) & Efferent Handshake mediated via L3 \\
+L1 / 1b & Biome \& Oasis SITL Twin & \textit{Forbidden} (UHAI ring isolate) & Epistemic provenance flags (\texttt{0x01..0x20}) \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+\subsection{Why \texttt{SOCK\_SEQPACKET} and Kernel Credential Pinning}
+
+The choice of \texttt{AF\_UNIX} with \texttt{SOCK\_SEQPACKET}---rather than TCP loopback
+sockets, \texttt{SOCK\_STREAM} byte pipes, or \texttt{SOCK\_DGRAM} datagrams---resolves four
+classic classes of systems vulnerability simultaneously:
+
+\begin{itemize}
+\item \textbf{Elimination of Frame-Slicing Desynchronization:} Byte-stream sockets
+        (\texttt{SOCK\_STREAM}) do not preserve message boundaries; a partial read or
+        malformed length prefix can shift the parser window across subsequent frames,
+        inducing confused-deputy state corruption. \texttt{SOCK\_SEQPACKET} guarantees
+        atomic record delivery: each \texttt{recvmsg()} returns either one complete,
+        length-verified binary IPC frame or an explicit error (\texttt{EMSGSIZE} /
+        \texttt{EAGAIN}).
+\item \textbf{Connection-Oriented FIFO Determinism with Backpressure:} Unlike connectionless
+        \texttt{SOCK\_DGRAM} sockets, \texttt{SOCK\_SEQPACKET} maintains a dedicated virtual
+        circuit with strict in-order delivery and kernel-enforced receive buffer
+        backpressure, ensuring that bursts of upward yields or downward step commits can
+        never reorder causal transitions.
+\item \textbf{Unforgeable Kernel Peer Authentication:} Immediately upon \texttt{accept()} or
+        \texttt{connect()}, \texttt{col-execd} queries the kernel socket descriptor via
+        \texttt{getsockopt(..., SOL\_SOCKET, SO\_PEERCRED, ...)} on Linux (or
+        \texttt{LOCAL\_PEERCRED} on BSD/macOS) to inspect the unforgeable process UID, GID,
+        and PID of the peer daemon. Any connection on \texttt{l4\_l5.sock} whose effective
+        UID is not \texttt{col-kmsd}, or on \texttt{l3\_l4.sock} whose effective UID is not
+        \texttt{col-storaged}, is closed prior to reading a single payload byte.
+\item \textbf{Irreversible Syscall Sandboxing:} After opening its two Unix-domain sockets
+        and mapping its read-only telemetry projection page at startup, \texttt{col-execd}
+        installs a strict \texttt{seccomp-bpf} filter and drops all Linux capabilities
+        (\texttt{CAP\_NET\_ADMIN}, \texttt{CAP\_NET\_RAW}, \texttt{CAP\_SYS\_ADMIN}).
+        Subsequent attempts to invoke \texttt{socket()}, \texttt{connect()},
+        \texttt{openat()} on writable filesystem paths, or \texttt{execve()} terminate the
+        offending thread immediately via \texttt{SIGSYS}.
+\end{itemize}
+
+\begin{invariant}[Strict Bilateral Adjacency]
+\label{inv:ch1-bilateral-adjacency}
+At every Hybrid Logical Clock instant $t$ after bootstrap initialization completes, the file
+descriptor table $\mathcal{F}_t$ of \texttt{col-execd} satisfies:
+\begin{equation}
+\mathcal{F}_t \subseteq \{ \mathrm{fd}_{\mathrm{l3\_l4}}, \, \mathrm{fd}_{\mathrm{l4\_l5}}, \, \mathrm{fd}_{\mathrm{telemetry\_ro}}, \, \mathrm{fd}_{\mathrm{log\_append}} \}
+\end{equation}
+with $\mathcal{F}_t \cap \mathcal{F}_{\mathrm{AF\_INET}} = \emptyset$ and $\mathcal{F}_t \cap \mathcal{F}_{\mathrm{dev\_io}} = \emptyset$.
+Consequently, no state transition inside Layer~4 can observe physical reality except through
+verified Layer~3 commits, nor alter human or external institutional state except through
+ratified Layer~5 frames.
+\end{invariant}
+
+Listing~\ref{lst:ch1-membrane-header} presents the wire frame header and startup
+verification logic enforced across both adjacency sockets. Notice matched C++20 alignment
+assertions (\texttt{alignas(8)}, explicit padding, and zero floating-point members), echoing
+the canonical discipline declared in \texttt{pea\_garden\_and\_soup\_lifecycles.bpmn.json}
+(\texttt{"allowed\_upward\_socket": "l4\_l5.sock"}, \texttt{"allowed\_downward\_socket":
+"l3\_l4.sock"}, and \texttt{"prohibited\_non\_adjacent\_layers": ["L1", "L2", "L6", "L7"]}).
+
+\begin{lstlisting}[language=C++,caption={Bilateral SEQPACKET wire header and kernel peer-credential verification in \texttt{col-execd}.},label={lst:ch1-membrane-header}]
+struct alignas(8) BilateralSeqPacketHeader {
+    uint32_t magic{0x434F4C34U};      // "COL4" frame discriminator (4B)
+    uint16_t protocol_version{0x0301};// Ratified v3.1 wire ABI (2B)
+    uint16_t opcode{0};               // Typed L3<->L4 or L4<->L5 opcode (2B)
+    uint64_t sender_hlc{0};           // Monotonic Hybrid Logical Clock (8B)
+    uint64_t correlation_id{0};       // Request/yield matching nonce (8B)
+    uint32_t payload_bytes{0};        // Exact payload length <= 65536 (4B)
+    uint32_t crc32c_digest{0};        // Hardware CRC-32C over payload (4B)
+};
+static_assert(sizeof(BilateralSeqPacketHeader) == 32, "Header must be 32 bytes.");
+
+[[nodiscard]] inline bool VerifyPeerDaemonUid(int sock_fd, uid_t expected_uid) noexcept {
+#if defined(__linux__)
+    struct ucred cred{};
+    socklen_t len = sizeof(cred);
+    if (::getsockopt(sock_fd, SOL_SOCKET, SO_PEERCRED, &cred, &len) != 0) {
+        return false;
+    }
+    return cred.uid == expected_uid;
+#else
+    uid_t peer_euid = static_cast<uid_t>(-1);
+    gid_t peer_egid = static_cast<gid_t>(-1);
+    if (::getpeereid(sock_fd, &peer_euid, &peer_egid) != 0) {
+        return false;
+    }
+    return peer_euid == expected_uid;
+#endif
+}
+\end{lstlisting}
+
+\subsection{Canonical Bilateral Wire Opcode Partition}
+
+To prevent confused-deputy attacks where a malformed payload attempts to invoke a governance
+command over the storage socket or vice versa, \texttt{col-execd} partitions the 16-bit
+\texttt{BilateralSeqPacketHeader::opcode} space into two disjoint, socket-pinned ranges:
+\texttt{0x0300..0x03FF} is accepted solely on \texttt{l3\_l4.sock}, while
+\texttt{0x0500..0x05FF} is accepted solely on \texttt{l4\_l5.sock}. Any cross-range opcode
+triggers an immediate protocol fault and audit event. Table~\ref{tab:ch1-wire-opcodes}
+enumerates the primary ratified v3.1 message classes.
+
+\begin{table}[htbp]
+\centering
+\caption{Primary Ratified v3.1 Wire Opcodes Across \texttt{l3\_l4.sock} and \texttt{l4\_l5.sock}}
+\label{tab:ch1-wire-opcodes}
+\footnotesize
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}llll@{}}
+\toprule
+\textbf{Opcode} & \textbf{Socket \& Direction} & \textbf{Frame Name} & \textbf{Primary Payload Contents} \\
+\midrule
+\texttt{0x0301} & \texttt{L4 -> L3} (\texttt{l3\_l4}) & \texttt{L3\_HELLO\_REHYDRATE} & Cold-boot epoch bump \& Merkle head query \\
+\texttt{0x0302} & \texttt{L3 -> L4} (\texttt{l3\_l4}) & \texttt{L3\_SNAPSHOT\_DELTA} & HLC tick, changed register hashes \& \texttt{sig:*} \\
+\texttt{0x0303} & \texttt{L4 -> L3} (\texttt{l3\_l4}) & \texttt{L3\_BATCH\_STEP\_COMMIT} & Atomic token deltas, leases \& envelopes \\
+\texttt{0x0304} & \texttt{L3 -> L4} (\texttt{l3\_l4}) & \texttt{L3\_COMMIT\_ACK\_FENCE} & New \texttt{prev\_merkle\_root} \& fencing tokens \\
+\midrule
+\texttt{0x0501} & \texttt{L5 -> L4} (\texttt{l4\_l5}) & \texttt{L5\_DEPLOY\_WORKFLOW\_CID} & Ratified \texttt{workflow\_def\_cid} + migration policy \\
+\texttt{0x0502} & \texttt{L5 -> L4} (\texttt{l4\_l5}) & \texttt{L5\_SPAWN\_INSTANCE} & \texttt{(workflow\_def\_cid, scope\_entity\_id, params)} \\
+\texttt{0x0503} & \texttt{L5 -> L4} (\texttt{l4\_l5}) & \texttt{L5\_GRANT\_CLAIM\_HANDLE} & 24-byte blinded \texttt{ClaimHandle} for task gate \\
+\texttt{0x0504} & \texttt{L5 -> L4} (\texttt{l4\_l5}) & \texttt{L5\_PUSH\_BPVP\_FIB\_TREATY} & Compiled \texttt{FIB} routes \& \texttt{Invariants\_BPMN} \\
+\texttt{0x0505} & \texttt{L4 -> L5} (\texttt{l4\_l5}) & \texttt{L4\_EMIT\_UPWARD\_YIELD} & Pure-\texttt{\_uj} \texttt{UpwardYieldPacketV31} \\
+\texttt{0x0506} & \texttt{L5 -> L4} (\texttt{l4\_l5}) & \texttt{L5\_GOVERNANCE\_RESOLUTION} & \texttt{GovernanceResolutionPacket} (\texttt{RATIFIED}/\texttt{COMP}) \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+\section{Clean-Slate Genesis, the Read-Only Projection, and the Intent U-Turn}
+\label{sec:ch1-intent-uturn}
+
+A subtle authoritarian temptation lurks inside automated community infrastructure: shipping
+the system pre-loaded with ``helpful'' default schedules. If a household or cooperative
+boots a Sovereign Node on Day~1 and immediately finds eighteen pre-spawned gardening,
+composting, and maintenance tasks blinking on its walls, the software has already assumed
+the posture of an uninvited landlord.
+
+In \texttt{SharedStackRuntime::Bootstrap()}, the live Sovereign Stack establishes
+\textbf{Clean-Slate Day-1 Genesis}: the workflow table initializes strictly empty
+(\texttt{workflows\_.clear()}). On Day~1 at 08:00, household needs such as warm soup or
+electrical baseload remain transparently routed to their explicit Layer~7 fallback channels
+(\texttt{SourcingMode::L7\_LEGACY\_CHANNEL}) while the local node waits silently. Not a
+single BPMN state machine is instantiated in Layer~4 until a human Steward articulates an
+intent in Layer~6 and explicitly ratifies a Layer~5 governance transition
+(\texttt{DecisionStatus::APPROVED} or \texttt{ADAPTED\_AND\_APPROVED}) shifting that asset's
+sourcing policy to \texttt{R0\_LOCAL\_WORKFLOWS} or \texttt{R1\_MESH\_PEERS}.
+
+\subsection{Why \texttt{/api/v1/l4/*} Returns HTTP \texttt{405 Method Not Allowed}}
+
+When Stewards inspect running workflows through the Layer~6 Agora interface or the Oasis
+diegetic tablet, \texttt{col-gatewayd} serves read-only JSON-LD state projections derived
+from Layer~4's telemetry ring and Layer~3's state snapshots. Inevitably, web developers
+accustomed to Model-View-Controller CRUD apps ask: \textit{why not let clicking ``Start
+Pump'' or ``Spawn Pea Workflow'' in the browser send a \texttt{POST /api/v1/l4/workflows}
+directly to \texttt{col-execd}?}
+
+Allowing Layer~6 to mutate Layer~4 directly would sever Layer~5 from the loop. A compromised
+browser session, a buggy JavaScript widget, or an overly eager Layer~6 language-model
+assistant could instantiate workflows, alter setpoints, or claim tasks without Web-of-Trust
+verification, without Qualitative Friction capacity checks, and without Ricardian policy
+audit. Therefore, \texttt{col-gatewayd} enforces an unyielding structural rule across every
+mutating HTTP verb targeting the Layer~4 namespace:
+\begin{equation}
+\begin{aligned}
+\forall m \in \{\texttt{POST}, \texttt{PUT}, \texttt{PATCH}, \texttt{DELETE}\}: \quad
+\mathrm{Gateway}(m, \texttt{/api/v1/l4/*}) \\
+\longrightarrow \texttt{HTTP 405} \; (\texttt{L4\_IS\_STRICTLY\_READ\_ONLY\_NO\_MUTATIONS})
+\end{aligned}
+\end{equation}
+
+\subsection{The Constitutional Intent U-Turn}
+
+Every lawful human interaction with Layer~4 instead traverses a complete, auditable
+cybernetic arc known as the \textbf{Constitutional Intent U-Turn}, illustrated in
+Figure~\ref{fig:ch1-bilateral-uturn}.
+
+\begin{definition}[The Constitutional Intent U-Turn]
+\label{def:ch1-intent-uturn}
+The Constitutional Intent U-Turn is the bidirectional mediated path governing all
+cross-boundary causation between human deliberation, physical execution, and external legal
+carapaces:
+\begin{enumerate}
+\item \textbf{Downward Ratification Leg ($\mathrm{Human} \to \mathrm{L6} \to \mathrm{L5} \to \mathrm{L4} \to \mathrm{L3}$):}
+        A Steward expresses a need or proposes a workflow parameter in Layer~6
+        (\texttt{col-intentd}), reviews a deterministic natural-language read-back of its
+        physical and exergy consequences, and signs the intent locally. Layer~6 forwards the
+        signed JSON-LD intent to Layer~5 (\texttt{col-kmsd}), which validates Web-of-Trust
+        credentials, checks community labor and ecological ceilings, records the governance
+        ratification, and transmits a binary command frame across \texttt{l4\_l5.sock} to
+        \texttt{col-execd}. Layer~4 steps the corresponding BPMN token and commits resource
+        leases or actuation envelopes downward across \texttt{l3\_l4.sock} to
+        \texttt{col-storaged}.
+\item \textbf{Upward Yield Leg ($\mathrm{L4} \xrightarrow{\text{yield}} \mathrm{L5} \to \mathrm{L6} \to \mathrm{L7}$):}
+        Whenever a running BPMN token encounters a boundary condition it cannot or may not
+        resolve autonomously---a human task gate, a local-and-mesh inventory deficit, an
+        unresolvable Tier~1/Tier~2 floor conflict, or an autonomous Tier~5 export
+        curtailment---it never reaches sideways to a human screen or outward to a vendor
+        API. Instead, \texttt{col-execd} emits a 456-byte \texttt{UpwardYieldPacket} upward
+        across \texttt{l4\_l5.sock} to Layer~5. Governance evaluates policy clearance,
+        passes human-facing decisions to Layer~6 for Steward co-signature, and---only when
+        external fiat procurement or utility notice is ratified---instructs Layer~7
+        (\texttt{col-adversaryd}) to execute the external Group Purchasing Organization
+        (GPO) order or commercial filing.
+\end{enumerate}
+\end{definition}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[
+    node distance=0.68cm and 1.6cm,
+    layer/.style={draw, rounded corners=3pt, thick, minimum width=6.2cm, minimum height=0.88cm, align=center, font=\footnotesize},
+    sidebox/.style={draw, rounded corners=3pt, dashed, thick, minimum width=3.9cm, minimum height=0.88cm, align=center, font=\scriptsize},
+    arr/.style={-{Stealth[length=2.3mm]}, thick},
+    blockarr/.style={-{Stealth[length=2.3mm]}, thick, red!75!black, dashed}
+]
+    \node[layer, fill=purple!6] (l7) {\textbf{Layer 7: \texttt{col-adversaryd}} \\ GPO Procurement \& Utility Filings};
+    \node[layer, fill=blue!6, below=of l7] (l6) {\textbf{Layer 6: \texttt{col-gatewayd} / Agora UI} \\ Semantic Draft, Read-Back \& Read-Only HUD};
+    \node[layer, fill=cyan!8, below=of l6] (l5) {\textbf{Layer 5: \texttt{col-kmsd} (Governance)} \\ WoT Signatures, Floors \& Blinded \texttt{ClaimHandle}s};
+    \node[layer, fill=green!10, below=0.95cm of l5] (l4) {\textbf{Layer 4: \texttt{col-execd} (10 Hz Wasmtime)} \\ Deterministic BPMN Choreography};
+    \node[layer, fill=gray!12, below=0.95cm of l4] (l3) {\textbf{Layer 3: \texttt{col-storaged} (Ledger)} \\ RocksDB WAL, CRDTs, Leases \& Envelopes};
+    \node[layer, fill=orange!8, below=of l3] (l2) {\textbf{Layer 2: \texttt{col-peripheral} (MCU)} \\ Efferent Handshake \& Hardware Reflexes};
+
+    \node[sidebox, fill=red!6, right=1.15cm of l4] (bypass) {\textbf{Direct UI Mutation Attempt}\\ \texttt{POST /api/v1/l4/*}\\ \textcolor{red!75!black}{\textbf{HTTP 405 Rejected}}};
+
+    % Downward leg on left
+    \draw[arr, blue!70!black] ([xshift=-1.6cm]l6.south) -- node[left, font=\scriptsize] {1. Signed Intent} ([xshift=-1.6cm]l5.north);
+    \draw[arr, blue!70!black] ([xshift=-1.6cm]l5.south) -- node[left, font=\scriptsize] {2. \texttt{l4\_l5.sock}} ([xshift=-1.6cm]l4.north);
+    \draw[arr, blue!70!black] ([xshift=-1.6cm]l4.south) -- node[left, font=\scriptsize] {3. \texttt{l3\_l4.sock}} ([xshift=-1.6cm]l3.north);
+    \draw[arr, blue!70!black] ([xshift=-1.6cm]l3.south) -- node[left, font=\scriptsize] {4. Envelope} ([xshift=-1.6cm]l2.north);
+
+    % Upward leg on right
+    \draw[arr, teal!75!black] ([xshift=1.6cm]l2.north) -- node[right, font=\scriptsize] {5. Signed PoTW} ([xshift=1.6cm]l3.south);
+    \draw[arr, teal!75!black] ([xshift=1.6cm]l3.north) -- node[right, font=\scriptsize] {6. Snapshot} ([xshift=1.6cm]l4.south);
+    \draw[arr, teal!75!black] ([xshift=1.6cm]l4.north) -- node[right, font=\scriptsize] {7. \texttt{UpwardYield}} ([xshift=1.6cm]l5.south);
+    \draw[arr, teal!75!black] ([xshift=1.6cm]l5.north) -- node[right, font=\scriptsize] {8. Policy Filter} ([xshift=1.6cm]l6.south);
+    \draw[arr, teal!75!black] ([xshift=1.6cm]l6.north) -- node[right, font=\scriptsize] {9. Co-Signed Leaf} ([xshift=1.6cm]l7.south);
+
+    % Blocked shortcut
+    \draw[blockarr] (l6.east) -| (bypass.north);
+    \draw[blockarr] (bypass.west) -- (l4.east);
+\end{tikzpicture}
+\caption{The Bilateral Socket Membrane and the Constitutional Intent U-Turn. Direct mutations from Layer~6 to Layer~4 are structurally blocked (\texttt{HTTP 405}), forcing all downward commands and upward yields through Layer~5 governance.}
+\label{fig:ch1-bilateral-uturn}
+\end{figure}
+
+We can observe this exact U-turn operating in live C++20 code within
+\texttt{ResolveRecursiveBomNode()} (\texttt{src/daemons/col-execd/execd\_self\_host.hpp}).
+When a fabrication or software-build workflow resolves a Bill-of-Materials component
+(\texttt{component\_cid\_hash}), it checks Tier~1 local workshop stock first
+(\texttt{LOCAL\_STOCK\_OR\_FAB}), then Tier~2 neighborhood peer Bilateral Clearing Channels
+(\texttt{MESH\_PEER\_BCC\_SUBORDER}). Only when both local stock and mesh credit windows are
+exhausted does \texttt{col-execd} populate an \texttt{UpwardYieldPacket} with
+\texttt{YieldReason::RESOURCE\_DEFICIT\_CURTAILMENT} and
+\texttt{Gate\_L7\_GPO\_Procurement}, handing the leaf deficit upward across
+\texttt{l4\_l5.sock} rather than opening a network socket to an external supplier.
+
+\section{Keyless Cryptographic Blindness and the 24-Byte \texttt{ClaimHandle}}
+\label{sec:ch1-keyless-blindness}
+
+Why do digital task systems in conventional cooperatives so frequently decay into
+resentment, informal hierarchy, or quiet surveillance? Even when an organization abolishes
+managers on paper, if its scheduling database logs ``Alice completed 14 tasks (19.4 hours)
+this week; Bob completed 2 tasks (1.8 hours),'' the database itself becomes an engine of
+panoptic discipline \parencite{zuboff2019,freeman1972}. Citizens who are ill, grieving,
+caregiving, or simply resting feel an unspoken algorithmic gaze recording their absence;
+citizens who enjoy visible mechanical tasks accumulate informal dominance over those
+performing unmodeled emotional care.
+
+Layer~4 prevents the emergence of a workplace panopticon not by promising ``strict privacy
+settings'' on an administrative table, but through \textbf{Keyless Cryptographic Blindness}:
+\texttt{col-execd} is architecturally incapable of representing who any person is.
+
+\subsection{Zero Keys, Zero DIDs, Zero Verifiable Credential Graphs}
+
+Within a Sovereign Node, all citizen Decentralized Identifiers (\texttt{did:peer:...}),
+Ed25519 signing keys, BLS12-381 threshold keys, W3C Verifiable Credentials
+(\texttt{Hydro\_Earthworks\_VC}, \texttt{HVDC\_HotWork\_VC},
+\texttt{Perinatal\_Steward\_VC}) \parencite{w3c2022vc}, and pairwise Reputational Wealth
+records reside exclusively inside Layer~5 (\texttt{col-kmsd}).
+
+During the Council's audit of the Oasis prototype headers (Ceiling~\#6 in the Blueprint), the Sovereign Stack \& Human Factors Auditor flagged a critical prototype leak: \texttt{UpwardYieldPacket} in \texttt{uhai\_ring\_buffer.hpp} contained a legacy 64-byte \texttt{char claimant\_did[64]} field, and \texttt{execd\_self\_host.hpp} wrote the placeholder string \texttt{"did:peer:steward:l4-execd-bom-resolver"} into it. Had real citizen DIDs ever crossed \texttt{l4\_l5.sock} into that field, any read-only inspection of Layer~4 execution logs would have exposed a chronological dossier of every citizen's physical movements across the settlement.
+
+In the ratified v3.1 wire specification, plaintext DIDs are unconditionally prohibited
+across \texttt{l4\_l5.sock}. Whenever a Steward commits to a voluntary human task in
+Layer~6, \texttt{col-kmsd} verifies that the Steward holds the required safety credentials
+in Layer~5 and mints a one-time, unlinkable 24-byte \textbf{\texttt{ClaimHandle}}
+\parencite{camenisch2004signature,miller2006robust}:
+
+\begin{lstlisting}[language=C++,caption={The ratified 24-byte DID-blinded \texttt{ClaimHandle} crossing \texttt{l4\_l5.sock}.},label={lst:ch1-claim-handle}]
+struct alignas(8) ClaimHandle {
+    uint64_t ephemeral_token_id{0}; // Unlinkable per-claim PRF output from L5 (8B)
+    uint64_t capability_mask{0};    // Bitmask of verified safety VCs (no DID!) (8B)
+    uint64_t expiry_hlc{0};         // HLC lease deadline for automatic release (8B)
+};
+static_assert(sizeof(ClaimHandle) == 24, "ClaimHandle must be exactly 24 bytes.");
+static_assert(alignof(ClaimHandle) == 8, "ClaimHandle must be 8-byte aligned.");
+\end{lstlisting}
+
+Let us examine how each 64-bit word of \texttt{ClaimHandle} preserves safety and
+coordination while guaranteeing total anonymity inside Layer~4:
+
+\begin{enumerate}
+\item \textbf{\texttt{ephemeral\_token\_id}:} Computed inside \texttt{col-kmsd} as the
+        truncated keyed pseudorandom function
+        $\mathrm{PRF}_{K_{\mathrm{L5}}}(\mathrm{Steward\_DID} \parallel \mathrm{task\_instance\_id} \parallel \mathrm{nonce})$,
+        where $K_{\mathrm{L5}}$ never leaves Layer~5's hardware-backed key enclave
+        (\texttt{ATECC608A}) \parencite{microchip_atecc608a}. If the same Steward claims ten
+        garden tasks in a single morning, \texttt{col-execd} observes ten statistically
+        independent uniform 64-bit integers.
+    \item \textbf{\texttt{capability\_mask}:} Encodes up to 64 domain safety clearances verified by Layer~5 at claim time (for example, bit~0 = \texttt{SOIL\_EARTHWORKS}, bit~4 = \texttt{FOOD\_PASTEURIZATION}, bit~11 = \texttt{CNC\_SPINDLE}, bit~19 = \texttt{HVDC\_380V\_LOCKOUT}). Before \texttt{col-execd} transitions a high-hazard BPMN \texttt{UserTask} into \texttt{ACTIVE\_TOKEN}, it checks bitwise inclusion $(\mathrm{handle.capability\_mask} \mathbin{\&} \mathrm{node.required\_cap\_mask}) == \mathrm{node.required\_cap\_mask}$ in a single CPU cycle---enforcing hard functional safety \parencite{iec61508} without knowing \textit{who} holds the credential.
+\item \textbf{\texttt{expiry\_hlc}:} Encodes the Hybrid Logical Clock timestamp at which the
+        claim lease automatically expires if unfulfilled. If a Steward commits to turning a
+        compost bay, realizes halfway through the morning that they need a nap or wish to
+        sit with a child, and simply walks away, \texttt{expiry\_hlc} elapses silently.
+        \texttt{col-execd} returns the task to \texttt{UNASSIGNED} (or invokes its safe
+        fallback path) without recording a ``demerit,'' because it has no persistent
+        identity against which a demerit could even be indexed.
+\end{enumerate}
+
+\begin{theorem}[Unlinkability Under Orchestrator Memory Compromise]
+\label{thm:ch1-claim-unlinkability}
+Suppose an adversary obtains complete read access to the volatile address space of
+\texttt{col-execd} and the entire historical \texttt{BatchStepCommit} log stored in Layer~3
+over $M$ completed human tasks, while Layer~5's blinding key $K_{\mathrm{L5}}$ remains
+uncompromised inside \texttt{col-kmsd}. Let $d_a, d_b$ be any two citizen DIDs holding
+identical safety clearances for a task class $\mathcal{C}$. For any polynomial-time
+distinguisher $\mathcal{A}$ attempting to determine whether two task completions $\tau_1, \tau_2 \in \mathcal{C}$
+were performed by the same citizen or by two distinct citizens, the distinguishing advantage
+satisfies:
+\begin{equation}
+\left| \Pr[\mathcal{A}(\mathrm{View}_{\mathrm{L3,L4}}) = 1 \mid \mathrm{same}] - \Pr[\mathcal{A}(\mathrm{View}_{\mathrm{L3,L4}}) = 1 \mid \mathrm{distinct}] \right| \le \epsilon_{\mathrm{PRF}}(\lambda) + \frac{M^2}{2^{65}}
+\end{equation}
+where $\epsilon_{\mathrm{PRF}}(\lambda)$ is the negligible PRF advantage of
+$\mathrm{HMAC\text{-}SHA256}$ and $M^2 / 2^{65}$ bounds birthday collisions on 64-bit
+ephemeral token identifiers.
+\end{theorem}
+
+\begin{proof}
+Every record visible in $\mathrm{View}_{\mathrm{L3,L4}}$ for a task $\tau_i \in \mathcal{C}$
+depends on the citizen's identity solely through the tuple $\langle \mathrm{ephemeral\_token\_id}_i, \mathrm{capability\_mask}_i, \mathrm{expiry\_hlc}_i \rangle$.
+By assumption, $d_a$ and $d_b$ share the restricted capability projection
+$\mathrm{capability\_mask}_i = \mathrm{mask}(\mathcal{C})$, and $\mathrm{expiry\_hlc}_i = t_{\mathrm{claim},i} + \Delta_{\mathrm{TTL}}(\mathcal{C})$
+is a deterministic function of the public task class TTL and claim tick. Replacing
+$\mathrm{PRF}_{K_{\mathrm{L5}}}$ with a truly random function $R$ incurs distinguishing loss
+at most $\epsilon_{\mathrm{PRF}}(\lambda)$. Under $R$, distinct nonces $(i, \mathrm{nonce}_i)$
+map to independent uniform draws in $\{0,1\}^{64}$ regardless of whether the prefix is $d_a$
+or $d_b$, which are identical in distribution up to collision events bounded by
+$\binom{M}{2} 2^{-64} < M^2 / 2^{65}$.
+\end{proof}
+
+When a task completes and Layer~2 hardware transducers (or a verified witness quorum)
+confirm the physical outcome on Layer~3, \texttt{col-execd} emits an
+\texttt{UpwardYieldPacket} referencing only \texttt{ephemeral\_token\_id}. Layer~5 alone
+looks up the blinding record, retires the ephemeral handle, and credits non-transferable
+local Reputational Wealth if applicable. Work is coordinated with precision; the worker
+remains sovereign and unmonitored.
+
+\section{Viable System Model (VSM) Recursion Level $N$ Closure}
+\label{sec:ch1-vsm-closure}
+
+Having bounded \texttt{col-execd} vertically between Layer~3 and Layer~5, we must bound it
+horizontally across geographical scale. When engineers first encounter BPMN choreography
+across federated settlements, a seductive mistake frequently arises: proposing a
+``Bioregional Orchestrator'' that ingests sensor streams from fifty neighborhoods and
+schedules crops, trucks, and batteries across an entire watershed as one giant distributed
+state machine.
+
+Both cybernetic theory and twentieth-century history warn that centralized
+meta-orchestration is fatal \parencite{scott1998,beer1972}. W. Ross Ashby's \textbf{Law of
+Requisite Variety} proves that a regulator can stabilize a system only if the variety of
+states available to the regulator matches or exceeds the variety of disturbances confronting
+the regulated medium \parencite{ashby1956}. Across a heterogeneous bioregion spanning
+coastal fog belts, alpine micro-hydro valleys, and urban cooperative blocks, ecological
+micro-disturbances explode combinatorially. Any central orchestrator attempting to step
+token-level workflows across the whole watershed either chokes on communication latency,
+collapses during storm-induced radio partitions \parencite{fall2003}, or flattens living
+local nuance into brittle administrative quotas.
+
+Stafford Beer resolved this dilemma in the \textbf{Viable System Model (VSM)} through the
+principle of \textbf{recursive cybernetic isomorphism} \parencite{beer1972,beer1979}: every
+viable system contains autonomous viable systems at Recursion Level~$N-1$ and is embedded
+within a polycentric viable system at Recursion Level~$N+1$, with \textit{structural closure
+of operational control at each recursion level}.
+
+\subsection{Mapping the Sovereign Node at Recursion Level $N$}
+
+At \textbf{Recursion Level~$N$} (a single Sovereign Node---whether a Stage~1A 4-SBC
+homestead cluster on Lot~402 or a Stage~3 Community Land Trust campus), the five subsystems
+of Beer's VSM map cleanly onto the seven layers of the Sovereign Stack:
+
+\begin{itemize}
+\item \textbf{System 1 (Primary Metabolic Operations):} The physical stations, raised beds,
+        pasteurization vessels, solar arrays, workshops, and care pods whose localized
+        reflex loops run on Layer~2 microcontrollers (\texttt{col-peripheral}) over physical
+        reality (Layer~1). Each station possesses autonomous local safety reflexes
+        (over-current trip, thermal cutoff, Schmitt deadband regulation) that survive even
+        if Layers~3--7 power down completely.
+\item \textbf{System 2 (Anti-Oscillation and Sympathetic Damping):} Realized inside
+        \textbf{Layer~4 (\texttt{col-execd})} via its lexicographic resource lease
+        coordinator, 5-tier priority scheduler, and staggered load-leveling windows.
+        System~2 prevents two autonomous System~1 processes---say, a timber kiln and an
+        induction soup kettle---from firing simultaneously and collapsing the
+        $48\,\mathrm{V}$ DC bus, damping inter-workflow oscillations without dictating
+        community goals.
+\item \textbf{System 3 and System $3^*$ (Internal Homeostasis and Sporadic Physical Audit):}
+        Jointly realized by \textbf{Layer~4 (\texttt{col-execd})} and \textbf{Layer~3
+        (\texttt{col-storaged})}. System~3 allocates shared node exergy budgets across
+        running workflows according to ratified priority tiers, while System~$3^*$
+        corresponds to Layer~3's independent Proof-of-Thermodynamic-Work (PoTW) hardware
+        verification and Meshed Spatial Reasoning (MSR) sensor cross-checks, ensuring
+        workflows cannot hallucinate inventory or mask a stuck valve.
+\item \textbf{System 4 (Environmental Intelligence and Outside-and-Then Simulation):}
+        Realized by \textbf{Layer~6 (\texttt{col-intentd})} paired with \textbf{Oasis
+        (\texttt{Layer 1b})}. System~4 looks outward to weather forecasts, watershed
+        hydrology, and prospective treaties, simulating candidate BPMN revisions across
+        $10{,}000+$ accelerated shadow soak ticks before proposing adaptations to the
+        community.
+\item \textbf{System 5 (Constitutional Identity and Normative Closure):} Realized by
+        \textbf{Layer~5 (\texttt{col-kmsd})}---the living assembly of Stewards who ratify
+        ecological floors ($F_{\mathrm{eco}}$), survival baselines
+        ($B_{\mathrm{baseline}}$), and inter-node covenants, arbitrating any value conflict
+        between System~3's present operational stability and System~4's future adaptation
+        \parencite{ostrom1990}.
+\end{itemize}
+
+\begin{invariant}[VSM Recursion Level $N$ Operational Closure]
+\label{inv:ch1-vsm-closure}
+Every instance of \texttt{col-execd} executes System~2 and System~3 supervisory control
+strictly and exclusively over the physical resources, stations, and ledger shard of its
+local Sovereign Node (Recursion Level~$N$). No global or bioregional Layer~4 daemon exists
+at Recursion Level~$N+1$; inter-node coordination occurs solely via ratified Layer~5
+BPVP/Treaty covenants and Layer~3 Bilateral Clearing Channels compiled into local boundary
+invariants.
+\end{invariant}
+
+\subsection{How Recursion Level $N+1$ Emerges Without a Central Boss}
+
+Consider how this architectural boundary operates across two concrete multi-node topologies
+already proven in the codebase and scaled in Chapter~5:
+
+First, within a \textbf{Solo Homestead Personal Cluster} (Recursion Level~$N$, sub-nodes
+$N-1$), Lot~402 distributes its local metabolism across four low-power SBCs connected over a
+local wired/VLAN fabric: \texttt{node-01:office-coordinator},
+\texttt{node-02:garage-fablab}, \texttt{node-03:garden-shed}, and
+\texttt{node-04:kitchen-hearth}. Because all four SBCs belong to the same single household
+governance domain ($R_0$), their local BPMN tokens coordinate via deterministic
+intra-cluster handoffs (\texttt{L4\_CROSS\_NODE\_REQUISITION} and
+\texttt{L3\_INTERNODE\_HANDOFF}) pinned near the physical actuators they supervise---so that
+a severed garden Wi-Fi link never interrupts the garden shed's local root-zone irrigation
+envelope.
+
+Second, when Lot~402 enables external neighborhood federation
+(\texttt{SetExternalR1SwarmEnabled(true)}) across \textbf{Recursion Level~$N+1$} (Trust
+Rings $R_1$ through $R_4$), Lot~402's \texttt{col-execd} \textit{never} reaches into a
+neighbor's \texttt{col-execd} to mutate their token table or lock their joinery bench.
+Instead, coordination ascends to Layer~5 (\texttt{col-kmsd}) and Layer~3
+(\texttt{col-storaged}):
+\begin{enumerate}
+\item Layer~5 nodes exchange sovereign capability advertisements and route mutual-aid
+        surpluses via the Bioregional Path-Vector Protocol (BPVP) \parencite{rekhter2006},
+        pushing compiled next-hop \texttt{FIB} entries and ratified \texttt{Treaty\_CID}
+        invariants (\texttt{Invariants\_BPMN}) downward into each participating node's local
+        \texttt{col-execd}.
+\item Layer~3 nodes lock pairwise zero-sum microjoule credit windows
+        (\texttt{PairwiseBccChannel} / HTLCs) and append two-phase Thermodynamic Delivery
+        Receipts.
+\item Each node's \texttt{col-execd} then executes its half of the covenant locally and
+        autonomously, retaining full capability to shed Tier~5 exports or enter safe
+        partition sagas if radio links fail.
+\end{enumerate}
+
+By sealing \texttt{col-execd} behind a two-socket POSIX membrane, blinding it to citizen
+identities via 24-byte \texttt{ClaimHandle}s, routing all human and external interactions
+around the Constitutional Intent U-Turn, and closing its cybernetic authority strictly at
+VSM Recursion Level~$N$, Layer~4 achieves a rare synthesis in systems engineering: an
+executive engine powerful enough to coordinate thousands of physical processes, yet
+structurally incapable of becoming a ruler.

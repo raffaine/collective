@@ -1,18 +1,18 @@
-# Layer 4 Orchestrator: Architecture Generation Guide
+# Layer 4 Deterministic Orchestrator: Authoring Charter & Generation Guide (v3.1)
 
-## Core Mandate
-This document governs the authoring of `doc/book_layer4/`. The book is no longer a catalog of scenarios. It is a deeply technical, architectural deep-dive into **how Layer 4 is engineered, computed, and stored** to support those scenarios.
+## 1. Constitutional Role & Eradication of Legacy Drift
+This charter governs `doc/book_layer4/` (*The Sovereign Stack — Companion Volume: Layer 4: The Deterministic Orchestrator*). All Oct 2026 stub assumptions are permanently retired:
 
-**Rule 1: Preserved Foundation.** Chapter 1 (Stack Interaction) and Chapter 2 (Technology Primer: BPMN, Actor Model, Queueing) remain the bedrock.
-**Rule 2: Core Technology Chapters.** Subsequent chapters (Chapters 3 through 6) must build directly upon Chapter 2. They must detail the exact technologies required to assist Layer 4 in hosting orchestrations. This includes:
-*   How state is stored and computed.
-*   How Layer 4 shares infrastructure with Layer 3 (The Ledger) or runs on what L3 provides.
-*   How WASM runtimes, localized LLM inference, and cryptographic routing (ZK-proofs) are physically managed at the edge.
-*   These tools must demonstrably support all the complex requirements of the 25 scenarios.
-**Rule 3: The Scenario Appendix.** The 25 previously authored scenario chapters (Scenario 0 through Omega) are moved to the Appendix. They serve as an exhaustive reference proving that the core technology chapters can handle every possible edge case.
+1. **Deterministic Execution, Never "Cognitive AI" in Layer 4:** Layer 4 (`col-execd`) is a deterministic, keyless, fixed-point $10\,\mathrm{Hz}$ ($100\,\mathrm{ms}$ tick) BPMN 2.0 and fuel-metered WebAssembly (`Wasmtime`) state-machine engine. Zero IEEE-754 floating-point opcodes (`floating_point_opcodes == 0`) and zero stochastic LLM weights ever execute inside Layer 4. Quantized local NLU/LLMs reside strictly in Layer 6 (`col-commonsd`) under `Draft -> Deterministic Read-Back -> Sign`.
+2. **Strict Bilateral Socket Adjacency:** `col-execd` communicates across **exactly two** `AF_UNIX` `SOCK_SEQPACKET` sockets (`SO_PEERCRED` enforced, zero `AF_INET`):
+   - **Downward `/run/collective/ipc/l3_l4.sock` $\leftrightarrow$ `col-storaged` (Layer 3):** Reads RocksDB/Automerge CRDT state, acquires lexicographically ordered resource/exergy leases, writes hardware-leased `ActuationEnvelopeV1` intents, and checkpoints IPLD Merkle-DAG token frames.
+   - **Upward `/run/collective/ipc/l4_l5.sock` $\leftrightarrow$ `col-kmsd` (Layer 5):** Receives ratified `workflow_def_cid` modules, Ricardian `Invariants_BPMN` clauses, BPVP `FIB` dispatch routes, and DID-blinded 24-byte `ClaimHandle` tokens; emits `UpwardYieldPacket` stock-miss/moral/policy escalations (driving the Constitutional Intent U-Turn `L4 -> L5 -> L6 -> L7`) and anonymous PoTW completion attestations.
+3. **VSM Recursion Level $N$ Operational Closure:** `col-execd` implements Stafford Beer's VSM System 2 (anti-oscillation, priority scheduling, lease coordination) and System 3 (supervisory envelopes, PoTW reservation audits) strictly for its **local Node**. There is zero central bioregional master orchestrator; inter-node coordination emerges polycentrically via Layer 5 BPVP, Ricardian `Treaty_CID` guardrails, and Layer 3 Pairwise Bilateral Clearing Channels ($B_{u \to v} + B_{v \to u} = 0$).
+4. **Constitutional Non-Commensurability & 5-Tier Preemption:** Domestic care, nourishment ($B_{\mathrm{baseline}}$), childcare, eldercare, mentorship, and emergency triage are never tokenized, auctioned, or priced via token decay (`domestic_care_token_minting == 0`). Resource contention obeys $F_{\mathrm{eco}} \succ B_{\mathrm{baseline}} \succ \text{Federated Mutual Aid} \succ \text{Local Discretionary} \succ \Phi_t \text{ Export}$.
+5. **UHAI Simulation Demarcation (`QUALITY_SIMULATED = 0x01`):** Oasis (`Layer 1b`) is strictly an outward producer of simulated telemetry and an air-gapped SITL canary soak-testbed ($\ge 10{,}000$ ticks in Scenario Zero). Layer 2's Hardware Airgap Filter mathematically drops any `0x01` frame from actuating physical relays.
+6. **Canonical Fixed-Point SI Units:** `mK` (temperature), `mks` ($\mathrm{mK\cdot s}$ thermal time), `bp` ($10{,}000\,\mathrm{bp} = 100\%$), `uJ` ($1\,\mathrm{MJ} = 10^{12}\,\mu\mathrm{J}$, where $1\,\mathrm{mW} \times 1\,\mathrm{ms} = 1\,\mu\mathrm{J}$ exact), `mW`, `mg`, `mL`/`uL`, `mpH`, `ppm`/`ppb`, `um`, `mPa`, `cB`, and `ms`.
 
-## Required Core Chapter Layout (To Be Authored)
-*   **Chapter 3: Distributed State & Shared Ledger Infrastructure** (Detailing how L4 BPMN state machines persist memory, utilizing L3 IPFS/IPLD storage or localized DAGs without central databases).
-*   **Chapter 4: The Computation Matrix** (Detailing the execution environment: WASM runtimes for deterministic BPMN logic, and thermodynamic throttling for LLM inference).
-*   **Chapter 5: Cryptographic Routing & Intent Resolution** (How intents are routed across the offline mesh, utilizing ZK-proofs for privacy-preserving routing).
-*   **Chapter 6: Telemetry Ingestion & Sensor Oracles** (The technical bridge between L2 hardware interrupts and L4 cognitive queues).
+## 2. Manuscript Structure (`main.tex`)
+- **Typography & Citations:** Matches Volume 1 (`11pt`, `a4paper`, `tgpagella`, `tgcursor`, `microtype`, `biblatex` `authoryear` with `backend=bibtex` against `references.bib`). Mature, flowing monograph prose opening every chapter with an `\epigraph`.
+- **Part I (Chapters 1–8):** Core Deterministic Orchestration, Intra-Node High-Density Choreography (38 to 2,600+ concurrent workflows), Multi-Scale Inter-Node Collaborations, Cybernetics & Physical Salvage Sagas, Calm Somatic UX, and the Oasis (`Layer 1b`) Specialist Council Audit.
+- **Part II (Chapters 9–14):** Horizontal Waves A through F covering all 25 Sovereign Scenarios (`Zero` through `Omega`) across Convivial Maturity Stages 1A (Household Seed), 1B (Neighborhood Mesh), 2 (Cooperative Shell), and 3 (Sovereign Campus).

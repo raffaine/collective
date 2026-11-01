@@ -1,0 +1,480 @@
+\chapter{Wave B: The Metabolic Core --- Hearth, Solar Fab, and Logistics (\texttt{Gamma}, \texttt{Alpha}, \texttt{Beta})}
+\label{ch:wave-b}
+
+\epigraph{Every living organism and every human settlement persists only by drawing upon a continuous flux of low-entropy solar exergy, weaving matter through closed biogeochemical loops before returning degraded heat to the sky.}{--- \textcite{georgescu1971}}
+
+\section{Thermodynamic Metabolism of the Settlement}
+\label{sec:wave-b-intro}
+
+Once Wave A establishes autopoietic binary verification (\texttt{Zero}), clean-slate
+hardware/steward genesis (\texttt{Tau}), and anti-burnout nervous-system pacing
+(\texttt{Sigma}), \textbf{Wave B} brings the physical settlement to life by retiring
+extractive grocery chains, fossil-fuel electric utilities, planned-obsolescence consumer
+manufacturing, and platform-monopolized delivery fleets on Day 1 \parencite{odum1971,raworth2017}.
+Wave B couples three high-density scenarios into a single closed metabolic engine:
+\textbf{Scenario Gamma} (\textit{The Six-Pillar Commons Kitchen and Living Soil}),
+\textbf{Scenario Alpha} (\textit{Solar Microgrid, Exergy Cascade, and Distributed Fab Lab}),
+and \textbf{Scenario Beta} (\textit{Cargo E-Trike CVRP and Five-Artery Bioregional Transit}).
+
+Inside \texttt{col-execd}, Wave B demonstrates why a real sovereign node must execute
+hundreds of concurrent BPMN 2.0 workflow instances per cluster while keeping human cognitive
+load calm and unhurried \parencite{vanderaalst1998application,weiser1996calm}. A garden bed
+cannot be stepped by wall-clock timers alone; it integrates photo-thermal biological degree-seconds.
+A simmering stockpot cannot be rolled back like a cloud database row; if power sags into the
+bacterial danger zone, \texttt{col-execd} must execute a forward Second-Law salvage saga that
+conserves $10{,}000\,\mathrm{bp}$ of organic mass into insect bioconversion or thermophilic
+composting \parencite{garciamolina1987sagas}. A CNC mill cannot claim a spindle if doing so
+would starve a nursery heater or deadlock against a peer node's cargo e-trike battery-swap
+reservation \parencite{coffman1971deadlocks}.
+
+\begin{figure}[htbp]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+    >=Stealth,
+    node distance=1.2cm and 1.5cm,
+    dombox/.style={draw=black!80, rounded corners=3pt, thick, fill=gray!5, inner sep=7pt, minimum width=4.2cm, minimum height=4.5cm},
+    pill/.style={draw=blue!65!black, rounded corners=2pt, fill=blue!5, font=\scriptsize, align=center, minimum width=3.75cm, inner sep=3.5pt},
+    somp/.style={draw=teal!70!black, rounded corners=2pt, fill=teal!6, font=\scriptsize, align=center, minimum width=3.75cm, inner sep=3.5pt},
+    edgelbl/.style={font=\scriptsize\ttfamily, fill=white, inner sep=1.5pt}
+]
+    % Alpha Box
+    \node[dombox] (alpha) {};
+    \node[anchor=north, font=\footnotesize\bfseries] at ($(alpha.north)+(0,-0.12)$) {Scenario Alpha (Solar \& Fab)};
+    \node[pill] (a1) at ($(alpha.north)+(0,-0.95)$) {48V $\mathrm{LiFePO_4}$ MPPT \&\\5-Tier \texttt{SoC\_bp} Shedding};
+    \node[pill] (a2) at ($(alpha.north)+(0,-2.05)$) {4-Stage Thermal Cascade\\($800\,\mathrm{K} \to 340\,\mathrm{K} \to 315\,\mathrm{K}$)};
+    \node[somp] (a3) at ($(alpha.north)+(0,-3.15)$) {Lexicographic CNC/Welder\\LOTO \& Recursive BOM DAG};
+    \node[pill] (a4) at ($(alpha.north)+(0,-4.05)$) {Post-Job Calibration Saga};
+
+    % Gamma Box
+    \node[dombox, right=1.15cm of alpha] (gamma) {};
+    \node[anchor=north, font=\footnotesize\bfseries] at ($(gamma.north)+(0,-0.12)$) {Scenario Gamma (96+ WFs)};
+    \node[pill] (g1) at ($(gamma.north)+(0,-0.95)$) {Pillar 1--2: Photo-Thermal GDD,\\Irrigation \texttt{vwc\_bp} \& Coop Doors};
+    \node[pill] (g2) at ($(gamma.north)+(0,-2.05)$) {Pillar 3--4: Bigelow $F_0$ Retort,\\$\mathrm{mpH} \le 4600$ \& 21d Ferments};
+    \node[somp] (g3) at ($(gamma.north)+(0,-3.15)$) {Pillar 5: BBS+ Allergen Gate\\\& $B_{\mathrm{baseline}}$ Tiffin Portioning};
+    \node[pill] (g4) at ($(gamma.north)+(0,-4.05)$) {Pillar 6: BSFL \& \texttt{Mu} Return};
+
+    % Beta Box
+    \node[dombox, right=1.15cm of gamma] (beta) {};
+    \node[anchor=north, font=\footnotesize\bfseries] at ($(beta.north)+(0,-0.12)$) {Scenario Beta (5 Arteries)};
+    \node[pill] (b1) at ($(beta.north)+(0,-0.95)$) {Integer WASM \texttt{CVRP} Solver\\($\eta_{\mathrm{route}} \ge 6000\,\mathrm{bp}$)};
+    \node[pill] (b2) at ($(beta.north)+(0,-2.05)$) {Depot 48V Battery-Swap Leases\\\& Cold-Chain Tote Envelopes};
+    \node[somp] (b3) at ($(beta.north)+(0,-3.15)$) {Multi-Hop BPVP HTLCs\\($A \to B \to C$ Milk-Runs)};
+    \node[pill] (b4) at ($(beta.north)+(0,-4.05)$) {380V HVDC, RPZ \& DTN Mule};
+
+    % Inter-domain couplings
+    \draw[->, thick, orange!80!black] (a1.east) -- node[edgelbl, above] {exergy} (g1.west);
+    \draw[->, thick, red!75!black] (a2.east) -- node[edgelbl, above] {PEX} (g2.west);
+    \draw[->, thick, blue!75!black] (g3.east) -- node[edgelbl, above] {tiffins} (b2.west);
+    \draw[<->, thick, purple!75!black] (a3.south) to[bend right=18] node[edgelbl, below] {\texttt{YIELD\_UPWARD\_L5} BOM Sub-Orders + \texttt{FreightCourierIntent}} (b3.south);
+\end{tikzpicture}%
+}
+\caption{Closed metabolic choreography of Wave B inside \texttt{col-execd}, linking Scenario Alpha solar exergy tiers and recursive machine-tool BOMs, Scenario Gamma's six-pillar nourishment web, and Scenario Beta's integer CVRP transit and five distribution arteries.}
+\label{fig:wave-b-metabolic-loop}
+\end{figure}
+
+% ==========================================================================
+\section{Scenario Gamma: The Six-Pillar Commons Kitchen and Living Soil (\texttt{SCN-GAMMA-KITCH})}
+\label{sec:wave-b-gamma}
+
+Scenario Gamma unifies agroecological cultivation, rotational animal husbandry, reusable
+stainless-steel microbial bio-synthesis, inorganic culinary chemistry, thermal/acidic food
+preservation, communal Hearth dining, and closed-loop insect/compost nutrient recovery under
+a single constitutional guarantee: nourishing food is an unconditional right of living
+membership ($B_{\mathrm{baseline}}$) anchored in Trust Ring $R_0$, with zero meal pricing,
+zero platform extraction, and $> 9500\,\mathrm{bp}$ ($95\%$) phosphorus and nitrogen loop
+closure.
+
+\subsection{Multi-Workflow Choreography: 96 Concurrent Workflows in a Stage 2 Cluster}
+
+To see why \texttt{col-execd} evicts domain state to Layer 3 (\texttt{col-storaged}) keyed by
+\texttt{(scope\_entity\_id, prop\_hash)} rather than hardcoding single-instance locks,
+consider a standard \textbf{Stage 2 Hearth \& Market-Garden Cluster} feeding 60--90
+neighbors. At any midday $10\,\mathrm{Hz}$ tick, \texttt{col-execd} supervises \textbf{96 concurrent
+Scenario Gamma workflow instances} simultaneously across all six pillars---yet stewards
+experience only 3--5 calm, spatially coalesced somatic rounds per shift:
+\begin{enumerate}
+    \item \textbf{Pillar 1 --- Living Soil \& Staggered Cultivar Cohorts (36 instances):}
+    Twenty-eight staggered raised beds and greenhouse lanes parameterized via
+    \texttt{fabaceae\_cultivars.jsonld} and root/brassica ontologies
+    (\texttt{wf.gamma.cultivar\_cohort}), plus eight pasteurized hardwood-sawdust mushroom
+    fruiting blocks (\textit{Pleurotus}, \textit{Lentinula}) upcycling Scenario Alpha/Eta
+    lignocellulose. Autonomic tokens monitor soil moisture (\texttt{vwc\_bp}) and root-zone
+    hydronic heat ($293{,}150\text{--}298{,}150\,\mathrm{mK}$), coalescing human tending into
+    a single morning garden walk.
+    \item \textbf{Pillar 2 --- Small-Livestock, Pollinators \& Aquaponics (10 instances):}
+    Four leader-follower silvopasture goat/poultry paddock rotation trackers
+    (\texttt{wf.gamma.pasture\_rotation}), two automated Dawn/Dusk solar-lux coop door
+    interlocks (\texttt{wf.gamma.coop\_door\_envelope}), two recirculating aquaponics
+    nitrification biofilter loops, and two apiary hive thermal monitors.
+    \item \textbf{Pillar 3 --- Thermal Hearth, Bio-Synthesis \& Inorganic Chemistry (14 instances):}
+    Four induction soup/stew and $86{,}400{,}000\,\mathrm{ms}$ ($24\text{-hour}$) collagen
+    bone-broth vessels (\texttt{wf.gamma.thermal\_hearth}), three HTST dairy pasteurization
+    and pressure-canning retorts, four reusable \texttt{316L} stainless precision-fermentation
+    and solar-curtailment $\mathrm{H_2}$-oxidizing single-cell protein (\textit{Cupriavidus
+    necator}) vats, and three inorganic culinary chemistry batches (fractional sea-salt
+    $\mathrm{NaCl}$/\textit{nigari} $\mathrm{MgCl_2}$ crystallization at $1214\text{--}1250\,\mathrm{mg/mL}$
+    and Scenario Theta kiln-calcined $\mathrm{Ca(OH)_2}$ nixtamalization \textit{masa} steeping at
+    $363{,}150\,\mathrm{mK}$, $\mathrm{pH} \approx 12{,}400\,\mathrm{mpH}$).
+    \item \textbf{Pillar 4 --- 21-Day Lacto-Fermentation \& Cellar Aging (18 instances):}
+    Twelve staggered $1{,}814{,}400{,}000\,\mathrm{ms}$ ($21\text{-day}$) anaerobic ceramic
+    crocks (\texttt{wf.gamma.lacto\_ferment\_21d}) and six subterranean cheese/koji/miso
+    aging cave lots held at $284{,}150\,\mathrm{mK}$ ($11^\circ\mathrm{C}$) and $8500\,\mathrm{bp}$
+    relative humidity.
+    \item \textbf{Pillar 5 --- Allergen Hard-Stop \& Unconditional Tiffin Portioning (10 instances):}
+    Two $R_0$ family-style Hearth service workflows and eight $R_1$ refrigerated
+    ($275{,}150\text{--}277{,}150\,\mathrm{mK}$) and hot-hold ($\ge 336{,}150\,\mathrm{mK}$)
+    NFC stainless-tiffin locker banks serving night-shift stewards (\texttt{Chi}) and
+    postpartum households (\texttt{Delta}).
+    \item \textbf{Pillar 6 --- BSFL Bioconversion \& Compost Return (8 instances):}
+    Five $14\text{-day}$ \textit{Hermetia illucens} (Black Soldier Fly Larvae) bioconversion trays
+    turning fresh vegetable trimmings into $4200\,\mathrm{bp}$ protein hen/trout feed plus
+    chitinous garden frass, one bone/eggshell calcium-hydroxyapatite calcining loop, and two
+    \texttt{CompostRoutingIntent} pipelines feeding Scenario Mu thermophilic drums.
+\end{enumerate}
+
+\subsection{Fixed-Point SI Invariants, Bigelow Lethality, and Salvage Sagas}
+
+Resolving Prototype Ceiling \#3 from Chapter~8, \texttt{col-execd} purges all floating-point
+and wall-clock ``shadow biology'' from Layer 4. Phenological crop maturity in Pillar 1 is
+integrated in Layer 1b/Layer 2 as exact integer photo-thermal \textbf{Growing Degree-Seconds}
+(\texttt{thermal\_time\_mks}, in millikelvin-seconds above cultivar baseline
+$T_{\mathrm{base\_mk}}$) using a 64-bit Euclidean carry-save remainder accumulator
+(\texttt{growth\_sub\_accum}), while irrigation valves run autonomously on Layer 2 under
+64-byte hardware-leased \texttt{ActuationEnvelopeV1} Schmitt deadbands
+($\mathtt{vwc\_bp} \in [\mathtt{target\_min\_vwc\_bp}, \mathtt{target\_opt\_vwc\_bp}]$). In
+Pillar 2, Layer 3 enforces the \textbf{Trophic Non-Competition Invariant}: $0\,\mathrm{mg}$
+of human-edible grain or legumes may be allocated to livestock whenever settlement reserves
+sit below $B_{\mathrm{baseline}} + F_{\mathrm{eco}}$, and rotational paddocks enforce rest
+$\Delta t_{\mathrm{rest}} \ge 2{,}592{,}000{,}000\,\mathrm{ms}$ ($30\text{ days}$).
+
+Food safety across Pillars 3, 4, and 5 rests on piecewise-quadratic integer \textbf{Bigelow
+thermal lethality} \parencite{bigelow1921thermal}, anaerobic acidification gates, and
+cryptographic zero-knowledge allergen interlocks \parencite{camenisch2004signature}.
+
+\begin{invariant}[Bigelow Danger-Zone Reset, Acidification, and ZKP Allergen Hard-Stop]
+\label{inv:gamma-haccp}
+Let $T_{\mathrm{core\_mk}}(t)$ denote cooking, pasteurizing, or canning vessel temperature
+sampled every $\Delta t = 1000\,\mathrm{ms}$. Culinary release and smart-larder latch
+energization require:
+{\footnotesize
+\begin{align}
+    &\text{(Danger-Zone Reset)} && T_{\mathrm{core\_mk}}(t) \in [277{,}150,\, 333{,}150] \;\land\; F_{0,\mathrm{ms}}(t) < F_{0,\mathrm{req}} \implies F_{0,\mathrm{ms}}(t^+) = 0, \label{eq:gamma-reset}\\
+    &\text{(Thermal / Retort)} && F_{0,\mathrm{ms}} \ge F_{0,\mathrm{req}} \;\big(\text{HTST } T \ge 345{,}150\,\mathrm{mK}\text{ / }15\,\mathrm{s};\;\text{poultry } \ge 347{,}150\,\mathrm{mK}\big), \label{eq:gamma-bigelow}\\
+    &\text{(Botulinum Acid)} && \text{Shelf-stable lot } \implies \mathrm{pH}_{\mathrm{mph}} \le 4600 \;\lor\; F_{0,\mathrm{retort\_ms}} \ge 180{,}000, \label{eq:gamma-ph}\\
+    &\text{(Allergen \& Price)} && \mathrm{Verify}_{\mathrm{BBS+}}\!\big(\pi_{\mathrm{diet}}, \mathrm{MerkleRoot}_{\mathrm{ingr}}\big) = 1 \;\land\; P_{\mathrm{meal\_price}} = 0. \label{eq:gamma-allergen}
+\end{align}
+}
+If cumulative residence in the bacterial danger zone $[277{,}150, 333{,}150]\,\mathrm{mK}$
+exceeds $\Delta t_{\mathrm{dz}} > 7{,}200{,}000\,\mathrm{ms}$ ($120\text{ minutes}$) without
+satisfying Equation~\eqref{eq:gamma-bigelow} or \eqref{eq:gamma-ph}, an interrupting BPMN
+boundary timer fires \texttt{DangerZoneAbort}.
+\end{invariant}
+
+Equation~\eqref{eq:gamma-reset} eliminates the subtle non-reset hazard where an interrupted
+simmer could accumulate disconnected warm intervals across a danger-zone power dip. Equation
+\eqref{eq:gamma-allergen} enforces two constitutional guarantees at the tiffin locker: first,
+an incompatible allergen or ethical dietary exclusion mathematically blocks solenoid
+release via anonymous \texttt{BBS+} proof without exposing medical records; second, meals
+never carry tokens, dynamic spoilage discounts, or demurrage-priced rationing. When
+\texttt{DangerZoneAbort} trips in \textbf{Regime 2} ($t \ge t_{\mathrm{actuate}}$), cloud
+rollback is physically impossible; instead, \texttt{col-execd} locks the human consumption
+latch and executes \texttt{wf.gamma.physical\_salvage\_saga}, conserving $10{,}000\,\mathrm{bp}$
+of milligram mass by routing unspoiled prep trimmings to Pillar 6 BSFL trays and spoiled
+vessel mass via \texttt{sig:gamma.salvage\_to\_mu} to Scenario Mu thermophilic pathogen
+eradication ($\ge 328{,}150\,\mathrm{mK}$).
+
+\begin{lstlisting}[language=C++,caption={Integer Bigelow lethality integration with mandatory danger-zone reset and allergen ZKP hard-stop.},label={lst:gamma-bigelow-gate}]
+struct alignas(8) GammaVesselSafetyRegisters {
+    uint64_t batch_mass_mg;             // Conserved 10000 bp into meal or Mu salvage
+    uint32_t core_temp_mk;              // 347150 mK = 74 degC; 394150 mK = 121 degC
+    uint32_t accumulated_f0_ms;         // Reference lethality equivalent milliseconds
+    uint32_t required_f0_ms;            // Target 7-log / 12-log pathogen reduction
+    uint32_t danger_zone_elapsed_ms;    // Cumulative time in [277150, 333150] mK
+    uint16_t batch_acidity_mph;         // Botulinum gate requires <= 4600 mpH if unretorted
+    uint8_t  bbs_allergen_zkp_clear;    // 1 = zero overlap with recipient exclusions
+    uint8_t  salvage_routed_to_mu;      // 1 = consumer latch locked, routed to compost
+};
+
+inline bool StepGammaVesselHaccp1Hz(GammaVesselSafetyRegisters& v, uint32_t rate_f0_ms_per_s) noexcept {
+    if (v.salvage_routed_to_mu != 0u) return false;
+    if (v.core_temp_mk >= 277150u && v.core_temp_mk <= 333150u) {
+        if (v.accumulated_f0_ms < v.required_f0_ms) {
+            v.accumulated_f0_ms = 0u; // Mandatory reset on pre-lethality danger-zone dip!
+        }
+        v.danger_zone_elapsed_ms += 1000u;
+        if (v.danger_zone_elapsed_ms > 7200000u && v.batch_acidity_mph > 4600u) {
+            v.salvage_routed_to_mu = 1u; // Trigger Regime 2 Forward Physical Salvage
+            return false;
+        }
+    } else if (v.core_temp_mk > 333150u) {
+        v.accumulated_f0_ms += rate_f0_ms_per_s;
+    }
+    return (v.accumulated_f0_ms >= v.required_f0_ms) && (v.bbs_allergen_zkp_clear == 1u);
+}
+\end{lstlisting}
+
+\subsection{Bilateral Socket Contracts (\texttt{l3\_l4.sock} and \texttt{l4\_l5.sock})}
+
+Downward over \texttt{l3\_l4.sock}, \texttt{col-execd} reads \texttt{gamma:bed:<id>:thermal\_time\_mks}
+and \texttt{vwc\_bp}, writes 64-byte \texttt{ActuationEnvelopeV1} irrigation and Dawn/Dusk
+coop-door leases, acquires lexicographic locks on induction hobs and \texttt{316L} vats,
+verifies \texttt{Curtailment\_Surplus\_Flag} ($\mathrm{SoC} \ge 9800\,\mathrm{bp}$) before
+energizing solar-protein $\mathrm{H_2}$ electrolyzers, and clears inter-node specialty
+exchanges (coastal $\mathrm{NaCl}$/\textit{nigari}, upland aged cheese, nixtamal \textit{masa}) over
+Pairwise BCCs and chained HTLCs while keeping all domestic meals strictly non-monetized.
+Upward over \texttt{l4\_l5.sock}, \texttt{col-execd} checks the Export Surplus Bound
+$Q_{\mathrm{avail}} = \max(0, Q_{\mathrm{inv}} - F_{\mathrm{eco}} - B_{\mathrm{baseline}})$,
+enforces node \texttt{Dietary\_And\_Husbandry\_Charter} vetoes (Vegan, Vegetarian Sanctuary,
+or Silvopasture), verifies \texttt{BBS+} anaphylactic proofs, and yields
+\texttt{YIELD\_UPWARD\_L5} on inorganic trace-mineral deficits (\texttt{KI}, $\mathrm{NaCl}$).
+
+% ==========================================================================
+\section{Scenario Alpha: Solar Microgrid, Exergy Cascade, and Distributed Fab Lab (\texttt{SCN-ALPHA-FAB})}
+\label{sec:wave-b-alpha}
+
+Scenario Alpha pairs the settlement's $48\,\mathrm{V}$ DC solar-and-thermal exergy backbone
+with a federated, multi-modal fabrication and tool-library mesh (\textit{``Design Global,
+Manufacture Local''}) \parencite{ostrom2010,illich1973}. Rather than hoarding idle consumer
+power tools in isolated garages or submitting to alienated factory wage labor, nodes
+install complementary woodshop, multi-axis CNC/metalworking, polymer extrusion, electronics
+reflow, and biocomposite capacities---retaining an unconditional \textbf{Sovereign Design
+Veto} against weapons, surveillance gear, or disposable novelties.
+
+\subsection{Workflow Topology and Recursive BOM Chaining}
+
+Scenario Alpha executes three continuous autonomic supervisors alongside four somatic
+manufacturing, repair, and tool-stewardship tracks:
+\begin{itemize}
+    \item \textbf{Autonomic Plane:} \texttt{wf.alpha.mppt\_soc\_governor} samples $48{,}000\,\mathrm{mV}$
+    $\mathrm{LiFePO_4}$ shunt telemetry at $10\,\mathrm{Hz}$ to broadcast 5-tier admission
+    signals; \texttt{wf.alpha.exergy\_cascade\_router} modulates hydronic valves cascading
+    high-grade workshop/kiln exhaust ($750{,}000\text{--}850{,}000\,\mathrm{mK}$) through
+    radiant floors ($330{,}000\text{--}350{,}000\,\mathrm{mK}$) and greenhouse root beds
+    ($305{,}000\text{--}325{,}000\,\mathrm{mK}$) to ground sinks ($285{,}000\,\mathrm{mK}$);
+    and \texttt{wf.alpha.tool\_crib\_charger} monitors docked neighborhood Tool Library
+    batteries (\texttt{soc\_bp}) and cumulative operating hours.
+    \item \textbf{Somatic Plane \& Recursive BOM Resolution:} When \texttt{wf.alpha.recursive\_bom\_dag}
+    ingests a ratified \texttt{ManufacturingOrderIntent} or lifecycle diagnostic repair, it
+    traverses the Functional Bill of Materials (\texttt{fBOM}) DAG: (1) local sub-parts
+    spawn child workshop instances; (2) missing sub-assemblies (e.g., a Scenario Theta
+    bronze bushing or Scenario Eta seasoned black-locust beam) emit \texttt{YIELD\_UPWARD\_L5}
+    over \texttt{l4\_l5.sock}, matching peer \texttt{Loc-RIB} BPVP advertisements
+    $\mathbf{C}_{\mathrm{prod}} = \langle \mathrm{CID}, \mathcal{E}_{\mathrm{active}}, \mathcal{E}_{\mathrm{feedstock}}, \mathcal{E}_{\mathrm{wear}}, L_{\mathrm{steward}}, \Delta t_{\mathrm{lead}} \rangle$
+    and automatically chaining into a Scenario Beta \texttt{FreightCourierIntent}; and
+    (3) irreducible leaf parts unavailable anywhere in the mesh (e.g., SiC MOSFET dies or
+    carbide inserts) trigger a bounded Layer 7 \texttt{ProcurementIntent} logged in the
+    \textbf{Legacy Dependency Register} ($D_t = E^{\mathrm{fiat}}_t / E^{\mathrm{in}}_t$)
+    for future import substitution. Outside collective runs, \texttt{wf.alpha.personal\_maker\_slot}
+    grants credentialed citizens sandboxed creative machine windows.
+\end{itemize}
+
+\subsection{5-Tier \texttt{SoC\_bp} Shedding, Lexicographic Leases, LOTO, and Calibration Sagas}
+
+To prevent cascading microgrid brownouts and multi-workflow deadlocks across shared CNC
+mills, 3D printers, TIG welders, and hauling carts, Scenario Alpha enforces deterministic
+5-tier battery load shedding paired with total lexicographic resource ordering \parencite{coffman1971deadlocks,liu1973scheduling}.
+
+\begin{invariant}[5-Tier \texttt{SoC\_bp} Admission, Lexicographic Leases, and LOTO Safety]
+\label{inv:alpha-fab}
+Let $\mathrm{SoC}_{\mathrm{bp}}(t) \in [0, 10{,}000]$ be the $48\,\mathrm{V}$ $\mathrm{LiFePO_4}$
+State-of-Charge with $+400\,\mathrm{bp}$ Schmitt re-entry hysteresis. Queue tier $q \in \{1..5\}$
+is admitted only when $\mathrm{SoC}_{\mathrm{bp}}(t) \ge \Theta_{\mathrm{enter}}(q)$:
+\begin{equation}
+    \Theta_{\mathrm{enter}} = \big\langle \underbrace{0}_{\text{T1: } F_{\mathrm{eco}}/\text{Safety}},\;
+    \underbrace{2000}_{\text{T2: } B_{\mathrm{baseline}}},\;
+    \underbrace{4000}_{\text{T3: Mutual Aid/Repair}},\;
+    \underbrace{6000}_{\text{T4: Maker/CNC}},\;
+    \underbrace{8500}_{\text{T5: Foundry/Surplus}} \big\rangle\,\mathrm{bp}.
+    \label{eq:alpha-soc-tiers}
+\end{equation}
+Every fabrication job $j$ acquires its required resources atomically in strict lexicographic
+order $\prec_{\mathrm{res}}$ inside \texttt{col-storaged} with bounded Hybrid Logical Clock
+TTL $\Delta t_{\mathrm{hlc}}$ \parencite{kulkarni2014logical}:
+{\small
+\begin{equation}
+    \mathtt{0:EXERGY} \;\prec_{\mathrm{res}}\; \mathtt{1:STATION\;(CNC \mid 3D \mid WELDER)} \;\prec_{\mathrm{res}}\; \mathtt{2:HAUL\_TOOL} \;\prec_{\mathrm{res}}\; \mathtt{3:MATERIAL\_LOT}.
+    \label{eq:alpha-lex}
+\end{equation}
+}
+Layer 2 (\texttt{col-actuated}) energizes physical spindle/welder contactor $\mathbf{\Phi}_m$
+if and only if:
+{\small
+\begin{equation}
+\begin{aligned}
+    \mathbf{\Phi}_m &= \mathtt{LeaseValid} \;\land\; \mathtt{KappaZkpOrSupervised} \;\land\; (\dot{V}_{\mathrm{dust\_ml\_s}} \ge \dot{V}_{\min}) \\
+    &\quad \land\; (L_{\mathrm{perim\_cb}} \le L_{\mathrm{zone\_cb}}) \;\land\; \neg\mathtt{LOTO\_PadlockOpen}.
+\end{aligned}
+    \label{eq:alpha-loto}
+\end{equation}
+}
+\end{invariant}
+
+Equation~\eqref{eq:alpha-loto} couples digital scheduling to physical \textbf{Lockout/Tagout
+(\texttt{LOTO})} functional safety \parencite{iec61508}: opening a physical maintenance
+hasp, breaking an optical light curtain, losing dust-extraction vacuum, or exceeding the
+\texttt{550 cB} residential property-line acoustic cap in \texttt{Stage 1A} drops the Class-T
+contactor in hardware within $< 10\,\mathrm{ms}$. If a cutter fractures or thermal stall
+aborts machining in \textbf{Regime 2}, \texttt{wf.alpha.salvage\_and\_recalibrate} routes
+damaged alloy or polymer milligrams via \texttt{SalvageIntent} to Scenario Theta/Mu
+remelting, refunds unspent microjoule escrow ($\mathcal{E}_{\mathrm{fab}} = \int P\,\mathrm{d}t + \sum m_k \epsilon_k + \mathcal{E}_{\mathrm{wear}}$,
+where $\mathrm{mW} \times \mathrm{ms} = \mu\mathrm{J}$ exact), and holds the station in
+\texttt{POST\_JOB\_CALIBRATION}---running automated probe runout/backlash checks and queuing a
+\texttt{MaintenanceIntent} if \texttt{cutter\_wear\_um} exceeds tolerance---before releasing
+\texttt{1:STATION} to the next workflow.
+
+\subsection{Bilateral Socket Contracts (\texttt{l3\_l4.sock} and \texttt{l4\_l5.sock})}
+
+Across \texttt{l3\_l4.sock}, \texttt{col-execd} executes all-or-nothing RocksDB lease
+acquisitions ordered by Equation~\eqref{eq:alpha-lex}, reads \texttt{alpha:grid:soc\_bp} and
+\texttt{alpha:crib:tool\_present\_mask}, escrows Proof-of-Thermodynamic-Work microjoules
+($1\,\mathrm{EC} \equiv 3{,}600{,}000{,}000{,}000\,\mu\mathrm{J}$), and commits two-phase
+sensor delivery receipts $\sigma_{\mathrm{delivery}}$ across Pairwise BCCs ($R_0$ domestic
+tool sharing remains completely unmonetized). Across \texttt{l4\_l5.sock}, \texttt{col-execd}
+verifies \texttt{Ratified\_Catalog\_Root} compliance, validates Scenario Kappa \texttt{BBS+}
+operator proofs, emits \texttt{YIELD\_UPWARD\_L5} for multi-node BOM sub-orders or Layer 7
+leaf procurement, and streams empirical \texttt{LifecycleDurabilityReport} MTBF metrics
+upward so Layer 5 evolutionary routing elevates high-longevity designs and steadily drives
+$D_t \to 0$.
+
+% ==========================================================================
+\section{Scenario Beta: Cargo E-Trike CVRP and Five-Artery Bioregional Transit (\texttt{SCN-BETA-TRANS})}
+\label{sec:wave-b-beta}
+
+Scenario Beta is the circulatory system connecting Waves A--F across space. Rather than
+siloeing mobility, freight, power, water, and telecommunications into brittle corporate
+monopolies, Scenario Beta orchestrates \textbf{five physical and digital distribution arteries}
+under unified thermodynamic routing: \textbf{Artery 1} (\textit{Convivial Passenger Mobility}),
+\textbf{Artery 2} (\textit{Material, Tool, and Scenario Alpha/Gamma Freight}), \textbf{Artery 3}
+(\textit{Intra-Node $48\,\mathrm{V}$ DC and Inter-Node Asynchronous $380\,\mathrm{V}$ HVDC
+Exergy}), \textbf{Artery 4} (\textit{RPZ/Air-Gap Potable Water, Reed-Bed Greywater, and District
+PEX-a Thermal Fluids}), and \textbf{Artery 5} (\textit{OS2 Optical Fiber, LoRa/HaLow Reticulum
+RF, Vehicular DTN Sneakernet Data Mules, and DID-Scrubbed Layer 7 WAN Sharing})
+\parencite{fall2003,rekhter2006}.
+
+\subsection{Workflow Topology and Five-Artery Couplings}
+
+On each neighborhood depot node, \texttt{col-execd} runs continuous conduit supervisors
+(\texttt{wf.beta.hvdc\_dab\_intertie}, \texttt{wf.beta.hydro\_flume\_balancer},
+\texttt{wf.beta.reticulum\_dtn\_sync}) alongside dynamic vehicular dispatchers
+(\texttt{wf.beta.cvrp\_milk\_run} and \texttt{wf.beta.trajectory\_carpool}). Whenever
+Scenario Alpha completes a peer sub-assembly, Scenario Gamma fills insulated tiffin totes,
+Scenario Delta stages morning cloth-diaper pails, or Scenario Zero/Iota queues gigabyte-scale
+CAD and epistemic archives, \texttt{col-execd} consolidates outbound payloads, reciprocal
+inbound backhauls, and solid-state \textbf{DTN sneakernet bundles} onto scheduled $48\,\mathrm{V}$
+cargo e-trike and shared electric-van milk-runs---ferrying terabytes of offline data at near-zero
+marginal exergy cost while keeping heavy steel vehicles out of \texttt{No-Transit} living glades.
+
+\subsection{Integer WASM CVRP, Battery-Swap Leases, Cold-Chain, and Multi-Hop HTLCs}
+
+Route consolidation inside \texttt{col-execd} executes as a deterministic, float-free
+WebAssembly module solving the \textbf{Integer Capacitated Vehicle Routing Problem (\texttt{CVRP})}
+via Clarke-Wright parallel savings and 2-opt edge exchange in exact millimeters (\texttt{mm}),
+milligrams (\texttt{cargo\_mass\_mg}), milliliters (\texttt{volume\_ml}), and microjoules
+(\texttt{traction\_uj}). Candidate routes must satisfy four invariants:
+\begin{enumerate}
+    \item \textbf{Thermodynamic Efficiency \& Detour Bounds:} Delivered effective exergy
+    ratio $\eta_{\mathrm{route}}(\mathcal{P}) = \lfloor (\mathcal{E}_{\mathrm{eff}} \cdot 10{,}000) / \mathcal{E}_0 \rfloor \ge 6000\,\mathrm{bp}$
+    ($60\%$), passenger carpool detour $\le 3000\,\mathrm{bp}$ ($30\%$), and zero intersection
+    with BPVP \texttt{No-Transit} vetoed glades or salmon corridors.
+    \item \textbf{Depot Battery-Swap Reservation Leases:} Before an e-trike departs on a
+    multi-hop watershed leg ($A \to B \to C$), \texttt{wf.beta.cvrp\_milk\_run} acquires an
+    HLC-bounded lexicographic reservation (\texttt{lease:depot:B:batt\_pack}) on a docked
+    $48\,\mathrm{V}$ $\mathrm{LiFePO_4}$ pack verified at $\mathrm{SoC} \ge 9000\,\mathrm{bp}$
+    at intermediate depot $B$, guaranteeing zero mid-route stranding.
+    \item \textbf{In-Transit Cold-Chain \& Hot-Tote Thermal Envelopes:} Smart-containers
+    carrying Scenario Gamma dairy/meals or Scenario Chi/Delta pasteurized donor milk/biologics
+    carry continuous Layer 2 thermocouple envelopes ($[275{,}150, 277{,}150]\,\mathrm{mK}$
+    cold chain or $\ge 336{,}150\,\mathrm{mK}$ hot tiffins). Any excursion beyond safe
+    thermal-time bounds fires a \textbf{Regime 2 \texttt{ColdChainBreachSaga}}, locking the
+    recipient food/clinical latch upon arrival and diverting organic mass to BSFL/compost
+    while alerting Scenario Chi/Gamma to re-dispatch from backup stock.
+    \item \textbf{Multi-Hop BPVP HTLC Handoffs \& Conduit Plausibility:} Across intermediate
+    depots $A \to B \to C$, Layer 3 locks chained Hashed Timelock Contracts
+    $\mathrm{HTLC}_i = \langle H(S), \Delta t_i, Q_{\mathrm{uj}}, u_i, v_i \rangle$ with
+    strictly decreasing timelocks ($\Delta t_{A\to B} > \Delta t_{B\to C} + \Delta t_{\mathrm{margin}}$).
+    Destination $C$ reveals preimage $S$ only when its Layer 2 load-cell scale and BLE
+    challenge sign $\sigma_{\mathrm{delivery}}$---atomically settling $B \leftrightarrow C$
+    and $A \leftrightarrow B$ while preserving $B_{u\to v} + B_{v\to u} = 0$. Simultaneously,
+    Artery 4 cross-checks pumped water flow against motor exergy
+    ($\Delta E_{\mathrm{pump\_uj}} \ge \lfloor \rho g Q_{\mathrm{water}} h_{\mathrm{head}} / \eta_{\mathrm{motor}} \rfloor$)
+    and physical RPZ/air-gap isolation ($\Delta h \ge 2 D_{\mathrm{pipe}}$), quarantining
+    spoofed flow sensors automatically.
+\end{enumerate}
+
+\begin{lstlisting}[language=C++,caption={Float-free WASM CVRP leg, battery-swap lease, cold-chain check, and multi-hop HTLC gate in Scenario Beta.},label={lst:beta-cvrp-htlc}]
+struct alignas(8) BetaCvrpAndHtlcLeg {
+    uint64_t payload_mass_mg;           // Must be <= vehicle max_payload_mg
+    uint64_t max_payload_mg;
+    uint64_t traction_energy_uj;        // Mechanical work m*g*dh/eta + m*Crr*d
+    uint64_t effective_delivered_uj;    // Required eta_route >= 6000 bp (60%)
+    uint32_t upstream_htlc_timeout_ms;  // Delta t_(A->B)
+    uint32_t downstream_htlc_timeout_ms;// Delta t_(B->C); requires strict margin
+    uint32_t tote_temp_mk;              // Cold chain [275150, 277150] mK
+    uint16_t swap_pack_reserved_soc_bp; // Docked 48V pack at relay depot >= 9000 bp
+    uint16_t carpool_detour_bp;         // Passenger detour <= 3000 bp
+    uint8_t  hits_no_transit_glade;     // 0 = clear; 1 = vetoed by L5 BPVP
+    uint8_t  cold_chain_required;       // 1 = dairy / donor milk / clinical payload
+};
+
+[[nodiscard]] constexpr bool ValidateBetaMultiHopDispatch(const BetaCvrpAndHtlcLeg& leg) noexcept {
+    if (leg.hits_no_transit_glade != 0u || leg.payload_mass_mg > leg.max_payload_mg) return false;
+    if (leg.carpool_detour_bp > 3000u || leg.swap_pack_reserved_soc_bp < 9000u) return false;
+    if (leg.upstream_htlc_timeout_ms <= leg.downstream_htlc_timeout_ms + 600000u) return false;
+    const uint64_t total_uj = leg.effective_delivered_uj + leg.traction_energy_uj;
+    if (total_uj == 0ULL || (leg.effective_delivered_uj * 10000ULL) / total_uj < 6000ULL) {
+        return false;
+    }
+    if (leg.cold_chain_required != 0u) {
+        if (leg.tote_temp_mk < 275150u || leg.tote_temp_mk > 277150u) return false;
+    }
+    return true;
+}
+\end{lstlisting}
+
+\subsection{Bilateral Socket Contracts (\texttt{l3\_l4.sock} and \texttt{l4\_l5.sock})}
+
+Downward over \texttt{l3\_l4.sock}, \texttt{col-execd} locks depot battery-swap leases,
+commits multi-hop HTLC contracts, queues IPFS/DTN archive CIDs onto outbound vehicle storage
+bricks, and commands galvanically isolated $380\,\mathrm{V}$ HVDC Dual-Active-Bridge (DAB)
+transfers. Crucially, Layer 3 never opens direct WAN sockets: inter-node CRDT vector-clock
+deltas and HTLC preimages pass strictly downward from \texttt{col-storaged} over
+\texttt{l3\_l2.sock} to \texttt{col-meshd} (Reticulum over OS2 fiber, SX1262 LoRa, HaLow, or
+DTN mule), where pre-partition sharding $\mathcal{S}_{\mathrm{local}}(u)$ guarantees zero
+split-brain risk during storm partitions \parencite{shapiro2011crdt}. Upward over
+\texttt{l4\_l5.sock}, \texttt{col-execd} queries loop-free BPVP \texttt{FIB} paths filtered
+by \texttt{No-Transit} vetoes and Export Surplus Bounds, while Layer 7 (\texttt{col-adversaryd})
+scrubs internal DIDs across shared WireGuard/Tor WAN backhauls and issues non-commercial
+Subchapter T inter-cooperative Bills of Lading.
+
+% ==========================================================================
+\section{Wave B Convivial Maturity Progression (\texttt{Stage 1A} to \texttt{Stage 3})}
+\label{sec:wave-b-maturity}
+
+Wave B scales seamlessly from a single backyard garden, $400\,\mathrm{W}$--$6.4\,\mathrm{kW}$
+garage solar bench, and cargo e-trike (\texttt{Stage 1A}) to a bioregional agro-industrial
+and watershed barge/HVDC federation (\texttt{Stage 3}). Table~\ref{tab:wave-b-maturity}
+synthesizes the concurrency scaling across stages, illustrating how \texttt{col-execd}'s
+stateless token frames absorb 96+ concurrent \texttt{Gamma} workflows in \texttt{Stage 2}
+and over a thousand Wave B workflows in \texttt{Stage 3} within a $< 5\,\mathrm{W}$ CPU
+envelope.
+
+\begin{table}[htbp]
+\centering
+\caption{Wave B (\texttt{Gamma}, \texttt{Alpha}, \texttt{Beta}) workflow concurrency and physical topology progression per node across settlement maturity stages ($10\,\mathrm{Hz}$ \texttt{col-execd}).}
+\label{tab:wave-b-maturity}
+\footnotesize
+\begin{tabular}{@{}p{2.1cm}p{2.6cm}p{2.8cm}p{2.8cm}p{2.9cm}@{}}
+\toprule
+\textbf{Dimension} & \textbf{Stage 1A: Seed} (1 Lot, $R_0\text{--}R_1$) & \textbf{Stage 1B: Mesh} (5--12 Lots, $R_1\text{--}R_2$) & \textbf{Stage 2: Co-op Shell} (Subchapter T, $R_2\text{--}R_3$) & \textbf{Stage 3: Campus} (CLT / PPT, $R_3\text{--}R_5$) \\
+\midrule
+\textbf{Wave B Active Workflows} & $18\text{--}32$ instances ($2\text{--}6$ tokens/tick; $84\%$ autonomic) & $48\text{--}92$ instances ($6\text{--}16$ tokens/tick; $86\%$ autonomic) & $135\text{--}280$ instances ($16\text{--}48$ tokens/tick; $87\%$ autonomic) & $420\text{--}1{,}150+$ instances ($50\text{--}185$ tokens/tick; $89\%$ autonomic) \\
+\addlinespace[3pt]
+\textbf{\texttt{Gamma} Hearth \& Soil} & $10\text{--}16$ WFs: pea/root beds, $4\text{--}8$ hens, 24h broth, $R_0$ pea soup, BSFL bin & $26\text{--}48$ WFs: staggered block beds, lacto-crocks, NFC porch tiffin milk-run & $90\text{--}145$ WFs (96 nominal): commissary, HTST, \texttt{316L} B12, 21d ferments, caves & $240\text{--}580$ WFs: rotational silvopasture, solar $\mathrm{H_2}$ SCP, nixtamal/salt refinery \\
+\addlinespace[3pt]
+\textbf{\texttt{Alpha} Solar \& Fab Lab} & $5\text{--}10$ WFs: $48\,\mathrm{V}$ MPPT, garage joinery/FDM ($\le 550\,\mathrm{cB}$), porch Tool Locker & $14\text{--}26$ WFs: multi-lot recursive DAG BOMs, shared tool cribs, repair triage & $30\text{--}85$ WFs: 3-phase CNC/lathe/TIG LOTO bays, commercial $\Phi_t$ fab reserve & $110\text{--}340$ WFs: 5-modality hall, urbanite deconstruction, $D_t \to 0$ tooling \\
+\addlinespace[3pt]
+\textbf{\texttt{Beta} 5-Artery Transit} & $3\text{--}6$ WFs: $48\,\mathrm{V}$ cargo e-trike, rainwater cistern + Red Lever, local fiber/Wi-Fi & $8\text{--}18$ WFs: integer WASM \texttt{CVRP} milk-runs, battery-swap leases, LoRa RNS & $15\text{--}50$ WFs: $380\,\mathrm{V}$ HVDC DAB interties, cold-chain EVs, shared L7 WAN DMZ & $70\text{--}230$ WFs: watershed shuttles/canal barges, district PEX-a, multi-hop HTLCs \\
+\bottomrule
+\end{tabular}
+\end{table}

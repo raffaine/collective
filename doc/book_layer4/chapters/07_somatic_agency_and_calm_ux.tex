@@ -1,0 +1,429 @@
+\chapter{Somatic Agency and Calm UX Under Three Hundred Workflows}
+\label{ch:somatic-ux}
+
+\epigraph{The best technology is quiet: it informs without demanding our focus, residing in the periphery until we choose to bring it to the center.}{--- Adapted from Mark Weiser and John Seely Brown, \emph{The Coming Age of Calm Technology} \parencite{weiser1996calm}}
+
+An industrial workflow engine dropped unaltered into a domestic habitat ceases to be an instrument of liberation and rapidly mutates into a domestic panopticon. In classical enterprise BPMN deployments \parencite{omg2011bpmn,vanderaalst2016process}, human beings are modeled symmetrically alongside database microservices and robotic arms: they are addressable resource pools to which a central dispatcher pushes work items, attaches service-level countdown timers, and logs individual completion latencies. When transposed from a warehouse floor to a sovereign homestead or neighborhood commons, such push-dispatch semantics reproduce algorithmic Taylorism inside the living room \parencite{scott1998,zuboff2019}. Even when ownership of the servers is local and cooperative, a system that assigns chores to named individuals, flashes amber overdue badges across kitchen tablets, or penalizes a tired steward for declining an evening harvest induces the exact self-exploiting burnout diagnosed by \textcite{han2015}.
+
+Layer~4 (\texttt{col-execd}) resolves this structural tension by inverting the polarity between deterministic machine state and somatic human agency. Following Ivan Illich's criterion for \emph{convivial tools} \parencite{illich1973} and Stafford Beer's Viable System Model \parencite{beer1972,beer1974}, deterministic rigor in the Sovereign Stack applies strictly to physical accounting, cryptographic provenance, and thermodynamic safety envelopes---never to the coercion of human labor. Machines execute state transitions; stewards exercise voluntary pull. Yet conviviality faces a severe quantitative test as a habitat matures. While a fledgling settlement may run half a dozen workflows, a fully instrumented homestead or federated neighborhood node routinely executes $N \ge 300$ concurrent BPMN workflow instances spanning microgrid MPPT curtailment, greywater reed-bed dosing, soil moisture balancing, legume cultivation, batch pasteurization, timber joinery, and preventative tool maintenance. Without formal cybernetic attenuation \parencite{ashby1956}, three hundred workflows generate an unnavigable wall of notifications.
+
+This chapter establishes the human-factors architecture, cryptographic privacy boundaries, somatic homeostasis loops, and queueing-theoretic scaling laws that keep Layer~4 calm at scale. Grounding every mechanism in the live C++20 and JavaScript implementation across \texttt{src/stack/shared\_stack\_runtime.hpp}, \texttt{core/1\_simulation/src/core/chill\_loop.hpp}, \texttt{core/1\_simulation/src/web/js/hud\_feel.js}, and the ratified target \texttt{col-execd} ABI, we trace how the Sovereign Stack preserves quiet human autonomy from Day-1 boot through three-hundred-workflow steady state.
+
+\section{Conviviality Against Algorithmic Taylorism}
+\label{sec:conviviality-vs-taylorism}
+
+To design a workflow orchestrator that cannot degenerate into a boss, we must identify the exact architectural primitives through which enterprise task runners exert psychological pressure. Three mechanisms are responsible for almost all digital coercion in contemporary labor platforms:
+\begin{enumerate}
+  \item \textbf{Asymmetric Push Assignment:} The scheduler selects a specific worker identity $u \in \mathcal{U}$ and mutates that person's queue without prior consent, converting an ambient material need into a personal obligation.
+  \item \textbf{Identity-Linked Throughput Telemetry:} Every state transition records a tuple $(\text{\texttt{actor\_did}}, t_{\text{start}}, t_{\text{end}})$ in a queryable ledger, enabling explicit leaderboards or informal social shaming \parencite{freeman1972,zuboff2019}.
+  \item \textbf{Unbounded Queue Admission:} Upstream planners spawn workflows faster than human hands can service them, driving utilization $\rho \to 1$ so that the human queue diverges toward infinity while interfaces escalate alarm urgency.
+\end{enumerate}
+
+In the Sovereign Stack, Layer~4 eliminates all three mechanisms at the binary protocol boundary rather than relying on user-interface politeness. First, \texttt{col-execd} possesses zero knowledge of human Decentralized Identifiers (DIDs), social graphs, or skill profiles; its Unix domain socket to Layer~5 (\texttt{l4\_l5.sock}) carries only DID-blinded capability handles. Second, Layer~4 never pushes tasks to an individual; when a token reaches a BPMN \texttt{userTask} node or requires physical observation where no Layer~2 sensor exists, \texttt{col-execd} parks the token in an anonymous Commons Pool state and emits a passive upward yield packet. Third, Layer~4 is constitutionally read-only to all external HTTP and WebSocket clients. In \texttt{src/daemons/col-gatewayd/main.cpp}, any direct mutation request (\texttt{POST}, \texttt{PUT}, \texttt{PATCH}, or \texttt{DELETE}) targeting \texttt{/api/v1/l4/*} is rejected at the perimeter with HTTP \texttt{403}/\texttt{405} and reason code \texttt{L4\_IS\_STRICTLY\_READ\_ONLY\_NO\_MUTATIONS}. Every human action must traverse the full Intent U-Turn:
+\[
+  \text{Steward} \longrightarrow \text{L6 Companion} \longrightarrow \text{L5 Governance} \longrightarrow \text{L4 Orchestrator} \longrightarrow \text{[Upward Yield]} \longrightarrow \text{L5} \longrightarrow \text{L6}.
+\]
+Because the steward initiates intents downward through Layer~6 and Layer~5 rather than receiving commands downward from Layer~4, the orchestrator remains an accounting and sequencing substrate---never a supervisor \parencite{habraken1972supports,ostrom1990}. Within Maturana and Varela's theory of autopoiesis \parencite{maturana1980}, the household preserves operational closure over its lived social rhythm while delegating stoichiometric and thermodynamic bookkeeping to deterministic silicon.
+
+\section{Clean-Slate Day-1 Genesis and Voluntary Pull Semantics}
+\label{sec:clean-slate-voluntary-pull}
+
+Conviviality begins at \texttt{tick = 0}. A recurring anti-pattern in both resource-management simulations and smart-building controllers is booting into a pre-populated backlog of urgent maintenance tickets, blinking onboarding checklists, and ticking countdowns. Such designs manufacture synthetic scarcity before the inhabitant has even surveyed the land.
+
+\subsection{Zero Pre-Spawned Workflows at \texttt{tick = 0}}
+
+In \texttt{SharedStackRuntime::InitializeGenesisDecisionsAndWorkflows()} (\texttt{src/stack/shared\_stack\_runtime.hpp}), the runtime explicitly clears \texttt{workflows\_.clear()} and boots with \emph{zero} active Layer~4 BPMN instances. At Day-1 genesis, the orchestrator's active token bitset is all zeros; no background scheduler nags the steward to plant peas, chop timber, or wire photovoltaic panels. Instead, Layer~5 initializes a calm slate of pending constitutional governance proposals---\texttt{dec:pea\_cultivation}, \texttt{dec:pea\_soup\_hearth}, \texttt{dec:poultry\_and\_soil}, and \texttt{dec:garage\_l7\_woodwork}---each resting quietly in \texttt{PENDING\_L6\_RATIFICATION}.
+
+Only when the steward voluntarily opens the Layer~6 Citizen Companion, deliberates over resource trade-offs, and ratifies a governance proposal does Layer~5 bind the corresponding BPMN definition (such as \texttt{pea\_garden\_and\_soup\_lifecycles.bpmn.json}) and authorize \texttt{col-execd} to instantiate tokens. If the steward chooses to spend Day~1 walking Lot~402, inspecting the watershed, or resting inside the timber shelter, Layer~4 executes zero somatic interrupts. Silence is the constitutional baseline.
+
+\subsection{\texttt{Available} Commons Pool vs.\ \texttt{Committed} Checklist and Blinded \texttt{ClaimHandle}}
+
+Once ratified workflows are running, tokens inevitably encounter steps requiring human hands or eyes---sowing inoculated seed into Bed~A, skimming foam from a simmering stockpot, or verifying joinery tolerances at the garage bench. In the Lot~402 reference runtime (\texttt{src/stack/shared\_stack\_runtime.hpp}), \texttt{TaskCommitmentState} separates tasks into \texttt{UNASSIGNED} (rendered in the Layer~6 UI as the ambient \emph{Available} Commons Pool), \texttt{COMMITTED\_BY\_PLAYER} (the steward's personal \emph{Committed} checklist), \texttt{RELEASED\_TO\_R1\_PEERS}, \texttt{CLAIMED\_BY\_PEER\_CLUSTER}, and \texttt{COMPLETED}.
+
+In the ratified v3.1 \texttt{col-execd} daemon architecture, this separation is hardened cryptographically across the \texttt{l4\_l5.sock} (\texttt{SOCK\_SEQPACKET} authenticated via kernel \texttt{SO\_PEERCRED}) boundary so that Layer~4 cannot track individual labor histories even if its RocksDB state store were forensically dumped:
+
+\begin{enumerate}
+  \item \textbf{Entry into \texttt{WAITING\_HUMAN} (Commons Pool):} When a token reaches a \texttt{userTask}, \texttt{col-execd} transitions the token frame to \texttt{WAITING\_HUMAN} and emits an \texttt{UpwardYieldPacket} containing the \texttt{token\_id}, physical station coordinate, required capability bitmask, and thermodynamic priority tier. Zero personal identifiers exist on the frame; no notification is pushed to any individual device.
+  \item \textbf{Voluntary Pull via 24-Byte Blinded \texttt{ClaimHandle}:} When a steward browses the ambient Commons Pool in Layer~6 and chooses to pull a task, Layer~5 verifies the steward's zero-knowledge BBS+ selective-disclosure credential \parencite{camenisch2004signature,w3c2022vc} if the workflow operates high-voltage or food-safety equipment, and requests an ephemeral 24-byte \texttt{ClaimHandle} from \texttt{col-kmsd}. The handle consists of a 16-byte random session nonce concatenated with an 8-byte truncated keyed Blake3 MAC bound to the token epoch. Layer~4 records only this unlinkable 24-byte \texttt{ClaimHandle} and transitions the token to \texttt{CLAIMED\_HUMAN}.
+  \item \textbf{Guilt-Free \texttt{UnclaimTask} Release:} Human energy fluctuates unpredictably; a child wakes up, rain begins, or fatigue sets in. At any moment prior to irreversible physical actuation, the steward may invoke \texttt{UnclaimTask} (Hirschman's right of exit without penalty \parencite{hirschman1970}). Layer~4 zeroes the 24-byte \texttt{ClaimHandle} and returns the token cleanly to \texttt{WAITING\_HUMAN} (or forwards a federated mutual-aid request via \texttt{RELEASED\_TO\_R1\_PEERS} to \texttt{col-swarmd}). No ``abandonment counter,'' demurrage penalty, or negative reputation delta is ever computed \parencite{zehr1990}.
+  \item \textbf{Anonymous Commons Escalation for Tier~1/Tier~2 Floors:} What if an unclaimed task guards an ecological or life-safety boundary---such as closing a greenhouse vent before a hard freeze or purging a greywater filter nearing overflow? Rather than singling out a named person with escalating alarms, \texttt{col-execd} elevates the ambient priority badge of the \texttt{WAITING\_HUMAN} item across the \emph{entire} Commons Pool (and, if configured in Layer~5 policy, broadcasts a Ring-1 neighborhood mutual-aid beacon \parencite{kropotkin1902}). Responsibility for survival baselines remains collective, never coercive.
+\end{enumerate}
+
+\begin{invariant}[DID-Blinded Voluntary Pull and Guilt-Free Release]
+\label{inv:voluntary-pull}
+For every human-interactive token frame $\tau$ managed by \texttt{col-execd}, let $h(\tau) \in \{0,1\}^{192}$ denote its active \texttt{ClaimHandle}. (i)~No transition $\texttt{WAITING\_HUMAN} \to \texttt{CLAIMED\_HUMAN}$ may occur without a signed downward \texttt{ClaimTask} frame originating from Layer~6/Layer~5; (ii)~given two distinct claims $h(\tau_1), h(\tau_2)$ executed by the same steward across distinct tokens, $h(\tau_1)$ and $h(\tau_2)$ are computationally indistinguishable from uniform random 24-byte strings within Layer~4; and (iii)~the transition $\texttt{CLAIMED\_HUMAN} \xrightarrow{\texttt{UnclaimTask}} \texttt{WAITING\_HUMAN}$ is total, zero-penalty, and idempotent for all pre-actuation tokens.
+\end{invariant}
+
+\subsection{Binary Wire Framing of Blinded Claims Over \texttt{l4\_l5.sock}}
+
+To make Invariant~\ref{inv:voluntary-pull} concrete, Listing~\ref{lst:blinded-claim-abi} contrasts the ratified fixed-size binary IPC structs transmitted over \texttt{l4\_l5.sock} against conventional identity-bearing task assignments. By sizing \texttt{ClaimHandle} to exactly $24$ bytes and aligning the entire \texttt{L5ToL4ClaimCommand} envelope to $64$ bytes (a single CPU cache line), \texttt{col-execd} validates claims in constant time without heap allocation or string parsing.
+
+\begin{lstlisting}[language=C++,label={lst:blinded-claim-abi},caption={DID-blinded 24-byte \texttt{ClaimHandle} and guilt-free release wire structs over \texttt{l4\_l5.sock}.}]
+#include <array>
+#include <cstdint>
+
+struct BlindedClaimHandle {
+    std::array<uint8_t, 16> session_nonce;   // CSPRNG nonce minted per-claim by col-kmsd
+    uint64_t                epoch_mac_tag;   // Keyed Blake3-64 over (nonce || token_id || epoch)
+};
+static_assert(sizeof(BlindedClaimHandle) == 24, "ClaimHandle must be exactly 24 bytes");
+
+enum class HumanClaimOp : uint8_t {
+    CLAIM_VOLUNTARY_PULL     = 1, // WAITING_HUMAN -> CLAIMED_HUMAN
+    UNCLAIM_GUILT_FREE       = 2, // CLAIMED_HUMAN -> WAITING_HUMAN (zero penalty)
+    DELEGATE_TO_R1_COMMONS   = 3, // WAITING_HUMAN -> ESCALATED_R1_SWARM
+    COMPLETE_WITH_ATTEST     = 4  // CLAIMED_HUMAN -> RUNNABLE (advance token)
+};
+
+struct alignas(64) L5ToL4ClaimCommand {
+    uint64_t           hlc_timestamp;        // Monotonic Hybrid Logical Clock tick
+    uint64_t           workflow_instance_id; // Active BPMN instance slot ID
+    uint64_t           token_id;             // Specific waiting userTask token ID
+    BlindedClaimHandle claim_handle;         // Zero-DID unlinkable capability token (24B)
+    uint32_t           zk_capability_mask;   // Verified BBS+ skill bitmask (L5 checked)
+    HumanClaimOp       op;                   // Requested voluntary pull/release transition
+    std::array<uint8_t, 11> reserved_zero;   // Explicit deterministic zero padding
+};
+static_assert(sizeof(L5ToL4ClaimCommand) == 64, "Single cache-line IPC frame");
+\end{lstlisting}
+
+\begin{figure}[htbp]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+    >=Stealth,
+    node distance=2.6cm and 3.4cm,
+    statebox/.style={
+        rectangle, rounded corners=4pt, draw=black!80, thick,
+        fill=gray!8, minimum width=3.3cm, minimum height=1.05cm,
+        align=center, font=\footnotesize\sffamily
+    },
+    poolbox/.style={
+        rectangle, rounded corners=4pt, draw=black!90, very thick,
+        fill=gray!18, minimum width=3.6cm, minimum height=1.15cm,
+        align=center, font=\footnotesize\sffamily\bfseries
+    },
+    edgelbl/.style={font=\scriptsize\ttfamily, align=center}
+]
+    \node[statebox] (runnable) {\textbf{RUNNABLE}\\ (Autonomic Wasm Step)};
+    \node[poolbox, right=3.4cm of runnable] (waiting) {WAITING\_HUMAN\\ {\normalfont\scriptsize Ambient Commons Pool}\\ {\normalfont\scriptsize (\texttt{claim\_handle = 0x00..00})}};
+    \node[statebox, right=3.4cm of waiting] (claimed) {\textbf{CLAIMED\_HUMAN}\\ {\scriptsize Personal Committed List}\\ {\scriptsize (24B Blinded \texttt{ClaimHandle})}};
+    \node[statebox, below=2.1cm of waiting] (escalated) {\textbf{COMMONS\_ESCALATED}\\ {\scriptsize Tier 1/2 Ambient Floor}\\ {\scriptsize (Collective / R1 Swarm Aid)}};
+    \node[statebox, below=2.1cm of claimed] (completed) {\textbf{STEP\_COMPLETED}\\ {\scriptsize Ed25519 / L2 Attested}\\ {\scriptsize Advance BPMN Token}};
+
+    \draw[->, thick] (runnable) -- node[above, edgelbl] {\texttt{UpwardYield}\\ (userTask / no L2)} (waiting);
+    \draw[->, thick] ([yshift=5pt]waiting.east) -- node[above, edgelbl] {Voluntary Pull\\ (\texttt{ClaimTask})} ([yshift=5pt]claimed.west);
+    \draw[->, thick, dashed] ([yshift=-5pt]claimed.west) -- node[below, edgelbl] {Guilt-Free Exit\\ (\texttt{UnclaimTask})} ([yshift=-5pt]waiting.east);
+    \draw[->, thick] (claimed) -- node[right, edgelbl] {\texttt{CompleteTask}\\ (Zero DID Logged)} (completed);
+    \draw[->, thick] ([xshift=-6pt]waiting.south) -- node[left, edgelbl] {Tier 1/2 SLA\\ Boundary Timer} ([xshift=-6pt]escalated.north);
+    \draw[->, thick] ([xshift=6pt]escalated.north) -- node[right, edgelbl] {Any Steward\\ or R1 Peer Pull} ([xshift=6pt]waiting.south);
+    \draw[->, thick, rounded corners=6pt] (completed.south) -- ++(0,-0.65) -| node[pos=0.25, below, edgelbl] {Resume Downstream Sequence Flow} (runnable.south);
+\end{tikzpicture}%
+}
+\caption{Voluntary pull state machine across the Layer~4/Layer~5 boundary. Tokens never push-assign to an individual; \texttt{UnclaimTask} returns tasks cleanly to the anonymous Commons Pool without penalty, while critical Tier~1/2 safety timers escalate collectively.}
+\label{fig:voluntary-pull-fsm}
+\end{figure}
+
+\section{Epistemic 1-to-5 \texttt{BiologicalFeelTiers} and Qualitative Friction}
+\label{sec:epistemic-feel-tiers}
+
+Even when task claiming is strictly voluntary, a user interface can subvert calm agency through \emph{hyper-quantification}. Displaying a steward's live heart rate to two decimal places (\texttt{118.4 bpm}), caloric reserve as an exact integer (\texttt{1,412 kcal}), or uninstrumented garden soil as \texttt{21.84\% VWC} commits two simultaneous errors: epistemically, it fabricates omniscient telemetry where physical sensors may not even be installed; psychologically, it turns bodily life into an optimization dashboard \parencite{han2015,weiser1996calm}.
+
+\subsection{The 8-Byte \texttt{BiologicalFeelTiers} Envelope}
+
+In \texttt{core/1\_simulation/src/core/chill\_loop.hpp}, the runtime defines an 8-byte cache-compact structure, \texttt{BiologicalFeelTiers}, that quantizes continuous internal homeostatic registers into five ordinal somatic experience tiers (\texttt{1 = Critical Deficit} through \texttt{5 = Thriving}) paired with explicit hardware-presence booleans:
+
+\begin{lstlisting}[language=C++,caption={Epistemic 5-tier somatic quantization and sensor-gating struct (\texttt{chill\_loop.hpp}).}]
+struct BiologicalFeelTiers {
+    uint8_t hunger_tier{5};   // 1 = Famished  .. 5 = Well-Fed
+    uint8_t energy_tier{5};   // 1 = Exhausted .. 5 = Vibrant
+    uint8_t focus_tier{5};    // 1 = Scattered .. 5 = Immersed
+    uint8_t mood_tier{5};     // 1 = Strained  .. 5 = Serene
+    uint8_t social_tier{4};   // 1 = Isolated  .. 5 = Kinship
+    bool l2_biometric_sensor_installed{false};
+    bool l2_soil_sensor_installed{false};
+    uint8_t reserved_pad{0};
+};
+static_assert(sizeof(BiologicalFeelTiers) == 8, "BiologicalFeelTiers must be 8 bytes");
+\end{lstlisting}
+
+On the companion presentation surface (\texttt{core/1\_simulation/src/web/js/hud\_feel.js}), \texttt{FEEL\_TIERS} renders each somatic axis using five calm tactile pips alongside human-scale English words (\emph{Famished, Hungry, Peckish, Nourished, Well-Fed} for nourishment; \emph{Exhausted, Weary, Rested, Lively, Vibrant} for energy; \emph{Scattered, Foggy, Steady, Clear, Immersed} for cognitive focus; \emph{Strained, Uneasy, Grounded, Content, Serene} for mood; and \emph{Isolated, Quiet, Connected, Warm, Kinship} for social belonging). Crucially, \texttt{hud\_feel.js} enforces an epistemic visibility invariant: unless \texttt{l2\_biometric\_sensor\_installed} is explicitly \texttt{true} (representing a citizen who has voluntarily paired a local, air-gapped Layer~2 optical biometric strap), raw numeric readouts (\texttt{heart\_rate\_bpm}, \texttt{kcal\_burned}, \texttt{hydration\_pct}) are completely suppressed from the DOM. The human body is experienced somatically first, never as a default telemetry stream.
+
+\subsection{Qualitative Domain Friction Over Exact Fixed-Point Physics}
+
+The same epistemic discipline governs ecological and culinary workflows. Underneath the hood, Layer~1b and Layer~3 maintain exact deterministic fixed-point SI registers: \texttt{SoilCellRegisters::moisture\_vwc\_bp} tracks volumetric water content in basis points ($0\text{--}10{,}000\,\text{bp}$), and \texttt{ThermalVesselRegisters::core\_temp\_mk} tracks soup temperature in millikelvin ($293{,}150\,\text{mK} = 20.00\,^\circ\text{C}$). However, when \texttt{l2\_soil\_sensor\_installed == false}, querying \texttt{VirtualPinBus::ReadSoilProbe} (\texttt{core/1\_simulation/src/engine/l2\_bridge/virtual\_pin\_bus.hpp}) returns \texttt{PinReadStatus::DENIED\_NO\_L2\_SENSOR} with zeroed numeric registers. To advance a garden workflow without fabricated Layer~2 probes, the steward performs a physical finger-test in the soil bed and observes a five-tier qualitative descriptor. Even after a physical Layer~2 capacitance probe (\texttt{soil\_probe\_v1}) or RTD thermowell (\texttt{culinary\_vessel\_v1}) is installed, routine Layer~6 views map raw integers onto calm 5-tier qualitative states, exposing millikelvin or basis-point diagnostic drawers only on deliberate inspection (Table~\ref{tab:epistemic-feel-tiers}).
+
+\begin{table}[htbp]
+\centering
+\caption{Mapping between underlying deterministic SI fixed-point registers, epistemic Layer~2 hardware sensor gates, and calm 1-to-5 qualitative descriptors.}
+\label{tab:epistemic-feel-tiers}
+\footnotesize
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}cllll@{}}
+\toprule
+\textbf{Tier} & \textbf{Somatic Energy} & \textbf{Cognitive Focus} & \textbf{Soil Moisture (\texttt{vwc\_bp})} & \textbf{Hearth Vessel (\texttt{core\_temp\_mk})} \\
+\midrule
+\textbf{1} & Exhausted ($<1500\,\text{bp}$) & Scattered ($<1500\,\text{bp}$) & Bone-Dry Crust ($<800\,\text{bp}$) & Cold Ambient ($<308{,}150\,\text{mK}$) \\
+\textbf{2} & Weary ($1500\text{--}2999\,\text{bp}$) & Foggy ($1500\text{--}3499\,\text{bp}$) & Dusty Tilth ($800\text{--}1599\,\text{bp}$) & Lukewarm ($308{,}150\text{--}333{,}149\,\text{mK}$) \\
+\textbf{3} & Rested ($3000\text{--}5999\,\text{bp}$) & Steady ($3500\text{--}6499\,\text{bp}$) & Friable Moist ($1600\text{--}2800\,\text{bp}$) & Scalding Hold ($333{,}150\text{--}358{,}149\,\text{mK}$) \\
+\textbf{4} & Lively ($6000\text{--}8499\,\text{bp}$) & Clear ($6500\text{--}8499\,\text{bp}$) & Damp Rich ($2801\text{--}3800\,\text{bp}$) & Gentle Simmer ($358{,}150\text{--}371{,}149\,\text{mK}$) \\
+\textbf{5} & Vibrant ($\ge 8500\,\text{bp}$) & Immersed ($\ge 8500\,\text{bp}$) & Waterlogged ($>3800\,\text{bp}$) & Rolling Boil ($\ge 371{,}150\,\text{mK}$) \\
+\midrule
+\textbf{Gate} & \multicolumn{2}{l}{\texttt{l2\_biometric\_sensor\_installed} (Opt-in L2 Strap)} & \texttt{soil\_probe\_v1} (\texttt{0x02} Root) & \texttt{culinary\_vessel\_v1} (RTD Probe) \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+\section{Somatic Homeostasis, Burnout Hysteresis, and Acoustic Caps}
+\label{sec:homeostasis-and-acoustic-caps}
+
+Walter Cannon coined \emph{homeostasis} to describe the coordinated feedback loops by which living organisms preserve internal stability against external perturbations \parencite{cannon1932}, a principle generalized cybernetically by \textcite{ashby1952}. If Layer~4 optimizes purely for material throughput---maximizing kilograms of harvested legumes or kilowatt-hours of sawmill fabrication---it treats human rest as idle waste. Instead, the Sovereign Stack elevates somatic recovery and acoustic peace to hard boundary constraints on workflow execution.
+
+\subsection{Calm Dwell Hysteresis and Insulated Shelter Recovery}
+
+In autonomous simulation and decision-support scheduling alike, naive utility maximizers suffer from \emph{chatter}: whenever two tasks have nearly equal priority scores, minute tick-by-tick state changes cause the recommender to flip-flop rapidly between kitchen prep, weeding, and workshop cleanup. In \texttt{UtilityAutonomySystem} (\texttt{core/1\_simulation/src/engine/ai/utility\_autonomy.hpp}), the engine enforces a mandatory hysteresis dwell window bounded by \texttt{kMinCalmDwellSimMs = 1,200,000} ($20$ minutes) and \texttt{kMaxCalmDwellSimMs = 2,400,000} ($40$ minutes). Once a constructive or restorative activity begins, non-emergency score fluctuations cannot preempt it until the dwell window completes.
+
+Recovery itself is grounded in physical architecture rather than abstract timers. In \texttt{ChillLoop::EvaluateThermalEnclosure} and \texttt{StepInsulatedSleepRecovery} (\texttt{core/1\_simulation/src/core/chill\_loop.hpp}), cognitive focus and somatic stamina recover at full physiological rates (\texttt{FOCUS\_RECOVERY\_PER\_SIM\_HOUR = 45.0f / 255.0f} in the prototype, mapped to $1{,}765\,\text{bp/h}$ in fixed-point integer units) only inside a verified thermally enclosed shelter. A bounded, zero-heap 512-voxel 3D breadth-first search checks that walls, roof, and closed timber doors (\texttt{MAT\_DOOR\_TIMBER = 15u}, passable for pathfinding yet sealed against wind chill) isolate the inhabitant from exterior weather. When a steward invokes the constitutional \texttt{wf-rest-lock-sigma-v1} workflow (\emph{Scenario Sigma}, \texttt{mesh:RestIntent} in \texttt{core/4\_orchestrator/web/bpmn\_scheduler.js}), Layer~5 activates an inalienable temporal rest shield: \texttt{col-execd} suppresses all discretionary Tier~3--5 upward yields to that companion session until the rest window expires or the steward voluntarily cancels it.
+
+\subsection{The Somatic Time-Warp Brake (\texttt{10x} $\to$ \texttt{1x}) and Edge Acoustic Caps}
+
+During digital-twin planning in Oasis (\texttt{Layer 1b}) and \texttt{col-sim}, stewards frequently engage accelerated time-warp multipliers (\texttt{2x}, \texttt{5x}, \texttt{10x}) to observe multi-week crop canopy closure, compost thermophilic curing, or winter battery autonomy. Accelerated time harbors a subtle somatic hazard: under a \texttt{10x} multiplier, twelve hours of simulated physical labor and caloric depletion elapse in seventy-two wall-clock seconds, easily driving a simulated inhabitant into severe exhaustion before the operator reacts.
+
+To prevent runaway somatic depletion, the runtime couples \texttt{TimeWarpController::EvaluateEmergencyWarpBrake} (\texttt{core/1\_simulation/src/core/time\_warp\_controller.hpp}) and \texttt{OasisApplication} (\texttt{core/1\_simulation/src/engine/app/oasis\_application.hpp}) into an unconditional \textbf{Time-Warp Brake}. Whenever somatic \texttt{energy < 3000 bp} ($30.00\%$), \texttt{morale < 3000 bp} ($30.00\%$), hydration drops below its safety floor, or acute physiological stress spikes, the clock controller immediately clamps the simulation multiplier from \texttt{10x} (or \texttt{5x}/\texttt{2x}) down to \texttt{1x} real-time and latches a non-punitive somatic pause banner. Accelerated foresight is permitted only while the organism remains comfortably inside its homeostatic envelope.
+
+Calm technology is sensory as well as visual: a workflow engine that silently schedules a $2.2\,\text{kW}$ CNC router, hammer mill, or high-pressure greywater backwash pump at \texttt{23:30} destroys household sleep even if zero screen notifications are sent. Conversely, placing network microphones inside workshops or living spaces to monitor noise would violate the Sovereign Stack's foundational anti-surveillance constitution \parencite{zuboff2019}. The stack resolves this through \textbf{Layer~2 Scalar Edge Acoustic Caps} on Zephyr MCUs \parencite{zephyr2024}:
+\begin{enumerate}
+  \item Every mechanical \texttt{serviceTask} carries a static \texttt{rated\_acoustic\_cb} declaration in centibels ($\text{cB}$, where $450\,\text{cB} = 45.0\,\text{dBA}$). During night-quiet windows (e.g., \texttt{21:00--07:00} local solar time) or active \emph{Scenario Sigma} rest shields, \texttt{col-execd} withholds actuation leases for any workflow whose \texttt{rated\_acoustic\_cb > 450}.
+  \item Where physical acoustic verification is installed on a workshop enclosure, an air-gapped Layer~2 MCU samples an analog MEMS transducer via DMA, computes an A-weighted root-mean-square scalar integer in centibels over a $1{,}000\,\text{ms}$ window entirely in volatile SRAM, and discards the sample buffer immediately. Only the single unsigned 16-bit integer \texttt{ambient\_spl\_cb} (e.g., \texttt{412} for $41.2\,\text{dBA}$) crosses \texttt{col-telemetryd}. Zero PCM waveforms, FFT spectrograms, or voice-band features can ever reach Layer~3 or Layer~4.
+\end{enumerate}
+
+Listing~\ref{lst:homeostasis-guards} consolidates the pure-integer Time-Warp Brake and Night-Quiet Acoustic Gate enforced prior to workflow step dispatch.
+
+\begin{lstlisting}[language=C++,label={lst:homeostasis-guards},caption={Pure-integer Somatic Time-Warp Brake and Layer~2 Scalar Acoustic Gate.}]
+#include <cstdint>
+
+struct SomaticHomeostasisSnapshot {
+    uint16_t energy_bp;          // 0..10000 basis points
+    uint16_t morale_bp;          // 0..10000 basis points
+    uint16_t hydration_bp;       // 0..10000 basis points
+    uint16_t ambient_spl_cb;     // Scalar edge RMS sound level in centibels (450 = 45.0 dBA)
+    bool     rest_shield_active; // Scenario Sigma mesh:RestIntent active
+    bool     night_quiet_window; // Local solar clock within [21:00, 07:00)
+};
+
+// Unconditional Time-Warp Brake: drops {2, 5, 10}x -> 1x on somatic depletion
+constexpr uint8_t EvaluateSomaticTimeWarpMultiplier(
+    uint8_t requested_warp,
+    const SomaticHomeostasisSnapshot& snap) noexcept
+{
+    if (requested_warp <= 1U) {
+        return 1U;
+    }
+    if (snap.energy_bp < 3000U || snap.morale_bp < 3000U || snap.hydration_bp < 3500U) {
+        return 1U; // Immediate brake to 1x real-time
+    }
+    return requested_warp;
+}
+
+// Acoustic Quiet-Hour Gate: blocks noisy mechanical serviceTasks without raw audio
+constexpr bool AuthorizeMechanicalAcousticEnvelope(
+    uint16_t task_rated_acoustic_cb,
+    const SomaticHomeostasisSnapshot& snap) noexcept
+{
+    constexpr uint16_t kQuietHourCapCb = 450U; // 45.0 dBA night / rest ceiling
+    if (snap.rest_shield_active || snap.night_quiet_window) {
+        return (task_rated_acoustic_cb <= kQuietHourCapCb) &&
+               (snap.ambient_spl_cb <= kQuietHourCapCb);
+    }
+    constexpr uint16_t kDaytimeSafeCapCb = 780U; // 78.0 dBA hearing-safe ceiling
+    return task_rated_acoustic_cb <= kDaytimeSafeCapCb;
+}
+\end{lstlisting}
+
+\begin{invariant}[Epistemic Sensor Honesty and Zero-Waveform Acoustic Privacy]
+\label{inv:epistemic-acoustic-privacy}
+Across every physical and simulated habitat node:
+\begin{enumerate}
+  \item \textbf{Epistemic Sensor Honesty:} Whenever hardware presence bit $b_{\text{sensor}}(p) = 0$ on \texttt{VirtualPinBus} pin $p$, numeric register queries return \texttt{DENIED\_NO\_L2\_SENSOR} with zeroed scalar fields, and routine Layer~6 views expose only ordinal $1\text{--}5$ somatic or ecological descriptors.
+  \item \textbf{Zero-Waveform Acoustic Boundary:} Layer~2 acoustic safety monitors transmit at most one unsigned 16-bit scalar root-mean-square centibel integer (\texttt{ambient\_spl\_cb}) per $1{,}000\,\text{ms}$ window; raw time-domain PCM audio buffers, spectral bins, and voice-band features are zeroed in MCU SRAM and never cross \texttt{col-telemetryd}.
+\end{enumerate}
+\end{invariant}
+
+\section{The Four Calm-Technology Scaling Laws for 300+ Workflows}
+\label{sec:four-calm-scaling-laws}
+
+In the early Lot~402 web prototype (\texttt{hud\_feel.js}), the Available task tray paginated ungrouped workflow steps at \texttt{availablePageSize: 2}. With $4$ workflows, two tasks per page feels uncluttered; at $N = 300$ concurrent homestead workflows, naive flat pagination explodes to $150$ pages of fragmented micro-prompts, inducing immediate cognitive paralysis. By Ashby's Law of Requisite Variety \parencite{ashby1956}, if human conscious attention has bounded channel capacity $C_{\text{stewards}}$ while habitat state complexity grows linearly with $N$, the orchestrator must embed structural variety-attenuators between Layer~4 token state and the Layer~6 visual periphery.
+
+We formalize four orthogonal \textbf{Calm-Technology Scaling Laws} that compress $N \ge 300$ concurrent BPMN workflows into fewer than a dozen calm, actionable daily choices.
+
+\begin{definition}[Calm Peripheral Attenuation Pipeline]
+\label{def:calm-attenuation}
+Let $\mathcal{W}(t)$ be the set of $N = |\mathcal{W}(t)|$ active workflow instances at Hybrid Logical Clock instant $t$, and let $\mathcal{T}_{\text{raw}}(t)$ be the multiset of all active BPMN tokens across $\mathcal{W}(t)$. The Layer~4-to-Layer~6 projection operator $\Pi_{\text{calm}} = \Pi_{\text{admit}} \circ \Pi_{\text{causal}} \circ \Pi_{\text{spatial}} \circ \Pi_{\text{plane}}$ maps $\mathcal{T}_{\text{raw}}(t)$ onto the visible Commons Pool set $\mathcal{V}(t)$ via four sequential contractions:
+\begin{enumerate}
+  \item \textbf{Law~1 (Autonomic vs.\ Somatic Plane Separation, $\Pi_{\text{plane}}$):} Partition $\mathcal{T}_{\text{raw}}(t) = \mathcal{T}_{\text{auto}}(t) \sqcup \mathcal{T}_{\text{som}}(t)$. Every token executing closed-loop Layer~2/Layer~3 machine sensing and actuation (MPPT charge balancing, drip-valve Schmitt-trigger pulses, battery cell equalization, automated pasteurization hold timers) belongs to $\mathcal{T}_{\text{auto}}(t)$ and satisfies $\Pi_{\text{plane}}(\tau) = \varnothing$ unless an interrupting BPMN boundary error or safety escalation event fires. Empirically on a mature homestead, $|\mathcal{T}_{\text{auto}}| / |\mathcal{T}_{\text{raw}}| \in [0.85, 0.92]$, eliminating $85\text{--}92\%$ of active workflows from human trays immediately.
+  \item \textbf{Law~2 (Spatial and Tool-Affinity Round Coalescing, $\Pi_{\text{spatial}}$):} Define an equivalence relation $\sim_{\text{round}}$ on waiting somatic tokens $\tau_i, \tau_j \in \mathcal{T}_{\text{som}}(t)$ such that $\tau_i \sim_{\text{round}} \tau_j$ iff they share the same physical topological zone \texttt{spatial\_zone\_id}, compatible \texttt{tool\_affinity\_mask}, and overlapping slack window $[t_{\text{earliest}}, t_{\text{latest}}]$. The quotient map $\Pi_{\text{spatial}}$ collapses each equivalence class $[\tau]_{\sim_{\text{round}}}$ into a single composite \textbf{Stewardship Round} card (for example, coalescing $18$ individual bed-moisture checks, pea-tendril training steps, and compost temperature readings in \texttt{garden\_zone\_east} into $1$ optional \emph{Morning Garden Round}).
+  \item \textbf{Law~3 (Causal Root-Cause Curtailment Grouping, $\Pi_{\text{causal}}$):} Let $G_{\text{dep}} = (V, E)$ be the directed acyclic resource-and-precondition dependency graph maintained across Layer~3 and Layer~4, where an edge $r \to \tau$ denotes that token $\tau$ is in state \texttt{SUSPENDED\_EXERGY} or \texttt{BLOCKED\_BY\_PRECONDITION} awaiting root condition $r$ (e.g., low solar battery SoC or an unharvested upstream stock lot). Rather than emitting $m = |\text{descendants}(r)|$ separate warning alerts (such as $22$ halted fabrication and dehydration tokens during a cloudy week), $\Pi_{\text{causal}}$ suppresses all child alerts with $\text{in-degree}_{G_{\text{dep}}}(\tau) \ge 1$ and surfaces exactly \emph{one} ambient root-cause status banner anchored at $r$.
+  \item \textbf{Law~4 (Little's Law Human Capacity Admission Control, $\Pi_{\text{admit}}$):} Layer~5 gates the admission of new discretionary workflows (Priority Tiers~4 and~5) so that long-run somatic utilization never exceeds the convivial ceiling $\rho_{\max} = 0.70$.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Bounded Commons Queue and Burnout Prevention under Law~4]
+\label{thm:littles-law-calm}
+Let $C_{\text{stewards}} > 0$ denote the aggregate daily voluntary stewardship time budget declared by the household or cluster (in seconds per day), let $\lambda_{\text{human}}$ be the arrival rate of human-interactive somatic rounds passing $\Pi_{\text{spatial}}$, and let $\bar{\tau}_{\text{service}}$ be the mean physical completion duration per round with squared coefficient of variation $c_s^2$ and arrival variation $c_a^2$. Define somatic traffic intensity:
+\begin{equation}
+\label{eq:human-utilization}
+\rho_{\text{human}} \;=\; \frac{\lambda_{\text{human}} \, \bar{\tau}_{\text{service}}}{C_{\text{stewards}}}.
+\end{equation}
+If Layer~5 admission control rejects or defers discretionary Tier~4/5 workflow instantiations whenever admitting candidate workflow $w^*$ would cause $\rho_{\text{human}} > \rho_{\max} = 0.70$, then:
+\begin{enumerate}
+  \item By Little's Law \parencite{little1961proof}, the time-average number of active committed rounds per unit steward capacity satisfies $\bar{L}_{\text{active}} = \lambda_{\text{human}} \bar{\tau}_{\text{service}} \le 0.70 \, C_{\text{stewards}}$.
+  \item By Kingman's $G/G/1$ heavy-traffic approximation \parencite{kleinrock1975queueing}, the expected waiting backlog $\bar{L}_q$ prior to voluntary pull remains strictly bounded above by
+  \[
+    \bar{L}_q \;\approx\; \frac{\rho_{\text{human}}^2}{1 - \rho_{\text{human}}} \cdot \frac{c_a^2 + c_s^2}{2} \;\le\; \frac{0.49}{0.30}\left(\frac{c_a^2 + c_s^2}{2}\right) \;=\; \frac{49}{60}(c_a^2 + c_s^2) \;<\; \infty,
+  \]
+  guaranteeing at least $30\%$ unscheduled slack capacity for rest, spontaneous social life, and unmodeled ecological surprises. Conversely, without admission control ($\rho_{\text{human}} \to 1^{-}$), $\bar{L}_q \propto (1 - \rho_{\text{human}})^{-1} \to +\infty$, mathematically guaranteeing backlog divergence and cognitive exhaustion regardless of UI styling.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+In any work-conserving queueing system where every admitted somatic round eventually exits either via physical completion or explicit cancellation, stability requires $\rho_{\text{human}} < 1$ \parencite{kleinrock1975queueing}. Applying \textcite{little1961proof} to the service facility yields $\bar{L}_{\text{active}} = \lambda_{\text{human}} \bar{\tau}_{\text{service}}$, which substituting Eq.~\eqref{eq:human-utilization} and the admission gate $\rho_{\text{human}} \le 0.70$ bounds at $0.70\,C_{\text{stewards}}$. Applying Kingman's moment bound to the waiting pool $G/G/1$ queue gives $\bar{W}_q \approx \frac{\rho_{\text{human}}}{1 - \rho_{\text{human}}} \frac{c_a^2 + c_s^2}{2} \bar{\tau}_{\text{service}}$; multiplying by $\lambda_{\text{human}}$ and evaluating the monotone increasing function $f(\rho) = \rho^2/(1-\rho)$ at $\rho = 0.70$ yields $f(0.70) = 0.49/0.30 = 49/30$, hence $\bar{L}_q \le \frac{49}{60}(c_a^2 + c_s^2)$. As $\rho_{\text{human}} \uparrow 1$, $(1 - \rho_{\text{human}})^{-1} \to +\infty$, proving that UI grouping alone cannot rescue an overloaded homestead without Law~4 admission gating.
+\end{proof}
+
+Listing~\ref{lst:calm-coalescer} presents the deterministic integer data structures and Law~4 admission gate used to bound somatic utilization without floating-point arithmetic.
+
+\begin{lstlisting}[language=C++,label={lst:calm-coalescer},caption={Deterministic integer structures and Law~4 admission gate for Calm UX scaling.}]
+#include <cstdint>
+#include <span>
+
+struct SomaticTokenSummary {
+    uint64_t token_id;
+    uint64_t root_blocker_cid;     // 0 if unblocked; >0 if gated by upstream root cause
+    uint32_t spatial_zone_id;      // Topological lot zone (e.g., GARDEN_EAST = 3)
+    uint32_t tool_affinity_mask;   // Bitmask of hand tools / PPE required
+    uint32_t est_service_sec;      // Mean somatic service time in integer seconds
+    uint8_t  priority_tier;        // 1 = Life/Eco Floor .. 5 = Discretionary Hobby
+    bool     is_autonomic_l2_l3;   // True if closed-loop L2/L3 execution
+    bool     has_boundary_fault;   // True only if L2/L3 escalated an anomaly
+};
+
+struct CoalescedStewardRound {
+    uint32_t spatial_zone_id;
+    uint32_t tool_affinity_mask;
+    uint32_t member_token_count;
+    uint32_t total_service_sec;
+    uint8_t  highest_priority_tier; // Minimum numeric tier (1 is highest urgency)
+};
+
+// Law 4 integer admission gate: rho_bp = (projected_sec * 10000) / capacity_sec_per_day
+constexpr bool AdmitDiscretionaryWorkflow(
+    uint64_t current_committed_sec_per_day,
+    uint64_t candidate_service_sec_per_day,
+    uint64_t steward_capacity_sec_per_day,
+    uint8_t  candidate_priority_tier) noexcept
+{
+    if (candidate_priority_tier <= 2U) {
+        return true; // Tier 1/2 ecological & life-safety baselines always admitted
+    }
+    if (steward_capacity_sec_per_day == 0ULL) {
+        return false;
+    }
+    const uint64_t projected_sec =
+        current_committed_sec_per_day + candidate_service_sec_per_day;
+    const uint64_t rho_bp = (projected_sec * 10000ULL) / steward_capacity_sec_per_day;
+    return rho_bp <= 7000ULL; // Enforce rho_human <= 0.70 (7000 basis points)
+}
+\end{lstlisting}
+
+To keep the coalescing pass completely self-contained and free of dynamic heap allocation, Listing~\ref{lst:calm-coalescer-loop} shows the single-pass spatial and causal projection loop executed when constructing each Layer~6 Commons Pool snapshot.
+
+\begin{lstlisting}[language=C++,label={lst:calm-coalescer-loop},caption={Single-pass autonomic filtering, root-cause suppression, and spatial round coalescing.}]
+inline uint32_t BuildCalmStewardRounds(
+    std::span<const SomaticTokenSummary> raw_tokens,
+    std::span<CoalescedStewardRound> out_rounds,
+    uint32_t& out_unique_root_blockers) noexcept
+{
+    uint32_t round_count = 0U;
+    uint64_t seen_blocker_bloom = 0ULL;
+    out_unique_root_blockers = 0U;
+
+    for (const auto& tok : raw_tokens) {
+        // Law 1: Autonomic plane tokens stay silent unless a boundary fault fired
+        if (tok.is_autonomic_l2_l3 && !tok.has_boundary_fault) {
+            continue;
+        }
+        // Law 3: Suppress downstream curtailed children; count unique root causes
+        if (tok.root_blocker_cid != 0ULL) {
+            const uint64_t bit = 1ULL << (tok.root_blocker_cid & 63ULL);
+            if ((seen_blocker_bloom & bit) == 0ULL) {
+                seen_blocker_bloom |= bit;
+                ++out_unique_root_blockers;
+            }
+            continue;
+        }
+        // Law 2: Coalesce by (spatial_zone_id, tool_affinity_mask)
+        bool merged = false;
+        for (uint32_t i = 0U; i < round_count; ++i) {
+            if (out_rounds[i].spatial_zone_id == tok.spatial_zone_id &&
+                out_rounds[i].tool_affinity_mask == tok.tool_affinity_mask) {
+                ++out_rounds[i].member_token_count;
+                out_rounds[i].total_service_sec += tok.est_service_sec;
+                if (tok.priority_tier < out_rounds[i].highest_priority_tier) {
+                    out_rounds[i].highest_priority_tier = tok.priority_tier;
+                }
+                merged = true;
+                break;
+            }
+        }
+        if (!merged && round_count < out_rounds.size()) {
+            out_rounds[round_count++] = CoalescedStewardRound{
+                tok.spatial_zone_id,
+                tok.tool_affinity_mask,
+                1U,
+                tok.est_service_sec,
+                tok.priority_tier
+            };
+        }
+    }
+    return round_count;
+}
+\end{lstlisting}
+
+\subsection{Quantitative Scaling Across Habitat Maturity ($N = 6 \to 320$)}
+
+Table~\ref{tab:calm-scaling-benchmark} traces the quantitative impact of $\Pi_{\text{calm}}$ across five stages of habitat instrumentation, assuming a single-steward daily voluntary stewardship budget of $C_{\text{stewards}} = 14{,}400\,\text{s}$ ($4.0\,\text{hours/day}$).
+
+\begin{table}[htbp]
+\centering
+\caption{Attenuation of active BPMN workflow tokens across habitat scale under the Four Calm-Technology Scaling Laws ($C_{\text{stewards}} = 4.0\,\text{h/day}$).}
+\label{tab:calm-scaling-benchmark}
+\footnotesize
+\begin{tabular}{@{}rrrrrrr@{}}
+\toprule
+\textbf{Active} & \textbf{Naive UI} & \textbf{After Law~1} & \textbf{After Law~3} & \textbf{After Law~2} & \textbf{Root-Cause} & \textbf{Admitted} \\
+\textbf{Workflows} & \textbf{Pages} & \textbf{Somatic} & \textbf{Unblocked} & \textbf{Visible} & \textbf{Banners} & \textbf{Utilization} \\
+$N$ & (\texttt{sz=2}) & $|\mathcal{T}_{\text{som}}|$ & \textbf{Tokens} & \textbf{Rounds} & $|\mathcal{B}_{\text{root}}|$ & $\rho_{\text{human}}$ \\
+\midrule
+$0$ (Day 1) & $0$ & $0$ & $0$ & \textbf{0} & $0$ & $0.00$ \\
+$6$ (Seed) & $3$ & $4$ & $4$ & \textbf{2} & $0$ & $0.18$ \\
+$50$ (Cottage) & $25$ & $11$ & $8$ & \textbf{3} & $1$ & $0.34$ \\
+$150$ (Homestead) & $75$ & $23$ & $14$ & \textbf{4} & $1$ & $0.51$ \\
+$320$ (Full Lot 402) & $160$ & $38$ & $19$ & \textbf{3--5} & $1\text{--}2$ & $0.54 \le 0.70$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Consider the $N = 320$ steady-state row at \texttt{08:00} on a partly cloudy spring morning:
+\begin{itemize}
+  \item \textbf{After Law~1 ($\Pi_{\text{plane}}$):} $282$ workflows ($88.1\%$) are closed-loop autonomic controllers (MPPT solar tracking, LFP BMS cell balancing, drip-line moisture hysteresis, compost aeration dampers, cold-cellar Peltier regulation). None have active boundary faults. Only $38$ somatic tokens remain.
+  \item \textbf{After Law~3 ($\Pi_{\text{causal}}$):} Overnight cloud cover left the microgrid battery at $42\%$ SoC, suspending $19$ exergy-intensive timber-milling, kiln-drying, and batch-canning tokens behind a single solar-curtailment root cause ($r_{\text{soc}}$). Law~3 collapses all $19$ blocked tokens into \emph{one} calm status banner: \emph{``19 workshop \& thermal tasks paused awaiting 65\% battery SoC.''} Now $19$ actionable somatic tokens remain.
+  \item \textbf{After Law~2 ($\Pi_{\text{spatial}}$):} Of those $19$ tokens, $11$ reside in \texttt{garden\_zone\_east} (pea trellis tying, Bed~B moisture check, brassica pest inspection), $5$ reside in \texttt{hearth\_galley} (soaking dried peas, rinsing mason jars), and $3$ reside in \texttt{poultry\_run}. Law~2 coalesces them into \textbf{three} calm Stewardship Rounds in the Layer~6 Available Pool---fitting on a single tranquil screen with zero pagination, zero push notifications, and $\rho_{\text{human}} = 0.54 \le 0.70$.
+\end{itemize}
+
+\subsection{Federated Ring-1 Mutual Aid Under Local Somatic Saturation}
+
+Law~4 rejects discretionary Tier~4 and Tier~5 hobbies when $\rho_{\text{human}} > 0.70$, yet illness, injury, bereavement, or seasonal weather emergencies can temporarily reduce a household's effective capacity $C_{\text{stewards}} \to 0$ even while non-deferrable Tier~1 and Tier~2 baselines (livestock watering, frost protection, greywater weir clearing) continue arriving. In a purely isolated system, shrinking $C_{\text{stewards}}$ below Tier~1/2 demand would still force $\rho_{\text{human}} > 1$.
+
+Here the Sovereign Stack couples calm local UX to polycentric mutual aid \parencite{kropotkin1902,ostrom2010}. When a steward activates an extended \emph{Scenario Sigma} rest or illness shield---or explicitly selects \texttt{DELEGATE\_TO\_R1\_COMMONS}---Layer~5 authorizes \texttt{col-swarmd} (\texttt{src/daemons/col-swarmd/swarm\_engine.hpp}) to publish a zero-PII mutual-aid requisition across adjacent Ring-1 neighborhood clusters (\texttt{cluster:north\_oak\_commons}, \texttt{cluster:creekside\_guild}, \texttt{cluster:sunnyside\_care\_ring}). Neighboring stewards see an optional mutual-aid round in their own ambient Commons Pool, bounded by their own cluster's $\rho_{\text{human}} \le 0.70$ admission gate and settled via zero-sum Bilateral Mutual Credit (\texttt{PairwiseBccChannel}) or non-monetized care-ring reciprocity. In terms of Theorem~\ref{thm:littles-law-calm}, Ring-1 federation temporarily pools $C_{\text{stewards}}^{\text{R1}} = \sum_{k \in \text{R1}} C_{\text{stewards}}^{(k)}$, restoring $\rho_{\text{human}} \ll 0.70$ without ever nagging an unwell resident.
+
+By uniting DID-blinded voluntary pull, 1-to-5 qualitative feel gating, somatic rest shields, scalar edge acoustic caps, polycentric Ring-1 care overflow, and the four calm-technology scaling laws, Layer~4 proves that industrial-grade deterministic orchestration and quiet human conviviality are not opposites. On the contrary, it is precisely because the machine tracks every milligram, microjoule, and precondition deterministically in the background that the human steward is freed to inhabit the foreground in peace. Having established the human-facing invariants of Layer~4, Chapter~\ref{ch:oasis-council} turns to the live Oasis (\texttt{Layer 1b}) software-in-the-loop canary on Lot~402---auditing both its six working engineering breakthroughs and the seven runtime ceilings targeted for next-sprint evolution.

@@ -1,0 +1,551 @@
+\chapter{Wave A: Meta-Infrastructure, Genesis, and Somatic Homeostasis (\texttt{Zero}, \texttt{Tau}, \texttt{Sigma})}
+\label{ch:wave-a}
+
+\epigraph{An autopoietic machine continuously generates and specifies its own organization through its operation as a system of production of its own components, and does this in an endless turnover of components under conditions of continuous perturbations.}{--- \textcite{maturana1980}}
+
+\section{Autopoietic Foundations of the Sovereign Node}
+\label{sec:wave-a-intro}
+
+Part I of this companion volume established the internal mechanics of \texttt{col-execd}: strict bilateral socket
+isolation between \texttt{l3\_l4.sock} and \texttt{l4\_l5.sock}, ahead-of-time BPMN 2.0 compilation into float-free
+WebAssembly modules, cache-aligned 64-byte token frames, lexicographic resource leases, mediated choreography across
+hundreds of concurrent workflow instances, Second-Law physical salvage sagas, and calm somatic agency. Part II
+demonstrates how those domain-agnostic primitives compose horizontally across all twenty-five operational scenarios of
+The Collective, scaling organically from a single suburban lot (\texttt{Stage 1A}) through a peered neighborhood mesh
+(\texttt{Stage 1B}) and a cooperative mixed-use shell (\texttt{Stage 2}) to a permanently decommodified Community Land
+Trust campus (\texttt{Stage 3}).
+
+Horizontal implementation begins with \textbf{Wave A}, the foundational triad comprising \textbf{Scenario Zero}
+(\textit{The Sovereign Software Forge}), \textbf{Scenario Tau} (\textit{Steward Onboarding and Node Genesis}), and
+\textbf{Scenario Sigma} (\textit{Somatic Homeostasis, Burnout, and Rest Shields}). Before a settlement can safely
+automate pressure-canning retorts, energize $48\,\mathrm{V}$ fabrication bays, or govern perinatal nurseries, its
+orchestration layer must satisfy three non-negotiable cybernetic preconditions \parencite{beer1972,beer1979,maturana1980}:
+\begin{enumerate}
+    \item \textbf{Autopoietic Binary Sovereignty (\texttt{Zero}):} The node must compile, attest bit-for-bit across
+    heterogeneous processor architectures, canary-test inside a time-warped digital twin, and atomically promote its
+    own daemon binaries---recovering the resulting server heat---without trusting corporate cloud CI/CD pipelines or
+    opaque binary repositories \parencite{saltzer1984end,grieves2014digital}.
+    \item \textbf{Clean-Slate Hardware and Pluralistic Human Genesis (\texttt{Tau}):} The node must boot with zero
+    unsolicited background workflows, anchor its hardware entropy inside tamper-resistant silicon, orchestrate 3-of-5
+    social key-recovery shards without exposing cryptographic secrets to Layer 4, and welcome every human life
+    trajectory with unconditional survival access ($B_{\mathrm{baseline}}$) and zero panoptic scoring
+    \parencite{ostrom1990,zuboff2019}.
+    \item \textbf{Nervous-System Homeostasis (\texttt{Sigma}):} The orchestrator must close an anti-burnout feedback
+    loop around human attention and physical stamina---enforcing asymmetric hysteresis deadbands, voluntary
+    \texttt{RestShield} notification blinding, scalar quiet-hours acoustic caps, and seasonal winter metabolic
+    deceleration so that conscientious stewards never collapse into heroic martyrdom \parencite{cannon1932,han2015}.
+\end{enumerate}
+
+\begin{figure}[htbp]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+    >=Stealth,
+    node distance=1.3cm and 1.6cm,
+    layerbox/.style={draw=black!75, rounded corners=3pt, thick, fill=gray!6, inner sep=7pt},
+    wfbox/.style={draw=blue!65!black, rounded corners=2pt, semithick, fill=blue!4, align=center, font=\footnotesize, minimum width=3.9cm, minimum height=1.1cm},
+    sombox/.style={draw=teal!70!black, rounded corners=2pt, semithick, fill=teal!5, align=center, font=\footnotesize, minimum width=3.9cm, minimum height=1.1cm},
+    socklbl/.style={font=\scriptsize\ttfamily, fill=white, inner sep=2pt}
+]
+    % L5 Governance Plane
+    \node[layerbox, minimum width=13.6cm, minimum height=1.35cm] (l5) {};
+    \node[anchor=north west, font=\footnotesize\bfseries] at ($(l5.north west)+(0.15,-0.12)$) {Layer 5 (\texttt{col-kmsd}): Studio Veto, Tripartite \texttt{Treaty\_CID}, 3-of-5 Shamir Quorum \& \texttt{RestShield} Blinding};
+
+    % L4 Orchestrator Plane
+    \node[layerbox, minimum width=13.6cm, minimum height=4.4cm, below=0.95cm of l5] (l4) {};
+    \node[anchor=north west, font=\footnotesize\bfseries] at ($(l4.north west)+(0.15,-0.12)$) {Layer 4 (\texttt{col-execd} @ 10 Hz): Wave A Autonomic \& Somatic BPMN Choreography};
+
+    % Scenario Zero column
+    \node[wfbox, anchor=north west] (zero-auto) at ($(l4.north west)+(0.35,-0.75)$) {\textbf{Zero (Autonomic)}\\2-of-3 / 3-of-3 Multi-Arch Build\\10,000-Tick \texttt{L1b} Canary \& A/B};
+    \node[sombox, below=0.45cm of zero-auto] (zero-som) {\textbf{Zero (Somatic)}\\SBOM Merkle Curation \&\\Dual-Guild Release Co-Sign};
+
+    % Scenario Tau column
+    \node[wfbox, right=0.55cm of zero-auto] (tau-auto) {\textbf{Tau (Autonomic)}\\\texttt{CleanSlateGenesis} Bring-Up\\Node 0 Cascade \& Shamir Ping};
+    \node[sombox, below=0.45cm of tau-auto] (tau-som) {\textbf{Tau (Somatic)}\\\texttt{ATECC608A} NFC Ceremony \&\\Kappa Equivalence Check-Ride};
+
+    % Scenario Sigma column
+    \node[wfbox, right=0.55cm of tau-auto] (sig-auto) {\textbf{Sigma (Autonomic)}\\Asymmetric \texttt{ChillLoop} Guard\\450 cB Cap \& Winter Governor};
+    \node[sombox, below=0.45cm of sig-auto] (sig-som) {\textbf{Sigma (Somatic)}\\Voluntary \texttt{RestShield} \&\\Commons Pool Redistribution};
+
+    % L3 Ledger Plane
+    \node[layerbox, minimum width=13.6cm, minimum height=1.35cm, below=0.95cm of l4] (l3) {};
+    \node[anchor=north west, font=\footnotesize\bfseries] at ($(l3.north west)+(0.15,-0.12)$) {Layer 3 (\texttt{col-storaged}): Vendored SBOM CIDs, $B_{\mathrm{baseline}}$ Slots, Hydronic $\mu\mathrm{J}$ Leases \& Watchdog Flags};
+
+    % Cross-scenario intra-L4 couplings
+    \draw[->, thick, dashed, blue!70!black] (tau-auto.west) -- node[above, font=\scriptsize] {boot} (zero-auto.east);
+    \draw[->, thick, dashed, teal!75!black] (tau-som.east) -- node[above, font=\scriptsize] {shield} (sig-som.west);
+    \draw[->, thick, dashed, purple!75!black] (sig-auto.north) to[bend right=14] node[above, font=\scriptsize] {\texttt{sig:sigma.drudgery\_quest}} (zero-auto.north);
+
+    % Bilateral socket arrows
+    \draw[<->, very thick] ($(l5.south)+(-4.4,0)$) -- node[socklbl] {l4\_l5.sock} ($(l4.north)+(-4.4,0)$);
+    \draw[<->, very thick] (l5.south) -- node[socklbl] {l4\_l5.sock} (l4.north);
+    \draw[<->, very thick] ($(l5.south)+(4.4,0)$) -- node[socklbl] {l4\_l5.sock} ($(l4.north)+(4.4,0)$);
+
+    \draw[<->, very thick] ($(l4.south)+(-4.4,0)$) -- node[socklbl] {l3\_l4.sock} ($(l3.north)+(-4.4,0)$);
+    \draw[<->, very thick] (l4.south) -- node[socklbl] {l3\_l4.sock} (l3.north);
+    \draw[<->, very thick] ($(l4.south)+(4.4,0)$) -- node[socklbl] {l3\_l4.sock} ($(l3.north)+(4.4,0)$);
+\end{tikzpicture}%
+}
+\caption{Wave A orchestration topology across \texttt{col-execd}, coupling autopoietic software verification (\texttt{Zero}), clean-slate hardware and human genesis (\texttt{Tau}), and asymmetric somatic load shedding (\texttt{Sigma}) across strict bilateral POSIX sockets.}
+\label{fig:wave-a-choreography}
+\end{figure}
+
+Figure~\ref{fig:wave-a-choreography} depicts the division between the autonomic and somatic planes
+across Wave A. Roughly $88\%$ to $91\%$ of Wave A workflow tokens execute silently in the autonomic
+plane---verifying multi-architecture compiler hashes, supervising A/B partition watchdogs, pinging
+Shamir recovery guardians, and modulating seasonal queue ceilings---so that human stewards interact
+only with high-meaning governance and care gates \parencite{weiser1996calm,illich1973}.
+
+% ==========================================================================
+\section{Scenario Zero: The Sovereign Software Forge (\texttt{SCN-ZERO-SOFTWARE})}
+\label{sec:wave-a-zero}
+
+Scenario Zero is to digital infrastructure what Scenario Alpha is to physical tools: it governs the
+design, hermetic compilation, ethical verification, zero-DRM Agora distribution, composable modding,
+and runtime promotion of all six software classes in The Collective. These span lean Linux/BSD and
+microkernel operating systems engineered under the \textbf{20-Year Salvaged Hardware Longevity
+Mandate} ($\le 256\,\mathrm{MiB}$ idle RAM for base OS images, $\le 512\,\mathrm{MiB}$ for graphical
+desktop suites), Layer 6 native Automerge CRDT applications, Layer 7 ``detoxed'' open-source
+counterparts (stripped of cloud sign-in walls and telemetry beacons), cooperative video games and
+capability-sandboxed WebAssembly mods (including \textbf{Oasis} itself), reusable fixed-point and
+cryptographic SDKs, and the constitutional seven-layer stack daemons (\texttt{col-sensord} through
+\texttt{col-adversaryd}).
+
+\subsection{Workflow Topology and Cross-Scenario Couplings}
+
+Inside \texttt{col-execd}, Scenario Zero decomposes into two foreground somatic workflows and four
+concurrent autonomic pipelines \parencite{omg2011bpmn,chinosi2012bpmn}. In the somatic plane,
+\texttt{wf.zero.studio\_veto\_and\_sbom} ingests a ratified \texttt{SoftwareOrGameProductionIntent}
+only after the target guild exercises its unconditional \textbf{Sovereign Studio Veto}
+(\textit{Protocol of Refusal}) against surveillance analytics, DRM lockouts, or manipulative
+lootbox mechanics. The workflow then traverses the package's recursive Software Bill of Materials
+(\texttt{SBOM}) Merkle DAG. Missing internal libraries or soundtracks spawn child
+\texttt{LibraryBountyIntent} or Scenario Lambda \texttt{GameAssetIntent} sub-workflows across
+$R_1 \dots R_4$, whereas unvendored external leaf dependencies yield upward to trigger the
+\textbf{Layer 7 Detox Quarantine Pipeline} (clean-room license audit, telemetry stripping, and
+offline source vendoring).
+
+Once every transitive dependency is content-addressed in Layer 3, execution enters the autonomic plane:
+\begin{enumerate}
+    \item \textbf{Multi-Architecture Nix/Guix + Bazel Build Fan-Out
+    (\texttt{wf.zero.hermetic\_multiarch\_build}):} Spawns parallel BPMN multi-instance builder
+    sub-tasks across diverse host silicon (\texttt{x86\_64}, \texttt{aarch64}, \texttt{riscv64})
+    inside network-isolated Nix/Guix store sandboxes driving deterministic Bazel action graphs.
+    \item \textbf{Thermodynamic Build Scheduling (\texttt{Alpha} $\to$ \texttt{Zero} $\to$
+    \texttt{Zeta}/\texttt{Gamma}):} Heavy OS bootstrap builds, shader lightmap bakes, and fuzzing
+    suites park on an intermediate conditional catch event subscribed to
+    \texttt{sig:alpha.curtailment\_surplus}. They wake when the local $48\,\mathrm{V}$
+    $\mathrm{LiFePO_4}$ battery bank reaches $\mathrm{SoC} \ge 8500\,\mathrm{bp}$ ($85\%$), while
+    \texttt{wf.zero.hydronic\_heat\_dispatch} regulates direct-to-chip copper water-block pumps via
+    \texttt{ActuationEnvelopeV1} ($313{,}150\text{--}328{,}150\,\mathrm{mK}$), exporting
+    $\ge 8000\,\mathrm{bp}$ ($80\%$) of server waste heat via \texttt{msg:zero.hydronic\_export}
+    into Scenario Zeta bathhouses and Scenario Gamma greenhouse root zones \parencite{georgescu1971}.
+    \item \textbf{Shadow-Twin Canary Soak (\texttt{wf.zero.oasis\_canary\_gate}):} Boots candidate
+    stack daemons and Layer 2 Zephyr RTOS firmware inside an isolated \textbf{Layer 1b Oasis}
+    sandbox for a mandatory $10{,}000\text{-tick}$ adversarial soak.
+    \item \textbf{Dual-Guild Sign-Off and Atomic A/B Rollout
+    (\texttt{wf.zero.dual\_guild\_signoff} $\to$ \texttt{wf.zero.ab\_atomic\_promotion}):} Requires
+    co-signatures from both a Software Steward and an active Domain Guild Steward
+    (\texttt{ai\_unsupervised\_deploy == false}) before flipping the dual-partition daemon root
+    under hardware watchdog supervision.
+\end{enumerate}
+
+\subsection{Fixed-Point SI Invariants, Canary Gate, and A/B Watchdog Sagas}
+
+Supply-chain attacks and IEEE-754 floating-point non-determinism are defeated simultaneously by Diverse
+Double-Compiling consensus and static bytecode verification \parencite{haas2017wasm,rose2020zero}.
+
+\begin{invariant}[Multi-Architecture Binary Attestation, Canary Gate, and Hydronic Capture]
+\label{inv:zero-forge}
+Let $\mathcal{B} = \{b_{\mathrm{x86\_64}}, b_{\mathrm{aarch64}}, b_{\mathrm{riscv64}}\}$ denote three topologically
+and architecturally independent builder nodes executing hermetic Nix/Guix and Bazel derivations over identical vendored
+SBOM Merkle root $R_{\mathrm{sbom}}$ with $\mathtt{SOURCE\_DATE\_EPOCH} = 0$ and external build-time socket count
+$N_{\mathrm{net}} = 0$. A candidate artifact $p$ of criticality class $c(p)$ is admissible for Agora publication or
+daemon promotion if and only if:
+\begin{align}
+    &\text{(Multi-Arch Consensus)} && \sum_{b \in \mathcal{B}} \mathbf{1}\!\left[\mathrm{SHA256}\big(\mathrm{bin}_{b}(p, \tau_{\mathrm{target}})\big) = H^{\star}\right] \ge K(c), \label{eq:zero-consensus}\\
+    &\text{(Ethics \& Frugality)} && N_{\mathrm{telemetry}}(p) = 0 \;\land\; N_{\mathrm{drm}}(p) = 0 \;\land\; M_{\mathrm{idle\_mib}}(p) \le M_{\max}(c), \label{eq:zero-ethics}\\
+    &\text{(Constitutional Canary)} && c = \mathtt{STACK\_DAEMON} \implies N_{\mathrm{float\_op}}(p) = 0 \;\land\; T_{\mathrm{oasis}} \ge 10{,}000, \label{eq:zero-canary}\\
+    &\text{(Hydronic Recovery)} && \eta_{\mathrm{hydronic\_bp}} = \left\lfloor \frac{E_{\mathrm{recovered\_uj}} \cdot 10{,}000}{E_{\mathrm{compile\_uj}}} \right\rfloor \ge 8000 \quad (\text{Stages 2--3}). \label{eq:zero-heat}
+\end{align}
+Here $K(c) = 2$ (2-of-3 multi-architecture quorum) suffices for non-privileged creative mods and desktop tools during
+transient mesh partitions, whereas $K(\mathtt{STACK\_DAEMON}) = 3$ (unanimous 3-of-3 bit-for-bit agreement) is
+mandatory for constitutional stack daemons, BPMN Wasmtime modules, and Layer 2 RTOS firmware.
+\end{invariant}
+
+In Equation~\eqref{eq:zero-canary}, the static binary auditor scans all WASM and ELF code sections to verify zero
+floating-point opcodes (\texttt{0x43}/\texttt{0x44} in WASM; SSE/FP instructions in deterministic state paths) and zero
+layer-skipping socket imports. Passing binaries enter the \textbf{10,000-Tick Oasis Canary Gate}: \texttt{col-execd}
+attaches the candidate daemon to a sandboxed \texttt{uhai\_telemetry.ring} tagged explicitly with
+\texttt{QUALITY\_SIMULATED = 0x01} while \texttt{col-adversaryd} injects 480+ synthetic Byzantine network partitions,
+clock skews, and power brownouts \parencite{grieves2014digital}. Any hash mismatch across $\mathcal{B}$, ethics
+violation, or canary deadlock triggers a \textbf{Regime 1 Pre-Actuation Abort} ($t < t_{\mathrm{actuate}}$),
+quarantining the diverging toolchain and releasing compute reservations without touching live daemons
+\parencite{garciamolina1987sagas}.
+
+Crossing $t_{\mathrm{actuate}}$ initiates \textbf{Dual-Partition A/B Atomic Promotion} (\textbf{Regime 2}). The
+candidate image is written and fsynced to the dormant partition (\texttt{slot\_b} while \texttt{slot\_a} serves
+traffic), verified against $H^{\star}$, and atomically swapped via the supervisor boot table while arming a hardware
+watchdog relay with a \texttt{3000 ms} lease horizon \parencite{iec61508}.
+
+\begin{lstlisting}[language=C++,caption={Fixed-point release gate and A/B hardware watchdog promotion contract for Scenario Zero.},label={lst:zero-ab-gate}]
+struct alignas(8) ZeroReleaseGateRegisters {
+    uint64_t compile_energy_uj;         // Exact mW * ms metered on build blades
+    uint64_t hydronic_recovered_uj;     // Captured into 313150..328150 mK PEX loop
+    uint32_t oasis_canary_ticks;        // Required >= 10000 at QUALITY_SIMULATED=0x01
+    uint32_t watchdog_lease_timeout_ms; // Hardware relay window (3000 ms nominal)
+    uint16_t idle_ram_salvaged_mib;     // Measured on 15-yr salvaged laptop benchmark
+    uint16_t ram_budget_mib;            // <= 256 MiB OS, <= 512 MiB L6 app/game
+    uint8_t  arch_hash_quorum_count;    // Matching SHA-256 across x86_64/aarch64/riscv64
+    uint8_t  float_or_drm_violations;   // Must equal 0 (rejects 0x43/0x44 & beacons)
+    uint8_t  active_partition_slot;     // 0 = SLOT_A, 1 = SLOT_B
+    uint8_t  quorum_required;           // 2 = standard app/mod, 3 = stack/RTOS daemon
+};
+
+[[nodiscard]] constexpr bool VerifyZeroPromotionGate(
+    const ZeroReleaseGateRegisters& r, bool dual_guild_cosigned, bool stage2_hydronic
+) noexcept {
+    if (!dual_guild_cosigned || r.float_or_drm_violations != 0u) return false;
+    if (r.arch_hash_quorum_count < r.quorum_required) return false;
+    if (r.idle_ram_salvaged_mib > r.ram_budget_mib) return false;
+    if (r.quorum_required == 3u && r.oasis_canary_ticks < 10000u) return false;
+    if (stage2_hydronic) {
+        if (r.compile_energy_uj == 0ULL) return false;
+        const uint64_t recovery_bp = (r.hydronic_recovered_uj * 10000ULL) / r.compile_energy_uj;
+        if (recovery_bp < 8000ULL) return false;
+    }
+    return true;
+}
+\end{lstlisting}
+
+If the promoted daemon crashes, deadlocks, or fails to renew its \texttt{1000 ms} sequence heartbeat over
+\texttt{l3\_l2.sock} and \texttt{l4\_l5.sock} before the \texttt{3000 ms} hardware timer expires, the watchdog triggers
+automatic \textbf{Regime 2 Hardware Rollback}: cutting power to the faulty process group, flipping the partition
+symlink back to the previous verified slot within \texttt{500 ms}, and logging a signed \texttt{AbWatchdogRollbackReceipt}
+into Layer 3 while Layer 2 microcontrollers hold physical valves and contactors safely inside their active
+\texttt{ActuationEnvelopeV1} deadbands.
+
+\subsection{Bilateral Socket Contracts (\texttt{l3\_l4.sock} and \texttt{l4\_l5.sock})}
+
+Over \texttt{/run/collective/ipc/l3\_l4.sock}, \texttt{col-execd} acquires lexicographically ordered leases
+(\texttt{0:EXERGY} $\prec$ \texttt{1:STATION}) on \texttt{lease:exergy:build\_uj} and
+\texttt{lease:station:blade\_<arch>}, verifies offline Merkle archives at \texttt{zero:sbom:<cid>}, commits canary
+attestations to \texttt{zero:canary:<pkg\_uuid>}, and clears inter-guild SBOM sub-bounties plus net compute work
+($E_{\mathrm{compile\_uj}} - E_{\mathrm{recovered\_uj}}$) across zero-sum Pairwise Bilateral Clearing Channels
+($B_{u\to v} + B_{v\to u} = 0$). Once published, all Agora packages replicate across local fiber, Reticulum radio, and
+Scenario Beta DTN mules at zero marginal per-copy cost. Over \texttt{/run/collective/ipc/l4\_l5.sock},
+\texttt{col-execd} consumes ratified \texttt{SoftwareAgoraPackageManifest} payloads, \texttt{StudioVeto} verdicts, and
+blinded dual-steward co-signatures, while emitting \texttt{YIELD\_UPWARD\_L5} on missing vendored leaves and reporting
+SBOM usage lineage so Layer 5 can attribute non-financial Reputational Wealth ($\mathcal{R}$) upstream.
+
+% ==========================================================================
+\section{Scenario Tau: Steward Onboarding and Node Genesis (\texttt{SCN-TAU-GENESIS})}
+\label{sec:wave-a-tau}
+
+Scenario Tau governs how physical compute/energy nodes ignite from bare metal and how human beings
+join The Collective across diverse bodies, minds, and life circumstances. Rejecting corporate
+biometric KYC traps, dynastic founder privilege, and sectarian ``cult rupture'' demands that force
+newcomers to sever external family or job ties, Scenario Tau supports four equal human integration
+pathways \parencite{ostrom1990,hirschman1970}: \textbf{Pathway 1} (\textit{Partial/Hybrid Layer 7
+Stewards} participating 4--12 hours/week while keeping external homes and jobs), \textbf{Pathway 2}
+(\textit{Full Resident / Node 0 Stewards}), \textbf{Pathway 3} (\textit{Collective-Born Native Youth}
+coming of age with zero inherited reputation $\mathcal{R}_{\mathrm{inherited}} = 0$ and optional
+community-backed \textit{Rumspringa} sabbaticals), and \textbf{Pathway 4} (\textit{Unconditional
+$R_0$ Sanctuary Guests} welcomed with zero cryptographic onboarding).
+
+\subsection{Workflow Topology and \texttt{CleanSlateGenesis} Choreography}
+
+To uphold the Constitutional Intent U-Turn ($\text{Human} \to L_6 \to L_5 \to L_4$), every Sovereign
+Stack node boots into \textbf{Clean-Slate Day-1 Genesis}: \texttt{col-execd} starts with
+\texttt{workflows\_.empty() == true} and \texttt{col-gatewayd} enforces HTTP \texttt{405}
+(\texttt{L4\_IS\_STRICTLY\_READ\_ONLY\_NO\_MUTATIONS}) so no workflow ever self-spawns without
+governance ratification. The inaugural choreography \texttt{wf.tau.clean\_slate\_genesis} supervises
+the deterministic eight-step bottom-up daemon bring-up: stabilizing Layer 1 mechanical float-valves
+and $48\,\mathrm{V}$ Class-T fuses, initializing Layer 2
+\texttt{col-sensord}/\texttt{col-actuated}/\texttt{col-meshd} with \texttt{ATECC608A} silicon,
+mounting Layer 3 \texttt{col-storaged} RocksDB WAL and its \texttt{1000 ms} downward heartbeat over
+\texttt{l3\_l2.sock}, starting \texttt{col-execd} at $10\,\mathrm{Hz}$, loading \texttt{col-kmsd}
+governance tables, and opening Layer 6/7 Agora and DMZ carapaces before pushing the node's inaugural
+BPVP capability advertisement downward.
+
+In the somatic plane, \texttt{wf.tau.steward\_onboarding} orchestrates human welcome and progressive
+capability activation across three cross-scenario couplings:
+\begin{enumerate}
+    \item \textbf{Zero-Fee Hospitality Ingress (\texttt{Tau} $\to$ \texttt{Gamma} + \texttt{Zeta}):}
+    At the very first transition---prior to any key ceremony and unconditionally for Pathway 4
+    sanctuary seekers---\texttt{col-execd} commits a $10{,}000\,\mathrm{bp}$ ($100\%$)
+    $B_{\mathrm{baseline}}$ slot guaranteeing hot meals, potable water, warm showers, and shelter
+    completely decoupled from labor output.
+    \item \textbf{Priority $R_0$ Assistive-Technology Fabrication (\texttt{Tau} $\to$ \texttt{Alpha}
+    + \texttt{Zero} + \texttt{Nu}):} When a newcomer declares mobility, sensory, or communication
+    accommodations in their \texttt{AccessibilityAndSensoryManifest}, \texttt{col-execd} immediately
+    emits Tier-2 survival fabrication orders (\texttt{msg:tau.r0\_assistive\_fab}) for custom-fitted
+    titanium or timber wheelchairs, prosthetic sockets, wool pressure-relief cushions, or offline
+    Braille/eye-gaze AAC terminals---constitutionally locked in Trust Ring $R_0$
+    (\texttt{non\_requisitionable = true}).
+    \item \textbf{Fast-Track Skill Equivalence (\texttt{Tau} $\to$ \texttt{Kappa}):} Newcomers
+    bringing prior Layer 7 trade mastery or native youth presenting Inquiry Circle portfolios trigger
+    \texttt{msg:tau.kappa\_equivalence}, pairing them with a Peer Buddy and Journeyman for an Oasis
+    $L_{1b}$ 100-scenario safety stress-test and physical check-ride to unlock immediate
+    \texttt{L1}/\texttt{L2} workshop credentials.
+\end{enumerate}
+
+\subsection{Fixed-Point SI Invariants, \texttt{ATECC608A} Entropy, and 3-of-5 Shamir Recovery}
+
+Before a bootstrap household (\texttt{Node 0}) advertises surplus microgrid or workshop capacity,
+\texttt{wf.tau.verify\_node0\_seed} validates its fixed-point thermodynamic seed: solar PV rating
+$P_{\mathrm{pv}} \ge 6{,}400{,}000\,\mathrm{mW}$ ($6.4\,\mathrm{kW}$), battery bank
+$E_{\mathrm{batt}} \ge 51{,}609{,}600{,}000{,}000\,\mu\mathrm{J}$ ($14.34\,\mathrm{kWh}$) at nominal
+potential $V_{\mathrm{bus}} = 48{,}000\,\mathrm{mV}$, and strictly decreasing four-stage thermal
+cascade temperatures ($800{,}000\,\mathrm{mK} > 340{,}000\,\mathrm{mK} > 315{,}000\,\mathrm{mK} >
+285{,}000\,\mathrm{mK}$).
+
+For stewards electing Pathways 1--3, identity provisioning pairs a tamper-resistant \textbf{Microchip
+\texttt{ATECC608A}} hardware entropy ceremony \parencite{microchip_atecc608a} with \textbf{3-of-5
+Shamir Social Key-Recovery Shard Orchestration} across Layer 5.
+
+\begin{definition}[Hardware Entropy Ceremony and Blinded 3-of-5 Shamir Choreography]
+\label{def:tau-shamir}
+During \texttt{wf.tau.hardware\_key\_ceremony}, internal \texttt{ATECC608A} hardware random number
+generators synthesize an Ed25519 keypair locked in silicon while \texttt{col-kmsd} splits a recovery
+seed over $\mathrm{GF}(2^8)$ into $n = 5$ guardian shards with threshold $k = 3$, subject to four
+invariants:
+\begin{align}
+    &\text{(Physical Co-Presence)} && \mathrm{RSSI}_{\mathrm{nfc\_mdbm}} > -55{,}000 \;\lor\; \mathtt{bedside\_visit\_cosigned} = 1, \label{eq:tau-nfc}\\
+    &\text{(Sensory \& Anti-Biometric)} && N_{\mathrm{biometric}} = 0 \;\land\; \big(\mathtt{sensory\_calm} \implies L_{\mathrm{noise\_cb}} \le 350\big), \label{eq:tau-calm}\\
+    &\text{(Anti-Dynastic Baseline)} && B_{\mathrm{baseline\_bp}} = 10{,}000 \;\land\; \mathcal{R}_{\mathrm{initial}} = 0 \quad (\forall\,\mathcal{R}_{\mathrm{parent}}), \label{eq:tau-antidynastic}\\
+    &\text{(Blinded Shamir Quorum)} && \sum_{g=1}^{5} \mathbf{1}\!\left[\mathtt{guardian\_ack}_{g}(\kappa) = \mathtt{VERIFIED}\right] = 5 \quad (\text{reconstruct at } \ge 3). \label{eq:tau-shamir}
+\end{align}
+Preserving Keyless Blindness, \texttt{col-execd} never touches private keys, DID strings, or
+polynomial share bytes. It tracks only an opaque 32-byte correlation key $\kappa$ across five
+parallel \texttt{ReceiveTask} tokens awaiting encrypted guardian escrow receipts from
+\texttt{col-kmsd}, and runs a background \texttt{wf.tau.shamir\_quorum\_ping} timer every
+$7{,}776{,}000{,}000\,\mathrm{ms}$ ($90\text{ days}$). If live guardian acknowledgments fall below
+$4\text{-of-}5$, \texttt{col-execd} yields \texttt{SHAMIR\_QUORUM\_DEGRADED} upward so fresh shards
+are dealt proactively before token loss can occur.
+\end{definition}
+
+\begin{lstlisting}[language=C++,caption={Clean-slate Node 0 verification and blinded 3-of-5 Shamir social recovery state machine in Scenario Tau.},label={lst:tau-genesis-shamir}]
+struct alignas(8) TauGenesisAndShamirSlot {
+    uint64_t node0_pv_mw;               // Required >= 6400000 mW (6.4 kW)
+    uint64_t node0_battery_uj;          // Required >= 51609600000000 uJ (14.34 kWh)
+    int32_t  nfc_rssi_mdbm;             // Required > -55000 mdBm (~40 mm tap)
+    uint16_t ceremony_ambient_cb;       // Required <= 350 cB if sensory_calm_mode == 1
+    uint16_t baseline_entitlement_bp;   // Always 10000 bp unconditionally!
+    uint8_t  pathway_id;                // 1=HybridL7, 2=FullSteward, 3=Native, 4=R0Guest
+    uint8_t  sensory_calm_mode;         // 1 = quiet garden / home ceremony requested
+    uint8_t  bedside_override_cosigned; // 1 = two visiting stewards for homebound peer
+    uint8_t  guardian_shard_ack_mask;   // 5-bit mask (0x1F == all 5 shards escrowed)
+    uint32_t initial_reputation_raw;    // Strictly forced to 0 (Anti-Dynastic Rule)
+    uint32_t biometric_packets_logged;  // Strictly forced to 0 (Anti-Panopticon)
+};
+
+[[nodiscard]] constexpr bool EvaluateTauCeremonyGate(TauGenesisAndShamirSlot& s) noexcept {
+    s.baseline_entitlement_bp = 10000u; // Unconditional survival floor on all paths
+    s.initial_reputation_raw  = 0u;     // Zero dynastic inheritance
+    if (s.biometric_packets_logged != 0u) return false;
+    if (s.pathway_id == 4u) return true; // Pathway 4 R0 Guest needs zero key ceremony
+    if (s.sensory_calm_mode != 0u && s.ceremony_ambient_cb > 350u) return false;
+    if (s.nfc_rssi_mdbm <= -55000 && s.bedside_override_cosigned == 0u) return false;
+    return s.guardian_shard_ack_mask == 0x1Fu; // All 5 Shamir shards confirmed via L5
+}
+\end{lstlisting}
+
+Whenever an ambient noise spike ($> 350\,\mathrm{cB}$) or weak NFC tap ($\le -55{,}000\,\mathrm{mdBm}$)
+aborts Equation~\eqref{eq:tau-nfc} or \eqref{eq:tau-calm}, \textbf{Regime 1 Saga Compensation}
+cleanly rolls back the temporary ceremony reservation and schedules a calm retry while preserving the
+newcomer's $10{,}000\,\mathrm{bp}$ $B_{\mathrm{baseline}}$ slot and $R_0$ assistive-device
+fabrication queue intact.
+
+\subsection{Bilateral Socket Contracts and Progressive Steward Onboarding}
+
+Across \texttt{l3\_l4.sock}, \texttt{col-execd} writes \texttt{tau:node0:seed\_verified}, commits
+unconditional $B_{\mathrm{baseline}}$ quotas, and initializes zero-sum Pairwise BCC channels
+($B_{u\to v} + B_{v\to u} = 0$) with pathway-calibrated mutual-aid credit windows. Critically,
+progressive onboarding from \texttt{Stage 1A} to \texttt{Stage 3} relies on hardware-gated modality
+switching rather than panoptic worker scoring: when a seed lot lacks physical soil or vessel
+transducers (\texttt{VirtualPinBus} returning \texttt{DENIED\_NO\_L2\_SENSOR}), \texttt{col-execd}
+seamlessly presents calm \texttt{MANUAL\_HUMAN\_OBSERVATION} prompts signed via
+\texttt{StewardObservationAttestation}, automatically transitioning to
+\texttt{AUTOMATED\_L2\_EXECUTION} hysteresis loops the moment stewards plug in physical probes.
+Across \texttt{l4\_l5.sock}, \texttt{col-kmsd} binds DID-blinded 24-byte \texttt{ClaimHandle}s,
+shields Hybrid Pathway 1 members under \textit{NAACP v.\ Alabama} roster blinding, and arms the
+\textbf{Disability Flare-Up Decay Shield} ($d\mathcal{R}/dt = 0$).
+
+% ==========================================================================
+\section{Scenario Sigma: Somatic Homeostasis, Burnout, and Rest Shields (\texttt{SCN-SIGMA-BURNOUT})}
+\label{sec:wave-a-sigma}
+
+Cooperative settlements rarely fail solely from external siege; far more often they fracture
+internally when a small circle of hyper-conscientious ``heroes'' absorbs unsustainable load until
+they collapse in burnout, or when unpleasant sanitation chores degenerate into stratified gig-bidding
+\parencite{han2015,freeman1972}. Scenario Sigma constructs The Collective's human and somatic immune
+system \parencite{cannon1932,ashby1956}, protecting nervous-system vitality with zero cameras and
+zero biometric wearables.
+
+\subsection{Workflow Topology and Cross-Scenario Couplings}
+
+Scenario Sigma executes four continuous autonomic monitors alongside two somatic care workflows:
+\begin{itemize}
+    \item \textbf{Autonomic Plane:} \texttt{wf.sigma.martyrdom\_load\_guard} audits anonymized
+    per-domain task concentration and weekly shift envelopes alongside Little's Law human queue
+    utilization ($\bar{L} = \lambda \bar{W}$, enforcing $\rho \le 7000\,\mathrm{bp}$)
+    \parencite{little1961proof}; \texttt{wf.sigma.passive\_sanitation\_monitor} watches non-human
+    physical transducers (hopper load cells exceeding $15{,}000{,}000\,\mathrm{mg}$ or greywater
+    turbidity $> 5000\,\mathrm{mNTU}$) to post guild-agnostic rotational work-bees;
+    \texttt{wf.sigma.quiet\_hours\_governor} enforces scalar decibel caps; and
+    \texttt{wf.sigma.winter\_metabolic\_governor} scales discretionary throughput to solar photoperiod.
+    \item \textbf{Somatic Plane \& Cross-Scenario Couplings:} Triggering
+    \texttt{wf.sigma.rest\_shield\_activation}---either voluntarily via an edge-local
+    \texttt{RestIntent} or automatically via the Anti-Martyrdom Circuit Breaker---executes four
+    immediate couplings: (1) active Tier 3--5 somatic tasks are suspended while non-preemptible
+    Tier 1 ($F_{\mathrm{eco}}$) and Tier 2 ($B_{\mathrm{baseline}}$) safety duties transfer
+    atomically to the anonymous local \textbf{Commons Pool}; (2) single-steward domain concentration
+    $> 4000\,\mathrm{bp}$ ($40\%$) emits \texttt{sig:sigma.watershed\_relief\_swarm} to summon a
+    Scenario Pi $R_3$ relief work-bee and sends \texttt{msg:sigma.open\_fellowship} to Scenario Kappa
+    to train apprentices and dissolve the $k=1$ bottleneck; (3) post-trauma shifts in Scenario Chi or
+    Scenario Upsilon auto-schedule Scenario Zeta waste-heat cedar sauna and mineral bathhouse
+    decompression ($313{,}150\,\mathrm{mK}$); and (4) chores logging $\ge 5$ ergonomic-strain flags
+    emit \texttt{sig:sigma.drudgery\_quest} to Scenario Zero and Scenario Alpha automation guilds
+    \parencite{illich1973}.
+\end{itemize}
+
+\subsection{Asymmetric Burnout Hysteresis, \texttt{RestShield}, and Acoustic/Seasonal Caps}
+
+Edge-local somatic check-ins on a steward's personal slate (\texttt{BiologicalFeelTiers} 1--5 in
+\texttt{chill\_loop.hpp}) remain strictly local; if a steward chooses to rest, only a single blinded
+\texttt{RestIntent} bit crosses into Layer 5. To prevent chattering oscillation around fatigue
+thresholds, \texttt{col-execd} enforces a Schmitt-trigger \textbf{Asymmetric Burnout Hysteresis}
+deadband \parencite{astrom2008feedback}.
+
+\begin{invariant}[Asymmetric \texttt{ChillLoop} Hysteresis, \texttt{RestShield}, and Quiet Caps]
+\label{inv:sigma-homeostasis}
+Let $L_{s,\mathrm{bp}}(t) \in [0, 10{,}000]$ be the anonymized weekly shift load of handle $s$,
+$C_{s,d,\mathrm{bp}}(t)$ its task concentration in domain $d$, and
+$z_s(t) \in \{\mathtt{ACTIVE}, \mathtt{CHILL\_RECOVERY}\}$ its somatic latch state:
+{\footnotesize
+\begin{align}
+    z_s(t^+) &= \begin{cases}
+        \mathtt{CHILL\_RECOVERY} & \text{if } L_{s,\mathrm{bp}}(t) \ge 8500 \;\lor\; \max_d C_{s,d,\mathrm{bp}}(t) > 4000 \;\lor\; \mathtt{RestShield}_s = 1, \\
+        \mathtt{ACTIVE}          & \text{if } z_s(t) = \mathtt{CHILL\_RECOVERY} \;\land\; L_{s,\mathrm{bp}}(t) \le 4500 \;\land\; \mathtt{RestShield}_s = 0, \\
+        z_s(t)                   & \text{otherwise (deadband } 4500 < L_{s,\mathrm{bp}} < 8500\text{ holds latch).}
+    \end{cases} \label{eq:sigma-hysteresis}\\
+    z_s = \mathtt{CHILL\_RECOVERY} &\implies \frac{d\mathcal{R}_s}{dt} = 0 \;\land\; \frac{d\tau_{\mathrm{recency},s}}{dt} = 0 \;\land\; P_{\mathrm{ping\_drop\_bp}} = 10{,}000, \label{eq:sigma-freeze}\\
+    \forall\,\text{care/sanitation } j: &\quad E_{\mathrm{minted\_uj}}(j) = 0 \;\land\; \mathtt{surge\_bidding\_permitted}(j) = \mathrm{false}, \label{eq:sigma-noncomm}\\
+    L_{\mathrm{acoustic\_cb}}(t) &\le \begin{cases}
+        300\,\mathrm{cB}\;(30\,\mathrm{dBA}) & \text{inside latched } R_0/R_1 \text{ convalescent sanctuaries,} \\
+        450\,\mathrm{cB}\;(45\,\mathrm{dBA}) & \text{quiet hours } (22{:}00\text{--}07{:}00\text{ local solar time).}
+    \end{cases} \label{eq:sigma-acoustic}
+\end{align}
+}
+\end{invariant}
+
+When $z_s$ latches into \texttt{CHILL\_RECOVERY}, \textbf{Regime 2 Obligation Handoff Compensation}
+executes without interrupting physical safety: if steward $s$ held an active Tier 1/2 safety watch,
+\texttt{col-execd} keeps the Layer 2 hardware \texttt{ActuationEnvelopeV1} in safe homeostatic hold
+while immediately publishing an anonymous Tier-2 claim token to the local Commons Pool (and $R_1$
+neighbor ring if unclaimed within \texttt{300 s}), whereas all Tier 3--5 discretionary obligations
+are cleanly parked or dropped with zero reputation slashing and $10{,}000\,\mathrm{bp}$
+$B_{\mathrm{baseline}}$ preserved.
+
+Simultaneously, \texttt{wf.sigma.winter\_metabolic\_governor} couples node human concurrency to
+seasonal solar ecology \parencite{holling1973}. As daytime photoperiod $D_{\mathrm{day\_s}}(t)$
+shortens in winter, \texttt{col-execd} scales the node's discretionary Tier 4/5 admission ceiling
+downward:
+\begin{equation}
+    \rho_{\max,\mathrm{seasonal\_bp}}(t) = \max\!\left(4500, \;\left\lfloor \frac{7000 \cdot D_{\mathrm{day\_s}}(t)}{43{,}200} \right\rfloor\right),
+    \label{eq:sigma-winter}
+\end{equation}
+protecting winter rest, cultural gathering (\texttt{Lambda}), and contemplative craft study
+(\texttt{Iota}/\texttt{Kappa}).
+
+\begin{lstlisting}[language=C++,caption={Asymmetric ChillLoop deadband and RestShield Tier 1--5 redistribution step in Scenario Sigma.},label={lst:sigma-chill-shield}]
+struct alignas(8) SigmaStewardHomeostasisSlot {
+    uint32_t blinded_handle_id;
+    uint16_t shift_load_bp;             // Entry >= 8500 bp; Exit <= 4500 bp
+    uint16_t max_domain_conc_bp;        // > 4000 bp trips Anti-Martyrdom Breaker
+    uint8_t  chill_recovery_latched;    // 1 = Tier 3..5 suspended, Dual-Freeze active
+    uint8_t  voluntary_rest_shield;     // 1 = opt-in RestShield active
+    uint8_t  acute_trauma_post_shift;   // 1 = auto-set after Chi/Upsilon response
+    uint8_t  biometric_packets_seen;    // Must strictly equal 0!
+};
+
+inline bool StepSigmaHomeostasisAndRedistribute(
+    SigmaStewardHomeostasisSlot& s,
+    uint32_t& io_commons_pool_tier12_queue,
+    uint32_t& io_suspended_tier35_count,
+    bool& out_dispatch_pi_relief_swarm
+) noexcept {
+    if (s.biometric_packets_seen != 0u) return false;
+    const bool trip = (s.shift_load_bp >= 8500u) || (s.max_domain_conc_bp > 4000u) ||
+                      (s.voluntary_rest_shield != 0u) || (s.acute_trauma_post_shift != 0u);
+    if (trip && s.chill_recovery_latched == 0u) {
+        s.chill_recovery_latched = 1u;
+        out_dispatch_pi_relief_swarm = (s.max_domain_conc_bp > 4000u);
+        io_commons_pool_tier12_queue += 1u; // Seamless safety handoff to Commons Pool
+        io_suspended_tier35_count    += 1u; // Discretionary load shed immediately
+    } else if (s.chill_recovery_latched != 0u && s.shift_load_bp <= 4500u &&
+               s.voluntary_rest_shield == 0u && s.acute_trauma_post_shift == 0u) {
+        s.chill_recovery_latched = 0u;      // Lower Schmitt deadband satisfied
+    }
+    return true;
+}
+\end{lstlisting}
+
+\subsection{Bilateral Socket Contracts (\texttt{l3\_l4.sock} and \texttt{l4\_l5.sock})}
+
+Over \texttt{l3\_l4.sock}, \texttt{col-execd} reads passive non-human sanitation metrics
+(\texttt{sigma:hopper:<id>:mass\_mg} dropping from $18{,}400{,}000\,\mathrm{mg}$ to
+$200{,}000\,\mathrm{mg}$, \texttt{sigma:greywater:turbidity\_mntu} $< 5000$), writes corridor
+chime-suppression and noisy-tool lockout envelopes during \texttt{450 cB} quiet hours and
+\texttt{300 cB} sanctuary holds, and transfers orphaned Tier 1/2 safety leases to
+\texttt{queue:commons\_pool:tier12} while clearing physical cleaning consumables (HEPA media,
+autoclave gaskets) over Pairwise BCCs. Over \texttt{l4\_l5.sock}, \texttt{col-execd} dispatches
+\texttt{L5\_DUAL\_FREEZE\_CARE\_SHIELD} (freezing both $\mathcal{R}$ and \texttt{Kappa} recency decay
+clocks across the $31{,}536{,}000$-tick annual half-life), activates $10{,}000\,\mathrm{bp}$ edge
+notification blinding in \texttt{col-kmsd}, and routes \texttt{AntiMartyrdomReliefBeacon} and
+\texttt{DrudgeryAutomationQuestIntent} frames upward.
+
+% ==========================================================================
+\section{Wave A Convivial Maturity Progression (\texttt{Stage 1A} to \texttt{Stage 3})}
+\label{sec:wave-a-maturity}
+
+Across the four maturity tiers of The Collective, Wave A scales from a quiet bedroom homelab and
+kitchen-table NFC ceremony into a district-heated bioregional software conservatory and convalescent
+sanctuary while preserving identical fixed-point socket contracts.
+
+In \textbf{Stage 1A} (\textit{Household Seed}, 1 suburban lot under UUNAA \S~6), a silent mini-PC
+($\le 380\,\mathrm{cB}$) boots \texttt{CleanSlateGenesis}, runs 2-of-3 reproducible Nix/Bazel checks
+with two WireGuard peers, hosts sensory-calm kitchen-table or garden NFC ceremonies
+($\le 350\,\mathrm{cB}$), and enforces household \texttt{ChillLoop} deadbands and \texttt{450 cB}
+night quietude. In \textbf{Stage 1B} (\textit{Neighborhood Mesh}, 5--12 peered households), three
+distinct processor architectures (\texttt{x86\_64}, \texttt{aarch64}, \texttt{riscv64}) achieve full
+3-of-3 local consensus over Reticulum, 3-of-5 Shamir shards distribute across five neighbor stewards,
+and Tier 1/2 \texttt{RestShield} duties rotate seamlessly across the block Commons Pool. In
+\textbf{Stage 2} (\textit{Cooperative Shell}, Subchapter T mixed-use hub), liquid-cooled build/render
+blades capture $\ge 8000\,\mathrm{bp}$ server waste heat into the co-located cedar sauna and
+bathhouse while external indie game/app sales ($\Phi_t$) capitalize the Land Acquisition Escrow, and
+a dedicated Assistive-Tech Atelier mills $R_0$ titanium wheelchairs and Braille interfaces. In
+\textbf{Stage 3} (\textit{Sovereign Campus}, irrevocable CLT/PPT), hydronic compute vaults, a
+zero-power 1000-year M-DISC optical archive, a step-free Coming-of-Age Pavilion
+($\le 500\,\mathrm{bp}$ slopes), and forest sabbatical cabins anchor permanent autopoietic sovereignty.
+
+\begin{table}[htbp]
+\centering
+\caption{Wave A (\texttt{Zero}, \texttt{Tau}, \texttt{Sigma}) workflow concurrency and topological progression per node across settlement maturity stages ($10\,\mathrm{Hz}$ \texttt{col-execd} tick budget).}
+\label{tab:wave-a-maturity}
+\footnotesize
+\begin{tabular}{@{}p{2.1cm}p{2.6cm}p{2.8cm}p{2.8cm}p{2.9cm}@{}}
+\toprule
+\textbf{Dimension} & \textbf{Stage 1A: Seed} (1 Lot, $R_0\text{--}R_1$) & \textbf{Stage 1B: Mesh} (5--12 Lots, $R_1\text{--}R_2$) & \textbf{Stage 2: Co-op Shell} (Subchapter T, $R_2\text{--}R_3$) & \textbf{Stage 3: Campus} (CLT / PPT, $R_3\text{--}R_5$) \\
+\midrule
+\textbf{Wave A Active Workflows} & $8\text{--}14$ instances ($1\text{--}3$ tokens/tick; $88\%$ autonomic) & $22\text{--}38$ instances ($3\text{--}7$ tokens/tick; $89\%$ autonomic) & $64\text{--}115$ instances ($8\text{--}18$ tokens/tick; $90\%$ autonomic) & $190\text{--}420$ instances ($22\text{--}55$ tokens/tick; $91\%$ autonomic) \\
+\addlinespace[3pt]
+\textbf{\texttt{Zero} Forge Topology} & Homelab mini-PC ($\le 380\,\mathrm{cB}$); 2-of-3 peer hash check; local \texttt{L1b} 10k-tick canary & 3-arch block consensus (\texttt{x86}/\texttt{ARM}/\texttt{RISC-V}); DTN/WireGuard Agora sync & Liquid-cooled build/render rack ($\ge 8000\,\mathrm{bp}$ heat to bathhouse); L7 game/app $\Phi_t$ & Solar/hydronic conservatory; full 7-layer HIL bench; 1000-yr M-DISC cold vault \\
+\addlinespace[3pt]
+\textbf{\texttt{Tau} Genesis \& Identity} & \texttt{CleanSlateGenesis}; Node 0 $6.4\,\mathrm{kW}$ PV seed; kitchen NFC tap; $B_{\mathrm{baseline}}$ & 3-of-5 Shamir shards across 5 peer lots; Hybrid L7 blinding; \texttt{Kappa} check-ride & Step-free Welcome Hearth; $R_0$ Assistive-Tech CNC/AAC Atelier; Oasis VR bay & Universal-design gateway ($\le 500\,\mathrm{bp}$ slope); Native Coming-of-Age Pavilion ($\mathcal{R}=0$) \\
+\addlinespace[3pt]
+\textbf{\texttt{Sigma} Somatic Immune} & Local \texttt{ChillLoop} ($8500/4500\,\mathrm{bp}$); $\le 450\,\mathrm{cB}$ night cap; $\le 300\,\mathrm{cB}$ bedroom latch & Block Commons Pool Tier 1/2 handoff; passive hopper work-bees; Dual-Freeze & Waste-heat cedar sauna decompression; \texttt{Pi} relief beacons; drudgery R\&D quests & Watershed sabbatical cabins; seasonal winter $\rho_{\max}$ governor; full robotics assist \\
+\bottomrule
+\end{tabular}
+\end{table}

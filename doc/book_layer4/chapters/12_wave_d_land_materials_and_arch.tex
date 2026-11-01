@@ -1,0 +1,567 @@
+\chapter{Wave D: Ecological Land, Biorefinery, Foundry, Textile, and Habitat (\texttt{Eta}, \texttt{Mu}, \texttt{Theta}, \texttt{Nu}, \texttt{Xi})}
+\label{ch:wave-d}
+
+\epigraph{Matter matters, too. Every process of production transforms low-entropy terrestrial stock and solar flux into structured artifacts and irrevocable dissipation; an economy that forgets the material loop mistakes liquidation for growth.}{--- Nicholas Georgescu-Roegen, \textit{The Entropy Law and the Economic Process} \parencite{georgescu1971}}
+
+Waves A through C establish the autopoietic computational kernel, nourishment hearth, solar microgrid, five-artery transit spine, and
+non-tokenizable care commons of a sovereign settlement. Yet a neighborhood cluster whose joinery benches (\texttt{Alpha}), soup kettles
+(\texttt{Gamma}), and residential suites (\texttt{Zeta}) still depend perpetually on clear-cut commercial lumber, Haber-Bosch synthetic
+fertilizers, strip-mined virgin ingots, petrochemical fast fashion, and mortgage-encumbered drywall remains tethered to the entropic metabolism
+of Layer 7 \parencite{georgescu1971,odum1971}. Wave D closes the physical matter and thermal-exergy loops of the watershed across five tightly
+coupled scenarios: regenerative silviculture, mycology, and botanical pharmacognosy (\texttt{Eta}); five-stream biorefining, struvite nutrient
+recovery, and pyrolysis biochar (\texttt{Mu}); three-tier metallurgy and the four-stage thermal exergy cascade (\texttt{Theta}); bioregional
+textiles and personal sartorial sovereignty (\texttt{Nu}); and open-building habitat (\texttt{Xi}).
+
+From the perspective of Layer 4 (\texttt{col-execd}), Wave D introduces the longest temporal horizons and steepest thermodynamic gradients in the
+25-scenario canon. Here, the $10\,\mathrm{Hz}$ deterministic WebAssembly BPMN engine \parencite{omg2011bpmn,haas2017wasm} must simultaneously
+coordinate multi-decade coppice-with-standards calendars, millisecond molten-metal safety interlocks, continuous $72\text{-hour}$
+pathogen-destruction integrals, and the constitutional boundary separating shared structural chassis from unpoliced domestic hearths
+\parencite{habraken1972supports}. Throughout every process in Wave D, \texttt{col-execd} enforces the Council's strict separation of concerns:
+differential equations live exclusively in physical reality (\texttt{L1}) or the Oasis digital twin (\texttt{L1b})
+\parencite{grieves2014digital}, hardware-leased hysteresis envelopes execute on Zephyr RTOS edge controllers (\texttt{L2}) \parencite{zephyr2024}
+backed by \texttt{ATECC608A} hardware provenance (\texttt{0x20}) \parencite{microchip_atecc608a}, domain registers persist in Conflict-Free
+Replicated Data Types (\texttt{L3}) \parencite{shapiro2011crdt}, and irreversible material transformations pivot at $t_{\mathrm{actuate}}$ into
+mass-conserving Second-Law Physical Salvage Sagas \parencite{garciamolina1987sagas}.
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[
+    node distance=1.4cm and 1.8cm,
+    box/.style={rectangle, rounded corners=3pt, draw=black!75, thick, fill=gray!8, text width=3.1cm, align=center, font=\footnotesize, minimum height=1.15cm},
+    corebox/.style={rectangle, rounded corners=3pt, draw=blue!70!black, very thick, fill=blue!6, text width=3.4cm, align=center, font=\footnotesize\bfseries, minimum height=1.25cm},
+    flow/.style={-{Stealth[length=2.4mm]}, thick, draw=black!75},
+    heat/.style={-{Stealth[length=2.4mm]}, thick, dashed, draw=red!70!black}
+]
+    \node[box] (eta) {\textbf{Scenario \texttt{Eta}}\\Coppice, Mycology \&\\Botanical Apothecary};
+    \node[corebox, right=2.2cm of eta] (theta) {\textbf{Scenario \texttt{Theta}}\\3-Tier Foundry \&\\4-Stage Exergy Cascade};
+    \node[box, below=1.6cm of eta] (mu) {\textbf{Scenario \texttt{Mu}}\\Biorefinery, Struvite\\\& \texttt{TLUD} Biochar};
+    \node[box, below=1.6cm of theta] (xi) {\textbf{Scenario \texttt{Xi}}\\Habraken Support\\vs.\ Infill Habitat};
+    \node[box, right=2.0cm of xi] (nu) {\textbf{Scenario \texttt{Nu}}\\Fiber Shed, Indigo\\\& $R_0$ Attire Purge};
+
+    \draw[flow] (eta) -- node[above, font=\scriptsize, align=center] {Slash \&\\Marc} (mu);
+    \draw[flow] (mu) to[bend left=18] node[left, font=\scriptsize, align=center] {\textit{Terra Preta}\\Inoculant} (eta);
+    \draw[flow] (mu) -- node[above, font=\scriptsize, align=center] {Deconstruction\\Scrap ($\ge 9800\,\mathrm{bp}$)} (theta);
+    \draw[flow] (eta) -- node[above, sloped, font=\scriptsize] {Kiln \texttt{CLT} ($\le 1200\,\mathrm{bp}$)} (xi);
+    \draw[flow] (theta) -- node[right, font=\scriptsize, align=center] {Geopolymers\\\& Joinery Hubs} (xi);
+    \draw[flow] (eta) to[bend left=16] node[above, sloped, font=\scriptsize] {Oak Tannins \& Dyes} (nu);
+    \draw[flow] (theta) to[bend left=14] node[right, font=\scriptsize] {Bronze Buckles} (nu);
+    \draw[flow] (nu) to[bend left=18] node[below, font=\scriptsize] {Cellulose Offcuts ($10000\,\mathrm{bp}$)} (mu);
+
+    \draw[heat] (theta.west) to[bend right=22] node[above, sloped, font=\scriptsize, text=red!70!black] {$800\,\mathrm{K}\to 400\,\mathrm{K}$ Kiln/Steam} (eta.east);
+    \draw[heat] (theta.south west) -- node[below, sloped, font=\scriptsize, text=red!70!black] {$330\,\mathrm{K}$ Hydronics} (mu.north east);
+    \draw[heat] (mu.east) -- node[below, font=\scriptsize, text=red!70!black] {PEX-a Warmth} (xi.west);
+\end{tikzpicture}
+\caption{Wave D Closed-Loop Matter and Thermal Exergy Choreography. Solid arrows denote milligram-conserved physical BOM transfers settled across Layer 3 \texttt{BCC} channels; dashed crimson arrows denote cascaded thermal exergy stages routed via Scenario \texttt{Beta} hydronic manifolds.}
+\label{fig:wave-d-topology}
+\end{figure}
+
+% ==========================================================================
+\section{Scenario \texttt{Eta}: Multi-Tier Silviculture, Sterile Mycology, and Botanical Apothecary}
+\label{sec:scn-eta}
+
+Industrial forestry treats living watersheds as standing lumber inventories to be clear-cut on financialized discount cycles, compacting
+ectomycorrhizal soil networks and burning forty percent of canopy biomass in open slash piles \parencite{scott1998,holling1973}. Scenario
+\texttt{Eta} (\texttt{SCN-ETA-COPPICE}) replaces clear-cut monocultures with multi-story \emph{Coppice-with-Standards} silviculture, sterile
+laminar-flow culinary and medicinal mycology, and lot-tracked botanical pharmacognosy.
+
+\subsection{Workflow Topology and Multi-Horizon Couplings}
+
+Within \texttt{col-execd}, Scenario \texttt{Eta} bifurcates into three concurrent workflow families coupled through Layer 3 broadcast signals
+(\texttt{sig:*}) and 256-bit material correlation keys ($\kappa$). First, a long-horizon somatic-autonomic \emph{Silvicultural Rotation Calendar}
+manages $5\text{--}12\text{-year}$ deciduous understory stools (\emph{Alnus rubra}, \emph{Robinia pseudoacacia}, \emph{Corylus avellana},
+\emph{Salix}) beneath $60\text{--}120\text{-year}$ overstory canopy standards (\emph{Pseudotsuga menziesii}, \emph{Thuja plicata}, \emph{Quercus
+alba}). Felling tasks remain parked in the \texttt{DORMANT} token state within the 64-byte \texttt{BpmnTokenFrame} until seasonal Layer 2
+telemetry attested with \texttt{QUALITY\_HARDWARE\_ROOT} (\texttt{0x02}) confirms winter sap dormancy
+($T_{\mathrm{ambient}} < 278150\,\mathrm{mK}$, or $5^\circ\mathrm{C}$), nesting absence via bio-acoustic Shannon diversity
+($H'_{\mathrm{scaled}} \ge 28000$), and subterranean fungal vitality via rhizosphere ergosterol assays ($\ge 150\,\mu\mathrm{g/g}$ dry soil).
+Once felled by low-impact electric capstan winches and milled on $48\,\mathrm{V}/380\,\mathrm{V}$ bandsaws, green timber enters an autonomic
+\emph{Solar-Thermal Kiln Dehumidification Loop} coupled to Stage 3 heat from Scenario \texttt{Theta} and syngas exchangers from Scenario
+\texttt{Mu}. Bark stripped prior to milling emits \texttt{sig:eta.bark\_tannin\_ready} to Scenario \texttt{Nu} vegetable-tanning vats, while
+branch slash routes directly to Scenario \texttt{Mu} pyrolysis retorts.
+
+Second, a high-frequency autonomic \emph{Sterile Mycology Substrate \& Fruiting Pipeline} transforms hardwood sawdust and winter-cut alder bolts
+into gourmet fruiting bodies (\emph{Hericium erinaceus}, \emph{Grifola frondosa}, \emph{Lentinula edodes}) for Scenario \texttt{Gamma} hearths
+and sterile agar clones of rare old-growth polypores (\emph{Fomitopsis officinalis}) for clinical compounding, complemented by wild foraging
+workflows strictly capped at $\le 2500\,\mathrm{bp}$ ($25\%$) of observed patch yield. Third, a batch-tracked \emph{Botanical \& Mycological
+Dual-Extraction Workflow} executes ultrasonic chitin disruption and hydro-ethanolic Soxhlet maceration followed by pressurized hot-water
+decoction, delivering standardized neuro-regenerative and antimicrobial tinctures to Scenario \texttt{Chi} clinics and Scenario \texttt{Phi}
+elder sanctuaries.
+
+\subsection{Fixed-Point SI Invariants, Fruiting Envelopes, and Salvage Sagas}
+
+Every silvicultural harvest order is bounded by the Tier 1 ecological floor $F_{\mathrm{eco}}$ \parencite{rockstrom2009safe}, requiring at least
+$3000\,\mathrm{bp}$ ($30\%$) of standing deadwood and coarse woody debris to remain permanently on the forest floor, while ancient mycorrhizal
+hub trees flagged with \texttt{is\_mother\_tree\_sanctuary == true} trigger an unconditional hardware lockout. For mycological substrate
+preparation, \texttt{col-execd} replaces naive wall-clock timers with an integer Bigelow thermal lethality accumulator
+\parencite{bigelow1921thermal} anchored at standard steam sterilization reference temperature $T_{\mathrm{ref}} = 394260\,\mathrm{mK}$
+($121.11^\circ\mathrm{C}$, $z = 10000\,\mathrm{mK}$). If chamber temperature dips below $394260\,\mathrm{mK}$ due to solar steam droop before
+cumulative lethality reaches $F_0 \ge 900000\,\mathrm{ms}$ ($15\,\mathrm{minutes}$ equivalent), an interrupting boundary event re-arms the steam
+hold rather than releasing unsterilized grain spawn.
+
+Once inoculated inside clean laminar-flow hoods, mycelial fruiting chambers are governed by hardware-leased \texttt{ActuationEnvelopeV1} structs
+pushed to Zephyr edge nodes \parencite{astrom2008feedback}: relative humidity is maintained within $[8500, 9200]\,\mathrm{bp}$
+($85\%\text{--}92\%$ RH) via ultrasonic misting Schmitt triggers, and respiratory $\mathrm{CO}_2$ is purged via variable-speed enthalpy-recovery
+fans to enforce $\mathrm{CO}_2 \le 800\,\mathrm{ppm}$ during primordia pinning (preventing malformed stipe elongation). Green structural beams
+cure inside solar kilns until pin-resistance probes verify moisture content $M_{\mathrm{struct}} \le 1200\,\mathrm{bp}$ ($12\%$), whereas hearth
+firewood cures to $M_{\mathrm{fuel}} < 2000\,\mathrm{bp}$ ($20\%$).
+
+\begin{invariant}[Silvicultural Surplus, Mycological Sterility, and Pharmacopoeia Purity]
+\label{inv:eta-gates}
+Let $Q_{\mathrm{stand}}$ denote standing quadrant biomass in milligrams ($\mathrm{mg}$), $M_{\mathrm{cwd}}$ retained coarse woody debris, and
+$B_{\mathrm{local}}$ local winter heating and structural repair baselines. No felling, substrate inoculation, or apothecary release token may
+advance in \texttt{col-execd} unless the tuple of fixed-point integer predicates holds:
+\begin{align}
+Q_{\mathrm{harvest}} &\le \max\!\left(0,\; Q_{\mathrm{stand}} - M_{\mathrm{cwd}} - B_{\mathrm{local}}\right), \quad \frac{M_{\mathrm{cwd}} \times 10000}{Q_{\mathrm{stand}}} \ge 3000\,\mathrm{bp}, \\
+F_0 &= \sum_{k} \Delta t_k \cdot \Phi_{\mathrm{Bigelow}}\!\left(T_k - 394260\,\mathrm{mK}\right) \ge 900000\,\mathrm{ms}, \\
+\mathrm{RH}_{\mathrm{fruit}} &\in [8500, 9200]\,\mathrm{bp}, \quad C_{\mathrm{CO_2}} \le 800\,\mathrm{ppm}, \quad M_{\mathrm{amatoxin}} = 0\,\mathrm{ng}.
+\end{align}
+\end{invariant}
+
+In the apothecary bench, dual extraction runs first at $313150\,\mathrm{mK}$ ($40^\circ\mathrm{C}$) in food-grade ethanol to preserve
+thermolabile hericenones, erinacines, and usnic acid, and second at $368150\,\mathrm{mK}$ ($95^\circ\mathrm{C}$) aqueous decoction to solubilize
+chitin-bound $\beta\text{-(1,3)(1,6)-D-glucans}$, paired with willow-bark salicin ($\ge 15000\,\mu\mathrm{g/mL}$). When irreversible entropy
+intervenes after $t_{\mathrm{actuate}}$---such as \emph{Trichoderma} green-mold contamination in a fruiting block, kiln case-hardening cracks in
+a beam, or an apothecary batch failing UV-Vis/HPTLC potency or heavy-metal limits ($\ge 100\,\mathrm{ppb}$)---\texttt{col-execd} transitions the
+token into \texttt{SALVAGE\_COMPENSATING}: contaminated substrate blocks divert to Scenario \texttt{Mu} thermophilic drums, checked lumber
+downgrades to lathe stock or \texttt{TLUD} biochar feedstock, and off-spec botanical marc routes to high-temperature pyrolysis, conserving
+$10000\,\mathrm{bp}$ of tracked milligram mass.
+
+\begin{lstlisting}[caption={Scenario \texttt{Eta} Fixed-Point Mycology Autoclave, Fruiting Envelope, and Apothecary Gate Structs},label={lst:eta-structs}]
+struct alignas(8) EtaMycologyAndApothecaryRegs {
+    uint64_t lot_correlation_lo;           // 128-bit lower correlation key
+    uint32_t autoclave_temp_mk;            // Target >= 394260 mK (121.11 C)
+    uint32_t cumulative_f0_lethality_ms;   // Gate >= 900000 ms (15 min F0)
+    uint16_t fruiting_rh_bp;               // Schmitt band: [8500, 9200] bp
+    uint16_t fruiting_co2_ppm;             // Fresh-air purge ceiling <= 800 ppm
+    uint32_t ethanol_maceration_mk;        // 313150 mK (40.00 C) terpenoid stage
+    uint32_t hot_water_decoction_mk;       // 368150 mK (95.00 C) beta-glucan stage
+    uint32_t active_marker_ug_per_ml;      // HPTLC/UV-Vis floor >= 15000 ug/mL
+    uint32_t amatoxin_detected_ng;         // Hard safety invariant == 0 ng
+    uint16_t heavy_metals_total_ppb;       // Bioaccumulation ceiling < 100 ppb
+    uint16_t kiln_timber_moisture_bp;      // Structural gate <= 1200 bp (12%)
+};
+\end{lstlisting}
+
+\subsection{Bilateral Socket Contracts and Maturity Progression}
+
+Across \texttt{/run/collective/ipc/l3\_l4.sock} (\texttt{SOCK\_SEQPACKET}), \texttt{col-execd} acquires lexicographically ordered resource leases
+($\prec_{\mathrm{res}}$: \texttt{0:EXERGY} $\to$ \texttt{1:STATION:AUTOCLAVE\_01} $\to$ \texttt{2:HAUL:WINCH\_SKYLINE} $\to$
+\texttt{3:LOT:ALDER\_BOLT}) to guarantee Coffman deadlock freedom \parencite{coffman1971deadlocks}, and reads Automerge CRDT keys under
+\texttt{l3:eta:quadrant:<id>:standing\_mg}, \texttt{l3:eta:kiln:<id>:moisture\_bp}, and \texttt{l3:eta:apoth:<lot>:assay}. Any telemetry frame
+carrying the synthetic flag \texttt{QUALITY\_SIMULATED} (\texttt{0x01}) is deterministically rejected prior to relay energization. Upward across
+\texttt{/run/collective/ipc/l4\_l5.sock}, \texttt{col-kmsd} pushes ratified \texttt{Treaty\_CID} harvest polygons \parencite{grigg2004},
+Mother-Tree \texttt{Protocol of Refusal} exclusion bitmasks, $\le 2500\,\mathrm{bp}$ wild-foraging patch quotas, and blinded 24-byte
+\texttt{ClaimHandle} capabilities \parencite{miller2006robust} verifying \texttt{Sawyer\_Bandsaw\_L2} or \texttt{Pharmacopeia\_Steward} standing
+without exposing steward DIDs to Layer 4. From Stage 1A backyard urban-arborist log salvage and countertop Soxhlet benches
+($\le 550\,\mathrm{cB}$ under UUNAA \S~6), Scenario \texttt{Eta} scales through Stage 1B neighborhood coppice lots and totem yards, Stage 2
+$380\,\mathrm{V}$ hydraulic bandsaw mills and cGMP HPTLC extraction labs, to Stage 3 Community Forest Trusts shielded by \texttt{RCW Title 84
+Chapter 33} ($> 9000\,\mathrm{bp}$ property-tax reduction).
+
+% ==========================================================================
+\section{Scenario \texttt{Mu}: Biorefinery Closure, Struvite Crystallization, and \texttt{TLUD} Biochar}
+\label{sec:scn-mu}
+
+Linear municipal infrastructure flushes human phosphorus and nitrogen into coastal dead zones with potable water while burning fossil gas in
+Haber-Bosch plants and burying demolition timber in methane-leaching landfills \parencite{rockstrom2009safe,kadlec1996}. Scenario \texttt{Mu}
+(\texttt{SCN-MU-EXTRACTION}) abolishes the category of waste across five physical streams---technospheric solids, human sanitation,
+animal/kitchen residuals, lignocellulosic biomass, and greywater/brownfields---achieving $\ge 9800\,\mathrm{bp}$ ($98\%$) landfill and sewer
+diversion.
+
+\subsection{Workflow Topology and Cross-Scenario Nutrient Loops}
+
+Scenario \texttt{Mu} operates as the metabolic sink and soil-genesis engine of the node. Whenever Scenario \texttt{Beta} cargo e-trikes complete
+forward deliveries of meals or fabricated parts, \texttt{col-execd} chains an autonomic \emph{Reverse-Logistics Backhaul} task retrieving sorted
+workshop offcuts, glass cullet, and hermetically gasketed sanitation cassettes from Scenario \texttt{Zeta} bathhouses and Scenario \texttt{Delta}
+compostable diaper pods. Surgical \emph{Ecological Deconstruction Swarms} unbolt derelict sprawl structures, routing intact trusses directly to
+Scenario \texttt{Alpha}/\texttt{Xi} inventory and passing damaged metals, silicates, and polymers through optical NIR, magnetic, and eddy-current
+triage into Scenario \texttt{Theta} batch queues.
+
+Concurrently, four continuous-batch chemical and biological state machines run on the autonomic plane: (1) negative-pressure aerated rotary drums
+co-composting humanure solids with Scenario \texttt{Eta} woodchips and $1000\,\mathrm{bp}$ biochar; (2) conical fluidized-bed crystallizers
+dosing source-separated yellowwater urine with magnesium oxide/bitterns ($\mathrm{MgO}/\mathrm{MgCl}_2$) to precipitate crystalline struvite
+($\mathrm{MgNH_4PO_4\cdot 6H_2O}$); (3) oxygen-free Continuously Stirred Tank Reactors (\texttt{CSTR}) digesting livestock manure and kitchen
+whey into scrubbed biomethane alongside Black Soldier Fly Larvae (\emph{Hermetia illucens}) bioconversion racks for Scenario \texttt{Gamma}
+poultry/aquaponics feed; and (4) Top-Lit Updraft (\texttt{TLUD}) pyrolysis retorts carbonizing brush into biochar, charging it for
+$\ge 14\,\mathrm{days}$ with vermiculture castings and mycorrhizal spores into living \emph{Terra Preta}, while reciprocating vertical-flow
+constructed wetlands \parencite{kadlec1996} polish greywater for irrigation return.
+
+\subsection{Fixed-Point SI Invariants, Pyrolysis Windows, and Safeguard Compensations}
+
+Every biological and thermochemical reactor in Scenario \texttt{Mu} is governed by non-negotiable SI integer invariants enforced jointly by
+\texttt{col-execd} and Layer 2 edge enclaves:
+\begin{enumerate}
+    \item \textbf{Stoichiometric Struvite Precipitation (\texttt{mpH 8500..9200}):} Urease-hydrolyzed urine enters the fluidized reactor where
+    \texttt{col-actuated} meters $\mathrm{Mg}^{2+}$ dosing to hold milli-pH strictly within $\mathrm{mpH} \in [8500, 9200]$
+    ($\mathrm{pH}\;8.50\text{--}9.20$) at supersaturation, crystallizing $\ge 9000\,\mathrm{bp}$ ($90\%$) of dissolved orthophosphate into
+    odorless slow-release pellets while vacuum-stripping residual ammonia at $333150\,\mathrm{mK}$ ($60^\circ\mathrm{C}$) into citric/sulfuric
+    acid traps. If $\mathrm{mpH} < 8500$, nucleation stalls; if $\mathrm{mpH} > 9200$, amorphous brucite ($\mathrm{Mg(OH)}_2$) co-precipitates
+    and fouls the bed, triggering an automatic feed-pause compensation.
+    \item \textbf{EPA 503 Class A Thermophilic Hold \& Prion Hydrolysis:} Four-wire PT100 RTD arrays attested by dual witness provenance
+    (\texttt{0x08}) verify that every humanure drum zone maintains $T_{\mathrm{core}} \ge 328150\,\mathrm{mK}$ ($55.00^\circ\mathrm{C}$)
+    continuously for $\Delta t_{\mathrm{hold}} \ge 259200000\,\mathrm{ms}$ ($72\,\mathrm{hours}$), followed by $180\text{-day}$ fungal maturation
+    and \texttt{fecal\_coliform\_mpn\_per\_g == 0}. Resolving Council Ceiling \#3, any dip below $328150\,\mathrm{mK}$ immediately resets
+    \texttt{continuous\_thermophilic\_ms} to $0\,\mathrm{ms}$ via an interrupting boundary event. High-risk slaughter offal undergoes pressurized
+    thermal hydrolysis at $408150\,\mathrm{mK}$ ($135^\circ\mathrm{C}$) and $3000\,\mathrm{hPa}$ for $\ge 1200000\,\mathrm{ms}$
+    ($20\,\mathrm{min}$).
+    \item \textbf{Anaerobic Biogas Pressure \& $\mathrm{H_2S}$ Scrubbing:} \texttt{CSTR} headspace pressure is regulated within
+    $[1020, 1050]\,\mathrm{hPa}$ (with room lower-explosive-limit $\mathrm{CH}_4 = 0\,\mathrm{ppm}$), and raw biogas ($\ge 6000\,\mathrm{bp}$
+    $\mathrm{CH}_4$) traverses ferric-oxide ($\mathrm{Fe_2O_3}$) bog-iron scrubbers that hold outlet $\mathrm{H_2S} < 10\,\mathrm{ppm}$ before
+    admission to CHP micro-turbines or Scenario \texttt{Theta} glassblowing torches. Exceeding $10\,\mathrm{ppm}$ $\mathrm{H_2S}$ switches
+    motorized three-way valves to a standby regenerated iron-sponge column.
+    \item \textbf{\texttt{TLUD} Pyrolysis Temperature Window (\texttt{673150..823150 mK}) \& Hydronic Quench:} To synthesize high-porosity
+    agronomic biochar ($\ge 8000\,\mathrm{bp}$ fixed carbon) without condensing carcinogenic polycyclic aromatic hydrocarbon (\texttt{PAH}) tars
+    (which form below $400^\circ\mathrm{C}$) or sintering micropores into alkaline ash, primary \texttt{TLUD} pyrolysis air dampers enforce a
+    strict core carbonization envelope of $T_{\mathrm{tlud}} \in [673150, 823150]\,\mathrm{mK}$
+    ($400^\circ\mathrm{C}\text{--}550^\circ\mathrm{C}$, with secondary flame-cap syngas oxidation up to $873150\,\mathrm{mK}$), permitted only
+    when local wind speed $< 6667\,\mathrm{mm/s}$ and zero burn bans apply. Condenser coils fractionate wood vinegar while water-jacket heat
+    exchangers recover $333150\text{--}353150\,\mathrm{mK}$ hot water into Scenario \texttt{Beta} PEX-a hydronic loops.
+\end{enumerate}
+
+\begin{invariant}[Biorefinery Nutrient Closure, PAH-Free Pyrolysis, and Contamination Air-Gap]
+\label{inv:mu-biorefinery}
+A Scenario \texttt{Mu} batch token transitions to \texttt{COMPLETED} only when pathogen lethality, struvite recovery, biogas purity,
+\texttt{TLUD} thermal bounds, and wetland effluent biochemical oxygen demand ($\mathrm{BOD}_5$) satisfy:
+\begin{align}
+T_{\mathrm{compost}}(t) &\ge 328150\,\mathrm{mK}\;\;\forall t \in [t_0, t_0 + 259200000\,\mathrm{ms}], \quad \mathrm{mpH}_{\mathrm{struvite}} \in [8500, 9200], \\
+R_{\mathrm{P,struvite}} &\ge 9000\,\mathrm{bp}, \quad C_{\mathrm{H_2S}} < 10\,\mathrm{ppm}, \quad T_{\mathrm{tlud}} \in [673150, 823150]\,\mathrm{mK}, \quad \mathrm{BOD}_5 < 10\,\mathrm{ppm}.
+\end{align}
+Furthermore, hyperaccumulator phytomining biomass (\emph{Brassica juncea}, \emph{Pteris vittata}) harvested from heavy-metal brownfields carries
+an immutable taint flag routing $10000\,\mathrm{bp}$ of its ash exclusively to sealed Scenario \texttt{Theta} electrowinning cells, never
+intersecting agricultural \emph{Terra Preta} queues.
+\end{invariant}
+
+\begin{lstlisting}[caption={Scenario \texttt{Mu} BPMN Guard Bytecode Predicates and Hardware-Leased Reactor Envelope},label={lst:mu-envelope}]
+struct alignas(8) MuReactorTelemetryAndLease {
+    uint64_t vessel_lease_hlc_expiry_ms;    // Safe-parks blowers/dosing on L2 expiry
+    uint32_t compost_min_rtd_mk;            // Reset 72h clock if < 328150 mK
+    uint64_t thermophilic_hold_accum_ms;    // Target >= 259200000 ms (72 h)
+    uint16_t struvite_reactor_mph;          // Dosing deadband: [8500, 9200] mpH
+    uint16_t phosphorus_recovered_bp;       // Target >= 9000 bp (90%)
+    uint16_t biogas_h2s_outlet_ppm;         // Scrubber trip threshold >= 10 ppm
+    uint16_t room_ch4_lel_ppm;              // Hard interlock == 0 ppm
+    uint32_t tlud_pyrolysis_core_mk;        // PAH-free window: [673150, 823150] mK
+    uint32_t hydronic_heat_recovered_mw;    // Coupled to Scenario Beta PEX-a loop
+    uint16_t wetland_effluent_bod5_ppm;     // Irrigation release gate < 10 ppm
+};
+\end{lstlisting}
+
+\subsection{Bilateral Socket Contracts and Prohibited Export Guardrails}
+
+Over \texttt{l3\_l4.sock}, \texttt{col-execd} updates soil moisture-capacity upgrades (\texttt{l3:mu:voxel:<id>:moisture\_cap\_bp} rising from
+$2500$ to $\ge 4500\,\mathrm{bp}$ upon \emph{Terra Preta} charging), locks \texttt{STRUVITE\_CRYSTALLIZER} and \texttt{TLUD\_RETORT} station
+leases with bounded HLC TTLs \parencite{kulkarni2014logical}, and settles zero-sum \texttt{BCC} credits for deconstruction salvage delivered to
+\texttt{Theta}. Over \texttt{l4\_l5.sock}, \texttt{col-kmsd} enforces the constitutional \textbf{Inviolable Prohibited Export Register}: any
+intent attempting to export watershed topsoil, vermiculture humus, precipitated struvite, or \emph{Terra Preta} biochar outside Concentric Trust
+Rings $R_0 \dots R_3$ receives an immediate \texttt{DENIED\_PROHIBITED\_EXPORT} veto. Across Stages 1A to 3, \texttt{Mu} evolves from backyard
+Bokashi/hot-compost drums, $20\,\mathrm{L}$ struvite carboys, and garden \texttt{TLUD} stoves ($\le 1\,\mathrm{OU/m^3}$ biochar odor biofilter)
+to Stage 2 commercial tipping-fee biorefineries and deconstruction crews, culminating in Stage 3 brownfield-remediated constructed wetland parks
+that legally sever municipal sewer and trash assessments.
+
+% ==========================================================================
+\section{Scenario \texttt{Theta}: Three-Tier Metallurgy Foundry and the Four-Stage Exergy Cascade}
+\label{sec:scn-theta}
+
+Two centuries of industrial mining have already concentrated billions of tons of refined iron, aluminum, copper, precious metals, and
+borosilicate glass inside the surface technosphere, yet legacy industry continues blasting virgin open-pit mines while dumping
+$40\text{--}80\times$ richer circuit-board scrap into landfills and venting megawatts of smelter heat into cooling towers
+\parencite{georgescu1971,odum1971}. Scenario \texttt{Theta} (\texttt{SCN-THETA-FOUNDRY}) establishes The Collective's heavy material refinement
+engine, governed by a strict three-tier sourcing hierarchy and a four-stage thermal exergy cascade.
+
+\subsection{Three-Tier Sourcing Topology and Surplus-Gated Melt Scheduling}
+
+Every material requisition entering Scenario \texttt{Theta} from Scenario \texttt{Alpha} (machine tools), Scenario \texttt{Beta} (busbars and
+insulators), Scenario \texttt{Gamma} (canning jars), or Scenario \texttt{Xi} (geopolymer binders and structural hubs) traverses a deterministic
+three-tier BPMN exclusive gateway before any furnace contactor can close:
+\begin{enumerate}
+    \item \textbf{Tier 1 (Direct Non-Destructive Repurposing):} Queries Scenario \texttt{Mu}'s XRF-assayed and ultrasonically inspected salvage
+    ledger first. If an intact steel I-beam, \texttt{6061} extrusion, or tempered glass pane satisfies dimensional requirements,
+    \texttt{col-execd} routes it directly at $< 500\,\mathrm{bp}$ ($5\%$) of remelt exergy ($\Delta H_f = 0$).
+    \item \textbf{Tier 2 (Technospheric Urban Mining \& Multi-Modal Refinement):} Satisfies $> 9900\,\mathrm{bp}$ of ongoing demand by
+    aggregating sorted metallic scrap, crushed glass cullet, shredded e-waste PCBs/LFP black mass (refined in closed-loop hydrometallurgical
+    electrowinning cells to $\ge 9990\,\mathrm{bp}$ electrolytic copper/silver purity), NIR-sorted polymers ($1750\,\mu\mathrm{m}$ filament
+    extrusion), and waste lubricants (re-refined via oxygen-free fractional vacuum distillation at $623150\text{--}723150\,\mathrm{mK}$).
+    \item \textbf{Tier 3 (Last-Resort Surgical Geospheric Extraction):} Mathematically locked by Layer 5 whenever
+    \texttt{technospheric\_scrap\_avail\_mg > 0} anywhere in Rings $R_1 \dots R_5$. Only when regional BPVP queries \parencite{rekhter2006} prove
+    zero secondary stock (e.g., local clay/basalt rock dust) \emph{and} the $R_4$ Watershed Assembly ratifies a permit does Tier 3
+    unlock---imposing an automatic $10\times$ Ecological Replacement Cost penalty
+    ($\Phi_{\mathrm{virgin}} = 10 \cdot \lambda_{\mathrm{ERC}} \cdot m_{\mathrm{ore}}$), prioritizing bacterial tailings bio-leaching, and
+    locking a $10000\,\mathrm{bp}$ ($100\%$) topographical/mycorrhizal reclamation escrow.
+\end{enumerate}
+
+Crucially, high-power induction melts (\texttt{A356} aluminum at $983150\,\mathrm{mK}$, \texttt{SAE 660} bearing bronze at
+$1323150\,\mathrm{mK}$, glass cullet at $1473150\,\mathrm{mK}$, ductile iron/steel at $1773150\,\mathrm{mK}$) sit at \textbf{Priority Tier 4} in
+\texttt{col-execd}'s deterministic scheduler \parencite{liu1973scheduling}. Using Lookahead Horizon Admission Control, \texttt{col-execd} holds
+melt tokens in \texttt{WAITING\_SIGNAL} until two simultaneous conditions hold: crucible charge aggregation reaches $\ge 8500\,\mathrm{bp}$
+($85\%$) of capacity (eliminating single-piece thermal dissipation), and Scenario \texttt{Alpha}/\texttt{Beta} broadcasts
+\texttt{sig:exergy.surplus\_tier1\_to\_3\_satisfied} confirming solar-concentrator or microgrid surplus above all Tier 1--3 ecological, baseline,
+and mutual-aid loads.
+
+\subsection{The Four-Stage Exergy Cascade, Two-Person Pour Interlocks, and Cold-Shut Salvage}
+
+Rather than rejecting furnace heat to ambient air, Scenario \texttt{Theta} couples ceramic recuperators and water-cooled induction jackets into a
+deterministic \textbf{Four-Stage Exergy Cascade} recovering $\eta_{\mathrm{cascade}} \ge 7500\,\mathrm{bp}$ ($75\%$) of input electrical
+microjoules across descending Carnot quality tiers:
+\begin{equation}
+\underbrace{T_1 > 1300000\,\mathrm{mK}}_{\substack{\text{Primary Smelt \&}\\ \text{Cullet Fusion (\texttt{Theta})}}} \;\longrightarrow\;
+\underbrace{T_2 \approx 800000\,\mathrm{mK}}_{\substack{\text{Scrap Preheat, Glass Lehr}\\ \text{\& Ceramic Anneal (\texttt{Theta})}}} \;\longrightarrow\;
+\underbrace{T_3 \approx 400000\,\mathrm{mK}}_{\substack{\text{Autoclave Steam, Canning}\\ \text{\& Timber Kilns (\texttt{Eta}/\texttt{Gamma})}}} \;\longrightarrow\;
+\underbrace{T_4 \approx 330000\,\mathrm{mK}}_{\substack{\text{PEX-a Bathhouse \&}\\ \text{Space Hydronics (\texttt{Zeta}/\texttt{Xi})}}}
+\label{eq:four-stage-cascade}
+\end{equation}
+
+\begin{invariant}[Four-Stage Exergy Cascade, Emissions Ceiling, and Dual-Steward Pour Interlock]
+\label{inv:theta-safety}
+No induction contactor or molten-pour tilt actuator in Scenario \texttt{Theta} may remain energized unless edge hardware and \texttt{col-execd}
+continuously verify:
+\begin{align}
+\frac{m_{\mathrm{charge}} \times 10000}{m_{\mathrm{crucible\_max}}} &\ge 8500\,\mathrm{bp}, \quad \frac{E_{\mathrm{cascade},1\to 4} \times 10000}{E_{\mathrm{elec\_in}}} \ge 7500\,\mathrm{bp}, \\
+\dot{V}_{\mathrm{coolant}} &> 2000\,\mathrm{mL/s}, \quad C_{\mathrm{VOC}} < 100\,\mathrm{ppb}, \quad C_{\mathrm{PM2.5}} < 25\,\mu\mathrm{g/m^3}, \quad T_{\mathrm{skin}} < 1123150\,\mathrm{mK}.
+\end{align}
+Furthermore, transitioning from \texttt{MELT\_HOLD} to \texttt{MOLTEN\_POUR} requires a hardware-enforced \textbf{Two-Person Dead-Man Safety
+Interlock} (\texttt{dual\_pour\_enclave\_sigs == 2} within $250\,\mathrm{ms}$ from two distinct \texttt{Foundry\_Pyro\_L3} capability handles
+plus clear optical/load-cell verification of the dry-sand emergency dump pit) \parencite{iec61508}.
+\end{invariant}
+
+In Layer 1, series-wired Klixon bimetallic snap-switches physically sever power at $T_{\mathrm{skin}} \ge 1123150\,\mathrm{mK}$
+($850^\circ\mathrm{C}$) without software intervention. If a cloud transient or grid fault forces an early pour abort, or if ultrasonic testing
+detects porosity ($> 150\,\mathrm{bp}$) or a cold-shut defect in a solidified casting, \texttt{col-execd} executes an \textbf{Alloy-Segregated
+Cold-Shut Remelt Salvage Saga}: XRF provenance tags (\texttt{A356} vs.\ \texttt{SAE 660} vs.\ ductile iron) lock the failed casting, sprue, and
+risers into alloy-pure tote bins (\texttt{l3:theta:remelt\_queue:<alloy\_id>}), preserving $10000\,\mathrm{bp}$ of metallic purity against
+wish-cycling contamination for the next sunny-day batch.
+
+\begin{lstlisting}[caption={Scenario \texttt{Theta} Four-Stage Exergy Cascade \& Two-Person Molten-Pour Interlock Bytecode State},label={lst:theta-cascade}]
+struct alignas(8) ThetaMeltAndCascadeFrame {
+    uint64_t batch_charge_mg;               // Gate: >= 8500 bp of crucible_cap_mg
+    uint64_t total_elec_input_uj;           // Exact mW * ms microjoule integral
+    uint64_t stage1_melt_zone_mk;           // > 1300000 mK (Bronze/Glass/Ferrous)
+    uint64_t stage2_anneal_preheat_uj;      // ~ 800000 mK recuperator recovery
+    uint64_t stage3_steam_kiln_export_uj;   // ~ 400000 mK routed to Eta/Gamma
+    uint64_t stage4_hydronic_pex_export_uj; // ~ 330000 mK routed to Zeta/Xi
+    uint32_t coolant_flow_ml_per_s;         // Interlock > 2000 mL/s
+    uint16_t scrubber_voc_ppb;              // Interlock < 100 ppb
+    uint16_t scrubber_pm25_ug_m3;           // Interlock < 25 ug/m3
+    uint8_t  pour_operator_claim_a[24];     // Blinded BBS+ ClaimHandle #1
+    uint8_t  pour_operator_claim_b[24];     // Blinded BBS+ ClaimHandle #2 (distinct)
+    uint16_t dual_deadman_skew_ms;          // Must be <= 250 ms for tilt actuation
+};
+\end{lstlisting}
+
+\subsection{Bilateral Socket Contracts and Maturity Progression}
+
+Across \texttt{l3\_l4.sock}, \texttt{col-execd} deducts net thermodynamic cost
+$\mathcal{E}_{\mathrm{foundry}} = E_{\mathrm{elec}} - E_{\mathrm{cascade}} + m_{\mathrm{mat}}(c_p\Delta T + \Delta H_f) + C_{\mathrm{wear}} + \Phi_{\mathrm{virgin}}$
+over Pairwise \texttt{BCC} channels and maintains alloy-segregated salvage lots. Across \texttt{l4\_l5.sock}, \texttt{col-kmsd} supplies BPVP
+regional scrap availability proofs, validates via zero-knowledge BBS+ selective disclosure \parencite{camenisch2004signature} that the two
+\texttt{ClaimHandle} capabilities in \texttt{ThetaMeltAndCascadeFrame} map to distinct certified stewards (without revealing identities to
+\texttt{col-execd}), and gates Tier 3 permits. Scenario \texttt{Theta} matures from a Stage 1A suburban garage XRF appliance-harvesting and
+$1750\,\mu\mathrm{m}$ filament-extrusion bench ($\le 550\,\mathrm{cB}$), to a Stage 1B micro-crucible and benchtop copper electrowinning cell, to
+a Stage 2 \texttt{M-1}/\texttt{M-2} industrial induction foundry, cullet glassworks, and vacuum oil re-refinery docked under Scenario
+\texttt{Epsilon}'s Subchapter T carapace, and finally to a Stage 3 brownfield Industrial Commons Trust plumbed directly into district hydronics.
+
+% ==========================================================================
+\section{Scenario \texttt{Nu}: Bioregional Fiber Shed, Natural Dyeing, and the $R_0$ Sartorial Purge}
+\label{sec:scn-nu}
+
+Petrochemical fast fashion spins sixty percent of modern clothing from fossil polymers coated in persistent fluoropolymers (\texttt{PFAS}) and
+tanned with toxic hexavalent chromium ($\mathrm{Cr(VI)}$), while authoritarian twentieth-century collectivism committed the opposite violence by
+conflating productive machinery with personal attire---imposing drab, status-ranked uniforms \parencite{illich1973,scott1998}. Scenario
+\texttt{Nu} (\texttt{SCN-NU-TEXTILES}) builds a regenerative bioregional fiber, cobblery, and technical-workwear commons while codifying an
+unbreakable cryptographic firewall around $R_0$ personal aesthetic sovereignty.
+
+\subsection{Workflow Topology and Repair-First Choreography}
+
+Scenario \texttt{Nu} weaves multi-hop regional fiber sheds across Trust Rings $R_1 \dots R_4$ via chained HTLCs: Scenario \texttt{Gamma} pastures
+supply rotational wool (recovering $\ge 9500\,\mathrm{bp}$ pharmaceutical lanolin for \texttt{Delta}/\texttt{Eta}) and byproduct hides alongside
+bast crops (flax, industrial hemp, stinging nettle); Scenario \texttt{Eta} delivers condensed oak-bark tannins and botanical/fungal dyes (indigo,
+madder, walnut hulls); Scenario \texttt{Theta} casts silicon-bronze buckles, eyelets, and shears; and Scenario \texttt{Alpha} mills hornbeam shoe
+lasts on 4-axis CNC lathes. Within the node atelier, \texttt{col-execd} separates incoming intents at the first gateway into three distinct
+ownership and durability tracks:
+\begin{enumerate}
+    \item \textbf{Restorative Mending \& Goodyear-Welt Cobblery:} Visible \emph{Sashiko} reinforcement and hevea-rubber/cork outsole replacement
+    restore garment and boot durability to $10000\,\mathrm{bp}$ ($100\%$) while consuming $< 1500\,\mathrm{bp}$ ($15\%$) of virgin embodied
+    exergy and mass.
+    \item \textbf{Shared $R_2$ Technical Hazard PPE:} Aluminized foundry proximity coats (\texttt{Theta}), ballistic chainsaw chaps
+    (\texttt{Eta}), and ISO-5 cleanroom suits (\texttt{Chi}) remain tracked in $R_2$ locker CRDT slots, routing automatically through ozone/UV-C
+    sanitization bays between shifts and absorbing $8500\,\mathrm{bp}$ ($85\%$) of occupational abrasion.
+    \item \textbf{Inviolable $R_0$ Personal Wardrobe \& Bespoke Craft:} Everyday linen shirts, wool coats, undergarments, custom-lasted boots,
+    and Scenario \texttt{Lambda} expressive attire execute ephemeral local sizing in volatile $R_0$ RAM (zeroed immediately after G-code
+    generation) and trigger a permanent ledger purge upon handoff.
+\end{enumerate}
+
+\subsection{Retting Endpoints, Indigo Redox/\texttt{mpH} Envelopes, and the $R_0$ Purge}
+
+In biological bast-fiber processing, pectinolytic bacteria dissolve the pectin matrix binding flax or hemp phloem fibers to the woody core.
+Over-retting by even six hours allows cellulolytic enzymes to attack structural cellulose chains, collapsing tensile strength. \texttt{col-execd}
+supervises warm-water enzymatic retting tanks ($T \in [303150, 308150]\,\mathrm{mK}$, or $30^\circ\mathrm{C}\text{--}35^\circ\mathrm{C}$) via
+Layer 2 milli-pH and electrical conductivity probes: as organic acids (butyric/acetic) accumulate and tank acidity drops to the endpoint floor
+$\mathrm{mpH} \in [4600, 4800]$ with dissolved-oxygen stabilization, an interrupting conditional boundary event immediately opens drain valves to
+Scenario \texttt{Mu} wetland polishing beds and initiates clean-water rinse before cellulose depolymerization can begin.
+
+Similarly, natural botanical indigo (\emph{Indigofera} / \emph{Polygonum}) dyeing requires reducing insoluble blue indigotin into soluble
+yellow-green \emph{leuco-indigo} in a fructose/calcium-hydroxide fermentation vat without harsh petrochemical sodium hydrosulfite. Edge
+potentiostats and pH electrodes maintain vat alkalinity within $\mathrm{mpH} \in [10500, 11200]$ and oxidation-reduction potential
+($\mathrm{ORP}$) within $[-750, -600]\,\mathrm{mV}$ at $318150\text{--}323150\,\mathrm{mK}$ ($45^\circ\mathrm{C}\text{--}50^\circ\mathrm{C}$),
+while mordanting vats use non-toxic potassium alum and oak-gall tannins (\texttt{hexavalent\_chromium\_mg == 0}, \texttt{pfas\_fluoropolymer\_mg
+== 0}). At the vacuum CNC cutting table, Oasis (\texttt{L1b}) 2D nesting must achieve $\ge 9200\,\mathrm{bp}$ ($92\%$) fabric utilization before
+energizing rotary knives; $10000\,\mathrm{bp}$ of weighed natural cellulose/protein offcuts route to Scenario \texttt{Lambda} rag-paper presses
+and Scenario \texttt{Mu} biochar, while legacy synthetic laundry cycles pass through $50\,\mu\mathrm{m}$ stainless-steel vortex filters verified
+at $\ge 9800\,\mathrm{bp}$ microfiber capture.
+
+\begin{invariant}[$R_0$ Sartorial Sovereignty Purge and Anti-Uniformity Guarantee]
+\label{inv:nu-r0-purge}
+For every item fabricated or claimed under \texttt{OwnershipRegime::R0\_PERSONAL\_BELONGING}, \texttt{col-execd} and \texttt{col-kmsd} enforce
+four irrevocable post-conditions upon cutting-table mass debit:
+\begin{align}
+\mathtt{pfas\_mg} &= 0, \quad \mathtt{cr6\_mg} = 0, \quad \mathtt{yield\_bp} \ge 9200, \quad E_{\mathrm{mend}} < 0.15\,E_{\mathrm{virgin}}, \\
+\mathtt{r0\_ledger\_tracked} &= \mathtt{false}, \quad \mathtt{non\_requisitionable} = \mathtt{true}, \quad \mathtt{uniform\_rank\_insignia} = 0.
+\end{align}
+No workflow, governance motion, or emergency contention state may enumerate personal wardrobes, embed RFID/NFC tags in garments, or mint
+status-ranked sartorial uniforms.
+\end{invariant}
+
+\begin{lstlisting}[caption={Scenario \texttt{Nu} Bast Retting, Indigo Vat Envelope, and \texttt{OP\_PURGE\_R0\_LINEAGE} Frame},label={lst:nu-structs}]
+struct alignas(8) NuTextileVatAndPurgeState {
+    uint32_t retting_bath_temp_mk;          // Enzymatic band: [303150, 308150] mK
+    uint16_t retting_endpoint_mph;          // Drain gate when mpH in [4600, 4800]
+    uint16_t indigo_vat_mph;                // Alkaline band: [10500, 11200] mpH
+    int16_t  indigo_vat_orp_mv;             // Leuco-indigo window: [-750, -600] mV
+    uint16_t cnc_marker_nesting_yield_bp;   // Cutting gate >= 9200 bp (92%)
+    uint16_t vortex_microfiber_capture_bp;  // Laundry filter floor >= 9800 bp
+    uint32_t hexavalent_chromium_mg;        // Hard toxicity invariant == 0 mg
+    uint32_t pfas_fluoropolymer_mg;         // Hard toxicity invariant == 0 mg
+    uint8_t  op_purge_r0_lineage_committed; // Must be 1 on R0 garment handoff
+    uint8_t  ephemeral_body_ram_zeroized;   // Must be 1 immediately post-G-code
+};
+\end{lstlisting}
+
+\subsection{Bilateral Socket Contracts and Maturity Progression}
+
+Over \texttt{l3\_l4.sock}, \texttt{col-execd} debits bulk bolt mass (\texttt{l3:nu:bolt:<cid>:mass\_mg}), logs $180000\,\mathrm{s}$
+($50\text{-hour}$) brushless sewing-motor maintenance intervals, and executes an explicit tombstone delete (\texttt{OP\_PURGE\_R0\_LINEAGE})
+erasing item-level serial keys the instant a personal garment leaves the workbench. Over \texttt{l4\_l5.sock}, \texttt{col-kmsd} verifies
+unconditional $B_{\mathrm{baseline}}$ wardrobe entitlements, blocks any requisition intent targeting $R_0$ clothing, and authorizes \texttt{26
+U.S.C.\ \S~1388} Subchapter T Shared Services Agreements for bulk organic linen procurement prior to Stage 3 mill autonomy. Scenario \texttt{Nu}
+progresses from Stage 1A whisper-quiet ($\le 480\,\mathrm{cB}$) domestic treadle/servo mending parlors and $50\,\mu\mathrm{m}$ laundry microfiber
+filters, to Stage 1B shared industrial walking-foot sewing lofts and cobbler anvils, to Stage 2 CNC cutting ateliers and bespoke heritage export
+studios ($\Phi_t$), to Stage 3 bioregional retting, ring-spinning, Jacquard weaving, and oak-bark vegetable tanneries on CLT land.
+
+% ==========================================================================
+\section{Scenario \texttt{Xi}: Habraken Support-versus-Infill Architecture and Living Buildings}
+\label{sec:scn-xi}
+
+Speculative real estate traps households in thirty-year debt for high-entropy glued drywall boxes while forbidding inhabitants from shaping their
+own living spaces; conversely, rigid ecological purism stalls bootstrapping communities when municipal building inspectors demand conventional
+concrete footings \parencite{habraken1972supports,scott1998}. Scenario \texttt{Xi} (\texttt{SCN-XI-ARCH}) operationalizes N.~John Habraken's
+\emph{Open Building} theory across Layer 4, separating long-horizon engineered \textbf{Support} structures from unpoliced domestic
+\textbf{Infill} hearths while honestly accounting for pragmatic Layer 7 transitional material compromises.
+
+\subsection{Two-Track Open-Building Workflow Topology}
+
+Every architectural or civil engineering intent arriving at \texttt{col-execd} is classified by its structural domain flag
+(\texttt{touches\_primary\_load\_bearing\_support}) into two orthogonal BPMN orchestration tracks:
+\begin{enumerate}
+    \item \textbf{The Commons \emph{Support} Chassis Track ($R_1 \dots R_4$):} Governs primary load-bearing mass-timber (\texttt{CLT}/glulam from
+    \texttt{Eta}) columns, alkali-activated slag/clay geopolymer vaults (\texttt{Theta}), seismic base isolators, utility lifelines
+    (\texttt{Beta}), Scale 2 multi-scenario courtyard complexes (where industrial ground plinths require $\ge 650\,\mathrm{cB}$, or \texttt{STC
+    >= 65}, acoustic isolation below upper residences), and Scale 3 bioregional timber bridges and $50\,\mathrm{m}$ vegetated wildlife ecoducts.
+    Support workflows enforce strict Oasis (\texttt{L1b}) integer Finite-Element Analysis (\texttt{FEA}), construction LiDAR alignment,
+    timber/earthen curing moisture gates, and recurring multi-decade structural strain inspections.
+    \item \textbf{The Autonomous Household \emph{Infill} Track ($R_0 / R_1$):} Governs interior non-load-bearing demountable partitions,
+    hand-sculpted earthen cob window seats, heirloom broken-tile mosaics, carved doorjambs, and mineral-ochre murals (\texttt{Lambda}). Once
+    \texttt{col-execd} confirms \texttt{touches\_primary\_support == false} and fire-egress clearance, BIM geometric tolerances and LiDAR scans
+    are constitutionally disabled (\texttt{r0\_hearth\_lidar\_scans == 0}), honoring \emph{wabi-sabi} handcraft without bureaucratic friction
+    \parencite{illich1973,weiser1996calm}.
+\end{enumerate}
+
+\begin{definition}[Habraken Support--Infill Jurisdictional Split in Layer 4]
+\label{def:xi-habraken}
+A physical building assembly $\mathcal{B} = \mathcal{S} \sqcup \mathcal{I}$ is partitioned into a shared \textbf{Support} sub-lattice
+$\mathcal{S}$ (\texttt{IS\_PRIMARY\_SUPPORT = 1}, governed by commons life-safety invariants, long-horizon sensor telemetry, and Layer 5
+\texttt{NodeArchitecturalPolicy} material covenants) and a family of disjoint household \textbf{Infill} sub-volumes $\{\mathcal{I}_h\}$
+(\texttt{IS\_PRIMARY\_SUPPORT = 0}, governed autonomously in Trust Ring $R_0$ with zero interior LiDAR/BIM telemetry and $10000\,\mathrm{bp}$
+demountable partition autonomy) \parencite{habraken1972supports}.
+\end{definition}
+
+\subsection{Moisture Curing Gates, Passive-Solar Night-Flush Envelopes, and FEA Safety}
+
+Enclosing damp mass timber, hempcrete, or compressed earth blocks behind vapor barriers breeds \emph{Serpula lacrymans} dry rot and toxic
+\emph{Stachybotrys} mold, destroying structural integrity silently. Consequently, \texttt{col-execd} inserts a mandatory hardware-gated
+\textbf{Enclosure Moisture Gate} between structural framing/casting and interior plastering or sheathing: calibrated pin-resistance and
+dielectric probes across every primary timber/earthen bay must attest equilibrium moisture content $M_{\mathrm{enclose}} \le 1400\,\mathrm{bp}$
+($14.0\%$, with shop-glulam/joinery stock entering at $\le 1200\,\mathrm{bp}$) continuously for $86400000\,\mathrm{ms}$ ($24\,\mathrm{hours}$)
+before the workflow unlocks enclosure task tokens. If rain wets a frame during a barn-raising ($M > 1400\,\mathrm{bp}$), a boundary salvage saga
+suspends sheathing and dispatches solar-kiln tenting fans until the bay dries safely below threshold.
+
+Primary structural bents must pass Oasis integer FEA with a life-safety factor
+$\mathrm{SF} = (\sigma_{\mathrm{yield}} \times 10000) / \sigma_{\mathrm{peak}} \ge 25000\,\mathrm{bp}$ ($250\%$), neighbor winter-solstice
+solar-access loss $\Delta \Phi_{\mathrm{solar}} < 500\,\mathrm{bp}$ ($5\%$), and load-bearing joint LiDAR deviation $\le 3000\,\mu\mathrm{m}$
+($3\,\mathrm{mm}$). Once occupied, Living Buildings regulate thermal comfort with minimal compressor work via autonomic \textbf{Passive-Solar
+Night-Flush Damper Envelopes}: during warm seasons, when indoor thermal-mass temperature $T_{\mathrm{in}} > 296150\,\mathrm{mK}$
+($23^\circ\mathrm{C}$), outdoor ambient temperature drops to $T_{\mathrm{out}} \le T_{\mathrm{in}} - 3000\,\mathrm{mK}$ ($3\,\mathrm{K}$ cooler),
+outdoor dewpoint ensures $\mathrm{RH}_{\mathrm{in}} < 7000\,\mathrm{bp}$, and wildfire particulate telemetry confirms
+$\mathrm{PM2.5} < 15\,\mu\mathrm{g/m^3}$, \texttt{ActuationEnvelopeV1} opens clerestory and courtyard intake dampers to flush accumulated heat
+into the night sky while precooling earthen/geopolymer slabs to $291150\,\mathrm{mK}$ ($18^\circ\mathrm{C}$) before dawn closure.
+
+\begin{lstlisting}[caption={Scenario \texttt{Xi} Support Moisture Gate, Pragmatic L7 Variance, and Night-Flush Damper Structs},label={lst:xi-structs}]
+struct alignas(8) XiSupportAndEnvelopeState {
+    uint32_t fea_safety_factor_bp;          // Life-safety floor >= 25000 bp (250%)
+    uint32_t support_joint_lidar_um;        // Primary frame tolerance <= 3000 um
+    uint16_t pre_enclosure_moisture_bp;     // Hard rot/mold gate <= 1400 bp (14%)
+    uint16_t plinth_to_res_isolation_cb;    // Scale 2 courtyard floor >= 650 cB
+    uint16_t demountable_yield_bp;          // Checked against L5 NodeArchPolicy
+    uint64_t l3_pragmatic_l7_erc_uj;        // Honest ERC surcharge for L7 cement
+    uint32_t indoor_slab_temp_mk;           // Night-flush trigger > 296150 mK
+    uint32_t outdoor_air_temp_mk;           // Night-flush open if <= T_in - 3000 mK
+    uint16_t outdoor_pm25_ug_m3;            // Smoke damper lock if >= 15 ug/m3
+    uint8_t  r0_infill_lidar_scans;         // Constitutional invariant == 0
+};
+\end{lstlisting}
+
+\subsection{Bilateral Socket Contracts and Pragmatic Layer 7 Variances}
+
+Over \texttt{l4\_l5.sock}, rather than enforcing dogmatic bans that paralyze early nodes, \texttt{col-kmsd} delivers each settlement's
+democratically ratified \texttt{NodeArchitecturalPolicy} (for instance, permitting a Stage 1B/2 urban retrofit node to pour a code-mandated Layer
+7 Portland-cement footing with \texttt{min\_demountable\_yield\_bp = 7000}, while a Stage 3 forest CLT village votes for \texttt{10000 bp} dry
+\emph{Kigumi} joinery) alongside proof of Irrevocable CLT/PPT land title (\texttt{real\_estate\_tokens\_minted == 0}) \parencite{ostrom1990}.
+Over \texttt{l3\_l4.sock}, \texttt{col-execd} records the exact embodied Ecological Replacement Cost (\texttt{l3\_pragmatic\_l7\_erc\_uj}) and
+tags legacy-material voxels in Scenario \texttt{Mu}'s long-term remediation register so future remodels recover and recycle them cleanly.
+
+% ==========================================================================
+\section{Wave D Synthesis: Convivial Maturity Progression (\texttt{Stage 1A} to \texttt{Stage 3})}
+\label{sec:wave-d-maturity}
+
+Wave D demonstrates how Layer 4 scales physical circularity without demanding upfront industrial capital. At \textbf{Stage 1A (Household Seed)},
+a single suburban parcel runs quiet ($\le 550\,\mathrm{cB}$) arborist slab curing, backyard \texttt{TLUD} biochar and Bokashi/hot-compost drums,
+appliance XRF harvesting, domestic Sashiko mending with $50\,\mu\mathrm{m}$ microfiber filtration, and cellulose blower-door weatherization---all
+shielded under UUNAA \S~6 (38--68 active workflows node-wide). At \textbf{Stage 1B (Neighborhood Mesh)}, 5--12 peered households pool backyard
+coppice lots, waste-heat PEX hydronics, micro-induction melts, industrial sewing lofts, and fence-removal courtyard unifications with
+\emph{Kigumi} ADU barn-raisings settled over zero-sum \texttt{BCC} channels (95--185 active workflows). At \textbf{Stage 2 (Cooperative Shell)},
+Subchapter T industrial/mixed-use leases unlock $380\,\mathrm{V}$ bandsaw kilns, cGMP HPTLC apothecaries, rotary Class A compost/struvite/biogas
+yards, $50\,\mathrm{kW}$ multi-alloy induction and cullet glassworks, CNC cutting ateliers, and multi-story warehouse courtyard conversions whose
+bounded external revenues ($\Phi_t$) capitalize land acquisition escrows (260--620 active workflows). Finally, at \textbf{Stage 3 (Sovereign
+Campus)}, permanent Community Land Trusts and Forest Trusts unite old-growth Mother-Tree sanctuaries, constructed wetland parks,
+brownfield-remediated solar/induction foundries, bast-to-Jacquard fiber mills, and mass-timber village arcologies across bioregional watersheds
+(850--2,600+ active workflows).
+
+\begin{table}[htbp]
+\centering
+\caption{Wave D Orchestration Density, SI Safety Gates, and Convivial Maturity Progression Across Stages 1A--3}
+\label{tab:wave-d-maturity}
+\footnotesize
+\setlength{\tabcolsep}{4.2pt}
+\begin{tabular}{@{}p{1.45cm}p{2.65cm}p{2.55cm}p{2.55cm}p{2.65cm}p{2.65cm}@{}}
+\toprule
+\textbf{Scenario} & \textbf{Core SI Gates \& Envelopes} & \textbf{Stage 1A: Household Seed ($R_0\text{--}R_1$)} & \textbf{Stage 1B: Neighbor Mesh ($R_1\text{--}R_2$)} & \textbf{Stage 2: Co-op Shell ($R_2\text{--}R_3$)} & \textbf{Stage 3: Sovereign Campus ($R_3\text{--}R_5$)} \\
+\midrule
+\textbf{\texttt{Eta}} \newline Silviculture \& Mycology & $F_{\mathrm{eco}} \ge 3000\,\mathrm{bp}$ CWD; $F_0$ at $394260\,\mathrm{mK}$; RH $[8500,9200]\,\mathrm{bp}$, $\mathrm{CO}_2 \le 800\,\mathrm{ppm}$; kiln $\le 1200\,\mathrm{bp}$. & Arborist log salvage, passive solar kiln, totem bolts, countertop Soxhlet bench. & Shared locust/willow coppice lot, laminar spawn hood, $2500\,\mathrm{bp}$ patch forage cap. & $380\,\mathrm{V}$ bandsaw mill, heat-pump kiln, cGMP HPTLC/UV-Vis apothecary lab ($\Phi_t$). & Community Forest Trust (\texttt{RCW 84.33}), Mother-Tree sanctuaries, watershed CLT supply. \\
+\addlinespace[4pt]
+\textbf{\texttt{Mu}} \newline Biorefinery \& Biochar & Compost $\ge 328150\,\mathrm{mK}$ ($72\,\mathrm{h}$); struvite $\mathrm{mpH}\;[8500,9200]$; $\mathrm{H_2S} < 10\,\mathrm{ppm}$; \texttt{TLUD} $[673150,823150]\,\mathrm{mK}$. & Backyard hot-compost drum, $20\,\mathrm{L}$ struvite carboy, garden \texttt{TLUD}, greywater mulch basin. & e-Trike cassette backhaul, PEX quench hydronics, shared BSFL \& worm windrows. & In-vessel rotary drums, $50\,\mathrm{m}^3$ biogas \texttt{CSTR}, commercial tipping \& unbuilding crews. & Remediated brownfield biorefinery, wetland reed beds ($\mathrm{BOD}_5 < 10\,\mathrm{ppm}$), sewer severance. \\
+\addlinespace[4pt]
+\textbf{\texttt{Theta}} \newline 3-Tier Foundry & Batch $\ge 8500\,\mathrm{bp}$; 4-stage cascade $\ge 7500\,\mathrm{bp}$ ($1300\to 330\,\mathrm{K}$); 2-person pour $\le 250\,\mathrm{ms}$. & Garage XRF e-waste/appliance harvest, $1750\,\mu\mathrm{m}$ polymer extruder, $3\,\mathrm{kW}$ HEPA kiln. & Benchtop copper electrowinning, micro-induction crucible during solar surplus. & \texttt{M-1} $50\,\mathrm{kW}$ induction foundry, cullet glass lehr, vacuum oil re-refinery ($\Phi_t$). & Industrial Commons Trust, steel/glass mills, $10\times$ ERC last-resort bio-leach gate. \\
+\addlinespace[4pt]
+\textbf{\texttt{Nu}} \newline Fiber Shed \& $R_0$ Attire & Retting $\mathrm{mpH}\;[4600,4800]$; indigo $[-750,-600]\,\mathrm{mV}$; nest $\ge 9200\,\mathrm{bp}$; $R_0$ purge \& $0$ PFAS/Cr(VI). & Quiet ($\le 480\,\mathrm{cB}$) mending parlor, Sashiko/cobbler anvil, $50\,\mu\mathrm{m}$ vortex filter. & Neighborhood walking-foot sewing loft, natural dye porch, child clothing swap. & Vacuum CNC cutting table, ephemeral 3D foot lasts, ozone $R_2$ PPE bay, heritage export. & Bast retting, lanolin wool scouring, Jacquard mill, oak-bark vegetable tannery. \\
+\addlinespace[4pt]
+\textbf{\texttt{Xi}} \newline Open-Build Habitat & Support FEA $\ge 25000\,\mathrm{bp}$; moisture $\le 1400\,\mathrm{bp}$ MC; $\ge 650\,\mathrm{cB}$ STC; $R_0$ infill $0$ LiDAR scans. & Blower-door air seal, biochar-cellulose attic retrofit, cob/mosaic $R_0$ hearth craft. & Fence-removal shared green, demountable \emph{Kigumi} backyard ADU barn-raising. & Warehouse courtyard conversion, bolted \texttt{CLT} mezzanines, PE code variances. & Multi-story \texttt{CLT}/geopolymer village arcologies, timber bridges \& $50\,\mathrm{m}$ wildlife ecoducts. \\
+\bottomrule
+\end{tabular}
+\end{table}

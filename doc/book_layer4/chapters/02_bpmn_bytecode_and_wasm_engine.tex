@@ -1,0 +1,544 @@
+\chapter{BPMN 2.0 Bytecode Compilation and the Deterministic WASM Engine}
+\label{ch:wasm-engine}
+
+\epigraph{Diagrams are instruments of human consensus; state machines are instruments of physical accountability. Between the two must stand a compiler that refuses every ambiguity before a single relay closes.}{---Layer~4 Compiler Engineering Notes, Cascadia Forge}
+
+A recurring failure mode of community automation projects is the gradual accumulation of
+imperative ``spaghetti'' logic. An engineer writes a quick \texttt{if/else} branch in C++ or
+Python to open a greenhouse vent when temperature rises, adds a nested flag for rain,
+patches in a special case for seedlings, and soon produces an inscrutable control loop that
+only its original author dares touch. Non-programmer Stewards lose the ability to audit the
+rules governing their own food and water, while subtle state-explosion bugs hide in untested
+combinations of imperative branches
+\parencite{harel1987statecharts,vanderaalst1998application}.
+
+As noted in the Council's audit of the Oasis proving ground (Ceiling~\#1), even our early
+\texttt{SharedStackRuntime} prototype exhibited this tension: while
+\texttt{pea\_garden\_and\_soup\_lifecycles.bpmn.json} declared clean Business Process Model
+and Notation (BPMN~2.0) graphs \parencite{omg2011bpmn,chinosi2012bpmn}, the C++ prototype
+evaluated several transitions via domain-specific methods such as
+\texttt{EnsureSpecificWorkflowSpawned()} and \texttt{StepGardenWorkflowBiologyAndTimers()},
+while \texttt{col-execd/main.cpp} operated as a $10\,\mathrm{Hz}$ UHAI telemetry ring-buffer
+harness awaiting live bytecode execution.
+
+Version~3.1 of \texttt{col-execd} eliminates all domain-specific C++ branching inside the
+orchestrator. Layer~4 is strictly a \textbf{generic, deterministic state-machine and
+bytecode virtual machine}. Whether a node is inoculating \textit{Pisum sativum} seeds with
+\textit{Rhizobium leguminosarum}, holding bone broth at Bigelow pasteurization lethality,
+routing e-trike milk-runs, or compiling its own daemon source tree under \texttt{Scenario
+Zero}, every process enters \texttt{col-execd} as a content-addressed BPMN~2.0 bytecode
+bundle paired with a float-free WebAssembly (\texttt{Wasmtime}) predicate module
+\parencite{haas2017wasm}.
+
+In this chapter, we specify the ahead-of-time compilation pipeline, prove why IEEE-754
+floating-point instructions must be eradicated at module load time, establish the canonical
+fixed-point International System (SI) unit table and carry-save Euclidean division
+discipline (resolving the prototype kilojoule-versus-megajoule scaling defect), and detail
+the cache-aligned 64-byte \texttt{BpmnTokenFrame} and its 12-state execution lifecycle.
+
+\section{Compiling Declarative BPMN 2.0 and Ricardian Invariants}
+\label{sec:ch2-bpmn-compilation}
+
+Human beings reason best over visual topological graphs; microprocessors execute fastest
+over contiguous, index-addressed arrays. Layer~4 bridges these two worlds through a
+hermetic, ahead-of-time (AOT) compilation pipeline (\texttt{col-bpmnc}) executed inside the
+Scenario~Zero three-builder reproducible forge before Layer~5 ratifies any workflow for
+deployment.
+
+\subsection{Three Inputs to One Content-Addressed Bundle}
+
+Every executable process bundle ingested across \texttt{/run/collective/ipc/l4\_l5.sock} is
+synthesized from up to three declarative artifacts:
+
+\begin{enumerate}
+\item \textbf{Structural Process Topology (BPMN~2.0 XML/JSON):} Derived from Carl Adam
+        Petri's concurrency formalism \parencite{petri1962kommunikation} and standardized in
+        BPMN~2.0 \parencite{omg2011bpmn,vanderaalst2016process}, the workflow graph
+        enumerates \texttt{StartEvent}s, \texttt{ServiceTask}s, \texttt{UserTask}s,
+        \texttt{ExclusiveGateway}s (\texttt{XOR}), \texttt{ParallelGateway}s (\texttt{AND}),
+        \texttt{InclusiveGateway}s (\texttt{OR}), \texttt{IntermediateCatchEvent}s (timers,
+        Layer~3 signals, correlated messages), interrupting and non-interrupting
+        \texttt{BoundaryEvent}s, and \texttt{EndEvent}s. For example,
+        \texttt{pea\_garden\_and\_soup\_lifecycles.bpmn.json} specifies exact socket
+        bindings (\texttt{ipc\_socket}), inventory lock lists
+        (\texttt{L3\_QUERY\_AND\_LOCK\_INVENTORY}), matter-phase hauling specs, and upward
+        yield deficit signals (\texttt{YIELD\_UPWARD\_L5}).
+\item \textbf{JSON-LD Parameter Catalogs (\texttt{Schema\_JSON-LD}):} Rather than
+        duplicating an entire BPMN graph for every crop variety, timber species, or
+        metallurgical alloy, workflows declare typed parameter slots bound at instantiation
+        time from W3C JSON-LD catalogs \parencite{w3c2020jsonld}. In Lot~402,
+        \texttt{fabaceae\_cultivars.jsonld} parameterizes one legume cultivation topology
+        across heritage nitrogen-fixing peas, rapid virtual canary peas, and
+        soil-nitrogen-consuming bush beans by injecting integer fields such as
+        \texttt{target\_min\_vwc\_bp}, \texttt{irrigation\_dose\_ml},
+        \texttt{min\_growth\_temp\_mk}, and \texttt{trellis\_ridge\_height\_mm}.
+\item \textbf{Ricardian Treaty Guardrails (\texttt{Invariants\_BPMN}):} Whenever a workflow
+        participates in inter-node mutual aid or corridor transit under a ratified Ricardian
+        contract \parencite{grigg2004},
+    \begin{equation}
+    \mathrm{Treaty\_CID} = \mathrm{SHA256}\!\left(\mathrm{Text}_{\mathrm{prose}} \parallel \mathrm{Schema}_{\mathrm{JSON\text{-}LD}} \parallel \mathrm{Invariants}_{\mathrm{BPMN}}\right),
+    \label{eq:ch2-treaty-cid}
+    \end{equation}
+the compiler weaves $\mathrm{Invariants}_{\mathrm{BPMN}}$---corridor exergy ceilings,
+    ramp-rate caps, two-phase delivery receipt deadlines, and automatic bilateral credit
+    freeze sagas---as non-bypassable precondition and boundary guards around every
+    constituent task.
+\end{enumerate}
+
+\begin{figure}[htbp]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+    node distance=0.75cm and 1.1cm,
+    stage/.style={draw, rounded corners=3pt, thick, align=center, font=\footnotesize, minimum height=0.92cm, inner sep=5pt},
+    input/.style={draw, rounded corners=2pt, fill=blue!6, align=center, font=\scriptsize, minimum width=3.2cm, minimum height=0.78cm},
+    arr/.style={-{Stealth[length=2.2mm]}, thick}
+]
+    \node[input] (in1) {BPMN 2.0 Graph\\(\texttt{.bpmn.json / .xml})};
+    \node[input, right=0.5cm of in1] (in2) {JSON-LD Parameter Schema\\(\texttt{fabaceae\_cultivars.jsonld})};
+    \node[input, right=0.5cm of in2] (in3) {Ricardian Guardrails\\(\texttt{Invariants\_BPMN})};
+
+    \node[stage, fill=yellow!10, minimum width=10.6cm, below=0.8cm of in2] (verify) {
+        \textbf{Stage A: Static Structural \& Safety Verifier (\texttt{col-bpmnc})}\\
+        Bounded-Wait Check $\cdot$ Soundness / Deadlock-Freedom $\cdot$ Ecological Floor Preconditions $\cdot$ Socket Adjacency Check
+    };
+
+    \node[stage, fill=green!8, minimum width=5.0cm, below left=0.85cm and -2.3cm of verify] (flat) {
+        \textbf{Flat Transition Table}\\
+        Fixed-stride \texttt{BpmnNodeDesc[]}\\
+        64-bit Edge \& Join Bitmasks
+    };
+
+    \node[stage, fill=cyan!8, minimum width=5.0cm, below right=0.85cm and -2.3cm of verify] (wasm) {
+        \textbf{Float-Free WASM Module}\\
+        0x43/0x44 Float Opcodes = 0\\
+        4-Import Host ABI + Fuel Costs
+    };
+
+    \node[stage, fill=gray!12, minimum width=10.6cm, below=2.15cm of verify] (cid) {
+        \textbf{3-Builder Reproducible Consensus $\to$ Immutable \texttt{workflow\_def\_cid = SHA256(Table || WASM)}}\\
+        Ratified by Layer 5 (\texttt{col-kmsd}) $\xrightarrow{\texttt{l4\_l5.sock}}$ Executed at $10\,\mathrm{Hz}$ ($100\,\mathrm{ms}$) in \texttt{col-execd}
+    };
+
+    \draw[arr] (in1.south) -- (in1.south |- verify.north);
+    \draw[arr] (in2.south) -- (verify.north);
+    \draw[arr] (in3.south) -- (in3.south |- verify.north);
+    \draw[arr] (verify.south -| flat.north) -- (flat.north);
+    \draw[arr] (verify.south -| wasm.north) -- (wasm.north);
+    \draw[arr] (flat.south) -- (flat.south |- cid.north);
+    \draw[arr] (wasm.south) -- (wasm.south |- cid.north);
+\end{tikzpicture}%
+}
+\caption{Hermetic Ahead-of-Time Compilation of BPMN~2.0 Graphs, JSON-LD Schemas, and Ricardian Invariants into Content-Addressed Bytecode and Float-Free WebAssembly.}
+\label{fig:ch2-compiler-pipeline}
+\end{figure}
+
+\subsection{Static Soundness Verification and the Four-Import Host ABI}
+
+As shown in Figure~\ref{fig:ch2-compiler-pipeline}, \texttt{col-bpmnc} enforces four
+compile-time soundness gates derived from workflow-net verification theory
+\parencite{vanderaalst1998application} before emitting a single byte of machine code:
+
+\begin{enumerate}
+\item \textbf{No Unbounded Waiting States:} Every \texttt{IntermediateCatchEvent},
+        \texttt{UserTask}, resource lease wait, or peer-claim state must carry a finite
+        Hybrid Logical Clock deadline $\Delta_{\mathrm{timeout\_ms}} > 0$ wired to an
+        explicit timeout or compensation edge. Zombie workflows that lock community tools
+        indefinitely cannot compile.
+\item \textbf{Mandatory Ecological Floor Wrapping:} Every \texttt{ServiceTask} that emits an
+        \texttt{ActuationEnvelopeV1} has the node's Tier~1 ecological floor predicates
+        ($F_{\mathrm{eco}}$) injected ahead of its actuation call so no author can omit an
+        aquifer or thermal ceiling check.
+\item \textbf{Instantaneous Loop Prohibition:} Every directed cycle in the BPMN
+        sequence-flow graph must traverse at least one tick-yielding boundary
+        (\texttt{WAITING\_TIMER}, \texttt{WAITING\_SIGNAL\_OR\_MSG},
+        \texttt{WAITING\_HUMAN\_CLAIM}, or \texttt{YIELDED\_UPWARD\_L5}), guaranteeing
+        termination within a single $100\,\mathrm{ms}$ tick even before WebAssembly
+        instruction fuel metering engages.
+\item \textbf{Hermetic Four-Import WebAssembly Host ABI:} Guard expressions and
+        stoichiometric calculations compile to a freestanding WebAssembly module
+        (\texttt{nostd}, zero WASI filesystem/clock/socket imports) restricted to
+        \textbf{four host functions} in the \texttt{col\_l4\_abi} namespace:
+    \begin{itemize}
+        \item \texttt{l3\_read\_slot\_i64(entity\_id: i64, prop\_hash: i64) -> i64}
+\item \texttt{l3\_propose\_lease(res\_class: i32, res\_id: i64, qty: i64, ttl\_ms: i64) ->
+            i32}
+\item \texttt{l3\_emit\_envelope(target\_id: i64, env\_ptr: i32, env\_len: i32) -> i32}
+\item \texttt{l5\_emit\_yield(reason: i32, gate\_hash: i64, deficit\_uj: i64) -> i32}
+    \end{itemize}
+\end{enumerate}
+
+In \texttt{VerifySoftwareReleasePipeline()}
+(\texttt{src/daemons/col-execd/execd\_self\_host.hpp}), any constitutional module reporting
+\texttt{external\_network\_calls\_during\_build > 0},
+\texttt{layer\_skipping\_imports\_detected > 0}, or mismatching digests across three
+independent build nodes (\texttt{builder\_1\_sha256}, \texttt{builder\_2\_sha256},
+\texttt{builder\_3\_sha256}) is unconditionally rejected.
+
+\section{The Zero-Float Law (\texttt{floating\_point\_opcodes == 0})}
+\label{sec:ch2-zero-float-law}
+
+Why does the Sovereign Stack go beyond ``canonicalizing'' floating-point NaNs and instead
+\textbf{ban all IEEE-754 floating-point instructions outright} across Layer~3 and Layer~4?
+
+A Sovereign Node is engineered for twenty-year hardware longevity on heterogeneous,
+salvaged, and community-repaired silicon: a refurbished ThinkPad (\texttt{x86\_64}) in the
+coworking hall, a low-power ARM Cortex-A55 board (\texttt{aarch64}) in the garden shed, and
+an open-hardware RISC-V board (\texttt{riscv64}) supervising the micro-hydro weir. Whenever
+peer nodes verify a Proof-of-Thermodynamic-Work (PoTW) transition or replay a workflow log
+from Layer~3's IPLD Merkle-DAG, they must derive the \textbf{exact same 256-bit state root}.
+
+IEEE-754 floating-point arithmetic (\texttt{float} / \texttt{double}, WebAssembly
+\texttt{f32} / \texttt{f64}) subverts cross-architecture determinism through four distinct
+hardware mechanisms:
+
+\begin{enumerate}
+\item \textbf{Algebraic Non-Associativity:} In IEEE-754 arithmetic, $(a \oplus b) \oplus c \neq a \oplus (b \oplus c)$
+        due to intermediate mantissa rounding at 24 or 53 bits. Summing microgrid solar
+        inflows or bilateral clearing deltas in a slightly different collection order shifts
+        least-significant bits, fracturing Merkle-tree hashes.
+\item \textbf{Cross-ISA \texttt{NaN} Payload and Sign Divergence:} Although the WebAssembly
+        1.0 specification defines ``arithmetic'' and ``canonical'' \texttt{NaN} sets
+        \parencite{haas2017wasm}, \texttt{x86\_64} SSE/AVX propagates the first operand's
+        quiet-\texttt{NaN} payload with negated sign bits on certain instructions,
+        \texttt{aarch64} requires explicit \texttt{FPCR.DN} (Default NaN) mode
+        configuration, and \texttt{riscv64} mandates returning the single canonical
+        \texttt{0x7fc00000} / \texttt{0x7ff8000000000000} quiet \texttt{NaN} regardless of
+        input payloads. Emulating canonical \texttt{NaN} checks in software around every
+        float instruction adds prohibitive JIT overhead on low-power edge cores.
+\item \textbf{Fused Multiply-Add (\texttt{FMA}) and Subnormal Flushing:} Hardware with
+        native \texttt{FMA} computes $\mathrm{rn}(a \cdot b + c)$ with a single rounding
+        step, whereas CPUs lowering the same expression to $\mathrm{rn}(\mathrm{rn}(a \cdot b) + c)$
+        round twice. Similarly, ambient subnormal flushing flags (\texttt{FTZ}/\texttt{DAZ})
+        silently zero small decay rates on certain embedded runtimes.
+\item \textbf{Catastrophic Cancellation in Cumulative Accounting:} Adding a
+        $100\,\mathrm{ms}$ trickle-charge increment ($10\,\mathrm{mW} \times 100\,\mathrm{ms} = 1{,}000\,\mu\mathrm{J}$)
+        to a multi-gigajoule seasonal energy total in 32-bit \texttt{f32} silently drops the
+        increment to zero once the accumulator exceeds $2^{24}\,\mu\mathrm{J} \approx 16.7\,\mathrm{J}$,
+        violating the First Law of Thermodynamics by silent rounding loss!
+\end{enumerate}
+
+\subsection{Load-Time WebAssembly Opcode Rejection}
+
+To make float-induced state divergence impossible by construction, \texttt{col-execd} embeds
+a linear-time binary bytecode scanner ahead of \texttt{Wasmtime} compilation (corresponding
+to \texttt{r.floating\_point\_opcodes\_detected == 0} in \texttt{execd\_self\_host.hpp}).
+Any WASM binary containing any of the following byte sequences is rejected prior to
+instantiation:
+\begin{itemize}
+\item Value-type descriptors \texttt{0x7D} (\texttt{f32}) or \texttt{0x7C} (\texttt{f64}) in
+        function signatures, locals, or globals;
+\item Constant immediate opcodes \texttt{0x43} (\texttt{f32.const}) or \texttt{0x44}
+        (\texttt{f64.const});
+\item Float linear-memory loads and stores (\texttt{0x2A}--\texttt{0x2B},
+        \texttt{0x38}--\texttt{0x39});
+\item Float comparison, unary/binary arithmetic, and int-float conversion opcodes
+        (\texttt{0x5B}--\texttt{0x66}, \texttt{0x8B}--\texttt{0xA6},
+        \texttt{0xB2}--\texttt{0xBF}), as well as \texttt{0xFC} saturating float-to-int
+        truncations and \texttt{0xFD} SIMD float lane operations.
+\end{itemize}
+
+\begin{theorem}[Cross-ISA Bitwise Execution Equivalence]
+\label{thm:ch2-cross-isa}
+Let $M$ be a WebAssembly workflow module accepted by the \texttt{col-execd} load-time
+validator (zero floating-point opcodes, single-threaded linear memory bounded by static
+arena cap $B_{\max}$, deterministic 4-import ABI, and positive per-opcode fuel table $F$).
+For any Layer~3 state snapshot $S_t$, HLC tick $t$, and initial fuel budget $\Phi_0 \in \mathbb{N}$,
+executing $M$ on \texttt{x86\_64}, \texttt{aarch64}, and \texttt{riscv64} yields bit-for-bit
+identical terminal linear memory $M'$, remaining fuel $\Phi'$, and emitted
+\texttt{BatchStepCommit} byte sequence.
+\end{theorem}
+
+\begin{proof}
+With all \texttt{f32}/\texttt{f64}, SIMD float, thread/atomic (\texttt{0xFE}), and ambient
+host imports excluded, $M$'s instruction set is restricted to two's-complement 32-bit and
+64-bit integer arithmetic, bitwise shifts with modulo-width masks, deterministic trapping
+integer division (\texttt{i64.div\_s}/\texttt{i64.rem\_s}), little-endian linear memory
+accesses, and structured control flow. Under the WebAssembly formal small-step operational
+semantics \parencite{haas2017wasm}, the transition relation $(S_t, \sigma_k, \Phi_k) \to (S_t, \sigma_{k+1}, \Phi_k - F(\mathrm{op}_k))$
+over this integer subset is a total deterministic function independent of host endianness
+(WASM linear memory is strictly little-endian) and host FPU control registers. Induction
+over the bounded step count $k \le \Phi_0 / \min F$ establishes bitwise identity of $(M', \Phi')$
+and the ordered sequence of host ABI calls across all three ISAs.
+\end{proof}
+
+\section{Canonical Fixed-Point SI Units and Carry-Save Division}
+\label{sec:ch2-fixed-point-si}
+
+Banishing floating-point numbers does not diminish physical precision; on the contrary,
+64-bit integer fixed-point arithmetic provides \textbf{19 significant decimal digits} across
+an exact, uniform grid (compared to roughly 15--17 variable-spacing digits in IEEE-754
+\texttt{f64}). To prevent unit-conversion chaos when hundreds of workflows exchange signals
+across soil science, hydronics, culinary pasteurization, joinery, and microgrid clearing,
+the Architectural Council ratified a single \textbf{Canonical Fixed-Point SI Unit Table},
+presented in Table~\ref{tab:ch2-si-units}.
+
+\begin{table}[htbp]
+\centering
+\caption{Ratified Layer~3 / Layer~4 Canonical Fixed-Point Integer SI Unit Table}
+\label{tab:ch2-si-units}
+\footnotesize
+\begin{tabular}{@{}llllp{5.5cm}@{}}
+\toprule
+\textbf{Quantity} & \textbf{Suffix} & \textbf{C++ Type} & \textbf{1 Base Unit Equals} & \textbf{Physical Anchor \& Range Notes} \\
+\midrule
+Temperature & \texttt{\_mk} & \texttt{uint32\_t} & $1\,\mathrm{K} = 1{,}000\,\mathrm{mK}$ & $0\,^\circ\mathrm{C} = 273{,}150\,\mathrm{mK}$; $100\,^\circ\mathrm{C} = 373{,}150\,\mathrm{mK}$; reaches $4.29 \times 10^6\,\mathrm{K}$ (foundry arc safe). \\
+Thermal Time & \texttt{\_mks} & \texttt{uint64\_t} & $1\,\mathrm{K\cdot s} = 1{,}000\,\mathrm{mK\cdot s}$ & $1\,\mathrm{GDD}$ ($\mathrm{K\cdot day}$) $= 86{,}400{,}000\,\mathrm{mK\cdot s}$; exact $10\,\mathrm{Hz}$ phenology integration. \\
+Dimensionless Ratio & \texttt{\_bp} & \texttt{int32\_t} & $1.0 = 10{,}000\,\mathrm{bp}$ & $1\,\mathrm{bp} = 0.01\%$; used for SoC, VWC moisture, recovery efficiency, and necrosis. \\
+Exergy / Energy & \texttt{\_uj} & \texttt{int64\_t} & $1\,\mathrm{J} = 10^6\,\mu\mathrm{J}$ & $1\,\mathrm{MJ} = 10^{12}\,\mu\mathrm{J}$; $1\,\mathrm{kWh} = 3.6 \times 10^{12}\,\mu\mathrm{J}$; $\max \texttt{int64\_t} \approx 9.22\,\mathrm{TJ}$ ($2.56\,\mathrm{GWh}$). \\
+Power & \texttt{\_mw} & \texttt{int64\_t} & $1\,\mathrm{W} = 1{,}000\,\mathrm{mW}$ & Exact identity: $1\,\mathrm{mW} \times 1\,\mathrm{ms} = 1\,\mu\mathrm{J}$ with zero division or rounding! \\
+Mass & \texttt{\_mg} & \texttt{int64\_t} & $1\,\mathrm{kg} = 10^6\,\mathrm{mg}$ & $1\,\mathrm{t} = 10^9\,\mathrm{mg}$; enforces exact milligram conservation across salvage sagas. \\
+Volume & \texttt{\_ml} / \texttt{\_ul} & \texttt{uint64\_t} & $1\,\mathrm{L} = 10^3\,\mathrm{mL} = 10^6\,\mu\mathrm{L}$ & Irrigation doses in \texttt{\_ml}; clinical/reagent micro-dosing in \texttt{\_ul}. \\
+Acidity (pH) & \texttt{\_mph} & \texttt{uint32\_t} & $1.0\,\mathrm{pH} = 1{,}000\,\mathrm{mpH}$ & Neutral $\mathrm{pH}\;7.000 = 7{,}000\,\mathrm{mpH}$; legume tilth band $[6{,}000, 7{,}200]\,\mathrm{mpH}$. \\
+Concentration & \texttt{\_ppm} / \texttt{\_ppb} & \texttt{uint32\_t} & $1\,\mathrm{mg/kg} = 1\,\mathrm{ppm}$ & Soil mineral $\mathrm{N/P/K}$ in \texttt{\_ppm}; potable trace contaminants in \texttt{\_ppb}. \\
+Length / Tolerance & \texttt{\_um} & \texttt{int64\_t} & $1\,\mathrm{mm} = 1{,}000\,\mu\mathrm{m}$ & Unifies CNC micron toolpaths ($5\,\mu\mathrm{m}$) and $30{,}000\,\mu\mathrm{m}$ ($30\,\mathrm{mm}$) sowing depth. \\
+Pressure & \texttt{\_mpa} & \texttt{int64\_t} & $1\,\mathrm{Pa} = 1{,}000\,\mathrm{mPa}$ & $1\,\mathrm{atm} = 101{,}325{,}000\,\mathrm{mPa}$; supports low-head reed-bed flumes to steam lines. \\
+Signal / Acoustic & \texttt{\_cb} & \texttt{int32\_t} & $1\,\mathrm{B} = 10\,\mathrm{dB} = 100\,\mathrm{cB}$ & $0.1\,\mathrm{dB}$ resolution for LoRa RSSI/SNR and workshop acoustic comfort limits. \\
+Duration / Tick & \texttt{\_ms} & \texttt{uint64\_t} & $1\,\mathrm{s} = 1{,}000\,\mathrm{ms}$ & $10\,\mathrm{Hz}$ tick $= 100\,\mathrm{ms}$; aligns directly with HLC physical epoch milliseconds. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{The Exact $\mathrm{mW} \times \mathrm{ms} = \mu\mathrm{J}$ Identity and the $10^9$ Scaling Audit}
+
+Observe the algebraic elegance linking power (\texttt{\_mw}), time (\texttt{\_ms}), and
+energy (\texttt{\_uj}) in Table~\ref{tab:ch2-si-units}:
+\begin{equation}
+\Delta E_{\mu\mathrm{J}} = P_{\mathrm{mW}} \times \Delta t_{\mathrm{ms}} = \left(10^{-3}\,\mathrm{W}\right) \times \left(10^{-3}\,\mathrm{s}\right) = 10^{-6}\,\mathrm{J} = 1\,\mu\mathrm{J}.
+\label{eq:ch2-mw-ms-uj}
+\end{equation}
+On every $100\,\mathrm{ms}$ tick of \texttt{col-execd}, integrating electrical inverter
+output or induction heater draw requires \textbf{zero division}: a $2{,}400\,\mathrm{W}$
+($2{,}400{,}000\,\mathrm{mW}$) kettle running for one $100\,\mathrm{ms}$ tick expends
+exactly $240{,}000{,}000\,\mu\mathrm{J}$ ($240\,\mathrm{J}$).
+
+Why is end-to-end uniformity in microjoules (\texttt{\_uj}) so vital? During the Council's
+code audit of \texttt{src/daemons/col-execd/execd\_self\_host.hpp} (Ceiling~\#6), our
+engineers uncovered a classic unit-boundary bug at line~324 inside
+\texttt{ResolveRecursiveBomNode()}:
+\begin{lstlisting}[language=C++,caption={The $10^9$ kilojoule-vs-megajoule scaling defect discovered in prototype \texttt{execd\_self\_host.hpp:324} and its v3.1 resolution.},label={lst:ch2-uj-scaling-fix}]
+// PROTOTYPE DEFECT (execd_self_host.hpp:324):
+// 1 MJ = 1,000,000,000,000 uJ (10^12 uJ), NOT 10^9 uJ (which is 1 kJ)!
+// Dividing by 10^9 mislabeled kilojoules as megajoules (a 1000x error),
+// and truncated any exergy deficit smaller than 1 kJ to zero!
+out_yield_packet->required_exergy_mj =
+    static_cast<int64_t>(required_exergy_uj / 1000000000ULL); // BUG: 10^9 is kJ!
+
+// RATIFIED V3.1 WIRE RESOLUTION:
+// Never divide or change SI prefixes across IPC structs! Carry signed/unsigned
+// microjoules (_uj) end-to-end across L2 -> L3 -> L4 -> L5.
+// Max int64_t = 9,223,372,036,854,775,807 uJ (~9.22 TJ = 2.56 GWh).
+out_yield_packet_v31->required_exergy_uj =
+    static_cast<int64_t>(required_exergy_uj); // Exact to 1 uJ; zero division!
+\end{lstlisting}
+By outlawing unit-rescaling divisions across wire packets and standardizing every ledger
+channel (\texttt{PairwiseBccChannel::balance\_u\_to\_v\_uj}), BOM node
+(\texttt{RecursiveBomNode::required\_exergy\_uj}), and upward yield packet strictly on
+\texttt{\_uj}, $1000\times$ prefix mismatches vanish permanently.
+
+\subsection{Carry-Save Euclidean Division with Persistent Remainder Accumulators}
+
+While power-time integration avoids division altogether, physical rate laws---such as
+evapotranspiration moisture draw, heat-exchanger recovery ratios, or photo-thermal maturity
+progression over $43{,}200\,\mathrm{s}$---unavoidably divide a product by a scaling
+denominator $D > 0$. If a workflow naively computes $\Delta x_t = \lfloor N_t / D \rfloor$
+on each $100\,\mathrm{ms}$ tick and discards the remainder, any rate producing $N_t < D$ per
+tick yields $\Delta x_t = 0$ forever, freezing slow biological processes completely!
+
+Layer~1b and Layer~4 eliminate integer truncation drift via \textbf{persistent Euclidean
+remainder accumulators} (exemplified by \texttt{growth\_sub\_accum} and
+\texttt{moisture\_et\_sub\_accum} in \texttt{SharedStackRuntime}):
+
+\begin{lstlisting}[language=C++,caption={Deterministic carry-save Euclidean integer division with zero cumulative truncation drift.},label={lst:ch2-euclidean-accum}]
+struct alignas(8) EuclideanRateAccumulator {
+    int64_t rem{0}; // Persistent remainder strictly in [0, den - 1]
+};
+
+[[nodiscard]] constexpr int64_t StepCarrySaveDivide(
+    int64_t num,
+    int64_t den,
+    EuclideanRateAccumulator& state) noexcept {
+    if (den <= 0) {
+        return 0;
+    }
+    const int64_t accum = num + state.rem;
+    int64_t delta = accum / den;
+    int64_t next_rem = accum % den;
+    // Enforce true Euclidean division: 0 <= next_rem < den even when accum < 0
+    if (next_rem < 0) {
+        next_rem += den;
+        delta -= 1;
+    }
+    state.rem = next_rem;
+    return delta;
+}
+\end{lstlisting}
+
+\begin{invariant}[Sub-LSB Conservation of Carry-Save Integration]
+\label{inv:ch2-carry-save}
+For any sequence of tick numerators $\{N_k\}_{k=1}^{T}$ in $\mathbb{Z}$ and constant
+denominator $D \in \mathbb{N}^+$ initialized with $r_0 = 0$, the cumulative integer output
+$\sum_{k=1}^{T} \Delta_k$ produced by \texttt{StepCarrySaveDivide} satisfies the exact
+identity:
+\begin{equation}
+D \sum_{k=1}^{T} \Delta_k + r_T = \sum_{k=1}^{T} N_k, \qquad 0 \le r_T < D.
+\end{equation}
+Consequently, cumulative quantization discrepancy over an arbitrary multi-year horizon $T \to \infty$
+never grows with $T$; it remains strictly bounded within $[0, 1)$ least-significant output
+unit.
+\end{invariant}
+
+\section{Cache-Aligned 64-Byte \texttt{BpmnTokenFrame} and the 12-State Lifecycle}
+\label{sec:ch2-token-frame}
+
+In the Oasis prototype (Ceiling~\#2), \texttt{L4WorkflowInstance} suffered from three
+structural bottlenecks when scaled beyond Lot~402's six seed workflows: (1)
+\texttt{HasWorkflow(wf\_id)} enforced a single-instance lock per workflow definition, making
+it impossible to run four staggered pea beds or twelve parallel fermentation crocks under
+the same BPMN graph; (2) domain-specific fields (\texttt{crop\_growth\_bp},
+\texttt{estimated\_nitrogen\_ppm}) were embedded directly inside the orchestrator struct
+alongside heap-allocated \texttt{std::string}s that scattered state across CPU cache lines;
+and (3) \texttt{BpmnTokenState} tracked only five coarse states via a linear vector scan.
+
+In Version~3.1, all domain-specific variables are evicted out of Layer~4 into
+content-addressed Layer~3 entity registers keyed by \texttt{(scope\_entity\_id,
+prop\_hash)}. Multiple concurrent instances of the same \texttt{workflow\_def\_cid} are
+uniquely addressed by the tuple \texttt{(workflow\_def\_cid, scope\_entity\_id,
+instance\_nonce)}---allowing \texttt{bed\_01} through \texttt{bed\_04} to run independent,
+staggered lifecycles over identical bytecode.
+
+\subsection{Exact 64-Byte L1 Cache-Line \texttt{BpmnTokenFrame} Layout}
+
+Inside \texttt{col-execd}'s arena, each execution token occupies \textbf{precisely one
+64-byte CPU cache line} (\texttt{alignas(64)}), with zero heap pointers and zero
+\texttt{std::string} allocations:
+
+\begin{lstlisting}[language=C++,caption={Cache-line-aligned 64-byte \texttt{BpmnTokenFrame} and 12-state lifecycle enumeration in \texttt{col-execd} v3.1.},label={lst:ch2-token-frame}]
+enum class TokenLifecycleState : uint8_t {
+    DORMANT                = 0,  // Unallocated slot in token arena
+    READY                  = 1,  // Runnable in 5-tier priority queue this tick
+    WAITING_SEQUENCE_JOIN  = 2,  // At AND/OR converging gateway awaiting sibling bits
+    BLOCKED_PRECONDITION   = 3,  // Guard predicate false; wakes on L3 watch register
+    WAITING_LEASE          = 4,  // Queued on lexicographic L3ResourceLeaseLock
+    ACTIVE_EXECUTING       = 5,  // Stepping inside Wasmtime VM or L2 envelope hold
+    WAITING_TIMER          = 6,  // Parked in timing wheel until deadline_hlc
+    WAITING_SIGNAL_OR_MSG  = 7,  // Subscribed to L3 sig:* or 256-bit correlation key
+    WAITING_HUMAN_CLAIM    = 8,  // Offered via L5; awaiting or holding ClaimHandle
+    YIELDED_UPWARD_L5      = 9,  // UpwardYieldPacket in flight on l4_l5.sock
+    SALVAGE_COMPENSATING   = 10, // Executing reversible release or Second-Law salvage
+    TERMINATED_SETTLED     = 11  // Escrow settled in L3; slot ready for reclamation
+};
+
+struct alignas(64) BpmnTokenFrame {
+    uint64_t instance_id{0};             // [0..7]   Unique workflow instance nonce
+    uint64_t workflow_def_cid_prefix{0}; // [8..15]  Pinned 64-bit prefix of def CID
+    uint64_t scope_entity_id{0};         // [16..23] Target L3 entity (e.g. bed_03)
+    uint64_t deadline_or_wake_hlc{0};    // [24..31] Next timer, lease, or claim expiry
+    uint64_t claim_or_corr_id{0};        // [32..39] Ephemeral ClaimHandle ID or corr hash
+    uint64_t join_arrived_mask{0};       // [40..47] Bitmask of arrived parallel branches
+    uint32_t fuel_budget_remaining{0};   // [48..51] Wasmtime instructions remaining
+    uint16_t current_node_idx{0};        // [52..53] Index in flat BpmnNodeDesc[] table
+    uint16_t salvage_handler_idx{0};     // [54..55] Pinned boundary/salvage node index
+    TokenLifecycleState state{TokenLifecycleState::DORMANT}; // [56] 0..11 state
+    uint8_t  priority_tier{4};           // [57]     Constitutional Tier 1..5
+    uint8_t  token_lane_idx{0};          // [58]     Parallel lane 0..63 within instance
+    uint8_t  migration_policy{0};        // [59]     0=DRAIN, 1=SAFEPOINT, 2=COMPENSATE
+    uint32_t step_epoch_seq{0};          // [60..63] Monotonic fencing counter for L3 WAL
+};
+static_assert(sizeof(BpmnTokenFrame) == 64, "BpmnTokenFrame must fit 1 CPU cache line.");
+static_assert(alignof(BpmnTokenFrame) == 64, "BpmnTokenFrame must be 64-byte aligned.");
+\end{lstlisting}
+
+\subsection{Hardware Bitset Scanning (\texttt{std::countr\_zero}) Under High Density}
+
+Recall from Table~\ref{tab:preface-node-density} that a Stage~3 Sovereign Campus runs up to
+$2{,}600$ concurrent workflow instances, yet on any given $100\,\mathrm{ms}$ tick roughly
+$85\text{--}95\%$ of tokens sit parked in \texttt{WAITING\_TIMER} (waiting for soil Growing
+Degree-Days or dough fermentation), \texttt{WAITING\_SIGNAL\_OR\_MSG}, or
+\texttt{WAITING\_HUMAN\_CLAIM}. Scanning $2{,}600 \times 8 = 20{,}800$ token slots linearly
+every $100\,\mathrm{ms}$ would thrash the L1 data cache needlessly.
+
+Instead, \texttt{col-execd} maintains a hierarchical two-level runnable bitset: one
+\texttt{uint64\_t runnable\_words[512]} array per priority tier (indexing up to $32{,}768$
+token frames in $4\,\mathrm{KiB}$ of static SRAM), paired with an 8-word top-level summary
+bitmask. When Layer~3 delivers a state delta or the hierarchical timing wheel advances past
+\texttt{deadline\_or\_wake\_hlc}, only the matching watch bit flips from $0$ to $1$,
+transitioning the token to \texttt{READY}. During the $10\,\mathrm{Hz}$ tick sweep, the
+scheduler extracts runnable slots using C++20 \texttt{std::countr\_zero(mask)}---compiling
+to a single hardware trailing-zero-count instruction (\texttt{TZCNT} on \texttt{x86\_64},
+\texttt{RBIT+CLZ} on \texttt{aarch64}, \texttt{CTZ} on \texttt{riscv64} Zbb)---visiting $k$
+runnable tokens in $O(k)$ instructions and touching \textit{zero} cache lines belonging to
+sleeping workflows. Even $400$ active tokens execute in well under $1.2\,\mathrm{ms}$ on a
+$1.5\,\mathrm{GHz}$ salvaged ARM core, keeping \texttt{col-execd}'s total CPU duty cycle
+below $1.5\%$.
+
+\begin{table}[htbp]
+\centering
+\caption{Summary of the 12 Canonical \texttt{BpmnTokenFrame} Lifecycle States and Runnable Bitset Residency}
+\label{tab:ch2-12-states}
+\footnotesize
+\begin{tabular}{@{}clcl@{}}
+\toprule
+\textbf{ID} & \textbf{State Name} & \textbf{Runnable Bit} & \textbf{Wakeup / Transition Trigger} \\
+\midrule
+0 & \texttt{DORMANT} & 0 & Instantiated via ratified L5 spawn frame $\to$ \texttt{READY}. \\
+1 & \texttt{READY} & 1 & Popped in Tier $1\succ 5$ order $\to$ \texttt{ACTIVE\_EXECUTING}. \\
+2 & \texttt{WAITING\_SEQUENCE\_JOIN} & 0 & Bitwise \texttt{(join\_arrived\_mask \& req) == req} $\to$ \texttt{READY}. \\
+3 & \texttt{BLOCKED\_PRECONDITION} & 0 & Watched L3 register hash mutates $\to$ \texttt{READY}. \\
+4 & \texttt{WAITING\_LEASE} & 0 & \texttt{L3ResourceLeaseLock} granted or TTL expires $\to$ \texttt{READY}. \\
+5 & \texttt{ACTIVE\_EXECUTING} & 1 & Runs WASM / emits envelope $\to$ next wait, join, or settle. \\
+6 & \texttt{WAITING\_TIMER} & 0 & HLC crosses \texttt{deadline\_or\_wake\_hlc} $\to$ \texttt{READY}. \\
+7 & \texttt{WAITING\_SIGNAL\_OR\_MSG} & 0 & Matching L3 \texttt{sig:*} or 256-bit $\kappa$ correlation arrives $\to$ \texttt{READY}. \\
+8 & \texttt{WAITING\_HUMAN\_CLAIM} & 0 & L5 delivers \texttt{ClaimHandle}, completion proof, or claim TTL $\to$ \texttt{READY}. \\
+9 & \texttt{YIELDED\_UPWARD\_L5} & 0 & \texttt{GovernanceResolutionPacket} arrives on \texttt{l4\_l5.sock} $\to$ \texttt{READY}. \\
+10 & \texttt{SALVAGE\_COMPENSATING} & 1 & Boundary fault / abort triggers digital release or physical salvage saga. \\
+11 & \texttt{TERMINATED\_SETTLED} & 0 & Final \texttt{BatchStepCommit} acknowledged by L3 $\to$ \texttt{DORMANT}. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Immutable \texttt{workflow\_def\_cid} Version Pinning and Mid-Flight Upgrades}
+\label{sec:ch2-version-pinning}
+
+Agricultural, silvicultural, and architectural workflows span weeks, seasons, or years.
+During a six-month crop cycle, the community will inevitably refine its irrigation deadbands
+or amend a recipe in June based on lessons learned in May. In naive dynamic-scripting
+engines, overwriting a workflow file on disk mutates the graph underneath currently
+executing instances---stranding tokens on deleted node indices or skipping resource-release
+edges.
+
+In \texttt{col-execd}, bytecode is \textbf{content-addressed and immutable}. Every
+\texttt{BpmnTokenFrame} pins its exact \texttt{workflow\_def\_cid} at creation time, and
+Layer~3 retains every historical bytecode blob referenced by at least one non-terminated
+instance. When Layer~5 ratifies a successor bundle $\mathrm{CID}_{\mathrm{new}}$ for a
+logical workflow family, Governance must explicitly choose one of three deterministic
+transition policies:
+
+\begin{enumerate}
+\item \textbf{\texttt{DRAIN\_NATURAL} (Default Conservative Policy):} All in-flight
+        instances continue stepping against their pinned $\mathrm{CID}_{\mathrm{old}}$ until
+        they reach \texttt{TERMINATED\_SETTLED}; all newly spawned instances bind to
+        $\mathrm{CID}_{\mathrm{new}}$. Zero mid-flight state translation occurs.
+\item \textbf{\texttt{SAFEPOINT\_MIGRATE} (Compiler-Verified State Injection):} Governance
+        supplies an explicit node-and-lease mapping descriptor $M: V_{\mathrm{old}} \rightharpoonup V_{\mathrm{new}}$.
+        Ahead of ratification, \texttt{col-bpmnc} statically verifies that every quiescent
+        safepoint in $\mathrm{dom}(M) \subseteq \{\texttt{WAITING\_TIMER}, \texttt{WAITING\_HUMAN\_CLAIM}, \texttt{BLOCKED\_PRECONDITION}\}$
+        preserves identical held \texttt{L3ResourceLeaseLock} sets and salvage handlers in
+        $V_{\mathrm{new}}$. At runtime, \texttt{col-execd} atomically rewrites
+        \texttt{workflow\_def\_cid\_prefix} and \texttt{current\_node\_idx} only when an
+        instance parks at a verified safepoint.
+\item \textbf{\texttt{COMPENSATE\_AND\_RESTART} (Emergency Safety Drain):} Reserved for
+        critical safety flaws, pathogen quarantines, or breached treaties. Upon receipt
+        across \texttt{l4\_l5.sock}, \texttt{col-execd} immediately transitions all
+        in-flight tokens of $\mathrm{CID}_{\mathrm{old}}$ into
+        \texttt{SALVAGE\_COMPENSATING} (\texttt{salvage\_handler\_idx}), safely parking
+        actuators, releasing digital escrows, or routing partially processed biomass to
+        salvage workflows before optionally spawning a clean instance under
+        $\mathrm{CID}_{\mathrm{new}}$.
+\end{enumerate}
+
+Through ahead-of-time BPMN soundness compilation, the load-time Zero-Float Law,
+microjoule-exact fixed-point SI arithmetic, carry-save Euclidean accumulators, 64-byte
+cache-line token frames, and content-addressed version pinning, \texttt{col-execd}
+transforms community process diagrams into deterministic machine execution worthy of
+twenty-year civic infrastructure.

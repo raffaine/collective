@@ -1,0 +1,500 @@
+\chapter{Wave E: Third Places, Epistemic Commons, Culture, and Craft Guilds (\texttt{Epsilon}, \texttt{Iota}, \texttt{Lambda}, \texttt{Pi})}
+\label{ch:wave-e}
+
+\epigraph{Tools are intrinsic to social relationships. An individual relates himself in action to his society through the use of tools that he actively masters, or by which he is passively acted upon. Convivial tools are those which give each person who uses them the greatest opportunity to enrich the environment with the fruits of his or her vision.}{--- Ivan Illich, \textit{Tools for Conviviality} \parencite{illich1973}}
+
+Waves A through D secure the metabolic, energetic, ecological, and architectural substrate of a neighborhood
+cluster. Yet human flourishing cannot be reduced to kilocalories, megajoules, and cross-laminated timber
+\parencite{raworth2017,illich1973}. When commercial capitalism encloses civic life, neighborhood squares
+devolve into pay-to-sit coffee franchises, scientific inquiry disappears behind institutional paywalls and
+reproducibility crises, live music surrenders to biometric-ticketing monopolies or noise complaints, and
+technical craft fractures into proprietary trade secrets \parencite{zuboff2019,han2015}. Conversely, if a
+cooperative attempts to coordinate shared workspaces, peer-reviewed laboratories, multi-hundred-guest
+festivals, and cross-watershed craft guilds through panoptic reputation scores or tokenized art markets, it
+corrodes the very intrinsic motivation it seeks to liberate \parencite{ostrom1990,weiser1996calm}.
+
+Wave E demonstrates how Layer 4 (\texttt{col-execd}) orchestrates the civic, epistemic, aesthetic, and
+polycentric guild commons across four scenarios without ever crossing the line into behavioral surveillance
+or coercive commodification: Scenario \texttt{Epsilon} (Third-Place Co-Working, Tool Libraries, and the
+Layer 7 Cooperative Carapace), Scenario \texttt{Iota} (Epistemic Commons, Reproducible Open Science, and
+Intergenerational Inquiry), Scenario \texttt{Lambda} (Cultural Amphitheaters, Acoustic Perimeter Envelopes,
+and Leave-No-Trace Gatherings), and Scenario \texttt{Pi} (Ostromian Polycentric Craft Guilds, BBS+
+Selective-Disclosure Credentials, and Intent-Driven Demand Capture).
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[
+    node distance=1.5cm and 2.1cm,
+    box/.style={rectangle, rounded corners=3pt, draw=black!75, thick, fill=gray!8, text width=3.4cm, align=center, font=\footnotesize, minimum height=1.25cm},
+    shield/.style={rectangle, rounded corners=3pt, draw=teal!75!black, very thick, fill=teal!6, text width=3.6cm, align=center, font=\footnotesize\bfseries, minimum height=1.3cm},
+    flow/.style={-{Stealth[length=2.4mm]}, thick, draw=black!75},
+    zkp/.style={-{Stealth[length=2.4mm]}, thick, dashed, draw=blue!70!black}
+]
+    \node[shield] (epsilon) {\textbf{Scenario \texttt{Epsilon}}\\Third-Place Co-Working,\\Tool Library \& L7 \texttt{GPO}};
+    \node[box, right=2.3cm of epsilon] (iota) {\textbf{Scenario \texttt{Iota}}\\3-Cluster \texttt{AlexandriaDAG}\\ \& Reproducible Science};
+    \node[box, below=1.7cm of epsilon] (lambda) {\textbf{Scenario \texttt{Lambda}}\\Festivals, Scalar \texttt{cB} Bounds\\\& Leave-No-Trace Sagas};
+    \node[shield, right=2.3cm of lambda] (pi) {\textbf{Scenario \texttt{Pi}}\\Trans-Local Guilds, BBS+\\Capabilities \& Demand Beacons};
+
+    \draw[flow] (epsilon) -- node[above, font=\scriptsize, align=center] {8000\,\texttt{bp} Rack Heat\\\& Fair-Share Studios} (iota);
+    \draw[flow] (iota) -- node[right, font=\scriptsize, align=center] {Calibrated Standards\\\& \texttt{DPL v1} Specs} (pi);
+    \draw[zkp] (pi) -- node[above, sloped, font=\scriptsize, text=blue!70!black] {24-Byte Blinded \texttt{ClaimHandle}} (epsilon);
+    \draw[zkp] (pi) -- node[below, font=\scriptsize, text=blue!70!black, align=center] {Rigging \& Audio\\Safety Proofs} (lambda);
+    \draw[flow] (epsilon) -- node[left, font=\scriptsize, align=center] {Subchapter T\\Event Shield ($\Phi_t$)} (lambda);
+    \draw[flow] (iota) to[bend right=16] node[above, sloped, font=\scriptsize] {Open Acoustics \& Bindery} (lambda);
+\end{tikzpicture}
+\caption{Wave E Civic, Epistemic, Cultural, and Polycentric Guild Choreography. Solid arrows represent physical tool, hydronic exergy, corpus, and legal-carapace flows; dashed blue arrows denote identity-blinded BBS+ capability proofs minted by \texttt{col-kmsd} across \texttt{/run/collective/ipc/l4\_l5.sock}.}
+\label{fig:wave-e-topology}
+\end{figure}
+
+% ==========================================================================
+\section{Scenario \texttt{Epsilon}: Third-Place Co-Working, Tool Libraries, and the Cooperative Carapace}
+\label{sec:scn-epsilon}
+
+Modern remote workers oscillate between isolated bedrooms and commercial co-working chains that monetize
+desk scarcity through surge pricing while leaking corporate Wi-Fi metadata; meanwhile, fledgling
+neighborhood cooperatives struggle against retail markups and municipal zoning friction when transacting
+with external Layer 7 suppliers. Scenario \texttt{Epsilon} (\texttt{SCN-EPSILON-COWORK}) unites a calm,
+non-surveilled neighborhood Third Place and calibrated tool library with the legal-economic bridge of the
+Layer 7 Cooperative Carapace (\texttt{26 U.S.C.\ \S\S~1381--1388} Subchapter T Group Purchasing
+Organization and \emph{Carapace-as-a-Service} export settlement).
+
+\subsection{Fair-Share Studio Leases, Child-Care Bundles, and Tool-Library Sagas}
+
+When a member or visiting guild peer requests an ergonomic desk, acoustic podcast booth, or electronics
+bench, \texttt{col-execd} executes a deterministic \textbf{Fair-Share Studio Reservation Workflow} that
+constitutionally forbids surge pricing or auction bidding (\texttt{surge\_multiplier\_bp == 10000}
+invariant). Reservations acquire a time-bounded \texttt{L3ResourceLeaseLock} ordered under
+$\prec_{\mathrm{res}}$ (\texttt{1:STATION:DESK\_04} $\to$ \texttt{2:TOOL:OSCILLOSCOPE\_RIGOL}). Arrival is
+verified via an ephemeral local BLE proximity handshake against a blinded 24-byte \texttt{ClaimHandle}; if
+the steward fails to check in within the $900000\,\mathrm{ms}$ ($15\text{-minute}$) grace timer, an
+interrupting boundary timer transitions the token to \texttt{CANCELLED} ($t < t_{\mathrm{actuate}}$) and
+returns the desk slot to the walk-in pool with zero punitive penalty. Upon check-in, an edge managed
+switch provisions an isolated per-session IEEE 802.1Q VLAN with client-to-client frame isolation and zero
+DNS or packet-payload logging \parencite{rose2020zero}. Crucially, parents submitting a
+\texttt{ChildCareBundleIntent} trigger a synchronized parallel gateway across Scenario \texttt{Delta}
+(reserving a trusted playgroup slot) and Scenario \texttt{Gamma} (queuing a warm noon meal bowl), ensuring
+deep-focus work is never gated by domestic isolation.
+
+For the shared neighborhood tool library (thermal cameras, torque wrenches, Fluke multimeters, sewing
+sergers), check-out pivots at physical locker latch release ($t_{\mathrm{actuate}}$). Every return runs a
+deterministic \textbf{Calibration \& Wear Inspection Saga}: load cells and optical fiducials check tool
+completeness, increment cumulative runtime counters (\texttt{tool\_wear\_ms}), and---whenever runtime
+crosses manufacturer metrology intervals or a user self-reports a dropped instrument---divert the tool
+into \texttt{SALVAGE\_COMPENSATING} (\texttt{CALIBRATION\_QUARANTINE}), automatically spawning a Scenario
+\texttt{Alpha}/\texttt{Pi} bench recalibration ticket without fining honest reporting.
+
+\subsection{Restorative Acoustic Mediation, Rack Heat Recovery, and $\Phi_{\mathrm{cluster}}$ Curtailment}
+
+Open-plan third places fail when unmediated phone calls shatter collective concentration or when human
+hall-monitors police quietude. Scenario \texttt{Epsilon} delegates acoustic norms to a calm, memoryless
+Layer 2 \textbf{Restorative Acoustic Mediation Envelope} \parencite{weiser1996calm}. Edge MEMS microphones
+compute A-weighted scalar decibel levels in hardware DMA buffers (\texttt{pcm\_bytes\_persisted == 0}). In
+quiet focus zones capped at $L_{\mathrm{focus}} \le 550\,\mathrm{cB}$ ($55.0\,\mathrm{dBA}$), transient
+coughs or laughter are ignored; only if ambient sound exceeds $550\,\mathrm{cB}$ continuously for
+$\Delta t > 180000\,\mathrm{ms}$ ($180\,\mathrm{seconds}$) does \texttt{ActuationEnvelopeV1} gently pulse
+a warm amber desk-lamp halo and dispatch an ephemeral local invitation offering an unoccupied
+\texttt{STC-50} soundproof booth.
+
+Concurrently, liquid-cooled community compute racks (hosting \texttt{col-storaged} replicas, Scenario
+\texttt{Iota} knowledge mirrors, and rendering/CAD jobs) couple into Scenario \texttt{Beta}'s PEX-a
+hydronic manifold via brazed-plate heat exchangers. Layer 4 enforces a waste-heat recovery efficiency
+$\eta_{\mathrm{rack}} \ge 8000\,\mathrm{bp}$ ($80\%$) into domestic hot-water preheat whenever winter
+heating demand exists, and automatically throttles Tier 4--5 batch compute jobs whenever microgrid battery
+state-of-charge drops below $\mathrm{SoC} < 3000\,\mathrm{bp}$ ($30\%$).
+
+Externally, Scenario \texttt{Epsilon} hosts the deterministic execution gates for Layer 7 commercial
+docking: Subchapter T \texttt{GPO} bulk import aggregation (converting wholesale pallet purchases into internal
+milligram inventory lots) and \emph{Carapace-as-a-Service} guild invoicing. Every external commercial
+workflow runs strictly at \textbf{Priority Tier 5 (Export)} and is gated by the cluster's statutory intake
+cap $\Phi_{\mathrm{cluster}}$ ($10000\,\mathrm{bp}$ ceiling of ratified transition endowment budget).
+
+\begin{invariant}[Third-Place Calmness, Rack Exergy Recovery, and $\Phi_{\mathrm{cluster}}$ Auto-Freeze]
+\label{inv:epsilon-gates}
+For every active Scenario \texttt{Epsilon} studio lease, compute rack loop, and Tier 5 Layer 7 carapace
+settlement workflow, \texttt{col-execd} enforces:
+\begin{align}
+\mathtt{surge\_price\_bp} &= 10000, \quad \mathtt{pcm\_audio\_bytes} = 0, \quad \eta_{\mathrm{rack\_hydronic}} \ge 8000\,\mathrm{bp}, \\
+\mathrm{SoC}_{\mathrm{grid}} < 3000\,\mathrm{bp} &\implies P_{\mathrm{batch\_tier4\_5}} = 0\,\mathrm{mW}, \\
+R_t > 0 &\land \left(\Phi_{\mathrm{cluster}} \ge 10000\,\mathrm{bp} \implies \mathtt{external\_intake\_frozen} = \mathtt{true}\right),
+\end{align}
+where $R_t > 0$ denotes positive local ecological and baseline reserve margin verified prior to any Tier 5
+export execution.
+\end{invariant}
+
+\begin{lstlisting}[caption={Scenario \texttt{Epsilon} Acoustic Envelope, Compute Hydronics, and Tier 5 Carapace Curtailment Frame},label={lst:epsilon-structs}]
+struct alignas(8) EpsilonThirdPlaceAndCarapaceState {
+    uint64_t studio_lease_hlc_expiry_ms;    // Fair-share TTL; 0 surge pricing
+    uint16_t focus_zone_scalar_cb;          // Calm ceiling <= 550 cB (55.0 dBA)
+    uint32_t acoustic_exceedance_accum_ms;  // Booth invite only if > 180000 ms
+    uint16_t rack_heat_recovery_bp;         // PEX-a hydronic floor >= 8000 bp
+    uint16_t microgrid_soc_bp;              // Throttle Tier 4-5 batch if < 3000 bp
+    uint16_t phi_t_node_utilization_bp;     // Local external commercial cap (bp)
+    uint16_t phi_cluster_utilization_bp;    // Auto-freezes L7 intake at 10000 bp
+    uint8_t  reserve_margin_rt_positive;    // Must be 1 before Tier 5 admission
+    uint8_t  vlan_client_isolation_active;  // IEEE 802.1Q zero-lateral-sniff == 1
+    uint8_t  raw_pcm_or_dns_bytes_logged;   // Constitutional invariant == 0
+};
+\end{lstlisting}
+
+\subsection{Bilateral Socket Contracts and Maturity Progression}
+
+Over \texttt{/run/collective/ipc/l3\_l4.sock}, \texttt{col-execd} manages desk and tool
+\texttt{L3ResourceLeaseLock} records, updates \texttt{l3:epsilon:tool:<id>:wear\_ms}, and posts wholesale
+\texttt{GPO} pallet splits into Scenario \texttt{Gamma}/\texttt{Alpha}/\texttt{Nu} inventories. Over
+\texttt{/run/collective/ipc/l4\_l5.sock}, \texttt{col-kmsd} supplies signed \texttt{Treaty\_CID} Ricardian
+contracts \parencite{grigg2004} binding Subchapter T patronage allocations (\texttt{26 U.S.C.\ \S~1388})
+and broadcasts real-time $\Phi_t$ / $\Phi_{\mathrm{cluster}}$ accumulator states; Layer 4 never touches
+fiat bank APIs directly, emitting sealed settlement vouchers back up to Layer 6/7 adapters via the Intent
+U-Turn. Scenario \texttt{Epsilon} scales from a Stage 1A dining-table study circle, hallway tool pegboard,
+and neighborhood wholesale buying club, to a Stage 1B garage electronics/study lounge with waste-heat
+water preheating, to a Stage 2 Main-Street storefront Third Place and Subchapter T cooperative carapace,
+to a Stage 3 campus coworking pavilion and bioregional instrumentation library.
+
+% ==========================================================================
+\section{Scenario \texttt{Iota}: Epistemic Commons, Reproducible Open Science, and Inquiry Circles}
+\label{sec:scn-iota}
+
+Civilizational resilience collapses when scientific literature is locked behind commercial publishers,
+published experiments fail basic independent replication, and schooling reduces children to surveilled
+test-score cohorts ranked along coercive bell curves \parencite{illich1973,corbett1995bkt}. Scenario
+\texttt{Iota} (\texttt{SCN-IOTA-EPISTEMIC}) orchestrates a censorship-resistant \emph{Library of
+Alexandria} knowledge DAG, multi-cluster experimental replication pipelines anchored in hardware sensor
+provenance, and multi-age inquiry circles completely purged of tuition gates and classroom surveillance.
+
+\subsection{Geographic 3-Cluster Corpus Pinning and Solar-Surplus Index Rebuilds}
+
+To guarantee survival of practical and theoretical human knowledge across network partitions or
+institutional censorship, \texttt{col-execd} runs a deterministic \textbf{3-Cluster Geographic Corpus
+Pinning Workflow} over the \texttt{AlexandriaKnowledgeDAG} (comprising open-access scientific corpora,
+Kiwix encyclopedic snapshots, POSIX/Rust/RISC-V compiler toolchains, seed-saving monographs, and repair
+CAD schematics). Every ratified IPLD root CID must be cryptographically pinned across at least $k \ge 3$
+geographically and topologically distinct $R_3 \dots R_5$ watershed clusters \parencite{fall2003,shapiro2011crdt}
+on ECC ZFS mirrors. Monthly silent bit-rot scrub tasks verify BLAKE3 Merkle trees; if a drive sector degrades
+or a remote cluster drops offline, an autonomic repair saga fetches missing IPLD blocks over BPVP/DTN links
+until $3\text{-cluster}$ redundancy is restored.
+
+Full-text inverted index rebuilds, multi-language OCR passes, and 4-modality curriculum compilations
+(generating tactile wooden manipulatives via Scenario \texttt{Alpha}, soy-ink risograph workbooks bound on
+Scenario \texttt{Lambda}/\texttt{Mu} rag paper, offline e-ink bundles, and hands-on lab kits coupled with
+Scenario \texttt{Kappa} governance literacy) are scheduled strictly as \textbf{Solar-Surplus Elastic Batch
+Workflows}: tokens remain parked in \texttt{WAITING\_SIGNAL} until \texttt{sig:alpha.solar\_curtailment\_imminent}
+fires, turning otherwise curtailed midday photovoltaic photons into permanent epistemic structure.
+
+In intergenerational \emph{Multi-Age Inquiry Circles}, learners explore mastery graphs inspired by
+self-paced knowledge tracing \parencite{corbett1995bkt} stored strictly in local $R_0$ private vaults:
+Layer 4 enforces \texttt{tuition\_fiat\_cents == 0}, \texttt{student\_surveillance\_sensors == 0} (zero
+webcam eye-tracking, keystroke logging, or engagement scoring), and
+\texttt{coercive\_bell\_curve\_grading == false}.
+
+\subsection{Hardware-Provenance Experimental Replication and Oasis Constant Patching}
+
+Resolving the scientific reproducibility crisis requires binding experimental claims directly to tamper-evident
+physical metrology rather than self-reported spreadsheets. When a node laboratory publishes an
+\texttt{ExperimentalProtocolBPMN} (such as testing a Scenario \texttt{Mu} biochar formulation, a Scenario
+\texttt{Theta} geopolymer mix, or a Scenario \texttt{Eta} mycelial extract), \texttt{col-execd} dispatches
+blinded replication invitations to $N \ge 3$ topologically independent $R_3 \dots R_5$ nodes.
+
+Before any replication run may transition from \texttt{READY} to \texttt{EXECUTING}, Layer 4 verifies two
+strict preconditions: first, every participating instrument's calibration certificate must show drift
+$\le 50\,\mathrm{bp}$ ($0.50\%$) against primary physical constants (such as a $273160\,\mathrm{mK}$, or
+$0.01^\circ\mathrm{C}$, triple-point-of-water cell and Class E2 deadweight masses); second, every ingested
+Layer 2 telemetry stream must carry \texttt{QUALITY\_HARDWARE\_ROOT} (\texttt{0x02}) and
+\texttt{ATECC608A} enclave signature provenance (\texttt{0x20}) \parencite{microchip_atecc608a}, binding raw
+time-series readings directly into signed IPLD lab notebooks while rejecting \texttt{0x01} synthetic inputs.
+
+\begin{theorem}[Hardware-Attested Multi-Node Epistemic Replication Gate]
+\label{thm:iota-replication}
+An empirical parameter update $\hat{\theta}$ (with integer effect confidence threshold $p_{\mathrm{scaled}} < 100\,\mathrm{bp}$,
+i.e., $p < 0.01$) is admitted into the ratified \texttt{AlexandriaKnowledgeDAG} and authorized to patch
+Oasis (\texttt{L1b}) integer simulation constants if and only if at least $N \ge 3$ independent clusters
+$\{C_1, \dots, C_N\}$ satisfy:
+\begin{equation}
+\forall i \in \{1,\dots,N\}:\quad \mathrm{Drift}_i \le 50\,\mathrm{bp} \;\land\;
+(\mathtt{prov\_flags}_i \,\&\, \mathtt{0x22}) = \mathtt{0x22} \;\land\;
+|\hat{\theta}_i - \bar{\theta}| \le \epsilon_{\mathrm{rep}}.
+\end{equation}
+Crucially, rigorously executed \textbf{null or negative replications} receive $10000\,\mathrm{bp}$ ($100\%$)
+equal steward recognition parity with positive discoveries, eliminating publication bias at the protocol
+root, while every ratified finding immediately emits a Defensive Publication License (\texttt{DPL v1})
+timestamped prior-art diode to block external patent enclosure.
+\end{theorem}
+
+\begin{lstlisting}[caption={Scenario \texttt{Iota} 3-Cluster Corpus Pinning, Metrology Gate, and Inquiry Privacy Structs},label={lst:iota-structs}]
+struct alignas(8) IotaEpistemicAndReplicationRegs {
+    uint8_t  corpus_geo_cluster_pins;       // Hard redundancy floor >= 3 clusters
+    uint8_t  independent_replications_n;    // Ratification gate >= 3 R3..R5 nodes
+    uint16_t instrument_drift_bp;           // Calibration gate <= 50 bp vs 273160 mK
+    uint8_t  sensor_provenance_mask;        // Must match 0x22 (HW_ROOT | ATECC608A)
+    uint16_t p_value_threshold_bp;          // Statistical gate < 100 bp (p < 0.01)
+    uint16_t negative_result_parity_bp;     // Anti-bias invariant == 10000 bp
+    uint32_t tuition_fiat_cents;            // Constitutional invariant == 0
+    uint8_t  student_surveillance_sensors;  // Constitutional invariant == 0
+    uint8_t  bell_curve_ranking_enabled;    // Constitutional invariant == 0
+    uint8_t  dpl_v1_prior_art_published;    // Defensive patent shield == 1
+};
+\end{lstlisting}
+
+\subsection{Bilateral Socket Contracts and Maturity Progression}
+
+Across \texttt{l3\_l4.sock}, \texttt{col-execd} pins verified lab-notebook IPLD DAGs
+(\texttt{l3:iota:notebook:<cid>}), triggers \texttt{OasisConstantPatch} updates when Theorem~\ref{thm:iota-replication}
+succeeds, and schedules risograph bindery runs during solar surplus. Across \texttt{l4\_l5.sock},
+\texttt{col-kmsd} verifies topological independence of the $N \ge 3$ replicating nodes via BPVP AS-path
+disjointness, signs \texttt{DPL v1} defensive prior-art beacons, and enforces absolute $R_0$ isolation on
+learner mastery records. Scenario \texttt{Iota} grows from a Stage 1A offline Kiwix Raspberry Pi/Rockchip
+bookshelf, homeschooling table, and precision kitchen-scale science kit, to Stage 1B neighborhood inquiry
+pods and shared optical microscopy benches, to Stage 2 community open-science wet/metrology labs and
+risograph publishing houses, to Stage 3 bioregional research observatories and open polytechnic campuses.
+
+% ==========================================================================
+\section{Scenario \texttt{Lambda}: Cultural Gatherings, Perimeter Acoustic Envelopes, and Leave-No-Trace}
+\label{sec:scn-lambda}
+
+Commercial festivals generate mountains of single-use plastic trash, price out working neighbors through
+algorithmic scalping, deploy facial-recognition turnstiles, and blast sub-bass across residential and
+wildlife boundaries; meanwhile, tokenized ``creator economies'' reduce music and sculpture to speculative
+micro-commodities \parencite{han2015,zuboff2019}. Scenario \texttt{Lambda} (\texttt{SCN-LAMBDA-CULTURE})
+orchestrates joyful multi-hundred-person performances, solstice feasts, and studio residencies backed by
+unconditional Cultural Fellowship stipends (\texttt{LC}) with \texttt{art\_tokens\_minted == 0}, strict
+scalar decibel perimeter envelopes, and $10000\,\mathrm{bp}$ Leave-No-Trace material circularity.
+
+\subsection{Multi-Scenario Festival Choreography and Artisan Material Loops}
+
+A regional solstice festival or outdoor theater production represents one of the highest fan-out
+choreographies in \texttt{col-execd}, spawning hundreds of synchronized child tokens across six scenarios
+under a shared event correlation key $\kappa_{\mathrm{event}}$:
+\begin{itemize}
+    \item \textbf{Nourishment \& Reusable Dishware (\texttt{Gamma}):} Pre-stages bulk fermentation and
+    hearth cauldrons alongside a $10000\,\mathrm{bp}$ stainless-steel cup and plate washing loop (zero
+    disposable plastics).
+    \item \textbf{Transit Surges \& \texttt{No-Transit} Sanctuaries (\texttt{Beta}):} Schedules electric
+    shuttle surges to railheads while activating dynamic \texttt{No-Transit} geofence barriers around
+    pedestrian plazas and Scenario \texttt{Psi}/\texttt{Phi} quiet zones.
+    \item \textbf{Hospitality \& Negative-Pressure Sanitation (\texttt{Zeta} \& \texttt{Mu}):} Allocates
+    guest bunkhouses and deploys negative-pressure biochar/struvite sanitation pods whose filled cassettes
+    route directly into $72\text{-hour}$ thermophilic composting.
+    \item \textbf{Microgrid Staging \& Artisan Media (\texttt{Alpha}, \texttt{Eta}, \texttt{Theta}, \texttt{Nu}):}
+    Pre-charges dedicated event LFP battery buffers so stage lighting and PA amplifiers never draw down
+    residential $B_{\mathrm{baseline}}$ reserves, while luthiers, printmakers, and costumers work with
+    $10000\,\mathrm{bp}$ circular tonewood cured to $\le 800\,\mathrm{bp}$ ($8.0\%$) moisture (\texttt{Eta}),
+    earth-oxide ochres and bronze bells (\texttt{Theta}), rag paper (\texttt{Mu}), and natural-dyed stage
+    drapery (\texttt{Nu}).
+\end{itemize}
+
+Crucially, communities may invoke the \textbf{Sacred \& Unmediated Gathering (\texttt{Protocol of Refusal})}
+flag for grief vigils, acoustic chamber music, or seasonal rituals: \texttt{col-execd} executes a
+pre-gathering safety check and then physically de-energizes non-essential ambient telemetry and lighting
+automation across the amphitheater until dawn.
+
+\subsection{Time-of-Day Scalar Decibel Envelopes and Leave-No-Trace Teardown Sagas}
+
+To harmonize vibrant live sound with sleeping children (\texttt{Delta}), elders (\texttt{Phi}), suburban
+neighbors, and nocturnal amphibians/owls (\texttt{Eta}), earthen acoustic berms engineered with Scenario
+\texttt{Xi} provide $\ge 180\,\mathrm{cB}$ ($18.0\,\mathrm{dB}$) of passive geometric attenuation, backed by
+hardware-leased \textbf{Perimeter Scalar Decibel Envelopes} running on boundary Zephyr poles:
+\begin{enumerate}
+    \item \textbf{Daytime Residential Perimeter (\texttt{09:00--22:00} local):} Scalar A-weighted boundary
+    ceiling $L_{\mathrm{day}} \le 550\,\mathrm{cB}$ ($55.0\,\mathrm{dBA}$).
+    \item \textbf{Nighttime Quiet Curfew (\texttt{22:00--09:00} local):} Automatically tightens the
+    hardware envelope to $L_{\mathrm{night}} \le 450\,\mathrm{cB}$ ($45.0\,\mathrm{dBA}$), shifting late-night
+    gatherings into earth-bermed acoustic vaults or local low-power FM/Opus headphone streams.
+    \item \textbf{Wildlife Corridor Low-Frequency Ceiling:} C-weighted sub-bass ceiling
+    $L_{\mathrm{wild,C}} \le 650\,\mathrm{cB}$ ($65.0\,\mathrm{dBC}$) continuously protects adjacent forest
+    nesting zones from ground-coupled bass vibration.
+\end{enumerate}
+
+At $9000\,\mathrm{bp}$ ($90\%$) of any active decibel ceiling, the sound engineer's console beacon shifts
+to amber and an edge DSP limiter applies gentle compression; only if perimeter sound breaches the ceiling
+continuously for $50$ consecutive $10\,\mathrm{Hz}$ ticks ($5000\,\mathrm{ms}$) does \texttt{col-actuated}
+execute a smooth zero-crossing PA relay cut. Boundary poles compute RMS energy strictly in volatile DMA
+registers (\texttt{0} bytes of raw PCM waveform or voice biometrics ever leave the microphone ADC).
+
+\begin{invariant}[Perimeter Acoustic Compliance, Zero Art Tokenization, and Leave-No-Trace Closure]
+\label{inv:lambda-culture}
+Every Scenario \texttt{Lambda} cultural gathering $\kappa_{\mathrm{event}}$ enforces real-time acoustic
+bounds during performance and mass-conserving Leave-No-Trace closure within $86400000\,\mathrm{ms}$
+($24\,\mathrm{hours}$) of curtain fall:
+\begin{align}
+L_{\mathrm{perim,A}}(t) &\le \begin{cases} 550\,\mathrm{cB} & t \in \mathcal{T}_{\mathrm{day}} \\ 450\,\mathrm{cB} & t \in \mathcal{T}_{\mathrm{night}} \end{cases}, \quad
+L_{\mathrm{wild,C}}(t) \le 650\,\mathrm{cB}, \quad \mathtt{pcm\_bytes} = 0, \\
+\mathtt{art\_tokens\_minted} &= 0, \quad \mathtt{biometric\_tickets} = 0, \quad M_{\mathrm{landfill\_waste}} = 0\,\mathrm{mg}.
+\end{align}
+An event instance cannot transition from \texttt{TEARDOWN\_ACTIVE} to \texttt{COMPLETED} until Scenario
+\texttt{Gamma} dishware counts reconcile, Scenario \texttt{Mu} cassette weights balance, and turf moisture
+and soil-compaction walkthroughs clear.
+\end{invariant}
+
+\begin{lstlisting}[caption={Scenario \texttt{Lambda} Time-of-Day Perimeter Decibel Envelope and Leave-No-Trace Saga State},label={lst:lambda-structs}]
+struct alignas(8) LambdaAcousticAndFestivalState {
+    uint16_t perim_dba_day_cap_cb;          // 09:00-22:00 ceiling <= 550 cB
+    uint16_t perim_dba_night_cap_cb;        // 22:00-09:00 ceiling <= 450 cB
+    uint16_t wildlife_dbc_bass_cap_cb;      // Sub-bass ceiling <= 650 cB (dBC)
+    uint16_t berm_passive_attenuation_cb;   // Xi earthen berm >= 180 cB (18 dB)
+    uint16_t breach_consecutive_ticks;      // Soft zero-cross PA cut at 50 ticks (5s)
+    uint16_t tonewood_kiln_moisture_bp;     // Luthier stock gate <= 800 bp (8.0%)
+    uint64_t landfill_residual_waste_mg;    // Leave-No-Trace gate == 0 mg
+    uint32_t art_or_ticket_tokens_minted;   // Anti-commodification == 0
+    uint8_t  protocol_of_refusal_sacred;    // De-energizes ambient sensors when 1
+    uint8_t  raw_audio_or_face_bytes;       // Anti-surveillance invariant == 0
+};
+\end{lstlisting}
+
+\subsection{Bilateral Socket Contracts and Maturity Progression}
+
+Over \texttt{l3\_l4.sock}, \texttt{col-execd} acquires synchronized multi-scenario resource locks
+(\texttt{0:EXERGY:EVENT\_LFP} $\to$ \texttt{1:STATION:AMPHITHEATER} $\to$ \texttt{2:HAUL:SHUTTLE\_02} $\to$
+\texttt{3:LOT:STAINLESS\_DISH\_SET}) and tracks Leave-No-Trace teardown completion checklists. Over
+\texttt{l4\_l5.sock}, \texttt{col-kmsd} validates \texttt{Rigging\_Safety\_L2} BBS+ capability handles
+before energizing motorized stage hoists, disburses non-conditional Cultural Fellowship \texttt{LC}
+stipends, and issues anonymous blinded capacity passes when fire-marshal occupancy caps apply. Scenario
+\texttt{Lambda} evolves from Stage 1A living-room acoustic salons and backyard potlucks ($\le 450\,\mathrm{cB}$
+after 22:00), to Stage 1B courtyard murals, luthiery benches, and block-party stages, to Stage 2 acoustic
+black-box theaters and cooperative printshops, to Stage 3 earth-bermed watershed amphitheaters hosting
+zero-waste regional festivals.
+
+% ==========================================================================
+\section{Scenario \texttt{Pi}: Polycentric Craft Guilds, BBS+ Capabilities, and Demand Beacons}
+\label{sec:scn-pi}
+
+Centralized state ministries suffocate local craft under rigid bureaucratic licensing \parencite{scott1998},
+whereas atomized market freelancing forces every neighborhood to reinvent safety protocols, hoard trade
+tricks, and suffer hidden single-point-of-failure supply bottlenecks. Drawing on Elinor Ostrom's
+polycentric institutional synthesis \parencite{ostrom1990,ostrom2010}, Scenario \texttt{Pi}
+(\texttt{SCN-PI-GUILD}) weaves an \textbf{Ostromian Polycentric Patchwork} across three orthogonal axes:
+contiguous spatial neighborhood polities ($R_1 \dots R_4$), non-spatial trans-local craft guilds (sawyers,
+foundry metallurgists, clinical compounders, high-voltage electricians, luthiers), and ephemeral
+cross-cluster \texttt{TaskSwarm\_CID} ``Work-Bee'' barn-raising swarms.
+
+\subsection{Guild Safety Ratification, VRF Peer Audits, and BBS+ Equipment Unlocking}
+
+Trans-local guilds hold zero territorial monopoly over land or baseline subsistence; instead, they steward
+shared craft standards, apprenticeship curricula (coupled with Scenario \texttt{Iota}), and safety
+envelopes ratified as versioned Ricardian \texttt{Treaty\_CID} documents \parencite{grigg2004}. When a
+steward completes hands-on apprenticeship on a 5-axis CNC mill (\texttt{Alpha}), $1773\,\mathrm{K}$
+induction furnace (\texttt{Theta}), hydraulic bandsaw (\texttt{Eta}), or theatrical truss hoist
+(\texttt{Lambda}), a quorum of guild masters signs a W3C Verifiable Credential \parencite{w3c2022vc} using
+\textbf{BBS+ Selective-Disclosure Signatures} \parencite{camenisch2004signature}.
+
+To prevent Layer 4 from becoming a workplace panopticon that logs which human operated which machine at
+what minute, capability verification strictly traverses the \texttt{l4\_l5.sock} boundary:
+\begin{enumerate}
+    \item When a steward badges up to a high-energy Layer 2 machine, \texttt{col-kmsd} (Layer 5) verifies
+    the steward's zero-knowledge BBS+ proof of valid, unrevoked guild certification (e.g.,
+    \texttt{CNC\_5Axis\_Safety\_v3}) and checks that mandatory rest intervals from Scenario \texttt{Sigma}
+    are respected.
+    \item \texttt{col-kmsd} mints an ephemeral, unlinkable \textbf{24-byte \texttt{ClaimHandle}} bound to a
+    short-lived session TTL and passes \emph{only} that blinded handle down to \texttt{col-execd} over
+    \texttt{/run/collective/ipc/l4\_l5.sock} \parencite{dennis1966programming,miller2006robust}.
+    \item \texttt{col-execd} binds the \texttt{ClaimHandle} into the \texttt{ActuationEnvelopeV1} sent to
+    the machine's Zephyr interlock controller, energizing the contactor with mathematical certainty of
+    operator competence while retaining \textbf{zero operator DID or identity correlation} in Layer 3/4
+    execution logs.
+\end{enumerate}
+
+To prevent cozy local self-certification drift, Scenario \texttt{Pi} runs periodic \textbf{Cross-Cooperative
+VRF Calibration Audits}: a Verifiable Random Function selects peer guild stewards from non-adjacent clusters
+to inspect torque calibration, weld radiographs, and autoclave lethality logs, renewing cluster-level guild
+endorsements upon clean physical sign-off.
+
+\subsection{Intent-Driven Demand Capture and Anti-Siphon Reciprocity Guardrails}
+
+How does a non-market federation discover where to build a new induction foundry, grain mill, or optical
+lab without price inflation or central Five-Year Plans? Scenario \texttt{Pi} implements privacy-preserving
+\textbf{Intent-Driven Demand Capture}. Across each cluster, unfulfilled or delayed workflow intents are
+aggregated via zero-knowledge homomorphic rollups (stripping household origins) into public
+\texttt{MeshGrowthBeacon} signals whenever any of four structural thresholds triggers:
+\begin{enumerate}
+    \item \textbf{Local Queue Saturation:} Station wait times exceed Little's Law stability bounds
+    ($\lambda W > \tau_{\mathrm{queue}}$) \parencite{little1961proof}.
+    \item \textbf{Spatial Haul Gravity Wells:} Cumulative Scenario \texttt{Beta} inter-cluster transport
+    exergy for a recurring component exceeds $E_{\mathrm{haul}} \ge 18000000000\,\mathrm{kJ}$ ($18\,\mathrm{GJ}$,
+    signaling that localizing tooling beats hauling mass).
+    \item \textbf{Layer 7 Import Bleed:} Recurring Subchapter T \texttt{GPO} outflows reveal persistent
+    external dependency ($D_d(t)$ reduction opportunity for Scenario \texttt{Omega}).
+    \item \textbf{Single-Point-of-Failure Fragility ($k < 3$):} Fewer than three independent watershed
+    clusters possess active capability for a critical $B_{\mathrm{baseline}}$ spare part or clinical reagent.
+\end{enumerate}
+
+Finally, to protect open guild commons against extractive free-riding by external commercial entities,
+inter-cluster guild equipment loans and \texttt{TaskSwarm\_CID} dispatches pass through an
+\textbf{Anti-Siphon \texttt{ReciprocityRatioGate}}: peer clusters beyond $R_2$ must maintain a rolling
+bilateral \texttt{BCC}/mutual-aid reciprocity ratio $R_{\mathrm{recip}} \ge 7000\,\mathrm{bp}$ ($70\%$,
+automatically waived during Scenario \texttt{Upsilon}/\texttt{Chi} acute emergencies) and pass constitutional
+End-Goal Alignment quarantine (blocking extractive for-profit siphon entities).
+
+\begin{theorem}[Identity-Blinded Capability Soundness and Anti-Siphon Stability]
+\label{thm:pi-bbs-capability}
+Let $\mathsf{Verify}_{\mathrm{BBS+}}(\pi, \mathtt{Treaty\_CID})$ denote Layer 5 zero-knowledge verification
+of a guild safety proof $\pi$. A high-energy Layer 2 station $S$ transitions to \texttt{ENERGIZED} if and
+only if \texttt{col-execd} holds a non-expired 24-byte \texttt{ClaimHandle} $h$ such that:
+\begin{equation}
+\mathsf{ValidHandle}(h, S, t_{\mathrm{hlc}}) = 1 \;\land\; \mathcal{I}_{\mathrm{DID}}(\mathtt{L3\_Log}, h) = 0\,\mathrm{bits},
+\end{equation}
+where $\mathcal{I}_{\mathrm{DID}}$ denotes mutual information between persisted Layer 3/4 execution logs
+and the operator's personal DID. Simultaneously, external guild resource routing requires
+$R_{\mathrm{recip}} \ge 7000\,\mathrm{bp}$ unless Priority Tier 1--3 emergency preemption is active.
+\end{theorem}
+
+\begin{lstlisting}[caption={Scenario \texttt{Pi} Blinded BBS+ \texttt{ClaimHandle}, \texttt{MeshGrowthBeacon}, and Anti-Siphon Structs},label={lst:pi-structs}]
+struct alignas(8) PiGuildCapabilityAndBeaconState {
+    uint8_t  blinded_claim_handle[24];      // Unlinkable L5->L4 capability token
+    uint64_t handle_hlc_expiry_ms;          // Bounded shift lease; 0 operator DID
+    uint8_t  treaty_cid_blake3[32];         // Ratified guild safety standard CID
+    uint64_t spatial_haul_gravity_mj;       // Emit beacon if >= 18000000 MJ (18 GJ)
+    uint8_t  active_watershed_spof_k;       // Emit redundancy beacon if k < 3
+    uint16_t peer_reciprocity_ratio_bp;     // Anti-siphon gate >= 7000 bp (70%)
+    uint8_t  emergency_tier_waiver_active;  // Waives 7000 bp gate on Upsilon/Chi
+    uint8_t  operator_did_bytes_in_l4;      // Constitutional invariant == 0
+};
+\end{lstlisting}
+
+\subsection{Bilateral Socket Contracts and Maturity Progression}
+
+Over \texttt{l3\_l4.sock}, \texttt{col-execd} reads aggregated station queue depths, computes integer
+haul-exergy accumulators to publish \texttt{l3:pi:beacon:<capability\_id>}, and coordinates temporary tool
+and bunk allocations for visiting \texttt{TaskSwarm\_CID} barn-raising crews. Over \texttt{l4\_l5.sock},
+\texttt{col-kmsd} executes all BBS+ pairing cryptography \parencite{camenisch2004signature}, enforces
+\texttt{ReciprocityRatioGate} ($\ge 7000\,\mathrm{bp}$) and End-Goal Alignment checks on cross-cluster BPVP
+requests, and rotates session \texttt{ClaimHandle} keys. Scenario \texttt{Pi} scales from Stage 1A informal
+neighbor skill-shares and safety checklists, to Stage 1B cross-block repair bees and shared calibration
+standards, to Stage 2 trans-local cooperative craft guilds with BBS+ tool interlocks and VRF peer audits,
+to Stage 3 bioregional polycentric guild federations guiding watershed-wide import substitution.
+
+% ==========================================================================
+\section{Wave E Synthesis: Convivial Maturity Progression (\texttt{Stage 1A} to \texttt{Stage 3})}
+\label{sec:wave-e-maturity}
+
+Wave E proves that high-trust civic, scientific, artistic, and technical coordination requires neither
+corporate platform monopolies nor bureaucratic surveillance. At \textbf{Stage 1A (Household Seed)}, a single
+household hosts a quiet study table, an offline Kiwix mirror on a single-board server, acoustic living-room
+music nights ($\le 450\,\mathrm{cB}$ after 22:00), and peer safety sign-offs (38--68 node workflows). At
+\textbf{Stage 1B (Neighborhood Mesh)}, 5--12 households link a garage co-working lounge and calibrated tool
+library (with compute heat warming domestic water), multi-age backyard inquiry circles, block-party
+potlucks, and neighborhood Work-Bee swarms (95--185 workflows). At \textbf{Stage 2 (Cooperative Shell)}, a
+Main-Street Subchapter T carapace (\texttt{Epsilon}) shields external \texttt{GPO} purchasing and guild
+invoicing up to $\Phi_{\mathrm{cluster}} = 10000\,\mathrm{bp}$, while 3-cluster open-science wet labs
+(\texttt{Iota}), acoustic black-box theaters (\texttt{Lambda}), and BBS+-gated guild machine shops
+(\texttt{Pi}) flourish (260--620 workflows). At \textbf{Stage 3 (Sovereign Campus)}, campus third places,
+bioregional research observatories, earth-bermed Leave-No-Trace amphitheaters, and watershed craft
+federations operate as a self-governing epistemic and cultural civilization (850--2,600+ workflows).
+
+\begin{table}[htbp]
+\centering
+\caption{Wave E Orchestration Density, SI \& Zero-Knowledge Gates, and Convivial Maturity Across Stages 1A--3}
+\label{tab:wave-e-maturity}
+\footnotesize
+\setlength{\tabcolsep}{4.2pt}
+\begin{tabular}{@{}p{1.45cm}p{2.65cm}p{2.55cm}p{2.55cm}p{2.65cm}p{2.65cm}@{}}
+\toprule
+\textbf{Scenario} & \textbf{Core SI \& Cryptographic Gates} & \textbf{Stage 1A: Household Seed ($R_0\text{--}R_1$)} & \textbf{Stage 1B: Neighbor Mesh ($R_1\text{--}R_2$)} & \textbf{Stage 2: Co-op Shell ($R_2\text{--}R_3$)} & \textbf{Stage 3: Sovereign Campus ($R_3\text{--}R_5$)} \\
+\midrule
+\textbf{\texttt{Epsilon}} \newline Third Place \& L7 Carapace & Focus $\le 550\,\mathrm{cB}$ ($180\,\mathrm{s}$); rack heat $\ge 8000\,\mathrm{bp}$; $\mathrm{SoC} \ge 3000\,\mathrm{bp}$; $\Phi_{\mathrm{cluster}} \le 10000\,\mathrm{bp}$. & Shared study table, hallway tool pegboard, wholesale buying club, $0$ surge. & Garage electronics lounge, BLE tool locker, PEX server-heat preheater. & Storefront coworking + \texttt{STC-50} booths, Subchapter T \texttt{GPO} \& guild carapace. & Campus Third-Place pavilion, metrological tool library, post-carapace sunset. \\
+\addlinespace[4pt]
+\textbf{\texttt{Iota}} \newline Epistemic \& Open Science & $k \ge 3$ geo-pins; $N \ge 3$ replications; drift $\le 50\,\mathrm{bp}$; \texttt{0x22} prov; $0$ tuition/surveillance. & Offline Kiwix SBC mirror, home inquiry kits, local $R_0$ mastery journal. & Multi-age backyard inquiry pod, shared microscope \& triple-point cell. & 3-cluster ZFS corpus, open wet/metrology lab, solar risograph press, \texttt{DPL v1}. & Bioregional observatory, Oasis physics patching, open polytechnic commons. \\
+\addlinespace[4pt]
+\textbf{\texttt{Lambda}} \newline Culture \& Amphitheater & Day $\le 550\,\mathrm{cB}$, night $\le 450\,\mathrm{cB}$, bass $\le 650\,\mathrm{cB}$; $0\,\mathrm{mg}$ waste; $0$ art tokens/PCM. & Acoustic salon, backyard hearth potluck, sacred \texttt{Protocol of Refusal}. & Courtyard murals, $\le 800\,\mathrm{bp}$ luthiery stock, stainless dishware block feasts. & Black-box theater, \texttt{LC} artist fellowships, rag-paper \& ochre printshop. & Earth-bermed ($180\,\mathrm{cB}$) amphitheater, multi-hundred-guest zero-waste festivals. \\
+\addlinespace[4pt]
+\textbf{\texttt{Pi}} \newline Polycentric Craft Guilds & 24-B BBS+ \texttt{ClaimHandle} ($0$ DID in L4); haul $\ge 18\,\mathrm{GJ}$ or $k < 3$ beacon; $\ge 7000\,\mathrm{bp}$ recip. & Peer tool safety sign-off, open repair notes, manual lockout-tagout. & Cross-block Work-Bee barn-raisings, shared torque/weld check rigs. & Trans-local guild \texttt{Treaty\_CID}s, BBS+ CNC/kiln interlocks, VRF peer audits. & Watershed polycentric guild mesh, ZK demand beacons driving import substitution. \\
+\bottomrule
+\end{tabular}
+\end{table}

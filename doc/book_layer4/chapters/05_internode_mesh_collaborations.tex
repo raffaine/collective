@@ -1,0 +1,535 @@
+\chapter{Multi-Scale Inter-Node Collaborations Across Sovereign Meshes}
+\label{ch:internode-mesh}
+
+\epigraph{``When resource users design their own operational rules within nested enterprises, polycentric systems achieve adaptive coherence that neither central Leviathans nor atomized markets can sustain.''}{\textsc{Elinor Ostrom}, \textit{Governing the Commons} (1990)}
+
+Chapter~\ref{ch:intranode-choreography} demonstrated how hundreds of concurrent workflows
+execute safely inside a single governed node without shared mutable memory. Yet no household,
+workshop, or cooperative campus is a closed thermodynamic island \parencite{odum1971}. Even on
+a solo homestead lot, embedded single-board computers (\texttt{SBC}s) are physically
+distributed across distinct thermal, moisture, and dust zones---an indoor desk coordinator, a
+sawdust-laden joinery garage, an outdoor weatherproof agroecology enclosure, and an induction
+kitchen hearth. Beyond the lot boundary, neighboring households form Ring 1 (\texttt{R1})
+mutual-aid clusters, Stage 2 cooperatives pool commissary and CNC fabrication capacity, and
+Stage 3 watershed federations span intermittent LoRa and Wi-Fi HaLow links across rugged
+terrain.
+
+A conventional cloud orchestrator handles multi-node distribution by electing a central Raft
+or Paxos cluster leader that treats every remote room, workshop, and household as a
+subordinate worker thread. In the Sovereign Stack, such centralization is constitutionally
+prohibited. Under Stafford Beer's Viable System Model (\texttt{VSM}) Recursion Theorem
+\parencite{beer1972,beer1979}, every viable system contains viable systems and is embedded
+within wider viable systems, each retaining full Recursion Level-$N$ operational autonomy over
+its own metabolic floor. If a neighborhood fiber cut or wildfire power shutoff severs
+communication between two streets, neither street's kitchen, cistern, or perinatal pod may
+stall waiting for a remote master scheduler.
+
+BPMN 2.0 provides the exact structural distinction required to honor \texttt{VSM} recursion
+\parencite{omg2011bpmn,chinosi2012bpmn}: whereas an intra-node \emph{Process} moves tokens
+across sequence flows inside a single engine, an inter-node \emph{Collaboration} treats each
+sovereign node as an opaque black-box \emph{Participant Pool}. Sequence flows can never cross
+a pool boundary; pools coordinate exclusively via asynchronous, schema-validated \emph{Message
+Flows}. This chapter traces how Layer 4 realizes pool-isolated BPMN collaborations across
+three spatial and institutional scales---the intra-lot four-node cluster, the neighborhood
+bilateral clearing mesh, and the delay-tolerant bioregional federation---while preserving
+zero-coin thermodynamic accounting and clean right-of-exit fission \parencite{hirschman1970}.
+
+\section{Micro-Scale Choreography: The Intra-Lot Multi-Node Cluster (\texttt{SOLO\_4\_NODE\_CLUSTER})}
+\label{sec:micro-scale-four-node}
+
+Inter-node choreography begins before a steward ever federates with external neighbors. On a
+real physical homestead---modeled canonically by Lot 402 in the Oasis \texttt{Layer 1b}
+proving ground and \texttt{SharedStackRuntime}---running long analog thermistor and solenoid
+wires from backyard keyline beds through masonry walls into a living-room desktop invites
+ground loops, lightning surge coupling, and single-point hardware failure. Instead, even a
+solo steward operates a personal four-node sovereign cluster (\texttt{SOLO\_4\_NODE\_CLUSTER},
+serialized in snapshot state as \texttt{SOLO\_STEWARD\_4\_NODE\_CLUSTER} when external
+\texttt{R1} swarm federation is paused), partitioning daemons and \texttt{L2} transducers
+across four specialized zone nodes connected over local Layer 3 mesh transport
+(\texttt{col-meshd}).
+
+\begin{table}[htbp]
+\centering
+\caption{Physical and logical topology of Lot 402's intra-lot \texttt{SOLO\_4\_NODE\_CLUSTER}.}
+\label{tab:lot402-four-node-cluster}
+\footnotesize
+\begin{tabular}{@{}llll@{}}
+\toprule
+\textbf{Pool / Node ID} & \textbf{Voxel Zone} & \textbf{Hosted Daemons} & \textbf{Primary Domain \& \texttt{L2} Transducers} \\
+\midrule
+\texttt{node-01:office} & Office $(13,1,3)$ & \texttt{col-gatewayd}, \texttt{col-kmsd}, & L6/L5 policy, KMS identity, \\
+\textit{(Coordinator)} & & \texttt{col-commonsd}, \texttt{col-adversaryd} & solar/cistern R0 reserve floor \\
+\addlinespace[2pt]
+\texttt{node-02:garage} & Garage $(9,1,13)$ & \texttt{col-execd} (\texttt{fab-lane}), & Raised-bed joinery, \texttt{TLUD} kiln \& \\
+\textit{(Mini-Fab)} & & \texttt{col-storaged} & coop builds, acoustic \texttt{550 cb} gate \\
+\addlinespace[2pt]
+\texttt{node-03:garden} & Backyard $(20,1,5)$ & \texttt{col-execd} (\texttt{agro-lane}), & Pea/mirepoix beds, compost, \texttt{soil\_probe\_v1}, \\
+\textit{(Agroecology)} & & \texttt{col-telemetryd}, \texttt{col-meshd} & \texttt{irrigation\_valve\_v1} \\
+\addlinespace[2pt]
+\texttt{node-04:hearth} & Galley $(11,1,3)$ & \texttt{col-execd} (\texttt{hearth-lane}), & $24\,\mathrm{h}$ bone broth, Bigelow pea soup, \\
+\textit{(Induction Galley)} & & \texttt{col-telemetryd} & tiffins, \texttt{culinary\_vessel\_v1} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+As summarized in Table~\ref{tab:lot402-four-node-cluster}, each node runs its own lane-scoped
+\texttt{col-execd} pool rather than sharing a monolithic C++ heap. When
+\texttt{node-03:garden} initiates \texttt{wf.garden.erect\_trellis} and discovers that no
+milled A-frame trellis kit sits in backyard stock, it does not mutate
+\texttt{node-02:garage}'s task vector in memory. Instead, it emits an upward
+\texttt{YIELD\_UPWARD\_L5} deficit to \texttt{node-01:office} (\texttt{col-kmsd}), which
+issues a signed \texttt{L4\_CROSS\_NODE\_REQUISITION} message flow to \texttt{node-02:garage}
+correlated by $\kappa = \mathrm{H}(\texttt{lot\_cid} \parallel \texttt{stage\_id} \parallel
+\texttt{epoch\_hlc})$. Once the steward planes the cedar stock and chisels mortises at the
+garage workbench, task completion emits an \texttt{L3\_INTERNODE\_HANDOFF} event carrying the
+produced kit's content-addressed \texttt{lot\_cid} across the local CRDT log
+\parencite{shapiro2011crdt} to \texttt{node-03:garden}.
+
+\subsection{Matter-Phase Hauling Physics Across Pool Boundaries}
+
+Crucially, completing a digital message flow between \texttt{node-02:garage} and
+\texttt{node-03:garden} does not teleport physical matter across fourteen meters of yard!
+Every cross-pool material transfer must instantiate an explicit BPMN hauling task governed by
+the pure-integer mechanics of \texttt{hauling\_physics.hpp} and typed by \texttt{HaulModality}.
+Layer 4 enforces three physical laws of matter-phase transport across four canonical
+cross-room hauling modalities, summarized in Table~\ref{tab:haul-modality-laws}:
+
+\begin{table}[htbp]
+\centering
+\caption{Matter-phase cross-pool hauling modalities enforced in \texttt{hauling\_physics.hpp}.}
+\label{tab:haul-modality-laws}
+\footnotesize
+\begin{tabular}{@{}lllrr@{}}
+\toprule
+\textbf{Haul Modality} & \textbf{Matter Phase} & \textbf{Bare-Hand Limit} & \textbf{Equipped Payload} & \textbf{Speed} \\
+\midrule
+\texttt{HAND\_GRANULAR} & \texttt{GRANULAR\_PARTICULATE} & $500\,\mathrm{g}$ ($3{,}500\,\mathrm{bp}$ slow) & $20{,}000\,\mathrm{g}$ (bucket/sack) & $9{,}000\,\mathrm{bp}$ \\
+\texttt{BUCKET\_LIQUID} & \texttt{LIQUID} & $0\,\mathrm{mL}$ (prohibited) & $10{,}000\text{--}20{,}000\,\mathrm{mL}$ (can) & $9{,}000\,\mathrm{bp}$ \\
+\texttt{WHEELBARROW\_HEAVY} & \texttt{DISCRETE\_SOLID} & $35{,}000\,\mathrm{g}$ ($5{,}500\,\mathrm{bp}$ floor) & $120\,\mathrm{kg}$ / $200\,\mathrm{kg}$ (dolly) & $10{,}000\,\mathrm{bp}$ \\
+\texttt{TIFFIN\_CARRIER} & \texttt{LIQUID} ($\ge 338{,}150\,\mathrm{mK}$) & $0\,\mathrm{mL}$ (prohibited) & $2{,}000\text{--}8{,}000\,\mathrm{mL}$ (304 SS) & $9{,}500\,\mathrm{bp}$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{enumerate}
+    \item \textbf{Law 1 --- Liquid Containment (\texttt{BUCKET\_LIQUID} and \texttt{TIFFIN\_CARRIER}):}
+    Uncontained bare-handed liquid capacity is strictly zero milliliters
+    (\texttt{kBarehandLiquidMaxMl == 0u}). Any workflow step moving cistern water to raised
+    beds ($10{,}000\,\mathrm{mL}$ in \texttt{wf.garden.irrigate\_and\_weed\_manual}) without an
+    escrowed \texttt{watering\_can} or \texttt{bucket} evaluates to
+    \texttt{IMPOSSIBLE\_NEEDS\_LIQUID\_VESSEL}. Similarly, transferring $2{,}000\,\mathrm{mL}$
+    ($2{,}160\,\mathrm{g}$) of pasteurized split-pea soup from \texttt{node-04:hearth} to the
+    porch handoff station requires \texttt{TIFFIN\_CARRIER} (\texttt{TIFFIN\_CARRIER\_HAUL}),
+    verifying hot-fill containment $\ge 338{,}150\,\mathrm{mK}$ ($65.0^\circ\mathrm{C}$) inside
+    insulated 304-stainless vessels.
+    \item \textbf{Law 2 --- Granular Particulate Divisibility (\texttt{HAND\_GRANULAR}):}
+    Divisible bulk solids such as topsoil, thermophilic compost, and pyrolysis biochar
+    ($49{,}000\,\mathrm{g}$ total in \texttt{wf.garden.plow\_and\_amend\_soil}) can technically
+    be scooped bare-handed (\texttt{GRANULAR\_HAUL}), but \texttt{HaulingPhysics} caps bare-hand
+    scoops at \texttt{kBarehandGranularHandfulMassG = 500u} and penalizes movement speed to
+    \texttt{kBarehandGranularSpeedBp = 3500u} ($35\%$), requiring $\lceil 49{,}000 / 500 \rceil
+    = 98$ tedious round trips (\texttt{VERY\_SLOW\_BAREHAND\_GRANULAR}) versus $3$ brisk trips
+    at $9{,}000\,\mathrm{bp}$ with a $20\,\mathrm{kg}$ bucket or $1$ trip at
+    $10{,}000\,\mathrm{bp}$ with a $120\,\mathrm{kg}$ wheelbarrow.
+    \item \textbf{Law 3 --- Discrete Solid Lift Ceilings (\texttt{WHEELBARROW\_HEAVY}):}
+    Indivisible fabricated assemblies obey ergonomic human biomechanics: unpenalized walking
+    speed holds up to \texttt{kBarehandComfortSolidMassG = 20000u} ($20\,\mathrm{kg}$,
+    permitting bare-handed carry of the $18.5\,\mathrm{kg}$ trellis kit), degrades linearly up
+    to the hard human lift ceiling \texttt{kBarehandMaxSolidLiftMassG = 35000u} ($35\,\mathrm{kg}$,
+    barely permitting the $32\,\mathrm{kg}$ cedar bed frame at reduced speed), and strictly
+    rejects heavier indivisible units (\texttt{IMPOSSIBLE\_TOO\_HEAVY\_BAREHAND}). Thus hauling
+    the $68\,\mathrm{kg}$ \texttt{TLUD} pyrolysis kiln, $74\,\mathrm{kg}$ rotating compost drum,
+    or $115\,\mathrm{kg}$ predator-proof poultry coop from \texttt{node-02:garage} to
+    \texttt{node-03:garden} (\texttt{WHEELBARROW\_DOLLY\_HEAVY\_HAUL}) mandates acquiring an L3
+    resource lease on a \texttt{wheelbarrow} ($120\,\mathrm{kg}$ ceiling) or \texttt{hand\_dolly}
+    ($200\,\mathrm{kg}$ ceiling, requiring \texttt{path\_is\_paved == true}).
+\end{enumerate}
+
+For a one-way voxel distance $d_{\mathrm{vox}}$ ($1\,\mathrm{voxel} = 1{,}000\,\mathrm{mm}$) at
+base walking speed $v_0 = 1{,}400\,\mathrm{mm/s}$, \texttt{EstimateTotalHaulDurationSimMs}
+computes deterministic round-trip transport time in integer milliseconds ($4{,}000\,\mathrm{ms}$
+load/unload handling overhead per trip):
+\begin{equation}
+\label{eq:haul-duration-ms}
+T_{\mathrm{haul,ms}} = N_{\mathrm{trips}} \cdot \left( \left\lfloor \frac{2{,}000 \cdot \max(1, d_{\mathrm{vox}}) \cdot 1{,}000}{\max\bigl(100,\, \lfloor v_0 \cdot \eta_{\mathrm{speed,bp}} / 10{,}000 \rfloor\bigr)} \right\rfloor + 4{,}000 \right),
+\end{equation}
+ensuring BPMN message-flow correlation timers across Lot 402 reflect real physical footsteps
+and equipment constraints.
+
+\section{Meso-Scale Collaborations: Neighborhood Swarm (\texttt{col-swarmd}), BPVP, and Bilateral Clearing}
+\label{sec:meso-scale-bpvp-bcc}
+
+When a steward enables Ring 1 (\texttt{R1}) federation, the four-node homestead cluster joins
+a neighborhood and cooperative mesh (Stages 1B--2). In the live stack, \texttt{col-swarmd}
+(\texttt{swarm\_engine.hpp}) models three peer neighborhood clusters around Lot 402:
+\texttt{cluster:north\_oak\_commons} (5 households specializing in agroecology and soil),
+\texttt{cluster:creekside\_guild} (4 garages specializing in joinery and heavy haul), and
+\texttt{cluster:sunnyside\_care\_ring} (6 families specializing in hearth tiffins and
+postpartum/elder care).
+
+\subsection{\texttt{SplitMix64} Simulation Determinism vs.\ Live BPVP \texttt{FIB} Selection}
+
+In reproducible simulation harnesses (\texttt{col-swarmd}), peer task claims and
+semi-stochastic surplus offers must execute with bit-for-bit determinism across \texttt{x86\_64}
+and \texttt{ARM64} architectures without touching IEEE-754 floats or OS entropy pools.
+\texttt{SwarmState} therefore embeds an $8$-byte aligned \texttt{SplitMix64} integer generator
+stepped with golden-ratio increment \texttt{0x9E3779B97F4A7C15ULL} and Stafford mixing
+constants \texttt{0xBF58476D1CE4E5B9ULL} and \texttt{0x94D049BB133111EBULL}. When a local task
+is released to \texttt{R1} peers (\texttt{RELEASED\_TO\_R1\_PEERS}),
+\texttt{SelectClusterIndexForTask} routes $75\%$ of claims by physical specialty affinity
+(joinery and heavy hauls to Creekside Guild; hearth tiffins to Sunnyside Care Ring; soil tasks
+to North-Oak Commons) and $25\%$ via \texttt{SplitMix64} neighborhood load-sharing, firing mesh
+cadence events against an integer basis-point threshold (\texttt{event\_probability\_bp = 7000U}).
+
+In live multi-node deployments, synthetic PRNG selection is replaced by Layer 5's
+\textbf{Border Policy Vector Protocol (\texttt{BPVP})}---a sovereignty-preserving path-vector
+routing protocol inspired by BGP-4 \parencite{rekhter2006} but advertising ratified treaty
+capabilities, surplus exergy capacity, and bilateral credit headroom rather than IP prefixes.
+Layer 5 (\texttt{col-kmsd}) compiles verified \texttt{BPVP} announcements into a local
+\textbf{Forwarding Information Base (\texttt{FIB})}. When \texttt{col-execd} yields a stock
+miss over \texttt{l4\_l5.sock} under \texttt{R1\_MESH\_PEERS} policy, \texttt{col-kmsd} queries
+its \texttt{BPVP FIB} for the lowest-friction treaty-compliant peer route and injects a signed
+\texttt{Dispatch\_Intent} back down \texttt{l4\_l5.sock} containing blinded peer endpoint
+handles---keeping \texttt{col-execd} completely stateless with respect to mesh topology.
+
+\subsection{Pairwise Bilateral Clearing Channels (\texttt{BCC}) with Zero Global Coin}
+
+How do autonomous neighborhood clusters reciprocate thermodynamic labor, cedar timber, biochar,
+and hot tiffins without reintroducing fiat money, speculative utility tokens, or a global
+blockchain ledger? Layer 3 (\texttt{col-storaged}) implements \textbf{Pairwise Bilateral
+Clearing Channels (\texttt{BCC})}, represented in \texttt{shared\_stack\_runtime.hpp} by
+\texttt{L3PeerBccRecord}. Every federated neighbor pair $(u, v)$ maintains an isolated,
+mutually co-signed accounting register denominated strictly in integer microjoules ($\mu\mathrm{J}$)
+of embodied exergy \parencite{odum1971,ostrom1990}:
+
+\begin{invariant}[Pairwise Zero-Sum Exergy Clearing and Credit Ceilings]
+\label{inv:bcc-zero-sum}
+For every active bilateral treaty edge $\{u, v\}$ with mutually ratified credit window
+$L_{u,v} \ge 0$ (defaulting to $200\,\mathrm{MJ} = 200{,}000{,}000{,}000\,\mu\mathrm{J}$ in
+\texttt{L3PeerBccRecord::credit\_limit\_uj}), the signed channel balances
+$B_{u \to v}, B_{v \to u} \in \mathbb{Z}$ satisfy at every committed tick:
+\begin{equation}
+\label{eq:bcc-invariants}
+B_{u \to v} + B_{v \to u} = 0 \qquad \text{and} \qquad |B_{u \to v}| \le L_{u,v}.
+\end{equation}
+Any proposed settlement delta $\Delta_{u \to v} \in \mathbb{Z}$ that would violate
+$|B_{u \to v} + \Delta_{u \to v}| \le L_{u,v}$ is deterministically rejected prior to actuation,
+preventing unbounded free-riding while requiring zero global currency supply, zero
+interest-bearing debt, and zero third-party consensus nodes.
+\end{invariant}
+
+\begin{lstlisting}[language=C++, caption={Exact \texttt{SplitMix64} topology PRNG and zero-sum \texttt{L3PeerBccRecord} settlement.}]
+struct alignas(8) SplitMix64 {
+    uint64_t state{0x9E3779B97F4A7C15ULL};
+
+    [[nodiscard]] constexpr uint64_t Next() noexcept {
+        uint64_t z = (state += 0x9E3779B97F4A7C15ULL);
+        z = (z ^ (z >> 30U)) * 0xBF58476D1CE4E5B9ULL;
+        z = (z ^ (z >> 27U)) * 0x94D049BB133111EBULL;
+        return z ^ (z >> 31U);
+    }
+};
+static_assert(sizeof(SplitMix64) == 8, "SplitMix64 must be 8 bytes.");
+
+struct alignas(8) L3PeerBccCore {
+    int64_t  balance_local_to_peer_uj{0};
+    int64_t  balance_peer_to_local_uj{0};
+    int64_t  credit_limit_uj{200000000000LL}; // 200 MJ ceiling in uJ
+    uint64_t total_cleared_volume_uj{0};
+
+    [[nodiscard]] constexpr bool IsZeroSumValid() const noexcept {
+        return (balance_local_to_peer_uj + balance_peer_to_local_uj) == 0;
+    }
+
+    [[nodiscard]] constexpr bool SettleSignedDelta(int64_t delta_uj) noexcept {
+        if (!IsZeroSumValid() || credit_limit_uj < 0) {
+            return false;
+        }
+        const int64_t next_local = balance_local_to_peer_uj + delta_uj;
+        const int64_t next_peer  = balance_peer_to_local_uj - delta_uj;
+        if (next_local > credit_limit_uj || next_local < -credit_limit_uj ||
+            next_peer  > credit_limit_uj || next_peer  < -credit_limit_uj) {
+            return false;
+        }
+        balance_local_to_peer_uj = next_local;
+        balance_peer_to_local_uj = next_peer;
+        total_cleared_volume_uj += static_cast<uint64_t>(delta_uj >= 0 ? delta_uj : -delta_uj);
+        return IsZeroSumValid();
+    }
+};
+\end{lstlisting}
+
+\subsection{Chained Multi-Hop HTLCs, Thermodynamic Delivery Receipts, and Ricardian \texttt{Treaty\_CID} Guardrails}
+
+Direct pairwise channels handle immediate neighbors, but in a larger Stage 1B or Stage 2
+cooperative mesh, Sunnyside Care Ring ($u$) may requisition kiln-dried joinery stock or hot
+commissary tiffins from Creekside Guild ($w$) when $u$ and $w$ have not established a direct
+\texttt{BCC} treaty, yet both maintain active \texttt{BCC} channels with North-Oak Commons ($v$).
+Furthermore, unlike pure digital payment networks where revealing a cryptographic secret
+completes the transfer, physical mesh logistics must bridge \emph{atoms and bits}: what
+prevents an intermediary or carrier from claiming exergy credit while delivering spilled or
+lukewarm soup?
+
+Layer 4 and Layer 5 compose three cryptographic mechanisms to guarantee atomic, physically
+verified multi-hop collaboration:
+
+\begin{enumerate}
+    \item \textbf{Ricardian \texttt{Treaty\_CID} WASM Guardrails:} Every inter-node
+    collaboration pool is governed by a Ricardian contract \parencite{grigg2004} uniting
+    human-readable legal/commons prose, machine-readable JSON-LD schemas
+    \parencite{w3c2020jsonld}, and executable invariants into a single content-addressed
+    identifier:
+    \begin{equation}
+    \label{eq:treaty-cid}
+    \texttt{Treaty\_CID} = \mathrm{SHA256}\bigl(\texttt{Text\_prose} \parallel \texttt{Schema\_JSON-LD} \parallel \texttt{Invariants\_BPMN}\bigr).
+    \end{equation}
+    At treaty ratification, \texttt{Invariants\_BPMN} compiles into a deterministic float-free
+    WASM guardrail module pinned in Layer 3. Before \texttt{col-execd} accepts any inbound
+    cross-pool message or settles any outbound handoff, it executes the \texttt{Treaty\_CID}
+    guardrail over the proposed payload (verifying acoustic windows, phytosanitary moisture
+    bounds $< 1{,}400\,\mathrm{bp}$, and credit ceilings $L_{u,v}$).
+    \item \textbf{Chained Multi-Hop Hashed Timelock Contracts (\texttt{HTLC}s):} Across path
+    $u \to v \to w$, consumer $u$'s receiving hardware enclave generates a fresh $256$-bit
+    preimage $R \in \{0,1\}^{256}$ and publishes hashlock $h = \mathrm{H}(R)$ in the
+    requisition header. Hop $u \to v$ escrows $\Delta E\,\mu\mathrm{J}$ of \texttt{BCC}
+    capacity conditioned on $h = \mathrm{H}(R)$ with outer Hybrid Logical Clock expiry
+    $T_1 = T_0 + 2\Delta_{\mathrm{hop}}$, while hop $v \to w$ escrows $\Delta E\,\mu\mathrm{J}$
+    conditioned on the identical $h = \mathrm{H}(R)$ with strictly tighter inner expiry
+    $T_2 = T_0 + \Delta_{\mathrm{hop}}$ ($\Delta_{\mathrm{hop}} > 0$). Staggering
+    $T_1 - T_2 = \Delta_{\mathrm{hop}}$ guarantees that once producer $w$ claims credit from
+    $v$ by presenting $(R, \sigma_{\mathrm{delivery}})$ prior to $T_2$, intermediary $v$
+    possesses deterministic HLC margin $\Delta_{\mathrm{hop}}$ to forward $R$ and settle
+    against $u$ before $T_1$ expires.
+    \item \textbf{Two-Phase Thermodynamic Delivery Receipts ($\sigma_{\mathrm{dispatch}},
+        \sigma_{\mathrm{delivery}}$):}
+    Preimage $R$ is bound inside hardware-attested Layer 5/Layer 2 credentials
+    \parencite{camenisch2004signature,w3c2022vc,microchip_atecc608a} and is released only when
+    two physical receipts co-verify:
+    \begin{itemize}
+        \item \emph{Phase 1 ($\sigma_{\mathrm{dispatch}}$):} At departure from producer $w$,
+        calibrated scale and probe registers sign $(\texttt{lot\_cid}, m_{\mathrm{disp,g}},
+        T_{\mathrm{disp,mk}}, \tau_{\mathrm{disp}})$.
+        \item \emph{Phase 2 ($\sigma_{\mathrm{delivery}}$):} At destination $u$, receiving
+        scale and thermistor registers measure $(m_{\mathrm{recv,g}}, T_{\mathrm{recv,mk}},
+        \tau_{\mathrm{recv}})$ and co-sign $\sigma_{\mathrm{delivery}}$---releasing $R$ to
+        settle the chained \texttt{HTLC}---if and only if mass conservation
+        $|m_{\mathrm{recv,g}} - m_{\mathrm{disp,g}}| \le \epsilon_{m,\mathrm{g}}$ and thermal
+        safety ($T_{\mathrm{recv,mk}} \ge 338{,}150\,\mathrm{mK}$ for hot tiffins or
+        $\le 277{,}150\,\mathrm{mK}$ for cold-chain biologics) hold within treaty bounds.
+    \end{itemize}
+\end{enumerate}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[
+    font=\footnotesize,
+    >=Latex,
+    lifeline/.style={draw=black!60, thick, dashed},
+    actor/.style={draw=black!80, thick, rounded corners=2pt, fill=gray!10, minimum width=3.4cm, minimum height=0.85cm, align=center},
+    msg/.style={->, thick, blue!70!black},
+    phys/.style={->, very thick, teal!75!black},
+    settle/.style={->, thick, violet!80!black}
+]
+    % Actors
+    \node[actor] (u) at (-4.8, 0) {\textbf{Node $u$: Sunnyside}\\(\small Consumer Pool)};
+    \node[actor] (v) at (0.0, 0) {\textbf{Hub $v$: North-Oak}\\(\small BPVP / BCC Relay)};
+    \node[actor] (w) at (4.8, 0) {\textbf{Node $w$: Creekside}\\(\small Producer Pool)};
+
+    % Lifelines
+    \draw[lifeline] (u.south) -- (-4.8, -6.4);
+    \draw[lifeline] (v.south) -- (0.0, -6.4);
+    \draw[lifeline] (w.south) -- (4.8, -6.4);
+
+    % Step 1: BPVP + Treaty Guardrail + HTLC Hop 1
+    \draw[msg] (-4.8, -1.0) -- node[above, font=\scriptsize] {1. Lock BCC $\Delta E$, $h=\mathrm{H}(R)$, $T_1 = T_0 + 2\Delta_{\mathrm{hop}}$} (0.0, -1.3);
+    \node[anchor=west, font=\scriptsize, text=black!70] at (-4.7, -0.68) {\texttt{BPVP FIB} $\to$ \texttt{Treaty\_CID} WASM OK};
+
+    % Step 2: HTLC Hop 2
+    \draw[msg] (0.0, -1.7) -- node[above, font=\scriptsize] {2. Lock BCC $\Delta E$, $h=\mathrm{H}(R)$, $T_2 = T_0 + \Delta_{\mathrm{hop}}$} (4.8, -2.0);
+
+    % Step 3: Physical Production & Phase 1 Dispatch Receipt
+    \node[draw=teal!75!black, fill=teal!6, rounded corners=2pt, font=\scriptsize, align=center] at (4.8, -2.75) {Stage Lot \& Sign $\sigma_{\mathrm{dispatch}}$\\ $(m_{\mathrm{disp}}, T_{\mathrm{disp}}, \tau_{\mathrm{disp}})$};
+
+    % Step 4: Physical Cargo E-Trike Haul
+    \draw[phys] (4.8, -3.45) -- node[above, font=\scriptsize\bfseries] {3. Physical Cargo E-Trike Haul + $\sigma_{\mathrm{dispatch}}$ (\texttt{lot\_cid})} (-4.8, -3.85);
+
+    % Step 5: Phase 2 Delivery Verification & Release R
+    \node[draw=violet!80!black, fill=violet!6, rounded corners=2pt, font=\scriptsize, align=center] at (-4.8, -4.55) {Verify $|m_{\mathrm{recv}}-m_{\mathrm{disp}}|\le\epsilon_m$\\ Co-sign $\sigma_{\mathrm{delivery}}$, Reveal $R$};
+
+    % Step 6: Reveal R to w, settle v->w before T_2, then u->v before T_1
+    \draw[settle] (-4.8, -5.2) -- node[above, font=\scriptsize] {4. Delivery Receipt $(\sigma_{\mathrm{delivery}}, R)$} (4.8, -5.45);
+    \draw[settle] (4.8, -5.75) -- node[above, font=\scriptsize] {5. Claim $(R < T_2)$: $B_{v\to w} \mathrel{-}= \Delta E$} (0.0, -5.95);
+    \draw[settle] (0.0, -6.05) -- node[above, font=\scriptsize] {6. Claim $(R < T_1)$: $B_{u\to v} \mathrel{-}= \Delta E$} (-4.8, -6.25);
+\end{tikzpicture}
+\caption{Meso-scale BPMN collaboration across three autonomous cluster pools combining \texttt{Treaty\_CID} WASM guardrails, staggered-HLC chained \texttt{HTLC} clearing ($T_1 > T_2$), and two-phase thermodynamic delivery receipts ($\sigma_{\mathrm{dispatch}}, \sigma_{\mathrm{delivery}}$).}
+\label{fig:meso-mesh-htlc-collaboration}
+\end{figure}
+
+\begin{lstlisting}[language=C++, caption={Chained HTLC and two-phase thermodynamic receipt structures (zero floats).}]
+struct alignas(8) ChainedHtlcEscrowV1 {
+    uint8_t  treaty_cid[32]{};          // SHA256(Text_prose || Schema_JSONLD || Invariants_BPMN)
+    uint8_t  hashlock_sha256[32]{};     // h = SHA256(R)
+    uint64_t exergy_escrow_uj{0ULL};    // Locked pairwise BCC credit in microjoules
+    uint64_t expiry_hlc{0ULL};          // Staggered: T_outer = T_0 + k * delta_hop_hlc
+    uint32_t hop_distance{1U};          // Remaining hops to producer pool
+    uint8_t  state{0U};                 // 0=LOCKED, 1=SETTLED_PREIMAGE, 2=EXPIRED_REVERTED
+    uint8_t  pad_[3]{0U, 0U, 0U};
+};
+static_assert(sizeof(ChainedHtlcEscrowV1) == 88, "ChainedHtlcEscrowV1 must be 88 bytes.");
+
+struct alignas(8) ThermodynamicDeliveryReceiptV1 {
+    uint8_t  lot_cid[32]{};             // Content-addressed physical batch identifier
+    uint8_t  preimage_r[32]{};          // 256-bit HTLC secret R revealed on valid receipt
+    uint64_t dispatch_hlc{0ULL};
+    uint64_t delivery_hlc{0ULL};
+    uint32_t dispatch_mass_g{0U};       // Calibrated origin mass (grams)
+    uint32_t delivery_mass_g{0U};       // Calibrated destination mass (grams)
+    uint32_t dispatch_temp_mk{0U};      // Origin core temperature (milli-Kelvin)
+    uint32_t delivery_temp_mk{0U};      // Arrival core temperature (milli-Kelvin)
+    uint32_t max_mass_loss_tol_g{25U};  // Treaty shrinkage/ullage tolerance
+    uint32_t min_hot_hold_mk{338150U};  // >= 65.0 C for hot tiffins (0 if dry solid)
+    uint8_t  sig_dispatch_ed25519[64]{};
+    uint8_t  sig_delivery_ed25519[64]{};
+};
+
+[[nodiscard]] constexpr bool IsThermodynamicReceiptValid(
+    const ThermodynamicDeliveryReceiptV1& rcpt
+) noexcept {
+    if (rcpt.delivery_hlc <= rcpt.dispatch_hlc) {
+        return false;
+    }
+    const uint32_t mass_diff = (rcpt.dispatch_mass_g >= rcpt.delivery_mass_g)
+        ? (rcpt.dispatch_mass_g - rcpt.delivery_mass_g)
+        : (rcpt.delivery_mass_g - rcpt.dispatch_mass_g);
+    if (mass_diff > rcpt.max_mass_loss_tol_g) {
+        return false;
+    }
+    if (rcpt.min_hot_hold_mk > 0U && rcpt.delivery_temp_mk < rcpt.min_hot_hold_mk) {
+        return false;
+    }
+    return true;
+}
+\end{lstlisting}
+
+If the cargo e-trike suffers a flat tire and a hot tiffin cools below $338{,}150\,\mathrm{mK}$
+before arrival, \texttt{IsThermodynamicReceiptValid} returns \texttt{false}: $R$ is never
+released, inner lock $T_2$ expires cleanly followed by outer lock $T_1$, both \texttt{BCC}
+channels revert their escrowed microjoules with zero balance drift, and the lukewarm batch
+enters a local Chapter~\ref{ch:cybernetics-salvage} physical salvage saga rather than exposing
+neighbors to foodborne risk or corrupting bilateral accounts.
+
+\section{Macro-Scale Federation, Reticulum DTN Partitions, and Graceful Fission}
+\label{sec:macro-scale-dtn-fission}
+
+At Stage 3 bioregional scale, sovereign campuses interconnect across kilometers of forest,
+coastal ridge, or urban mesh using sub-gigahertz LoRa, IEEE 802.11ah Wi-Fi HaLow, and Reticulum
+Delay-Tolerant Networking (\texttt{DTN}) store-and-forward bundles \parencite{fall2003}. Across
+such links, multi-hour or multi-day network partitions are not exceptional edge cases---they
+are routine seasonal weather.
+
+\subsection{Pre-Partition Custody-Bounded Shards ($\mathcal{S}_{\mathrm{local}}(u)$)}
+
+A classic hazard of naive Conflict-Free Replicated Data Types (\texttt{CRDT}s)
+\parencite{shapiro2011crdt} in material logistics is \emph{physical over-allocation under
+partition}: if a single shared Automerge map tracks $12$ cedar planks stored in Node $u$'s barn
+while LoRa connectivity drops, and both Node $u$ and partitioned neighbor Node $v$
+optimistically lock $8$ planks for local joinery workflows, merging the CRDT logs after
+reconnection yields $-4$ physical planks---an impossible negative-matter state!
+
+Layer 3 and Layer 4 eliminate split-brain physical allocation without requiring synchronous
+global consensus (which would halt local work during partitions \parencite{kleppmann2017designing})
+by enforcing \textbf{Custody-Bounded Sharding}:
+
+\begin{theorem}[Partition-Safe Local Custody Non-Double-Spend]
+\label{thm:custody-shard-safety}
+Let $\mathcal{L}$ be the global universe of discrete and bulk physical inventory lots across a
+federated mesh $V$. Partition $\mathcal{L}$ at every instant into pairwise disjoint custody
+shards $\bigl\{\mathcal{S}_{\mathrm{local}}(u)\bigr\}_{u \in V}$
+(\,$\mathcal{S}_{\mathrm{local}}(u) \cap \mathcal{S}_{\mathrm{local}}(v) = \emptyset$ for
+$u \neq v$\,), where $\ell \in \mathcal{S}_{\mathrm{local}}(u)$ holds if and only if the latest
+cryptographically committed custody state of $\ell$ designates sovereign pool $u$ as physical
+custodian (or exclusive \texttt{IN\_TRANSIT} carrier). Under the \textbf{Custodian-Exclusive
+Escrow Rule}---which restricts \texttt{L3\_QUERY\_AND\_LOCK\_INVENTORY} write authority on
+$\ell \in \mathcal{S}_{\mathrm{local}}(u)$ strictly to pool $u$'s local \texttt{col-storaged}
+engine---arbitrary network partitions $V = V_1 \sqcup \dots \sqcup V_k$ permit every node
+$u \in V$ to execute local BPMN workflows over $\mathcal{S}_{\mathrm{local}}(u)$ at full
+$10\,\mathrm{Hz}$ throughput while guaranteeing zero double-allocation upon CRDT anti-entropy
+reconvergence.
+\end{theorem}
+
+\begin{proof}
+Consider any physical lot $\ell \in \mathcal{L}$ with non-negative scalar quantity $Q(\ell) \ge 0$
+at pre-partition epoch $\tau_0$. By disjointness of the custody partition, there exists a
+unique custodian $u^* \in V_m$ such that $\ell \in \mathcal{S}_{\mathrm{local}}(u^*)$. During
+the network partition, any node $v \neq u^*$ (whether inside $V_m$ or in a disconnected
+component $V_{m'}$) lacks write capability over $\mathcal{S}_{\mathrm{local}}(u^*)$; any
+cross-node requisition initiated by $v$ must block at an asynchronous BPMN message-catch
+boundary awaiting an explicit custody-transfer receipt signed by $u^*$. Meanwhile, inside
+$u^*$, local \texttt{col-storaged} serializes all intra-node workflow locks
+$\sum_i q_i \le Q(\ell)$ through single-node RocksDB transactions. Because only $u^*$ appends
+allocation mutations to $\ell$'s single-writer oplog during the partition, the set of mutations
+on $\ell$ across all components $V_1, \dots, V_k$ is totally ordered by $u^*$'s monotonic
+sequence number. When Reticulum DTN links heal and CRDT logs merge, replay of $u^*$'s
+single-writer log preserves $\sum_i q_i \le Q(\ell)$ identically across all replicas.
+\end{proof}
+
+\subsection{Deterministic Lease-Expiry Sagas Under Link Severance}
+
+During our audit of early Oasis swarm prototypes (Council Ceiling \#5), we found that if a task
+entered \texttt{CLAIMED\_BY\_PEER\_CLUSTER} just before a peer cluster disconnected, the local
+workflow could hang indefinitely awaiting completion. In the ratified protocol, every cross-pool
+task claim or \texttt{IN\_TRANSIT} reservation carries an explicit Hybrid Logical Clock lease
+\texttt{claim\_lease\_expiry\_hlc}. If Reticulum DTN bundles fail to deliver a heartbeat
+renewal or \texttt{ThermodynamicDeliveryReceiptV1} prior to \texttt{claim\_lease\_expiry\_hlc},
+\texttt{col-execd}'s timer wheel deterministically fires an interrupting escalation boundary
+event:
+
+\begin{enumerate}
+    \item If the task had not yet transferred physical custody out of $\mathcal{S}_{\mathrm{local}}(u)$
+    (Regime 1), \texttt{col-execd} revokes \texttt{CLAIMED\_BY\_PEER\_CLUSTER}, increments the
+    epoch fencing token so any late-arriving stale peer packet is cleanly ignored, and returns
+    the task to local \texttt{UNASSIGNED} or yields upward to Layer 5 for alternate
+    \texttt{BPVP} re-routing.
+    \item If physical goods are already \texttt{IN\_TRANSIT} across a severed link, the local
+    workflow spawns a non-destructive \texttt{WAIT\_DTN\_RECONCILIATION} monitor while
+    authorizing Layer 5 to draw from local buffer stock so baseline household meals never stall.
+\end{enumerate}
+
+\subsection{Safe-Harbor Exit and Clean Treaty Fission (\texttt{Scenario Omicron} \& \texttt{Scenario Psi})}
+
+The ultimate test of a non-coercive orchestrator is not how smoothly nodes join a mesh, but how
+cleanly they can \emph{leave} it. Platform monopolies and authoritarian collectives trap
+participants through lock-in, punitive exit penalties, and entangled ledgers
+\parencite{hirschman1970,scott1998}. By contrast, Sovereign Scenarios \texttt{Omicron}
+(\textit{Pluralistic Kinship \& Household Reconfiguration}) and \texttt{Psi}
+(\textit{Restorative Justice \& Non-Punitive Conflict Resolution}) \parencite{zehr1990} mandate
+that any person, kinship pod, or entire neighborhood node can execute unilateral or mediated
+\textbf{Treaty Fission} without forfeiting survival autonomy.
+
+When Layer 5 ratifies a \texttt{Fission\_Intent} over \texttt{l4\_l5.sock}, \texttt{col-execd}
+instantiates a deterministic four-stage \textbf{Safe-Harbor Fission Saga}:
+
+\begin{enumerate}
+    \item \textbf{Constitutional R0 Floor Carve-Out:} Before any shared obligations are tallied,
+    Layer 3 cordons the departing steward's or node's statutory \texttt{R0} survival kit
+    (potable water, baseline caloric larder, personal tools, cryptographic identity keys, and
+    medical devices) as strictly non-encumberable. No \texttt{BCC} imbalance can ever attach a
+    lien against \texttt{R0} life-support assets.
+    \item \textbf{Graceful In-Flight Drain \& HTLC Quiescence:} New inbound \texttt{BPVP}
+    \texttt{Dispatch\_Intent} routes across the fissioning treaty edge are immediately fenced
+    off (\texttt{DRAINING}), while in-flight physical tasks already past $t_{\mathrm{actuate}}$
+    (such as an active kiln firing or postpartum broth batch) run to their next safe settlement
+    milestone or timeout cleanly via \texttt{claim\_lease\_expiry\_hlc}.
+    \item \textbf{Zero-Interest Physical BCC Unwinding:} Any residual nonzero pairwise balance
+    $B_{u \to v} \neq 0$ is converted into a bounded, interest-free schedule of standard
+    material surplus deliveries (e.g., seasoned planks, biochar sacks, or solar charging
+    microjoules) capped at Tier 3 (\texttt{Discretionary}) capacity so unwinding never crowds
+    out either party's Tier 1 baseline care---or mutually forgiven via restorative accord in
+    \texttt{Scenario Psi}.
+    \item \textbf{Cryptographic \texttt{Treaty\_CID} Revocation \& Custody Split:} Shared
+    multi-party watch subscriptions and \texttt{Treaty\_CID} capabilities are revoked in Layer 3,
+    partitioning $\mathcal{S}_{\mathrm{local}}$ cleanly into independent sovereign shards. Both
+    nodes continue ticking smoothly at $10\,\mathrm{Hz}$ on the very next $100\,\mathrm{ms}$
+    cycle---proving that federation in the Sovereign Stack is always a voluntary covenant among
+    self-sufficient peers, never an algorithmic cage.
+\end{enumerate}

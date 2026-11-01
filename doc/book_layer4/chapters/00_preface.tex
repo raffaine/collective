@@ -1,0 +1,317 @@
+\chapter*{Preface: From Algorithmic Bosses to Calm Cybernetic Choreography}
+\addcontentsline{toc}{chapter}{Preface}
+\markboth{Preface}{Preface}
+
+\epigraph{The purpose of a system is what it does. If a computational apparatus claims to liberate human beings while silently reproducing the unpredictable decrees, opaque surveillance, and nervous exhaustion of the factory foreman, then a foreman is precisely what has been built---only faster, colder, and harder to appeal.}{---Architectural Charter of The Collective, Cascadia Synthesis (after \textcite{beer1974})}
+
+Every civilization encodes its theory of power into the machinery that coordinates daily
+work. In the industrial and platform economies of the twentieth and early twenty-first
+centuries, software orchestration evolved along two equally corrosive trajectories.
+Enterprise workflow engines froze corporate chains of command into brittle approval
+hierarchies, requiring maintenance tickets, managerial sign-offs, and credentialed rank
+before a leaking pipe could be mended or a hungry neighbor fed \parencite{scott1998}. Later,
+platform capitalism replaced the human middle manager with algorithmic dispatchers that
+priced desperation in real time, tracked every bodily pause through pervasive telemetry, and
+maintained workers in a permanent state of sympathetic fight-or-flight
+\parencite{zuboff2019,han2015}. Most recently, an industry enchanted by probabilistic
+foundation models has proposed installing stochastic language generators directly atop
+physical infrastructure---inviting systems that hallucinate plausibly, drift across prompt
+revisions, and cannot reproduce their own state transitions to act as opaque executives over
+microgrids, water pumps, and human schedules.
+
+The Sovereign Stack rejects both the bureaucratic gatekeeper and the stochastic boss. In
+Volume~1 of this series, we introduced the seven-layer constitutional architecture of The
+Collective, establishing how physical truth enters from hardware reflexes (Layer~2) into an
+append-only, conflict-free thermodynamic ledger (Layer~3), how polycentric human assemblies
+and cryptographic webs of trust ratify collective policy (Layer~5), how natural-language
+synthesis assists deliberation without holding execution authority (Layer~6), and how legal
+and economic carapaces insulate the commons from extractive markets (Layer~7). Positioned at
+the exact waist of that hourglass sits \textbf{Layer~4: The Deterministic Orchestrator},
+realized in POSIX silicon as the hardened C++20 daemon \texttt{col-execd}.
+
+This companion monograph provides the complete engineering specification, formal concurrency
+theory, cybernetic control mathematics, and 25-scenario operational synthesis for Layer~4 at
+Version~3.1. Its central thesis is uncompromising: \textit{the executive engine of a living
+community must be mathematically deterministic, cryptographically blind to personal
+identity, stateless in volatile memory, bounded by physical conservation laws, and calm in
+its relationship to human attention} \parencite{weiser1996calm,illich1973}.
+
+\section*{Why Determinism Is a Constitutional Requirement}
+
+When software crosses the threshold from rendering pixels to opening irrigation solenoids,
+energizing induction vessels, routing cargo e-trikes, and tripping high-voltage
+direct-current (HVDC) contactors, nondeterminism ceases to be a minor UX annoyance and
+becomes a physical hazard \parencite{iec61508}. A stochastic language model asked whether to
+energize a greenhouse heater on a freezing, cloud-bound night may produce two opposite
+answers across identical sensor states depending on sampling temperature, floating-point
+accumulation order, or subtle phrasing artifacts. Worse, when a failure occurs---when a
+battery bank is drawn below its safe depth of discharge or an aquifer is pumped past its
+recharge floor---a probabilistic black box offers post-hoc confabulation rather than an
+auditable proof trace.
+
+In the Sovereign Stack, artificial intelligence and semantic language translation live
+strictly in Layer~6, above the governance membrane. Layer~6 may help Stewards draft a
+seasonal crop rotation, summarize hydrological forecasts, or translate a plain-spoken
+household need into a candidate process graph. Yet no output of Layer~6 ever touches an
+actuator or mutates an active schedule directly. Every candidate process must pass downward
+through Layer~5 governance ratification, be compiled into a content-addressed Business
+Process Model and Notation (BPMN~2.0) state machine \parencite{omg2011bpmn}, and pass static
+verification before entering \texttt{col-execd}.
+
+Inside Layer~4, execution proceeds on a strict $10\,\mathrm{Hz}$ ($100\,\mathrm{ms}$)
+deterministic tick loop inside capability-sandboxed WebAssembly (\texttt{Wasmtime}) modules
+\parencite{haas2017wasm,miller2006robust}. Floating-point instructions are banned outright
+at module load time; all thermodynamic, agronomic, and stoichiometric calculations execute
+in canonical 64-bit integer International System (SI) units with carry-save Euclidean
+remainder accumulators. Given an identical Layer~3 ledger snapshot and an identical Hybrid
+Logical Clock (HLC) tick \parencite{kulkarni2014logical}, an \texttt{x86\_64} salvaged
+laptop in a workshop, an \texttt{aarch64} single-board computer in a solar shed, and a
+\texttt{riscv64} controller in a root cellar are guaranteed to compute bit-for-bit identical
+Merkle state transitions, reserve identical microjoule exergy leases, and emit identical
+actuation envelopes. Determinism is not rigidity for its own sake; it is the precondition
+for democratic auditability. Citizens can govern an autonomous infrastructure engine only if
+its behavior is an exact, inspectable consequence of the covenants they ratified.
+
+\section*{Lessons from the Oasis Proving Ground (\texttt{Layer 1b})}
+
+Theory untempered by simulation easily degenerates into vapourware, while infrastructure
+deployed directly onto living land without a proving ground risks catastrophic harm.
+Throughout the development of the Sovereign Stack, \textbf{Oasis (\texttt{Layer 1b})}---our
+pure-integer Software-in-the-Loop (SITL) digital twin and interactive simulation proving
+ground \parencite{grieves2014digital}---has served as the crucible in which Layer~4's
+abstractions were tested against coupled physical constraints.
+
+On the canonical proving parcel of \textbf{Lot~402}, live C++20 execution across
+\texttt{SharedStackRuntime}, \texttt{col-execd}, and \texttt{col-swarmd} validated six
+foundational architectural commitments that anchor Part~I of this volume:
+
+\begin{enumerate}
+\item \textbf{Pure-Integer SI Physics and Zero-Sum Ledger Coupling:} Core physical and
+        economic registers---spanning root-zone soil cells (\texttt{SoilCellRegisters}),
+        culinary pasteurization vessels (\texttt{ThermalVesselRegisters}), legume cultivars
+        (\texttt{CultivarWorkflowSpec}), and pairwise Bilateral Clearing Channels
+        (\texttt{L3PeerBccRecord})---execute with zero IEEE-754 floating-point arithmetic,
+        preserving exact microjoule ($\mu\mathrm{J}$) conservation and piecewise-quadratic
+        Bigelow thermal lethality \parencite{bigelow1921thermal}.
+\item \textbf{Clean-Slate Genesis and the Read-Only L4 Membrane:} Lot~402 boots on Day~1
+        with zero unsolicited workflows (\texttt{workflows\_.empty()}). No process runs
+        until a Steward expresses an intent and ratifies a governance transition, while
+        \texttt{col-gatewayd} enforces HTTP \texttt{405 Method Not Allowed}
+        (\texttt{L4\_IS\_STRICTLY\_READ\_ONLY\_NO\_MUTATIONS}) against any attempt by a user
+        interface to bypass Layer~5 governance and mutate Layer~4 directly.
+\item \textbf{Multi-Scale Homestead and Neighborhood Topology:} Even when operating in
+        solo-household mode prior to joining a neighborhood federation, Lot~402 coordinates
+        a four-node personal cluster (\texttt{node-01:office}, \texttt{node-02:garage},
+        \texttt{node-03:garden}, and \texttt{node-04:hearth}), mediating cross-SBC
+        requisitions and material handoffs before seamlessly toggling to external Trust Ring
+        $R_1$ peer clusters via deterministic \texttt{SplitMix64} affinity and zero-sum
+        \texttt{BCC} clearing.
+\item \textbf{Hardware-Gated Epistemic Privacy and Modality Switching:} Rather than
+        hallucinating room or soil conditions when sensors are absent, the hardware bus
+        returns \texttt{DENIED\_NO\_L2\_SENSOR} until physical transducers
+        (\texttt{soil\_probe\_v1}, \texttt{irrigation\_valve\_v1},
+        \texttt{culinary\_vessel\_v1}) are explicitly commissioned, dynamically shifting
+        BPMN tasks between \texttt{MANUAL\_HUMAN\_OBSERVATION} and
+        \texttt{AUTOMATED\_L2\_EXECUTION}.
+\item \textbf{Declarative Cultivar Parameterization and Matter-Phase Hauling:} A single
+        ratified BPMN lifecycle (\texttt{pea\_garden\_and\_soup\_lifecycles.bpmn.json}) is
+        parameterized via JSON-LD catalogs (\texttt{fabaceae\_cultivars.jsonld}) across
+        diverse nitrogen-fixing and soil-consuming cultivars, while physical transport
+        enforces container invariants across liquids, granular particulates, and heavy
+        discrete solids.
+\item \textbf{Somatic Agency Without Gamification:} By separating task visibility into
+        voluntary two-stage pull queues (\texttt{Available} versus \texttt{Committed}),
+        rendering human states through qualitative 1-to-5 somatic feel tiers rather than
+        productivity leaderboards, and engaging burnout hysteresis loops, Lot~402
+        demonstrated that complex physical logistics can run without algorithmic coercion.
+\end{enumerate}
+
+\section*{Convening the Five-Specialist Architectural Council}
+
+Precisely because Oasis made Layer~4 concrete, it also exposed the exact structural ceilings
+where a single-lot prototype would fracture under full-scale community operation. Moving
+from six seed workflows on a suburban parcel to a mature polycentric node revealed subtle
+prototype shortcuts that could not survive production deployment: hardcoded imperative
+\texttt{if/else} ladders masquerading as BPMN evaluation; single-instance workflow locks
+that prevented planting four staggered legume beds simultaneously; shadow soil-moisture
+arithmetic leaking into Layer~4 structs; culinary lethality timers that failed to reset upon
+danger-zone cooling dips; missing Hybrid Logical Clock lease expirations on peer task
+claims; a $1000\times$ unit-scaling discrepancy between kilojoules and megajoules in an
+upward yield packet field; and a two-card UI pagination model that would collapse under
+hundreds of concurrent processes.
+
+To resolve these ceilings systematically rather than through ad-hoc patches, a
+\textbf{Five-Specialist Layer~4 Architectural Council} was convened:
+\begin{itemize}
+    \item The \textbf{Oasis \& Runtime Systems Architect} audited the live POSIX daemon topology, C++20 memory layouts, ahead-of-time BPMN-to-WebAssembly compilation pipeline, fuel-metered \texttt{Wasmtime} host ABI, and epistemic provenance gates.
+    \item The \textbf{BPMN Choreography \& Concurrency Theorist} formalized multi-instance token semantics, cache-aligned 64-byte token frames, mediated intra-node signal and correlation-key choreography, and lexicographic resource lease ordering to eliminate Coffman deadlocks \parencite{coffman1971deadlocks}.
+    \item The \textbf{Distributed Mesh \& Protocol Architect} established strict Viable System Model (VSM) Recursion Level~$N$ closure \parencite{beer1972,beer1979}, multi-hop Bilateral Clearing Channel (\texttt{BCC}) and Hashed Timelock Contract (HTLC) settlement, Ricardian \texttt{Treaty\_CID} guardrails \parencite{grigg2004}, and partition-tolerant choreography across Trust Rings $R_0$ through $R_4$.
+    \item The \textbf{Cybernetics \& Bioprocess Control Engineer} purged shadow physics from Layer~4, replacing boolean actuator writes with hardware-leased 64-byte actuation envelopes (\texttt{ActuationEnvelopeV1}), photo-thermal growing degree-day phenology, and Second-Law forward physical salvage sagas \parencite{georgescu1971,garciamolina1987sagas}.
+    \item The \textbf{Sovereign Stack \& Human Factors Auditor} purged legacy conceptual drift, formalized DID-blinded 24-byte \texttt{ClaimHandle} credentials, and engineered Autonomic/Somatic plane separation, spatial round coalescing, and Little's Law ($\rho_{\max} = 0.70$) admission control \parencite{little1961proof} so human serenity deepens rather than erodes at high workflow density.
+\end{itemize}
+
+\section*{The Reality of High-Density Node Choreography}
+
+Why must an edge orchestrator running on frugal, twenty-year-lifespan hardware be engineered
+for hundreds or thousands of simultaneous state machines? A recurring illusion in software
+design is to imagine community life as one workflow at a time: sow a garden bed, harvest
+peas, simmer soup. In living reality---as systematically mapped across the \textbf{25
+Sovereign Scenarios} (\texttt{Scenario Zero} through \texttt{Scenario Omega})---even a
+modest household or neighborhood commons is a densely interwoven metabolic fabric.
+
+While four staggered raised beds accumulate photo-thermal degree-days at different
+phenological stages, a solar MPPT array continuously balances a $48\,\mathrm{V}$
+$\mathrm{LiFePO_4}$ battery bank; a thermophilic compost bay progresses through
+pathogen-sanitizing heat curves; a bone-broth vessel holds pasteurization lethality on the
+hearth; greywater reed beds cycle hydraulic dosing valves \parencite{kadlec1996}; e-trike
+milk-runs clear neighborhood tiffin and tool transfers; workshop jigs await glue cure
+windows; perinatal and elder care pods maintain uninterrupted baseline warmth and clinical
+power; and reproducible software builds (\texttt{Scenario Zero}) donate $80\%$ of their
+compute waste heat into hydronic floor loops.
+
+\begin{table}[htbp]
+\centering
+\caption{Empirical Workflow Density and Compute Budget Across Sovereign Node Maturation Stages}
+\label{tab:preface-node-density}
+\small
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}llrrl@{}}
+\toprule
+\textbf{Maturation Stage} & \textbf{Civic Topology} & \textbf{Concurrent Workflows} & \textbf{Active Tokens / Tick} & \textbf{10 Hz Power Envelope} \\
+\midrule
+Stage 1A: Household Seed & 1 Lot (4-SBC Cluster) & $38\text{--}68$ & $4\text{--}14$ & $< 0.8\,\mathrm{W}$ (ARM SBC) \\
+Stage 1B: Neighborhood Mesh & $5\text{--}12$ Lots ($R_1$ Ring) & $95\text{--}185$ & $12\text{--}35$ & $< 1.5\,\mathrm{W}$ (Edge Node) \\
+Stage 2: Cooperative Shell & Subchapter T Commons & $260\text{--}620$ & $35\text{--}110$ & $< 2.8\,\mathrm{W}$ (Salvaged x86) \\
+Stage 3: Sovereign Campus & CLT / PPT Settlement & $850\text{--}2{,}600+$ & $110\text{--}420$ & $< 5.0\,\mathrm{W}$ (Redundant Pair) \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+Table~\ref{tab:preface-node-density} summarizes the empirical concurrency envelopes
+established by the Council across the four civic maturation stages of a Sovereign Node. At
+Stage~3, a single node sustains over two thousand concurrent workflow instances while
+drawing less than five watts of continuous electrical power. Two architectural insights make
+this simultaneously computationally trivial and socially calm. First, physical and
+biological processes spend the vast majority of their lifecycles waiting on thermal,
+hydrological, or chemical state transitions in Layer~3; bitset-indexed token frames allow
+\texttt{col-execd} to evaluate only the $110\text{--}420$ active tokens on any
+$100\,\mathrm{ms}$ tick in microseconds. Second, roughly $85\text{--}90\%$ of those
+workflows belong to the \textbf{Autonomic Plane}---closed-loop supervisory homeostasis that
+runs silently beneath conscious awareness---leaving only $10\text{--}15\%$ in the
+\textbf{Somatic Plane}, where spatial round coalescing gathers dispersed checks into
+unhurried, meaningful human walks.
+
+\begin{figure}[htbp]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+    node distance=0.9cm and 1.4cm,
+    box/.style={draw, rounded corners=3pt, thick, align=center, font=\footnotesize, minimum height=1.0cm, inner sep=6pt},
+    plane/.style={draw, dashed, rounded corners=5pt, inner sep=8pt},
+    arr/.style={-{Stealth[length=2.4mm]}, thick}
+]
+    \node[box, fill=blue!6, minimum width=10.8cm] (l5) {
+        \textbf{Layer 5 Governance (\texttt{col-kmsd})} $\cdot$ Ratified \texttt{workflow\_def\_cid}, Ricardian \texttt{Treaty\_CID} \& Blinded \texttt{ClaimHandle}s
+    };
+
+    \node[box, fill=green!7, minimum width=4.9cm, below left=1.1cm and -2.3cm of l5] (auto) {
+        \textbf{Autonomic Plane ($\approx 85\text{--}90\%$)}\\[2pt]
+        MPPT Balancing $\cdot$ Root-Zone Hysteresis\\
+        Pasteurization Hold $\cdot$ Hydronic Heat Recovery\\
+        \textit{Silent Homeostatic Supervision}
+    };
+
+    \node[box, fill=orange!8, minimum width=4.9cm, below right=1.1cm and -2.3cm of l5] (soma) {
+        \textbf{Somatic Plane ($\approx 10\text{--}15\%$)}\\[2pt]
+        Coalesced Morning Garden Rounds $\cdot$ Joinery\\
+        Perinatal \& Elder Care $\cdot$ Craft Capstones\\
+        \textit{Pull-Based Voluntary Human Stewardship}
+    };
+
+    \node[plane, fit=(auto) (soma), label={[font=\footnotesize\bfseries]above:\texttt{col-execd} $\cdot$ 10 Hz Deterministic BPMN / Wasmtime Engine (38 to 2,600+ Concurrent Workflows)}] (l4fit) {};
+
+    \node[box, fill=gray!10, minimum width=10.8cm, below=1.15cm of l4fit] (l3) {
+        \textbf{Layer 3 Thermodynamic Ledger (\texttt{col-storaged})} $\cdot$ RocksDB WAL, Automerge CRDTs, Ordered Resource Leases \& PoTW Envelopes
+    };
+
+    \draw[arr, <->] (l5.south -| auto.north) -- node[left, font=\scriptsize] {\texttt{l4\_l5.sock}} (l4fit.north -| auto.north);
+    \draw[arr, <->] (l5.south -| soma.north) -- node[right, font=\scriptsize] {\texttt{SO\_PEERCRED}} (l4fit.north -| soma.north);
+    \draw[arr, <->] (l4fit.south -| auto.south) -- node[left, font=\scriptsize] {\texttt{l3\_l4.sock}} (l3.north -| auto.south);
+    \draw[arr, <->] (l4fit.south -| soma.south) -- node[right, font=\scriptsize] {\texttt{BatchStepCommit}} (l3.north -| soma.south);
+    \draw[arr, <->, dotted] (auto.east) -- node[above, font=\scriptsize] {L3 Signals} (soma.west);
+\end{tikzpicture}%
+}
+\caption{Two-Plane High-Density Node Choreography in Layer~4 (\texttt{col-execd}), strictly bounded between Layer~5 Governance and Layer~3 Storage.}
+\label{fig:preface-two-plane}
+\end{figure}
+
+\section*{Structure of This Companion Volume}
+
+This book is organized into two complementary parts so that systems engineers, control
+theorists, and community stewards can read it both as a rigorous daemon specification and as
+a living encyclopedic reference across every domain of civic life.
+
+\textbf{Part~I (Chapters~1--8)} establishes the core architecture of the Deterministic Orchestrator:
+\begin{itemize}
+\item \textbf{Chapter~1} specifies the bilateral Unix-socket membrane (\texttt{l3\_l4.sock}
+        and \texttt{l4\_l5.sock}), the Constitutional Intent U-Turn, keyless cryptographic
+        blindness via 24-byte \texttt{ClaimHandle} tokens, and Stafford Beer's VSM Recursion
+        Level~$N$ closure.
+\item \textbf{Chapter~2} details the ahead-of-time BPMN~2.0 bytecode compiler, the
+        Zero-Float Law across heterogeneous CPU architectures, canonical fixed-point SI unit
+        scaling, and the cache-aligned 64-byte \texttt{BpmnTokenFrame} 12-state machine.
+\item \textbf{Chapter~3} formalizes stateless execution over Layer~3 atomic
+        \texttt{BatchStepCommit} frames, deadlock-free lexicographic
+        \texttt{L3ResourceLeaseLock} ordering, the Constitutional 5-Tier Priority Queue, SoC
+        hysteresis fuel shedding, and lookahead horizon admission control.
+\item \textbf{Chapter~4} develops high-density intra-node choreography across hundreds of
+        concurrent workflows using Layer~3 broadcast signals, 256-bit correlation keys, and
+        acyclic temporal Bill-of-Materials (BOM) directed acyclic graphs.
+\item \textbf{Chapter~5} scales choreography across nodes---from the 4-node solo homestead
+        cluster to neighborhood \texttt{BCC}/HTLC clearing, BPVP kinetic freight dispatch,
+        Ricardian \texttt{Treaty\_CID} guardrails, and mesh-partition compensation sagas.
+\item \textbf{Chapter~6} grounds supervisory cybernetics in physical reality:
+        hardware-leased 64-byte \texttt{ActuationEnvelopeV1} contracts, photo-thermal
+        biological time, Bigelow pasteurization safety, and Second-Law forward physical
+        salvage sagas.
+\item \textbf{Chapter~7} protects human autonomy at scale through Qualitative Friction,
+        somatic feel-tier telemetry, spatial round coalescing, causal curtailment grouping,
+        and Little's Law capacity bounds.
+\item \textbf{Chapter~8} examines the Oasis (\texttt{Layer 1b}) proving ground in full
+        code-level detail, documenting its UHAI ring-buffer demarcation, the Council's seven
+        structural audits and fixes, and six-tier epistemic provenance gates.
+\end{itemize}
+
+\textbf{Part~II (Chapters~9--14)} synthesizes concrete multi-workflow choreographies across all \textbf{25 Sovereign Scenarios}, grouped into six horizontal metabolic waves (\textbf{Waves~A through~F}): from autopoietic software self-hosting (\texttt{Zero}), pluralistic genesis (\texttt{Tau}), and somatic homeostasis (\texttt{Sigma}) in Chapter~9; through nourishment (\texttt{Gamma}), solar fabrication (\texttt{Alpha}), and five-artery transit (\texttt{Beta}) in Chapter~10; perinatal care (\texttt{Delta}), kinship (\texttt{Omicron}), Bayesian apprenticeship (\texttt{Kappa}), and hospitality (\texttt{Zeta}) in Chapter~11; silviculture (\texttt{Eta}), biorefineries (\texttt{Mu}), metallurgy (\texttt{Theta}), textiles (\texttt{Nu}), and open-building architecture (\texttt{Xi}) in Chapter~12; coworking (\texttt{Epsilon}), epistemic science (\texttt{Iota}), cultural commons (\texttt{Lambda}), and craft guilds (\texttt{Pi}) in Chapter~13; to acute paramedics (\texttt{Chi}), ecological shock (\texttt{Upsilon}), elder sanctuary (\texttt{Phi}), restorative justice (\texttt{Psi}), adversarial immunity (\texttt{Rho}), and terminal legacy decoupling (\texttt{Omega}) in Chapter~14.
+
+\section*{Navigating the Live Repository Alongside This Text}
+
+Throughout Part~I and Part~II, architectural invariants are anchored directly to the live
+C++20 and declarative BPMN artifacts in The Collective's source repository so readers can
+inspect working code alongside mathematical proofs:
+\begin{itemize}
+\item \texttt{core/4\_orchestrator/workflows/pea\_garden\_and\_soup\_lifecycles.bpmn.json}
+        and \texttt{core/6\_intent/cultivars/fabaceae\_cultivars.jsonld}: Declarative
+        BPMN~2.0 process topologies, socket adjacency declarations, matter-phase hauling
+        specifications, and JSON-LD cultivar parameter catalogs.
+\item \texttt{src/stack/shared\_stack\_runtime.hpp}: Pure-integer SI registers, clean-slate
+        Day-1 genesis, 4-node solo homestead cluster versus $R_1$ swarm toggling,
+        hardware-gated modality switching, and carry-save remainder accumulators.
+\item \texttt{src/daemons/col-execd/execd\_self\_host.hpp} and \texttt{main.cpp}:
+        Scenario~Zero reproducible three-builder verification gates
+        (\texttt{VerifySoftwareReleasePipeline}), $80\%$ hydronic compute heat recovery
+        (\texttt{ComputeHydronicHeatRecoveryAndBcc}), recursive 3-tier BOM resolution
+        (\texttt{ResolveRecursiveBomNode}), and the $10\,\mathrm{Hz}$ deterministic loop.
+\item \texttt{src/daemons/col-storaged/storaged\_engine.hpp} and
+        \texttt{core/1\_simulation/src/uhai/uhai\_ring\_buffer.hpp}: Content-addressed
+        Merkle artifact consensus, zero-sum microjoule \texttt{PairwiseBccChannel}
+        transfers, non-commensurable baseline care protection
+        (\texttt{AttemptTokenizeBaselineCare}), and cache-aligned UHAI ring buffers.
+\end{itemize}
+
+What emerges across these fourteen chapters is neither a technocratic utopia nor an
+austerity survival manual. It is a calm, mathematically verifiable choreography of water,
+warmth, timber, seed, silicon, and voluntary care---an architecture engineered to vanish
+into the background so that living communities may rest, deliberate, and flourish in
+freedom.

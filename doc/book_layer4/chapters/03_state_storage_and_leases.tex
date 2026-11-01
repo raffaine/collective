@@ -1,0 +1,546 @@
+\chapter{Stateless Execution, Resource Leases, and Five-Tier Preemption}
+\label{ch:state-leases}
+
+\epigraph{An orchestrator that hoards authoritative memory in volatile silicon is one loose wire away from amnesia or double actuation. Durability belongs to the ledger; discipline belongs to the lease; restraint belongs to the priority floor.}{---Systems Reliability Notes, Lot~402 Solar Shed}
+
+In Chapter~\ref{ch:bilateral-membrane}, we sealed \texttt{col-execd} behind two POSIX
+sockets and stripped it of citizen identities; in Chapter~\ref{ch:wasm-engine}, we compiled
+declarative BPMN~2.0 graphs into deterministic, float-free WebAssembly modules stepping
+64-byte token frames at $10\,\mathrm{Hz}$. A third foundational question now confronts us:
+\textit{where does truth live when the power flickers, when two workflows reach for the same
+physical workbench at the same millisecond, or when three days of November coastal rain
+drain the settlement's $48\,\mathrm{V}$ lithium-iron-phosphate ($\mathrm{LiFePO_4}$) battery
+bank?}
+
+On twenty-year salvaged edge hardware powered by intermittent renewable microgrids,
+brownouts, kernel panics, watchdog resets, and severed LoRa links are ordinary operational
+weather rather than rare catastrophes. If \texttt{col-execd} held authoritative workflow
+progress or resource locks solely inside its own volatile RAM, an unexpected
+\texttt{SIGKILL} or DC bus brownout mid-tick would inflict one of two physical hazards upon
+reboot: either forgetting an active irrigation envelope (leaving a solenoid stuck open until
+its hardware timeout), or re-executing an already-completed step (dosing a raised bed twice
+or double-settling a Bilateral Clearing Channel transfer). Equally dangerous, as our
+Council's audit of the Oasis prototype demonstrated (Ceiling~\#5), running dozens of
+concurrent workflows without formal lock ordering invites classic circular-wait deadlocks
+across shared hearth hobs, joinery benches, and wheelbarrows
+\parencite{coffman1971deadlocks}.
+
+This chapter specifies the four mechanisms by which Layer~4 achieves crash-safe durability,
+mathematical deadlock freedom, and thermodynamic survival prioritization:
+\begin{enumerate}
+\item \textbf{Stateless Execution Over Layer~3 (\texttt{col-storaged}):} Treating
+        \texttt{col-execd}'s L1-cache arena strictly as an ephemeral, reconstructible
+        projection over atomic \texttt{BatchStepCommit} frames persisted in RocksDB
+        write-ahead logs, Automerge/Yrs Conflict-Free Replicated Data Types (CRDTs), and
+        content-addressed InterPlanetary Linked Data (IPLD) Merkle-DAGs
+        \parencite{shapiro2011crdt,kleppmann2017designing}.
+\item \textbf{Lexicographic \texttt{L3ResourceLeaseLock} Ordering:} Eliminating Coffman
+        deadlocks by construction across four canonical physical resource classes, fortified
+        by Hybrid Logical Clock (HLC) lease Time-To-Live (TTL) expirations and monotonic
+        fencing tokens \parencite{kulkarni2014logical}.
+\item \textbf{The Constitutional Five-Tier Priority Queue and SoC Shedding:} Enforcing
+        strict ecological and human survival precedence ($F_{\mathrm{eco}} \succ B_{\mathrm{baseline}} \succ \mathrm{MutualAid} \succ \mathrm{Discretionary} \succ \mathrm{Export}$)
+        via Schmitt-trigger fuel-budget hysteresis curves and single-tick Tier~5 export
+        curtailment.
+\item \textbf{Lookahead Horizon Admission Control:} Verifying multi-hour thermal and
+        biological batch profiles against conservative P90 solar and storage trajectories
+        \textit{before} crossing irreversible physical actuation boundaries.
+\end{enumerate}
+
+\section{Stateless Execution Over Layer 3 (\texttt{col-storaged})}
+\label{sec:ch3-stateless-execution}
+
+The cardinal durability invariant of Layer~4 is deceptively simple:
+\textbf{\texttt{col-execd} holds zero authoritative durable state in volatile RAM}. Although
+\texttt{col-execd} maintains hot, cache-aligned \texttt{BpmnTokenFrame} arrays and runnable
+bitsets in static memory to achieve sub-millisecond $10\,\mathrm{Hz}$ tick sweeps, every
+byte of that arena is a disposable cache of the committed head stored inside Layer~3
+(\texttt{col-storaged}).
+
+Formally, each $100\,\mathrm{ms}$ tick $t$ of \texttt{col-execd} is a pure deterministic
+state-transition reducer:
+\begin{equation}
+\mathcal{R}_{\mathrm{L4}}\!\left( S_{t-1}^{\mathrm{L3}}, \, \mathcal{I}_t^{\mathrm{L5}}, \, t_{\mathrm{HLC}} \right) \longrightarrow \mathrm{BatchStepCommit}_t,
+\label{eq:ch3-stateless-reducer}
+\end{equation}
+where $S_{t-1}^{\mathrm{L3}}$ is the verified Layer~3 Merkle snapshot at tick $t-1$,
+$\mathcal{I}_t^{\mathrm{L5}}$ is the ordered sequence of ratified Layer~5 command frames
+drained from \texttt{l4\_l5.sock} at the start of tick $t$, and $\mathrm{BatchStepCommit}_t$
+is a single self-contained binary transaction frame transmitted downward over
+\texttt{l3\_l4.sock}.
+
+\subsection{Three Storage Strata Behind \texttt{l3\_l4.sock}}
+
+When \texttt{col-storaged} receives a \texttt{BatchStepCommit} frame across
+\texttt{/run/collective/ipc/l3\_l4.sock}, it commits the frame across three complementary
+storage strata engineered for different concurrency and replication properties:
+
+\begin{enumerate}
+\item \textbf{RocksDB Write-Ahead Log (WAL) for Local Atomic Serialization:} All token state
+        transitions (\texttt{BpmnTokenFrame} deltas), exclusive resource lease
+        acquisitions/releases (\texttt{L3ResourceLeaseLock}), pairwise \texttt{BCC}
+        microjoule transfers (\texttt{PairwiseBccChannel} in \texttt{storaged\_engine.hpp}),
+        and outbound hardware actuation envelopes (\texttt{ActuationEnvelopeV1}) are bundled
+        into a single RocksDB \texttt{WriteBatch} flushed via \texttt{fdatasync()} group
+        commit. Either the entire $100\,\mathrm{ms}$ tick batch becomes durable on
+        non-volatile flash, or---if power fails mid-write---CRC-32C frame validation
+        truncates the partial tail cleanly on reboot, leaving $S_{t-1}^{\mathrm{L3}}$
+        intact.
+\item \textbf{Automerge / Yrs CRDT Registers for Partition-Tolerant State Merging:} Shared
+        state structures that admit concurrent multi-writer updates across sub-nodes or
+        neighborhood peers---such as environmental telemetry projections, broadcast signal
+        logs (\texttt{sig:*}), surplus availability offers (\texttt{L3SurplusOffer}), and
+        mesh weather feeds (\texttt{L3MeshWeatherEvent})---are encoded as state- and
+        operation-based CRDTs (Last-Writer-Wins Element Sets bounded by HLC timestamps,
+        Positive-Negative Counters where lawful, and Observe-Remove Maps)
+        \parencite{shapiro2011crdt}. When a severed garden-shed link heals, CRDT registers
+        converge deterministically without coordination round-trips.
+\item \textbf{Content-Addressed IPLD Merkle-DAG Checkpoints:} Every $N_{\mathrm{chk}} = 10$
+        ticks ($1.0\,\mathrm{s}$)---and immediately upon any Tier~1 floor trip, Ricardian
+        treaty milestone, or software artifact ratification (\texttt{MerkleArtifactRecord}
+        in \texttt{storaged\_engine.hpp})---\texttt{col-storaged} seals the state tree into
+        a content-addressed SHA-256 IPLD Merkle root $\mathrm{CID}_t$. This immutable DAG
+        anchors cryptographic audit trails and cross-node Proof-of-Thermodynamic-Work (PoTW)
+        verification.
+\end{enumerate}
+
+\begin{lstlisting}[language=C++,caption={Atomic \texttt{BatchStepCommitHeader} transmitted across \texttt{l3\_l4.sock} at the end of each $10\,\mathrm{Hz}$ tick.},label={lst:ch3-batch-commit}]
+struct alignas(8) BatchStepCommitHeader {
+    uint64_t tick_id{0};                // Monotonic 10 Hz tick index (8B)
+    uint64_t commit_hlc{0};             // HLC timestamp of tick boundary (8B)
+    uint64_t orchestrator_epoch{0};     // Incremented on every col-execd boot (8B)
+    uint8_t  prev_merkle_root[32]{0};   // Expected L3 head SHA-256 digest (32B)
+    uint16_t token_delta_count{0};      // Modified BpmnTokenFrame records (2B)
+    uint16_t lease_op_count{0};         // L3ResourceLeaseLock acquire/release ops (2B)
+    uint16_t envelope_emit_count{0};    // Outbound ActuationEnvelopeV1 records (2B)
+    uint16_t signal_emit_count{0};      // Intra-node L3 sig:* / corr emissions (2B)
+};
+static_assert(sizeof(BatchStepCommitHeader) == 64, "Commit header fits 1 cache line.");
+static_assert(alignof(BatchStepCommitHeader) == 8, "Commit header is 8-byte aligned.");
+\end{lstlisting}
+
+\subsection{Split-Brain-Free Crash Recovery After \texttt{SIGKILL} or Brownout}
+
+Suppose an electrician accidentally trips the breaker feeding
+\texttt{node-01:office-coordinator}, or the Linux out-of-memory killer delivers
+\texttt{SIGKILL} to \texttt{col-execd} mid-tick while \texttt{col-storaged} remains alive
+(or after the entire SBC reboots from cold power). How does the Sovereign Stack prevent
+split-brain double actuation?
+
+Upon startup, \texttt{col-execd} executes a deterministic four-step \textbf{Cold Rehydration
+Handshake} over \texttt{l3\_l4.sock} before enabling its $10\,\mathrm{Hz}$ timer loop:
+
+\begin{enumerate}
+\item \textbf{Epoch Bump and Stale Writer Fencing:} \texttt{col-execd} sends
+        \texttt{L3\_HELLO\_REHYDRATE} to \texttt{col-storaged}. Layer~3 atomically
+        increments the persistent \texttt{orchestrator\_epoch} counter in RocksDB and
+        returns the new epoch $E_{\mathrm{new}}$ alongside the latest committed
+        \texttt{prev\_merkle\_root} and \texttt{tick\_id}. Any delayed IPC packet carrying
+        an older \texttt{orchestrator\_epoch} $< E_{\mathrm{new}}$ is unconditionally
+        dropped by \texttt{col-storaged}.
+\item \textbf{Zero-Allocation Arena Streaming:} \texttt{col-storaged} streams all active
+        64-byte \texttt{BpmnTokenFrame} records ($N \le 32{,}768$, at most $2\,\mathrm{MiB}$
+        even on a Stage~3 campus) directly into \texttt{col-execd}'s aligned arena,
+        reconstructing the five priority-tier runnable bitsets in $< 5\,\mathrm{ms}$.
+\item \textbf{Pending Upward Yield Reconciliation:} \texttt{col-execd} queries
+        \texttt{l4\_l5.sock} with the deterministic \texttt{yield\_id}s of all tokens in
+        state \texttt{YIELDED\_UPWARD\_L5}. Because \texttt{yield\_id} is derived
+        deterministically from \texttt{(instance\_id, current\_node\_idx,
+        step\_epoch\_seq)}, Layer~5 deduplicates any retransmitted
+        \texttt{UpwardYieldPacket} idempotently.
+\item \textbf{Idempotent Envelope Continuity on Layer~2:} Outbound
+        \texttt{ActuationEnvelopeV1} structs carry \texttt{(target\_register\_id,
+        instance\_id, step\_epoch\_seq)} as an idempotency key. Even if power failed
+        immediately \textit{after} \texttt{col-storaged} committed tick $t$,
+        \texttt{col-execd} resumes cleanly at tick $t+1$; if power failed \textit{before}
+        commit, re-computing tick $t$ against $S_{t-1}^{\mathrm{L3}}$ produces the exact
+        byte-identical \texttt{BatchStepCommit} frame.
+\end{enumerate}
+
+\begin{invariant}[Crash-Recovery Observational Equivalence]
+\label{inv:ch3-crash-equivalence}
+Let $\mathcal{H}_{\mathrm{clean}}$ denote the sequence of committed Layer~3 states $\{S_0, S_1, \dots, S_K\}$
+produced by an uninterrupted execution of \texttt{col-execd}, and let
+$\mathcal{H}_{\mathrm{crash}}$ denote an execution subjected to arbitrary fail-stop crashes
+(\texttt{SIGKILL} or power loss) between or during any ticks, followed by Cold Rehydration
+against \texttt{col-storaged}. For identical Layer~3 sensor ingresses and Layer~5 governance
+frames indexed by HLC tick, $\mathcal{H}_{\mathrm{crash}}$ commits the exact same sequence
+of Merkle roots $\{\mathrm{CID}_0, \dots, \mathrm{CID}_K\}$ with zero duplicate resource
+debits and zero duplicate actuation envelopes.
+\end{invariant}
+
+\section{Eliminating Coffman Deadlocks via Lexicographic \texttt{L3ResourceLeaseLock}}
+\label{sec:ch3-resource-leases}
+
+In a high-density Sovereign Node running $200+$ concurrent workflows, contention for scarce
+physical apparatus is the norm rather than the exception. Consider two workflows awakening
+on the same morning tick on Lot~402:
+\begin{itemize}
+\item Workflow~$W_A$ (\texttt{wf.hearth.simmer\_bone\_broth}) needs $8.6\,\mathrm{MJ}$ of
+        battery exergy, \textbf{Induction Hob~\#1}, and \textbf{Insulated Tiffin
+        Carrier~\#2}.
+\item Workflow~$W_B$ (\texttt{wf.hearth.pasteurize\_pea\_soup}) already holds
+        \textbf{Insulated Tiffin Carrier~\#2} and now requests \textbf{Induction Hob~\#1}
+        plus $4.2\,\mathrm{MJ}$ of battery exergy.
+\end{itemize}
+If $W_A$ locks Induction Hob~\#1 first and blocks waiting for Tiffin Carrier~\#2 while $W_B$
+holds Tiffin Carrier~\#2 and blocks waiting for Induction Hob~\#1, both workflows freeze in
+a classic circular-wait deadlock until soup spoils in the pot.
+
+Recall the four necessary and sufficient conditions for system deadlock established by
+\textcite{coffman1971deadlocks}: (1) \textit{Mutual Exclusion}, (2) \textit{Hold and Wait},
+(3) \textit{No Preemption}, and (4) \textit{Circular Wait}. In cyber-physical orchestration,
+we cannot abolish Mutual Exclusion (two pots cannot occupy one induction coil
+simultaneously), nor can we casually preempt a midway thermal pasteurization hold without
+ruining physical biomass. Layer~4 therefore defeats deadlock mathematically by
+\textbf{simultaneously breaking Hold-and-Wait (per step) and Circular Wait (across steps)}
+via canonical lexicographic resource lease ordering
+\parencite{dennis1966programming,coffman1971deadlocks}.
+
+\subsection{The Four Canonical Resource Classes and Total Order $\prec_{\mathrm{res}}$}
+
+Every reservable physical or thermodynamic entity in Layer~3 belongs to one of four strictly
+ranked \textbf{\texttt{ResourceClass}} strata:
+
+\begin{enumerate}
+\item \textbf{Class 0 --- \texttt{EXERGY\_BUDGET}:} Microjoule (\texttt{\_uj}) electrical or
+        thermal reservoir budgets (e.g., $48\,\mathrm{V}$ $\mathrm{LiFePO_4}$ bank capacity,
+        hydronic buffer tank megajoules). Always acquired \textit{first} so a workflow never
+        locks a physical station if the node lacks the energy to run it.
+\item \textbf{Class 1 --- \texttt{PHYSICAL\_STATION}:} Stationary physical workcells, beds,
+        vessels, and machine tools (e.g., \texttt{station:hearth\_hob\_01},
+        \texttt{station:garage\_cnc\_01}, \texttt{station:garden\_bed\_03},
+        \texttt{station:autoclave\_01}).
+\item \textbf{Class 2 --- \texttt{HAUL\_TOOL}:} Mobile kinetic containers and transport
+        implements (e.g., \texttt{tool:wheelbarrow\_01}, \texttt{tool:hand\_dolly\_01},
+        \texttt{tool:etrike\_cargo\_02}, \texttt{tool:tiffin\_carrier\_02}).
+\item \textbf{Class 3 --- \texttt{MATERIAL\_LOT}:} Fungible or lot-tracked physical
+        inventory inputs in milligrams (\texttt{\_mg}) or milliliters (\texttt{\_ml}) (e.g.,
+        $20{,}000{,}000\,\mathrm{mg}$ of thermophilic compost, $200{,}000\,\mathrm{mg}$ of
+        heirloom pea seed, $4{,}500\,\mathrm{mL}$ of dechlorinated cistern water).
+\end{enumerate}
+
+\begin{definition}[Canonical Resource Identifier Order $\prec_{\mathrm{res}}$]
+\label{def:ch3-lex-order}
+Every lockable resource $r \in \mathcal{R}$ is uniquely identified by the pair $(c(r), \mathrm{id}(r)) \in \{0,1,2,3\} \times \{0, \dots, 2^{64}-1\}$,
+where $c(r)$ is its \texttt{ResourceClass} and $\mathrm{id}(r)$ is its canonical 64-bit
+entity CID hash. For any two distinct resources $r_1 \neq r_2$, we define the strict total
+lexicographic order:
+\begin{equation}
+r_1 \prec_{\mathrm{res}} r_2 \iff \bigl(c(r_1) < c(r_2)\bigr) \;\lor\; \bigl(c(r_1) = c(r_2) \;\land\; \mathrm{id}(r_1) < \mathrm{id}(r_2)\bigr).
+\end{equation}
+\end{definition}
+
+Ahead of compilation, \texttt{col-bpmnc} statically sorts every task's required resource
+descriptor list in strictly ascending $\prec_{\mathrm{res}}$ order. Furthermore, if a
+workflow segment holds an earlier lease $r_{\mathrm{held}}$ across multiple BPMN steps and
+subsequently requests an additional lease $r_{\mathrm{new}}$ with $r_{\mathrm{new}} \preceq_{\mathrm{res}} r_{\mathrm{held}}$,
+\textbf{\texttt{col-bpmnc} rejects the workflow at compile time} unless $r_{\mathrm{new}}$
+is hoisted into the initial atomic acquisition set!
+
+\begin{lstlisting}[language=C++,caption={Lexicographically ordered \texttt{L3ResourceLeaseLock} with HLC TTL and monotonic fencing token.},label={lst:ch3-lease-struct}]
+enum class ResourceClass : uint8_t {
+    EXERGY_BUDGET    = 0, // Microjoule electrical / thermal allowance
+    PHYSICAL_STATION = 1, // Fixed station, bed, hob, CNC, autoclave
+    HAUL_TOOL        = 2, // Wheelbarrow, dolly, tiffin, e-trike
+    MATERIAL_LOT     = 3  // Milligram / milliliter inventory lot
+};
+
+struct alignas(8) L3ResourceLeaseLock {
+    uint64_t      resource_id{0};        // 64-bit entity/lot CID hash (8B)
+    uint64_t      holder_instance_id{0}; // Owning BpmnTokenFrame::instance_id (8B)
+    uint64_t      granted_hlc{0};        // HLC timestamp when lease opened (8B)
+    uint64_t      ttl_ms{0};             // Bounded lease duration in ms (8B)
+    uint64_t      fencing_token{0};      // Monotonic L3 sequence per resource (8B)
+    int64_t       reserved_qty{0};       // uJ, mg, mL, or 10000 bp exclusive (8B)
+    ResourceClass resource_class{ResourceClass::EXERGY_BUDGET}; // 0..3 (1B)
+    uint8_t       priority_tier{4};      // Holder priority Tier 1..5 (1B)
+    uint8_t       is_exclusive{1};       // 1 = mutex station/tool, 0 = quota (1B)
+    uint8_t       pad_[5]{0};            // Explicit alignment padding (5B -> 56B)
+};
+static_assert(sizeof(L3ResourceLeaseLock) == 56, "Lease struct must be 56 bytes.");
+static_assert(alignof(L3ResourceLeaseLock) == 8, "Lease struct must be 8-byte aligned.");
+\end{lstlisting}
+
+\begin{theorem}[Cycle-Free Wait-For Graph and Deadlock Freedom]
+\label{thm:ch3-deadlock-freedom}
+Under atomic per-node sorted batch acquisition in \texttt{col-storaged} and the compile-time
+monotonic acquisition rule ($\forall r_{\mathrm{held}} \in H(W), \forall r_{\mathrm{req}} \in Q(W): r_{\mathrm{held}} \prec_{\mathrm{res}} r_{\mathrm{req}}$),
+the runtime wait-for graph $G_{\mathrm{WFG}} = (\mathcal{W}, E_{\mathrm{wait}})$ across all
+concurrent workflow instances $\mathcal{W}$ is a strict directed acyclic graph (DAG) at
+every tick $t$. Consequently, Coffman circular-wait deadlocks are impossible.
+\end{theorem}
+
+\begin{proof}
+Suppose toward a contradiction that at tick $t$ there exists a directed cycle of waiting
+workflow instances $W_1 \to W_2 \to \dots \to W_m \to W_1$ ($m \ge 2$) in
+$G_{\mathrm{WFG}}$. Notice first that during a single atomic sorted \texttt{WriteBatch}
+request $Q(W_i)$, \texttt{col-storaged} either grants \textit{all} leases in $Q(W_i)$ or
+grants \textit{none} and parks $W_i$ in \texttt{WAITING\_LEASE} without holding partial
+elements of $Q(W_i)$. Therefore, if $W_i \to W_{i+1}$, $W_i$ must already hold some
+earlier-step lease $h_i \in H(W_i)$ (if $H(W_1) = \emptyset$, $W_1$ holds nothing and cannot
+have an incoming edge $W_m \to W_1$), while waiting for a resource $q_i \in Q(W_i)$
+currently held by $W_{i+1}$, meaning $q_i \in H(W_{i+1})$.
+
+For each $i \in \{1, \dots, m\}$ (indices modulo $m$), define $r_i^{*} = \max_{\prec_{\mathrm{res}}} H(W_i)$,
+the highest-ordered resource currently held by $W_i$. Because $W_i$ requests $q_i \in Q(W_i)$
+while already holding $r_i^{*} \in H(W_i)$, the monotonic acquisition rule guarantees
+$r_i^{*} \prec_{\mathrm{res}} q_i$. Because $q_i \in H(W_{i+1})$ and $r_{i+1}^{*}$ is the
+maximum of $H(W_{i+1})$ under $\prec_{\mathrm{res}}$, we have $q_i \preceq_{\mathrm{res}} r_{i+1}^{*}$.
+By transitivity of the strict total order $\prec_{\mathrm{res}}$, we obtain $r_i^{*} \prec_{\mathrm{res}} r_{i+1}^{*}$
+for all $i$, yielding the impossible chain $r_1^{*} \prec_{\mathrm{res}} r_2^{*} \prec_{\mathrm{res}} \dots \prec_{\mathrm{res}} r_m^{*} \prec_{\mathrm{res}} r_1^{*}$.
+Hence $G_{\mathrm{WFG}}$ contains no cycles.
+\end{proof}
+
+\subsection{HLC Lease TTLs and Monotonic Fencing Tokens}
+
+Deadlock freedom prevents circular stalemates among live workflows, but what if a remote
+neighborhood peer cluster claims a shared mobile cider press
+(\texttt{CLAIMED\_BY\_PEER\_CLUSTER}) right before a windstorm severs its wireless mesh
+link? Without lease expiration, that lock would remain orphaned indefinitely.
+
+Every \texttt{L3ResourceLeaseLock} (Listing~\ref{lst:ch3-lease-struct}) enforces two
+temporal safety fields \parencite{kulkarni2014logical,kleppmann2017designing}:
+\begin{itemize}
+\item \textbf{Bounded HLC Time-To-Live (\texttt{granted\_hlc + ttl\_ms}):} No lease in
+        Layer~3 is perpetual; long-running workflows must actively renew heartbeats prior to
+        \texttt{granted\_hlc + ttl\_ms}. If a partitioned peer or stalled task misses its
+        deadline, \texttt{col-storaged} automatically reclaims the lease on the very tick
+        $t_{\mathrm{HLC}} \ge \mathrm{granted\_hlc} + \mathrm{ttl\_ms}$ and wakes the
+        highest-priority waiter.
+\item \textbf{Strict Monotonic \texttt{fencing\_token}:} Each time resource $r$ is leased or
+        renewed to a new holder, Layer~3 increments its per-resource 64-bit
+        \texttt{fencing\_token} ($\phi_1 < \phi_2 < \dots$) and embeds $\phi_k$ inside every
+        resulting \texttt{ActuationEnvelopeV1} and settlement commit. Layer~2
+        microcontrollers and Layer~3 registers store $\phi_{\max}(r)$ and unconditionally
+        reject any delayed packet bearing $\phi < \phi_{\max}(r)$, guaranteeing zero stale
+        zombie writes after partition healing.
+\end{itemize}
+
+\section{The Constitutional Five-Tier Priority Queue and Exergy Shedding}
+\label{sec:ch3-priority-queue}
+
+When solar irradiance plummets during a week-long winter storm and concurrent workflows
+compete for limited stored exergy, market-based systems ration scarcity by raising
+prices---ensuring that luxury consumption by wealthy actors outbids a neighbor's heating. In
+\texttt{storaged\_engine.hpp}, \texttt{AttemptTokenizeBaselineCare()} returns \texttt{false}
+unconditionally: survival care is structurally non-commensurable with commodity trade.
+Instead, \texttt{col-execd} schedules runnable tokens and allocates exergy leases across a
+\textbf{Constitutional Five-Tier Priority Queue} ratified by Governance
+\parencite{rockstrom2009safe,raworth2017}:
+
+\begin{enumerate}
+\item \textbf{Tier 1 ($F_{\mathrm{eco}}$ --- Ecological Carrying-Capacity Floors):}
+        Non-negotiable biome circuit breakers: minimum aquifer water-table elevation,
+        instream salmonid flow minimums, root-zone microbial survival moisture, and
+        breeding-season quiet envelopes.
+\item \textbf{Tier 2 ($B_{\mathrm{baseline}}$ --- Unconditional Human Survival Baseline):}
+        Non-contingent life support for every resident and guest regardless of task
+        participation: potable water UV/ultrafiltration, acute and perinatal clinical power
+        (\texttt{Scenario Chi/Delta}), baseline dwelling hydronic warmth
+        ($291{,}150\,\mathrm{mK} = 18.0\,^\circ\mathrm{C}$), cold-chain food/vaccine
+        preservation, and Humble Hearth nourishment (\texttt{Scenario Gamma/Sigma}).
+\item \textbf{Tier 3 ($M_{\mathrm{aid}}$ --- Federated Bioregional Mutual Aid, $R_1 \dots R_4$):}
+        Emergency lifesupport requests routed across BPVP from sister nodes experiencing
+        localized ecological shock or microgrid failure (\texttt{Scenario Upsilon})
+        \parencite{kropotkin1902}.
+    \item \textbf{Tier 4 ($O_{\mathrm{local}}$ --- Local Discretionary Commons \& Craft):} Convivial improvements, workshop CNC/joinery runs, non-essential software rendering, cultural rehearsal lighting, and elective agricultural expansion.
+\item \textbf{Tier 5 ($\Phi_t$ --- Commercial Legacy Market Export):} Surplus electricity or
+        fabricated goods exported through Layer~7 (\texttt{col-adversaryd}) to offset legacy
+        taxes or import leaf materials. Tier~5 is bounded on every $10\,\mathrm{Hz}$ tick by
+        the microjoule \textbf{Export Residual}:
+    \begin{equation}
+    R_t = \max\!\left(0, \; E_{\mathrm{gen},\mu\mathrm{J}}(t) - E_{\mathrm{floor},\mu\mathrm{J}}(t) - E_{\mathrm{storage\_replenish},\mu\mathrm{J}}(t)\right).
+    \label{eq:ch3-export-residual}
+    \end{equation}
+The exact $100\,\mathrm{ms}$ tick that $R_t \le 0$, \texttt{col-execd} opens the legacy
+    export contactor autonomously and emits an informational \texttt{UpwardYieldPacket}
+    upward to Layer~5$\to$Layer~6$\to$Layer~7.
+\end{enumerate}
+
+\subsection{Hysteresis Shedding Curves for \texttt{WasmFuelBudget(SoC\_bp, Tier)}}
+
+Computation and physical actuation both draw from the node's electrochemical reserve,
+measured as the $48\,\mathrm{V}$ $\mathrm{LiFePO_4}$ bank State-of-Charge in basis points
+($\mathrm{SoC}_{\mathrm{bp}} \in [0, 10{,}000]\,\mathrm{bp}$). To prevent boundary
+chattering as solar clouds pass overhead, \texttt{col-execd} governs both new actuation
+admission and per-tick WebAssembly instruction fuel
+(\texttt{L4ExecutionTelemetry::instruction\_fuel\_budget}) via \textbf{Schmitt-trigger
+downward trip points} ($8{,}000\,\mathrm{bp}$, $4{,}000\,\mathrm{bp}$, and
+$2{,}000\,\mathrm{bp}$) paired with a \textbf{$+300\,\mathrm{bp}$ upward recovery deadband}
+($8{,}300\,\mathrm{bp}$, $4{,}300\,\mathrm{bp}$, and $2{,}300\,\mathrm{bp}$), summarized in
+Table~\ref{tab:ch3-soc-shedding} and Figure~\ref{fig:ch3-soc-shedding}.
+
+\begin{table}[htbp]
+\centering
+\caption{Five-Tier Hysteresis Shedding Regimes and Per-Tick \texttt{WasmFuelBudget} Allocation Across $48\,\mathrm{V}$ $\mathrm{LiFePO_4}$ \texttt{SoC\_bp}}
+\label{tab:ch3-soc-shedding}
+\footnotesize
+\begin{tabular}{@{}llrrrrr@{}}
+\toprule
+\textbf{Regime (Down / Up Recovery)} & \textbf{SoC Band (\texttt{bp})} & \textbf{Tier 1} & \textbf{Tier 2} & \textbf{Tier 3} & \textbf{Tier 4} & \textbf{Tier 5} \\
+\midrule
+Nominal Surplus ($\ge 8000$ / $\ge 8300$) & $8{,}000\text{--}10{,}000$ & $100\%$ & $100\%$ & $100\%$ & $100\%$ & $R_t > 0$ ($100\%$) \\
+Conservation ($< 8000$ / $\ge 8300$) & $4{,}000\text{--}7{,}999$ & $100\%$ & $100\%$ & $100\%$ & $50\%$ & \textbf{Shed ($0\%$)} \\
+Austerity Shield ($< 4000$ / $\ge 4300$) & $2{,}000\text{--}3{,}999$ & $100\%$ & $100\%$ & $25\%^*$ & \textbf{Shed ($0\%$)} & \textbf{Shed ($0\%$)} \\
+Lifeline Sanctuary ($< 2000$ / $\ge 2300$) & $0\text{--}1{,}999$ & $100\%$ & $100\%$ & \textbf{Shed ($0\%$)} & \textbf{Shed ($0\%$)} & \textbf{Shed ($0\%$)} \\
+\bottomrule
+\multicolumn{7}{@{}l}{\scriptsize $^*$In Austerity Shield, Tier~3 honors only acute clinical/lifesupport BPVP covenants; elective freight pauses.}
+\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[x=0.95cm, y=0.68cm]
+    % Axes
+    \draw[-{Stealth[length=2.2mm]}, thick] (0,0) -- (10.8,0) node[right, font=\scriptsize] {$\mathrm{SoC}_{\mathrm{bp}}$ ($\times 10^3\,\mathrm{bp}$)};
+    \draw[-{Stealth[length=2.2mm]}, thick] (0,0) -- (0,5.2) node[above, font=\scriptsize] {Active Tiers \& WASM Fuel Scaling};
+
+    % Shaded bands
+    \fill[red!10] (0,0) rectangle (2.0,4.6);
+    \fill[orange!12] (2.0,0) rectangle (4.0,4.6);
+    \fill[yellow!14] (4.0,0) rectangle (8.0,4.6);
+    \fill[green!12] (8.0,0) rectangle (10.0,4.6);
+
+    % Hysteresis recovery dashed lines
+    \draw[dashed, gray!80!black] (2.0,0) -- (2.0,4.6) node[above, font=\tiny] {2000};
+    \draw[dotted, blue!70!black] (2.3,0) -- (2.3,4.3) node[above, font=\tiny, xshift=4pt] {+300};
+    \draw[dashed, gray!80!black] (4.0,0) -- (4.0,4.6) node[above, font=\tiny] {4000};
+    \draw[dotted, blue!70!black] (4.3,0) -- (4.3,4.3) node[above, font=\tiny, xshift=4pt] {+300};
+    \draw[dashed, gray!80!black] (8.0,0) -- (8.0,4.6) node[above, font=\tiny] {8000};
+    \draw[dotted, blue!70!black] (8.3,0) -- (8.3,4.3) node[above, font=\tiny, xshift=4pt] {+300};
+    \draw[dashed, gray!80!black] (10.0,0) -- (10.0,4.6) node[above, font=\tiny] {10000};
+
+    % Tier step curves
+    \draw[very thick, green!55!black] (0,4.2) -- (10.0,4.2) node[right, font=\scriptsize] {T1 ($F_{\mathrm{eco}}$) \& T2 ($B_{\mathrm{baseline}}$): $100\%$};
+    \draw[very thick, cyan!70!black] (0,0.25) -- (2.0,0.25) -- (2.0,1.4) -- (4.0,1.4) -- (4.0,3.3) -- (10.0,3.3) node[right, font=\scriptsize] {T3 (Mutual Aid)};
+    \draw[very thick, orange!85!black] (0,0.15) -- (4.0,0.15) -- (4.0,2.2) -- (8.0,2.2) -- (8.0,2.7) -- (10.0,2.7) node[right, font=\scriptsize] {T4 (Discretionary)};
+    \draw[very thick, purple!80!black] (0,0.05) -- (8.0,0.05) -- (8.0,1.8) -- (10.0,1.8) node[right, font=\scriptsize] {T5 (Export, $R_t>0$)};
+
+    % Regime labels
+    \node[font=\tiny\bfseries, align=center] at (1.0, 3.0) {Lifeline\\Sanctuary};
+    \node[font=\tiny\bfseries, align=center] at (3.0, 3.0) {Austerity\\Shield};
+    \node[font=\tiny\bfseries, align=center] at (6.0, 3.8) {Conservation Band\\(T5 Curtailed, T4 Throttled)};
+    \node[font=\tiny\bfseries, align=center] at (9.0, 3.8) {Nominal\\Surplus};
+\end{tikzpicture}
+\caption{Five-Tier Exergy and \texttt{WasmFuelBudget} Hysteresis Shedding Curves as $48\,\mathrm{V}$ $\mathrm{LiFePO_4}$ State-of-Charge (\texttt{SoC\_bp}) Drops Across $8{,}000$, $4{,}000$, and $2{,}000\,\mathrm{bp}$ (with $+300\,\mathrm{bp}$ Schmitt Recovery Deadbands).}
+\label{fig:ch3-soc-shedding}
+\end{figure}
+
+Listing~\ref{lst:ch3-fuel-shedding} gives the exact pure-integer Schmitt-trigger state
+evaluator and fuel budget allocator executed at the opening of every $10\,\mathrm{Hz}$ tick.
+Note that when a lower tier is shed to $0$ new-work fuel, any already-actuated physical
+process in that tier is \textit{never} left dangling in an unsafe physical posture:
+\texttt{col-execd} reserves a dedicated emergency compensation fuel reserve
+($\Phi_{\mathrm{salvage}} = 50{,}000$ WASM instructions) to park actuators cleanly or
+transition perishable batches into forward physical salvage sagas (Chapter~6). And if an
+extreme catastrophe pushes Tier~1 ($F_{\mathrm{eco}}$) and Tier~2 ($B_{\mathrm{baseline}}$)
+into direct conflict below $2{,}000\,\mathrm{bp}$, \texttt{col-execd} holds the safest
+pre-ratified survival envelope and emits \texttt{YieldReason::UNRESOLVABLE\_MORAL\_CONFLICT}
+upward to human Stewards via Layer~5.
+
+\begin{lstlisting}[language=C++,caption={Pure-integer Schmitt-trigger SoC regime transitions and 5-tier \texttt{WasmFuelBudget} allocation.},label={lst:ch3-fuel-shedding}]
+enum class SheddingRegime : uint8_t {
+    NOMINAL_SURPLUS    = 0, // >= 8000 bp (recovers at >= 8300 bp)
+    CONSERVATION       = 1, // 4000..7999 bp (recovers from Austerity at >= 4300 bp)
+    AUSTERITY_SHIELD   = 2, // 2000..3999 bp (recovers from Lifeline at >= 2300 bp)
+    LIFELINE_SANCTUARY = 3  // < 2000 bp
+};
+
+[[nodiscard]] constexpr SheddingRegime StepSheddingRegimeHysteresis(
+    SheddingRegime current, int32_t soc_bp, int64_t export_residual_uj) noexcept {
+    SheddingRegime next = current;
+    if (soc_bp < 2000) {
+        next = SheddingRegime::LIFELINE_SANCTUARY;
+    } else if (soc_bp < 4000) {
+        if (current != SheddingRegime::LIFELINE_SANCTUARY || soc_bp >= 2300) {
+            next = SheddingRegime::AUSTERITY_SHIELD;
+        }
+    } else if (soc_bp < 8000 || export_residual_uj <= 0) {
+        if ((current == SheddingRegime::LIFELINE_SANCTUARY && soc_bp < 2300) ||
+            (current == SheddingRegime::AUSTERITY_SHIELD   && soc_bp < 4300)) {
+            return current;
+        }
+        next = SheddingRegime::CONSERVATION;
+    } else if (soc_bp >= 8300 && export_residual_uj > 0) {
+        next = SheddingRegime::NOMINAL_SURPLUS;
+    }
+    return next;
+}
+
+[[nodiscard]] constexpr uint32_t ComputeTierWasmFuelBudget(
+    SheddingRegime regime, uint8_t tier, uint32_t base_fuel) noexcept {
+    if (tier == 1U || tier == 2U) {
+        return base_fuel; // 100% unconditional allocation for F_eco and B_baseline
+    }
+    switch (regime) {
+        case SheddingRegime::NOMINAL_SURPLUS:
+            return base_fuel;
+        case SheddingRegime::CONSERVATION:
+            if (tier == 3U) return base_fuel;
+            if (tier == 4U) return base_fuel / 2U;
+            return 0U; // Tier 5 Export curtailed immediately
+        case SheddingRegime::AUSTERITY_SHIELD:
+            return (tier == 3U) ? (base_fuel / 4U) : 0U;
+        case SheddingRegime::LIFELINE_SANCTUARY:
+            return 0U; // Tiers 3, 4, 5 suspended; salvage reserve remains separate
+    }
+    return 0U;
+}
+\end{lstlisting}
+
+\section{Lookahead Horizon Admission Control}
+\label{sec:ch3-lookahead-admission}
+
+Instantaneous State-of-Charge gating protects the microgrid against sudden drops, yet by
+itself it remains myopic with respect to \textbf{non-preemptible multi-hour physical
+commitments}. Suppose at 16:30 on an autumn afternoon $\mathrm{SoC}_{\mathrm{bp}} = 5{,}400\,\mathrm{bp}$
+($54\%$), comfortably inside the Conservation band where Tier~4 kitchen tasks are permitted.
+A workflow proposes starting a $12\text{-hour}$ collagen bone-broth extraction followed by a
+Bigelow pasteurization hold requiring $14.4\,\mathrm{MJ}$ ($14.4 \times 10^{12}\,\mu\mathrm{J}$)
+through the night. If \texttt{col-execd} admits that batch based solely on 16:30's SoC,
+nocturnal dwelling heating ($B_{\mathrm{baseline}}$) will pull the battery below
+$4{,}000\,\mathrm{bp}$ at 01:00---forcing an emergency mid-simmer abort right inside the
+$[277{,}150, 333{,}150]\,\mathrm{mK}$ ($4\text{--}60\,^\circ\mathrm{C}$) bacterial danger
+zone!
+
+To prevent starting irreversible physical journeys that the node cannot safely finish,
+Layer~4 enforces \textbf{Lookahead Horizon Admission Control} ahead of every workflow's
+irreversible commitment boundary $t_{\mathrm{actuate}}$ (such as wetting seed inoculant,
+pouring foundry melt, heating culinary stock, or loading an autoclave).
+
+\begin{definition}[Discrete-Time Lookahead Admission Gate]
+\label{def:ch3-lookahead-gate}
+Let a candidate workflow instance $W$ of priority tier $\tau \in \{2,3,4,5\}$ declare a
+non-preemptible horizon of $H$ discrete $15\text{-minute}$ ($900{,}000\,\mathrm{ms}$)
+buckets with piecewise-constant microjoule demand profile
+$\{e_{\mathrm{cand}}(k)\}_{k=1}^{H}$. Let $E_{\mathrm{SoC}}(t_0)$ be the current verified
+usable battery exergy in $\mu\mathrm{J}$, $\widehat{E}_{\mathrm{gen}}^{\mathrm{P90}}(k)$ be
+Layer~3's conservative 90th-percentile lower-confidence renewable generation forecast for
+bucket $k$ (zeroed at night), and $E_{\mathrm{leased}}^{(\le \tau)}(k)$ be the sum of all
+already-admitted lookahead exergy profiles of priority tier $\le \tau$ (plus mandatory
+Tier~1 and Tier~2 nocturnal thermal baselines). \texttt{col-execd} admits $W$ across
+$t_{\mathrm{actuate}}$ if and only if for every horizon step $k \in \{1, \dots, H\}$:
+\begin{equation}
+E_{\mathrm{SoC}}(t_0) + \sum_{j=1}^{k} \left( \widehat{E}_{\mathrm{gen}}^{\mathrm{P90}}(j) - E_{\mathrm{leased}}^{(\le \tau)}(j) - e_{\mathrm{cand}}(j) \right) \ge E_{\mathrm{soc\_min}}(\tau),
+\label{eq:ch3-lookahead}
+\end{equation}
+where $E_{\mathrm{soc\_min}}(\tau)$ maps the tier's minimum permissible SoC floor
+($\mathrm{SoC}_{\mathrm{min}}(4) = 4{,}300\,\mathrm{bp}$, $\mathrm{SoC}_{\mathrm{min}}(3) = 2{,}300\,\mathrm{bp}$,
+$\mathrm{SoC}_{\mathrm{min}}(2) = 1{,}000\,\mathrm{bp}$ hardware cell protection floor) into
+microjoules.
+\end{definition}
+
+When Inequality~\eqref{eq:ch3-lookahead} fails at some future bucket $k^*$ (for instance,
+02:15 AM), \texttt{col-execd} does not discard the Steward's request or risk spoiling
+ingredients. Instead, while $t < t_{\mathrm{actuate}}$ (ingredients still dry and
+shelf-stable in pantry storage), it computes the earliest horizon shift $\Delta k_{\mathrm{start}}$---typically
+the following morning's 09:30 solar ramp---at which Inequality~\eqref{eq:ch3-lookahead}
+holds across all $H$ buckets, parks the token cleanly in \texttt{WAITING\_TIMER} (or emits a
+calm schedule-shift notice via Layer~5), and leaves every physical ingredient unharmed.
+
+Together, stateless \texttt{BatchStepCommit} persistence over Layer~3, deadlock-free
+lexicographic \texttt{L3ResourceLeaseLock} ordering, 5-tier Schmitt-trigger exergy shedding,
+and lookahead horizon admission control give \texttt{col-execd} the ironclad operational
+reliability of an industrial safety PLC---operating entirely on community-governed,
+twenty-year sovereign silicon.
