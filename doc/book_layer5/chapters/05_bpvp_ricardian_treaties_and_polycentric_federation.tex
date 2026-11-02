@@ -1,0 +1,380 @@
+\chapter{Inter-Node Federation: Bioregional Path-Vector Routing, Ricardian Treaties, and Ostromian Polycentricity}
+\label{ch:l5-bpvp-federation}
+
+\epigraph{Polycentric systems are characterized by multiple governing authorities at differing scales rather than a monocentric unit. Each unit within a polycentric system exercises considerable independence to make norms and rules within a specific domain.}{---\textcite{ostrom2010}}
+
+When governance moves beyond the perimeter of a single Sovereign Node, two opposite failure modes
+historically appear. Either autonomous settlements retreat into autarkic ``lifeboat'' compounds
+that hoard surplus while neighboring communities suffer ecological or economic shocks, or they
+surrender local self-determination to a centralized regional bureaucracy---a watershed politburo
+whose distant planners rapidly reproduce the legibility pathologies diagnosed by
+\textcite{scott1998}. Neither failure mode can coordinate hundreds of inter-node workflows across
+solar microgrids, tool-making guilds, seed sanctuaries, and regional clinics without sacrificing
+human freedom.
+
+Layer~5 (\texttt{col-kmsd}) resolves this tension by translating \textcite{ostrom1990,ostrom2010}'s
+empirical theory of polycentric commons and \textcite{bookchin1982}'s confederal municipalism into
+three deterministic cryptographic protocols: (1)~an \textbf{Ostromian Three-Axis Jurisdiction
+Matrix} that orthogonalizes land sovereignty, craft safety, and ephemeral mutual-aid swarms;
+(2)~the \textbf{Bioregional Path-Vector Protocol (BPVP)}---also referred to at the inter-domain
+socket boundary as the \textit{Border Policy Vector Protocol}---adapting path-vector loop-freedom
+\parencite{rekhter2006} and delay-tolerant bundle routing \parencite{fall2003} to concentric trust
+rings and thermodynamic transport budgets; and (3)~\textbf{Tripartite Ricardian Treaties}
+(\texttt{Treaty\_CID}) \parencite{grigg2004} paired with zero-knowledge stigmergic growth beacons.
+
+\section{Ostrom's Three-Axis Polycentric Jurisdiction Matrix}
+\label{sec:ch5-three-axis}
+
+In a mature bioregional federation, a single physical workshop or watershed parcel simultaneously
+participates in spatial ecology, specialized technical crafts, and time-bounded emergency or
+seasonal campaigns. Monocentric states collapse all three dimensions into a single territorial
+hierarchy. Layer~5 instead partitions inter-node authority across three orthogonal, non-dominating
+axes (Table~\ref{tab:ch5-jurisdiction-axes}):
+
+\begin{enumerate}
+    \item \textbf{Axis I: Contiguous Spatial Polities ($R_1\text{--}R_4$).} Households ($R_0$),
+    neighborhood settlements ($R_1$), adjacent commons ($R_2$), and river-basin assemblies
+    ($R_3\text{--}R_4$) exercise exclusive veto over physical land tenure, ecological regeneration
+    floors ($F_{\mathrm{eco}}$), survival baselines ($B_{\mathrm{baseline}}$), acoustic curfews,
+    and autonomous \texttt{No-Transit} geofence polygons. No external guild or distant federation
+    may override a local spatial polity's ecological or sanctuary floor.
+    \item \textbf{Axis II: Non-Spatial Trans-Local Craft Guilds ($R_2\text{--}R_6$).} Distributed
+    stewards practicing foundry metallurgy, clinical pharmacology, timber engineering, or
+    precision fermentation associate across non-contiguous nodes via Scenario~Pi guilds. Craft
+    guilds hold bicameral Stewardship Chamber veto over \textit{technical safety rubrics}
+    (Scenario~Kappa mastery gates) and \textit{metrological calibration protocols} (Scenario~Iota
+    peer replication), yet hold \textit{zero} territorial command over any node's land, housing,
+    or surplus allocation.
+    \item \textbf{Axis III: Ephemeral Task Swarms (\texttt{TaskSwarm\_CID}).} When a storm severs
+    a culvert (Scenario~Upsilon), a barn-raising assembles (Scenario~Xi), or an autumn harvest
+    peaks (Scenario~Gamma), participating nodes charter a time-bounded \texttt{TaskSwarm\_CID}.
+    Delegated operational capabilities bind strictly to the ratified BPMN saga and expire
+    deterministically to \texttt{ZERO\_AUTHORITY} the instant the swarm's Hybrid Logical Clock
+    \parencite{kulkarni2014logical} time-to-live (\texttt{ttl\_hlc}) elapses or its terminal
+    milestone settles.
+\end{enumerate}
+
+\begin{table}[htbp]
+\centering
+\caption{Ostromian Three-Axis Polycentric Jurisdiction Matrix Enforced by \texttt{col-kmsd}}
+\label{tab:ch5-jurisdiction-axes}
+\footnotesize
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}lllll@{}}
+\toprule
+\textbf{Jurisdiction Axis} & \textbf{Topology \& Rings} & \textbf{Exclusive Ratification Domain} & \textbf{Explicitly Prohibited Powers} & \textbf{Revocation / Dissolution} \\
+\midrule
+Contiguous Spatial Polity & $R_0\text{--}R_4$ watershed polygons & Land CLT, $F_{\mathrm{eco}}$, $B_{\mathrm{baseline}}$, \texttt{No-Transit}, acoustic caps & Rewriting guild clinical/safety physics without guild co-sign & Entrenched Core ($8000\,\mathrm{bp}$) \& Safe Harbor Exit \\
+Trans-Local Craft Guild & $R_2\text{--}R_6$ non-spatial graph & \texttt{Kappa} safety rubrics, \texttt{Iota} metrology, blueprint MTBF & Requisitioning node land, labor, housing, or $R_0$ inventory & Domain $\mathcal{R}_d$ half-life decay \& local node fork right \\
+Ephemeral Task Swarm & $R_1\text{--}R_5$ ad-hoc DAG (\texttt{TaskSwarm\_CID}) & Scoped saga claims, temporary tool \& transit staging & Persistent standing authority past \texttt{ttl\_hlc}; rule amendment & Automatic deterministic collapse to \texttt{ZERO\_AUTHORITY} \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+\begin{definition}[Orthogonal Jurisdiction Non-Domination]
+\label{def:ch5-orthogonal-jurisdiction}
+Let $\mathcal{J} = \mathcal{J}_{\mathrm{spatial}} \times \mathcal{J}_{\mathrm{guild}} \times
+\mathcal{J}_{\mathrm{swarm}}$ denote the product space of active Layer~5 jurisdictions on node
+$u$. An operational workflow instance $W$ touching physical land $L \in \mathcal{J}_{\mathrm{spatial}}$
+and hazardous craft domain $D \in \mathcal{J}_{\mathrm{guild}}$ executes if and only if
+$\mathrm{Permit}_{\mathrm{spatial}}(u, L, W) \land \mathrm{Permit}_{\mathrm{guild}}(D, W) = \mathsf{true}$.
+Neither axis can unilaterally compel actuation within the other's constitutional veto domain.
+\end{definition}
+
+\section{The Bioregional Path-Vector Protocol (BPVP)}
+\label{sec:ch5-bpvp}
+
+When an intra-node workflow in Layer~4 (\texttt{col-execd}) encounters a local stock miss or
+specialized tooling gap that cannot be satisfied within $R_0$ or $R_1$, how does the node discover
+and negotiate fulfillment across $R_2\text{--}R_6$ without querying a centralized cloud directory
+or flooding the radio mesh with link-state topology broadcasts?
+
+Layer~5 solves inter-domain capability discovery and policy-compliant routing through the
+\textbf{Bioregional Path-Vector Protocol (BPVP)}. Just as BGP-4 \parencite{rekhter2006} routes
+packets across autonomous systems without a global routing czar---and Delay-Tolerant Networking
+\parencite{fall2003} carries bundles across intermittent rural links---BPVP exchanges signed
+capability advertisements $\mathcal{A}$ across bilateral trust edges. Crucially, as established in
+Chapter~\ref{ch:l5-bilateral-membrane}, \texttt{col-kmsd} never opens raw TCP/IP sockets: every
+BPVP update travels downward over \texttt{l4\_l5.sock} into Layer~4, Layer~3, and Layer~2's
+\texttt{col-meshd} Reticulum/LoRa/fiber transport, and ascends symmetrically at the peer node.
+
+\subsection{Capability Advertisements, Loop-Freedom, and Thermodynamic Pruning}
+
+Each BPVP advertisement $\mathcal{A} = (\mathtt{cap\_cid}, Q_{\mathrm{surplus}}, \mathcal{P},
+\eta_{\mathrm{route\_bp}}, \tau_{\mathrm{att\_bp}}, \mathtt{treaty\_cid}, \sigma_{\mathrm{FROST}})$
+announces an export-cleared capability or surplus lot ($Q_{\mathrm{surplus}}$ strictly bounded by
+Law~3's survival firewall $Q_{\mathrm{inv}} - F_{\mathrm{eco}} - B_{\mathrm{baseline}}$), accompanied
+by an explicit \textbf{Ring-Path Vector} $\mathcal{P} = \langle u_0, u_1, \dots, u_k \rangle$ of
+autonomous node \texttt{did:mesh} digests traversed so far.
+
+Whenever node $w$ receives $\mathcal{A}$ from neighbor $u_k$, \texttt{col-kmsd} executes two
+immediate constant-space admission filters before inserting the route into \texttt{Adj-RIB-In}:
+\begin{enumerate}
+    \item \textbf{$O(|\mathcal{P}|)$ Path-Vector Loop-Freedom:} If $w \in \mathcal{P}$, the
+    advertisement has cycled back to an ancestor node and is dropped immediately in $O(|\mathcal{P}|)$
+    integer comparisons ($\max |\mathcal{P}| \le 8$). Verified empirically across $100$-node
+    Erd\H{o}s--R\'enyi random graphs and chordal mesh topologies in
+    \texttt{verification/test\_layer5\_federated\_routing\_challenge.py}, explicit path-vector
+    membership eliminates count-to-infinity routing loops under arbitrary asynchronous link churn.
+    \item \textbf{Thermodynamic Transport Attenuation Gate:} Every transit hop $e = (u_i, u_{i+1})$
+    attenuates the cumulative thermodynamic delivery efficiency in integer basis points according
+    to the ratio of embodied capability exergy $E_{\mathrm{embodied\_uj}}$ to cumulative transport
+    exergy $\sum E_{\mathrm{transit\_uj}}$ \parencite{odum1971,georgescu1971}:
+    \begin{equation}
+        \eta_{\mathrm{route\_bp}}(\mathcal{P}) =
+        \left\lfloor \frac{10{,}000 \cdot E_{\mathrm{embodied\_uj}}}
+        {E_{\mathrm{embodied\_uj}} + \sum_{i=0}^{k-1} E_{\mathrm{transit\_uj}}(u_i, u_{i+1})} \right\rfloor.
+    \end{equation}
+    Whenever $\eta_{\mathrm{route\_bp}}(\mathcal{P}) < 6{,}000\,\mathrm{bp}$ ($60\%$),
+    \texttt{col-kmsd} prunes the advertisement automatically, preventing absurdly wasteful
+    long-distance haulage of heavy, low-exergy bulk goods (such as shipping wet compost $400\,\mathrm{km}$
+    by truck when local $R_1$ biorefineries exist).
+\end{enumerate}
+
+\subsection{The Four Routing Information Bases and Sovereignty Firewalls}
+
+Inside \texttt{col-kmsd}, BPVP state is partitioned across four strictly typed Routing Information
+Bases (Figure~\ref{fig:ch5-bpvp-ribs}):
+
+\begin{figure}[htbp]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+    >=Stealth,
+    node distance=1.1cm and 1.4cm,
+    rib/.style={rectangle, rounded corners=4pt, draw=black!75, thick, fill=blue!5, minimum width=3.5cm, minimum height=1.5cm, align=center, font=\footnotesize},
+    gate/.style={rectangle, rounded corners=3pt, draw=red!65!black, thick, fill=red!6, minimum width=3.2cm, minimum height=1.1cm, align=center, font=\scriptsize},
+    sock/.style={rectangle, draw=teal!75!black, thick, fill=teal!8, minimum width=4.2cm, minimum height=0.95cm, align=center, font=\scriptsize\ttfamily}
+]
+    \node[gate] (infilter) {\textbf{Ingress Admission}\\1. FROST Sig \& Treaty Check\\2. $w \notin \mathcal{P}$ Loop Drop\\3. $\eta_{\mathrm{route}} \ge 6000\,\mathrm{bp}$};
+    \node[rib, right=1.1cm of infilter] (adjin) {\textbf{Adj-RIB-In}\\Per-Peer Unfiltered\\Candidate Routes\\(Bounded Slot Table)};
+    \node[rib, right=1.1cm of adjin] (locrib) {\textbf{Loc-RIB}\\5-Tier Lexicographic\\Decision Winner\\($R_0 \succ R_1 \succ \dots \succ R_6$)};
+    \node[rib, right=1.1cm of locrib] (adjout) {\textbf{Adj-RIB-Out}\\4 Sovereignty Firewalls\\($F_{\mathrm{eco}} + B_{\mathrm{baseline}}$ Lock,\\No-Transit, Refusal, Ring Cap)};
+
+    \node[rib, below=1.2cm of locrib, fill=green!7, draw=green!55!black] (fib) {\textbf{Compiled BPVP FIB}\\Active Peer Next-Hop,\\BCC Headroom \& HTLC Rules};
+    \node[sock, below=0.9cm of fib] (l4sock) {/run/collective/ipc/l4\_l5.sock\\0x0504 L5\_PUSH\_BPVP\_FIB\_TREATY};
+
+    \draw[->, thick] (infilter) -- (adjin);
+    \draw[->, thick] (adjin) -- node[above, font=\scriptsize]{5-Tier Rank} (locrib);
+    \draw[->, thick] (locrib) -- node[above, font=\scriptsize]{Export Policy} (adjout);
+    \draw[->, thick, green!50!black] (locrib) -- node[right, font=\scriptsize]{Compile} (fib);
+    \draw[->, very thick, teal!75!black] (fib) -- (l4sock);
+\end{tikzpicture}%
+}
+\caption{The Four BPVP Routing Information Bases Inside \texttt{col-kmsd} and Downward FIB Compilation Across \texttt{l4\_l5.sock}}
+\label{fig:ch5-bpvp-ribs}
+\end{figure}
+
+\begin{enumerate}
+    \item \textbf{\texttt{Adj-RIB-In}:} Stores validated inbound advertisements per neighbor within
+    fixed-capacity ring slots so a chatty peer cannot exhaust \texttt{col-kmsd}'s $48\,\mathrm{MB}$
+    ARM64 memory ceiling.
+    \item \textbf{\texttt{Loc-RIB} (Five-Tier Lexicographic Selection):} Ranks competing routes for
+    the same \texttt{cap\_cid} in strict integer lexicographic order: (i)~closest Concentric Trust
+    Ring ($R_0 \succ R_1 \succ \dots \succ R_6$); (ii)~highest \texttt{Local\_Pref\_bp} (incorporating
+    Scenario~Alpha's Evolutionary Drift field-MTBF bonus); (iii)~highest thermodynamic transport
+    efficiency $\eta_{\mathrm{route\_bp}}$; (iv)~healthy Bilateral Clearing Channel (BCC) credit
+    headroom; and (v)~shortest Ring-Path length $|\mathcal{P}|$, breaking residual ties by lowest
+    deterministic \texttt{did:mesh} digest.
+    \item \textbf{\texttt{FIB} (Forwarding Information Base):} Pushes only the winning route's
+    resolved peer next-hop, ratified \texttt{Treaty\_CID}, and BCC credit ceiling downward to
+    \texttt{col-execd} via opcode \texttt{0x0504 L5\_PUSH\_BPVP\_FIB\_TREATY} over \texttt{l4\_l5.sock}.
+    Under $40\%$ simulated regional link severance in \texttt{test\_layer5\_federated\_routing\_challenge.py},
+    \texttt{Loc-RIB} cascades seamlessly from $R_1 \to R_2 \to R_3$ or triggers clean
+    \texttt{0x0506 COMPENSATE} fallback without deadlocking in-flight Layer~4 sagas
+    \parencite{garciamolina1987sagas}.
+    \item \textbf{\texttt{Adj-RIB-Out} (Four Sovereignty Firewalls):} Before re-advertising any
+    local or transit capability to external neighbors, \texttt{Adj-RIB-Out} enforces four mandatory
+    filters: (a)~the Constitutional Export Surplus Lock ($Q_{\mathrm{inv}} > F_{\mathrm{eco}} + B_{\mathrm{baseline}}$);
+    (b)~Prohibited Export \& \texttt{Protocol of Refusal} exclusion (never advertising topsoil,
+    sacred knowledge, or $R_0$ personal belongings); (c)~Spatial \texttt{No-Transit} Valley-Free
+    Filtering (a settlement never becomes an involuntary heavy-freight corridor between two outer
+    commercial rings unless explicitly consented); and (d)~Maximum Ring-Scope Horizon
+    ($r_{\mathrm{peer}} \le r_{\max}$).
+\end{enumerate}
+
+\begin{theorem}[BPVP Loop-Freedom and Finite Convergence Under Link Churn]
+\label{thm:ch5-bpvp-convergence}
+Let $G = (V, E)$ be a finite bioregional federation graph ($|V| = N$) exchanging BPVP advertisements
+with explicit node-digest path vectors $\mathcal{P}$, strict ring-monotonic or positive exergy
+cost $E_{\mathrm{transit\_uj}}(e) > 0$ per edge, and efficiency floor $\eta_{\min} = 6{,}000\,\mathrm{bp}$.
+Then: (1)~no routing cycle can ever enter \texttt{Adj-RIB-In}; (2)~every accepted path satisfies
+$|\mathcal{P}| \le \min\bigl(N, \lfloor \frac{2 \cdot E_{\mathrm{embodied\_uj}}}{3 \cdot e_{\min}} \rfloor + 1\bigr)$
+where $e_{\min} = \min_{e \in E} E_{\mathrm{transit\_uj}}(e)$; and (3)~following cessation of
+topological changes, all nodes' \texttt{Loc-RIB} tables converge in finite message rounds to a
+unique loop-free fixed point.
+\end{theorem}
+\begin{proof}
+Suppose toward contradiction that a cyclic path $\mathcal{P} = \langle u_0, \dots, u_j, \dots, u_k \rangle$
+with $u_j = w$ is accepted at node $w$. Ingress filter~(1) scans $\mathcal{P}$ prior to
+\texttt{Adj-RIB-In} insertion and drops $\mathcal{A}$ whenever $w \in \mathcal{P}$, contradicting
+acceptance; hence~(1) holds unconditionally even while links flap. For~(2), $\eta_{\mathrm{route\_bp}} \ge 6{,}000$
+implies $10{,}000 E_{\mathrm{embodied}} \ge 6{,}000 (E_{\mathrm{embodied}} + \sum E_{\mathrm{transit}})$,
+so $\sum_{i=0}^{k-1} E_{\mathrm{transit}}(u_i, u_{i+1}) \le \frac{2}{3} E_{\mathrm{embodied}}$. Since
+each edge expends at least $e_{\min} \ge 1\,\mu\mathrm{J}$, the hop count $k = |\mathcal{P}| - 1$
+cannot exceed $\lfloor \frac{2 E_{\mathrm{embodied}}}{3 e_{\min}} \rfloor$, and loop-freedom
+simultaneously bounds $|\mathcal{P}| \le N$. Consequently, the set of admissible simple paths is
+finite. Because the 5-tier lexicographic ranking over $(\text{Ring}, -\mathtt{Local\_Pref},
+-\eta_{\mathrm{route}}, \text{BCC\_OK}, |\mathcal{P}|, \mathtt{did\_hash})$ forms a strict well-ordering
+and extending a path monotonically increases ring distance and cumulative transit exergy, induction
+on path rank establishes finite quiescence~(3) \parencite{rekhter2006,dijkstra1959note}.
+\end{proof}
+
+\begin{lstlisting}[language=C++, caption={Zero-Float C++20 BPVP Route Entry and Four-Firewall Ingress/Egress Gate (\texttt{col-kmsd})}, label={lst:ch5-bpvp-entry}]
+#include <cstdint>
+#include <array>
+
+namespace collective::l5::bpvp {
+
+constexpr uint16_t kMinRouteEfficiencyBp = 6000U; // 60.00% thermodynamic floor
+constexpr uint8_t  kMaxRingPathHops      = 8U;
+
+struct alignas(8) BpvpRouteEntryV31 {
+    std::array<uint8_t, 32> capability_cid;       // Content-addressed capability/blueprint
+    std::array<uint8_t, 32> treaty_cid;           // Governing Ricardian Treaty_CID
+    std::array<uint64_t, kMaxRingPathHops> path_node_hashes; // Truncated did:mesh IDs
+    uint64_t surplus_avail_si;                    // Cleared above F_eco + B_baseline
+    uint64_t embodied_exergy_uj;                  // Useful capability exergy (uJ)
+    uint64_t cumulative_transit_uj;               // Accumulated transport exergy (uJ)
+    uint16_t local_pref_bp;                       // Includes Alpha MTBF drift bonus
+    uint16_t route_efficiency_bp;                 // 0..10000 bp integer efficiency
+    uint8_t  trust_ring;                          // R0=0 .. R6=6
+    uint8_t  path_len;                            // Active entries in path_node_hashes
+    uint8_t  bcc_headroom_ok;                     // 1 if within [-C1, +C2] credit bound
+    uint8_t  export_firewall_flags;               // Bit 0: Refusal, Bit 1: NoTransit
+};
+static_assert(sizeof(BpvpRouteEntryV31) == 160, "BpvpRouteEntryV31 binary ABI lock");
+
+[[nodiscard]] constexpr bool admit_inbound_bpvp(
+    const BpvpRouteEntryV31& adv, uint64_t self_node_hash) noexcept {
+    if (adv.path_len == 0U || adv.path_len > kMaxRingPathHops) return false;
+    if ((adv.export_firewall_flags & 0x03U) != 0U) return false;
+    for (uint8_t i = 0U; i < adv.path_len; ++i) {
+        if (adv.path_node_hashes[i] == self_node_hash) return false; // Loop drop
+    }
+    const uint64_t denom_uj = adv.embodied_exergy_uj + adv.cumulative_transit_uj;
+    if (denom_uj == 0ULL) return false;
+    const uint64_t eff_bp = (10000ULL * adv.embodied_exergy_uj) / denom_uj;
+    return eff_bp >= kMinRouteEfficiencyBp;
+}
+
+} // namespace collective::l5::bpvp
+\end{lstlisting}
+
+\section{Tripartite Ricardian Treaties, Bilateral Clearing, and Commons Jubilees}
+\label{sec:ch5-ricardian-treaties}
+
+BPVP discovers \textit{where} a capability lives; actual inter-node execution requires a binding
+covenant governing quality tolerances, reciprocity ceilings, dispute Peace Circles, and failure
+compensation. Layer~5 abolishes opaque ``smart contracts''---whose unamendable code bugs become
+predatory traps---in favor of \textbf{Tripartite Ricardian Compacts} \parencite{grigg2004}.
+
+\subsection{Canonical \texttt{Treaty\_CID} Binding and FROST Counter-Signatures}
+
+Every inter-node compact binds three human- and machine-verifiable representations into a single
+32-byte digest:
+\begin{equation}
+    \mathtt{Treaty\_CID} = \mathrm{BLAKE3}\bigl(\mathtt{Prose\_UTF8} \parallel
+    \mathtt{Canonical\_JSONLD} \parallel \mathtt{Invariants\_BPMN}\bigr).
+\end{equation}
+Stewards in both nodes read the plain-language prose covenant (for example, Lot~402 exchanging
+pasteurized soy-free mirepoix broth with Neighbor Node~B's solar timber kiln), verify the deterministic
+JSON-LD parameter bounds \parencite{w3c2020jsonld}, and co-sign \texttt{Treaty\_CID} via each node's
+hardware-rooted \texttt{FROST} threshold council \parencite{komlo2020frost}. Only after both
+threshold signatures verify does \texttt{col-kmsd} push \texttt{Treaty\_CID} downward into Layer~4's
+FIB and Layer~3's Bilateral Clearing Channel (BCC) state machine.
+
+\begin{invariant}[Pairwise Zero-Sum Bilateral Clearing and Anti-Debt-Trap Ceiling]
+\label{inv:ch5-bcc-zerosum}
+For every active Ricardian treaty between nodes $u$ and $v$, Layer~5 binds asymmetric mutual-credit
+bounds $[-C_{v\to u}, +C_{u\to v}]$ denominated in thermodynamic microjoule-equivalents or labor-seconds
+with \textbf{zero interest} ($r_{\mathrm{interest\_bp}} \equiv 0$). At every settled epoch,
+$B_{u\to v} + B_{v\to u} = 0$ and $-C_{v\to u} \le B_{u\to v} \le +C_{u\to v}$. Physical handoffs across
+$R_2\text{--}R_5$ settle atomically via chained Hash-Time-Locked Contracts (HTLCs) paired with
+dual-NFC steward custody receipts, while \textbf{Shock-Verified Commons Jubilees} forgive emergency
+deficits if and only if Layer~2 physical shock telemetry (wildfire, flood, grid collapse) and an
+$R_4$ Watershed Assembly supermajority ($6{,}600\,\mathrm{bp}$) concur.
+\end{invariant}
+
+\section{Stigmergic Growth Beacons Without Central Planning}
+\label{sec:ch5-stigmergy}
+
+How does a bioregional federation know where to plant a new orchard, commission a second induction
+foundry, or mentor additional pediatric midwives without creating a central Gosplan ministry that
+monitors every household's consumption?
+
+Scenario~Pi introduces \textbf{Zero-Knowledge Homomorphic Intent Rollups} emitting stigmergic
+\texttt{MeshGrowthBeacon\_CID} signals across $R_2\text{--}R_5$ (Table~\ref{tab:ch5-beacons}). Individual
+household stock misses remain cryptographically blinded ($\mathtt{r0\_personal\_surveillance\_packets} = 0$);
+nodes aggregate Pedersen commitments over unmet workflow yields and publish coarse watershed
+beacons only when structural thresholds cross ratified bounds. Autonomous guilds respond
+voluntarily---guided by ecological need and domain stewardship standing rather than speculative
+price gouging---while two constitutional reciprocity guardrails prevent covert exploitation.
+
+\begin{table}[htbp]
+\centering
+\caption{Zero-Knowledge Stigmergic \texttt{MeshGrowthBeacon\_CID} Signals and Reciprocity Guardrails}
+\label{tab:ch5-beacons}
+\footnotesize
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}llll@{}}
+\toprule
+\textbf{Beacon / Guardrail Class} & \textbf{Fixed-Point Trigger Threshold} & \textbf{Privacy Guarantee} & \textbf{Federated Guild / Node Response} \\
+\midrule
+\texttt{BEACON\_QUEUE\_BACKLOG} & Unmet saga wait $> 604{,}800\,\mathrm{s}$ ($7\mathrm{d}$) & ZK rollup across $\ge 5$ nodes & \texttt{Kappa} apprenticeship cohort \& tool clone \\
+\texttt{BEACON\_GRAVITY\_WELL} & $\ge 3$-hop haulage $\ge 18\,\mathrm{GJ}/\mathrm{mo}$ & Zero $R_0$ household itemization & Replicate local $R_1/R_2$ workshop or kiln \\
+\texttt{BEACON\_L7\_FIAT\_BLEED} & Chronic precursor import $> 500\,\mathrm{bp}$ $D_d$ & Aggregated HS-code class only & \texttt{Zero}/\texttt{Alpha}/\texttt{Iota} import-substitution R\&D \\
+\texttt{BEACON\_SPOF\_FRAGILITY} & Active regional producers $k < 3$ & Capability CID count only & Cross-train secondary $R_2$ backup bay \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+\begin{invariant}[Anti-Siphon and Anti-Hoarding Reciprocity Bounds]
+\label{inv:ch5-reciprocity-headroom}
+A federated node may neither siphon commons surplus into unratified private Layer~7 arbitrage
+(\textit{Anti-Siphon Gate}: immediate quarantine of external export capabilities upon unratified
+resale proof) nor perpetually draw $R_2\text{--}R_4$ mutual aid while holding local shared guild
+bays below $7{,}000\,\mathrm{bp}$ ($70\%$) utilization without an active shock or disability shield
+(\textit{Anti-Isolationism Reciprocity Gate}).
+\end{invariant}
+
+\begin{lstlisting}[language=C++, caption={Fixed-Point Ricardian Treaty Envelope and Jubilee Verification Struct (\texttt{col-kmsd})}, label={lst:ch5-ricardian-treaty}]
+#include <cstdint>
+#include <array>
+
+namespace collective::l5::treaty {
+
+struct alignas(8) RicardianTreatyEnvelopeV31 {
+    std::array<uint8_t, 32> treaty_cid;          // BLAKE3(Prose || JSONLD || BPMN)
+    std::array<uint8_t, 32> prose_sha256;        // Human-readable compact digest
+    std::array<uint8_t, 32> invariants_bpmn_cid; // Executable saga contract CID
+    std::array<uint8_t, 64> node_a_frost_sig;    // Counter-signing council A (t-of-n)
+    std::array<uint8_t, 64> node_b_frost_sig;    // Counter-signing council B (t-of-n)
+    int64_t  bcc_credit_floor_uj;                // Negative bound -C1 (zero interest)
+    int64_t  bcc_credit_ceiling_uj;              // Positive bound +C2 (zero interest)
+    uint64_t activation_hlc;                     // Effective start HLC
+    uint64_t expiry_or_swarm_ttl_hlc;            // Deterministic sunset / swarm TTL
+    uint16_t jubilee_quorum_bp;                  // >= 6600 bp Watershed Congress
+    uint16_t min_utilization_reciprocity_bp;     // 7000 bp anti-hoarding floor
+    uint8_t  jurisdiction_axis;                  // 0=Spatial, 1=Guild, 2=TaskSwarm
+    uint8_t  shock_telemetry_verified;           // 1 iff L2 physical shock attested
+    uint16_t reserved_pad;
+};
+static_assert(sizeof(RicardianTreatyEnvelopeV31) == 264, "RicardianTreatyEnvelopeV31 size");
+
+[[nodiscard]] constexpr bool authorize_commons_jubilee(
+    const RicardianTreatyEnvelopeV31& t, uint16_t watershed_yes_bp) noexcept {
+    return (t.shock_telemetry_verified == 1U) &&
+           (watershed_yes_bp >= 6600U) &&
+           (watershed_yes_bp >= t.jubilee_quorum_bp);
+}
+
+} // namespace collective::l5::treaty
+\end{lstlisting}
+
+Having established how \texttt{col-kmsd} federates capabilities and covenants across bioregional
+space without central command, we turn in Chapter~\ref{ch:l5-constitutional-floors} to the
+inviolable material and somatic floor beneath every single local and federated decision:
+thermodynamic survival baselines, ecological preemption, and non-commensurable human care.

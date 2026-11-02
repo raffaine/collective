@@ -1,0 +1,272 @@
+\chapter{Wave B: Sovereign Hearth, Micro-Fabrication, and Five-Artery Transit (\texttt{Gamma}, \texttt{Alpha}, \texttt{Beta})}
+\label{ch:l5-wave-b}
+
+\epigraph{Give people control over their own kitchen, their own workbench, and the paths connecting their doors, and half the apparatus of industrial dependence dissolves overnight.}{---Adapted from \textcite{illich1973} and \textcite{kropotkin1902}}
+
+With Wave~A's binary integrity (\texttt{Zero}), onboarding parity (\texttt{Tau}), and anti-burnout
+shields (\texttt{Sigma}) anchored in silicon, \textbf{Wave~B} governs the daily metabolic engine of
+the settlement: \textbf{Scenario~Gamma} (\textit{The Sovereign Hearth, Silvopasture, and Precision
+Fermentation}), \textbf{Scenario~Alpha} (\textit{Distributed Micro-Fabrication and Evolutionary
+Drift}), and \textbf{Scenario~Beta} (\textit{Five-Artery Logistics and Autonomous \texttt{No-Transit}
+Veto}). Inside a single Stage~2 or Stage~3 node, Wave~B routinely runs $150\text{--}600$ concurrent
+workflows---coordinating garden irrigation, broth pasteurization, allergen-safe tiffin latches, CNC
+spindle leases, MPPT battery balancing, greywater reed-bed valves, and cargo e-trike dispatches
+under standing Layer~5 policy envelopes with zero routine meetings.
+
+\begin{figure}[htbp]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+    >=Stealth,
+    plane/.style={rectangle, rounded corners=4pt, draw=black!75, thick, fill=gray!6, inner sep=7pt},
+    gate/.style={rectangle, rounded corners=3pt, draw=teal!75!black, semithick, fill=teal!6, minimum width=4.0cm, minimum height=1.4cm, align=center, font=\scriptsize},
+    act/.style={rectangle, rounded corners=3pt, draw=blue!70!black, semithick, fill=blue!5, minimum width=4.0cm, minimum height=1.25cm, align=center, font=\scriptsize}
+]
+    \node[plane, minimum width=13.8cm, minimum height=2.45cm] (l5) {};
+    \node[anchor=north west, font=\scriptsize\bfseries] at ($(l5.north west)+(0.15,-0.12)$) {Layer 5 (\texttt{col-kmsd}): Wave B Standing Envelopes, ZKP Safety Shields \& Spatial Vetoes};
+
+    \node[gate, anchor=north west] (ggamma) at ($(l5.north west)+(0.3,-0.65)$) {\textbf{\texttt{SCN-GAMMA} Hearth Gate}\\$0\,\mathrm{mg}$ Human Grain to Stock\\$\ge 347{,}150\,\mathrm{mK}$ CIP $\cdot$ \texttt{BBS+} Allergen};
+    \node[gate, right=0.5cm of ggamma] (galpha) {\textbf{\texttt{SCN-ALPHA} Fab \& Drift}\\Commons Ethics Veto $\cdot$ \texttt{Kappa L1+}\\MTBF Boost in BPVP \texttt{Loc-RIB}};
+    \node[gate, right=0.5cm of galpha] (gbeta) {\textbf{\texttt{SCN-BETA} 5-Artery Gate}\\$\ge 8000\,\mathrm{bp}$ River Flow Floor\\\texttt{No-Transit} Polygon + Dual-NFC};
+
+    \node[plane, minimum width=13.8cm, minimum height=2.05cm, below=0.8cm of l5] (l4) {};
+    \node[anchor=north west, font=\scriptsize\bfseries] at ($(l4.north west)+(0.15,-0.12)$) {Layer 4 (\texttt{col-execd} / \texttt{l4\_l5.sock}): Hundreds of Interlocking Kitchen, Shop \& Artery Workflows};
+
+    \node[act, anchor=north west] (fgamma) at ($(l4.north west)+(0.3,-0.6)$) {Smart Tiffin Latch Unlock\\Auto $\Phi_t = 0\text{\,c}$ Export Shutoff};
+    \node[act, right=0.5cm of fgamma] (falpha) {$R_0$ Acoustic-Capped Spindle\\BPVP \texttt{0x0504} Blueprint FIB};
+    \node[act, right=0.5cm of falpha] (fbeta) {HVDC / Water / Hydronic Shed\\Chained HTLC Cargo E-Trike};
+
+    \draw[->, thick, teal!75!black] (ggamma) -- (fgamma);
+    \draw[->, thick, teal!75!black] (galpha) -- (falpha);
+    \draw[->, thick, teal!75!black] (gbeta) -- (fbeta);
+    \draw[<->, thick, blue!70!black, dashed] (fgamma.east) -- node[above, font=\scriptsize]{Tiffin} (fbeta.west);
+\end{tikzpicture}%
+}
+\caption{Wave B High-Density Intra- and Inter-Node Governance Across \texttt{Gamma}, \texttt{Alpha}, and \texttt{Beta}}
+\label{fig:waveb-choreography}
+\end{figure}
+
+\section{Scenario Gamma (\texttt{SCN-GAMMA-KITCHEN}): The Sovereign Hearth}
+\label{sec:waveb-gamma}
+
+Scenario~Gamma transforms nutrition from an opaque industrial supply chain into a decommodified
+$B_{\mathrm{baseline}}$ commons spanning backyard mirepoix gardens, rotational silvopasture,
+precision fermentation, and neighborhood tiffin hearths \parencite{bigelow1921thermal}.
+
+\subsection{Four Constitutional Hearth Gates and Zero-Knowledge Allergen Shields}
+
+\texttt{col-kmsd} governs hundreds of daily culinary and agricultural workflows through four
+deterministic Layer~5 gates:
+\begin{enumerate}
+    \item \textbf{Trophic Non-Competition \& Rotational Animal Welfare:} Livestock and poultry
+    forage strictly on crop residues, food scraps, insect larvae, and rotational silvopasture
+    ($\mathtt{human\_edible\_grain\_fed\_mg} \equiv 0$, $\mathtt{pasture\_rest\_days} \ge 30$),
+    ensuring animals never compete with human stomachs for arable grain.
+    \item \textbf{Bioprocess \& Heavy-Metal Purity:} Precision fermentation and pressure-retort
+    vessels require food-grade \texttt{316L} stainless Clean-in-Place (\texttt{CIP}) cycles with
+    zero single-use plastic liners ($\mathtt{single\_use\_plastic\_flag} = 0$) and verified Bigelow
+    thermal hold $\ge 347{,}150\,\mathrm{mK}$ ($74.0^\circ\mathrm{C}$) for $\ge 120\,\mathrm{s}$
+    (or $394{,}150\,\mathrm{mK}$ [$121.0^\circ\mathrm{C}$] for low-acid canning).
+    \item \textbf{Cryptographic Anaphylactic \& Dietary Charter Shield:} Rather than storing a
+    central database of residents' medical allergies or religious diets (Halal, Kosher, Jain, vegan),
+    each diner's smartcard presents a \texttt{BBS+} zero-knowledge proof \parencite{camenisch2004signature}
+    at the insulated tiffin latch verifying $(\mathtt{batch\_allergen\_ethics\_mask} \mathbin{\&}
+    \mathtt{diner\_zk\_exclusion\_mask}) == 0$ locally in $O(1)$ bitmask operations.
+    \item \textbf{Law~3 Surplus \& $\Phi_t$ Auto-Shutoff:} Transitional cottage-food sales under
+    \texttt{policy:commons\_plus\_l7\_zero\_bill} execute strictly above $F_{\mathrm{eco}} + B_{\mathrm{baseline}}$
+    and shut off automatically the instant monthly municipal/tax bills hit \texttt{0 cents}.
+\end{enumerate}
+
+\begin{invariant}[Zero-Knowledge Anaphylactic Latch Safety and Trophic Non-Competition]
+\label{inv:waveb-gamma-safety}
+No smart-tiffin latch may unseal if $(\mathtt{batch\_allergen\_ethics\_mask} \mathbin{\&}
+\mathtt{diner\_zk\_exclusion\_mask}) \ne 0$, and no animal husbandry workflow may draw human-edible
+grain ($\mathtt{human\_edible\_grain\_fed\_mg} \equiv 0$).
+\end{invariant}
+
+\begin{lstlisting}[language=C++, caption={Scenario Gamma Trophic, Pasteurization, and ZK Allergen Gate (\texttt{col-kmsd})}, label={lst:waveb-gamma-gate}]
+#include <cstdint>
+
+namespace collective::l5::wave_b {
+
+struct alignas(8) GammaHearthCharterGateV31 {
+    uint64_t human_edible_grain_fed_mg;  // Constitutional law: MUST equal 0 mg
+    uint64_t batch_allergen_ethics_mask; // 64-bit ingredient/allergen/process vector
+    uint64_t diner_zk_exclusion_mask;    // Blinded BBS+ predicate mask at tiffin latch
+    uint64_t monthly_l7_bill_rem_cents;  // 0 cents => cottage-food export auto-shutoff
+    uint32_t pasteurization_temp_mk;     // >= 347,150 mK (74.0 C) or 394,150 mK retort
+    uint32_t pasteurization_hold_sec;    // >= 120 s thermal death hold
+    uint16_t pasture_rest_days;          // >= 30 days silvopasture recovery
+    uint8_t  single_use_plastic_flag;    // Must equal 0
+    uint8_t  stainless_316l_cip_ok;      // Must equal 1
+    uint32_t reserved_pad;
+};
+static_assert(sizeof(GammaHearthCharterGateV31) == 48, "GammaHearthCharterGateV31 ABI");
+
+[[nodiscard]] constexpr bool authorize_gamma_tiffin_release(
+    const GammaHearthCharterGateV31& g, bool is_l7_cottage_export) noexcept {
+    if (g.human_edible_grain_fed_mg != 0ULL || g.pasture_rest_days < 30U) return false;
+    if (g.single_use_plastic_flag != 0U || g.stainless_316l_cip_ok != 1U) return false;
+    if (g.pasteurization_temp_mk < 347150U || g.pasteurization_hold_sec < 120U) return false;
+    if ((g.batch_allergen_ethics_mask & g.diner_zk_exclusion_mask) != 0ULL) return false;
+    if (is_l7_cottage_export && g.monthly_l7_bill_rem_cents == 0ULL) return false;
+    return true;
+}
+
+} // namespace collective::l5::wave_b
+\end{lstlisting}
+
+\subsection{Bilateral Socket Contracts (\texttt{l4\_l5.sock} and \texttt{l5\_l6.sock})}
+
+Batch thermal-hold attestations and stock-miss yields cross \texttt{l4\_l5.sock} (\texttt{0x0505});
+tiffin latch \texttt{ClaimHandle} grants cross \texttt{0x0503}, while boundary cultivar votes
+(such as Lot~402's \texttt{dec:pea\_cultivation}) escalate over \texttt{l5\_l6.sock} (\texttt{0x0602}).
+
+\section{Scenario Alpha (\texttt{SCN-ALPHA-FAB}): Micro-Fabrication and Evolutionary Drift}
+\label{sec:waveb-alpha}
+
+Scenario~Alpha governs garage joineries, CNC mills, PCB pick-and-place lines, and agricultural tool
+repair bays across $R_0\text{--}R_6$, replacing corporate planned obsolescence with open hardware
+evolution.
+
+\subsection{Ethical Design Veto, Personal $R_0$ Maker Access, and MTBF Drift}
+
+Every shared blueprint entering \texttt{ratifiedBlueprintCids} passes a bicameral check: technical
+tolerances in the Stewardship Chamber plus the \textbf{Commons Chamber Ethical Design Veto} blocking
+weapons, covert surveillance devices, and artificially non-repairable assemblies. Simultaneously,
+stewards enjoy unfettered \textbf{Personal $R_0$ Maker Access} during off-peak shop hours to craft gifts,
+furniture, or art with zero committee approval, gated solely on a Scenario~Kappa \texttt{L1+}
+\texttt{BBS+} safety proof and suburban acoustic curfews ($\le 550\,\mathrm{cB}$ day,
+$\le 380\,\mathrm{cB}$ night).
+
+Across federated nodes, \texttt{col-kmsd}'s \textbf{Evolutionary Drift Engine} ingests signed Layer~3
+mean-time-between-failure (\texttt{observed\_mtbf\_sec}) field telemetry: when a neighboring node's
+forked pump bearing lasts $2.4\times$ longer in muddy creek water than the baseline CAD file,
+\texttt{col-kmsd} deterministically boosts that fork's BPVP \texttt{Loc-RIB} \texttt{local\_pref\_bp},
+stigmergically propagating superior durability while logging any remaining imported chips or carbide
+inserts onto the \textbf{Legacy Dependency Register} for Scenario~Theta/Zero substitution ($D_t \to 0$).
+
+\begin{invariant}[Ethical Blueprint Veto and Acoustic-Bounded $R_0$ Maker Freedom]
+\label{inv:waveb-alpha-maker}
+No weaponized or planned-obsolescence blueprint may enter \texttt{Loc-RIB}
+($\mathtt{commons\_ethics\_veto} = 0$), and personal $R_0$ shop sessions require \textit{only}
+\texttt{Kappa L1+} safety mastery and acoustic compliance ($\le 550\,\mathrm{cB}$ day / $\le 380\,\mathrm{cB}$ night).
+\end{invariant}
+
+\begin{lstlisting}[language=C++, caption={Scenario Alpha Ethical Design Veto, Maker Gate, and MTBF Drift Boost (\texttt{col-kmsd})}, label={lst:waveb-alpha-gate}]
+#include <cstdint>
+#include <array>
+
+namespace collective::l5::wave_b {
+
+struct alignas(8) AlphaBlueprintDriftGateV31 {
+    std::array<uint8_t, 32> blueprint_cid; // CERN-OHL-S v2 open hardware CID
+    uint64_t observed_mtbf_sec;            // Field-verified L3 repair interval (s)
+    uint16_t base_local_pref_bp;           // Baseline BPVP Loc-RIB preference (bp)
+    uint16_t corridor_noise_cb;            // Measured shop boundary noise (centibels)
+    uint8_t  kappa_l1_zkp_valid;           // 1 => unsupervised machine safety verified
+    uint8_t  commons_ethics_veto;          // 1 => weapons/surveillance/obsolescence veto
+    uint8_t  night_curfew_window;          // 1 => 22:00..07:00 quiet hours active
+    uint8_t  legacy_precursor_flag;        // 1 => tracked on Omega Dependency Register
+};
+static_assert(sizeof(AlphaBlueprintDriftGateV31) == 48, "AlphaBlueprintDriftGateV31 ABI");
+
+[[nodiscard]] constexpr uint16_t compute_alpha_locrib_pref_bp(
+    const AlphaBlueprintDriftGateV31& a, uint64_t baseline_mtbf_sec) noexcept {
+    if (a.commons_ethics_veto != 0U || a.kappa_l1_zkp_valid == 0U) return 0U;
+    const uint16_t max_cb = (a.night_curfew_window != 0U) ? 380U : 550U;
+    if (a.corridor_noise_cb > max_cb || baseline_mtbf_sec == 0ULL) return 0U;
+    const uint64_t drift_bonus_bp = (1000ULL * a.observed_mtbf_sec) / baseline_mtbf_sec;
+    const uint64_t total_bp = static_cast<uint64_t>(a.base_local_pref_bp) + drift_bonus_bp;
+    return (total_bp > 10000ULL) ? 10000U : static_cast<uint16_t>(total_bp);
+}
+
+} // namespace collective::l5::wave_b
+\end{lstlisting}
+
+\subsection{Bilateral Socket Contracts (\texttt{l4\_l5.sock} and \texttt{l5\_l6.sock})}
+
+Spindle \texttt{ClaimHandle} leases cross \texttt{0x0503}, while updated \texttt{Loc-RIB} blueprint
+winners compile downward to \texttt{col-execd} via \texttt{0x0504 L5\_PUSH\_BPVP\_FIB\_TREATY}.
+
+\section{Scenario Beta (\texttt{SCN-BETA-TRANSIT}): Five-Artery Logistics and \texttt{No-Transit} Veto}
+\label{sec:waveb-beta}
+
+Scenario~Beta governs the five physical arteries binding hearths and nodes together: (1)~$48\,\mathrm{V}/380\,\mathrm{V}$
+DC microgrids, (2)~potable/grey/black cascading water, (3)~ambient PEX-a hydronic thermal loops,
+(4)~optical fiber + $915\,\mathrm{MHz}$ LoRa Reticulum DTN \parencite{fall2003}, and (5)~cargo
+e-trikes and watershed freight.
+
+\subsection{Instream Ecological Floors, \texttt{No-Transit} Polygons, and Chained HTLC Custody}
+
+Across all five arteries, \texttt{col-kmsd} enforces the Canonical Five-Tier Contention Hierarchy
+(Chapter~\ref{ch:l5-constitutional-floors}), locking $\ge 8{,}000\,\mathrm{bp}$ ($80\%$) of natural
+creek/spring instream flow for salmonid and riparian ecosystems before any agricultural or industrial
+intake opens. For physical freight, constituent spatial polities draw cryptographic
+\textbf{\texttt{No-Transit} Geofence Polygons} around \texttt{Delta} child pods, \texttt{Eta}
+wildlife corridors, \texttt{Lambda} ceremonies, and quiet \texttt{Zeta} courtyards; autonomous
+rovers and heavy carts are rejected at route-compilation time unless a human paramedic or fire
+warden asserts a manual \texttt{Chi}/\texttt{Upsilon} life-safety preemption. Inter-node cargo swaps
+settle atomically via chained HTLC preimages paired with dual-NFC steward custody taps.
+
+\begin{invariant}[Instream Hydrological Floor and \texttt{No-Transit} Sanctuary Preemption]
+\label{inv:waveb-beta-notransit}
+Water intake workflows halt whenever instream ecological flow drops below $8{,}000\,\mathrm{bp}$,
+and no autonomous freight workflow may traverse a ratified \texttt{No-Transit} polygon
+($\mathtt{no\_transit\_polygon\_hit} = 1 \implies \mathtt{manual\_chi\_upsilon\_override} = 1$).
+\end{invariant}
+
+\begin{lstlisting}[language=C++, caption={Scenario Beta Five-Artery Ecological Floor and \texttt{No-Transit} Gate (\texttt{col-kmsd})}, label={lst:waveb-beta-gate}]
+#include <cstdint>
+
+namespace collective::l5::wave_b {
+
+struct alignas(8) BetaArteryTransitGateV31 {
+    uint64_t polygon_geofence_id;          // Spatial polity boundary digest
+    uint16_t instream_flow_preserved_bp;   // Must satisfy >= 8000 bp (80.00% river floor)
+    uint8_t  no_transit_polygon_hit;       // 1 => route intersects sanctuary polygon
+    uint8_t  manual_chi_upsilon_override;  // 1 => human-steered ambulance/fire override
+    uint8_t  dual_nfc_custody_signed;      // 1 => sender + carrier NFC tap verified
+    uint8_t  htlc_preimage_valid;          // 1 => atomic L3/L5 clearing lock valid
+    uint16_t reserved_pad;
+};
+static_assert(sizeof(BetaArteryTransitGateV31) == 16, "BetaArteryTransitGateV31 ABI");
+
+[[nodiscard]] constexpr bool authorize_beta_artery_dispatch(
+    const BetaArteryTransitGateV31& b) noexcept {
+    if (b.instream_flow_preserved_bp < 8000U) return false;
+    if (b.no_transit_polygon_hit != 0U && b.manual_chi_upsilon_override == 0U) {
+        return false;
+    }
+    return (b.dual_nfc_custody_signed != 0U) && (b.htlc_preimage_valid != 0U);
+}
+
+} // namespace collective::l5::wave_b
+\end{lstlisting}
+
+\subsection{Bilateral Socket Contracts (\texttt{l4\_l5.sock} and \texttt{l5\_l6.sock})}
+
+Compiled transit FIB corridors and HTLC treaty bounds push downward over \texttt{l4\_l5.sock}
+(\texttt{0x0504}), while spatial \texttt{No-Transit} polygon amendments ratify upward via the
+local Commons Chamber on \texttt{l5\_l6.sock} (\texttt{0x0601}).
+
+\section{Wave B Synthesis: Convivial Maturity Progression}
+\label{sec:waveb-synthesis}
+
+\begin{table}[htbp]
+\centering
+\caption{Wave B (\texttt{Gamma}, \texttt{Alpha}, \texttt{Beta}) Layer~5 Governance Across Convivial Maturity Stages}
+\label{tab:waveb-maturity}
+\footnotesize
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}lllll@{}}
+\toprule
+\textbf{Scenario} & \textbf{Stage 1A (Suburban Seed)} & \textbf{Stage 1B (Neighborhood Mesh)} & \textbf{Stage 2 (Cooperative Hub)} & \textbf{Stage 3 (CLT Sovereign Campus)} \\
+\midrule
+\texttt{Gamma} (Hearth) & Backyard mirepoix; $R_0$ larder envelope & Shared $R_1$ tiffin latch + \texttt{BBS+} allergy & \texttt{316L} CIP retort + cottage $\Phi_t = 0\text{\,c}$ cap & Rotational silvopasture ($0\,\mathrm{mg}$ grain) \\
+\texttt{Alpha} (Fab) & Garage bench; acoustic curfew $\le 380\,\mathrm{cB}$ & $R_1$ tool library via \texttt{Kappa L1+} VC & Commons Ethics Veto + PCB/CNC bays & BPVP Evolutionary Drift MTBF routing \\
+\texttt{Beta} (Transit) & Rain barrel + $48\,\mathrm{V}$ battery + LoRa & Curbside e-trike dual-NFC handoffs & PEX-a hydronic loop + \texttt{No-Transit} yards & $8000\,\mathrm{bp}$ river floor + $380\,\mathrm{V}$ microgrid \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}

@@ -1,0 +1,445 @@
+\chapter{Oasis (\texttt{Layer 1b}) in Practice: Governance Highlights, Specialist Council Audit, and Evolution}
+\label{ch:l5-oasis-council}
+
+\epigraph{Good institutions are never designed in a vacuum and dropped whole onto a community; they are forged iteratively where formal rules collide with living friction, provided we have the humility to test our assumptions safely before staking human lives upon them.}{---Adapted from \textcite{ostrom1990} and \textcite{grieves2014digital}}
+
+Governance protocols are notoriously easy to romanticize in whitepapers and notoriously brittle
+when exposed to everyday physical friction. A threshold-signature ceremony that omits
+duplicate-signer checks silently allows self-dealing; a trust-attenuation JSON file serialized
+in IEEE-754 floating point drifts across heterogeneous CPU architectures; an HTTP diagnostic
+dashboard paired with a convenient ``dev command'' endpoint accidentally opens an
+unauthenticated administrative backdoor around the entire democratic process; and a static
+workflow table built for four tutorial tasks collapses when a living neighborhood node scales to
+hundreds of concurrent agroforestry, culinary, childcare, and microgrid state machines.
+
+Throughout the maturation of the Sovereign Stack, \textbf{Oasis (\texttt{Layer 1b})}---our
+3D low-poly diorama and deterministic Software-in-the-Loop (SITL) proving ground instantiated on
+reference parcel \textbf{Lot~402}---has served as the honest mirror in which Layer~5's
+governance abstractions meet running C++20 silicon. This closing chapter of Part~I bridges the
+formal theory of Chapters~\ref{ch:l5-bilateral-membrane}--\ref{ch:l5-sanctuary-justice} with
+the live codebase as it stands today. First, we establish the constitutional airgap between
+Oasis (\texttt{Layer 1b}) and physical dwellings (\texttt{Layer 1a}). Second, we tour
+\textbf{seven working Layer~5 highlights} already executing end-to-end across
+\texttt{col-kmsd}, \texttt{SharedStackRuntime}, \texttt{col-gatewayd}, \texttt{col-swarmd}, and
+\texttt{col-execd}. Third, we present the complete findings of the \textbf{Five-Specialist
+Layer~5 Architectural Council Audit}, diagnosing \textbf{eight concrete runtime ceilings} in
+the current prototype---with exact file paths, line numbers, and struct layouts---paired with
+ratified v3.1 fixed-point C++20 remedies. Finally, we chart the four-milestone engineering
+roadmap that elevates \texttt{col-kmsd} from its Lot~402 seed into full multi-thousand-workflow
+watershed sovereignty.
+
+\section{Constitutional SITL Demarcation and the Scenario Zero Gate}
+\label{sec:ch8-sitl-demarcation}
+
+As established in \texttt{docs/BOOK\_TEAM\_DRIFT\_REPORT.md} and Volume~1, Oasis
+(\texttt{Layer 1b}) is \textit{never} a surveillance mirror ingesting live sensors from an
+occupied home, nor a gamified ``transitional UI'' blurring play with real-world legal obligations
+\parencite{zuboff2019}. Instead, Oasis is a strictly outward-emitting synthetic proving ground
+and ecological foresight studio (VSM System~4):
+\begin{enumerate}
+\item Every synthetic telemetry or trust-promotion frame emitted by Oasis carries provenance
+        byte \texttt{QUALITY\_SIMULATED = 0x01} (\texttt{uhai\_ring\_buffer.hpp}), which
+        \texttt{HardwareAirgapFilter::Evaluate()} in \texttt{col-telemetryd} unconditionally
+        drops (\texttt{DROPPED\_SIMULATED\_SECURITY\_VIOLATION}) before any physical Layer~1a
+        relay can actuate (requiring \texttt{QUALITY\_HARDWARE\_ROOT = 0x02} signed by a real
+        \texttt{ATECC608A} chip).
+\item Conversely, under Scenario Zero (\texttt{src/daemons/col-execd/execd\_self\_host.hpp},
+        lines~135--172), \texttt{VerifySoftwareReleasePipeline()} blocks any upgrade to
+        \texttt{col-kmsd} or \texttt{col-execd} unless \textbf{three independent hardware
+        builders} (\texttt{x86\_64}, \texttt{aarch64}, \texttt{riscv64}) produce bit-identical
+        SHA-256 digests, \texttt{floating\_point\_opcodes\_in\_l3\_l5 == 0}, a human Steward
+        co-signs the release (\texttt{human\_steward\_co\_signed == true}), and the candidate
+        passes $\ge 10{,}000$ deterministic Oasis shadow-soak ticks with zero invariant panics.
+\end{enumerate}
+
+\section{Seven Working Layer 5 Highlights Live on Lot 402 Today}
+\label{sec:ch8-working-highlights}
+
+Before turning the Specialist Council's microscope onto current prototype ceilings, it is vital
+to recognize how much of Layer~5's constitutional vision already runs cleanly in live C++20 and
+JSON-LD across the repository.
+
+\subsection{Highlight 1: Fixed-Point Baseline Entitlements and Care-Shielded Standing}
+
+In \texttt{src/daemons/\allowbreak col-kmsd/\allowbreak kms\_assimilation.hpp} (lines~350--484) and
+\texttt{core/5\_governance/\allowbreak policies/\allowbreak stage1\_baseline\_and\_envelopes.json}, the live codebase
+implements cache-aligned, \texttt{-Wpadded}-clean, zero-float structs for constitutional
+dignity and civic progression:
+\begin{itemize}
+\item \texttt{BaselineExistenceEntitlement} (16~bytes, \texttt{alignas(8)}): Hardcodes
+        unconditional \texttt{RING\_R0\_CONSTITUTIONAL} survival guarantees in integer SI units
+        (\texttt{daily\_hearth\_kcal = 2200U}, \texttt{warm\_shower\_and\_heating\_mk = 293150U}
+        [$20.0\,^\circ\mathrm{C}$], potable water, sanitation, acute emergency care, and Open
+        Agora access).
+\item \texttt{CitizenGovernanceStanding} (72~bytes, \texttt{alignas(8)}) and
+        \texttt{EvaluateCitizenBurnAndGovernance()}: Collapses monthly legacy grocery
+        (\texttt{45000} cents) and utility (\texttt{22000} cents) fiat burn to zero when a
+        household opts into the local commons baseline; tracks integer basis-point standing
+        across \texttt{Learn -> Work -> Govern}; freezes exponential half-life decay
+        (\texttt{HALF\_LIFE\_TICKS = 31536000ULL}) whenever \texttt{care\_leave\_shield\_active}
+        is true; and gates domain co-signing on \texttt{(reputation\_wealth\_bp >= 2500U) \&\&
+        holds\_domain\_credential}.
+\end{itemize}
+
+\subsection{Highlight 2: Three-Stage Migrant Assimilation ($R_6 \to R_3 \to R_1$) with Inviolable $B_t$}
+
+In \texttt{KmsAssimilationEngine} (\texttt{kms\_assimilation.hpp:71--337}), newly arriving
+crisis or climate cohorts onboard at \texttt{RING\_R6\_UNVERIFIED\_MIGRANT} with
+\texttt{has\_bt\_survival\_floor = true}, zero Bilateral Clearing Channel credit exposure, and
+zero voting weight. Promotion to \texttt{RING\_R3\_PROBATIONARY\_RESIDENT} enforces an explicit
+anti-passive-promotion guard requiring \textit{both} $\ge 7$ consecutive sheltered days and
+verified Proof-of-Thermodynamic-Work contribution, emitting a 32-byte binary
+\texttt{TrustRingPromotionEvent} (wrapped in a 64-byte cache-line \texttt{SpscRingSlot}) onto
+\texttt{/uhai\_trust\_promotions}. Crucially, \texttt{RecordBehavioralRegressionOrConflict()}
+freezes ring promotion and triggers restorative mediation while \textit{unconditionally
+preserving} \texttt{has\_bt\_survival\_floor = true}. Stage~3 promotion to \texttt{R1}
+(\texttt{ExecuteFrostStewardVouchCeremony()}) deduplicates signer DIDs, rejects self-vouches,
+and enforces $\ge 30$ conflict-free days in \texttt{R3} plus $\ge 2$ distinct \texttt{R1}
+Steward co-signers.
+
+\subsection{Highlight 3: Clean-Slate Genesis and Dynamic Asset Policy Re-Adaptation}
+
+Across \texttt{src/stack/shared\_stack\_runtime.hpp} (lines~661--698, 1205--1361, and
+3663--4157), Lot~402 boots on Day~1 with empty workflow and task vectors
+(\texttt{workflows\_.clear(); tasks\_.clear();}) and four unratified Layer~5 asset dockets
+(\texttt{dec:pea\_cultivation}, \texttt{dec:pea\_soup\_hearth}, \texttt{dec:poultry\_and\_soil},
+\texttt{dec:garage\_l7\_woodwork}). Only when the Steward ratifies or adapts an
+\texttt{L5GovernedAsset}'s \texttt{SourcingMode}, \texttt{DistributionPolicy}, and
+\texttt{TaskReleaseRing} does \texttt{EnsureWorkflowsSpawnedForAsset()} instantiate the bound
+BPMN lifecycle and propagate \texttt{R1\_PEER\_CLUSTERS} visibility to unassigned tasks---while
+\texttt{DefineNewMeshNeed()} enables runtime creation of brand-new governed community needs.
+
+\subsection{Highlight 4: Read-Only \texttt{HTTP 405} Membrane and Downward U-Turn Compilation}
+
+In \texttt{src/daemons/col-gatewayd/gateway\_server.hpp} (lines~545--625 and 1351--1443),
+\texttt{GatewayServer::HandleRequest()} enforces Sovereign Stack Invariant~7 across diagnostic
+paths: any \texttt{POST}, \texttt{PUT}, \texttt{PATCH}, or \texttt{DELETE} targeting
+\texttt{/api/v1/l4/*} returns \texttt{HTTP 405} (\texttt{L4\_IS\_STRICTLY\_READ\_ONLY\_NO\_MUTATIONS})
+and targeting \texttt{/api/v1/l5/*} returns \texttt{HTTP 405} (\texttt{L5\_GOVERNANCE\_IS\_READ\_ONLY}).
+Lawful human approvals enter through \texttt{POST /api/v1/l6/intent}, computing a SHA-256
+\texttt{intent\_cid} and pushing a 416-byte \texttt{GovernanceResolutionPacket} onto
+\texttt{/uhai\_l5\_resolutions}.
+
+\subsection{Highlight 5: Solo 4-Node Homestead Privacy Gate vs.\ Zero-Sum Ring-1 BCC Swarm}
+
+\texttt{SharedStackRuntime::SetExternalR1SwarmEnabled()} (lines~930, 1040--1074) defaults Lot~402
+to private \texttt{SOLO\_STEWARD\_4\_NODE\_CLUSTER} mode so autonomous neighbors in
+\texttt{col-swarmd} (\texttt{swarm\_engine.hpp:250--377}) never silently claim household tasks.
+Toggling external federation off immediately recalls \texttt{RELEASED\_TO\_R1\_PEERS} tasks back
+to local stewardship, while active Ring-1 peer completions settle via \texttt{L3PeerBccRecord}
+(\texttt{shared\_stack\_runtime.hpp:794--883}), verifying exact integer microjoule conservation
+(\texttt{balance\_local\_to\_peer\_uj + balance\_peer\_to\_local\_uj == 0}) within symmetric
+$200\,\mathrm{MJ}$ trust-ring credit bounds.
+
+\subsection{Highlight 6: Cache-Aligned UHAI Governance Packets and Studio Conscience Vetoes}
+
+In \texttt{core/1\_simulation/src/uhai/uhai\_ring\_buffer.hpp} (lines~218--390), binary SPSC
+governance structs---\texttt{UpwardYieldPacket} (456B), \texttt{GovernanceResolutionPacket}
+(416B), \texttt{L5GovernanceTelemetry} (64B), \texttt{TreatyRatificationPayload} (280B), and
+\texttt{TrustRingPromotionEvent} (32B)---enforce compile-time \texttt{sizeof},
+\texttt{is\_standard\_layout\_v}, and \texttt{is\_trivially\_copyable\_v} assertions. Meanwhile,
+\texttt{EvaluateStudioVetoAndSbomDag()} and \texttt{ResolveRecursiveBomNode()} in
+\texttt{execd\_self\_host.hpp} enforce the \texttt{Protocol of Refusal} against dark patterns
+and yield upward (\texttt{Gate\_L7\_GPO\_Procurement}) only after Tier~1 local stock and Tier~2
+Ring-1 BCC swaps miss.
+
+\subsection{Highlight 7: Oasis Capability Filtering and \texttt{VirtualPinBus} Epistemic Modesty}
+
+Inside Oasis (\texttt{affordance\_system.hpp:150--359} and \texttt{virtual\_pin\_bus.hpp:60--153}),
+\texttt{QueryEntityAffordances()} always permits non-destructive \texttt{look}/\texttt{inspect}
+actions while gating physical tool affordances behind \texttt{required\_capability\_tag}, and
+\texttt{VirtualPinBus} returns \texttt{DENIED\_NO\_L2\_SENSOR} whenever a transducer has not yet
+been physically attached---dynamically switching BPMN steps between qualitative human observation
+and automated Layer~2 execution via JSON-LD cultivar envelopes (\texttt{fabaceae\_cultivars.jsonld}).
+
+\section{The Five-Specialist Council Audit: Eight Prototype Ceilings and Fixes}
+\label{sec:ch8-council-audit}
+
+Precisely because these seven mechanisms work concretely on Lot~402, our Five-Specialist
+Architectural Council was able to audit the live repository line-by-line and pinpoint
+\textbf{eight structural ceilings} separating the current prototype from full v3.1 production
+sovereignty (summarized in Table~\ref{tab:ch8-council-ceilings}).
+
+\begin{table}[htbp]
+\centering
+\caption{Summary of the Five-Specialist Layer~5 Council Audit Across Oasis and \texttt{col-kmsd}}
+\label{tab:ch8-council-ceilings}
+\footnotesize
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}clll@{}}
+\toprule
+\textbf{\#} & \textbf{Prototype Ceiling \& Exact Source Location} & \textbf{Council Lead} & \textbf{Ratified v3.1 Engineering Remedy} \\
+\midrule
+C1 & \texttt{float}/\texttt{double} fields in \texttt{kms\_assimilation.hpp:45--47} \& \texttt{trust\_gates.json} & Deterministic Systems & Pure 64-bit SI integers (\texttt{uJ}, \texttt{bp}, \texttt{cents}) + sublinear LUT \\
+C2 & Split-brain \texttt{col-kmsd/main.cpp:127} vs.\ in-RAM \texttt{SharedStackRuntime} & Deterministic Systems & Unified \texttt{col-kmsd} event loop over \texttt{l4\_l5} \& \texttt{l5\_l6.sock} \\
+C3 & \texttt{POST /api/v1/command} bypass (\texttt{gateway\_server.hpp:673}) \& raw TCP & Deterministic Systems & Seal command RPC; TLS~1.3 + signed \texttt{/api/v1/l6/intent} only \\
+C4 & String-vector ``FROST'', zero \texttt{BBS+}/BKT, boot-all Oasis caps & Crypto Enclave & \texttt{ATECC608A} PKCS\#11, Schnorr \texttt{FROST}, \texttt{BBS+} SMT, 24B \texttt{ClaimHandle} \\
+C5 & Global \texttt{did:mesh:lot402} leaks \& static UI \texttt{dijkstra: 148} counter & Graph \& Routing & Pairwise \texttt{did:peer}, fixed-point EigenTrust ($\alpha=1500\,\mathrm{bp}$), 4-RIB \texttt{BPVP} \\
+C6 & Hardcoded pea/soup \texttt{if/else} strings \& JSON/C++ asset-ID drift & Polycentric Concurrency & Content-addressed \texttt{PolicyBundle\_CID} AST \& single-flight coalescer \\
+C7 & Unversioned in-place policy mutation \& cosmetic DOM \texttt{SafeHarbor} & Ethics \& Jurisprudence & Epoch-fenced policy drain, $<500\,\mathrm{ms}$ ZK \texttt{SafeHarbor}, Passive Quarantine \\
+C8 & Unchecked \texttt{required\_skill\_vc} in \texttt{SwarmEngine} \& missing Care Parity & Ethics \& Concurrency & Mandatory \texttt{ClaimHandle} bitmask + \texttt{disability\_flare\_shield} parity \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+\subsection{Ceiling 1: IEEE-754 Floating-Point Drift and Linear Standing Formula Mismatch}
+
+\paragraph{Audit Diagnosis.}
+Although \texttt{scn\_zero\_daemons\_manifest.jsonld} (line~95) mandates zero floating-point
+opcodes in \texttt{col-kmsd}, the earlier assimilation section of
+\texttt{src/daemons/col-kmsd/kms\_assimilation.hpp} still embeds \texttt{double
+bcc\_credit\_limit\_ec} (line~45), \texttt{double voting\_weight} (line~46), and \texttt{float
+verified\_sweat\_equity\_mj} (line~47), alongside \texttt{float} fields in
+\texttt{TrustRingPromotionEvent} (\texttt{uhai\_ring\_buffer.hpp:367}) and JSON floats
+(\texttt{0.85}, \texttt{1.85}, \texttt{150.0}) in \texttt{trust\_gates.json} and
+\texttt{polycentric\_asset\_policies.json}. Additionally, \texttt{stage1\_baseline\_and\_envelopes.json}
+(line~26) declares \texttt{"sublinearCapBp": 8000}, whereas
+\texttt{EvaluateCitizenBurnAndGovernance()} (lines~453--466) computes a linear sum clamped at
+\texttt{10000ULL}.
+
+\paragraph{Ratified v3.1 Fix.}
+Replace every remaining \texttt{float}/\texttt{double} field across \texttt{kms\_assimilation.hpp},
+\texttt{uhai\_ring\_buffer.hpp}, and Layer~5 JSON catalogs with exact 64-bit integer
+microjoules (\texttt{36,000,000,000ULL uJ} $= 36\,\mathrm{MJ}$), integer cents, and basis points
+(\texttt{bp}), and evaluate concave logarithmic standing via an integer bit-width + lookup-table
+approximation clamping personal standing at \texttt{8000 bp} and single-steward chamber voting
+share at $\le 800\,\mathrm{bp}$ ($8\%$; Listing~\ref{lst:ch8-fixedpoint-assimilation}).
+
+\begin{lstlisting}[language=C++,caption={Float-free v3.1 remediation of \texttt{MigrantAssimilationStateV31} with disability/care parity (Ceilings 1 \& 8).},label={lst:ch8-fixedpoint-assimilation}]
+#include <cstdint>
+
+namespace collective::l5 {
+
+struct alignas(8) MigrantAssimilationStateV31 {
+    uint64_t pairwise_did_hash{0};          // Unlinkable did:peer SipHash/BLAKE3 (8B)
+    uint64_t wave_id{0};                    // Humanitarian cohort identifier (8B)
+    uint64_t last_transition_hlc{0};        // Monotonic HLC timestamp (8B)
+    uint64_t verified_potw_sweat_uj{0};     // Pure integer microjoules (36 MJ = 36e9 uJ) (8B)
+    int64_t  bcc_credit_limit_uj{0};        // R6=0, R3=90e9 uJ, R1=360e9 uJ (8B)
+    uint32_t commons_vote_weight_bp{0};     // R6/R3=0 bp, R1=10000 bp (1p1v) (4B)
+    uint32_t unresolved_mediations{0};      // Restorative circle counter (4B)
+    uint16_t sheltered_days_consecutive{0}; // L3 homeostasis continuity (2B)
+    uint16_t days_in_r3_consecutive{0};     // R3 residency continuity (2B)
+    uint8_t  current_ring{6U};              // 6=R6, 3=R3, 1=R1 (1B)
+    uint8_t  regression_frozen{0U};         // Freezes ring advance; NEVER B_baseline (1B)
+    uint8_t  disability_or_care_shield{0U}; // Tau/Sigma adaptive parity gate (1B)
+    uint8_t  has_bt_survival_floor{1U};     // Inviolable: invariant == 1U always (1B)
+    uint8_t  bbs_plus_vc_issued{0U};        // Verified BLS12-381 credential flag (1B)
+    uint8_t  reserved_pad[7]{0};            // Explicit 8-byte tail alignment (7B)
+};
+static_assert(sizeof(MigrantAssimilationStateV31) == 64,
+              "MigrantAssimilationStateV31 must fit in one 64-byte cache line.");
+
+[[nodiscard]] constexpr bool CanPromoteR6ToR3(
+    const MigrantAssimilationStateV31& s) noexcept
+{
+    constexpr uint64_t kReqPotwUj = 36'000'000'000ULL; // Exact 36.0 MJ in uJ
+    if (s.current_ring != 6U || s.regression_frozen != 0U || s.unresolved_mediations > 0U) {
+        return false;
+    }
+    const bool work_or_parity_met =
+        (s.verified_potw_sweat_uj >= kReqPotwUj) || (s.disability_or_care_shield != 0U);
+    return (s.sheltered_days_consecutive >= 7U) && work_or_parity_met;
+}
+
+} // namespace collective::l5
+\end{lstlisting}
+
+\subsection{Ceiling 2: Daemon Split-Brain Between \texttt{col-kmsd} and \texttt{SharedStackRuntime}}
+
+\paragraph{Audit Diagnosis.}
+In \texttt{src/daemons/col-kmsd/main.cpp} (lines~127--136), continuous daemon mode currently
+polls only \texttt{/uhai\_migration\_waves} every $100\,\mathrm{ms}$, running its full 3-stage
+assimilation test solely when invoked with \texttt{--once} (lines~95--123). Meanwhile,
+\texttt{col-gatewayd} (\texttt{gateway\_server.hpp:1553}) and \texttt{col-swarmd}
+(\texttt{col-swarmd/main.cpp:90}) each instantiate private, disconnected copies of
+\texttt{SharedStackRuntime} in their own process address spaces without calling into
+\texttt{col-kmsd}.
+
+\paragraph{Ratified v3.1 Fix.}
+Consolidate all authoritative Layer~5 policy, standing, trust-graph, and capability state into
+the single \texttt{col-kmsd} process backed by \texttt{/var/lib/collective/l5/vault.enc},
+servicing \texttt{col-execd} over \texttt{l4\_l5.sock} and \texttt{col-commonsd}/\texttt{col-gatewayd}
+over \texttt{l5\_l6.sock} via an \texttt{epoll}/\texttt{kqueue} non-blocking event loop, while
+retaining \texttt{SharedStackRuntime} strictly as an embedded single-binary SITL harness for
+unit and browser-WASM previews.
+
+\subsection{Ceiling 3: Missing \texttt{SOCK\_SEQPACKET} Sockets and the \texttt{/api/v1/command} Bypass}
+
+\paragraph{Audit Diagnosis.}
+Although \texttt{gateway\_server.hpp} properly rejects \texttt{POST /api/v1/l5/*} with
+\texttt{HTTP 405} (save for a legacy test backdoor \texttt{is\_legacy\_sprint10\_l5\_test} at
+lines~575--581 matching \texttt{"did:mesh:node01"}), lines~673--674 and 1014--1029 expose an
+unauthenticated \texttt{POST /api/v1/command} RPC over plain \texttt{AF\_INET} TCP that calls
+\texttt{stack\_runtime\_.DispatchJsonCommand(req.body)} directly---allowing any local TCP client
+to approve Layer~5 decisions or complete Layer~4 tasks without an L6 U-Turn or signature.
+Moreover, \texttt{HandleL6Intent()} (lines~1383--1418) resolves \texttt{pending\_yields\_.front()}
+via substring matching without verifying the target \texttt{yield\_id} or popping the queue.
+
+\paragraph{Ratified v3.1 Fix.}
+Delete \texttt{is\_legacy\_sprint10\_l5\_test} and compile \texttt{POST /api/v1/command} out of
+all non-SITL builds (\texttt{\#if defined(OASIS\_SITL\_DEV\_HARNESS)}), enforce TLS~1.3 on VLAN~30
+port~8443, replace substring scanning with strict schema-validated \texttt{yield\_id} lookup and
+\texttt{erase()}, and bind real \texttt{AF\_UNIX} \texttt{SOCK\_SEQPACKET} descriptors at
+\texttt{/run/collective/ipc/l4\_l5.sock} and \texttt{l5\_l6.sock}.
+
+\subsection{Ceiling 4: Placeholder Signatures, Missing \texttt{ClaimHandle}/BKT, and Boot-All Capabilities}
+
+\paragraph{Audit Diagnosis.}
+\texttt{ExecuteFrostStewardVouchCeremony()} (\texttt{kms\_assimilation.hpp:277--292}) currently
+checks \texttt{unique\_signers.size() >= 2} on plain strings without threshold Schnorr math;
+\texttt{GovernanceResolutionPacket::ed25519\_signature[64]} is left zero-filled
+(\texttt{gateway\_server.hpp:1397}); 24-byte \texttt{ClaimHandle} and integer BKT structs are
+not yet wired into \texttt{src/}; and \texttt{OasisApplication::Initialize()}
+(\texttt{oasis\_application.hpp:486--494}) grants all 16 capability strings to
+\texttt{steward\_caps\_} unconditionally at boot.
+
+\paragraph{Ratified v3.1 Fix.}
+Wire \texttt{libsodium}/Ristretto255 2-round \texttt{FROST} verification, BLS12-381 \texttt{BBS+}
+selective-disclosure proofs against the 256-bit SMT accumulator, and \texttt{ATECC608A}
+HMAC-SHA256 PRF minting of 24-byte \texttt{ClaimHandle}s (Chapter~\ref{ch:l5-trust-rings}). In
+Oasis \texttt{Layer 1b}, initialize \texttt{steward\_caps\_} with Day-1 basic observation/domestic
+tags only, unlocking \texttt{WOODSHOP\_JOINERY}, \texttt{HVDC\_HOTWORK}, and foundry contactors
+progressively as the player earns integer BKT mastery ($P(L_t) \ge 9{,}500\,\mathrm{bp}$) and
+3-of-3 guild sign-offs.
+
+\subsection{Ceiling 5: Global \texttt{did:mesh:*} Leaks and Unimplemented \texttt{BPVP}/EigenTrust}
+
+\paragraph{Audit Diagnosis.}
+While \texttt{kms\_assimilation.hpp} generates \texttt{did:peer:migrant:*},
+\texttt{shared\_stack\_runtime.hpp} (lines~1129, 2758--2785) and \texttt{trust\_gates.json}
+still embed lot-correlatable \texttt{did:mesh:lot402:steward} strings, and
+\texttt{governance\_manager.js} (line~74) displays a static UI counter
+\texttt{dijkstra\_Evaluations: 148} without a C++ graph or \texttt{BPVP} engine.
+
+\paragraph{Ratified v3.1 Fix.}
+Restrict \texttt{did:mesh:*} strictly to physical node routing anchors while rotating all human
+and kinship credentials to pairwise unlinkable \texttt{did:peer} identifiers, and embed the
+fixed-point anchored EigenTrust ($\alpha = 1{,}500\,\mathrm{bp}$, dynamic residual convergence)
+and 4-RIB \texttt{BPVP} engine directly inside \texttt{col-kmsd} (Chapters~\ref{ch:l5-trust-rings}
+and~\ref{ch:l5-bpvp-federation}).
+
+\subsection{Ceiling 6: Hardcoded Pea-to-Soup Branches and Asset-ID Schema Drift}
+
+\paragraph{Audit Diagnosis.}
+\texttt{SharedStackRuntime} hardcodes string checks for \texttt{"dec:garage\_l7\_woodwork"} and
+11 task IDs in \texttt{ApplyPhysicalChoreographyOnTaskCompleted()} (lines~2836--2977), while
+naming assets \texttt{"asset:pea\_cultivation"} in C++ versus
+\texttt{"asset:backyard\_pea\_and\_mirepoix\_beds"} in
+\texttt{core/5\_governance/templates/polycentric\_asset\_policies.json} (which is never loaded
+by C++), and relies on brace-unaware substring JSON lookup (\texttt{FindKeyValueStart}, line~250).
+
+\paragraph{Ratified v3.1 Fix.}
+Ingest \texttt{polycentric\_asset\_policies.json} and \texttt{*.jsonld} blueprints through a
+deterministic, depth-tracking canonical JSON-LD parser at boot, compiling each standing policy
+template into a content-addressed \texttt{PolicyBundle\_CID} AST and coalescing concurrent
+stock-miss yields via a single-flight \texttt{(resource\_cid, policy\_scope\_id)} hash table so
+hundreds of workflows execute without a single domain-specific C++ \texttt{if/else} branch.
+
+\subsection{Ceiling 7: Unversioned Policy Mutation, Cosmetic \texttt{SafeHarbor}, and ``Social Slashing''}
+
+\paragraph{Audit Diagnosis.}
+\texttt{ApplyGovernancePolicyToAsset()} (\texttt{shared\_stack\_runtime.hpp:3771--3831}) mutates
+enums in place without policy epoch versioning or cooloff enforcement;
+\texttt{SafeHarborSeverance} exists only as a browser DOM simulation
+(\texttt{governance\_manager.js:312--337}); and \texttt{GOVERNANCE\_SPEC.md} (line~16) plus
+\texttt{trust\_gates.json} (line~13) still reference legacy \texttt{-1.0} ``Social Slashing.''
+
+\paragraph{Ratified v3.1 Fix.}
+Bind every active task lease to an immutable \texttt{(policy\_bundle\_cid, policy\_epoch)} so
+policy updates drain in-flight tasks cleanly; implement kernel-fast ($<500\,\mathrm{ms}$)
+\texttt{SafeHarborSeverance} inside \texttt{col-kmsd} (rotating \texttt{Zeta} lock keys and
+injecting symmetric ZK co-scheduling exclusion masks into \texttt{L5ToL4ClaimCommand}); and
+permanently replace punitive slashing with \textbf{Passive Quarantine} (severing discretionary credit
+and hazard actuation while preserving $10{,}000\,\mathrm{bp}$ $B_{\mathrm{baseline}}$).
+
+\subsection{Ceiling 8: Unchecked Swarm Skill Credentials and Disability Assimilation Parity}
+
+\paragraph{Audit Diagnosis.}
+Although \texttt{L4TaskItem} declares \texttt{required\_skill\_vc} (line~580), neither
+\texttt{CommitTaskToSteward()} nor \texttt{StepPeerClusterSwarm()} (\texttt{swarm\_engine.hpp:279})
+verifies that the claimant holds an unrevoked \texttt{SkillCredential} VC before claiming work;
+meanwhile, \texttt{RecordLayer3HomeostasisAndPoTWAttestation()} requires $36\,\mathrm{MJ}$ of
+kinetic sweat equity without checking Scenario Tau's \texttt{disability\_flare\_shield}.
+
+\paragraph{Ratified v3.1 Fix.}
+Enforce bitwise \texttt{(claim\_handle.capability\_mask \& task.required\_cap\_mask) ==
+task.required\_cap\_mask} across both local Steward commits and inbound Ring-1 \texttt{BPVP}
+peer claims (Listing~\ref{lst:ch8-claim-gate}), and honor \texttt{disability\_or\_care\_shield}
+parity in \texttt{CanPromoteR6ToR3()} (Listing~\ref{lst:ch8-fixedpoint-assimilation}).
+
+\begin{lstlisting}[language=C++,caption={Mandatory capability-bitmask and policy-epoch gate for local and R1 swarm claims (Ceilings 7 \& 8).},label={lst:ch8-claim-gate}]
+#include <cstdint>
+
+namespace collective::l5 {
+
+struct alignas(8) VersionedClaimGateInput {
+    uint64_t ephemeral_token_id{0};   // PRF-blinded token from col-kmsd (8B)
+    uint64_t holder_cap_mask{0};      // Verified unrevoked BBS+ VC bitmask (8B)
+    uint64_t required_cap_mask{0};    // Task safety/hygiene VC requirement (8B)
+    uint64_t claim_expiry_hlc{0};     // Distance-adaptive HLC lease bound (8B)
+    uint64_t current_hlc{0};          // Current deterministic tick HLC (8B)
+    uint32_t handle_policy_epoch{0};  // PolicyBundle_CID epoch at mint time (4B)
+    uint32_t asset_policy_epoch{0};   // Current ratified asset policy epoch (4B)
+    uint16_t dijkstra_dist_bp{0};     // Trust path cost (10000 bp = 1.0 hop) (2B)
+    uint16_t max_allowed_dist_bp{0};  // Envelope ring bound (e.g. 15000 bp) (2B)
+    uint8_t  safe_harbor_conflict{0}; // 1 if ZK proximity blind-spot trips (1B)
+    uint8_t  reserved_pad[11]{0};     // Pad to exact 64-byte cache line (11B)
+};
+static_assert(sizeof(VersionedClaimGateInput) == 64);
+
+[[nodiscard]] constexpr bool AuthorizeTaskClaimV31(
+    const VersionedClaimGateInput& g) noexcept
+{
+    if (g.ephemeral_token_id == 0ULL || g.current_hlc >= g.claim_expiry_hlc) return false;
+    if (g.handle_policy_epoch != g.asset_policy_epoch) return false;
+    if (g.safe_harbor_conflict != 0U) return false;
+    if (g.dijkstra_dist_bp > g.max_allowed_dist_bp) return false;
+    return (g.holder_cap_mask & g.required_cap_mask) == g.required_cap_mask;
+}
+
+} // namespace collective::l5
+\end{lstlisting}
+
+\begin{invariant}[Zero Uncredentialed Hazard Actuation and Zero Survival-Floor Revocation]
+\label{inv:ch8-council-safety}
+Across both Oasis (\texttt{Layer 1b}) SITL soak runs and production nodes: (i)~no local Steward
+or federated peer cluster may transition a task with $\mathtt{required\_cap\_mask} \neq 0$ into
+execution unless \texttt{AuthorizeTaskClaimV31()} evaluates to \texttt{true}; and (ii)~no failure
+of \texttt{AuthorizeTaskClaimV31()}, policy epoch rollover, or Passive Quarantine transition may
+ever set $\mathtt{has\_bt\_survival\_floor} = 0$.
+\end{invariant}
+
+\section{Four-Milestone Roadmap to Full Production Sovereignty}
+\label{sec:ch8-roadmap}
+
+To sequence these eight Council remediations without disrupting Lot~402's working simulation
+loop, development proceeds across four deterministic milestones (Figure~\ref{fig:ch8-roadmap}):
+
+\begin{figure}[htbp]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+    node distance=0.7cm,
+    ms/.style={draw, rounded corners=3pt, thick, fill=gray!8, align=left, font=\scriptsize, text width=3.15cm, minimum height=2.35cm, inner sep=5pt},
+    arr/.style={-{Stealth[length=2.4mm]}, very thick}
+]
+    \node[ms, fill=cyan!8] (m1) {\textbf{M1: Pure-Integer \& Membrane Seal}\\[3pt] $\bullet$ Purge all floats in \texttt{kms\_assimilation} \& JSON\\ $\bullet$ Seal \texttt{/api/v1/command}\\ $\bullet$ Bind \texttt{l4\_l5} \& \texttt{l5\_l6} \texttt{SEQPACKET} sockets};
+    \node[ms, fill=blue!7, right=of m1] (m2) {\textbf{M2: Hardware Crypto \& Blinded Handles}\\[3pt] $\bullet$ \texttt{ATECC608A} PKCS\#11 + pairwise \texttt{did:peer}\\ $\bullet$ 2-round \texttt{FROST} \& \texttt{BBS+} 256-bit SMT\\ $\bullet$ 24B \texttt{ClaimHandle} + BKT};
+    \node[ms, fill=teal!8, right=of m2] (m3) {\textbf{M3: Standing Envelopes \& 300+ Workflows}\\[3pt] $\bullet$ Canonical JSON-LD \texttt{PolicyBundle\_CID} AST\\ $\bullet$ Single-flight yield coalescer \& epoch drain\\ $\bullet$ $<500\,\mathrm{ms}$ ZK \texttt{SafeHarbor}};
+    \node[ms, fill=green!8, right=of m3] (m4) {\textbf{M4: Anchored EigenTrust \& 4-RIB BPVP}\\[3pt] $\bullet$ Fixed-point EigenTrust ($\alpha=1500\,\mathrm{bp}$) + cut cap\\ $\bullet$ 4-RIB \texttt{BPVP} ($\eta \ge 6000\,\mathrm{bp}$)\\ $\bullet$ Ricardian \texttt{Treaty\_CID} across 25 scenarios};
+
+    \draw[arr] (m1) -- (m2);
+    \draw[arr] (m2) -- (m3);
+    \draw[arr] (m3) -- (m4);
+\end{tikzpicture}%
+}
+\caption{Four-milestone engineering roadmap promoting Layer~5 (\texttt{col-kmsd}) from the Lot~402 prototype to full watershed polycentric sovereignty.}
+\label{fig:ch8-roadmap}
+\end{figure}
+
+Having audited both the working foundations and the specialist engineering remedies of Part~I, we
+now enter \textbf{Part~II (Chapters~\ref{ch:l5-wave-a}--\ref{ch:l5-wave-f})}, tracing how these exact
+fixed-point gates, standing envelopes, trust rings, and Ricardian compacts govern hundreds of
+interlocking workflows across all \textbf{25 Sovereign Scenarios}.

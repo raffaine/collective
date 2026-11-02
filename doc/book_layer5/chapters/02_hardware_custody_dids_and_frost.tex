@@ -1,0 +1,312 @@
+\chapter{Hardware Enclave Custody, Pairwise Identity, and Threshold Ceremonies}
+\label{ch:l5-hardware-custody}
+
+\epigraph{If liberty means anything at all, it means that a citizen's standing in their own community cannot be seized by a subpoena, cloned from a database dump, or torn from their body at a checkpoint.}{---Adapted from \textcite{arendt1963} and \textcite{naacp1958}}
+
+Every system of decentralized governance stands or falls on a physical question that purely
+mathematical papers routinely ignore: \textit{where does the secret scalar actually live?} If a
+steward's private key is derived from a memorized passphrase, human cognitive entropy becomes
+the weakest link under phishing or exhaustion. If keys sit in unencrypted browser storage or a
+cloud identity provider, a single remote exploit or corporate account freeze extinguishes civic
+personhood overnight. Conversely, if a system attempts to bind cryptographic identity to the
+human body via fingerprint readers, iris cameras, or facial-recognition templates, it constructs
+an irreversible biometric panopticon---one in which a compromised template can never be rotated
+and physical bodily coercion becomes an authentication vector \parencite{zuboff2019}.
+
+Layer~5 (\texttt{col-kmsd}) grounds identity in \textbf{non-exportable physical silicon}, \textbf{pairwise
+relational unlinkability}, and \textbf{distributed threshold ceremonies}. This chapter specifies the
+four cryptographic foundations of sovereign identity in v3.1: (1)~hardware secure-element
+custody (\texttt{ATECC608A}, discrete TPM~2.0, and NFC smartcards) paired with the unconditional
+constitutional ban on biometrics; (2)~the three-tier Decentralized Identifier (DID) taxonomy and
+pairwise \texttt{did:peer} derivation that defeats cross-council dossier building; (3)~Flexible
+Round-Optimized Schnorr Threshold (\texttt{FROST}) ceremonies \parencite{komlo2020frost} for
+Node~0 Faraday genesis and 2-of-3 Steward vouching; and (4)~in-person $(M, N)$ Shamir social key
+recovery \parencite{shamir1979}.
+
+\section{Hardware Silicon Custody and the Unconditional Biometric Ban}
+\label{sec:ch2-hardware-silicon}
+
+Across all seven layers of the Sovereign Stack, an entrenched constitutional invariant holds:
+\[
+\mathtt{biometric\_packets\_captured} \equiv 0.
+\]
+No Sovereign Node may deploy optical facial cameras, fingerprint capacitances, voiceprint
+classifiers, iris scanners, or wearable heart-rate/cortisol trackers. Authentication relies
+strictly on \textbf{something held in isolated silicon} combined, for high-consequence actions, with
+\textbf{local knowledge (a locally verified PIN) or multi-steward physical NFC co-presence}.
+
+\subsection{\texttt{ATECC608A} Enclave Isolation and Direct $\mathrm{I^2C}$ Verification}
+
+On every Node SBC and workshop terminal, \texttt{col-kmsd} anchors root signing keys inside a
+dedicated hardware cryptographic co-processor---canonically the \textbf{Microchip \texttt{ATECC608A}}
+connected over \texttt{/dev/i2c-1} via PKCS\#11 \parencite{microchip_atecc608a} (or an
+equivalent OpenTitan / discrete TPM~2.0 module on salvaged \texttt{x86\_64} hosts), paired with
+personal NFC smartcards carried by stewards:
+\begin{itemize}
+\item \textbf{Internal TRNG Key Generation and Non-Exportability:} Private scalars are generated
+        inside the secure element's internal hardware True Random Number Generator (TRNG) and
+        permanently locked into Fuse/EEPROM slots with read-out disabled. Even if an attacker
+        gains root access to the Linux kernel on the host SBC, the raw 256-bit private key never
+        enters host DRAM; \texttt{col-kmsd} submits a 32-byte digest over $\mathrm{I^2C}$ and
+        receives back only the 64-byte signature.
+\item \textbf{Defeating User-Space Shared-Memory Spoofing:} As demonstrated in
+        \texttt{verification/test\_remediation\_resolution.py}, trusting a user-space
+        \texttt{/dev/shm} byte flag (\texttt{quality\_flags == 0x02}) alone allows a local
+        process with shared-memory write access to spoof hardware provenance. In v3.1,
+        \texttt{col-kmsd} verifies cryptographic signatures directly against the pinned public
+        key roster burned into its local \texttt{ATECC608A} slot before honoring any hardware
+        attestation or governance resolution.
+\item \textbf{Physical Chassis-Tamper Zeroization:} Node~0 and clinical/guild anchor enclosures
+        wire normally-closed physical micro-switches to GPIO tamper interrupts, zeroizing
+        volatile SQLCipher vault keys within microseconds of unauthorized enclosure intrusion.
+\end{itemize}
+
+\begin{table}[htbp]
+\centering
+\caption{Hardware Key Custody Tiers and Threat Resilience in Layer~5 (\texttt{col-kmsd})}
+\label{tab:ch2-custody-tiers}
+\small
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}lllll@{}}
+\toprule
+\textbf{Custody Artifacts} & \textbf{Silicon Medium} & \textbf{Cryptosuite} & \textbf{PIN / Ceremony Gate} & \textbf{Survives Host Root?} \\
+\midrule
+Node Anchor Key & \texttt{ATECC608A} (\texttt{/dev/i2c-1}) & Ed25519 / P-256 & Boot attestation + tamper loop & Yes (non-exportable) \\
+Steward Pocket Key & ISO~14443 NFC Smartcard & Schnorr / BLS12-381 & Local card PIN + tap ($\le 4\,\mathrm{cm}$) & Yes (air-gapped card) \\
+Node 0 Genesis Root & 5 Trustee Smartcards & 3-of-5 \texttt{FROST} & Air-gapped Faraday assembly & Yes (2 shares insufficient) \\
+R1 Vouch Quorum & 3 Steward Smartcards & 2-of-3 \texttt{FROST} & Simultaneous NFC RSSI $> -55\,\mathrm{dBm}$ & Yes (threshold Schnorr) \\
+Recovery Shards & $N$ Companion Enclaves & $(M, N)$ Shamir GF($p$) & In-person tap + $72\,\mathrm{h}$ timelock & Yes ($<M$ shares reveal $0$ bits) \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+\section{Three-Tier DID Taxonomy and Pairwise \texttt{did:peer} Unlinkability}
+\label{sec:ch2-did-taxonomy}
+
+Early decentralized-identity systems made a fatal error: assigning each human being a single,
+globally resolvable public identifier (often anchored on a public blockchain) and attaching
+every credential, vote, and social connection to that single handle. Such a design gifts hostile
+states, employers, and data brokers a turnkey social graph. In constitutional terms, it also
+violates the associational privacy doctrine recognized in \emph{NAACP v.\ Alabama}
+\parencite{naacp1958}: the safest membership roster against an abusive subpoena is a roster that
+\textbf{structurally does not exist}.
+
+\texttt{col-kmsd} implements W3C Decentralized Identifiers \parencite{w3c2022did} across three
+strictly segregated scopes:
+\begin{enumerate}
+\item \textbf{Infrastructure Node Identifiers (\texttt{did:mesh:...}):} Assigned strictly to
+        \textit{physical routing nodes and communal stations} (never to human beings) to anchor
+        \texttt{BPVP} capability advertisements and Layer~3 node-to-node Bilateral Clearing
+        Channels.
+\item \textbf{Ephemeral Session Identifiers (\texttt{did:key:...}):} Short-lived transport keys
+        rotated per Companion VLAN~30 TLS/WebSocket session or offline guest-door HMAC lease.
+\item \textbf{Pairwise Relational Identifiers (\texttt{did:peer:...}):} For every distinct
+        bilateral peer relationship, guild council, care pod, or kinship covenant $c$, a
+        steward's enclave deterministically derives an independent, uncorrelatable keypair
+        $(sk_{u,c}, pk_{u,c})$ via keyed HMAC-based Extract-and-Expand Key Derivation (HKDF):
+        \[
+            sk_{u,c} = \mathrm{HKDF\text{-}Expand}\!\big(mk_u,\; \texttt{"COL5-DID-PEER-V31"} \parallel \mathrm{context\_salt}_c\big) \bmod \ell,
+        \]
+        sharing \textit{zero} public group elements across distinct contexts $c_1 \neq c_2$.
+\end{enumerate}
+
+\begin{definition}[Structural Data Non-Existence Across Governance Contexts]
+\label{def:ch2-structural-nonexistence}
+A governance Layer~5 vault satisfies Structural Data Non-Existence if no table, index, or log
+maps a citizen's legal Layer~7 name to any \texttt{did:peer}, nor links a citizen's Water
+Council \texttt{did:peer} $d_{u,\mathrm{water}}$ to their Perinatal Pod \texttt{did:peer}
+$d_{u,\mathrm{delta}}$ or Healthcare \texttt{did:peer} $d_{u,\mathrm{chi}}$. Cross-domain
+safety proofs execute solely via zero-knowledge \texttt{BBS+} selective disclosure
+(Chapter~\ref{ch:l5-trust-rings}).
+\end{definition}
+
+\begin{theorem}[Cross-Council Pairwise \texttt{did:peer} Unlinkability]
+\label{thm:ch2-pairwise-unlinkability}
+Let $mk_u \in \{0,1\}^{256}$ be a steward's hardware-locked master seed, and let $c_1 \neq c_2$
+be two governance councils with public transcripts $\mathcal{T}_{c_1}, \mathcal{T}_{c_2}$. Under
+the pseudorandomness of $\mathrm{HKDF\text{-}SHA256}$ and the Decisional Diffie--Hellman /
+discrete-logarithm hardness of the underlying curve, any polynomial-time adversary $\mathcal{A}$
+observing $(\mathcal{T}_{c_1}, \mathcal{T}_{c_2})$ without $mk_u$ has negligible advantage
+$\mathrm{Adv}^{\mathrm{link}}_{\mathcal{A}}(\lambda) \le \epsilon_{\mathrm{HKDF}}(\lambda)$ in
+determining whether $pk_{u,c_1}$ and $pk_{v,c_2}$ belong to the same human steward ($u = v$) or
+two distinct stewards ($u \neq v$).
+\end{theorem}
+
+\begin{proof}
+Because $mk_u$ is never exported from the secure element and $\mathrm{context\_salt}_{c_1} \neq
+\mathrm{context\_salt}_{c_2}$ are domain-separated strings, replacing
+$\mathrm{HKDF\text{-}Expand}(mk_u, \cdot)$ with a truly random function $R$ changes $\mathcal{A}$'s
+output probability by at most $\epsilon_{\mathrm{HKDF}}(\lambda)$. Under $R$, the scalars
+$sk_{u,c_1}$ and $sk_{u,c_2}$ are independent uniform elements in $\mathbb{Z}_\ell$, identically
+distributed to $(sk_{u,c_1}, sk_{v,c_2})$ for independent $mk_u, mk_v$. Because signatures in
+$\mathcal{T}_{c_1}$ and $\mathcal{T}_{c_2}$ are zero-knowledge of $sk$ beyond $pk = [sk]G$, the
+joint distributions of public keys and transcripts are computationally indistinguishable.
+\end{proof}
+
+\section{\texttt{FROST} Threshold Ceremonies: Faraday Genesis and Vouching}
+\label{sec:ch2-frost-ceremonies}
+
+No single human---no founder, sysadmin, or guild master---may ever hold unilateral root power
+over a Sovereign Node or unilaterally admit an unvetted identity into Ring~$R_1$. Layer~5
+eliminates single-key bottleneck risk via \textbf{Flexible Round-Optimized Schnorr Threshold
+Signatures (\texttt{FROST})} \parencite{komlo2020frost} over Ristretto255/Ed25519.
+
+Unlike naive multi-signature concatenation (whose byte size grows linearly with signer count $t$
+and exposes which specific subset of trustees voted), a $t$-of-$n$ \texttt{FROST} ceremony runs
+Distributed Key Generation (DKG) using Feldman Verifiable Secret Sharing so the aggregate group
+public key $PK_{\mathrm{group}}$ is a single 32-byte curve point, and any $t$ participants
+produce a single, standard 64-byte Schnorr signature $(R, z)$ in two communication rounds
+\textit{without ever reconstructing the group secret scalar $s$ in any device's memory}.
+
+\subsection{The Node 0 Faraday Genesis Ceremony and 2-of-3 Steward Vouching}
+
+Two canonical physical ceremonies anchor every settlement (Figure~\ref{fig:ch2-frost-ceremony}):
+\begin{enumerate}
+\item \textbf{Node 0 Prime Genesis (3-of-5 \texttt{FROST}, Scenario Tau):} Inside an air-gapped
+        Faraday enclosure, the founding cohort mixes three independent physical entropy
+        streams---an avalanche thermal-noise diode, the \texttt{ATECC608A} internal TRNG, and
+        raw atmospheric radio static sampled from an \texttt{SX1262} LoRa transceiver---via
+        BLAKE3 extraction to seed a 3-of-5 \texttt{FROST} DKG ceremony. Polynomial shares
+        $(i, s_i)$ are written directly onto five trustee smartcards; the aggregate
+        $PK_{\mathrm{genesis}}$ and the SHA-256 digest of the ratified Genesis Compact are
+        burned permanently into \texttt{ATECC608A} One-Time-Programmable (OTP) EEPROM.
+\item \textbf{Ring $R_1$ Steward Vouching (2-of-3 \texttt{FROST} + NFC Proximity):} Promoting a
+        probationary resident ($R_3$, after $\ge 30$ conflict-free days) to full Vouched Steward
+        ($R_1$) requires an in-person 2-of-3 \texttt{FROST} ceremony among existing $R_1$
+        stewards from distinct households. To defeat remote botnet relays, the vouch terminal
+        verifies simultaneous physical NFC field strength
+        $\mathtt{nfc\_rssi\_mdbm} > -55{,}000$ ($>-55.0\,\mathrm{dBm}$), strictly rejects
+        duplicate signer hashes and self-vouches (hardening the check already prototyped in
+        \texttt{kms\_assimilation.hpp:249--316}), and mints the newcomer's \texttt{BBS+} Steward
+        Verifiable Credential.
+\end{enumerate}
+
+\begin{figure}[htbp]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+    node distance=0.8cm and 1.3cm,
+    ent/.style={draw, rounded corners=3pt, thick, fill=orange!8, align=center, font=\scriptsize, minimum width=3.1cm, minimum height=0.82cm},
+    core/.style={draw, rounded corners=4pt, very thick, fill=cyan!10, align=center, font=\footnotesize, minimum width=4.4cm, minimum height=1.15cm},
+    card/.style={draw, rounded corners=3pt, thick, fill=green!8, align=center, font=\scriptsize, minimum width=3.2cm, minimum height=0.85cm},
+    arr/.style={-{Stealth[length=2.2mm]}, thick}
+]
+    \node[ent] (e1) {Avalanche Noise Diode\\ (Thermal Shot Entropy)};
+    \node[ent, below=0.45cm of e1] (e2) {\texttt{ATECC608A} Silicon TRNG\\ (\texttt{/dev/i2c-1} Isolated)};
+    \node[ent, below=0.45cm of e2] (e3) {\texttt{SX1262} LoRa RF Static\\ (Atmospheric Entropy)};
+
+    \node[core, right=1.4cm of e2] (dkg) {\textbf{Faraday BLAKE3 Conditioner}\\ \textbf{\& \texttt{FROST} $(t,n)$ DKG}\\ {\scriptsize Zero Master Secret Reconstruction}\\ {\scriptsize \texttt{explicit\_bzero()} Ephemerals}};
+
+    \node[card, right=1.4cm of dkg, yshift=0.9cm] (otp) {\textbf{Node \texttt{ATECC608A} OTP}\\ Pins $PK_{\mathrm{group}}$ \& Genesis CID};
+    \node[card, right=1.4cm of dkg, yshift=-0.9cm] (cards) {\textbf{$n$ Steward Smartcards}\\ Non-Exportable Shares $(i, s_i)$\\ NFC RSSI $> -55{,}000\,\mathrm{mdBm}$};
+
+    \draw[arr] (e1.east) -- (dkg.north west);
+    \draw[arr] (e2.east) -- (dkg.west);
+    \draw[arr] (e3.east) -- (dkg.south west);
+    \draw[arr] (dkg.north east) -- (otp.west);
+    \draw[arr] (dkg.south east) -- (cards.west);
+\end{tikzpicture}%
+}
+\caption{Multi-source physical entropy conditioning and non-reconstructing \texttt{FROST} threshold key ceremony in Layer~5.}
+\label{fig:ch2-frost-ceremony}
+\end{figure}
+
+\begin{lstlisting}[language=C++,caption={Fixed-point NFC-gated 2-of-3 \texttt{FROST} vouching ceremony verifier in \texttt{col-kmsd}.},label={lst:ch2-frost-vouch}]
+#include <array>
+#include <cstdint>
+
+namespace collective::l5 {
+
+struct alignas(8) FrostVouchSignerAttestation {
+    uint64_t signer_pairwise_did_hash{0}; // R1 Steward pairwise DID hash (8B)
+    uint64_t signer_household_id{0};      // Enforces distinct households (8B)
+    int32_t  nfc_rssi_mdbm{-100000};      // Milli-dBm; must exceed -55000 (4B)
+    uint32_t enclave_slot_verified{0};    // 1 if ATECC608A MAC passed (4B)
+};
+static_assert(sizeof(FrostVouchSignerAttestation) == 24);
+
+struct alignas(8) FrostR1VouchCeremonyFrame {
+    uint64_t candidate_did_hash{0};                  // Probationary R3 candidate (8B)
+    uint64_t candidate_household_id{0};              // Candidate hearth scope (8B)
+    uint64_t ceremony_hlc{0};                        // Monotonic HLC timestamp (8B)
+    std::array<FrostVouchSignerAttestation, 3> s{};  // Up to 3 R1 co-signers (72B)
+    std::array<uint8_t, 64> frost_schnorr_sig{};     // Aggregated (R, z) sig (64B)
+    uint16_t candidate_r3_days{0};                   // Must be >= 30 days (2B)
+    uint16_t unresolved_mediations{0};               // Must be == 0 (2B)
+    uint8_t  frost_sig_math_valid{0};                // Verified vs PK_ring1 (1B)
+    uint8_t  reserved_pad[3]{0};                     // Explicit 8-byte pad (3B)
+};
+static_assert(sizeof(FrostR1VouchCeremonyFrame) == 168);
+
+[[nodiscard]] constexpr bool ValidateFrostR1VouchPreconditions(
+    const FrostR1VouchCeremonyFrame& f) noexcept
+{
+    if (f.candidate_did_hash == 0ULL || f.candidate_r3_days < 30U ||
+        f.unresolved_mediations != 0U || f.frost_sig_math_valid == 0U) {
+        return false;
+    }
+    uint32_t valid_distinct = 0U;
+    uint64_t seen_dids[3]{0ULL, 0ULL, 0ULL};
+    uint64_t seen_homes[3]{0ULL, 0ULL, 0ULL};
+
+    for (uint32_t i = 0U; i < 3U; ++i) {
+        const auto& a = f.s[i];
+        if (a.signer_pairwise_did_hash == 0ULL) continue;
+        if (a.signer_pairwise_did_hash == f.candidate_did_hash) return false; // No self-vouch
+        if (a.nfc_rssi_mdbm <= -55000 || a.enclave_slot_verified == 0U) return false;
+        for (uint32_t j = 0U; j < valid_distinct; ++j) {
+            if (seen_dids[j] == a.signer_pairwise_did_hash) return false; // No replay
+            if (seen_homes[j] == a.signer_household_id) return false;     // Anti-nepotism
+        }
+        seen_dids[valid_distinct]  = a.signer_pairwise_did_hash;
+        seen_homes[valid_distinct] = a.signer_household_id;
+        ++valid_distinct;
+    }
+    return valid_distinct >= 2U;
+}
+
+} // namespace collective::l5
+\end{lstlisting}
+
+\section{In-Person $(M, N)$ Shamir Social Key Recovery}
+\label{sec:ch2-shamir-recovery}
+
+Physical smartcards can be crushed in a sawmill, dropped into a river, or lost during an
+evacuation (\texttt{Scenario Upsilon}). In legacy platforms, losing a hardware token forces
+fallback to centralized ``customer support'' identity checks; in naive crypto wallets, losing a
+seed phrase means permanent civic death.
+
+Layer~5 resolves key loss without central authorities or biometrics via \textbf{$(M, N)$ Shamir Secret
+Sharing} \parencite{shamir1979} (typically $3\text{-of-}5$) over a prime field $\mathbb{F}_p$:
+\begin{enumerate}
+\item At onboarding, the steward's enclave splits a recovery key-wrapping secret $K_{\mathrm{rec}}$
+        into $N = 5$ polynomial evaluations $\{(x_i, f(x_i))\}_{i=1}^5$ ($\deg f = M - 1 = 2$)
+        and seals each shard inside the hardware enclave of a chosen kinship or neighborhood
+        guardian. Any $M - 1 = 2$ guardians colluding learn \textbf{zero Shannon bits} of
+        $K_{\mathrm{rec}}$.
+\item If the steward's card is destroyed, $M = 3$ guardians tap their smartcards physically in
+        person with the steward at a local terminal, reconstructing a signed key-rotation intent
+        that binds a fresh smartcard public key $pk_{\mathrm{new}}$ to the steward's encrypted
+        standing backup.
+\item \textbf{72-Hour Coercion Timelock Alarm:} Unless co-signed under an active Watershed
+        Disaster Refuge state (\texttt{Scenario Upsilon}), key rotation enters a mandatory
+        $259{,}200\,\mathrm{s}$ ($72\text{-hour}$) cooling-off window during which the old key
+        (if still possessed by a live steward under social-engineering attack) can unilaterally
+        veto the rotation with a single tap. During those $72\,\mathrm{hours}$, the steward's
+        $B_{\mathrm{baseline}}$ meals, shelter, and care remain $10{,}000\,\mathrm{bp}$ active.
+\end{enumerate}
+
+\begin{invariant}[Zero-Bit Collusion Leakage and Coercion Veto Window]
+\label{inv:ch2-shamir-safety}
+Under $(M, N)$ Shamir recovery over $\mathbb{F}_p$: (i)~for any subset $S$ of guardians with
+$|S| < M$, the mutual information $I(K_{\mathrm{rec}};\, \{f(x_i)\}_{i \in S}) = 0$ identically;
+and (ii)~any recovery rotation lacking an active physical disaster attestation remains vetoable
+by the primary hardware enclave for $\Delta_{\mathrm{cooloff}} = 259{,}200\,\mathrm{s}$ prior to
+Sparse Merkle Tree key replacement.
+\end{invariant}
+
+Having established how sovereign identities are anchored in tamper-resistant silicon, kept
+pairwise unlinkable across councils, and recovered through human solidarity, we turn in
+Chapter~\ref{ch:l5-trust-rings} to how \texttt{col-kmsd} maps concentric trust rings, defeats
+collusive Sybil botnets in fixed-point arithmetic, and issues blinded task capabilities.

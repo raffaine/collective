@@ -1,0 +1,306 @@
+\chapter{Wave E: Shared Carapace, Epistemic Science, Cultural Commons, and Polycentric Guilds (\texttt{Epsilon}, \texttt{Iota}, \texttt{Lambda}, \texttt{Pi})}
+\label{ch:l5-wave-e}
+
+\epigraph{Science, art, and craft flourish neither under corporate patent monopolies nor under ideological commissars, but in open Republics of Letters where peers test reality freely and share tools across porous borders.}{---Adapted from \textcite{ostrom2010} and \textcite{illich1973}}
+
+\textbf{Wave~E} elevates polycentric governance from physical metabolism to shared legal, scientific,
+artistic, and inter-guild coordination across four scenarios: \textbf{Scenario~Epsilon}
+(\textit{Federated Coworking and Docked Carapace-as-a-Service}), \textbf{Scenario~Iota}
+(\textit{Open Epistemic Commons, Anti-Sybil Replication, and Living Curriculum}),
+\textbf{Scenario~Lambda} (\textit{STEAM Amphitheater, Cultural Fellowships, and Sacred Refusal}),
+and \textbf{Scenario~Pi} (\textit{Polycentric Guilds, Work-Bee Swarms, and ZK Growth Beacons}).
+
+\begin{figure}[htbp]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+    >=Stealth,
+    plane/.style={rectangle, rounded corners=4pt, draw=black!75, thick, fill=gray!6, inner sep=6pt},
+    pill/.style={rectangle, rounded corners=3pt, draw=blue!70!black, semithick, fill=blue!5, minimum width=3.15cm, minimum height=1.6cm, align=center, font=\scriptsize},
+    outbox/.style={rectangle, rounded corners=3pt, draw=teal!75!black, semithick, fill=teal!6, minimum width=3.15cm, minimum height=1.2cm, align=center, font=\scriptsize}
+]
+    \node[plane, minimum width=14.0cm, minimum height=2.65cm] (l5) {};
+    \node[anchor=north west, font=\scriptsize\bfseries] at ($(l5.north west)+(0.15,-0.12)$) {Layer 5 (\texttt{col-kmsd}): Wave E Docked Legal Carapace, Anti-Sybil Science, Cultural Refusal \& Guild Beacons};
+
+    \node[pill, anchor=north west] (geps) at ($(l5.north west)+(0.25,-0.65)$) {\textbf{\texttt{SCN-EPSILON} Carapace}\\$0$ VSM Command Over Peers\\$\Phi_{\mathrm{cluster}}$ Auto-Shutoff\\Restorative Amber LED};
+    \node[pill, right=0.28cm of geps] (giota) {\textbf{\texttt{SCN-IOTA} Epistemic}\\$\ge 3$ $R_3\text{--}R_5$ Nodes\\$\le 50\,\mathrm{bp}$ Drift $\cdot$ $p<100\,\mathrm{bp}$\\$100\%$ Null-Result Parity};
+    \node[pill, right=0.28cm of giota] (glamb) {\textbf{\texttt{SCN-LAMBDA} Culture}\\1p1v Acoustic \& Grants\\$\mathcal{R}_{\mathrm{culture}} \le 800\,\mathrm{bp}$\\Sacred Vigil Relay Open};
+    \node[pill, right=0.28cm of glamb] (gpi) {\textbf{\texttt{SCN-PI} Guilds}\\3-Axis Ostrom Matrix\\ZK Growth Beacons\\Swarm $\to$ \texttt{ZERO\_AUTH}};
+
+    \node[plane, minimum width=14.0cm, minimum height=2.0cm, below=0.75cm of l5] (l4) {};
+    \node[anchor=north west, font=\scriptsize\bfseries] at ($(l4.north west)+(0.15,-0.12)$) {Layer 4 (\texttt{col-execd} / \texttt{l4\_l5.sock}): Federated VLANs, Oasis Twin Calibration, Rigging \& Work-Bees};
+
+    \node[outbox, anchor=north west] (feps) at ($(l4.north west)+(0.25,-0.58)$) {\texttt{802.1Q} VLAN + $\ge 8000\,\mathrm{bp}$\\Server Heat to \texttt{Zeta}};
+    \node[outbox, right=0.28cm of feps] (fiota) {Oasis \texttt{L1b} Physics Patch\\\texttt{DPL v1} Prior-Art Diode};
+    \node[outbox, right=0.28cm of fiota] (flamb) {Scalar \texttt{cB} Logs ($0$ Audio)\\$0$ Art NFTs Minted};
+    \node[outbox, right=0.28cm of flamb] (fpi) {BPVP \texttt{0x0504} Guild FIB\\$\ge 7000\,\mathrm{bp}$ Reciprocity};
+
+    \draw[->, thick, blue!70!black] (geps) -- (feps);
+    \draw[->, thick, blue!70!black] (giota) -- (fiota);
+    \draw[->, thick, blue!70!black] (glamb) -- (flamb);
+    \draw[->, thick, blue!70!black] (gpi) -- (fpi);
+\end{tikzpicture}%
+}
+\caption{Wave E Federated Governance Across \texttt{Epsilon}, \texttt{Iota}, \texttt{Lambda}, and \texttt{Pi}}
+\label{fig:wavee-choreography}
+\end{figure}
+
+\section{Scenario Epsilon (\texttt{SCN-EPSILON-COWORK}): Docked Carapace-as-a-Service}
+\label{sec:wavee-epsilon}
+
+During Stage~1 and Stage~2 transitions, fledgling neighborhood nodes rarely want to pay lawyers
+thousands of dollars each to incorporate redundant cooperatives. Scenario~Epsilon enables an anchor
+hub to offer \textbf{Docked Carapace-as-a-Service} via a Ricardian \texttt{SharedCarapaceDockingIntent}
+(\texttt{Treaty\_CID}) under the Tripartite Legal Chassis (PPT/CLT + Subchapter~T \texttt{26 U.S.C.\ \S\S\,1381--1388}
++ \texttt{UUNAA} Sec.~6), while exercising \textbf{zero VSM command authority}
+($\mathtt{vsm\_command\_over\_docked} \equiv 0$) over any docked node's internal governance.
+
+\subsection{Cluster $\Phi_{\mathrm{cluster}}$ Shutoff, Restorative Acoustics, and VLAN Isolation}
+
+\texttt{col-kmsd} aggregates docked nodes' external tax/utility obligations into $\Phi_{\mathrm{cluster}} = \sum_i \Phi_{t,i}$
+and automatically closes external Layer~7 coworking day-passes and consultancy intake the instant
+$\Phi_{\mathrm{cluster}}$ reaches $100\%$ offset. Inside the coworking hall, sustained noise
+$> 550\,\mathrm{cB}$ for $> 180\,\mathrm{s}$ triggers a calm amber desk LED and offers a soundproof
+\texttt{STC-50} call booth with zero reputational slashing; guest devices isolate onto per-session
+\texttt{802.1Q} VLANs, external clients interact only with pseudonymous guild handles, and
+$\ge 8{,}000\,\mathrm{bp}$ ($80\%$) of server waste heat routes into Scenario~Zeta's hydronic loop.
+
+\begin{invariant}[Docked Node Autonomy and Cluster Fiat-Ceiling Auto-Shutoff]
+\label{inv:wavee-epsilon-dock}
+Docking under a shared legal carapace grants the host node \textit{zero} vote or veto inside the
+docked node (\texttt{vsm\_command\_over\_docked} $= 0$), and external L7 intake halts whenever
+\texttt{cluster\_fiat\_earned\_cents} $\ge$ \texttt{cluster\_fiat\_target\_cents}.
+\end{invariant}
+
+\begin{lstlisting}[language=C++, caption={Scenario Epsilon Shared Carapace Docking and $\Phi_{\mathrm{cluster}}$ Gate (\texttt{col-kmsd})}, label={lst:wavee-epsilon-gate}]
+#include <cstdint>
+
+namespace collective::l5::wave_e {
+
+struct alignas(8) EpsilonCarapaceDockGateV31 {
+    uint64_t cluster_fiat_target_cents;  // Aggregated Phi_cluster obligation (cents)
+    uint64_t cluster_fiat_earned_cents;  // Current month offset collected (cents)
+    uint16_t open_floor_noise_cb;        // > 550 cB for > 180 s => amber LED offer
+    uint16_t noise_sustain_sec;          // Duration above quiet threshold (s)
+    uint16_t server_heat_recapture_bp;   // Must satisfy >= 8000 bp (80% to Zeta PEX)
+    uint8_t  vsm_command_over_docked;    // Constitutional law: MUST equal 0
+    uint8_t  vlan_8021q_isolated;        // Must equal 1 (per-session network isolation)
+};
+static_assert(sizeof(EpsilonCarapaceDockGateV31) == 24, "EpsilonCarapaceDockGateV31 ABI");
+
+[[nodiscard]] constexpr bool allow_epsilon_l7_consultancy_intake(
+    const EpsilonCarapaceDockGateV31& e) noexcept {
+    if (e.vsm_command_over_docked != 0U || e.vlan_8021q_isolated == 0U) return false;
+    if (e.server_heat_recapture_bp < 8000U) return false;
+    return e.cluster_fiat_earned_cents < e.cluster_fiat_target_cents;
+}
+
+} // namespace collective::l5::wave_e
+\end{lstlisting}
+
+\subsection{Bilateral Socket Contracts (\texttt{l4\_l5.sock} and \texttt{l5\_l6.sock})}
+
+Docking treaties ratify over \texttt{l5\_l6.sock} (\texttt{0x0601}) and push \texttt{802.1Q} and
+$\Phi_{\mathrm{cluster}}$ envelopes to \texttt{col-execd} over \texttt{l4\_l5.sock} (\texttt{0x0504}).
+
+\section{Scenario Iota (\texttt{SCN-IOTA-EPISTEMIC}): Open Epistemic Science}
+\label{sec:wavee-iota}
+
+Scenario~Iota replaces paywalled journals, tuition debt, and publication bias with decommodified
+inquiry ($\mathtt{tuition\_charged\_cents} \equiv 0$, zero student surveillance, zero bell-curve
+grading) and a cryptographic \textbf{Topological Anti-Sybil Replication Gate} governing updates to Oasis
+(\texttt{Layer 1b}) simulation coefficients \parencite{douceur2002sybil,grieves2014digital}.
+
+\subsection{Three-Node Anti-Sybil Replication, Null-Result Parity, and Indigenous Refusal}
+
+No single node---nor a colluding local cluster---can inject falsified crop yields, battery curves,
+or pharmacological constants into the federation's Oasis \texttt{L1b} physics engine. Updating a
+canonical \texttt{L1b} empirical coefficient requires signed experimental bundles from \textbf{$\ge 3$
+topologically distinct Autonomous Nodes} across $R_3\text{--}R_5$ with independent \texttt{ATECC608A}
+hardware roots, instrument calibration drift $\le 50\,\mathrm{bp}$ ($0.50\%$), and combined
+statistical significance $p < 100\,\mathrm{bp}$ ($1.00\%$). Well-controlled null and negative
+replications earn \textbf{$10{,}000\,\mathrm{bp}$ ($100\%$) standing parity} with positive discoveries,
+published findings enter the \texttt{DPL v1} defensive prior-art commons, and indigenous ecological
+knowledge remains protected under the \texttt{Protocol of Refusal} \parencite{kimmerer2013}.
+
+\begin{theorem}[Anti-Sybil Epistemic Integrity of Oasis \texttt{L1b} Physics Updates]
+\label{thm:wavee-iota-replication}
+Under Scenario~Iota's replication gate requiring $m \ge 3$ vertex-disjoint $R_3\text{--}R_5$
+hardware-attested nodes with calibration drift $\le 50\,\mathrm{bp}$, no adversary controlling fewer
+than three independent physical node enclaves across distinct watershed vouch cuts can alter any
+federated Oasis \texttt{L1b} physical parameter.
+\end{theorem}
+\begin{proof}
+Each replication bundle carries an \texttt{ATECC608A}-bound \texttt{FROST} council signature whose
+lineage must traverse vertex-disjoint BPVP vouch paths in $R_3\text{--}R_5$ (Chapter~\ref{ch:l5-trust-rings}).
+By Menger's theorem \parencite{ford1956maximal}, forging $m \ge 3$ vertex-disjoint attestations
+requires compromising at least three physically separate node enclaves across independent trust cuts;
+with $\le 2$ compromised nodes, \texttt{independent\_r3\_r5\_nodes < 3} rejects the patch deterministically.
+\end{proof}
+
+\begin{lstlisting}[language=C++, caption={Scenario Iota Topological Anti-Sybil Replication and Null-Result Gate (\texttt{col-kmsd})}, label={lst:wavee-iota-gate}]
+#include <cstdint>
+
+namespace collective::l5::wave_e {
+
+struct alignas(8) IotaEpistemicReplicationV31 {
+    uint64_t tuition_charged_cents;           // Constitutional law: MUST equal 0 cents
+    uint16_t max_calibration_drift_bp;        // Must satisfy <= 50 bp (0.50% metrology)
+    uint16_t combined_p_value_bp;             // Must satisfy < 100 bp (p < 0.01)
+    uint16_t negative_result_parity_bp;       // Always 10000 bp (100% null-result credit)
+    uint8_t  independent_r3_r5_nodes;         // Must satisfy >= 3 distinct enclave roots
+    uint8_t  student_surveillance_or_refusal; // Must equal 0 (no tracking / no Refusal hit)
+};
+static_assert(sizeof(IotaEpistemicReplicationV31) == 16, "IotaEpistemicReplicationV31 ABI");
+
+[[nodiscard]] constexpr bool authorize_oasis_l1b_coeff_patch(
+    const IotaEpistemicReplicationV31& i) noexcept {
+    return (i.tuition_charged_cents == 0ULL) &&
+           (i.student_surveillance_or_refusal == 0U) &&
+           (i.negative_result_parity_bp == 10000U) &&
+           (i.independent_r3_r5_nodes >= 3U) &&
+           (i.max_calibration_drift_bp <= 50U) &&
+           (i.combined_p_value_bp < 100U);
+}
+
+} // namespace collective::l5::wave_e
+\end{lstlisting}
+
+\subsection{Bilateral Socket Contracts (\texttt{l4\_l5.sock} and \texttt{l5\_l6.sock})}
+
+Verified \texttt{StudyBundle\_CID} replications ratify across \texttt{l5\_l6.sock} (\texttt{0x0604})
+and update Oasis calibration tables via controlled deployment sagas on \texttt{l4\_l5.sock} (\texttt{0x0501}).
+
+\section{Scenario Lambda (\texttt{SCN-LAMBDA-CULTURE}): Amphitheater and Sacred Refusal}
+\label{sec:wavee-lambda}
+
+Scenario~Lambda protects the soul of the commons---music, theater, luthiery, seasonal feasts, and
+grief vigils---through bicameral cultural sovereignty with \textbf{zero art NFTs or speculative tokens}
+($\mathtt{art\_nft\_tokens\_minted} \equiv 0$).
+
+\subsection{Bicameral Cultural Fellowships, Acoustic Caps, and Physical Vigil Cutoffs}
+
+The egalitarian Commons Chamber (1p1v) ratifies festival calendars, \textbf{Cultural Fellowships} (freeing
+artists and musicians from routine shop shifts without means-testing), and perimeter acoustic bounds
+($\le 550\,\mathrm{cB}$ day, $\le 450\,\mathrm{cB}$ night, and $\le 650\,\mathrm{cB}$ low-frequency
+\texttt{dBC} protecting \texttt{Eta} wildlife), while the Stewardship Chamber ($\mathcal{R}_{\mathrm{culture}} \le 800\,\mathrm{bp}$
+single-person share cap) governs stage rigging and pyrotechnic safety. During grief vigils or sacred
+ceremonies, invoking the \texttt{Protocol of Refusal} physically opens hardware relays cutting power
+to all stage microphones and cameras while perimeter monitors log only scalar centibel integers
+($\mathtt{raw\_audio\_bytes\_retained} \equiv 0$).
+
+\begin{invariant}[Zero Art Financialization and Zero Raw Audio Retention]
+\label{inv:wavee-lambda-culture}
+\texttt{col-kmsd} enforces $\mathtt{art\_nft\_tokens\_minted} \equiv 0$, $\mathtt{raw\_audio\_bytes\_retained} \equiv 0$,
+and $\mathcal{R}_{\mathrm{culture}} \le 800\,\mathrm{bp}$.
+\end{invariant}
+
+\begin{lstlisting}[language=C++, caption={Scenario Lambda Acoustic Curfew, Rigging Cap, and Vigil Refusal Gate (\texttt{col-kmsd})}, label={lst:wavee-lambda-gate}]
+#include <cstdint>
+
+namespace collective::l5::wave_e {
+
+struct alignas(8) LambdaCulturalCharterV31 {
+    uint64_t raw_audio_bytes_retained; // Constitutional law: MUST equal 0 bytes
+    uint16_t perimeter_spl_cb;         // <= 550 cB day / <= 450 cB night
+    uint16_t low_freq_wildlife_dbc_cb; // <= 650 cB dBC wildlife corridor ceiling
+    uint16_t stewardship_share_cap_bp; // <= 800 bp (8.00% anti-oligarchy cap)
+    uint8_t  sacred_vigil_relay_open;  // 1 => physical mic/camera cutoff verified
+    uint8_t  art_nft_tokens_minted;    // Constitutional law: MUST equal 0
+};
+static_assert(sizeof(LambdaCulturalCharterV31) == 16, "LambdaCulturalCharterV31 ABI");
+
+[[nodiscard]] constexpr bool verify_lambda_event_envelope(
+    const LambdaCulturalCharterV31& l, bool is_night, bool is_sacred_vigil) noexcept {
+    if (l.raw_audio_bytes_retained != 0ULL || l.art_nft_tokens_minted != 0U) return false;
+    if (l.stewardship_share_cap_bp > 800U || l.low_freq_wildlife_dbc_cb > 650U) return false;
+    if (is_sacred_vigil && l.sacred_vigil_relay_open == 0U) return false;
+    const uint16_t limit_cb = is_night ? 450U : 550U;
+    return l.perimeter_spl_cb <= limit_cb;
+}
+
+} // namespace collective::l5::wave_e
+\end{lstlisting}
+
+\subsection{Bilateral Socket Contracts (\texttt{l4\_l5.sock} and \texttt{l5\_l6.sock})}
+
+Fellowship ballots ratify on \texttt{l5\_l6.sock} (\texttt{0x0601}), while rigging safety claims
+cross \texttt{l4\_l5.sock} (\texttt{0x0503}).
+
+\section{Scenario Pi (\texttt{SCN-PI-GUILD}): Polycentric Guilds and ZK Growth Beacons}
+\label{sec:wavee-pi}
+
+Scenario~Pi operationalizes the Ostromian Three-Axis Jurisdiction Matrix and Zero-Knowledge
+Homomorphic Growth Beacons established in Chapter~\ref{ch:l5-bpvp-federation}, ensuring work-bee
+swarms (\texttt{TaskSwarm\_CID}) dissolve deterministically to \texttt{ZERO\_AUTHORITY} at
+\texttt{swarm\_ttl\_hlc} while enforcing Anti-Siphon and Anti-Hoarding reciprocity ($\ge 7{,}000\,\mathrm{bp}$).
+
+\begin{theorem}[Deterministic Temporal Dissolution of Task-Swarm Authority]
+\label{thm:wavee-pi-swarm}
+For every chartered \texttt{TaskSwarm\_CID} with expiration $\mathtt{swarm\_ttl\_hlc}$, at all
+Hybrid Logical Clock ticks $\mathtt{current\_hlc} \ge \mathtt{swarm\_ttl\_hlc}$ without explicit
+renewal, \texttt{col-kmsd} evaluates $\mathtt{swarm\_authority\_state} = 0$ (\texttt{ZERO\_AUTHORITY}),
+preventing temporary emergency or construction coordinators from ossifying into permanent bosses.
+\end{theorem}
+\begin{proof}
+Every \texttt{0x0503} claim and \texttt{0x0504} FIB check evaluates the pure-integer predicate
+$\mathtt{current\_hlc} < \mathtt{swarm\_ttl\_hlc}$ prior to issuing capabilities. Because HLC
+timestamps advance monotonically \parencite{kulkarni2014logical}, once $\mathtt{current\_hlc} \ge \mathtt{swarm\_ttl\_hlc}$,
+all subsequent capability evaluations return \texttt{false} identically with zero manual revocation delay.
+\end{proof}
+
+\begin{lstlisting}[language=C++, caption={Scenario Pi Task-Swarm TTL Dissolution and Reciprocity Gate (\texttt{col-kmsd})}, label={lst:wavee-pi-gate}]
+#include <cstdint>
+
+namespace collective::l5::wave_e {
+
+struct alignas(8) PiGuildBeaconGateV31 {
+    uint64_t three_hop_haul_energy_uj;   // >= 18 GJ/mo triggers BEACON_GRAVITY_WELL
+    uint64_t current_hlc;                // Monotonic Hybrid Logical Clock
+    uint64_t swarm_ttl_hlc;              // Deterministic expiry -> ZERO_AUTHORITY
+    uint16_t local_bay_utilization_bp;   // >= 7000 bp reciprocity before chronic R3 draw
+    uint8_t  active_regional_producers;  // < 3 triggers BEACON_SPOF_FRAGILITY
+    uint8_t  r0_surveillance_packets;    // Constitutional law: MUST equal 0
+    uint8_t  unratified_l7_resale_proof; // 1 => Anti-Siphon export quarantine
+    uint8_t  swarm_authority_state;      // 0 = ZERO_AUTHORITY, 1 = ACTIVE_SCOPED
+    uint16_t reserved_pad;
+};
+static_assert(sizeof(PiGuildBeaconGateV31) == 32, "PiGuildBeaconGateV31 ABI lock");
+
+[[nodiscard]] constexpr uint8_t evaluate_pi_swarm_authority(
+    const PiGuildBeaconGateV31& p) noexcept {
+    if (p.r0_surveillance_packets != 0U || p.unratified_l7_resale_proof != 0U) return 0U;
+    if (p.current_hlc >= p.swarm_ttl_hlc) return 0U; // Collapsed to ZERO_AUTHORITY
+    if (p.local_bay_utilization_bp < 7000U) return 0U;
+    return p.swarm_authority_state;
+}
+
+} // namespace collective::l5::wave_e
+\end{lstlisting}
+
+\subsection{Bilateral Socket Contracts (\texttt{l4\_l5.sock} and \texttt{l5\_l6.sock})}
+
+ZK growth beacons aggregate upward/downward through BPVP (\texttt{0x0504}) without leaking a single
+household's $R_0$ ledger state.
+
+\section{Wave E Synthesis: Convivial Maturity Progression}
+\label{sec:wavee-synthesis}
+
+\begin{table}[htbp]
+\centering
+\caption{Wave E (\texttt{Epsilon}, \texttt{Iota}, \texttt{Lambda}, \texttt{Pi}) Layer~5 Governance Across Maturity Stages}
+\label{tab:wavee-maturity}
+\footnotesize
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}lllll@{}}
+\toprule
+\textbf{Scenario} & \textbf{Stage 1A (Suburban Seed)} & \textbf{Stage 1B (Neighborhood Mesh)} & \textbf{Stage 2 (Cooperative Hub)} & \textbf{Stage 3 (CLT Sovereign Campus)} \\
+\midrule
+\texttt{Epsilon} (Cowork) & Home study VLAN + heat recapture & Docked UUNAA/Sub-T peer treaty & $\Phi_{\mathrm{cluster}}$ shutoff + \texttt{STC-50} booths & Multi-node carapace ($0$ VSM bossing) \\
+\texttt{Iota} (Science) & Open lab notebook; $0$ tuition & Calibrated soil/HPTLC bench ($\le 50\,\mathrm{bp}$) & $\ge 3$-node \texttt{L1b} replication + null parity & Bioregional research mesh + \texttt{DPL v1} \\
+\texttt{Lambda} (Culture) & Living-room acoustic circle ($\le 450\,\mathrm{cB}$) & Porch festival + scalar \texttt{cB} monitor & 1p1v Cultural Fellowships ($0$ NFTs) & Amphitheater + physical vigil relay cutoff \\
+\texttt{Pi} (Guilds) & Weekend neighbor work-bee TTL & $R_1/R_2$ craft guild check-ride sharing & 3-axis Ostrom matrix + Anti-Siphon gate & ZK Homomorphic Growth Beacons ($R_3\text{--}R_5$) \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}

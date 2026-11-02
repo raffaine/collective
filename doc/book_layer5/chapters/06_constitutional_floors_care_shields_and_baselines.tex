@@ -1,0 +1,306 @@
+\chapter{Thermodynamic Baselines, Non-Commensurable Care, and Ecological Preemption}
+\label{ch:l5-constitutional-floors}
+
+\epigraph{A society that prices the cup of water given to a feverish child or the hand held beside a dying elder has not achieved efficiency; it has merely forgotten why an economy exists at all.}{---Adapted from \textcite{illich1973} and \textcite{raworth2017}}
+
+Every socio-technical system encodes an implicit anthropology in what it chooses to meter, price,
+and withhold. State-socialist bureaucracies rationed survival through political loyalty cards;
+neoliberal platforms ration survival through wage precarity and algorithmic surge pricing; and
+first-generation ``Web3'' experiments proposed putting toddlers' nursery care, household dishwashing,
+and neighborhood first aid onto tokenized Dutch auctions. All three paradigms violate the first
+principle of a convivial commons \parencite{kropotkin1902,illich1973,raworth2017}: \textit{neither
+living ecosystems nor human dignity are commensurable commodities}.
+
+Layer~5 (\texttt{col-kmsd}) enforces this constitutional boundary in deterministic fixed-point
+code. Before any Layer~4 workflow may allocate a single microjoule of solar electricity, a
+milliliter of spring water, a gram of harvest grain, or a minute of commercial export capacity,
+\texttt{col-kmsd} interposes three unassailable structural laws: (1)~\textbf{Constitutional
+Non-Commensurability of Care}, banning every form of domestic or clinical care tokenization;
+(2)~the \textbf{Canonical Five-Tier Lexicographic Allocation Hierarchy} placing planetary
+regeneration ($F_{\mathrm{eco}}$) and unconditional human survival ($B_{\mathrm{baseline}}$) strictly
+above federated trade, discretionary guilds, and external Layer~7 fiat export ($\Phi_t$); and
+(3)~\textbf{Lifecycle Care Leave Shields, Disability Parity, and Emeritus Wisdom Standing}.
+
+\section{Constitutional Non-Commensurability and the Ban on Care Financialization}
+\label{sec:ch6-non-commensurability}
+
+Why does the Sovereign Stack strictly forbid minting ``care tokens,'' ``value tokens,'' or
+peer-to-peer ledger credits for rocking an infant (Scenario~Delta), sitting beside an elder in
+cognitive decline (Scenario~Phi), mentoring a novice at a lathe (Scenario~Kappa), or stabilizing a
+trauma patient (Scenario~Chi)?
+
+Behavioral economics and commons sociology converge on a devastating empirical law: introducing
+piece-rate monetary or token rewards into intimate solidarity domains actively crowds out intrinsic
+mutuality, turning unconditional kinship into transactional score-keeping while structurally
+penalizing whoever cares for high-needs children, disabled companions, or dying elders whose support
+cannot be ``optimized'' for throughput \parencite{mansbridge1980,kimmerer2013,han2015}.
+
+\begin{invariant}[Zero Care Tokenization and Anti-Workfare Law]
+\label{inv:ch6-zero-care-tokens}
+Across all twenty-five Sovereign Scenarios, \texttt{col-kmsd} rejects at schema-validation time
+any workflow or policy bundle attempting to price, auction, or issue transferable credits for
+intimate care, perinatal support, elder companionship, acute clinical triage, or basic survival
+provisioning ($\mathtt{domestic\_care\_token\_minting} \equiv 0$,
+$\mathtt{workfare\_coercion\_permitted} \equiv \mathsf{false}$). Instead of tokenizing care, Layer~5
+guarantees caregivers unconditional material security ($B_{\mathrm{baseline}}$), freezes reputational
+and skill decay during care seasons, and bounds any individual steward's rotational care burden to
+$\le 2{,}000\,\mathrm{bp}$ ($20\%$) of weekly waking hours.
+\end{invariant}
+
+\section{The Canonical Five-Tier Allocation Hierarchy and Export Surplus Law}
+\label{sec:ch6-five-tier-hierarchy}
+
+Whenever drought, winter cloud cover, or regional supply shocks constrain physical stocks on a node
+\parencite{rockstrom2009safe,holling1973,georgescu1971}, \texttt{col-kmsd} never auctions scarce
+essentials to the highest bidder. Instead, every physical stock $Q_{\mathrm{inv}}(t)$---whether
+48V/380V HVDC battery watt-hours, potable water milliliters, hydronic heat, or larder kilocalories---is
+partitioned across a strict \textbf{Five-Tier Lexicographic Preemption Hierarchy}
+(Figure~\ref{fig:ch6-five-tier-waterfall} and Table~\ref{tab:ch6-allocation-tiers}).
+
+\begin{figure}[htbp]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+    >=Stealth,
+    tier/.style={rectangle, rounded corners=4pt, draw=black!75, thick, minimum width=2.9cm, minimum height=1.55cm, align=center, font=\scriptsize},
+    gate/.style={diamond, aspect=1.7, draw=red!70!black, thick, fill=red!6, inner sep=1.5pt, align=center, font=\scriptsize\bfseries}
+]
+    \node[tier, fill=green!14] (t1) {\textbf{Tier 1: $F_{\mathrm{eco}}$}\\Ecological Floor\\($8000\,\mathrm{bp}$ river flow,\\$2000\,\mathrm{bp}$ soil/seed,\\$3000\,\mathrm{bp}$ forest debris)};
+    \node[tier, fill=teal!12, right=0.8cm of t1] (t2) {\textbf{Tier 2: $B_{\mathrm{baseline}}$}\\Human Dignity \& Clinic\\($2200\,\mathrm{kcal/d}$, $293{,}150\,\mathrm{mK}$,\\potable $\mathrm{H_2O}$, \texttt{Chi} ICU)};
+    \node[gate, right=0.65cm of t2] (surplus) {Surplus\\$> 0$?};
+    \node[tier, fill=blue!10, right=0.65cm of surplus] (t3) {\textbf{Tier 3: Mutual Aid}\\Ratified $R_1\text{--}R_4$\\Treaties \& \texttt{Upsilon}\\Refuge Relief};
+    \node[tier, fill=violet!10, right=0.8cm of t3] (t4) {\textbf{Tier 4: Guilds}\\Local Discretionary\\Fabrication, Kilns \&\\Fellowships};
+    \node[tier, fill=orange!12, right=0.8cm of t4] (t5) {\textbf{Tier 5: $\Phi_t$ Export}\\Transitional L7 Offset\\Auto-Shuts Off at\\$\mathtt{net\_bill} == 0\text{\,c}$};
+
+    \draw[->, very thick] (t1) -- node[above, font=\scriptsize]{$\succ$} (t2);
+    \draw[->, very thick] (t2) -- (surplus);
+    \draw[->, very thick, green!50!black] (surplus) -- node[above, font=\scriptsize]{Yes} (t3);
+    \draw[->, very thick] (t3) -- node[above, font=\scriptsize]{$\succ$} (t4);
+    \draw[->, very thick] (t4) -- node[above, font=\scriptsize]{$\succ$} (t5);
+    \draw[->, thick, red!70!black, dashed] (surplus.south) -- ++(0,-0.75) -| node[pos=0.25, below, font=\scriptsize]{No: Lock Tiers 3--5 (\texttt{SURPLUS\_ZERO})} (t5.south);
+\end{tikzpicture}%
+}
+\caption{Canonical Five-Tier Lexicographic Preemption Waterfall Enforced by \texttt{col-kmsd} Across Energy, Water, Nutrition, and Matter}
+\label{fig:ch6-five-tier-waterfall}
+\end{figure}
+
+\begin{table}[htbp]
+\centering
+\caption{Canonical Five-Tier Preemption Hierarchy and Fixed-Point Constitutional Floors}
+\label{tab:ch6-allocation-tiers}
+\footnotesize
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}cllll@{}}
+\toprule
+\textbf{Tier} & \textbf{Constitutional Priority} & \textbf{Representative Fixed-Point Floor} & \textbf{Governing Ring} & \textbf{Scarcity Shedding Order} \\
+\midrule
+1 & $F_{\mathrm{eco}}$ (Ecological Regeneration) & $\ge 8000\,\mathrm{bp}$ instream flow; $\ge 2000\,\mathrm{bp}$ seed/humus; $\ge 3000\,\mathrm{bp}$ woody debris & Entrenched Core & Never shed (absolutist biophysical boundary) \\
+2 & $B_{\mathrm{baseline}}$ (Dignity \& Clinic) & $2200\,\mathrm{kcal/d}$; $293{,}150\,\mathrm{mK}$ warmth; \texttt{Chi} oxygen/cold-chain; \texttt{Zeta} shelter & $R_0$ Inviolable & Protected above all trade \& discretionary work \\
+3 & Federated Mutual Aid & Ratified \texttt{Treaty\_CID} obligations \& \texttt{Upsilon} Open-Hearth Refuge & $R_1\text{--}R_4$ Compact & Throttled proportionally only if Tiers 1--2 dip \\
+4 & Local Discretionary Guilds & Non-emergency \texttt{Theta} foundry melts, \texttt{Alpha} CNC, \texttt{Xi} expansions & $R_1\text{--}R_2$ Envelopes & Deferred via \texttt{col-execd} safe-point pause \\
+5 & Residual Layer~7 Export ($\Phi_t$) & Cottage food, custom joinery, eco-retreats up to $\Phi_t$ bill offset & $R_6 / L_7$ Firewall & \textbf{Shed first}; auto-clamped to $0$ when $\Phi_t = 0$ \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+\subsection{Export Surplus Bound, Prohibited Registers, and the ERC Saturation Clamp}
+
+To guarantee mathematically that external market demand can never starve a kitchen or strip-mine a
+forest---repeating the historical tragedy of cash-crop famines---Layer~5 enforces the
+\textbf{Constitutional Export Surplus Bound}:
+\begin{equation}
+    Q_{\mathrm{avail}}(t) = \max\Bigl(0,\; Q_{\mathrm{inv}}(t) - F_{\mathrm{eco}}(t) - B_{\mathrm{baseline}}(t)\Bigr)
+    \cdot \mathbf{1}_{\mathrm{export\_permitted}} \cdot \mathbf{1}_{\{\Phi_{\mathrm{rem}}(t) > 0\}}.
+\end{equation}
+Three structural locks reinforce this equation:
+\begin{enumerate}
+    \item \textbf{Prohibited Export Registers (Scenario~Mu \& Scenario~Eta):} Living topsoil,
+    \textit{Terra Preta}, biochar, vermicompost, recovered struvite phosphorus, old-growth Mother
+    Trees, and indigenous heirloom germplasm carry $\mathbf{1}_{\mathrm{export\_permitted}} \equiv 0$
+    permanently. Soil fertility is watershed patrimony, never an exportable cash crop.
+    \item \textbf{Tier-3 Virgin Extraction Last-Resort Gate (Scenario~Theta):} Virgin geospheric
+    mining or quarrying is cryptographically blocked whenever technospheric urban scrap
+    ($Q_{\mathrm{scrap\_mg}} > 0$) is available across $R_1\text{--}R_5$; if genuinely zero scrap
+    exists, virgin extraction requires an $R_4$ Watershed Assembly supermajority ($6{,}600\,\mathrm{bp}$),
+    a $10\times$ ($100{,}000\,\mathrm{bp}$) Ecological Replacement Cost (ERC) surcharge, and a
+    $10{,}000\,\mathrm{bp}$ ($100\%$) pre-funded site-reclamation escrow.
+    \item \textbf{Pre-Division Saturation Clamp on ERC Multipliers:} When computing integer
+    depletion multipliers $M_{\mathrm{erc\_bp}}(r) = \lfloor \frac{10{,}000 \cdot 10{,}000}{10{,}000 - r} \rfloor$
+    as stock utilization $r \in [0, 10{,}000]\,\mathrm{bp}$ approaches exhaustion, naive division at
+    $r \ge 10{,}000\,\mathrm{bp}$ would trigger divide-by-zero or signed 64-bit wrap-around. Verified
+    in \texttt{verification/test\_companion\_architecture\_challenge.py}, \texttt{col-kmsd} applies
+    a mandatory pre-division saturation clamp $r_{\mathrm{eff}} = \min(r, 9{,}900\,\mathrm{bp})$
+    (capping $M_{\mathrm{erc\_bp}}$ cleanly at $1{,}000{,}000\,\mathrm{bp} = 100\times$) and halts
+    non-survival draws entirely once $r \ge 9{,}900\,\mathrm{bp}$.
+\end{enumerate}
+
+\begin{theorem}[Survival Baseline Invariance and Overflow-Free ERC Preemption]
+\label{thm:ch6-survival-invariance}
+Let $Q_{\mathrm{inv}}(t) \ge F_{\mathrm{eco}}(t) + B_{\mathrm{baseline}}(t)$ at tick $t$, and let
+arbitrary finite or adversarial demand vectors $(D_3, D_4, D_5) \in \mathbb{N}_0^3$ arrive
+simultaneously from Federated Treaties (Tier~3), Local Guilds (Tier~4), and Layer~7 Commercial
+Export (Tier~5). Under \texttt{col-kmsd}'s Five-Tier Preemption Gate and pre-division clamp
+$r_{\mathrm{eff}} = \min(r, 9{,}900\,\mathrm{bp})$: (1)~post-dispatch inventory strictly satisfies
+$Q_{\mathrm{post}}(t) \ge F_{\mathrm{eco}}(t) + B_{\mathrm{baseline}}(t)$; and (2)~no 64-bit integer
+evaluation of $M_{\mathrm{erc\_bp}}(r)$ can divide by zero or overflow \texttt{uint64\_t} for any
+input $r \in [0, 65{,}535]$.
+\end{theorem}
+\begin{proof}
+Because Tier~1 and Tier~2 reserves $R_{12}(t) = F_{\mathrm{eco}}(t) + B_{\mathrm{baseline}}(t)$ are
+subtracted prior to computing the residual pool $S(t) = \max(0, Q_{\mathrm{inv}}(t) - R_{12}(t))$,
+Tiers~3, 4, and~5 allocate sequentially from $S(t)$ via $A_3 = \min(D_3, S)$,
+$A_4 = \min(D_4, S - A_3)$, and $A_5 = \min(D_5, S - A_3 - A_4) \cdot \mathbf{1}_{\mathrm{export}}
+\cdot \mathbf{1}_{\{\Phi_{\mathrm{rem}}>0\}}$. Summing allocations yields
+$A_3 + A_4 + A_5 \le S(t) = Q_{\mathrm{inv}}(t) - R_{12}(t)$, whence
+$Q_{\mathrm{post}}(t) = Q_{\mathrm{inv}}(t) - (A_3 + A_4 + A_5) \ge R_{12}(t)$, proving~(1)
+independently of the magnitude of $(D_3, D_4, D_5)$. For~(2), for every \texttt{uint16\_t} $r$,
+$r_{\mathrm{eff}} = \min(r, 9900)$ satisfies $10{,}000 - r_{\mathrm{eff}} \ge 100 > 0$, eliminating
+division by zero; the numerator $10{,}000 \times 10{,}000 = 10^8 \ll 2^{64}-1$ never overflows
+\texttt{uint64\_t}, and $M_{\mathrm{erc\_bp}} \le 10^6\,\mathrm{bp}$ remains monotonically bounded.
+\end{proof}
+
+\section{Fixed-Point \texttt{BaselineExistenceEntitlement} and Fiat-Burn Collapse}
+\label{sec:ch6-baseline-entitlement}
+
+In \texttt{src/daemons/col-kmsd/kms\_assimilation.hpp}, the Sovereign Stack already grounds survival
+in concrete suburban reality rather than utopian abstraction. From Day~1 of onboarding (Scenario~Tau),
+every resident holds an unconditional \texttt{RING\_R0\_CONSTITUTIONAL}
+\texttt{BaselineExistenceEntitlement}:
+\begin{itemize}
+    \item \textbf{Nourishment (\texttt{Gamma}):} $2{,}200\,\mathrm{kcal/day}$ ($9{,}204{,}800\,\mathrm{J/day}$)
+    of hot nourishing soup, stew, legumes, and garden greens, collapsing legacy household grocery
+    burn (\texttt{45,000 cents/mo} = $\$450/\mathrm{mo}$ per person).
+    \item \textbf{Thermal Comfort, Water \& Sanctuary (\texttt{Zeta}/\texttt{Beta}):} Minimum
+    $293{,}150\,\mathrm{mK}$ ($20.0^\circ\mathrm{C}$) interior hydronic warmth, hot showers, potable
+    water, and three-stream ecological sanitation, collapsing legacy utility burn
+    (\texttt{22,000 cents/mo} = $\$220/\mathrm{mo}$) as solar and rainwater workflows come online.
+    \item \textbf{Clinical \& Epistemic Access (\texttt{Chi}/\texttt{Iota}):} Six-modality primary,
+    dental, trauma, mental-health, reproductive, and palliative care plus zero-tuition Open Agora
+    access, with zero copays and zero workfare conditions.
+\end{itemize}
+
+Crucially, as local $R_0/R_1$ workflows collapse monthly external fiat obligations $\Phi_t$ toward
+\texttt{0 cents}, Layer~5 automatically throttles commercial export hours in lockstep, returning
+those liberated hours directly to rest, art, family, and inquiry.
+
+\begin{lstlisting}[language=C++, caption={Fixed-Point Five-Tier Preemption and Saturation-Clamped ERC Gate (\texttt{col-kmsd})}, label={lst:ch6-preemption-gate}]
+#include <cstdint>
+
+namespace collective::l5::floors {
+
+struct alignas(8) BaselineEntitlementV31 {
+    uint64_t daily_nutrition_uj;         // 9,204,800,000,000 uJ (2200 kcal/day)
+    uint32_t min_hearth_temp_mk;         // 293,150 mK (20.00 C minimum warmth)
+    uint32_t daily_potable_water_ml;     // 50,000 mL potable + hygiene baseline
+    uint64_t monthly_l7_bill_rem_cents;  // Remaining transitional fiat bill (cents)
+    uint16_t eco_floor_bp;               // e.g. 2000 bp soil/seed or 8000 bp river
+    uint8_t  export_prohibited_asset;    // 1 for Mu topsoil/biochar/Mother Trees
+    uint8_t  unconditional_clinic_zeta;  // Always 1 (never contingent on PoTW)
+    uint32_t reserved_pad;
+};
+static_assert(sizeof(BaselineEntitlementV31) == 32, "BaselineEntitlementV31 ABI lock");
+
+[[nodiscard]] constexpr uint64_t compute_erc_multiplier_bp(uint16_t util_bp) noexcept {
+    const uint64_t clamped_bp = (util_bp > 9900U) ? 9900ULL : static_cast<uint64_t>(util_bp);
+    return (10000ULL * 10000ULL) / (10000ULL - clamped_bp); // Max 1,000,000 bp (100x)
+}
+
+[[nodiscard]] constexpr uint64_t exportable_surplus_si(
+    uint64_t inv_si, uint64_t f_eco_si, uint64_t b_base_si,
+    const BaselineEntitlementV31& pol) noexcept {
+    if (pol.export_prohibited_asset != 0U || pol.monthly_l7_bill_rem_cents == 0ULL) {
+        return 0ULL; // Prohibited soil/seed asset OR fiat bill already offset to 0c
+    }
+    const uint64_t protected_floor = f_eco_si + b_base_si;
+    return (inv_si > protected_floor) ? (inv_si - protected_floor) : 0ULL;
+}
+
+} // namespace collective::l5::floors
+\end{lstlisting}
+
+\section{Lifecycle Care Shields, Disability Parity, and Emeritus Standing}
+\label{sec:ch6-care-shields}
+
+Because Layer~5 uses domain-scoped Reputational Wealth $\mathcal{R}_d$ with seasonal half-life
+decay (Chapter~\ref{ch:l5-intranode-envelopes}) and Scenario~Kappa recency timers to keep technical
+chambers dynamic, an unshielded decay equation would inadvertently penalize parents welcoming a
+newborn, stewards recovering from surgery, disabled residents experiencing chronic flares, or elders
+aging out of heavy physical labor. Layer~5 eliminates this structural bias through four
+constitutional \textbf{Lifecycle Care Shields} submitted via opcode \texttt{0x0603 L6\_SUBMIT\_CARE\_SHIELD}
+over \texttt{l5\_l6.sock}:
+
+\begin{enumerate}
+    \item \textbf{Dual-Freeze Somatic \& Care Leave Shield (Scenario~Sigma):} Triggered voluntarily
+    during illness, grief, family caregiving, or automatically after $> 144{,}000\,\mathrm{s}$
+    ($40\,\mathrm{h/wk}$) of contributed effort or acute emergency response (\texttt{Chi}/\texttt{Upsilon}),
+    simultaneously setting Layer~5 reputational decay to zero ($\mathtt{decay\_rate\_bp} = 0$) and
+    pausing Scenario~Kappa skill-fade clocks with \textit{zero} biometric wearables.
+    \item \textbf{Dual and $N$-Ary Perinatal Shields (Scenarios~Delta \& Omicron):} Grants a
+    $180\text{--}365\,\mathrm{day}$ full Dual-Freeze Shield plus expanded postpartum $B_{\mathrm{baseline}}$
+    ($6/\mathrm{day}$ high-iron \texttt{Gamma} meals and $358{,}150\,\mathrm{mK}$ [$85^\circ\mathrm{C}$]
+    cloth-diaper autoclave service) equally to \textit{all} biological, adoptive, queer, and chosen
+    co-parents registered in an $N$-ary \texttt{KinshipCovenant\_CID}.
+    \item \textbf{Disability and Chronic-Illness Parity (Scenario~Tau):} Self-declared or
+    peer-attested \texttt{disability\_flare\_shield} exemptions fulfill onboarding and full civic
+    standing without invasive medical tribunals, preserving $10{,}000\,\mathrm{bp}$ voting parity
+    and full access to non-physical design, governance, cultural, and research domains.
+    \item \textbf{Non-Decaying \texttt{T4\_Emeritus\_Sage} Standing (Scenario~Phi):} When veteran
+    stewards retire from physically taxing shop or forestry shifts, they transition into
+    non-decaying \texttt{T4\_Emeritus\_Sage} standing: holding \textit{zero} coercive bossing rank
+    over youth, yet exercising mandatory Long-Horizon Watershed Memory consultation on land-use
+    amendments and receiving a $+3{,}500\,\mathrm{bp}$ ($+35\%$) pedagogical recognition multiplier
+    when mentoring apprentices.
+\end{enumerate}
+
+\begin{definition}[Lifecycle Decay-Invariant Standing Transformation]
+\label{def:ch6-care-freeze}
+For any steward $i$ holding domain standing $\mathcal{R}_{i,d}(t_0)$ and mastery state $P(L_{i,d})$
+upon entering an active Care, Perinatal, or Disability Shield interval $[t_0, t_1]$, \texttt{col-kmsd}
+enforces $\mathcal{R}_{i,d}(t) = \mathcal{R}_{i,d}(t_0)$ and $\Delta t_{\mathrm{skill\_fade}}(t) = 0$
+for all $t \in [t_0, t_1]$, ensuring zero loss of civic or craft standing across human vulnerability.
+\end{definition}
+
+\begin{lstlisting}[language=C++, caption={Fixed-Point Lifecycle Care Shield and Emeritus Standing Evaluator (\texttt{col-kmsd})}, label={lst:ch6-care-shield}]
+#include <cstdint>
+
+namespace collective::l5::care {
+
+enum class ShieldKind : uint8_t {
+    NONE                 = 0,
+    SIGMA_SOMATIC_REST   = 1,
+    DELTA_PERINATAL_NARY = 2,
+    TAU_DISABILITY_FLARE = 3,
+    PHI_EMERITUS_SAGE    = 4
+};
+
+struct alignas(8) LifecycleCareShieldV31 {
+    uint64_t pairwise_steward_nym_hash; // Unlinkable did:peer hash (zero medical text)
+    uint64_t activated_hlc;             // Start timestamp (HLC)
+    uint64_t valid_until_hlc;           // 180..365d perinatal; UINT64_MAX for Emeritus
+    uint16_t max_caregiver_load_bp;     // <= 2000 bp (20% weekly burden dispersion cap)
+    uint16_t mentor_credit_boost_bp;    // +3500 bp for T4_Emeritus_Sage pedagogy
+    ShieldKind kind;
+    uint8_t  freeze_l5_rep_decay;       // 1 => decay_rate_bp == 0
+    uint8_t  freeze_kappa_skill_fade;   // 1 => skill-fade clock paused
+    uint8_t  expanded_postpartum_base;  // 1 => 6/d iron meals + 358150 mK autoclave
+};
+static_assert(sizeof(LifecycleCareShieldV31) == 32, "LifecycleCareShieldV31 ABI lock");
+
+[[nodiscard]] constexpr uint16_t effective_decay_rate_bp(
+    const LifecycleCareShieldV31& s, uint64_t now_hlc, uint16_t nominal_decay_bp) noexcept {
+    if (s.kind == ShieldKind::PHI_EMERITUS_SAGE) return 0U;
+    if (s.freeze_l5_rep_decay != 0U && now_hlc >= s.activated_hlc && now_hlc <= s.valid_until_hlc) {
+        return 0U;
+    }
+    return nominal_decay_bp;
+}
+
+} // namespace collective::l5::care
+\end{lstlisting}
+
+Material security and care parity protect the body; yet a community where every meal is warm can
+still become suffocating if neighbors police one another's private lives, trap partners in unhappy
+households, or punish mistakes with cages and public shaming. Chapter~\ref{ch:l5-sanctuary-justice}
+completes Part~I's constitutional architecture by examining Sanctuary Privacy, the Protocol of
+Refusal, unilateral Safe Harbor Severance, and Transformative Justice.

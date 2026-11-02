@@ -1,0 +1,330 @@
+\chapter{Governing Hundreds of Intra-Node Workflows: Standing Envelopes, Bicameralism, and Sortition}
+\label{ch:l5-intranode-envelopes}
+
+\epigraph{The problem with socialism, Oscar Wilde quipped, is that it takes too many evenings. A convivial democracy solves this not by surrendering authority to technocrats, but by encoding consensually ratified boundaries into calm standing rules so assemblies deliberate only on genuine questions of value.}{---Adapted from \textcite{mansbridge1980} and \textcite{illich1973}}
+
+When visitors first study a Stage~2 cooperative hub or a Stage~3 Sovereign Campus---running
+between $260$ and $2{,}600+$ simultaneous BPMN workflows across staggered vegetable beds,
+pasteurization kettles, solar battery controllers, reed-bed valves, woodworking benches,
+perinatal care pods, and reproducible software builds---an immediate objection arises:
+\textit{if Layer~5 governs every asset and workflow, how do residents avoid spending forty hours
+a week voting on soup pots and lumber screws?}
+
+Historical communes and participatory democracies repeatedly shattered on this exact reef
+\parencite{kanter1972,mansbridge1980}. Either every operational decision required a plenary
+evening vote---exhausting caregivers and workers until only a tiny faction of relentless
+meeting-goers remained, fulfilling \textcite{michels1911}'s \textbf{Iron Law of Oligarchy}---or the
+community delegated operational carte blanche to permanent managers who quietly hardened into an
+unaccountable boss class \parencite{cornforth1995}.
+
+Layer~5 (\texttt{col-kmsd}) breaks this dilemma through four interlocking institutional and
+computational mechanisms: (1)~\textbf{General-to-Specific Standing Asset Policy Envelopes}
+(\texttt{polycentric\_asset\_policies.json}) with autonomous state cutovers; (2)~\textbf{Single-Flight
+Diamond-DAG Yield Coalescing} and \textbf{Epoch-Versioned Policy Draining} across hundreds of
+communicating intra-node workflows; (3)~\textbf{Orthogonal Bicameralism} separating egalitarian moral
+ends from sublinearly capped, decaying technical competence; and (4)~\textbf{Three Constitutional Rule
+Tiers} paired with \textbf{Verifiable Random Function (VRF) Sortition Micro-Panels}
+\parencite{micali1999vrf,sintomer2010sortition}.
+
+\section{General-to-Specific Standing Asset Policy Envelopes}
+\label{sec:ch4-standing-envelopes}
+
+In a Sovereign Node, citizens \textit{never} vote on routine workflow ticks, valve actuations, or
+micro-procurements. Instead, physical and epistemic assets---such as
+\texttt{asset:backyard\_pea\_and\_mirepoix\_beds}, \texttt{asset:commons\_kitchen\_hearth},
+\texttt{asset:garage\_woodshop\_alpha}, \texttt{asset:compost\_and\_pyrolysis\_bay}, and
+\texttt{asset:backyard\_poultry\_coop}---are bound to inherited \textbf{Standing Policy Envelopes}
+compiled into content-addressed \texttt{PolicyBundle\_CID} trees
+(Table~\ref{tab:ch4-policy-tiers}).
+
+\begin{table}[htbp]
+\centering
+\caption{Three-Tier Inherited Standing Asset Policy Templates in \texttt{polycentric\_asset\_policies.json}}
+\label{tab:ch4-policy-tiers}
+\footnotesize
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}lllll@{}}
+\toprule
+\textbf{Template ID} & \textbf{Inherits} & \textbf{Sourcing \& BCC Limit} & \textbf{Allocation Split (\texttt{bp})} & \textbf{Task Release \& Auto-Cutover} \\
+\midrule
+\texttt{policy:r0\_household\_seed} & \texttt{null} (Tier 1) & Local $\to$ L7 ($\le \$20$ auto; $\$450/\mathrm{mo}$); R1 off & $F_{\mathrm{eco}}=2000$, $R_0=8000$ ($14\mathrm{d}$ min) & \texttt{R0\_SELF} only; zero external peer entry \\
+\texttt{policy:r1\_commons\_hearth} & Tier 1 (Tier 2) & Local $\to$ R1 BCC ($\le 150\,\mathrm{MJ}$) $\to$ L7 ($\le \$35$) & $F_{\mathrm{eco}}=2000$, $R_0=3000$, $R_1=5000$ & \texttt{R1\_TRUST\_RING} after $1800\,\mathrm{s}$ local grace; \texttt{BBS+} VC \\
+\texttt{policy:commons\_plus\_l7\_zero\_bill} & Tier 2 (Tier 3) & Local $\to$ R1 BCC ($\le 240\,\mathrm{MJ}$) $\to$ L7 ($\le \$35$) & $F_{\mathrm{eco}}=2000$, $R_0=2500$, $R_1=3500$, $\Phi_t=2000$ & Routes $2000\,\mathrm{bp}$ to L7 offset until bill $= 0\,\mathrm{c}$, then \textbf{auto-redirects to $R_1$} \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+Observe the elegance of Tier~3 (\texttt{policy:commons\_plus\_l7\_zero\_bill}): a suburban
+Stage~1 household carrying legacy municipal water or property-tax bills ratifies the envelope
+\textit{once}. Throughout the month, \texttt{col-kmsd} authorizes up to $2{,}000\,\mathrm{bp}$
+($20\%$) of joinery or cottage-food surplus to offset those external bills—only after
+$F_{\mathrm{eco}}$ ($2{,}000\,\mathrm{bp}$ soil/seed return), $R_0$ household larder reserves,
+and $R_1$ neighborhood tiffin shares are met. The exact millisecond monthly net Layer~7 bills
+reach \texttt{0 cents}, \texttt{auto\_redirect\_surplus\_to\_r1\_commons\_when\_bills\_offset}
+autonomously closes external commercial sales and redirects $100\%$ of surplus back into the
+neighborhood commons without convening a single meeting!
+
+\texttt{col-kmsd} emits \texttt{0x0602 L5\_ESCALATE\_DECISION\_DOCKET} upward over
+\texttt{l5\_l6.sock} \textit{solely} when an explicit \textbf{boundary trigger} fires (e.g., an L7
+fallback purchase exceeding the $\$35.00$ [\texttt{3500 cents}] auto-ceiling, household caloric
+reserves dipping below $72\,\mathrm{hours}$, or a request to expand an \texttt{R0\_SELF} room
+ring to external neighbors).
+
+\section{Intra-Node Yield Coalescing and Epoch-Versioned Policy Draining}
+\label{sec:ch4-yield-coalescing}
+
+When $500$ concurrent workflows interact inside a single governed node, forty downstream culinary,
+nursery, and workshop tasks may simultaneously depend on a single depleted precursor (for
+example, dried culinary peas, stainless M6 fasteners, or cured cedar stock) and emit
+\texttt{0x0505 L4\_EMIT\_UPWARD\_YIELD} frames across \texttt{l4\_l5.sock} on the same
+$100\,\mathrm{ms}$ tick.
+
+\subsection{Single-Flight Diamond-DAG Escalation Coalescing}
+
+Without deduplication in Layer~5, forty concurrent stock-miss yields would flood the Layer~6
+Agora docket with forty duplicate prompts, inducing alert fatigue. Inside \texttt{col-kmsd}, an
+$O(1)$ \textbf{Single-Flight Yield Coalescer} hashes every incoming \texttt{UpwardYieldPacketV31} by
+its canonical tuple $k = \mathrm{BLAKE3}(\mathtt{resource\_cid} \parallel
+\mathtt{policy\_scope\_id} \parallel \mathtt{yield\_reason})$:
+\begin{enumerate}
+\item The first yield arriving for key $k$ opens a coalescing slot, aggregates requested
+        milligrams/microjoules, evaluates whether local upstream workflow instantiation (such as
+        binding \texttt{wf.garden.\textit{} to replenish \texttt{wf.soup.}}) or Tier-2 Ring-1
+        \texttt{BPVP} sourcing is pre-authorized under the asset's standing envelope, and---only
+        if human approval is required---emits \textbf{one} unified docket to Layer~6.
+\item All $m - 1$ subsequent yields matching key $k$ append their \texttt{correlation\_id}s to
+        the slot's waiter list without generating additional Layer~6 prompts, receiving fan-out
+        \texttt{0x0506 L5\_GOVERNANCE\_RESOLUTION} frames the instant the single docket resolves.
+\end{enumerate}
+
+\begin{theorem}[Bounded Human Deliberation Load Under High-Density Workflow Scaling]
+\label{thm:ch4-bounded-dockets}
+Let a Sovereign Node execute $W$ concurrent BPMN workflows generating upward yields at aggregate
+rate $\Lambda(W)$ across $R_{\mathrm{distinct}}$ governed precursor resources under standing
+policy envelopes with autonomous clearance probability $p_{\mathrm{auto}} \in [0,1)$ and minimum
+coalescing window $\Delta_{\mathrm{coal}} > 0$. Then the rate $\lambda_{\mathrm{L6}}$ of human
+governance dockets emitted over \texttt{l5\_l6.sock} satisfies:
+\[
+\lambda_{\mathrm{L6}} \;\le\; \min\!\left(
+    (1 - p_{\mathrm{auto}})\, \Lambda(W),\;\;
+    \frac{R_{\mathrm{distinct}}}{\Delta_{\mathrm{coal}}}
+\right),
+\]
+remaining strictly bounded by $R_{\mathrm{distinct}} / \Delta_{\mathrm{coal}}$ even as workflow
+multiplicity $W \to \infty$.
+\end{theorem}
+
+\begin{proof}
+Every upward yield maps to one of $R_{\mathrm{distinct}}$ governed resource-scope keys. Any key
+cleared autonomously by standing-envelope rules (fraction $p_{\mathrm{auto}}$) emits zero
+\texttt{0x0602} frames, giving $\lambda_{\mathrm{L6}} \le (1 - p_{\mathrm{auto}})\Lambda(W)$.
+Simultaneously, for each key $r \in \{1, \dots, R_{\mathrm{distinct}}\}$, the single-flight
+coalescer suppresses all secondary arrivals during its active resolution window of duration at
+least $\Delta_{\mathrm{coal}}$, permitting at most $1 / \Delta_{\mathrm{coal}}$ dockets per unit
+time for key $r$. Summing over $R_{\mathrm{distinct}}$ yields both upper bounds.
+\end{proof}
+
+\subsection{Epoch-Fenced Policy Transitions for In-Flight Workflows}
+
+Remedying Ceiling~7 identified by the Specialist Council (Chapter~\ref{ch:l5-oasis-council}),
+\texttt{col-kmsd} never mutates asset enums destructively in place while workflows are mid-flight.
+Every ratified policy modification increments \texttt{policy\_epoch} and specifies one of three
+deterministic transition disciplines via \texttt{0x0501}:
+\begin{itemize}
+\item \textbf{\texttt{DRAIN\_IN\_FLIGHT}:} Tasks already committed by a steward or Ring-1 peer
+        complete under epoch $e$, while newly spawned tokens bind to epoch $e + 1$.
+\item \textbf{\texttt{SAFEPOINT\_CUTOVER}:} Active tokens migrate to epoch $e + 1$ at their next
+        pre-actuation BPMN gateway safepoint.
+\item \textbf{\texttt{EMERGENCY\_QUARANTINE}:} Immediately revokes epoch $e$ claim handles and
+        routes post-actuation tokens into Second-Law forward salvage sagas.
+\end{itemize}
+
+\section{Orthogonal Bicameralism and Anti-Oligarchy Mathematics}
+\label{sec:ch4-bicameralism}
+
+When a boundary trigger or policy proposal genuinely requires collective human judgment,
+\texttt{col-kmsd} prevents both uninformed recklessness (say, overriding electrical lockout rules
+by popular whim) and technocratic rule (engineers dictating community priorities) via
+\textbf{Orthogonal Bicameralism} \parencite{ostrom2010,buck2007sociocracy}:
+
+\begin{enumerate}
+\item \textbf{The Commons Chamber (Normative Ends \& Allocation):} Comprises all Ring~$R_1$
+        stewards on a strictly egalitarian \textbf{1-person-1-vote (`10,000 bp`)} basis. Votes are
+        non-transferable and \textbf{strictly non-delegable}. The Commons Chamber holds exclusive
+        authority over community ends: acoustic curfews, $\Phi_t$ bill-offset ceilings, cultural
+        fellowships, ethical design vetoes, and constitutional amendments.
+\item \textbf{The Stewardship Chamber (Technical Means \& Safety Rubrics):} Weighted by
+        \textbf{domain-scoped Reputational Wealth ($\mathcal{R}_d$)} earned through anonymous
+        \texttt{ClaimHandle} PoTW completions, Scenario Kappa apprenticeships, and peer-attested
+        care/maintenance. Critically, $\mathcal{R}_d$ is \textbf{strictly partitioned by craft domain}
+        (metallurgy $\mathcal{R}_{\mathrm{theta}}$ grants zero weight in clinical
+        $\mathcal{R}_{\mathrm{chi}}$) and \textbf{never buys personal goods or survival priority}.
+\end{enumerate}
+
+\subsection{Seasonal Half-Life Decay, Sublinear `800 bp` Cap, and 1-Hop Delegation}
+
+To defeat founder entrenchment and \textcite{michels1911}'s Iron Law of Oligarchy, every domain
+score $\mathcal{R}_d$ obeys two fixed-point constraints:
+\begin{enumerate}
+\item \textbf{Seasonal Exponential Half-Life Decay:} Outside an active Care Leave or Emeritus
+        Shield, $\mathcal{R}_d(t + \Delta t) = \lfloor \mathcal{R}_d(t) \cdot 2^{-\Delta t /
+        \tau_{1/2}} \rfloor_{\mathrm{bp}}$ ($\tau_{1/2} = 31{,}536{,}000\,\mathrm{s}$ [1~year]),
+        ensuring governance reflects active stewards rather than absentee retirees.
+\item \textbf{Concave Logarithmic Weighting and `800 bp` (8\%) Chamber Share Cap:} Raw personal
+        standing maps through a concave integer logarithm clamped at \texttt{sublinearCapBp =
+        8000}, and no single steward (even including incoming 1-hop seasonal liquid delegations
+        $A \to B$, with transitive $A \to B \to C$ chains strictly forbidden) may ever hold more
+        than \textbf{$\mathcal{W}_{\max\_\mathrm{share}} = 800\,\mathrm{bp}$ ($8.00\%$)} of total
+        Stewardship Chamber voting weight in any domain $d$.
+\end{enumerate}
+
+\begin{theorem}[Anti-Oligarchic Minimum Coalition Bound]
+\label{thm:ch4-anti-oligarchy}
+In any domain Stewardship Chamber with $N \ge 13$ active credentialed stewards subject to single-member
+effective share cap $w_i \le 800\,\mathrm{bp}$ ($8\%$), passing an ordinary technical rubric
+($6{,}000\,\mathrm{bp}$ / $60\%$) requires at least $\lceil 6{,}000 / 800 \rceil = 8$ distinct
+concurring stewards, and passing a Meta-Rule ($6{,}600\,\mathrm{bp}$ / $66\%$) requires at least
+$\lceil 6{,}600 / 800 \rceil = 9$ distinct stewards; no clique of $\le 7$ senior veterans can
+ever unilaterally capture a domain guild.
+\end{theorem}
+
+\begin{proof}
+For any coalition $K$ of $|K| = k$ stewards (including any bounded 1-hop delegations absorbed into
+each delegate's capped share $w_i \le 800\,\mathrm{bp}$), total coalition weight satisfies
+$\sum_{i \in K} w_i \le 800\,k$ basis points. Achieving $6{,}000\,\mathrm{bp}$ requires
+$800\,k \ge 6{,}000 \implies k \ge 7.5 \implies k \ge 8$; achieving $6{,}600\,\mathrm{bp}$
+requires $800\,k \ge 6{,}600 \implies k \ge 8.25 \implies k \ge 9$.
+\end{proof}
+
+\section{Three Constitutional Rule Tiers and VRF Sortition Panels}
+\label{sec:ch4-tiers-sortition}
+
+Finally, \texttt{col-kmsd} protects foundational rights from transient majorities while relieving
+plenary assemblies of routine appellate work through \textbf{Three Constitutional Rule Tiers} and
+\textbf{Three VRF Sortition Institutions} (Figure~\ref{fig:ch4-bicameral-sortition} and
+Listing~\ref{lst:ch4-bicameral-quorum}):
+
+\begin{itemize}
+\item \textbf{Tier I --- Entrenched Core ($8{,}000\,\mathrm{bp}$ Double Supermajority + $60\,\mathrm{d}$ Cooloff + In-Person Assembly):}
+        Protects unconditional $B_{\mathrm{baseline}}$, $F_{\mathrm{eco}}$, Unconditional Exit,
+        Non-Violence, the Biometric Ban, and Zero Algorithmic Slashing. Self-entrenched by the
+        \textit{Threshold Invariant} (amending the amendment rule itself requires Tier~I).
+\item \textbf{Tier II --- Meta-Rules ($6{,}600\,\mathrm{bp}$ Double Supermajority + $30\,\mathrm{d}$ Cooloff + Chesterton's Fence):}
+        Governs council charters, $\tau_{1/2}$, and ring credit limits. Following
+        \textcite{chesterton1929}, every Meta-Rule binds a signed \textbf{Rationale Record} stating
+        the historical failure it prevents plus a mandatory review/sunset date.
+\item \textbf{Tier III --- Ordinary Policy:} Standing asset envelopes and blueprint additions,
+        governed via asynchronous consent \parencite{buck2007sociocracy} or domain co-sign.
+\item \textbf{Three VRF Sortition Micro-Panels \parencite{fishkin1991,sintomer2010sortition,wales2015future}:}
+        Cryptographic Verifiable Random Functions \parencite{micali1999vrf} draw 3-to-7 person
+        staggered citizen panels by lot: (1)~\textbf{Sortition Review Councils} (issuing
+        suspensive injunctions if an ordinary policy breaches Tier~I); (2)~\textbf{Future
+        Generations Panels} (convened on $>25\text{-year}$ forestry/architectural proposals using
+        Oasis \texttt{L1b} projections, holding a 1-year suspensive veto); and
+        (3)~\textbf{Bioregional Sortition Panels} (mediating cross-node treaty disputes).
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+    node distance=0.8cm and 1.2cm,
+    box/.style={draw, rounded corners=3pt, thick, align=center, font=\footnotesize, minimum height=1.0cm, inner sep=5pt},
+    arr/.style={-{Stealth[length=2.3mm]}, thick}
+]
+    \node[box, fill=green!8, minimum width=4.4cm] (env) {\textbf{Standing Asset Envelopes}\\ $>99\%$ Workflows Auto-Cleared\\ Single-Flight Yield Coalescer};
+    \node[box, fill=blue!7, right=1.1cm of env, yshift=0.75cm, minimum width=4.2cm] (commons) {\textbf{Commons Chamber (Ends)}\\ $10{,}000\,\mathrm{bp}$ 1p1v $\cdot$ Non-Delegable};
+    \node[box, fill=cyan!9, right=1.1cm of env, yshift=-0.75cm, minimum width=4.2cm] (steward) {\textbf{Stewardship Chamber (Means)}\\ Domain $\mathcal{R}_d$ $\cdot$ Share $\le 800\,\mathrm{bp}$};
+    \node[box, fill=orange!9, right=1.1cm of commons, yshift=-0.75cm, minimum width=4.0cm] (vrf) {\textbf{VRF Sortition Panels}\\ Review $\cdot$ Future Gen ($>25\mathrm{yr}$)\\ Chesterton Rationale Check};
+
+    \draw[arr] (env.east) -- node[above, sloped, font=\scriptsize] {Boundary Trigger} (commons.west);
+    \draw[arr] (env.east) -- node[below, sloped, font=\scriptsize] {Safety Rubric} (steward.west);
+    \draw[arr] (commons.east) -- (vrf.north west);
+    \draw[arr] (steward.east) -- (vrf.south west);
+\end{tikzpicture}%
+}
+\caption{Intra-node governance pipeline: standing envelopes absorb $>99\%$ of operational traffic, while boundary triggers route cleanly through orthogonal chambers and VRF sortition checks.}
+\label{fig:ch4-bicameral-sortition}
+\end{figure}
+
+\begin{lstlisting}[language=C++,caption={Fixed-point bicameral quorum, 800 bp anti-oligarchy cap, and rule-tier evaluator in \texttt{col-kmsd}.},label={lst:ch4-bicameral-quorum}]
+#include <cstdint>
+#include <span>
+
+namespace collective::l5 {
+
+enum class ConstitutionalRuleTier : uint8_t {
+    ORDINARY_POLICY = 1, // Domain / consent threshold (6000 bp)
+    META_RULE       = 2, // 6600 bp both chambers + 30d cooloff + Rationale CID
+    ENTRENCHED_CORE = 3  // 8000 bp both chambers + 60d cooloff + physical quorum
+};
+
+struct alignas(8) StewardChamberBallot {
+    uint64_t voter_pairwise_did_hash{0};
+    uint32_t capped_domain_weight_bp{0}; // Pre-clamped; re-verified <= 800 bp share
+    uint8_t  vote_yes{0};                // 1 = ratify, 0 = oppose
+    uint8_t  delegation_hops{0};         // Must be <= 1 (transitive chains banned)
+    uint8_t  reserved_pad[2]{0};
+};
+static_assert(sizeof(StewardChamberBallot) == 16);
+
+[[nodiscard]] constexpr bool EvaluateBicameralProposalPass(
+    ConstitutionalRuleTier tier,
+    uint32_t commons_yes_count,
+    uint32_t commons_total_count,
+    std::span<const StewardChamberBallot> steward_ballots,
+    uint64_t elapsed_cooloff_sec,
+    bool has_rationale_record_cid,
+    bool physical_assembly_attested) noexcept
+{
+    if (commons_total_count == 0U || steward_ballots.empty()) return false;
+    uint64_t req_bp = 6000ULL;
+    if (tier == ConstitutionalRuleTier::META_RULE) {
+        if (elapsed_cooloff_sec < 2592000ULL || !has_rationale_record_cid) return false;
+        req_bp = 6600ULL;
+    } else if (tier == ConstitutionalRuleTier::ENTRENCHED_CORE) {
+        if (elapsed_cooloff_sec < 5184000ULL || !physical_assembly_attested) return false;
+        req_bp = 8000ULL;
+    }
+
+    const uint64_t commons_yes_bp =
+        (static_cast<uint64_t>(commons_yes_count) * 10000ULL) / commons_total_count;
+    if (commons_yes_bp < req_bp) return false;
+
+    uint64_t total_w = 0ULL;
+    for (const auto& b : steward_ballots) {
+        if (b.delegation_hops > 1U) return false;
+        total_w += b.capped_domain_weight_bp;
+    }
+    if (total_w == 0ULL) return false;
+
+    uint64_t capped_yes_w = 0ULL;
+    uint64_t capped_tot_w = 0ULL;
+    for (const auto& b : steward_ballots) {
+        // Enforce <= 800 bp (8.00%) single-steward chamber share ceiling
+        const uint64_t max_share_w = (total_w * 800ULL) / 10000ULL;
+        const uint64_t eff_w = (b.capped_domain_weight_bp > max_share_w && max_share_w > 0ULL)
+                                   ? max_share_w : b.capped_domain_weight_bp;
+        capped_tot_w += eff_w;
+        if (b.vote_yes != 0U) capped_yes_w += eff_w;
+    }
+    return ((capped_yes_w * 10000ULL) / capped_tot_w) >= req_bp;
+}
+
+} // namespace collective::l5
+\end{lstlisting}
+
+\begin{invariant}[Zero Transitive Delegation and Mandatory Chesterton Rationale]
+\label{inv:ch4-meta-rule}
+Across all Layer~5 chambers: (i)~Commons Chamber votes satisfy $\mathtt{delegation\_hops} \equiv
+0$; (ii)~Stewardship Chamber delegations satisfy $\mathtt{delegation\_hops} \le 1$ with effective
+post-delegation share $\le 800\,\mathrm{bp}$; and (iii)~no Tier~II Meta-Rule compiles into an
+active \texttt{PolicyBundle\_CID} without a non-null \texttt{rationale\_record\_cid} and finite
+review timestamp.
+\end{invariant}
+
+Having shown how a single node governs hundreds of concurrent internal workflows calmly, we next
+scale outward in Chapter~\ref{ch:l5-bpvp-federation} to inter-node federation: how autonomous
+nodes route capabilities, ratify Ricardian treaties, and coordinate across watersheds via the
+Bioregional Path-Vector Protocol.

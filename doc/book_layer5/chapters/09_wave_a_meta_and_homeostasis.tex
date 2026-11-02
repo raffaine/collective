@@ -1,0 +1,317 @@
+\chapter{Wave A: Autopoietic Forge, Steward Genesis, and Somatic Homeostasis (\texttt{Zero}, \texttt{Tau}, \texttt{Sigma})}
+\label{ch:l5-wave-a}
+
+\epigraph{An autopoietic machine continuously generates and specifies its own organization through its operation as a system of production of its own components.}{---\textcite{maturana1980}}
+
+Part~I of this companion monograph established the internal constitutional machinery of Layer~5
+(\texttt{col-kmsd}): strict bilateral socket isolation across \texttt{l4\_l5.sock} and
+\texttt{l5\_l6.sock}, hardware-rooted \texttt{FROST} custody and pairwise \texttt{did:peer}
+identities, Sybil-resistant fixed-point EigenTrust and blinded \texttt{ClaimHandle} capabilities,
+standing asset policy envelopes and VRF sortition, BPVP path-vector routing and Ricardian treaties,
+five-tier survival preemption, and non-carceral sanctuary justice. Part~II demonstrates how those
+primitives govern all twenty-five operational scenarios of the Sovereign Stack across Horizontal
+Waves~A through~F, scaling cleanly from a 4-SBC suburban cluster (\texttt{Stage 1A}, $38\text{--}68$
+workflows) to a federated Community Land Trust campus (\texttt{Stage 3}, $850\text{--}2{,}600+$
+concurrent workflows).
+
+Horizontal governance begins with \textbf{Wave~A}, the constitutional meta-triad comprising
+\textbf{Scenario~Zero} (\textit{The Sovereign Software Forge}), \textbf{Scenario~Tau}
+(\textit{Steward Genesis, Multi-Pathway Assimilation, and Right of Exit}), and
+\textbf{Scenario~Sigma} (\textit{Anti-Burnout Homeostasis and Drudgery Escalation}). Before a node
+can legitimately govern pasteurization retorts, induction foundries, or pediatric care pods, it
+must answer three foundational questions of self-rule \parencite{beer1979,maturana1980,han2015}:
+\textit{Who ratifies the code running on the node? How do human beings enter and exit without
+coercion? And how does the system protect conscientious stewards from burning out while ensuring
+unpleasant maintenance still gets done?}
+
+\begin{figure}[htbp]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+    >=Stealth,
+    plane/.style={rectangle, rounded corners=4pt, draw=black!75, thick, fill=gray!6, inner sep=7pt},
+    gate/.style={rectangle, rounded corners=3pt, draw=blue!70!black, semithick, fill=blue!5, minimum width=4.0cm, minimum height=1.35cm, align=center, font=\scriptsize},
+    flow/.style={rectangle, rounded corners=3pt, draw=teal!75!black, semithick, fill=teal!6, minimum width=4.0cm, minimum height=1.25cm, align=center, font=\scriptsize}
+]
+    \node[plane, minimum width=13.8cm, minimum height=1.25cm] (l6) {};
+    \node[anchor=north west, font=\scriptsize\bfseries] at ($(l6.north west)+(0.15,-0.12)$) {Layer 6 (\texttt{col-commonsd} / \texttt{l5\_l6.sock}): Bicameral Release Ballots, Faraday NFC Ceremonies \& Voluntary \texttt{CareShield} Intents};
+
+    \node[plane, minimum width=13.8cm, minimum height=2.4cm, below=0.75cm of l6] (l5) {};
+    \node[anchor=north west, font=\scriptsize\bfseries] at ($(l5.north west)+(0.15,-0.12)$) {Layer 5 (\texttt{col-kmsd}): Wave A Constitutional Gates \& Cross-Workflow Standing Envelopes};
+
+    \node[gate, anchor=north west] (gzero) at ($(l5.north west)+(0.3,-0.65)$) {\textbf{\texttt{SCN-ZERO} Release Gate}\\3-Arch Digest $\cdot$ $0$ Floats\\$\ge 10{,}000$ \texttt{L1b} Ticks $\cdot$ Bicameral};
+    \node[gate, right=0.5cm of gzero] (gtau) {\textbf{\texttt{SCN-TAU} Genesis Gate}\\Clean-Slate Boot $\cdot$ 3-of-5 FROST\\$R_6 \to R_3 \to R_1$ $\cdot$ Disability Parity};
+    \node[gate, right=0.5cm of gtau] (gsigma) {\textbf{\texttt{SCN-SIGMA} Homeostasis}\\$>144{,}000\,\mathrm{s}$ Dual-Freeze Shield\\$3\times$ Drudgery $\to$ \texttt{Alpha} Bounty};
+
+    \node[plane, minimum width=13.8cm, minimum height=2.1cm, below=0.75cm of l5] (l4) {};
+    \node[anchor=north west, font=\scriptsize\bfseries] at ($(l4.north west)+(0.15,-0.12)$) {Layer 4 (\texttt{col-execd} / \texttt{l4\_l5.sock}): Dozens of Interlocking Build, Onboarding \& Rest-Aware Workflows};
+
+    \node[flow, anchor=north west] (fzero) at ($(l4.north west)+(0.3,-0.6)$) {A/B Binary Cutover (\texttt{0x0501})\\$<500\,\mathrm{ms}$ Hardware Break-Glass};
+    \node[flow, right=0.5cm of fzero] (ftau) {\texttt{SourcingMode} Cascade\\Unconditional $B_{\mathrm{baseline}}$ \& Exit};
+    \node[flow, right=0.5cm of ftau] (fsigma) {Claim Eligibility Filter (\texttt{0x0503})\\Spawns \texttt{Zero}/\texttt{Alpha} R\&D Saga};
+
+    \draw[<->, thick] (l6.south) -- node[right, font=\scriptsize\ttfamily]{l5\_l6.sock} (l5.north);
+    \draw[->, thick, blue!70!black] (gzero) -- (fzero);
+    \draw[->, thick, blue!70!black] (gtau) -- (ftau);
+    \draw[->, thick, blue!70!black] (gsigma) -- (fsigma);
+    \draw[->, thick, red!70!black, dashed] (gsigma.west) to[bend right=14] node[above, font=\scriptsize]{Auto R\&D Bounty} (gzero.east);
+\end{tikzpicture}%
+}
+\caption{Wave A Multi-Workflow Governance Choreography Across \texttt{Zero}, \texttt{Tau}, and \texttt{Sigma}}
+\label{fig:wavea-choreography}
+\end{figure}
+
+\section{Scenario Zero (\texttt{SCN-ZERO-SOFTWARE}): The Sovereign Software Forge}
+\label{sec:wavea-zero}
+
+In corporate cloud computing, pushing a commit to a central repository silently overwrites the
+software governing thousands of passive users. In a Sovereign Node, software \textit{is} operational
+constitution \parencite{saltzer1984end}: an unverified update to \texttt{col-kmsd} or \texttt{col-execd}
+could alter survival floors or leak private keys. Scenario~Zero governs the autopoietic compilation,
+canary verification, and bicameral deployment of the Sovereign Stack itself.
+
+\subsection{Bicameral Release Topology, Reproducible Builds, and Studio Conscience}
+
+Ordinary bug fixes and Layer~4 workflow optimizations within ratified bounds require a \textbf{2-of-3
+Domain Maintainer} threshold signature in the Stewardship Chamber ($R_0\text{--}R_2$ local deploy,
+mirrored across $R_3\text{--}R_6$ git/CAS bundles). However, whenever a commit modifies Layer~3
+thermodynamic ledger equations or Layer~5 constitutional trust/policy gates, \texttt{col-kmsd}
+enforces full \textbf{Bicameral Ratification}: both the 2-of-3 Maintainer quorum \textit{and} a
+Commons Chamber 1-person-1-vote supermajority must co-sign \texttt{SoftwareRelease\_CID}.
+
+Simultaneously, Scenario~Zero codifies the \textbf{\texttt{Protocol of Refusal} Studio Conscience Veto}
+and strict licensing hygiene: contributors hold an unassailable right to refuse building surveillance
+trackers, DRM locks, dark-pattern notifications, or weaponized firmware, while all Sovereign Stack
+artifacts ship under \texttt{AGPLv3} (software), \texttt{CERN-OHL-S v2} (hardware), and the
+\texttt{Defensive Patent License (DPL v1)} prior-art diode.
+
+\begin{invariant}[Tri-Architecture Determinism, Oasis Canary Soak, and Hardware Break-Glass]
+\label{inv:wavea-zero-release}
+\texttt{col-kmsd} refuses to emit \texttt{0x0501 L5\_DEPLOY\_WORKFLOW\_CID} or authorize A/B daemon
+promotion unless: (1)~independent reproducible builds across \texttt{x86\_64}, \texttt{aarch64}, and
+\texttt{riscv64} yield bit-identical BLAKE3 digests ($\mathtt{arch\_consensus\_mask} = \mathtt{0x07}$);
+(2)~static ELF/Wasm binary audit confirms $\mathtt{float\_opcodes\_l2\_l5} = 0$ and
+$\mathtt{layer\_skip\_imports} = 0$; and (3)~the candidate release completes $\ge 10{,}000$
+deterministic shadow ticks inside Oasis (\texttt{Layer 1b}) with zero invariant regressions. Even
+post-promotion, a physical toggle switch wired to the node chassis executes a $< 500\,\mathrm{ms}$
+hardware \textbf{Break-Glass Rollback} to \texttt{prev\_verified\_cid} without requiring network
+consensus.
+\end{invariant}
+
+\begin{lstlisting}[language=C++, caption={Scenario Zero Bicameral Software Release and Canary Gate (\texttt{col-kmsd})}, label={lst:wavea-zero-gate}]
+#include <cstdint>
+#include <array>
+
+namespace collective::l5::wave_a {
+
+struct alignas(8) ZeroReleaseRatificationV31 {
+    std::array<uint8_t, 32> release_cid;       // Tri-arch reproducible BLAKE3 digest
+    std::array<uint8_t, 32> prev_verified_cid; // < 500 ms Break-Glass rollback anchor
+    uint64_t oasis_shadow_soak_ticks;          // Must satisfy >= 10,000 ticks in L1b
+    uint16_t commons_yes_bp;                   // Required if touches_l3_or_l5_law == 1
+    uint8_t  arch_consensus_mask;              // Bit 0: x86_64, Bit 1: arm64, Bit 2: rv64
+    uint8_t  maintainer_cosigs;                // >= 2 of 3 Domain Maintainers
+    uint8_t  float_opcodes_l2_l5;              // Must equal 0 (IEEE-754 ban)
+    uint8_t  layer_skip_imports;               // Must equal 0 (strict adjacency)
+    uint8_t  touches_l3_or_l5_law;             // 1 => triggers Commons Chamber gate
+    uint8_t  studio_conscience_veto;           // 1 => tracker/DRM veto invoked
+};
+static_assert(sizeof(ZeroReleaseRatificationV31) == 80, "ZeroReleaseRatificationV31 ABI");
+
+[[nodiscard]] constexpr bool authorize_zero_release(
+    const ZeroReleaseRatificationV31& r) noexcept {
+    if (r.studio_conscience_veto != 0U) return false;
+    if (r.arch_consensus_mask != 0x07U) return false;
+    if (r.float_opcodes_l2_l5 != 0U || r.layer_skip_imports != 0U) return false;
+    if (r.oasis_shadow_soak_ticks < 10000ULL || r.maintainer_cosigs < 2U) return false;
+    if (r.touches_l3_or_l5_law != 0U && r.commons_yes_bp < 6600U) return false;
+    return true;
+}
+
+} // namespace collective::l5::wave_a
+\end{lstlisting}
+
+\subsection{Bilateral Socket Contracts (\texttt{l4\_l5.sock} and \texttt{l5\_l6.sock})}
+
+Maintainer and Commons ballots arrive over \texttt{l5\_l6.sock} (\texttt{0x0601}). Upon satisfying
+\texttt{authorize\_zero\_release()}, \texttt{col-kmsd} publishes a signed Rationale Record
+(\texttt{0x0604}) upward and dispatches \texttt{0x0501 L5\_DEPLOY\_WORKFLOW\_CID} with
+\texttt{DRAIN\_ACTIVE\_TOKENS} over \texttt{l4\_l5.sock} so hundreds of in-flight node workflows
+drain cleanly before binary cutover.
+
+\section{Scenario Tau (\texttt{SCN-TAU-GENESIS}): Steward Genesis, Assimilation, and Exit}
+\label{sec:wavea-tau}
+
+Scenario~Tau governs both physical node genesis---booting a clean-slate Sovereign Node inside a
+Faraday cage---and pluralistic human assimilation across $R_6 \to R_3 \to R_1$, paired with an
+unconditional Right of Exit \parencite{hirschman1970}.
+
+\subsection{Clean-Slate Boot, Onboarding Progression, and Disability Parity}
+
+As validated in \texttt{SharedStackRuntime::boot\_clean\_slate()}, a new node boots with
+\textbf{zero} unsolicited background workflows, defaulting food and power sourcing to
+\texttt{L7\_LEGACY\_CHANNEL} until residents explicitly ratify \texttt{R0\_LOCAL\_WORKFLOWS} and
+\texttt{R1\_MESH\_PEERS}. Node~0's root identity is forged via the \textbf{3-of-5 Faraday \texttt{FROST}
+Ceremony} mixing avalanche-diode, \texttt{ATECC608A}, and LoRa atmospheric entropy (Chapter~\ref{ch:l5-hardware-custody}).
+
+Newcomers arriving from the wider world ($R_6$) receive unconditional $B_{\mathrm{baseline}}$ access
+from their very first hour ($\mathtt{has\_bt\_survival\_floor} = \mathsf{true}$). Progression to
+probationary watershed standing ($R_3$) requires $\ge 7\,\mathrm{days}$ of peaceful shelter tenure
+paired with \textit{either} $\ge 36\,\mathrm{GJ}$ ($36 \times 10^{15}\,\mu\mathrm{J}$ or ratified
+household equivalent) of Proof-of-Thermodynamic-Work \textit{or} a self-/peer-attested
+\texttt{disability\_flare\_shield} parity exemption ($\mathtt{workfare\_coercion\_flag} = 0$).
+Advancement from $R_3$ to full $R_1$ Settlement Steward requires $\ge 30\,\mathrm{days}$ tenure,
+zero unresolved Peace Circle mediations, and a physical \textbf{2-of-3 $R_1$ \texttt{FROST} NFC Vouching
+Ceremony} ($\mathtt{min\_nfc\_rssi\_mdbm} > -55{,}000$). Conversely, \texttt{SafeHarborExit}
+guarantees any departing member $100\%$ of $R_0$ personal belongings, portable \texttt{BBS+} skill
+credentials, zero exit slashing, and staggered liquidity return protecting cooperative reserves
+against sudden bank-runs.
+
+\begin{invariant}[Anti-Workfare Onboarding Parity and Costless Exit]
+\label{inv:wavea-tau-parity}
+No person's $B_{\mathrm{baseline}}$ nutrition, warmth, shelter, or clinical care may ever be gated on
+onboarding stage, physical labor output, or disability status; and \texttt{disability\_flare\_shield}
+holders achieve $10{,}000\,\mathrm{bp}$ civic parity across $R_6 \to R_3 \to R_1$ without invasive
+medical interrogation.
+\end{invariant}
+
+\begin{lstlisting}[language=C++, caption={Scenario Tau Multi-Pathway Onboarding and Disability Parity Gate (\texttt{col-kmsd})}, label={lst:wavea-tau-gate}]
+#include <cstdint>
+
+namespace collective::l5::wave_a {
+
+struct alignas(8) TauAssimilationGateV31 {
+    uint64_t cumulative_potw_uj;       // Ratified thermodynamic contribution (uJ)
+    uint32_t shelter_tenure_days;      // >= 7d for R3; >= 30d for R1
+    int32_t  min_nfc_rssi_mdbm;        // Must exceed -55000 mdBm (-55.0 dBm) for R1
+    uint16_t open_mediations_count;    // Must equal 0 for R1 promotion
+    uint8_t  r1_frost_vouchers;        // >= 2 distinct R1 NFC co-signers
+    uint8_t  disability_flare_shield;  // 1 => full care/disability parity bypass
+    uint8_t  has_bt_survival_floor;    // Constitutional constant: MUST equal 1
+    uint8_t  workfare_coercion_flag;   // Constitutional constant: MUST equal 0
+    uint16_t reserved_pad;
+};
+static_assert(sizeof(TauAssimilationGateV31) == 24, "TauAssimilationGateV31 ABI lock");
+
+[[nodiscard]] constexpr uint8_t evaluate_tau_ring_promotion(
+    const TauAssimilationGateV31& g, uint64_t r3_potw_target_uj) noexcept {
+    if (g.has_bt_survival_floor != 1U || g.workfare_coercion_flag != 0U) return 6U;
+    const bool potw_or_parity = (g.cumulative_potw_uj >= r3_potw_target_uj) ||
+                                (g.disability_flare_shield != 0U);
+    if (g.shelter_tenure_days >= 30U && potw_or_parity &&
+        g.open_mediations_count == 0U && g.r1_frost_vouchers >= 2U &&
+        g.min_nfc_rssi_mdbm > -55000) {
+        return 1U; // Promoted to R1 Settlement Steward
+    }
+    if (g.shelter_tenure_days >= 7U && potw_or_parity) return 3U; // R3 Probationary
+    return 6U; // R6 Ecumene Sanctuary Arrival
+}
+
+} // namespace collective::l5::wave_a
+\end{lstlisting}
+
+\subsection{Bilateral Socket Contracts (\texttt{l4\_l5.sock} and \texttt{l5\_l6.sock})}
+
+Physical NFC vouching intents enter over \texttt{l5\_l6.sock} (\texttt{0x0601}); upon promotion,
+\texttt{col-kmsd} updates the steward's vault ring index and expands eligible pull-claim offers
+emitted via \texttt{0x0606} and \texttt{0x0503} without exposing any DID to \texttt{col-execd}.
+
+\section{Scenario Sigma (\texttt{SCN-SIGMA-BURNOUT}): Anti-Burnout Homeostasis}
+\label{sec:wavea-sigma}
+
+In cooperative movements, the most generous stewards frequently work themselves to exhaustion while
+unpleasant maintenance tasks pile up unclaimed \parencite{han2015,cannon1932}. Scenario~Sigma closes
+a cross-scenario homeostatic loop inside \texttt{col-kmsd} using \textbf{zero} biometric wearables
+($\mathtt{biometric\_wearables\_used} = 0$).
+
+\subsection{Dual-Freeze Rest Shields and Cross-Scenario Automation Bounties}
+
+Whenever a steward logs $> 144{,}000\,\mathrm{s}$ ($40\,\mathrm{h/wk}$), completes $> 6$ high-hazard
+shifts, responds to a \texttt{Chi}/\texttt{Upsilon} emergency, or voluntarily requests rest,
+\texttt{col-kmsd} activates the \textbf{Dual-Freeze Care Leave Shield}: simultaneously freezing Layer~5
+$\mathcal{R}_d$ decay ($\mathtt{decay\_rate\_bp} = 0$), pausing Scenario~Kappa skill-fade timers,
+and blinding non-urgent task notifications while preserving $100\%$ of $B_{\mathrm{baseline}}$.
+
+Conversely, when tedious sanitation, grease-trap, or weeding tasks remain voluntarily unclaimed in
+Layer~4, \texttt{col-kmsd} progressively escalates their standing recognition multiplier
+\texttt{tediousness\_multiplier\_bp} up to $30{,}000\,\mathrm{bp}$ ($3.0\times$). If a drudgery task
+still remains chronically unpicked past \texttt{escalation\_threshold\_ticks}, Layer~5 refuses to
+coerce anyone---instead, it \textbf{automatically spawns a cross-scenario R\&D automation bounty} into
+Scenario~Alpha and Scenario~Zero to engineer a mechanical washer or workflow redesign that eliminates
+the drudgery at its root!
+
+\begin{invariant}[Zero-Biometric Fatigue Shield and Drudgery-to-Automation Escalation]
+\label{inv:wavea-sigma-bounty}
+\texttt{col-kmsd} caps \texttt{tediousness\_multiplier\_bp} at $30{,}000\,\mathrm{bp}$, enforces
+$\mathtt{biometric\_wearables\_used} \equiv 0$, and converts chronic unclaimed drudgery into an
+\texttt{Alpha}/\texttt{Zero} engineering docket rather than compulsory labor assignment.
+\end{invariant}
+
+\begin{lstlisting}[language=C++, caption={Scenario Sigma Dual-Freeze Shield and Drudgery Bounty Escalator (\texttt{col-kmsd})}, label={lst:wavea-sigma-gate}]
+#include <cstdint>
+
+namespace collective::l5::wave_a {
+
+struct alignas(8) SigmaHomeostasisGateV31 {
+    uint64_t weekly_contributed_sec;    // > 144,000 s (40 h) triggers auto-shield
+    uint64_t unpicked_duration_ticks;   // Unclaimed sanitation/drudgery wait ticks
+    uint16_t tediousness_multiplier_bp; // 10000..30000 bp (1.0x..3.0x standing cap)
+    uint8_t  hazard_shifts_week;        // > 6 shifts triggers auto-shield
+    uint8_t  biometric_wearables_used;  // Constitutional constant: MUST equal 0
+    uint8_t  dual_freeze_active;        // Output flag: freezes L5 + Kappa decay
+    uint8_t  spawn_alpha_rd_bounty;     // Output flag: dispatches R&D automation saga
+    uint16_t reserved_pad;
+};
+static_assert(sizeof(SigmaHomeostasisGateV31) == 24, "SigmaHomeostasisGateV31 ABI lock");
+
+[[nodiscard]] constexpr SigmaHomeostasisGateV31 evaluate_sigma_homeostasis(
+    SigmaHomeostasisGateV31 s, uint64_t bounty_threshold_ticks) noexcept {
+    if (s.biometric_wearables_used != 0U) {
+        s.dual_freeze_active = 1U;
+        return s;
+    }
+    if (s.weekly_contributed_sec > 144000ULL || s.hazard_shifts_week > 6U) {
+        s.dual_freeze_active = 1U;
+    }
+    if (s.tediousness_multiplier_bp > 30000U) {
+        s.tediousness_multiplier_bp = 30000U;
+    }
+    if (s.unpicked_duration_ticks >= bounty_threshold_ticks) {
+        s.spawn_alpha_rd_bounty = 1U; // Trigger Alpha/Zero tooling redesign workflow
+    }
+    return s;
+}
+
+} // namespace collective::l5::wave_a
+\end{lstlisting}
+
+\subsection{Bilateral Socket Contracts (\texttt{l4\_l5.sock} and \texttt{l5\_l6.sock})}
+
+Unclaimed-task aging yields arrive from \texttt{col-execd} via \texttt{0x0505}; when
+\texttt{spawn\_alpha\_rd\_bounty == 1}, \texttt{col-kmsd} spawns the R\&D design workflow via
+\texttt{0x0502 L5\_SPAWN\_INSTANCE} on \texttt{l4\_l5.sock} and posts the open engineering call on
+\texttt{l5\_l6.sock} (\texttt{0x0602}).
+
+\section{Wave A Synthesis: Convivial Maturity Progression}
+\label{sec:wavea-synthesis}
+
+Table~\ref{tab:wavea-maturity} synthesizes how Wave~A's governance envelopes scale from a single
+suburban household cluster to a federated campus without increasing meeting burden.
+
+\begin{table}[htbp]
+\centering
+\caption{Wave A (\texttt{Zero}, \texttt{Tau}, \texttt{Sigma}) Layer~5 Governance Across Convivial Maturity Stages}
+\label{tab:wavea-maturity}
+\footnotesize
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}lllll@{}}
+\toprule
+\textbf{Scenario} & \textbf{Stage 1A (Suburban Seed)} & \textbf{Stage 1B (Neighborhood Mesh)} & \textbf{Stage 2 (Cooperative Hub)} & \textbf{Stage 3 (CLT Sovereign Campus)} \\
+\midrule
+\texttt{Zero} (Forge) & 4-SBC local A/B canary; $0$-float gate & $R_1$ CAS mirror; 2-of-3 maintainer sig & Tri-arch (\texttt{x86}/\texttt{arm}/\texttt{rv64}) farm & Full bicameral L3/L5 ratification \& DPL \\
+\texttt{Tau} (Genesis) & Clean-slate boot; $R_0$ household keys & 2-of-3 $R_1$ NFC vouching \& Shamir shards & 3-of-5 Faraday FROST + disability parity & Multi-node onboarding \& staggered exit pool \\
+\texttt{Sigma} (Rest) & Voluntary household \texttt{RestShield} & $R_1$ tiffin/chore relief pool on shield & $144{,}000\,\mathrm{s}$ Dual-Freeze + $3\times$ drudgery & Auto \texttt{Alpha}/\texttt{Zero} R\&D bounty loops \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}

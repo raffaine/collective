@@ -1,0 +1,329 @@
+\chapter{Wave C: Perinatal Sanctuary, Sovereign Kinship, Somatic Apprenticeship, and Shelter (\texttt{Delta}, \texttt{Omicron}, \texttt{Kappa}, \texttt{Zeta})}
+\label{ch:l5-wave-c}
+
+\epigraph{How a society welcomes a newborn, honors chosen love, passes craft from hand to hand, and roofs its sleepers tells you everything its constitution actually believes about freedom.}{---Adapted from \textcite{arendt1963} and \textcite{habraken1972supports}}
+
+\textbf{Wave~C} governs the intimate social fabric of the settlement across four deeply interwoven
+scenarios: \textbf{Scenario~Delta} (\textit{Perinatal Sanctuary and Early-Childhood Care Pods}),
+\textbf{Scenario~Omicron} (\textit{$N$-Ary Sovereign Kinship, Anti-Moralism, and Safe Harbor}),
+\textbf{Scenario~Kappa} (\textit{Somatic Apprenticeship and 3-of-3 Mastery}), and
+\textbf{Scenario~Zeta} (\textit{Decommodified CLT Shelter and Three-Stream Sanctuary}). Across a
+living node, hundreds of daily workflows---diaper autoclave sterilizers, high-iron postpartum tiffin
+deliveries, nursery ratio monitors, smart-lock rotations, UWB mentor co-presence checks, and
+greywater heat-recovery loops---interoperate silently under Wave~C's Layer~5 covenants without a
+single care token, interior surveillance camera, or speculative landlord.
+
+\begin{figure}[htbp]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+    >=Stealth,
+    plane/.style={rectangle, rounded corners=4pt, draw=black!75, thick, fill=gray!6, inner sep=6pt},
+    card/.style={rectangle, rounded corners=3pt, draw=violet!70!black, semithick, fill=violet!5, minimum width=3.15cm, minimum height=1.55cm, align=center, font=\scriptsize},
+    sub/.style={rectangle, rounded corners=3pt, draw=teal!75!black, semithick, fill=teal!6, minimum width=3.15cm, minimum height=1.2cm, align=center, font=\scriptsize}
+]
+    \node[plane, minimum width=14.0cm, minimum height=2.6cm] (l5) {};
+    \node[anchor=north west, font=\scriptsize\bfseries] at ($(l5.north west)+(0.15,-0.12)$) {Layer 5 (\texttt{col-kmsd}): Wave C Intimate Kinship, Care Ratio, Mastery \& CLT Shelter Covenants};
+
+    \node[card, anchor=north west] (gdelta) at ($(l5.north west)+(0.25,-0.65)$) {\textbf{\texttt{SCN-DELTA} Nursery}\\$0$ Care Tokens $\cdot$ $0$ Cams\\$180\text{--}365\mathrm{d}$ Shield\\$\sum w_i \le 40000 N_{\mathrm{adult}}$};
+    \node[card, right=0.28cm of gdelta] (gomic) {\textbf{\texttt{SCN-OMICRON} Kinship}\\$N$-Ary $10000\,\mathrm{bp}$ Parity\\Anti-Moralism Firewall\\$<500\,\mathrm{ms}$ SafeHarbor};
+    \node[card, right=0.28cm of gomic] (gkappa) {\textbf{\texttt{SCN-KAPPA} Mastery}\\$\mathrm{BKT} \ge 9500\,\mathrm{bp}$\\E-Stop $\le 1500\,\mathrm{ms}$\\3-of-3 Anti-Nepotism};
+    \node[card, right=0.28cm of gkappa] (gzeta) {\textbf{\texttt{SCN-ZETA} Shelter}\\$\ge 99\text{-yr}$ CLT Lease\\$0$ Eviction / $0$ Sensors\\$\ge 9000\,\mathrm{bp}$ N/P Loop};
+
+    \node[plane, minimum width=14.0cm, minimum height=2.0cm, below=0.75cm of l5] (l4) {};
+    \node[anchor=north west, font=\scriptsize\bfseries] at ($(l4.north west)+(0.15,-0.12)$) {Layer 4 (\texttt{col-execd} / \texttt{l4\_l5.sock}): Coordinated Postpartum, Kinship, Shop \& Sanctuary Workflows};
+
+    \node[sub, anchor=north west] (fdelta) at ($(l4.north west)+(0.25,-0.58)$) {$358{,}150\,\mathrm{mK}$ Autoclave\\6/d Iron Meals (\texttt{Gamma})};
+    \node[sub, right=0.28cm of fdelta] (fomic) {L7 POA/HIPAA Armor\\ZK Blind-Spot (\texttt{0x0503})};
+    \node[sub, right=0.28cm of fomic] (fkappa) {UWB $\le 2000\,\mathrm{mm}$ \texttt{L0}\\Skill-Fade Pause (\texttt{Sigma})};
+    \node[sub, right=0.28cm of fkappa] (fzeta) {Offline HMAC Guest Key\\Storm Refuge \& Heat Loop};
+
+    \draw[->, thick, violet!70!black] (gdelta) -- (fdelta);
+    \draw[->, thick, violet!70!black] (gomic) -- (fomic);
+    \draw[->, thick, violet!70!black] (gkappa) -- (fkappa);
+    \draw[->, thick, violet!70!black] (gzeta) -- (fzeta);
+    \draw[<->, thick, teal!75!black, dashed] (gomic.west) -- (gdelta.east);
+    \draw[->, thick, red!70!black, dashed] (gomic.east) to[bend left=16] node[above, font=\scriptsize]{Suite} (gzeta.west);
+\end{tikzpicture}%
+}
+\caption{Wave C Governance Topology Linking Perinatal Pods, $N$-Ary Kinship, Apprenticeship, and CLT Shelter}
+\label{fig:wavec-choreography}
+\end{figure}
+
+\section{Scenario Delta (\texttt{SCN-DELTA-CHILD}): Perinatal Sanctuary and Care Pods}
+\label{sec:wavec-delta}
+
+Scenario~Delta surrounds pregnancy, birth, postpartum recovery, and early childhood with calm
+material abundance and radical privacy ($\mathtt{care\_tokens\_minted} \equiv 0$,
+$\mathtt{nursery\_cameras\_or\_ble} \equiv 0$).
+
+\subsection{Perinatal Shields, Pairwise Pod DIDs, and Neurodivergent-Weighted Ratio Gates}
+
+Upon registering a birth or adoption, \texttt{col-kmsd} grants a \textbf{$180\text{--}365$-day Dual-Parent
+(or $N$-Ary) Perinatal Care Leave Shield} ($\mathtt{decay\_rate\_bp} = 0$) and automatically spawns
+expanded postpartum $B_{\mathrm{baseline}}$ workflows into Scenario~Gamma ($6/\mathrm{day}$ high-iron
+lactation/recovery meals), Scenario~Zeta (uninterrupted nursery hydronic warmth), and sterilization
+bays ($\ge 358{,}150\,\mathrm{mK}$ [$85.0^\circ\mathrm{C}$] cloth-diaper autoclave cycles).
+
+Early-childhood care pods use ephemeral pairwise \texttt{did:peer} identifiers with zero cloud or
+Bluetooth tracking tags on children, surrounded by a Scenario~Beta \texttt{No-Transit} geofence.
+Adult stewards present zero-knowledge \texttt{BBS+} proofs (\texttt{Midwife\_Steward\_L2},
+\texttt{Pediatric\_CPR\_Steward\_L1}), while \texttt{col-kmsd} enforces a \textbf{Dynamic Age and
+Neurodivergent Weighted Ratio Gate} before admitting additional check-ins:
+\begin{equation}
+    \sum_{i=1}^{M} w_i \le 40{,}000\,\mathrm{bp} \cdot N_{\mathrm{adults}},
+\end{equation}
+where infants ($<18\,\mathrm{mo}$) carry $w_i = 20{,}000\,\mathrm{bp}$ ($2{:}1$ adult ratio),
+toddlers carry $13{,}333\,\mathrm{bp}$ ($3{:}1$), preschoolers carry $10{,}000\,\mathrm{bp}$
+($4{:}1$), and children needing high-sensory neurodivergent support carry $25{,}000\,\mathrm{bp}$,
+triggering \texttt{RATIO\_OVERFLOW\_HOLD} and summoning a backup $R_1$ caregiver rather than
+crowding the room.
+
+\begin{invariant}[Zero-Surveillance Nursery Sanctuary and Weighted Caregiver Ratio]
+\label{inv:wavec-delta-ratio}
+\texttt{col-kmsd} blocks pod check-in expansion whenever $\sum w_i > 40{,}000 \cdot N_{\mathrm{adults}}$
+and enforces $\mathtt{nursery\_cameras\_or\_ble} \equiv 0$ and $\mathtt{care\_tokens\_minted} \equiv 0$.
+\end{invariant}
+
+\begin{lstlisting}[language=C++, caption={Scenario Delta Weighted Care Ratio and Perinatal Sanctuary Gate (\texttt{col-kmsd})}, label={lst:wavec-delta-gate}]
+#include <cstdint>
+
+namespace collective::l5::wave_c {
+
+struct alignas(8) DeltaPodRatioGateV31 {
+    uint32_t weighted_child_sum_bp;      // Infant=20000, Toddler=13333, Neuro=25000 bp
+    uint32_t autoclave_temp_mk;          // Must satisfy >= 358,150 mK (85.0 C)
+    uint16_t credentialed_adults_count;  // Present adults holding Pediatric_CPR ZKP
+    uint16_t perinatal_shield_days;      // 180..365 days full decay freeze
+    uint8_t  nursery_cameras_or_ble;     // Constitutional law: MUST equal 0
+    uint8_t  care_tokens_minted;         // Constitutional law: MUST equal 0
+    uint8_t  midwife_cpr_zkp_valid;      // 1 => BBS+ selective disclosure verified
+    uint8_t  reserved_pad;
+};
+static_assert(sizeof(DeltaPodRatioGateV31) == 16, "DeltaPodRatioGateV31 ABI lock");
+
+[[nodiscard]] constexpr bool authorize_delta_pod_session(
+    const DeltaPodRatioGateV31& d) noexcept {
+    if (d.nursery_cameras_or_ble != 0U || d.care_tokens_minted != 0U) return false;
+    if (d.midwife_cpr_zkp_valid == 0U || d.credentialed_adults_count == 0U) return false;
+    if (d.autoclave_temp_mk < 358150U) return false;
+    const uint64_t cap_bp = 40000ULL * static_cast<uint64_t>(d.credentialed_adults_count);
+    return static_cast<uint64_t>(d.weighted_child_sum_bp) <= cap_bp;
+}
+
+} // namespace collective::l5::wave_c
+\end{lstlisting}
+
+\subsection{Bilateral Socket Contracts (\texttt{l4\_l5.sock} and \texttt{l5\_l6.sock})}
+
+Perinatal shields enter via \texttt{0x0603 L6\_SUBMIT\_CARE\_SHIELD} on \texttt{l5\_l6.sock},
+spawning postpartum meal/laundry sagas via \texttt{0x0502} on \texttt{l4\_l5.sock}.
+
+\section{Scenario Omicron (\texttt{SCN-OMICRON-KIN}): $N$-Ary Kinship and Safe Harbor}
+\label{sec:wavec-omicron}
+
+Legacy state family law privileges dyadic biological marriage while leaving queer, trans,
+polyamorous, platonic co-parenting, and intergenerational chosen-kin households exposed during
+hospitalizations or probate. Scenario~Omicron grants every consensual adult kinship structure
+($N \ge 2$) \textbf{10,000 bp (100\%) constitutional parity}.
+
+\subsection{$N$-Ary \texttt{KinshipCovenant\_CID}, L7 Private-Law Armor, and Anti-Moralism}
+
+Co-signing an $N$-ary \texttt{KinshipCovenant\_CID} via physical NFC co-presence
+($\mathtt{nfc\_wot\_rssi\_mdbm} > -55{,}000$) immediately equalizes internal Layer~5 rights---extending
+\texttt{Delta} perinatal shields, \texttt{Zeta} suite co-residency, and \texttt{Chi}/\texttt{Phi}
+bedside medical proxy authority across all $N$ members---while instructing Layer~7 to compile
+defensive \textbf{Private-Law Armor} (Durable Healthcare Powers of Attorney, HIPAA releases,
+\textit{In Loco Parentis} co-parenting trusts, and CLT survivorship deeds) blinded externally under
+\textit{NAACP v.\ Alabama} \parencite{naacp1958}.
+
+Simultaneously, \texttt{col-kmsd} enforces the \textbf{Constitutional Anti-Moralism Firewall}
+(\texttt{SCHEMA\_VIOLATION\_MORALISTIC\_OVERREACH}), permitting only the Three-Rule Social Agreement
+($\le 450\,\mathrm{cB}$ night quiet, \texttt{Iota} HPTLC purity $\mathtt{hptlc\_adulterant\_zero} = 1$,
+and \texttt{Kappa} hazard-bay sobriety), paired with unilateral $< 500\,\mathrm{ms}$
+\texttt{SafeHarborSeverance} (Chapter~\ref{ch:l5-sanctuary-justice}).
+
+\begin{invariant}[$N$-Ary Kinship Parity and Anti-Moralism Schema Rejection]
+\label{inv:wavec-omicron-parity}
+Every $N$-ary \texttt{KinshipCovenant\_CID} ($N \ge 2$) receives identical $10{,}000\,\mathrm{bp}$
+perinatal, shelter, and clinical proxy standing to a dyad, and any ballot setting
+$\mathtt{moralistic\_overreach\_flag} = 1$ is rejected unconditionally.
+\end{invariant}
+
+\begin{lstlisting}[language=C++, caption={Scenario Omicron $N$-Ary Kinship Covenant and Three-Rule Gate (\texttt{col-kmsd})}, label={lst:wavec-omicron-gate}]
+#include <cstdint>
+#include <array>
+
+namespace collective::l5::wave_c {
+
+struct alignas(8) OmicronKinshipGateV31 {
+    std::array<uint8_t, 32> kinship_covenant_cid; // N-ary chosen-kin compact digest
+    int32_t  nfc_wot_rssi_mdbm;                   // > -55000 mdBm physical tap
+    uint16_t night_acoustic_cb;                   // <= 450 cB quiet-hours rule
+    uint16_t consenting_adults_n;                 // N >= 2 full 10000 bp parity
+    uint8_t  moralistic_overreach_flag;           // 1 => REJECT at schema membrane
+    uint8_t  hptlc_adulterant_zero;               // 1 => Iota purity check passed
+    uint8_t  hazard_bay_sober_ok;                 // 1 => Kappa machinery interlock OK
+    uint8_t  l7_poa_hipaa_compiled;               // 1 => private-law armor generated
+    uint32_t reserved_pad;
+};
+static_assert(sizeof(OmicronKinshipGateV31) == 48, "OmicronKinshipGateV31 ABI lock");
+
+[[nodiscard]] constexpr bool validate_omicron_covenant(
+    const OmicronKinshipGateV31& o) noexcept {
+    if (o.moralistic_overreach_flag != 0U) return false;
+    if (o.consenting_adults_n < 2U || o.nfc_wot_rssi_mdbm <= -55000) return false;
+    if (o.night_acoustic_cb > 450U) return false;
+    return (o.hptlc_adulterant_zero != 0U) &&
+           (o.hazard_bay_sober_ok != 0U) &&
+           (o.l7_poa_hipaa_compiled != 0U);
+}
+
+} // namespace collective::l5::wave_c
+\end{lstlisting}
+
+\subsection{Bilateral Socket Contracts (\texttt{l4\_l5.sock} and \texttt{l5\_l6.sock})}
+
+\texttt{KinshipCovenant\_CID} signatures and unilateral \texttt{SafeHarborSeverance} taps arrive on
+\texttt{l5\_l6.sock} (\texttt{0x0601}), updating \texttt{0x0503} spatial claim blind-spots in $< 500\,\mathrm{ms}$.
+
+\section{Scenario Kappa (\texttt{SCN-KAPPA-APPRENTICE}): Somatic Apprenticeship}
+\label{sec:wavec-kappa}
+
+Scenario~Kappa replaces debt-laden tuition credentials and bureaucratic gatekeeping with embodied
+peer-to-peer craft mastery \parencite{corbett1995bkt,illich1973} across four levels: \texttt{L0}
+(Supervised Novice requiring mentor UWB/BLE co-presence $\le 2{,}000\,\mathrm{mm}$), \texttt{L1}
+(Unsupervised Operator), \texttt{L2} (Diagnostic Maintainer), and \texttt{L3} (Pedagogical Master).
+
+\subsection{Integer BKT Mastery, Reflex Verification, and 3-of-3 Anti-Nepotism Multi-Sig}
+
+Issuing an unsupervised \texttt{L1+} \texttt{BBS+} safety credential inside \texttt{col-kmsd}
+requires passing three objective gates: (1)~integer Bayesian Knowledge Tracing posterior mastery
+$P(L_t) \ge 9{,}500\,\mathrm{bp}$ ($95.00\%$); (2)~hardware-timed physical Emergency-Stop reflex
+$\le 1{,}500\,\mathrm{ms}$ \parencite{iec61508}; and (3)~a \textbf{3-of-3 Anti-Nepotism Multi-Signature}
+(\texttt{1 L3 Master + 2 independent Stewards} drawn from distinct household covenants) preventing
+familial favoritism or clique gatekeeping. Unused high-hazard credentials transition non-punitively
+from \texttt{OPERATIONAL\_UNSUPERVISED} back to \texttt{ARMED\_SUPERVISED} refresher mode (paused
+automatically under \texttt{Sigma}/\texttt{Delta} shields), near-misses convene blameless safety
+circles, and logged somatic hours map directly onto Layer~7 State Journeyman licensure logs.
+
+\begin{invariant}[Anti-Nepotism 3-of-3 Somatic Safety Issuance]
+\label{inv:wavec-kappa-mastery}
+No \texttt{L1+} hazardous-equipment \texttt{BBS+} credential is minted unless
+$\mathtt{bkt\_mastery\_prob\_bp} \ge 9{,}500$, $\mathtt{estop\_reflex\_ms} \le 1{,}500$, and
+$\mathtt{distinct\_steward\_sigs} \ge 3$ across non-identical household covenants.
+\end{invariant}
+
+\begin{lstlisting}[language=C++, caption={Scenario Kappa Somatic Mastery and Anti-Nepotism Issuance Gate (\texttt{col-kmsd})}, label={lst:wavec-kappa-gate}]
+#include <cstdint>
+
+namespace collective::l5::wave_c {
+
+struct alignas(8) KappaMasteryPromotionV31 {
+    uint64_t distinct_household_hash_xor; // Non-zero independence witness across 3 sigs
+    uint16_t bkt_mastery_prob_bp;         // Must satisfy >= 9500 bp (95.00% BKT)
+    uint16_t estop_reflex_ms;             // Must satisfy <= 1500 ms physical E-Stop
+    uint16_t mentor_uwb_dist_mm;          // <= 2000 mm required during L0 training
+    uint8_t  target_level;                // 0=L0, 1=L1, 2=L2, 3=L3
+    uint8_t  distinct_steward_sigs;       // >= 3 (1 L3 Master + 2 distinct households)
+};
+static_assert(sizeof(KappaMasteryPromotionV31) == 16, "KappaMasteryPromotionV31 ABI");
+
+[[nodiscard]] constexpr bool authorize_kappa_vc_mint(
+    const KappaMasteryPromotionV31& k) noexcept {
+    if (k.target_level == 0U) return k.mentor_uwb_dist_mm <= 2000U;
+    return (k.bkt_mastery_prob_bp >= 9500U) &&
+           (k.estop_reflex_ms <= 1500U) &&
+           (k.distinct_steward_sigs >= 3U) &&
+           (k.distinct_household_hash_xor != 0ULL);
+}
+
+} // namespace collective::l5::wave_c
+\end{lstlisting}
+
+\subsection{Bilateral Socket Contracts (\texttt{l4\_l5.sock} and \texttt{l5\_l6.sock})}
+
+3-of-3 NFC check-ride attestations arrive via \texttt{l5\_l6.sock} (\texttt{0x0601}); minted
+\texttt{BBS+} capability bitmasks compile into 24-byte \texttt{ClaimHandle} grants over
+\texttt{l4\_l5.sock} (\texttt{0x0503}).
+
+\section{Scenario Zeta (\texttt{SCN-ZETA-LODGE}): Decommodified CLT Shelter}
+\label{sec:wavec-zeta}
+
+Scenario~Zeta permanently removes human shelter from speculative real-estate markets by locking land
+inside an irrevocable Community Land Trust (CLT) paired with a Perpetual Purpose Trust (PPT) and
+$\ge 99$-year homestead leases ($\mathtt{speculative\_rent\_cents} \equiv 0$,
+$\mathtt{eviction\_on\_bcc\_deficit} \equiv 0$).
+
+\subsection{Zero Interior Sensors, Three-Stream Sanitation, and Offline Guest Keys}
+
+Under the \texttt{Protocol of Refusal}, \texttt{col-kmsd} enforces $\mathtt{interior\_sensors\_count} \equiv 0$
+inside every bedroom and private suite. Ecological infrastructure operates strictly at the building
+manifold: three-stream urine/blackwater/greywater separation recovers $\ge 9{,}000\,\mathrm{bp}$
+($90\%$) of nitrogen and phosphorus to Scenario~Mu ($\mathtt{raw\_sewage\_discharge\_ml} = 0$) and
+$\ge 5{,}500\,\mathrm{bp}$ ($55\%$) of shower drain heat \parencite{kadlec1996}. Visiting $R_2\text{--}R_5$
+guild peers receive time-bounded offline \texttt{HMAC-SHA256} BLE/NFC guest keys, storm refugees
+receive unconditional sanctuary, and transitional Layer~7 eco-retreat bookings auto-close once
+property-tax bills reach \texttt{0 cents}.
+
+\begin{invariant}[Anti-Eviction Shelter Floor and Three-Stream Ecological Closure]
+\label{inv:wavec-zeta-shelter}
+No resident may ever be evicted for a Bilateral Clearing Channel deficit
+($\mathtt{eviction\_on\_bcc\_deficit} = 0$), $\mathtt{interior\_sensors\_count} \equiv 0$, and
+sanitation manifolds maintain $\ge 9{,}000\,\mathrm{bp}$ nutrient recovery.
+\end{invariant}
+
+\begin{lstlisting}[language=C++, caption={Scenario Zeta CLT Anti-Eviction and Sanctuary Manifold Gate (\texttt{col-kmsd})}, label={lst:wavec-zeta-gate}]
+#include <cstdint>
+
+namespace collective::l5::wave_c {
+
+struct alignas(8) ZetaShelterSanctuaryV31 {
+    uint64_t speculative_rent_cents;  // Constitutional law: MUST equal 0 cents
+    uint16_t clt_lease_years;         // >= 99-year irrevocable homestead tenure
+    uint16_t np_nutrient_recovery_bp; // >= 9000 bp (90.00% N/P to Mu biorefinery)
+    uint16_t drain_heat_recovery_bp;  // >= 5500 bp (55.00% greywater heat recovery)
+    uint8_t  interior_sensors_count;  // Protocol of Refusal: MUST equal 0
+    uint8_t  eviction_on_bcc_deficit; // Constitutional law: MUST equal 0
+};
+static_assert(sizeof(ZetaShelterSanctuaryV31) == 16, "ZetaShelterSanctuaryV31 ABI lock");
+
+[[nodiscard]] constexpr bool verify_zeta_sanctuary_charter(
+    const ZetaShelterSanctuaryV31& z) noexcept {
+    return (z.speculative_rent_cents == 0ULL) &&
+           (z.clt_lease_years >= 99U) &&
+           (z.np_nutrient_recovery_bp >= 9000U) &&
+           (z.drain_heat_recovery_bp >= 5500U) &&
+           (z.interior_sensors_count == 0U) &&
+           (z.eviction_on_bcc_deficit == 0U);
+}
+
+} // namespace collective::l5::wave_c
+\end{lstlisting}
+
+\subsection{Bilateral Socket Contracts (\texttt{l4\_l5.sock} and \texttt{l5\_l6.sock})}
+
+Offline guest HMAC leases and \texttt{SafeHarborSeverance} room allocations traverse \texttt{l5\_l6.sock}
+(\texttt{0x0601}) and compile into manifold maintenance workflows on \texttt{l4\_l5.sock} (\texttt{0x0502}).
+
+\section{Wave C Synthesis: Convivial Maturity Progression}
+\label{sec:wavec-synthesis}
+
+\begin{table}[htbp]
+\centering
+\caption{Wave C (\texttt{Delta}, \texttt{Omicron}, \texttt{Kappa}, \texttt{Zeta}) Layer~5 Governance Across Maturity Stages}
+\label{tab:wavec-maturity}
+\footnotesize
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}lllll@{}}
+\toprule
+\textbf{Scenario} & \textbf{Stage 1A (Suburban Seed)} & \textbf{Stage 1B (Neighborhood Mesh)} & \textbf{Stage 2 (Cooperative Hub)} & \textbf{Stage 3 (CLT Sovereign Campus)} \\
+\midrule
+\texttt{Delta} (Child) & Home postpartum meals; $0$ nursery cams & $R_1$ play-pod; $358{,}150\,\mathrm{mK}$ autoclave & $180\text{--}365\mathrm{d}$ Dual Shield + ratio gate & Multi-pod \texttt{No-Transit} nursery sanctuary \\
+\texttt{Omicron} (Kin) & Chosen-kin household POA/HIPAA pack & NFC WoT + Anti-Moralism schema gate & $N$-ary $10000\,\mathrm{bp}$ parity + $<500\,\mathrm{ms}$ exit & Full CLT survivorship \& ZK blind-spot mesh \\
+\texttt{Kappa} (Craft) & Buddy-supervised \texttt{L0} bench sessions & 3-of-3 distinct-household \texttt{L1} VCs & $\mathrm{BKT}\ge 9500\,\mathrm{bp}$ + E-Stop $\le 1500\,\mathrm{ms}$ & Federated guild check-rides + State Journeyman \\
+\texttt{Zeta} (Shelter) & Spare-room sanctuary; $0$ interior sensors & Offline HMAC guest keys for $R_2$ peers & Co-op lease + greywater heat loop & $\ge 99\text{-yr}$ CLT/PPT + $9000\,\mathrm{bp}$ N/P loop \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}

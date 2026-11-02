@@ -1,0 +1,308 @@
+\chapter{Concentric Trust Rings, Sybil-Resistant EigenTrust, and Blinded Capabilities}
+\label{ch:l5-trust-rings}
+
+\epigraph{Access control lists ask a feudal question: `Whose name stands on the master's roster?' Capabilities and relational webs of trust ask a convivial question: `What verified competence and reciprocal trust authorize this specific act, without exposing the actor to surveillance?'}{---Adapted from \textcite{miller2006robust} and \textcite{illich1973}}
+
+Standard enterprise software governs permissions through Role-Based Access Control (RBAC): a
+central administrator assigns boolean flags (\texttt{is\_admin}, \texttt{can\_operate\_cnc}) to
+user rows in a database \parencite{saltzer1975protection}. In a decentralized commons, boolean
+RBAC fails instantly. First, whoever holds the ``super-admin'' bit to edit the role table becomes
+a de facto ruler. Second, binary membership breaks down across geographic distance: a neighbor
+known face-to-face for three years in the workshop warrants different mutual-credit headroom than
+an unverified node fifty kilometers upriver, yet both deserve dignified cooperation. Third,
+open peer-to-peer networks face \textcite{douceur2002sybil}'s classic \textbf{Sybil Attack}, wherein a
+single adversary fabricates thousands of synthetic identities that enthusiastically vouch for one
+another.
+
+Layer~5 (\texttt{col-kmsd}) abolishes boolean RBAC (\texttt{rbac\_prohibited: true} in
+\texttt{core/5\_governance/trust\_gates.json}) and replaces speculative ``Soulbound Tokens''
+with three rigorous mathematical structures: (1)~\textbf{Seven Concentric Trust Rings
+($R_0\text{--}R_6$)} seeded by physical NFC ceremonies; (2)~\textbf{Hardware-Anchored Fixed-Point
+EigenTrust} \parencite{kamvar2003} paired with \textbf{Ford--Fulkerson Max-Flow Cut Bounds}
+\parencite{ford1956maximal}, proven empirically against bipartite and rank-sink Sybil attacks in
+\texttt{verification/test\_eigentrust\_sybil.py}; and (3)~\textbf{BLS12-381 \texttt{BBS+}
+Selective-Disclosure Verifiable Credentials} \parencite{camenisch2004signature,w3c2022vc}
+compiled down into \textbf{24-byte PRF-blinded \texttt{ClaimHandle}} tokens over
+\texttt{l4\_l5.sock}.
+
+\section{The Seven Concentric Trust Rings ($R_0$ Through $R_6$)}
+\label{sec:ch3-concentric-rings}
+
+Rather than treating ``the community'' as a flat global namespace, \texttt{col-kmsd} organizes
+social proximity, mutual-credit exposure, and spatial sovereignty into seven concentric rings
+centered on each living hearth (Table~\ref{tab:ch3-seven-rings}).
+
+\begin{table}[htbp]
+\centering
+\caption{The Seven Concentric Trust Rings Enforced by Layer~5 (\texttt{col-kmsd})}
+\label{tab:ch3-seven-rings}
+\footnotesize
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}clrrll@{}}
+\toprule
+\textbf{Ring} & \textbf{Constitutional Domain} & \textbf{Spatial Horizon} & \textbf{Max Hops} & \textbf{BCC Credit Ceiling} & \textbf{Primary Cryptographic Anchor} \\
+\midrule
+$R_0$ & Intimate Hearth Sanctuary & Private Suite / Lot & $0$ & Unconditional $B_{\mathrm{baseline}}$ & Keyless sanctuary; zero interior sensors \\
+$R_1$ & Primary Settlement Commons & $\le 500\,\mathrm{m}$ & $1$ & $360\,\mathrm{GJ/MJ}$ ($100\,\mathrm{EC}$) & Physical NFC ($>-55\,\mathrm{dBm}$) + 2-of-3 \texttt{FROST} \\
+$R_2$ & Neighboring Block / Pod Mesh & $\le 5\,\mathrm{km}$ & $2$ & $216\,\mathrm{MJ}$ ($60\,\mathrm{EC}$) & Cross-pod \texttt{did:peer} + \texttt{BBS+} skill VCs \\
+$R_3$ & Watershed Basin / Probationary & $\le 30\,\mathrm{km}$ & $2\text{--}3$ & $90\,\mathrm{MJ}$ ($25\,\mathrm{EC}$) & $7\text{d}$ shelter + $36\,\mathrm{MJ}$ PoTW (or basin treaty) \\
+$R_4$ & Bioregional River Congress & $\le 150\,\mathrm{km}$ & $4$ & Treaty-bounded $[-C_1, +C_2]$ & Aggregated \texttt{FROST} / Ricardian \texttt{Treaty\_CID} \\
+$R_5$ & Continental DTN Federation & $\le 1{,}000\,\mathrm{km}$ & $6$ & HTLC escrow / disaster relief & Multi-node \texttt{Iota} replication \& \texttt{BPVP} \\
+$R_6$ & Ecumene \& Humanitarian Horizon & Planetary / L7 Edge & $\infty$ & $0\,\mathrm{uJ}$ credit ($100\%$ $B_t$ floor) & Open-Hearth refuge + L7 legal carapace \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+Notice the dual role of the outer rings: even at $R_6$ (an unverified newcomer arriving at the
+gate during an ecological crisis), human survival dignity ($B_{\mathrm{baseline}}$) is
+$10{,}000\,\mathrm{bp}$ ($100\%$) active on minute one, while discretionary mutual-credit
+exposure and hazardous actuator authority scale strictly inward as reciprocal physical trust is
+established.
+
+\section{Fixed-Point Graph Attenuation and Empirical Sybil Immunity}
+\label{sec:ch3-eigentrust-sybil}
+
+Within local settlement rings ($R_1\text{--}R_3$), \texttt{col-kmsd} evaluates weighted trust
+paths using \textcite{dijkstra1959note}'s shortest-path algorithm in pure integer basis points
+(\texttt{bp}, where $10{,}000\,\mathrm{bp} = 1.0000$). Along a path of directed vouch edges
+$e_1, \dots, e_k$ ($k \le 3$) with edge trust weights $w(e_j) \in [0, 10{,}000]\,\mathrm{bp}$,
+multiplicative path trust attenuates strictly via integer floor division:
+\[
+W_{\mathrm{path}}(e_1 \cdots e_k) = \left\lfloor \frac{W_{\mathrm{path}}(e_1 \cdots e_{k-1}) \cdot w(e_k)}{10{,}000} \right\rfloor_{\mathrm{bp}},
+\]
+requiring $N \ge 3$ vertex-disjoint vouch paths before granting high-trust ring elevation.
+
+\subsection{Three Empirical Discoveries from \texttt{test\_eigentrust\_sybil.py}}
+
+When scaling trust evaluation across federated meshes ($1{,}024+$ nodes), adversarial red-teaming
+in \texttt{verification/test\_eigentrust\_sybil.py} uncovered three critical mathematical traps
+that shaped the ratified v3.1 engine:
+\begin{enumerate}
+\item \textbf{Bipartite $K_{25,25}$ Bypass of Triangle Clustering:} Naive Web-of-Trust systems
+        attempt to detect Sybil botnets by flagging clusters with abnormally high triangle
+        clustering coefficients. Our verification suite proved that a 50-bot adversary arranged
+        as a complete bipartite graph $K_{25,25}$ achieves maximal internal cross-vouching while
+        maintaining a triangle clustering coefficient identically equal to \textbf{$0\,\mathrm{bp}$
+        ($0.0000$)}---because bipartite graphs contain zero odd cycles!
+\item \textbf{Rank-Sink Absorption Under Unanchored Power Iteration:} Running unanchored Markov
+        iteration $\mathbf{t}^{(k+1)} = C^T \mathbf{t}^{(k)}$ allows a 5-node cyclic Sybil
+        ``rank sink'' (accepting inbound vouches while emitting zero outbound edges to honest
+        nodes) to absorb \textbf{$100\%$ ($10{,}000\,\mathrm{bp}$)} of global network trust.
+\item \textbf{Iteration Cutoff Under-Convergence:} On realistic clustered $1{,}024$-node
+        community graphs, stopping EigenTrust at a hardcoded 15 iterations leaves large $L_1$
+        residuals; exact convergence requires \textbf{$28\text{--}45$ residual-monitored iterations}.
+\end{enumerate}
+
+\subsection{Anchored Fixed-Point EigenTrust and Max-Flow Cut Bounds}
+
+To close all three vectors simultaneously, \texttt{col-kmsd} computes \textbf{Pre-Trusted Anchored
+EigenTrust} in 64-bit fixed-point basis points anchored to hardware-seeded $R_0/R_1$ genesis
+roots $\mathbf{p}$ ($\sum_i p_i = 10{,}000\,\mathrm{bp}$) with teleportation damping
+$\alpha = 1{,}500\,\mathrm{bp}$ ($15\%$):
+\begin{equation}
+t_j^{(k+1)} = \left\lfloor \frac{(10{,}000 - \alpha) \sum_{i} C_{ij}\, t_i^{(k)} + \alpha \cdot 10{,}000 \cdot p_j}{10{,}000^2} \right\rfloor_{\mathrm{bp}},
+\label{eq:ch3-anchored-eigentrust}
+\end{equation}
+iterating dynamically until $\|\mathbf{t}^{(k+1)} - \mathbf{t}^{(k)}\|_1 \le 1\,\mathrm{bp}$
+(retaining \textbf{$92.6\%$ ($9{,}260\,\mathrm{bp}$)} of total trust on honest stewards even
+under active cyclic sink attack), and wraps the result in a \textbf{Ford--Fulkerson Max-Flow Vouch
+Capacity Cap} \parencite{ford1956maximal}.
+
+\begin{theorem}[Sybil Trust Amplification Bound Under Anchored Cut-Capacity Clamping]
+\label{thm:ch3-sybil-bound}
+Let $V = V_H \sqcup V_S$ partition the trust graph into honest stewards $V_H$ (containing all
+pre-trusted roots $\mathrm{supp}(\mathbf{p}) \subseteq V_H$) and an arbitrary Sybil subgraph
+$V_S$ of size $|V_S| = M$ (including bipartite $K_{m,m}$ or cyclic rank sinks). Suppose at most
+$g$ compromised boundary edges $\partial(V_H \to V_S)$ cross from $V_H$ into $V_S$, each capped
+at vouch flow capacity $c_{\mathrm{edge}}$ basis points. Under anchored iteration
+\eqref{eq:ch3-anchored-eigentrust} with $\alpha \in (0, 10{,}000)$ followed by max-flow clamping
+from source $\mathbf{p}$, total aggregate trust assignable to $V_S$ satisfies:
+\[
+\sum_{s \in V_S} T_{\mathrm{final}}(s) \;\le\; \min\!\left(
+    \frac{10{,}000 - \alpha}{\alpha} \sum_{(u,s) \in \partial(V_H \to V_S)} C_{us}\, t_u^*,\;\;
+    g \cdot c_{\mathrm{edge}}
+\right),
+\]
+which is strictly independent of the number of synthetic identities $M = |V_S|$ minted inside $V_S$.
+\end{theorem}
+
+\begin{proof}
+Summing the stationary anchored equation $\mathbf{t}^* = (1 - \tilde{\alpha}) C^T \mathbf{t}^* +
+\tilde{\alpha} \mathbf{p}$ (where $\tilde{\alpha} = \alpha / 10{,}000$) over $s \in V_S$ and
+noting $p_s = 0$ for all $s \in V_S$ yields
+$\sum_{s \in V_S} t_s^* = (1 - \tilde{\alpha}) \sum_{u \in V_H} \sum_{s \in V_S} C_{us} t_u^* +
+(1 - \tilde{\alpha}) \sum_{r \in V_S} (\sum_{s \in V_S} C_{rs}) t_r^*$. Since row stochasticity
+gives $\sum_{s \in V_S} C_{rs} \le 1$, rearranging yields $\tilde{\alpha} \sum_{s \in V_S} t_s^*
+\le (1 - \tilde{\alpha}) \sum_{(u,s) \in \partial(V_H \to V_S)} C_{us} t_u^*$. Second, by the
+Max-Flow Min-Cut Theorem \parencite{ford1956maximal}, the cut $(V_H, V_S)$ separates source
+$\mathrm{supp}(\mathbf{p})$ from every $s \in V_S$ with total cut capacity at most
+$g \cdot c_{\mathrm{edge}}$. Clamping trust flow by minimum cut capacity therefore bounds total
+Sybil weight by $\min(\cdot, g \cdot c_{\mathrm{edge}})$ regardless of internal edges or $M$.
+\end{proof}
+
+\section{\texttt{BBS+} Zero-Knowledge Credentials, SMT Revocation, and BKT}
+\label{sec:ch3-bbs-plus-bkt}
+
+How does a steward prove they are certified to isolate a $380\,\mathrm{V}$ HVDC bus, operate a
+biochar pyrolysis kiln, or receive a peanut-free tiffin meal without publishing ``Soulbound
+Tokens'' on a global ledger or revealing their identity?
+
+\texttt{col-kmsd} issues W3C Verifiable Credentials signed with \textbf{multi-message \texttt{BBS+}
+signatures over pairing-friendly BLS12-381 curves} (\texttt{bbs-2023-zkp})
+\parencite{camenisch2004signature,goldwasser1989zkp,w3c2022vc}:
+\begin{itemize}
+\item \textbf{Selective Disclosure and Randomized Unlinkability:} A single credential signs a
+        vector of attributes $(m_1, \dots, m_L)$ (holder secret commitment, skill URI, tier,
+        expiry, non-revocation leaf index). At presentation time, the steward generates a
+        randomized zero-knowledge proof-of-knowledge revealing \textit{only} the required safety
+        predicate (e.g., $\mathtt{skill} = \mathtt{HVDC\_HotWork\_VC}$) while blinding the
+        signature itself so two presentations cannot be linked.
+\item \textbf{256-Bit Sparse Merkle Tree (SMT) Non-Revocation:} When a credential expires or is
+        paused due to prolonged skill-fade, \texttt{col-kmsd} updates its 256-bit SMT root
+        without broadcasting who changed; non-membership in the revoked set is proven in zero
+        knowledge in $\le 15.0\,\mathrm{ms}$ p99 on an ARM64 Cortex-A72.
+\item \textbf{Scenario Kappa Integer BKT and 3-of-3 Anti-Nepotism Issuance:} Minting a hazardous
+        \texttt{L1}/\texttt{L2} Skill VC requires three objective gates: (1)~integer \textbf{Bayesian
+        Knowledge Tracing} mastery $P(L_t) \ge 9{,}500\,\mathrm{bp}$ ($95.00\%$)
+        \parencite{corbett1995bkt}; (2)~an unannounced physical E-Stop fault-isolation reflex
+        $\le 1{,}500\,\mathrm{ms}$; and (3)~a \textbf{3-of-3 hardware signature} from one \texttt{L3}
+        Master plus two independent stewards from distinct households.
+\end{itemize}
+
+\begin{lstlisting}[language=C++,caption={Pure-integer Bayesian Knowledge Tracing (BKT) mastery update in \texttt{col-kmsd} (zero floats).},label={lst:ch3-integer-bkt}]
+#include <cstdint>
+
+namespace collective::l5 {
+
+struct alignas(8) IntegerBktParamsBp {
+    uint16_t p_init_bp{1500U};    // Prior mastery P(L_0) = 15.00% (2B)
+    uint16_t p_transit_bp{1800U}; // Learning transition P(T) = 18.00% (2B)
+    uint16_t p_slip_bp{600U};     // Mastery slip P(S) = 6.00% (2B)
+    uint16_t p_guess_bp{1200U};   // Novice guess P(G) = 12.00% (2B)
+};
+static_assert(sizeof(IntegerBktParamsBp) == 8);
+
+[[nodiscard]] constexpr uint16_t StepIntegerBktMasteryBp(
+    uint16_t prior_bp, const IntegerBktParamsBp& p, bool observed_pass) noexcept
+{
+    constexpr uint64_t kOne = 10000ULL;
+    const uint64_t L = (prior_bp > 10000U) ? 10000ULL : prior_bp;
+    uint64_t num = 0ULL;
+    uint64_t den = 1ULL;
+
+    if (observed_pass) {
+        // P(L|pass) = L*(1 - S) / [L*(1 - S) + (1 - L)*G]
+        num = L * (kOne - p.p_slip_bp);
+        den = num + (kOne - L) * p.p_guess_bp;
+    } else {
+        // P(L|fail) = L*S / [L*S + (1 - L)*(1 - G)]
+        num = L * p.p_slip_bp;
+        den = num + (kOne - L) * (kOne - p.p_guess_bp);
+    }
+    const uint64_t post_obs_bp = (den > 0ULL) ? ((num * kOne) / den) : L;
+    // Posterior after learning transition: P(L_t) = P(L|obs) + (1 - P(L|obs))*P(T)
+    const uint64_t next_bp = post_obs_bp + ((kOne - post_obs_bp) * p.p_transit_bp) / kOne;
+    return static_cast<uint16_t>(next_bp > kOne ? kOne : next_bp);
+}
+
+} // namespace collective::l5
+\end{lstlisting}
+
+\section{The 24-Byte Blinded \texttt{ClaimHandle} Across \texttt{l4\_l5.sock}}
+\label{sec:ch3-claim-handle}
+
+Once \texttt{col-kmsd} verifies a steward's \texttt{BBS+} zero-knowledge presentation, trust-ring
+distance, and absence of \texttt{SafeHarbor} proximity conflicts, how does it authorize
+\texttt{col-execd} (Layer~4) to advance the corresponding BPMN \texttt{UserTask} while keeping
+Layer~4 $100\%$ blind to citizen identities?
+
+Across opcode \texttt{0x0503} (\texttt{L5\_GRANT\_CLAIM\_HANDLE}) on \texttt{l4\_l5.sock},
+\texttt{col-kmsd} transmits a cache-aligned 64-byte \textbf{\texttt{L5ToL4ClaimCommand}}
+embedding the ratified \textbf{24-byte \texttt{ClaimHandle}} (Figure~\ref{fig:ch3-blinded-claim} and
+Listing~\ref{lst:ch3-claim-command}), reconciling the exact wire contract specified in the
+Layer~4 companion volume:
+\begin{enumerate}
+\item \textbf{\texttt{ephemeral\_token\_id} (8~bytes):} Derived inside \texttt{col-kmsd}'s
+        \texttt{ATECC608A} enclave via
+        $\mathrm{PRF}_{K_{\mathrm{L5}}}(\mathrm{pairwise\_did} \parallel \mathrm{task\_id} \parallel \mathrm{nonce})$.
+        Layer~4 and Layer~3 observe a uniform random 64-bit integer with zero linkability across
+        tasks.
+\item \textbf{\texttt{capability\_mask} (8~bytes):} Encodes up to 64 verified domain safety
+        clearances as a bitmask, checked by \texttt{col-execd} in a single bitwise \texttt{AND}
+        instruction \parencite{miller2006robust,iec61508}.
+\item \textbf{Distance-Adaptive \texttt{expiry\_hlc} (8~bytes):} As proven in Round-3 verification
+        (\texttt{round3/test\_d2\_autonomy\_deadlock.py}), a naive fixed 60-tick claim lease
+        suffers $>65\%$ premature expiration on large rural campuses when a steward walks across
+        fields with a wheelbarrow. \texttt{col-kmsd} therefore computes
+        $\mathtt{expiry\_hlc} = t_{\mathrm{now}} + \Delta_{\mathrm{base}} + \Delta_{\mathrm{haul}}(d_{\mathrm{parcel}})$.
+        If a steward changes their mind and invokes \texttt{UNCLAIM\_GUILT\_FREE} (or simply lets
+        \texttt{expiry\_hlc} elapse), the token returns silently to \texttt{UNASSIGNED} with zero
+        demerit record.
+\end{enumerate}
+
+\begin{figure}[htbp]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+    node distance=1.2cm,
+    box/.style={draw, rounded corners=3pt, thick, align=center, font=\footnotesize, minimum height=1.25cm, inner sep=6pt},
+    arr/.style={-{Stealth[length=2.4mm]}, thick}
+]
+    \node[box, fill=blue!7, minimum width=3.6cm] (steward) {\textbf{Steward Smartcard}\\ Pairwise \texttt{did:peer}\\ + \texttt{BBS+} Skill VC};
+    \node[box, fill=cyan!10, right=1.3cm of steward, minimum width=4.3cm] (kmsd) {\textbf{\texttt{col-kmsd} (Layer 5)}\\ Verifies ZKP + 256b SMT\\ Computes $\mathrm{PRF}_{K_{\mathrm{L5}}}$ in Enclave};
+    \node[box, fill=green!9, right=1.3cm of kmsd, minimum width=4.0cm] (execd) {\textbf{\texttt{col-execd} (Layer 4)}\\ Receives 24B \texttt{ClaimHandle}\\ \textit{Zero DID / Zero Name}};
+
+    \draw[arr] (steward) -- node[above, font=\scriptsize] {\texttt{l5\_l6.sock}} node[below, font=\scriptsize] {Randomized ZKP} (kmsd);
+    \draw[arr] (kmsd) -- node[above, font=\scriptsize] {\texttt{l4\_l5.sock} (\texttt{0x0503})} node[below, font=\scriptsize] {64B \texttt{L5ToL4ClaimCommand}} (execd);
+\end{tikzpicture}%
+}
+\caption{Cryptographic identity firewall: \texttt{col-kmsd} verifies \texttt{BBS+} zero-knowledge credentials and strips all citizen identifiers before crossing \texttt{l4\_l5.sock} via a 24-byte \texttt{ClaimHandle}.}
+\label{fig:ch3-blinded-claim}
+\end{figure}
+
+\begin{lstlisting}[language=C++,caption={Canonical 24-byte \texttt{ClaimHandle} inside the 64-byte \texttt{L5ToL4ClaimCommand} frame (\texttt{0x0503}).},label={lst:ch3-claim-command}]
+#include <cstdint>
+
+namespace collective::l5 {
+
+enum class HumanClaimOp : uint8_t {
+    CLAIM_VOLUNTARY_PULL    = 1,
+    UNCLAIM_GUILT_FREE      = 2,
+    DELEGATE_TO_R1_COMMONS  = 3,
+    COMPLETE_WITH_ATTEST    = 4
+};
+
+struct alignas(8) ClaimHandle {
+    uint64_t ephemeral_token_id{0}; // Enclave PRF(did || task || nonce) (8B)
+    uint64_t capability_mask{0};    // 64-bit verified safety VC bitmask (8B)
+    uint64_t expiry_hlc{0};         // Distance-adaptive HLC lease bound (8B)
+};
+static_assert(sizeof(ClaimHandle) == 24, "ClaimHandle must be 24 bytes.");
+
+struct alignas(8) L5ToL4ClaimCommand {
+    ClaimHandle handle{};              // Blinded 24-byte capability handle (24B)
+    uint64_t workflow_instance_id{0};  // Target BPMN workflow instance (8B)
+    uint64_t task_node_hash{0};        // Target BPMN UserTask node ID (8B)
+    uint64_t spatial_exclusion_mask{0};// Blinded SafeHarbor zone guard (8B)
+    uint32_t policy_epoch{0};          // Ratified PolicyBundle_CID epoch (4B)
+    uint32_t hysteresis_margin_bp{2500};// 25% anti-thrashing pull margin (4B)
+    HumanClaimOp op{HumanClaimOp::CLAIM_VOLUNTARY_PULL}; // Claim action (1B)
+    uint8_t  supervised_l0_mode{0};    // 1 if mentor UWB <= 2000 mm req (1B)
+    uint8_t  reserved_pad[6]{0};       // Exact 64-byte cache-line pad (6B)
+};
+static_assert(sizeof(L5ToL4ClaimCommand) == 64,
+              "L5ToL4ClaimCommand must fit in one 64-byte cache line.");
+
+} // namespace collective::l5
+\end{lstlisting}
+
+\begin{invariant}[Total DID Non-Leakage Across the Downward Orchestrator Socket]
+\label{inv:ch3-did-nonleakage}
+No frame emitted on \texttt{l4\_l5.sock} (\texttt{0x0501..0x0506}) ever contains a string or
+hash deterministically computable from a citizen's \texttt{did:peer} without the hardware-locked
+enclave key $K_{\mathrm{L5}}$; additionally, any expired or \texttt{UNCLAIM\_GUILT\_FREE}
+\texttt{ClaimHandle} triggers zero standing deduction in \texttt{col-kmsd}.
+\end{invariant}
+
+With individual trust, Sybil resistance, and blinded capability issuance established, Chapter~\ref{ch:l5-intranode-envelopes} addresses the central scaling question of a living node: how Layer~5 governs hundreds or thousands of concurrent workflows inside one settlement without burying citizens in perpetual committee meetings.

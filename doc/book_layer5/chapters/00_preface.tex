@@ -1,0 +1,272 @@
+\chapter*{Preface: Governance Without Rulers, Trust Without Surveillance}
+\addcontentsline{toc}{chapter}{Preface}
+\markboth{Preface}{Preface}
+
+\epigraph{There is no reason to believe that bureaucrats and politicians, no matter how well meaning, are better at solving problems than the people on the spot, who have the strongest incentive to get the solution right. Yet self-governance endures only when communities craft clear boundaries, graduated accountability, and nested polycentric rules fitted to physical reality.}{---Adapted from \textcite{ostrom1990,ostrom2010}}
+
+Every technical architecture eventually reveals whom it trusts to decide and how it compels
+obedience. Across the twentieth and early twenty-first centuries, modern societies alternated
+between three deeply flawed models of institutional authority. State and corporate
+bureaucracies concentrated permission inside hierarchical access-control tables, credentialed
+ministries, and coercive courts, reducing living neighborhoods to passive subjects of distant
+administrative decrees \parencite{scott1998,hart1961}. Later, surveillance platforms replaced
+explicit legal deliberation with opaque behavioral scoring, biometric identity capture, and
+terms-of-service panopticons that could revoke a household's livelihood overnight without due
+process \parencite{zuboff2019}. Most recently, speculative ``Web3'' governance experiments
+promised decentralization while encoding plutocracy directly into protocol law: coin-weighted
+voting, financialized escrow, permanent public scarlet letters marketed as ``Soulbound
+Tokens,'' and automated slashing scripts that mistook ruthless capital liquidation for social
+trust.
+
+Meanwhile, generations of well-intentioned intentional communities and cooperatives discovered
+the opposite failure mode. Rejecting formal rules altogether did not abolish power; as
+\textcite{freeman1972} diagnosed, structurelessness merely masked informal cliques, charismatic
+dominance, and exhausting, endless committee meetings that burned out working parents and
+caregivers while leaving critical infrastructure unmaintained \parencite{michels1911,han2015}.
+
+\textbf{Layer~5: Polycentric Governance and Trust}---realized in POSIX silicon as the hardened
+C++20 daemon \texttt{col-kmsd}---exists to transcend all four failure modes. Positioned in the
+Sovereign Stack directly above the keyless, deterministic orchestrator (\texttt{col-execd},
+Layer~4) and directly below the natural-language semantic Agora (\texttt{col-commonsd} and
+\texttt{col-gatewayd}, Layer~6), Layer~5 is the constitutional immune system and normative
+closure of a Sovereign Node. Its core engineering thesis is exacting: \textit{a free community
+can govern hundreds of concurrent physical workflows across a living watershed without rulers,
+without surveillance rosters, without financialized tokens, and without drowning human life in
+perpetual meetings} \parencite{beer1974,illich1973,weiser1996calm}.
+
+\section*{Why Governance Must Be Deterministic, Key-Isolated, and Non-Financialized}
+
+In Volume~1 of this series and its sister monograph on Layer~4, we established that any daemon
+whose outputs govern physical relays, microgrids, water manifolds, clinical autoclaves, and
+food-pasteurization vessels must obey deterministic mathematical invariants. If Layer~5
+evaluated trust weights, ecological regeneration floors, or credit ceilings in IEEE-754
+floating-point arithmetic, subtle rounding divergences across \texttt{x86\_64},
+\texttt{aarch64}, and \texttt{riscv64} nodes would fracture bilateral treaty verification and
+Sparse Merkle Tree state roots. Worse, if stochastic language models in Layer~6 were permitted
+to ratify policies or sign capability tokens directly, a prompt injection or confabulated
+parameter could bypass safety clearances or breach watershed extraction limits.
+
+Consequently, \texttt{col-kmsd} enforces three unyielding architectural boundaries:
+\begin{enumerate}
+\item \textbf{Pure-Integer Fixed-Point Policy Arithmetic:} Every trust attenuation edge,
+        anchored EigenTrust iteration \parencite{kamvar2003}, Bayesian Knowledge Tracing
+        mastery score \parencite{corbett1995bkt}, Reputational Wealth decay curve, and export
+        surplus bound executes strictly in 64-bit integer International System (SI) and
+        basis-point (\texttt{bp}, where $10{,}000\,\mathrm{bp} = 100\%$) units with zero
+        floating-point opcodes.
+\item \textbf{Hardware-Rooted Cryptographic Custody with Downward Blindness:} Citizen
+        Decentralized Identifiers (\texttt{did:peer}), threshold Schnorr signing shares
+        (\texttt{FROST}) \parencite{komlo2020frost}, and zero-knowledge selective-disclosure
+        Verifiable Credentials (\texttt{BBS+}) \parencite{camenisch2004signature,w3c2022vc}
+        are anchored inside non-exportable hardware secure elements (\texttt{ATECC608A})
+        \parencite{microchip_atecc608a} and pinned local vault memory (\texttt{mlockall}).
+        Plaintext citizen identities \textit{never} cross downward into Layer~4 or Layer~3;
+        \texttt{col-kmsd} authorizes human task execution solely through unlinkable 24-byte
+        \texttt{ClaimHandle} tokens.
+\item \textbf{Constitutional Non-Commensurability:} Nourishment, shelter, thermal comfort,
+        sanitation, acute healthcare ($B_{\mathrm{baseline}}$), perinatal care, eldercare, and
+        apprenticeship mentorship are inviolable rights of existence---never tokenized,
+        auctioned, or revoked as punishment \parencite{raworth2017,zehr1990}.
+\end{enumerate}
+
+\section*{Highlights from the Oasis Proving Ground (\texttt{Layer 1b})}
+
+Over recent development cycles, \textbf{Oasis (\texttt{Layer 1b})}---our outward-only,
+air-gapped Software-in-the-Loop (SITL) proving ground on reference parcel
+\textbf{Lot~402} \parencite{grieves2014digital}---matured from a conceptual sketch into a rich
+end-to-end laboratory for polycentric governance. Across \texttt{src/daemons/col-kmsd/},
+\texttt{src/stack/shared\_stack\_runtime.hpp}, \texttt{src/daemons/col-gatewayd/}, and
+\texttt{core/5\_governance/}, seven working architectural highlights already operate today:
+
+\begin{enumerate}
+\item \textbf{Fixed-Point Constitutional Baselines and Care-Shielded Standing:} In
+        \texttt{kms\_assimilation.hpp}, cache-aligned integer structs
+        (\texttt{BaselineExistenceEntitlement} at 16~bytes and
+        \texttt{CitizenGovernanceStanding} at 72~bytes) guarantee $2{,}200\,\mathrm{kcal/day}$
+        hearth nourishment and $293{,}150\,\mathrm{mK}$ ($20.0\,^\circ\mathrm{C}$) warmth
+        unconditionally, collapsing $\$670/\mathrm{month}$ of legacy grocery and utility burn
+        while freezing Reputational Wealth decay whenever a Care Leave Shield is active.
+\item \textbf{Three-Stage Migrant Trust-Ring Assimilation ($R_6 \to R_3 \to R_1$):} Newcomers
+        enter at Ring~$R_6$ with an inviolable $B_t$ survival floor that is preserved even
+        during restorative conflict freezes, advancing to $R_3$ only through combined shelter
+        continuity and verified stewardship, and entering $R_1$ via a deduplicated 2-of-3
+        Steward vouch ceremony emitting binary \texttt{TrustRingPromotionEvent} frames.
+\item \textbf{Clean-Slate Day-1 Genesis and Live Policy Adaptation:} Lot~402 boots with zero
+        unsolicited workflows, holding four candidate asset governance proposals until the
+        Steward consciously shifts sourcing from \texttt{L7\_LEGACY\_CHANNEL} to
+        \texttt{R0\_LOCAL\_WORKFLOWS} or \texttt{R1\_MESH\_PEERS}, spawning BPMN lifecycles on
+        demand and dynamically re-scoping task release rings.
+\item \textbf{Read-Only \texttt{HTTP 405} Diagnostic Membrane and Intent U-Turn:}
+        \texttt{col-gatewayd} rejects direct mutations on \texttt{/api/v1/l5/*}
+        (\texttt{L5\_GOVERNANCE\_IS\_READ\_ONLY}), routing human approvals and upward Layer~4
+        stock-miss yields (\texttt{YIELD\_UPWARD\_L5}) through content-addressed Layer~6
+        intents and binary \texttt{GovernanceResolutionPacket} envelopes.
+\item \textbf{Solo Homestead Cluster vs.\ Ring-1 Bilateral Mutual Credit:} Governance cleanly
+        distinguishes Lot~402's private 4-node SBC cluster from external neighborhood peering
+        (\texttt{SetExternalR1SwarmEnabled}), recalling unreleased tasks upon privacy toggle
+        and settling peer assistance over exact zero-sum microjoule Bilateral Clearing Channels
+        ($B_{u\to v} + B_{v\to u} = 0$).
+\item \textbf{Autopoietic Release Gates and Studio Conscience Vetoes:} Under Scenario Zero
+        (\texttt{execd\_self\_host.hpp}), \texttt{col-kmsd} policy predicates enforce
+        reproducible 3-architecture builder consensus, zero dark-pattern or tracker telemetry,
+        human Steward co-signature, and a $10{,}000$-tick Oasis canary soak prior to deployment.
+\item \textbf{Epistemic Sensor Modality Gating:} When physical Layer~2 probes are absent
+        (\texttt{DENIED\_NO\_L2\_SENSOR}), governance refuses to fabricate omniscient telemetry,
+        routing tasks through qualitative human observation until sensors are commissioned.
+\end{enumerate}
+
+\section*{Convening the Five-Specialist Layer 5 Architectural Council}
+
+Just as importantly, Oasis exposed the exact prototype shortcuts in our early Layer~5 code that
+require deep specialist remediation before scaling from Lot~402 to a full watershed commons:
+residual IEEE-754 \texttt{float}/\texttt{double} fields inside \texttt{MigrantAssimilationState}
+and \texttt{trust\_gates.json}; a process split-brain between \texttt{col-kmsd/main.cpp} and
+in-memory \texttt{SharedStackRuntime}; placeholder string vectors standing in for real
+\texttt{FROST} and \texttt{BBS+} cryptography; missing \texttt{SOCK\_SEQPACKET} bindings and an
+unauthenticated \texttt{POST /api/v1/command} shortcut in \texttt{col-gatewayd}; correlatable
+\texttt{did:mesh:*} strings where pairwise \texttt{did:peer} is required; hardcoded pea-and-soup
+policy strings; in-place unversioned policy mutations; and legacy ``Social Slashing'' JSON keys.
+
+To resolve every one of these limitations rigorously, we convened the \textbf{Five-Specialist
+Layer~5 Architectural Council}:
+\begin{itemize}
+\item The \textbf{Cryptographic Enclave \& Threshold Security Specialist} designed the
+        \texttt{ATECC608A} PKCS\#11 custody boundary, pairwise \texttt{did:peer} derivation,
+        2-of-3 / 3-of-5 \texttt{FROST} Schnorr ceremonies, BLS12-381 \texttt{BBS+} selective
+        disclosure with 256-bit Sparse Merkle Tree non-revocation, and 24-byte blinded
+        \texttt{ClaimHandle} issuance.
+\item The \textbf{Deterministic Systems \& POSIX Membrane Architect} eradicated all floating-point
+        fields across Layer~5 headers and JSON bundles, unified \texttt{col-kmsd} behind
+        \texttt{SO\_PEERCRED}-pinned \texttt{l4\_l5.sock} and \texttt{l5\_l6.sock} channels,
+        sealed the \texttt{col-gatewayd} command bypass, and verified the $48\,\mathrm{MB}$
+        \texttt{mlockall}/SQLCipher ARM64 memory budget.
+\item The \textbf{Graph Theory, Sybil Immunity \& Federated Routing Theorist} proved why
+        bipartite $K_{25,25}$ Sybil clusters defeat naive triangle filters and why cyclic rank
+        sinks drain unanchored power iterations, establishing hardware-anchored fixed-point
+        EigenTrust ($\alpha = 1500\,\mathrm{bp}$), Ford--Fulkerson cut-capacity bounds
+        \parencite{ford1956maximal}, the 4-RIB Bioregional Path-Vector Protocol (\texttt{BPVP}),
+        and Tripartite Ricardian \texttt{Treaty\_CID} compilation \parencite{grigg2004}.
+\item The \textbf{Polycentric Governance \& High-Density Concurrency Specialist} formulated
+        general-to-specific Standing Asset Policy Envelopes, diamond-DAG yield coalescing,
+        epoch-versioned policy draining, Orthogonal Bicameralism ($\le 800\,\mathrm{bp}$
+        anti-oligarchy share cap), and VRF cryptographic sortition \parencite{micali1999vrf}
+        across Ostrom's three-axis jurisdiction matrix.
+\item The \textbf{Constitutional Ethics, Care \& Restorative Jurisprudence Auditor} replaced
+        legacy ``Social Slashing'' with Passive Quarantine, formalized Dual-Freeze Care Leave
+        and Disability Parity Shields, codified the \texttt{Protocol of Refusal} asymmetric
+        ratchet, engineered $<500\,\mathrm{ms}$ unilateral \texttt{SafeHarborSeverance}, and
+        grounded Scenario Psi Peace Circles and 72-hour emergency hardware sunset timers.
+\end{itemize}
+
+\section*{Governing Hundreds of Intricate Workflows Without Endless Meetings}
+
+The tenfold enrichment of the \textbf{25 Sovereign Scenarios} (\texttt{docs/03\_SCENARIOS.md})
+illuminates a crucial operational truth: even a single governed node is never running ``one
+project at a time.'' On a mature campus---or even a vibrant multi-lot neighborhood block---dozens
+to thousands of intricate workflows talk continuously to one another inside the node and across
+peered nodes: kitchen pasteurization kettles checking diner allergen zero-knowledge proofs while
+drawing harvested legumes from staggered garden beds; solar MPPT controllers arbitrating battery
+State-of-Charge against carpentry saws and e-trike chargers; nursery care pods enforcing dynamic
+adult-to-child safety ratios while maintaining `No-Transit` quiet perimeters; thermophilic
+compost bays holding $72\text{-hour}$ pathogen-kill curves before releasing soil amendments; and
+BPVP routers cascading mutual-aid requests across watershed Trust Rings.
+
+\begin{table}[htbp]
+\centering
+\caption{High-Density Governance Scale, Memory Footprint, and Human Deliberation Load Across Node Maturation Stages}
+\label{tab:preface-l5-density}
+\small
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}llrrrl@{}}
+\toprule
+\textbf{Maturation Stage} & \textbf{Trust Horizon} & \textbf{Governed Workflows} & \textbf{Auto-Cleared / Day} & \textbf{Human Dockets / Wk} & \textbf{\texttt{col-kmsd} RSS} \\
+\midrule
+Stage 1A: Household Seed & $R_0\text{--}R_1$ (4-SBC Lot) & $38\text{--}68$ & $98.5\%$ (Standing Env.) & $1\text{--}2$ ($< 10\,\mathrm{min}$) & $18\,\mathrm{MB}$ \\
+Stage 1B: Neighborhood Mesh & $R_1\text{--}R_2$ ($5\text{--}12$ Lots) & $95\text{--}185$ & $99.1\%$ (BCC + Env.) & $2\text{--}4$ (Async Pull) & $26\,\mathrm{MB}$ \\
+Stage 2: Cooperative Shell & $R_2\text{--}R_3$ (Docked Hub) & $260\text{--}620$ & $99.4\%$ (Bicameral/VRF) & $3\text{--}6$ (Micro-Panels) & $37\,\mathrm{MB}$ \\
+Stage 3: Sovereign Campus & $R_3\text{--}R_5$ (CLT / Basin) & $850\text{--}2{,}600+$ & $99.7\%$ (BPVP + Treaties) & $4\text{--}8$ (Assembly/VRF) & $\le 48\,\mathrm{MB}$ \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+Table~\ref{tab:preface-l5-density} captures why high workflow density does not produce human
+governance fatigue. Humans \textit{never} vote on individual workflow ticks, routine resource
+leases, or standard neighbor trades. Instead, Stewards ratify \textbf{Standing Asset Policy Envelopes}
+(such as \texttt{policy:r0\_household\_seed}, \texttt{policy:r1\_commons\_hearth}, and
+\texttt{policy:commons\_plus\_l7\_zero\_bill}) and \textbf{Ricardian Treaties} (\texttt{Treaty\_CID})
+whose machine-verifiable invariants \texttt{col-kmsd} evaluates in microseconds over
+\texttt{l4\_l5.sock}, escalating upward over \texttt{l5\_l6.sock} \textit{solely} when an
+explicit constitutional or fiscal boundary trigger is crossed (Figure~\ref{fig:preface-l5-hourglass}).
+
+\begin{figure}[htbp]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+    node distance=0.85cm and 1.3cm,
+    box/.style={draw, rounded corners=3pt, thick, align=center, font=\footnotesize, minimum height=0.95cm, inner sep=6pt},
+    enclave/.style={draw, dashed, rounded corners=5pt, thick, inner sep=8pt},
+    arr/.style={-{Stealth[length=2.4mm]}, thick}
+]
+    \node[box, fill=blue!6, minimum width=11.4cm] (l6) {
+        \textbf{Layer 6 Semantic Agora (\texttt{col-commonsd} / \texttt{col-gatewayd})} $\cdot$ Calm Draft, Deterministic Read-Back \& Hardware Sign
+    };
+
+    \node[box, fill=cyan!8, minimum width=5.3cm, below left=1.05cm and -2.6cm of l6] (intra) {
+        \textbf{Intra-Node Standing Envelopes}\\[2pt]
+        Tiers 1--3 Asset Policies $\cdot$ 5-Tier Floors\\
+        \texttt{BBS+} ZKP + 24B Blinded \texttt{ClaimHandle}\\
+        Single-Flight Yield Coalescing ($>99\%$ Auto)
+    };
+
+    \node[box, fill=teal!8, minimum width=5.3cm, below right=1.05cm and -2.6cm of l6] (inter) {
+        \textbf{Inter-Node Federated Covenants}\\[2pt]
+        Pairwise \texttt{did:peer} $\cdot$ Anchored EigenTrust\\
+        4-RIB \texttt{BPVP} ($\eta \ge 6000\,\mathrm{bp}$) $\cdot$ \texttt{FROST}\\
+        Tripartite Ricardian \texttt{Treaty\_CID} Compacts
+    };
+
+    \node[enclave, fit=(intra) (inter), label={[font=\footnotesize\bfseries]above:\texttt{col-kmsd} $\cdot$ VSM System 5 Polycentric Governance (\texttt{ATECC608A} + SQLCipher Vault $\le 48\,\mathrm{MB}$)}] (l5fit) {};
+
+    \node[box, fill=green!8, minimum width=11.4cm, below=1.1cm of l5fit] (l4) {
+        \textbf{Layer 4 Deterministic Orchestrator (\texttt{col-execd})} $\cdot$ 38 to 2,600+ Keyless BPMN / Wasmtime Workflows
+    };
+
+    \draw[arr, <->] (l6.south -| intra.north) -- node[left, font=\scriptsize] {\texttt{l5\_l6.sock} (\texttt{0x06..})} (l5fit.north -| intra.north);
+    \draw[arr, <->] (l6.south -| inter.north) -- node[right, font=\scriptsize] {Boundary Escalations Only} (l5fit.north -| inter.north);
+    \draw[arr, <->] (l5fit.south -| intra.south) -- node[left, font=\scriptsize] {\texttt{l4\_l5.sock} (\texttt{0x05..})} (l4.north -| intra.south);
+    \draw[arr, <->] (l5fit.south -| inter.south) -- node[right, font=\scriptsize] {\texttt{FIB} \& \texttt{Invariants\_BPMN}} (l4.north -| inter.south);
+\end{tikzpicture}%
+}
+\caption{Layer~5 (\texttt{col-kmsd}) governing hundreds of concurrent intra-node and federated workflows across \texttt{l4\_l5.sock} and \texttt{l5\_l6.sock} via standing policy envelopes and Ricardian treaties.}
+\label{fig:preface-l5-hourglass}
+\end{figure}
+
+\section*{Structure of This Companion Volume and Repository Guide}
+
+\textbf{Part~I (Chapters~\ref{ch:l5-bilateral-membrane}--\ref{ch:l5-oasis-council})} develops
+the complete systems architecture of \texttt{col-kmsd}: the bilateral socket membrane, SQLCipher
+vault isolation, and VSM System~5 closure (Chapter~\ref{ch:l5-bilateral-membrane});
+\texttt{ATECC608A} hardware key custody, pairwise \texttt{did:peer}, \texttt{FROST} ceremonies,
+and Shamir social recovery (Chapter~\ref{ch:l5-hardware-custody}); concentric Trust Rings
+$R_0\text{--}R_6$, fixed-point anchored EigenTrust, \texttt{BBS+} zero-knowledge credentials,
+and 24-byte \texttt{ClaimHandle} capabilities (Chapter~\ref{ch:l5-trust-rings}); standing asset
+policy envelopes, orthogonal bicameralism, and VRF sortition for high-density intra-node
+choreography (Chapter~\ref{ch:l5-intranode-envelopes}); inter-node \texttt{BPVP} routing,
+Ricardian \texttt{Treaty\_CID} compilation, and Ostrom's three-axis polycentricity
+(Chapter~\ref{ch:l5-bpvp-federation}); thermodynamic baselines, non-commensurable Care Leave
+Shields, and 5-tier preemption (Chapter~\ref{ch:l5-constitutional-floors}); the \texttt{Protocol
+of Refusal}, \texttt{SafeHarborSeverance}, transformative justice, and anti-autoimmune defense
+(Chapter~\ref{ch:l5-sanctuary-justice}); and the complete code-level review of Oasis
+(\texttt{Layer 1b}) highlights and Specialist Council remedies
+(Chapter~\ref{ch:l5-oasis-council}).
+
+\textbf{Part~II (Chapters~\ref{ch:l5-wave-a}--\ref{ch:l5-wave-f})} synthesizes concrete
+fixed-point governance gates, socket contracts, and Stage~1A--3 maturity progressions across all
+\textbf{25 Sovereign Scenarios} in six horizontal waves: Wave~A (\texttt{Zero, Tau, Sigma}),
+Wave~B (\texttt{Gamma, Alpha, Beta}), Wave~C (\texttt{Delta, Omicron, Kappa, Zeta}), Wave~D
+(\texttt{Eta, Mu, Theta, Nu, Xi}), Wave~E (\texttt{Epsilon, Iota, Lambda, Pi}), and Wave~F
+(\texttt{Chi, Upsilon, Phi, Psi, Rho, Omega}). Readers are encouraged to inspect the live
+repository alongside these chapters, particularly \texttt{src/daemons/col-kmsd/kms\_assimilation.hpp},
+\texttt{src/stack/shared\_stack\_runtime.hpp}, \texttt{core/5\_governance/templates/polycentric\_asset\_policies.json},
+\texttt{verification/test\_eigentrust\_sybil.py}, and \texttt{verification/test\_layer5\_federated\_routing\_challenge.py}.

@@ -1,0 +1,418 @@
+\chapter{Wave F: Clinical Mesh, Ecological Shock, Elder Wisdom, Justice, Immunity, and Terminal Decoupling (\texttt{Chi}, \texttt{Upsilon}, \texttt{Phi}, \texttt{Psi}, \texttt{Rho}, \texttt{Omega})}
+\label{ch:l5-wave-f}
+
+\epigraph{The ultimate measure of a free commonwealth is how gently it tends the fragile at midnight, how generously it opens its doors during the storm, and whether, having achieved sufficiency, it remains a lighthouse for its neighbors rather than a fortress.}{---Adapted from \textcite{kropotkin1902}, \textcite{zehr1990}, and \textcite{ostrom2010}}
+
+\textbf{Wave~F} completes the twenty-five-scenario arc by testing Layer~5 under the hardest realities
+of human and planetary life: acute medical trauma (\textbf{Scenario~Chi}), wildfire and grid
+black-start shocks (\textbf{Scenario~Upsilon}), aging and palliative dignity (\textbf{Scenario~Phi}),
+interpersonal and ecological harm (\textbf{Scenario~Psi}), legal siege and cartel attack
+(\textbf{Scenario~Rho}), and constitutional graduation into sustainable post-scarcity
+(\textbf{Scenario~Omega}).
+
+\begin{figure}[htbp]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+    >=Stealth,
+    plane/.style={rectangle, rounded corners=4pt, draw=black!75, thick, fill=gray!6, inner sep=6pt},
+    fbox/.style={rectangle, rounded corners=3pt, draw=red!65!black, semithick, fill=red!5, minimum width=2.12cm, minimum height=1.65cm, align=center, font=\scriptsize},
+    omega/.style={rectangle, rounded corners=3pt, draw=teal!75!black, very thick, fill=teal!8, minimum width=2.35cm, minimum height=1.65cm, align=center, font=\scriptsize}
+]
+    \node[plane, minimum width=14.6cm, minimum height=2.7cm] (l5) {};
+    \node[anchor=north west, font=\scriptsize\bfseries] at ($(l5.north west)+(0.15,-0.12)$) {Layer 5 (\texttt{col-kmsd}): Wave F Resilience, Clinical Dignity, Non-Carceral Justice \& Terminal Decoupling Gates};
+
+    \node[fbox, anchor=north west] (gchi) at ($(l5.north west)+(0.18,-0.65)$) {\textbf{\texttt{SCN-CHI}}\\6-Modality $B_{\mathrm{base}}$\\$0$ Central EHR\\Dual-Key Rx};
+    \node[fbox, right=0.18cm of gchi] (gups) {\textbf{\texttt{SCN-UPSILON}}\\$<16\,\mathrm{ms}$ Island\\Open-Hearth\\$72\mathrm{h}$ HW Sunset};
+    \node[fbox, right=0.18cm of gups] (gphi) {\textbf{\texttt{SCN-PHI}}\\Emeritus Sage\\$\le 2000\,\mathrm{bp}$ Load\\$60\,\mathrm{GHz}$ ($0$ Cam)};
+    \node[fbox, right=0.18cm of gphi] (gpsi) {\textbf{\texttt{SCN-PSI}}\\$0$ Cages/Fines\\Root-Cause Audit\\3-of-3 NFC Peace};
+    \node[fbox, right=0.18cm of gpsi] (grho) {\textbf{\texttt{SCN-RHO}}\\\textit{NAACP} Blinding\\Fault $\succ$ Malice\\$0$ Weapons};
+    \node[omega, right=0.18cm of grho] (gome) {\textbf{\texttt{SCN-OMEGA}}\\$D_d \le 50{,}000\,\mathrm{ppm}$\\Tax Endowment\\Lighthouse Bridge};
+
+    \draw[->, thick, red!65!black] (gchi.south) to[bend right=18] node[below, font=\scriptsize]{Auto \texttt{Sigma} Rest} (gups.south);
+    \draw[->, very thick, teal!75!black] (grho.east) -- (gome.west);
+\end{tikzpicture}%
+}
+\caption{Wave F Resilience and Horizon Governance Across \texttt{Chi}, \texttt{Upsilon}, \texttt{Phi}, \texttt{Psi}, \texttt{Rho}, and \texttt{Omega}}
+\label{fig:wavef-choreography}
+\end{figure}
+
+\section{Scenario Chi (\texttt{SCN-CHI-PARAMEDIC}): Polycentric Clinical Mesh}
+\label{sec:wavef-chi}
+
+Scenario~Chi guarantees unconditional six-modality healthcare (primary, acute trauma, dental,
+peer mental-health sanctuary, reproductive/gender-affirming, and palliative care) inside
+$B_{\mathrm{baseline}}$ ($\mathtt{medical\_copay\_or\_tokens} \equiv 0$).
+
+\subsection{Subpoena-Proof Patient EHR, Dual-Key Pharmacopoeia, and Non-Carceral Sanctuaries}
+
+Medical histories reside solely on the patient's hardware-encrypted smartcard/device
+($\mathtt{central\_ehr\_or\_wearables} \equiv 0$), rendering reproductive and gender-affirming records
+structurally immune to external subpoena while allowing bedside \texttt{BBS+} zero-knowledge
+contraindication checks during unconscious trauma care. Peer mental-health sanctuaries ban involuntary
+carceral locks ($\mathtt{carceral\_psych\_locks} \equiv 0$, $\le 300\,\mathrm{cB}$ quiet rooms).
+Compounded medicines require \textbf{Dual-Key Pharmacopoeia Release} (Scenario~Kappa analytical chemist
+co-signature + Layer~2 HPLC/GC-MS purity $\ge 9{,}950\,\mathrm{bp}$ [$99.50\%$] + autoclave
+sterilization $\ge 394{,}150\,\mathrm{mK}$ [$121.0^\circ\mathrm{C}$]). Manual LoRa SOS buttons
+preempt Scenario~Beta corridors in $< 180{,}000\,\mathrm{ms}$ ($3\,\mathrm{min}$) and automatically
+enroll responders in Scenario~Sigma post-trauma decompression shields.
+
+\begin{invariant}[Zero Central EHR Retention and Dual-Key Pharmacopoeia Purity]
+\label{inv:wavef-chi-clinic}
+\texttt{col-kmsd} enforces $\mathtt{central\_ehr\_or\_wearables} \equiv 0$, $\mathtt{carceral\_psych\_locks} \equiv 0$,
+and blocks compounded medication release unless $\mathtt{hplc\_purity\_bp} \ge 9{,}950$ and
+$\mathtt{dual\_key\_chemist\_signed} = 1$.
+\end{invariant}
+
+\begin{lstlisting}[language=C++, caption={Scenario Chi Patient-Held EHR, Non-Carceral Care, and Dual-Key Rx Gate (\texttt{col-kmsd})}, label={lst:wavef-chi-gate}]
+#include <cstdint>
+
+namespace collective::l5::wave_f {
+
+struct alignas(8) ChiClinicalMeshGateV31 {
+    uint64_t medical_copay_or_tokens;   // Constitutional law: MUST equal 0
+    uint32_t autoclave_steril_mk;       // >= 394,150 mK (121.0 C surgical/Rx steril)
+    uint32_t lora_sos_dispatch_ms;      // Target < 180,000 ms (3 min corridor clear)
+    uint16_t hplc_purity_bp;            // >= 9950 bp (99.50% assayed compound purity)
+    uint16_t sanctuary_noise_cb;        // <= 300 cB sensory-safe crisis sanctuary
+    uint8_t  central_ehr_or_wearables;  // Constitutional law: MUST equal 0
+    uint8_t  carceral_psych_locks;      // Constitutional law: MUST equal 0
+    uint8_t  dual_key_chemist_signed;   // 1 => Kappa analytical chemist co-signature
+    uint8_t  bbs_contraindication_ok;   // 1 => bedside ZK allergy check passed
+};
+static_assert(sizeof(ChiClinicalMeshGateV31) == 24, "ChiClinicalMeshGateV31 ABI lock");
+
+[[nodiscard]] constexpr bool authorize_chi_pharmacopoeia_dispense(
+    const ChiClinicalMeshGateV31& c) noexcept {
+    return (c.medical_copay_or_tokens == 0ULL) &&
+           (c.central_ehr_or_wearables == 0U) &&
+           (c.carceral_psych_locks == 0U) &&
+           (c.dual_key_chemist_signed == 1U) &&
+           (c.bbs_contraindication_ok == 1U) &&
+           (c.hplc_purity_bp >= 9950U) &&
+           (c.autoclave_steril_mk >= 394150U) &&
+           (c.sanctuary_noise_cb <= 300U);
+}
+
+} // namespace collective::l5::wave_f
+\end{lstlisting}
+
+\subsection{Bilateral Socket Contracts (\texttt{l4\_l5.sock} and \texttt{l5\_l6.sock})}
+
+Manual SOS preemption dispatches over \texttt{l4\_l5.sock} (\texttt{0x0502}) and triggers post-shift
+\texttt{Sigma} rest shields on \texttt{l5\_l6.sock} (\texttt{0x0603}).
+
+\section{Scenario Upsilon (\texttt{SCN-UPSILON-SHOCK}): Black-Start and Open-Hearth Refuge}
+\label{sec:wavef-upsilon}
+
+Scenario~Upsilon governs ecological pre-buffering (Scenario~Mu biochar keyline swales and Scenario~Eta
+hydrated coppice firebreaks), $< 16\,\mathrm{ms}$ solid-state ATS microgrid islanding (asserting
+internal Node~0 ground and slack-bus reference), Canonical Five-Tier Load Shedding, $R_1 \to R_4$
+BPVP mutual-aid cascading, \textbf{Shock-Verified Commons Jubilees}, and the anti-bunkerist \textbf{Open-Hearth
+Neighbor Refuge} sheltering surrounding Layer~7 neighbors at zero cost ($\mathtt{refugee\_fee\_charged\_uj} \equiv 0$)
+under a hardcoded $259{,}200\,\mathrm{s}$ ($72\,\mathrm{h}$) hardware emergency sunset timer.
+
+\begin{invariant}[Anti-Bunkerist Open-Hearth Refuge and 72-Hour Emergency Sunset]
+\label{inv:wavef-upsilon-refuge}
+Sheltered Layer~7 neighbors are never charged fiat or credits ($\mathtt{refugee\_fee\_charged\_uj} = 0$),
+and emergency load-shedding overrides expire in hardware at $\mathtt{emergency\_elapsed\_sec} > 259{,}200$.
+\end{invariant}
+
+\begin{lstlisting}[language=C++, caption={Scenario Upsilon Islanding, Open-Hearth Refuge, and 72h Sunset Gate (\texttt{col-kmsd})}, label={lst:wavef-upsilon-gate}]
+#include <cstdint>
+
+namespace collective::l5::wave_f {
+
+struct alignas(8) UpsilonShockRefugeGateV31 {
+    uint64_t emergency_elapsed_sec;       // Hardcoded hardware sunset <= 259,200 s (72h)
+    uint64_t refugee_fee_charged_uj;      // Anti-bunkerist law: MUST equal 0
+    uint16_t ats_island_transfer_ms;      // <= 16 ms zero-crossing islanding switch
+    uint16_t watershed_jubilee_yes_bp;    // >= 6600 bp required for shock debt jubilee
+    uint8_t  node0_slack_ground_locked;   // 1 => internal ground/frequency ref active
+    uint8_t  l2_shock_telemetry_attested; // 1 => multi-sensor seismic/fire/grid proof
+    uint16_t reserved_pad;
+};
+static_assert(sizeof(UpsilonShockRefugeGateV31) == 24, "UpsilonShockRefugeGateV31 ABI");
+
+[[nodiscard]] constexpr bool verify_upsilon_shock_posture(
+    const UpsilonShockRefugeGateV31& u) noexcept {
+    return (u.refugee_fee_charged_uj == 0ULL) &&
+           (u.l2_shock_telemetry_attested == 1U) &&
+           (u.node0_slack_ground_locked == 1U) &&
+           (u.ats_island_transfer_ms <= 16U) &&
+           (u.emergency_elapsed_sec <= 259200ULL);
+}
+
+} // namespace collective::l5::wave_f
+\end{lstlisting}
+
+\subsection{Bilateral Socket Contracts (\texttt{l4\_l5.sock} and \texttt{l5\_l6.sock})}
+
+Five-tier load-shedding envelopes push over \texttt{l4\_l5.sock} (\texttt{0x0504}); post-$72\,\mathrm{h}$
+renewal requires live Commons ratification over \texttt{l5\_l6.sock} (\texttt{0x0601}).
+
+\section{Scenario Phi (\texttt{SCN-PHI-ELDERCARE}): Emeritus Wisdom and Palliative Dignity}
+\label{sec:wavef-phi}
+
+Scenario~Phi honors aging elders through non-decaying \texttt{T4\_Emeritus\_Sage} standing (holding
+\textbf{zero} coercive bossing rank over youth while requiring Long-Horizon Watershed Memory
+consultation on major land changes and granting a $+3{,}500\,\mathrm{bp}$ pedagogical credit boost),
+rotational care dispersion ($\le 2{,}000\,\mathrm{bp}$ [$20\%$] weekly load per caregiver),
+zero-optical $60\,\mathrm{GHz}$ mmWave FMCW fall-detection radar ($\mathtt{optical\_cameras\_count} \equiv 0$),
+cryptographically signed \texttt{SovereignAdvanceDirective\_CID} palliative wishes, Multi-Generational
+Housing Co-op Medicaid estate-recovery shielding, and ecological terramation groves.
+
+\begin{invariant}[Emeritus Wisdom Without Gerontocracy and Zero-Camera Fall Safety]
+\label{inv:wavef-phi-elder}
+\texttt{T4\_Emeritus\_Sage} stewards hold $\mathtt{coercive\_boss\_rank\_flag} \equiv 0$, elder
+suites enforce $\mathtt{optical\_cameras\_count} \equiv 0$, and individual caregiver load never
+exceeds $2{,}000\,\mathrm{bp}$.
+\end{invariant}
+
+\begin{lstlisting}[language=C++, caption={Scenario Phi Emeritus Standing, Care Dispersion, and Advance Directive Gate (\texttt{col-kmsd})}, label={lst:wavef-phi-gate}]
+#include <cstdint>
+#include <array>
+
+namespace collective::l5::wave_f {
+
+struct alignas(8) PhiElderWisdomGateV31 {
+    std::array<uint8_t, 32> advance_directive_cid; // Patient-signed palliative charter
+    uint16_t weekly_caregiver_load_bp;             // <= 2000 bp (20% rotational cap)
+    uint16_t mentor_standing_boost_bp;             // 3500 bp (+35% Kappa sage pedagogy)
+    uint8_t  optical_cameras_count;                // 60 GHz mmWave only: MUST equal 0
+    uint8_t  coercive_boss_rank_flag;              // Anti-gerontocracy: MUST equal 0
+    uint8_t  watershed_memory_consulted;           // 1 => long-horizon advisory recorded
+    uint8_t  estate_recovery_shielded;             // 1 => CLT/PPT multi-gen co-op lock
+};
+static_assert(sizeof(PhiElderWisdomGateV31) == 40, "PhiElderWisdomGateV31 ABI lock");
+
+[[nodiscard]] constexpr bool verify_phi_elder_sanctuary(
+    const PhiElderWisdomGateV31& p) noexcept {
+    return (p.optical_cameras_count == 0U) &&
+           (p.coercive_boss_rank_flag == 0U) &&
+           (p.weekly_caregiver_load_bp <= 2000U) &&
+           (p.watershed_memory_consulted == 1U) &&
+           (p.estate_recovery_shielded == 1U);
+}
+
+} // namespace collective::l5::wave_f
+\end{lstlisting}
+
+\subsection{Bilateral Socket Contracts (\texttt{l4\_l5.sock} and \texttt{l5\_l6.sock})}
+
+Rotational care shift offers balance silently via \texttt{0x0606} and \texttt{0x0503}.
+
+\section{Scenario Psi (\texttt{SCN-PSI-MEDIATION}): Transformative Justice Peace Circles}
+\label{sec:wavef-psi}
+
+Operationalizing Chapter~\ref{ch:l5-sanctuary-justice}, Scenario~Psi enforces zero cages, zero
+survival-floor fines, and zero shaming pillories; audits systemic \texttt{Sigma}/\texttt{Kappa}/\texttt{Alpha}
+root causes first; seats a Living Watershed guardian for ecological restitution; seals 3-of-3 NFC
+Peace Circle covenants under a defensive \texttt{9 U.S.C.\ \S\,3} arbitration shield ($\mathtt{sheriff\_calls\_count} = 0$);
+and mandates immediate \texttt{SafeHarborSeverance} bypass whenever domestic coercion is alleged.
+
+\begin{lstlisting}[language=C++, caption={Scenario Psi Non-Carceral Peace Circle and Abuse-Bypass Gate (\texttt{col-kmsd})}, label={lst:wavef-psi-gate}]
+#include <cstdint>
+
+namespace collective::l5::wave_f {
+
+struct alignas(8) PsiPeaceCircleGateV31 {
+    uint64_t restitution_covenant_hash; // Sealed restorative task & watershed plan
+    uint8_t  cages_fines_pillories_cnt; // Constitutional law: MUST equal 0
+    uint8_t  sheriff_calls_count;       // Constitutional law: MUST equal 0
+    uint8_t  domestic_abuse_alleged;    // 1 => PROHIBIT mediation; run SafeHarbor
+    uint8_t  root_cause_sigma_audited;  // 1 => fatigue/tooling defects checked first
+    uint8_t  nfc_peace_circle_sigs;     // 3-of-3 consensual physical NFC co-sign
+    uint8_t  watershed_guardian_seated; // 1 => ecological voice seated if land harmed
+    uint8_t  faa_9usc3_shield_bound;    // 1 => defensive civil-litigation stay bound
+    uint8_t  safe_harbor_completed;     // Required == 1 if domestic_abuse_alleged == 1
+};
+static_assert(sizeof(PsiPeaceCircleGateV31) == 16, "PsiPeaceCircleGateV31 ABI lock");
+
+[[nodiscard]] constexpr bool validate_psi_resolution(
+    const PsiPeaceCircleGateV31& p) noexcept {
+    if (p.cages_fines_pillories_cnt != 0U || p.sheriff_calls_count != 0U) return false;
+    if (p.domestic_abuse_alleged != 0U) return p.safe_harbor_completed == 1U;
+    return (p.root_cause_sigma_audited == 1U) &&
+           (p.nfc_peace_circle_sigs >= 3U) &&
+           (p.watershed_guardian_seated == 1U) &&
+           (p.faa_9usc3_shield_bound == 1U);
+}
+
+} // namespace collective::l5::wave_f
+\end{lstlisting}
+
+\subsection{Bilateral Socket Contracts (\texttt{l4\_l5.sock} and \texttt{l5\_l6.sock})}
+
+Restorative tasks spawn as ordinary dignified workflows over \texttt{l4\_l5.sock} (\texttt{0x0502})
+with zero public stigma tags.
+
+\section{Scenario Rho (\texttt{SCN-RHO-ADVERSARY}): Autopoietic Immune Defense}
+\label{sec:wavef-rho}
+
+Scenario~Rho hardens the federation against external legal fishing expeditions (\textit{NAACP v.\ Alabama}
+\parencite{naacp1958} Structural Data Non-Existence, CLT/PPT asset walls, \texttt{DPL v1}, multi-rail
+credit-union failover) and internal cartel capture (VRF cross-watershed audits, pre-partition sharded
+BCC limits, \textbf{Fault Before Malice} conservation cross-checks, \textbf{Passive Quarantine} preserving
+$100\%$ of $R_0$ survival baselines, and $\mathtt{autonomous\_weapons\_count} \equiv 0$).
+
+\begin{theorem}[Anti-Autoimmune Survival Preservation Under Passive Quarantine]
+\label{thm:wavef-rho-quarantine}
+For every telemetry anomaly or external siege state evaluated by \texttt{col-kmsd}, if
+$\mathtt{sensor\_power\_delta\_mw} \le \mathtt{calibration\_eps\_mw}$ the event routes strictly to
+Scenario~Alpha sensor maintenance; and even when multi-enclave conservation fails, Passive Quarantine
+enforces $\mathtt{r0\_baseline\_severed\_flag} \equiv 0$, guaranteeing zero autoimmune starvation.
+\end{theorem}
+\begin{proof}
+\texttt{evaluate\_rho\_immune\_response()} checks $\mathtt{r0\_baseline\_severed\_flag} == 0$ and
+$\mathtt{autonomous\_weapons\_count} == 0$ as precondition invariants, and branches to maintenance
+whenever $\mathtt{sensor\_power\_delta\_mw} \le \mathtt{calibration\_eps\_mw}$; Tier~1--2 survival
+allocations in Chapter~\ref{ch:l5-constitutional-floors} remain outside the quarantined Tier~3--5
+credit mask.
+\end{proof}
+
+\begin{lstlisting}[language=C++, caption={Scenario Rho ``Fault Before Malice'' and Passive Quarantine Gate (\texttt{col-kmsd})}, label={lst:wavef-rho-gate}]
+#include <cstdint>
+
+namespace collective::l5::wave_f {
+
+struct alignas(8) RhoImmuneGuardV31 {
+    uint64_t sensor_power_delta_mw;     // |P_elec - Q_dot| multi-enclave residual
+    uint64_t calibration_eps_mw;        // Benign drift envelope -> Alpha repair ticket
+    uint8_t  autonomous_weapons_count;  // Constitutional law: MUST equal 0
+    uint8_t  r0_baseline_severed_flag;  // Constitutional law: MUST equal 0
+    uint8_t  naacp_roster_nonexistent;  // 1 => zero central member table to subpoena
+    uint8_t  vrf_cross_watershed_audit; // 1 => anti-cartel sortition witness valid
+    uint32_t reserved_pad;
+};
+static_assert(sizeof(RhoImmuneGuardV31) == 24, "RhoImmuneGuardV31 ABI lock");
+
+// Returns: 0 = Invalid/Halted, 1 = Benign Sensor Maintenance, 2 = Passive Quarantine
+[[nodiscard]] constexpr uint8_t evaluate_rho_immune_response(
+    const RhoImmuneGuardV31& r) noexcept {
+    if (r.autonomous_weapons_count != 0U || r.r0_baseline_severed_flag != 0U) return 0U;
+    if (r.naacp_roster_nonexistent == 0U) return 0U;
+    if (r.sensor_power_delta_mw <= r.calibration_eps_mw) return 1U; // Fault, not malice
+    return (r.vrf_cross_watershed_audit != 0U) ? 2U : 1U;
+}
+
+} // namespace collective::l5::wave_f
+\end{lstlisting}
+
+\subsection{Bilateral Socket Contracts (\texttt{l4\_l5.sock} and \texttt{l5\_l6.sock})}
+
+Passive Quarantine updates peer BCC ceilings via \texttt{0x0504} on \texttt{l4\_l5.sock} while leaving
+all local $R_0$ survival workflows untouched.
+
+\section{Scenario Omega (\texttt{SCN-OMEGA-DECOUPLE}): Terminal Decoupling and the Planetary Lighthouse}
+\label{sec:wavef-omega}
+
+The entire transitional Layer~7 carapace (\texttt{col-adversaryd}, fiat tax wrappers, corporate LLC
+shells) exists solely to bridge a settlement from legacy dependence to bioregional sufficiency.
+Scenario~Omega governs the historic constitutional ceremony in which a federation retires its
+commercial Layer~7 wrapper while permanently keeping open its humanitarian \textbf{Planetary Lighthouse
+and Genesis Seedbed Bridge}.
+
+\subsection{Five-Domain Dependency Gate, Tax Endowment, and $< 100\,\mathrm{ms}$ L7 Sunset}
+
+\texttt{col-kmsd} unlocks the Terminal Decoupling ballot if and only if four objective preconditions
+hold simultaneously across a trailing $365$-day rolling window:
+\begin{enumerate}
+    \item \textbf{Five-Domain Thermodynamic Dependency Gate:} External Layer~7 precursor share
+    satisfies $D_d \le 50{,}000\,\mathrm{ppm}$ ($500\,\mathrm{bp} = 5.00\%$) independently across
+    all five vital domains: (0)~Energy, (1)~Nutrition \& Water, (2)~Materials \& Tooling,
+    (3)~Medicine \& Essential Chemistry, and (4)~Compute \& Governance Silicon.
+    \item \textbf{Sovereign Land \& Property-Tax Endowment:} Land title rests in an unincorporated
+    Perpetual Purpose Trust / Community Land Trust backed by a $10{,}000\,\mathrm{bp}$ ($100\%$)
+    capitalized \textbf{Irrevocable Property Tax Escrow Endowment} eliminating municipal tax-foreclosure risk.
+    \item \textbf{Entrenched Core Double Supermajority \& Clean Statutory Dissolution:} Ratified by
+    $\ge 8{,}000\,\mathrm{bp}$ ($80\%$) in both the Commons and Stewardship Chambers after a $60$-day
+    deliberation window and clean corporate winding-up under \texttt{RCW 23B} / \texttt{MBCA \S\,14.05}.
+    \item \textbf{Sub-$100\,\mathrm{ms}$ Layer~7 Zeroization \& Permanent Planetary Lighthouse:}
+    Upon enactment, commercial Layer~7 SQLite/WAL/SHM stores are cryptographically zeroized and
+    \texttt{l6\_l7.sock} is unlinked in $< 100\,\mathrm{ms}$---yet the federation \textbf{never}
+    turns inward into isolationism: it permanently operates the \textbf{Planetary Lighthouse} ($R_6$ open
+    knowledge, seed, hardware blueprint, clinical refuge, and Stage~1A genesis seedbed bridge) to
+    help new communities self-organize across the wider world.
+\end{enumerate}
+
+\begin{theorem}[Irreversible Post-Scarcity Readiness and Non-Isolationist Lighthouse Guarantee]
+\label{thm:wavef-omega-lighthouse}
+\texttt{authorize\_omega\_decoupling()} returns \texttt{true} if and only if $\max_{d \in \{0..4\}} D_d \le 50{,}000\,\mathrm{ppm}$,
+$\mathtt{tax\_endowment\_funded\_bp} \ge 10{,}000$, $\mathtt{entrenched\_both\_chambers\_bp} \ge 8{,}000$,
+$\mathtt{statutory\_dissolution\_filed} = 1$, and $\mathtt{lighthouse\_bridge\_online} = 1$, proving
+that no federation can sever its Layer~7 commercial bridge prematurely or close its humanitarian
+doors upon decoupling.
+\end{theorem}
+\begin{proof}
+Inspection of \texttt{authorize\_omega\_decoupling()} in Listing~\ref{lst:wavef-omega-gate} shows
+that each of the five domain array entries \texttt{domain\_dep\_ppm[0..4]} is bounded by $50{,}000\,\mathrm{ppm}$
+in a deterministic fixed-bound loop, conjoined with exact integer comparisons on the endowment,
+bicameral $8{,}000\,\mathrm{bp}$ quorum, statutory dissolution receipt, $< 100\,\mathrm{ms}$
+zeroization bound, and $\mathtt{lighthouse\_bridge\_online} == 1$. Falsity of any conjunct forces an
+immediate \texttt{false} return.
+\end{proof}
+
+\begin{lstlisting}[language=C++, caption={Scenario Omega Five-Domain Dependency Gate and Planetary Lighthouse Lock (\texttt{col-kmsd})}, label={lst:wavef-omega-gate}]
+#include <cstdint>
+#include <array>
+
+namespace collective::l5::wave_f {
+
+constexpr uint32_t kMaxExternalDepPpm = 50000U; // 5.00% (500 bp) per vital domain
+
+struct alignas(8) OmegaTerminalDecoupleV31 {
+    std::array<uint32_t, 5> domain_dep_ppm; // [Energy, Food, Matter, Meds, Compute]
+    uint16_t tax_endowment_funded_bp;       // >= 10,000 bp (100% PPT/CLT tax endowment)
+    uint16_t entrenched_both_chambers_bp;   // >= 8000 bp (80% Commons & Stewardship)
+    uint16_t l7_zeroize_latency_ms;         // < 100 ms DB/WAL/SHM scrub & sock unlink
+    uint8_t  statutory_dissolution_filed;   // 1 => clean RCW 23B / MBCA 14.05 wind-up
+    uint8_t  lighthouse_bridge_online;      // 1 => R6 open science/refuge/seedbed kept
+    uint32_t reserved_pad;
+};
+static_assert(sizeof(OmegaTerminalDecoupleV31) == 32, "OmegaTerminalDecoupleV31 ABI");
+
+[[nodiscard]] constexpr bool authorize_omega_decoupling(
+    const OmegaTerminalDecoupleV31& o) noexcept {
+    for (uint32_t ppm : o.domain_dep_ppm) {
+        if (ppm > kMaxExternalDepPpm) return false;
+    }
+    return (o.tax_endowment_funded_bp >= 10000U) &&
+           (o.entrenched_both_chambers_bp >= 8000U) &&
+           (o.l7_zeroize_latency_ms < 100U) &&
+           (o.statutory_dissolution_filed == 1U) &&
+           (o.lighthouse_bridge_online == 1U);
+}
+
+} // namespace collective::l5::wave_f
+\end{lstlisting}
+
+\subsection{Bilateral Socket Contracts (\texttt{l4\_l5.sock} and \texttt{l5\_l6.sock})}
+
+Upon final ratification on \texttt{l5\_l6.sock} (\texttt{0x0601}), Layer~6 unlinks \texttt{l6\_l7.sock}
+while \texttt{col-kmsd} transitions all $\Phi_t$ commercial envelopes on \texttt{l4\_l5.sock}
+(\texttt{0x0504}) permanently to $R_0\text{--}R_6$ commons reciprocity and Planetary Lighthouse seeding.
+
+\section{Wave F Synthesis: Convivial Maturity Progression}
+\label{sec:wavef-synthesis}
+
+\begin{table}[htbp]
+\centering
+\caption{Wave F (\texttt{Chi}, \texttt{Upsilon}, \texttt{Phi}, \texttt{Psi}, \texttt{Rho}, \texttt{Omega}) Layer~5 Governance Across Maturity Stages}
+\label{tab:wavef-maturity}
+\footnotesize
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}lllll@{}}
+\toprule
+\textbf{Scenario} & \textbf{Stage 1A (Suburban Seed)} & \textbf{Stage 1B (Neighborhood Mesh)} & \textbf{Stage 2 (Cooperative Hub)} & \textbf{Stage 3 (CLT Sovereign Campus)} \\
+\midrule
+\texttt{Chi} (Clinic) & First-aid kit + smartcard EHR ($0$ cloud) & $R_1$ paramedic LoRa SOS + \texttt{BBS+} Rx & 6-modality clinic + non-carceral quiet room & Dual-Key HPLC Pharmacopoeia ($9950\,\mathrm{bp}$) \\
+\texttt{Upsilon} (Shock) & $72\mathrm{h}$ battery/water floor + ATS & Curbside neighbor warming/charging station & Keyline biochar swales + $72\mathrm{h}$ HW timer & Full 5-artery black-start + Shock Jubilee \\
+\texttt{Phi} (Elder) & Intergenerational suite + POA directive & Rotational $\le 2000\,\mathrm{bp}$ neighbor care & $60\,\mathrm{GHz}$ fall radar ($0$ cams) + Sage $+35\%$ & Multi-Gen CLT shield + terramation grove \\
+\texttt{Psi} (Justice) & Household SafeHarbor bypass ($<500\,\mathrm{ms}$) & 3-of-3 NFC neighbor Peace Circles & \texttt{Sigma}/\texttt{Kappa} root-cause + \texttt{9 USC 3} & Watershed Guardian seat ($0$ cages/fines) \\
+\texttt{Rho} (Immunity) & \textit{NAACP} zero-roster + hardware keys & Fault-Before-Malice sensor cross-check & CLT/PPT wall + multi-rail credit failover & VRF cross-watershed audit + Passive Quar. \\
+\texttt{Omega} (Horizon) & Track household L7 bill offset ($\Phi_t$) & Shared $R_1$ precursor substitution log & Capitalize PPT/CLT Property Tax Endowment & $D_d \le 5\%$: L7 sunset + Planetary Lighthouse \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
