@@ -1,0 +1,570 @@
+\chapter{The Bilateral Membrane, Separated Concerns, and the Constellation of Applications}
+\label{ch:constellation-membrane}
+
+\epigraph{A convivial society should be designed to allow all its members the most autonomous action by means of tools least controlled by others. People feel joy, as opposed to mere pleasure, to the extent that their activities are creative; while the growth of tools beyond a certain point increases regimentation, dependence, exploitation, and impotence.}{---Adapted from \textcite{illich1973}}
+
+Every human-facing interface encodes an implicit constitution. In conventional enterprise,
+civic, and smart-home software, that constitution is overwhelmingly centralizing: a single
+monolithic web portal or mobile ``super-app'' accumulates presentation logic, business rules,
+session credentials, behavioral analytics, direct database write paths, and hardware actuator
+overrides behind one administrative surface. What begins during early prototyping as developer
+convenience hardens rapidly into both a security hazard and a political hierarchy. A single
+compromised browser context, coerced administrator credential, or misconfigured API route
+acquires simultaneous visibility into intimate household routines and unmediated authority over
+physical infrastructure \parencite{saltzer1984end,rose2020zero,zuboff2019}. Worse still, when a
+community's digital life is funneled through one proprietary dashboard, citizens cease to be
+authors of their own tools and become passive operators of screens designed elsewhere
+\parencite{illich1973,costanzachock2020design}.
+
+Layer~6 of the Sovereign Stack---\textbf{The Semantic Commonwealth}, realized in POSIX user
+space by the semantic engine \texttt{col-commonsd} and the local civic boundary mediator
+\texttt{col-gatewayd}---inverts this architecture along three orthogonal axes:
+
+\begin{enumerate}
+\item \textbf{Strict Bilateral Socket Containment:} Layer~6 possesses zero direct communication
+      paths to physical hardware (Layers~1--2), thermodynamic ledgers (Layer~3), or the
+      deterministic workflow virtual machine (Layer~4). Its entire capacity to affect or
+      ingest authoritative state is bounded by two kernel-authenticated \texttt{AF\_UNIX}
+      \texttt{SOCK\_SEQPACKET} membranes: inward across \texttt{l5\_l6.sock} to polycentric
+      governance (\texttt{col-kmsd}) and outward across \texttt{l6\_l7.sock} to the legacy
+      adversarial carapace (\texttt{col-adversaryd}).
+\item \textbf{Clean Separation of Real Production Software from Simulation (\texttt{Layer 1b}):}
+      Layer~6 is never conflated with the Oasis 3D digital twin (\texttt{Layer 1b}). Oasis is
+      a zero-key, zero-socket spatial rehearsal engine whose synthetic frames carry the
+      epistemic watermark \texttt{QUALITY\_SIMULATED = 0x01}. All human intent authoring,
+      governance deliberation, workflow review, and mutual-credit clearing reside in dedicated
+      Layer~6 Companion Applications engineered to drive genuine physical settlements.
+\item \textbf{Unfolding from One Starter App to a Constellation of Convivial Applications:}
+      Although a newly bootstrapped homestead on Lot~402 begins with a single four-tab
+      Companion Application to minimize initial cognitive friction, Layer~6 is architecturally
+      not a monolithic dashboard. As a settlement matures, Layer~6 unfolds into an open
+      \textbf{Constellation of Specialized Convivial Applications and Screenless Modalities}---all
+      acting as zero-business-logic ``Intent Builders'' over a uniform semantic and
+      cryptographic foundation.
+\end{enumerate}
+
+In this opening chapter of Part~I, we formalize the socket topology, epistemic separation,
+capability-scoped RBAC model, local-mesh pairing protocol, and lock-free memory isolation that
+make this Semantic Commonwealth viable under real civic and adversarial pressure
+\parencite{beer1972,beer1974,miller2006robust}.
+
+\section{Strict Seven-Layer Adjacency for Layer 6 (\texttt{col-commonsd} and \texttt{col-gatewayd})}
+\label{sec:ch1-l6-adjacency}
+
+Within the seven-layer linear topology of a Sovereign Node, Layer~6 occupies level $k = 6$,
+situated immediately above Layer~5 (\texttt{col-kmsd}, Polycentric Governance and Web of
+Trust) and immediately below Layer~7 (\texttt{col-adversaryd}, Legal, Fiscal, and Adversarial
+Carapace on isolated DMZ VLAN~40). Under the Sovereign Stack's \textbf{Law of Strict
+Adjacency}, a daemon at Layer~$k$ may exchange mutating IPC frames solely with Layer~$k-1$ and
+Layer~$k+1$.
+
+Layer~6 splits its runtime responsibilities across two tightly coupled, privilege-separated
+POSIX processes: \texttt{col-gatewayd}, which terminates TLS~1.3 civic device sessions on
+VLAN~30 (\texttt{:8443}), and \texttt{col-commonsd}, which validates W3C JSON-LD semantic intents,
+evaluates Ricardian treaty digests, clears bioregional Agora double-auctions, and drives the
+two adjacent Unix-domain \texttt{SOCK\_SEQPACKET} membranes:
+
+\begin{enumerate}
+\item \textbf{Inward / Downward Adjacency (\texttt{/run/collective/ipc/l5\_l6.sock}):}
+      Point-to-point record socket connecting \texttt{col-commonsd} exclusively to Layer~5
+      (\texttt{col-kmsd}). Downward across this membrane travel human-signed JSON-LD intent
+      envelopes, assembly ballots, revocable liquid delegations, capability-scoped Commons Pool
+      task pulls, personal rest and care-leave shields (\texttt{mesh:RestIntent}), and
+      co-signed Ricardian \texttt{Treaty\_CID} ratifications. Upward from \texttt{col-kmsd}
+      arrive ratified governance state transitions, identity-blinded task offers, upward-yield
+      escalation notices requiring Steward review, deliberative rationale records, and
+      audience-scoped community alerts.
+\item \textbf{Outward / Upward Adjacency (\texttt{/run/collective/ipc/l6\_l7.sock}):}
+      Point-to-point record socket crossing the internal host DMZ boundary to Layer~7
+      (\texttt{col-adversaryd}, pinned to VLAN~40). Outward across this membrane travel
+      strictly data-minimized legacy execution directives---Group Purchasing Organization (GPO)
+      leaf orders, cottage-food surplus settlement notices, municipal utility intertie filings,
+      and property-tax remittances---scrubbed by the \textbf{Mundane Semantic Camouflage Filter}
+      and framed within the Tripartite Legal Chassis (UUNAA Section~6 unincorporated association
+      covenants, IRC Subchapter~T cooperative accounting, and UCEA conservation easements) so
+      that internal member graphs enjoy structural data non-existence in the spirit of
+      \textcite{naacp1958}. Inward across \texttt{l6\_l7.sock} arrive untrusted external vendor
+      invoices, statutory notices, and macro-distress arrival events
+      (\texttt{MigrationWaveArrivalEvent}), which \texttt{col-commonsd} quarantine-ingests
+      through a split-sandbox Intake Model before relaying sanitized Ring~R6 guest events
+      downward to \texttt{col-kmsd} (implemented in \texttt{MigrationWaveAgoraRelay} within
+      \texttt{src/daemons/col-commonsd/main.cpp}).
+\end{enumerate}
+
+\begin{table}[htbp]
+\centering
+\caption{Seven-Layer Daemon Topology and Adjacency Enforcement Relative to Layer~6 (\texttt{col-commonsd} / \texttt{col-gatewayd})}
+\label{tab:ch1-l6-adjacency}
+\small
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}clll@{}}
+\toprule
+\textbf{Layer} & \textbf{POSIX Daemon / Domain} & \textbf{Channel to Layer 6} & \textbf{Kernel \& Protocol Enforcement} \\
+\midrule
+L7 & \texttt{col-adversaryd} (VLAN 40 DMZ) & \texttt{l6\_l7.sock} (\texttt{SEQPACKET}) & \texttt{SO\_PEERCRED} UID == \texttt{uid\_col\_adversaryd}; Split-Sandbox \\
+\textbf{L6} & \textbf{\texttt{col-commonsd} + \texttt{col-gatewayd}} & \textbf{Self (VLAN 30 TLS 1.3 \texttt{:8443})} & \textbf{\texttt{seccomp-bpf}; \texttt{did:peer} RBAC; SPSC Rings} \\
+L5 & \texttt{col-kmsd} (Governance / WoT) & \texttt{l5\_l6.sock} (\texttt{SEQPACKET}) & \texttt{SO\_PEERCRED} UID == \texttt{uid\_col\_kmsd}; \texttt{405} on HTTP \\
+L4 & \texttt{col-execd} (10 Hz Wasmtime VM) & \textit{Zero Mutating Sockets} & Read-only telemetry SPSC; \texttt{HTTP 405} (\texttt{NO\_MUTATIONS}) \\
+L3 & \texttt{col-storaged} (CRDT / Ledger) & \textit{Zero Direct Sockets} & Read-only snapshot projection; \texttt{HTTP 405} \\
+L2 & \texttt{col-peripheral} (VLAN 10 MCU) & \textit{Zero Direct Sockets} & Read-only \texttt{/uhai\_telemetry\_gateway}; \texttt{HTTP 405} \\
+L1 / 1b & Physical Biome \& Oasis Twin & \textit{Zero Direct Sockets} & \texttt{QUALITY\_SIMULATED = 0x01} vs \texttt{0x02} hardware bit \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+Table~\ref{tab:ch1-l6-adjacency} summarizes how the kernel and gateway enforce this bilateral
+isolation relative to every other layer of the stack. Just as in Layer~4, configuring both
+\texttt{l5\_l6.sock} and \texttt{l6\_l7.sock} in connection-oriented \texttt{SOCK\_SEQPACKET}
+mode eliminates byte-stream frame-slicing vulnerabilities, preserves strict FIFO causal order
+with kernel receive-buffer backpressure, and enables immediate unforgeable credential pinning
+via \texttt{SO\_PEERCRED} (Linux) or \texttt{LOCAL\_PEERCRED} (BSD/macOS) prior to parsing a
+single payload byte.
+
+\subsection{The Read-Only Diagnostic Hood and HTTP \texttt{405} Enforcement}
+
+While Layer~6 is forbidden from mutating lower layers directly, human Stewards need transparent,
+calm visibility into the health of their settlement: whether an automated drip-irrigation valve
+in Layer~2 is open, whether Layer~3 mutual-credit channels are balanced, or where a BPMN~2.0
+token in Layer~4 is currently waiting on a timer. To provide this observability without
+introducing mutating backdoors, \texttt{col-gatewayd} maps lock-free Single-Producer
+Single-Consumer (SPSC) shared-memory telemetry rings in strictly read-only consumer mode and
+exposes diagnostic \texttt{GET} projections under \texttt{/api/v1/l1/*} through
+\texttt{/api/v1/l7/*}.
+
+In \texttt{GatewayServer::HandleRequest()} (\texttt{src/daemons/col-gatewayd/gateway\_server.hpp}),
+any attempt by a client application, script, or compromised browser tab to issue a mutating
+HTTP verb (\texttt{POST}, \texttt{PUT}, \texttt{PATCH}, or \texttt{DELETE}) against a
+diagnostic layer namespace is intercepted by \texttt{IsDiagnosticLayerPath()} and rejected
+with an explicit \texttt{HTTP 405 Method Not Allowed} response and \texttt{Allow: GET, OPTIONS}
+header:
+\begin{equation}
+\begin{aligned}
+\forall m \in \{\texttt{POST}, \texttt{PUT}, \texttt{PATCH}, \texttt{DELETE}\}, \quad
+\forall k \in \{1, 2, 3, 4, 5, 7\}: \\
+\mathrm{Gateway}(m, \texttt{/api/v1/l}k\texttt{/*}) \longrightarrow \texttt{HTTP 405}
+\; (\texttt{L4\_IS\_STRICTLY\_READ\_ONLY\_NO\_MUTATIONS})
+\end{aligned}
+\end{equation}
+
+Crucially, notice that even \texttt{/api/v1/l5/*} rejects direct HTTP mutations with
+\texttt{L5\_GOVERNANCE\_IS\_READ\_ONLY}. A Steward ratifying a pending task gate or participating
+in a 2-of-3 FROST Steward vouch ceremony (\texttt{SCN-TAU-GENESIS}) never pokes raw RPC state
+into \texttt{col-kmsd}'s diagnostic hood. Every human decision enters exclusively as a
+canonical, human-signed JSON-LD semantic intent at \texttt{POST /api/v1/l6/intent}, where
+Layer~6 verifies schema conformance and deterministic read-back provenance before forwarding the
+signed frame downward across \texttt{l5\_l6.sock}.
+
+\subsection{Layer 6 as the Apex of the Constitutional Intent U-Turn}
+
+This structural asymmetry positions Layer~6 at the deliberative apex of the
+\textbf{Constitutional Intent U-Turn} \parencite{beer1979}:
+
+\begin{itemize}
+\item \textbf{Downward Authorship Trajectory ($\mathrm{Steward} \to \mathrm{L6} \to \mathrm{L5} \to \mathrm{L4}$):}
+      A Steward articulates a physical or civic objective inside a Layer~6 application,
+      inspects the deterministic plain-language read-back of its exergy, ecological, and labor
+      consequences, and signs the canonical digest with a hardware-bound \texttt{Ed25519} key.
+      Layer~6 transmits the signed intent across \texttt{l5\_l6.sock} to \texttt{col-kmsd};
+      only after Layer~5 verifies Web-of-Trust credentials, ecological floor headroom, and
+      governance quorum does \texttt{col-kmsd} instruct \texttt{col-execd} across
+      \texttt{l4\_l5.sock} to instantiate or advance the corresponding BPMN~2.0 workflow.
+\item \textbf{Upward Escalation and Camouflaged Outward Trajectory ($\mathrm{L4} \to \mathrm{L5} \to \mathrm{L6} \to \mathrm{L7}$):}
+      When a deterministic workflow in \texttt{col-execd} encounters a human verification gate,
+      a local-and-mesh inventory cache miss, or an unresolvable resource contention, it emits a
+      456-byte \texttt{UpwardYieldPacket} upward to Layer~5. \texttt{col-kmsd} filters the
+      event against active policy and projects human-actionable holds across
+      \texttt{l5\_l6.sock} into Layer~6. If and only if a Steward co-signs an external
+      procurement fallback or surplus bill-offset directive does \texttt{col-commonsd} compile
+      a camouflaged leaf instruction across \texttt{l6\_l7.sock} to \texttt{col-adversaryd}.
+\end{itemize}
+
+\begin{invariant}[Layer 6 Bilateral Containment and Read-Only Projection]
+\label{inv:ch1-l6-bilateral-containment}
+At every Hybrid Logical Clock instant $t$ following privilege drop, the open descriptor set
+$\mathcal{F}_t^{(6)}$ of the Layer~6 daemon pair $(\texttt{col-commonsd}, \texttt{col-gatewayd})$
+satisfies:
+\begin{equation}
+\mathcal{F}_t^{(6)} \subseteq \bigl\{
+\mathrm{fd}_{\mathrm{l5\_l6}}, \,
+\mathrm{fd}_{\mathrm{l6\_l7}}, \,
+\mathrm{fd}_{\mathrm{vlan30\_tls}}, \,
+\mathrm{fd}_{\mathrm{shm\_ro}}, \,
+\mathrm{fd}_{\mathrm{cas\_ro}}, \,
+\mathrm{fd}_{\mathrm{log\_append}}
+\bigr\}
+\end{equation}
+where $\mathcal{F}_t^{(6)} \cap \mathcal{F}_{\mathrm{l1..l4\_write}} = \emptyset$ and
+$\mathcal{F}_t^{(6)} \cap \mathcal{F}_{\mathrm{wan\_inet}} = \emptyset$. No human-facing
+application can mutate Layer~4 workflow state or Layer~3 ledger records without traversing
+Layer~5 cryptographic ratification across \texttt{l5\_l6.sock}, nor contact external legacy
+networks without traversing Layer~7 adversarial scrubbing across \texttt{l6\_l7.sock}.
+\end{invariant}
+
+Listing~\ref{lst:ch1-l6-wire-abi} exhibits the C++20 wire header and capability token structures
+governing the Layer~6 socket boundary and VLAN~30 session gate. All structures enforce explicit
+8-byte alignment (\texttt{alignas(8)}), compile-time size assertions, disjoint opcode ranges
+(\texttt{0x0500..0x05FF} pinned to \texttt{l5\_l6.sock}; \texttt{0x0600..0x06FF} pinned to
+\texttt{l6\_l7.sock}), and zero IEEE-754 floating-point fields.
+
+\begin{lstlisting}[language=C++,caption={Layer 6 bilateral SEQPACKET wire header, VLAN 30 security configuration, and capability-scoped session token.},label={lst:ch1-l6-wire-abi}]
+struct alignas(8) L5L6SeqPacketHeader {
+    uint32_t magic{0x434F4C36U};       // "COL6" Layer 6 frame discriminator (4B)
+    uint16_t protocol_version{0x0301}; // Ratified v3.1 wire ABI (2B)
+    uint16_t opcode{0};                // 0x05xx on l5_l6.sock; 0x06xx on l6_l7.sock (2B)
+    uint64_t sender_hlc{0};            // Monotonic Hybrid Logical Clock (8B)
+    uint64_t correlation_nonce{0};     // Request / upward-yield correlation ID (8B)
+    uint32_t payload_bytes{0};         // Canonical payload size <= 65536 (4B)
+    uint32_t crc32c_digest{0};         // Castagnoli CRC-32C integrity check (4B)
+};
+static_assert(sizeof(L5L6SeqPacketHeader) == 32, "L5L6SeqPacketHeader must be 32 bytes.");
+
+struct alignas(8) GatewaySecurityConfig {
+    uint16_t port{8443};               // Local Mesh HTTPS/WSS civic port (2B)
+    uint16_t vlan_id{30};              // Sovereign Civic Boundary VLAN 30 (2B)
+    bool     tls_1_3_enforced{true};   // Strict TLS 1.3 cipher suite floor (1B)
+    bool     did_auth_required{true};  // Ed25519 / WebCrypto DID signature gate (1B)
+    uint8_t  reserved[2]{0};           // Explicit zero padding (-Wpadded clean) (2B)
+};
+static_assert(sizeof(GatewaySecurityConfig) == 8, "GatewaySecurityConfig must be 8 bytes.");
+
+struct alignas(8) AppCapabilityToken {
+    uint8_t  manifest_cid[32]{};       // SHA-256 CID of AppCapabilityManifestV1 (32B)
+    uint8_t  session_did_hash[16]{};   // Truncated BLAKE2b-128 of scoped did:peer (16B)
+    uint64_t expiry_hlc{0};            // Bounded lease expiration HLC tick (8B)
+    uint32_t granted_rbac_mask{0};     // Bitmask of 8 canonical L6 RBAC scopes (4B)
+    uint16_t max_exergy_infer_mj_bp{0};// Optional NLU microjoule budget cap (2B)
+    uint8_t  trust_ring_ceiling{6};    // Steward ring bound R0..R6 (1B)
+    uint8_t  provenance_flags{0x01};   // 0x01=HumanSigned, 0x02=HardwareEnclave (1B)
+};
+static_assert(sizeof(AppCapabilityToken) == 64, "AppCapabilityToken must be 64 bytes.");
+\end{lstlisting}
+
+\section{Separating Layer 6 from Oasis (\texttt{Layer 1b})}
+\label{sec:ch1-oasis-separation}
+
+In early architectural drafts prior to the v3.1 ratification, casual shorthand occasionally
+referred to Layer~6 as ``the Oasis interface.'' That conflation is permanently retired. A
+viable cybernetic architecture must draw an uncompromising boundary between \textit{a virtual
+world used to rehearse physical dynamics} and \textit{the civic instruments used by living
+people to govern real land, food, energy, and mutual obligations}
+\parencite{grieves2014digital,girard2013}.
+
+\subsection{Why Oasis (\texttt{Layer 1b}) Holds Zero Keys and Zero Civic Authority}
+
+Oasis (\texttt{Layer 1b}) is an outward-producing 3D WebGPU spatial simulation and
+Software-in-the-Loop (SITL) proving ground. It models solar irradiance across rooftop
+monocrystalline arrays, evapotranspiration in backyard keyline beds, thermal mass decay in
+insulated compost drums, and avatar ergonomics on a simulated parcel such as Lot~402. To serve
+safely as an experimental sandbox---where learners, architects, and adversarial red-teams can
+fast-forward droughts, breaker trips, and demographic shocks at $100\times$ real time---Oasis
+is structurally stripped of civic agency:
+
+\begin{itemize}
+\item \textbf{Zero Cryptographic Signing Keys:} The 3D simulation engine holds no personal
+      \texttt{Ed25519} keys, no \texttt{ATECC608A} hardware enclave handles
+      \parencite{microchip_atecc608a}, and no BBS+ selective-disclosure credentials
+      \parencite{camenisch2004signature}. An avatar clicking a trellis in the 3D viewport
+      cannot sign a binding Ricardian treaty or authorize an external GPO expenditure.
+\item \textbf{Zero External Network Sockets:} Under WebAssembly and native sandbox builds alike,
+      the simulation loop opens zero WAN sockets and speaks to the Sovereign Stack exclusively
+      through bounded virtual pin bridges and lock-free UHAI ring buffers.
+\item \textbf{Unforgeable Epistemic Provenance (\texttt{QUALITY\_SIMULATED = 0x01}):} Every
+      telemetry frame emitted by Oasis carries \texttt{QualityFlags::QUALITY\_SIMULATED = 0x01}
+      in \texttt{TelemetrySample::quality\_flags} (\texttt{core/1\_simulation/src/uhai/uhai\_ring\_buffer.hpp}),
+      strictly segregated from physical transducer frames attested by hardware secure elements
+      (\texttt{QUALITY\_HARDWARE\_ROOT = 0x02}). Layer~3 and Layer~5 reject any attempt to mix
+      simulated \texttt{0x01} frames into production mutual-credit clearing or statutory compliance logs.
+\end{itemize}
+
+Separating simulation from governance also prevents a subtle sociological pathology identified
+by \textcite{kucklich2005}: the gamification of civic labor into ``playbour,'' where playful
+scoreboards blur seamlessly into coercive productivity tracking. In the Sovereign Stack, a 3D
+twin is a pedagogical telescope and engineering wind tunnel---never a gamified boss.
+
+\subsection{The Companion Application as Real Production Settlement Software}
+
+To honor this separation in running code, all Layer~6 human-governance, semantic need
+authoring, policy adaptation, and workflow inspection interactions live outside the 3D engine
+in an independent \textbf{Layer~6 Commons Companion Application}
+(\texttt{core/1\_simulation/src/web/companion/index.html}, paired with
+\texttt{daemon\_client.js} and \texttt{companion\_l6.js}).
+
+Two architectural properties of \texttt{companion\_l6.js} warrant particular emphasis:
+
+\begin{enumerate}
+\item \textbf{Identical Execution Against Live POSIX Daemons:} Whether opened in a standalone
+      mobile or tablet browser window (\texttt{body.l6-standalone-body}) or mounted inside a
+      slide-out drawer alongside the Oasis viewport during SITL rehearsal, the exact same
+      zero-dependency JavaScript module communicates exclusively over HTTP/JSON-RPC with live
+      native POSIX daemons via \texttt{col-gatewayd}. When a Steward defines a new semantic
+      need, selects an heirloom pea cultivar from \texttt{fabaceae\_cultivars.jsonld}, or
+      ratifies a Layer~5 asset sourcing transition to \texttt{R0\_LOCAL\_WORKFLOWS}, the
+      mutation executes inside the real C++20 Sovereign Stack runtime---not inside a mock game
+      loop.
+\item \textbf{Refusal to Synthesize Theatrical Telemetry:} Conventional prototypes mask missing
+      backends with hardcoded demo numbers. By contrast, \texttt{companion\_l6.js} enforces a
+      strict ``zero fake telemetry'' discipline: if the six native POSIX daemons are offline,
+      \texttt{renderSnapshot()} refuses to fabricate balances, needs, or BPMN tokens, surfacing
+      an explicit offline diagnostic state until \texttt{col-gatewayd} responds. Consequently,
+      when a physical homestead or housing cooperative deploys Raspberry~Pi or x86 Sovereign
+      Nodes wired to real \texttt{PT100} temperature probes, soil moisture sensors, and
+      \texttt{LiFePO4} inverters, the Companion Application transitions directly into live
+      production stewardship without rewriting a line of client code.
+\end{enumerate}
+
+\section{From One Starter App to a Constellation of Convivial Applications}
+\label{sec:ch1-constellation}
+
+During Phase~1 bootstrap on Lot~402---where a solo Steward or four-node household cluster is
+taking its very first steps from legacy retail dependence toward backyard agroecology and solar
+self-provisioning---presenting one cohesive four-tab Companion Application
+(\textit{Needs \& Requests}, \textit{L5 Decisions}, \textit{L4 Workflows}, and
+\textit{Cluster, L3 \& Bills}) is an intentional act of variety attenuation
+\parencite{ashby1956}. A newcomer learning how a semantic need triggers a Layer~5 governance
+proposal and instantiates a Layer~4 BPMN workflow benefits from seeing the entire causal arc
+within four calm tabs.
+
+Yet what serves a solo bootstrapper at $38$ workflows becomes an anti-convivial bottleneck in a
+mature neighborhood or bioregional commonwealth running $500$ to $2{,}600+$ concurrent
+workflows across twenty-five life domains. Stuffing culinary Hazard Analysis, perinatal care
+check-ins, woodshop CNC lockouts, cargo-trike delay-tolerant routing, deliberative assembly
+ballots, Ricardian legal drafting, and emergency medical triage into one ``everything app''
+violates cognitive ergonomics \parencite{weiser1996calm}, erodes least-privilege security
+\parencite{miller2006robust}, and mismatches physical work environments where hands are wet,
+gloved, flour-dusted, or operating in bright field sunlight \parencite{ishii1997tangible,suchman1987plans}.
+
+Layer~6 is therefore architected not as an application, but as an open \textbf{Semantic Commonwealth}
+supporting a \textbf{Constellation of Specialized Convivial Applications}. Every application in the
+Constellation is a stateless or local-first CRDT view \parencite{kleppmann2019localfirst}
+holding \textbf{zero authoritative business logic}: its sole job is to render domain-appropriate
+affordances, help a human Steward compose a valid JSON-LD semantic intent, present a
+deterministic read-back, sign with a scoped personal key, and submit the signed envelope to
+\texttt{col-gatewayd} \parencite{winograd1986understanding,hutchins1995cognition}.
+
+\begin{table}[htbp]
+\centering
+\caption{Representative Constellation of Convivial Layer~6 Applications and Screenless Modalities}
+\label{tab:ch1-constellation-catalog}
+\footnotesize
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}llllp{4.8cm}@{}}
+\toprule
+\textbf{Constellation Application} & \textbf{Physical Modality} & \textbf{Granted RBAC Scopes} & \textbf{Primary Scenarios} & \textbf{Situated Convivial Purpose} \\
+\midrule
+Starter Commons Companion & Web / Tablet Drawer & \texttt{telemetry:read}, \texttt{crdt:read}, \texttt{bpmn:review}, \texttt{intent:author}, \texttt{gov:approve} & Zero, Alpha, Gamma & Phase-1 unified 4-tab bootstrap for solo/4-node Lot 402 clusters \\
+Hearth \& Pantry Slate & Wipeable Counter E-Ink / Slate & \texttt{telemetry:read}, \texttt{intent:author}, \texttt{bpmn:review} & Gamma, Mu & Unconditional $B_{\mathrm{baseline}}$ tiffin batching, \texttt{PT100} $F_0$ pasteurization readouts, zero token minting \\
+Agroecology Fieldbook & Sunlight Reflective E-Paper & \texttt{telemetry:read}, \texttt{crdt:read}, \texttt{intent:author} & Gamma, Eta, Mu & Cultivar parameterization (\texttt{fabaceae\_cultivars}), VWC bands, soil/biochar logs \\
+Shop-Floor BOM Terminal & Mounted Workshop E-Ink & \texttt{telemetry:read}, \texttt{bpmn:review} & Alpha, Theta, Nu & Recursive BOM step check-offs, LOTO tool interlocks, dimensional tolerances \\
+Care Sanctuary Slate & Warm Low-Luminance Slate & \texttt{intent:author} & Delta, Sigma, Psi & Zero-metric \texttt{RestIntent} care-leave shields; strict \texttt{domestic\_care\_token\_minting == 0} \\
+Cargo-Trike Courier Deck & Handlebar Weatherproof Unit & \texttt{telemetry:read}, \texttt{crdt:read}, \texttt{bpmn:review} & Beta, Kappa & Offline DTN custody bundles, stainless tiffin \& granular haul routing \\
+Agora Assembly Reader & Long-Form E-Paper / Desktop & \texttt{crdt:read}, \texttt{gov:ratify}, \texttt{intent:author} & Tau, Omicron, Psi & Calm asynchronous deliberation, opposing-view steelmanning, sortition ballots \\
+Ricardian Treaty Studio & Dual-Pane Desktop Workstation & \texttt{crdt:read}, \texttt{bpmn:review}, \texttt{gov:ratify}, \texttt{agora:trader}, \texttt{proxy:read} & Zeta, Xi, Omega & Tri-view prose + JSON-LD + BPMN invariant editor \& \texttt{Treaty\_CID} verification \\
+Paramedic Triage Pager & Ruggedized Hardware Pager & \texttt{telemetry:read}, \texttt{intent:author} & Upsilon, Chi & Zero-LLM deterministic fixed-template \texttt{TriageIntent} dispatch ($<50\,\mathrm{ms}$) \\
+Paper / Voice / CLI Tools & QR Ballots, Audio, POSIX Shell & Scoped per script / ballot & All 25 Scenarios & Screenless WCAG 2.2 AAA sovereignty, optical scan tallying, UNIX pipe scripting \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+Table~\ref{tab:ch1-constellation-catalog} surveys ten canonical members of this Constellation.
+Notice how N.~John Habraken's architectural distinction between collective \textit{supports}
+and autonomous \textit{infill} \parencite{habraken1972supports} governs the software stack:
+\texttt{col-commonsd} and \texttt{col-gatewayd} provide the invariant semantic and
+cryptographic support, while guilds, cooperatives, and accessibility collectives freely author,
+fork, or replace individual infill applications---including printed QR paper travelers, tactile
+rotary panels, offline voice loops, and POSIX shell scripts---without ever requesting
+permission from a central UI maintainer.
+
+\subsection{\texttt{AppCapabilityManifestV1} and Least-Privilege Scoped \texttt{did:peer} RBAC}
+
+If a mounted Shop-Floor BOM Terminal in a shared neighborhood woodshop held the same authority
+as a Steward's personal Agora Assembly Reader, anyone walking past the lathe could cast
+constitutional ballots or inspect Layer~7 tax reserves. Conversely, if applications relied on
+ambient browser cookies, cross-site request forgery or local XSS in an experimental visualization
+plugin could silently escalate privileges \parencite{miller2006robust}.
+
+Layer~6 enforces fine-grained object-capability containment through
+\texttt{AppCapabilityManifestV1} paired with ephemeral, hardware-bound \texttt{did:peer}
+session keys \parencite{w3c2022did,w3c2022vc}. Every Constellation application ships a static,
+content-addressed JSON-LD capability manifest declaring its exact required subset of eight
+orthogonal Layer~6 Role-Based Access Control (RBAC) scopes, detailed in
+Table~\ref{tab:ch1-rbac-scopes}.
+
+\begin{table}[htbp]
+\centering
+\caption{Canonical Layer~6 RBAC Capability Scopes Enforced by \texttt{col-gatewayd}}
+\label{tab:ch1-rbac-scopes}
+\footnotesize
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}lllp{5.8cm}@{}}
+\toprule
+\textbf{Bit} & \textbf{RBAC Scope Identifier} & \textbf{Permitted Gateway Surface} & \textbf{Least-Privilege Containment Guarantee} \\
+\midrule
+\texttt{0x01} & \texttt{telemetry:read} & \texttt{GET /api/v1/l2/*}, \texttt{l4/*} & Reads sanitized thermodynamic \& VM fuel metrics; zero personal DID exposure \\
+\texttt{0x02} & \texttt{crdt:read} & \texttt{GET /api/v1/l3/*}, catalogs & Reads public Domain~B CRDT catalogs (needs, cultivars, blueprints); zero Domain~A diaries \\
+\texttt{0x04} & \texttt{bpmn:review} & \texttt{GET /api/v1/l4/workflows}, pulls & Inspects active BPMN token gates and claims blinded Commons Pool tasks \\
+\texttt{0x08} & \texttt{intent:author} & \texttt{POST /api/v1/l6/intent} & Submits human-signed semantic needs, \texttt{RestIntent} shields, and parameter drafts \\
+\texttt{0x10} & \texttt{gov:approve} & Operational yield resolutions & Co-signs routine asset policy adaptations and upward-yield task gate completions \\
+\texttt{0x20} & \texttt{gov:ratify} & Bicameral \& FROST ceremonies & Participates in high-quorum constitutional ballots, \texttt{Treaty\_CID}s, and R3$\to$R1 vouches \\
+\texttt{0x40} & \texttt{agora:trader} & \texttt{POST /api/v1/l6/agora/orders} & Places bounded mutual-credit exergy bids/asks within ratified treaty credit limits \\
+\texttt{0x80} & \texttt{proxy:read} & \texttt{GET /api/v1/l7/status} & Views aggregate Layer~7 bill-offset \& grid export posture; zero raw vendor PII \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+When an application requests a request path outside its granted \texttt{granted\_rbac\_mask} in
+\texttt{AppCapabilityToken}, \texttt{col-gatewayd} short-circuits the request with
+\texttt{HTTP 403 Forbidden} before touching any ring buffer or Unix-domain socket. Moreover, a
+Steward's personal device generates a distinct, non-extractable Web Cryptography API
+\texttt{Ed25519} keypair (\texttt{extractable: false}) \parencite{w3c2017webcrypto} per paired
+application origin, delegated via a short-lived Verifiable Credential from the Steward's root
+key. Revoking a lost field tablet or retiring a workshop terminal invalidates solely that
+device's scoped \texttt{did:peer} sub-key in \texttt{col-kmsd} within a single gossip tick.
+
+\subsection{VLAN 30 TLS 1.3 (\texttt{:8443}) and \texttt{\#pair\_token} URL-Fragment QR Pairing}
+
+How does a wipeable Hearth Slate or an e-paper Fieldbook pair with a local Sovereign Node when
+the public internet is unreachable or untrusted? Layer~6 eliminates cloud identity providers,
+certificate-authority lock-in, and password databases through \textbf{Local Civic VLAN~30 Pairing}:
+
+\begin{enumerate}
+\item \textbf{mDNS Zero-Configuration Discovery on VLAN~30:} \texttt{col-gatewayd} binds its
+      production listener strictly to the local Sovereign Civic Boundary (VLAN~30, port
+      \texttt{8443}, enforced by \texttt{GatewaySecurityConfig}) and advertises
+      \texttt{\_collective-l6.\_tcp.local} via multicast DNS alongside the SPKI SHA-256
+      fingerprint of the node's local TLS~1.3 certificate. (During single-machine developer
+      SITL rehearsal, \texttt{RunSocketServer()} optionally binds a loopback diagnostic port on
+      \texttt{127.0.0.1:8090}.)
+\item \textbf{RFC 3986 URI-Fragment \texttt{\#pair\_token} Secrecy:} To bind a new Constellation
+      client, a Steward displays a short-lived (60-second), single-use 256-bit pairing QR code
+      on an already-authenticated screen or E-Ink node faceplate formatted as:
+      \begin{center}
+      \small\texttt{https://node01.collective.local:8443/companion/\#pair\_token=<base64url\_256b>\&spki=<sha256>}
+      \end{center}
+      Placing \texttt{pair\_token} after the \texttt{\#} URI fragment delimiter rather than in a
+      \texttt{?pair\_token=} query string exploits a foundational RFC~3986 browser invariant:
+      user agents strip the fragment identifier locally and \textbf{never transmit it over the wire}
+      in HTTP \texttt{GET} request lines, \texttt{Referer} headers, or server access logs.
+\item \textbf{Challenge-Response DID Binding:} Inside the client's local execution context, the
+      pairing script reads \texttt{window.location.hash}, immediately scrubs the URL bar via
+      \texttt{history.replaceState()}, generates a fresh \texttt{extractable: false}
+      \texttt{Ed25519} keypair in IndexedDB, computes an HMAC-SHA256 proof binding its new
+      \texttt{did:peer} public key and \texttt{AppCapabilityManifestV1} CID to the one-time
+      \texttt{pair\_token}, and completes mutual key confirmation over TLS~1.3. The raw
+      bootstrap secret never crosses the network in cleartext or URL metadata.
+\end{enumerate}
+
+\subsection{1:1 Lock-Free SPSC Shared Memory Rings (\texttt{/uhai\_telemetry\_gateway})}
+
+A subtle availability hazard arises whenever human-facing web gateways share memory with
+real-time control or clearing daemons: if twenty Constellation tablets subscribe to live node
+snapshots over lossy courtyard Wi-Fi, TCP socket backpressure or JSON serialization stalls in
+\texttt{col-gatewayd} must never block \texttt{col-commonsd}'s 10~Hz Agora tick or
+\texttt{col-peripheral}'s deterministic sensor loop.
+
+As implemented in \texttt{core/1\_simulation/src/uhai/uhai\_ring\_buffer.hpp} and
+\texttt{GatewayServer::PollRingBuffers()}, the Sovereign Stack decouples gateway readers using
+dedicated 1:1 Lock-Free Single-Producer Single-Consumer (SPSC) POSIX shared-memory segments,
+anchored by \texttt{DEFAULT\_GATEWAY\_SHM\_NAME} (\texttt{"/uhai\_telemetry\_gateway"}):
+
+\begin{itemize}
+\item \textbf{False-Sharing Elimination Across Three 64-Byte Cache Lines:} The 192-byte
+      \texttt{SharedRingHeader} places the producer's \texttt{write\_index} and atomic
+      \texttt{dropped\_frames} counter in Cache Line~0 (offsets \texttt{0..63}), the consumer's
+      \texttt{read\_index} in Cache Line~1 (offsets \texttt{64..127}), and immutable ring
+      geometry (\texttt{RING\_CAPACITY = 1024}, \texttt{UHAI\_MAGIC = 0x55484149}) in Cache
+      Line~2 (offsets \texttt{128..191}). Producer and consumer cores never contend on the same
+      L1/L2 cache line.
+\item \textbf{Wait-Free Overrun Safety:} Combined with $1{,}024 \times 64$-byte cache-aligned
+      \texttt{TelemetrySlot} entries, the entire segment occupies a fixed, zero-allocation
+      footprint of exactly $65{,}728$~bytes. If \texttt{col-gatewayd} experiences transient HTTP
+      load, the producer increments \texttt{dropped\_frames} with \texttt{memory\_order\_relaxed}
+      in $O(1)$ nanoseconds and continues uninterrupted, while \texttt{col-gatewayd} drains the
+      freshest state on its next 50~ms \texttt{poll()} cycle.
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+    node distance=0.65cm and 0.9cm,
+    app/.style={draw, rounded corners=3pt, thick, fill=teal!7, minimum width=2.85cm, minimum height=0.92cm, align=center, font=\scriptsize},
+    daemon/.style={draw, rounded corners=3pt, thick, minimum width=5.6cm, minimum height=0.95cm, align=center, font=\footnotesize},
+    simbox/.style={draw, rounded corners=3pt, dashed, thick, fill=amber!10, minimum width=3.6cm, minimum height=1.35cm, align=center, font=\scriptsize},
+    ring/.style={draw, cylinder, shape border rotate=90, aspect=0.22, thick, fill=gray!14, minimum width=3.1cm, minimum height=0.95cm, align=center, font=\scriptsize},
+    arr/.style={-{Stealth[length=2.2mm]}, thick},
+    blockarr/.style={-{Stealth[length=2.2mm]}, thick, red!75!black, dashed}
+]
+    \definecolor{amber}{rgb}{0.95,0.75,0.20}
+
+    % Top row: Constellation of Convivial Applications
+    \node[app] (app1) {\textbf{Hearth \& Pantry Slate}\\ \texttt{telemetry:read}, \texttt{intent:author}};
+    \node[app, right=0.35cm of app1] (app2) {\textbf{Cultivar Fieldbook}\\ E-Paper $\cdot$ \texttt{crdt:read}};
+    \node[app, right=0.35cm of app2] (app3) {\textbf{Shop BOM Terminal}\\ \texttt{bpmn:review} Only};
+    \node[app, right=0.35cm of app3] (app4) {\textbf{Agora \& Treaty Studio}\\ \texttt{gov:ratify}, \texttt{agora:trader}};
+    \node[app, right=0.35cm of app4] (app5) {\textbf{Pager / Paper / CLI}\\ Zero-LLM \& WCAG AAA};
+
+    \node[draw, dotted, thick, rounded corners=4pt, inner sep=6pt, fit=(app1)(app2)(app3)(app4)(app5), label={[font=\scriptsize\bfseries]above:Constellation of Specialized Convivial Applications (VLAN 30 $\cdot$ TLS 1.3 \texttt{:8443} $\cdot$ \texttt{\#pair\_token} + Scoped \texttt{did:peer})}] (constellation) {};
+
+    % Layer 6 Gateway & Commons Daemons
+    \node[daemon, fill=blue!8, below=1.05cm of app3] (gw) {\textbf{Layer 6 Mediator: \texttt{col-gatewayd}}\\ RBAC Gate, \texttt{HTTP 405} Read-Only Hood \& Static Manifests};
+    \node[daemon, fill=blue!12, below=0.65cm of gw] (commons) {\textbf{Layer 6 Semantic Engine: \texttt{col-commonsd}}\\ JSON-LD / SHACL Validation, \texttt{Intent\_CID}, Agora \& Camouflage Filter};
+
+    % Side Left: Oasis Layer 1b Twin
+    \node[simbox, left=1.15cm of gw] (oasis) {\textbf{Oasis SITL Twin (\texttt{Layer 1b})}\\ 3D WebGPU Spatial Sandbox\\ Zero Keys $\cdot$ Zero WAN Sockets\\ \texttt{QUALITY\_SIMULATED = 0x01}};
+
+    % Side Right: 1:1 SPSC Ring & Blocked L4 Shortcut
+    \node[ring, right=1.25cm of gw] (shm) {\textbf{1:1 SPSC Ring}\\ \texttt{/uhai\_telemetry\_gateway}\\ $65{,}728\,\mathrm{B}$ (3 Cache Lines)};
+
+    % Layer 7 DMZ (Upward/Outward) & Layer 5 Governance (Downward/Inward)
+    \node[daemon, fill=purple!8, left=1.15cm of commons, yshift=-1.65cm] (l7) {\textbf{Layer 7: \texttt{col-adversaryd} (VLAN 40 DMZ)}\\ Tripartite Legal Carapace, GPO \& Split-Sandbox Intake};
+    \node[daemon, fill=cyan!10, below=1.05cm of commons] (l5) {\textbf{Layer 5: \texttt{col-kmsd} (Polycentric Governance)}\\ Web of Trust, FROST Quorums, Floors \& Blinded \texttt{ClaimHandle}s};
+    \node[daemon, fill=green!10, right=1.15cm of l5] (l4) {\textbf{Layers 1--4 (\texttt{col-execd} .. \texttt{L2})}\\ Deterministic Wasmtime, CRDT \& Hardware};
+
+    % Connections from Constellation to col-gatewayd
+    \foreach \a in {app1,app2,app3,app4,app5} {
+        \draw[arr, teal!75!black] (\a.south) -- (gw.north);
+    }
+
+    % Oasis separation
+    \draw[arr, orange!80!black, dashed] (oasis.east) -- node[above, font=\scriptsize] {\texttt{0x01} Pins Only} (gw.west);
+
+    % SPSC Telemetry isolation
+    \draw[arr, gray!70!black] (l4.north) |- node[pos=0.25, right, font=\scriptsize] {Wait-Free Push} (shm.south);
+    \draw[arr, gray!70!black] (shm.west) -- node[above, font=\scriptsize] {RO \texttt{Pop()}} (gw.east);
+
+    % Blocked direct mutation from Gateway to L4
+    \draw[blockarr] (gw.south east) -- node[sloped, above, font=\scriptsize\bfseries] {\texttt{POST /l4/* -> HTTP 405}} (l4.north west);
+
+    % Gateway <-> Commons
+    \draw[arr, blue!75!black] ([xshift=-0.8cm]gw.south) -- node[left, font=\scriptsize] {Signed Intent} ([xshift=-0.8cm]commons.north);
+    \draw[arr, blue!75!black] ([xshift=0.8cm]commons.north) -- node[right, font=\scriptsize] {Read-Back / Ack} ([xshift=0.8cm]gw.south);
+
+    % Bilateral SEQPACKET Sockets
+    \draw[arr, blue!80!black] ([xshift=-0.7cm]commons.south) -- node[left, font=\scriptsize] {\texttt{l5\_l6.sock} (\texttt{0x05xx})} ([xshift=-0.7cm]l5.north);
+    \draw[arr, cyan!70!black] ([xshift=0.7cm]l5.north) -- node[right, font=\scriptsize] {Ratified / Yields} ([xshift=0.7cm]commons.south);
+
+    \draw[arr, purple!80!black] (commons.south west) -- node[sloped, above, font=\scriptsize] {\texttt{l6\_l7.sock} (\texttt{0x06xx})} (l7.north east);
+    \draw[arr, cyan!75!black] (l5.east) -- node[above, font=\scriptsize] {\texttt{l4\_l5.sock}} (l4.west);
+\end{tikzpicture}%
+}
+\caption{Layer~6 Constellation and Bilateral Membrane Architecture. Specialized convivial applications authenticate via VLAN~30 TLS~1.3 and scoped \texttt{did:peer} manifests to \texttt{col-gatewayd}. Direct mutations to Layers~1--4 are rejected (\texttt{HTTP 405}), Oasis (\texttt{Layer 1b}) holds zero keys (\texttt{0x01}), telemetry drains via lock-free SPSC rings, and all state changes traverse \texttt{l5\_l6.sock} and \texttt{l6\_l7.sock}.}
+\label{fig:ch1-constellation-membrane}
+\end{figure}
+
+Figure~\ref{fig:ch1-constellation-membrane} synthesizes the complete architectural geometry of
+Chapter~\ref{ch:constellation-membrane}. By stripping business logic out of client screens,
+isolating simulation from civic authority, pinning kernel peer credentials on adjacent
+\texttt{SOCK\_SEQPACKET} sockets, and scoping every client device to least-privilege
+\texttt{did:peer} capabilities, Layer~6 resolves the central paradox of democratic computing:
+\textit{maximal plurality of tools at the human edge, backed by unyielding constitutional
+invariants at the core}.
+
+Yet a pressing technical question immediately follows. Once dozens of independently designed
+applications---a Hearth Slate, a Cultivar Fieldbook, a Treaty Studio, a paper ballot scanner,
+and a POSIX shell script---coexist without a central monolithic backend dictating ad-hoc JSON
+views, how do they agree on the exact meaning, physical units, and cryptographic hash of a
+shared human need or facility blueprint? Answering that question is the task of
+Chapter~\ref{ch:semantic-foundation}.

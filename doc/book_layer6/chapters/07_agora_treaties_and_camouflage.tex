@@ -1,0 +1,474 @@
+\chapter{The Bioregional Agora, Ricardian Treaties, and Mundane Semantic Camouflage}
+\label{ch:agora-treaties}
+
+\epigraph{Polycentric systems tend to enhance innovation, learning, adaptation, trustworthiness, levels of cooperation of participants, and the achievement of more effective, equitable, and sustainable outcomes at multiple scales.}{--- Elinor Ostrom, \emph{Beyond Markets and States: Polycentric Governance of Complex Economic Systems} \parencite{ostrom2010}}
+
+No single homestead or neighborhood settlement is an island of ecological or industrial self-sufficiency. A resilient community on a half-hectare parcel can cultivate perennial legumes, steward closed-loop compost, and balance a rooftop $48\,\mathrm{V}$ microgrid, yet it cannot smelt specialty bearing steel, fabricate silicon photovoltaics, run a tertiary trauma theater, or govern an entire river basin alone \parencite{ostrom1990,georgescu1971}. Conversely, history demonstrates the twin hazards that destroy local autonomy whenever settlements federate carelessly: either horizontal coordination collapses into price-mediated commodity markets that financialize domestic care and exhaust regional watersheds \parencite{raworth2017,han2015}, or unconventional mutual-aid institutions announce themselves in flamboyant ideological vocabulary that invites immediate regulatory, tax, and liturgical encirclement by legacy state and corporate bureaucracies \parencite{scott1998}.
+
+Layer~6 resolves both hazards inside the \texttt{col-commonsd} daemon. Across the inward socket boundary (\texttt{/run/collective/ipc/l5\_l6.sock}), \texttt{col-commonsd} convenes the \textbf{Bioregional Agora}: a calm, non-gamified deliberative commons spanning seven concentric Trust Rings ($R_0 \dots R_6$), pairing sortition Citizens' Assemblies, Future Generations ecological panels, and dissent-preserving argument maps with a pure 64-bit integer Continuous Double-Auction (\texttt{CDA}) for industrial and ecological surpluses. Across the outward socket boundary (\texttt{/run/collective/ipc/l6\_l7.sock}), \texttt{col-commonsd} compiles ratified inter-settlement pacts into cryptographically immutable \textbf{Ricardian Inter-Node Treaties} \parencite{grigg2004} while passing every legacy-bound directive through the \textbf{Mundane Semantic Camouflage Filter}. By wrapping inter-node physical flows inside conventional cooperative statutes and ensuring that zero bytes of internal Decentralized Identifiers (\texttt{DID}s), ballots, or Web-of-Trust edges ever cross into Layer~7, the Semantic Commonwealth achieves polycentric regional scale alongside constitutional subpoena immunity through architectural data non-existence \parencite{naacp1958}.
+
+\section{Deliberative Formats Across Concentric Trust Rings ($R_0 \dots R_6$)}
+\label{sec:agora-trust-rings}
+
+In conventional social platforms, civic discourse is flattened into a single global engagement feed ranked by outrage velocity, follower counts, and algorithmic amplification \parencite{zuboff2019,gray2018darkpatterns}. Such architectures violate Stafford Beer's Law of Requisite Variety \parencite{beer1972,ashby1956}: intimate household decisions are over-exposed to strangers, while bioregional watershed trade-offs drown in performative noise. Following Elinor Ostrom's design principles for nested enterprises \parencite{ostrom1990,ostrom2010}, Layer~6 structures deliberation across seven concentric Trust Rings ($R_0$ through $R_6$) enforced cryptographically by Layer~5 (\texttt{col-kmsd}) and rendered contextually across specialized Constellation applications.
+
+\subsection{Topology and Institutional Formats of the Seven Trust Rings}
+
+Each Trust Ring binds a specific spatial and social jurisdiction to an appropriate deliberative cadence, network transport assumption, and economic clearing posture, as formalized in Table~\ref{tab:concentric-trust-rings}.
+
+\begin{table}[htbp]
+\centering
+\caption{Concentric Trust Rings ($R_0 \dots R_6$) of the Bioregional Agora: spatial jurisdiction, transport substrate, primary deliberative format, and economic clearing posture.}
+\label{tab:concentric-trust-rings}
+\footnotesize
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}clp{3.1cm}p{3.6cm}p{3.8cm}@{}}
+\toprule
+\textbf{Ring} & \textbf{Jurisdiction} & \textbf{Transport \& Latency} & \textbf{Primary Deliberative Format} & \textbf{Economic \& Care Posture} \\
+\midrule
+$R_0$ & Personal \& Household Sanctuary & Local bus / VLAN~30 ($<5\,\mathrm{ms}$) & Unmediated hearth circles; somatic rest shields; domestic care schedules. & Unconditional baseline $B_{\mathrm{baseline}}$; zero token minting (\texttt{== 0}). \\
+\addlinespace[3pt]
+$R_1$ & Local Sovereign Node / Hearth Assembly & Wired LAN / local Wi-Fi ($<20\,\mathrm{ms}$) & Unitary consensus assembly \parencite{mansbridge1980}; bicameral quorum ballots; Review Councils. & Shared Commons Pool pull; zero-price internal stewardship. \\
+\addlinespace[3pt]
+$R_2$ & Valley \& Municipal Neighborhood Mesh & Short-haul point-to-point RF / fiber ($<250\,\mathrm{ms}$) & Cross-cluster working groups; shared tool-library \& transit scheduling. & Pairwise zero-sum \texttt{BCC} mutual credit ($[-C_{u\to v}, +C_{v\to u}]$). \\
+\addlinespace[3pt]
+$R_3$ & Watershed Congresses (Sub-Basin) & Directional LoRa / Reticulum DTN ($1\,\mathrm{s}$--$6\,\mathrm{h}$) & Sortition Citizens' Assemblies \parencite{fishkin1991}; Future Generations ecological panels. & Treaty-bounded \texttt{BCC} + hydrological $\lambda_{\mathrm{ERC}}$ multipliers. \\
+\addlinespace[3pt]
+$R_4$ & Bioregional Guilds \& Assemblies ($\le 150\,\mathrm{km}$) & Multi-hop Reticulum / physical courier ($1\,\mathrm{h}$--$7\,\mathrm{d}$) & Asynchronous argument maps; inter-guild technical standards \& heavy-foundry pacts. & Pure-integer Exergy Agora \texttt{CDA} descending $\mathrm{L6}\to\mathrm{L3}$; Commons Jubilees. \\
+\addlinespace[3pt]
+$R_5$ & Continental Federation & Store-and-forward rail / trunk gateways ($1\,\mathrm{d}$--$30\,\mathrm{d}$) & Federated delegate congresses; mineral \& rail-corridor Ricardian treaties. & Escrowed multi-milestone \texttt{Treaty\_CID} barter \& knowledge commons. \\
+\addlinespace[3pt]
+$R_6$ & Planetary Commons \& Arrival Sanctuary & Delay-tolerant archives / open municipal portal & Scientific standards compacts; open neighbor petitions; migrant guest intake. & Universal humanitarian shelter floor ($B_{\mathrm{baseline}}$); zero profiling. \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+Rather than forcing every collective question through adversarial majority-rule voting, the Agora equips stewards with four complementary deliberative institutions tailored to the epistemic character of each decision:
+
+\begin{enumerate}
+  \item \textbf{Unitary Hearth Assemblies and Structured Argument Maps ($R_1 \dots R_4$):} Drawing on Jane Mansbridge's distinction between unitary democracy among face-to-face equals and adversary procedures across divergent interests \parencite{mansbridge1980}, local $R_1$ assemblies deliberate toward high-consensus synthesis first, escalating to formal bicameral supermajority ballots ($50\%$, $66\%$, or $80\%$ constitutional thresholds) only when trade-offs persist. Following J\"{u}rgen Habermas's discourse ethics \parencite{habermas1996between}, \texttt{col-commonsd} renders contested proposals as side-by-side structured argument maps linking every factual claim to content-addressed Layer~3 telemetry or archival evidence (\texttt{CID}s) rather than chronological comment threads that reward the loudest or most persistent speaker \parencite{freeman1972}.
+  \item \textbf{Sortition Citizens' Assemblies ($R_2 \dots R_5$):} When technical or distributional questions affect dozens of settlements---such as reallocating dry-season irrigation quotas or siting a shared induction foundry---\texttt{col-kmsd} and \texttt{col-commonsd} convene deliberative minipublics selected by verifiable cryptographic sortition \parencite{fishkin1991}. Stratified random sampling across affected nodes prevents entrenched political classes or informal elites from capturing regional agendas \parencite{freeman1972}, giving rotating cohorts paid exergy/chore relief time to hear agronomic testimony and draft balanced policy options.
+  \item \textbf{Future Generations Ecological Panels ($R_1 \dots R_6$):} Inspired by statutory intergenerational stewardship mandates \parencite{wales2015future} and biophysical Doughnut boundaries \parencite{raworth2017}, every proposal that alters watershed extraction, soil organic carbon trajectories, or long-lived infrastructure must pass review by a standing Future Generations panel. Armed with deterministic Oasis (\texttt{Layer 1b}) multi-decade foresight runs, the panel holds suspensive veto authority whenever projected Asymptotic Ecological Replacement Cost ($\lambda_{\mathrm{ERC}}$) exceeds regenerative recharge thresholds.
+  \item \textbf{Restorative Review Councils ($R_1 \dots R_3$):} Conflict, covenant breach, and interpersonal harm within or between nodes are never adjudicated through public shaming boards or automated algorithmic penalties. Grounded in Howard Zehr's restorative justice framework \parencite{zehr1990}, Review Councils convene affected parties and sortition peers in confidential circles focused on naming concrete harm, repairing material balances, and restoring relational standing while preserving every participant's unconditional survival floor.
+\end{enumerate}
+
+\subsection{Dissent-Preserving Rationale Schemas and Machine Restraint}
+
+Language models within the Agora operate strictly as bounded clerical instruments---transcribing multilingual speech, retrieving cited Layer~3 series, and formatting structured minutes---never as rhetorical arbiters \parencite{bender2021parrots}. Whenever an assembly concludes deliberation, \texttt{col-commonsd} compiles a candidate \texttt{DeliberationRationaleV1} JSON-LD document subject to four hard constitutional constraints:
+
+\begin{enumerate}
+  \item \textbf{Tripartite Structural Separation:} Every generated summary must partition propositions into three disjoint arrays---\texttt{consensus\_points}, \texttt{majority\_arguments}, and \texttt{minority\_dissents}---anchoring each statement to explicit transcript span hashes or Layer~3 telemetry \texttt{CID}s.
+  \item \textbf{Mandatory Dissenter Co-Signature:} A machine-drafted or clerk-drafted summary \emph{cannot} enter Layer~5's immutable governance log until representatives of each recorded perspective cryptographically sign their respective sections. In particular, every entry in \texttt{minority\_dissents} requires an explicit Ed25519 or BBS+ co-signature from the dissenting steward(s) confirming that their objection has been steel-manned faithfully rather than caricatured by the majority.
+  \item \textbf{Zero Ranking or Vote Recommendation:} Grammar-constrained decoding inside \texttt{col-commonsd} strips comparative evaluative adjectives, scalar argument scores, and prescriptive ballot recommendations.
+  \item \textbf{Immutable Provenance Tagging and Unmediated Override:} Every machine-summarized field carries \texttt{provenance = MACHINE\_DRAFTED\_HUMAN\_APPROVED} (or \texttt{MACHINE\_GENERATED} while awaiting review). Moreover, any council or assembly may invoke an \textbf{Unmediated Space} or the \textbf{Protocol of Refusal} \parencite{hirschman1970,costanzachock2020design}: hardware microphone ingestion, speech-to-text, LLM summarization, and vector indexing are physically disabled in \texttt{col-commonsd}, ensuring sacred cultural knowledge, intimate restorative circles, and sensitive habitat coordinates remain wholly off-ledger.
+\end{enumerate}
+
+\subsection{Anti-Panopticon Rendering, DTN Asynchronous Mesh, and Commons Jubilees}
+
+To prevent civic participation from mutating into surveillance or conformity pressure, Layer~6 enforces strict asymmetric visibility. Each steward's personal Constellation slate displays their own standing, active delegations, and verifiable open-audit ballot receipts \parencite{adida2008helios,juels2005coercion}; public Agora views render \emph{only} ratified proposals, co-signed rationale records, aggregate participation basis points, and anonymized tally totals. \texttt{col-commonsd} refuses to construct, query, or render global reputation leaderboards, contributor rankings, or social graphs revealing who vouched for, delegated to, or voted alongside whom.
+
+Across outer Trust Rings ($R_3 \dots R_6$), settlements communicate over directional LoRa radios, Reticulum packet links, and cargo-trike sneakernet couriers where round-trip latencies span hours or days \parencite{fall2003}. Rather than assuming synchronous TCP sessions, Bioregional Agora deliberations propagate as delay-tolerant, content-addressed Automerge CRDT bundles \parencite{kleppmann2017automerge,shapiro2011crdt} stamped with Hybrid Logical Clocks (\texttt{HLC}) \parencite{kulkarni2014logical,lamport1978time}. Deliberation windows stay open for $14$ to $42$ days so upstream mountain nodes and downstream estuarine nodes contribute empirical testimony without real-time connectivity bias.
+
+Finally, because microclimates, soil parent material, and solar insolation vary unevenly across a bioregion, honest bilateral exchange over multiple seasons can accumulate structural net credit imbalances---for example, a shaded canyon timber guild consistently importing winter calories from a sun-drenched alluvial plain. Rather than compounding interest or enforcing austerity extraction, $R_3$ and $R_4$ assemblies convene seasonal \textbf{Commons Jubilees} \parencite{ostrom1990,kropotkin1902}. During a ratified Jubilee, sister nodes inspect aggregate ecological telemetry, distinguish bad-faith covenant neglect from structural geographic asymmetry, and co-sign a multilateral balance reset toward zero across Layer~3 Bilateral Clearing Channels (\texttt{BCC}s), converting unpayable structural deficits into acknowledged bioregional stewardship investments.
+
+\begin{invariant}[Dissent Co-Signature and Anti-Leaderboard Privacy]
+\label{inv:dissent-and-privacy}
+Let $\mathcal{R}$ be any Layer~5 \texttt{DeliberationRationaleV1} artifact containing minority dissent set $D = \{d_1, \dots, d_m\}$, and let $\mathcal{V}_{\mathrm{pub}}$ be the set of public views emitted by \texttt{col-commonsd}. (i)~$\mathcal{R}$ is accepted across \texttt{l5\_l6.sock} if and only if every $d_j \in D$ carries a valid signature $\sigma_j$ from its authoring dissenter handle; and (ii)~no view $v \in \mathcal{V}_{\mathrm{pub}}$ ever projects pairwise trust edges $(u, w) \in E_{\mathrm{WoT}}$, delegation targets, or ordinal rankings of individual Reputational Wealth.
+\end{invariant}
+
+\section{Pure-Integer Exergy Agora Clearing and Strict Care Non-Commensurability}
+\label{sec:agora-cda-clearing}
+
+While everyday subsistence within $R_0$ and $R_1$ coordinates through voluntary Commons Pool pull and unpriced mutual aid, specialized surpluses exchanged across $R_2 \dots R_4$---such as kiln-dried joinery timber, cold-pressed oilseed, CNC replacement gears, or daytime microgrid export---benefit from transparent supply-and-demand discovery. In \texttt{col-commonsd}, this discovery is performed by a bounded \textbf{Continuous Double-Auction (\texttt{CDA})} \parencite{smith1962experimental} anchored in Nicholas Georgescu-Roegen's thermodynamic economics \parencite{georgescu1971}: bids and asks are denominated in embodied physical exergy rather than arbitrary fiat currency or speculative global tokens.
+
+\subsection{Strict Care Non-Commensurability (\texttt{domestic\_care\_token\_minting == 0})}
+
+The most consequential boundary in Layer~6 economics is what the Agora \emph{refuses} to price. When cooperative experiments attempt to log, price, or auction domestic cooking, infant care, elder accompaniment, grief support, mentorship, or emergency clinical triage on the same ledger as sheet metal and kilowatt-hours, intrinsic kinship solidarity rapidly corrodes into transactional score-keeping \parencite{illich1973,han2015} while simultaneously risking commercial wage-and-tax reclassification under legacy labor statutes \parencite{alamo1985}.
+
+Under the ratified v3.1 Semantic Commonwealth charter, human care and survival floors ($B_{\mathrm{baseline}}$ nourishment, potable water, thermal shelter, $R_0$ domestic care, child and elder stewardship, apprenticeship teaching, and acute medical triage) are \textbf{strictly non-commensurable} with tradable exergy credits:
+\begin{equation}
+  \texttt{domestic\_care\_token\_minting} \;\equiv\; 0.
+  \label{eq:care-non-commensurability}
+\end{equation}
+Within \texttt{col-commonsd}, every resource ontology IRI under \texttt{https://w3id.org/collective/v1/taxonomy} maps to a strongly typed 16-bit \texttt{ResourceDomainClass}. Any attempt to submit an \texttt{AgoraOrderV3} targeting the \texttt{0x0000..0x0FFF} reserved care and baseline survival range is deterministically rejected at Layer~6 ingress with \texttt{ERR\_CARE\_NON\_COMMENSURABLE} before reaching the order book.
+
+\begin{invariant}[Strict Care Non-Commensurability]
+\label{inv:care-non-commensurability}
+Let $\mathcal{T}_{\mathrm{care}}$ denote the set of ontology classes covering $R_0$ household care, $B_{\mathrm{baseline}}$ nutrition and shelter, child/elder care, pedagogy, and clinical triage, and let $\mathcal{B}_{\mathrm{CDA}}$ denote the active order book of \texttt{col-commonsd}. For every tick $t$, $\mathcal{B}_{\mathrm{CDA}}(t) \cap \mathcal{T}_{\mathrm{care}} = \varnothing$, and the cumulative exergy or mutual-credit units minted from domestic care activities satisfies $\sum_{t} \Delta E_{\mathrm{care}}(t) = 0$.
+\end{invariant}
+
+\subsection{Upgrading \texttt{AgoraOrder} to Pure 64-Bit Integer Microjoules (\texttt{AgoraOrderV3})}
+
+In the early Phase~1 prototype (\texttt{src/daemons/col-commonsd/main.cpp:226--298}), \texttt{AgoraOrder} and \texttt{AgoraExecution} represented prices and quantities as IEEE-754 \texttt{double} variables (\texttt{double price\_exergy\_mj}, \texttt{double quantity\_kwh}) and cleared midpoints via floating-point division \texttt{(P\_bid + P\_ask) / 2.0} with an arbitrary \texttt{<= 0.0001} epsilon erasure check. Across heterogeneous \texttt{x86\_64} and \texttt{aarch64} nodes replaying delayed Reticulum order streams, IEEE-754 rounding modes and subnormal residuals threaten bit-exact state-root consensus.
+
+The ratified v3.1 specification replaces all floating-point Agora fields with pure 64-bit fixed-point SI integers (\texttt{AgoraOrderV3}). Every canonical \textbf{Exergy Credit} equals exactly $1.0\,\mathrm{kWh} = 3.6\,\mathrm{MJ}$ expressed in microjoules ($\mu\mathrm{J}$):
+\begin{equation}
+  1\text{ Exergy Credit} \;=\; 3.6\,\mathrm{MJ} \;=\; 3{,}600{,}000{,}000{,}000\,\mu\mathrm{J} \;=\; 3.6 \times 10^{12}\,\mu\mathrm{J}.
+  \label{eq:exergy-credit-uj}
+\end{equation}
+Because $2^{64} - 1 \approx 1.844 \times 10^{19}\,\mu\mathrm{J} \approx 5.12\,\mathrm{GWh}$, unsigned 64-bit integer microjoules represent everything from a single milliwatt-millisecond sensor pulse ($1\,\mathrm{mW} \times 1\,\mathrm{ms} = 1\,\mu\mathrm{J}$) up to bioregional hydro-storage exchanges with zero overflow and zero fractional drift.
+
+Given a crossing highest bid $P_{\mathrm{bid}} \in \mathbb{N}$ and lowest ask $P_{\mathrm{ask}} \in \mathbb{N}$ (in $\mu\mathrm{J}$ per canonical lot unit) with $P_{\mathrm{bid}} \ge P_{\mathrm{ask}}$, deterministic Euclidean midpoint clearing computes:
+\begin{equation}
+  P_{\mathrm{clear}} = \left\lfloor \frac{P_{\mathrm{bid}} + P_{\mathrm{ask}}}{2} \right\rfloor, \qquad
+  r_{\mathrm{odd}} = \left(P_{\mathrm{bid}} + P_{\mathrm{ask}}\right) \bmod 2 \;\in\; \{0, 1\},
+  \label{eq:euclidean-midpoint-cda}
+\end{equation}
+where wide 128-bit intermediate addition prevents 64-bit sum overflow, ties at identical price prioritize oldest \texttt{submitted\_hlc} (FIFO time priority), and any $1\,\mu\mathrm{J}$ per-lot odd parity remainder $r_{\mathrm{odd}} \cdot Q_{\mathrm{matched}}$ is explicitly accumulated into the treaty's \texttt{commons\_remainder\_pool\_uj} register so total accounted microjoules remain strictly conserved.
+
+\subsection{Four-Layer Settlement Descent (\texttt{L6 -> L5 -> L4 -> L3})}
+
+Crucially, \texttt{col-commonsd} holds \textbf{zero authority} to mutate Layer~3 balances directly. A crossing match inside the Bioregional Agora produces only an unratified \texttt{AgoraCandidateMatchV3} proposal that must descend sequentially through all four sovereign verification membranes before a single microjoule settles:
+
+\begin{enumerate}
+  \item \textbf{Layer~6 (\texttt{col-commonsd} --- Candidate Discovery):} Enforces \texttt{!IsCareDomain(taxonomy\_id)}, matches crossing integer bids and asks under an active \texttt{Treaty\_CID}, computes $(P_{\mathrm{clear}}, r_{\mathrm{odd}})$, and transmits \texttt{AgoraCandidateMatchV3} inward across \texttt{/run/collective/ipc/l5\_l6.sock}.
+  \item \textbf{Layer~5 (\texttt{col-kmsd} --- Cryptographic \& Constitutional Gate):} Verifies both peer nodes' anonymous BBS+ Selective Disclosure capability proofs \parencite{camenisch2004signature,w3c2022vc} without exposing individual human identities, checks that the inter-node Trust Ring distance $d_{\mathrm{ring}}(u, v)$ satisfies the ratified treaty bound $R_{\max}$, and confirms neither settlement is under restorative quarantine.
+  \item \textbf{Layer~4 (\texttt{col-execd} --- Stoichiometric \& $\lambda_{\mathrm{ERC}}$ Gate):} Instantiates the treaty's deterministic BPMN Wasm escrow workflow, attaches HLC delivery timeout leases, and applies the \textbf{Asymptotic Ecological Replacement Cost} multiplier $\lambda_{\mathrm{ERC,bp}} \ge 10{,}000\,\mathrm{bp}$ ($1.0000\times$) reflecting real-time watershed or aquifer scarcity:
+  \begin{equation}
+    \Delta E_{\mathrm{escrow\_uj}} = \left\lfloor \frac{Q_{\mathrm{lots}} \cdot P_{\mathrm{clear}} \cdot \lambda_{\mathrm{ERC,bp}}}{10{,}000} \right\rfloor.
+    \label{eq:erc-adjusted-escrow}
+  \end{equation}
+  As local stock $S(t)$ approaches ecological floor $S_{\mathrm{crit}}$, $\lambda_{\mathrm{ERC,bp}} \to \infty$ asymptotically, automatically pricing extractive depletion out of reach before biophysical collapse can occur \parencite{raworth2017,meadows2008}.
+  \item \textbf{Layer~3 (\texttt{col-storaged} --- Pairwise Zero-Sum \texttt{BCC} Settlement):} Upon Layer~2 hardware-rooted receipt attestation (\texttt{0x02}), \texttt{col-storaged} verifies that the adjusted transfer respects the pairwise Bilateral Clearing Channel credit window $[-C_{u \to v}, +C_{v \to u}]$ and commits the zero-sum journal entry $B'_{u \to v} = B_{u \to v} - \Delta E_{\mathrm{escrow\_uj}}$, $B'_{v \to u} = -B'_{u \to v}$. If the credit bound would be breached, settlement aborts cleanly pre-actuation and yields upward to Layer~5.
+\end{enumerate}
+
+Listing~\ref{lst:agora-order-v3} presents the complete float-free C++20 implementation of \texttt{AgoraOrderV3} and its Euclidean remainder midpoint engine.
+
+\begin{lstlisting}[language=C++,label={lst:agora-order-v3},caption={Pure-integer microjoule \texttt{AgoraOrderV3} engine enforcing \texttt{domestic\_care\_token\_minting == 0} and emitting \texttt{L6->L5->L4->L3} candidate matches.}]
+#include <algorithm>
+#include <array>
+#include <cstdint>
+#include <vector>
+
+namespace col::commons::v3 {
+
+inline constexpr uint64_t kMicrojoulesPerMegajoule    = 1'000'000'000'000ULL; // 10^12 uJ = 1 MJ
+inline constexpr uint64_t kMicrojoulesPerExergyCredit = 3'600'000'000'000ULL; // 3.6 MJ = 1 kWh
+inline constexpr uint16_t kCareTaxonomyCeiling        = 0x0FFFU;              // Reserved R0/R1 care
+
+[[nodiscard]] constexpr bool IsNonCommensurableCareTaxonomy(uint16_t taxonomy_code) noexcept {
+    // Constitutional Invariant: domestic_care_token_minting == 0
+    return taxonomy_code <= kCareTaxonomyCeiling;
+}
+
+struct alignas(64) AgoraOrderV3 {
+    uint64_t                order_id;
+    uint64_t                submitted_hlc;      // FIFO tie-breaker at equal limit price
+    uint64_t                unit_price_uj;      // Microjoules per canonical resource lot
+    uint64_t                quantity_lots;      // Exact integer lots (mg, mL, or discrete units)
+    std::array<uint8_t, 24> peer_claim_handle;  // Blinded 24B node/guild handle (zero raw DID)
+    uint16_t                taxonomy_code;      // Must exceed 0x0FFF (non-care surplus only)
+    uint8_t                 trust_ring_scope;   // R2..R5 federation scope
+    uint8_t                 is_bid;             // 1 = Buy bid, 0 = Sell ask
+    uint32_t                reserved_zero;
+};
+static_assert(sizeof(AgoraOrderV3) == 64, "AgoraOrderV3 must occupy one 64B cache line");
+
+struct alignas(64) AgoraCandidateMatchV3 {
+    uint64_t                candidate_match_id;
+    uint64_t                bid_order_id;
+    uint64_t                ask_order_id;
+    uint64_t                clearing_price_uj;        // Floor((P_bid + P_ask) / 2)
+    uint64_t                matched_lots;             // Min(Q_bid, Q_ask)
+    uint64_t                odd_remainder_pool_uj;    // ((P_bid + P_ask) % 2) * matched_lots
+    std::array<uint8_t, 16> treaty_cid_prefix;        // Bound Ricardian Treaty reference
+};
+static_assert(sizeof(AgoraCandidateMatchV3) == 64, "Candidate match fits one 64B cache line");
+
+enum class OrderSubmitStatus : uint8_t {
+    ACCEPTED_INTO_BOOK          = 0,
+    ERR_CARE_NON_COMMENSURABLE  = 1,
+    ERR_ZERO_PRICE_OR_QUANTITY  = 2
+};
+
+class DeterministicExergyCda {
+public:
+    OrderSubmitStatus SubmitOrder(const AgoraOrderV3& order) {
+        if (IsNonCommensurableCareTaxonomy(order.taxonomy_code)) {
+            return OrderSubmitStatus::ERR_CARE_NON_COMMENSURABLE;
+        }
+        if (order.unit_price_uj == 0ULL || order.quantity_lots == 0ULL) {
+            return OrderSubmitStatus::ERR_ZERO_PRICE_OR_QUANTITY;
+        }
+        if (order.is_bid != 0U) {
+            bids_.push_back(order);
+            std::sort(bids_.begin(), bids_.end(), [](const AgoraOrderV3& a, const AgoraOrderV3& b) {
+                return (a.unit_price_uj != b.unit_price_uj)
+                           ? (a.unit_price_uj > b.unit_price_uj)
+                           : (a.submitted_hlc < b.submitted_hlc);
+            });
+        } else {
+            asks_.push_back(order);
+            std::sort(asks_.begin(), asks_.end(), [](const AgoraOrderV3& a, const AgoraOrderV3& b) {
+                return (a.unit_price_uj != b.unit_price_uj)
+                           ? (a.unit_price_uj < b.unit_price_uj)
+                           : (a.submitted_hlc < b.submitted_hlc);
+            });
+        }
+        return OrderSubmitStatus::ACCEPTED_INTO_BOOK;
+    }
+
+    // Emits candidate matches for L6 -> L5 -> L4 -> L3 verification (never mutates L3 directly!)
+    std::vector<AgoraCandidateMatchV3> EmitCandidateMatches(
+        const std::array<uint8_t, 16>& active_treaty_prefix)
+    {
+        std::vector<AgoraCandidateMatchV3> candidates;
+        while (!bids_.empty() && !asks_.empty()) {
+            AgoraOrderV3& bid = bids_.front();
+            AgoraOrderV3& ask = asks_.front();
+            if (bid.unit_price_uj < ask.unit_price_uj) {
+                break; // Spread uncrossed
+            }
+            const __uint128_t sum_uj =
+                static_cast<__uint128_t>(bid.unit_price_uj) + static_cast<__uint128_t>(ask.unit_price_uj);
+            const uint64_t clear_uj = static_cast<uint64_t>(sum_uj / 2U);
+            const uint64_t odd_bit  = static_cast<uint64_t>(sum_uj % 2U);
+            const uint64_t qty      = std::min(bid.quantity_lots, ask.quantity_lots);
+
+            candidates.push_back(AgoraCandidateMatchV3{
+                .candidate_match_id    = ++next_match_id_,
+                .bid_order_id          = bid.order_id,
+                .ask_order_id          = ask.order_id,
+                .clearing_price_uj     = clear_uj,
+                .matched_lots          = qty,
+                .odd_remainder_pool_uj = odd_bit * qty,
+                .treaty_cid_prefix     = active_treaty_prefix
+            });
+
+            bid.quantity_lots -= qty;
+            ask.quantity_lots -= qty;
+            if (bid.quantity_lots == 0ULL) bids_.erase(bids_.begin());
+            if (ask.quantity_lots == 0ULL) asks_.erase(asks_.begin());
+        }
+        return candidates;
+    }
+
+private:
+    std::vector<AgoraOrderV3> bids_{};
+    std::vector<AgoraOrderV3> asks_{};
+    uint64_t next_match_id_{0ULL};
+};
+
+} // namespace col::commons::v3
+\end{lstlisting}
+
+\section{The 4-Stage Tripartite Ricardian Treaty Compiler}
+\label{sec:ricardian-treaty-compiler}
+
+Bilateral Clearing Channels and Agora order books never float in an institutional vacuum; every inter-node economic relationship is governed by an explicit, human-ratified covenant. Drawing on Ian Grigg's architecture of the Ricardian Contract \parencite{grigg2004}, Layer~6 compiles every horizontal pact between sister settlements into a \textbf{Tripartite Ricardian Inter-Node Treaty} whose single cryptographic digest simultaneously binds natural-language moral intent, formal Linked Data ontology, and deterministic execution bytecode.
+
+\subsection{Length-Prefixed Canonical \texttt{Treaty\_CID} Formalism}
+
+A Ricardian treaty comprises three synchronized facets:
+\begin{enumerate}
+  \item \textbf{Human Covenant Prose ($\mathrm{Text}_{\mathrm{prose}}$):} UTF-8 NFC-normalized natural language authored and debated in the Bioregional Agora, articulating mutual-aid solidarity, ecological red lines, Commons Jubilee triggers, and restorative Review Council procedures.
+  \item \textbf{Canonical Linked-Data Schema ($\mathrm{Schema}_{\mathrm{JSON-LD}}$):} Strongly typed JSON-LD~1.1 \parencite{w3c2020jsonld} validated against SHACL shapes \parencite{w3c2017shacl} under \texttt{https://w3id.org/collective/v1/treaty}, specifying peer Autonomous Node identifiers, credit ceiling bounds $[-C_{u \to v}, +C_{v \to u}]$ in microjoules, permitted non-care resource taxonomies $\mathcal{T}_{\mathrm{res}}$, and Layer~2 sensor receipt predicates.
+  \item \textbf{Deterministic Process Invariants ($\mathrm{Invariants}_{\mathrm{BPMN}}$):} BPMN~2.0 choreography \parencite{omg2011bpmn} compiled into a float-free WebAssembly binary \parencite{haas2017wasm} enforcing HLC delivery deadlines, two-phase hardware attestation locks, and autonomous curtailment halts inside \texttt{col-execd}.
+\end{enumerate}
+
+To guarantee collision resistance and cross-implementation bit identity, v3.1 replaces unescaped delimiter concatenation with a domain-separated, 64-bit big-endian length-prefixed canonical digest:
+\begin{equation}
+  \mathrm{Treaty\_CID} = \mathrm{SHA256}\Big(
+    \texttt{"COL-TREATY-V3\textbackslash0"}
+    \;\parallel\; \mathrm{BE64}(|T|) \parallel T
+    \;\parallel\; \mathrm{BE64}(|S|) \parallel S
+    \;\parallel\; \mathrm{BE64}(|B|) \parallel B
+  \Big),
+  \label{eq:treaty-cid-v3}
+\end{equation}
+where $T = \mathrm{NFC}(\mathrm{Text}_{\mathrm{prose}})$, $S = \mathrm{JCS}(\mathrm{Schema}_{\mathrm{JSON-LD}}) \parallel \mathrm{SHA256}(\mathrm{RDFC\text{-}1.0}(\mathrm{Schema}_{\mathrm{JSON-LD}}))$ combines RFC~8785 JSON Canonicalization Scheme byte ordering \parencite{rfc8785} with W3C \texttt{RDFC-1.0} RDF Dataset Canonicalization \parencite{w3c2024rdfc} so isomorphic RDF graphs never diverge under prefix renaming, and $B$ is the reproducible Wasm module compiled from $\mathrm{Invariants}_{\mathrm{BPMN}}$. Because each variable-length facet is preceded by its exact 8-byte big-endian byte count $\mathrm{BE64}(\cdot)$, boundary-shifting second-preimage collisions are mathematically impossible.
+
+\subsection{The 4-Stage Compilation and Dual-Socket Dispatch Pipeline}
+
+As illustrated in Figure~\ref{fig:ricardian-camouflage-pipeline}, \texttt{col-commonsd} executes treaty ratification across a deterministic four-stage pipeline:
+
+\begin{enumerate}
+  \item \textbf{Stage 1 (Agora Deliberation \& Deterministic Read-Back):} Delegates from peering settlements negotiate $\mathrm{Text}_{\mathrm{prose}}$ asynchronously in Ring $R_2 \dots R_5$. Before threshold signing unlocks, each delegate's Treaty Studio renders a zero-LLM deterministic read-back of all extracted numerical bounds alongside co-signed minority dissents, collecting threshold FROST / Ed25519 signatures \parencite{shamir1979}.
+  \item \textbf{Stage 2 (SHACL \& RDFC-1.0 Schema Canonicalization):} \texttt{col-commonsd} expands $\mathrm{Schema}_{\mathrm{JSON-LD}}$ against local content-addressed contexts (zero external HTTP fetches), verifies SHACL invariants (including $\mathcal{T}_{\mathrm{res}} \cap \mathcal{T}_{\mathrm{care}} = \varnothing$ and $C_{u \to v}, C_{v \to u} \in \mathbb{N}$), and emits canonical JCS + \texttt{RDFC-1.0} bytes $S$. Any ungrounded term halts compilation for human clarification.
+  \item \textbf{Stage 3 (Float-Free BPMN-to-Wasm Invariant Compilation):} Delivery deadlines $\tau_{\mathrm{deadline}}$, witness quorums, and $\lambda_{\mathrm{ERC}}$ curtailment triggers are compiled into deterministic Wasm bytecode $B$ and verified against the static float-opcode gate ($0$ IEEE-754 instructions).
+  \item \textbf{Stage 4 (Canonical Hashing \& Bilateral Socket Dispatch):} \texttt{col-commonsd} computes $\mathrm{Treaty\_CID}$ via Equation~\eqref{eq:treaty-cid-v3} and atomically dispatches two distinct projections across its adjacent \texttt{SOCK\_SEQPACKET} membranes:
+  \begin{itemize}
+    \item \textbf{Inward across \texttt{/run/collective/ipc/l5\_l6.sock} to \texttt{col-kmsd}:} Transmits the full signed tripartite package so Layer~5 registers peer capabilities in the Bioregional Path-Vector Protocol (\texttt{BPVP}), installs $B$ in Layer~4 (\texttt{col-execd}), and initializes the bounded pairwise \texttt{BCC} ledger in Layer~3 (\texttt{col-storaged}).
+    \item \textbf{Outward across \texttt{/run/collective/ipc/l6\_l7.sock} to \texttt{col-adversaryd}:} Strips all internal \texttt{DID}s, Web-of-Trust proofs, and assembly tallies, passes the opaque $\mathrm{Treaty\_CID}$ and physical corridor parameters through the \textbf{Mundane Semantic Camouflage Filter}, and instructs Layer~7 in the VLAN~40 DMZ to execute the corresponding statutory wrapper.
+  \end{itemize}
+\end{enumerate}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[
+    >=Stealth,
+    stagebox/.style={
+        rectangle, rounded corners=3pt, draw=black!85, thick,
+        fill=gray!8, minimum width=12.4cm, minimum height=0.88cm,
+        align=center, font=\footnotesize\sffamily
+    },
+    membox/.style={
+        rectangle, rounded corners=3pt, draw=black!90, very thick,
+        fill=gray!22, minimum width=5.6cm, minimum height=1.15cm,
+        align=center, font=\footnotesize\sffamily\bfseries
+    },
+    targetbox/.style={
+        rectangle, rounded corners=4pt, draw=black!80, thick,
+        fill=white, minimum width=5.6cm, minimum height=1.55cm,
+        align=center, font=\footnotesize\sffamily
+    },
+    lbl/.style={font=\scriptsize\ttfamily, align=center}
+]
+    \node[stagebox] (s1) {\textbf{Stage 1: Agora Deliberation \& Read-Back} ($\mathrm{Text}_{\mathrm{prose}}$ NFC + Co-Signed Dissents + Threshold Ed25519)};
+    \node[stagebox, below=0.45cm of s1] (s2) {\textbf{Stage 2: Ontology \& SHACL Gate} ($\mathrm{Schema}_{\mathrm{JSON-LD}}$ $\to$ RFC 8785 JCS + W3C \texttt{RDFC-1.0}, Care Check $\mathcal{T}_{\mathrm{res}} \cap \mathcal{T}_{\mathrm{care}} = \varnothing$)};
+    \node[stagebox, below=0.45cm of s2] (s3) {\textbf{Stage 3: Deterministic Invariant Compilation} ($\mathrm{Invariants}_{\mathrm{BPMN}}$ $\to$ Float-Free Wasm Bytecode + HLC Escrows)};
+    \node[stagebox, below=0.45cm of s3, fill=gray!16] (s4) {\textbf{Stage 4: Domain-Separated Length-Prefixed Hash} $\implies$ Immutable 32-Byte \texttt{Treaty\_CID} (\texttt{col-commonsd})};
+
+    \node[membox, below left=1.05cm and -2.6cm of s4] (inward) {Inward \texttt{SOCK\_SEQPACKET}\\ {\normalfont\scriptsize \texttt{/run/collective/ipc/l5\_l6.sock}}};
+    \node[membox, below right=1.05cm and -2.6cm of s4] (outward) {Mundane Camouflage Filter\\ {\normalfont\scriptsize \texttt{/run/collective/ipc/l6\_l7.sock}}};
+
+    \node[targetbox, below=0.8cm of inward] (l5l3) {\textbf{Sovereign Core (\texttt{col-kmsd} $\to$ L4 $\to$ L3)}\\ {\scriptsize BPVP Route Ad + Wasm Escrow Install}\\ {\scriptsize Pairwise Zero-Sum \texttt{BCC} $[-C_{u\to v}, +C_{v\to u}]$}\\ {\scriptsize Verified BBS+ \& $\lambda_{\mathrm{ERC}}$ Multipliers}};
+    \node[targetbox, below=0.8cm of outward] (l7dmz) {\textbf{VLAN 40 DMZ (\texttt{col-adversaryd})}\\ {\scriptsize Tripartite Legal Chassis: UUNAA \S~6 BMAA,}\\ {\scriptsize IRC Subchapter T SSA, UCEA Easement}\\ {\scriptsize \textbf{0 Bytes} Internal DIDs / Ballots / Keys}};
+
+    \draw[->, thick] (s1) -- (s2);
+    \draw[->, thick] (s2) -- (s3);
+    \draw[->, thick] (s3) -- (s4);
+    \draw[->, very thick] (s4.south) -| (inward.north);
+    \draw[->, very thick] (s4.south) -| (outward.north);
+    \draw[->, thick] (inward) -- node[left, lbl] {Full Tripartite\\Bundle} (l5l3);
+    \draw[->, thick] (outward) -- node[right, lbl] {Opaque \texttt{Treaty\_CID}\\+ Statutory Template} (l7dmz);
+\end{tikzpicture}
+\caption{The 4-stage Ricardian Inter-Node Treaty compiler inside \texttt{col-commonsd}, showing dual-socket dispatch inward across \texttt{l5\_l6.sock} to initialize sovereign Layer~3--5 execution and outward across \texttt{l6\_l7.sock} through the Mundane Semantic Camouflage Filter into the VLAN~40 legal carapace.}
+\label{fig:ricardian-camouflage-pipeline}
+\end{figure}
+
+\section{The Tripartite Legal Chassis and Mundane Semantic Camouflage Filter}
+\label{sec:camouflage-legal-chassis}
+
+James C.\ Scott observed in \emph{Seeing Like a State} that bureaucratic states can neither tax, regulate, norlitigate what they cannot map into standardized administrative categories---yet anything that flags itself as an legible anomaly invites disproportionate enforcement \parencite{scott1998}. Sovereign settlements occupy real municipal parcels, cross county roads with cargo trikes, and interconnect microgrids across surveyed property lines. Layer~6 therefore rejects naive legal isolationism: whenever an inter-node \texttt{Treaty\_CID} or local surplus offset touches external statutory jurisdiction, \texttt{col-commonsd} directs \texttt{col-adversaryd} across \texttt{l6\_l7.sock} to clothe the physical relationship inside well-established cooperative and real-property instruments \parencite{ica1995}.
+
+\subsection{The Tripartite Legal Chassis}
+
+Every externalized directive selects one (or a composition) of three battle-tested statutory wrappers according to the physical modality of the treaty:
+
+\begin{enumerate}
+  \item \textbf{UUNAA Section~6 Bilateral Mutual-Aid Agreements (\texttt{BMAA}) \& Gratuitous Bailments:} Governs episodic neighborly relief, seasonal harvest solidarity, emergency battery wheeling, and reciprocal tool lending. Formatted under Section~6 of the Uniform Unincorporated Nonprofit Association Act (\texttt{UUNAA}), common-law gratuitous bailment of chattels, and volunteer civic association principles \parencite{alamo1985}, the instrument explicitly disclaims merchant status and commercial consideration. Because no pecuniary price or expectation of monetary compensation exists, transfers remain outside Uniform Commercial Code (\texttt{UCC}) Article~2 sale-of-goods warranties and municipal gross-receipts tax bases.
+  \item \textbf{IRC Subchapter~T Shared Services Agreements (\texttt{SSA}, 26 U.S.C.\ \S\S~1381--1388):} Governs recurring, structured inter-cooperative production---such as regional grain milling, shared CNC machining, timber kiln-drying, and pooled raw-material procurement. Executed between incorporated agricultural or worker-patron cooperatives \parencite{ica1995}, all inter-cooperative service allocations are booked strictly \textbf{at cost} with patronage adjustments returning any residual margin to zero net corporate taxable income on IRS Form~1120-C, while private inter-member haulage avoids common-carrier freight licensing triggers.
+  \item \textbf{Uniform Conservation Easement Act (\texttt{UCEA}) Perpetual Utility \& Ecological Servitudes:} Governs stationary physical infrastructure spanning parcel lines, including $48\,\mathrm{V}$/$380\,\mathrm{V}$ DC microgrid feeders, keyline irrigation swales, Reticulum dark-fiber conduits, and cargo-trike paths. Rather than operating as an unlicensed public utility selling retail electricity or water, sister land trusts record reciprocal appurtenant conservation and utility easements under the \texttt{UCEA} that run with the land in perpetuity as non-taxable real-property servitudes tied to ecological stewardship covenants.
+\end{enumerate}
+
+\subsection{Deterministic Mundane Semantic Camouflage and \emph{NAACP v.\ Alabama} Data Non-Existence}
+
+Regulatory enforcement agencies, tax audit classifiers, and private litigants routinely deploy automated keyword and entity-extraction scrapers across corporate registries, tax filings, and civil discovery corpora. Internal cybernetic engineering terms---such as \emph{Web of Trust}, \emph{Exergy Credits}, \emph{Bilateral Clearing Channels}, \emph{Bioregional Path-Vector Routing}, and \emph{Sortition Citizens' Assemblies}---are precise inside Computer Science and Cybernetics \parencite{beer1972,ostrom1990}, yet to an automated securities or tax classifier they resemble unregistered digital currencies or cartel price-fixing rings.
+
+Before any byte crosses \texttt{/run/collective/ipc/l6\_l7.sock} toward VLAN~40, \texttt{col-commonsd} runs a deterministic, zero-LLM lexical and structural compiler---the \textbf{Mundane Semantic Camouflage Filter}---that maps internal ontology concepts into unremarkable statutory cooperative terminology (Table~\ref{tab:mundane-camouflage-v31}) and assigns ordinary North American Industry Classification System (\texttt{NAICS}) codes: \texttt{1114} (Greenhouse, Nursery, and Floriculture Production), \texttt{541512} (Computer Systems Design Services), \texttt{238210} (Electrical Contractors), and \texttt{624210} (Community Food and Housing Services).
+
+\begin{table}[htbp]
+\centering
+\caption{Deterministic Mundane Semantic Camouflage mappings enforced by \texttt{col-commonsd} prior to \texttt{l6\_l7.sock} egress.}
+\label{tab:mundane-camouflage-v31}
+\footnotesize
+\begin{tabular}{@{}p{0.44\textwidth}p{0.50\textwidth}@{}}
+\toprule
+\textbf{Internal Sovereign Ontology (Layers 3--6)} & \textbf{External Camouflaged Statutory Idiom (Layer 7 DMZ)} \\
+\midrule
+Web of Trust / Concentric Trust Rings ($R_0 \dots R_6$) & Cooperative Patronage Roster; Defined Geographic Service Districts. \\
+\addlinespace[3pt]
+Embodied Exergy Credit ($3.6 \times 10^{12}\,\mu\mathrm{J}$) & Internal kilowatt-hour (\texttt{kWh}) energy allocation log; at-cost shared-equipment meter unit. \\
+\addlinespace[3pt]
+Pairwise Bilateral Clearing Channel (\texttt{BCC}) & Reciprocal Inter-Cooperative Shared-Services Account; Gratuitous Equipment Bailment Ledger. \\
+\addlinespace[3pt]
+Ricardian Inter-Node Treaty (\texttt{Treaty\_CID}) & Subchapter~T Shared Services Agreement (\texttt{SSA}); \texttt{UUNAA} \S~6 Mutual-Aid Pact; \texttt{UCEA} Easement Exhibit. \\
+\addlinespace[3pt]
+Bioregional Agora / Sortition Citizens' Assembly & Unincorporated Association Advisory Committee; Patronage Consultation Session. \\
+\addlinespace[3pt]
+Future Generations Panel \& $\lambda_{\mathrm{ERC}}$ Multiplier & Soil \& Watershed Conservation Covenant Compliance Review; Resource Depreciation Schedule. \\
+\addlinespace[3pt]
+Protocol of Refusal \& Unmediated Sanctuary & Standard Trade-Secret Reservation \& Confidential Member Mediation Privilege. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Crucially, semantic translation is paired with \textbf{cryptographic and physical Data Non-Existence}. In \emph{NAACP v.\ Alabama ex rel.\ Patterson} \parencite{naacp1958}, the United States Supreme Court recognized that compelled disclosure of an association's membership lists violates First Amendment freedom of association. Layer~6 reinforces constitutional doctrine with hard systems engineering: \texttt{col-adversaryd} in VLAN~40 physically never receives, caches, or has socket reachability to Layer~5's Web of Trust, pairwise \texttt{DID}s, BBS+ credentials, Agora transcripts, or ballot tallies. Every outward packet crossing \texttt{l6\_l7.sock} is a fixed-size, fixed-schema binary struct containing only the 32-byte opaque \texttt{Treaty\_CID}, the selected statutory template enum, NAICS classification, and aggregate physical corridor quantities (Listing~\ref{lst:camouflage-egress-v3}).
+
+\begin{invariant}[Zero-DID \texttt{l6\_l7.sock} Egress and Subpoena Data Non-Existence]
+\label{inv:naacp-data-nonexistence}
+Let $M_{6 \to 7}$ be any message frame transmitted by \texttt{col-commonsd} across \texttt{/run/collective/ipc/l6\_l7.sock} to \texttt{col-adversaryd}, and let $\mathcal{S}_{\mathrm{internal}}$ denote the set of all internal \texttt{did:mesh:*} identifiers, BBS+ proof bytes, private signing keys, Web-of-Trust edges, and Agora ballot records. The mutual information and byte intersection between $M_{6 \to 7}$ and $\mathcal{S}_{\mathrm{internal}}$ is identically zero ($|M_{6 \to 7} \cap \mathcal{S}_{\mathrm{internal}}| = 0$ bytes), guaranteeing that compromised or subpoenaed Layer~7 DMZ hosts contain zero reconstructible membership or deliberation state.
+\end{invariant}
+
+\begin{lstlisting}[language=C++,label={lst:camouflage-egress-v3},caption={Length-prefixed \texttt{Treaty\_CID} builder and zero-DID Mundane Semantic Camouflage egress guard across \texttt{l6\_l7.sock}.}]
+#include <array>
+#include <cstdint>
+#include <cstring>
+#include <span>
+#include <string_view>
+
+namespace col::commons::treaty {
+
+enum class LegalChassisTemplate : uint8_t {
+    UUNAA_SEC6_GRATUITIOUS_BMAA = 1, // Non-commercial volunteer & emergency mutual aid
+    IRC_SUBCHAPTER_T_AT_COST_SSA = 2, // Inter-cooperative shared services at zero net profit
+    UCEA_PERPETUAL_SERVITUDE    = 3  // Appurtenant conservation & microgrid/water easement
+};
+
+// Fixed-layout 128-byte outward directive sent over /run/collective/ipc/l6_l7.sock.
+// Physically incapable of carrying internal DIDs, ballots, WoT graphs, or uncamouflaged prose!
+struct alignas(64) L6ToL7CamouflagedDirectiveV3 {
+    std::array<uint8_t, 32> treaty_cid;              // Opaque SHA-256 Ricardian digest
+    uint64_t                issued_hlc;
+    uint64_t                annual_cap_kwh_equiv_uj; // Logged externally as standard kWh cost share
+    uint32_t                naics_code;              // e.g., 111400, 541512, 238210, 624210
+    LegalChassisTemplate    chassis_template;
+    uint8_t                 zero_did_verified_flag;  // Must equal 1 prior to sendmsg()
+    uint16_t                statutory_clause_mask;   // Pre-approved cooperative boilerplate IDs
+    std::array<char, 64>    camouflaged_exhibit_ref; // e.g., "SSA-2026-KWH-COST-ALLOC-04"
+    std::array<uint8_t, 8>  pad_zero;
+};
+static_assert(sizeof(L6ToL7CamouflagedDirectiveV3) == 128, "Exact 2-cache-line DMZ directive");
+
+constexpr void AppendBe64(std::span<uint8_t, 8> out, uint64_t val) noexcept {
+    for (size_t i = 0; i < 8U; ++i) {
+        out[i] = static_cast<uint8_t>((val >> ((7U - i) * 8U)) & 0xFFU);
+    }
+}
+
+// Rejects any outward exhibit label containing internal sovereign or DID lexical markers
+[[nodiscard]] constexpr bool PassesCamouflageLexicalAudit(std::string_view label) noexcept {
+    constexpr std::array<std::string_view, 6> kForbiddenTokens = {
+        "did:", "ExergyCredit", "WebOfTrust", "Sortition", "BPVP", "Ricardian"
+    };
+    for (const std::string_view tok : kForbiddenTokens) {
+        if (label.find(tok) != std::string_view::npos) {
+            return false;
+        }
+    }
+    return true;
+}
+
+[[nodiscard]] constexpr bool PrepareCamouflagedDirective(
+    const std::array<uint8_t, 32>& treaty_cid,
+    uint64_t                       issued_hlc,
+    uint64_t                       cap_uj,
+    uint32_t                       naics_code,
+    LegalChassisTemplate           chassis,
+    std::string_view               exhibit_ref,
+    L6ToL7CamouflagedDirectiveV3&  out_pkt) noexcept
+{
+    if (!PassesCamouflageLexicalAudit(exhibit_ref) || exhibit_ref.size() >= out_pkt.camouflaged_exhibit_ref.size()) {
+        return false; // Halt egress: forbidden internal terminology detected
+    }
+    out_pkt = L6ToL7CamouflagedDirectiveV3{};
+    out_pkt.treaty_cid              = treaty_cid;
+    out_pkt.issued_hlc              = issued_hlc;
+    out_pkt.annual_cap_kwh_equiv_uj = cap_uj;
+    out_pkt.naics_code              = naics_code;
+    out_pkt.chassis_template        = chassis;
+    out_pkt.zero_did_verified_flag  = 1U;
+    std::memcpy(out_pkt.camouflaged_exhibit_ref.data(), exhibit_ref.data(), exhibit_ref.size());
+    return true;
+}
+
+} // namespace col::commons::treaty
+\end{lstlisting}
+
+\subsection{Open Municipal Standing for Neighbors and Non-Members}
+
+Maintaining a protective legal carapace toward extractive institutions never implies hostility toward surrounding neighbors. Consistent with Ostrom's polycentric neighborliness \parencite{ostrom2010} and Ring~$R_6$ humanitarian norms, \texttt{col-commonsd} exposes a zero-DID, plain-language \textbf{Open Municipal Portal} accessible via walk-up E-Ink kiosk, printable paper form, or local web page. Adjacent residents who hold no cryptographic identity in the Web of Trust can inspect published watershed telemetry, submit noise or drainage petitions, present testimony to local assemblies, and receive binding written responses within Layer~5 statutory deadlines---while \texttt{col-commonsd} retains zero tracking cookies, zero IP logs, and zero behavioral profiles beyond the petition text voluntarily submitted.
+
+With the constitutional architecture of the Semantic Commonwealth now complete---from bilateral socket membranes, JSON-LD blueprints, hardware-signed local-first authorship, calm high-density variety attenuation, grounded split-sandbox edge models, and WCAG~2.2~AAA thermodynamic displays through the Bioregional Agora and Ricardian treaties---Chapter~\ref{ch:oasis-council-l6} turns directly to the running codebase on Lot~402 to audit what already executes end-to-end today and chart the exact engineering milestones to full Constellation sovereignty.

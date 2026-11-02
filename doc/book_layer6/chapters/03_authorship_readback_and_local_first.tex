@@ -1,0 +1,433 @@
+\chapter{Human Authorship, Deterministic Read-Back, and Local-First CRDT Synchronization}
+\label{ch:authorship-crdt}
+
+\epigraph{Language is not a mere conduit for pre-existing facts; to speak inside a shared institution is to enter into a commitment for whose consequences a person stands accountable.}{--- Adapted from Terry Winograd and Fernando Flores, \emph{Understanding Computers and Cognition} \parencite{winograd1986understanding}}
+
+In conventional cloud applications, clicking a user-interface button emits an ephemeral HTTP request whose meaning is defined entirely by mutable server-side business logic. The human operator neither controls the canonical representation of what was requested nor retains an independent cryptographic record of what was approved; if connectivity to a remote data center drops, agency halts altogether \parencite{kleppmann2019localfirst}. Transposing that client-server posture onto a self-governing physical settlement would be constitutionally fatal. When an action allocates microjoules of stored solar exergy, binds cultivar parameters across a multi-week agroecological workflow, ratifies a neighborhood mutual-credit rule, or authorizes an outward contract through the Layer~7 legal carapace, an interface gesture ceases to be a disposable clickstream event. It becomes an enduring civic commitment.
+
+This chapter establishes the cryptographic, human-factors, and distributed-systems protocols through which Layer~6 secures human authorship across both connected indoor terminals and disconnected field operations. Building upon the bilateral socket membrane of Chapter~\ref{ch:constellation-membrane} and the canonical W3C JSON-LD~1.1 vocabulary of Chapter~\ref{ch:semantic-foundation}, we formalize three interlocking guarantees. First, grounded in the language-action perspective \parencite{winograd1986understanding,habermas1996between}, every state-mutating intent traverses a deterministic six-stage authorship pipeline enforcing the constitutional maxim: \emph{the machine assists, people author, and only people sign}. Second, private signing keys reside exclusively inside non-exportable W3C Web Crypto contexts \parencite{w3c2017webcrypto} or dedicated \texttt{ATECC608A} hardware secure elements \parencite{microchip_atecc608a}, isolated from 3D spatial viewports by the Anti-Canvas Principle and guarded against dark patterns \parencite{gray2018darkpatterns} by a $500\,\mathrm{ms}$ Fitts-law tactile speedbump \parencite{fitts1954information,norman2013design}. Third, a dual-domain authentication and synchronization architecture bridges real-time VLAN~30 sessions (Domain~A) with local-first Automerge Conflict-Free Replicated Data Types (CRDTs) \parencite{kleppmann2017automerge,shapiro2011crdt} and Delay-Tolerant Networking (DTN) couriers \parencite{fall2003} (Domain~B), culminating in deterministic \textbf{Twin Fracture Reconciliation} whenever offline semantic merges encounter conserved Layer~2 physical truth.
+
+\section{Speech-Act Commitments and the Constitutional Authorship Invariant}
+\label{sec:speech-acts-authorship}
+
+Software engineering routinely treats user input as syntactic form serialization: a browser collects fields, posts a JSON blob to a controller endpoint, and trusts the backend to infer intent. In their foundational critique of cognitivist system design, \textcite{winograd1986understanding} demonstrated that human coordination inside any durable institution operates not by exchanging neutral data packets, but by performing structured \emph{speech acts}---requests, promises, assertions, declarations, and revocations---each carrying explicit conditions of satisfaction. \textcite{suchman1987plans} similarly showed that situated human actors rely on transparent mutual intelligibility rather than opaque machine plan-inference when navigating physical contingencies, while \textcite{habermas1996between} grounded legitimate democratic law in communicative acts whose validity claims can be inspected and contested by every participant.
+
+Within the Semantic Commonwealth, Layer~6 operationalizes this speech-act ontology at the binary boundary between \texttt{col-gatewayd} (VLAN~30) and \texttt{col-kmsd} (Layer~5 over \texttt{/run/collective/ipc/l5\_l6.sock}). As implemented in the live gateway perimeter (\texttt{src/daemons/col-gatewayd/main.cpp} and \texttt{gateway\_server.hpp}), direct \texttt{POST}, \texttt{PUT}, \texttt{PATCH}, or \texttt{DELETE} requests targeting \texttt{/api/v1/l2/*}, \texttt{/api/v1/l3/*}, \texttt{/api/v1/l4/*}, \texttt{/api/v1/l5/*}, or \texttt{/api/v1/l7/*} are unconditionally rejected with HTTP \texttt{403}/\texttt{405} (\texttt{L4\_IS\_STRICTLY\_READ\_ONLY\_NO\_MUTATIONS}). Every state change initiated by a resident must enter as a signed Layer~6 semantic commitment (\texttt{POST /api/v1/l6/intent}, bootstrapped in Phase~1 via \texttt{/api/v1/command} in \texttt{companion\_l6.js} and \texttt{daemon\_client.js}) and complete the full cybernetic Intent U-Turn through Layer~5 policy verification before any Layer~4 workflow token or Layer~7 external adapter can act.
+
+\subsection{The Six-Stage Civic Authorship Pipeline}
+\label{subsec:six-stage-pipeline}
+
+As Constellation applications incorporate voice transcription, barcode scanning, and optional quantized local language models \parencite{willard2023outlines}, a sharp boundary must separate statistical machine assistance from sovereign human intent. A stochastic model cannot bear civic responsibility \parencite{bender2021parrots,illich1973}. Layer~6 therefore mandates that every mutating action pass sequentially through six deterministic stages before crossing \texttt{col-gatewayd}:
+
+\begin{enumerate}
+  \item \textbf{Stage~1 --- Express:} A steward expresses a need, policy adjustment, observation, or task commitment through any Constellation modality: structured form controls (such as defining a mesh need or selecting \texttt{cultivar\_id}, \texttt{sourcing\_mode}, and \texttt{distribution\_policy} in \texttt{companion\_l6.js}), spoken utterance into an offline voice loop, stylus entry on an Agroecology Fieldbook, or optical scan of a Shop-Floor paper traveler.
+  \item \textbf{Stage~2 --- Schema Draft:} The client maps the expression onto a typed JSON-LD~1.1 document \parencite{w3c2020jsonld} anchored in \texttt{https://w3id.org/collective/v1/} and validates all fields against compiled W3C SHACL shapes \parencite{w3c2017shacl}. Where a local edge language model assists in drafting from natural language, logit masking via context-free grammar state machines \parencite{willard2023outlines} constrains output strictly to schema-valid JSON-LD populated with canonical 64-bit fixed-point SI integers (\texttt{uJ}, \texttt{mW}, \texttt{mK}, \texttt{bp}, \texttt{mg}, \texttt{mL}, \texttt{mm}, \texttt{ms}).
+  \item \textbf{Stage~3 --- Ambiguity Halt:} If an utterance or partial form leaves any required SHACL property under-determined---for instance, requesting ``plant peas in the east bed'' when both \texttt{cultivar:oregon\_sugar\_pod} and \texttt{cultivar:tall\_telephone\_alderman} are in Garage stock, or omitting a scheduling horizon (\texttt{NOW} vs.\ \texttt{SCHEDULED\_FUTURE})---the pipeline enters an explicit \texttt{AMBIGUITY\_HALT} state. Mirroring the \texttt{UnmodeledStepAdapter} prompt card in \texttt{companion\_l6.js}, the interface refuses to guess or silently substitute hidden defaults; it halts and presents crisp, mutually exclusive choices until the steward resolves every ambiguity.
+  \item \textbf{Stage~4 --- Deterministic Template Read-Back:} Once a complete JSON-LD draft $d$ passes SHACL validation, the client canonicalizes $d$ into deterministic byte sequence $B_{\mathrm{canon}} = \mathrm{JCS}(d)$ under RFC~8785 \parencite{rfc8785} (paired with W3C \texttt{RDFC-1.0} dataset canonicalization \parencite{w3c2024rdfc} for cross-context graph equivalence). A pure, zero-LLM template function $R(B_{\mathrm{canon}})$ then renders a plain-language \textbf{Deterministic Read-Back} sentence directly from the canonical bytes---never from the original freeform prompt or mutable UI state. What the steward reads in Stage~4 is a deterministic projection of the exact byte array about to be signed (\textit{What You See Is What You Sign}).
+  \item \textbf{Stage~5 --- Personal Hardware Sign:} After reviewing the Stage~4 read-back, the steward performs a deliberate physical confirmation gesture ($500\,\mathrm{ms}$ tactile hold or hardware touch-pin assertion), invoking a non-exportable Ed25519 private key over the composite digest $H_{\mathrm{sign}} = \mathrm{SHA256}(B_{\mathrm{canon}} \parallel \mathrm{SHA256}(R(B_{\mathrm{canon}})) \parallel \tau_{\mathrm{prov}})$.
+  \item \textbf{Stage~6 --- Provenance-Tagged Dispatch:} The signed envelope is stamped with an immutable cryptographic provenance tag $\tau_{\mathrm{prov}}$ and either transmitted immediately over a connected Domain~A session or appended to the local Domain~B Automerge CRDT log in \texttt{IndexedDB}.
+\end{enumerate}
+
+\subsection{The Four Mandatory Cryptographic Provenance Tags}
+\label{subsec:provenance-tags}
+
+To ensure that audit trails, deliberation readers, and Layer~5 constitutional evaluators can distinguish unmediated human authorship from machine-assisted drafting or background daemon telemetry, every frame traversing Layer~6 carries one of four mutually exclusive provenance discriminants in its signed header (\texttt{collective:provenanceTag}). Table~\ref{tab:provenance-tags} specifies the cryptographic binding and Layer~5 (\texttt{col-kmsd}) acceptance rules for each tag.
+
+\begin{table}[htbp]
+\centering
+\caption{The four mandatory cryptographic provenance tags enforced across \texttt{col-gatewayd} and \texttt{col-kmsd}.}
+\label{tab:provenance-tags}
+\footnotesize
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}lllll@{}}
+\toprule
+\textbf{Provenance Tag ($\tau_{\mathrm{prov}}$)} & \textbf{Originating Process} & \textbf{Signing Principal} & \textbf{Stage~4 Read-Back} & \textbf{Permitted Layer~5 / Layer~7 Scope} \\
+\midrule
+\texttt{human\_authored} & Direct human composition or form selection & Personal Steward Ed25519 Key & Mandatory (\texttt{WYSIWYS}) & Full civic, governance, task pull, and L7 directives \\
+\texttt{machine\_drafted\_human\_approved} & Edge NLU / template draft edited or ratified by human & Personal Steward Ed25519 Key & Mandatory (\texttt{WYSIWYS}) & Full civic, governance, task pull, and L7 directives \\
+\texttt{machine\_generated} & Unattended edge model summary, tagger, or RAG index & Ephemeral Sandbox Service Key & Non-executable advisory & Zero mutation authority; rejected (\texttt{403}) on governance/L4/L7 \\
+\texttt{system\_authenticated} & Deterministic POSIX daemon (\texttt{col-telemetryd}, \texttt{col-execd}) & Kernel \texttt{SO\_PEERCRED} + Node Key & N/A (machine plane) & Read-only telemetry snapshots, timers, and upward yields \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+The asymmetry between \texttt{machine\_drafted\_human\_approved} and \texttt{machine\_generated} is constitutional, not cosmetic. If a local quantized model summarizes twenty Agora deliberation threads to save reading time, that summary is tagged \texttt{machine\_generated}; \texttt{col-kmsd} structurally rejects any packet bearing \texttt{machine\_generated} that attempts to cast a ballot, ratify a \texttt{PENDING} governance proposal, pull a Layer~4 \texttt{WAITING\_HUMAN} token, or trigger a Layer~7 legal-carapace transaction. Conversely, when a steward speaks into a Hearth Slate to draft a neighborhood split-pea soup batch request, inspects the Stage~4 Deterministic Read-Back (\emph{``Request 4 portions of Communal Split-Pea Soup (\texttt{need:pea\_soup}) for Day~3; exergy budget \texttt{2,500,000,000 uJ} (\texttt{2.50 MJ}); sourcing \texttt{R0\_LOCAL\_WORKFLOWS}''}), and signs with their personal hardware key, the resulting commitment carries \texttt{machine\_drafted\_human\_approved} and transfers full civic accountability to the human signer.
+
+\begin{invariant}[Constitutional Human Authorship and Provenance Separation]
+\label{inv:human-authorship}
+Across every Constellation application and \texttt{col-gatewayd} endpoint: (i)~no software daemon, background scheduler, or statistical model possesses capability access to a steward's personal Ed25519 signing key; (ii)~every intent bearing \texttt{human\_authored} or \texttt{machine\_drafted\_human\_approved} binds the cryptographic hash of its deterministic Stage~4 template read-back $R(\mathrm{JCS}(d))$ inside the signed digest; and (iii)~\texttt{col-kmsd} unconditionally rejects with \texttt{403 PROVENANCE\_INSUFFICIENT\_FOR\_GOVERNANCE} any state-mutating governance, resource-allocation, task-claim, or Layer~7 directive frame whose provenance tag is \texttt{machine\_generated} or \texttt{system\_authenticated}.
+\end{invariant}
+
+\section{Non-Exportable Hardware Key Custody and Civic Speedbumps}
+\label{sec:hardware-custody-speedbumps}
+
+Cryptographic authorship collapses if an application stores raw private key bytes in browser \texttt{localStorage}, session cookies, or unencrypted heap buffers where a cross-site scripting flaw or rogue extension could exfiltrate them. At the same time, demanding that residents memorize twenty-four-word seed phrases or juggle command-line PGP keyrings violates convivial accessibility \parencite{illich1973,costanzachock2020design}. Layer~6 resolves this tension by binding Decentralized Identifiers (\texttt{did:collective:...}) \parencite{w3c2022did} and capability-scoped session manifests (\texttt{AppCapabilityManifestV1}) \parencite{miller2006robust} to non-exportable hardware-backed or OS-isolated cryptographic modules.
+
+\subsection{W3C Web Crypto (\texttt{extractable: false}) and Station \texttt{ATECC608A} Custody}
+\label{subsec:key-custody}
+
+Constellation endpoints operate across two physical deployment profiles, each enforcing strict key non-exportability:
+
+\begin{enumerate}
+  \item \textbf{Personal Mobile and Desktop Constellation Apps (W3C Web Crypto + \texttt{IndexedDB}):} When a steward provisions a personal companion device, the client invokes the W3C Web Cryptography API \parencite{w3c2017webcrypto} via \texttt{crypto.subtle.generateKey({ name: "Ed25519" }, false, ["sign", "verify"])}. Setting \texttt{extractable: false} instructs the underlying platform cryptographic provider (backed by Secure Enclave, StrongBox, or OS TPM) to generate the keypair inside isolated key storage and return only an opaque \texttt{CryptoKey} handle. That handle is persisted via structured cloning into origin-isolated \texttt{IndexedDB}. Even if JavaScript execution inside the tab were compromised, calling \texttt{crypto.subtle.exportKey(...)} throws an immediate \texttt{InvalidAccessError}; raw 32-byte private scalars never enter the V8/SpiderMonkey heap. Furthermore, rather than granting every Constellation app blanket authority under the steward's root DID, \texttt{col-kmsd} issues capability-attenuated \texttt{AppCapabilityManifestV1} delegations \parencite{miller2006robust,w3c2022vc}---so a Pantry Slate key can sign \texttt{topic:culinary.*} stock updates and task claims, but cannot sign a Ricardian municipal easement treaty.
+  \item \textbf{Shared Workshop, Hearth, and Field Terminals (\texttt{ATECC608A} Secure Element):} On communal hardware---such as a sawdust-proof Shop-Floor BOM E-Ink Terminal in \texttt{node-02:garage-fab} or a Care Sanctuary Check-In Slate---browser state is shared or headless. These stations wire a Microchip \texttt{ATECC608A} cryptographic co-processor \parencite{microchip_atecc608a} over a local $\mathrm{I^2C}$ bus (\texttt{0x60} address) paired with a capacitive physical-presence button and steward NFC/badge tap. Private keys are generated internally within the \texttt{ATECC608A} EEPROM slots with \texttt{SlotConfig.ReadKey = 0x00} (permanently prohibiting key reads), active hardware monotonic counters (\texttt{Counter[0]}, \texttt{Counter[1]}) preventing rollback, and physical-presence gating ensuring the chip signs an SHA-256 digest only during a live human finger press on the chassis contact pad.
+\end{enumerate}
+
+\subsection{The Anti-Canvas Principle: Separating Simulation from Commitment}
+\label{subsec:anti-canvas}
+
+A critical architectural lesson codified during the Lot~402 Oasis refactor (\texttt{companion\_l6.js}, \texttt{hud\_feel.js}) is the \textbf{Anti-Canvas Principle}: \emph{zero governance ratifications, resource allocations, mutual-credit commitments, or Layer~7 external settlements may ever be triggered from inside a 3D WebGPU/WebGL spatial viewport}.
+
+In immersive 3D digital-twin or game-like views (\texttt{Layer 1b} running at \texttt{QUALITY\_SIMULATED = 0x01}), pointer clicks serve continuous spatial navigation, camera orbit, roof-cutaway toggling (\texttt{toggleRoof()} in \texttt{hud\_feel.js}), and diegetic voxel inspection (\texttt{aff.look}, \texttt{aff.inspect} in \texttt{core\_catalog.json}). Placing an executable ``Approve Proposal'' or ``Authorize L7 Order'' button on a floating 3D billboard invites classic mode-error and perspective-shift mis-clicks \parencite{norman2013design}: a camera pan or sudden frame-time hitch moves a world-space hit-box directly beneath a descending cursor. Under the Anti-Canvas Principle, clicking an object inside the 3D viewport at most opens a read-only inspection toast or deep-links (\texttt{col://...}) into the orthogonal, typography-stable Layer~6 Companion DOM (\texttt{\#l6-companion-root} or standalone Constellation app), where Stage~4 Deterministic Read-Back and Stage~5 signing occur on stationary 2D controls.
+
+\subsection{Fitts-Law $500\,\mathrm{ms}$ Tactile Speedbumps Against Dark Patterns}
+\label{subsec:fitts-speedbumps}
+
+Commercial platforms engineer user interfaces around asymmetric friction \parencite{gray2018darkpatterns}: high-consequence commitments (one-click purchases, recurring subscriptions, sweeping data-sharing consents) execute on an instantaneous pointer-up event, whereas revocation or exit is buried beneath multi-screen confirmation labyrinths. By Fitts's law \parencite{fitts1954information}, the movement time $MT$ to acquire a target of width $W$ at distance $D$ obeys:
+\begin{equation}
+\label{eq:fitts-law}
+MT \;=\; a + b \log_2\!\left(1 + \frac{D}{W}\right),
+\end{equation}
+meaning a large, brightly colored button placed adjacent to the resting cursor ($D/W \to 0$) reduces motor acquisition time below $180\,\mathrm{ms}$---faster than pre-frontal semantic verification of new text on screen.
+
+Layer~6 inverts commercial friction through Value Sensitive Design \parencite{friedman2019vsd}:
+\begin{itemize}
+  \item \textbf{Zero-Friction Exit and Deferral:} Non-destructive or protective actions---deferring a governance proposal (\texttt{data-defer-dec} in \texttt{companion\_l6.js}), releasing a claimed task (\texttt{UnclaimTask}), or engaging a somatic rest shield---execute immediately with a single clean activation and zero guilt-inducing ``Are you sure?'' modals.
+  \item \textbf{Deliberate $500\,\mathrm{ms}$ Civic Speedbump for Binding Signatures:} Any Stage~5 signature committing exergy budgets, instantiating Layer~4 workflows, casting an Agora ballot, or dispatching a Layer~7 directive requires a continuous dwell-hold of $T_{\mathrm{hold}} = 500\,\mathrm{ms}$ (with full WCAG~2.2 keyboard \texttt{Space}/\texttt{Enter} hold and assistive-switch equivalence \parencite{w3c2023wcag}). During the $500\,\mathrm{ms}$ fill progression, a calm progress ring illuminates around the Stage~4 Deterministic Read-Back box while soft haptic/audio feedback confirms engagement; releasing early cancels cleanly with zero state mutation. That half-second pause bridges Norman's Gulf of Execution and Gulf of Evaluation \parencite{norman2013design}, giving human ocular fixation time to verify key fixed-point quantities (\texttt{2.50 MJ}, \texttt{Day 3}, \texttt{R0\_LOCAL\_WORKFLOWS}) before the Ed25519 signature fires.
+\end{itemize}
+
+Listing~\ref{lst:companion-signer} presents the reference Constellation signing controller combining RFC~8785 JCS canonicalization, Stage~4 read-back hash binding, the $500\,\mathrm{ms}$ tactile hold guard, and non-exportable Web Crypto Ed25519 signing.
+
+\begin{lstlisting}[label={lst:companion-signer},caption={Deterministic read-back verification, 500 ms tactile speedbump, and non-exportable Web Crypto Ed25519 signing in a Constellation client.}]
+export type ProvenanceTag =
+  | "human_authored"
+  | "machine_drafted_human_approved";
+
+export interface SignedCivicEnvelope {
+  canonicalJsonLd: string;        // RFC 8785 JCS deterministic UTF-8 string
+  readBackText: string;           // Deterministic zero-LLM template projection
+  provenanceTag: ProvenanceTag;
+  actorDid: string;               // e.g. "did:collective:lot402:steward"
+  deviceId: string;               // e.g. "dev:hearth-slate-04"
+  sequenceNum: string;            // Monotonic uint64 decimal string
+  dependencyHeads: string[];      // Causal Automerge + L3/L4 snapshot CIDs
+  hlcTimestampMs: number;         // Local Hybrid Logical Clock epoch ms
+  signatureHex: string;           // 64-byte Ed25519 signature over composite digest
+}
+
+export async function signWithCivicSpeedbump(
+  canonicalJsonLd: string,
+  deterministicTemplateFn: (jcsBytes: Uint8Array) => string,
+  provenanceTag: ProvenanceTag,
+  holdDurationMs: number,
+  privateCryptoKey: CryptoKey,    // IndexedDB opaque handle (extractable === false)
+  meta: { actorDid: string; deviceId: string; seq: bigint; heads: string[]; hlcMs: number }
+): Promise<SignedCivicEnvelope> {
+  if (privateCryptoKey.extractable) {
+    throw new Error("SECURITY_VIOLATION: Exportable signing keys are forbidden in Layer 6");
+  }
+  if (holdDurationMs < 500) {
+    throw new Error("SPEEDBUMP_ABORT: Tactile confirmation held < 500 ms; signature cancelled");
+  }
+
+  const enc = new TextEncoder();
+  const jcsBytes = enc.encode(canonicalJsonLd);
+  const readBackText = deterministicTemplateFn(jcsBytes);
+  const readBackDigest = new Uint8Array(
+    await crypto.subtle.digest("SHA-256", enc.encode(readBackText))
+  );
+
+  // Bind JCS payload + Stage-4 read-back digest + provenance + causal sequence + heads
+  const headerStr = `${provenanceTag}|${meta.actorDid}|${meta.deviceId}|` +
+                    `${meta.seq.toString()}|${meta.heads.slice().sort().join(",")}|${meta.hlcMs}`;
+  const headerBytes = enc.encode(headerStr);
+
+  const composite = new Uint8Array(jcsBytes.length + readBackDigest.length + headerBytes.length);
+  composite.set(jcsBytes, 0);
+  composite.set(readBackDigest, jcsBytes.length);
+  composite.set(headerBytes, jcsBytes.length + readBackDigest.length);
+
+  const sigBuf = await crypto.subtle.sign({ name: "Ed25519" }, privateCryptoKey, composite);
+  const sigHex = Array.from(new Uint8Array(sigBuf))
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
+
+  return {
+    canonicalJsonLd,
+    readBackText,
+    provenanceTag,
+    actorDid: meta.actorDid,
+    deviceId: meta.deviceId,
+    sequenceNum: meta.seq.toString(),
+    dependencyHeads: meta.heads.slice().sort(),
+    hlcTimestampMs: meta.hlcMs,
+    signatureHex: sigHex
+  };
+}
+\end{lstlisting}
+
+\section{Dual-Domain Authentication and Local-First Automerge CRDT Sync}
+\label{sec:dual-domain-crdt}
+
+A bioregional settlement does not live inside a climate-controlled server rack with uninterrupted gigabit Ethernet. While a steward reviewing monthly Layer~7 bill-offset balances at the \texttt{node-01:office-coordinator} desk enjoys low-latency VLAN~30 Wi-Fi, an arborist pruning keyline swales on the far ridge, a herbalist logging soil friability in an unpowered cold-frame, or a courier pedaling a Scenario~Beta $48\,\mathrm{V}$ cargo e-trike (\texttt{cargo\_etrike} in \texttt{core\_catalog.json}) between Ring-1 neighborhood clusters routinely operates across multi-hour radio shadows. If \texttt{col-gatewayd} enforced only tight wall-clock session tokens, valid field work would expire mid-walk. Conversely, if \texttt{col-gatewayd} accepted timeless signatures without replay bounds on indoor interactive sockets, captured LAN frames could be replayed.
+
+Layer~6 resolves this classic distributed-systems dilemma \parencite{saltzer1984end,rose2020zero} through \textbf{Dual-Domain Authentication}, partitioning transport verification into \textbf{Domain~A (Real-Time Session Pairing)} and \textbf{Domain~B (Local-First Causal CRDT Synchronization)}.
+
+\subsection{Domain~A: Real-Time VLAN~30 Session Pairing and HLC Drift Clamping}
+\label{subsec:domain-a}
+
+When a Constellation client holds a live TLS~1.3 connection (\texttt{port = 8443} on VLAN~30 in \texttt{GatewaySecurityConfig}, \texttt{src/daemons/col-gatewayd/main.cpp}), it operates in \textbf{Domain~A}. Each request carries an Ed25519 signature alongside Hybrid Logical Clock \parencite{kulkarni2014logical,lamport1978time} epoch header \texttt{X-Collective-HLC-Ms} and a 128-bit cryptographic request nonce \texttt{X-Collective-Nonce}:
+
+\begin{enumerate}
+  \item \textbf{Tight Epoch Drift Clamping ($\pm 3{,}000\,\mathrm{ms}$):} Upon receipt at gateway HLC physical epoch $t_{\mathrm{gw}}$, \texttt{col-gatewayd} computes $\Delta t_{\mathrm{epoch}} = t_{\mathrm{client}} - t_{\mathrm{gw}}$. Domain~A requires:
+  \begin{equation}
+  \label{eq:domain-a-drift}
+  |\Delta t_{\mathrm{epoch}}| \;=\; |t_{\mathrm{client}} - t_{\mathrm{gw}}| \;\le\; 3{,}000\,\mathrm{ms}.
+  \end{equation}
+  If a tablet's clock has drifted beyond $\pm 3{,}000\,\mathrm{ms}$, \texttt{col-gatewayd} returns HTTP \texttt{425 Too Early} / \texttt{401 Clock Skew} carrying its signed monotonic HLC beacon so the client slews its logical clock offset without mutating OS root privileges.
+  \item \textbf{Sliding $120\,\mathrm{s}$ Replay Nonce Window:} \texttt{col-gatewayd} maintains a lock-free ring buffer of seen \texttt{(device\_id, nonce\_128)} pairs across a sliding $W_{\mathrm{nonce}} = 120{,}000\,\mathrm{ms}$ ($120\,\mathrm{s}$) horizon. Because Eq.~\eqref{eq:domain-a-drift} rejects any packet older than $3{,}000\,\mathrm{ms}$, bounding the nonce cache to $120\,\mathrm{s}$ guarantees zero replay acceptance inside tiny, deterministic SRAM footprints.
+\end{enumerate}
+
+\subsection{Domain~B: Disconnected \texttt{IndexedDB} Queuing, Sequence Monotonicity, and Automerge CRDTs}
+\label{subsec:domain-b}
+
+Whenever link probes detect radio loss, high packet-loss LoRa links, or explicit offline field mode, the Constellation client transitions seamlessly from Domain~A to \textbf{Domain~B} without interrupting the steward's workflow \parencite{kleppmann2019localfirst}. In the Phase~1 Oasis bootstrap (\texttt{companion\_l6.js}), daemon disconnection displays an amber status banner; across full Constellation apps, offline operation is a first-class operational mode backed by an embedded \textbf{Automerge JSON CRDT} replica \parencite{kleppmann2017automerge,shapiro2011crdt} persisted in \texttt{IndexedDB}.
+
+In Domain~B, wall-clock freshness $|\Delta t_{\mathrm{epoch}}| \le 3{,}000\,\mathrm{ms}$ is intentionally suspended---an agroecology observation signed at \texttt{09:15} in a canyon orchard may not reach \texttt{col-gatewayd} until \texttt{16:40} when the cargo e-trike docks at the garage charger. Replay protection and causal integrity are instead anchored by two mandatory HTTP/bundle headers signed inside the Stage~5 Ed25519 envelope:
+
+\begin{itemize}
+  \item \textbf{\texttt{X-Collective-Sequence} ($s_{d,k} \in \mathbb{N}^+$):} Every provisioned \texttt{(actor\_did, device\_id)} pair maintains a strictly monotonic 64-bit unsigned sequence register. For each offline-signed envelope $e_k$, $s_{d,k} = s_{d,k-1} + 1$. On \texttt{col-kmsd}, the highest committed sequence $S_{\max}(d)$ per device is persisted atomically in RocksDB; any arriving Domain~B envelope with $s_{d,k} \le S_{\max}(d)$ is deterministically deduplicated as an already-ingested bundle, while $s_{d,k} > S_{\max}(d) + 1$ holds the envelope in an ordered causal staging buffer until predecessor operations $S_{\max}(d)+1 \dots s_{d,k}-1$ arrive in the CRDT stream.
+  \item \textbf{\texttt{X-Collective-Dependency-Vector} ($\mathbf{v}_{\mathrm{dep}}$):} Encodes a sorted array of 32-byte Blake3/SHA-256 Content Identifiers (CIDs) representing (a)~the exact Automerge change-graph heads \parencite{kleppmann2017automerge} visible on the device at Stage~4 Read-Back, and (b)~the latest Layer~3/Layer~4 physical state snapshot CID (\texttt{snapshot\_cid}) cached before disconnection. By signing $\mathbf{v}_{\mathrm{dep}}$, the envelope proves \emph{what world state the human believed to hold} when making their commitment.
+\end{itemize}
+
+\subsection{DTN Cargo-Trike, LoRa, and Sneakernet ``Waiting for Courier'' Custody States}
+\label{subsec:dtn-courier}
+
+Following Kevin Fall's Delay-Tolerant Networking architecture \parencite{fall2003}, Domain~B treats physical movement of stewards and vehicles as store-carry-forward data links. Rather than alarming a field steward with flashing red ``Connection Failed---Retry'' errors, Constellation apps render calm custody pills tracking each offline-signed commitment through five deterministic states:
+
+\begin{enumerate}
+  \item \texttt{SIGNED\_LOCAL\_CUSTODY}: Stage~5 Ed25519 signature verified and fsynced into local \texttt{IndexedDB} Automerge storage (zero data loss across battery depletion or browser restart).
+  \item \texttt{WAITING\_FOR\_COURIER}: Envelope packaged into a signed CBOR DTN bundle awaiting opportunistic local link discovery (802.11s mesh peer, $915\,\mathrm{MHz}$ LoRa telemetry frame for compact scalar attestations, USB-C Mass Storage ferry, printable QR traveler, or a Scenario~Beta cargo e-trike courier deck).
+  \item \texttt{IN\_COURIER\_TRANSIT}: Bundle custody acknowledged via cryptographic custody-transfer receipt by a passing cargo e-trike or neighbor's Fieldbook (\texttt{custody\_ack\_sig}), providing redundant physical backup while in motion toward the homestead cluster.
+  \item \texttt{GATEWAY\_RECONCILING}: Bundle delivered to \texttt{col-gatewayd} over VLAN~30 (\texttt{POST /api/v1/l6/dtn\_sync}); Automerge causal graph merged and causal dependency vector $\mathbf{v}_{\mathrm{dep}}$ under evaluation against live Layer~2/Layer~3 registers.
+  \item \texttt{COMMITTED} or \texttt{TWIN\_FRACTURE\_HOLD}: Either cleanly applied to Layer~5/Layer~4 state, or parked safely in a non-destructive Twin Fracture reconciliation card.
+\end{enumerate}
+
+\section{Physical-Digital Twin Fracture Reconciliation}
+\label{sec:twin-fracture}
+
+In purely informational local-first software---such as collaborative text editing or shared calendars \parencite{kleppmann2019localfirst,kleppmann2017automerge}---merging concurrent offline edits via an operation-based CRDT join-semilattice $(\mathcal{S}, \sqcup)$ suffices to achieve Strong Eventual Consistency \parencite{shapiro2011crdt}: whenever two replicas have received the same set of signed operations, their JSON document states converge identically without coordination.
+
+In a cyber-physical settlement \parencite{grieves2014digital,kleppmann2017designing}, however, \textbf{semantic convergence does not imply physical conservation}. JSON-LD graphs form a mathematical join-semilattice; water cisterns, lithium-iron-phosphate battery banks, cedar lumber racks, and simmering soup cauldrons do not. Consider a concrete Lot~402 scenario:
+\begin{itemize}
+  \item At \texttt{08:30}, Steward~A caches snapshot $C_0$ showing \texttt{potable\_water\_liters = 18,000 mL} ($18.0\,\mathrm{L}$) in the garden cistern and walks offline to the lower terrace with an Agroecology Fieldbook. At \texttt{09:10}, Steward~A signs a Domain~B task completion and irrigation allocation drawing $12{,}000\,\mathrm{mL}$ for newly transplanted brassicas (\texttt{X-Collective-Dependency-Vector} referencing $C_0$).
+  \item Meanwhile at \texttt{09:25}, an online kitchen workflow (\texttt{CookCommunalPeaSoupBatch}) plus an automated Layer~2 drip-solenoid pulse (\texttt{irrigation\_valve\_v1} reported via \texttt{col-telemetryd}) draws $10{,}000\,\mathrm{mL}$ from the same physical cistern, confirmed by a live Layer~2 hydrostatic pressure probe reading \texttt{remaining\_volume\_ml = 8,000 mL} at state $C_4$.
+  \item At \texttt{11:00}, Steward~A returns to Wi-Fi range and Automerge cleanly merges both JSON-LD operation logs without a syntactic key collision. Yet subtracting $12{,}000\,\mathrm{mL}$ from $8{,}000\,\mathrm{mL}$ would yield $-4{,}000\,\mathrm{mL}$ of physical water---or, if Steward~A had queued a delayed valve actuation, would run the cistern pump dry!
+\end{itemize}
+
+We name this divergence between an offline-merged CRDT semantic projection and authoritative Layer~2/Layer~3 conserved reality a \textbf{Physical-Digital Twin Fracture}.
+
+\begin{definition}[Physical-Digital Twin Fracture]
+\label{def:twin-fracture}
+Let $e = (B_{\mathrm{canon}}, \tau_{\mathrm{prov}}, s_{d,k}, \mathbf{v}_{\mathrm{dep}}, \sigma)$ be a valid Domain~B signed envelope authored against cached physical snapshot $C_0 \in \mathbf{v}_{\mathrm{dep}}$, with precondition footprint $\Phi_{\mathrm{pre}}(e)$ specifying required conserved stock deltas $\Delta q_r$ (in \texttt{mg}, \texttt{mL}, or \texttt{uJ}) and physical safety bounds $[L_p, U_p]$ on Layer~2 registers $p \in \mathcal{P}$. Let $\Sigma_{\mathrm{phys}}(t_{\mathrm{ingest}})$ denote the authoritative Layer~2/Layer~3 register vector at gateway ingestion time $t_{\mathrm{ingest}}$. Envelope $e$ exhibits a \emph{Twin Fracture} iff CRDT graph merge succeeds syntactically, yet applying $\Phi_{\mathrm{pre}}(e)$ to $\Sigma_{\mathrm{phys}}(t_{\mathrm{ingest}})$ violates mass/exergy non-negativity ($Q_r(t_{\mathrm{ingest}}) - \Delta q_r < 0$), violates an monotonic state precondition (e.g., \texttt{crop\_sown} toggled or asset decommissioned), or breaches a physical Layer~2 boundary ($x_p(t_{\mathrm{ingest}}) \notin [L_p, U_p]$).
+\end{definition}
+
+\begin{theorem}[Causal-Monotonic Replay Safety and Deterministic Twin Fracture Detection]
+\label{thm:domain-b-fracture}
+Suppose \texttt{col-gatewayd} and \texttt{col-kmsd} enforce Invariant~\ref{inv:human-authorship}, persist per-device monotonic sequence watermark $S_{\max}(d)$, verify causal dependency heads $\mathbf{v}_{\mathrm{dep}}$, and evaluate $\Phi_{\mathrm{pre}}(e)$ atomically against $\Sigma_{\mathrm{phys}}(t_{\mathrm{ingest}})$ prior to Layer~4/Layer~3 actuation. Then across arbitrary DTN network partitions, packet reorderings, and unbounded wall-clock skew $\Delta t_{\mathrm{epoch}}$:
+\begin{enumerate}
+  \item \textbf{Zero Replay and Causal Integrity:} Every valid Domain~B commitment $e_{d,k}$ is accepted into the Automerge audit log \emph{at most once} and strictly in per-device causal order $k = 1, 2, \dots$, without requiring synchronized wall clocks.
+  \item \textbf{Conservation Preservation Under Fracture:} No offline-merged CRDT operation can drive any Layer~3 conserved resource inventory negative or dispatch an out-of-envelope Layer~2 actuator command; every Twin Fracture is deterministically isolated into an explicit \texttt{TWIN\_FRACTURE\_HOLD} governance resolution record while preserving the human steward's signed empirical observation in the immutable provenance log.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+For Claim~(1), let $e_{d,k}$ be any envelope arriving over Domain~B (potentially duplicated across both a cargo e-trike bundle and a delayed LoRa relay). Because \texttt{deviceId} $d$, \texttt{sequenceNum} $s_{d,k} = k$, and \texttt{dependencyHeads} $\mathbf{v}_{\mathrm{dep}}$ are bound inside the Ed25519-signed composite message (Listing~\ref{lst:companion-signer}), an adversary or faulty relay cannot alter $k$ or $\mathbf{v}_{\mathrm{dep}}$ without invalidating signature $\sigma$ under the steward's non-exportable public key registered in \texttt{col-kmsd}. At ingestion, \texttt{col-kmsd} compares $k$ against durable watermark $S_{\max}(d)$ inside a serializable RocksDB write batch: if $k \le S_{\max}(d)$, the duplicate is dropped idempotently; if $k > S_{\max}(d) + 1$, $e_{d,k}$ waits in a bounded per-device staging queue until $k' = S_{\max}(d)+1$ commits; only when $k = S_{\max}(d) + 1$ and all parent Automerge CIDs in $\mathbf{v}_{\mathrm{dep}}$ are present does \texttt{col-kmsd} advance $S_{\max}(d) \leftarrow k$. Because neither step references wall-clock $\Delta t_{\mathrm{epoch}}$, replay safety and causal ordering hold for arbitrary DTN delay $T_{\mathrm{delay}} \in [0, \infty)$.
+
+For Claim~(2), partition the effect of $e_{d,k}$ into its epistemic CRDT document operation $\delta_{\mathrm{crdt}}(e_{d,k})$ and its physical resource/actuation delta $\Phi_{\mathrm{pre}}(e_{d,k})$. Appending $\delta_{\mathrm{crdt}}(e_{d,k})$ to the Automerge history preserves the steward's signed record of field intent or observation. Before emitting any \texttt{GovernanceResolutionPacket} or \texttt{L5ToL4ClaimCommand} downward, the validator evaluates $Q_r(t_{\mathrm{ingest}}) - \Delta q_r \ge 0$ for all conserved stocks $r$ and $x_p(t_{\mathrm{ingest}}) \in [L_p, U_p]$ for all live Layer~2 sensors $p$. If every predicate holds, $Q_r$ is decremented atomically and execution proceeds. If any predicate fails (Definition~\ref{def:twin-fracture}), physical reality (\texttt{QUALITY\_VERIFIED} Layer~2 telemetry and Layer~3 ledger conservation) takes strict precedence over stale cached snapshot $C_0$: execution halts, zero conserved balances are violated, and \texttt{col-kmsd} emits a deterministic \texttt{TWIN\_FRACTURE\_HOLD} delta card back to Layer~6 offering the steward three zero-penalty reconciliation choices: (a)~adjust quantity $\Delta q_r' \le Q_r(t_{\mathrm{ingest}})$ via a fresh Stage~4/Stage~5 signature, (b)~re-route sourcing to Ring-1 mutual aid (\texttt{R1\_MESH\_PEERS}), or (c)~archive the superseded intent cleanly.
+\end{proof}
+
+Listing~\ref{lst:domain-fracture-cpp} details the C++20 fixed-point verification and Twin Fracture detector executed at the \texttt{col-gatewayd} / \texttt{col-kmsd} ingress boundary.
+
+\begin{lstlisting}[language=C++,label={lst:domain-fracture-cpp},caption={C++20 Dual-Domain ingress verifier and Physical-Digital Twin Fracture detector (`col-gatewayd` / `col-kmsd`).}]
+#include <array>
+#include <cstdint>
+#include <span>
+
+enum class AuthDomain : uint8_t {
+    DOMAIN_A_REALTIME_VLAN30 = 0,
+    DOMAIN_B_LOCAL_FIRST_DTN = 1
+};
+
+enum class ProvenanceKind : uint8_t {
+    HUMAN_AUTHORED                 = 0,
+    MACHINE_DRAFTED_HUMAN_APPROVED = 1,
+    MACHINE_GENERATED              = 2,
+    SYSTEM_AUTHENTICATED           = 3
+};
+
+enum class IngressVerdict : uint8_t {
+    COMMIT_CLEAN                        = 0,
+    REJECT_PROVENANCE_FORBIDDEN         = 1,
+    REJECT_DOMAIN_A_CLOCK_SKEW          = 2,
+    REJECT_DOMAIN_A_NONCE_REPLAY        = 3,
+    DEDUP_DOMAIN_B_SEQUENCE_ALREADY_SEEN= 4,
+    STAGE_DOMAIN_B_AWAITING_PREDECESSOR = 5,
+    HOLD_TWIN_FRACTURE_RECONCILIATION   = 6
+};
+
+struct ConservedPrecondition {
+    uint32_t resource_slot_id;
+    int64_t  required_delta_units;     // Fixed-point mg, mL, or uJ (zero floats)
+    int32_t  min_l2_temp_mk;           // 0 if unconstrained; else millikelvin floor
+    int32_t  max_l2_moisture_bp;       // 10000 if unconstrained; else basis-point cap
+};
+
+struct LivePhysicalRegister {
+    uint32_t resource_slot_id;
+    int64_t  available_stock_units;    // Authoritative L2/L3 conserved inventory
+    int32_t  live_l2_temp_mk;          // Live col-telemetryd reading in mK
+    int32_t  live_l2_moisture_bp;      // Live col-telemetryd reading in bp
+};
+
+struct CivicEnvelopeHeader {
+    AuthDomain     domain;
+    ProvenanceKind provenance;
+    bool           mutates_governance_or_actuation;
+    int64_t        client_hlc_ms;
+    uint64_t       sequence_num;       // X-Collective-Sequence
+    uint64_t       snapshot_base_cid;  // Cached physical snapshot hash in dep vector
+    uint64_t       nonce_lo;
+};
+
+[[nodiscard]] constexpr IngressVerdict ValidateDualDomainAndTwinFracture(
+    const CivicEnvelopeHeader& env,
+    int64_t gateway_hlc_ms,
+    bool nonce_seen_in_120s_window,
+    uint64_t durable_max_seq_for_device,
+    std::span<const ConservedPrecondition> preconditions,
+    std::span<const LivePhysicalRegister> live_truth) noexcept
+{
+    // 1. Enforce Invariant 3.1: machine_generated cannot mutate governance or L4/L7
+    if (env.mutates_governance_or_actuation &&
+        (env.provenance == ProvenanceKind::MACHINE_GENERATED ||
+         env.provenance == ProvenanceKind::SYSTEM_AUTHENTICATED)) {
+        return IngressVerdict::REJECT_PROVENANCE_FORBIDDEN;
+    }
+
+    // 2. Domain-specific replay and causal ordering verification
+    if (env.domain == AuthDomain::DOMAIN_A_REALTIME_VLAN30) {
+        const int64_t skew = (env.client_hlc_ms >= gateway_hlc_ms)
+            ? (env.client_hlc_ms - gateway_hlc_ms)
+            : (gateway_hlc_ms - env.client_hlc_ms);
+        if (skew > 3000LL) { // +/- 3000 ms strict real-time HLC clamp
+            return IngressVerdict::REJECT_DOMAIN_A_CLOCK_SKEW;
+        }
+        if (nonce_seen_in_120s_window) {
+            return IngressVerdict::REJECT_DOMAIN_A_NONCE_REPLAY;
+        }
+    } else {
+        // Domain B: wall-clock skew unbounded; enforce strictly monotonic sequence
+        if (env.sequence_num <= durable_max_seq_for_device) {
+            return IngressVerdict::DEDUP_DOMAIN_B_SEQUENCE_ALREADY_SEEN;
+        }
+        if (env.sequence_num > durable_max_seq_for_device + 1ULL) {
+            return IngressVerdict::STAGE_DOMAIN_B_AWAITING_PREDECESSOR;
+        }
+    }
+
+    // 3. Physical-Digital Twin Fracture check against authoritative L2/L3 truth
+    for (const auto& pre : preconditions) {
+        for (const auto& reg : live_truth) {
+            if (reg.resource_slot_id != pre.resource_slot_id) {
+                continue;
+            }
+            if (reg.available_stock_units < pre.required_delta_units) {
+                return IngressVerdict::HOLD_TWIN_FRACTURE_RECONCILIATION;
+            }
+            if (pre.min_l2_temp_mk > 0 && reg.live_l2_temp_mk < pre.min_l2_temp_mk) {
+                return IngressVerdict::HOLD_TWIN_FRACTURE_RECONCILIATION;
+            }
+            if (reg.live_l2_moisture_bp > pre.max_l2_moisture_bp) {
+                return IngressVerdict::HOLD_TWIN_FRACTURE_RECONCILIATION;
+            }
+        }
+    }
+    return IngressVerdict::COMMIT_CLEAN;
+}
+\end{lstlisting}
+
+Figure~\ref{fig:dual-domain-fracture} synthesizes the complete lifecycle across the Six-Stage Authorship Pipeline, Domain~A real-time dispatch, Domain~B DTN courier custody, and Twin Fracture Reconciliation.
+
+\begin{figure}[htbp]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+    >=Stealth,
+    node distance=1.45cm and 2.1cm,
+    stagebox/.style={
+        rectangle, rounded corners=3pt, draw=black!80, thick,
+        fill=gray!8, minimum width=2.7cm, minimum height=0.92cm,
+        align=center, font=\scriptsize\sffamily
+    },
+    domainbox/.style={
+        rectangle, rounded corners=4pt, draw=black!85, thick,
+        fill=gray!14, minimum width=3.5cm, minimum height=1.05cm,
+        align=center, font=\scriptsize\sffamily
+    },
+    gatebox/.style={
+        rectangle, rounded corners=4pt, draw=black!90, very thick,
+        fill=gray!20, minimum width=3.8cm, minimum height=1.15cm,
+        align=center, font=\scriptsize\sffamily\bfseries
+    },
+    outcome/.style={
+        rectangle, rounded corners=3pt, draw=black!80, thick,
+        fill=gray!6, minimum width=3.4cm, minimum height=0.95cm,
+        align=center, font=\scriptsize\sffamily
+    },
+    lbl/.style={font=\scriptsize\ttfamily, align=center}
+]
+    % Top row: 6-stage authorship pipeline compressed cleanly
+    \node[stagebox] (s12) {\textbf{1--2. Express \& Draft}\\JSON-LD + SHACL\\Fixed-Point SI};
+    \node[stagebox, right=1.35cm of s12] (s3) {\textbf{3. Ambiguity Halt}\\Zero Guessing;\\Explicit Choice};
+    \node[stagebox, right=1.35cm of s3] (s4) {\textbf{4. Read-Back}\\Zero-LLM $R(\mathrm{JCS}(d))$\\(\texttt{WYSIWYS})};
+    \node[stagebox, right=1.35cm of s4] (s56) {\textbf{5--6. Hardware Sign}\\$500\,\mathrm{ms}$ Hold + Ed25519\\(\texttt{extractable: false})};
+
+    \draw[->, thick] (s12) -- (s3);
+    \draw[->, thick] (s3) -- (s4);
+    \draw[->, thick] (s4) -- (s56);
+
+    % Middle row: Domain A vs Domain B split
+    \node[domainbox, below left=1.65cm and -0.4cm of s3] (domA) {\textbf{Domain A: Connected VLAN 30}\\TLS 1.3 $\cdot$ $|\Delta t_{\mathrm{epoch}}| \le 3000\,\mathrm{ms}$\\$120\,\mathrm{s}$ Sliding Nonce Ring};
+    \node[domainbox, below right=1.65cm and -0.4cm of s4] (domB1) {\textbf{Domain B: Local-First CRDT}\\\texttt{IndexedDB} Automerge Append\\\texttt{X-Collective-Sequence} $s_{d,k}$};
+    \node[domainbox, below=1.2cm of domB1] (domB2) {\textbf{DTN ``Waiting for Courier''}\\Cargo E-Trike / LoRa / QR Mule\\Signed \texttt{X-Collective-Dependency-Vector}};
+
+    \draw[->, thick, rounded corners=4pt] (s56.south) -- ++(0,-0.55) -| node[pos=0.22, above, lbl] {Online (:8443)} (domA.north);
+    \draw[->, thick, rounded corners=4pt] (s56.south) -- ++(0,-0.55) -| node[pos=0.25, above, lbl] {Field / Offline} (domB1.north);
+    \draw[->, thick] (domB1) -- node[right, lbl] {Store-Carry-Forward} (domB2);
+
+    % Gateway & KMS Reconciliation
+    \node[gatebox, below=2.6cm of domA, xshift=2.8cm] (gateway) {\texttt{col-gatewayd} $\to$ \texttt{col-kmsd} Ingress\\Verify Provenance $\tau_{\mathrm{prov}}$ + Automerge Merge\\Compare $\Phi_{\mathrm{pre}}(e)$ vs.\ Live L2/L3 $\Sigma_{\mathrm{phys}}(t_{\mathrm{ingest}})$};
+
+    \draw[->, thick, rounded corners=4pt] (domA.south) |- ([yshift=6pt]gateway.west);
+    \draw[->, thick, rounded corners=4pt] (domB2.west) -| ([xshift=18pt]gateway.north);
+
+    % Bottom outcomes: Clean Commit vs Twin Fracture
+    \node[outcome, below left=1.35cm and 0.4cm of gateway] (clean) {\textbf{Clean Physical Commit}\\Advance $S_{\max}(d) \leftarrow s_{d,k}$\\Emit L5 $\to$ L4 Resolution};
+    \node[outcome, below right=1.35cm and 0.4cm of gateway] (fracture) {\textbf{Twin Fracture Hold}\\L2 Truth Wins; Zero Negative Stock\\Emit Calm Reconciliation Card};
+
+    \draw[->, thick] (gateway.south west) -- node[left, lbl] {$\Sigma_{\mathrm{phys}}$ Satisfied} (clean.north);
+    \draw[->, thick, dashed] (gateway.south east) -- node[right, lbl] {Stock / L2 Diverged} (fracture.north);
+\end{tikzpicture}%
+}
+\caption{Six-stage human authorship pipeline, Dual-Domain (Domain~A real-time vs.\ Domain~B Automerge CRDT and DTN courier) transport, and Physical-Digital Twin Fracture reconciliation.}
+\label{fig:dual-domain-fracture}
+\end{figure}
+
+\subsection{Resolution Ergonomics Without Data Loss}
+\label{subsec:fracture-ergonomics}
+
+How does a Twin Fracture feel to the steward when their cargo e-trike rolls back into the homestead yard? Crucially, nothing the steward observed or recorded in the field is ever discarded. Suppose an arborist spent three wet hours grafting rootstocks and logging twelve soil-horizon observations alongside one cistern-draw request whose water stock was concurrently depleted by the kitchen soup cauldron. Because Automerge merges fine-grained operations along independent object subtrees \parencite{kleppmann2017automerge}, all twelve soil observations commit cleanly (\texttt{COMMIT\_CLEAN}) into \texttt{col-commonsd} on the first pass. Only the single over-allocated cistern-draw sub-intent enters \texttt{HOLD\_TWIN\_FRACTURE\_RECONCILIATION}, surfacing calmly in the steward's next Batched Deliberation Digest with an exact physical explanation: \emph{``Cistern \texttt{water\_tote\_01} holds \texttt{8,000 mL} (live L2 probe), below offline-requested \texttt{12,000 mL} signed against \texttt{08:30} snapshot. Apply \texttt{8,000 mL} now, draw \texttt{4,000 mL} from secondary roof barrel, or cancel?''}
+
+By uniting speech-act provenance, non-exportable hardware keys, Anti-Canvas spatial separation, $500\,\mathrm{ms}$ Fitts-law speedbumps, local-first Automerge CRDTs, and conservation-safe Twin Fracture reconciliation, Layer~6 guarantees that human beings remain the sole authors of civic commitments---whether sitting beside the hearth router or working five kilometers off-grid. Yet securing authentic authorship for a single intent solves only half of the human-interface challenge. What happens to human serenity when a maturing settlement scales from four genesis workflows to more than two thousand concurrent intra-node and inter-node processes? Chapter~\ref{ch:cognitive-triage} answers that question through cybernetic variety attenuation and spatial round coalescing.

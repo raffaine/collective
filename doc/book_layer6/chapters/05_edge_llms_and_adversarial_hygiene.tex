@@ -1,0 +1,408 @@
+\chapter{Grounded Edge Language Models, Exergy Metering, and Prompt-Injection Isolation}
+\label{ch:edge-llms}
+
+\epigraph{A statistical language model stitches together linguistic forms according to probabilistic co-occurrence; mistaking its syntactic fluency for communicative intent or moral accountability surrenders human judgment to an ungrounded mirror.}{--- Adapted from Emily M. Bender, Timnit Gebru, Angelina McMillan-Major, and Shmargaret Shmitchell, \emph{On the Dangers of Stochastic Parrots} \parencite{bender2021parrots}}
+
+Across Layers~1 through~5 of the Sovereign Stack, state transitions are governed by deterministic arithmetic: fixed-point microjoule counters in Layer~3, bounded WebAssembly state machines in Layer~4, and threshold Ed25519 signatures in Layer~5. Layer~6 introduces a qualitatively different computational artifact into the civic architecture. It is the sole stratum in which a statistical sequence model---a locally hosted, quantized neural language model---stands directly between vernacular human expression and binding communal law. Used with discipline, an edge model lowers the bureaucratic barrier to democratic participation: a tired orchardist can speak a broken sentence in a regional dialect and obtain a syntactically valid JSON-LD proposal draft without studying schema specifications \parencite{w3c2020jsonld,w3c2017shacl}; a sortition juror can query five years of watershed rationale records and inspect a citation-linked synthesis \parencite{fishkin1991,lewis2020rag}. Used carelessly, the exact same statistical mechanism becomes an instrument of epistemic distortion and security compromise: a hallucinated clause can mutate a treaty covenant, unexamined pre-training priors can marginalize minority speech \parencite{bender2021parrots,noble2018}, unbudgeted GPU inference can drain winter microgrid reserves \parencite{georgescu1971}, and a hostile instruction concealed inside an external vendor invoice can hijack the model's attention context \parencite{greshake2023injection,owasp2023llm}.
+
+Layer~6 resolves these hazards not by trusting neural networks to behave virtuously, nor by retreating into cloud-hosted corporate APIs that extract behavioral surplus \parencite{zuboff2019}, but by enclosing every statistical model inside hard thermodynamic, cryptographic, and language-theoretic boundaries enforced by \texttt{col-commonsd}. Every architectural choice in this chapter derives from the single constitutional rule established in Volume~1: \emph{the machine assists, people author, and only people sign} \parencite{wiener1954,illich1973}. Neural inference in Layer~6 holds zero private keys, initiates zero autonomous socket commits over \texttt{/run/collective/ipc/l5\_l6.sock}, touches zero safety-critical emergency alerts \parencite{iec61508}, and remains 100\% optional under graceful degradation.
+
+This chapter specifies the physical, security, and thermodynamic engineering of language models within the Semantic Commonwealth. Section~\ref{sec:salvaged-edge-inference} derives the memory, quantization, acoustic, and supply-chain governance laws for running edge models on salvaged 10-to-15-year-old hardware. Section~\ref{sec:split-sandbox-isolation} refutes the naive ``air-gap'' security assumption and architects a dual-sandbox, grammar-constrained split between untrusted Layer~7 document intake and authenticated Layer~5 intent drafting. Section~\ref{sec:rendering-rag-exergy} formalizes the three downstream rendering classes, privacy-by-construction vector exclusion, fixed-point microjoule (\texttt{uJ}) token metering grounded in \texttt{ontology\_computational\_models.jsonld}, deterministic winter load-shedding, and complete LLM-free operation.
+
+\section{Salvaged-Hardware Edge Inference Physics and Model Governance}
+\label{sec:salvaged-edge-inference}
+
+Contemporary commercial artificial intelligence assumes rapid hardware obsolescence, megawatt data centers, and proprietary cloud tethering. A sovereign settlement bound by the \emph{20-Year Salvaged Hardware Longevity Mandate} operates under the opposite physical constraints: it must execute natural-language drafting, speech transcription, and retrieval-grounded explanation entirely on second-life laptops, refurbished mini-PCs, and reclaimed workstation GPUs without breaching domestic acoustic ceilings or winter solar budgets.
+
+\subsection{Post-Training Quantization Within Salvaged Memory Envelopes}
+\label{subsec:ptq-memory-physics}
+
+In unquantized 16-bit floating-point (\texttt{FP16} or \texttt{BF16}) precision, a transformer with $P$ parameters requires $2P$~bytes solely to hold static weights in random-access memory, rendering even a 7-billion-parameter model ($14\,\mathrm{GiB}$ before activation buffers) unusable on a salvaged 8--16\,\textrm{GiB} ThinkPad. Layer~6 eliminates full-precision weight residency through second-order Hessian-aware post-training quantization---specifically 4-bit and 3-bit block-quantized formats such as GPTQ, AWQ, and GGUF \parencite{frantar2023gptq}. During offline model preparation, layer-wise weight matrices $\mathbf{W} \in \mathbb{R}^{d_{\mathrm{out}} \times d_{\mathrm{in}}}$ are quantized onto a discrete integer grid of bit-width $b_w \in \{3, 4\}$ in contiguous groups of $g \in \{64, 128\}$ weights by minimizing the squared layer-output reconstruction error weighted by the empirical inverse Hessian $\mathbf{H}^{-1} = (2 \mathbf{X}\mathbf{X}^\top + \lambda \mathbf{I})^{-1}$:
+\begin{equation}
+\widehat{\mathbf{W}} = \arg\min_{\mathbf{Q} \in \mathcal{Q}_{b_w, g}} \left\| \mathbf{W}\mathbf{X} - \mathbf{Q}\mathbf{X} \right\|_2^2.
+\label{eq:gptq-objective}
+\end{equation}
+With each group of $g$ quantized integers accompanied by a 16-bit scale factor and zero-point offset ($b_s = 32$~bits per group), the static memory footprint $M_{\mathrm{weights}}$ in bytes is strictly bounded by:
+\begin{equation}
+M_{\mathrm{weights}}(P, b_w, g) = P \cdot \left( \frac{b_w}{8} + \frac{b_s}{8 \cdot g} \right).
+\label{eq:weight-memory-bound}
+\end{equation}
+Evaluating Equation~\eqref{eq:weight-memory-bound} at $b_w = 4$ and $g = 128$ yields $0.53125$~bytes per parameter---a $3.76\times$ compression over \texttt{FP16} with negligible perplexity degradation on structured extraction and summarization tasks \parencite{frantar2023gptq}.
+
+This compression enables a two-tier physical topology across a Node's local VLAN~30 runtime without violating the frugal baseline established in \texttt{bp\_zero\_stage1\_homelab\_workstation.jsonld}, where the deterministic Sovereign OS and all eight core POSIX daemons occupy $\le 240\,\mathrm{MiB}$ of idle RAM inside a $512\,\mathrm{MiB}$ constitutional ceiling:
+\begin{enumerate}
+  \item \textbf{Workstation Edge Tier (3B--7B Parameters):} Refurbished 10-to-15-year-old \texttt{x86\_64} or \texttt{ARM64} homestead workstations (\texttt{salvaged\_thinkpad\_or\_minipc\_host}, nominal compute envelope $65{,}000\,\mathrm{mW}$) map a 3B to 7B 4-bit model ($1.65$--$3.85\,\mathrm{GiB}$ static weights) on demand into reclaimable user-space memory for local intent drafting, finite-state intake extraction, and offline speech-to-text (STT) transcription. When drafting concludes, \texttt{col-commonsd} issues \texttt{madvise(MADV\_DONTNEED)} or unmaps the arena cleanly.
+  \item \textbf{Settlement Commons Server Tier (13B--30B Parameters):} At Ring~$R_1$ maturity, a single shared settlement host equipped with reclaimed second-life workstation accelerators (for example, dual salvaged 12--24\,\textrm{GiB} cards) hosts a 13B to 30B 3-bit/4-bit model ($6.9$--$15.9\,\mathrm{GiB}$ static weights) dedicated to citation-locked retrieval-augmented generation (RAG) over ratified Layer~5 archives and multilingual cross-dialect translation.
+\end{enumerate}
+
+\subsection{Paged KV-Cache Arenas, Asynchronous Cadence, and Hydronic-Acoustic Limits}
+\label{subsec:kv-cache-acoustics}
+
+Unbounded context growth is the primary cause of out-of-memory faults in naive local LLM deployments. For a transformer with $n_{\mathrm{layers}}$ layers, $n_{\mathrm{kv}}$ grouped-query key-value heads of dimension $d_{\mathrm{head}}$, key-value quantization width $b_{\mathrm{kv}}$~bytes, and active context length $L_{\mathrm{ctx}}$ tokens, the transient key-value cache footprint satisfies:
+\begin{equation}
+M_{\mathrm{KV}}(L_{\mathrm{ctx}}) = 2 \cdot n_{\mathrm{layers}} \cdot n_{\mathrm{kv}} \cdot d_{\mathrm{head}} \cdot b_{\mathrm{kv}} \cdot L_{\mathrm{ctx}}.
+\label{eq:kv-cache-arena}
+\end{equation}
+Under \texttt{col-commonsd}, neither the Intake Sandbox nor the Drafting Sandbox may invoke dynamic heap growth during token generation. At worker initialization, the parent supervisor pre-allocates a fixed, page-aligned slab of $N_{\mathrm{pages}}$ contiguous 256-token KV blocks ($L_{\mathrm{ctx,max}} = 4{,}096$ on workstations, requiring $\approx 256\,\mathrm{MiB}$ under 8-bit KV quantization for a 7B grouped-query model; $L_{\mathrm{ctx,max}} = 16{,}384$ on the Ring~$R_1$ RAG server) inside a strict Linux \texttt{cgroup v2} \texttt{memory.max} partition with swap disabled. Even under worst-case prompt saturation, an inference worker can never starve \texttt{col-execd}, \texttt{col-kmsd}, or \texttt{col-storaged}.
+
+Equally decisive are the temporal and physical envelopes of salvaged inference:
+\begin{itemize}
+  \item \textbf{Deliberative Latency by Design:} On salvaged AVX2 CPUs or older integrated GPUs, a 3B--7B 4-bit model generates $5$ to $18\,\mathrm{tokens/s}$, completing a structured JSON-LD proposal draft in $2{,}500$ to $8{,}000\,\mathrm{ms}$. Rather than disguising this latency behind streaming typing animations that mimic a sentient interlocutor, Constellation Companion interfaces present a calm, static progress bar labeled \texttt{COMPILING DRAFT PAYLOAD}. Multi-second turnaround harmonizes naturally with deliberative reflection rather than reactive instant-messaging loops \parencite{weiser1996calm,han2015}.
+  \item \textbf{Bedroom Acoustic Cap ($\le 380\,\mathrm{cB}$) and Hydronic Heat Recovery:} As codified in the Stage-1 Homelab Blueprint (\texttt{perimeterAcousticCeilingCb: 380}), domestic workstations are governed by a hard acoustic ceiling of $380\,\mathrm{cB}$ ($38.0\,\mathrm{dBA}$) at one meter so that an autopoietic coding or drafting session never turns a living space into a server closet. Sustained high-wattage fan whine triggers automatic thread throttling in \texttt{col-commonsd}. Conversely, on the shared Ring~$R_1$ settlement server ($160{,}000$--$240{,}000\,\mathrm{mW}$ under RAG load), waste Joule heat is not vented uselessly to outdoor air \parencite{georgescu1971}; liquid cold-plates route low-grade thermal reject ($308{,}150$--$315{,}150\,\mathrm{mK}$) into the domestic greywater pre-heat manifold or winter seedling propagation bench.
+\end{itemize}
+
+\begin{table}[htbp]
+\centering
+\small
+\begin{tabular}{@{}p{0.21\textwidth}p{0.16\textwidth}p{0.16\textwidth}p{0.19\textwidth}p{0.18\textwidth}@{}}
+\toprule
+\textbf{Runtime Tier} & \textbf{Artifact Size \& Precision} & \textbf{RAM / VRAM Arena} & \textbf{Power \& Token Exergy} & \textbf{Constitutional Role} \\
+\midrule
+Tier~0: Deterministic Template Engine & $0$~params (compiled C++20 / Wasm) & $< 4\,\mathrm{MiB}$ static binary & $< 50\,\mathrm{mW}$; $0\,\mu\mathrm{J/tok}$ (neural) & Safety alerts (\texttt{IEC 61508}), read-back, SHACL forms \\
+\addlinespace
+Tier~1: Acoustic Edge (STT / TTS) & $75\mathrm{M}$--$240\mathrm{M}$ (\texttt{INT8} / \texttt{Q4}) & $180$--$420\,\mathrm{MiB}$ bounded slab & $8{,}000$--$15{,}000\,\mathrm{mW}$; $\approx 4.5 \times 10^5\,\mu\mathrm{J/wd}$ & Offline speech transcription \& read-back synthesis \\
+\addlinespace
+Tier~2: Workstation Intake / Draft & $3\mathrm{B}$--$7\mathrm{B}$ (4-bit GPTQ / GGUF) & $2.1$--$4.6\,\mathrm{GiB}$ (paged KV) & $28{,}000$--$65{,}000\,\mathrm{mW}$; $1.8$--$6.5 \times 10^6\,\mu\mathrm{J/tok}$ & Isolated L7 slot intake; L6-to-L5 JSON-LD drafting \\
+\addlinespace
+Tier~3: Settlement RAG Server ($R_1$) & $13\mathrm{B}$--$30\mathrm{B}$ (3/4-bit AWQ / GPTQ) & $8.2$--$18.5\,\mathrm{GiB}$ (hydronic rack) & $140{,}000$--$220{,}000\,\mathrm{mW}$; $9.0$--$18.0 \times 10^6\,\mu\mathrm{J/tok}$ & Citation-locked RAG \& cross-dialect translation \\
+\bottomrule
+\end{tabular}
+\caption{Salvaged-hardware memory arenas, power envelopes, and microjoule (\texttt{uJ}) token budgets across Layer~6 runtime tiers ($\le 380\,\mathrm{cB}$ domestic workstation acoustic cap).}
+\label{tab:edge-llm-tiers}
+\end{table}
+
+\subsection{Communal Model Governance, SHA-256 Pinning, and Dialect Sovereignty}
+\label{subsec:model-governance-supply-chain}
+
+Severing network cables to proprietary cloud providers solves data exfiltration, yet it does nothing to sanitize the ideological priors embedded inside pre-trained weight matrices. As \textcite{bender2021parrots} and \textcite{noble2018} demonstrate, large corpora scraped from commercial web platforms over-represent hegemonic English, corporate managerial idioms, and extractive property assumptions while distorting or erasing minority languages, regional dialects, and Indigenous oral traditions. Left ungoverned, a local drafting model subtly rewrites vernacular mutual-aid proposals into bureaucratic legalese or misinterprets colloquial dissent.
+
+Layer~6 treats model weights, tokenizers, grammar definitions, system prompts, and local fine-tuning adapters (LoRAs) as constitutional public infrastructure governed through Layer~5:
+\begin{enumerate}
+  \item \textbf{Cryptographic Digest Pinning:} Every approved model component is registered in a Layer~5 \texttt{ModelArtifactManifest} signed by council ratification and accompanied by a public rationale record. Before \texttt{col-commonsd} maps any weight file, tokenizer table, or system prompt into memory, it streams the artifact through its internal NIST FIPS~180-4 \texttt{Sha256} engine (\texttt{src/daemons/col-commonsd/main.cpp}) and verifies bit-for-bit equality against the active Layer~5 ratification digest. Unratified or tampered weights trigger immediate load refusal.
+  \item \textbf{Pre-Deployment Oasis Red-Teaming and Bias Audits:} Candidate models must pass a standardized Layer~6 evaluation suite inside the Oasis SITL harness before ratification: measuring translation fidelity across all languages spoken in the settlement, auditing demographic neutrality on restorative-justice and care scenarios, and surviving procedural indirect prompt-injection corpora generated by \texttt{col-adversaryd}.
+  \item \textbf{Consent-Gated Local Dialect Adaptation:} Each Node maintains a governed JSON-LD controlled vocabulary mapping local idioms, agroecological terms, and Indigenous concepts to shared core schemas without flattening cultural nuance. Communities may fine-tune low-rank adapters on local council transcripts or oral histories \emph{exclusively} with the recorded, revocable consent of every speaker whose words appear in the training corpus.
+  \item \textbf{Visible Provenance and Formal Translation Dispute:} Every rendered string in Layer~6 displays one of four immutable provenance badges---\texttt{human\_authored}, \texttt{machine\_drafted\_human\_approved}, \texttt{machine\_generated}, or \texttt{system\_authenticated}---alongside the short digest of the generating model. Any Steward may flag a \texttt{machine\_generated} summary or translation as disputed in a single action; \texttt{col-commonsd} immediately attaches a visible dispute banner across all clients, elevates the underlying structured Layer~5 record as authoritative, and logs the failure case into the next model audit cycle.
+\end{enumerate}
+
+\begin{invariant}[Cryptographic Weight-and-Prompt Supply-Chain Pinning]
+\label{inv:model-supply-chain}
+Let $\mathcal{M}_{\mathrm{active}}$ denote the set of \texttt{ModelArtifactManifest} tuples $\langle h_{\mathrm{weights}}, h_{\mathrm{tok}}, h_{\mathrm{prompt}}, h_{\mathrm{grammar}} \rangle \in (\{0,1\}^{256})^4$ holding unexpired Layer~5 ratification signatures from \texttt{col-kmsd}. The daemon \texttt{col-commonsd} spawns an inference worker over artifact tuple $A$ if and only if $\mathrm{SHA256}(A) \in \mathcal{M}_{\mathrm{active}}$, and every \texttt{machine\_generated} or \texttt{machine\_drafted\_human\_approved} output envelope embeds the exact manifest digest $h_{\mathrm{manifest}} = \mathrm{SHA256}(A)$ that produced it.
+\end{invariant}
+
+\section{Dual-Sandbox Split-Model Isolation Against Indirect Prompt Injection}
+\label{sec:split-sandbox-isolation}
+
+A dangerous misconception in self-hosted software communities is equating ``offline local inference'' with immunity against adversarial manipulation. Because Layer~6 models execute without outbound internet sockets, no external server can eavesdrop on prompts directly. Yet Layer~6 is constitutionally required to communicate across \texttt{/run/collective/ipc/l6\_l7.sock} with \texttt{col-adversaryd} in the VLAN~40 DMZ, ingesting untrusted documents from the legacy external world: supplier invoices, municipal zoning notices, tax correspondence, statutory summonses, and unauthenticated public petitions.
+
+\subsection{Refuting the Air-Gap Fallacy at the Layer 7 Boundary}
+\label{subsec:airgap-fallacy}
+
+In standard transformer architectures, system instructions and ingested data tokens occupy a single undifferentiated sequence $\mathbf{X} = [\mathbf{x}_{\mathrm{sys}} \parallel \mathbf{x}_{\mathrm{user}} \parallel \mathbf{x}_{\mathrm{untrusted}}]$, interacting globally within every self-attention head:
+\begin{equation}
+\mathrm{Attention}(\mathbf{Q}, \mathbf{K}, \mathbf{V}) = \mathrm{softmax}\!\left(\frac{\mathbf{Q}\mathbf{K}^\top}{\sqrt{d_k}} + \mathbf{M}_{\mathrm{causal}}\right)\mathbf{V}.
+\label{eq:self-attention-mixing}
+\end{equation}
+Because natural language lacks a hardware privilege bit distinguishing ``instruction'' tokens from ``data'' tokens, an adversary who controls $\mathbf{x}_{\mathrm{untrusted}}$---for instance, by embedding microscopic OCR text inside a PDF utility invoice or crafting a deceptive legal footnote---can steer the attention distribution to override $\mathbf{x}_{\mathrm{sys}}$ \parencite{greshake2023injection,owasp2023llm}. If a single monolithic Layer~6 language model simultaneously read incoming Layer~7 vendor invoices and drafted Layer~5 treasury disbursements or Ricardian Treaty amendments, an indirect prompt injection could synthesize a plausible but unauthorized governance payload, manipulate a debate summary, or exfiltrate council context into an outward Layer~7 reply.
+
+\subsection{Architectural Separation: Unprivileged Intake Sandbox vs.\ Authenticated Drafting Sandbox}
+\label{subsec:intake-vs-drafting-sandboxes}
+
+Following the principle of least authority \parencite{miller2006robust,saltzer1984end} and NIST zero-trust boundary segmentation \parencite{rose2020zero}, \texttt{col-commonsd} physically abolishes monolithic model execution. Reading untrusted external text and drafting sovereign governance records are partitioned across two mutually isolated OS sandboxes separated by a deterministic, fixed-schema binary pipe (Figure~\ref{fig:split-sandbox-hygiene}):
+
+\begin{enumerate}
+  \item \textbf{Quarantine Pre-Normalizer (\texttt{col-utf8-scrub}):} Bytes arriving over \texttt{/run/collective/ipc/l6\_l7.sock} first pass through a deterministic C++20 state machine (zero neural weights) that strips invisible Unicode bidirectional overrides (\texttt{U+202A}--\texttt{U+202E}), zero-width joiners, homoglyph control sequences, and embedded markup tags, emitting canonical NFC UTF-8 plain text capped at a strict byte ceiling.
+  \item \textbf{The Unprivileged Intake Sandbox (\texttt{col-intake-llm}):} Spawned inside an unprivileged Linux user, mount, PID, IPC, and network namespace (\texttt{CLONE\_NEWUSER | CLONE\_NEWNS | CLONE\_NEWPID | CLONE\_NEWIPC | CLONE\_NEWNET}) under a restrictive \texttt{seccomp-bpf} allowlist (\texttt{read}, \texttt{write}, \texttt{futex}, \texttt{exit\_group} only) with ephemeral KV-cache wiped cleanly via \texttt{explicit\_bzero} after every single document. The Intake Model possesses \emph{zero} file descriptors to \texttt{l5\_l6.sock}, \emph{zero} access to Layer~5 proposal schemas or BPMN templates, and \emph{zero} visibility into Steward identities or Agora histories. Crucially, its token sampler is locked at every decoding step $t$ by a compiled finite-state automaton / context-free grammar engine \parencite{willard2023outlines}. Given grammar state $\sigma_t \in \Sigma_{\mathrm{FSM}}$ and vocabulary $\mathcal{V}$, any token $v \notin \mathcal{L}_{\mathrm{valid}}(\sigma_t)$ has its logit forced to $-\infty$ prior to argmax/sampling:
+  \begin{equation}
+  \tilde{z}_t(v) =
+  \begin{cases}
+  z_t(v), & \text{if } \delta_{\mathrm{FSM}}(\sigma_t, v) \neq \bot, \\
+  -\infty, & \text{otherwise.}
+  \end{cases}
+  \label{eq:fsm-logit-mask}
+  \end{equation}
+  Consequently, \texttt{col-intake-llm} is mathematically incapable of emitting imperative prose, embedded instructions, or arbitrary JSON keys; it can output \emph{only} a fixed binary-convertible \texttt{TypedIntakeSlotFrame} containing strongly typed scalars (64-bit integer cent/exergy amounts, ISO-8601 calendar dates, enumerated NAICS or statutory clause IDs, and length-capped alphanumeric reference slugs).
+  \item \textbf{The Authenticated Drafting Sandbox (\texttt{col-draft-llm}):} Operates in a separate namespace connected exclusively to authenticated Steward input streams (keyboard text, verified local STT transcripts, or Companion UI selections) and, when referencing a legacy filing, the sanitized scalar slots validated from \texttt{TypedIntakeSlotFrame}. It is architecturally barred from reading raw Layer~7 text buffers. Its output is validated against W3C SHACL shapes \parencite{w3c2017shacl}; if Steward intent is underspecified or ambiguous, \texttt{col-draft-llm} emits \texttt{CLARIFICATION\_REQUIRED} rather than guessing, escalating unresolved edge cases to a human interpreter.
+  \item \textbf{Deterministic Template Read-Back and Personal Hardware Sign:} Neither sandbox holds signing keys, and neither can write to \texttt{l5\_l6.sock}. The candidate structured payload is canonicalized via RFC~8785 JCS \parencite{rfc8785} and rendered into plain human prose by a \emph{zero-LLM deterministic template engine} driven purely by the payload's canonical fields. Only after inspecting this deterministic read-back does the Steward trigger an Ed25519 signature inside their personal hardware token (\texttt{ATECC608A} \parencite{microchip_atecc608a} or \texttt{extractable: false} Web Crypto key \parencite{w3c2017webcrypto}).
+\end{enumerate}
+
+\begin{figure}[htbp]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+    >=Stealth,
+    node distance=1.1cm and 1.35cm,
+    dmzbox/.style={
+        rectangle, rounded corners=3pt, draw=black!85, thick, dashed,
+        fill=gray!10, minimum width=2.9cm, minimum height=1.25cm,
+        align=center, font=\footnotesize\sffamily
+    },
+    sandbox/.style={
+        rectangle, rounded corners=4pt, draw=black!90, very thick,
+        fill=gray!16, minimum width=3.45cm, minimum height=1.55cm,
+        align=center, font=\footnotesize\sffamily
+    },
+    detbox/.style={
+        rectangle, rounded corners=4pt, draw=black!85, thick,
+        fill=white, minimum width=3.15cm, minimum height=1.35cm,
+        align=center, font=\footnotesize\sffamily
+    },
+    hwbox/.style={
+        rectangle, rounded corners=4pt, draw=black, ultra thick,
+        fill=gray!24, minimum width=3.2cm, minimum height=1.4cm,
+        align=center, font=\footnotesize\sffamily\bfseries
+    },
+    lbl/.style={font=\scriptsize\ttfamily, align=center}
+]
+    \node[dmzbox] (l7) {\textbf{VLAN 40 DMZ}\\ \texttt{col-adversaryd}\\ {\scriptsize Untrusted L7 Docs}};
+    \node[detbox, right=1.35cm of l7] (scrub) {\textbf{UTF-8 Scrub}\\ {\scriptsize Strip Bidi / Control}\\ {\scriptsize Zero-LLM Normalizer}};
+    \node[sandbox, right=1.35cm of scrub] (intake) {\textbf{Intake Sandbox}\\ \texttt{col-intake-llm}\\ {\scriptsize Net/IPC-Isolated; No L5}\\ {\scriptsize FSM Logit Mask $\tilde{z}_t(v)$}};
+    \node[detbox, right=1.35cm of intake] (pipe) {\textbf{One-Way Slot Pipe}\\ \texttt{TypedIntakeSlotFrame}\\ {\scriptsize Fixed Integer / Enum}\\ {\scriptsize Zero Free-Form Prose}};
+
+    \node[detbox, below=1.75cm of scrub] (steward) {\textbf{Authenticated}\\ \textbf{Steward Intent}\\ {\scriptsize Speech / Text / Form}};
+    \node[sandbox, below=1.75cm of intake] (draft) {\textbf{Drafting Sandbox}\\ \texttt{col-draft-llm}\\ {\scriptsize Zero Raw L7 Access}\\ {\scriptsize SHACL Schema Output}};
+    \node[detbox, below=1.75cm of pipe] (readback) {\textbf{Deterministic}\\ \textbf{Read-Back Engine}\\ {\scriptsize Zero-LLM Fixed}\\ {\scriptsize Field Templates}};
+    \node[hwbox, right=1.35cm of readback] (hwsign) {Personal Hardware\\ Ed25519 Signer\\ {\normalfont\scriptsize \texttt{ATECC608A} / WebCrypto}\\ {\normalfont\scriptsize \texttt{l5\_l6.sock} $\to$ L5}};
+
+    \draw[->, thick] (l7) -- node[above, lbl] {\texttt{l6\_l7.sock}} (scrub);
+    \draw[->, thick] (scrub) -- node[above, lbl] {NFC Text} (intake);
+    \draw[->, thick] (intake) -- node[above, lbl] {CFG/FSM\\ Constrained} (pipe);
+    \draw[->, very thick] (pipe.south) -- node[right, lbl] {Verified Scalars\\ Only (128B)} (draft.north east);
+
+    \draw[->, thick] (steward) -- node[above, lbl] {Signed Session} (draft);
+    \draw[->, thick] (draft) -- node[above, lbl] {RFC 8785 JCS} (readback);
+    \draw[->, very thick] (readback) -- node[above, lbl] {Human Inspects\\ Exact Fields} (hwsign);
+
+    \draw[thick, dotted] ([xshift=-0.4cm,yshift=-0.85cm]l7.south west) -- ([xshift=0.3cm,yshift=-0.85cm]pipe.south east)
+        node[pos=0.18, above, font=\scriptsize\itshape] {Quarantine Intake Plane (Untrusted L7 Data)};
+\end{tikzpicture}%
+}
+\caption{Dual-sandbox split-model architecture in \texttt{col-commonsd}. Untrusted Layer~7 documents never enter the Drafting Model's attention window; cross-plane flow is restricted to FSM-masked scalar slots, followed by zero-LLM deterministic read-back and personal hardware signing.}
+\label{fig:split-sandbox-hygiene}
+\end{figure}
+
+\subsection{Why the Four-Stage Chain Breaks Arbitrary Indirect Prompt Injection}
+\label{subsec:injection-proof}
+
+We can now state precisely why an adversarial payload embedded inside an external Layer~7 invoice or petition cannot hijack governance execution. Under classical indirect prompt injection \parencite{greshake2023injection}, an attacker relies on three structural properties: (a)~unbounded expressive bandwidth between the untrusted document and downstream instruction-following context, (b)~implicit tool-execution privileges attached to model completions, and (c)~opaque post-processing where the human user approves a summary rather than the literal state mutation.
+
+The Layer~6 pipeline severs all three links simultaneously:
+\begin{itemize}
+  \item \textbf{Finite-Alphabet Channel Bottleneck:} Between \texttt{col-intake-llm} and \texttt{col-draft-llm}, raw natural language is physically unrepresentable. As shown in Listing~\ref{lst:typed-intake-slot-pipe}, the cross-sandbox wire struct \texttt{TypedIntakeSlotFrame} contains only fixed-width integers (\texttt{amount\_minor\_units}, \texttt{due\_epoch\_day}), strict C++20 \texttt{enum class} discriminators (\texttt{LegacyDocKind}, \texttt{StatutoryCodeId}), and a character-class-restricted ASCII invoice identifier (\texttt{[A-Z0-9-]\{1,24\}}). Even under total compromise of the Intake Model's internal activations, the maximum adversarial perturbation across the pipe is falsifying a bounded scalar slot (for example, misreporting an invoice date or integer figure)---never smuggling an imperative prompt into \texttt{col-draft-llm}.
+  \item \textbf{Zero Ambient Authority:} Neither sandbox possesses network sockets, IPC handles to \texttt{col-kmsd}, or signing keys \parencite{miller2006robust}. A compromised model completion is an inert byte buffer in memory.
+  \item \textbf{Deterministic Read-Back Completeness:} Suppose an adversarial PDF layout tricks \texttt{col-intake-llm} into extracting \texttt{950000} minor units instead of \texttt{9500}. Because the read-back string is synthesized deterministically from the JCS-canonicalized JSON-LD fields without touching any language model, the Steward's personal device explicitly displays the exact anomalous quantity alongside the original quarantined document hash prior to physical hardware button confirmation.
+\end{itemize}
+
+\begin{invariant}[Non-Transitivity of Untrusted Layer~7 Instructions]
+\label{inv:prompt-injection-isolation}
+Let $D_{\mathrm{L7}} \in \{0,1\}^*$ be an arbitrary untrusted byte sequence arriving across \texttt{/run/collective/ipc/l6\_l7.sock}. Under \texttt{col-commonsd}: (i)~no raw substring of $D_{\mathrm{L7}}$ of length $> 24$ restricted alphanumeric identifier characters ever enters the prompt buffer of \texttt{col-draft-llm}; (ii)~every cross-sandbox value $s = \mathrm{Intake}(D_{\mathrm{L7}})$ satisfies $s \in \mathcal{S}_{\mathrm{FSM}}$, where $\mathcal{S}_{\mathrm{FSM}}$ is a finite Cartesian product of fixed-width integers, dates, and ratified enumerations; and (iii)~no downward payload $P$ reaches \texttt{l5\_l6.sock} without passing $\mathrm{VerifyEd25519}(pk_{\mathrm{hw}}, \mathrm{JCS}(P), \sigma_{\mathrm{steward}}) = \mathsf{true}$ after deterministic zero-LLM read-back of $\mathrm{JCS}(P)$.
+\end{invariant}
+
+\begin{lstlisting}[language=C++,label={lst:typed-intake-slot-pipe},caption={Fixed-layout 128-byte \texttt{TypedIntakeSlotFrame} and deterministic C++20 boundary validator isolating \texttt{col-intake-llm} from \texttt{col-draft-llm}.}]
+#include <array>
+#include <cstdint>
+
+namespace collective::l6::hygiene {
+
+enum class LegacyDocKind : uint8_t {
+    UNKNOWN_QUARANTINED   = 0,
+    UTILITY_STATEMENT     = 1,
+    SUPPLIER_INVOICE      = 2,
+    MUNICIPAL_NOTICE      = 3,
+    STATUTORY_FILING_ACK  = 4,
+    NEIGHBOR_PETITION_REF = 5
+};
+
+enum class StatutoryClauseCode : uint16_t {
+    NONE                  = 0,
+    UUNAA_SEC6_MUTUAL_AID = 101,
+    IRC_SUBCHAPTER_T_SSA  = 204,
+    UCEA_CONSERVATION_EAS = 309,
+    MUNICIPAL_ZONING_STD  = 412
+};
+
+struct alignas(64) TypedIntakeSlotFrame {
+    uint64_t                quarantine_doc_hlc;     // Monotonic HLC receipt tick
+    std::array<uint8_t, 32> raw_doc_sha256;         // Pin to immutable quarantined blob
+    int64_t                 amount_minor_units;     // Integer minor units (zero float)
+    uint64_t                claimed_exergy_uj;      // Integer microjoules if energy bill
+    uint32_t                issue_iso_yyyymmdd;     // Packed decimal date e.g. 20261101
+    uint32_t                due_iso_yyyymmdd;       // Packed deadline date or 0
+    StatutoryClauseCode     statutory_code;         // FSM-locked enum (no prose)
+    LegacyDocKind           doc_kind;               // FSM-locked document class
+    uint8_t                 extraction_conf_bp_div; // Confidence in [0..100] percent
+    std::array<char, 24>    ref_slug_ascii;         // Strict [A-Z0-9-] slug, NUL-padded
+    std::array<uint8_t, 32> intake_manifest_sha256; // Ratified Intake Model hash
+    std::array<uint8_t, 12> reserved_zero;          // Explicit deterministic padding
+};
+static_assert(sizeof(TypedIntakeSlotFrame) == 128, "Exact 2-cache-line slot frame");
+
+[[nodiscard]] constexpr bool ValidateSlotFrame(const TypedIntakeSlotFrame& f) noexcept {
+    if (f.doc_kind > LegacyDocKind::NEIGHBOR_PETITION_REF) return false;
+    if (f.amount_minor_units < 0 || f.amount_minor_units > 100'000'000'00LL) return false;
+    bool seen_nul = false;
+    for (char c : f.ref_slug_ascii) {
+        if (c == '\0') { seen_nul = true; continue; }
+        if (seen_nul) return false; // Forbid hidden trailing bytes after NUL
+        const bool ok = (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '-';
+        if (!ok) return false;      // Reject all whitespace, quotes, and prompt syntax
+    }
+    for (uint8_t z : f.reserved_zero) {
+        if (z != 0) return false;
+    }
+    return seen_nul;
+}
+
+} // namespace collective::l6::hygiene
+\end{lstlisting}
+
+\section{Downstream Rendering Classes, Privacy-Scoped RAG, Exergy Shedding, and Graceful Degradation}
+\label{sec:rendering-rag-exergy}
+
+Just as upward intent compilation enforces deterministic read-back, downward communication from Layer~5 (\texttt{col-kmsd}) to human Stewards refuses to treat every notification as an opportunity for generative prose.
+
+\subsection{The Three Constitutional Rendering Classes and Citation-Locked RAG}
+\label{subsec:rendering-classes-rag}
+
+Every structured record arriving across \texttt{/run/collective/ipc/l5\_l6.sock} carries an immutable \texttt{RenderingClass} header evaluated by \texttt{col-commonsd}:
+\begin{enumerate}
+  \item \textbf{Class~I: Safety-Critical Alerts (Zero-LLM Deterministic Templates):} Evacuation orders, wildfire perimeters, dam or reed-bed overflows, methane/CO leaks, and potable-water contamination events obey \texttt{IEC 61508} functional-safety discipline \parencite{iec61508}. They bypass neural runtime processes completely ($0\,\mu\mathrm{J}$ model exergy, $< 2\,\mathrm{ms}$ formatting latency), formatting ratified integer parameters into pre-translated, drill-tested static templates across every community language.
+  \item \textbf{Class~II: Routine Civic Notices (Templates with Pull-Only Elaboration):} Voluntary Commons Pool task offers, ballot window openings, treaty clearing receipts, and appeal schedules render by default via concise, deterministic field templates. A Steward may explicitly request plain-language context expansion on pull, but routine notices never invoke unsolicited background generation.
+  \item \textbf{Class~III: Explanatory Summaries (Citation-Locked Grounded RAG):} When a Steward asks \emph{why} an irrigation schedule shifted or requests a synthesis of a multi-week Bioregional Agora debate, \texttt{col-commonsd} executes retrieval-augmented generation \parencite{lewis2020rag} strictly over ratified Layer~5 JSON-LD records $\mathcal{D}_{\mathrm{L5}}$. Under the constitutional rule \emph{grounded or silent}, every generated sentence $s_k$ must emit a non-empty citation tuple $C(s_k) = \langle \mathrm{cid}_1, \dots, \mathrm{cid}_m \rangle \subseteq \mathcal{D}_{\mathrm{L5}}$ constrained by grammar decoding. Prior to UI transmission, a deterministic verifier checks that every cited \texttt{cid} exists in the retrieved context set and satisfies lexical/field entailment; any sentence with $C(s_k) = \emptyset$ or a dangling hash is suppressed rather than displayed. Within Agora debate summaries, the output schema strictly partitions \texttt{consensus\_points}, \texttt{majority\_arguments}, and \texttt{minority\_dissents} into separate fields, forbids vote recommendations, and requires explicit sign-off from representatives of each dissenting view before a summary may enter an official rationale record.
+\end{enumerate}
+
+\subsection{Privacy-by-Construction Exclusion from Vector Indices}
+\label{subsec:privacy-scoped-rag}
+
+A vector embedding index ($v \in \mathbb{R}^{d}$) is a lossy compression of semantic content capable of leaking sensitive relationships under nearest-neighbor probing. Layer~6 enforces \emph{privacy by construction} at index ingestion time rather than relying on post-retrieval prompt filters. The indexer inside \texttt{col-commonsd} structurally drops---and refuses to compute embeddings over---six protected Layer~5 record classes:
+\begin{itemize}
+  \item Secret assembly ballots and individual vote receipts \parencite{adida2008helios,juels2005coercion};
+  \item Liquid delegation edges (who trusts or delegates domain authority to whom);
+  \item Personal care-leave activations, health disclosures, and somatic capacity self-reports;
+  \item Voluntary task refusals (\texttt{UnclaimTask} events) and designations under the Protocol of Refusal;
+  \item Pairwise Decentralized Identifiers (\texttt{did:peer}) and BBS+ credential proofs \parencite{camenisch2004signature,w3c2022did};
+  \item Any council session marked \texttt{UNMEDIATED\_SPACE}.
+\end{itemize}
+Permitted retrieval shards are physically partitioned by council capability scope and cryptographically purged according to Layer~5 retention schedules; deliberation logs are never folded into model fine-tuning weights without recorded unanimous consent.
+
+\begin{invariant}[Zero-Leakage Vector Exclusion and Citation-Locked Suppression]
+\label{inv:rag-privacy-citation}
+Let $\mathcal{P}_{\mathrm{priv}}$ denote the union of secret ballots, delegation edges, care-leave records, task refusals, pairwise DIDs, and unmediated session records, and let $\mathcal{I}_{\mathrm{vec}}$ denote all vector and inverted indices maintained by \texttt{col-commonsd}. Then $\mathcal{P}_{\mathrm{priv}} \cap \mathrm{Dom}(\mathcal{I}_{\mathrm{vec}}) = \emptyset$ unconditionally. Furthermore, for every Class~III explanatory output sequence $S = (s_1, \dots, s_n)$, any clause $s_k$ lacking a verified cryptographic pointer $C(s_k) \subseteq \mathcal{D}_{\mathrm{L5}} \setminus \mathcal{P}_{\mathrm{priv}}$ is deterministically elided prior to socket emission.
+\end{invariant}
+
+\subsection{Fixed-Point Microjoule (\texttt{uJ}) Token Metering and Winter SoC Load-Shedding}
+\label{subsec:exergy-metering-shedding}
+
+Every forward pass through a neural network dissipates high-grade electrical exergy into low-grade heat \parencite{georgescu1971}. In \texttt{core/6\_intent/ontologies/ontology\_computational\_models.jsonld}, the Sovereign Stack formalizes three coupled thermodynamic classes: \texttt{mesh:MacroComputeEfficiency} (hardware TDP dissipation), \texttt{mesh:LLMTokenEnergyCost} (energy per generated token via \texttt{mesh:joulesPerToken}), and \texttt{mesh:CyclomaticEntropyEquation} (modeling software bloat friction reduced through deliberate \texttt{RefactorIntents} governed by \texttt{mesh:negentropyCoefficient}).
+
+To preserve cross-architecture determinism (\texttt{floatingPointOpcodesInDeterministicDaemons == 0} in \texttt{bp\_zero\_stage1\_homelab\_workstation.jsonld}), \texttt{col-commonsd} compiles \texttt{mesh:joulesPerToken} into exact 64-bit unsigned integer microjoules (\texttt{uJ}, where $1\,\mathrm{J} = 10^6\,\mu\mathrm{J}$ and $1\,\mathrm{kWh} = 3.6\,\mathrm{MJ} = 3.6 \times 10^{12}\,\mu\mathrm{J}$). For an inference job processing $N_{\mathrm{in}}$ prompt tokens at prefill cost $e_{\mathrm{prefill}}$~($\mu\mathrm{J/tok}$) and emitting $N_{\mathrm{out}}$ completion tokens at decode cost $e_{\mathrm{decode}}$~($\mu\mathrm{J/tok}$) plus amortized static arena hold power $P_{\mathrm{hold}}$~($\mathrm{mW}$) over duration $\Delta t$~($\mathrm{ms}$), exact integer exergy expenditure $\Delta E_{\mathrm{infer}}$ in microjoules is:
+\begin{equation}
+\Delta E_{\mathrm{infer}} = N_{\mathrm{in}} \cdot e_{\mathrm{prefill}} + N_{\mathrm{out}} \cdot e_{\mathrm{decode}} + P_{\mathrm{hold}} \cdot \Delta t,
+\label{eq:exact-uj-inference}
+\end{equation}
+noting the exact dimensional identity $1\,\mathrm{mW} \times 1\,\mathrm{ms} = 10^{-3}\,\mathrm{W} \times 10^{-3}\,\mathrm{s} = 10^{-6}\,\mathrm{J} = 1\,\mu\mathrm{J}$, which eliminates division and rounding error entirely.
+
+\texttt{col-commonsd} deducts $\Delta E_{\mathrm{infer}}$ against the Node's ratified daily computational exergy allocation and couples model availability directly to the microgrid's integer battery State-of-Charge (\texttt{soc\_bp}, denominated in basis points where $10{,}000\,\mathrm{bp} = 100\%$). During dark Cascadia December weeks or islanded grid emergencies, computational load sheds in four deterministic stages (Listing~\ref{lst:exergy-governor}):
+\begin{itemize}
+  \item \textbf{Stage~0 ($\mathrm{soc\_bp} \ge 6{,}500\,\mathrm{bp}$):} Full Constellation inference enabled within the ratified daily \texttt{uJ} ceiling (Tier~1 STT/TTS, Tier~2 workstation drafting/intake, Tier~3 settlement RAG).
+  \item \textbf{Stage~1 ($4{,}000\,\mathrm{bp} \le \mathrm{soc\_bp} < 6{,}500\,\mathrm{bp}$):} Autonomous background debate digests and stylistic elaborations suspended; Class~III RAG limited to explicit per-query Steward pulls.
+  \item \textbf{Stage~2 ($2{,}000\,\mathrm{bp} \le \mathrm{soc\_bp} < 4{,}000\,\mathrm{bp}$):} Tier~3 settlement RAG server powered down completely; Class~II routine expansions disabled; only compact Tier~2 3B workstation drafting and Tier~1 offline STT remain active.
+  \item \textbf{Stage~3 ($\mathrm{soc\_bp} < 2{,}000\,\mathrm{bp}$ or Total Model Fault --- Zero-LLM Sovereign Mode):} All neural language models unmapped ($0\,\mu\mathrm{J}$ inference draw).
+\end{itemize}
+
+\begin{lstlisting}[language=C++,label={lst:exergy-governor},caption={Zero-float integer microjoule (\texttt{uJ}) inference meter and deterministic SoC load-shedding gate in \texttt{col-commonsd}.}]
+#include <cstdint>
+
+namespace collective::l6::exergy {
+
+enum class InferenceTaskClass : uint8_t {
+    SAFETY_CRITICAL_ALERT  = 0, // Always zero-LLM (Class I)
+    DETERMINISTIC_READBACK = 1, // Always zero-LLM template
+    DRAFT_OR_SLOT_INTAKE   = 2, // Tier 2 compact edge model
+    EXPLANATORY_RAG_PULL   = 3, // Tier 3 settlement RAG model
+    BACKGROUND_ELABORATION = 4  // Lowest priority; shed first
+};
+
+struct ExergyBudgetState {
+    uint64_t epoch_quota_uj;        // Ratified daily L6 compute budget (uJ)
+    uint64_t epoch_consumed_uj;     // Monotonic integer accumulator (uJ)
+    uint16_t microgrid_soc_bp;      // Battery SoC in basis points [0..10000]
+    uint16_t homelab_acoustic_cb;   // Measured workstation noise in centibels
+};
+
+[[nodiscard]] constexpr uint64_t ComputeInferenceCostUj(
+    uint32_t prompt_tokens,
+    uint32_t completion_tokens,
+    uint64_t prefill_uj_per_tok,
+    uint64_t decode_uj_per_tok,
+    uint32_t hold_power_mw,
+    uint32_t elapsed_ms) noexcept
+{
+    // Exact identity: 1 mW * 1 ms == 1 uJ (zero floating-point opcodes)
+    const uint64_t prefill_uj = static_cast<uint64_t>(prompt_tokens) * prefill_uj_per_tok;
+    const uint64_t decode_uj  = static_cast<uint64_t>(completion_tokens) * decode_uj_per_tok;
+    const uint64_t hold_uj    = static_cast<uint64_t>(hold_power_mw) * elapsed_ms;
+    return prefill_uj + decode_uj + hold_uj;
+}
+
+[[nodiscard]] constexpr bool AuthorizeModelDispatch(
+    const ExergyBudgetState& state,
+    InferenceTaskClass task,
+    uint64_t worst_case_reserve_uj) noexcept
+{
+    if (task == InferenceTaskClass::SAFETY_CRITICAL_ALERT ||
+        task == InferenceTaskClass::DETERMINISTIC_READBACK) {
+        return false; // Constitutional law: never route safety or read-back to an LLM
+    }
+    if (state.homelab_acoustic_cb > 380) return false; // Enforce <= 380 cB cap
+    if (state.epoch_consumed_uj + worst_case_reserve_uj > state.epoch_quota_uj) {
+        return false; // Shed cleanly to structured SHACL form / deterministic template
+    }
+    if (state.microgrid_soc_bp < 2000) return false; // Stage 3: Zero-LLM Sovereign Mode
+    if (state.microgrid_soc_bp < 4000) {
+        return task == InferenceTaskClass::DRAFT_OR_SLOT_INTAKE; // Stage 2
+    }
+    if (state.microgrid_soc_bp < 6500) {
+        return task != InferenceTaskClass::BACKGROUND_ELABORATION; // Stage 1
+    }
+    return true; // Stage 0: Full Constellation budget available
+}
+
+} // namespace collective::l6::exergy
+\end{lstlisting}
+
+\subsection{100\% LLM-Free Graceful Degradation}
+\label{subsec:zero-llm-graceful-degradation}
+
+Stage~3 is not an emergency limp mode that freezes democratic life; it is the baseline structural proof that the Sovereign Stack never depends on artificial intelligence for self-governance \parencite{illich1973,ostrom1990}. When \texttt{AuthorizeModelDispatch} returns \texttt{false}---whether during a week-long winter fog bank, a total GPU hardware failure in Year~17 of a salvaged workstation's life, or by deliberate communal vote---every Constellation application seamlessly substitutes deterministic equivalents:
+\begin{enumerate}
+  \item \textbf{SHACL-Driven Structured Forms Replace Natural-Language Drafting:} Instead of dictating free-form prose to \texttt{col-draft-llm}, Stewards author proposals, delegations, care-leave notices (\texttt{domestic\_care\_token\_minting == 0}), and bilateral credit pacts through accessible form wizards generated directly from the ratified W3C SHACL shapes \parencite{w3c2017shacl}.
+  \item \textbf{Direct Field Templates and Raw Graph Inspection Replace RAG:} Class~III queries fall back to deterministic faceted search over canonical Layer~5 JSON-LD records and human-written rationale abstracts.
+  \item \textbf{Human Scribes, Interpreters, and Paper Ballots Stand Permanent:} Multilingual human interpreters in the Agora, Steward scribes transcribing spoken hearing testimony, and hand-marked verifiable paper ballots remain first-class constitutional pathways at all times.
+\end{enumerate}
+
+Listing~\ref{lst:jsonld-model-manifest} exhibits the canonical JSON-LD governance manifest uniting SHA-256 supply-chain pinning (Invariant~\ref{inv:model-supply-chain}) with fixed-point \texttt{uJ} token metering from \texttt{ontology\_computational\_models.jsonld}. A community whose neural accelerators go dark loses a convenient clerical assistant; it never forfeits a single vote, safety alert, mutual-aid clearing channel, or constitutional right.
+
+\begin{lstlisting}[language=jsonld,label={lst:jsonld-model-manifest},caption={Ratified Layer~6 \texttt{ModelArtifactManifest} binding SHA-256 supply-chain hashes and integer \texttt{uJ} \texttt{LLMTokenEnergyCost} bounds.}]
+{
+  "@context": [
+    "https://w3id.org/collective/v1/",
+    "https://collective.network/ontology/v1/computational_models/"
+  ],
+  "@type": ["ModelArtifactManifest", "mesh:LLMTokenEnergyCost"],
+  "manifestId": "urn:collective:model:workstation-draft-4bit-v3.1",
+  "sandboxRole": "AUTHENTICATED_DRAFTING_ONLY",
+  "ratifiedByLayer5Decision": "dec:l5_ratify_qwen25_3b_q4_cascadia_v2",
+  "weightsFormat": "GGUF_Q4_K_M",
+  "parameterCount": 3090000000,
+  "maxKvArenaMiB": 256,
+  "perimeterAcousticCeilingCb": 380,
+  "sha256Weights": "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08",
+  "sha256Tokenizer": "4b227777d4dd1fc61c6f884f48641d02b4d121d3fd328cb08b5531fcacdabf8a",
+  "sha256SystemPrompt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "sha256ShaclGrammar": "7d865e959b2466918c9863afca942d0fb89d7c9ac0c99bafc3749504ded97730",
+  "prefillMicrojoulesPerToken": 420000,
+  "decodeMicrojoulesPerToken": 2150000,
+  "minOperatingSocBp": 2000,
+  "consentVerifiedLocalLoraCorpus": "urn:collective:corpus:cascadia-valley-oral-consent-2026"
+}
+\end{lstlisting}

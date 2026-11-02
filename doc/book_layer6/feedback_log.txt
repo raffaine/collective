@@ -1,6 +1,0 @@
-Missing LLM/Semantic mechanism in Chapter 5: 1) Multimodal Context Translation (parsing deictic/spatial intent like 'this tree' or 'that desk' using AR/sensor data combined with NLP). 2) Multi-Agent LLM Negotiation (where two users' local LLMs negotiate competing intents before submitting a Layer 5 payload).
-Missing in Chapter 5: Intent Verification and Ambiguity Resolution UX loop - handling low-confidence semantic parses and capturing explicit human confirmation before payload signature.
-Missing mechanisms in Chapter 5:
-- Ambiguity Resolution / Interactive Clarification: The LLM should prompt the user for clarification when the intent is underspecified before generating the payload.
-- Intent Validation / Hallucination Mitigation: The generated payload must be checked against local CRDT rules to prevent LLM hallucinations from proposing invalid Layer 5 transactions.
-Missing LLM/Semantic mechanism in Core Chapter 5: Intent Verification/Confirmation UI (preventing LLM hallucination of Layer 5 payload before signature)

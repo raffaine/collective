@@ -1,0 +1,226 @@
+\chapter{Variety Attenuation, Spatial Round Coalescing, and Calm UX Across Hundreds of Workflows}
+\label{ch:cognitive-triage}
+
+\epigraph{The most profound technologies are those that disappear. They weave themselves into the fabric of everyday life until they are indistinguishable from it\ldots{} Calm technology engages both the center and the periphery of our attention, and in fact moves back and forth between the two.}{---\textcite{weiser1996calm}, ``Designing Calm Technology''}
+
+In Chapter~\ref{ch:authorship-crdt}, we established how a single human commitment traverses the six-stage pipeline from expression through deterministic read-back to hardware signature and local-first CRDT synchronization. Yet securing the cryptographic integrity of an individual click solves only half of Layer~6's human-factors challenge. A far subtler pathology threatens cooperative self-governance as soon as a settlement moves past its opening week: \textbf{operational variety overload} \parencite{ashby1956,beer1979}.
+
+Early prototypes of civic software almost always assume a toy world in which a community runs three or four linear to-do lists at a time. The twenty-five Sovereign Scenarios codified in \texttt{03\_SCENARIOS.md} dispel that illusion permanently. Even a single governed homestead node (\textbf{Stage~1A}) orchestrates $38$ to $68$ concurrent workflows across its room-scoped single-board computers (\texttt{office-coordinator}, \texttt{garage-fab}, \texttt{garden-agro}, and \texttt{hearth-galley}); by the time a neighborhood cooperative (\textbf{Stage~2}) or bioregional campus (\textbf{Stage~3}) reaches metabolic maturity, $850$ to $2{,}600+$ intra-node and inter-node workflows execute simultaneously. If Layer~6 projected those workflows onto human screens as an unfiltered enterprise dashboard, notification stream, or gamified ``quest log,'' residents would drown in alarm fatigue and cognitive exhaustion \parencite{miller1956magical,sweller1988cognitive,han2015}.
+
+This chapter formalizes the cybernetic architecture by which Layer~6 absorbs thousands of concurrent workflow transitions while preserving unhurried human serenity: three-stage \textbf{Variety Attenuation}, \textbf{Spatial Homestead Round Coalescing} constrained by physical hauling phases, epistemic 1-to-5 \textbf{Biological Feel Strips}, pull-only \textbf{Blinded Claim Handles}, and the unconditional, zero-penalty \textbf{Protocol of Refusal}.
+
+\section{The High-Density Node Problem: Information-Theoretic Bounds on Human Serenity}
+\label{sec:high-density-problem}
+
+\subsection{Quantifying Concurrent Workflow Density Across Stages 1A--3}
+
+Why does a single governed node run hundreds of concurrent workflows? Because physical metabolism does not pause while humans sleep or eat. On a lived parcel, soil moisture sensors sample root zones across staggered \textit{Fabaceae} and mirepoix guilds; lacto-fermentation crocks evolve $\mathrm{CO}_2$ toward the $4{,}600\,\mathrm{mpH}$ safety threshold; thermophilic compost drums hold $\ge 328{,}150\,\mathrm{mK}$ across $72$-hour pathogen-kill windows; solar MPPT charge controllers arbitrate battery State-of-Charge (\texttt{SoC\_bp}) admission tiers for workshop CNC spindles and homelab compilation jobs; hydronic loops recover server heat into domestic hot water tanks; bilateral clearing channels (\texttt{BCC}) reconcile cargo-trike milk-runs; and asynchronous sortition panels deliberate watershed easements across multi-week windows.
+
+Let $\mathcal{W}(t) = \{w_1, w_2, \dots, w_N\}$ denote the active Layer~4 BPMN workflow instances on a node or settlement cluster at epoch $t$, emitting aggregate state-transition events at arrival rate $\Lambda_{\mathrm{raw}}$ (measured in transitions per day). By W.\ Ross Ashby's Law of Requisite Variety \parencite{ashby1956}, a viable controller must match the variety of disturbances in the regulated system, yet human conscious working memory is physiologically bounded to $4 \pm 1$ to $7 \pm 2$ concurrent chunks \parencite{miller1956magical,sweller1988cognitive}, and human deliberative decision throughput $C_{\mathrm{human}}$ rarely exceeds $12\text{--}20$ non-trivial physical switches per day without inducing autonomic stress and task-switching fatigue \parencite{little1961proof,han2015}.
+
+Whenever an interface forwards raw operational transitions $\Lambda_{\mathrm{raw}}$ directly to human attention without an intervening cybernetic attenuator $\mathcal{A}$ such that
+\begin{equation}
+    \Lambda_{\mathrm{somatic}} = \mathcal{A}(\Lambda_{\mathrm{raw}}) \le C_{\mathrm{human}},
+    \label{eq:ashby-attenuation-bound}
+\end{equation}
+queue length $L = \Lambda_{\mathrm{somatic}} W$ explodes by Little's Law \parencite{little1961proof}, degrading civic stewardship into compulsive screen checking.
+
+\begin{table}[htbp]
+\centering
+\caption{Quantitative Cybernetic Variety Attenuation From Raw Layer~4 State Transitions to Calm Human Rounds}
+\label{tab:ch4-variety-attenuation}
+\small
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}lrrrrrr@{}}
+\toprule
+\textbf{Maturation Stage} & \textbf{Active Workflows $N$} & \textbf{Raw L4 Events $\Lambda_{\mathrm{raw}}$/d} & \textbf{Autonomic Filtered ($\%$)} & \textbf{Somatic Tokens/d} & \textbf{Coalesced Rounds/Steward/d} & \textbf{Attenuation Ratio} \\
+\midrule
+Stage 1A (4-SBC Seed Lot) & $38\text{--}68$ & $1{,}400\text{--}3{,}200$ & $89.5\%$ & $14\text{--}28$ & $2\text{--}4$ & $\approx 500 : 1$ \\
+Stage 1B ($R_1$ Pod, $5\text{--}12$ Lots) & $95\text{--}185$ & $6{,}500\text{--}14{,}000$ & $90.8\%$ & $42\text{--}85$ & $2\text{--}4$ & $\approx 950 : 1$ \\
+Stage 2 (Cooperative Commons) & $260\text{--}620$ & $24{,}000\text{--}68{,}000$ & $91.6\%$ & $130\text{--}310$ & $2\text{--}3$ & $\approx 1{,}800 : 1$ \\
+Stage 3 (Bioregional Campus) & $850\text{--}2{,}600+$ & $110{,}000\text{--}380{,}000$ & $92.4\%$ & $480\text{--}1{,}250$ & $2\text{--}3$ & $\approx 3{,}200 : 1$ \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+Table~\ref{tab:ch4-variety-attenuation} demonstrates the central ergonomic invariant of Layer~6: even as settlement workflow concurrency scales forty-fold from Stage~1A to Stage~3, \textbf{the number of somatic rounds experienced by any individual steward remains bounded at $2\text{--}4$ calm walks per day}.
+
+\section{Three-Stage Variety Attenuation and Spatial Homestead Round Coalescing}
+\label{sec:spatial-round-coalescing}
+
+Layer~6 achieves the $500:1$ to $3{,}200:1$ attenuation ratios of Table~\ref{tab:ch4-variety-attenuation} through three compositional filters executed inside \texttt{col-commonsd} and \texttt{col-gatewayd} before a single pixel updates on any Constellation surface.
+
+\subsection{Filter 1: Autonomic Suppression and Topic-Scoped Delta Streams}
+
+First, $89\text{--}92\%$ of all Layer~4 workflow transitions occur purely within the \textbf{Autonomic Plane}---automated drip-valve pulses (\texttt{wf.garden.irrigate\_l2\_automated}), MPPT load-tier adjustments, background Nix store builds, and multi-day \texttt{DORMANT} phenological timers (such as coppice stool rotations or $72$-hour compost holds). Unless an autonomic loop breaches a physical safety boundary or encounters a cache miss requiring an upward Intent U-Turn, \texttt{col-commonsd} suppresses it completely from somatic task feeds, retaining it solely in passive diagnostic inspect views.
+
+Second, rather than polling an entire node snapshot every $1{,}500\,\mathrm{ms}$ across a monolithic four-tab DOM (a prototype ceiling diagnosed in Chapter~\ref{ch:oasis-council-l6}), \texttt{col-gatewayd} multiplexes \textbf{topic-scoped CBOR/JSON-Patch delta streams} over \texttt{/ws/v1/subscribe}. Each Constellation application subscribes solely to the semantic namespaces permitted by its \texttt{AppCapabilityManifestV1}: the Hearth E-Ink Slate receives deltas matching \texttt{topic:hearth.*} and \texttt{need:pea\_soup} timers, never waking its electrophoretic controller when a woodworking router completes a jig in the garage.
+
+\subsection{Filter 2: Spatial Homestead Round Coalescing with \texttt{HaulingPhysics} Constraints}
+
+Even after filtering out silent autonomic transitions, a homestead or neighborhood campus still accumulates $14$ to $85$ human-actionable tokens (\texttt{WAITING\_HUMAN}) per day---checking soil moisture on Bed~B, collecting four pasture eggs from the coop, skimming bone broth in the galley, turning the compost drum, and carrying kitchen peelings to the Black Soldier Fly larvae bin. Presented as $18$ separate timestamped pings throughout the day, these tasks fragment attention into relentless micro-interruptions.
+
+In lived agrarian and artisanal practice, however, stewards do not sprint back and forth across a lot eighteen times; they walk an unhurried \textbf{Morning Homestead Round} and \textbf{Evening Hearth Round} \parencite{hutchins1995cognition,suchman1987plans}. \texttt{col-commonsd} formalizes this situated rhythm via \textbf{Spatial Homestead Round Coalescing}.
+
+Let $G_{\mathrm{space}} = (Z, E_Z)$ be the directed walking-path graph of spatial zones on a parcel (for example, $z_{\mathrm{hearth}} \leftrightarrow z_{\mathrm{patio}} \leftrightarrow z_{\mathrm{garden}} \leftrightarrow z_{\mathrm{coop}} \leftrightarrow z_{\mathrm{compost}} \leftrightarrow z_{\mathrm{garage}}$), with walking-time weights $d(z_u, z_v)$ in milliseconds. Each pending human-actionable workflow token $\tau_i$ carries:
+\begin{itemize}
+    \item an origin zone $z_{\mathrm{orig}}(\tau_i) \in Z$ and optional destination zone $z_{\mathrm{dest}}(\tau_i) \in Z$;
+    \item an earliest-valid window $[e_i, l_i]$ derived from its BPMN boundary timer slack $\sigma(\tau_i) = l_i - t_{\mathrm{now}}$;
+    \item a physical mass $m_i$ (in milligrams \texttt{mg}) and volume $v_i$ (in milliliters \texttt{mL}); and
+    \item a thermodynamic matter phase $\phi_i \in \{\texttt{NONE}, \texttt{LIQUID}, \texttt{GRANULAR\_PARTICULATE}, \texttt{DISCRETE\_SOLID}\}$ paired with sanitation class $\chi_i \in \{\texttt{POTABLE\_CULINARY}, \texttt{CLEAN\_DRY}, \texttt{ORGANIC\_RESIDUE}\}$.
+\end{itemize}
+
+Crucially, Layer~6 never proposes physically absurd or unsanitary combinations---such as carrying unsealed compost residue in the same vessel as potable tiffin soup, or exceeding comfortable human single-trip ergonomics ($M_{\max} = 12{,}000{,}000\,\mathrm{mg} = 12\,\mathrm{kg}$ handheld tote, or $35{,}000{,}000\,\mathrm{mg}$ with a garden barrow). Two hauling tasks $\tau_i, \tau_j$ are \textbf{carrier-compatible} ($\mathrm{Compat}(\tau_i, \tau_j) = 1$) along a subpath if and only if their time windows overlap ($[e_i, l_i] \cap [e_j, l_j] \neq \emptyset$), their sanitation classes never mix \texttt{ORGANIC\_RESIDUE} with \texttt{POTABLE\_CULINARY} in an unpartitioned carrier, and cumulative mass along every edge satisfies $\sum m_k \le M_{\mathrm{carrier}}$.
+
+\begin{lstlisting}[language=C++,caption={Deterministic Spatial Homestead Round Coalescer respecting \texttt{HaulingPhysics} matter phases and sanitation boundaries (C++20).}]
+#include <cstdint>
+#include <span>
+#include <vector>
+
+namespace col::commons::triage {
+
+enum class MatterPhase : std::uint8_t {
+    NONE                 = 0,
+    LIQUID               = 1,
+    GRANULAR_PARTICULATE = 2,
+    DISCRETE_SOLID       = 3
+};
+
+enum class SanitationClass : std::uint8_t {
+    CLEAN_DRY        = 0,
+    POTABLE_CULINARY = 1,
+    ORGANIC_RESIDUE  = 2
+};
+
+struct ActionableToken {
+    std::uint64_t   blinded_claim_id;
+    std::uint16_t   origin_zone_id;
+    std::uint16_t   dest_zone_id;
+    std::int64_t    window_earliest_ms;
+    std::int64_t    window_latest_ms;
+    std::int64_t    haul_mass_mg;
+    MatterPhase     phase;
+    SanitationClass sanitation;
+};
+
+struct CoalescedHomesteadRound {
+    std::uint16_t              anchor_zone_id{};
+    std::int64_t               latest_deadline_ms{};
+    std::int64_t               peak_carried_mass_mg{};
+    SanitationClass            dominant_sanitation{SanitationClass::CLEAN_DRY};
+    std::vector<std::uint64_t> ordered_claim_ids{};
+};
+
+[[nodiscard]] constexpr bool AreSanitationClassesCompatible(
+    SanitationClass a, SanitationClass b) noexcept {
+    if ((a == SanitationClass::POTABLE_CULINARY && b == SanitationClass::ORGANIC_RESIDUE) ||
+        (a == SanitationClass::ORGANIC_RESIDUE && b == SanitationClass::POTABLE_CULINARY)) {
+        return false; // Never co-mingle culinary vessels and raw compost residue in one carrier.
+    }
+    return true;
+}
+
+[[nodiscard]] inline bool TryAppendToRound(
+    CoalescedHomesteadRound& round,
+    const ActionableToken& candidate,
+    std::int64_t max_ergonomic_mass_mg,
+    std::int64_t coalescing_horizon_ms) {
+    if (candidate.window_earliest_ms > round.latest_deadline_ms + coalescing_horizon_ms) {
+        return false;
+    }
+    if (!AreSanitationClassesCompatible(round.dominant_sanitation, candidate.sanitation)) {
+        return false;
+    }
+    if (round.peak_carried_mass_mg + candidate.haul_mass_mg > max_ergonomic_mass_mg) {
+        return false;
+    }
+    round.ordered_claim_ids.push_back(candidate.blinded_claim_id);
+    round.peak_carried_mass_mg += candidate.haul_mass_mg;
+    if (candidate.window_latest_ms < round.latest_deadline_ms) {
+        round.latest_deadline_ms = candidate.window_latest_ms;
+    }
+    if (candidate.sanitation != SanitationClass::CLEAN_DRY) {
+        round.dominant_sanitation = candidate.sanitation;
+    }
+    return true;
+}
+
+} // namespace col::commons::triage
+\end{lstlisting}
+
+Instead of six nagging alerts, the Hearth or Garden Slate displays one calm, human-legible card: \textit{``Morning Garden \& Coop Walk ($\approx 14\,\mathrm{min}$, $3.2\,\mathrm{kg}$ tote): carry mirepoix peelings from Hearth to Compost Bay, check Alderman Pea moisture in Bed~2, and gather 4 pasture eggs on return.''}
+
+\section{Epistemic Somatic Feel, Voluntary Pull, and the Protocol of Refusal}
+\label{sec:feel-pull-refusal}
+
+\subsection{Qualitative 1-to-5 \texttt{BiologicalFeelTiers} Without Fake Biometric Precision}
+
+Industrial wellness apps alienate people from their own bodies by fabricating pseudo-precise ``readiness scores'' (``Recovery: $73.4\%$'') or continuously streaming intimate heart-rate telemetry to cloud servers \parencite{zuboff2019}. Layer~6 enforces strict \textbf{epistemic somatic honesty}, already grounded in \texttt{core/1\_simulation/src/core/chill\_loop.hpp} and \texttt{hud\_feel.js}:
+\begin{enumerate}
+    \item Five qualitative ordinal axes---Energy, Hydration, Nourishment, Thermal Comfort, and Autonomic Calm---are rendered exclusively on a human-legible 1-to-5 word scale (for example, \textit{Exhausted / Tired / Steady / Rested / Energized}, or \textit{Strained / Tense / Grounded / Calm / Serene}).
+    \item Raw quantitative physiological figures (\texttt{bpm}, \texttt{kcal}, core skin millikelvins) are \textbf{suppressed by default} unless local hardware-attested biometric sensors are explicitly installed and paired by the user (\texttt{l2\_biometric\_installed == true}), and even then remain strictly inside $R_0$ edge memory---never gossiped across \texttt{l5\_l6.sock} or logged to Layer~3.
+\end{enumerate}
+
+\subsection{Two-Stage Voluntary Pull via \texttt{BlindedClaimHandle} and Zero Leaderboards}
+
+Layer~4 holds zero DIDs, zero Web-of-Trust graphs, and zero personal push queues. When a workflow step enters \texttt{WAITING\_HUMAN}, Layer~4 emits an anonymous capability requirement upward across \texttt{l4\_l5.sock} into Layer~5, which filters visibility to stewards holding the matching zero-knowledge BBS+ skill credential (for example, \texttt{Food\_Safety\_Steward\_L1} or \texttt{Woodshop\_Router\_Safe}) \parencite{camenisch2004signature}. Layer~6 then presents a strictly two-stage voluntary surface:
+\begin{enumerate}
+    \item \textbf{Commons Pool (\texttt{Available Tasks / Coalesced Rounds}):} Paginated, pull-only cards showing physical scope, time window slack, and required safety gear---with \textbf{zero gamified streaks, zero public completion counters, and zero peer-pressure leaderboards}.
+    \item \textbf{Personal Stewardship (\texttt{My Committed Rounds}):} Claiming an offer binds a random 24-byte \texttt{BlindedClaimHandle} via \texttt{l5\_l6.sock}, transitioning the token from \texttt{OPEN\_POOL} to \texttt{CLAIMED\_BLINDED} without revealing the volunteer's identity to the Layer~4 execution engine.
+\end{enumerate}
+
+\subsection{The Unconditional Protocol of Refusal, \texttt{RestShield}, and Four Notification Tiers}
+
+As Albert O.\ Hirschman observed in \textit{Exit, Voice, and Loyalty} \parencite{hirschman1970} and Byung-Chul Han diagnosed in \textit{The Burnout Society} \parencite{han2015}, voluntary cooperation degenerates into self-exploitation whenever stepping back carries subtle algorithmic shame or irreversible lock-in. In the bootstrap Lot~402 HUD (\texttt{hud\_feel.js}, lines~771--809), once a steward clicked \texttt{Commit}, no \texttt{Step Back / Unclaim} button yet existed---a gap corrected constitutionally in v3.1.
+
+\begin{invariant}[Unconditional Protocol of Refusal and Zero-Penalty Release]
+\label{inv:protocol-of-refusal}
+Every Constellation surface rendering a \texttt{CLAIMED\_BLINDED} task or governance request MUST expose an immediate, single-gesture \textbf{Step Back / Release to Pool} (\texttt{UNCLAIM\_GUILT\_FREE}) control alongside a hardware or software \textbf{RestShield} toggle. Invoking \texttt{UNCLAIM\_GUILT\_FREE} or entering \texttt{RestShield} (automatically suggested via Schmitt-trigger hysteresis when local somatic feel reaches Tier~1 \textit{Exhausted} or \textit{Strained}, $\ge 8{,}500\,\mathrm{bp}$ cumulative load, clearing only below $\le 4{,}500\,\mathrm{bp}$):
+\begin{enumerate}
+    \item cleanly releases the \texttt{BlindedClaimHandle} back to the Layer~5 Commons Pool (or triggers a safe L2 hold if an active machine tool requires LOTO park) with \textbf{zero reputational penalty} ($\Delta R = 0\,\mathrm{bp}$), \textbf{zero baseline nourishment reduction} ($B_{\mathrm{baseline}} = 10{,}000\,\mathrm{bp}$ invariant), and \textbf{zero public refusal log}; and
+    \item mutes $100\%$ of Class~2, Class~3, and Class~4 notifications until the steward voluntarily exits sanctuary.
+\end{enumerate}
+\end{invariant}
+
+To enforce Invariant~\ref{inv:protocol-of-refusal} across every audio, visual, and tactile peripheral, \texttt{col-commonsd} classifies all outbound human communications into exactly four hardware-enforced attention classes:
+\begin{enumerate}
+    \item \textbf{Class 1 --- Life \& Infrastructure Emergency (Immediate Breakthrough):} Clinical paramedic flares (Scenario~\texttt{Chi}), anaphylactic allergen interlocks, fire/flood/thermal runaways. Bypasses \texttt{RestShield} using zero-LLM fixed deterministic templates ($\le 500\,\mathrm{ms}$ latency).
+    \item \textbf{Class 2 --- Time-Critical Committed Steward Prompt (Gentle Local Cue):} Boundary-timer warnings on a task \textit{already voluntarily claimed} by the active steward (for example, stockpot approaching $120\,\mathrm{s}$ pasteurization completion). Suppressed immediately if released back to the Commons Pool.
+    \item \textbf{Class 3 --- Batched Deliberation Digest (Scheduled Calm Pull, 1--2$\times$/day):} Agora proposals, Ricardian treaty read-backs, Twin Fracture reconciliation cards, and non-urgent maintenance reviews, delivered strictly at user-chosen digest hours (or passive E-Ink wall refresh).
+    \item \textbf{Class 4 --- Ambient Commons Pool Offers (Zero-Interrupt Pull Only):} Coalesced Homestead Rounds and unmapped need candidates. Class~4 items \textbf{never} ring a bell, vibrate a pocket device, or badge an icon; they wait silently until a steward opens a Constellation surface looking to help.
+\end{enumerate}
+
+\begin{figure}[htbp]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+    node distance=0.85cm and 1.0cm,
+    src/.style={draw=gray!80!black, rounded corners=3pt, semithick, fill=gray!8, align=center, font=\scriptsize, minimum width=3.1cm, minimum height=1.1cm, inner sep=4pt},
+    filt/.style={draw=blue!75!black, rounded corners=3pt, thick, fill=blue!6, align=center, font=\scriptsize, minimum width=3.3cm, minimum height=1.15cm, inner sep=4pt},
+    surf/.style={draw=teal!80!black, rounded corners=3pt, thick, fill=teal!7, align=center, font=\scriptsize, minimum width=3.6cm, minimum height=1.15cm, inner sep=4pt},
+    refuse/.style={draw=purple!75!black, rounded corners=3pt, thick, fill=purple!6, align=center, font=\scriptsize, minimum width=7.3cm, minimum height=0.95cm, inner sep=4pt},
+    arr/.style={-{Stealth[length=2.2mm]}, thick}
+]
+    \node[src] (raw) {\textbf{High-Density L4 Engine}\\$38\text{--}2{,}600+$ Workflows\\$\Lambda_{\mathrm{raw}} \le 3.8 \times 10^5\text{/day}$};
+    \node[filt, right=0.65cm of raw] (f1) {\textbf{Filter 1: Autonomic Gate}\\Suppress $89\text{--}92\%$ Silent Loops\\Topic Delta \texttt{/ws/v1}};
+    \node[filt, right=0.65cm of f1] (f2) {\textbf{Filter 2: Spatial Coalescer}\\Walking Graph $G_{\mathrm{space}}$\\\texttt{HaulingPhysics} Phases};
+    \node[surf, right=0.65cm of f2] (calm) {\textbf{Calm Constellation UX}\\$2\text{--}4$ Coalesced Rounds/day\\\texttt{BlindedClaimHandle} Pull};
+
+    \node[refuse, below=0.85cm of f2, xshift=0.9cm] (shield) {
+        \textbf{Unconditional Protocol of Refusal \& Schmitt-Trigger \texttt{RestShield} ($8{,}500 / 4{,}500\,\mathrm{bp}$)}\\[2pt]
+        1-Tap \texttt{UNCLAIM\_GUILT\_FREE} ($\Delta R = 0\,\mathrm{bp}$, $B_{\mathrm{baseline}}$ Intact) $\longrightarrow$ Returns Claim cleanly to L5 Commons Pool
+    };
+
+    \draw[arr] (raw.east) -- node[above, font=\tiny] {100\%} (f1.west);
+    \draw[arr] (f1.east) -- node[above, font=\tiny] {$\approx 9\%$} (f2.west);
+    \draw[arr] (f2.east) -- node[above, font=\tiny] {$2\text{--}4\text{/d}$} (calm.west);
+    \draw[arr, dashed] (calm.south) |- (shield.east);
+    \draw[arr, dashed] (shield.west) -| node[pos=0.25, below, font=\tiny] {Re-queue without identity log} (f2.south);
+\end{tikzpicture}%
+}
+\caption{Three-stage cybernetic variety attenuation pipeline transforming up to $380{,}000$ daily Layer~4 transitions into $2\text{--}4$ calm, spatially coalesced human rounds protected by the zero-penalty Protocol of Refusal.}
+\label{fig:ch4-variety-attenuation}
+\end{figure}
+
+Figure~\ref{fig:ch4-variety-attenuation} completes our model of high-density cognitive serenity. By suppressing autonomic noise, projecting domain-scoped deltas onto specialized Constellation tools, coalescing co-located tasks along physically sanitary walking loops, and guaranteeing guilt-free exit at every step, Layer~6 ensures that technology recedes calmly into the periphery of communal life. Next, Chapter~\ref{ch:edge-llms} examines how optional local language models assist human expression within this calm boundary without ever introducing cloud dependency, exergy waste, or indirect prompt-injection vulnerabilities.

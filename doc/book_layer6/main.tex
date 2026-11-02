@@ -1,73 +1,174 @@
-\documentclass[11pt,oneside]{book}
+\documentclass[11pt,a4paper]{book}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage{lmodern}
+\usepackage{tgpagella}
+\usepackage[scale=0.92]{tgheros}
+\usepackage[scale=0.86]{tgcursor}
 \linespread{1.05}
-\usepackage{amsmath, amssymb, amsthm}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
 \usepackage{graphicx}
-\usepackage{hyperref}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,shapes.geometric,shapes.multipart,automata,calc,fit,backgrounds,decorations.pathreplacing}
+\usepackage{listings}
 \usepackage{geometry}
-
 \geometry{a4paper, margin=1in}
-
-\title{
-    \Huge \textbf{Layer 6: The Oasis Interface} \\
-    \vspace{0.5cm}
-    \Large Local-First UX, Spatial Environments, and Cognitive Limits
+\IfFileExists{epigraph.sty}{%
+    \usepackage{epigraph}%
+    \setlength{\epigraphwidth}{0.68\textwidth}%
+    \renewcommand{\epigraphrule}{0pt}%
+}{%
+    \newcommand{\epigraph}[2]{%
+        \begin{flushright}%
+        \begin{minipage}{0.68\textwidth}%
+        \small\itshape ##1\par\vspace{0.35em}%
+        \upshape\raggedleft ##2\par%
+        \end{minipage}%
+        \end{flushright}%
+        \vspace{1.2em}%
+    }%
 }
-\author{Chief Cybernetic Architect}
-\date{\today}
+\usepackage{csquotes}
+\usepackage{xcolor}
+\newif\ifusebiblatex
+\IfFileExists{biblatex.sty}{%
+    \usebiblatextrue
+    \usepackage[style=authoryear,backend=bibtex]{biblatex}
+    \addbibresource{references.bib}
+}{%
+    \usebiblatexfalse
+    \usepackage[round,authoryear]{natbib}
+    \newcommand{\parencite}[2][]{\ifx\relax##1\relax\citep{##2}\else\citep[##1]{##2}\fi}
+    \newcommand{\textcite}[2][]{\ifx\relax##1\relax\citet{##2}\else\citet[##1]{##2}\fi}
+}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,
+    urlcolor=teal,
+    citecolor=gray,
+    pdftitle={The Sovereign Stack --- Companion Volume: Layer 6: The Semantic Commonwealth},
+    pdfauthor={The Collective Architectural Council},
+}
+
+% --- Line-Breaking & Running Header Typography ---
+\setlength{\emergencystretch}{3em}
+\DeclareRobustCommand{\_}{\ifmmode\text{\symbol{95}}\else\symbol{95}\allowbreak\fi}
+\pdfstringdefDisableCommands{\def\_{_}}
+\usepackage{fancyhdr}
+\setlength{\headheight}{22pt}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.3pt}
+\fancyhead[LE]{\small\thepage}
+\fancyhead[RE]{\parbox[b]{0.86\textwidth}{\raggedleft\footnotesize\itshape\nouppercase{\leftmark}}}
+\fancyhead[LO]{\parbox[b]{0.86\textwidth}{\raggedright\footnotesize\itshape\nouppercase{\rightmark}}}
+\fancyhead[RO]{\small\thepage}
+
+% --- Theorem & Definition Environments ---
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{invariant}[theorem]{Invariant}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+
+% --- Listings Setup ---
+\definecolor{codebg}{rgb}{0.97,0.97,0.98}
+\definecolor{codeframe}{rgb}{0.82,0.84,0.87}
+\definecolor{codekw}{rgb}{0.12,0.28,0.58}
+\definecolor{codecmt}{rgb}{0.35,0.42,0.38}
+\lstdefinelanguage{jsonld}{
+    morestring=[b]",
+    morecomment=[l]{//},
+    literate=
+     *{:}{{{\color{codekw}{:}}}}{1}
+      {,}{{{\color{codekw}{,}}}}{1}
+      {\{}{{{\color{codekw}{\{}}}}{1}
+      {\}}{{{\color{codekw}{\}}}}}{1}
+      {[}{{{\color{codekw}{[}}}}{1}
+      {]}{{{\color{codekw}{]}}}}{1}
+}
+\lstset{
+    basicstyle=\footnotesize\ttfamily,
+    backgroundcolor=\color{codebg},
+    frame=single,
+    rulecolor=\color{codeframe},
+    keywordstyle=\bfseries\color{codekw},
+    commentstyle=\itshape\color{codecmt},
+    breaklines=true,
+    columns=fullflexible,
+    keepspaces=true,
+    showstringspaces=false,
+    aboveskip=0.8em,
+    belowskip=0.8em
+}
 
 \begin{document}
 
-\maketitle
+\frontmatter
+\begin{titlepage}
+    \thispagestyle{empty}
+    \begin{center}
+        \vspace*{3.0cm}
+        {\Large \textsc{The Sovereign Stack $\cdot$ Technical Companion Series}} \\[1.1cm]
+        {\scalebox{1.52}{\textbf{Layer 6: The Semantic Commonwealth}}} \\[0.85cm]
+        {\Large \textit{Uniform JSON-LD Foundations, Constellation of Convivial Applications,}} \\[0.25cm]
+        {\Large \textit{Grounded Edge Language Models, and Calm Deliberation Across Sovereign Nodes}} \\[2.5cm]
+        {\large \textbf{The Collective Architectural Council}} \\[0.4cm]
+        {\normalsize Ratified v3.1 Companion Monograph (Oasis Companion Separation, Constellation ABI \& 25-Scenario Synthesis)}
+        \vfill
+        {\large Cascadia Bioregion $\cdot$ November 2026}
+        \vspace*{2.0cm}
+    \end{center}
+    \clearpage
+\end{titlepage}
+
 \tableofcontents
 
-% ==========================================
-% PART I: CORE ARCHITECTURE
-% ==========================================
-\part{Core Interface Architecture}
+\input{chapters/00_preface}
 
-% The following chapters will be generated by the swarm based on the MD guide:
-\include{chapters/01_local_first_crdts}
-\include{chapters/02_spatial_ambient_ui}
-\include{chapters/03_cognitive_triage}
-\include{chapters/04_thermodynamic_rendering}
-\include{chapters/05_semantic_translation_llms}
+\mainmatter
 
-% ==========================================
-% PART II: APPENDIX (THE 25 SCENARIOS)
-% ==========================================
-\appendix
-\part{Appendix: Interface Scenario Reference}
-\chapter*{Scenario Index}
-\addcontentsline{toc}{chapter}{Scenario Index}
-The following appendices serve as an exhaustive reference, proving that the interface and local-first architecture detailed in Chapters 1-4 can support the human-machine interactions required for all 25 Sovereign Scenarios.
+% ==========================================================================
+% PART I: UNIFORM SEMANTIC FOUNDATION, CONSTELLATION ARCHITECTURE & COGNITION
+% ==========================================================================
+\part{Uniform Semantic Foundation, Constellation Architecture, and Cognitive Sovereignty}
 
-\include{chapters/appendix_00_scenario_zero}
-\include{chapters/appendix_01_alpha_fabrication}
-\include{chapters/appendix_02_beta_transit}
-\include{chapters/appendix_03_gamma_kitchen}
-\include{chapters/appendix_04_delta_childcare}
-\include{chapters/appendix_05_epsilon_coworking}
-\include{chapters/appendix_06_zeta_lodging}
-\include{chapters/appendix_07_eta_coppice}
-\include{chapters/appendix_08_theta_foundry}
-\include{chapters/appendix_09_iota_epistemic}
-\include{chapters/appendix_10_kappa_apprenticeship}
-\include{chapters/appendix_11_lambda_cultural}
-\include{chapters/appendix_12_mu_extraction}
-\include{chapters/appendix_13_nu_fashion}
-\include{chapters/appendix_14_xi_architecture}
-\include{chapters/appendix_15_omicron_kinship}
-\include{chapters/appendix_16_pi_guild}
-\include{chapters/appendix_17_rho_adversarial}
-\include{chapters/appendix_18_sigma_burnout}
-\include{chapters/appendix_19_tau_genesis}
-\include{chapters/appendix_20_upsilon_shock}
-\include{chapters/appendix_21_phi_elder}
-\include{chapters/appendix_22_chi_paramedic}
-\include{chapters/appendix_23_psi_mediation}
-\include{chapters/appendix_24_omega_decoupling}
+\input{chapters/01_bilateral_membrane_and_constellation}
+\input{chapters/02_uniform_semantic_foundation}
+\input{chapters/03_authorship_readback_and_local_first}
+\input{chapters/04_cognitive_triage_and_high_density_ux}
+\input{chapters/05_edge_llms_and_adversarial_hygiene}
+\input{chapters/06_thermodynamic_displays_and_accessibility}
+\input{chapters/07_agora_treaties_and_camouflage}
+\input{chapters/08_oasis_companion_and_council_review}
+
+% ==========================================================================
+% PART II: HORIZONTAL WAVES & CONSTELLATION SCENARIO REFERENCE
+% ==========================================================================
+\part{Horizontal Waves and Sovereign Scenarios Constellation Reference}
+
+\input{chapters/09_wave_a_meta_and_homeostasis}
+\input{chapters/10_wave_b_hearth_fabrication_and_transit}
+\input{chapters/11_wave_c_care_kinship_and_learning}
+\input{chapters/12_wave_d_land_materials_and_architecture}
+\input{chapters/13_wave_e_third_place_epistemic_and_guilds}
+\input{chapters/14_wave_f_clinical_shock_justice_and_decoupling}
+
+\backmatter
+\ifusebiblatex
+    \printbibliography[heading=bibintoc]
+\else
+    \cleardoublepage
+    \phantomsection
+    \addcontentsline{toc}{chapter}{Bibliography}
+    \bibliographystyle{plainnat}
+    \bibliography{references}
+\fi
 
 \end{document}

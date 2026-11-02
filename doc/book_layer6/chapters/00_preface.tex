@@ -1,0 +1,233 @@
+\chapter*{Preface: From Monolithic Super-Apps to a Semantic Commonwealth}
+\addcontentsline{toc}{chapter}{Preface}
+\markboth{Preface}{Preface}
+
+\epigraph{People need not only to obtain things, they need above all the freedom to make things among which they can live, to give shape to them according to their own tastes, and to put them to use in caring for and about others.}{---\textcite{illich1973}, \textit{Tools for Conviviality}}
+
+Every architecture of collective self-governance eventually confronts its moment of truth at
+the boundary where living human beings actually touch the system. Below that threshold, a
+community may engineer the most rigorous thermodynamic ledger, the cleanest deterministic
+workflow virtual machine, and the soundest cryptographic web of trust ever committed to
+silicon. Yet if the human-facing layer forces neighbours to squint at opaque engineering
+dashboards, funnels every domestic act through a single bloated ``super-app,'' relies on
+cloud-hosted thin clients that go blank during a winter storm, or interposes an ungrounded
+language model that subtly rewrites civic intent before signature, then sovereignty has been
+surrendered at the last millimeter \parencite{weiser1996calm,zuboff2019,bender2021parrots}.
+
+In Volume~1 of this series, we introduced the seven-layer constitutional architecture of The
+Collective, establishing how physical truth enters from hardware reflexes (Layer~2) into an
+append-only, conflict-free thermodynamic ledger (Layer~3), how deterministic state machines
+coordinate multi-workflow choreography without holding identity keys (Layer~4), how
+polycentric assemblies and zero-knowledge webs of trust ratify communal law (Layer~5), and
+how legal and fiscal carapaces insulate the commons from external predation (Layer~7).
+Between the ratified governance records of Layer~5 below and the legacy institutional
+perimeter of Layer~7 above sits \textbf{Layer~6: The Semantic Commonwealth}, realized at the
+system level by the Semantic Commons Daemon (\texttt{col-commonsd}) and its local-network
+capability mediator (\texttt{col-gatewayd}).
+
+Earlier working drafts of this companion volume bore the provisional title \textit{The Oasis
+Interface}---a phrasing left over from an early exploratory phase before the constitutional
+demarcation between spatial simulation and production civic interfaces had fully matured.
+This Version~3.1 overhaul retires that conflation permanently. Layer~6 is neither a video-game
+heads-up display nor a totalizing digital screen meant to mediate human life. Soil, craft,
+unmediated council circles, shared meals, and face-to-face companionship remain the primary
+medium of the living world \parencite{illich1973,ishii1997tangible}. Layer~6 is the calm,
+local-first semantic fabric through which people author structured intents, deliberate across
+concentric Trust Rings, inspect and steward shared infrastructure without algorithmic
+coercion, and direct the legal carapace of their settlement---governed everywhere by one
+inviolable rule: \textit{the machine assists, people author, and only people sign}
+\parencite{winograd1986understanding}.
+
+\section*{Separating Concerns: Oasis (\texttt{Layer 1b}) vs.\ Real-Life Layer~6 Applications}
+
+A foundational breakthrough in the recent evolution of the repository was the strict
+\textbf{separation of concerns} between \textbf{Oasis (\texttt{Layer 1b})} and \textbf{Layer~6
+civic interactions}. In conventional simulation games and industrial ``digital twins,''
+governance menus, inventory requests, policy toggles, and diagnostic inspectors are welded
+directly into the 3D rendering engine as bespoke, in-engine widgets that talk to internal
+game-loop variables \parencite{grieves2014digital}. Had Oasis followed that path, every
+workflow ratified inside the proving ground would have exercised fake UI code disconnected
+from the real Sovereign Stack.
+
+Instead, Oasis excised Layer~6 interactions from the 3D WebGPU engine altogether. Inside
+\texttt{core/1\_simulation/}, the WebGPU voxel raymarcher and C++20 physics loop retain zero
+cryptographic private keys, zero network sockets, and zero direct authority to ratify
+governance proposals or settle mutual-credit balances. All Layer~6 interactions---searching
+and defining semantic community needs, deliberating and ratifying Layer~5 governance
+proposals, parameterizing agronomic cultivars, inspecting read-only Layer~4 BPMN token flows,
+and auditing cluster balances---are conducted through an independent \textbf{Layer~6
+Companion Application} (\texttt{core/1\_simulation/src/web/companion/index.html} and
+\texttt{companion\_l6.js}).
+
+Crucially, this Companion Application is \textbf{not a simulation mock}. Mounted identically
+whether opened as a slide-over drawer beside the Lot~402 viewport or launched standalone in a
+mobile or desktop browser tab, it communicates over live HTTP and broadcast channels with
+\texttt{col-gatewayd}, exercising the real Layer~2 through Layer~7 C++20 implementations and
+real W3C JSON-LD catalogs (\texttt{pea\_to\_soup\_needs.jsonld},
+\texttt{fabaceae\_cultivars.jsonld}, and \texttt{NodeFacilityBlueprint} manifests). When a
+citizen transitions from rehearsing agroecology on Lot~402 to stewarding a physical
+homestead or neighborhood commons, the Layer~6 application does not need to be rewritten from
+game UI into production software---it \textit{already is} the production software, crossing
+from simulated provenance (\texttt{QUALITY\_SIMULATED = 0x01}) to hardware-attested reality
+(\texttt{QUALITY\_HARDWARE\_ROOT = 0x02}) under unmistakable visual and cryptographic modal
+segregation.
+
+\section*{From One Starter App to a Constellation of Convivial Applications}
+
+On Lot~402 today, while Oasis operates in its initial bootstrap phase, Layer~6 interactions
+are consolidated into a single four-tab Companion Application (\textit{Needs \& Requests},
+\textit{L5 Decisions}, \textit{L4 Workflows}, and \textit{Cluster, L3 \& Bills}). For a solo
+steward bringing up four seed workflows across a single parcel, one unified starter client is
+pedagogically clear and immediately legible.
+
+Yet as a settlement matures, \textbf{Layer~6 does not need to be---and must never ossify into---a
+single monolithic application}. A cook skimming a pasteurizing stockpot with wet hands in a
+commissary kitchen does not want a screen cluttered with bioregional Ricardian treaty diffs or
+compiler Software Bills of Materials. A parent checking an infant into a camera-free perinatal
+sanctuary pod requires an ultra-calm, zero-token check-in slate, not an exergy orderbook. A
+cargo-trike courier pedaling across a rain-soaked valley during a LoRa mesh partition needs a
+glove-friendly offline manifest scanner, while an elder with low vision or a neighbour at an
+in-person assembly may prefer spoken voice confirmation, a bistable E-Ink wall placard, or a
+hand-marked paper ballot with zero digital screens present \parencite{w3c2023wcag,costanzachock2020design}.
+
+Because Layer~6 places zero business logic inside any user interface, the starter Companion
+App generalizes naturally into a \textbf{Constellation of Convivial Applications} standing
+upon a \textbf{Uniform Semantic Foundation}:
+\begin{enumerate}
+\item \textbf{Shared W3C JSON-LD Semantic Substrate:} Every application in the constellation
+        reads and emits canonical Linked Data graphs anchored in the governed namespace
+        (\texttt{https://w3id.org/collective/v1/}), validated by Shapes Constraint Language
+        (\texttt{SHACL}) schemas \parencite{w3c2020jsonld,w3c2017shacl} and hashed via RFC~8785
+        JSON Canonicalization (\texttt{JCS}) and W3C RDF Dataset Canonicalization
+        (\texttt{RDFC-1.0}) \parencite{rfc8785,w3c2024rdfc} using pure 64-bit fixed-point SI
+        units.
+\item \textbf{Least-Privilege Capability Manifests:} Rather than granting every interface
+        omniscient node access, each constellation client pairs via an out-of-band QR fragment
+        handshake to obtain a pairwise \texttt{did:peer} session scoped strictly to its
+        ratified \texttt{AppCapabilityManifestV1} roles (for example, \texttt{intent:author}
+        and \texttt{bpmn:review} on a woodworking bench E-Ink slate, with zero access to
+        governance ballots or Layer~7 statutory ledgers) \parencite{miller2006robust,w3c2022did}.
+\item \textbf{Universal Authorship and Local-First CRDT Sync:} Every mutation across every
+        application traverses the identical six-stage \texttt{Draft -> Deterministic Read-Back
+        -> Personal Hardware Sign} ceremony backed by non-exportable Web Crypto or hardware
+        secure-element Ed25519 keys \parencite{w3c2017webcrypto,microchip_atecc608a}, queuing
+        offline inside Automerge Conflict-Free Replicated Data Type (\texttt{CRDT}) outboxes
+        \parencite{kleppmann2017automerge,kleppmann2019localfirst}.
+\end{enumerate}
+
+\section*{Attenuating High-Density Workflow Choreography Across 25 Scenarios}
+
+The necessity of this constellation architecture becomes unmistakable once we examine the
+dramatically enriched \textbf{25 Sovereign Scenarios} (\texttt{03\_SCENARIOS.md}, spanning
+\texttt{Scenario Zero} through \texttt{Scenario Omega} across Horizontal Waves~A--F). A naive
+prototype imagines a node running two or three linear checklists. In living reality, a single
+governed node sustains \textbf{dozens to thousands of intricate, interlocking workflows} talking
+to one another across room-scoped sub-nodes (\texttt{office}, \texttt{garage},
+\texttt{garden}, \texttt{hearth}) and federating across concentric Trust Rings ($R_0$ through
+$R_6$).
+
+While staggered Fabaceae guilds accumulate photo-thermal degree-days and trigger timber
+trellis requisitions in the workshop, induction stockpots integrate Bigelow pasteurization
+lethality; thermophilic compost bays and biochar retorts close nutrient loops; solar MPPT
+controllers donate compute waste heat from hermetic multi-architecture builds into bathhouse
+hydronics; rotational childcare pods enforce adult-to-infant safety ratios; cargo e-trikes
+clear pairwise Bilateral Clearing Channel (\texttt{BCC}) milk-runs; and sortition panels
+deliberate watershed treaties.
+
+\begin{table}[htbp]
+\centering
+\caption{Workflow Density, Cybernetic Variety Attenuation, and Layer~6 Constellation Footprint Across Node Maturation Stages}
+\label{tab:preface-l6-density}
+\small
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}llrrrl@{}}
+\toprule
+\textbf{Maturation Stage} & \textbf{Civic Scope} & \textbf{Concurrent L4 Workflows} & \textbf{Raw Tokens / Day} & \textbf{Coalesced Somatic Rounds} & \textbf{Typical L6 Constellation Surfaces} \\
+\midrule
+Stage 1A: Household Seed & 1 Lot (4-SBC Cluster) & $38\text{--}68$ & $90\text{--}180$ & $2\text{--}4\text{ / day}$ & Starter 4-Tab Companion + Hearth/Garden View \\
+Stage 1B: Neighborhood Mesh & $5\text{--}12$ Lots ($R_1\text{--}R_2$) & $95\text{--}185$ & $240\text{--}520$ & $4\text{--}7\text{ / pod}$ & + Courier Deck, Care Slate, Bench E-Ink \\
+Stage 2: Cooperative Shell & Subchapter T Commons & $260\text{--}620$ & $700\text{--}1{,}900$ & $6\text{--}12\text{ / guild}$ & + Agora Reader, Lab Notebook, Neighbor Portal \\
+Stage 3: Sovereign Campus & CLT / PPT Bioregion & $850\text{--}2{,}600+$ & $2{,}500\text{--}8{,}400$ & $8\text{--}16\text{ / stewards}$ & Full 18-Surface Constellation + Paper/Voice/E-Ink \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+Table~\ref{tab:preface-l6-density} illustrates W.\ Ross Ashby's Law of Requisite Variety at
+the human-computer boundary \parencite{ashby1956,beer1979}. Were Layer~6 to expose $2{,}600$
+concurrent Layer~4 state machines as a flat task table, human working memory would saturate
+within seconds \parencite{miller1956magical,sweller1988cognitive}. Instead, Layer~6 suppresses
+$85\text{--}90\%$ of silent autonomic homeostasis from somatic feeds, partitions domain
+projections across specialized Constellation apps, and gathers co-located human checks and
+compatible hauling trips into unhurried \textbf{Spatial Homestead Rounds}---preserving human
+serenity alongside the unconditional, zero-penalty \textbf{Protocol of Refusal}.
+
+\begin{figure}[htbp]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+    node distance=0.85cm and 0.9cm,
+    app/.style={draw=teal!75!black, rounded corners=3pt, semithick, fill=teal!6, align=center, font=\scriptsize, minimum width=2.85cm, minimum height=0.95cm, inner sep=4pt},
+    sim/.style={draw=orange!80!black, dashed, rounded corners=3pt, thick, fill=orange!7, align=center, font=\scriptsize, minimum width=3.2cm, minimum height=0.95cm, inner sep=4pt},
+    core/.style={draw=blue!75!black, rounded corners=3pt, thick, fill=blue!6, align=center, font=\footnotesize, minimum width=13.2cm, minimum height=1.1cm, inner sep=5pt},
+    adj/.style={draw=black!75, rounded corners=3pt, semithick, fill=gray!9, align=center, font=\scriptsize, minimum width=6.2cm, minimum height=0.95cm, inner sep=4pt},
+    arr/.style={-{Stealth[length=2.2mm]}, thick}
+]
+    \node[app] (a1) {\textbf{Starter 4-Tab Slate}\\(\texttt{companion\_l6.js})};
+    \node[app, right=0.35cm of a1] (a2) {\textbf{Hearth \& Cultivar}\\Field Slates};
+    \node[app, right=0.35cm of a2] (a3) {\textbf{Bench E-Ink \&}\\Courier Decks};
+    \node[app, right=0.35cm of a3] (a4) {\textbf{Agora, Voice \&}\\Paper Ballots};
+    \node[sim, above=0.75cm of a1, xshift=1.6cm] (oasis) {\textbf{Oasis (\texttt{Layer 1b} WebGPU Twin)}\\Zero Keys $\cdot$ Zero Sockets $\cdot$ \texttt{0x01}};
+    \node[sim, fill=purple!6, draw=purple!70!black, solid, right=0.9cm of oasis, minimum width=5.6cm] (sign) {\textbf{Personal Hardware Signers}\\Web Crypto (\texttt{extractable:false}) \& \texttt{ATECC608A}};
+
+    \node[core, below=0.9cm of a2, xshift=1.55cm] (sem) {
+        \textbf{Uniform Semantic Foundation (\texttt{col-gatewayd} + \texttt{col-commonsd})}\\[2pt]
+        \scriptsize Governed JSON-LD (\texttt{w3id.org/collective/v1}) $\cdot$ RFC 8785 / RDFC-1.0 $\cdot$ Deterministic Read-Back $\cdot$ Domain B Automerge CRDTs
+    };
+
+    \node[adj, below left=0.95cm and -3.1cm of sem] (l5) {
+        \textbf{Inward to Layer 5 (\texttt{col-kmsd})}\\
+        \texttt{/run/collective/ipc/l5\_l6.sock} (\texttt{SEQPACKET})\\
+        Proposals, Ballots, \texttt{Treaty\_CID}, Blinded Pulls
+    };
+    \node[adj, below right=0.95cm and -3.1cm of sem] (l7) {
+        \textbf{Outward to Layer 7 (\texttt{col-adversaryd}, VLAN 40)}\\
+        \texttt{/run/collective/ipc/l6\_l7.sock} (\texttt{SEQPACKET})\\
+        Mundane Semantic Camouflage \& Intake Quarantine
+    };
+
+    \draw[arr, <->, dashed] (oasis.south) -- node[left, font=\tiny] {\texttt{BroadcastChannel}} (a1.north);
+    \draw[arr] (sign.south) -- node[right, font=\tiny] {Ed25519 after Read-Back} (a3.north);
+    \foreach \n in {a1,a2,a3,a4} {
+        \draw[arr, <->] (\n.south) -- (sem.north -| \n.south);
+    }
+    \draw[arr, <->] (sem.south -| l5.north) -- (l5.north);
+    \draw[arr, <->] (sem.south -| l7.north) -- (l7.north);
+\end{tikzpicture}%
+}
+\caption{The Layer~6 Constellation of Convivial Applications atop a Uniform Semantic Foundation, cleanly decoupled from Oasis (\texttt{Layer 1b}) and bounded strictly between \texttt{l5\_l6.sock} and \texttt{l6\_l7.sock}.}
+\label{fig:preface-constellation}
+\end{figure}
+
+\section*{Convening the Six-Specialist Layer~6 Architectural Council}
+
+Just as Lot~402 validated six major Layer~6 capabilities in running code---shared dual-mount
+execution, live JSON-LD need and cultivar parameterization, HTTP \texttt{405} lower-layer
+read-only protection, qualitative 1-to-5 somatic feel strips, and four-node vs.\ Ring-1 swarm
+visibility---it also exposed concrete prototype ceilings requiring specialist review before
+community-wide deployment. A \textbf{Six-Specialist Layer~6 Architectural Council} was
+therefore convened across:
+\begin{itemize}
+\item The \textbf{Semantic Web \& Ontology Architect} (unifying \texttt{@context} IRIs, SHACL shapes, RFC~8785 / \texttt{RDFC-1.0} canonicalization, and zero-float QUDT fixed-point schemas);
+\item The \textbf{Local-First \& Gateway Protocol Engineer} (replacing $1.5\,\mathrm{s}$ full-snapshot polling and in-process runtime coupling with topic-scoped delta streams, \texttt{SOCK\_SEQPACKET} daemon isolation, and Domain~B Automerge CRDT outboxes);
+\item The \textbf{Cryptographic Authorship \& Deliberation Specialist} (enforcing \texttt{extractable: false} Web Crypto Ed25519 signing, mandatory pre-sign Deterministic Read-Back, four-class text provenance tags, and pure-integer Agora/Ricardian treaty pipelines);
+\item The \textbf{Edge NLU \& Adversarial ML Security Auditor} (architecting dual-sandbox Intake vs.\ Drafting model isolation with grammar-constrained decoding, SHA-256 weight governance, and microjoule exergy load shedding);
+\item The \textbf{Calm HCI, Somatic Ergonomics \& Accessibility Specialist} (engineering Spatial Homestead Round Coalescing, the zero-penalty Protocol of Refusal, WCAG~2.2 AAA tokens, and screenless paper/voice/E-Ink modalities); and
+\item The \textbf{Legal Carapace \& Semantic Camouflage Counsel} (purging legacy currency bleed from Layer~6 views and hardening the Mundane Semantic Camouflage Filter across \texttt{l6\_l7.sock}).
+\end{itemize}
+
+Part~I (Chapters~1--8) develops these architectural foundations in full mathematical and
+systems detail, culminating in Chapter~8's line-by-line Specialist Council audit of the live
+codebase. Part~II (Chapters~9--14) then traverses Horizontal Waves~A through~F, proving how
+the Constellation of Convivial Applications supports every human interaction across all
+twenty-five Sovereign Scenarios from a suburban seed lot to terminal bioregional sovereignty.

@@ -1,0 +1,267 @@
+\chapter{The Uniform Semantic Foundation: Pluralistic JSON-LD, Canonicalization, and Dual-Fidelity Blueprints}
+\label{ch:semantic-foundation}
+
+\epigraph{An ontology is an explicit specification of a conceptualization\ldots{} When the knowledge of a domain is represented in a declarative formalism, the set of objects that can be represented is called the universe of discourse.}{---\textcite{gruber1993ontology}, ``A Translation Approach to Portable Ontology Specifications''}
+
+In Chapter~\ref{ch:constellation-membrane}, we established why Layer~6 rejects the authoritarian architecture of a single monolithic ``super-app'' in favor of a pluralistic \textbf{Constellation of Convivial Applications} decoupled from Oasis (\texttt{Layer 1b}) and bounded strictly between \texttt{l5\_l6.sock} and \texttt{l6\_l7.sock}. Yet pluralistic user interfaces pose an immediate systems-engineering hazard. If a washable kitchen E-Ink slate, an offline agroecology fieldbook, a shop-floor woodworking terminal, a bioregional treaty editor, and a POSIX shell script each invent private JSON property names, ad-hoc unit conventions, or serialization-order-dependent hashes, the Constellation fractures into an archipelago of incompatible dialects. A batch of dried split peas harvested on the garden tablet would fail schema validation at the commissary cauldron; a Ricardian treaty drafted in one client would compute a distinct SHA-256 content identifier (\texttt{Treaty\_CID}) when verified in another.
+
+Layer~6 resolves this tension by placing a \textbf{Uniform Semantic Foundation} beneath every surface in the Constellation. Rather than coupling applications to imperative backend controllers or brittle REST view-models, every Layer~6 client reads, validates, signs, and emits self-describing \textbf{W3C JSON-LD~1.1} graphs \parencite{w3c2020jsonld,bernerslee2001semantic}, constrained by declarative \textbf{Shapes Constraint Language (\texttt{SHACL})} forms \parencite{w3c2017shacl}, normalized through \textbf{RFC~8785 JSON Canonicalization (\texttt{JCS})} \parencite{rfc8785} and \textbf{W3C RDF Dataset Canonicalization (\texttt{RDFC-1.0})} \parencite{w3c2024rdfc}, and quantified exclusively in 64-bit integer International System (\texttt{SI}) fixed-point units anchored in \textbf{QUDT} \parencite{qudt2024}. Crucially, uniformity at the cryptographic and thermodynamic substrate never implies cultural monoculture at the human surface: Layer~6 explicitly supports \textbf{pluralistic overlapping ontologies}, allowing agronomic, engineering, ecological, and indigenous place-based knowledge graphs to coexist over the same physical watershed without flattening lived meaning into state-style legibility \parencite{scott1998,costanzachock2020design}.
+
+\section{Harmonizing the Semantic Substrate and Pluralistic Overlapping Graphs}
+\label{sec:pluralistic-ontologies}
+
+\subsection{Diagnosing and Unifying Namespace Drift Across \texttt{core/6\_intent/}}
+
+An honest engineering audit of the repository's bootstrap semantic artifacts under \texttt{core/6\_intent/} reveals how easily namespace drift emerges during rapid prototyping. Across the initial seed catalogs, three distinct Internationalized Resource Identifier (\texttt{IRI}) roots appeared simultaneously:
+\begin{enumerate}
+    \item \texttt{https://collective.network/ontology/v1/} (and sub-paths \texttt{needs/}, \texttt{computational\_models/}) inside \texttt{pea\_to\_soup\_needs.jsonld} and the \texttt{NodeFacilityBlueprint} manifests;
+    \item \texttt{https://collective.mesh/ontology/v1\#} (aliased as \texttt{col:}) inside \texttt{fabaceae\_cultivars.jsonld}; and
+    \item \texttt{https://w3id.org/collective/agora/v1} inside the \texttt{col-commonsd} continuous double-auction order stubs (\texttt{src/daemons/col-commonsd/main.cpp}).
+\end{enumerate}
+
+When a single starter web drawer (\texttt{companion\_l6.js}) parses raw JSON keys by string matching without expanding JSON-LD \texttt{@context} mappings, such IRI divergence remains latent. The moment two independent Constellation applications expand and canonicalize RDF quads prior to hardware signing, however, \texttt{https://collective.network/ontology/v1/SovereignNeed} and \texttt{https://collective.mesh/ontology/v1\#SovereignNeed} expand into non-identical predicates, breaking cryptographic equivalence.
+
+Version~3.1 therefore ratifies a single governed root namespace across all Layer~6 schemas while preserving permanent backward aliases inside content-addressed offline context bundles:
+\begin{equation}
+    \mathcal{N}_{\mathrm{core}} = \texttt{https://w3id.org/collective/v1/}
+\end{equation}
+Crucially, \textbf{no Layer~6 daemon or Constellation client ever performs live HTTP dereferencing of external URLs at runtime}. Fetching \texttt{https://schema.org/} or \texttt{https://w3id.org/} over the public internet during intent compilation would violate both offline local-first sovereignty \parencite{kleppmann2019localfirst} and VLAN~30 air-gap hygiene. Instead, every context document is pinned inside \texttt{/var/lib/collective/ontologies/} by its SHA-256 content identifier (\texttt{Context\_CID}) and ratified through a Layer~5 governance decision before \texttt{col-commonsd} loads it into memory.
+
+\begin{table}[htbp]
+\centering
+\caption{Governed Offline \texttt{@context} Namespace Registry Unifying the Layer~6 Constellation}
+\label{tab:ch2-namespace-registry}
+\small
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}llll@{}}
+\toprule
+\textbf{Prefix} & \textbf{Canonical Governed IRI} & \textbf{Repository Domain Scope} & \textbf{Legacy Bootstrap Alias Mapped} \\
+\midrule
+\texttt{col:} & \texttt{https://w3id.org/collective/v1/core\#} & Blueprints, workflows, capabilities, HLC provenance & \texttt{collective.mesh/ontology/v1\#} \\
+\texttt{need:} & \texttt{https://w3id.org/collective/v1/needs\#} & Stoichiometric needs, BOMs, closed-loop byproducts & \texttt{collective.network/ontology/v1/needs/} \\
+\texttt{agro:} & \texttt{https://w3id.org/collective/v1/agro\#} & Cultivar phenology, soil VWC, N-P-K, coppice guilds & \texttt{col:LegumeCultivarSpec} \\
+\texttt{agora:} & \texttt{https://w3id.org/collective/v1/agora\#} & Exergy clearing orders, Ricardian \texttt{Treaty\_CID} & \texttt{w3id.org/collective/agora/v1} \\
+\texttt{nlu:} & \texttt{https://w3id.org/collective/v1/models\#} & Edge model weights, GBNF grammars, token \texttt{uJ} cost & \texttt{.../v1/computational\_models/} \\
+\texttt{qudt:} & \texttt{http://qudt.org/schema/qudt/} & Physical dimensions and 64-bit fixed-point SI scaling & Pinned offline QUDT v2.1 subset \\
+\texttt{sh:} & \texttt{http://www.w3.org/ns/shacl\#} & Declarative form generation and boundary constraints & Pinned offline W3C SHACL core \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+\subsection{Pluralistic Overlapping Graphs Without Epistemic Flattening}
+
+James C.\ Scott demonstrated in \textit{Seeing Like a State} \parencite{scott1998} that high-modernist administrative systems destroy ecological and cultural resilience when they force living landscapes into a single utilitarian taxonomy---reducing an old-growth watershed to ``board-feet of merchantable timber.'' Layer~6 prevents ontological monoculture by exploiting a foundational property of RDF Named Graphs \parencite{w3c2020jsonld}: a single physical subject URI (such as a watershed parcel, a heritage seed lot, or a coppice grove in Scenario~\texttt{Eta}) may be described simultaneously by multiple overlapping, cryptographically signed Named Graphs without requiring one community's vocabulary to overwrite another's.
+
+Formally, let an entity $e$ carry a shared canonical subject identifier $u_e$. The node's semantic store $\mathcal{D}$ holds a tuple of named graphs:
+\begin{equation}
+    \mathcal{D}(u_e) = \bigl\langle G_{\mathrm{thermo}}(u_e),\; G_{\mathrm{gov}}(u_e),\; G_{\mathrm{dialect}}^{(1)}(u_e),\; \dots,\; G_{\mathrm{dialect}}^{(m)}(u_e) \bigr\rangle
+\end{equation}
+Here $G_{\mathrm{thermo}}(u_e)$ encodes the invariant stoichiometric and safety predicates required by Layer~4 and Layer~3 (for instance, root-zone millikelvin bounds, volumetric water content in basis points, or Bigelow pasteurization hold milliseconds), while $G_{\mathrm{dialect}}^{(k)}(u_e)$ encodes local bioregional, indigenous, artisanal, or linguistic classifications governed by the communities of practice in Trust Rings $R_1 \dots R_4$---such as seasonal phenological indicators, ceremonial harvest prohibitions (\texttt{MotherTreeSanctuaryPolygon} in Scenario~\texttt{Eta}), or culinary heritage notes. When a cultivar fieldbook renders $u_e$ for an indigenous seed steward, it foregrounds $G_{\mathrm{dialect}}^{(k)}(u_e)$ alongside $G_{\mathrm{thermo}}(u_e)$; when \texttt{col-commonsd} compiles parameters downward across \texttt{l5\_l6.sock}, it extracts the exact fixed-point safety invariants while preserving any sanctuary veto predicates declared in $G_{\mathrm{gov}}(u_e)$.
+
+\section{Canonical Hashing, Fixed-Point QUDT Purity, and SHACL Form Generation}
+\label{sec:canonicalization-shacl}
+
+\subsection{Defeating Serialization Drift and Delimiter Collisions}
+
+In a Constellation of heterogeneous clients---JavaScript PWAs running in browser engines, C++20 station daemons on salvaged x86\_64 terminals, Rust/Python CLI scripts, and E-Ink microcontrollers---two applications authoring the exact same semantic intent will routinely serialize JSON keys in different orders or emit whitespace variations. Worse still, naive string concatenation introduces classic cryptographic second-preimage vulnerabilities. In the bootstrap \texttt{col-commonsd} prototype (\texttt{src/daemons/col-commonsd/main.cpp}, lines~178--187), \texttt{RicardianTreaty::ComputeCID()} concatenated three raw strings separated by an unescaped pipe character:
+\begin{equation*}
+    \mathrm{SHA256}\bigl(\texttt{legal\_prose} \;\|\; \text{``\texttt{|}''} \;\|\; \texttt{jsonld\_schema} \;\|\; \text{``\texttt{|}''} \;\|\; \texttt{bpmn\_invariants}\bigr) \quad \text{(Vulnerable Bootstrap Stub)}
+\end{equation*}
+Because the delimiter \texttt{"|"} can appear lawfully inside legal prose or BPMN expressions without length framing, shifting bytes across a pipe boundary produces identical SHA-256 digests for distinct treaties!
+
+Version~3.1 eliminates both serialization drift and delimiter ambiguity through a two-tier canonicalization protocol paired with explicit 64-bit big-endian length framing and domain-separation tags:
+\begin{enumerate}
+    \item \textbf{Graph-Level Canonicalization (\texttt{RDFC-1.0}):} Any JSON-LD intent or schema graph $G$ is expanded against the offline pinned \texttt{@context} registry (rejecting any unmapped properties via \texttt{@vocab: null} strict mode so typos cannot silently vanish during expansion) and normalized into canonical N-Quads via the W3C RDF Dataset Canonicalization algorithm (\texttt{RDFC-1.0}, superseding \texttt{URDNA2015}) \parencite{w3c2024rdfc}. Blank-node identifiers are deterministically relabeled (\texttt{\_:c14n0}, \texttt{\_:c14n1}, $\dots$) solely from graph isomorphism.
+    \item \textbf{Wire-Envelope Canonicalization (\texttt{RFC 8785 JCS}):} Transport metadata envelopes wrapping canonical N-Quads are serialized strictly under IETF RFC~8785 JSON Canonicalization Scheme \parencite{rfc8785}, enforcing lexicographic UTF-16 key ordering and deterministic integer formatting.
+    \item \textbf{Length-Prefixed Domain-Separated Commitments:} Every composite commitment prepends an ASCII versioned domain separator $\tau \in \{\texttt{"COL-INTENT-V3.1\textbackslash0"}, \texttt{"COL-TREATY-V3.1\textbackslash0"}\}$ followed by explicit 64-bit unsigned big-endian byte lengths $\mathrm{BE64}(|x_i|)$ for every constituent payload $x_i$:
+    \begin{equation}
+        \mathrm{CID}(\tau, x_1, \dots, x_k) = \mathrm{SHA256}\!\left(\tau \;\middle\|\; \big\|_{i=1}^{k} \bigl(\mathrm{BE64}(|x_i|) \,\|\, x_i\bigr)\right)
+        \label{eq:length-prefixed-cid}
+    \end{equation}
+\end{enumerate}
+
+\begin{theorem}[Cross-Constellation Semantic Hash Equivalence and Collision Resistance]
+\label{thm:semantic-hash-equivalence}
+Let $A_1$ and $A_2$ be any two Constellation applications operating over the pinned offline context bundle $\mathcal{C}$. For any two JSON-LD documents $d_1, d_2$ accepted under strict expansion ($\texttt{@vocab: null}$), $\mathrm{Intent\_CID}(d_1) = \mathrm{Intent\_CID}(d_2)$ if and only if $d_1$ and $d_2$ denote isomorphic RDF datasets $\mathcal{G}(d_1) \cong \mathcal{G}(d_2)$ (up to cryptographic SHA-256 collision resistance). Moreover, for any tripartite tuple $(P, S, B)$ hashed via Equation~\eqref{eq:length-prefixed-cid}, no boundary shift of delimiter bytes among $P$, $S$, and $B$ can yield an identical preimage.
+\end{theorem}
+\begin{proof}
+Under strict offline JSON-LD~1.1 expansion against $\mathcal{C}$, every JSON key and value maps deterministically to an RDF quad or halts with \texttt{ERR\_UNMAPPED\_TERM}. By completeness and soundness of W3C \texttt{RDFC-1.0} canonicalization \parencite{w3c2024rdfc}, canonical N-Quad serialization $\mathrm{c14n}(\mathcal{G})$ produces identical UTF-8 byte sequences if and only if $\mathcal{G}(d_1) \cong \mathcal{G}(d_2)$. For boundary framing, suppose $(\tau, x_1, \dots, x_k)$ and $(\tau, x'_1, \dots, x'_k)$ produce the identical concatenated byte stream in Equation~\eqref{eq:length-prefixed-cid}. Reading the fixed-width 16-byte prefix $\tau$ and the first 8-byte integer $\mathrm{BE64}(|x_1|) = \mathrm{BE64}(|x'_1|)$ uniquely fixes $|x_1| = |x'_1|$, and therefore fixes the exact slice $x_1 = x'_1$. By induction on $i = 2, \dots, k$, $x_i = x'_i$ for all $i$, eliminating all delimiter-shift second preimages.
+\end{proof}
+
+\subsection{64-Bit Fixed-Point QUDT Purity: Banishing IEEE-754 Floats at the Source}
+
+Canonicalization alone cannot save determinism if schemas admit IEEE-754 floating-point numbers. In \texttt{pea\_to\_soup\_needs.jsonld} (line~35), an early bootstrap entry wrote \texttt{"quantity": 4.68, "unit": "MJ"}, while \texttt{col-commonsd/main.cpp} (lines~203, 229--231) stored \texttt{double max\_exergy\_joules} and \texttt{double price\_joules\_per\_unit}. Across ARM64 mobile browsers and x86\_64 POSIX daemons, decimal-to-binary float rounding and fused multiply-add instructions diverge by $1\text{--}2\,\mathrm{ULP}$, fracturing both \texttt{RFC 8785} serialization and Layer~3 ledger clearing.
+
+\begin{invariant}[Zero-Float Semantic Schema Invariant]
+\label{inv:zero-float-jsonld}
+Every physical, thermodynamic, temporal, acoustic, chemical, and proportional quantity inside a Layer~6 JSON-LD graph MUST be encoded as a signed or unsigned 64-bit exact integer (\texttt{xsd:long} or \texttt{xsd:unsignedLong}, bounded within $\pm(2^{53}-1)$ when exchanged directly with JavaScript runtimes without \texttt{BigInt} string wrapping, or canonical decimal integer strings for full 64-bit microjoule ranges) paired with an explicit QUDT-mapped fixed-point unit from the thirteen canonical Sovereign Stack dimensions: \texttt{uJ} ($1\,\mathrm{kWh} = 3{,}600{,}000{,}000{,}000\,\mu\mathrm{J}$), \texttt{mW}, \texttt{mV}, \texttt{mK} ($0^\circ\mathrm{C} = 273{,}150\,\mathrm{mK}$), \texttt{mks}, \texttt{bp} ($10{,}000\,\mathrm{bp} = 100\%$), \texttt{mg}, \texttt{mL}, \texttt{mm}, \texttt{mpH}, \texttt{ppm}, \texttt{cB}, and \texttt{ms}. Any JSON token matching the lexical grammar of a decimal fraction (\texttt{[.eE]}) in a numeric slot is rejected at \texttt{col-gatewayd} ingress with \texttt{ERR\_FLOAT\_PROHIBITED}.
+\end{invariant}
+
+\subsection{Declarative SHACL Shapes Driving Zero-Logic Constellation Forms}
+
+How can a community member author a new agroecological or workshop intent without writing custom UI code for every Constellation app? Layer~6 solves this via \textbf{W3C SHACL (\texttt{Shapes Constraint Language})} \parencite{w3c2017shacl}. Every ratified intent type carries a companion \texttt{sh:NodeShape} specifying target classes, required properties (\texttt{sh:minCount}), fixed-point physical safety bounds (\texttt{sh:minInclusive}, \texttt{sh:maxInclusive}), and human-readable multilingual labels. Any Constellation client---whether a full graphical tablet, a CLI wizard, or a printable paper form generator---introspects the \texttt{sh:NodeShape} directly to render accessible input controls and client-side pre-checks while \texttt{col-commonsd} enforces the identical \texttt{sh:NodeShape} at ingress:
+
+\begin{lstlisting}[language=C++,caption={Length-prefixed canonical CID builder and zero-float SHACL slot validator in \texttt{col-commonsd} (C++20).}]
+#include <array>
+#include <cstdint>
+#include <cstring>
+#include <span>
+#include <string_view>
+
+namespace col::commons::semantic {
+
+struct CanonicalDigest256 {
+    std::array<std::uint8_t, 32> bytes{};
+};
+
+// Writes 64-bit big-endian length prefix to eliminate delimiter-shift collisions.
+inline void AppendLengthPrefixedField(class Sha256Hasher& hasher,
+                                      std::span<const std::uint8_t> payload) noexcept {
+    const std::uint64_t len = static_cast<std::uint64_t>(payload.size());
+    const std::array<std::uint8_t, 8> be_len = {
+        static_cast<std::uint8_t>((len >> 56U) & 0xFFU),
+        static_cast<std::uint8_t>((len >> 48U) & 0xFFU),
+        static_cast<std::uint8_t>((len >> 40U) & 0xFFU),
+        static_cast<std::uint8_t>((len >> 32U) & 0xFFU),
+        static_cast<std::uint8_t>((len >> 24U) & 0xFFU),
+        static_cast<std::uint8_t>((len >> 16U) & 0xFFU),
+        static_cast<std::uint8_t>((len >>  8U) & 0xFFU),
+        static_cast<std::uint8_t>((len >>  0U) & 0xFFU),
+    };
+    hasher.Update(be_len);
+    hasher.Update(payload);
+}
+
+enum class ShaclValidationCode : std::uint8_t {
+    VALID_FIXED_POINT       = 0,
+    ERR_UNMAPPED_TERM       = 1,
+    ERR_FLOAT_PROHIBITED    = 2,
+    ERR_RANGE_OUT_OF_BOUNDS = 3
+};
+
+struct IntegerPropertyConstraint {
+    std::int64_t min_inclusive;
+    std::int64_t max_inclusive;
+};
+
+[[nodiscard]] constexpr ShaclValidationCode ValidateLexicalIntegerSlot(
+    std::string_view raw_json_token,
+    std::int64_t parsed_value,
+    IntegerPropertyConstraint bounds) noexcept {
+    for (const char ch : raw_json_token) {
+        if (ch == '.' || ch == 'e' || ch == 'E') {
+            return ShaclValidationCode::ERR_FLOAT_PROHIBITED;
+        }
+    }
+    if (parsed_value < bounds.min_inclusive || parsed_value > bounds.max_inclusive) {
+        return ShaclValidationCode::ERR_RANGE_OUT_OF_BOUNDS;
+    }
+    return ShaclValidationCode::VALID_FIXED_POINT;
+}
+
+} // namespace col::commons::semantic
+\end{lstlisting}
+
+\section{Recursive Stoichiometric Need DAGs, Cultivar Catalogs, and Dual-Fidelity Blueprints}
+\label{sec:needs-cultivars-blueprints}
+
+To appreciate how this uniform semantic foundation powers both Oasis on Lot~402 and real physical settlements, we examine the three foundational semantic families already operating inside \texttt{core/6\_intent/}.
+
+\subsection{Recursive Need DAGs and Closed Trophic Loops (\texttt{pea\_to\_soup\_needs.jsonld})}
+
+In conventional e-commerce or municipal ERP software, a ``need'' is an isolated SKU line item whose upstream ecological dependencies and downstream waste streams are externalized. In \texttt{core/6\_intent/needs/pea\_to\_soup\_needs.jsonld}, by contrast, every \texttt{SovereignNeed} forms a vertex in a \textbf{closed-loop stoichiometric graph} \parencite{georgescu1971}:
+\begin{itemize}
+    \item \textbf{Active vs.\ Discoverable Needs:} Ten core needs carry \texttt{mapping\_status: "MAPPED\_ACTIVE"} (such as \texttt{need:pea\_soup}, \texttt{need:split\_peas}, \texttt{need:mirepoix\_roots}, \texttt{need:bone\_broth}, \texttt{need:pasture\_eggs}, \texttt{need:calcium\_grit}, \texttt{need:thermophilic\_compost}, and \texttt{need:pyrolysis\_biochar}), while three carry \texttt{"UNMAPPED\_CANDIDATE"} (\texttt{DiscoverableNeedCandidate}: sourdough spelt boule, lacto-fermented garden kraut, and dried chamomile-mint tisane). When a steward discovers or defines an unmapped need in any Constellation client, \texttt{col-commonsd} registers the semantic definition and opens a Layer~5 governance proposal to bind workflows---never mutating Layer~4 directly.
+    \item \textbf{Recursive \texttt{recipe\_bom} and Closed \texttt{byproducts} Cycles:} While the upward dependency tree of a batch (\texttt{recipe\_bom}) is acyclically resolvable at planning time, its material \texttt{byproducts} deliberately close ecological cycles! Simmering \texttt{need:bone\_broth} yields spent bones calcined into \texttt{need:calcium\_grit}; calcium grit feeds pasture hens producing \texttt{need:pasture\_eggs} and rotational poultry bones; kitchen peelings, eggshells, and nitrogen-rich spent pea vines (\texttt{2,800 g} per batch) route into \texttt{need:thermophilic\_compost}, which combines with \texttt{need:pyrolysis\_biochar} to regenerate the living soil growing \texttt{need:split\_peas}.
+    \item \textbf{Matter-Phase Tagging and Layer~7 Boundary Quarantine:} Every need declares \texttt{matter\_phase} (\texttt{LIQUID}, \texttt{GRANULAR\_PARTICULATE}, or \texttt{DISCRETE\_SOLID}), allowing Layer~4 and Layer~6 to coalesce compatible hauling trips (Chapter~\ref{ch:cognitive-triage}), alongside explicit \texttt{constitutional\_r0\_baseline: true} flags guaranteeing zero domestic token minting. Legacy statutory fallback bindings (\texttt{l7\_channel\_bindings}) are segregated into dedicated sub-objects consumed solely when an upward Intent U-Turn reaches Layer~7.
+\end{itemize}
+
+\subsection{Declarative Cultivar Parameterization (\texttt{fabaceae\_cultivars.jsonld})}
+
+A hallmark of sound semantic architecture is separating \textit{invariant process topology} from \textit{declarative domain parameters}. Consider climbing and bush legumes in \texttt{core/6\_intent/cultivars/fabaceae\_cultivars.jsonld}. All four cultivars---\texttt{chrono\_virtual\_pea} (\textit{Pisum virtualis}, explicitly flagged \texttt{isVirtualSimTuned: true} for single-session Lot~402 rehearsal), \texttt{little\_marvel\_pea} (1908 cool-season heirloom), \texttt{alderman\_telephone\_pea} (1891 Victorian $1{,}850\,\mathrm{mm}$ split pea), and \texttt{kentucky\_wonder\_bean} (1864 warm-season pole bean)---execute on the \textbf{exact same Layer~4 workflow} (\texttt{wf:pea\_cultivation}) without recompiling a single byte of state-machine logic!
+
+Selecting a cultivar in the Garden Fieldbook (or Tab~1 of the starter Companion App) emits a signed semantic parameter intent that binds root-zone millikelvin thresholds (\texttt{min\_growth\_temp\_mk: 277150} for cool peas vs.\ \texttt{285150} for pole beans), volumetric water content bands (\texttt{target\_opt\_vwc\_bp}), atmospheric $\mathrm{N}_2$ fixation vs.\ soil N-P-K draw (\texttt{fixes\_atmospheric\_n2}), and trellis ridge height (\texttt{900 mm} vs.\ \texttt{1850 mm}). Once \texttt{crop\_sown != 0} is attested in Layer~3, the phenotype locks immutably for the remainder of the biological cycle.
+
+\subsection{Dual-Fidelity Real Blueprints (\texttt{NodeFacilityBlueprint})}
+
+Finally, \texttt{core/6\_intent/blueprints/*.jsonld} solves the bridge between spatial simulation and physical construction through \textbf{Dual-Fidelity Real Blueprints}. Every \texttt{NodeFacilityBlueprint} (such as \texttt{bp\_gamma\_stage1\_hearth\_and\_garden.jsonld} and \texttt{bp\_zero\_stage1\_homelab\_workstation.jsonld}) unites four orthogonal, canonical sub-graphs under one ratified \texttt{treatyCid}:
+\begin{enumerate}
+    \item \texttt{realWorldEngineeringSpec}: Exact physical tolerances, Bigelow $F_0$ pasteurization holds ($\ge 347{,}150\,\mathrm{mK}$ for $120{,}000\,\mathrm{ms}$), fermentation acidity gates ($\le 4{,}600\,\mathrm{mpH}$), EPA~503 Class~A thermophilic compost holds ($\ge 328{,}150\,\mathrm{mK}$ for $72\,\mathrm{h}$), and fixed-point \texttt{billOfMaterials} masses in milligrams.
+    \item \texttt{layer5GovernancePolicy}: Constitutional legal carapace bindings (such as UUNAA Section~6 private food club status), anti-panopticon sensor rules (permitting PT100 and pH probes while banning cameras and microphones), required BBS+ credentials (\texttt{Food\_Safety\_Steward\_L1}), and surplus bounds $Q_{\mathrm{avail}} = \max(0, Q_{\mathrm{inv}} - F_{\mathrm{eco}} - B_{\mathrm{baseline}})$.
+    \item \texttt{layer4CustomizableWorkflow}: Deterministic step bindings, including explicit \texttt{L4 -> L5 -> L6 -> L7} Intent U-Turn yields when local larder stock misses on Day~1.
+    \item \texttt{oasisSimulationProjection}: Voxel bounding boxes, somatic caloric estimates, \texttt{qualityFlagEnforced: 1} (\texttt{0x01}), and explicit support for three selectable fidelity modes---\texttt{MACRO\_ABSTRACTED} (architectural settlement planning), \texttt{MULTI\_STAGE\_SUBSET} (daily household choreography), and \texttt{FULL\_STOICHIOMETRIC\_HIL} (hardware-in-the-loop sensor rehearsal).
+\end{enumerate}
+
+\begin{lstlisting}[language=jsonld,caption={Canonical v3.1 JSON-LD fragment harmonizing \texttt{SovereignNeed} stoichiometry with pure 64-bit fixed-point \texttt{uJ}, \texttt{mg}, \texttt{mL}, and \texttt{mK} units.}]
+{
+  "@context": {
+    "@version": 1.1,
+    "@vocab": null,
+    "col": "https://w3id.org/collective/v1/core#",
+    "need": "https://w3id.org/collective/v1/needs#",
+    "qudt": "http://qudt.org/schema/qudt/"
+  },
+  "@id": "need:pea_soup",
+  "@type": "need:SovereignNeed",
+  "col:title": "Communal Split-Pea & Mirepoix Soup with Collagen Bone Broth",
+  "need:mappingStatus": "MAPPED_ACTIVE",
+  "need:category": "NOURISHMENT_R0_BASELINE",
+  "need:constitutionalR0Baseline": true,
+  "need:domesticCareTokenMinting": 0,
+  "need:matterPhase": "LIQUID",
+  "need:standardBatchVolumeMl": 4000,
+  "need:exergyCostMicrojoules": 4680000000000,
+  "need:minPasteurizationTempMk": 347150,
+  "need:minPasteurizationHoldMs": 120000,
+  "need:recipeBom": [
+    { "need:inputNeed": "need:split_peas", "need:massMg": 600000, "need:role": "PRIMARY_LEGUME" },
+    { "need:inputNeed": "need:mirepoix_roots", "need:massMg": 800000, "need:role": "AROMATIC_BASE" },
+    { "need:inputNeed": "need:bone_broth", "need:volumeMl": 1500, "need:role": "COLLAGEN_STOCK" },
+    { "need:inputNeed": "need:node_electricity", "need:energyUj": 4680000000000, "need:role": "INDUCTION_HEAT" }
+  ],
+  "need:byproducts": [
+    { "need:outputItem": "mirepoix_peelings_and_shells", "need:massMg": 180000, "need:routesTo": "need:thermophilic_compost" }
+  ]
+}
+\end{lstlisting}
+
+\begin{figure}[htbp]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+    node distance=0.9cm and 1.1cm,
+    box/.style={draw=blue!75!black, rounded corners=3pt, semithick, fill=blue!5, align=center, font=\scriptsize, minimum width=3.6cm, minimum height=1.05cm, inner sep=4pt},
+    canon/.style={draw=teal!80!black, rounded corners=3pt, thick, fill=teal!7, align=center, font=\scriptsize, minimum width=12.2cm, minimum height=1.0cm, inner sep=5pt},
+    cycle/.style={draw=green!60!black, rounded corners=3pt, semithick, fill=green!6, align=center, font=\scriptsize, minimum width=2.7cm, minimum height=0.9cm, inner sep=3pt},
+    arr/.style={-{Stealth[length=2.2mm]}, thick}
+]
+    \node[box] (g1) {\textbf{Thermodynamic Graph $G_{\mathrm{thermo}}$}\\64-bit SI Units (\texttt{uJ}, \texttt{mK}, \texttt{bp}, \texttt{mg})\\SHACL Bounds \& Hauling Phase};
+    \node[box, right=0.55cm of g1] (g2) {\textbf{Governance Graph $G_{\mathrm{gov}}$}\\\texttt{R0\_BASELINE} (\texttt{0} Token Minting)\\BBS+ Gates \& Sanctuary Vetoes};
+    \node[box, right=0.55cm of g2] (g3) {\textbf{Pluralistic Graph $G_{\mathrm{dialect}}^{(k)}$}\\Bioregional \& Indigenous Lexicons\\Dual-Fidelity Oasis Projection};
+
+    \node[canon, below=0.85cm of g2] (c14n) {
+        \textbf{Pinned Offline \texttt{@context} (\texttt{w3id.org/collective/v1/}) + W3C \texttt{RDFC-1.0} \& \texttt{RFC 8785 JCS}}\\[2pt]
+        Length-Prefixed Domain-Separated SHA-256 $\longrightarrow$ Identical \texttt{Intent\_CID} / \texttt{Treaty\_CID} Across All Constellation Apps
+    };
+
+    \node[cycle, below left=1.0cm and 2.5cm of c14n] (soup) {\textbf{\texttt{need:pea\_soup}}\\\texttt{4000 mL}, \texttt{347150 mK}};
+    \node[cycle, right=0.65cm of soup] (compost) {\textbf{\texttt{need:compost}}\\\texttt{328150 mK}, $72\,\mathrm{h}$};
+    \node[cycle, right=0.65cm of compost] (peas) {\textbf{\texttt{need:split\_peas}}\\\texttt{fabaceae\_cultivars}};
+    \node[cycle, right=0.65cm of peas] (broth) {\textbf{\texttt{need:bone\_broth}}\\$\leftrightarrow$ \texttt{calcium\_grit}};
+
+    \foreach \g in {g1,g2,g3} {
+        \draw[arr] (\g.south) -- (c14n.north -| \g.south);
+    }
+    \draw[arr] (c14n.south) -- ++(0,-0.35cm) -| (soup.north);
+    \draw[arr] (soup.east) -- node[above, font=\tiny] {peelings} (compost.west);
+    \draw[arr] (compost.east) -- node[above, font=\tiny] {humus} (peas.west);
+    \draw[arr, bend left=22] (peas.south) to node[below, font=\tiny] {\texttt{recipe\_bom} (\texttt{600000 mg}) / spent vines return to compost} (soup.south);
+    \draw[arr, <->] (peas.east) -- node[above, font=\tiny] {eggs/ash} (broth.west);
+\end{tikzpicture}%
+}
+\caption{Pluralistic Named Graphs normalized through offline \texttt{RDFC-1.0} and \texttt{RFC 8785} canonicalization into deterministic \texttt{Intent\_CID} commitments driving closed-loop \texttt{SovereignNeed} and \texttt{LegumeCultivarSpec} cycles.}
+\label{fig:ch2-semantic-foundation}
+\end{figure}
+
+Figure~\ref{fig:ch2-semantic-foundation} illustrates why the Uniform Semantic Foundation liberates Layer~6 from single-app lock-in. Because stoichiometry, phenology, safety bounds, and dual-fidelity projections reside in canonical, self-validating Linked Data graphs rather than hardcoded JavaScript views, any community guild can craft a bespoke, calm interface tailored to its physical craft without fracturing institutional truth. Yet before any canonical \texttt{Intent\_CID} may cross \texttt{l5\_l6.sock} to commit resources or ratify law, Layer~6 must prove that a living human being consciously authored, read back, and signed that commitment---even when operating days offline. That ceremony is the subject of Chapter~\ref{ch:authorship-crdt}.

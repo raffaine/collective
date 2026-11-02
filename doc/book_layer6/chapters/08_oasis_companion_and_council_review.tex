@@ -1,0 +1,180 @@
+\chapter{Oasis and the Starter Companion in Practice: Highlights, Specialist Council Audit, and Constellation Roadmap}
+\label{ch:oasis-council-l6}
+
+\epigraph{The best way to predict the future is to invent it---and then subject the working prototype to unsparing criticism before mistaking the scaffolding for the building.}{---Adapted from Alan Kay \& \textcite{engelbart1962augmenting}}
+
+Chapters~\ref{ch:constellation-membrane} through~\ref{ch:agora-treaties} specified the full constitutional target architecture of Layer~6: strict bilateral \texttt{SOCK\_SEQPACKET} adjacency across \texttt{l5\_l6.sock} and \texttt{l6\_l7.sock}, a pluralistic \textbf{Constellation of Convivial Applications} standing atop a \textbf{Uniform Semantic Foundation}, mandatory pre-sign Deterministic Read-Back with hardware Ed25519 custody, high-density Spatial Homestead Round Coalescing, dual-sandbox edge language models, WCAG~2.2~AAA and screenless parity, and pure-integer Ricardian treaties shielded by Mundane Semantic Camouflage.
+
+Unlike speculative whitepapers, The Sovereign Stack tests its architecture continuously against running C++20 and JavaScript code inside \textbf{Lot~402}---the Stage-1 suburban proving ground of \textbf{Oasis (\texttt{Layer 1b})} paired with live POSIX stack daemons. Over the recent engineering cycle, Oasis achieved a decisive architectural milestone: it cleanly extracted Layer~6 civic, need-authoring, governance, and workflow-inspection interactions out of the 3D WebGPU engine into an independent \textbf{Layer~6 Starter Companion Application} (\texttt{core/1\_simulation/src/web/companion/index.html} and \texttt{companion\_l6.js}) backed by real stack execution via \texttt{col-gatewayd}.
+
+This chapter performs two tasks essential to honest engineering stewardship. First, Section~\ref{sec:lot402-highlights} documents \textbf{six major Layer~6 capabilities already working end-to-end on Lot~402 today}, citing exact source files, line ranges, C++20 methods, and JSON-LD catalogs. Second, Section~\ref{sec:council-audit-l6} convenes the \textbf{Six-Specialist Layer~6 Architectural Council} to diagnose \textbf{seven concrete prototype ceilings} exposed during high-density stress review---providing exact code-level remedies and a four-milestone engineering roadmap (Section~\ref{sec:constellation-roadmap}) from the single starter app to a full production Constellation.
+
+\section{Modal Demarcation and Six Working Layer~6 Highlights on Lot~402}
+\label{sec:lot402-highlights}
+
+\subsection{Why Extracting the Companion App Validated Sovereign Separation of Concerns}
+
+Inside \texttt{core/1\_simulation/}, the Oasis WebGPU 3D spatial twin enforces strict constitutional containment: it holds zero Ed25519 signing keys, opens zero external network sockets, and tags every synthetic sensor reading with provenance flag \texttt{QUALITY\_SIMULATED = 0x01} (visually framed with simulation-mode badges distinct from physical \texttt{QUALITY\_HARDWARE\_ROOT = 0x02}). By moving all Layer~6 interactions out of the 3D canvas into \texttt{companion\_l6.js} communicating over HTTP and \texttt{BroadcastChannel} with \texttt{col-gatewayd}, the team proved that \textbf{the exact same Layer~6 application code used during Lot~402 rehearsal can serve as the starter production application for a physical Collective node}.
+
+Six concrete architectural highlights are live and verifiable in the repository today:
+
+\subsubsection{Highlight 1: 100\% Shared Dual-Mount Companion App and Zero-Mock Offline Honesty}
+The module \texttt{core/1\_simulation/src/web/js/companion\_l6.js} (lines~1--1482) mounts identically across two execution surfaces without forked UI logic:
+\begin{itemize}
+    \item as an in-page slide-over drawer (\texttt{\#l6-companion-drawer} in \texttt{core/1\_simulation/src/shell\_minimal.html}, lines~104--106) toggled alongside the 3D Lot~402 viewport without capturing WebGPU pointer-lock; and
+    \item as a standalone browser or mobile application served directly by \texttt{col-gatewayd} at \texttt{GET /companion} (\texttt{core/1\_simulation/src/web/companion/index.html}, routed in \texttt{src/daemons/col-gatewayd/gateway\_server.hpp}, lines~1483--1535).
+\end{itemize}
+Cross-tab state synchronization runs over \texttt{BroadcastChannel('oasis\_daemon\_sync')} inside \texttt{daemon\_client.js} (lines~56--73). Crucially, if \texttt{col-gatewayd} is unreachable, \texttt{companion\_l6.js} (lines~156--161) refuses to invent synthetic client-side mock numbers, surfacing an explicit \texttt{\#l6-offline-banner} until daemon telemetry resumes.
+
+\subsubsection{Highlight 2: Semantic Need Discovery, Stoichiometric Enrichment, and \texttt{+ Define Need}}
+Tab~1 (\textit{Needs \& Requests}, \texttt{companion\_l6.js}, lines~566--818) loads live community needs enriched at daemon startup from \texttt{core/6\_intent/needs/pea\_to\_soup\_needs.jsonld} via \texttt{SharedStackRuntime::TryEnrichNeedsFromJsonLd} (\texttt{src/stack/shared\_stack\_runtime.hpp}, lines~3598--3661). Stewards can search both the $10$ \texttt{MAPPED\_ACTIVE} needs (such as \texttt{need:pea\_soup}, \texttt{need:split\_peas}, \texttt{need:bone\_broth}, and \texttt{need:thermophilic\_compost}) and the $3$ \texttt{UNMAPPED\_CANDIDATE} items, inspecting recursive \texttt{recipe\_bom} inputs and closed-loop \texttt{byproducts}. Invoking \texttt{+ Define Need} calls \texttt{DefineNewMeshNeed} (\texttt{shared\_stack\_runtime.hpp}, lines~1205--1270), registering an L6 semantic need, an L5 asset entry, and a pending Layer~5 workflow-mapping proposal---honoring the rule that Layer~6 never mutates Layer~4 directly.
+
+\subsubsection{Highlight 3: Declarative \textit{Fabaceae} Cultivar Parameterization Without Bytecode Edits}
+In \texttt{companion\_l6.js} (lines~647--679), the garden cultivar selector binds directly to \texttt{core/6\_intent/cultivars/fabaceae\_cultivars.jsonld}, allowing the steward to choose among \texttt{chrono\_virtual\_pea} (explicitly labeled virtual/sim-tuned), \texttt{little\_marvel\_pea}, \texttt{alderman\_telephone\_pea}, and \texttt{kentucky\_wonder\_bean}. Dispatching \texttt{set\_garden\_cultivar} invokes \texttt{SetGardenCultivar} and \texttt{ApplyCultivarParametersToWorkflow} (\texttt{shared\_stack\_runtime.hpp}, lines~1023--1038 and 4163--4410), re-parameterizing root-zone millikelvins, moisture basis-point bands, $\mathrm{N}_2$ fixation rates, and trellis ridge heights on \texttt{wf:pea\_cultivation}, and locking the selector automatically once \texttt{crop\_sown != 0}.
+
+\subsubsection{Highlight 4: Strict HTTP \texttt{405} Lower-Layer Read-Only Guard and BPMN Token Inspection}
+\texttt{GatewayServer::IsDiagnosticLayerPath} and \texttt{HandleRequest} (\texttt{gateway\_server.hpp}, lines~545--625) enforce a hard constitutional firewall: any \texttt{POST}, \texttt{PUT}, \texttt{PATCH}, or \texttt{DELETE} targeting \texttt{/api/v1/l1*}, \texttt{/l2*}, \texttt{/l3*}, \texttt{/l4*}, \texttt{/l5*}, or \texttt{/l7*} is immediately rejected with \textbf{\texttt{HTTP 405 Method Not Allowed}} (\texttt{L4\_IS\_STRICTLY\_READ\_ONLY\_NO\_MUTATIONS}). Tab~3 (\textit{L4 Workflows}, \texttt{companion\_l6.js}, lines~1006--1101) inspects BPMN step tokens, boundary timers, and \texttt{UnmodeledStepAdapter} human check-offs strictly as read-only diagnostic projections while routing all requested actions through Layer~6/Layer~5 governance endpoints.
+
+\subsubsection{Highlight 5: Epistemic 1-to-5 \texttt{BiologicalFeelTiers} and Two-Stage Voluntary Task Pull}
+In \texttt{core/1\_simulation/src/web/js/hud\_feel.js} (lines~14--45, 375--417), the somatic strip renders five qualitative 1-to-5 tier labels backed by \texttt{chill\_loop.hpp}, suppressing raw \texttt{bpm} and \texttt{kcal} telemetry unless \texttt{l2\_biometric\_installed === true}. Alongside it, \texttt{hud\_feel.js} (lines~548--809) implements calm, paginated two-stage pull cards (\texttt{availablePageSize: 2}) separating the open \textit{Available Tasks} Commons Pool from personal \textit{My Committed Tasks}, complemented by diegetic \texttt{[ Look ]} and \texttt{[ Inspect ]} actions in \texttt{context\_menu.js} (lines~249--291).
+
+\subsubsection{Highlight 6: Multi-Scale 4-Node Homestead vs.\ $R_1$ BCC Swarm and FIPS SHA-256 \texttt{Treaty\_CID}}
+Tab~4 (\texttt{companion\_l6.js}, lines~1270--1422) distinguishes Lot~402's four room-scoped $R_0$ SBC sub-nodes (\texttt{node-01:office-coordinator}, \texttt{node-02:garage-fab}, \texttt{node-03:garden-agro}, and \texttt{node-04:hearth-galley}, defined in \texttt{shared\_stack\_runtime.hpp}, lines~2734--2800) from opt-in $R_1$ neighborhood peers verified via \texttt{VerifyPairwiseZeroSumInvariant} (lines~874--883). Concurrently, the native \texttt{col-commonsd} binary (\texttt{src/daemons/col-commonsd/main.cpp}, lines~33--192, 243--298) executes standalone FIPS~180-4 SHA-256 \texttt{RicardianTreaty} hashing and continuous double-auction midpoint matching.
+
+\section{The Six-Specialist Layer~6 Architectural Council Audit: Seven Prototype Ceilings}
+\label{sec:council-audit-l6}
+
+Celebrating what works on a single bootstrap parcel must never blind us to what breaks when a lived settlement scales to $2{,}600+$ workflows, adversarial external inputs, offline field couriers, and diverse human bodies. The Six-Specialist Layer~6 Architectural Council audited every line of \texttt{companion\_l6.js}, \texttt{daemon\_client.js}, \texttt{hud\_feel.js}, \texttt{oasis.css}, \texttt{col-commonsd}, \texttt{col-gatewayd}, and \texttt{shared\_stack\_runtime.hpp}, identifying \textbf{seven structural prototype ceilings} and ratifying exact v3.1 engineering remedies.
+
+\begin{table}[htbp]
+\centering
+\caption{Summary of the Seven Prototype Ceilings Diagnosed by the Layer~6 Specialist Council and Ratified v3.1 Remedies}
+\label{tab:ch8-council-ceilings}
+\small
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}llll@{}}
+\toprule
+\textbf{\#} & \textbf{Prototype Ceiling} & \textbf{Primary Codebase Locus} & \textbf{Ratified v3.1 Constitutional Remedy} \\
+\midrule
+C1 & 1.5s full-snapshot polling \& monolithic 4-tab DOM & \texttt{daemon\_client.js:11}, \texttt{companion\_l6.js:444} & \texttt{/ws/v1} CBOR/JSON-Patch deltas + \texttt{AppCapabilityManifestV1} Constellation \\
+C2 & Unsigned POSTs, spoofable DID \& post-hoc read-back & \texttt{daemon\_client.js:252}, \texttt{gateway\_server.hpp:1360} & Two-phase Pre-Sign Deterministic Read-Back + Web Crypto Ed25519 + \texttt{TextProvenance} \\
+C3 & \texttt{.find()} stubs, floats, IRI drift \& \texttt{"|"} CID collision & \texttt{col-commonsd/main.cpp:178--239} & Unified \texttt{w3id.org/collective/v1/}, length-prefixed \texttt{RDFC-1.0}/JCS, pure \texttt{int64\_t} \texttt{uJ} \\
+C4 & Legacy statutory currency bleed across L6 \& L3 & \texttt{companion\_l6.js:55--59}, \texttt{shared\_stack\_runtime:852} & Quarantine statutory cents inside scoped L7 Carapace App behind Camouflage Filter \\
+C5 & In-process runtime, \texttt{CORS: *} \& dropped offline intents & \texttt{gateway\_server.hpp:245, 1553}, \texttt{main.cpp:315} & True \texttt{l5\_l6.sock}/\texttt{l6\_l7.sock} \texttt{SEQPACKET} IPC + IndexedDB Automerge CRDT outbox \\
+C6 & Missing Dual-Sandbox Edge NLU \& \texttt{uJ} shedding & \texttt{col-commonsd/main.cpp} (NLU absent) & Split-process FSM Intake vs.\ Drafting workers, SHA-256 weights \& \texttt{SoC\_bp} shedding \\
+C7 & Sub-10px CSS, missing Refusal button \& flat lists & \texttt{oasis.css:144, 943}, \texttt{hud\_feel.js:771} & WCAG 2.2 AAA tokens, \texttt{UNCLAIM\_GUILT\_FREE}/\texttt{RestShield}, Paper/Voice/E-Ink \& Rounds \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+\subsection{Ceiling 1 (Local-First \& Gateway Specialist): 1.5s Full-Snapshot Polling and Single-App Hardcoding}
+\textbf{Diagnosis:} \texttt{daemon\_client.js} (line~11) polls the unpaginated endpoint \texttt{GET /api/v1/snapshot} every $1{,}500\,\mathrm{ms}$, invoking \texttt{SerializeFullNodeSnapshotJson()} (\texttt{shared\_stack\_runtime.hpp}, lines~2143--2495) to serialize every layer's state into one monolithic payload. On each tick, \texttt{companion\_l6.js} (lines~444--478) runs \texttt{JSON.stringify} dirty checks and overwrites \texttt{innerHTML} across all four tabs---even hidden ones---resetting unfocused scroll positions and \texttt{<details>} disclosures while burning mobile CPU/battery. Moreover, the four tabs are hardcoded inside one script rather than capability-scoped per application.
+
+\textbf{v3.1 Remedy:} Replace snapshot polling with topic-scoped WebSocket/SSE delta streams (\texttt{/ws/v1/subscribe?topics=hearth.*}) emitting RFC~6902 JSON-Patch / CBOR frames keyed by monotonic HLC cursors, surgical keyed DOM patching on active views only, and declarative \texttt{AppCapabilityManifestV1} registration so specialized Constellation apps subscribe strictly to their domain slice.
+
+\subsection{Ceiling 2 (Cryptographic Authorship Specialist): Unsigned Mutations and Post-Hoc Read-Back}
+\textbf{Diagnosis:} \texttt{daemon\_client.js} (lines~252--271) dispatches plaintext \texttt{POST /api/v1/command} payloads without cryptographic signatures; \texttt{companion\_l6.js} (line~558) populates \texttt{requester\_did} from an unverified string; \texttt{gateway\_server.hpp} (lines~1360--1416) zeroes out \texttt{ed25519\_signature} when constructing internal envelopes while leaving \texttt{did\_auth\_required} (\texttt{col-gatewayd/main.cpp}, line~63) unenforced; zero \texttt{crypto.subtle} (\texttt{extractable: false}) IndexedDB keys exist yet; \texttt{plain\_language\_read\_back} (\texttt{gateway\_server.hpp}, line~1425) is returned \textit{after} state mutation rather than gating signature before mutation; and the four provenance tags (\texttt{human\_authored}, \texttt{machine\_drafted\_human\_approved}, \texttt{machine\_generated}, \texttt{system\_authenticated}) are absent from wire structs.
+
+\textbf{v3.1 Remedy:} Split mutation into a mandatory two-phase protocol: \texttt{POST /api/v1/intent/compile} returns the canonical \texttt{Intent\_CID}, fixed-template \texttt{deterministic\_read\_back} prose, and \texttt{TextProvenance} tag; only after the user holds a $500\,\mathrm{ms}$ confirmation gesture does Web Crypto (\texttt{extractable: false}) or \texttt{ATECC608A} sign $\mathrm{SHA256}(\texttt{"COL-INTENT-V3.1\textbackslash0"} \,\|\, \texttt{Intent\_CID} \,\|\, \texttt{read\_back\_hash})$ for \texttt{POST /api/v1/intent/commit}, verified strictly by \texttt{col-kmsd} across \texttt{l5\_l6.sock}.
+
+\subsection{Ceiling 3 (Semantic Web Architect): Substring Stubs, Floats, IRI Drift, and \texttt{Treaty\_CID} Collision}
+\textbf{Diagnosis:} \texttt{JsonLdIntent::ParseStub} (\texttt{col-commonsd/main.cpp}, lines~206--219) parses JSON-LD via brittle \texttt{std::string::find()} substring checks while \texttt{gateway\_server.hpp} (line~1372) truncates \texttt{payload\_jsonld[128]} at $127\,\mathrm{bytes}$; \texttt{col-commonsd/main.cpp} (lines~203, 229--239) and \texttt{pea\_to\_soup\_needs.jsonld} (line~35, \texttt{4.68 MJ}) admit floating-point numbers; three divergent \texttt{@context} IRIs coexist; and \texttt{RicardianTreaty::ComputeCID()} (\texttt{col-commonsd/main.cpp}, lines~178--187) concatenates \texttt{legal\_prose + "|" + jsonld\_schema + "|" + bpmn\_invariants} without byte-length framing.
+
+\textbf{v3.1 Remedy:} Enforce the unified offline \texttt{https://w3id.org/collective/v1/} context registry, replace \texttt{ParseStub} and $128$-byte truncation with streaming arena-backed JSON-LD~1.1 expansion + W3C \texttt{RDFC-1.0} and \texttt{RFC 8785 JCS} canonicalization, frame all \texttt{Treaty\_CID} components with 64-bit big-endian lengths (Equation~\ref{eq:length-prefixed-cid}), and convert all quantities to \texttt{int64\_t} / \texttt{uint64\_t} fixed-point SI units (\texttt{4680000000000 uJ}).
+
+\subsection{Ceiling 4 (Legal Carapace Counsel): Legacy Statutory Currency Bleed Across Layer~6 and Layer~3}
+\textbf{Diagnosis:} \texttt{companion\_l6.js} formats legacy statutory currency cents across all four Layer~6 tabs (lines~13, 55--59, 200, 495, 694, 833, 1121, and 1354), and \texttt{L3NodeLedger} (\texttt{shared\_stack\_runtime.hpp}, lines~852--864) embeds \texttt{household\_reserve\_cents} and \texttt{monthly\_legacy\_bills\_cents} directly inside a Layer~3 thermodynamic struct. Exposing statutory currency figures across daily Layer~6 civic views subtly re-anchors human cognition around external market pricing instead of physical microjoules, milligrams, and unconditional $R_0$ care.
+
+\textbf{v3.1 Remedy:} Purge all statutory currency fields from \texttt{L3NodeLedger} and general Layer~6 Constellation views (Hearth, Garden, Workshop, Care, and Agora surfaces render exclusively physical SI quantities and pairwise zero-sum \texttt{BCC} credits with \texttt{domestic\_care\_token\_minting == 0}). Quarantine statutory tax, utility-bill, and Subchapter~T reserve accounting strictly inside a dedicated, role-gated \textbf{Layer~7 Carapace Fiduciary App} (\texttt{carapace:fiduciary}) communicating across \texttt{l6\_l7.sock}.
+
+\subsection{Ceiling 5 (Gateway \& IPC Engineer): In-Process Runtime, Wildcard CORS, and Dropped Offline Intents}
+\textbf{Diagnosis:} \texttt{GatewayServer} (\texttt{gateway\_server.hpp}, line~1553) embeds a private \texttt{SharedStackRuntime} instance in-process rather than speaking over \texttt{AF\_UNIX} \texttt{SOCK\_SEQPACKET} sockets to separate daemons; \texttt{col-commonsd/main.cpp} (lines~315--327) runs a standalone loop without binding \texttt{l5\_l6.sock} or \texttt{l6\_l7.sock}; \texttt{gateway\_server.hpp} binds \texttt{0.0.0.0:8090} in plaintext with \texttt{Access-Control-Allow-Origin: *} (lines~245, 717) and unauthenticated \texttt{/api/v1/l2\_pins} mutation hooks (line~675); and \texttt{daemon\_client.js} (lines~267--270) drops mutations on network failure rather than queuing them offline.
+
+\textbf{v3.1 Remedy:} Bind \texttt{col-commonsd} strictly to \texttt{/run/collective/ipc/l5\_l6.sock} and \texttt{/run/collective/ipc/l6\_l7.sock} with \texttt{SO\_PEERCRED} UID/PID verification; restrict physical \texttt{/api/v1/l2\_pins} injection exclusively to \texttt{0x01} SITL test builds; pin \texttt{col-gatewayd} to VLAN~30 TLS~1.3 origin allowlists; and persist offline mutations in an IndexedDB \textbf{Domain~B Automerge CRDT Outbox} carrying monotonic \texttt{X-Collective-Sequence} and \texttt{X-Collective-Dependency-Vector} headers.
+
+\subsection{Ceiling 6 (Adversarial ML Auditor): Missing Dual-Sandbox Edge NLU and Exergy Shedding}
+\textbf{Diagnosis:} Neither \texttt{col-commonsd} nor \texttt{col-gatewayd} yet implements process-isolated Intake vs.\ Drafting language-model sandboxes, finite-state grammar-constrained slot extraction, SHA-256 model-weight attestation, or microjoule (\texttt{uJ}) inference load shedding.
+
+\textbf{v3.1 Remedy:} Spawn two unprivileged Linux namespace workers under \texttt{col-commonsd}---\texttt{col-nlu-intake} (zero L5 schema/user-history visibility, Outlines/GBNF FSM-constrained scalar slot pipe for untrusted \texttt{l6\_l7.sock} documents) and \texttt{col-nlu-draft} (authenticated human input only, zero raw L7 text)---governed by Layer-5-ratified SHA-256 weight manifests and gated by \texttt{SoC\_bp} battery thresholds.
+
+\subsection{Ceiling 7 (Calm HCI \& Accessibility Specialist): Sub-10px CSS, Missing Refusal Control, and Flat Lists}
+\textbf{Diagnosis:} \texttt{oasis.css} hardcodes $8.5\text{--}9.5\,\mathrm{px}$ font sizes (lines~144, 355, 456, 1029), $< 24\,\mathrm{px}$ action buttons (lines~291, 349, 964), \texttt{outline: none} (line~943), and $\approx 5.6:1$ muted contrast (\texttt{\#94a3b8} on \texttt{\#0f172a}); \texttt{companion\_l6.js} (lines~146--151) omits WAI-ARIA \texttt{tablist}/\texttt{tabpanel} roving keyboard focus; \texttt{hud\_feel.js} (lines~771--809) lacks a guilt-free \texttt{Step Back / Unclaim} button once a task is committed; print/voice/E-Ink stylesheets are absent; and Tab~3 renders flat workflow rows rather than spatially coalesced Homestead Rounds.
+
+\textbf{v3.1 Remedy:} Ship the WCAG~2.2~AAA fluid \texttt{rem} / $\ge 7:1$ / $\ge 48\,\mathrm{px}$ token stylesheet (Chapter~\ref{ch:thermodynamic-accessibility}) alongside \texttt{@media print} QR batch travelers and E-Ink themes, wire \texttt{UNCLAIM\_GUILT\_FREE} and \texttt{RestShield} controls into every task card, and group \texttt{WAITING\_HUMAN} tokens via the Spatial Homestead Round Coalescer (Chapter~\ref{ch:cognitive-triage}).
+
+\begin{lstlisting}[language=C++,caption={Ratified v3.1 two-phase Pre-Sign Deterministic Read-Back envelope and \texttt{TextProvenance} enforcement across \texttt{col-gatewayd} and \texttt{l5\_l6.sock} (C++20).}]
+#include <array>
+#include <cstdint>
+
+namespace col::commons::authorship {
+
+enum class TextProvenance : std::uint8_t {
+    HUMAN_AUTHORED                 = 1,
+    MACHINE_DRAFTED_HUMAN_APPROVED = 2,
+    MACHINE_GENERATED              = 3,
+    SYSTEM_AUTHENTICATED           = 4
+};
+
+// Phase 1 output from col-commonsd -> Constellation Client BEFORE hardware signing:
+struct alignas(8) CompiledReadBackChallengeV3 {
+    std::array<std::uint8_t, 32> intent_cid{};          // Length-prefixed RDFC-1.0 SHA-256
+    std::array<std::uint8_t, 32> read_back_prose_cid{}; // Deterministic template SHA-256
+    std::uint64_t                compiled_hlc{};
+    std::uint32_t                required_hold_ms{500}; // Fitts-law speedbump floor
+    TextProvenance               provenance{TextProvenance::HUMAN_AUTHORED};
+    std::array<std::uint8_t, 3>  reserved{};
+};
+static_assert(sizeof(CompiledReadBackChallengeV3) == 80);
+
+// Phase 2 commitment dispatched across /run/collective/ipc/l5_l6.sock ONLY after personal sign:
+struct alignas(8) SignedIntentCommitFrameV3 {
+    std::array<std::uint8_t, 32> intent_cid{};
+    std::array<std::uint8_t, 32> read_back_prose_cid{};
+    std::array<std::uint8_t, 32> signer_did_key_id{};
+    std::array<std::uint8_t, 64> ed25519_signature{};   // Non-zero, hardware-backed
+    std::uint64_t                domain_b_seq_no{};     // Monotonic offline CRDT sequence
+    TextProvenance               provenance{TextProvenance::HUMAN_AUTHORED};
+    std::uint8_t                 quality_flag{0x02};    // 0x01 SITL vs 0x02 Hardware Root
+    std::array<std::uint8_t, 6>  padding{};
+};
+static_assert(sizeof(SignedIntentCommitFrameV3) == 176);
+
+} // namespace col::commons::authorship
+\end{lstlisting}
+
+\section{Four-Milestone Engineering Roadmap to Full Constellation Sovereignty}
+\label{sec:constellation-roadmap}
+
+To transition cleanly from the working Lot~402 starter Companion App to a multi-surface bioregional deployment without breaking live simulation tests, the Council ratified a four-milestone incremental roadmap:
+
+\begin{enumerate}
+    \item \textbf{Milestone M1 --- Semantic \& Ergonomic Hygiene on the Starter App:} Unify \texttt{@context} mappings under offline \texttt{https://w3id.org/collective/v1/}, eliminate the remaining float literal in \texttt{pea\_to\_soup\_needs.jsonld} and float fields in \texttt{col-commonsd}, upgrade \texttt{oasis.css} and \texttt{companion\_l6.js} to WCAG~2.2~AAA contrast/sizing/ARIA compliance, add the one-tap \texttt{UNCLAIM\_GUILT\_FREE} / \texttt{RestShield} control, and segregate Layer~7 statutory bill figures out of \texttt{L3NodeLedger} into a dedicated L7 Carapace view.
+    \item \textbf{Milestone M2 --- True \texttt{SOCK\_SEQPACKET} Daemon Split \& Two-Phase Hardware Signing:} Decouple \texttt{GatewayServer} from in-process \texttt{SharedStackRuntime} by activating \texttt{/run/collective/ipc/l5\_l6.sock} and \texttt{l6\_l7.sock} with \texttt{SO\_PEERCRED} enforcement, implement two-phase \texttt{Compile -> Deterministic Read-Back -> Web Crypto / ATECC608A Ed25519 Sign}, and lock \texttt{/api/v1/l2\_pins} strictly behind \texttt{0x01} simulation build guards.
+    \item \textbf{Milestone M3 --- Delta Streams, Domain~B Automerge Outbox \& First Specialized Constellation Slates:} Replace $1.5\,\mathrm{s}$ full-snapshot polling with \texttt{/ws/v1} topic delta patches and IndexedDB Automerge CRDT offline queuing; extract the first four dedicated Constellation clients sharing the Uniform Semantic Foundation (\textit{Hearth \& Pantry E-Ink Slate}, \textit{Agroecology Cultivar Fieldbook}, \textit{Shop-Floor BOM Terminal}, and \textit{Cargo-Trike Offline Courier Deck}) alongside printable QR batch travelers.
+    \item \textbf{Milestone M4 --- Dual-Sandbox Edge NLU, Spatial Round Coalescer \& Screenless Assembly Suite:} Deploy \texttt{col-nlu-intake} (GBNF/FSM slot pipe) and \texttt{col-nlu-draft} with SHA-256 weight governance and \texttt{SoC\_bp} load shedding, activate Spatial Homestead Round Coalescing across $100+$ concurrent workflows, and certify Helios verifiable paper ballots, offline voice read-back loops, and hardware-severed Unmediated Space latches.
+\end{enumerate}
+
+\begin{figure}[htbp]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+    node distance=0.8cm and 0.85cm,
+    ms/.style={draw=blue!75!black, rounded corners=3pt, thick, fill=blue!6, align=left, font=\scriptsize, text width=3.15cm, minimum height=2.25cm, inner sep=5pt},
+    arr/.style={-{Stealth[length=2.4mm]}, very thick, teal!80!black}
+]
+    \node[ms] (m1) {\textbf{M1: Semantic \& AAA Hygiene}\\[3pt]$\bullet$ Unified \texttt{w3id} context\\$\bullet$ Zero-float \texttt{uJ} schemas\\$\bullet$ WCAG 2.2 AAA + ARIA\\$\bullet$ \texttt{UNCLAIM\_GUILT\_FREE}\\$\bullet$ L7 currency quarantine};
+    \node[ms, right=0.55cm of m1] (m2) {\textbf{M2: IPC \& Hardware Sign}\\[3pt]$\bullet$ Live \texttt{l5\_l6} \& \texttt{l6\_l7.sock}\\$\bullet$ \texttt{SO\_PEERCRED} isolation\\$\bullet$ Pre-Sign Read-Back gate\\$\bullet$ Web Crypto / \texttt{ATECC608A}\\$\bullet$ \texttt{TextProvenance} tags};
+    \node[ms, right=0.55cm of m2] (m3) {\textbf{M3: Constellation \& CRDTs}\\[3pt]$\bullet$ \texttt{/ws/v1} CBOR/JSON deltas\\$\bullet$ Domain B Automerge outbox\\$\bullet$ Hearth, Field, Bench \&\\$\phantom{\bullet}$ Courier Slates\\$\bullet$ QR Paper Travelers};
+    \node[ms, right=0.55cm of m3] (m4) {\textbf{M4: Edge NLU \& Rounds}\\[3pt]$\bullet$ FSM Intake vs.\ Draft NLU\\$\bullet$ SHA-256 weight \& \texttt{uJ} gates\\$\bullet$ Spatial Round Coalescer\\$\bullet$ Helios Paper Ballots \&\\$\phantom{\bullet}$ Unmediated Space Latch};
+
+    \draw[arr] (m1.east) -- (m2.west);
+    \draw[arr] (m2.east) -- (m3.west);
+    \draw[arr] (m3.east) -- (m4.west);
+\end{tikzpicture}%
+}
+\caption{Four-Milestone Engineering Roadmap advancing Layer~6 from the Lot~402 starter Companion App to a cryptographically hardened, multi-modal Constellation of Convivial Applications.}
+\label{fig:ch8-constellation-roadmap}
+\end{figure}
+
+With Part~I's theoretical foundations, live Lot~402 highlights, Specialist Council audit, and four-milestone engineering roadmap complete, \textbf{Part~II (Chapters~\ref{ch:wave-a}--\ref{ch:wave-f})} now stress-tests the Constellation of Convivial Applications across all twenty-five Sovereign Scenarios (\texttt{Zero} through \texttt{Omega}), proving how one uniform semantic foundation sustains hundreds of interwoven workflows across every dimension of human flourishing.

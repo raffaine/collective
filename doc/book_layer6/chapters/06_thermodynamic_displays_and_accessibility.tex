@@ -1,0 +1,163 @@
+\chapter{Thermodynamic Display Physics, Screenless Modalities, and Radical Accessibility}
+\label{ch:thermodynamic-accessibility}
+
+\epigraph{Design justice rethinks design processes, centers people who are normally marginalized by design, and uses collaborative, creative practices to address the deepest challenges our communities face.}{---\textcite{costanzachock2020design}, \textit{Design Justice}}
+
+In Chapter~\ref{ch:edge-llms}, we bounded the exergy and security footprint of local language models on salvaged silicon. Yet silicon compute is only half of the physical interface budget. Every pixel illuminated in a workshop, every radio frame transmitted across a garden, and every touch target rendered on a glass slate consumes real microjoules from the community's solar-battery microgrid while imposing real sensory, motor, and visual demands on human bodies \parencite{georgescu1971,fitts1954information,w3c2023wcag}.
+
+Conventional consumer software treats an always-on, high-refresh OLED smartphone, unimpaired eyesight, fine two-thumb motor control, and continuous cloud connectivity as universal prerequisites for civic participation. Layer~6 rejects all four assumptions. In a living intergenerational settlement---spanning infants and exhausted parents (Scenario~\texttt{Delta}), apprentices wearing heavy welding gauntlets (Scenario~\texttt{Theta}), elders with macular degeneration or tremor (Scenario~\texttt{Phi}), neurodivergent stewards sensitive to visual flicker (Scenario~\texttt{Tau}), neighbours gathering for unmediated acoustic music (Scenario~\texttt{Lambda}), and entire blocks riding out a $72$-hour winter ice-storm microgrid black-start (Scenario~\texttt{Upsilon})---sovereignty requires \textbf{thermodynamic display frugality}, \textbf{first-class participation without a screen}, \textbf{cryptographically enforced Unmediated Spaces}, and \textbf{WCAG~2.2 Level~AAA universal ergonomics}.
+
+\section{The Thermodynamics of Pixels, Radios, and Tangible Surfaces}
+\label{sec:display-thermodynamics}
+
+\subsection{Emissive Displays vs.\ Bistable Electrophoretic E-Ink and Passive NFC}
+
+An emissive $60\text{--}120\,\mathrm{Hz}$ LCD or OLED tablet draws $1{,}800\text{--}4{,}500\,\mathrm{mW}$ continuously whenever its backlight or organic diodes remain active---consuming $6.48 \times 10^{9}$ to $1.62 \times 10^{10}\,\mu\mathrm{J}$ per hour merely to display a static recipe or workshop Bill of Materials. Across twenty station tablets left illuminated $12\,\mathrm{hours}$ a day during a dark Cascadian December, emissive screens alone would burn $1.9\text{--}3.9\,\mathrm{MJ/day}$ ($530\text{--}1{,}080\,\mathrm{Wh/day}$) of precious lithium-iron-phosphate (\texttt{LiFePO4}) battery reserve without cooking a single bowl of soup.
+
+Electrophoretic \textbf{bistable E-Ink} displays invert this thermodynamic equation \parencite{weiser1996calm}. Charged titanium-dioxide and carbon-black microcapsules hold their optical reflectance state indefinitely at \textbf{exact zero static power ($0\,\mathrm{mW}$)} once switched, consuming only a brief $180\text{--}420\,\mathrm{mJ}$ ($180{,}000\text{--}420{,}000\,\mu\mathrm{J}$) impulse during a page refresh! Paired with passive ISO/IEC~14443 Near-Field Communication (\texttt{NFC}) tags embedded in stainless tiffin lids, seed jars, and brass tool checks ($0\,\mathrm{mW}$ battery-free inductive harvesting at $\le 40\,\mathrm{mm}$ range) \parencite{ishii1997tangible}, a Constellation workshop or hearth station operates for weeks on milliwatt-hours rather than kilowatt-hours.
+
+\begin{table}[htbp]
+\centering
+\caption{Thermodynamic Power, Exergy Budget, and Black-Start Survival Tier Across Layer~6 Constellation Surfaces}
+\label{tab:ch6-display-exergy}
+\small
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}lrrrl@{}}
+\toprule
+\textbf{Constellation Surface / Modality} & \textbf{Static Hold (\texttt{mW})} & \textbf{Update Impulse (\texttt{uJ})} & \textbf{24h Duty Budget (\texttt{uJ})} & \textbf{Microgrid SoC Shedding Policy} \\
+\midrule
+3D Oasis WebGPU Proving Viewport & $18{,}000\text{--}65{,}000$ & Continuous $60\,\mathrm{Hz}$ & $\ge 2.6 \times 10^{11}$ & Suspended first below \texttt{SoC < 5500 bp} \\
+Emissive OLED/LCD Personal Slate & $1{,}800\text{--}4{,}200$ & Continuous frame & $2.5 \times 10^{10}$ & Auto-sleep / dark-theme below \texttt{3500 bp} \\
+Bistable 1-Bit / 16-Gray E-Ink Board & $0$ & $240{,}000\text{ / flip}$ & $1.44 \times 10^{7}$ ($60$ flips) & Active down to \texttt{SoC = 500 bp} Black-Start \\
+LoRa / Reticulum Emergency Pager & $12$ (RX duty) & $85{,}000\text{ / pkt}$ & $1.04 \times 10^{9}$ & Protected Tier-1 Life-Safety Bus (\texttt{Chi}/\texttt{Upsilon}) \\
+Passive ISO 14443 NFC Tool/Tote Tag & $0$ & $0$ (inductive) & $0$ & Indefinite zero-battery operation \\
+Printed QR/OCR Paper Traveler/Ballot & $0$ & Ink/press once & $0$ (post-print) & Operates at \texttt{0\%} grid electricity \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+\subsection{72-Hour Black-Start Display Shedding (\texttt{Scenario Upsilon})}
+
+Table~\ref{tab:ch6-display-exergy} directly governs \texttt{col-gatewayd}'s automatic \textbf{Display Exergy Shedding State Machine}. As local microgrid State-of-Charge (\texttt{SoC\_bp}, reported in basis points from Layer~2 BMS shunts via Layer~3) declines during multi-day cloud cover or grid islanding:
+\begin{itemize}
+    \item \textbf{Tier A (\texttt{SoC >= 5500 bp}):} Full Constellation availability, including high-fidelity Oasis WebGPU simulation sessions and local Drafting LLM assistance.
+    \item \textbf{Tier B (\texttt{3500 bp <= SoC < 5500 bp}):} Oasis 3D rendering pauses after session save; emissive Constellation web clients switch automatically to high-contrast dark solar-saver palettes and extend background delta intervals.
+    \item \textbf{Tier C (\texttt{1500 bp <= SoC < 3500 bp}):} Local LLM token generation sheds cleanly to structured SHACL forms; station E-Ink placards switch to $15$-minute batched partial refreshes.
+    \item \textbf{Tier D (\texttt{SoC < 1500 bp}, 72-Hour Black-Start Survival):} Only 1-bit E-Ink station boards, LoRa/Reticulum emergency pagers, passive NFC taps, and printable paper batch travelers remain active, preserving battery microjoules strictly for insulin/vaccine refrigeration, potable water UV pumps, and clinical trauma triage.
+\end{itemize}
+
+\section{Participation Without a Screen and Cryptographically Unmediated Spaces}
+\label{sec:screenless-unmediated}
+
+\subsection{Four First-Class Screenless Civic Modalities}
+
+A foundational constitutional commitment of Volume~1 (Chapter~7) is that \textbf{no person may ever be excluded from nourishment, work stewardship, or democratic voting because they dislike, cannot read, or choose not to carry a digital screen} \parencite{illich1973,costanzachock2020design}. Layer~6 therefore implements four first-class screenless modalities as native peers inside the Uniform Semantic Foundation:
+
+\begin{enumerate}
+    \item \textbf{Printable QR/OCR Paper Batch Travelers:} In flour-dusted bakeries, wet garden sheds, and molten-bronze foundries where capacitive touchscreens fail, \texttt{col-commonsd} renders any Layer~4 workflow recipe or inspection checklist into a clean high-contrast paper traveler bearing a deterministic Fiducial + QR header (\texttt{Workflow\_CID}, \texttt{BlindedClaimHandle}, and fixed-point check boxes). Stewards mark completions or handwritten integer readings with an ordinary pencil; scanning the sheet once at an entryway optical station compiles the marks into a Deterministic Read-Back card for hardware signature.
+    \item \textbf{Hand-Marked Verifiable Paper Assembly Ballots:} Every Layer~5 sortition panel, constitutional amendment, and guild election produces printable paper ballots carrying unlinkable Helios-style cryptographic tracking codes \parencite{adida2008helios,juels2005coercion}. Voters mark paper in private booths, retain their tear-off tracking receipt to verify inclusion on the public bulletin board, and deposit the physical ballot into a sealed audit box---ensuring $100\%$ recountable paper ground truth even if every computer on the parcel were destroyed.
+    \item \textbf{Offline Spoken Voice Loops with Tactile Confirmation:} For eyes-busy craftspeople, elders, and blind stewards, an offline speech-to-text / text-to-speech (\texttt{STT/TTS}) loop running locally on \texttt{col-commonsd} speaks pending Homestead Rounds and reads back compiled JSON-LD intents verbatim through bone-conduction or local speaker audio. Critically, \textbf{voice alone never signs}: commitment requires pressing and holding a physical $500\,\mathrm{ms}$ tactile hardware button (\texttt{ATECC608A}) after the spoken read-back completes.
+    \item \textbf{Red Brass Mechanical Overrides and Assisted Proxy Transcription:} Every critical valve, kiln damper, and sanctuary door lock pairs digital actuation with a physical \textbf{Red Brass Manual Override} monitored by a limit switch that reports honest physical state upward to Layer~2 without software permission. Similarly, a neighbour who prefers human conversation may dictate an intent to a peer scribe (\texttt{proxy:transcribe}), while signing solely with their own personal hardware token so key custody is never delegated.
+\end{enumerate}
+
+\subsection{Unmediated Spaces: The Hardware-Attested Civic Kill-Switch}
+
+Convivial computing requires knowing where computation must stop. Dining hearths, grief and restorative justice circles (Scenario~\texttt{Psi}), perinatal nursing rooms (Scenario~\texttt{Delta}), hospice vigils (Scenario~\texttt{Phi}), and acoustic music nights (Scenario~\texttt{Lambda}) wither under ambient recording, transcription, or algorithmic summarization \parencite{zuboff2019}.
+
+\begin{invariant}[Hardware-Enforced Unmediated Space Invariant]
+\label{inv:unmediated-spaces}
+Whenever a physical room's mechanical \textbf{Unmediated Space Latch} is thrown (opening a physical series relay in the microphone/camera bus) or a Layer~5 sanctuary schedule enters \texttt{UNMEDIATED\_ACTIVE}, \texttt{col-commonsd} and \texttt{col-gatewayd} MUST:
+\begin{enumerate}
+    \item drop all audio/optical peripheral DMA descriptors and reject any \texttt{STT}, transcription, summarization, or RAG indexing request scoped to that zone ID with \texttt{ERR\_UNMEDIATED\_SANCTUARY}; and
+    \item illuminate an unmistakable passive bi-color mechanical/LED indicator verifying circuit-open sensor severance without logging attendance DIDs.
+\end{enumerate}
+\end{invariant}
+
+\section{WCAG 2.2 Level AAA Ergonomics, Multilingual Plurality, and Neighbor Portals}
+\label{sec:wcag-aaa}
+
+\subsection{Mathematical Luminance Contrast, Fluid Typography, and Fitts-Law Targets}
+
+When stewards \textit{do} use graphical Constellation apps, those interfaces must honor universal human ergonomics rather than dense ``cyberpunk'' micro-text. As our Specialist Council documents in Chapter~\ref{ch:oasis-council-l6}, the bootstrap Lot~402 stylesheet (\texttt{oasis.css}) inherited game-HUD habits---hardcoding $8.5\text{--}9.5\,\mathrm{px}$ font sizes, $< 24\,\mathrm{px}$ buttons, suppressed \texttt{:focus} outlines, and muted slate-on-navy text with $\approx 5.6:1$ contrast.
+
+Version~3.1 mandates \textbf{W3C WCAG~2.2 Level~AAA} compliance \parencite{w3c2023wcag} across every production Constellation design-token sheet:
+\begin{enumerate}
+    \item \textbf{Relative Luminance Contrast $\ge 7.0 : 1$:} For linearized sRGB channel luminances $L = 0.2126 R_{\mathrm{lin}} + 0.7152 G_{\mathrm{lin}} + 0.0722 B_{\mathrm{lin}}$, foreground-to-background contrast ratio on all body and numeric telemetry text MUST satisfy:
+    \begin{equation}
+        C(L_1, L_2) = \frac{\max(L_1, L_2) + 0.05}{\min(L_1, L_2) + 0.05} \ge 7.0 \quad (\text{and } \ge 4.5 \text{ on non-text borders/icons}).
+    \end{equation}
+    \item \textbf{Fluid Relative Typography (\texttt{rem}) \& Dyslexia-Safe Rendering:} Pixel-locked sub-$12\,\mathrm{px}$ text is banned. Base body copy defaults to $\ge 1.0\,\mathrm{rem}$ ($16\,\mathrm{px}$ minimum, scaling cleanly to $200\%$ browser zoom without horizontal scroll reflow loss), with one-toggle switching to \texttt{OpenDyslexic} or high-legibility Atkinson Hyperlegible faces and tabular numerals (\texttt{font-variant-numeric: tabular-nums}) for fixed-point quantities.
+    \item \textbf{Fitts-Law Motor Targets ($\ge 48 \times 48\,\mathrm{CSS\,px}$):} By Fitts's Law \parencite{fitts1954information}, movement time $MT = a + b \log_2(1 + D/W)$ degrades sharply for gloves, wet fingers, or motor tremor when target width $W$ shrinks. While WCAG~2.2 AA sets a $24 \times 24\,\mathrm{px}$ floor, Layer~6 enforces the AAA / shop-floor target minimum of \textbf{$48 \times 48\,\mathrm{CSS\,px}$} ($\ge 64 \times 64\,\mathrm{px}$ on Cargo-Trike and Paramedic surfaces) with $\ge 8\,\mathrm{px}$ inter-target guard spacing.
+    \item \textbf{Keyboard Focus, Roving ARIA, and Linear Prose BPMN Equivalents:} Every interactive element renders a high-contrast $3\,\mathrm{px}$ \texttt{:focus-visible} ring; tablist widgets implement WAI-ARIA \texttt{role="tablist"}, \texttt{aria-selected}, \texttt{aria-controls}, and roving arrow-key \texttt{tabindex}; \texttt{prefers-reduced-motion: reduce} disables all transitions; and \textbf{every visual BPMN state graph generates a synchronized, screen-reader-navigable linear prose walkthrough} so blind stewards hold $100\%$ parity in auditing Layer~4 workflows.
+\end{enumerate}
+
+\begin{lstlisting}[caption={Ratified v3.1 WCAG 2.2 AAA and E-Ink / Print adaptive design tokens replacing sub-10px HUD styles.}]
+:root {
+  /* WCAG 2.2 AAA Dark Calm Palette: #f8fafc on #090d16 => Contrast 17.8 : 1 */
+  --col-bg-surface: #090d16;
+  --col-fg-primary: #f8fafc;
+  /* Muted text #cbd5e1 on #090d16 => Contrast 12.6 : 1 (>= 7.0 AAA floor) */
+  --col-fg-secondary: #cbd5e1;
+  --col-focus-ring: #fde047;       /* 15.1 : 1 high-visibility keyboard focus */
+  --col-font-base: clamp(1rem, 0.95rem + 0.25vw, 1.1875rem);
+  --col-target-min: 3rem;          /* 48px minimum Fitts-law touch/glove target */
+  --col-target-gap: 0.5rem;        /* 8px accidental-tap guard margin */
+}
+
+@media (prefers-contrast: more), (monochrome) {
+  /* Automatic 1-bit Bistable E-Ink & High-Contrast Low-Vision Theme (21 : 1) */
+  :root {
+    --col-bg-surface: #ffffff;
+    --col-fg-primary: #000000;
+    --col-fg-secondary: #000000;
+    --col-focus-ring: #000000;
+  }
+  * { transition: none !important; animation: none !important; box-shadow: none !important; }
+}
+
+.col-action-btn:focus-visible {
+  outline: 3px solid var(--col-focus-ring);
+  outline-offset: 3px;
+}
+\end{lstlisting}
+
+\subsection{Community Dialect Lexicons and the Zero-ID Municipal Neighbor Portal}
+
+Accessibility extends beyond visual contrast to linguistic and civic inclusion. Every SHACL label and Deterministic Read-Back template in \texttt{col-commonsd} resolves through community-governed multilingual resource bundles (\texttt{@language} tags in JSON-LD), supporting regional immigrant languages, plain-language cognitive-accessibility phrasing, and indigenous oral-tradition audio bindings ratified by local speakers. Finally, for surrounding neighbours who are not members of the Web of Trust, \texttt{col-gatewayd} serves an open, zero-cookie, zero-DID \textbf{Municipal Neighbor Portal} on a walk-up E-Ink/web endpoint, enabling anyone on the block to inspect public watershed/acoustic telemetry, reserve community rooms (Scenario~\texttt{Epsilon}), locate storm warming refuges (Scenario~\texttt{Upsilon}), or file neighbour petitions without ever creating an account.
+
+\begin{figure}[htbp]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+    node distance=0.85cm and 0.95cm,
+    mod/.style={draw=teal!80!black, rounded corners=3pt, semithick, fill=teal!6, align=center, font=\scriptsize, minimum width=2.95cm, minimum height=1.1cm, inner sep=4pt},
+    hub/.style={draw=blue!75!black, rounded corners=3pt, thick, fill=blue!6, align=center, font=\scriptsize, minimum width=13.2cm, minimum height=1.05cm, inner sep=5pt},
+    kill/.style={draw=red!75!black, rounded corners=3pt, thick, fill=red!6, align=center, font=\scriptsize, minimum width=13.2cm, minimum height=0.9cm, inner sep=4pt},
+    arr/.style={-{Stealth[length=2.2mm]}, thick}
+]
+    \node[mod] (m1) {\textbf{WCAG 2.2 AAA Slates}\\$\ge 7:1$ Contrast, \texttt{rem}\\$\ge 48\,\mathrm{px}$ Glove Targets};
+    \node[mod, right=0.45cm of m1] (m2) {\textbf{0 mW Bistable E-Ink}\\Passive NFC Tool Tags\\72h Black-Start Ready};
+    \node[mod, right=0.45cm of m2] (m3) {\textbf{QR/OCR Paper \&}\\Helios Paper Ballots\\Zero-Electricity Parity};
+    \node[mod, right=0.45cm of m3] (m4) {\textbf{Offline STT/TTS \&}\\Braille / Switch AAC\\500ms Hardware Sign};
+
+    \node[hub, below=0.85cm of m2, xshift=1.7cm] (core) {
+        \textbf{Display Exergy Shedder (\texttt{SoC\_bp} Tiers A--D) \& Linear Prose BPMN Synthesizer (\texttt{col-commonsd})}\\[2pt]
+        Multilingual JSON-LD \texttt{@language} Bundles $\cdot$ Assisted Proxy Transcription (Zero Key Delegation) $\cdot$ Zero-ID Neighbor Portal
+    };
+
+    \node[kill, below=0.75cm of core] (unmed) {
+        \textbf{Hardware-Attested Unmediated Space Latch \& Red Brass Manual Overrides}: Physical Mic/Camera Bus Severance (\texttt{ERR\_UNMEDIATED\_SANCTUARY})
+    };
+
+    \foreach \m in {m1,m2,m3,m4} {
+        \draw[arr, <->] (\m.south) -- (core.north -| \m.south);
+    }
+    \draw[arr] (unmed.north) -- (core.south);
+\end{tikzpicture}%
+}
+\caption{Thermodynamic display hierarchy, screenless civic parity (E-Ink, passive NFC, paper travelers/ballots, offline voice/Braille), WCAG~2.2~AAA tokens, and hardware-severed Unmediated Spaces.}
+\label{fig:ch6-thermodynamic-accessibility}
+\end{figure}
+
+Figure~\ref{fig:ch6-thermodynamic-accessibility} demonstrates that accessibility and thermodynamic frugality reinforce one another: designing for zero-power E-Ink, tactile switches, paper travelers, and screen readers makes the entire settlement dramatically more resilient during storms and power shocks. Having established human-scale ergonomics inside the settlement, Chapter~\ref{ch:agora-treaties} scales outward to bioregional deliberation, pure-integer exergy clearing, Ricardian treaties, and the Mundane Semantic Camouflage Filter.
