@@ -8,6 +8,7 @@
 #include <vector>
 
 #include "../content/content_registry.hpp"
+#include "../domains/crop_cultivar.hpp"
 #include "../domains/soil_physics.hpp"
 #include "../domains/thermal_vessel.hpp"
 #include "../logistics/hauling_physics.hpp"
@@ -399,4 +400,90 @@ namespace detail {
     return rep;
 }
 
+// Skill-filtered epistemic garden inspection:
+// - Without L2 soil_probe_v1, a NOVICE (Tier 1) can tell whether plants are perky, stressed/yellowing, or dead/diseased,
+//   whether weeds/insects are visible, and whether the top knuckle of soil feels dry or damp,
+//   but CANNOT distinguish individual N-P-K nutrient symptoms or soil organic-carbon insulation / flow bottlenecks!
+// - An EXPERIENCED (Tier 2) gardener identifies foliar N/P/K symptoms and 10 cm crumb ribbon thermal/hydraulic properties.
+// - L2_AUTOMATED (Tier 3, has_l2_sensor == true) reads exact fixed-point registers.
+[[nodiscard]] inline ManualInspectionReport InspectGardenBedEpistemic(
+    const EntityArchetypeDef&        archetype,
+    const SoilCellRegisters&         soil,
+    const GardenBedHealthState&      health,
+    const CultivarPhysicsSpec&       cultivar,
+    const SensorAttachmentComponent* sensor = nullptr
+) {
+    ManualInspectionReport rep{};
+    rep.has_live_l2_telemetry = (sensor != nullptr && sensor->has_l2_sensor);
+
+    const AgronomySkillTier effective_tier = rep.has_live_l2_telemetry
+        ? AgronomySkillTier::L2_AUTOMATED
+        : health.skill_tier;
+    const uint16_t uncertainty_bp = DiagnosticUncertaintyBpForSkill(effective_tier);
+    const GardenIssueCode true_issue = EvaluateGardenBedTrueIssue(
+        soil, cultivar, health.crop_health_bp, health.weed_pressure_bp, health.pest_pressure_bp
+    );
+    const GardenIssueCode diag_issue = FilterIssueByEpistemicSkill(true_issue, effective_tier);
+
+    rep.headline = std::string(CultivarDisplayNameFromCode(cultivar.cultivar_code)) + " — " +
+                   std::string(PhenologyStageLabel(EvaluateCropPhenologyStage(
+                       soil.crop_growth_bp, soil.crop_planted, cultivar.harvest_mature_bp)));
+
+    if (effective_tier == AgronomySkillTier::NOVICE) {
+        // Coarse novice visual/tactile cues only!
+        const int64_t plant_condition_tier =
+            (health.crop_health_bp <= 3000u) ? 1 : ((health.crop_health_bp < 7500u || true_issue != GardenIssueCode::NONE) ? 2 : 3);
+        const int64_t surface_moisture_tier =
+            (soil.moisture_vwc_bp < 2400u) ? 1 : ((soil.moisture_vwc_bp <= 4900u) ? 2 : 3);
+
+        if (true_issue == GardenIssueCode::NUTRIENT_DEFICIENCY ||
+            true_issue == GardenIssueCode::SOIL_INSULATION_FLOW) {
+            rep.look_description =
+                "Novice Inspection (±28% uncertainty): Foliage looks somewhat pale and slow-growing, "
+                "but without agronomy training or an L2 soil_probe_v1 you cannot tell whether it lacks specific nutrients (N/P/K) "
+                "or if the soil lacks biochar thermal insulation and water/nutrient flow.";
+        } else if (diag_issue != GardenIssueCode::NONE) {
+            rep.look_description =
+                "Novice Inspection (±28% uncertainty): Spotted visible issue — " +
+                std::string(GardenIssueDisplayName(diag_issue)) + ".";
+        } else {
+            rep.look_description =
+                "Novice Inspection (±28% uncertainty): Vines look green and alive; top knuckle of soil feels " +
+                std::string(surface_moisture_tier == 1 ? "dry." : "cool and damp.");
+        }
+
+        rep.revealed_properties.push_back(PropertyEntry{plant_condition_tier, "novice_plant_condition_tier", "1=diseased..3=healthy"});
+        rep.revealed_properties.push_back(PropertyEntry{surface_moisture_tier, "novice_surface_moisture_tier", "1=dry..3=wet"});
+        rep.revealed_properties.push_back(PropertyEntry{static_cast<int64_t>(soil.crop_growth_bp), "crop_growth_bp", "bp"});
+        rep.revealed_properties.push_back(PropertyEntry{static_cast<int64_t>(health.weed_pressure_bp), "weed_pressure_bp", "bp"});
+        rep.revealed_properties.push_back(PropertyEntry{static_cast<int64_t>(health.pest_pressure_bp), "pest_pressure_bp", "bp"});
+        rep.revealed_properties.push_back(PropertyEntry{static_cast<int64_t>(diag_issue), "diagnosed_issue_code", "code"});
+        rep.revealed_properties.push_back(PropertyEntry{static_cast<int64_t>(uncertainty_bp), "diagnostic_uncertainty_bp", "bp"});
+        return rep;
+    }
+
+    // Experienced Agronomist (Tier 2) or L2 Automated (Tier 3): reveals full nutrient & soil-insulation diagnostics!
+    rep.look_description =
+        (effective_tier == AgronomySkillTier::L2_AUTOMATED ? "L2 Probe Telemetry (±1.5%): " : "Experienced Agronomist Diagnosis (±9%): ") +
+        std::string(GardenIssueDisplayName(diag_issue)) + " · Health " +
+        std::to_string(health.crop_health_bp / 100u) + "% · Soil Carbon Insulation " +
+        std::to_string(soil.organic_carbon_bp / 100u) + "%.";
+
+    rep.revealed_properties.push_back(PropertyEntry{static_cast<int64_t>(soil.moisture_vwc_bp), "moisture_vwc_bp", "bp"});
+    rep.revealed_properties.push_back(PropertyEntry{static_cast<int64_t>(soil.soil_temp_mk), "soil_temp_mk", "mK"});
+    rep.revealed_properties.push_back(PropertyEntry{static_cast<int64_t>(soil.nitrogen_ppm), "nitrogen_ppm", "ppm"});
+    rep.revealed_properties.push_back(PropertyEntry{static_cast<int64_t>(soil.phosphorus_ppm), "phosphorus_ppm", "ppm"});
+    rep.revealed_properties.push_back(PropertyEntry{static_cast<int64_t>(soil.potassium_ppm), "potassium_ppm", "ppm"});
+    rep.revealed_properties.push_back(PropertyEntry{static_cast<int64_t>(soil.organic_carbon_bp), "organic_carbon_bp", "bp"});
+    rep.revealed_properties.push_back(PropertyEntry{static_cast<int64_t>(soil.ph_centi), "ph_centi", "pH*100"});
+    rep.revealed_properties.push_back(PropertyEntry{static_cast<int64_t>(soil.crop_growth_bp), "crop_growth_bp", "bp"});
+    rep.revealed_properties.push_back(PropertyEntry{static_cast<int64_t>(health.crop_health_bp), "crop_health_bp", "bp"});
+    rep.revealed_properties.push_back(PropertyEntry{static_cast<int64_t>(health.care_quality_score_bp), "care_quality_score_bp", "bp"});
+    rep.revealed_properties.push_back(PropertyEntry{static_cast<int64_t>(diag_issue), "diagnosed_issue_code", "code"});
+    rep.revealed_properties.push_back(PropertyEntry{static_cast<int64_t>(uncertainty_bp), "diagnostic_uncertainty_bp", "bp"});
+    (void)archetype;
+    return rep;
+}
+
 } // namespace oasis::engine
+

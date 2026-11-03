@@ -77,9 +77,24 @@ enum class BpmnTokenState : uint8_t {
     WAITING_TIMER           = 4
 };
 
+enum class WorkflowRole : uint8_t {
+    PRIMARY_PRODUCTION = 0,
+    INPUT_SOURCING     = 1,
+    ISSUE_REMEDIATION  = 2
+};
+
 // ============================================================================
 // String Conversion Helpers for Stack Enumerations
 // ============================================================================
+
+[[nodiscard]] constexpr const char* ToString(WorkflowRole role) noexcept {
+    switch (role) {
+        case WorkflowRole::PRIMARY_PRODUCTION: return "PRIMARY_PRODUCTION";
+        case WorkflowRole::INPUT_SOURCING:     return "INPUT_SOURCING";
+        case WorkflowRole::ISSUE_REMEDIATION:  return "ISSUE_REMEDIATION";
+    }
+    return "PRIMARY_PRODUCTION";
+}
 
 [[nodiscard]] constexpr const char* ToString(NeedTimingMode mode) noexcept {
     switch (mode) {
@@ -543,6 +558,120 @@ static_assert(alignof(CultivarWorkflowSpec) == 8, "CultivarWorkflowSpec must be 
     return ((kWaterloggedBp - moisture_bp) * 10000U) / std::max(1U, kWaterloggedBp - opt_high);
 }
 
+// ============================================================================
+// Skill-Tiered Agronomy Inspection, Stressor Diagnostics & Variable Harvest
+// ============================================================================
+
+inline constexpr uint8_t kStackSkillNovice      = 1U;
+inline constexpr uint8_t kStackSkillExperienced = 2U;
+inline constexpr uint8_t kStackSkillL2Automated = 3U;
+
+inline constexpr uint8_t kStackIssueNone            = 0U;
+inline constexpr uint8_t kStackIssueDrought         = 1U;
+inline constexpr uint8_t kStackIssueWeeds           = 2U;
+inline constexpr uint8_t kStackIssuePests           = 3U;
+inline constexpr uint8_t kStackIssueNutrientDeficit = 4U;
+inline constexpr uint8_t kStackIssueSoilInsulation  = 5U;
+inline constexpr uint8_t kStackIssueCropFailure     = 6U;
+inline constexpr uint8_t kStackIssueOverwatered     = 7U;
+
+inline constexpr uint8_t kStackOutcomeFailure  = 0U;
+inline constexpr uint8_t kStackOutcomePoor     = 1U;
+inline constexpr uint8_t kStackOutcomeStandard = 2U;
+inline constexpr uint8_t kStackOutcomeBumper   = 3U;
+
+[[nodiscard]] constexpr const char* StackSkillTierLabel(uint8_t tier) noexcept {
+    switch (tier) {
+        case kStackSkillNovice:      return "NOVICE_OBSERVER";
+        case kStackSkillExperienced: return "EXPERIENCED_AGRONOMIST";
+        case kStackSkillL2Automated: return "L2_AUTOMATED_DETERMINISTIC";
+        default:                     return "NOVICE_OBSERVER";
+    }
+}
+
+[[nodiscard]] constexpr uint16_t StackDiagnosticUncertaintyBp(uint8_t tier) noexcept {
+    switch (tier) {
+        case kStackSkillNovice:      return 2800U; // +/- 28.0% uncertainty
+        case kStackSkillExperienced: return 900U;  // +/- 9.0% uncertainty
+        case kStackSkillL2Automated: return 150U;  // +/- 1.5% uncertainty
+        default:                     return 2800U;
+    }
+}
+
+[[nodiscard]] constexpr const char* StackIssueCodeLabel(uint8_t code) noexcept {
+    switch (code) {
+        case kStackIssueNone:            return "NONE";
+        case kStackIssueDrought:         return "DROUGHT_WILTING";
+        case kStackIssueWeeds:           return "WEED_COMPETITION";
+        case kStackIssuePests:           return "PEST_APHID_BLIGHT";
+        case kStackIssueNutrientDeficit: return "NUTRIENT_DEFICIENCY";
+        case kStackIssueSoilInsulation:  return "SOIL_INSULATION_FLOW";
+        case kStackIssueCropFailure:     return "CROP_FAILURE_BLIGHT";
+        case kStackIssueOverwatered:     return "OVERWATERED_ROOT_ROT";
+        default:                         return "NONE";
+    }
+}
+
+[[nodiscard]] constexpr const char* StackHarvestOutcomeLabel(uint8_t tier) noexcept {
+    switch (tier) {
+        case kStackOutcomeFailure:  return "CROP_FAILURE";
+        case kStackOutcomePoor:     return "POOR_STUNTED";
+        case kStackOutcomeStandard: return "STANDARD_NOMINAL";
+        case kStackOutcomeBumper:   return "BUMPER_ABUNDANT";
+        default:                    return "STANDARD_NOMINAL";
+    }
+}
+
+[[nodiscard]] inline uint8_t ParseStackIssueCode(std::string_view raw) noexcept {
+    const std::string up = json_util::ToLowerAscii(raw);
+    if (up.find("overwater") != std::string::npos || up.find("root_rot") != std::string::npos ||
+        up.find("waterlog") != std::string::npos || up == "7") {
+        return kStackIssueOverwatered;
+    }
+    if (up.find("drought") != std::string::npos || up.find("wilt") != std::string::npos || up == "1") {
+        return kStackIssueDrought;
+    }
+    if (up.find("weed") != std::string::npos || up == "2") {
+        return kStackIssueWeeds;
+    }
+    if (up.find("pest") != std::string::npos || up.find("aphid") != std::string::npos || up == "3") {
+        return kStackIssuePests;
+    }
+    if (up.find("nutrient") != std::string::npos || up.find("npk") != std::string::npos ||
+        up.find("nitrogen") != std::string::npos || up.find("chlorosis") != std::string::npos || up == "4") {
+        return kStackIssueNutrientDeficit;
+    }
+    if (up.find("insul") != std::string::npos || up.find("flow") != std::string::npos ||
+        up.find("carbon") != std::string::npos || up.find("tilth") != std::string::npos || up == "5") {
+        return kStackIssueSoilInsulation;
+    }
+    if (up.find("fail") != std::string::npos || up.find("blight") != std::string::npos ||
+        up.find("dead") != std::string::npos || up == "6") {
+        return kStackIssueCropFailure;
+    }
+    return kStackIssueNone;
+}
+
+[[nodiscard]] constexpr uint8_t FilterStackIssueBySkill(
+    uint8_t  true_issue_code,
+    uint8_t  skill_tier,
+    uint16_t crop_health_bp
+) noexcept {
+    if (true_issue_code == kStackIssueNone) {
+        return kStackIssueNone;
+    }
+    if (skill_tier >= kStackSkillExperienced) {
+        return true_issue_code;
+    }
+    // Novice Steward without L2 sensors can spot drought wilting, weeds, pests, or a dead/blighted crop,
+    // but CANNOT diagnose individual nutrient deficiencies (N/P/K chlorosis) or soil insulation/flow issues!
+    if (true_issue_code == kStackIssueNutrientDeficit ||
+        true_issue_code == kStackIssueSoilInsulation) {
+        return (crop_health_bp <= 2000U) ? kStackIssueCropFailure : kStackIssueNone;
+    }
+    return true_issue_code;
+}
+
 struct alignas(8) L2TelemetryTable {
     std::vector<L2SensorRegister> registers{};
     uint64_t                      last_update_tick{0};
@@ -676,24 +805,53 @@ struct alignas(8) L6PendingDecision {
 static_assert(alignof(L6PendingDecision) == 8, "L6PendingDecision must be 8-byte aligned.");
 
 // ============================================================================
-// Layer 5: Polycentric Node Governance Asset Model
+// Layer 5: Polycentric Node Governance Asset Model & Physical Plot Scope
 // ============================================================================
 
+struct alignas(8) GardenPlotScope {
+    std::string soil_color_observed{"UNOBSERVED"};
+    std::string soil_texture_observed{"UNOBSERVED"};
+    uint32_t    origin_x{20U};
+    uint32_t    origin_z{5U};
+    uint32_t    width_tiles{1U};
+    uint32_t    length_tiles{2U};
+    uint32_t    area_m2{2U};
+    uint32_t    scale_units{1U};
+    uint8_t     scope_defined{1U};
+    uint8_t     scope_defined_by_player{0U};
+    uint8_t     polyculture_crop_count{1U};
+    [[maybe_unused]] uint8_t pad_[5]{0U};
+};
+static_assert(alignof(GardenPlotScope) == 8, "GardenPlotScope must be 8-byte aligned.");
+
+struct alignas(8) L4WorkflowBlueprint {
+    std::string  workflow_id{};
+    std::string  title{};
+    std::string  trigger_condition{};
+    std::string  target_need_or_issue{};
+    WorkflowRole role{WorkflowRole::PRIMARY_PRODUCTION};
+    [[maybe_unused]] uint8_t pad_[7]{0};
+};
+static_assert(alignof(L4WorkflowBlueprint) == 8, "L4WorkflowBlueprint must be 8-byte aligned.");
+
 struct alignas(8) L5GovernedAsset {
-    std::string              asset_id{};
-    std::string              title{};
-    std::string              governance_badge{};
-    std::string              l7_fallback_channel{};
-    std::string              local_commons_channel{};
-    std::vector<std::string> linked_need_ids{};
-    std::vector<std::string> workflow_ids{};
-    uint64_t                 maintenance_exergy_uj{0};
-    int64_t                  monthly_l7_offset_potential_cents{0};
-    uint32_t                 steward_reputation_credit_bp{150};
-    SourcingMode             sourcing_mode{SourcingMode::L7_LEGACY_CHANNEL};
-    DistributionPolicy       distribution_policy{DistributionPolicy::R1_TRUST_RING_COMMONS};
-    TaskReleaseRing          task_release_ring{TaskReleaseRing::R0_STEWARD_ONLY};
-    uint8_t                  local_workflows_instantiated{0};
+    std::string                      asset_id{};
+    std::string                      host_node_id{};
+    std::string                      title{};
+    std::string                      governance_badge{};
+    std::string                      l7_fallback_channel{};
+    std::string                      local_commons_channel{};
+    std::vector<std::string>         linked_need_ids{};
+    std::vector<std::string>         required_input_need_ids{};
+    std::vector<std::string>         workflow_ids{};
+    std::vector<L4WorkflowBlueprint> workflow_catalog{};
+    uint64_t                         maintenance_exergy_uj{0};
+    int64_t                          monthly_l7_offset_potential_cents{0};
+    uint32_t                         steward_reputation_credit_bp{150};
+    SourcingMode                     sourcing_mode{SourcingMode::L7_LEGACY_CHANNEL};
+    DistributionPolicy               distribution_policy{DistributionPolicy::R1_TRUST_RING_COMMONS};
+    TaskReleaseRing                  task_release_ring{TaskReleaseRing::R0_STEWARD_ONLY};
+    uint8_t                          local_workflows_instantiated{0};
 };
 static_assert(alignof(L5GovernedAsset) == 8, "L5GovernedAsset must be 8-byte aligned.");
 
@@ -733,6 +891,9 @@ struct alignas(8) L4TaskItem {
     std::string           claimed_by_cluster_id{};
     std::string           unmodeled_prompt_question{};
     std::string           unmodeled_prompt_answer{};
+    std::string           required_input_item_id{};
+    std::string           required_input_label{};
+    std::string           produced_output_item_id{};
     uint64_t              exergy_cost_uj{0};
     int64_t               l7_revenue_offset_cents{0};
     uint64_t              last_state_change_tick{0};
@@ -744,13 +905,16 @@ struct alignas(8) L4TaskItem {
     uint32_t              target_moisture_max_bp{0};
     uint32_t              timer_interval_sim_s{0};
     uint32_t              verification_cycle_index{0};
+    uint32_t              required_input_qty{0};
+    uint32_t              available_input_qty{0};
+    uint32_t              produced_output_qty{0};
     TaskCommitmentState   task_commitment_state{TaskCommitmentState::UNASSIGNED};
     TaskExecutionModality execution_modality{TaskExecutionModality::MANUAL_HUMAN_OBSERVATION};
     HaulModality          haul_modality{HaulModality::NONE};
     BpmnTokenState        bpmn_token_state{BpmnTokenState::WAITING_SEQUENCE_FLOW};
     uint8_t               has_unmodeled_micro_detail{0};
     uint8_t               unmodeled_prompt_resolved{0};
-    [[maybe_unused]] uint8_t pad_[2]{0};
+    [[maybe_unused]] uint8_t pad_[6]{0};
 };
 static_assert(alignof(L4TaskItem) == 8, "L4TaskItem must be 8-byte aligned.");
 
@@ -758,11 +922,19 @@ struct alignas(8) L4WorkflowInstance {
     std::string             workflow_id{};
     std::string             asset_id{};
     std::string             assigned_node_id{};
+    std::string             parent_workflow_id{};
+    std::string             active_child_workflow_id{};
     std::string             title{};
     std::string             input_cultivar_id{};
     std::string             input_cultivar_title{};
     std::string             species_binomial{};
     std::string             phenology_stage_label{};
+    std::string             guidance_mode_label{"NOVICE_OBSERVER"};
+    std::string             active_issue_label{"NONE"};
+    std::string             diagnosed_issue_label{"NONE"};
+    std::string             diagnostic_guidance_prompt{};
+    std::string             expected_yield_summary{};
+    std::string             last_harvest_outcome_label{"STANDARD_NOMINAL"};
     std::vector<L4TaskItem> tasks{};
     uint64_t                spawned_tick{0};
     uint64_t                crop_sown_sim_s{0};
@@ -778,14 +950,72 @@ struct alignas(8) L4WorkflowInstance {
     uint32_t                growth_sub_accum{0};
     uint32_t                moisture_et_sub_accum{0};
     uint32_t                nitrogen_sub_accum{0};
+    uint32_t                plot_origin_x{20U};
+    uint32_t                plot_origin_z{5U};
+    uint32_t                plot_width_tiles{1U};
+    uint32_t                plot_length_tiles{2U};
+    uint32_t                plot_area_m2{2U};
+    uint32_t                plot_scale_units{1U};
     uint16_t                verification_checks_completed{0};
     uint16_t                auto_l2_checks_completed{0};
+    uint16_t                crop_health_bp{8800};
+    uint16_t                care_quality_score_bp{8000};
+    uint16_t                diagnostic_uncertainty_bp{2800};
+    uint16_t                soil_organic_carbon_bp{3200};
+    uint16_t                weed_pressure_bp{0};
+    uint16_t                pest_pressure_bp{0};
+    WorkflowRole            workflow_role{WorkflowRole::PRIMARY_PRODUCTION};
     uint8_t                 is_active{1};
     uint8_t                 crop_sown{0};
     uint8_t                 is_virtual_cultivar{0};
     uint8_t                 fixes_atmospheric_n2{1};
+    uint8_t                 agronomy_skill_tier{1};
+    uint8_t                 active_issue_code{0};
+    uint8_t                 diagnosed_issue_code{0};
+    uint8_t                 last_harvest_outcome_tier{2};
+    uint8_t                 min_expected_legume_batches{1};
+    uint8_t                 max_expected_legume_batches{3};
+    uint8_t                 last_harvest_legume_batches{0};
+    uint8_t                 last_harvest_mirepoix_batches{0};
+    uint8_t                 remediations_completed{0};
+    uint8_t                 missed_care_windows{0};
+    uint8_t                 plot_scope_defined{1U};
 };
 static_assert(alignof(L4WorkflowInstance) == 8, "L4WorkflowInstance must be 8-byte aligned.");
+
+// ============================================================================
+// Simulated Layer 7: Legacy Bank Account & Green Amazon Marketplace Contracts
+// ============================================================================
+
+struct alignas(8) L7BankTransaction {
+    std::string tx_id{};
+    std::string tx_type{};
+    std::string counterparty{};
+    std::string memo{};
+    int64_t     amount_cents{0};
+    int64_t     balance_after_cents{0};
+    uint64_t    tick{0};
+    uint32_t    sim_day{1U};
+    uint8_t     authorized{1U};
+    [[maybe_unused]] uint8_t pad_[3]{0U};
+};
+static_assert(alignof(L7BankTransaction) == 8, "L7BankTransaction must be 8-byte aligned.");
+
+struct alignas(8) L7GreenAmazonCatalogItem {
+    std::string item_id{};
+    std::string title{};
+    std::string category{};
+    std::string unit_label{};
+    std::string description{};
+    int64_t     buy_price_cents{0};
+    int64_t     sell_price_cents{0};
+    uint64_t    embodied_exergy_uj{0};
+    uint32_t    bundle_qty{1U};
+    uint8_t     can_buy{1U};
+    uint8_t     can_sell{0U};
+    [[maybe_unused]] uint8_t pad_[2]{0U};
+};
+static_assert(alignof(L7GreenAmazonCatalogItem) == 8, "L7GreenAmazonCatalogItem must be 8-byte aligned.");
 
 // ============================================================================
 // Layer 3 & Layer 7: Pairwise BCC Exergy Ledger & Zero-Bill Offset Accounting
@@ -907,12 +1137,16 @@ public:
         last_search_results_.clear();
         cluster_nodes_.clear();
         cultivars_.clear();
+        green_amazon_catalog_.clear();
+        bank_transactions_.clear();
 
         l2_telemetry_ = L2TelemetryTable{};
         ledger_ = L3NodeLedger{};
+        garden_plot_scope_ = GardenPlotScope{};
         current_tick_ = 1ULL;
         custom_counter_ = 0ULL;
         sim_clock_seconds_ = 28800ULL; // Day 1, 08:00:00
+        last_daily_living_eval_sim_s_ = 28800ULL;
         sim_day_ = 1U;
         ambient_temp_override_mk_ = 0U;
         cultivars_enriched_count_ = 0U;
@@ -926,8 +1160,19 @@ public:
         biochar_batches_ = 0U;
         simmered_bone_broth_batches_ = 0U;
         served_pea_soup_tiffin_batches_ = 0U;
+        timber_planks_stock_ = 4U;
+        compost_amendment_bags_ = 2U;
+        pea_seed_packets_ = 2U;
+        culinary_salt_herbs_jars_ = 2U;
+        pantry_grocery_meals_ = 6U;
+        consecutive_pea_soup_meals_ = 0U;
+        dietary_variety_score_bp_ = 8500U;
+        l7_grocery_orders_count_ = 0U;
+        l7_monthly_bills_paid_count_ = 0U;
         bootstrapped_from_jsonld_ = 0U;
         external_r1_swarm_enabled_ = 0U; // Default: Solo Steward 4-Node Personal Homestead Cluster
+        steward_agronomy_skill_tier_ = kStackSkillNovice;
+        require_explicit_plot_scope_ = 0U;
         bootstrap_source_path_ = "builtin:pea_to_soup_canonical_v1";
         selected_garden_cultivar_id_ = "cultivar:chrono_virtual_pea";
         last_command_action_ = "bootstrap";
@@ -936,6 +1181,7 @@ public:
         InitializeHomesteadClusterNodes();
         InitializeCanonicalCultivars();
         TryEnrichCultivarsFromJsonLd();
+        InitializeGreenAmazonCatalog();
         InitializeGovernedAssets();
         InitializeCanonicalNeeds();
         TryEnrichNeedsFromJsonLd(jsonld_hint_path);
@@ -1005,6 +1251,651 @@ public:
     [[nodiscard]] const std::string& SelectedGardenCultivarId() const noexcept { return selected_garden_cultivar_id_; }
     [[nodiscard]] const std::vector<CultivarWorkflowSpec>& GetAvailableCultivars() const noexcept { return cultivars_; }
     [[nodiscard]] bool IsExternalR1SwarmEnabled() const noexcept { return external_r1_swarm_enabled_ != 0U; }
+    [[nodiscard]] uint8_t StewardAgronomySkillTier() const noexcept { return steward_agronomy_skill_tier_; }
+
+    [[nodiscard]] uint8_t EffectiveGardenSkillTier() const noexcept {
+        if (l2_telemetry_.IsRegisterOnline("soil_probe_v1")) {
+            return kStackSkillL2Automated;
+        }
+        return std::clamp<uint8_t>(steward_agronomy_skill_tier_, kStackSkillNovice, kStackSkillL2Automated);
+    }
+
+    bool SetStewardAgronomySkillTier(uint8_t tier) {
+        if (tier < kStackSkillNovice || tier > kStackSkillL2Automated) {
+            return false;
+        }
+        steward_agronomy_skill_tier_ = tier;
+        for (auto& wf : workflows_) {
+            if (wf.workflow_id == "wf:pea_cultivation") {
+                RefreshGardenGuidanceAndYieldBand(wf);
+            }
+        }
+        EvaluateBpmnTokensAndDependencies();
+        RefreshL4AutomationModalities();
+        RefreshClusterNodeSummaries();
+        EmitLocalClusterChoreographyEvent(
+            "node-01:office-coordinator",
+            "Node 01 — Office Sovereign Coordinator",
+            "AGRONOMY_SKILL_UPDATED",
+            std::string("Steward agronomy guidance tier set to ") +
+                StackSkillTierLabel(EffectiveGardenSkillTier()) + " (+/-" +
+                std::to_string(StackDiagnosticUncertaintyBp(EffectiveGardenSkillTier()) / 100U) +
+                "% diagnostic uncertainty).",
+            0ULL
+        );
+        return true;
+    }
+
+    bool InjectGardenIssue(std::string_view issue_str) {
+        L4WorkflowInstance* wf = FindWorkflowMutable("wf:pea_cultivation");
+        if (wf == nullptr || wf->is_active == 0U) {
+            return false;
+        }
+        const std::string low = json_util::ToLowerAscii(issue_str);
+        if (low == "none" || low == "clear" || low == "0") {
+            wf->active_issue_code = kStackIssueNone;
+            wf->diagnosed_issue_code = kStackIssueNone;
+            wf->weed_pressure_bp = 0U;
+            wf->pest_pressure_bp = 0U;
+            wf->crop_health_bp = std::max<uint16_t>(wf->crop_health_bp, 8800U);
+            wf->care_quality_score_bp = std::max<uint16_t>(wf->care_quality_score_bp, 8200U);
+            wf->soil_organic_carbon_bp = std::max<uint16_t>(wf->soil_organic_carbon_bp, 3400U);
+            wf->estimated_nitrogen_ppm = std::max(wf->estimated_nitrogen_ppm, 72U);
+        } else {
+            const uint8_t code = ParseStackIssueCode(issue_str);
+            if (code == kStackIssueNone) {
+                return false;
+            }
+            wf->active_issue_code = code;
+            if (code == kStackIssueDrought) {
+                wf->estimated_moisture_bp = 1400U;
+                wf->crop_health_bp = std::min<uint16_t>(wf->crop_health_bp, 5600U);
+                wf->care_quality_score_bp = std::min<uint16_t>(wf->care_quality_score_bp, 5600U);
+            } else if (code == kStackIssueOverwatered) {
+                wf->estimated_moisture_bp = 6200U;
+                wf->crop_health_bp = std::min<uint16_t>(wf->crop_health_bp, 5400U);
+                wf->care_quality_score_bp = std::min<uint16_t>(wf->care_quality_score_bp, 5300U);
+            } else if (code == kStackIssueWeeds) {
+                wf->weed_pressure_bp = 5400U;
+                wf->crop_health_bp = std::min<uint16_t>(wf->crop_health_bp, 5600U);
+                wf->care_quality_score_bp = std::min<uint16_t>(wf->care_quality_score_bp, 5700U);
+            } else if (code == kStackIssuePests) {
+                wf->pest_pressure_bp = 5600U;
+                wf->crop_health_bp = std::min<uint16_t>(wf->crop_health_bp, 5400U);
+                wf->care_quality_score_bp = std::min<uint16_t>(wf->care_quality_score_bp, 5500U);
+            } else if (code == kStackIssueNutrientDeficit) {
+                wf->estimated_nitrogen_ppm = 10U;
+                wf->crop_health_bp = std::min<uint16_t>(wf->crop_health_bp, 5500U);
+                wf->care_quality_score_bp = std::min<uint16_t>(wf->care_quality_score_bp, 5400U);
+            } else if (code == kStackIssueSoilInsulation) {
+                wf->soil_organic_carbon_bp = 1350U;
+                wf->crop_health_bp = std::min<uint16_t>(wf->crop_health_bp, 5400U);
+                wf->care_quality_score_bp = std::min<uint16_t>(wf->care_quality_score_bp, 5300U);
+            } else if (code == kStackIssueCropFailure) {
+                wf->crop_health_bp = 1500U;
+                wf->care_quality_score_bp = 2000U;
+            }
+        }
+        RefreshGardenGuidanceAndYieldBand(*wf);
+        EvaluateBpmnTokensAndDependencies();
+        RefreshL4AutomationModalities();
+        RefreshClusterNodeSummaries();
+        EmitLocalClusterChoreographyEvent(
+            "node-03:garden-agro",
+            "Node 03 — Backyard Agroecology & Soil Node",
+            "AGRO_STRESSOR_EVENT",
+            "Garden bed stressor state updated: true issue=" + wf->active_issue_label +
+                ", diagnosed by " + wf->guidance_mode_label + "=" + wf->diagnosed_issue_label +
+                " (Crop Health " + std::to_string(wf->crop_health_bp / 100U) + "%).",
+            0ULL
+        );
+        return true;
+    }
+
+    void SetRequireExplicitPlotScope(bool require) {
+        require_explicit_plot_scope_ = require ? 1U : 0U;
+        if (require && garden_plot_scope_.scope_defined_by_player == 0U) {
+            garden_plot_scope_.scope_defined = 0U;
+            if (L4WorkflowInstance* wf = FindWorkflowMutable("wf:pea_cultivation")) {
+                wf->plot_scope_defined = 0U;
+            }
+        } else if (!require) {
+            garden_plot_scope_.scope_defined = 1U;
+            if (L4WorkflowInstance* wf = FindWorkflowMutable("wf:pea_cultivation")) {
+                wf->plot_scope_defined = 1U;
+            }
+        }
+        EvaluateBpmnTokensAndDependencies();
+        RefreshClusterNodeSummaries();
+    }
+
+    [[nodiscard]] const GardenPlotScope& GetGardenPlotScope() const noexcept {
+        return garden_plot_scope_;
+    }
+
+    bool SetGardenPlotScope(
+        uint32_t origin_x,
+        uint32_t origin_z,
+        uint32_t width_tiles,
+        uint32_t length_tiles,
+        uint8_t polyculture_crop_count = 1U,
+        std::string_view soil_color = "",
+        std::string_view soil_texture = ""
+    ) {
+        if (width_tiles == 0U || width_tiles > 6U || length_tiles == 0U || length_tiles > 6U) {
+            return false;
+        }
+        const uint32_t clamped_x = std::clamp(origin_x, 18U, 24U);
+        const uint32_t clamped_z = std::clamp(origin_z, 2U, 13U);
+        const uint32_t area_m2 = width_tiles * length_tiles;
+        const uint32_t scale_units = std::max(1U, (area_m2 + 1U) / 2U);
+
+        garden_plot_scope_.origin_x = clamped_x;
+        garden_plot_scope_.origin_z = clamped_z;
+        garden_plot_scope_.width_tiles = width_tiles;
+        garden_plot_scope_.length_tiles = length_tiles;
+        garden_plot_scope_.area_m2 = area_m2;
+        garden_plot_scope_.scale_units = scale_units;
+        garden_plot_scope_.scope_defined = 1U;
+        garden_plot_scope_.scope_defined_by_player = 1U;
+        garden_plot_scope_.polyculture_crop_count = std::max<uint8_t>(1U, polyculture_crop_count);
+        if (!soil_color.empty()) {
+            garden_plot_scope_.soil_color_observed = std::string(soil_color);
+        }
+        if (!soil_texture.empty()) {
+            garden_plot_scope_.soil_texture_observed = std::string(soil_texture);
+        }
+
+        // Feed spatial scope variables into L5 Governance Asset & Decision (scaling rewards & offsets)
+        if (L5GovernedAsset* asset = FindAssetMutable("asset:pea_cultivation")) {
+            asset->maintenance_exergy_uj = 3100000000ULL * static_cast<uint64_t>(scale_units);
+            asset->monthly_l7_offset_potential_cents = 18000 * static_cast<int64_t>(scale_units);
+            asset->steward_reputation_credit_bp =
+                std::min<uint32_t>(600U, 160U + 60U * scale_units);
+        }
+        if (L6PendingDecision* dec = FindDecisionMutable("dec:pea_cultivation")) {
+            dec->estimated_exergy_savings_uj = 4700000000ULL * static_cast<uint64_t>(scale_units);
+            dec->estimated_monthly_l7_savings_cents = 18000 * static_cast<int64_t>(scale_units);
+        }
+
+        // Feed spatial scope variables into L4 Workflows (wf:pea_cultivation & wf:fab_raised_bed)
+        if (L4WorkflowInstance* fab_wf = FindWorkflowMutable("wf:fab_raised_bed")) {
+            fab_wf->plot_origin_x = clamped_x;
+            fab_wf->plot_origin_z = clamped_z;
+            fab_wf->plot_width_tiles = width_tiles;
+            fab_wf->plot_length_tiles = length_tiles;
+            fab_wf->plot_area_m2 = area_m2;
+            fab_wf->plot_scale_units = scale_units;
+            for (auto& t : fab_wf->tasks) {
+                if (t.task_id == "task:fab_1_mill_raised_bed") {
+                    t.required_input_qty = 4U * scale_units;
+                    t.produced_output_qty = scale_units;
+                }
+            }
+        }
+        if (L4WorkflowInstance* wf = FindWorkflowMutable("wf:pea_cultivation")) {
+            wf->plot_origin_x = clamped_x;
+            wf->plot_origin_z = clamped_z;
+            wf->plot_width_tiles = width_tiles;
+            wf->plot_length_tiles = length_tiles;
+            wf->plot_area_m2 = area_m2;
+            wf->plot_scale_units = scale_units;
+            wf->plot_scope_defined = 1U;
+            const std::string loc_label =
+                "Node 03: Backyard Plot (" + std::to_string(clamped_x) + ",1," +
+                std::to_string(clamped_z) + ") [" + std::to_string(width_tiles) + "x" +
+                std::to_string(length_tiles) + "m = " + std::to_string(area_m2) + "m2]";
+            for (auto& t : wf->tasks) {
+                t.location_label = loc_label;
+                if (t.task_id == "task:pea_1_plow_amend") {
+                    t.required_input_qty = scale_units;
+                } else if (t.task_id == "task:pea_3_rhizobium_sow") {
+                    t.required_input_qty = scale_units;
+                }
+            }
+            RefreshGardenGuidanceAndYieldBand(*wf);
+        }
+
+        if (!soil_color.empty() || !soil_texture.empty()) {
+            (void)SubmitSoilBaselineObservation(
+                garden_plot_scope_.soil_color_observed,
+                garden_plot_scope_.soil_texture_observed
+            );
+        }
+
+        EvaluateBpmnTokensAndDependencies();
+        RefreshL4AutomationModalities();
+        RefreshClusterNodeSummaries();
+
+        EmitLocalClusterChoreographyEvent(
+            "node-03:garden-agro",
+            "Node 03 — Backyard Agroecology & Soil Node",
+            "L5_PLOT_SCOPE_DEFINED",
+            "Player designated physical garden plot scope at (" + std::to_string(clamped_x) +
+                ", 1, " + std::to_string(clamped_z) + ") size " + std::to_string(width_tiles) +
+                "x" + std::to_string(length_tiles) + "m (" + std::to_string(area_m2) +
+                " m2, scale=" + std::to_string(scale_units) + "x, polyculture crops=" +
+                std::to_string(garden_plot_scope_.polyculture_crop_count) + ").",
+            0ULL
+        );
+        return true;
+    }
+
+    bool SubmitSoilBaselineObservation(
+        std::string_view soil_color,
+        std::string_view soil_texture
+    ) {
+        if (!soil_color.empty()) {
+            garden_plot_scope_.soil_color_observed = std::string(soil_color);
+        }
+        if (!soil_texture.empty()) {
+            garden_plot_scope_.soil_texture_observed = std::string(soil_texture);
+        }
+
+        L4WorkflowInstance* wf = FindWorkflowMutable("wf:pea_cultivation");
+        if (wf != nullptr) {
+            const uint8_t eff_skill = EffectiveGardenSkillTier();
+            const std::string col_low = json_util::ToLowerAscii(garden_plot_scope_.soil_color_observed);
+            const std::string tex_low = json_util::ToLowerAscii(garden_plot_scope_.soil_texture_observed);
+
+            if (eff_skill >= kStackSkillExperienced) {
+                // Experienced Steward / L2 Probe calibrates biochar + compost to overcome degraded suburban subsoil
+                wf->soil_organic_carbon_bp = std::max<uint16_t>(wf->soil_organic_carbon_bp, 3800U);
+                wf->estimated_nitrogen_ppm = std::max<uint32_t>(wf->estimated_nitrogen_ppm, 68U);
+                wf->care_quality_score_bp = static_cast<uint16_t>(
+                    std::min<uint32_t>(9800U, static_cast<uint32_t>(wf->care_quality_score_bp) + 350U));
+            } else {
+                // Novice Steward cannot read N-P-K ppm, but reports observable soil color & texture!
+                const bool degraded_color =
+                    col_low.find("pale") != std::string::npos ||
+                    col_low.find("grey") != std::string::npos ||
+                    col_low.find("yellow") != std::string::npos ||
+                    col_low.find("clay") != std::string::npos;
+                const bool degraded_tex =
+                    tex_low.find("compact") != std::string::npos ||
+                    tex_low.find("clod") != std::string::npos ||
+                    tex_low.find("grit") != std::string::npos ||
+                    tex_low.find("sand") != std::string::npos;
+                if (degraded_color || degraded_tex) {
+                    wf->soil_organic_carbon_bp = static_cast<uint16_t>(
+                        std::min<uint32_t>(3200U, static_cast<uint32_t>(wf->soil_organic_carbon_bp) + 650U));
+                    wf->estimated_nitrogen_ppm = std::min<uint32_t>(60U, wf->estimated_nitrogen_ppm + 12U);
+                    wf->care_quality_score_bp = static_cast<uint16_t>(
+                        std::min<uint32_t>(9500U, static_cast<uint32_t>(wf->care_quality_score_bp) + 220U));
+                }
+            }
+            for (auto& t : wf->tasks) {
+                if (t.task_id == "task:pea_1_plow_amend") {
+                    t.unmodeled_prompt_answer =
+                        "Color=" + garden_plot_scope_.soil_color_observed +
+                        ", Texture=" + garden_plot_scope_.soil_texture_observed;
+                    t.unmodeled_prompt_resolved = 1U;
+                }
+            }
+            RefreshGardenGuidanceAndYieldBand(*wf);
+        }
+
+        EvaluateBpmnTokensAndDependencies();
+        RefreshClusterNodeSummaries();
+        EmitLocalClusterChoreographyEvent(
+            "node-03:garden-agro",
+            "Node 03 — Backyard Agroecology & Soil Node",
+            "SOIL_OBSERVATION_LOGGED",
+            "Suburban soil observation recorded (color=" + garden_plot_scope_.soil_color_observed +
+                ", texture=" + garden_plot_scope_.soil_texture_observed +
+                "); L4 soil amendment prescription calibrated.",
+            0ULL
+        );
+        return true;
+    }
+
+    bool ProactiveManualWaterGarden(uint32_t added_water_ml = 10000U) {
+        L4WorkflowInstance* wf = FindWorkflowMutable("wf:pea_cultivation");
+        if (wf == nullptr || wf->is_active == 0U) {
+            return false;
+        }
+        const uint32_t scale = std::max(1U, wf->plot_scale_units);
+        const uint32_t delta_vwc_bp = std::max(1500U, (added_water_ml * 270U) / (1000U * scale));
+        wf->estimated_moisture_bp = std::min(9500U, wf->estimated_moisture_bp + delta_vwc_bp);
+
+        if (wf->estimated_moisture_bp >= 5400U) {
+            // Overly proactive manual watering saturates compacted suburban subsoil -> OVERWATERED_ROOT_ROT!
+            wf->active_issue_code = kStackIssueOverwatered;
+            wf->crop_health_bp = (wf->crop_health_bp > 4200U)
+                                     ? static_cast<uint16_t>(wf->crop_health_bp - 900U)
+                                     : 3400U;
+            wf->care_quality_score_bp = (wf->care_quality_score_bp > 4200U)
+                                            ? static_cast<uint16_t>(wf->care_quality_score_bp - 800U)
+                                            : 3400U;
+            wf->diagnosed_issue_code = FilterStackIssueBySkill(
+                wf->active_issue_code, EffectiveGardenSkillTier(), wf->crop_health_bp);
+            EmitLocalClusterChoreographyEvent(
+                "node-03:garden-agro",
+                "Node 03 — Backyard Agroecology & Soil Node",
+                "AGRO_OVERWATER_WARNING",
+                "Proactive manual watering spiked plot moisture to " +
+                    std::to_string(wf->estimated_moisture_bp / 100U) +
+                    "% VWC (>=54% saturation threshold) — OVERWATERED_ROOT_ROT stressor triggered!",
+                0ULL
+            );
+        } else if (wf->active_issue_code == kStackIssueDrought && wf->estimated_moisture_bp >= 2400U) {
+            wf->active_issue_code = kStackIssueNone;
+            wf->diagnosed_issue_code = kStackIssueNone;
+        }
+
+        RefreshGardenGuidanceAndYieldBand(*wf);
+        EvaluateBpmnTokensAndDependencies();
+        RefreshL4AutomationModalities();
+        RefreshClusterNodeSummaries();
+        return true;
+    }
+
+    void SetGardenInputStocks(
+        uint32_t timber_planks,
+        uint32_t compost_bags,
+        uint32_t seed_packets,
+        uint32_t salt_herbs_jars
+    ) {
+        timber_planks_stock_ = timber_planks;
+        compost_amendment_bags_ = compost_bags;
+        pea_seed_packets_ = seed_packets;
+        culinary_salt_herbs_jars_ = salt_herbs_jars;
+        EvaluateBpmnTokensAndDependencies();
+        RefreshClusterNodeSummaries();
+    }
+
+    [[nodiscard]] uint32_t TimberPlanksStock() const noexcept { return timber_planks_stock_; }
+    [[nodiscard]] uint32_t CompostAmendmentBags() const noexcept { return compost_amendment_bags_; }
+    [[nodiscard]] uint32_t PeaSeedPackets() const noexcept { return pea_seed_packets_; }
+    [[nodiscard]] uint32_t CulinarySaltHerbsJars() const noexcept { return culinary_salt_herbs_jars_; }
+    [[nodiscard]] uint32_t PantryGroceryMeals() const noexcept { return pantry_grocery_meals_; }
+    [[nodiscard]] uint32_t DietaryVarietyScoreBp() const noexcept { return dietary_variety_score_bp_; }
+    [[nodiscard]] uint32_t ServedPeaSoupTiffinBatches() const noexcept { return served_pea_soup_tiffin_batches_; }
+    [[nodiscard]] int64_t HouseholdReserveCents() const noexcept { return ledger_.household_reserve_cents; }
+    [[nodiscard]] const std::vector<L7BankTransaction>& BankTransactions() const noexcept { return bank_transactions_; }
+    [[nodiscard]] const std::vector<L7GreenAmazonCatalogItem>& GreenAmazonCatalog() const noexcept { return green_amazon_catalog_; }
+    [[nodiscard]] uint32_t MonthsBillsPaid() const noexcept { return l7_monthly_bills_paid_count_; }
+    [[nodiscard]] uint64_t CumulativeL7BillsPaidCents() const noexcept {
+        return static_cast<uint64_t>(l7_monthly_bills_paid_count_) * 22000ULL;
+    }
+    [[nodiscard]] uint64_t CumulativeL7GrocerySpendCents() const noexcept {
+        return static_cast<uint64_t>(l7_grocery_orders_count_) * 3600ULL;
+    }
+
+    // ------------------------------------------------------------------------
+    // Simulated Layer 7: Legacy Bank & Green Amazon REST Marketplace API
+    // ------------------------------------------------------------------------
+
+    bool LegacyBankAuthorizePayment(
+        int64_t amount_cents,
+        std::string_view counterparty,
+        std::string_view memo,
+        std::string_view tx_type = "DEBIT_PURCHASE"
+    ) {
+        if (amount_cents <= 0) {
+            return false;
+        }
+        L7BankTransaction tx{};
+        tx.tx_id = "bank-tx:" + std::to_string(bank_transactions_.size() + 1U);
+        tx.tx_type = std::string(tx_type);
+        tx.counterparty = std::string(counterparty);
+        tx.memo = std::string(memo);
+        tx.amount_cents = -amount_cents;
+        tx.tick = current_tick_;
+        tx.sim_day = sim_day_;
+
+        if (ledger_.household_reserve_cents < amount_cents) {
+            tx.authorized = 0U;
+            tx.balance_after_cents = ledger_.household_reserve_cents;
+            bank_transactions_.insert(bank_transactions_.begin(), tx);
+            if (bank_transactions_.size() > 32U) {
+                bank_transactions_.resize(32U);
+            }
+            return false;
+        }
+
+        ledger_.household_reserve_cents -= amount_cents;
+        tx.authorized = 1U;
+        tx.balance_after_cents = ledger_.household_reserve_cents;
+        bank_transactions_.insert(bank_transactions_.begin(), tx);
+        if (bank_transactions_.size() > 32U) {
+            bank_transactions_.resize(32U);
+        }
+        return true;
+    }
+
+    bool LegacyBankDepositFunds(
+        int64_t amount_cents,
+        std::string_view counterparty,
+        std::string_view memo,
+        std::string_view tx_type = "CREDIT_SALE"
+    ) {
+        if (amount_cents <= 0) {
+            return false;
+        }
+        ledger_.household_reserve_cents += amount_cents;
+        ledger_.monthly_l7_offset_revenue_cents += amount_cents;
+        ++ledger_.completed_l7_offset_orders;
+        if (ledger_.dependency_ratio_bp > 150U) {
+            ledger_.dependency_ratio_bp -= 150U;
+        } else {
+            ledger_.dependency_ratio_bp = 0U;
+        }
+
+        L7BankTransaction tx{};
+        tx.tx_id = "bank-tx:" + std::to_string(bank_transactions_.size() + 1U);
+        tx.tx_type = std::string(tx_type);
+        tx.counterparty = std::string(counterparty);
+        tx.memo = std::string(memo);
+        tx.amount_cents = amount_cents;
+        tx.balance_after_cents = ledger_.household_reserve_cents;
+        tx.tick = current_tick_;
+        tx.sim_day = sim_day_;
+        tx.authorized = 1U;
+        bank_transactions_.insert(bank_transactions_.begin(), tx);
+        if (bank_transactions_.size() > 32U) {
+            bank_transactions_.resize(32U);
+        }
+        return true;
+    }
+
+    bool BuyFromGreenAmazon(std::string_view item_id, uint32_t quantity = 1U) {
+        if (quantity == 0U) {
+            return false;
+        }
+        const L7GreenAmazonCatalogItem* found = nullptr;
+        for (const auto& item : green_amazon_catalog_) {
+            if (item.item_id == item_id && item.can_buy != 0U) {
+                found = &item;
+                break;
+            }
+        }
+        if (found == nullptr) {
+            return false;
+        }
+        const int64_t total_cents = found->buy_price_cents * static_cast<int64_t>(quantity);
+        if (!LegacyBankAuthorizePayment(
+                total_cents,
+                "Green Amazon L7 API",
+                "Purchased " + std::to_string(quantity) + "x " + found->title,
+                "DEBIT_PURCHASE")) {
+            return false;
+        }
+
+        const uint32_t units_added = found->bundle_qty * quantity;
+        if (found->item_id == "item:pea_seed_packet") {
+            pea_seed_packets_ += units_added;
+        } else if (found->item_id == "item:organic_compost_bag") {
+            compost_amendment_bags_ += units_added;
+        } else if (found->item_id == "item:cedar_timber_plank") {
+            timber_planks_stock_ += units_added;
+        } else if (found->item_id == "item:culinary_salt_herbs") {
+            culinary_salt_herbs_jars_ += units_added;
+        } else if (found->item_id == "item:grocery_meal_pack") {
+            pantry_grocery_meals_ += units_added;
+            ++l7_grocery_orders_count_;
+            consecutive_pea_soup_meals_ = 0U;
+            dietary_variety_score_bp_ = std::min(10000U, dietary_variety_score_bp_ + 1200U);
+        } else if (found->item_id == "item:split_peas_batch") {
+            harvested_split_pea_batches_ += units_added;
+            harvested_mirepoix_batches_ += units_added;
+        } else if (found->item_id == "item:pasture_eggs_dozen") {
+            poultry_bones_and_eggs_batches_ += units_added;
+            dietary_variety_score_bp_ = std::min(10000U, dietary_variety_score_bp_ + 900U);
+        } else if (found->item_id == "item:pea_soup_tiffin") {
+            served_pea_soup_tiffin_batches_ += units_added;
+        } else if (found->item_id == "item:l2_soil_probe_kit") {
+            l2_telemetry_.SetRegisterOnline("soil_probe_v1", true, current_tick_);
+            l2_telemetry_.SetRegisterOnline("irrigation_valve_v1", true, current_tick_);
+        }
+
+        EmitLocalClusterChoreographyEvent(
+            "node-01:office-coordinator",
+            "Node 01 <- L7 Green Amazon Fulfillment",
+            "L7_GREEN_AMAZON_PURCHASE",
+            "Green Amazon delivered " + std::to_string(quantity) + "x " + found->title +
+                " (-$" + std::to_string(total_cents / 100) + "." +
+                (total_cents % 100 < 10 ? "0" : "") + std::to_string(total_cents % 100) +
+                " authorized by Legacy Bank).",
+            found->embodied_exergy_uj * static_cast<uint64_t>(quantity)
+        );
+
+        EvaluateBpmnTokensAndDependencies();
+        RefreshL4AutomationModalities();
+        RefreshClusterNodeSummaries();
+        return true;
+    }
+
+    bool SellOnGreenAmazon(std::string_view item_id, uint32_t quantity = 1U) {
+        if (quantity == 0U) {
+            return false;
+        }
+        const L7GreenAmazonCatalogItem* found = nullptr;
+        for (const auto& item : green_amazon_catalog_) {
+            if (item.item_id == item_id && item.can_sell != 0U) {
+                found = &item;
+                break;
+            }
+        }
+        if (found == nullptr) {
+            return false;
+        }
+
+        if (found->item_id == "item:pea_soup_tiffin") {
+            if (served_pea_soup_tiffin_batches_ < quantity) {
+                return false;
+            }
+            served_pea_soup_tiffin_batches_ -= quantity;
+        } else if (found->item_id == "item:split_peas_batch") {
+            if (harvested_split_pea_batches_ < quantity) {
+                return false;
+            }
+            harvested_split_pea_batches_ -= quantity;
+        } else if (found->item_id == "item:pasture_eggs_dozen") {
+            if (poultry_bones_and_eggs_batches_ < quantity) {
+                return false;
+            }
+            poultry_bones_and_eggs_batches_ -= quantity;
+        } else if (found->item_id == "item:organic_compost_bag") {
+            if (thermophilic_compost_batches_ >= quantity) {
+                thermophilic_compost_batches_ -= quantity;
+            } else if (compost_amendment_bags_ >= quantity) {
+                compost_amendment_bags_ -= quantity;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+
+        const int64_t payout_cents = found->sell_price_cents * static_cast<int64_t>(quantity);
+        (void)LegacyBankDepositFunds(
+            payout_cents,
+            "Green Amazon Marketplace Payout",
+            "Sold " + std::to_string(quantity) + "x " + found->title + " via Green Amazon",
+            "CREDIT_SALE"
+        );
+
+        EmitLocalClusterChoreographyEvent(
+            "node-01:office-coordinator",
+            "Node 01 -> L7 Green Amazon Marketplace",
+            "L7_GREEN_AMAZON_SALE",
+            "Sold " + std::to_string(quantity) + "x " + found->title +
+                " on Green Amazon (+$" + std::to_string(payout_cents / 100) + "." +
+                (payout_cents % 100 < 10 ? "0" : "") + std::to_string(payout_cents % 100) +
+                " deposited to Legacy Bank).",
+            found->embodied_exergy_uj * static_cast<uint64_t>(quantity)
+        );
+
+        EvaluateBpmnTokensAndDependencies();
+        RefreshClusterNodeSummaries();
+        return true;
+    }
+
+    [[nodiscard]] std::string SerializeLegacyBankJson() const {
+        std::ostringstream oss;
+        AppendLegacyBankJson(oss, 0U);
+        oss << "\n";
+        return oss.str();
+    }
+
+    [[nodiscard]] std::string SerializeGreenAmazonCatalogJson() const {
+        std::ostringstream oss;
+        AppendGreenAmazonJson(oss, 0U);
+        oss << "\n";
+        return oss.str();
+    }
+
+    bool SubmitGardenInspectionObservation(
+        const std::string& task_id,
+        const std::string& observation_code
+    ) {
+        L4WorkflowInstance* wf = FindWorkflowMutable("wf:pea_cultivation");
+        if (wf == nullptr) {
+            return false;
+        }
+        const uint8_t eff_skill = EffectiveGardenSkillTier();
+        const std::string low = json_util::ToLowerAscii(observation_code);
+
+        if (low.find("healthy") != std::string::npos || low.find("perky") != std::string::npos ||
+            low.find("nominal") != std::string::npos) {
+            if (wf->active_issue_code == kStackIssueNone) {
+                wf->care_quality_score_bp = static_cast<uint16_t>(
+                    std::min<uint32_t>(9800U, static_cast<uint32_t>(wf->care_quality_score_bp) +
+                                                  (eff_skill >= kStackSkillExperienced ? 450U : 200U)));
+                wf->crop_health_bp = static_cast<uint16_t>(
+                    std::min<uint32_t>(9800U, static_cast<uint32_t>(wf->crop_health_bp) +
+                                                  (eff_skill >= kStackSkillExperienced ? 300U : 120U)));
+            }
+        } else {
+            const uint8_t parsed = ParseStackIssueCode(observation_code);
+            if (parsed == kStackIssueNone) {
+                return false;
+            }
+            // Enforce epistemic constraint: Novice without L2 cannot diagnose Nutrient Deficiency or Soil Insulation/Flow!
+            if (eff_skill == kStackSkillNovice &&
+                (parsed == kStackIssueNutrientDeficit || parsed == kStackIssueSoilInsulation)) {
+                return false;
+            }
+            if (wf->active_issue_code == kStackIssueNone) {
+                wf->active_issue_code = parsed;
+            }
+            wf->diagnosed_issue_code = parsed;
+        }
+
+        if (!task_id.empty()) {
+            if (L4TaskItem* t = FindTaskMutable(task_id)) {
+                t->unmodeled_prompt_answer = observation_code;
+                t->unmodeled_prompt_resolved = 1U;
+            }
+        }
+
+        RefreshGardenGuidanceAndYieldBand(*wf);
+        EvaluateBpmnTokensAndDependencies();
+        RefreshL4AutomationModalities();
+        RefreshClusterNodeSummaries();
+        return true;
+    }
 
     [[nodiscard]] const CultivarWorkflowSpec* FindCultivar(std::string_view cultivar_id) const noexcept {
         if (cultivar_id.empty()) {
@@ -1029,6 +1920,7 @@ public:
         for (auto& wf : workflows_) {
             if (wf.workflow_id == "wf:pea_cultivation" && wf.crop_sown == 0U) {
                 ApplyCultivarParametersToWorkflow(wf, *spec);
+                RefreshGardenGuidanceAndYieldBand(wf);
             }
         }
         EvaluateBpmnTokensAndDependencies();
@@ -1158,8 +2050,12 @@ public:
                 const int64_t total_cost_cents = need->l7_unit_cost_cents * static_cast<int64_t>(qty);
                 if (timing_mode == NeedTimingMode::NOW) {
                     if (requester_did.rfind("cluster:", 0U) != 0U && total_cost_cents > 0) {
-                        ledger_.household_reserve_cents =
-                            std::max<int64_t>(0, ledger_.household_reserve_cents - total_cost_cents);
+                        (void)LegacyBankAuthorizePayment(
+                            total_cost_cents,
+                            need->l7_channel_label,
+                            "L7 fallback fulfillment for " + need->title,
+                            "DEBIT_PURCHASE"
+                        );
                     }
                     req.fulfilled = 1U;
                     req.fulfillment_note = "Fulfilled via L7 fallback (" + need->l7_channel_label +
@@ -1168,7 +2064,7 @@ public:
                 } else {
                     req.fulfilled = 0U;
                     req.fulfillment_note = "Scheduled for Sim Day " + std::to_string(resolved_due_day) +
-                                           " (approve L5 decision to fulfill locally at $0).";
+                                            " (approve L5 decision to fulfill locally at $0).";
                     need->last_status_note = req.fulfillment_note;
                 }
                 EnsurePendingDecisionForAsset(need->governed_asset_id, need->need_id);
@@ -1218,11 +2114,38 @@ public:
 
         L5GovernedAsset asset{};
         asset.asset_id = asset_id;
+        asset.host_node_id = "node-01:office-coordinator";
         asset.title = title + " Commons Asset";
         asset.governance_badge = "L5 Polycentric Mesh Asset";
         asset.l7_fallback_channel = l7_channel_label.empty() ? "L7 Legacy Market Fallback" : l7_channel_label;
         asset.local_commons_channel = local_channel_label;
         asset.linked_need_ids.push_back(need_id);
+        {
+            const std::string asset_slug = MakeSlug(asset_id);
+            L4WorkflowBlueprint main_bp{};
+            main_bp.workflow_id = "wf:" + asset_slug;
+            main_bp.title = title + " Main Production BPMN Lifecycle";
+            main_bp.trigger_condition = "ON_L5_GOVERNANCE_APPROVED";
+            main_bp.target_need_or_issue = need_id;
+            main_bp.role = WorkflowRole::PRIMARY_PRODUCTION;
+            asset.workflow_catalog.push_back(main_bp);
+
+            L4WorkflowBlueprint src_bp{};
+            src_bp.workflow_id = "wf:source_" + asset_slug;
+            src_bp.title = title + " Material Input Sourcing BPMN";
+            src_bp.trigger_condition = "ON_INPUT_SHORTAGE:" + need_id;
+            src_bp.target_need_or_issue = need_id;
+            src_bp.role = WorkflowRole::INPUT_SOURCING;
+            asset.workflow_catalog.push_back(src_bp);
+
+            L4WorkflowBlueprint rem_bp{};
+            rem_bp.workflow_id = "wf:remediate_" + asset_slug;
+            rem_bp.title = title + " Issue Remediation BPMN";
+            rem_bp.trigger_condition = "ON_ISSUE_DIAGNOSED:" + need_id;
+            rem_bp.target_need_or_issue = "QUALITY_OR_PROCESS_DEVIATION";
+            rem_bp.role = WorkflowRole::ISSUE_REMEDIATION;
+            asset.workflow_catalog.push_back(rem_bp);
+        }
         asset.maintenance_exergy_uj = (exergy_cost_uj > 0ULL) ? exergy_cost_uj : 2500000000ULL;
         asset.monthly_l7_offset_potential_cents = (l7_unit_cost_cents > 0) ? (l7_unit_cost_cents * 4) : 6000;
         asset.steward_reputation_credit_bp = 180U;
@@ -1275,7 +2198,8 @@ public:
 
     bool ApproveOrAdaptGovernanceDecision(
         const std::string& decision_id,
-        bool approve = true
+        bool approve = true,
+        bool await_plot_scope = false
     ) {
         L6PendingDecision* dec = FindDecisionMutable(decision_id);
         if (dec == nullptr) {
@@ -1287,7 +2211,8 @@ public:
             dec->proposed_sourcing_mode,
             dec->proposed_distribution_policy,
             dec->proposed_task_release_ring,
-            false
+            false,
+            await_plot_scope
         );
     }
 
@@ -1297,7 +2222,8 @@ public:
         SourcingMode sourcing_mode,
         DistributionPolicy distribution_policy,
         TaskReleaseRing task_release_ring,
-        bool was_adapted = true
+        bool was_adapted = true,
+        bool await_plot_scope = false
     ) {
         L6PendingDecision* dec = FindDecisionMutable(decision_id);
         if (dec == nullptr) {
@@ -1307,6 +2233,12 @@ public:
         if (!approve) {
             dec->status = DecisionStatus::DEFERRED;
             return true;
+        }
+
+        if ((await_plot_scope || require_explicit_plot_scope_ != 0U) &&
+            decision_id == "dec:pea_cultivation" &&
+            garden_plot_scope_.scope_defined_by_player == 0U) {
+            garden_plot_scope_.scope_defined = 0U;
         }
 
         const bool params_changed =
@@ -1443,6 +2375,45 @@ public:
                 wf->phenology_stage_label = ComputePhenologyLabel(
                     wf->crop_growth_bp, wf->crop_sown, spec.harvest_mature_bp);
 
+                // Skill-tiered inspection & care quality adjustment during Step 4 check:
+                const uint8_t eff_skill = EffectiveGardenSkillTier();
+                if (wf->active_issue_code == kStackIssueDrought) {
+                    // Watering directly resolves mild drought stress
+                    wf->active_issue_code = kStackIssueNone;
+                    wf->diagnosed_issue_code = kStackIssueNone;
+                }
+                if (wf->active_issue_code == kStackIssueNone) {
+                    wf->weed_pressure_bp = (wf->weed_pressure_bp > 1800U)
+                                               ? static_cast<uint16_t>(wf->weed_pressure_bp - 1800U)
+                                               : 0U;
+                    wf->pest_pressure_bp = (wf->pest_pressure_bp > 1500U)
+                                               ? static_cast<uint16_t>(wf->pest_pressure_bp - 1500U)
+                                               : 0U;
+                    const uint32_t care_gain = (eff_skill >= kStackSkillExperienced) ? 350U : 120U;
+                    const uint32_t health_gain = (eff_skill >= kStackSkillExperienced) ? 220U : 60U;
+                    wf->care_quality_score_bp = static_cast<uint16_t>(
+                        std::min<uint32_t>(9800U, static_cast<uint32_t>(wf->care_quality_score_bp) + care_gain));
+                    wf->crop_health_bp = static_cast<uint16_t>(
+                        std::min<uint32_t>(9800U, static_cast<uint32_t>(wf->crop_health_bp) + health_gain));
+                } else {
+                    // Active stressor exists during inspection: diagnose if Steward's skill tier can perceive it!
+                    const uint8_t diag = FilterStackIssueBySkill(
+                        wf->active_issue_code, eff_skill, wf->crop_health_bp);
+                    wf->diagnosed_issue_code = diag;
+                    if (diag == kStackIssueNone) {
+                        // Hidden stressor (e.g. N-P-K deficit or Soil Insulation/Flow) missed by Novice observer!
+                        const uint16_t min_floor =
+                            (wf->active_issue_code == kStackIssueCropFailure) ? 1200U : 3200U;
+                        wf->crop_health_bp = (wf->crop_health_bp > min_floor + 350U)
+                                                 ? static_cast<uint16_t>(wf->crop_health_bp - 350U)
+                                                 : min_floor;
+                        wf->care_quality_score_bp = (wf->care_quality_score_bp > min_floor + 300U)
+                                                        ? static_cast<uint16_t>(wf->care_quality_score_bp - 300U)
+                                                        : min_floor;
+                    }
+                }
+                RefreshGardenGuidanceAndYieldBand(*wf);
+
                 ledger_.total_exergy_accounted_uj += task_exergy;
                 AccountNodeTaskCompletion(assigned_node, task_exergy);
                 if (completed_by_cluster_id.empty()) {
@@ -1535,6 +2506,14 @@ public:
         // Check if all tasks in parent workflow are completed
         for (auto& wf : workflows_) {
             if (wf.workflow_id == parent_wf_id) {
+                if (task_id == "task:pea_6_shell_moisture_turn") {
+                    for (auto& step : wf.tasks) {
+                        if (step.task_id == "task:pea_4r_remediate_issue") {
+                            step.task_commitment_state = TaskCommitmentState::COMPLETED;
+                            step.bpmn_token_state = BpmnTokenState::COMPLETED;
+                        }
+                    }
+                }
                 bool all_done = !wf.tasks.empty();
                 for (const auto& step : wf.tasks) {
                     if (step.task_commitment_state != TaskCommitmentState::COMPLETED) {
@@ -1566,6 +2545,9 @@ public:
                 continue;
             }
             for (const auto& step : wf.tasks) {
+                if (step.task_id == "task:pea_4r_remediate_issue") {
+                    continue;
+                }
                 if (step.task_commitment_state != TaskCommitmentState::COMPLETED) {
                     return false; // Current cycle still in progress
                 }
@@ -1582,16 +2564,30 @@ public:
             wf.nitrogen_sub_accum = 0U;
             wf.verification_checks_completed = 0U;
             wf.auto_l2_checks_completed = 0U;
+            wf.crop_health_bp = 8800U;
+            wf.care_quality_score_bp = 8000U;
+            wf.soil_organic_carbon_bp = 3200U;
+            wf.weed_pressure_bp = 0U;
+            wf.pest_pressure_bp = 0U;
+            wf.active_issue_code = kStackIssueNone;
+            wf.diagnosed_issue_code = kStackIssueNone;
+            wf.remediations_completed = 0U;
+            wf.missed_care_windows = 0U;
             wf.phenology_stage_label = "Unsown Bed";
-            if (wf.workflow_id == "wf:pea_cultivation") {
-                ApplyCultivarParametersToWorkflow(wf, ResolveCultivarSpecOrDefault(selected_garden_cultivar_id_));
-            }
             const L5GovernedAsset* asset = FindAsset(wf.asset_id);
             const bool auto_release_r1 =
                 IsExternalR1SwarmEnabled() &&
                 (asset != nullptr) &&
                 (asset->task_release_ring == TaskReleaseRing::R1_PEER_CLUSTERS);
             for (auto& step : wf.tasks) {
+                if (step.task_id == "task:pea_4r_remediate_issue") {
+                    step.task_commitment_state = TaskCommitmentState::COMPLETED;
+                    step.bpmn_token_state = BpmnTokenState::COMPLETED;
+                    step.claimed_by_cluster_id.clear();
+                    step.precondition_blocker_note.clear();
+                    step.last_state_change_tick = current_tick_;
+                    continue;
+                }
                 step.task_commitment_state = auto_release_r1
                                                  ? TaskCommitmentState::RELEASED_TO_R1_PEERS
                                                  : TaskCommitmentState::UNASSIGNED;
@@ -1602,6 +2598,10 @@ public:
                 step.claimed_by_cluster_id.clear();
                 step.precondition_blocker_note.clear();
                 step.last_state_change_tick = current_tick_;
+            }
+            if (wf.workflow_id == "wf:pea_cultivation") {
+                ApplyCultivarParametersToWorkflow(wf, ResolveCultivarSpecOrDefault(selected_garden_cultivar_id_));
+                RefreshGardenGuidanceAndYieldBand(wf);
             }
             EvaluateBpmnTokensAndDependencies();
             RefreshL4AutomationModalities();
@@ -1967,7 +2967,19 @@ public:
             if (!cultivar_id.empty()) {
                 (void)SetGardenCultivar(cultivar_id);
             }
+            if (json_util::HasKey(args, "origin_x") && json_util::HasKey(args, "width_tiles")) {
+                (void)SetGardenPlotScope(
+                    static_cast<uint16_t>(json_util::ExtractUint64(args, "origin_x", 20ULL)),
+                    static_cast<uint16_t>(json_util::ExtractUint64(args, "origin_z", 4ULL)),
+                    static_cast<uint16_t>(json_util::ExtractUint64(args, "width_tiles", 1ULL)),
+                    static_cast<uint16_t>(json_util::ExtractUint64(args, "length_tiles", 2ULL)),
+                    static_cast<uint8_t>(json_util::ExtractUint64(args, "polyculture_crop_count", 1ULL)),
+                    json_util::ExtractString(args, "soil_color"),
+                    json_util::ExtractString(args, "soil_texture")
+                );
+            }
             const bool approve = json_util::ExtractBool(args, "approve", true);
+            const bool await_plot_scope = json_util::ExtractBool(args, "await_plot_scope", true);
             bool ok = false;
             if (L6PendingDecision* dec = FindDecisionMutable(decision_id)) {
                 const bool has_overrides =
@@ -1981,12 +2993,88 @@ public:
                         json_util::ExtractString(args, "distribution_policy"), dec->proposed_distribution_policy);
                     const TaskReleaseRing tr = ParseTaskReleaseRing(
                         json_util::ExtractString(args, "task_release_ring"), dec->proposed_task_release_ring);
-                    ok = ApproveOrAdaptGovernanceDecision(decision_id, approve, sm, dp, tr, true);
+                    ok = ApproveOrAdaptGovernanceDecision(
+                        decision_id, approve, sm, dp, tr, true, await_plot_scope);
                 } else {
-                    ok = ApproveOrAdaptGovernanceDecision(decision_id, approve);
+                    ok = ApproveOrAdaptGovernanceDecision(
+                        decision_id,
+                        approve,
+                        SourcingMode::R0_LOCAL_WORKFLOWS,
+                        DistributionPolicy::R1_TRUST_RING_COMMONS,
+                        TaskReleaseRing::R0_STEWARD_ONLY,
+                        false,
+                        await_plot_scope);
                 }
             }
             last_command_status_ = ok ? "OK" : "NOT_FOUND";
+            return SerializeFullNodeSnapshotJson();
+        }
+
+        if (resolved_action == "set_garden_plot_scope") {
+            const uint16_t ox = static_cast<uint16_t>(json_util::ExtractUint64(args, "origin_x", 20ULL));
+            const uint16_t oz = static_cast<uint16_t>(json_util::ExtractUint64(args, "origin_z", 4ULL));
+            const uint16_t wt = static_cast<uint16_t>(json_util::ExtractUint64(args, "width_tiles", 1ULL));
+            const uint16_t lt = static_cast<uint16_t>(json_util::ExtractUint64(args, "length_tiles", 2ULL));
+            const uint8_t poly = static_cast<uint8_t>(json_util::ExtractUint64(args, "polyculture_crop_count", 1ULL));
+            const std::string color = json_util::ExtractString(args, "soil_color");
+            const std::string tex = json_util::ExtractString(args, "soil_texture");
+            const bool ok = SetGardenPlotScope(ox, oz, wt, lt, poly, color, tex);
+            last_command_status_ = ok ? "OK" : "INVALID_PLOT_SCOPE";
+            return SerializeFullNodeSnapshotJson();
+        }
+
+        if (resolved_action == "submit_soil_observation") {
+            const std::string color = json_util::ExtractString(args, "soil_color", "PALE_GREY_BROWN");
+            const std::string tex = json_util::ExtractString(args, "soil_texture", "COMPACTED_CLAY_CLODS");
+            const bool ok = SubmitSoilBaselineObservation(color, tex);
+            last_command_status_ = ok ? "OK" : "INVALID_SOIL_OBSERVATION";
+            return SerializeFullNodeSnapshotJson();
+        }
+
+        if (resolved_action == "proactive_manual_water") {
+            const uint32_t ml = static_cast<uint32_t>(json_util::ExtractUint64(args, "added_water_ml", 5000ULL));
+            const bool ok = ProactiveManualWaterGarden(ml);
+            last_command_status_ = ok ? "OK" : "CROP_NOT_SOWN_OR_NO_WORKFLOW";
+            return SerializeFullNodeSnapshotJson();
+        }
+
+        if (resolved_action == "green_amazon_buy" || resolved_action == "green_amazon_purchase") {
+            std::string item_id = json_util::ExtractString(args, "item_id");
+            if (item_id.empty()) {
+                item_id = json_util::ExtractString(args, "id");
+            }
+            const uint32_t qty = static_cast<uint32_t>(json_util::ExtractUint64(args, "quantity", 1ULL));
+            const bool ok = BuyFromGreenAmazon(item_id, qty);
+            last_command_status_ = ok ? "OK" : "INSUFFICIENT_FUNDS_OR_INVALID_ITEM";
+            return SerializeFullNodeSnapshotJson();
+        }
+
+        if (resolved_action == "green_amazon_sell") {
+            std::string item_id = json_util::ExtractString(args, "item_id");
+            if (item_id.empty()) {
+                item_id = json_util::ExtractString(args, "id");
+            }
+            const uint32_t qty = static_cast<uint32_t>(json_util::ExtractUint64(args, "quantity", 1ULL));
+            const bool ok = SellOnGreenAmazon(item_id, qty);
+            last_command_status_ = ok ? "OK" : "INSUFFICIENT_STOCK_OR_NOT_SELLABLE";
+            return SerializeFullNodeSnapshotJson();
+        }
+
+        if (resolved_action == "legacy_bank_authorize") {
+            const int64_t cents = json_util::ExtractInt64(args, "amount_cents", 0);
+            const std::string party = json_util::ExtractString(args, "counterparty", "L7 Counterparty");
+            const std::string memo = json_util::ExtractString(args, "memo", "Authorized Payment");
+            const bool ok = LegacyBankAuthorizePayment(cents, party, memo);
+            last_command_status_ = ok ? "OK" : "DECLINED_INSUFFICIENT_FUNDS";
+            return SerializeFullNodeSnapshotJson();
+        }
+
+        if (resolved_action == "legacy_bank_deposit") {
+            const int64_t cents = json_util::ExtractInt64(args, "amount_cents", 0);
+            const std::string party = json_util::ExtractString(args, "counterparty", "Green Amazon Marketplace");
+            const std::string memo = json_util::ExtractString(args, "memo", "Surplus Sale Settlement");
+            const bool ok = LegacyBankDepositFunds(cents, party, memo);
+            last_command_status_ = ok ? "OK" : "INVALID_DEPOSIT_AMOUNT";
             return SerializeFullNodeSnapshotJson();
         }
 
@@ -2001,6 +3089,23 @@ public:
             const std::string cultivar_id = json_util::ExtractString(args, "cultivar_id");
             if (!cultivar_id.empty()) {
                 (void)SetGardenCultivar(cultivar_id);
+            }
+            if (json_util::HasKey(args, "origin_x") && json_util::HasKey(args, "width_tiles")) {
+                (void)SetGardenPlotScope(
+                    static_cast<uint16_t>(json_util::ExtractUint64(args, "origin_x", 20ULL)),
+                    static_cast<uint16_t>(json_util::ExtractUint64(args, "origin_z", 4ULL)),
+                    static_cast<uint16_t>(json_util::ExtractUint64(args, "width_tiles", 1ULL)),
+                    static_cast<uint16_t>(json_util::ExtractUint64(args, "length_tiles", 2ULL)),
+                    static_cast<uint8_t>(json_util::ExtractUint64(args, "polyculture_crop_count", 1ULL)),
+                    json_util::ExtractString(args, "soil_color"),
+                    json_util::ExtractString(args, "soil_texture")
+                );
+            }
+            const bool await_plot_scope = json_util::ExtractBool(args, "await_plot_scope", true);
+            if (await_plot_scope &&
+                (target_id == "dec:pea_cultivation" || target_id == "asset:pea_cultivation") &&
+                garden_plot_scope_.scope_defined_by_player == 0U) {
+                garden_plot_scope_.scope_defined = 0U;
             }
             SourcingMode sm_default = SourcingMode::R0_LOCAL_WORKFLOWS;
             DistributionPolicy dp_default = DistributionPolicy::R1_TRUST_RING_COMMONS;
@@ -2123,7 +3228,41 @@ public:
             return SerializeFullNodeSnapshotJson();
         }
 
-        if (resolved_action == "reset_homestead_cluster") {
+        if (resolved_action == "set_agronomy_skill_tier") {
+            uint64_t tier = json_util::ExtractUint64(args, "tier", 0ULL);
+            if (tier == 0ULL) {
+                tier = json_util::ExtractUint64(args, "skill_tier", 1ULL);
+            }
+            const bool ok = SetStewardAgronomySkillTier(static_cast<uint8_t>(tier));
+            last_command_status_ = ok ? "OK" : "INVALID_SKILL_TIER";
+            return SerializeFullNodeSnapshotJson();
+        }
+
+        if (resolved_action == "inject_garden_issue") {
+            std::string issue = json_util::ExtractString(args, "issue");
+            if (issue.empty()) {
+                issue = json_util::ExtractString(args, "issue_code", "WEED_COMPETITION");
+            }
+            const bool ok = InjectGardenIssue(issue);
+            last_command_status_ = ok ? "OK" : "INVALID_ISSUE";
+            return SerializeFullNodeSnapshotJson();
+        }
+
+        if (resolved_action == "submit_garden_inspection") {
+            std::string task_id = json_util::ExtractString(args, "task_id", "task:pea_4_irrigate_weed");
+            std::string obs = json_util::ExtractString(args, "observation");
+            if (obs.empty()) {
+                obs = json_util::ExtractString(args, "answer", "HEALTHY_PERKY");
+            }
+            const bool ok = SubmitGardenInspectionObservation(task_id, obs);
+            last_command_status_ = ok ? "OK" : "NOVICE_CANNOT_DIAGNOSE_OR_INVALID";
+            return SerializeFullNodeSnapshotJson();
+        }
+
+        if (resolved_action == "reset_homestead_cluster" ||
+            resolved_action == "reset_solo_new_player_start" ||
+            resolved_action == "RESET_SOLO_NEW_PLAYER_START" ||
+            resolved_action == "reset") {
             Bootstrap();
             last_command_action_ = "reset_homestead_cluster";
             last_command_status_ = "OK";
@@ -2141,6 +3280,7 @@ public:
     }
 
     [[nodiscard]] std::string SerializeFullNodeSnapshotJson() const {
+        const uint8_t eff_skill = EffectiveGardenSkillTier();
         std::ostringstream oss;
         oss << "{\n"
             << "  \"ok\": true,\n"
@@ -2153,10 +3293,27 @@ public:
             << "  \"sim_clock_seconds\": " << sim_clock_seconds_ << ",\n"
             << "  \"ambient_temp_mk\": " << CurrentAmbientTempMk() << ",\n"
             << "  \"selected_cultivar_id\": \"" << json_util::Escape(selected_garden_cultivar_id_) << "\",\n"
+            << "  \"steward_agronomy_skill_tier\": " << static_cast<uint32_t>(steward_agronomy_skill_tier_) << ",\n"
+            << "  \"effective_garden_skill_tier\": " << static_cast<uint32_t>(eff_skill) << ",\n"
+            << "  \"agronomy_guidance_mode\": \"" << StackSkillTierLabel(eff_skill) << "\",\n"
+            << "  \"diagnostic_uncertainty_bp\": " << StackDiagnosticUncertaintyBp(eff_skill) << ",\n"
             << "  \"bootstrapped_from_jsonld\": " << (bootstrapped_from_jsonld_ != 0U ? "true" : "false") << ",\n"
             << "  \"bootstrap_source\": \"" << json_util::Escape(bootstrap_source_path_) << "\",\n"
             << "  \"last_command_action\": \"" << json_util::Escape(last_command_action_) << "\",\n"
             << "  \"last_command_status\": \"" << json_util::Escape(last_command_status_) << "\",\n"
+            << "  \"garden_plot_scope\": {\n"
+            << "    \"origin_x\": " << garden_plot_scope_.origin_x << ",\n"
+            << "    \"origin_z\": " << garden_plot_scope_.origin_z << ",\n"
+            << "    \"width_tiles\": " << garden_plot_scope_.width_tiles << ",\n"
+            << "    \"length_tiles\": " << garden_plot_scope_.length_tiles << ",\n"
+            << "    \"area_m2\": " << garden_plot_scope_.area_m2 << ",\n"
+            << "    \"scale_units\": " << garden_plot_scope_.scale_units << ",\n"
+            << "    \"scope_defined\": " << (garden_plot_scope_.scope_defined != 0U ? "true" : "false") << ",\n"
+            << "    \"scope_defined_by_player\": " << (garden_plot_scope_.scope_defined_by_player != 0U ? "true" : "false") << ",\n"
+            << "    \"polyculture_crop_count\": " << static_cast<uint32_t>(garden_plot_scope_.polyculture_crop_count) << ",\n"
+            << "    \"soil_color_observed\": \"" << json_util::Escape(garden_plot_scope_.soil_color_observed) << "\",\n"
+            << "    \"soil_texture_observed\": \"" << json_util::Escape(garden_plot_scope_.soil_texture_observed) << "\"\n"
+            << "  },\n"
             << "  \"homestead_physical_state\": {\n"
             << "    \"raised_bed_frames_built\": " << raised_bed_frames_built_ << ",\n"
             << "    \"compost_kiln_units_built\": " << compost_kiln_units_built_ << ",\n"
@@ -2167,7 +3324,15 @@ public:
             << "    \"thermophilic_compost_batches\": " << thermophilic_compost_batches_ << ",\n"
             << "    \"biochar_batches\": " << biochar_batches_ << ",\n"
             << "    \"simmered_bone_broth_batches\": " << simmered_bone_broth_batches_ << ",\n"
-            << "    \"served_pea_soup_tiffin_batches\": " << served_pea_soup_tiffin_batches_ << "\n"
+            << "    \"served_pea_soup_tiffin_batches\": " << served_pea_soup_tiffin_batches_ << ",\n"
+            << "    \"timber_planks_stock\": " << timber_planks_stock_ << ",\n"
+            << "    \"compost_amendment_bags\": " << compost_amendment_bags_ << ",\n"
+            << "    \"pea_seed_packets\": " << pea_seed_packets_ << ",\n"
+            << "    \"culinary_salt_herbs_jars\": " << culinary_salt_herbs_jars_ << ",\n"
+            << "    \"pantry_grocery_meals\": " << pantry_grocery_meals_ << ",\n"
+            << "    \"dietary_variety_score_bp\": " << dietary_variety_score_bp_ << ",\n"
+            << "    \"l7_grocery_orders_count\": " << l7_grocery_orders_count_ << ",\n"
+            << "    \"l7_monthly_bills_paid_count\": " << l7_monthly_bills_paid_count_ << "\n"
             << "  },\n";
 
         // 0A. Parameterized Legume Cultivars (Fabaceae Real & Sim-Tuned Virtual Varieties)
@@ -2291,13 +3456,14 @@ public:
         }
         oss << (pending_decisions_.empty() ? "],\n" : "\n  ],\n");
 
-        // 4. L5 Governed Assets
+        // 4. L5 Governed Assets (Node L5 Governance Models + Workflow Catalog Sets)
         oss << "  \"l5_governed_assets\": [";
         for (size_t i = 0U; i < governed_assets_.size(); ++i) {
             const auto& a = governed_assets_[i];
             oss << (i == 0U ? "\n" : ",\n")
                 << "    {\n"
                 << "      \"asset_id\": \"" << json_util::Escape(a.asset_id) << "\",\n"
+                << "      \"host_node_id\": \"" << json_util::Escape(a.host_node_id) << "\",\n"
                 << "      \"title\": \"" << json_util::Escape(a.title) << "\",\n"
                 << "      \"governance_badge\": \"" << json_util::Escape(a.governance_badge) << "\",\n"
                 << "      \"sourcing_mode\": \"" << ToString(a.sourcing_mode) << "\",\n"
@@ -2314,11 +3480,29 @@ public:
                 oss << (j == 0U ? "" : ", ") << "\"" << json_util::Escape(a.linked_need_ids[j]) << "\"";
             }
             oss << "],\n"
+                << "      \"required_input_need_ids\": [";
+            for (size_t j = 0U; j < a.required_input_need_ids.size(); ++j) {
+                oss << (j == 0U ? "" : ", ") << "\"" << json_util::Escape(a.required_input_need_ids[j]) << "\"";
+            }
+            oss << "],\n"
                 << "      \"workflow_ids\": [";
             for (size_t j = 0U; j < a.workflow_ids.size(); ++j) {
                 oss << (j == 0U ? "" : ", ") << "\"" << json_util::Escape(a.workflow_ids[j]) << "\"";
             }
-            oss << "]\n"
+            oss << "],\n"
+                << "      \"workflow_catalog\": [";
+            for (size_t j = 0U; j < a.workflow_catalog.size(); ++j) {
+                const auto& bp = a.workflow_catalog[j];
+                oss << (j == 0U ? "\n" : ",\n")
+                    << "        {\n"
+                    << "          \"workflow_id\": \"" << json_util::Escape(bp.workflow_id) << "\",\n"
+                    << "          \"title\": \"" << json_util::Escape(bp.title) << "\",\n"
+                    << "          \"role\": \"" << ToString(bp.role) << "\",\n"
+                    << "          \"trigger_condition\": \"" << json_util::Escape(bp.trigger_condition) << "\",\n"
+                    << "          \"target_need_or_issue\": \"" << json_util::Escape(bp.target_need_or_issue) << "\"\n"
+                    << "        }";
+            }
+            oss << (a.workflow_catalog.empty() ? "]\n" : "\n      ]\n")
                 << "    }";
         }
         oss << (governed_assets_.empty() ? "],\n" : "\n  ],\n");
@@ -2329,21 +3513,57 @@ public:
         std::vector<const L4TaskItem*> available_tasks;
         std::vector<const L4TaskItem*> waiting_timer_tasks;
         std::vector<const L4TaskItem*> active_token_tasks;
+        bool first_active_wf = true;
         for (size_t i = 0U; i < workflows_.size(); ++i) {
             const auto& wf = workflows_[i];
-            oss << (i == 0U ? "\n" : ",\n")
-                << "    {\n"
+            if (wf.is_active == 0U) {
+                continue;
+            }
+            oss << (first_active_wf ? "\n" : ",\n");
+            first_active_wf = false;
+            oss << "    {\n"
                 << "      \"workflow_id\": \"" << json_util::Escape(wf.workflow_id) << "\",\n"
                 << "      \"asset_id\": \"" << json_util::Escape(wf.asset_id) << "\",\n"
                 << "      \"assigned_node_id\": \"" << json_util::Escape(wf.assigned_node_id) << "\",\n"
+                << "      \"workflow_role\": \"" << ToString(wf.workflow_role) << "\",\n"
+                << "      \"parent_workflow_id\": \"" << json_util::Escape(wf.parent_workflow_id) << "\",\n"
+                << "      \"active_child_workflow_id\": \"" << json_util::Escape(wf.active_child_workflow_id) << "\",\n"
                 << "      \"title\": \"" << json_util::Escape(wf.title) << "\",\n"
                 << "      \"input_cultivar_id\": \"" << json_util::Escape(wf.input_cultivar_id) << "\",\n"
                 << "      \"input_cultivar_title\": \"" << json_util::Escape(wf.input_cultivar_title) << "\",\n"
                 << "      \"species_binomial\": \"" << json_util::Escape(wf.species_binomial) << "\",\n"
                 << "      \"phenology_stage_label\": \"" << json_util::Escape(wf.phenology_stage_label) << "\",\n"
+                << "      \"agronomy_skill_tier\": " << static_cast<uint32_t>(wf.agronomy_skill_tier) << ",\n"
+                << "      \"guidance_mode_label\": \"" << json_util::Escape(wf.guidance_mode_label) << "\",\n"
+                << "      \"diagnostic_uncertainty_bp\": " << wf.diagnostic_uncertainty_bp << ",\n"
+                << "      \"crop_health_bp\": " << wf.crop_health_bp << ",\n"
+                << "      \"care_quality_score_bp\": " << wf.care_quality_score_bp << ",\n"
+                << "      \"soil_organic_carbon_bp\": " << wf.soil_organic_carbon_bp << ",\n"
+                << "      \"weed_pressure_bp\": " << wf.weed_pressure_bp << ",\n"
+                << "      \"pest_pressure_bp\": " << wf.pest_pressure_bp << ",\n"
+                << "      \"active_issue_code\": " << static_cast<uint32_t>(wf.active_issue_code) << ",\n"
+                << "      \"active_issue_label\": \"" << json_util::Escape(wf.active_issue_label) << "\",\n"
+                << "      \"diagnosed_issue_code\": " << static_cast<uint32_t>(wf.diagnosed_issue_code) << ",\n"
+                << "      \"diagnosed_issue_label\": \"" << json_util::Escape(wf.diagnosed_issue_label) << "\",\n"
+                << "      \"diagnostic_guidance_prompt\": \"" << json_util::Escape(wf.diagnostic_guidance_prompt) << "\",\n"
+                << "      \"expected_yield_summary\": \"" << json_util::Escape(wf.expected_yield_summary) << "\",\n"
+                << "      \"min_expected_legume_batches\": " << static_cast<uint32_t>(wf.min_expected_legume_batches) << ",\n"
+                << "      \"max_expected_legume_batches\": " << static_cast<uint32_t>(wf.max_expected_legume_batches) << ",\n"
+                << "      \"last_harvest_outcome_tier\": " << static_cast<uint32_t>(wf.last_harvest_outcome_tier) << ",\n"
+                << "      \"last_harvest_outcome_label\": \"" << json_util::Escape(wf.last_harvest_outcome_label) << "\",\n"
+                << "      \"last_harvest_legume_batches\": " << static_cast<uint32_t>(wf.last_harvest_legume_batches) << ",\n"
+                << "      \"last_harvest_mirepoix_batches\": " << static_cast<uint32_t>(wf.last_harvest_mirepoix_batches) << ",\n"
+                << "      \"remediations_completed\": " << static_cast<uint32_t>(wf.remediations_completed) << ",\n"
                 << "      \"crop_sown\": " << (wf.crop_sown != 0U ? "true" : "false") << ",\n"
                 << "      \"is_virtual_cultivar\": " << (wf.is_virtual_cultivar != 0U ? "true" : "false") << ",\n"
                 << "      \"fixes_atmospheric_n2\": " << (wf.fixes_atmospheric_n2 != 0U ? "true" : "false") << ",\n"
+                << "      \"plot_origin_x\": " << wf.plot_origin_x << ",\n"
+                << "      \"plot_origin_z\": " << wf.plot_origin_z << ",\n"
+                << "      \"plot_width_tiles\": " << wf.plot_width_tiles << ",\n"
+                << "      \"plot_length_tiles\": " << wf.plot_length_tiles << ",\n"
+                << "      \"plot_area_m2\": " << wf.plot_area_m2 << ",\n"
+                << "      \"plot_scale_units\": " << wf.plot_scale_units << ",\n"
+                << "      \"plot_scope_defined\": " << (wf.plot_scope_defined != 0U ? "true" : "false") << ",\n"
                 << "      \"crop_growth_bp\": " << wf.crop_growth_bp << ",\n"
                 << "      \"harvest_mature_bp\": " << wf.harvest_mature_bp << ",\n"
                 << "      \"maturity_sim_seconds\": " << wf.maturity_sim_seconds << ",\n"
@@ -2377,7 +3597,7 @@ public:
             oss << (wf.tasks.empty() ? "]\n" : "\n      ]\n")
                 << "    }";
         }
-        oss << (workflows_.empty() ? "],\n" : "\n  ],\n");
+        oss << (first_active_wf ? "],\n" : "\n  ],\n");
 
         // 5B. Active BPMN Execution Tokens (used by 3D Spatial Context Menu & HUD)
         oss << "  \"active_bpmn_tokens\": [";
@@ -2479,7 +3699,14 @@ public:
         oss << ",\n";
 
         // 9. L7 Bill-Offset & Genesis Reserve Ledger
+        const int64_t net_burn_cents = std::max<int64_t>(
+            1, ledger_.monthly_legacy_bills_cents + 14400 - ledger_.monthly_l7_offset_revenue_cents);
+        const int64_t est_runway_months =
+            (ledger_.IsZeroNetBillAchieved() && served_pea_soup_tiffin_batches_ > 0U)
+                ? 999
+                : std::max<int64_t>(0, ledger_.household_reserve_cents / net_burn_cents);
         oss << "  \"l7_bill_offset_ledger\": {\n"
+            << "    \"bank_account_id\": \"BANK-LOT402-CHECKING\",\n"
             << "    \"household_reserve_cents\": " << ledger_.household_reserve_cents << ",\n"
             << "    \"monthly_legacy_bills_cents\": " << ledger_.monthly_legacy_bills_cents << ",\n"
             << "    \"monthly_l7_offset_revenue_cents\": " << ledger_.monthly_l7_offset_revenue_cents << ",\n"
@@ -2488,13 +3715,128 @@ public:
             << "    \"completed_l7_offset_orders\": " << ledger_.completed_l7_offset_orders << ",\n"
             << "    \"r0_baseline_enrolled\": " << (ledger_.r0_baseline_enrolled != 0U ? "true" : "false") << ",\n"
             << "    \"dependency_ratio_bp\": " << ledger_.dependency_ratio_bp << ",\n"
-            << "    \"steward_reputation_bp\": " << ledger_.steward_reputation_bp << "\n"
-            << "  }\n"
+            << "    \"steward_reputation_bp\": " << ledger_.steward_reputation_bp << ",\n"
+            << "    \"estimated_runway_months\": " << est_runway_months << ",\n"
+            << "    \"pantry_grocery_meals\": " << pantry_grocery_meals_ << ",\n"
+            << "    \"cumulative_l7_grocery_spend_cents\": " << CumulativeL7GrocerySpendCents() << ",\n"
+            << "    \"months_bills_paid\": " << MonthsBillsPaid() << ",\n"
+            << "    \"cumulative_l7_bills_paid_cents\": " << CumulativeL7BillsPaidCents() << ",\n"
+            << "    \"dietary_variety_score_bp\": " << dietary_variety_score_bp_ << ",\n"
+            << "    \"bank_transactions\": [";
+        for (size_t i = 0U; i < bank_transactions_.size(); ++i) {
+            const auto& tx = bank_transactions_[i];
+            oss << (i == 0U ? "\n" : ",\n")
+                << "      {\n"
+                << "        \"tx_id\": \"" << json_util::Escape(tx.tx_id) << "\",\n"
+                << "        \"counterparty\": \"" << json_util::Escape(tx.counterparty) << "\",\n"
+                << "        \"memo\": \"" << json_util::Escape(tx.memo) << "\",\n"
+                << "        \"amount_cents\": " << tx.amount_cents << ",\n"
+                << "        \"balance_after_cents\": " << tx.balance_after_cents << ",\n"
+                << "        \"is_credit\": " << (tx.amount_cents >= 0 ? "true" : "false") << ",\n"
+                << "        \"authorized\": " << (tx.authorized != 0U ? "true" : "false") << ",\n"
+                << "        \"tick\": " << tx.tick << "\n"
+                << "      }";
+        }
+        oss << (bank_transactions_.empty() ? "]\n" : "\n    ]\n")
+            << "  },\n";
+
+        // 10. Simulated Layer 7: Legacy Bank & Green Amazon REST Services
+        oss << "  \"green_amazon_catalog\": [";
+        for (size_t i = 0U; i < green_amazon_catalog_.size(); ++i) {
+            const auto& item = green_amazon_catalog_[i];
+            oss << (i == 0U ? "\n" : ",\n")
+                << "    {\n"
+                << "      \"item_id\": \"" << json_util::Escape(item.item_id) << "\",\n"
+                << "      \"title\": \"" << json_util::Escape(item.title) << "\",\n"
+                << "      \"category\": \"" << json_util::Escape(item.category) << "\",\n"
+                << "      \"description\": \"" << json_util::Escape(item.description) << "\",\n"
+                << "      \"buy_price_cents\": " << item.buy_price_cents << ",\n"
+                << "      \"sell_price_cents\": " << item.sell_price_cents << ",\n"
+                << "      \"exergy_cost_uj\": " << item.embodied_exergy_uj << ",\n"
+                << "      \"batch_units\": " << item.bundle_qty << ",\n"
+                << "      \"unit_qty\": " << item.bundle_qty << ",\n"
+                << "      \"can_buy\": " << (item.can_buy != 0U ? "true" : "false") << ",\n"
+                << "      \"can_sell\": " << (item.can_sell != 0U ? "true" : "false") << ",\n"
+                << "      \"can_sell_surplus\": " << (item.can_sell != 0U ? "true" : "false") << "\n"
+                << "    }";
+        }
+        oss << (green_amazon_catalog_.empty() ? "],\n" : "\n  ],\n")
+            << "  \"l7_legacy_bank\": ";
+        AppendLegacyBankJson(oss, 2U);
+        oss << ",\n"
+            << "  \"l7_green_amazon\": ";
+        AppendGreenAmazonJson(oss, 2U);
+        oss << "\n"
             << "}\n";
         return oss.str();
     }
 
 private:
+    void AppendLegacyBankJson(std::ostringstream& oss, size_t indent) const {
+        const std::string pad(indent, ' ');
+        const int64_t net_burn_cents = std::max<int64_t>(
+            1, ledger_.monthly_legacy_bills_cents + 14400 - ledger_.monthly_l7_offset_revenue_cents);
+        const int64_t est_runway_months =
+            (ledger_.IsZeroNetBillAchieved() && served_pea_soup_tiffin_batches_ > 0U)
+                ? 999
+                : std::max<int64_t>(0, ledger_.household_reserve_cents / net_burn_cents);
+        oss << "{\n"
+            << pad << "  \"service_name\": \"Legacy Bank Financial API\",\n"
+            << pad << "  \"bank_account_id\":\"BANK-LOT402-CHECKING\",\n"
+            << pad << "  \"account_id\": \"acct:lot402-checking-001\",\n"
+            << pad << "  \"balance_cents\": " << ledger_.household_reserve_cents << ",\n"
+            << pad << "  \"monthly_legacy_bills_cents\": " << ledger_.monthly_legacy_bills_cents << ",\n"
+            << pad << "  \"monthly_l7_offset_revenue_cents\": " << ledger_.monthly_l7_offset_revenue_cents << ",\n"
+            << pad << "  \"estimated_runway_months\": " << est_runway_months << ",\n"
+            << pad << "  \"bankrupt_risk_active\": " << (ledger_.household_reserve_cents < 50000 ? "true" : "false") << ",\n"
+            << pad << "  \"transactions\": [";
+        for (size_t i = 0U; i < bank_transactions_.size(); ++i) {
+            const auto& tx = bank_transactions_[i];
+            oss << (i == 0U ? "\n" : ",\n")
+                << pad << "    {\n"
+                << pad << "      \"tx_id\": \"" << json_util::Escape(tx.tx_id) << "\",\n"
+                << pad << "      \"counterparty\": \"" << json_util::Escape(tx.counterparty) << "\",\n"
+                << pad << "      \"memo\": \"" << json_util::Escape(tx.memo) << "\",\n"
+                << pad << "      \"amount_cents\": " << tx.amount_cents << ",\n"
+                << pad << "      \"balance_after_cents\": " << tx.balance_after_cents << ",\n"
+                << pad << "      \"is_credit\": " << (tx.amount_cents >= 0 ? "true" : "false") << ",\n"
+                << pad << "      \"authorized\": " << (tx.authorized != 0U ? "true" : "false") << ",\n"
+                << pad << "      \"tick\": " << tx.tick << "\n"
+                << pad << "    }";
+        }
+        oss << (bank_transactions_.empty() ? "]\n" : ("\n" + pad + "  ]\n"))
+            << pad << "}";
+    }
+
+    void AppendGreenAmazonJson(std::ostringstream& oss, size_t indent) const {
+        const std::string pad(indent, ' ');
+        oss << "{\n"
+            << pad << "  \"marketplace_id\":\"L7-GREEN-AMAZON-REST-V1\",\n"
+            << pad << "  \"service_name\": \"Green Amazon L7 Marketplace REST API\",\n"
+            << pad << "  \"settlement_provider\": \"Legacy Bank (acct:lot402-checking-001)\",\n"
+            << pad << "  \"catalog\": [";
+        for (size_t i = 0U; i < green_amazon_catalog_.size(); ++i) {
+            const auto& item = green_amazon_catalog_[i];
+            oss << (i == 0U ? "\n" : ",\n")
+                << pad << "    {\n"
+                << pad << "      \"item_id\": \"" << json_util::Escape(item.item_id) << "\",\n"
+                << pad << "      \"title\": \"" << json_util::Escape(item.title) << "\",\n"
+                << pad << "      \"category\": \"" << json_util::Escape(item.category) << "\",\n"
+                << pad << "      \"description\": \"" << json_util::Escape(item.description) << "\",\n"
+                << pad << "      \"buy_price_cents\": " << item.buy_price_cents << ",\n"
+                << pad << "      \"sell_price_cents\": " << item.sell_price_cents << ",\n"
+                << pad << "      \"exergy_cost_uj\": " << item.embodied_exergy_uj << ",\n"
+                << pad << "      \"batch_units\": " << item.bundle_qty << ",\n"
+                << pad << "      \"unit_qty\": " << item.bundle_qty << ",\n"
+                << pad << "      \"can_buy\": " << (item.can_buy != 0U ? "true" : "false") << ",\n"
+                << pad << "      \"can_sell\": " << (item.can_sell != 0U ? "true" : "false") << ",\n"
+                << pad << "      \"can_sell_surplus\": " << (item.can_sell != 0U ? "true" : "false") << "\n"
+                << pad << "    }";
+        }
+        oss << (green_amazon_catalog_.empty() ? "]\n" : ("\n" + pad + "  ]\n"))
+            << pad << "}";
+    }
+
     static std::string MakeSlug(std::string_view text) {
         std::string slug;
         bool last_underscore = false;
@@ -2562,6 +3904,12 @@ private:
             << pad << "  \"task_commitment_state\": \"" << ToString(t.task_commitment_state) << "\",\n"
             << pad << "  \"execution_modality\": \"" << ToString(t.execution_modality) << "\",\n"
             << pad << "  \"haul_modality\": \"" << ToString(t.haul_modality) << "\",\n"
+            << pad << "  \"required_input_item_id\": \"" << json_util::Escape(t.required_input_item_id) << "\",\n"
+            << pad << "  \"required_input_label\": \"" << json_util::Escape(t.required_input_label) << "\",\n"
+            << pad << "  \"required_input_qty\": " << t.required_input_qty << ",\n"
+            << pad << "  \"available_input_qty\": " << t.available_input_qty << ",\n"
+            << pad << "  \"produced_output_item_id\": \"" << json_util::Escape(t.produced_output_item_id) << "\",\n"
+            << pad << "  \"produced_output_qty\": " << t.produced_output_qty << ",\n"
             << pad << "  \"l2_sensor_register_id\": \"" << json_util::Escape(t.l2_sensor_register_id) << "\",\n"
             << pad << "  \"l2_actuator_register_id\": \"" << json_util::Escape(t.l2_actuator_register_id) << "\",\n"
             << pad << "  \"target_temp_min_mk\": " << t.target_temp_min_mk << ",\n"
@@ -2833,13 +4181,19 @@ private:
     }
 
     void ApplyPhysicalChoreographyOnTaskCompleted(const std::string& task_id, uint64_t exergy_uj) {
+        const uint32_t scale = std::max<uint32_t>(1U, garden_plot_scope_.scale_units);
         if (task_id == "task:fab_1_mill_raised_bed") {
-            ++raised_bed_frames_built_;
+            const uint32_t planks_used = std::min(timber_planks_stock_, 4U * scale);
+            timber_planks_stock_ -= planks_used;
+            raised_bed_frames_built_ += scale;
             EmitLocalClusterChoreographyEvent(
                 "node-02:garage-fab",
                 "Node 02 (Garage Fab) -> Node 03 (Garden Agro)",
                 "L3_INTERNODE_HANDOFF",
-                "Milled cedar raised bed frame delivered to Backyard Keyline plot; Pea Cultivation Step 1 token unlocked.",
+                "Milled cedar raised bed frame (" + std::to_string(garden_plot_scope_.width_tiles) + "x" +
+                    std::to_string(garden_plot_scope_.length_tiles) + "m plot at (" +
+                    std::to_string(garden_plot_scope_.origin_x) + "," +
+                    std::to_string(garden_plot_scope_.origin_z) + ")) delivered to Backyard; Step 1 token unlocked.",
                 exergy_uj
             );
         } else if (task_id == "task:fab_2_assemble_compost_kiln") {
@@ -2857,7 +4211,7 @@ private:
                 "node-02:garage-fab",
                 "Node 02 (Garage Fab) -> Node 03 (Garden Agro)",
                 "L3_INTERNODE_HANDOFF",
-                "Elevated cedar poultry coop & BSFL bioconversion feeder commissioned on Backyard Node 03.",
+                "Elevated cedar poultry coop & BSFL bioconversion feeder commissioned on Backyard Node 03 (foraging hens now suppress backyard aphid/pest pressure).",
                 exergy_uj
             );
         } else if (task_id == "task:fab_4_l7_custom_woodwork_order") {
@@ -2868,7 +4222,63 @@ private:
                 "Completed custom mortise-and-tenon woodwork order (+$180.00 Zero-Bill offset credited to Node 01 ledger).",
                 exergy_uj
             );
+        } else if (task_id == "task:source_1_procure_soup_inputs") {
+            ++harvested_split_pea_batches_;
+            ++harvested_mirepoix_batches_;
+            ++poultry_bones_and_eggs_batches_;
+            ++culinary_salt_herbs_jars_;
+            (void)LegacyBankAuthorizePayment(
+                1400,
+                "Green Amazon Marketplace",
+                "L4 Dynamic Input Sourcing: Split Peas, Mirepoix, Broth Bones & Sea Salt/Herbs"
+            );
+            EmitLocalClusterChoreographyEvent(
+                "node-04:hearth-galley",
+                "Node 04 (Hearth Galley) <- L3/L7 Material Sourcing",
+                "L4_INPUT_SOURCING_COMPLETE",
+                "Dynamically sourced Split Peas, Mirepoix, Broth Bones & Sea Salt/Herbs for Pea Soup Hearth; Step 1 input precondition satisfied.",
+                exergy_uj
+            );
+        } else if (task_id == "task:source_1_procure_garden_inputs") {
+            compost_amendment_bags_ += scale;
+            pea_seed_packets_ += scale;
+            if (timber_planks_stock_ < 4U * scale) {
+                timber_planks_stock_ = 4U * scale;
+            }
+            (void)LegacyBankAuthorizePayment(
+                static_cast<int64_t>(1650U * scale),
+                "Green Amazon Marketplace",
+                "L4 Dynamic Garden Input Sourcing: Cedar Planks, Compost Amendments & Inoculated Pea Seeds"
+            );
+            EmitLocalClusterChoreographyEvent(
+                "node-03:garden-agro",
+                "Node 03 (Garden Agro) <- L7 Green Amazon / L3 Sourcing",
+                "L4_INPUT_SOURCING_COMPLETE",
+                "Procured physical garden inputs (compost bags, inoculated pea seed packets & cedar timber) for " +
+                    std::to_string(garden_plot_scope_.area_m2) + " m2 plot.",
+                exergy_uj
+            );
+        } else if (task_id == "task:pea_1_plow_amend") {
+            const uint32_t bags_used = std::min(compost_amendment_bags_, scale);
+            compost_amendment_bags_ -= bags_used;
+            if (L4WorkflowInstance* wf = FindWorkflowMutable("wf:pea_cultivation")) {
+                const uint8_t eff_tier = EffectiveGardenSkillTier();
+                if (eff_tier >= kStackSkillExperienced) {
+                    wf->soil_organic_carbon_bp = std::max<uint16_t>(wf->soil_organic_carbon_bp, 3800U);
+                    wf->estimated_nitrogen_ppm = std::max<uint32_t>(wf->estimated_nitrogen_ppm, 68U);
+                } else if (garden_plot_scope_.soil_color_observed != "UNOBSERVED" ||
+                           garden_plot_scope_.soil_texture_observed != "UNOBSERVED") {
+                    wf->soil_organic_carbon_bp = std::max<uint16_t>(wf->soil_organic_carbon_bp, 3100U);
+                    wf->estimated_nitrogen_ppm = std::max<uint32_t>(wf->estimated_nitrogen_ppm, 54U);
+                } else {
+                    wf->soil_organic_carbon_bp = std::max<uint16_t>(wf->soil_organic_carbon_bp, 2400U);
+                    wf->estimated_nitrogen_ppm = std::max<uint32_t>(wf->estimated_nitrogen_ppm, 42U);
+                }
+                RefreshGardenGuidanceAndYieldBand(*wf);
+            }
         } else if (task_id == "task:pea_3_rhizobium_sow") {
+            const uint32_t seeds_used = std::min(pea_seed_packets_, scale);
+            pea_seed_packets_ -= seeds_used;
             if (L4WorkflowInstance* wf = FindWorkflowMutable("wf:pea_cultivation")) {
                 const CultivarWorkflowSpec spec = ResolveCultivarSpecOrDefault(wf->input_cultivar_id);
                 const bool full_l2_auto =
@@ -2881,6 +4291,12 @@ private:
                 wf->crop_growth_bp = 200U;
                 wf->estimated_moisture_bp = full_l2_auto ? spec.target_opt_vwc_bp : 2900U;
                 wf->estimated_nitrogen_ppm = 72U;
+                wf->crop_health_bp = 8800U;
+                wf->care_quality_score_bp = full_l2_auto ? 9200U : 8000U;
+                wf->active_issue_code = 0U;
+                wf->diagnosed_issue_code = 0U;
+                wf->weed_pressure_bp = 0U;
+                wf->pest_pressure_bp = 0U;
                 wf->growth_sub_accum = 0U;
                 wf->moisture_et_sub_accum = 0U;
                 wf->nitrogen_sub_accum = 0U;
@@ -2892,6 +4308,8 @@ private:
                         : sim_clock_seconds_;
                 wf->phenology_stage_label =
                     ComputePhenologyLabel(wf->crop_growth_bp, wf->crop_sown, spec.harvest_mature_bp);
+                wf->active_child_workflow_id.clear();
+                RefreshGardenGuidanceAndYieldBand(*wf);
 
                 if (L2SensorRegister* soil = l2_telemetry_.FindRegisterMutable("soil_probe_v1")) {
                     soil->crop_growth_bp = wf->crop_growth_bp;
@@ -2910,36 +4328,166 @@ private:
                     exergy_uj
                 );
             }
+        } else if (task_id == "task:pea_4r_remediate_issue") {
+            if (L4WorkflowInstance* wf = FindWorkflowMutable("wf:pea_cultivation")) {
+                const CultivarWorkflowSpec spec = ResolveCultivarSpecOrDefault(wf->input_cultivar_id);
+                const uint8_t resolved_issue =
+                    (wf->diagnosed_issue_code != 0U) ? wf->diagnosed_issue_code : wf->active_issue_code;
+                wf->active_issue_code = 0U;
+                wf->diagnosed_issue_code = 0U;
+                wf->weed_pressure_bp = 0U;
+                wf->pest_pressure_bp = 0U;
+                wf->active_child_workflow_id.clear();
+                ++wf->remediations_completed;
+
+                if (resolved_issue == kStackIssueCropFailure) {
+                    wf->crop_sown = 0U;
+                    wf->crop_growth_bp = 0U;
+                    wf->crop_health_bp = 8400U;
+                    wf->care_quality_score_bp = 7800U;
+                    wf->estimated_moisture_bp = spec.target_opt_vwc_bp;
+                    wf->phenology_stage_label =
+                        ComputePhenologyLabel(wf->crop_growth_bp, wf->crop_sown, spec.harvest_mature_bp);
+                    for (auto& t : wf->tasks) {
+                        if (t.task_id == "task:pea_3_rhizobium_sow" ||
+                            t.task_id == "task:pea_4_irrigate_weed" ||
+                            t.task_id == "task:pea_5_harvest_pods_roots" ||
+                            t.task_id == "task:pea_6_shell_moisture_turn") {
+                            t.task_commitment_state = TaskCommitmentState::UNASSIGNED;
+                            t.bpmn_token_state = BpmnTokenState::WAITING_SEQUENCE_FLOW;
+                        }
+                    }
+                } else {
+                    if (resolved_issue == kStackIssueDrought) {
+                        wf->estimated_moisture_bp =
+                            std::max(wf->estimated_moisture_bp, spec.target_opt_vwc_bp);
+                    } else if (resolved_issue == kStackIssueOverwatered) {
+                        wf->estimated_moisture_bp = spec.target_opt_vwc_bp;
+                    } else if (resolved_issue == kStackIssueNutrientDeficit) {
+                        wf->estimated_nitrogen_ppm =
+                            std::max<uint32_t>(wf->estimated_nitrogen_ppm + 35U, 68U);
+                    } else if (resolved_issue == kStackIssueSoilInsulation) {
+                        wf->soil_organic_carbon_bp = static_cast<uint16_t>(
+                            std::max<uint32_t>(4500U, std::min<uint32_t>(10000U, wf->soil_organic_carbon_bp + 3200U)));
+                    }
+                    wf->crop_health_bp = static_cast<uint16_t>(
+                        std::max<uint32_t>(9100U, std::min<uint32_t>(9800U, wf->crop_health_bp + 3600U)));
+                    wf->care_quality_score_bp = static_cast<uint16_t>(
+                        std::max<uint32_t>(9100U, std::min<uint32_t>(9800U, wf->care_quality_score_bp + 3600U)));
+                }
+
+                RefreshGardenGuidanceAndYieldBand(*wf);
+
+                EmitLocalClusterChoreographyEvent(
+                    "node-03:garden-agro",
+                    "Node 03 — Backyard Agroecology & Soil Node",
+                    "AGRO_REMEDIATION_COMPLETE",
+                    "Remediated " + std::string(StackIssueCodeLabel(resolved_issue)) + " on " +
+                        spec.title + " (crop health " + std::to_string(wf->crop_health_bp / 100U) +
+                        "%, care score " + std::to_string(wf->care_quality_score_bp / 100U) + "%).",
+                    exergy_uj
+                );
+            }
         } else if (task_id == "task:pea_5_harvest_pods_roots") {
-            const L4WorkflowInstance* wf = FindWorkflow("wf:pea_cultivation");
+            L4WorkflowInstance* wf = FindWorkflowMutable("wf:pea_cultivation");
             const CultivarWorkflowSpec spec = ResolveCultivarSpecOrDefault(
                 (wf != nullptr && !wf->input_cultivar_id.empty())
                     ? std::string_view(wf->input_cultivar_id)
                     : std::string_view(selected_garden_cultivar_id_));
-            const uint32_t leg_yield  = std::max<uint32_t>(1U, spec.harvest_legume_batches);
-            const uint32_t root_yield = std::max<uint32_t>(1U, spec.harvest_mirepoix_batches);
+            const uint32_t plot_mult =
+                (wf != nullptr) ? std::max<uint32_t>(1U, wf->plot_scale_units) : 1U;
+            const uint32_t nom_leg  = std::max<uint32_t>(1U, spec.harvest_legume_batches) * plot_mult;
+            const uint32_t nom_root = std::max<uint32_t>(1U, spec.harvest_mirepoix_batches) * plot_mult;
+            const uint32_t health_bp = (wf != nullptr) ? wf->crop_health_bp : 8500U;
+            const uint32_t care_bp   = (wf != nullptr) ? wf->care_quality_score_bp : 8000U;
+            const uint8_t active_issue = (wf != nullptr) ? wf->active_issue_code : 0U;
+            const uint8_t rems_done = (wf != nullptr) ? wf->remediations_completed : 0U;
+            const uint32_t composite_bp = (health_bp * 55U + care_bp * 45U) / 100U;
+
+            uint8_t outcome_tier = kStackOutcomeStandard;
+            uint32_t leg_yield  = nom_leg;
+            uint32_t root_yield = nom_root;
+            if (health_bp <= 2000U || active_issue == kStackIssueCropFailure) {
+                outcome_tier = kStackOutcomeFailure;
+                leg_yield  = 0U;
+                root_yield = 0U;
+            } else if (composite_bp < 6200U || health_bp < 5800U) {
+                outcome_tier = kStackOutcomePoor;
+                leg_yield  = std::max<uint32_t>(1U, nom_leg / 2U);
+                root_yield = (nom_root > 1U) ? (nom_root - 1U) : 0U;
+            } else if (composite_bp >= 9050U && health_bp >= 9000U && care_bp >= 9000U &&
+                       active_issue == 0U &&
+                       (steward_agronomy_skill_tier_ >= kStackSkillExperienced || rems_done > 0U)) {
+                outcome_tier = kStackOutcomeBumper;
+                leg_yield  = nom_leg + plot_mult;
+                root_yield = nom_root + plot_mult;
+            }
+
             harvested_split_pea_batches_ += leg_yield;
             harvested_mirepoix_batches_  += root_yield;
+
+            if (wf != nullptr) {
+                wf->last_harvest_outcome_tier = outcome_tier;
+                wf->last_harvest_legume_batches = static_cast<uint8_t>(leg_yield);
+                wf->last_harvest_mirepoix_batches = static_cast<uint8_t>(root_yield);
+                wf->last_harvest_outcome_label =
+                    std::string(StackHarvestOutcomeLabel(outcome_tier)) + " (+" +
+                    std::to_string(leg_yield) + " Legume / +" + std::to_string(root_yield) +
+                    " Root batches)";
+                wf->active_issue_code = 0U;
+                wf->diagnosed_issue_code = 0U;
+                wf->active_child_workflow_id.clear();
+
+                if (outcome_tier == kStackOutcomeFailure) {
+                    wf->crop_sown = 0U;
+                    wf->crop_growth_bp = 0U;
+                    wf->crop_health_bp = 8200U;
+                    wf->care_quality_score_bp = 7500U;
+                    wf->phenology_stage_label =
+                        ComputePhenologyLabel(wf->crop_growth_bp, wf->crop_sown, spec.harvest_mature_bp);
+                    for (auto& t : wf->tasks) {
+                        if (t.task_id == "task:pea_3_rhizobium_sow" ||
+                            t.task_id == "task:pea_4_irrigate_weed" ||
+                            t.task_id == "task:pea_5_harvest_pods_roots" ||
+                            t.task_id == "task:pea_6_shell_moisture_turn") {
+                            t.task_commitment_state = TaskCommitmentState::UNASSIGNED;
+                            t.bpmn_token_state = BpmnTokenState::WAITING_SEQUENCE_FLOW;
+                        }
+                    }
+                } else if (steward_agronomy_skill_tier_ == kStackSkillNovice) {
+                    steward_agronomy_skill_tier_ = kStackSkillExperienced;
+                }
+                RefreshGardenGuidanceAndYieldBand(*wf);
+            }
+
             EmitLocalClusterChoreographyEvent(
                 "node-03:garden-agro",
                 "Node 03 (Garden Agro) -> Node 04 (Hearth Galley)",
                 "L3_INTERNODE_HANDOFF",
-                "Harvested +" + std::to_string(leg_yield) + " legume batch(es) & +" +
+                std::string(StackHarvestOutcomeLabel(outcome_tier)) + ": harvested +" +
+                    std::to_string(leg_yield) + " legume batch(es) & +" +
                     std::to_string(root_yield) + " mirepoix batch(es) from " + spec.title +
-                    "; transferred to Kitchen Hearth Node 04 (Pea Soup Step 1 unlocked).",
+                    " (health " + std::to_string(health_bp / 100U) + "%, care " +
+                    std::to_string(care_bp / 100U) + "%).",
                 exergy_uj
             );
+        } else if (task_id == "task:pea_6_shell_moisture_turn") {
+            // Turning residue legume biomass into soil and saving dry seed pods replenishes +1 seed packet & +1 compost amendment
+            ++pea_seed_packets_;
+            ++compost_amendment_bags_;
         } else if (task_id == "task:mu_2_thermophilic_compost_55c") {
             ++thermophilic_compost_batches_;
+            ++compost_amendment_bags_;
             EmitLocalClusterChoreographyEvent(
                 "node-03:garden-agro",
                 "Node 03 — Backyard Agroecology & Soil Node",
                 "SOIL_CLOSURE",
-                "Sanitized >=55C (328150 mK) thermophilic compost batch cured for keyline Terra Preta.",
+                "Sanitized >=55C (328150 mK) thermophilic compost batch cured for keyline Terra Preta (+1 Compost Bag).",
                 exergy_uj
             );
         } else if (task_id == "task:mu_3_tlud_biochar_charge") {
             ++biochar_batches_;
+            ++compost_amendment_bags_;
             EmitLocalClusterChoreographyEvent(
                 "node-03:garden-agro",
                 "Node 03 — Backyard Agroecology & Soil Node",
@@ -2949,11 +4497,12 @@ private:
             );
         } else if (task_id == "task:mu_1_feed_bsfl_collect_eggs") {
             ++poultry_bones_and_eggs_batches_;
+            dietary_variety_score_bp_ = std::min<uint32_t>(10000U, dietary_variety_score_bp_ + 900U);
             EmitLocalClusterChoreographyEvent(
                 "node-03:garden-agro",
                 "Node 03 (Garden Agro) -> Node 04 (Hearth Galley)",
                 "L3_INTERNODE_HANDOFF",
-                "Pasture eggs & rotational poultry broth bones transferred to Kitchen Hearth Node 04.",
+                "Pasture eggs & rotational poultry broth bones transferred to Kitchen Hearth Node 04 (+Dietary Variety).",
                 exergy_uj
             );
         } else if (task_id == "task:soup_2_simmer_bone_broth") {
@@ -2965,8 +4514,20 @@ private:
                 "24-hour collagen bone broth batch simmered (>=347150 mK) with bone-ash calcium grit returned to Node 03.",
                 exergy_uj
             );
+        } else if (task_id == "task:soup_3_simmer_pea_soup_74c") {
+            if (harvested_split_pea_batches_ > 0U) {
+                --harvested_split_pea_batches_;
+            }
+            if (culinary_salt_herbs_jars_ > 0U) {
+                --culinary_salt_herbs_jars_;
+            }
         } else if (task_id == "task:soup_4_package_distribute_tiffins") {
             ++served_pea_soup_tiffin_batches_;
+            ++consecutive_pea_soup_meals_;
+            if (poultry_bones_and_eggs_batches_ == 0U && consecutive_pea_soup_meals_ > 2U) {
+                dietary_variety_score_bp_ =
+                    (dietary_variety_score_bp_ > 4200U) ? (dietary_variety_score_bp_ - 800U) : 3500U;
+            }
             EmitLocalClusterChoreographyEvent(
                 "node-04:hearth-galley",
                 "Node 04 — Kitchen Induction Hearth & Galley Node",
@@ -2977,14 +4538,75 @@ private:
         }
     }
 
+    void StepDailyStewardLivingAndL7Bills() {
+        if (last_daily_living_eval_sim_s_ == 0ULL) {
+            last_daily_living_eval_sim_s_ = sim_clock_seconds_;
+            return;
+        }
+        // Evaluate in 12-hour (43,200 s) household meal & monthly bill intervals:
+        // If the player does nothing, the Steward continues living normally—buying food online from Green Amazon
+        // when pantry meals run out and paying bills at the end of the month via Legacy Bank!
+        while (last_daily_living_eval_sim_s_ + 43200ULL <= sim_clock_seconds_) {
+            const uint64_t prev_s = last_daily_living_eval_sim_s_;
+            last_daily_living_eval_sim_s_ += 43200ULL;
+
+            // 1. Household Meal Consumption (every 12 sim hours)
+            if (served_pea_soup_tiffin_batches_ > 0U) {
+                // Fed by local Hearth ($0 L7 grocery spend), but track dietary monotony if eating only Pea Soup
+                ++consecutive_pea_soup_meals_;
+                if (poultry_bones_and_eggs_batches_ == 0U && consecutive_pea_soup_meals_ > 3U) {
+                    dietary_variety_score_bp_ =
+                        (dietary_variety_score_bp_ > 3800U) ? (dietary_variety_score_bp_ - 400U) : 3500U;
+                }
+            } else {
+                if (pantry_grocery_meals_ > 0U) {
+                    --pantry_grocery_meals_;
+                }
+                if (pantry_grocery_meals_ == 0U) {
+                    // Automatically order a 6-meal Grocery Delivery Pack ($36.00) from Green Amazon via Legacy Bank
+                    if (LegacyBankAuthorizePayment(
+                            3600,
+                            "Green Amazon Grocery Delivery",
+                            "Auto-Replenish 6-Meal Ready Grocery Pack (No Local L5 Food Node Active)")) {
+                        pantry_grocery_meals_ += 6U;
+                        ++l7_grocery_orders_count_;
+                        ledger_.total_exergy_accounted_uj += 18500000000ULL;
+                    }
+                }
+            }
+
+            // 2. End-of-Month Legacy Utility & Mortgage/Tax Bill Settlement (every 30 sim days = 2,592,000 s)
+            const uint64_t prev_month = prev_s / 2592000ULL;
+            const uint64_t curr_month = last_daily_living_eval_sim_s_ / 2592000ULL;
+            if (curr_month > prev_month) {
+                const int64_t net_bill_due =
+                    std::max<int64_t>(0, ledger_.monthly_legacy_bills_cents - ledger_.monthly_l7_offset_revenue_cents);
+                if (net_bill_due > 0) {
+                    (void)LegacyBankAuthorizePayment(
+                        net_bill_due,
+                        "Municipal Grid & Legacy Bank Billing",
+                        "End-of-Month Legacy Utility & Property Bill Settlement"
+                    );
+                    ++l7_monthly_bills_paid_count_;
+                }
+            }
+        }
+    }
+
     void StepGardenWorkflowBiologyAndTimers() {
+        StepDailyStewardLivingAndL7Bills();
+
         const L2SensorRegister* soil_reg = l2_telemetry_.FindRegister("soil_probe_v1");
         const bool probe_online = (soil_reg != nullptr) && (soil_reg->is_online != 0U);
         const bool valve_online = l2_telemetry_.IsRegisterOnline("irrigation_valve_v1");
         const bool full_l2_auto = probe_online && valve_online;
 
         for (auto& wf : workflows_) {
-            if (wf.workflow_id != "wf:pea_cultivation" || wf.is_active == 0U || wf.crop_sown == 0U) {
+            if (wf.workflow_id != "wf:pea_cultivation" || wf.is_active == 0U) {
+                continue;
+            }
+            if (wf.crop_sown == 0U) {
+                RefreshGardenGuidanceAndYieldBand(wf);
                 continue;
             }
 
@@ -3018,6 +4640,8 @@ private:
                 wf.last_growth_eval_sim_s == sim_clock_seconds_) {
                 wf.estimated_moisture_bp = std::max(wf.estimated_moisture_bp, spec.target_opt_vwc_bp);
                 ++wf.auto_l2_checks_completed;
+                wf.crop_health_bp = std::min<uint32_t>(9800U, wf.crop_health_bp + 220U);
+                wf.care_quality_score_bp = std::min<uint32_t>(9800U, wf.care_quality_score_bp + 280U);
                 wf.next_verification_due_sim_s =
                     sim_clock_seconds_ + static_cast<uint64_t>(std::max(1U, spec.verification_interval_sim_s));
             }
@@ -3045,9 +4669,15 @@ private:
                     if (wf.estimated_moisture_bp < spec.target_min_vwc_bp + 200U) {
                         wf.estimated_moisture_bp = spec.target_opt_vwc_bp;
                     }
+                    if (wf.active_issue_code == kStackIssueDrought) {
+                        wf.active_issue_code = 0U;
+                        wf.diagnosed_issue_code = 0U;
+                    }
                     while (wf.next_verification_due_sim_s <= wf.last_growth_eval_sim_s) {
                         ++wf.auto_l2_checks_completed;
                         wf.estimated_moisture_bp = std::max(wf.estimated_moisture_bp, spec.target_opt_vwc_bp);
+                        wf.crop_health_bp = std::min<uint32_t>(9800U, wf.crop_health_bp + 220U);
+                        wf.care_quality_score_bp = std::min<uint32_t>(9800U, wf.care_quality_score_bp + 280U);
                         wf.next_verification_due_sim_s +=
                             static_cast<uint64_t>(std::max(1U, spec.verification_interval_sim_s));
                     }
@@ -3113,10 +4743,70 @@ private:
                             ? (wf.estimated_moisture_bp - et_loss_bp)
                             : 700U;
                 }
+
+                // Organic Ecological Weed & Pest Emergence (Suburban turf & monoculture vs. polyculture + hens)
+                if (!full_l2_auto && wf.crop_growth_bp >= 1500U) {
+                    const uint32_t weed_rate_hr = (wf.soil_organic_carbon_bp < 2800U) ? 140U : 55U;
+                    uint32_t pest_rate_hr =
+                        (garden_plot_scope_.polyculture_crop_count <= 1U) ? 240U : 70U;
+                    if (poultry_coops_built_ > 0U) {
+                        pest_rate_hr /= 3U;
+                    }
+                    wf.weed_pressure_bp = static_cast<uint16_t>(std::min<uint32_t>(
+                        10000U,
+                        wf.weed_pressure_bp + static_cast<uint32_t>((weed_rate_hr * chunk_s) / 3600ULL)
+                    ));
+                    wf.pest_pressure_bp = static_cast<uint16_t>(std::min<uint32_t>(
+                        10000U,
+                        wf.pest_pressure_bp + static_cast<uint32_t>((pest_rate_hr * chunk_s) / 3600ULL)
+                    ));
+                }
+
+                if (!full_l2_auto &&
+                    wf.active_issue_code == 0U &&
+                    wf.last_growth_eval_sim_s >
+                        wf.next_verification_due_sim_s + static_cast<uint64_t>(spec.verification_interval_sim_s)) {
+                    if (wf.estimated_moisture_bp < 1800U) {
+                        wf.active_issue_code = kStackIssueDrought;
+                    } else if (wf.pest_pressure_bp >= 4200U) {
+                        wf.active_issue_code = kStackIssuePests;
+                    } else if (wf.weed_pressure_bp >= 4200U) {
+                        wf.active_issue_code = kStackIssueWeeds;
+                    }
+                    if (wf.active_issue_code != 0U) {
+                        wf.diagnosed_issue_code = FilterStackIssueBySkill(
+                            wf.active_issue_code,
+                            EffectiveGardenSkillTier(),
+                            static_cast<uint16_t>(wf.crop_health_bp)
+                        );
+                    }
+                }
+
+                if (wf.active_issue_code != 0U) {
+                    const uint32_t h_loss = static_cast<uint32_t>((360ULL * chunk_s) / 3600ULL);
+                    const uint32_t c_loss = static_cast<uint32_t>((280ULL * chunk_s) / 3600ULL);
+                    const uint16_t min_health_floor =
+                        (wf.active_issue_code == kStackIssueCropFailure) ? 1200U : 3200U;
+                    const uint16_t min_care_floor =
+                        (wf.active_issue_code == kStackIssueCropFailure) ? 1500U : 3200U;
+                    wf.crop_health_bp =
+                        (wf.crop_health_bp > min_health_floor + h_loss)
+                            ? static_cast<uint16_t>(wf.crop_health_bp - h_loss)
+                            : min_health_floor;
+                    wf.care_quality_score_bp =
+                        (wf.care_quality_score_bp > min_care_floor + c_loss)
+                            ? static_cast<uint16_t>(wf.care_quality_score_bp - c_loss)
+                            : min_care_floor;
+                    if (wf.crop_health_bp <= 2000U) {
+                        wf.active_issue_code = kStackIssueCropFailure;
+                        wf.diagnosed_issue_code = kStackIssueCropFailure;
+                    }
+                }
             }
 
             wf.phenology_stage_label =
                 ComputePhenologyLabel(wf.crop_growth_bp, wf.crop_sown, spec.harvest_mature_bp);
+            RefreshGardenGuidanceAndYieldBand(wf);
 
             if (L2SensorRegister* mut_soil = l2_telemetry_.FindRegisterMutable("soil_probe_v1")) {
                 if (mut_soil->is_online != 0U) {
@@ -3155,15 +4845,125 @@ private:
         }
     }
 
+    void RemoveDynamicChildWorkflow(const std::string& wf_id) {
+        std::string parent_asset_id{};
+        for (auto it = workflows_.begin(); it != workflows_.end(); ) {
+            if (it->workflow_id == wf_id) {
+                parent_asset_id = it->asset_id;
+                it = workflows_.erase(it);
+            } else {
+                ++it;
+            }
+        }
+        if (!parent_asset_id.empty()) {
+            if (L5GovernedAsset* asset = FindAssetMutable(parent_asset_id)) {
+                for (auto it = asset->workflow_ids.begin(); it != asset->workflow_ids.end(); ) {
+                    if (*it == wf_id) {
+                        it = asset->workflow_ids.erase(it);
+                    } else {
+                        ++it;
+                    }
+                }
+            }
+        }
+    }
+
+    void RefreshTaskResourceRequirements() {
+        const uint32_t scale = std::max<uint32_t>(1U, garden_plot_scope_.scale_units);
+        for (auto& wf : workflows_) {
+            if (wf.workflow_id == "wf:pea_cultivation") {
+                wf.plot_origin_x = garden_plot_scope_.origin_x;
+                wf.plot_origin_z = garden_plot_scope_.origin_z;
+                wf.plot_width_tiles = garden_plot_scope_.width_tiles;
+                wf.plot_length_tiles = garden_plot_scope_.length_tiles;
+                wf.plot_area_m2 = garden_plot_scope_.area_m2;
+                wf.plot_scale_units = garden_plot_scope_.scale_units;
+                wf.plot_scope_defined = garden_plot_scope_.scope_defined;
+            }
+            for (auto& t : wf.tasks) {
+                if (t.task_id == "task:fab_1_mill_raised_bed") {
+                    t.required_input_item_id = "item:cedar_timber_plank";
+                    t.required_input_label = "Cedar Timber Plank";
+                    t.required_input_qty = 4U * scale;
+                    t.available_input_qty = timber_planks_stock_;
+                    t.produced_output_item_id = "item:raised_bed_frame";
+                    t.produced_output_qty = scale;
+                } else if (t.task_id == "task:pea_1_plow_amend") {
+                    t.required_input_item_id = "item:organic_compost_bag";
+                    t.required_input_label = "Compost & Biochar Soil Amendment Bag";
+                    t.required_input_qty = scale;
+                    t.available_input_qty = compost_amendment_bags_;
+                } else if (t.task_id == "task:pea_3_rhizobium_sow") {
+                    t.required_input_item_id = "item:pea_seed_packet";
+                    t.required_input_label = "Inoculated Legume Seed Packet";
+                    t.required_input_qty = scale;
+                    t.available_input_qty = pea_seed_packets_;
+                } else if (t.task_id == "task:pea_5_harvest_pods_roots") {
+                    t.produced_output_item_id = "item:split_peas_batch";
+                    t.produced_output_qty = 2U * scale;
+                } else if (t.task_id == "task:soup_1_gather_inputs") {
+                    t.required_input_item_id = "item:split_peas_batch";
+                    t.required_input_label = "Harvested Split Peas & Mirepoix Batch";
+                    t.required_input_qty = 1U;
+                    t.available_input_qty = harvested_split_pea_batches_;
+                } else if (t.task_id == "task:soup_3_simmer_pea_soup_74c") {
+                    t.required_input_item_id = "item:culinary_salt_herbs";
+                    t.required_input_label = "Iodized Sea Salt & Bay Leaf Jar";
+                    t.required_input_qty = 1U;
+                    t.available_input_qty = culinary_salt_herbs_jars_;
+                } else if (t.task_id == "task:soup_4_package_distribute_tiffins") {
+                    t.produced_output_item_id = "item:pea_soup_tiffin";
+                    t.produced_output_qty = 1U;
+                }
+            }
+        }
+    }
+
     void EvaluateBpmnTokensAndDependencies() {
         StepGardenWorkflowBiologyAndTimers();
+        RefreshTaskResourceRequirements();
 
         for (uint32_t pass = 0U; pass < 4U; ++pass) {
             std::vector<std::string> pending_spawns{};
+            std::vector<std::string> pending_removals{};
+
+            RefreshTaskResourceRequirements();
 
             for (auto& wf : workflows_) {
                 if (wf.is_active == 0U || wf.tasks.empty()) {
                     continue;
+                }
+
+                // Dynamic ISSUE_REMEDIATION workflow instantiation & retirement for wf:pea_cultivation:
+                // Remediation is NEVER a static step in the main workflow; it is dynamically instantiated
+                // as a separate L4 workflow (wf:remediate_pea_cultivation) ONLY when an issue is diagnosed!
+                if (wf.workflow_id == "wf:pea_cultivation") {
+                    if (wf.diagnosed_issue_code != 0U) {
+                        wf.active_child_workflow_id = "wf:remediate_pea_cultivation";
+                        if (!HasWorkflow("wf:remediate_pea_cultivation")) {
+                            pending_spawns.emplace_back("wf:remediate_pea_cultivation");
+                        }
+                    } else {
+                        if (wf.active_child_workflow_id == "wf:remediate_pea_cultivation") {
+                            wf.active_child_workflow_id.clear();
+                        }
+                        if (HasWorkflow("wf:remediate_pea_cultivation")) {
+                            pending_removals.emplace_back("wf:remediate_pea_cultivation");
+                        }
+                    }
+                } else if (wf.workflow_id == "wf:remediate_pea_cultivation") {
+                    const L4WorkflowInstance* pea_wf = FindWorkflow("wf:pea_cultivation");
+                    if (pea_wf == nullptr || pea_wf->diagnosed_issue_code == 0U) {
+                        pending_removals.emplace_back("wf:remediate_pea_cultivation");
+                        continue;
+                    }
+                    for (auto& t : wf.tasks) {
+                        if (t.task_id == "task:pea_4r_remediate_issue") {
+                            t.title = "1. Remediate " +
+                                      std::string(StackIssueCodeLabel(pea_wf->diagnosed_issue_code)) +
+                                      " [Targeted Care]";
+                        }
+                    }
                 }
 
                 // Locate the first incomplete step in BPMN sequence flow order
@@ -3204,33 +5004,87 @@ private:
                     }
                 }
 
-                // Evaluate physical, cross-node, and BPMN IntermediateCatchEvent timer gates on candidate step
+                // Evaluate physical plot scope, physical resources, cross-node, and BPMN timer gates on candidate step
                 auto& candidate = wf.tasks[token_candidate_idx];
                 std::string blocker{};
 
-                if (candidate.task_id == "task:pea_1_plow_amend" && raised_bed_frames_built_ == 0U) {
+                if (wf.workflow_id == "wf:pea_cultivation" && wf.plot_scope_defined == 0U) {
+                    blocker =
+                        "Pending Physical Plot Scope: Player must designate where (x, z) and how big (W x L m) the garden plot is in the 3D Backyard or L6 Companion before Node 03/Node 02 can execute.";
+                    wf.active_child_workflow_id.clear();
+                    if (HasWorkflow("wf:fab_raised_bed")) {
+                        pending_removals.emplace_back("wf:fab_raised_bed");
+                    }
+                } else if (candidate.task_id == "task:pea_1_plow_amend" && raised_bed_frames_built_ == 0U) {
                     blocker = "Blocked: requires Raised Cedar Bed Frame from Node 02 (Garage Fab: Mill Raised Bed Frame).";
+                    wf.active_child_workflow_id = "wf:fab_raised_bed";
                     if (!HasWorkflow("wf:fab_raised_bed")) {
                         pending_spawns.emplace_back("wf:fab_raised_bed");
                     }
+                } else if (candidate.task_id == "task:pea_1_plow_amend" &&
+                           raised_bed_frames_built_ > 0U &&
+                           wf.active_child_workflow_id == "wf:fab_raised_bed") {
+                    wf.active_child_workflow_id.clear();
                 } else if ((candidate.task_id == "task:mu_2_thermophilic_compost_55c" ||
                             candidate.task_id == "task:mu_3_tlud_biochar_charge") &&
                            compost_kiln_units_built_ == 0U) {
                     blocker = "Blocked: requires Compost Drum & TLUD Kiln from Node 02 (Garage Fab: Assemble Compost & Kiln).";
+                    wf.active_child_workflow_id = "wf:fab_compost_kiln";
                     if (!HasWorkflow("wf:fab_compost_kiln")) {
                         pending_spawns.emplace_back("wf:fab_compost_kiln");
                     }
                 } else if (candidate.task_id == "task:mu_1_feed_bsfl_collect_eggs" && poultry_coops_built_ == 0U) {
                     blocker = "Blocked: requires Elevated Timber Poultry Coop from Node 02 (Garage Fab: Build Poultry Coop).";
+                    wf.active_child_workflow_id = "wf:fab_poultry_coop";
                     if (!HasWorkflow("wf:fab_poultry_coop")) {
                         pending_spawns.emplace_back("wf:fab_poultry_coop");
                     }
                 } else if (candidate.task_id == "task:soup_1_gather_inputs" && harvested_split_pea_batches_ == 0U) {
                     if (HasWorkflow("wf:pea_cultivation")) {
                         blocker = "Blocked: waiting on Node 03 (Garden Agro) Step 5 — Harvest Mature Legumes & Mirepoix.";
+                        wf.active_child_workflow_id = "wf:pea_cultivation";
+                        if (HasWorkflow("wf:source_pea_soup_inputs")) {
+                            pending_removals.emplace_back("wf:source_pea_soup_inputs");
+                        }
                     } else {
-                        blocker = "Blocked: no harvested Split Peas in larder — approve Pea Cultivation in L6 Decisions first.";
+                        blocker = "Blocked: waiting on Input Sourcing Workflow (wf:source_pea_soup_inputs) or Local Pea Cultivation approval.";
+                        wf.active_child_workflow_id = "wf:source_pea_soup_inputs";
+                        if (!HasWorkflow("wf:source_pea_soup_inputs")) {
+                            pending_spawns.emplace_back("wf:source_pea_soup_inputs");
+                        }
                         EnsurePendingDecisionForAsset("asset:pea_cultivation", "need:split_peas");
+                    }
+                } else if (candidate.task_id == "task:soup_1_gather_inputs" && harvested_split_pea_batches_ > 0U) {
+                    wf.active_child_workflow_id.clear();
+                    if (HasWorkflow("wf:source_pea_soup_inputs")) {
+                        pending_removals.emplace_back("wf:source_pea_soup_inputs");
+                    }
+                }
+
+                // Physical input resource check (cannot plant peas without seeds or amend soil without compost!)
+                if (blocker.empty() && candidate.required_input_qty > candidate.available_input_qty) {
+                    blocker = "Missing Physical Resource: requires " +
+                              std::to_string(candidate.required_input_qty) + "x " +
+                              candidate.required_input_label + " (have " +
+                              std::to_string(candidate.available_input_qty) +
+                              "x). Purchase via L7 Green Amazon API or complete Input Sourcing workflow.";
+                    if (wf.workflow_id == "wf:pea_cultivation" || wf.workflow_id == "wf:fab_raised_bed") {
+                        wf.active_child_workflow_id = "wf:source_garden_inputs";
+                        if (!HasWorkflow("wf:source_garden_inputs")) {
+                            pending_spawns.emplace_back("wf:source_garden_inputs");
+                        }
+                    } else if (wf.workflow_id == "wf:pea_soup_hearth") {
+                        wf.active_child_workflow_id = "wf:source_pea_soup_inputs";
+                        if (!HasWorkflow("wf:source_pea_soup_inputs")) {
+                            pending_spawns.emplace_back("wf:source_pea_soup_inputs");
+                        }
+                    }
+                } else if (blocker.empty() &&
+                           wf.active_child_workflow_id == "wf:source_garden_inputs" &&
+                           candidate.required_input_qty <= candidate.available_input_qty) {
+                    wf.active_child_workflow_id.clear();
+                    if (HasWorkflow("wf:source_garden_inputs")) {
+                        pending_removals.emplace_back("wf:source_garden_inputs");
                     }
                 }
 
@@ -3285,19 +5139,50 @@ private:
                 }
             }
 
-            if (pending_spawns.empty()) {
+            if (pending_spawns.empty() && pending_removals.empty()) {
                 break;
+            }
+            for (const auto& rem_wf_id : pending_removals) {
+                if (HasWorkflow(rem_wf_id)) {
+                    RemoveDynamicChildWorkflow(rem_wf_id);
+                }
             }
             for (const auto& req_wf_id : pending_spawns) {
                 if (!HasWorkflow(req_wf_id)) {
                     EnsureSpecificWorkflowSpawned(req_wf_id);
-                    EmitLocalClusterChoreographyEvent(
-                        "node-03:garden-agro",
-                        "Node 03 (Garden Agro) -> Node 02 (Garage Fab)",
-                        "L4_CROSS_NODE_REQUISITION",
-                        "BPMN precondition requisitioned prerequisite Garage Fab workflow '" + req_wf_id + "' on Node 02.",
-                        0ULL
-                    );
+                    if (req_wf_id == "wf:remediate_pea_cultivation") {
+                        EmitLocalClusterChoreographyEvent(
+                            "node-03:garden-agro",
+                            "Node 03 — Backyard Agroecology & Soil Node",
+                            "L4_DYNAMIC_REMEDIATION_SPAWN",
+                            "L5 Governance Model (asset:pea_cultivation) dynamically instantiated ISSUE_REMEDIATION workflow 'wf:remediate_pea_cultivation' on Node 03.",
+                            0ULL
+                        );
+                    } else if (req_wf_id == "wf:source_pea_soup_inputs") {
+                        EmitLocalClusterChoreographyEvent(
+                            "node-04:hearth-galley",
+                            "Node 04 — Kitchen Induction Hearth & Galley Node",
+                            "L4_DYNAMIC_SOURCING_SPAWN",
+                            "L5 Governance Model (asset:pea_soup_hearth) dynamically instantiated INPUT_SOURCING workflow 'wf:source_pea_soup_inputs' while Step 1 waits for inputs.",
+                            0ULL
+                        );
+                    } else if (req_wf_id == "wf:source_garden_inputs") {
+                        EmitLocalClusterChoreographyEvent(
+                            "node-03:garden-agro",
+                            "Node 03 — Backyard Agroecology & Soil Node",
+                            "L4_DYNAMIC_SOURCING_SPAWN",
+                            "L5 Governance Model (asset:pea_cultivation) dynamically instantiated INPUT_SOURCING workflow 'wf:source_garden_inputs' for missing seeds/amendments.",
+                            0ULL
+                        );
+                    } else {
+                        EmitLocalClusterChoreographyEvent(
+                            "node-03:garden-agro",
+                            "Node 03 (Garden Agro) -> Node 02 (Garage Fab)",
+                            "L4_CROSS_NODE_REQUISITION",
+                            "BPMN precondition requisitioned prerequisite Garage Fab workflow '" + req_wf_id + "' on Node 02.",
+                            0ULL
+                        );
+                    }
                 }
             }
         }
@@ -3422,7 +5307,36 @@ private:
             pea_garden.governance_badge = "L5 Soil & Legume Stewardship";
             pea_garden.l7_fallback_channel = "L7 Produce & Dry Legume Supply ($6.00/batch)";
             pea_garden.local_commons_channel = "Local Keyline Pea Trellis & Root Bed ($0.00)";
+            pea_garden.host_node_id = "node-03:garden-agro";
             pea_garden.linked_need_ids = {"need:split_peas", "need:mirepoix_vegetables"};
+            pea_garden.required_input_need_ids = {
+                "need:raised_bed_frame", "need:thermophilic_compost", "need:potable_water"};
+            pea_garden.workflow_catalog = {
+                {"wf:pea_cultivation",
+                 "Legume Cultivation & Keyline Bed BPMN Lifecycle",
+                 "On L5 Governance Approval",
+                 "need:split_peas,need:mirepoix_vegetables",
+                 WorkflowRole::PRIMARY_PRODUCTION,
+                 {0U, 0U, 0U, 0U, 0U, 0U, 0U}},
+                {"wf:fab_raised_bed",
+                 "Sourcing: Mill Raised Cedar Garden Bed Frame (Node 02)",
+                 "On Missing Input: need:raised_bed_frame",
+                 "need:raised_bed_frame",
+                 WorkflowRole::INPUT_SOURCING,
+                 {0U, 0U, 0U, 0U, 0U, 0U, 0U}},
+                {"wf:source_garden_inputs",
+                 "Sourcing: Procure Garden Seeds, Compost & Timber (L7 Green Amazon / L3)",
+                 "On Missing Physical Inputs (Seeds / Compost / Timber)",
+                 "item:pea_seed_packet,item:organic_compost_bag,item:cedar_timber_plank",
+                 WorkflowRole::INPUT_SOURCING,
+                 {0U, 0U, 0U, 0U, 0U, 0U, 0U}},
+                {"wf:remediate_pea_cultivation",
+                 "Remediation: Targeted Agronomy Stressor Care",
+                 "On Diagnosed Stressor (diagnosed_issue_code != 0)",
+                 "issue:garden_stressor",
+                 WorkflowRole::ISSUE_REMEDIATION,
+                 {0U, 0U, 0U, 0U, 0U, 0U, 0U}}
+            };
             pea_garden.maintenance_exergy_uj = 3100000000ULL;
             pea_garden.monthly_l7_offset_potential_cents = 18000;
             pea_garden.steward_reputation_credit_bp = 220U;
@@ -3439,7 +5353,29 @@ private:
             soup_hearth.governance_badge = "R0/R1 Unconditional Nutrition Hearth";
             soup_hearth.l7_fallback_channel = "L7 Legacy Grocery Delivery ($14.00/order)";
             soup_hearth.local_commons_channel = "Local Induction Hearth & 304-Stainless Tiffins ($0.00)";
+            soup_hearth.host_node_id = "node-04:hearth-galley";
             soup_hearth.linked_need_ids = {"need:pea_soup", "need:collagen_bone_broth"};
+            soup_hearth.required_input_need_ids = {
+                "need:split_peas",
+                "need:mirepoix_vegetables",
+                "need:collagen_bone_broth",
+                "need:culinary_salt_herbs",
+                "need:potable_water"
+            };
+            soup_hearth.workflow_catalog = {
+                {"wf:pea_soup_hearth",
+                 "Pea Soup & 24h Collagen Bone Broth BPMN Lifecycle",
+                 "On L5 Governance Approval",
+                 "need:pea_soup,need:collagen_bone_broth",
+                 WorkflowRole::PRIMARY_PRODUCTION,
+                 {0U, 0U, 0U, 0U, 0U, 0U, 0U}},
+                {"wf:source_pea_soup_inputs",
+                 "Sourcing: Procure Split Peas, Mirepoix, Broth & Salt/Herbs (L5/L3/L7)",
+                 "On Missing Inputs at Step 1 (task:soup_1_gather_inputs)",
+                 "need:split_peas,need:mirepoix_vegetables,need:collagen_bone_broth,need:culinary_salt_herbs",
+                 WorkflowRole::INPUT_SOURCING,
+                 {0U, 0U, 0U, 0U, 0U, 0U, 0U}}
+            };
             soup_hearth.maintenance_exergy_uj = 3400000000ULL;
             soup_hearth.monthly_l7_offset_potential_cents = 34000;
             soup_hearth.steward_reputation_credit_bp = 260U;
@@ -3456,7 +5392,35 @@ private:
             garage_fab.governance_badge = "L5 Tool Commons & L7 Bill Offset";
             garage_fab.l7_fallback_channel = "L7 Big-Box Hardware & Contractor Retail ($85.00/kit)";
             garage_fab.local_commons_channel = "Local Garage Workbench + L7 Custom Woodwork Service";
+            garage_fab.host_node_id = "node-02:garage-fab";
             garage_fab.linked_need_ids = {"need:raised_bed_frame"};
+            garage_fab.required_input_need_ids = {"need:node_electricity"};
+            garage_fab.workflow_catalog = {
+                {"wf:fab_l7_woodwork",
+                 "Garage Fab: L7 Custom Woodwork Commission (+$180 Zero-Bill Offset)",
+                 "On L5 Governance Approval",
+                 "need:raised_bed_frame",
+                 WorkflowRole::PRIMARY_PRODUCTION,
+                 {0U, 0U, 0U, 0U, 0U, 0U, 0U}},
+                {"wf:fab_raised_bed",
+                 "Garage Fab: Mill Raised Cedar Garden Bed Frame",
+                 "On Cross-Node Input Requisition (Node 03)",
+                 "need:raised_bed_frame",
+                 WorkflowRole::INPUT_SOURCING,
+                 {0U, 0U, 0U, 0U, 0U, 0U, 0U}},
+                {"wf:fab_compost_kiln",
+                 "Garage Fab: Assemble Thermophilic Compost Drum & TLUD Kiln",
+                 "On Cross-Node Input Requisition (Node 03)",
+                 "need:thermophilic_compost,need:pyrolysis_biochar",
+                 WorkflowRole::INPUT_SOURCING,
+                 {0U, 0U, 0U, 0U, 0U, 0U, 0U}},
+                {"wf:fab_poultry_coop",
+                 "Garage Fab: Build Elevated Timber Poultry Coop & BSFL Feeder",
+                 "On Cross-Node Input Requisition (Node 03)",
+                 "need:pasture_eggs",
+                 WorkflowRole::INPUT_SOURCING,
+                 {0U, 0U, 0U, 0U, 0U, 0U, 0U}}
+            };
             garage_fab.maintenance_exergy_uj = 5000000000ULL;
             garage_fab.monthly_l7_offset_potential_cents = 36000;
             garage_fab.steward_reputation_credit_bp = 300U;
@@ -3473,7 +5437,29 @@ private:
             poultry_soil.governance_badge = "Scenario Mu Trophic & Nutrient Closure";
             poultry_soil.l7_fallback_channel = "L7 Cold-Chain Eggs & Bagged Soil Supply ($27.00/cycle)";
             poultry_soil.local_commons_channel = "Local Timber Coop, Compost Drum & TLUD Biochar Kiln ($0.00)";
+            poultry_soil.host_node_id = "node-03:garden-agro";
             poultry_soil.linked_need_ids = {"need:pasture_eggs", "need:thermophilic_compost", "need:pyrolysis_biochar"};
+            poultry_soil.required_input_need_ids = {"need:node_electricity", "need:potable_water"};
+            poultry_soil.workflow_catalog = {
+                {"wf:poultry_and_soil",
+                 "Thermophilic Compost, TLUD Biochar & Pasture Poultry BPMN Lifecycle",
+                 "On L5 Governance Approval",
+                 "need:pasture_eggs,need:thermophilic_compost,need:pyrolysis_biochar",
+                 WorkflowRole::PRIMARY_PRODUCTION,
+                 {0U, 0U, 0U, 0U, 0U, 0U, 0U}},
+                {"wf:fab_compost_kiln",
+                 "Sourcing: Assemble Compost Drum & TLUD Kiln (Node 02)",
+                 "On Missing Compost/Kiln Hardware",
+                 "need:thermophilic_compost,need:pyrolysis_biochar",
+                 WorkflowRole::INPUT_SOURCING,
+                 {0U, 0U, 0U, 0U, 0U, 0U, 0U}},
+                {"wf:fab_poultry_coop",
+                 "Sourcing: Build Elevated Timber Poultry Coop (Node 02)",
+                 "On Missing Poultry Coop Hardware",
+                 "need:pasture_eggs",
+                 WorkflowRole::INPUT_SOURCING,
+                 {0U, 0U, 0U, 0U, 0U, 0U, 0U}}
+            };
             poultry_soil.maintenance_exergy_uj = 1800000000ULL;
             poultry_soil.monthly_l7_offset_potential_cents = 15000;
             poultry_soil.steward_reputation_credit_bp = 240U;
@@ -3490,7 +5476,16 @@ private:
             water_power.governance_badge = "Tier-1 Ecological Floor & Exergy Bus";
             water_power.l7_fallback_channel = "L7 Municipal Water & Electric Grid ($0.28/kWh)";
             water_power.local_commons_channel = "Local 48V Solar Bus & Filtered Cistern ($0.00)";
+            water_power.host_node_id = "node-01:office-coordinator";
             water_power.linked_need_ids = {"need:potable_water", "need:node_electricity"};
+            water_power.workflow_catalog = {
+                {"wf:water_and_power",
+                 "Rainwater Cistern & 48V Solar Microgrid BPMN Lifecycle",
+                 "On L5 Governance Approval",
+                 "need:potable_water,need:node_electricity",
+                 WorkflowRole::PRIMARY_PRODUCTION,
+                 {0U, 0U, 0U, 0U, 0U, 0U, 0U}}
+            };
             water_power.maintenance_exergy_uj = 1200000000ULL;
             water_power.monthly_l7_offset_potential_cents = 14000;
             water_power.steward_reputation_credit_bp = 200U;
@@ -3499,6 +5494,32 @@ private:
             water_power.task_release_ring = TaskReleaseRing::R0_STEWARD_ONLY;
             water_power.local_workflows_instantiated = 0U;
             governed_assets_.push_back(water_power);
+        }
+        {
+            L5GovernedAsset salt_supply{};
+            salt_supply.asset_id = "asset:culinary_salt_supply";
+            salt_supply.title = "Culinary Sea Salt & Herb Commons Supply";
+            salt_supply.governance_badge = "L5 Mineral & Spice Sourcing Model";
+            salt_supply.l7_fallback_channel = "L7 Bulk Sea Salt & Spice Co-op ($2.50/jar)";
+            salt_supply.local_commons_channel = "R1 Coastal Salt Exchange + Backyard Bay/Thyme ($0.00)";
+            salt_supply.host_node_id = "node-04:hearth-galley";
+            salt_supply.linked_need_ids = {"need:culinary_salt_herbs"};
+            salt_supply.workflow_catalog = {
+                {"wf:source_pea_soup_inputs",
+                 "Sourcing: Coastal Sea Salt & Hearth Herb Procurement (R1/L7)",
+                 "On Missing Input: need:culinary_salt_herbs",
+                 "need:culinary_salt_herbs",
+                 WorkflowRole::INPUT_SOURCING,
+                 {0U, 0U, 0U, 0U, 0U, 0U, 0U}}
+            };
+            salt_supply.maintenance_exergy_uj = 400000000ULL;
+            salt_supply.monthly_l7_offset_potential_cents = 2500;
+            salt_supply.steward_reputation_credit_bp = 120U;
+            salt_supply.sourcing_mode = SourcingMode::L7_LEGACY_CHANNEL;
+            salt_supply.distribution_policy = DistributionPolicy::R0_HOUSEHOLD;
+            salt_supply.task_release_ring = TaskReleaseRing::R0_STEWARD_ONLY;
+            salt_supply.local_workflows_instantiated = 0U;
+            governed_assets_.push_back(salt_supply);
         }
     }
 
@@ -3563,6 +5584,12 @@ private:
                  3600000000ULL, 1100, "L7 Specialty Broth Grocer ($11.00/jar)",
                  "Local Kitchen Induction Stockpot ($0.00)",
                  "asset:pea_soup_hearth", SourcingMode::L7_LEGACY_CHANNEL, 1U, 21U);
+
+        add_need("need:culinary_salt_herbs", "Iodized Sea Salt & Bay Leaf", "Mineral & Culinary Inputs",
+                 "Trace-mineral sea salt and dried bay leaf required for Bigelow-pasteurized Pea Soup & Bone Broth.",
+                 400000000ULL, 250, "L7 Bulk Sea Salt & Spice Co-op ($2.50/jar)",
+                 "R1 Coastal Salt Exchange + Backyard Bay/Thyme ($0.00)",
+                 "asset:culinary_salt_supply", SourcingMode::L7_LEGACY_CHANNEL, 1U, 14U);
 
         add_need("need:raised_bed_frame", "Raised Bed Frame", "Garage Joinery & Infrastructure",
                  "Mortised salvaged cedar raised garden bed frame and A-frame wire pea trellis.",
@@ -3883,10 +5910,13 @@ private:
         wf.workflow_id = wf_id;
         wf.spawned_tick = current_tick_;
         wf.is_active = 1U;
+        wf.workflow_role = WorkflowRole::PRIMARY_PRODUCTION;
 
         if (wf_id == "wf:fab_raised_bed") {
             wf.asset_id = "asset:garage_fab";
             wf.assigned_node_id = "node-02:garage-fab";
+            wf.parent_workflow_id = "wf:pea_cultivation";
+            wf.workflow_role = WorkflowRole::INPUT_SOURCING;
             wf.title = "Garage Fab: Mill Raised Cedar Garden Bed Frame";
             wf.tasks.push_back(make_task(
                 wf.workflow_id, wf.asset_id, wf.assigned_node_id, "aff.mill_raised_bed_frame",
@@ -3897,6 +5927,8 @@ private:
         } else if (wf_id == "wf:fab_compost_kiln") {
             wf.asset_id = "asset:garage_fab";
             wf.assigned_node_id = "node-02:garage-fab";
+            wf.parent_workflow_id = "wf:poultry_and_soil";
+            wf.workflow_role = WorkflowRole::INPUT_SOURCING;
             wf.title = "Garage Fab: Assemble Thermophilic Compost Drum & TLUD Kiln";
             wf.tasks.push_back(make_task(
                 wf.workflow_id, wf.asset_id, wf.assigned_node_id, "aff.assemble_compost_and_kiln",
@@ -3907,6 +5939,8 @@ private:
         } else if (wf_id == "wf:fab_poultry_coop") {
             wf.asset_id = "asset:garage_fab";
             wf.assigned_node_id = "node-02:garage-fab";
+            wf.parent_workflow_id = "wf:poultry_and_soil";
+            wf.workflow_role = WorkflowRole::INPUT_SOURCING;
             wf.title = "Garage Fab: Build Elevated Timber Poultry Coop & BSFL Feeder";
             wf.tasks.push_back(make_task(
                 wf.workflow_id, wf.asset_id, wf.assigned_node_id, "aff.build_poultry_coop",
@@ -3917,6 +5951,7 @@ private:
         } else if (wf_id == "wf:fab_l7_woodwork") {
             wf.asset_id = "asset:garage_fab";
             wf.assigned_node_id = "node-02:garage-fab";
+            wf.workflow_role = WorkflowRole::PRIMARY_PRODUCTION;
             wf.title = "Garage Fab: L7 Custom Woodwork Commission (+$180 Zero-Bill Offset)";
             wf.tasks.push_back(make_task(
                 wf.workflow_id, wf.asset_id, wf.assigned_node_id, "aff.fulfill_l7_woodwork",
@@ -3930,7 +5965,17 @@ private:
         } else if (wf_id == "wf:pea_cultivation") {
             wf.asset_id = "asset:pea_cultivation";
             wf.assigned_node_id = "node-03:garden-agro";
+            wf.workflow_role = WorkflowRole::PRIMARY_PRODUCTION;
             wf.title = "Legume Cultivation & Keyline Bed BPMN Lifecycle";
+            wf.plot_origin_x = garden_plot_scope_.origin_x;
+            wf.plot_origin_z = garden_plot_scope_.origin_z;
+            wf.plot_width_tiles = garden_plot_scope_.width_tiles;
+            wf.plot_length_tiles = garden_plot_scope_.length_tiles;
+            wf.plot_area_m2 = garden_plot_scope_.area_m2;
+            wf.plot_scale_units = garden_plot_scope_.scale_units;
+            wf.plot_scope_defined = garden_plot_scope_.scope_defined;
+            wf.soil_organic_carbon_bp = 850U; // Degraded suburban turf baseline before Step 1 amendment
+            wf.estimated_nitrogen_ppm = 14U;
             wf.tasks.push_back(make_task(
                 wf.workflow_id, wf.asset_id, wf.assigned_node_id, "aff.plow_and_amend_bed",
                 1U, "task:pea_1_plow_amend",
@@ -3971,9 +6016,37 @@ private:
                 "Confirm shelled split legumes tested <1400 bp (<14%) moisture before jar sealing and residue vines turned into soil?"));
             ApplyCultivarParametersToWorkflow(
                 wf, ResolveCultivarSpecOrDefault(selected_garden_cultivar_id_));
+            RefreshGardenGuidanceAndYieldBand(wf);
+        } else if (wf_id == "wf:source_garden_inputs") {
+            wf.asset_id = "asset:pea_cultivation";
+            wf.assigned_node_id = "node-03:garden-agro";
+            wf.parent_workflow_id = "wf:pea_cultivation";
+            wf.workflow_role = WorkflowRole::INPUT_SOURCING;
+            wf.title = "Input Sourcing Workflow — Procure Garden Seeds, Compost & Timber (L7 Green Amazon / L3)";
+            wf.tasks.push_back(make_task(
+                wf.workflow_id, wf.asset_id, wf.assigned_node_id, "aff.gather_soup_inputs",
+                1U, "task:source_1_procure_garden_inputs",
+                "1. Source Missing Garden Inputs (Pea Seeds, Compost & Cedar Timber via L7 Green Amazon / L3)",
+                "Node 03: Garden Storage & L7 Green Amazon Channel (20,1,5)", 400000000ULL, 24U,
+                HaulModality::GRANULAR_HAUL));
+        } else if (wf_id == "wf:remediate_pea_cultivation") {
+            wf.asset_id = "asset:pea_cultivation";
+            wf.assigned_node_id = "node-03:garden-agro";
+            wf.parent_workflow_id = "wf:pea_cultivation";
+            wf.workflow_role = WorkflowRole::ISSUE_REMEDIATION;
+            const L4WorkflowInstance* pea_wf = FindWorkflow("wf:pea_cultivation");
+            const uint8_t diag_code = (pea_wf != nullptr) ? pea_wf->diagnosed_issue_code : 0U;
+            wf.title = "Remediation Workflow — " + std::string(StackIssueCodeLabel(diag_code));
+            wf.tasks.push_back(make_task(
+                wf.workflow_id, wf.asset_id, wf.assigned_node_id, "aff.remediate_garden_issue",
+                1U, "task:pea_4r_remediate_issue",
+                "1. Remediate " + std::string(StackIssueCodeLabel(diag_code)) + " [Targeted Care]",
+                "Node 03: Backyard Keyline Bed (20,1,5)", 320000000ULL, 27U,
+                HaulModality::GRANULAR_HAUL));
         } else if (wf_id == "wf:pea_soup_hearth") {
             wf.asset_id = "asset:pea_soup_hearth";
             wf.assigned_node_id = "node-04:hearth-galley";
+            wf.workflow_role = WorkflowRole::PRIMARY_PRODUCTION;
             wf.title = "Pea Soup & 24h Collagen Bone Broth BPMN Lifecycle";
             wf.tasks.push_back(make_task(
                 wf.workflow_id, wf.asset_id, wf.assigned_node_id, "aff.gather_soup_inputs",
@@ -4000,9 +6073,22 @@ private:
                 "4. Package & Serve 304-Stainless Pea Soup Tiffins",
                 "Node 04: Hearth -> Commons Tiffin Rack", 500000000ULL, 23U,
                 HaulModality::TIFFIN_CARRIER_HAUL));
+        } else if (wf_id == "wf:source_pea_soup_inputs") {
+            wf.asset_id = "asset:pea_soup_hearth";
+            wf.assigned_node_id = "node-04:hearth-galley";
+            wf.parent_workflow_id = "wf:pea_soup_hearth";
+            wf.workflow_role = WorkflowRole::INPUT_SOURCING;
+            wf.title = "Input Sourcing Workflow — Procure Split Peas, Mirepoix, Broth & Salt/Herbs (L3/L7)";
+            wf.tasks.push_back(make_task(
+                wf.workflow_id, wf.asset_id, wf.assigned_node_id, "aff.gather_soup_inputs",
+                1U, "task:source_1_procure_soup_inputs",
+                "1. Source Missing Pea Soup Inputs (Split Peas, Mirepoix, Broth Bones & Sea Salt via L3/L7)",
+                "Node 04: Larder & L7 Procurement Channel (12,1,3)", 450000000ULL, 14U,
+                HaulModality::GRANULAR_HAUL));
         } else if (wf_id == "wf:poultry_and_soil") {
             wf.asset_id = "asset:poultry_and_soil";
             wf.assigned_node_id = "node-03:garden-agro";
+            wf.workflow_role = WorkflowRole::PRIMARY_PRODUCTION;
             wf.title = "Thermophilic Compost, TLUD Biochar & Pasture Poultry BPMN Lifecycle";
             wf.tasks.push_back(make_task(
                 wf.workflow_id, wf.asset_id, wf.assigned_node_id, "aff.turn_and_harvest_compost",
@@ -4025,6 +6111,7 @@ private:
         } else if (wf_id == "wf:water_and_power") {
             wf.asset_id = "asset:water_and_power";
             wf.assigned_node_id = "node-01:office-coordinator";
+            wf.workflow_role = WorkflowRole::PRIMARY_PRODUCTION;
             wf.title = "Rainwater Cistern & 48V Solar Microgrid BPMN Lifecycle";
             wf.tasks.push_back(make_task(
                 wf.workflow_id, wf.asset_id, wf.assigned_node_id, "aff.draw_potable_water",
@@ -4056,6 +6143,7 @@ private:
             }
         }
         workflows_.push_back(wf);
+        RefreshTaskResourceRequirements();
         RefreshL4AutomationModalities();
     }
 
@@ -4153,7 +6241,106 @@ private:
         asset->local_workflows_instantiated = 1U;
         asset->workflow_ids.push_back(wf.workflow_id);
         workflows_.push_back(wf);
+        RefreshTaskResourceRequirements();
         RefreshL4AutomationModalities();
+    }
+
+    // ------------------------------------------------------------------------
+    // Simulated Layer 7: Green Amazon Catalog & Legacy Bank Initialization
+    // ------------------------------------------------------------------------
+
+    void InitializeGreenAmazonCatalog() {
+        green_amazon_catalog_.clear();
+        bank_transactions_.clear();
+
+        auto add_item = [&](const char* sku,
+                            const char* title,
+                            const char* category,
+                            const char* desc,
+                            int64_t buy_cents,
+                            int64_t sell_cents,
+                            uint64_t exergy_uj,
+                            uint32_t units_per_order,
+                            uint8_t sellable) {
+            L7GreenAmazonCatalogItem item{};
+            item.item_id = sku;
+            item.title = title;
+            item.category = category;
+            item.description = desc;
+            item.buy_price_cents = buy_cents;
+            item.sell_price_cents = sell_cents;
+            item.embodied_exergy_uj = exergy_uj;
+            item.bundle_qty = units_per_order;
+            item.can_buy = 1U;
+            item.can_sell = sellable;
+            green_amazon_catalog_.push_back(item);
+        };
+
+        add_item("item:pea_seed_packet",
+                 "Inoculated Split-Pea & Mirepoix Seed Packet (2x)",
+                 "Seeds & Cultivars",
+                 "Certified Pisum sativum + carrot/onion companion seed packets with Rhizobium peat inoculant.",
+                 1200, 400, 350000000ULL, 2U, 0U);
+
+        add_item("item:organic_compost_bag",
+                 "OMRI Thermophilic Compost & Biochar Bags (2x 20 kg)",
+                 "Soil Amendments",
+                 "Aged humic compost & charged biochar amendment to remediate compacted suburban clay-turf soil.",
+                 1400, 1100, 1200000000ULL, 2U, 1U);
+
+        add_item("item:cedar_timber_plank",
+                 "Salvaged Western Red Cedar Plank Bundle (2x)",
+                 "Joinery & Hardware",
+                 "Rot-resistant structural cedar planks for raised garden bed frames, trellises, and poultry coops.",
+                 1800, 600, 1800000000ULL, 2U, 0U);
+
+        add_item("item:culinary_salt_herbs",
+                 "Iodized Coastal Sea Salt & Bay Leaf Jar (2x)",
+                 "Culinary & Pantry",
+                 "Trace-mineral sea salt and dried bay/thyme required for Bigelow-pasteurized Pea Soup.",
+                 600, 200, 250000000ULL, 2U, 0U);
+
+        add_item("item:grocery_meal_pack",
+                 "Green Amazon Everyday Ready-Meal Pack (6 Meals)",
+                 "L7 Convenience Groceries",
+                 "Pre-packaged L7 delivery meals. Keeps the Steward fed when not cooking locally, but drains Legacy Bank reserve.",
+                 3600, 0, 6400000000ULL, 6U, 0U);
+
+        add_item("item:l2_soil_probe_kit",
+                 "UHAI L2 Capacitive Soil Probe & Solenoid Valve Kit",
+                 "L2 Telemetry Hardware",
+                 "Installs soil_probe_v1 + irrigation_valve_v1 on Node 03 for closed-loop ±1.5% soil moisture & N-P-K telemetry.",
+                 8500, 4000, 4500000000ULL, 1U, 0U);
+
+        add_item("item:pea_soup_tiffin",
+                 "Artisanal Split-Pea & Collagen Broth Tiffin Batch",
+                 "Homestead Surplus Marketplace",
+                 "Pasteurized 304-stainless tiffin batch of homestead Pea Soup. Can be sold on Green Amazon to offset monthly bills.",
+                 3200, 2800, 2200000000ULL, 1U, 1U);
+
+        add_item("item:split_peas_batch",
+                 "Sun-Dried Heirloom Split Peas (2 kg Batch)",
+                 "Homestead Surplus Marketplace",
+                 "Locally harvested dry split peas (<14% moisture). Can be bought for the kitchen or sold as surplus.",
+                 1600, 1400, 1400000000ULL, 1U, 1U);
+
+        add_item("item:pasture_eggs_dozen",
+                 "Heritage Pasture Eggs & Broth Bone Pack",
+                 "Homestead Surplus Marketplace",
+                 "Golden-yolked eggs and collagen broth bones from BSFL-fed heritage hens.",
+                 1200, 1000, 1600000000ULL, 1U, 1U);
+
+        L7BankTransaction genesis_tx{};
+        genesis_tx.tx_id = "tx:genesis_001";
+        genesis_tx.tx_type = "CREDIT_DEPOSIT";
+        genesis_tx.counterparty = "Legacy Bank Genesis Deposit";
+        genesis_tx.memo = "Initial household checking reserve ($20,000.00)";
+        genesis_tx.amount_cents = 2000000;
+        genesis_tx.balance_after_cents = ledger_.household_reserve_cents;
+        genesis_tx.tick = current_tick_;
+        genesis_tx.sim_day = sim_day_;
+        genesis_tx.authorized = 1U;
+        bank_transactions_.push_back(genesis_tx);
     }
 
     // ------------------------------------------------------------------------
@@ -4409,42 +6596,120 @@ private:
         }
     }
 
+    void RefreshGardenGuidanceAndYieldBand(L4WorkflowInstance& wf) const {
+        if (wf.workflow_id != "wf:pea_cultivation") {
+            return;
+        }
+        const CultivarWorkflowSpec spec = ResolveCultivarSpecOrDefault(wf.input_cultivar_id);
+        const uint8_t eff_tier = EffectiveGardenSkillTier();
+        const uint32_t scale = std::max<uint32_t>(1U, wf.plot_scale_units);
+        wf.agronomy_skill_tier = eff_tier;
+        wf.diagnostic_uncertainty_bp = StackDiagnosticUncertaintyBp(eff_tier);
+        wf.guidance_mode_label = StackSkillTierLabel(eff_tier);
+        wf.active_issue_label = StackIssueCodeLabel(wf.active_issue_code);
+        wf.diagnosed_issue_code = FilterStackIssueBySkill(
+            wf.active_issue_code, eff_tier, wf.crop_health_bp);
+
+        if (wf.active_issue_code != 0U && wf.diagnosed_issue_code == 0U) {
+            wf.diagnosed_issue_label =
+                "Undiagnosed Hidden Stressor (Novice cannot read foliar N/P/K or soil tilth insulation)";
+        } else {
+            wf.diagnosed_issue_label = StackIssueCodeLabel(wf.diagnosed_issue_code);
+        }
+
+        if (eff_tier == kStackSkillL2Automated) {
+            wf.diagnostic_guidance_prompt =
+                "Closed-Loop L2 Telemetry (soil_probe_v1 + irrigation_valve_v1): Continuous VWC, mK, N-P-K & organic-C monitoring (±1.5% uncertainty).";
+        } else if (eff_tier == kStackSkillExperienced) {
+            wf.diagnostic_guidance_prompt =
+                "Experienced Guided Questionnaire (±9% uncertainty): Check 10 cm crumb-ribbon tilth insulation & capillary drainage, lower-leaf N vs. interveinal P/K chlorosis, and stipule aphid undersides.";
+        } else {
+            wf.diagnostic_guidance_prompt =
+                "Novice Visual Questionnaire (±28% uncertainty): 1) Report observable Soil Color (Pale Grey/Yellow Clay vs. Dark Loam) & Texture (Compacted Clods vs. Crumbly) to calibrate Step 1 soil amendment; 2) Are vines wilted or over-watered? 3) Are weeds or aphids visible?";
+        }
+
+        const uint32_t nom_leg = std::max<uint32_t>(1U, spec.harvest_legume_batches) * scale;
+        const uint32_t composite_bp = (wf.crop_health_bp * 55U + wf.care_quality_score_bp * 45U) / 100U;
+        if (wf.crop_health_bp <= 2000U || wf.active_issue_code == kStackIssueCropFailure) {
+            wf.min_expected_legume_batches = 0U;
+            wf.max_expected_legume_batches = 0U;
+        } else if (eff_tier == kStackSkillNovice) {
+            wf.min_expected_legume_batches = static_cast<uint8_t>(std::max<uint32_t>(1U, nom_leg / 2U));
+            wf.max_expected_legume_batches = static_cast<uint8_t>(nom_leg);
+            if (wf.active_issue_code != 0U && wf.diagnosed_issue_code == 0U) {
+                wf.max_expected_legume_batches = wf.min_expected_legume_batches;
+            }
+        } else if (eff_tier == kStackSkillExperienced) {
+            wf.min_expected_legume_batches =
+                (composite_bp < 6200U)
+                    ? static_cast<uint8_t>(std::max<uint32_t>(1U, nom_leg / 2U))
+                    : static_cast<uint8_t>(nom_leg);
+            wf.max_expected_legume_batches = static_cast<uint8_t>(nom_leg + 1U);
+        } else {
+            wf.min_expected_legume_batches = static_cast<uint8_t>(nom_leg);
+            wf.max_expected_legume_batches = static_cast<uint8_t>(nom_leg + 1U);
+        }
+
+        wf.expected_yield_summary =
+            std::to_string(wf.min_expected_legume_batches) + "–" +
+            std::to_string(wf.max_expected_legume_batches) + " Legume Batches (±" +
+            std::to_string(wf.diagnostic_uncertainty_bp / 100U) + "% Uncertainty · Health " +
+            std::to_string(wf.crop_health_bp / 100U) + "% · Care " +
+            std::to_string(wf.care_quality_score_bp / 100U) + "% · Plot " +
+            std::to_string(wf.plot_area_m2) + "m2)";
+    }
+
     // ------------------------------------------------------------------------
     // Strictly 8-Byte Aligned Member Layout (-Wpadded Clean)
     // ------------------------------------------------------------------------
-    std::vector<L6NeedRecord>         needs_{};
-    std::vector<L6IntentRequest>      requests_{};
-    std::vector<L6PendingDecision>    pending_decisions_{};
-    std::vector<L5GovernedAsset>      governed_assets_{};
-    std::vector<L4WorkflowInstance>   workflows_{};
-    std::vector<L6NeedRecord>         last_search_results_{};
-    std::vector<HomesteadClusterNode> cluster_nodes_{};
-    std::vector<CultivarWorkflowSpec> cultivars_{};
-    L2TelemetryTable                  l2_telemetry_{};
-    L3NodeLedger                      ledger_{};
-    std::string                       bootstrap_source_path_{};
-    std::string                       selected_garden_cultivar_id_{"cultivar:chrono_virtual_pea"};
-    std::string                       last_command_action_{};
-    std::string                       last_command_status_{};
-    uint64_t                          current_tick_{1ULL};
-    uint64_t                          custom_counter_{0ULL};
-    uint64_t                          sim_clock_seconds_{28800ULL};
-    uint32_t                          sim_day_{1U};
-    uint32_t                          ambient_temp_override_mk_{0U};
-    uint32_t                          cultivars_enriched_count_{0U};
-    uint32_t                          raised_bed_frames_built_{0U};
-    uint32_t                          compost_kiln_units_built_{0U};
-    uint32_t                          poultry_coops_built_{0U};
-    uint32_t                          harvested_split_pea_batches_{0U};
-    uint32_t                          harvested_mirepoix_batches_{0U};
-    uint32_t                          poultry_bones_and_eggs_batches_{0U};
-    uint32_t                          thermophilic_compost_batches_{0U};
-    uint32_t                          biochar_batches_{0U};
-    uint32_t                          simmered_bone_broth_batches_{0U};
-    uint32_t                          served_pea_soup_tiffin_batches_{0U};
-    uint8_t                           bootstrapped_from_jsonld_{0U};
-    uint8_t                           external_r1_swarm_enabled_{0U};
-    [[maybe_unused]] uint8_t          pad_[2]{0U};
+    std::vector<L6NeedRecord>               needs_{};
+    std::vector<L6IntentRequest>            requests_{};
+    std::vector<L6PendingDecision>          pending_decisions_{};
+    std::vector<L5GovernedAsset>            governed_assets_{};
+    std::vector<L4WorkflowInstance>         workflows_{};
+    std::vector<L6NeedRecord>               last_search_results_{};
+    std::vector<HomesteadClusterNode>       cluster_nodes_{};
+    std::vector<CultivarWorkflowSpec>       cultivars_{};
+    std::vector<L7GreenAmazonCatalogItem>   green_amazon_catalog_{};
+    std::vector<L7BankTransaction>          bank_transactions_{};
+    L2TelemetryTable                        l2_telemetry_{};
+    L3NodeLedger                            ledger_{};
+    GardenPlotScope                         garden_plot_scope_{};
+    std::string                             bootstrap_source_path_{};
+    std::string                             selected_garden_cultivar_id_{"cultivar:chrono_virtual_pea"};
+    std::string                             last_command_action_{};
+    std::string                             last_command_status_{};
+    uint64_t                                current_tick_{1ULL};
+    uint64_t                                custom_counter_{0ULL};
+    uint64_t                                sim_clock_seconds_{28800ULL};
+    uint64_t                                last_daily_living_eval_sim_s_{28800ULL};
+    uint32_t                                sim_day_{1U};
+    uint32_t                                ambient_temp_override_mk_{0U};
+    uint32_t                                cultivars_enriched_count_{0U};
+    uint32_t                                raised_bed_frames_built_{0U};
+    uint32_t                                compost_kiln_units_built_{0U};
+    uint32_t                                poultry_coops_built_{0U};
+    uint32_t                                harvested_split_pea_batches_{0U};
+    uint32_t                                harvested_mirepoix_batches_{0U};
+    uint32_t                                poultry_bones_and_eggs_batches_{0U};
+    uint32_t                                thermophilic_compost_batches_{0U};
+    uint32_t                                biochar_batches_{0U};
+    uint32_t                                simmered_bone_broth_batches_{0U};
+    uint32_t                                served_pea_soup_tiffin_batches_{0U};
+    uint32_t                                timber_planks_stock_{4U};
+    uint32_t                                compost_amendment_bags_{2U};
+    uint32_t                                pea_seed_packets_{2U};
+    uint32_t                                culinary_salt_herbs_jars_{2U};
+    uint32_t                                pantry_grocery_meals_{6U};
+    uint32_t                                consecutive_pea_soup_meals_{0U};
+    uint32_t                                dietary_variety_score_bp_{8500U};
+    uint32_t                                l7_grocery_orders_count_{0U};
+    uint32_t                                l7_monthly_bills_paid_count_{0U};
+    uint8_t                                 bootstrapped_from_jsonld_{0U};
+    uint8_t                                 external_r1_swarm_enabled_{0U};
+    uint8_t                                 steward_agronomy_skill_tier_{1U};
+    uint8_t                                 require_explicit_plot_scope_{0U};
+    [[maybe_unused]] uint8_t                pad_[4]{0U};
 };
 static_assert(alignof(SharedStackRuntime) == 8, "SharedStackRuntime must be 8-byte aligned.");
 

@@ -754,6 +754,7 @@
               const payload = {
                 decision_id: id,
                 approve: true,
+                await_plot_scope: id === 'dec:pea_cultivation',
                 sourcing_mode: draft.sourcing_mode,
                 distribution_policy: draft.distribution_policy,
                 task_release_ring: draft.task_release_ring
@@ -764,8 +765,13 @@
               this.dispatchDaemonCommand(
                 'approve_decision',
                 payload,
-                `Approved ${id} and instantiated L4 BPMN workflows!`
+                id === 'dec:pea_cultivation'
+                  ? 'Approved dec:pea_cultivation! Set where (X, Z) and how big (W × L m) your garden plot is below.'
+                  : `Approved ${id} and instantiated L4 BPMN workflows!`
               );
+              if (id === 'dec:pea_cultivation') {
+                this.switchTab('workflows');
+              }
             });
           });
 
@@ -775,6 +781,7 @@
               const draft = this.decisionDrafts[id] || {};
               const payload = {
                 decision_id: id,
+                await_plot_scope: id === 'dec:pea_cultivation',
                 sourcing_mode: draft.sourcing_mode,
                 distribution_policy: draft.distribution_policy,
                 task_release_ring: draft.task_release_ring
@@ -785,8 +792,13 @@
               this.dispatchDaemonCommand(
                 'adapt_policy',
                 payload,
-                `Adapted governance policy for ${id}.`
+                id === 'dec:pea_cultivation'
+                  ? 'Adapted dec:pea_cultivation! Set where (X, Z) and how big (W × L m) your garden plot is below.'
+                  : `Adapted governance policy for ${id}.`
               );
+              if (id === 'dec:pea_cultivation') {
+                this.switchTab('workflows');
+              }
             });
           });
 
@@ -818,13 +830,44 @@
             asset.asset_id === 'asset:pea_cultivation' ||
             asset.asset_id === 'asset:backyard_pea_garden';
 
+          const wfCatalog = Array.isArray(asset.workflow_catalog) ? asset.workflow_catalog : [];
+          const activeWfIds = new Set(Array.isArray(asset.workflow_ids) ? asset.workflow_ids : []);
+          const reqInputs = Array.isArray(asset.required_input_need_ids) ? asset.required_input_need_ids : [];
+
+          const catalogHtml = wfCatalog.length > 0 ? `
+            <div style="margin:6px 0;padding:6px 8px;border-radius:5px;background:rgba(15,23,42,0.52);border:1px solid rgba(148,163,184,0.22);">
+              <div style="font-family:var(--font-mono);font-size:8.6px;font-weight:700;color:var(--cyan);margin-bottom:4px;">
+                🗂️ L5 Governance Model Workflow Set (${wfCatalog.length} L4 Blueprint${wfCatalog.length === 1 ? '' : 's'})
+                ${reqInputs.length > 0 ? ` · Inputs: ${reqInputs.map((id) => `<code>${escapeHtml(id)}</code>`).join(', ')}` : ''}
+              </div>
+              ${wfCatalog.map((bp) => {
+                const isSpawned = activeWfIds.has(bp.workflow_id);
+                const roleBadgeClass =
+                  bp.role === 'PRIMARY_PRODUCTION' ? 'emerald' :
+                  (bp.role === 'INPUT_SOURCING' ? 'cyan' : 'amber');
+                return `
+                  <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;padding:3px 0;border-top:1px dashed rgba(148,163,184,0.14);font-family:var(--font-mono);font-size:8.4px;">
+                    <div>
+                      <span class="l6-pill ${roleBadgeClass}" style="padding:1px 5px;font-size:7.8px;">${escapeHtml(bp.role)}</span>
+                      <strong>${escapeHtml(bp.title)}</strong>
+                      <span style="color:var(--text-muted);">(${escapeHtml(bp.trigger_condition)})</span>
+                    </div>
+                    <span class="l6-pill ${isSpawned ? 'emerald' : ''}" style="font-size:7.8px;">
+                      ${isSpawned ? '🟢 INSTANTIATED' : '⏸ DORMANT'}
+                    </span>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          ` : '';
+
           return `
             <div class="l6-card ${asset.local_workflows_instantiated ? 'emerald' : ''}">
               <div class="l6-card-header">
                 <div>
                   <div class="l6-card-title">${escapeHtml(asset.title)}</div>
                   <div style="font-family:var(--font-mono);font-size:9px;color:var(--text-muted);">
-                    <code>${escapeHtml(asset.asset_id)}</code> · ${escapeHtml(asset.governance_badge || '')}
+                    <code>${escapeHtml(asset.asset_id)}</code> · Host <code>${escapeHtml(asset.host_node_id || 'node-01:office-coordinator')}</code> · ${escapeHtml(asset.governance_badge || '')}
                   </div>
                 </div>
                 <span class="l6-pill ${sourcingPillClass(asset.sourcing_mode)}">${escapeHtml(humanizeEnum(asset.sourcing_mode))}</span>
@@ -836,6 +879,7 @@
                   ${asset.local_workflows_instantiated ? '⚙️ L4 Workflows Active' : '⏸ Awaiting Approval'}
                 </span>
               </div>
+              ${catalogHtml}
               ${(isGardenAsset && cultivars.length > 0) ? `
                 <div style="margin-bottom:6px;">
                   <label class="l6-kv-label">🌱 Active Legume Cultivar Input ${cropCurrentlySown ? '(Locked while sown crop grows)' : '(Switchable prior to sowing)'}</label>
@@ -913,8 +957,9 @@
       const workflows = Array.isArray(snapshot.l4_workflows) ? snapshot.l4_workflows : [];
       const cultivars = Array.isArray(snapshot.available_cultivars) ? snapshot.available_cultivars : [];
       const selectedCultivarId = snapshot.selected_cultivar_id || '';
+      const stewardSkillTier = Number(snapshot.steward_agronomy_skill_tier || 1);
       const r1SwarmEnabled = Boolean(snapshot.external_r1_swarm_enabled);
-      const wfHash = JSON.stringify({ r1SwarmEnabled, selectedCultivarId, workflows });
+      const wfHash = JSON.stringify({ r1SwarmEnabled, selectedCultivarId, stewardSkillTier, workflows });
       if (hasFocusedInputInside(container) || this._sectionHashes.workflows === wfHash) {
         return;
       }
@@ -925,7 +970,7 @@
           <div class="l6-card">
             <div class="l6-card-title" style="margin-bottom:4px;">🌱 Clean Day-1 BPMN Slate — 0 Unsolicited Workflows</div>
             <div class="l6-card-desc">
-              No L4 workflows are dumped upfront. Approve an L5 Governance Proposal in <strong>⚖️ L5 Decisions</strong> (for example, <em>Backyard Keyline Pea &amp; Mirepoix Garden</em> with your chosen <em>Fabaceae</em> cultivar) to spawn its BPMN workflow — cross-node preconditions will automatically requisition prerequisite Garage fabrication on <code>node-02:garage-fab</code>!
+              No L4 workflows are instantiated until an L5 Governance Model is approved in <strong>⚖️ L5 Decisions</strong> (or a Need is requested). Once approved, the L5 Governance Model instantiates its <code>PRIMARY_PRODUCTION</code> workflow, and dynamically spawns <code>INPUT_SOURCING</code> or <code>ISSUE_REMEDIATION</code> child workflows only when needed!
             </div>
           </div>
         `;
@@ -935,6 +980,7 @@
       const tasksIndex = new Map();
       const workflowRank = (wf) => {
         const wTasks = Array.isArray(wf.tasks) ? wf.tasks : [];
+        if (wf.workflow_role === 'ISSUE_REMEDIATION') return -1;
         if (wTasks.some((t) => t.bpmn_token_state === 'ACTIVE_TOKEN')) return 0;
         if (wTasks.some((t) => t.bpmn_token_state === 'WAITING_TIMER')) return 1;
         if (wTasks.length > 0 && wTasks.every((t) => t.task_commitment_state === 'COMPLETED')) return 3;
@@ -947,6 +993,10 @@
         tasks.forEach((t) => tasksIndex.set(t.task_id, t));
         const allCompleted = tasks.length > 0 && tasks.every((t) => t.task_commitment_state === 'COMPLETED');
         const isGardenWf = wf.workflow_id === 'wf:pea_cultivation';
+        const wfRole = wf.workflow_role || 'PRIMARY_PRODUCTION';
+        const roleBadgeClass =
+          wfRole === 'PRIMARY_PRODUCTION' ? 'emerald' :
+          (wfRole === 'INPUT_SOURCING' ? 'cyan' : 'amber');
 
         let gardenPhenologyBannerHtml = '';
         if (isGardenWf) {
@@ -956,7 +1006,105 @@
           const maturePct = Number(wf.harvest_mature_bp || 9500) / 100;
           const moistPct = (Number(wf.estimated_moisture_bp || 0) / 100).toFixed(1);
           const nPpm = Number(wf.estimated_nitrogen_ppm || 0);
+          const healthPct = Math.min(100, Math.max(0, Number(wf.crop_health_bp ?? 8800) / 100));
+          const carePct = Math.min(100, Math.max(0, Number(wf.care_quality_score_bp ?? 8000) / 100));
+          const uncertPct = (Number(wf.diagnostic_uncertainty_bp ?? 2800) / 100).toFixed(1);
+          const skillTier = Number(wf.agronomy_skill_tier || wf.steward_skill_tier || stewardSkillTier || 1);
+          const skillLabel = wf.guidance_mode_label || wf.steward_skill_label || 'NOVICE_OBSERVER';
+          const minYield = Number(wf.min_expected_legume_batches ?? wf.expected_min_legume_batches ?? 1);
+          const maxYield = Number(wf.max_expected_legume_batches ?? wf.expected_max_legume_batches ?? 3);
+          const trueIssueCode = Number(wf.active_issue_code ?? wf.true_issue_code ?? 0);
+          const diagIssueCode = Number(wf.diagnosed_issue_code || 0);
+          const lastOutcomeLegumes = Number(wf.last_harvest_legume_batches || 0);
+          const lastOutcomeTier = Number(wf.last_harvest_outcome_tier ?? 2);
+          const hasHarvestedOnce = (wf.completed_cycles || 0) > 0 || lastOutcomeLegumes > 0 || lastOutcomeTier === 0;
           const canSwitchCultivar = !wf.crop_sown || allCompleted;
+
+          const healthPillClass = healthPct >= 80 ? 'emerald' : (healthPct >= 50 ? 'amber' : 'violet');
+          const nDisplay = skillTier === 1
+            ? `Soil N: ❓ Unknown to Novice (Needs Tier 2 Foliar Scout or L2 Probe)`
+            : `Soil N: ${nPpm} ppm`;
+
+          let stressorBannerHtml = '';
+          if (diagIssueCode > 0) {
+            stressorBannerHtml = `
+              <div style="margin-top:6px;padding:6px 8px;border-radius:5px;background:rgba(120,53,15,0.52);border:1px solid rgba(251,191,36,0.65);font-family:var(--font-mono);font-size:8.9px;color:#fef3c7;">
+                ⚠️ <strong>BPMN Stressor Diagnosed (${escapeHtml(wf.diagnosed_issue_label)}):</strong>
+                L5 Governance Model (<code>asset:pea_cultivation</code>) dynamically instantiated Remediation L4 Workflow <code>wf:remediate_pea_cultivation</code> — commit &amp; execute it to restore crop health and care quality before harvest!
+              </div>
+            `;
+          } else if (trueIssueCode > 0 && diagIssueCode === 0) {
+            stressorBannerHtml = `
+              <div style="margin-top:6px;padding:6px 8px;border-radius:5px;background:rgba(88,28,135,0.42);border:1px dashed rgba(192,132,252,0.65);font-family:var(--font-mono);font-size:8.9px;color:#e9d5ff;">
+                ❓ <strong>Epistemic Blind Spot (Novice Tier 1):</strong> An underlying subsurface stressor is quietly degrading crop health (${healthPct.toFixed(0)}%) &amp; care score (${carePct.toFixed(0)}%), but a Novice Steward cannot distinguish individual N-P-K foliar chlorosis or 10 cm soil thermal insulation / hydraulic flow without <strong>Tier 2 Agronomy Expertise</strong> (study at Office Bookshelf) or an <strong>L2 Soil Probe</strong>! (No Remediation workflow instantiated until diagnosed.)
+              </div>
+            `;
+          }
+
+          const plotScopeDefined = Boolean(wf.plot_scope_defined);
+          const plotX = Number(wf.plot_origin_x ?? 20);
+          const plotZ = Number(wf.plot_origin_z ?? 5);
+          const plotW = Number(wf.plot_width_tiles ?? 1);
+          const plotL = Number(wf.plot_length_tiles ?? 2);
+          const plotArea = Number(wf.plot_area_m2 ?? (plotW * plotL));
+          const plotScale = Number(wf.plot_scale_units ?? 1);
+          const soilCarbonPct = (Number(wf.soil_organic_carbon_bp ?? 850) / 100).toFixed(2);
+          const soilObserved = Boolean(wf.soil_baseline_observed);
+          const polyCrops = Number(wf.polyculture_crop_count ?? 1);
+
+          const plotScopeHtml = `
+            <div style="margin-top:5px;padding:6px 8px;border-radius:5px;background:${plotScopeDefined ? 'rgba(6,46,38,0.48)' : 'rgba(120,53,15,0.48)'};border:1px solid ${plotScopeDefined ? 'rgba(52,211,153,0.42)' : 'rgba(251,191,36,0.68)'};">
+              <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:4px;">
+                <span style="font-family:var(--font-mono);font-size:8.8px;font-weight:700;color:${plotScopeDefined ? 'var(--emerald)' : '#fde68a'};">
+                  📐 Physical Garden Plot Scope (Player-Decided Where &amp; How Big):
+                </span>
+                <span class="l6-pill ${plotScopeDefined ? 'emerald' : 'amber'}">
+                  ${plotScopeDefined ? `✅ (${plotX}, 1, ${plotZ}) · ${plotW}m × ${plotL}m (${plotArea} m² · Scale ${plotScale}×)` : '⏳ Awaiting Player Plot Scope Decision'}
+                </span>
+              </div>
+              <div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;font-family:var(--font-mono);font-size:8.3px;">
+                <label>Origin X: <input type="number" class="l6-input" id="l6-plot-origin-x" min="18" max="24" value="${plotX}" style="width:46px;padding:2px 4px;" /></label>
+                <label>Origin Z: <input type="number" class="l6-input" id="l6-plot-origin-z" min="2" max="13" value="${plotZ}" style="width:46px;padding:2px 4px;" /></label>
+                <label>Width (m): <input type="number" class="l6-input" id="l6-plot-width" min="1" max="4" value="${plotW}" style="width:42px;padding:2px 4px;" /></label>
+                <label>Length (m): <input type="number" class="l6-input" id="l6-plot-length" min="1" max="6" value="${plotL}" style="width:42px;padding:2px 4px;" /></label>
+                <button type="button" class="l6-btn ${plotScopeDefined ? 'secondary' : 'amber'}" id="l6-set-plot-scope-btn">
+                  📐 ${plotScopeDefined ? 'Update Plot Scope' : 'Confirm Garden Plot Scope'}
+                </button>
+              </div>
+            </div>
+          `;
+
+          const stressorControlsHtml = wf.crop_sown ? `
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:6px;flex-wrap:wrap;">
+              <span style="font-family:var(--font-mono);font-size:8.2px;color:var(--text-muted);">
+                🌱 Ecological Physics Active: Monoculture lawn (${polyCrops} crop${polyCrops === 1 ? '' : 's'}) increases pest/weed pressure; timed Step 4 neglect dries soil (&lt;18% VWC); over-eager manual watering causes root rot (&ge;54% VWC).
+              </span>
+              <button type="button" class="hud-btn" data-proactive-water="6000" title="Manually pour +6.0L water outside the timed workflow schedule (Warning: watering already-moist soil risks OVERWATERED_ROOT_ROT!)">
+                🪣 Proactive Manual Water (+6L)
+              </button>
+            </div>
+          ` : `
+            <div style="display:flex;flex-direction:column;gap:4px;">
+              <div style="font-family:var(--font-mono);font-size:8.2px;color:var(--text-muted);">
+                🧱 <strong>Suburban Turf Soil Baseline:</strong> Developer-compacted earthworks subsoil (${soilCarbonPct}% organic carbon · ${soilObserved ? '✅ Calibrated by Soil Observation' : '⚠️ Uncalibrated default amendment assumption'}). Inspect soil color &amp; texture to calibrate Step 1 amendment:
+              </div>
+              <div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;">
+                <select class="l6-select" id="l6-soil-color-select" style="width:auto;min-width:155px;" title="Observable topsoil color">
+                  <option value="PALE_GREY_BROWN">Color: Pale Grey-Brown Leached Turf</option>
+                  <option value="YELLOW_CLAY_SUB">Color: Yellow Compacted Clay Subsoil</option>
+                  <option value="DARK_HUMUS_LOAM">Color: Dark Rich Humus Loam</option>
+                </select>
+                <select class="l6-select" id="l6-soil-texture-select" style="width:auto;min-width:165px;" title="Observable tactile soil texture">
+                  <option value="COMPACTED_CLAY_CLODS">Texture: Hard Compacted Clay Clods</option>
+                  <option value="SANDY_LEACHED_GRIT">Texture: Sandy Leached Grit</option>
+                  <option value="CRUMBLY_AGGREGATE">Texture: Crumbly Aggregate Tilth</option>
+                </select>
+                <button type="button" class="hud-btn" id="l6-submit-soil-obs-btn">
+                  🔍 Calibrate Soil Amendment
+                </button>
+              </div>
+            </div>
+          `;
 
           gardenPhenologyBannerHtml = `
             <div style="margin:6px 0 8px 0;padding:8px 9px;border-radius:6px;background:rgba(6,46,38,0.45);border:1px solid rgba(52,211,153,0.38);">
@@ -986,13 +1134,41 @@
                 <div class="progress-fill" style="width:${growthPct.toFixed(1)}%;"></div>
               </div>
 
-              <div class="l6-meta-row" style="margin-bottom:0;">
+              <div class="l6-meta-row" style="margin-bottom:4px;">
+                <span class="l6-pill ${healthPillClass}">💚 Crop Health: ${healthPct.toFixed(0)}%</span>
+                <span class="l6-pill cyan">⭐ Care Score: ${carePct.toFixed(0)}%</span>
+                <span class="l6-pill ${skillTier === 1 ? 'amber' : 'emerald'}">🎯 Uncertainty: ±${uncertPct}%</span>
+                <span class="l6-pill emerald">🧺 Expected Harvest: ${minYield}–${maxYield} Legume Batches</span>
+                ${hasHarvestedOnce ? `<span class="l6-pill ${lastOutcomeTier === 3 ? 'emerald' : (lastOutcomeTier <= 1 ? 'amber' : 'cyan')}">Last Harvest: ${escapeHtml(wf.last_harvest_outcome_label)} (+${wf.last_harvest_legume_batches} Legume / +${wf.last_harvest_mirepoix_batches} Root)</span>` : ''}
+              </div>
+
+              <div class="l6-meta-row" style="margin-bottom:5px;">
                 ${wf.is_virtual_cultivar ? '<span class="l6-pill violet">⚡ Virtual Sim-Tuned Physics</span>' : ''}
                 <span class="l6-pill cyan">💧 Est. VWC: ${moistPct}%</span>
-                <span class="l6-pill">${wf.fixes_atmospheric_n2 ? `🦠 Rhizobium N₂-Fixing (Soil N: ${nPpm} ppm)` : `🧪 Mineral-N Draw (Soil N: ${nPpm} ppm)`}</span>
+                <span class="l6-pill">🧱 Organic C: ${soilCarbonPct}%</span>
+                <span class="l6-pill">${wf.fixes_atmospheric_n2 ? `🦠 Rhizobium N₂-Fixing (${escapeHtml(nDisplay)})` : `🧪 Mineral-N Draw (${escapeHtml(nDisplay)})`}</span>
                 <span class="l6-pill">🔍 Manual Checks: ${wf.verification_checks_completed ?? 0}</span>
                 ${Number(wf.auto_l2_checks_completed || 0) > 0 ? `<span class="l6-pill cyan">🤖 L2 Auto Checks: ${wf.auto_l2_checks_completed}</span>` : ''}
               </div>
+
+              ${plotScopeHtml}
+
+              <div style="margin-top:5px;padding:6px 8px;border-radius:5px;background:rgba(15,23,42,0.58);border:1px solid rgba(56,189,248,0.28);">
+                <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:4px;">
+                  <span style="font-family:var(--font-mono);font-size:8.8px;font-weight:700;color:var(--cyan);">
+                    🧭 BPMN Inspection Guidance Mode: ${escapeHtml(skillLabel)}
+                  </span>
+                  <div style="display:flex;gap:4px;flex-wrap:wrap;">
+                    <button type="button" class="hud-btn ${skillTier === 1 ? 'active' : ''}" data-set-skill-tier="1" title="Novice Steward: sees only surface wilting, obvious weeds, or dead plants (±28% uncertainty)">🌱 Tier 1: Novice</button>
+                    <button type="button" class="hud-btn ${skillTier === 2 ? 'active' : ''}" data-set-skill-tier="2" title="Experienced Steward (or after studying Field Guide at Bookshelf): diagnoses N/P/K foliar chlorosis &amp; 10cm soil insulation/flow (±9% uncertainty)">🌿 Tier 2: Experienced</button>
+                  </div>
+                </div>
+                <div style="font-family:var(--font-mono);font-size:8.6px;color:var(--text-secondary);margin-bottom:5px;">
+                  ${escapeHtml(wf.diagnostic_guidance_prompt || wf.guided_questionnaire_prompt || '')}
+                </div>
+                ${stressorControlsHtml}
+              </div>
+              ${stressorBannerHtml}
             </div>
           `;
         }
@@ -1002,6 +1178,7 @@
           const haulLabel = HAUL_LABELS[task.haul_modality] || '';
           const state = task.task_commitment_state || 'UNASSIGNED';
           const tokenState = task.bpmn_token_state || (state === 'COMPLETED' ? 'COMPLETED' : 'ACTIVE_TOKEN');
+          const isRemediateStep = task.task_id === 'task:pea_4r_remediate_issue';
 
           let tokenBadgeHtml = '';
           let rowStyle = '';
@@ -1011,8 +1188,16 @@
           } else if (tokenState === 'ACTIVE_TOKEN') {
             const claimSuffix = task.claimed_by_cluster_id ? ` · ${escapeHtml(task.claimed_by_cluster_id)}` : '';
             const stateSuffix = state !== 'UNASSIGNED' ? ` · ${escapeHtml(humanizeEnum(state))}` : '';
-            tokenBadgeHtml = `<span class="l6-pill emerald">🟢 ACTIVE BPMN TOKEN${stateSuffix}${claimSuffix}</span>`;
-            rowStyle = 'border-left:3px solid #10b981;background:rgba(16,185,129,0.08);';
+            if (isRemediateStep || wfRole === 'ISSUE_REMEDIATION') {
+              tokenBadgeHtml = `<span class="l6-pill amber">⚠️ DYNAMIC REMEDIATION TOKEN${stateSuffix}${claimSuffix}</span>`;
+              rowStyle = 'border-left:3px solid #f59e0b;background:rgba(120,53,15,0.28);';
+            } else if (wfRole === 'INPUT_SOURCING') {
+              tokenBadgeHtml = `<span class="l6-pill cyan">📦 INPUT SOURCING TOKEN${stateSuffix}${claimSuffix}</span>`;
+              rowStyle = 'border-left:3px solid #38bdf8;background:rgba(14,116,144,0.22);';
+            } else {
+              tokenBadgeHtml = `<span class="l6-pill emerald">🟢 ACTIVE BPMN TOKEN${stateSuffix}${claimSuffix}</span>`;
+              rowStyle = 'border-left:3px solid #10b981;background:rgba(16,185,129,0.08);';
+            }
           } else if (tokenState === 'WAITING_TIMER') {
             const remLabel = task.timer_remaining_label || `${task.timer_remaining_sim_s || 0}s`;
             tokenBadgeHtml = `<span class="l6-pill amber">⏳ BPMN TIMER (${escapeHtml(remLabel)})</span>`;
@@ -1024,6 +1209,13 @@
             tokenBadgeHtml = '<span class="l6-pill">⏳ QUEUED</span>';
             rowStyle = 'opacity:0.62;';
           }
+
+          const reqQty = Number(task.required_input_qty || 0);
+          const availQty = Number(task.available_input_qty ?? 0);
+          const hasReqInput = Boolean(task.required_input_item_id) && reqQty > 0;
+          const reqInputPillHtml = hasReqInput
+            ? `<span class="l6-pill ${availQty >= reqQty ? 'emerald' : 'amber'}" title="Physical resource required to execute this step">📦 Requires: ${reqQty}× ${escapeHtml(task.required_input_label || task.required_input_item_id)} (Stock: ${availQty})</span>`
+            : '';
 
           const sensorDetails = [];
           if (task.l2_sensor_register_id) sensorDetails.push(`Sensor: ${task.l2_sensor_register_id}`);
@@ -1100,7 +1292,7 @@
             }
           }
 
-          const hasNumericPrefix = /^\d+\./.test(String(task.title || '').trim());
+          const hasNumericPrefix = /^(\d+|4R)\./.test(String(task.title || '').trim());
           return `
             <div class="l6-task-row" style="${rowStyle}">
               <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:6px;">
@@ -1115,6 +1307,7 @@
                 <span class="l6-pill ${isAutoL2 ? 'cyan' : ''}">
                   ${isAutoL2 ? '🤖 L2 Sensor-Automated' : '🖐️ Manual Steward Action'}
                 </span>
+                ${reqInputPillHtml}
                 ${haulLabel ? `<span class="l6-pill amber">${escapeHtml(haulLabel)}</span>` : ''}
                 ${task.location_label ? `<span class="l6-pill">📍 ${escapeHtml(task.location_label)}</span>` : ''}
                 <span class="l6-pill">⚡ ${formatExergyMj(task.exergy_cost_uj)}</span>
@@ -1130,19 +1323,22 @@
         }).join('');
 
         return `
-          <div class="l6-card ${wf.is_active ? 'emerald' : ''}">
+          <div class="l6-card ${wfRole === 'ISSUE_REMEDIATION' ? 'amber' : (wf.is_active ? 'emerald' : '')}">
             <div class="l6-card-header">
               <div>
                 <div class="l6-card-title">⚙️ ${escapeHtml(wf.title)}</div>
                 <div style="font-family:var(--font-mono);font-size:9px;color:var(--text-muted);">
-                  Node <code>${escapeHtml(wf.assigned_node_id || 'node-01:office-coordinator')}</code> · Workflow <code>${escapeHtml(wf.workflow_id)}</code> · Asset <code>${escapeHtml(wf.asset_id)}</code>
+                  Node <code>${escapeHtml(wf.assigned_node_id || 'node-01:office-coordinator')}</code> · Workflow <code>${escapeHtml(wf.workflow_id)}</code> · L5 Model <code>${escapeHtml(wf.asset_id)}</code>
+                  ${wf.parent_workflow_id ? ` · Spawned for Parent <code>${escapeHtml(wf.parent_workflow_id)}</code>` : ''}
+                  ${wf.active_child_workflow_id ? ` · Active Child <code>${escapeHtml(wf.active_child_workflow_id)}</code>` : ''}
                 </div>
               </div>
-              <div style="display:flex;align-items:center;gap:5px;">
+              <div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;">
+                <span class="l6-pill ${roleBadgeClass}">${escapeHtml(wfRole)}</span>
                 <span class="l6-pill ${allCompleted ? 'emerald' : (wf.is_active ? 'cyan' : '')}">
                   ${allCompleted ? 'CYCLE COMPLETE' : (wf.is_active ? 'BPMN ACTIVE' : 'PAUSED')} · Cycles: ${wf.completed_cycles ?? 0}
                 </span>
-                ${allCompleted ? `<button type="button" class="l6-btn secondary" data-start-wf-cycle="${escapeHtml(wf.workflow_id)}">🔄 Start Next Cycle</button>` : ''}
+                ${allCompleted && wfRole === 'PRIMARY_PRODUCTION' ? `<button type="button" class="l6-btn secondary" data-start-wf-cycle="${escapeHtml(wf.workflow_id)}">🔄 Start Next Cycle</button>` : ''}
               </div>
             </div>
             ${gardenPhenologyBannerHtml}
@@ -1158,6 +1354,84 @@
             { cultivar_id: sel.value },
             `Parameterized Legume Cultivation workflow for ${sel.value}.`
           );
+        });
+      });
+
+      const plotScopeBtn = container.querySelector('#l6-set-plot-scope-btn');
+      if (plotScopeBtn) {
+        plotScopeBtn.addEventListener('click', () => {
+          const ox = Number((container.querySelector('#l6-plot-origin-x') || {}).value || 20);
+          const oz = Number((container.querySelector('#l6-plot-origin-z') || {}).value || 5);
+          const w = Number((container.querySelector('#l6-plot-width') || {}).value || 1);
+          const l = Number((container.querySelector('#l6-plot-length') || {}).value || 2);
+          if (window.OasisUI && typeof window.OasisUI.enqueueEngineCommand === 'function') {
+            window.OasisUI.enqueueEngineCommand({
+              type: 'set_garden_plot_scope',
+              origin_x: ox,
+              origin_z: oz,
+              width_tiles: w,
+              length_tiles: l
+            });
+          }
+          this.dispatchDaemonCommand(
+            'set_garden_plot_scope',
+            { origin_x: ox, origin_z: oz, width_tiles: w, length_tiles: l },
+            `Set physical garden plot scope at (${ox}, 1, ${oz}) [${w}m × ${l}m = ${w * l} m²] — L4 step resources & L5 governance targets updated!`
+          );
+        });
+      }
+
+      const soilObsBtn = container.querySelector('#l6-submit-soil-obs-btn');
+      if (soilObsBtn) {
+        soilObsBtn.addEventListener('click', () => {
+          const color = (container.querySelector('#l6-soil-color-select') || {}).value || 'PALE_GREY_BROWN';
+          const texture = (container.querySelector('#l6-soil-texture-select') || {}).value || 'COMPACTED_CLAY_CLODS';
+          this.dispatchDaemonCommand(
+            'submit_soil_observation',
+            { color_code: color, texture_code: texture },
+            `Submitted observable soil baseline (${color} + ${texture}) — calibrated Step 1 soil amendment!`
+          );
+        });
+      }
+
+      container.querySelectorAll('[data-proactive-water]').forEach((btn) => {
+        btn.addEventListener('click', async () => {
+          const ml = Number(btn.getAttribute('data-proactive-water') || 6000);
+          if (window.OasisDaemonClient && typeof window.OasisDaemonClient.proactiveManualWater === 'function') {
+            try {
+              await window.OasisDaemonClient.proactiveManualWater(ml);
+              this.showToast(`Proactively poured ${(ml / 1000).toFixed(1)}L onto garden plot. Watch soil VWC for over-watering root rot!`, true);
+            } catch (_) {}
+          } else {
+            this.dispatchDaemonCommand(
+              'proactive_manual_water',
+              { added_water_ml: ml },
+              `Proactively poured ${(ml / 1000).toFixed(1)}L onto garden plot.`
+            );
+          }
+        });
+      });
+
+      container.querySelectorAll('[data-set-skill-tier]').forEach((btn) => {
+        btn.addEventListener('click', async () => {
+          const tier = Number(btn.getAttribute('data-set-skill-tier') || 1);
+          if (window.OasisDaemonClient && typeof window.OasisDaemonClient.setAgronomySkillTier === 'function') {
+            try {
+              await window.OasisDaemonClient.setAgronomySkillTier(tier);
+              this.showToast(
+                tier >= 2
+                  ? 'Switched to Tier 2 Experienced Agronomy Guidance (±9% uncertainty; foliar N/P/K & 10cm soil insulation/flow diagnostics unlocked).'
+                  : 'Switched to Tier 1 Novice Agronomy Guidance (±28% uncertainty; surface visual checks only).',
+                false
+              );
+            } catch (_) {}
+          } else {
+            this.dispatchDaemonCommand(
+              'set_agronomy_skill_tier',
+              { skill_tier: tier },
+              `Updated Steward Agronomy Skill Tier to Tier ${tier}.`
+            );
+          }
         });
       });
 
@@ -1248,6 +1522,7 @@
         phys: snapshot.homestead_physical_state,
         nodes: snapshot.homestead_cluster_nodes,
         l7: snapshot.l7_bill_offset_ledger,
+        ga: snapshot.green_amazon_catalog,
         l3: snapshot.l3_ledger,
         l2: snapshot.l2_telemetry
       });
@@ -1290,6 +1565,14 @@
               <span class="l6-pill ${Number(phys.harvested_split_pea_batches || 0) > 0 ? 'cyan' : ''}">🌱 Pea Harvests: ${phys.harvested_split_pea_batches ?? 0}</span>
               <span class="l6-pill ${Number(phys.simmered_bone_broth_batches || 0) > 0 ? 'cyan' : ''}">🦴 Broth: ${phys.simmered_bone_broth_batches ?? 0}</span>
               <span class="l6-pill ${Number(phys.served_pea_soup_tiffin_batches || 0) > 0 ? 'emerald' : ''}">🍲 Soup Tiffins: ${phys.served_pea_soup_tiffin_batches ?? 0}</span>
+            </div>
+
+            <div class="l6-meta-row" style="margin-top:4px;">
+              <span class="l6-pill cyan">🪵 Planks Stock: ${phys.timber_planks_stock ?? 0}</span>
+              <span class="l6-pill cyan">♻️ Compost Bags: ${phys.compost_amendment_bags ?? 0}</span>
+              <span class="l6-pill cyan">🌱 Seed Packets: ${phys.pea_seed_packets ?? 0}</span>
+              <span class="l6-pill cyan">🧂 Salt &amp; Herbs: ${phys.culinary_salt_herbs_jars ?? 0}</span>
+              <span class="l6-pill ${Number(phys.pantry_grocery_meals || 0) > 0 ? 'emerald' : 'amber'}">🍱 Pantry Meals: ${phys.pantry_grocery_meals ?? 0}</span>
             </div>
 
             ${clusterNodes.map((cn) => {
@@ -1338,22 +1621,30 @@
         }
       }
 
-      // 1. L7 Monthly Bill-Offset Ledger (strictly inside Companion App!)
+      // 1. Simulated Layer 7: Legacy Bank Account & Green Amazon REST Marketplace
       const l7 = snapshot.l7_bill_offset_ledger || {};
+      const gaCatalog = Array.isArray(snapshot.green_amazon_catalog) ? snapshot.green_amazon_catalog : [];
+      const bankTxns = Array.isArray(l7.bank_transactions) ? l7.bank_transactions : [];
       const depPct = ((Number(l7.dependency_ratio_bp || 0)) / 100).toFixed(1);
       const repPct = ((Number(l7.steward_reputation_bp || 0)) / 100).toFixed(1);
+      const dietVarietyPct = ((Number(l7.dietary_variety_score_bp ?? 7500)) / 100).toFixed(0);
 
       billsEl.innerHTML = `
-        <div class="l6-card ${l7.zero_net_bill_achieved ? 'emerald' : ''}">
+        <div class="l6-card ${l7.zero_net_bill_achieved ? 'emerald' : (l7.bank_insolvency_warning ? 'amber' : '')}">
           <div class="l6-card-header">
-            <span class="l6-card-title">🏦 L7 Carapace &amp; Monthly Bill-Offset Accounting</span>
+            <div>
+              <span class="l6-card-title">🏦 Simulated L7: Legacy Bank Account &amp; Financial Runway</span>
+              <div style="font-family:var(--font-mono);font-size:8.6px;color:var(--text-muted);">
+                <code>${escapeHtml(l7.bank_account_id || 'BANK-LOT402-CHECKING')}</code> · REST API <code>/api/v1/legacy_bank/*</code> · Authorizes Green Amazon payments &amp; monthly utility bills
+              </div>
+            </div>
             <span class="l6-pill ${l7.zero_net_bill_achieved ? 'emerald' : 'amber'}">
               ${l7.zero_net_bill_achieved ? '🏆 ZERO-NET BILL ACHIEVED' : `L7 Dependency: ${depPct}%`}
             </span>
           </div>
           <div class="l6-kv-grid">
             <div class="l6-kv-box">
-              <div class="l6-kv-label">Household Fiat Reserve</div>
+              <div class="l6-kv-label">Legacy Bank Balance</div>
               <div class="l6-kv-val">${formatUsdCents(l7.household_reserve_cents)}</div>
             </div>
             <div class="l6-kv-box">
@@ -1371,15 +1662,83 @@
               <div class="l6-kv-val" style="color:var(--emerald);">${formatUsdCents(l7.monthly_l7_offset_revenue_cents, true)}/mo</div>
             </div>
           </div>
-          <div class="l6-meta-row" style="margin-bottom:0;">
-            <span class="l6-pill ${l7.r0_baseline_enrolled ? 'emerald' : ''}">
-              ${l7.r0_baseline_enrolled ? '🛡️ R0 Baseline Enrolled' : 'R0 Baseline Pending'}
-            </span>
-            <span class="l6-pill cyan">Offset Orders: ${l7.completed_l7_offset_orders ?? 0}</span>
+          <div class="l6-meta-row" style="margin-bottom:6px;">
+            <span class="l6-pill ${Number(l7.estimated_runway_months || 0) <= 6 ? 'amber' : 'cyan'}">⏳ Do-Nothing Runway: ${l7.estimated_runway_months ?? 0} mo</span>
+            <span class="l6-pill">🛒 Auto-Grocery Spend: ${formatUsdCents(l7.cumulative_l7_grocery_spend_cents || 0)}</span>
+            <span class="l6-pill">🧾 Bills Paid: ${l7.months_bills_paid ?? 0} mo (${formatUsdCents(l7.cumulative_l7_bills_paid_cents || 0)})</span>
+            <span class="l6-pill ${Number(l7.dietary_variety_score_bp ?? 7500) >= 7000 ? 'emerald' : 'amber'}">🥗 Dietary Variety: ${dietVarietyPct}%</span>
             <span class="l6-pill">Steward Reputation: ${repPct}%</span>
           </div>
+
+          <div class="l6-section-label" style="margin-top:6px;">🛒 Simulated L7: Green Amazon Marketplace (<code>/api/v1/green_amazon/*</code>)</div>
+          <div style="font-family:var(--font-mono);font-size:8.4px;color:var(--text-muted);margin-bottom:5px;">
+            Purchase missing physical workflow inputs (seeds, soil amendments, cedar planks) or sell surplus homestead produce/tiffins settled via Legacy Bank:
+          </div>
+          ${gaCatalog.map((item) => `
+            <div class="l6-task-row" style="padding:5px 7px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;flex-wrap:wrap;">
+                <div>
+                  <strong style="font-family:var(--font-mono);font-size:9.2px;">${escapeHtml(item.title)}</strong>
+                  <span style="font-family:var(--font-mono);font-size:8.2px;color:var(--text-muted);">
+                    (<code>${escapeHtml(item.item_id)}</code> · ×${item.unit_qty} per order)
+                  </span>
+                </div>
+                <div style="display:flex;gap:4px;flex-wrap:wrap;">
+                  ${Number(item.buy_price_cents || 0) > 0 ? `
+                    <button type="button" class="hud-btn" data-ga-buy="${escapeHtml(item.item_id)}">
+                      🛒 Buy (${formatUsdCents(item.buy_price_cents)})
+                    </button>
+                  ` : ''}
+                  ${item.can_sell_surplus && Number(item.sell_price_cents || 0) > 0 ? `
+                    <button type="button" class="hud-btn" data-ga-sell="${escapeHtml(item.item_id)}">
+                      💰 Sell Surplus (+${formatUsdCents(item.sell_price_cents)})
+                    </button>
+                  ` : ''}
+                </div>
+              </div>
+            </div>
+          `).join('')}
+
+          ${bankTxns.length > 0 ? `
+            <div class="l6-section-label" style="margin-top:8px;">🧾 Legacy Bank Recent Statements</div>
+            <div class="l6-feed-list" style="max-height:110px;">
+              ${bankTxns.map((tx) => `
+                <div class="l6-feed-item" style="padding:4px 6px;">
+                  <div style="display:flex;justify-content:space-between;gap:6px;">
+                    <strong>#${tx.tx_id} · ${escapeHtml(tx.counterparty)}</strong>
+                    <span class="l6-pill ${Number(tx.amount_cents || 0) >= 0 ? 'emerald' : 'amber'}">
+                      ${formatUsdCents(tx.amount_cents, true)} (Bal: ${formatUsdCents(tx.balance_after_cents)})
+                    </span>
+                  </div>
+                  <div style="font-size:8.2px;color:var(--text-muted);">${escapeHtml(tx.memo)}</div>
+                </div>
+              `).join('')}
+            </div>
+          ` : ''}
         </div>
       `;
+
+      billsEl.querySelectorAll('[data-ga-buy]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const itemId = btn.getAttribute('data-ga-buy');
+          this.dispatchDaemonCommand(
+            'green_amazon_buy',
+            { item_id: itemId, batches: 1 },
+            `Purchased ${itemId} on Green Amazon (Legacy Bank authorized payment).`
+          );
+        });
+      });
+
+      billsEl.querySelectorAll('[data-ga-sell]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const itemId = btn.getAttribute('data-ga-sell');
+          this.dispatchDaemonCommand(
+            'green_amazon_sell',
+            { item_id: itemId, batches: 1 },
+            `Sold surplus ${itemId} on Green Amazon (funds deposited to Legacy Bank).`
+          );
+        });
+      });
 
       // 2. L3 Exergy & Pairwise BCC Peer Clusters
       const l3 = snapshot.l3_ledger || {};

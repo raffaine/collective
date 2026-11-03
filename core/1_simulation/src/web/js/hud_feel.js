@@ -330,6 +330,21 @@
         this.onInspectionReport(frame.inspection_report);
       }
 
+      // 5b. Sync 3D Agronomy Field Guide study upgrade (Tier 1 -> Tier 2) to col-gatewayd
+      if (
+        frame.garden_health &&
+        Number(frame.garden_health.skill_tier) >= 2 &&
+        this._lastSyncedEngineSkillTier !== Number(frame.garden_health.skill_tier) &&
+        window.OasisDaemonClient &&
+        window.OasisDaemonClient.latestSnapshot &&
+        Number(window.OasisDaemonClient.latestSnapshot.steward_agronomy_skill_tier || 1) < Number(frame.garden_health.skill_tier)
+      ) {
+        this._lastSyncedEngineSkillTier = Number(frame.garden_health.skill_tier);
+        window.OasisDaemonClient.sendCommand('set_agronomy_skill_tier', {
+          skill_tier: Number(frame.garden_health.skill_tier)
+        }).catch(() => {});
+      }
+
       // 6. Check L4 committed task completion lifecycle
       this._checkCommittedTaskLifecycle(frame);
     },
@@ -604,10 +619,28 @@
         ...waitingTimers.map((task) => ({ kind: 'timer', task }))
       ];
 
+      const peaWf = wfMap.get('wf:pea_cultivation');
+      const plotScopeObj = snapshot.garden_plot_scope || {};
+      const needsPlotScope = Boolean(
+        peaWf && (peaWf.plot_scope_defined === false || plotScopeObj.scope_defined === false)
+      );
+      if (needsPlotScope) {
+        entries.unshift({
+          kind: 'plot_scope',
+          wf: peaWf,
+          plotScope: plotScopeObj
+        });
+      }
+
+      // If focus is inside the HUD plot scope selectors, avoid clobbering user dropdown interaction
+      if (availListEl.contains(document.activeElement) && document.activeElement.tagName === 'SELECT') {
+        return;
+      }
+
       if (availCountEl) {
         availCountEl.textContent = waitingTimers.length > 0
           ? `${available.length} · ${waitingTimers.length}⏳`
-          : String(available.length);
+          : (needsPlotScope ? `${available.length} · 📐1` : String(available.length));
       }
 
       this.availableTotalPages = Math.max(1, Math.ceil(entries.length / this.availablePageSize));
@@ -636,13 +669,58 @@
       const pageEntries = entries.slice(startIdx, startIdx + this.availablePageSize);
 
       availListEl.innerHTML = pageEntries.map((entry) => {
+        if (entry.kind === 'plot_scope') {
+          const ps = entry.plotScope || {};
+          const curOx = Number(ps.origin_x || 20);
+          const curOz = Number(ps.origin_z || 5);
+          const curW = Number(ps.width_tiles || 1);
+          const curL = Number(ps.length_tiles || 2);
+          const curSizeKey = `${curW}x${curL}`;
+          return `
+            <div class="available-item" style="flex-direction:column;align-items:stretch;gap:5px;border-color:var(--border-amber);background:rgba(120,53,15,0.34);">
+              <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;">
+                <div class="committed-item-title" style="color:var(--amber);">📐 Where &amp; How Big Is Your Garden Plot?</div>
+                <span class="hud-tag" style="border-color:var(--border-amber);color:var(--amber);">SCOPE NEEDED</span>
+              </div>
+              <div class="committed-item-meta" style="color:#fde68a;white-space:normal;">
+                Choose backyard coordinates &amp; dimensions (or right-click any backyard grass tile in 3D):
+              </div>
+              <div style="display:flex;gap:4px;align-items:center;flex-wrap:wrap;">
+                <label style="font-size:9px;color:var(--text-secondary);">X:
+                  <select id="hud-plot-ox" style="background:#0f172a;color:#f8fafc;border:1px solid rgba(251,191,36,0.45);border-radius:3px;font-size:9px;padding:1px 3px;">
+                    ${[19, 20, 21, 22, 23, 24].map((x) => `<option value="${x}" ${x === curOx ? 'selected' : ''}>${x}</option>`).join('')}
+                  </select>
+                </label>
+                <label style="font-size:9px;color:var(--text-secondary);">Z:
+                  <select id="hud-plot-oz" style="background:#0f172a;color:#f8fafc;border:1px solid rgba(251,191,36,0.45);border-radius:3px;font-size:9px;padding:1px 3px;">
+                    ${[3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((z) => `<option value="${z}" ${z === curOz ? 'selected' : ''}>${z}</option>`).join('')}
+                  </select>
+                </label>
+                <label style="font-size:9px;color:var(--text-secondary);">Size:
+                  <select id="hud-plot-size" style="background:#0f172a;color:#f8fafc;border:1px solid rgba(251,191,36,0.45);border-radius:3px;font-size:9px;padding:1px 3px;">
+                    <option value="1x2" ${curSizeKey === '1x2' ? 'selected' : ''}>1×2m (2m²)</option>
+                    <option value="2x2" ${curSizeKey === '2x2' ? 'selected' : ''}>2×2m (4m²)</option>
+                    <option value="2x3" ${curSizeKey === '2x3' ? 'selected' : ''}>2×3m (6m²)</option>
+                    <option value="1x1" ${curSizeKey === '1x1' ? 'selected' : ''}>1×1m (1m²)</option>
+                  </select>
+                </label>
+                <button type="button" class="hud-btn active" id="hud-stake-plot-btn" style="margin-left:auto;">📐 Stake Plot</button>
+              </div>
+            </div>
+          `;
+        }
+
         const task = entry.task;
         if (entry.kind === 'timer') {
           const wf = wfMap.get(task.workflow_id) || {};
           const cultTitle = wf.input_cultivar_title || 'Legume Crop';
           const growthPct = Math.round(Number(wf.crop_growth_bp || 0) / 100);
+          const healthPct = Math.round(Number(wf.crop_health_bp ?? 9200) / 100);
           const remLabel = task.timer_remaining_label || `${task.timer_remaining_sim_s || 0}s`;
           const stageLabel = wf.phenology_stage_label || 'Growing';
+          const diagNote = Number(wf.diagnosed_issue_code || 0) > 0
+            ? ` · ⚠️ ${wf.diagnosed_issue_label || 'Issue'}`
+            : '';
           return `
             <div class="waiting-timer-item">
               <div class="committed-item-info">
@@ -650,7 +728,7 @@
                   ⏳ ${escapeHtml(task.title)}
                 </div>
                 <div class="committed-item-meta" style="color:#fde68a;">
-                  ${escapeHtml(cultTitle)} · ${growthPct}% (${escapeHtml(stageLabel)}) · Next in ${escapeHtml(remLabel)}
+                  ${escapeHtml(cultTitle)} · ${growthPct}% (${escapeHtml(stageLabel)}) · 💚 ${healthPct}%${escapeHtml(diagNote)} · Next in ${escapeHtml(remLabel)}
                 </div>
               </div>
               <span class="hud-tag" style="border-color:var(--border-amber);color:var(--amber);">⏱ ${escapeHtml(remLabel)}</span>
@@ -658,22 +736,58 @@
           `;
         }
 
+        const isRemediateTask = task.task_id === 'task:pea_4r_remediate_issue';
         const haulTag = HAUL_BADGES[task.haul_modality] || '';
         const metaParts = [];
+        if (isRemediateTask) metaParts.push('⚠️ Stressor Exception');
         if (task.assigned_node_id) metaParts.push(task.assigned_node_id);
         if (task.location_label) metaParts.push(task.location_label);
         if (haulTag) metaParts.push(haulTag);
 
+        const itemStyle = isRemediateTask
+          ? 'border-color:var(--border-amber);background:rgba(120,53,15,0.28);'
+          : '';
+        const titleStyle = isRemediateTask ? 'color:var(--amber);' : '';
+
         return `
-          <div class="available-item">
+          <div class="available-item" style="${itemStyle}">
             <div class="committed-item-info">
-              <div class="committed-item-title" title="${escapeHtml(task.title)}">${escapeHtml(task.title)}</div>
+              <div class="committed-item-title" style="${titleStyle}" title="${escapeHtml(task.title)}">${escapeHtml(task.title)}</div>
               <div class="committed-item-meta">${escapeHtml(metaParts.join(' · ') || task.workflow_id || 'Homestead')}</div>
             </div>
             <button type="button" class="hud-btn" data-hud-commit-task="${escapeHtml(task.task_id)}" title="Commit active BPMN token to My Committed Tasks">📌 Commit</button>
           </div>
         `;
       }).join('');
+
+      const stakeBtn = availListEl.querySelector('#hud-stake-plot-btn');
+      if (stakeBtn) {
+        stakeBtn.addEventListener('click', async () => {
+          const ox = Number((availListEl.querySelector('#hud-plot-ox') || {}).value || 20);
+          const oz = Number((availListEl.querySelector('#hud-plot-oz') || {}).value || 5);
+          const sizeStr = String((availListEl.querySelector('#hud-plot-size') || {}).value || '1x2');
+          const parts = sizeStr.split('x');
+          const w = Math.max(1, Number(parts[0]) || 1);
+          const l = Math.max(1, Number(parts[1]) || 2);
+          stakeBtn.disabled = true;
+          if (window.OasisAudio) window.OasisAudio.playStamp();
+          this.enqueueEngineCommand({
+            type: 'set_garden_plot_scope',
+            origin_x: ox,
+            origin_z: oz,
+            width_tiles: w,
+            length_tiles: l
+          });
+          if (window.OasisDaemonClient) {
+            try {
+              await window.OasisDaemonClient.setGardenPlotScope(ox, oz, w, l);
+            } catch (err) {
+              stakeBtn.disabled = false;
+              console.warn('[OasisUI] Failed to set garden plot scope:', err);
+            }
+          }
+        });
+      }
 
       availListEl.querySelectorAll('[data-hud-commit-task]').forEach((btn) => {
         btn.addEventListener('click', async () => {
@@ -695,6 +809,22 @@
       const pillBtn = document.getElementById('hud-decision-pill');
       const countBadge = document.getElementById('hud-committed-count');
       const listEl = document.getElementById('hud-committed-list');
+
+      // Sync player-defined garden plot scope from col-gatewayd to the 3D engine
+      if (isOnline && snapshot && snapshot.garden_plot_scope && snapshot.garden_plot_scope.scope_defined) {
+        const ps = snapshot.garden_plot_scope;
+        const scopeKey = `${ps.origin_x},${ps.origin_z},${ps.width_tiles},${ps.length_tiles}`;
+        if (this._lastSyncedPlotScopeKey !== scopeKey) {
+          this._lastSyncedPlotScopeKey = scopeKey;
+          this.enqueueEngineCommand({
+            type: 'set_garden_plot_scope',
+            origin_x: Number(ps.origin_x || 20),
+            origin_z: Number(ps.origin_z || 4),
+            width_tiles: Number(ps.width_tiles || 1),
+            length_tiles: Number(ps.length_tiles || 2)
+          });
+        }
+      }
 
       // Render Available Tasks & BPMN Timers window directly above My Committed Tasks
       this._renderAvailableTasksCard(snapshot, isOnline);

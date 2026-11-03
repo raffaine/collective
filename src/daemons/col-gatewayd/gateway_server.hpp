@@ -660,6 +660,12 @@ public:
                 return HandleL6Bounties();
             } else if (request.path == "/api/v1/l7/status") {
                 return HandleL7Status();
+            } else if (request.path == "/api/v1/l7/green_amazon" ||
+                       request.path == "/api/v1/green_amazon/catalog") {
+                return HttpResponse::Json(200, stack_runtime_.SerializeGreenAmazonCatalogJson());
+            } else if (request.path == "/api/v1/l7/legacy_bank" ||
+                       request.path == "/api/v1/legacy_bank/account") {
+                return HttpResponse::Json(200, stack_runtime_.SerializeLegacyBankJson());
             } else if (request.path == "/" || request.path == "/index.html" ||
                        request.path.rfind("/companion", 0) == 0 ||
                        request.path.rfind("/static", 0) == 0) {
@@ -668,10 +674,22 @@ public:
             return HttpResponse::NotFound("Endpoint '" + request.path + "' not found on col-gatewayd.");
         }
 
-        // 4. Routing: Mutating Endpoints (Layer 6 Semantic Agora, Stack Command RPC & L2 Virtual Pins Bridge)
+        // 4. Routing: Mutating Endpoints (Layer 6 Semantic Agora, Stack Command RPC, L2 Virtual Pins Bridge & Simulated L7 Services)
         if (request.method == "POST") {
             if (request.path == "/api/v1/command") {
                 return HandleStackCommand(request);
+            } else if (request.path == "/api/v1/green_amazon/purchase") {
+                const std::string out_json = stack_runtime_.DispatchJsonCommand("green_amazon_buy", request.body);
+                return HttpResponse::Json(out_json.find("\"ok\": false") != std::string::npos ? 400 : 200, out_json);
+            } else if (request.path == "/api/v1/green_amazon/sell") {
+                const std::string out_json = stack_runtime_.DispatchJsonCommand("green_amazon_sell", request.body);
+                return HttpResponse::Json(out_json.find("\"ok\": false") != std::string::npos ? 400 : 200, out_json);
+            } else if (request.path == "/api/v1/legacy_bank/authorize") {
+                const std::string out_json = stack_runtime_.DispatchJsonCommand("legacy_bank_authorize", request.body);
+                return HttpResponse::Json(out_json.find("\"ok\": false") != std::string::npos ? 402 : 200, out_json);
+            } else if (request.path == "/api/v1/legacy_bank/deposit") {
+                const std::string out_json = stack_runtime_.DispatchJsonCommand("legacy_bank_deposit", request.body);
+                return HttpResponse::Json(out_json.find("\"ok\": false") != std::string::npos ? 400 : 200, out_json);
             } else if (request.path == "/api/v1/l2_pins") {
                 return HandleL2Pins(request);
             } else if (request.path == "/api/v1/l6/intent" || request.path == "/api/v1/l6/intent/author") {

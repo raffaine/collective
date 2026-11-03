@@ -567,6 +567,7 @@
         "aff.erect_pea_trellis",
         "aff.inoculate_and_sow_peas",
         "aff.water_garden_manual",
+        "aff.remediate_garden_issue",
         "aff.harvest_peas_and_roots",
         "aff.shell_dry_and_turn_bed",
         "aff.install_l2_soil_probe",
@@ -652,7 +653,7 @@
       "compatible_l2_schemas": [],
       "look_text": "Shelves lined with soil microbiology manuals, timber joinery plates, and Sovereign Stack specifications.",
       "inspect_properties": { "manual_sensory_cues": ["indexed_treaties_and_manuals"], "l2_telemetry_registers": [] },
-      "affordances": ["aff.look", "aff.inspect"]
+      "affordances": ["aff.look", "aff.inspect", "aff.study_agronomy_field_guide"]
     },
     {
       "id": "arch.sovereign_node_rack",
@@ -1297,6 +1298,35 @@
       "preconditions": { "min_caloric_kcal": 0, "required_items": [], "required_hauling_tool_any": [] },
       "somatic_effects": { "caloric_burn_kcal": 420, "fatigue_set": 0.0, "stress_delta": -0.35, "focus_set": 1.0 },
       "linked_l4_workflow_id": null
+    },
+    {
+      "id": "aff.study_agronomy_field_guide",
+      "label": "Study Agronomy & Soil Diagnostics Field Guide (Unlock Tier-2 Inspection)",
+      "universal": false,
+      "requires_proximity": true,
+      "required_capabilities": ["KNOWLEDGE_ARCHIVE"],
+      "duration_sim_seconds": 900,
+      "preconditions": { "min_caloric_kcal": 250, "required_items": [], "required_hauling_tool_any": [] },
+      "somatic_effects": { "caloric_burn_kcal": 20, "fatigue_delta": 0.02, "stress_delta": -0.06, "focus_delta": 0.14 },
+      "linked_l4_workflow_id": null
+    },
+    {
+      "id": "aff.remediate_garden_issue",
+      "label": "Remediate Garden Stress (Weed / Pest Wash / Biochar Mulch / Nutrient Tea)",
+      "universal": false,
+      "requires_proximity": true,
+      "required_capabilities": ["SOIL_CULTIVATION_BED"],
+      "required_property_key": "bed_stage",
+      "min_property_val": 3,
+      "max_property_val": 4,
+      "duration_sim_seconds": 750,
+      "preconditions": {
+        "min_caloric_kcal": 350,
+        "required_items": [],
+        "required_hauling_tool_any": ["watering_can", "bucket", "wheelbarrow"]
+      },
+      "somatic_effects": { "caloric_burn_kcal": 85, "fatigue_delta": 0.04, "stress_delta": -0.08 },
+      "linked_l4_workflow_id": "wf.garden.irrigate_and_weed_manual"
     }
   ],
   "thought_rules": [

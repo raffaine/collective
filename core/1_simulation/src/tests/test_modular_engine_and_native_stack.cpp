@@ -1279,3 +1279,419 @@ TEST_CASE("Pillar 7: Biological Timing, Manual BPMN WAITING_TIMER Loops & Parame
         REQUIRE(bean_soil.potassium_ppm < 150U);
     }
 }
+
+TEST_CASE("Pillar 8: Epistemic Skill-Tiered Agronomy Inspection, Guided BPMN Stressors/Remediation & Variable Harvest Outcomes",
+          "[modular][agronomy][epistemic][bpmn][harvest]") {
+    using namespace oasis::engine;
+    using namespace oasis::stack;
+
+    SECTION("Epistemic InspectGardenBedEpistemic masks N-P-K and soil thermal/hydraulic insulation for Novice without L2 probe") {
+        ContentRegistry registry{};
+        registry.BootstrapCoreCatalog();
+        const std::string catalog_path = FindRepoAssetPath("core/1_simulation/data/content/core_catalog.json");
+        REQUIRE_FALSE(catalog_path.empty());
+        REQUIRE(registry.LoadModBundleFromJson(ReadTextFile(catalog_path)) > 0U);
+        const EntityArchetypeDef* bed_arch = registry.FindArchetype("arch.raised_garden_bed");
+        REQUIRE(bed_arch != nullptr);
+
+        SoilCellRegisters soil{};
+        soil.moisture_vwc_bp   = 4100U;
+        soil.soil_temp_mk      = 291150U;
+        soil.nitrogen_ppm      = 16U;   // Deficient N
+        soil.phosphorus_ppm    = 14U;   // Deficient P
+        soil.potassium_ppm     = 65U;   // Deficient K
+        soil.organic_carbon_bp = 1200U; // Poor thermal insulation & hydraulic flow
+        soil.ph_centi          = 640U;
+        soil.crop_growth_bp    = 4800U;
+        soil.crop_planted      = 1U;
+
+        GardenBedHealthState health{};
+        health.crop_health_bp        = 7400U;
+        health.care_quality_score_bp = 7200U;
+        health.uncertainty_band_bp   = 2800U;
+        health.skill_tier            = AgronomySkillTier::NOVICE;
+        health.true_issue            = GardenIssueCode::SOIL_INSULATION_FLOW;
+
+        SensorAttachmentComponent no_l2{};
+        no_l2.has_l2_sensor = 0U;
+
+        const CultivarPhysicsSpec& chrono_pea = ResolveCultivarByCode(kCultivarCodeChronoVirtualPea);
+
+        const auto HasPropKey = [](const ManualInspectionReport& rep, const char* key) -> bool {
+            for (const auto& kv : rep.revealed_properties) {
+                if (kv.key == key) return true;
+            }
+            return false;
+        };
+
+        // 1. Novice Steward without L2 probe: CANNOT identify N/P/K ppm or soil organic_carbon_bp insulation/flow!
+        health.skill_tier = AgronomySkillTier::NOVICE;
+        const ManualInspectionReport novice_rep = InspectGardenBedEpistemic(
+            *bed_arch, soil, health, chrono_pea, &no_l2
+        );
+        REQUIRE_FALSE(novice_rep.has_live_l2_telemetry);
+        REQUIRE(HasPropKey(novice_rep, "novice_plant_condition_tier"));
+        REQUIRE(HasPropKey(novice_rep, "novice_surface_moisture_tier"));
+        REQUIRE(HasPropKey(novice_rep, "crop_growth_bp"));
+        REQUIRE_FALSE(HasPropKey(novice_rep, "moisture_vwc_bp"));
+        REQUIRE_FALSE(HasPropKey(novice_rep, "nitrogen_ppm"));
+        REQUIRE_FALSE(HasPropKey(novice_rep, "phosphorus_ppm"));
+        REQUIRE_FALSE(HasPropKey(novice_rep, "potassium_ppm"));
+        REQUIRE_FALSE(HasPropKey(novice_rep, "organic_carbon_bp"));
+        REQUIRE_FALSE(HasPropKey(novice_rep, "ph_centi"));
+
+        // 2. Experienced Steward (Tier 2) without L2 probe: diagnoses foliar N/P/K & 10cm soil insulation/flow!
+        health.skill_tier = AgronomySkillTier::EXPERIENCED;
+        const ManualInspectionReport exp_rep = InspectGardenBedEpistemic(
+            *bed_arch, soil, health, chrono_pea, &no_l2
+        );
+        REQUIRE(HasPropKey(exp_rep, "nitrogen_ppm"));
+        REQUIRE(HasPropKey(exp_rep, "phosphorus_ppm"));
+        REQUIRE(HasPropKey(exp_rep, "potassium_ppm"));
+        REQUIRE(HasPropKey(exp_rep, "organic_carbon_bp"));
+        REQUIRE(HasPropKey(exp_rep, "ph_centi"));
+    }
+
+    SECTION("Novice BPMN misses hidden NUTRIENT_DEFICIENCY -> POOR_STUNTED harvest (1 batch); Experienced diagnoses & remediates -> BUMPER_ABUNDANT harvest (3 batches)") {
+        // Part A: Novice Steward (Tier 1, ±28% uncertainty) with hidden NUTRIENT_DEFICIENCY
+        SharedStackRuntime novice_rt{};
+        REQUIRE(novice_rt.StewardAgronomySkillTier() == kStackSkillNovice);
+        // Before L5 governance approval, injecting a stressor MUST fail and never spawn an unsolicited workflow!
+        REQUIRE_FALSE(novice_rt.InjectGardenIssue("DROUGHT_WILTING"));
+        REQUIRE(novice_rt.GetWorkflows().empty());
+
+        REQUIRE(novice_rt.ApproveOrAdaptGovernanceDecision("dec:pea_cultivation", true));
+        REQUIRE(novice_rt.CompleteTask("task:fab_1_mill_raised_bed"));
+        REQUIRE(novice_rt.CompleteTask("task:pea_1_plow_amend"));
+        REQUIRE(novice_rt.CompleteTask("task:pea_2_erect_trellis"));
+        REQUIRE(novice_rt.CompleteTask("task:pea_3_rhizobium_sow"));
+
+        const L4WorkflowInstance* wf_nov = FindWorkflowById(novice_rt, "wf:pea_cultivation");
+        REQUIRE(wf_nov != nullptr);
+        REQUIRE(wf_nov->workflow_role == WorkflowRole::PRIMARY_PRODUCTION);
+        REQUIRE(wf_nov->agronomy_skill_tier == kStackSkillNovice);
+        REQUIRE(wf_nov->diagnostic_uncertainty_bp == 2800U);
+        // No remediation workflow exists when no stressor is diagnosed
+        REQUIRE(FindWorkflowById(novice_rt, "wf:remediate_pea_cultivation") == nullptr);
+        REQUIRE(FindTaskById(novice_rt, "task:pea_4r_remediate_issue") == nullptr);
+
+        // Inject hidden NUTRIENT_DEFICIENCY: Novice cannot diagnose it without Tier 2 skill or L2 probe!
+        REQUIRE(novice_rt.InjectGardenIssue("NUTRIENT_DEFICIENCY"));
+        wf_nov = FindWorkflowById(novice_rt, "wf:pea_cultivation");
+        REQUIRE(wf_nov->active_issue_code == kStackIssueNutrientDeficit);
+        REQUIRE(wf_nov->diagnosed_issue_code == kStackIssueNone);
+        // Because Novice cannot diagnose the hidden stressor, L5 does NOT instantiate wf:remediate_pea_cultivation!
+        REQUIRE(FindWorkflowById(novice_rt, "wf:remediate_pea_cultivation") == nullptr);
+        REQUIRE(FindTaskById(novice_rt, "task:pea_4r_remediate_issue") == nullptr);
+
+        // Run the verification checks while the unaddressed nutrient deficiency degrades health & care quality
+        REQUIRE(novice_rt.CompleteTask("task:pea_4_irrigate_weed"));
+        for (uint32_t i = 0U; i < 6U; ++i) {
+            novice_rt.AdvanceSimClockSeconds(10800ULL);
+            if (FindTaskById(novice_rt, "task:pea_4_irrigate_weed")->bpmn_token_state == BpmnTokenState::ACTIVE_TOKEN) {
+                REQUIRE(novice_rt.CompleteTask("task:pea_4_irrigate_weed"));
+            }
+            if (FindTaskById(novice_rt, "task:pea_5_harvest_pods_roots")->bpmn_token_state == BpmnTokenState::ACTIVE_TOKEN) {
+                break;
+            }
+        }
+
+        wf_nov = FindWorkflowById(novice_rt, "wf:pea_cultivation");
+        REQUIRE(wf_nov->crop_health_bp < 5800U);
+        REQUIRE(FindTaskById(novice_rt, "task:pea_5_harvest_pods_roots")->bpmn_token_state == BpmnTokenState::ACTIVE_TOKEN);
+        REQUIRE(novice_rt.CompleteTask("task:pea_5_harvest_pods_roots"));
+
+        wf_nov = FindWorkflowById(novice_rt, "wf:pea_cultivation");
+        REQUIRE(wf_nov->last_harvest_outcome_tier == kStackOutcomePoor);
+        REQUIRE(novice_rt.HarvestedSplitPeaBatches() == 1U); // Stunted 0.5x yield (1 vs nominal 2)
+        REQUIRE(novice_rt.HarvestedMirepoixBatches() == 0U);
+
+        // Part B: Experienced Steward (Tier 2, ±9% uncertainty) diagnoses SOIL_INSULATION_FLOW, dynamically spawns wf:remediate_pea_cultivation, and achieves BUMPER_ABUNDANT harvest!
+        SharedStackRuntime exp_rt{};
+        REQUIRE(exp_rt.SetStewardAgronomySkillTier(kStackSkillExperienced));
+        REQUIRE(exp_rt.StewardAgronomySkillTier() == kStackSkillExperienced);
+        REQUIRE(exp_rt.ApproveOrAdaptGovernanceDecision("dec:pea_cultivation", true));
+        REQUIRE(exp_rt.CompleteTask("task:fab_1_mill_raised_bed"));
+        REQUIRE(exp_rt.CompleteTask("task:pea_1_plow_amend"));
+        REQUIRE(exp_rt.CompleteTask("task:pea_2_erect_trellis"));
+        REQUIRE(exp_rt.CompleteTask("task:pea_3_rhizobium_sow"));
+
+        const L4WorkflowInstance* wf_exp = FindWorkflowById(exp_rt, "wf:pea_cultivation");
+        REQUIRE(wf_exp != nullptr);
+        REQUIRE(wf_exp->agronomy_skill_tier == kStackSkillExperienced);
+        REQUIRE(wf_exp->diagnostic_uncertainty_bp == 900U);
+        REQUIRE(FindWorkflowById(exp_rt, "wf:remediate_pea_cultivation") == nullptr);
+
+        // Inject SOIL_INSULATION_FLOW: Experienced Steward diagnoses it and L5 dynamically instantiates wf:remediate_pea_cultivation!
+        REQUIRE(exp_rt.InjectGardenIssue("SOIL_INSULATION_FLOW"));
+        wf_exp = FindWorkflowById(exp_rt, "wf:pea_cultivation");
+        REQUIRE(wf_exp->active_issue_code == kStackIssueSoilInsulation);
+        REQUIRE(wf_exp->diagnosed_issue_code == kStackIssueSoilInsulation);
+        REQUIRE(wf_exp->active_child_workflow_id == "wf:remediate_pea_cultivation");
+
+        const L4WorkflowInstance* rem_wf = FindWorkflowById(exp_rt, "wf:remediate_pea_cultivation");
+        REQUIRE(rem_wf != nullptr);
+        REQUIRE(rem_wf->workflow_role == WorkflowRole::ISSUE_REMEDIATION);
+        REQUIRE(rem_wf->parent_workflow_id == "wf:pea_cultivation");
+        const L4TaskItem* rem_task = FindTaskById(exp_rt, "task:pea_4r_remediate_issue");
+        REQUIRE(rem_task != nullptr);
+        REQUIRE(rem_task->bpmn_token_state == BpmnTokenState::ACTIVE_TOKEN);
+
+        // Execute dynamic Remediation workflow to restore biochar-humus thermal insulation & hydraulic flow
+        REQUIRE(exp_rt.CompleteTask("task:pea_4r_remediate_issue"));
+        wf_exp = FindWorkflowById(exp_rt, "wf:pea_cultivation");
+        REQUIRE(wf_exp->active_issue_code == kStackIssueNone);
+        REQUIRE(wf_exp->diagnosed_issue_code == kStackIssueNone);
+        REQUIRE(wf_exp->active_child_workflow_id.empty());
+        REQUIRE(wf_exp->remediations_completed == 1U);
+        REQUIRE(wf_exp->soil_organic_carbon_bp >= 4500U);
+        // Once remediation completes, the dynamic child workflow is cleanly retired!
+        REQUIRE(FindWorkflowById(exp_rt, "wf:remediate_pea_cultivation") == nullptr);
+
+        // Complete the 4 timed verification checks with Experienced care
+        REQUIRE(exp_rt.CompleteTask("task:pea_4_irrigate_weed"));
+        for (uint32_t check = 0U; check < 4U; ++check) {
+            exp_rt.AdvanceSimClockSeconds(10800ULL);
+            REQUIRE(exp_rt.CompleteTask("task:pea_4_irrigate_weed"));
+        }
+
+        wf_exp = FindWorkflowById(exp_rt, "wf:pea_cultivation");
+        REQUIRE(wf_exp->crop_health_bp >= 9000U);
+        REQUIRE(wf_exp->care_quality_score_bp >= 9000U);
+        REQUIRE(FindTaskById(exp_rt, "task:pea_5_harvest_pods_roots")->bpmn_token_state == BpmnTokenState::ACTIVE_TOKEN);
+        REQUIRE(exp_rt.CompleteTask("task:pea_5_harvest_pods_roots"));
+
+        wf_exp = FindWorkflowById(exp_rt, "wf:pea_cultivation");
+        REQUIRE(wf_exp->last_harvest_outcome_tier == kStackOutcomeBumper);
+        REQUIRE(exp_rt.HarvestedSplitPeaBatches() == 3U); // Bumper Abundant yield (+3 vs nominal +2)!
+        REQUIRE(exp_rt.HarvestedMirepoixBatches() == 2U); // Bumper Abundant mirepoix (+2 vs nominal +1)!
+    }
+
+    SECTION("L5 Governance Model dynamically instantiates INPUT_SOURCING workflow (wf:source_pea_soup_inputs) when Pea Soup Hearth is approved without local Pea Cultivation") {
+        SharedStackRuntime soup_only_rt{};
+        REQUIRE(soup_only_rt.GetWorkflows().empty());
+
+        // Approve ONLY dec:pea_soup_hearth (without approving dec:pea_cultivation)
+        REQUIRE(soup_only_rt.ApproveOrAdaptGovernanceDecision("dec:pea_soup_hearth", true));
+
+        const L4WorkflowInstance* soup_wf = FindWorkflowById(soup_only_rt, "wf:pea_soup_hearth");
+        const L4WorkflowInstance* src_wf  = FindWorkflowById(soup_only_rt, "wf:source_pea_soup_inputs");
+        REQUIRE(soup_wf != nullptr);
+        REQUIRE(src_wf != nullptr);
+        REQUIRE(soup_wf->workflow_role == WorkflowRole::PRIMARY_PRODUCTION);
+        REQUIRE(soup_wf->active_child_workflow_id == "wf:source_pea_soup_inputs");
+        REQUIRE(src_wf->workflow_role == WorkflowRole::INPUT_SOURCING);
+        REQUIRE(src_wf->parent_workflow_id == "wf:pea_soup_hearth");
+
+        const L4TaskItem* soup_step1 = FindTaskById(soup_only_rt, "task:soup_1_gather_inputs");
+        const L4TaskItem* src_step1  = FindTaskById(soup_only_rt, "task:source_1_procure_soup_inputs");
+        REQUIRE(soup_step1 != nullptr);
+        REQUIRE(src_step1 != nullptr);
+        REQUIRE(soup_step1->bpmn_token_state == BpmnTokenState::BLOCKED_BY_PRECONDITION);
+        REQUIRE(src_step1->bpmn_token_state == BpmnTokenState::ACTIVE_TOKEN);
+
+        // Complete the dynamic input sourcing workflow -> unblocks soup_step1 and retires wf:source_pea_soup_inputs!
+        REQUIRE(soup_only_rt.CompleteTask("task:source_1_procure_soup_inputs"));
+        REQUIRE(FindWorkflowById(soup_only_rt, "wf:source_pea_soup_inputs") == nullptr);
+        soup_step1 = FindTaskById(soup_only_rt, "task:soup_1_gather_inputs");
+        REQUIRE(soup_step1 != nullptr);
+        REQUIRE(soup_step1->bpmn_token_state == BpmnTokenState::ACTIVE_TOKEN);
+    }
+
+    SECTION("Unremediated CROP_FAILURE_BLIGHT collapses health to <= 20% -> CROP_FAILURE (0 yield) and resets Step 3 for re-sowing") {
+        SharedStackRuntime fail_rt{};
+        REQUIRE(fail_rt.ApproveOrAdaptGovernanceDecision("dec:pea_cultivation", true));
+        REQUIRE(fail_rt.CompleteTask("task:fab_1_mill_raised_bed"));
+        REQUIRE(fail_rt.CompleteTask("task:pea_1_plow_amend"));
+        REQUIRE(fail_rt.CompleteTask("task:pea_2_erect_trellis"));
+        REQUIRE(fail_rt.CompleteTask("task:pea_3_rhizobium_sow"));
+
+        // Inject severe blight failure and advance time without executing 4R remediation
+        REQUIRE(fail_rt.InjectGardenIssue("CROP_FAILURE_BLIGHT"));
+        REQUIRE(FindWorkflowById(fail_rt, "wf:pea_cultivation")->diagnosed_issue_code == kStackIssueCropFailure);
+        REQUIRE(FindWorkflowById(fail_rt, "wf:remediate_pea_cultivation") != nullptr);
+        REQUIRE(FindTaskById(fail_rt, "task:pea_4r_remediate_issue")->bpmn_token_state == BpmnTokenState::ACTIVE_TOKEN);
+
+        REQUIRE(fail_rt.CompleteTask("task:pea_4_irrigate_weed"));
+        for (uint32_t i = 0U; i < 6U; ++i) {
+            fail_rt.AdvanceSimClockSeconds(10800ULL);
+            if (FindTaskById(fail_rt, "task:pea_4_irrigate_weed")->bpmn_token_state == BpmnTokenState::ACTIVE_TOKEN) {
+                REQUIRE(fail_rt.CompleteTask("task:pea_4_irrigate_weed"));
+            }
+            if (FindTaskById(fail_rt, "task:pea_5_harvest_pods_roots")->bpmn_token_state == BpmnTokenState::ACTIVE_TOKEN) {
+                break;
+            }
+        }
+
+        const L4WorkflowInstance* wf_fail = FindWorkflowById(fail_rt, "wf:pea_cultivation");
+        REQUIRE(wf_fail->crop_health_bp <= 2000U);
+        REQUIRE(FindTaskById(fail_rt, "task:pea_5_harvest_pods_roots")->bpmn_token_state == BpmnTokenState::ACTIVE_TOKEN);
+        REQUIRE(fail_rt.CompleteTask("task:pea_5_harvest_pods_roots"));
+
+        wf_fail = FindWorkflowById(fail_rt, "wf:pea_cultivation");
+        REQUIRE(wf_fail->last_harvest_outcome_tier == kStackOutcomeFailure);
+        REQUIRE(fail_rt.HarvestedSplitPeaBatches() == 0U);
+        REQUIRE(fail_rt.HarvestedMirepoixBatches() == 0U);
+        // Step 3 (Sow) is automatically re-armed as ACTIVE_TOKEN so the Steward can re-sow the cleared bed!
+        REQUIRE(FindTaskById(fail_rt, "task:pea_3_rhizobium_sow")->bpmn_token_state == BpmnTokenState::ACTIVE_TOKEN);
+    }
+}
+
+// =============================================================================
+// PILLAR 9: Player-Decided Garden Plot Scope, Suburban Soil & Pest/Water Physics,
+//           Strict Workflow Resource Gating, and Simulated L7 Green Amazon + Legacy Bank
+// =============================================================================
+
+TEST_CASE("Pillar 9: Player-Decided Garden Plot Scope, Suburban Soil & Pest/Water Physics, Strict Workflow Resource Gating, and Simulated L7 Green Amazon + Legacy Bank",
+          "[modular_engine][native_stack][pillar9]") {
+    using namespace oasis::stack;
+    using namespace oasis::engine;
+
+    SECTION("Player-decided physical Garden Plot Scope gates wf:pea_cultivation and scales L4 physical resource requirements & L5 governance targets") {
+        SharedStackRuntime rt{};
+
+        // Approve dec:pea_cultivation with await_plot_scope: true (as the UI does)
+        rt.DispatchJsonCommand(
+            "approve_decision",
+            R"({"decision_id":"dec:pea_cultivation","approve":true,"await_plot_scope":true})"
+        );
+
+        const L4WorkflowInstance* pea_wf = FindWorkflowById(rt, "wf:pea_cultivation");
+        REQUIRE(pea_wf != nullptr);
+        REQUIRE(pea_wf->plot_scope_defined == 0U);
+
+        // Step 1 of wf:pea_cultivation is BLOCKED_BY_PRECONDITION until the player decides where and how big the garden plot is!
+        const L4TaskItem* step1 = FindTaskById(rt, "task:pea_1_plow_amend");
+        REQUIRE(step1 != nullptr);
+        REQUIRE(step1->bpmn_token_state == BpmnTokenState::BLOCKED_BY_PRECONDITION);
+        REQUIRE(step1->precondition_blocker_note.find("Pending Physical Plot Scope") != std::string::npos);
+        REQUIRE_FALSE(rt.CompleteTask("task:pea_1_plow_amend"));
+
+        // Player decides a 2m x 3m (6 m2 -> scale_units = 3) plot at backyard coordinates (21, 1, 6)
+        REQUIRE(rt.SetGardenPlotScope(21, 6, 2U, 3U));
+        pea_wf = FindWorkflowById(rt, "wf:pea_cultivation");
+        REQUIRE(pea_wf->plot_scope_defined == 1U);
+        REQUIRE(pea_wf->plot_origin_x == 21);
+        REQUIRE(pea_wf->plot_origin_z == 6);
+        REQUIRE(pea_wf->plot_area_m2 == 6U);
+        REQUIRE(pea_wf->plot_scale_units == 3U);
+
+        // L4 task coordinates and required physical resource quantities are scaled by scale_units = 3!
+        const L4TaskItem* fab_bed = FindTaskById(rt, "task:fab_1_mill_raised_bed");
+        step1 = FindTaskById(rt, "task:pea_1_plow_amend");
+        const L4TaskItem* step3 = FindTaskById(rt, "task:pea_3_rhizobium_sow");
+        REQUIRE(fab_bed != nullptr);
+        REQUIRE(step1 != nullptr);
+        REQUIRE(step3 != nullptr);
+        REQUIRE(step1->location_label.find("(21,1,6)") != std::string::npos);
+        REQUIRE(fab_bed->required_input_item_id == "item:cedar_timber_plank");
+        REQUIRE(fab_bed->required_input_qty == 12U); // 4 planks * 3 scale_units = 12 planks
+        REQUIRE(step1->required_input_item_id == "item:organic_compost_bag");
+        REQUIRE(step1->required_input_qty == 3U);    // 1 bag * 3 scale_units = 3 bags
+        REQUIRE(step3->required_input_item_id == "item:pea_seed_packet");
+        REQUIRE(step3->required_input_qty == 3U);    // 1 packet * 3 scale_units = 3 packets
+
+        // Because starter timber stock is 4 (< 12 required), fab_bed is BLOCKED_BY_PRECONDITION on missing physical resources
+        // and L5 dynamically spawns wf:source_garden_inputs!
+        REQUIRE(rt.TimberPlanksStock() == 4U);
+        REQUIRE(fab_bed->bpmn_token_state == BpmnTokenState::BLOCKED_BY_PRECONDITION);
+        REQUIRE_FALSE(rt.CompleteTask("task:fab_1_mill_raised_bed"));
+        REQUIRE(FindWorkflowById(rt, "wf:source_garden_inputs") != nullptr);
+
+        // Player buys missing cedar planks, compost bags, and pea seed packets from Simulated L7 Green Amazon via Legacy Bank!
+        const int64_t initial_bank_cents = rt.HouseholdReserveCents();
+        REQUIRE(rt.BuyFromGreenAmazon("item:cedar_timber_plank", 4U));   // +8 planks (4 * $18.00 = $72.00) -> 12 planks total
+        REQUIRE(rt.BuyFromGreenAmazon("item:organic_compost_bag", 1U));  // +2 bags ($14.00)   -> 4 bags total
+        REQUIRE(rt.BuyFromGreenAmazon("item:pea_seed_packet", 1U));      // +2 packets ($12.00) -> 4 packets total
+        REQUIRE(rt.HouseholdReserveCents() == initial_bank_cents - (7200 + 1400 + 1200));
+        REQUIRE(rt.BankTransactions().size() >= 3U);
+        REQUIRE(rt.TimberPlanksStock() == 12U);
+        REQUIRE(rt.CompostAmendmentBags() == 4U);
+        REQUIRE(rt.PeaSeedPackets() == 4U);
+
+        // Now fab_bed is unblocked and consumes the 12 cedar planks!
+        fab_bed = FindTaskById(rt, "task:fab_1_mill_raised_bed");
+        REQUIRE(fab_bed->bpmn_token_state == BpmnTokenState::ACTIVE_TOKEN);
+        REQUIRE(rt.CompleteTask("task:fab_1_mill_raised_bed"));
+        REQUIRE(rt.TimberPlanksStock() == 0U);
+        REQUIRE(rt.RaisedBedFramesBuilt() == 3U);
+
+        // Suburban soil starts degraded (850 bp organic carbon, 14 ppm N); submitting observable soil color & texture calibrates Step 1!
+        pea_wf = FindWorkflowById(rt, "wf:pea_cultivation");
+        REQUIRE(pea_wf->soil_organic_carbon_bp == 850U);
+        REQUIRE(pea_wf->estimated_nitrogen_ppm == 14U);
+        REQUIRE(rt.SubmitSoilBaselineObservation("PALE_GREY_BROWN", "COMPACTED_CLAY_CLODS"));
+
+        step1 = FindTaskById(rt, "task:pea_1_plow_amend");
+        REQUIRE(step1->bpmn_token_state == BpmnTokenState::ACTIVE_TOKEN);
+        REQUIRE(rt.CompleteTask("task:pea_1_plow_amend"));
+        REQUIRE(rt.CompostAmendmentBags() == 1U); // 4 - 3 = 1 bag remaining
+        pea_wf = FindWorkflowById(rt, "wf:pea_cultivation");
+        REQUIRE(pea_wf->soil_organic_carbon_bp == 3100U); // Calibrated (+700 bp over 2400 bp uncalibrated)
+        REQUIRE(pea_wf->estimated_nitrogen_ppm == 54U);   // Calibrated (+12 ppm over 42 ppm uncalibrated)
+
+        // Erect trellis (Step 2) and sow peas (Step 3 consumes 3 pea seed packets; cannot plant without seeds!)
+        REQUIRE(rt.CompleteTask("task:pea_2_erect_trellis"));
+        REQUIRE(rt.CompleteTask("task:pea_3_rhizobium_sow"));
+        REQUIRE(rt.PeaSeedPackets() == 1U); // 4 - 3 = 1 packet remaining
+
+        // Being too proactive and manually watering when soil is already moist (3600 bp + 10L -> >= 5400 bp)
+        // causes OVERWATERED_ROOT_ROT and dynamically spawns wf:remediate_pea_cultivation!
+        REQUIRE(rt.ProactiveManualWaterGarden(30000U));
+        pea_wf = FindWorkflowById(rt, "wf:pea_cultivation");
+        REQUIRE(pea_wf->estimated_moisture_bp >= 5400U);
+        REQUIRE(pea_wf->active_issue_code == kStackIssueOverwatered);
+        REQUIRE(pea_wf->diagnosed_issue_code == kStackIssueOverwatered);
+        REQUIRE(FindWorkflowById(rt, "wf:remediate_pea_cultivation") != nullptr);
+
+        // Remediate over-watering root rot via Step 4R
+        REQUIRE(rt.CompleteTask("task:pea_4r_remediate_issue"));
+        pea_wf = FindWorkflowById(rt, "wf:pea_cultivation");
+        REQUIRE(pea_wf->active_issue_code == kStackIssueNone);
+        REQUIRE(pea_wf->estimated_moisture_bp <= 4200U);
+    }
+
+    SECTION("Do-Nothing Baseline drains Legacy Bank via automatic Green Amazon grocery orders & monthly bills, while Green Amazon surplus sales offset bills") {
+        SharedStackRuntime idle_rt{};
+        REQUIRE(idle_rt.GetWorkflows().empty());
+        const int64_t start_reserve = idle_rt.HouseholdReserveCents();
+        REQUIRE(idle_rt.PantryGroceryMeals() == 6U);
+
+        // Advance 30 simulated days (30 * 86400s) with the player doing nothing in L5/L4:
+        // Steward eats 2 meals/day (60 meals total), auto-orders 9 packs of 6 meals ($36.00 each = $324.00) from Green Amazon,
+        // and pays 1 monthly bill ($220.00) at Day 30 via Legacy Bank!
+        for (uint32_t day = 0U; day < 30U; ++day) {
+            idle_rt.AdvanceSimClockSeconds(86400ULL);
+        }
+
+        REQUIRE(idle_rt.MonthsBillsPaid() == 1U);
+        REQUIRE(idle_rt.CumulativeL7BillsPaidCents() == 22000ULL);
+        REQUIRE(idle_rt.CumulativeL7GrocerySpendCents() >= 28800ULL);
+        REQUIRE(idle_rt.HouseholdReserveCents() < start_reserve - 50000LL);
+        REQUIRE_FALSE(idle_rt.BankTransactions().empty());
+
+        // Now verify selling surplus on Green Amazon deposits funds into Legacy Bank and offsets monthly bills
+        SharedStackRuntime active_rt{};
+        REQUIRE(active_rt.ApproveOrAdaptGovernanceDecision("dec:pea_soup_hearth", true));
+        // Complete input sourcing & cook Pea Soup Tiffins
+        REQUIRE(active_rt.CompleteTask("task:source_1_procure_soup_inputs"));
+        REQUIRE(active_rt.CompleteTask("task:soup_1_gather_inputs"));
+        REQUIRE(active_rt.CompleteTask("task:soup_2_simmer_bone_broth"));
+        REQUIRE(active_rt.CompleteTask("task:soup_3_simmer_pea_soup_74c"));
+        REQUIRE(active_rt.CompleteTask("task:soup_4_package_distribute_tiffins"));
+        REQUIRE(active_rt.ServedPeaSoupTiffinBatches() >= 1U);
+
+        const int64_t before_sale_cents = active_rt.HouseholdReserveCents();
+        REQUIRE(active_rt.SellOnGreenAmazon("item:pea_soup_tiffin", 1U));
+        REQUIRE(active_rt.HouseholdReserveCents() == before_sale_cents + 2800LL);
+
+        // Verify JSON serialization of Legacy Bank and Green Amazon endpoints
+        const std::string bank_json = active_rt.SerializeLegacyBankJson();
+        const std::string ga_json   = active_rt.SerializeGreenAmazonCatalogJson();
+        REQUIRE(bank_json.find("\"bank_account_id\":\"BANK-LOT402-CHECKING\"") != std::string::npos);
+        REQUIRE(ga_json.find("\"marketplace_id\":\"L7-GREEN-AMAZON-REST-V1\"") != std::string::npos);
+        REQUIRE(ga_json.find("\"item:pea_seed_packet\"") != std::string::npos);
+    }
+}
+
+

@@ -73,12 +73,32 @@
       }
 
       this._renderConnectionBadges();
-      this.pollOnce();
 
-      if (!this._pollTimer) {
-        this._pollTimer = window.setInterval(() => {
-          this.pollOnce();
-        }, POLL_INTERVAL_MS);
+      const hasEngineCanvas = Boolean(document.getElementById('canvas'));
+      let preserveDaemonState = false;
+      try {
+        const params = new URLSearchParams(window.location.search || '');
+        preserveDaemonState = params.get('preserve_daemon_state') === '1';
+      } catch (_) {}
+
+      const startPollingLoop = () => {
+        this.pollOnce();
+        if (!this._pollTimer) {
+          this._pollTimer = window.setInterval(() => {
+            this.pollOnce();
+          }, POLL_INTERVAL_MS);
+        }
+      };
+
+      if (hasEngineCanvas && !preserveDaemonState && !this._didBootReset) {
+        this._didBootReset = true;
+        this.sendCommand('reset_homestead_cluster', {})
+          .catch(() => {})
+          .finally(() => {
+            startPollingLoop();
+          });
+      } else {
+        startPollingLoop();
       }
     },
 
@@ -108,10 +128,11 @@
       };
     },
 
-    _syncBpmnTokensToEngine(active, tokens, cultivarId) {
+    _syncBpmnTokensToEngine(active, tokens, cultivarId, agronomySkillTier) {
       const normalized = Array.isArray(tokens) ? tokens : [];
       const cult = String(cultivarId || '');
-      const sig = `${active ? '1' : '0'}:${cult}:${JSON.stringify(normalized)}`;
+      const tier = Number(agronomySkillTier || 1);
+      const sig = `${active ? '1' : '0'}:${cult}:${tier}:${JSON.stringify(normalized)}`;
       if (this._lastSyncedBpmnTokenSig === sig) return;
       this._lastSyncedBpmnTokenSig = sig;
 
@@ -120,6 +141,7 @@
         action: 'sync_bpmn_tokens',
         active: Boolean(active),
         cultivar_id: cult,
+        agronomy_skill_tier: tier,
         tokens: normalized
       };
       const queue = ensureEngineQueue();
@@ -138,7 +160,7 @@
       this._renderConnectionBadges();
       if (changed) {
         if (!online) {
-          this._syncBpmnTokensToEngine(false, [], '');
+          this._syncBpmnTokensToEngine(false, [], '', 1);
         }
         this._statusListeners.forEach((fn) => {
           try {
@@ -184,7 +206,8 @@
       this._syncBpmnTokensToEngine(
         true,
         snapshot.active_bpmn_tokens || [],
-        snapshot.selected_cultivar_id || ''
+        snapshot.selected_cultivar_id || '',
+        snapshot.steward_agronomy_skill_tier || 1
       );
       this._setOnlineState(true, null);
       this._renderConnectionBadges();
@@ -268,6 +291,75 @@
         this._setOnlineState(false, err && err.message ? err.message : 'Command failed');
         throw err;
       }
+    },
+
+    async setAgronomySkillTier(skillTier) {
+      const tier = Number(skillTier || 1);
+      const queue = ensureEngineQueue();
+      queue.push({
+        type: 'set_agronomy_skill_tier',
+        action: 'set_agronomy_skill_tier',
+        skill_tier: tier
+      });
+      return await this.sendCommand('set_agronomy_skill_tier', { skill_tier: tier });
+    },
+
+    async setGardenPlotScope(originX, originZ, widthTiles, lengthTiles) {
+      return await this.sendCommand('set_garden_plot_scope', {
+        origin_x: Number(originX || 20),
+        origin_z: Number(originZ || 5),
+        width_tiles: Number(widthTiles || 1),
+        length_tiles: Number(lengthTiles || 2)
+      });
+    },
+
+    async submitSoilObservation(colorCode, textureCode) {
+      return await this.sendCommand('submit_soil_observation', {
+        color_code: colorCode || 'PALE_GREY_BROWN',
+        texture_code: textureCode || 'COMPACTED_CLAY_CLODS'
+      });
+    },
+
+    async proactiveManualWater(addedWaterMl) {
+      const ml = Number(addedWaterMl || 6000);
+      const queue = ensureEngineQueue();
+      queue.push({
+        type: 'proactive_manual_water',
+        action: 'proactive_manual_water',
+        added_water_ml: ml
+      });
+      return await this.sendCommand('proactive_manual_water', { added_water_ml: ml });
+    },
+
+    async buyFromGreenAmazon(itemId, batches) {
+      return await this.sendCommand('green_amazon_buy', {
+        item_id: itemId || 'item:pea_seed_packet',
+        batches: Number(batches || 1)
+      });
+    },
+
+    async sellOnGreenAmazon(itemId, batches) {
+      return await this.sendCommand('green_amazon_sell', {
+        item_id: itemId || 'item:pea_soup_tiffin',
+        batches: Number(batches || 1)
+      });
+    },
+
+    async injectGardenIssue(issue) {
+      const queue = ensureEngineQueue();
+      queue.push({
+        type: 'inject_garden_issue',
+        action: 'inject_garden_issue',
+        issue: issue
+      });
+      return await this.sendCommand('inject_garden_issue', { issue: issue });
+    },
+
+    async submitGardenInspection(taskId, observation) {
+      return await this.sendCommand('submit_garden_inspection', {
+        task_id: taskId || 'task:pea_4_irrigate_weed',
+        observation: observation || 'NOMINAL'
+      });
     },
 
     _buildL2PinPayload(rawPins) {

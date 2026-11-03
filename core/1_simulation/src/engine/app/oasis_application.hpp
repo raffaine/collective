@@ -205,6 +205,7 @@ namespace detail {
            aff_id == "aff.erect_pea_trellis" ||
            aff_id == "aff.inoculate_and_sow_peas" ||
            aff_id == "aff.water_garden_manual" ||
+           aff_id == "aff.remediate_garden_issue" ||
            aff_id == "aff.harvest_peas_and_roots" ||
            aff_id == "aff.shell_dry_and_turn_bed" ||
            aff_id == "aff.pyrolyze_and_quench_biochar" ||
@@ -233,6 +234,7 @@ inline void ApplyStagePreconditionsToCatalog(ContentRegistry& reg) {
     gate_prop("aff.erect_pea_trellis", "bed_stage", 1, 1);
     gate_prop("aff.inoculate_and_sow_peas", "bed_stage", 2, 2);
     gate_prop("aff.water_garden_manual", "bed_stage", 3, 4);
+    gate_prop("aff.remediate_garden_issue", "bed_stage", 3, 4);
     gate_prop("aff.harvest_peas_and_roots", "bed_stage", 4, 4);
     gate_prop("aff.shell_dry_and_turn_bed", "bed_stage", 5, 5);
     gate_prop("aff.install_l2_soil_probe", "l2_probe_installed", 0, 0);
@@ -320,6 +322,7 @@ inline void SeedHomesteadCoreCatalog(ContentRegistry& reg) {
     reg_aff("aff.erect_pea_trellis", "Erect A-Frame Climbing Pea Trellis", 420u);
     reg_aff("aff.inoculate_and_sow_peas", "Inoculate (Rhizobium) & Sow Split Peas + Mirepoix", 540u, "item.pea_seeds_heirloom", 1u);
     reg_aff("aff.water_garden_manual", "Irrigate & Hand-Weed Bed (5 L Watering Can)", 360u, "item.potable_water", 5u);
+    reg_aff("aff.remediate_garden_issue", "Remediate Garden Stress (Weed / Pest Wash / Biochar Mulch / Nutrient Tea)", 420u);
     reg_aff("aff.install_l2_soil_probe", "Install L2 FDR Soil Probe (soil_probe_v1)", 180u);
     reg_aff("aff.install_l2_drip_valve", "Plumb L2 24V Drip Solenoid Valve (irrigation_valve_v1)", 240u);
     reg_aff("aff.harvest_peas_and_roots", "Harvest Mature Pea Pods & Mirepoix Roots", 480u, "", 0u, "item.fresh_pea_pods", 4u);
@@ -336,6 +339,7 @@ inline void SeedHomesteadCoreCatalog(ContentRegistry& reg) {
     reg_aff("aff.take_warm_shower", "Take Warm Hydronic Shower", 360u, "", 0u, "", 0u, "leisure", 1400);
     reg_aff("aff.decompress_living_room", "Unwind with Music & Reading on Couch", 1200u, "", 0u, "", 0u, "leisure", 2600);
     reg_aff("aff.study_at_workstation", "Review L6 Needs, Governance & Workflow Plans", 900u, "", 0u, "", 0u, "introspection", 2200);
+    reg_aff("aff.study_agronomy_field_guide", "Study Agronomy & Soil Diagnostics Field Guide (Unlock Tier-2 Inspection)", 480u, "", 0u, "", 0u, "introspection", 2600);
     reg_aff("aff.sleep_in_bed", "Sleep Circadian Rest", 3600u, "", 0u, "", 0u, "energy", 4500);
     reg_aff("aff.excavate_earthwork_tile", "Excavate Subsurface Earthwork Horizon (110 kg Spoil)", 600u, "", 0u, "item.topsoil_loam", 110u);
 
@@ -386,7 +390,7 @@ inline void SeedHomesteadCoreCatalog(ContentRegistry& reg) {
              "A 2.4 m mortised cedar raised bed filled with dark loam soil beneath an A-frame climbing pea trellis.",
              19u, false, {
                  "aff.plow_and_amend_bed", "aff.erect_pea_trellis", "aff.inoculate_and_sow_peas",
-                 "aff.water_garden_manual", "aff.harvest_peas_and_roots", "aff.shell_dry_and_turn_bed",
+                 "aff.water_garden_manual", "aff.remediate_garden_issue", "aff.harvest_peas_and_roots", "aff.shell_dry_and_turn_bed",
                  "aff.install_l2_soil_probe", "aff.install_l2_drip_valve"
              });
     reg_arch("arch.thermophilic_compost_drum", "Insulated Rotating Thermophilic Compost Drum",
@@ -406,7 +410,7 @@ inline void SeedHomesteadCoreCatalog(ContentRegistry& reg) {
              120u, true, {"aff.study_at_workstation"});
     reg_arch("arch.reference_archive_shelf", "Agronomy, Joinery & Permaculture Reference Shelf",
              "Shelves lined with soil microbiology manuals, timber joinery plates, and Sovereign Stack specifications.",
-             44u, false, {});
+             44u, false, {"aff.study_agronomy_field_guide"});
     reg_arch("arch.sovereign_node_rack", "Node 0 Deterministic Daemon & LiFePO4 Microgrid Rack",
              "A whisper-quiet convection-cooled server and 48V LiFePO4 battery cabinet running col-telemetryd through col-commonsd.",
              30u, false, {});
@@ -471,6 +475,7 @@ public:
         ecs_.component<PropertyBagComponent>();
         ecs_.component<SensorAttachmentComponent>();
         ecs_.component<SoilCellRegisters>();
+        ecs_.component<GardenBedHealthState>();
         ecs_.component<ThermalVesselRegisters>();
         ecs_.component<AgentDrivesComponent>();
         ecs_.component<AutonomyStateComponent>();
@@ -483,13 +488,13 @@ public:
         LoadCatalogAndModsFromDisk();
         detail::ApplyStagePreconditionsToCatalog(registry_);
 
-        // 3. Grant Steward full homestead craft & domestic capabilities
+        // 3. Grant Steward full homestead craft & domestic capabilities (starts at Novice Agronomy Tier 1)
         for (const std::string_view cap : {
                  "WOODSHOP_JOINERY", "GARAGE_ASSEMBLY", "POTABLE_WATER_TAP",
                  "SOIL_CULTIVATION_BED", "COMPOST_AND_PYROLYSIS_PAD", "POULTRY_PASTURE_RUN",
                  "CULINARY_HEAT_SOURCE", "KITCHEN_PREP_SINK", "COMMONS_TIFFIN_HANDOFF", "DINING_SEATING",
                  "COLD_LARDER_STORAGE", "HYGIENE_SHOWER", "COGNITIVE_DECOMPRESSION",
-                 "L6_WORKSTATION", "SLEEP_RECOVERY", "cap.soil_amendment"}) {
+                 "L6_WORKSTATION", "KNOWLEDGE_ARCHIVE", "SLEEP_RECOVERY", "cap.soil_amendment"}) {
             steward_caps_.GrantCapability(cap);
         }
 
@@ -909,16 +914,25 @@ private:
             e.set<ThermalVesselRegisters>(vessel);
         }
         if (seed.archetype_id == "arch.raised_garden_bed" || seed.archetype_id == "arch.thermophilic_compost_drum") {
-            SoilCellRegisters soil{};
-            soil.moisture_vwc_bp   = 2600u;
-            soil.soil_temp_mk      = clock_.AmbientTempMilliKelvin();
-            soil.nitrogen_ppm      = 38u;
-            soil.phosphorus_ppm    = 24u;
-            soil.potassium_ppm     = 125u;
-            soil.organic_carbon_bp = 1200u;
-            soil.ph_centi          = 655u;
-            soil.crop_planted      = 0u;
+            SoilCellRegisters soil = (seed.archetype_id == "arch.raised_garden_bed")
+                                         ? MakeDegradedSuburbanSoilBaseline(clock_.AmbientTempMilliKelvin())
+                                         : SoilCellRegisters{};
+            if (seed.archetype_id == "arch.thermophilic_compost_drum") {
+                soil.moisture_vwc_bp   = 2600u;
+                soil.soil_temp_mk      = clock_.AmbientTempMilliKelvin();
+                soil.nitrogen_ppm      = 38u;
+                soil.phosphorus_ppm    = 24u;
+                soil.potassium_ppm     = 125u;
+                soil.organic_carbon_bp = 1200u;
+                soil.ph_centi          = 655u;
+                soil.crop_planted      = 0u;
+            }
             e.set<SoilCellRegisters>(soil);
+            if (seed.archetype_id == "arch.raised_garden_bed") {
+                GardenBedHealthState health{};
+                health.skill_tier = steward_agronomy_skill_tier_;
+                e.set<GardenBedHealthState>(health);
+            }
         }
 
         map_entities_.push_back(e);
@@ -1283,6 +1297,11 @@ private:
             return true;
         }
 
+        if (affordance_id == "aff.mill_raised_bed_frame" && !plot_scope_defined_) {
+            inner_thought_ = "Before I can mill and set the raised garden bed, please designate where (X, Z) and how big (W x L m) the backyard plot should be — right-click a backyard grass tile or use the Plot Scope card!";
+            return false;
+        }
+
         const AffordanceDef* aff = registry_.FindAffordance(affordance_id);
         AffordanceDef        fallback_aff{};
         if (aff == nullptr) {
@@ -1412,6 +1431,11 @@ private:
             spec.preferred_station_archetype = "arch.raised_garden_bed";
             spec.required_registers          = {"is_legume_fixing_n", "inoculant_CFU_per_ml"};
             mapped_affordance                = "aff.inoculate_and_sow_peas";
+        } else if (task_id.starts_with("task:pea_4r") || spec.step_action_uri.find("remediate") != std::string::npos) {
+            if (spec.step_action_uri.empty()) spec.step_action_uri = "col://domain/soil/remediate_stressor";
+            spec.preferred_station_archetype = "arch.raised_garden_bed";
+            spec.required_registers          = {"moisture_vwc_bp", "organic_carbon_bp", "nitrogen_ppm"};
+            mapped_affordance                = "aff.remediate_garden_issue";
         } else if (task_id.starts_with("task:pea_4")) {
             if (spec.step_action_uri.empty()) spec.step_action_uri = "col://domain/soil/irrigate_bed";
             spec.preferred_station_archetype = "arch.raised_garden_bed";
@@ -1534,13 +1558,28 @@ private:
                 if (meta.archetype_id != "arch.raised_garden_bed") {
                     continue;
                 }
-                const auto& soil  = e.get<SoilCellRegisters>();
-                auto&       props = e.get_mut<PropertyBagComponent>();
-                if (soil.crop_planted != 0u && props.Get("bed_stage", 0) == 3) {
-                    const uint8_t c_code = static_cast<uint8_t>(
-                        std::clamp<int64_t>(props.Get("cultivar_code", static_cast<int64_t>(active_cultivar_code_)), 0, 3)
+                auto& soil  = e.get_mut<SoilCellRegisters>();
+                auto& props = e.get_mut<PropertyBagComponent>();
+                const uint8_t c_code = static_cast<uint8_t>(
+                    std::clamp<int64_t>(props.Get("cultivar_code", static_cast<int64_t>(active_cultivar_code_)), 0, 3)
+                );
+                const CultivarPhysicsSpec spec = ResolveCultivarByCode(c_code);
+                if (e.has<GardenBedHealthState>()) {
+                    auto& health = e.get_mut<GardenBedHealthState>();
+                    const bool has_l2 = e.has<SensorAttachmentComponent>() &&
+                                        e.get<SensorAttachmentComponent>().has_l2_sensor;
+                    health.skill_tier = has_l2 ? AgronomySkillTier::L2_AUTOMATED : steward_agronomy_skill_tier_;
+                    const uint32_t poly_crops = (built_bed_count_ > 1u || !hens_.empty()) ? 2u : 1u;
+                    StepGardenBedHealthAndStressors(
+                        soil,
+                        health,
+                        spec,
+                        whole_sim_s,
+                        poly_crops,
+                        !hens_.empty()
                     );
-                    const CultivarPhysicsSpec spec = ResolveCultivarByCode(c_code);
+                }
+                if (soil.crop_planted != 0u && props.Get("bed_stage", 0) == 3) {
                     if (soil.crop_growth_bp >= spec.harvest_mature_bp) {
                         props.Set("bed_stage", 4, "stage");
                         inner_thought_ = "The " + std::string(CultivarDisplayNameFromCode(c_code)) +
@@ -1767,6 +1806,47 @@ private:
         steward_autonomy_.player_task_locked = false;
     }
 
+    void SyncAllGardenBedTilesFrom(flecs::entity primary_bed, uint16_t voxel_mat_override = 0u) {
+        if (!primary_bed.is_alive()) {
+            return;
+        }
+        const bool has_soil   = primary_bed.has<SoilCellRegisters>();
+        const bool has_health = primary_bed.has<GardenBedHealthState>();
+        const bool has_props  = primary_bed.has<PropertyBagComponent>();
+        bool       sync_chunk = false;
+
+        for (flecs::entity e : map_entities_) {
+            if (!e.is_alive() || !e.has<EntitySpatialMetaComponent>()) {
+                continue;
+            }
+            const auto& m = e.get<EntitySpatialMetaComponent>();
+            if (m.archetype_id != "arch.raised_garden_bed") {
+                continue;
+            }
+            if (e != primary_bed) {
+                if (has_soil && e.has<SoilCellRegisters>()) {
+                    e.get_mut<SoilCellRegisters>() = primary_bed.get<SoilCellRegisters>();
+                }
+                if (has_health && e.has<GardenBedHealthState>()) {
+                    e.get_mut<GardenBedHealthState>() = primary_bed.get<GardenBedHealthState>();
+                }
+                if (has_props && e.has<PropertyBagComponent>()) {
+                    const auto& src_p = primary_bed.get<PropertyBagComponent>();
+                    auto&       dst_p = e.get_mut<PropertyBagComponent>();
+                    dst_p.Set("bed_stage", src_p.Get("bed_stage", 0), "stage");
+                    dst_p.Set("cultivar_code", src_p.Get("cultivar_code", static_cast<int64_t>(active_cultivar_code_)), "code");
+                }
+            }
+            if (voxel_mat_override != 0u) {
+                (void)world_grid_.SetVoxel(m.x, m.y, m.z, voxel_mat_override);
+                sync_chunk = true;
+            }
+        }
+        if (sync_chunk) {
+            renderer_->SyncWorldChunkFromGrid(world_grid_, 1u);
+        }
+    }
+
     void ApplyCompletedAffordanceEffects() {
         const std::string& aff_id = active_task_.affordance_id;
         flecs::entity      target = FindEntityById(active_task_.target_entity_id);
@@ -1782,14 +1862,37 @@ private:
                 const auto& m    = target.get<EntitySpatialMetaComponent>();
                 const auto* arch = registry_.FindArchetype(m.archetype_id);
                 if (arch != nullptr) {
-                    const auto rep = InspectEntityManual(
-                        *arch,
-                        target.has<PropertyBagComponent>() ? &target.get<PropertyBagComponent>() : nullptr,
-                        target.has<SoilCellRegisters>() ? &target.get<SoilCellRegisters>() : nullptr,
-                        target.has<ThermalVesselRegisters>() ? &target.get<ThermalVesselRegisters>() : nullptr,
-                        target.has<InventoryComponent>() ? &target.get<InventoryComponent>() : nullptr,
-                        target.has<SensorAttachmentComponent>() ? &target.get<SensorAttachmentComponent>() : nullptr
-                    );
+                    uint8_t c_code = active_cultivar_code_;
+                    if (target.has<PropertyBagComponent>()) {
+                        c_code = static_cast<uint8_t>(
+                            std::clamp<int64_t>(target.get<PropertyBagComponent>().Get("cultivar_code", static_cast<int64_t>(c_code)), 0, 3)
+                        );
+                    }
+                    const CultivarPhysicsSpec c_spec = ResolveCultivarByCode(c_code);
+                    if (m.archetype_id == "arch.raised_garden_bed" && target.has<GardenBedHealthState>()) {
+                        auto& h_mut = target.get_mut<GardenBedHealthState>();
+                        const bool has_l2 = target.has<SensorAttachmentComponent>() &&
+                                            target.get<SensorAttachmentComponent>().has_l2_sensor;
+                        h_mut.skill_tier = has_l2 ? AgronomySkillTier::L2_AUTOMATED : steward_agronomy_skill_tier_;
+                    }
+                    const ManualInspectionReport rep = (m.archetype_id == "arch.raised_garden_bed" &&
+                                                        target.has<SoilCellRegisters>() &&
+                                                        target.has<GardenBedHealthState>())
+                        ? InspectGardenBedEpistemic(
+                              *arch,
+                              target.get<SoilCellRegisters>(),
+                              target.get<GardenBedHealthState>(),
+                              c_spec,
+                              target.has<SensorAttachmentComponent>() ? &target.get<SensorAttachmentComponent>() : nullptr
+                          )
+                        : InspectEntityManual(
+                              *arch,
+                              target.has<PropertyBagComponent>() ? &target.get<PropertyBagComponent>() : nullptr,
+                              target.has<SoilCellRegisters>() ? &target.get<SoilCellRegisters>() : nullptr,
+                              target.has<ThermalVesselRegisters>() ? &target.get<ThermalVesselRegisters>() : nullptr,
+                              target.has<InventoryComponent>() ? &target.get<InventoryComponent>() : nullptr,
+                              target.has<SensorAttachmentComponent>() ? &target.get<SensorAttachmentComponent>() : nullptr
+                          );
                     inner_thought_ = "Inspected " + rep.headline + ": " + rep.look_description;
                     std::ostringstream ioss;
                     ioss << "{"
@@ -1819,16 +1922,32 @@ private:
         }
 
         if (aff_id == "aff.mill_raised_bed_frame") {
-            ConsumeItemFromParcel("item.cedar_plank", 4u);
-            const GridCoord plot   = FindOpenBackyardPlot(4, 7);
-            const std::string b_id = "entity.garden_bed_" + std::to_string(++built_bed_count_);
-            (void)world_grid_.SetVoxel(plot.x, 1, plot.z, MAT_TILLED_GARDEN_SOIL);
-            SpawnSingleEntity(PlacedEntitySeed{
-                b_id, "arch.raised_garden_bed", "zone.fenced_backyard", "", plot.x, 1, plot.z, 0u, MAT_TILLED_GARDEN_SOIL, false
-            });
+            const int32_t  w           = std::clamp(plot_scope_width_tiles_, 1, 4);
+            const int32_t  l           = std::clamp(plot_scope_length_tiles_, 1, 4);
+            const int32_t  ox          = std::clamp(plot_scope_origin_x_, 18, 25 - w);
+            const int32_t  oz          = std::clamp(plot_scope_origin_z_, 2, 15 - l);
+            const uint32_t scale_units = std::max<uint32_t>(1u, static_cast<uint32_t>((w * l + 1) / 2));
+            ConsumeItemFromParcel("item.cedar_plank", 4u * scale_units);
+            for (int32_t dz = 0; dz < l; ++dz) {
+                for (int32_t dx = 0; dx < w; ++dx) {
+                    const int32_t px = ox + dx;
+                    const int32_t pz = oz + dz;
+                    if (FindEntityAtVoxel(px, 1, pz).is_alive()) {
+                        continue;
+                    }
+                    const std::string b_id = "entity.garden_bed_" + std::to_string(++built_bed_count_);
+                    (void)world_grid_.SetVoxel(px, 1, pz, MAT_TILLED_GARDEN_SOIL);
+                    SpawnSingleEntity(PlacedEntitySeed{
+                        b_id, "arch.raised_garden_bed", "zone.fenced_backyard", "", px, 1, pz, 0u, MAT_TILLED_GARDEN_SOIL, false
+                    });
+                }
+            }
             RefreshVirtualPinBusEndpoints();
             renderer_->SyncWorldChunkFromGrid(world_grid_, 1u);
-            inner_thought_ = "Set a mortised cedar raised bed onto the backyard loam — ready for compost, biochar, and pea seeds.";
+            inner_thought_ = "Set a " + std::to_string(w) + "x" + std::to_string(l) + "m (" +
+                             std::to_string(w * l) + " m2) mortised cedar raised bed plot at (" +
+                             std::to_string(ox) + ", 1, " + std::to_string(oz) +
+                             ") — ready for compost, biochar, and pea seeds.";
             return;
         }
 
@@ -1878,23 +1997,33 @@ private:
 
         if (aff_id == "aff.plow_and_amend_bed" && target.is_alive() && target.has<SoilCellRegisters>()) {
             auto& soil = target.get_mut<SoilCellRegisters>();
-            AmendSoilWithCompost(soil, 8000u);
-            AmendSoilWithBiochar(soil, 3000u);
+            if (target.has<GardenBedHealthState>()) {
+                auto& health = target.get_mut<GardenBedHealthState>();
+                const bool has_l2 = target.has<SensorAttachmentComponent>() &&
+                                    target.get<SensorAttachmentComponent>().has_l2_sensor;
+                ApplySkillCalibratedSuburbanSoilAmendment(
+                    soil,
+                    health,
+                    has_l2 ? AgronomySkillTier::L2_AUTOMATED : steward_agronomy_skill_tier_
+                );
+            } else {
+                AmendSoilWithCompost(soil, 8000u);
+                AmendSoilWithBiochar(soil, 3000u);
+            }
             if (target.has<PropertyBagComponent>()) {
                 target.get_mut<PropertyBagComponent>().Set("bed_stage", 1, "stage");
             }
-            inner_thought_ = "Worked cured compost and microporous biochar deep into the root zone — ready for the A-frame trellis.";
+            SyncAllGardenBedTilesFrom(target, MAT_TILLED_GARDEN_SOIL);
+            inner_thought_ = "Worked cured compost and microporous biochar into the suburban clay-turf plot — ready for the A-frame trellis.";
             return;
         }
 
         if (aff_id == "aff.erect_pea_trellis" && target.is_alive() && target.has<EntitySpatialMetaComponent>()) {
-            const auto& m = target.get<EntitySpatialMetaComponent>();
-            (void)world_grid_.SetVoxel(m.x, m.y, m.z, 34u);
             if (target.has<PropertyBagComponent>()) {
                 target.get_mut<PropertyBagComponent>().Set("bed_stage", 2, "stage");
             }
-            renderer_->SyncWorldChunkFromGrid(world_grid_, 1u);
-            inner_thought_ = "Anchored the A-frame cedar and galvanized twine trellis over the raised bed — ready to sow inoculated peas.";
+            SyncAllGardenBedTilesFrom(target, 34u);
+            inner_thought_ = "Anchored the A-frame cedar and galvanized twine trellis over the raised plot — ready to sow inoculated peas.";
             return;
         }
 
@@ -1906,6 +2035,17 @@ private:
             soil.is_legume_fixing_n = spec.fixes_atmospheric_n2;
             soil.crop_growth_bp     = 200u; // Newly sown seed cohort (2.0% initial radicle emergence)
             soil.growth_sub_accum   = 0u;
+            if (target.has<GardenBedHealthState>()) {
+                auto& health                  = target.get_mut<GardenBedHealthState>();
+                health.crop_health_bp         = 8800u;
+                health.care_quality_score_bp  = 8000u;
+                health.weed_pressure_bp       = 0u;
+                health.pest_pressure_bp       = 0u;
+                health.true_issue             = GardenIssueCode::NONE;
+                health.diagnosed_issue        = GardenIssueCode::NONE;
+                health.skill_tier             = steward_agronomy_skill_tier_;
+                health.uncertainty_band_bp    = DiagnosticUncertaintyBpForSkill(steward_agronomy_skill_tier_);
+            }
             if (target.has<PropertyBagComponent>()) {
                 auto& props = target.get_mut<PropertyBagComponent>();
                 props.Set("bed_stage", 3, "stage");
@@ -1913,14 +2053,10 @@ private:
             }
             last_observed_garden_growth_bp_   = soil.crop_growth_bp;
             last_observed_garden_moisture_bp_ = soil.moisture_vwc_bp;
+            SyncAllGardenBedTilesFrom(target, 34u);
             RefreshVirtualPinBusEndpoints();
-            if (target.has<EntitySpatialMetaComponent>()) {
-                const auto& m = target.get<EntitySpatialMetaComponent>();
-                (void)world_grid_.SetVoxel(m.x, m.y, m.z, 34u);
-                renderer_->SyncWorldChunkFromGrid(world_grid_, 1u);
-            }
             inner_thought_ = "Sowed " + std::string(CultivarDisplayNameFromCode(active_cultivar_code_)) +
-                             " at " + std::to_string(spec.sowing_depth_mm) + " mm depth along the trellis — timed growth & moisture checks begin now.";
+                             " at " + std::to_string(spec.sowing_depth_mm) + " mm depth across the plot — timed growth & moisture checks begin now.";
             return;
         }
 
@@ -1943,6 +2079,24 @@ private:
             const uint32_t dose_ml = (soil.moisture_vwc_bp < spec.target_max_vwc_bp) ? spec.irrigation_dose_ml : 1000u;
             StepCultivarSoilPhysics(soil, spec, clock_.AmbientTempMilliKelvin(), dose_ml, 1u);
 
+            if (target.has<GardenBedHealthState>()) {
+                auto& health = target.get_mut<GardenBedHealthState>();
+                const bool has_l2 = target.has<SensorAttachmentComponent>() &&
+                                    target.get<SensorAttachmentComponent>().has_l2_sensor;
+                health.skill_tier            = has_l2 ? AgronomySkillTier::L2_AUTOMATED : steward_agronomy_skill_tier_;
+                health.uncertainty_band_bp   = DiagnosticUncertaintyBpForSkill(health.skill_tier);
+                health.care_quality_score_bp = std::min<uint32_t>(10000u, health.care_quality_score_bp + 250u);
+                health.weed_pressure_bp      = (health.weed_pressure_bp > 600u)
+                                                   ? (health.weed_pressure_bp - 600u)
+                                                   : 0u;
+                health.true_issue            = EvaluateGardenBedTrueIssue(
+                    soil, spec, health.crop_health_bp, health.weed_pressure_bp, health.pest_pressure_bp
+                );
+                health.diagnosed_issue       = FilterIssueByEpistemicSkill(
+                    health.true_issue, health.skill_tier
+                );
+            }
+
             last_observed_garden_growth_bp_   = soil.crop_growth_bp;
             last_observed_garden_moisture_bp_ = soil.moisture_vwc_bp;
 
@@ -1956,24 +2110,66 @@ private:
                     "stage"
                 );
             }
+            SyncAllGardenBedTilesFrom(target);
 
             const std::string c_name(CultivarDisplayNameFromCode(c_code));
             const std::string s_name(PhenologyStageLabel(stage));
             inner_thought_ = "Verified " + c_name + " (" + std::to_string(soil.crop_growth_bp / 100u) + "% · " +
                              s_name + ") and watered root zone to " + std::to_string(soil.moisture_vwc_bp / 100u) + "% VWC.";
 
-            std::ostringstream ioss;
-            ioss << "{"
-                 << "\"headline\":\"" << detail::JsonEscape(c_name + " — " + s_name) << "\","
-                 << "\"look_description\":\"" << detail::JsonEscape(inner_thought_) << "\","
-                 << "\"has_live_l2_telemetry\":false,"
-                 << "\"revealed_properties\":["
-                 << "{\"key\":\"crop_growth_bp\",\"value\":" << soil.crop_growth_bp << ",\"unit_hint\":\"bp\"},"
-                 << "{\"key\":\"moisture_vwc_bp\",\"value\":" << soil.moisture_vwc_bp << ",\"unit_hint\":\"bp\"},"
-                 << "{\"key\":\"soil_temp_mk\",\"value\":" << soil.soil_temp_mk << ",\"unit_hint\":\"mK\"},"
-                 << "{\"key\":\"nitrogen_ppm\",\"value\":" << soil.nitrogen_ppm << ",\"unit_hint\":\"ppm\"}"
-                 << "],\"revealed_inventory\":[]}";
-            pending_inspection_report_json_ = ioss.str();
+            if (target.has<EntitySpatialMetaComponent>() && target.has<GardenBedHealthState>()) {
+                const auto* arch = registry_.FindArchetype(target.get<EntitySpatialMetaComponent>().archetype_id);
+                if (arch != nullptr) {
+                    const auto rep = InspectGardenBedEpistemic(
+                        *arch,
+                        soil,
+                        target.get<GardenBedHealthState>(),
+                        spec,
+                        target.has<SensorAttachmentComponent>() ? &target.get<SensorAttachmentComponent>() : nullptr
+                    );
+                    std::ostringstream ioss;
+                    ioss << "{"
+                         << "\"headline\":\"" << detail::JsonEscape(rep.headline) << "\","
+                         << "\"look_description\":\"" << detail::JsonEscape(rep.look_description) << "\","
+                         << "\"has_live_l2_telemetry\":" << (rep.has_live_l2_telemetry ? "true" : "false") << ","
+                         << "\"revealed_properties\":[";
+                    for (size_t i = 0u; i < rep.revealed_properties.size(); ++i) {
+                        const auto& p = rep.revealed_properties[i];
+                        if (i > 0u) ioss << ",";
+                        ioss << "{\"key\":\"" << detail::JsonEscape(p.key) << "\","
+                             << "\"value\":" << p.value << ","
+                             << "\"unit_hint\":\"" << detail::JsonEscape(p.unit_hint) << "\"}";
+                    }
+                    ioss << "],\"revealed_inventory\":[]}";
+                    pending_inspection_report_json_ = ioss.str();
+                }
+            }
+            return;
+        }
+
+        if (aff_id == "aff.remediate_garden_issue" && target.is_alive() &&
+            target.has<SoilCellRegisters>() && target.has<GardenBedHealthState>()) {
+            uint8_t c_code = active_cultivar_code_;
+            if (target.has<PropertyBagComponent>()) {
+                c_code = static_cast<uint8_t>(
+                    std::clamp<int64_t>(target.get<PropertyBagComponent>().Get("cultivar_code", static_cast<int64_t>(c_code)), 0, 3)
+                );
+            }
+            const CultivarPhysicsSpec spec   = ResolveCultivarByCode(c_code);
+            auto&                     soil   = target.get_mut<SoilCellRegisters>();
+            auto&                     health = target.get_mut<GardenBedHealthState>();
+            const GardenIssueCode     issue  = (health.diagnosed_issue != GardenIssueCode::NONE)
+                                                   ? health.diagnosed_issue
+                                                   : health.true_issue;
+            ApplyGardenRemediationAction(soil, health, spec, issue);
+            if (issue == GardenIssueCode::CROP_FAILURE_BLIGHT && target.has<PropertyBagComponent>()) {
+                target.get_mut<PropertyBagComponent>().Set("bed_stage", 2, "stage");
+                inner_thought_ = "Cleared blighted vines into thermophilic compost and re-tilled the raised bed — ready to re-sow.";
+            } else {
+                inner_thought_ = "Remediated " + std::string(GardenIssueDisplayName(issue)) +
+                                 " — crop health restored to " + std::to_string(health.crop_health_bp / 100u) + "%.";
+            }
+            SyncAllGardenBedTilesFrom(target);
             return;
         }
 
@@ -2007,21 +2203,52 @@ private:
                     std::clamp<int64_t>(target.get<PropertyBagComponent>().Get("cultivar_code", static_cast<int64_t>(c_code)), 0, 3)
                 );
             }
-            const CultivarPhysicsSpec spec = ResolveCultivarByCode(c_code);
-            auto& soil          = target.get_mut<SoilCellRegisters>();
+            const CultivarPhysicsSpec  spec = ResolveCultivarByCode(c_code);
+            auto&                      soil = target.get_mut<SoilCellRegisters>();
+            const GardenBedHealthState health =
+                target.has<GardenBedHealthState>() ? target.get<GardenBedHealthState>() : GardenBedHealthState{};
+            const HarvestOutcomeResult outcome = EvaluateVariableHarvestYield(
+                spec, health.crop_health_bp, health.care_quality_score_bp, health.uncertainty_band_bp
+            );
+
+            if (outcome.outcome_tier == HarvestOutcomeTier::CROP_FAILURE) {
+                soil.crop_planted   = 0u;
+                soil.crop_growth_bp = 0u;
+                if (target.has<PropertyBagComponent>()) {
+                    target.get_mut<PropertyBagComponent>().Set("bed_stage", 2, "stage");
+                }
+                SyncAllGardenBedTilesFrom(target);
+                inner_thought_ = "Crop failed due to unaddressed stress — cleared spent vines so we can re-sow.";
+                return;
+            }
+
             soil.crop_growth_bp = 1500u;
             if (target.has<PropertyBagComponent>()) {
                 target.get_mut<PropertyBagComponent>().Set("bed_stage", 5, "stage");
             }
-            steward_inventory_.AddItem("item.fresh_pea_pods", static_cast<uint32_t>(spec.harvest_legume_batches) * 2u);
-            steward_inventory_.AddItem("item.mirepoix_roots", static_cast<uint32_t>(spec.harvest_mirepoix_batches));
-            inner_thought_ = "Harvested " + std::to_string(spec.harvest_legume_batches) + " batches of mature " +
-                             std::string(CultivarDisplayNameFromCode(c_code)) + " pods and sweet mirepoix roots.";
+            SyncAllGardenBedTilesFrom(target);
+            const uint32_t scale_units = std::max<uint32_t>(
+                1u, static_cast<uint32_t>((plot_scope_width_tiles_ * plot_scope_length_tiles_ + 1) / 2)
+            );
+            steward_inventory_.AddItem("item.fresh_pea_pods", static_cast<uint32_t>(outcome.legume_batches) * 2u * scale_units);
+            if (outcome.mirepoix_batches > 0u) {
+                steward_inventory_.AddItem("item.mirepoix_roots", static_cast<uint32_t>(outcome.mirepoix_batches) * scale_units);
+            }
+            if (steward_agronomy_skill_tier_ == AgronomySkillTier::NOVICE) {
+                steward_agronomy_skill_tier_ = AgronomySkillTier::EXPERIENCED;
+                steward_caps_.GrantCapability("cap.agronomy_experienced");
+            }
+            inner_thought_ = "Harvested " + std::to_string(outcome.legume_batches * scale_units) + " batches of " +
+                             std::string(CultivarDisplayNameFromCode(c_code)) + " (" +
+                             std::string(HarvestOutcomeTierLabel(outcome.outcome_tier)) + ").";
             return;
         }
 
         if (aff_id == "aff.shell_dry_and_turn_bed") {
-            steward_inventory_.AddItem("item.split_peas_dry", 3u);
+            const uint32_t scale_units = std::max<uint32_t>(
+                1u, static_cast<uint32_t>((plot_scope_width_tiles_ * plot_scope_length_tiles_ + 1) / 2)
+            );
+            steward_inventory_.AddItem("item.split_peas_dry", 3u * scale_units);
             if (target.is_alive()) {
                 if (target.has<PropertyBagComponent>()) {
                     target.get_mut<PropertyBagComponent>().Set("bed_stage", 0, "stage");
@@ -2031,13 +2258,9 @@ private:
                     soil.crop_planted   = 0u;
                     soil.crop_growth_bp = 0u;
                 }
-                if (target.has<EntitySpatialMetaComponent>()) {
-                    const auto& m = target.get<EntitySpatialMetaComponent>();
-                    (void)world_grid_.SetVoxel(m.x, m.y, m.z, MAT_TILLED_GARDEN_SOIL);
-                    renderer_->SyncWorldChunkFromGrid(world_grid_, 1u);
-                }
+                SyncAllGardenBedTilesFrom(target, MAT_TILLED_GARDEN_SOIL);
             }
-            inner_thought_ = "Shelled dry green split peas (< 14% moisture) and turned nitrogen-rich nodules back into the bed.";
+            inner_thought_ = "Shelled dry green split peas (< 14% moisture) and turned nitrogen-rich nodules back into the plot.";
             return;
         }
 
@@ -2138,9 +2361,15 @@ private:
         } else if (aff_id == "aff.decompress_living_room") {
             steward_drives_.leisure_bp = std::min(kDriveMaxBp, steward_drives_.leisure_bp + 2800u);
             inner_thought_             = "Unwound on the linen couch listening to warm vinyl acoustics.";
-        } else if (aff_id == "aff.study_at_workstation") {
-            steward_drives_.introspection_bp = std::min(kDriveMaxBp, steward_drives_.introspection_bp + 2400u);
-            inner_thought_                   = "Reviewed Node 0 sovereign workflows and seasonal agronomy notes.";
+        } else if (aff_id == "aff.study_at_workstation" || aff_id == "aff.study_agronomy_field_guide") {
+            steward_drives_.introspection_bp = std::min(kDriveMaxBp, steward_drives_.introspection_bp + 2600u);
+            if (aff_id == "aff.study_agronomy_field_guide") {
+                steward_agronomy_skill_tier_ = AgronomySkillTier::EXPERIENCED;
+                steward_caps_.GrantCapability("cap.agronomy_experienced");
+                inner_thought_ = "Studied the Agronomy & Soil Diagnostics Field Guide — can now identify foliar N-P-K chlorosis and 10 cm soil thermal insulation/flow tilth!";
+            } else {
+                inner_thought_ = "Reviewed Node 0 sovereign workflows and seasonal agronomy notes.";
+            }
         } else if (aff_id == "aff.sleep_in_bed") {
             steward_drives_.energy_bp = kDriveMaxBp;
             inner_thought_            = "Woke rested after a deep sleep under wool blankets.";
@@ -2691,12 +2920,127 @@ private:
             if (!cultivar_id.empty()) {
                 ApplyActiveCultivarSelection(cultivar_id);
             }
+        } else if (cmd_type == "set_agronomy_skill_tier") {
+            int64_t tier_val = 1;
+            if (json_util::ReadInt64(cmd_json, "skill_tier", tier_val) ||
+                json_util::ReadInt64(cmd_json, "tier", tier_val)) {
+                if (tier_val >= 3) {
+                    steward_agronomy_skill_tier_ = AgronomySkillTier::L2_AUTOMATED;
+                } else if (tier_val == 2) {
+                    steward_agronomy_skill_tier_ = AgronomySkillTier::EXPERIENCED;
+                    steward_caps_.GrantCapability("cap.agronomy_experienced");
+                } else {
+                    steward_agronomy_skill_tier_ = AgronomySkillTier::NOVICE;
+                }
+            }
+        } else if (cmd_type == "set_garden_plot_scope") {
+            int64_t ox = plot_scope_origin_x_;
+            int64_t oz = plot_scope_origin_z_;
+            int64_t wt = plot_scope_width_tiles_;
+            int64_t lt = plot_scope_length_tiles_;
+            (void)json_util::ReadInt64(cmd_json, "origin_x", ox);
+            (void)json_util::ReadInt64(cmd_json, "origin_z", oz);
+            (void)json_util::ReadInt64(cmd_json, "width_tiles", wt);
+            (void)json_util::ReadInt64(cmd_json, "length_tiles", lt);
+            plot_scope_width_tiles_  = static_cast<int32_t>(std::clamp<int64_t>(wt, 1, 4));
+            plot_scope_length_tiles_ = static_cast<int32_t>(std::clamp<int64_t>(lt, 1, 4));
+            plot_scope_origin_x_     = static_cast<int32_t>(std::clamp<int64_t>(ox, 18, 25 - plot_scope_width_tiles_));
+            plot_scope_origin_z_     = static_cast<int32_t>(std::clamp<int64_t>(oz, 2, 15 - plot_scope_length_tiles_));
+            const bool was_defined   = plot_scope_defined_;
+            plot_scope_defined_      = true;
+            if (!was_defined) {
+                inner_thought_ = "Staked out physical garden plot at (" + std::to_string(plot_scope_origin_x_) +
+                                 ", 1, " + std::to_string(plot_scope_origin_z_) + ") [" +
+                                 std::to_string(plot_scope_width_tiles_) + "x" +
+                                 std::to_string(plot_scope_length_tiles_) + "m = " +
+                                 std::to_string(plot_scope_width_tiles_ * plot_scope_length_tiles_) +
+                                 " m2] — Node 02 can now mill the cedar bed frames!";
+            }
+        } else if (cmd_type == "proactive_manual_water") {
+            int64_t water_ml = 6000;
+            (void)json_util::ReadInt64(cmd_json, "water_ml", water_ml);
+            for (flecs::entity e : map_entities_) {
+                if (!e.is_alive() || !e.has<EntitySpatialMetaComponent>() ||
+                    !e.has<SoilCellRegisters>() || !e.has<GardenBedHealthState>()) {
+                    continue;
+                }
+                if (e.get<EntitySpatialMetaComponent>().archetype_id != "arch.raised_garden_bed") {
+                    continue;
+                }
+                auto& soil   = e.get_mut<SoilCellRegisters>();
+                auto& health = e.get_mut<GardenBedHealthState>();
+                const uint32_t added_bp = static_cast<uint32_t>(std::clamp<int64_t>((water_ml * 3) / 10, 600, 3200));
+                soil.moisture_vwc_bp = std::min<uint32_t>(9500u, soil.moisture_vwc_bp + added_bp);
+                if (soil.moisture_vwc_bp >= 5400u) {
+                    health.crop_health_bp        = (health.crop_health_bp > 1100u) ? (health.crop_health_bp - 1100u) : 500u;
+                    health.care_quality_score_bp = (health.care_quality_score_bp > 900u) ? (health.care_quality_score_bp - 900u) : 500u;
+                    health.true_issue            = GardenIssueCode::OVERWATERED_ROOT_ROT;
+                    inner_thought_               = "Watered the garden plot outside the scheduled L4 check — soil is waterlogged and root rot is threatening the pea vines!";
+                } else {
+                    inner_thought_ = "Added extra water to the garden plot manually (" + std::to_string(soil.moisture_vwc_bp / 100u) + "% VWC).";
+                }
+                const bool has_l2 = e.has<SensorAttachmentComponent>() &&
+                                    e.get<SensorAttachmentComponent>().has_l2_sensor;
+                health.skill_tier      = has_l2 ? AgronomySkillTier::L2_AUTOMATED : steward_agronomy_skill_tier_;
+                health.diagnosed_issue = FilterIssueByEpistemicSkill(health.true_issue, health.skill_tier);
+            }
+        } else if (cmd_type == "inject_garden_issue") {
+            std::string issue_str;
+            (void)json_util::ReadString(cmd_json, "issue", issue_str);
+            for (flecs::entity e : map_entities_) {
+                if (!e.is_alive() || !e.has<EntitySpatialMetaComponent>() ||
+                    !e.has<SoilCellRegisters>() || !e.has<GardenBedHealthState>()) {
+                    continue;
+                }
+                if (e.get<EntitySpatialMetaComponent>().archetype_id != "arch.raised_garden_bed") {
+                    continue;
+                }
+                auto& soil   = e.get_mut<SoilCellRegisters>();
+                auto& health = e.get_mut<GardenBedHealthState>();
+                if (issue_str.find("WEED") != std::string::npos || issue_str == "2") {
+                    health.weed_pressure_bp = 4200u;
+                    health.true_issue       = GardenIssueCode::WEED_COMPETITION;
+                } else if (issue_str.find("PEST") != std::string::npos || issue_str == "3") {
+                    health.pest_pressure_bp = 4000u;
+                    health.true_issue       = GardenIssueCode::PEST_APHID_BLIGHT;
+                } else if (issue_str.find("DROUGHT") != std::string::npos || issue_str == "1") {
+                    soil.moisture_vwc_bp = 1200u;
+                    health.true_issue    = GardenIssueCode::DROUGHT_WILTING;
+                } else if (issue_str.find("OVERWATER") != std::string::npos || issue_str == "7") {
+                    soil.moisture_vwc_bp = 6200u;
+                    health.true_issue    = GardenIssueCode::OVERWATERED_ROOT_ROT;
+                } else if (issue_str.find("NUTRIENT") != std::string::npos || issue_str == "4") {
+                    soil.nitrogen_ppm   = 12u;
+                    soil.phosphorus_ppm = 10u;
+                    health.true_issue   = GardenIssueCode::NUTRIENT_DEFICIENCY;
+                } else if (issue_str.find("INSULATION") != std::string::npos || issue_str.find("SOIL") != std::string::npos || issue_str == "5") {
+                    soil.organic_carbon_bp = 1100u;
+                    health.true_issue      = GardenIssueCode::SOIL_INSULATION_FLOW;
+                } else if (issue_str.find("FAIL") != std::string::npos || issue_str == "6") {
+                    health.crop_health_bp = 1400u;
+                    health.true_issue     = GardenIssueCode::CROP_FAILURE_BLIGHT;
+                }
+                const bool has_l2 = e.has<SensorAttachmentComponent>() &&
+                                    e.get<SensorAttachmentComponent>().has_l2_sensor;
+                health.skill_tier      = has_l2 ? AgronomySkillTier::L2_AUTOMATED : steward_agronomy_skill_tier_;
+                health.diagnosed_issue = FilterIssueByEpistemicSkill(health.true_issue, health.skill_tier);
+            }
         } else if (cmd_type == "sync_bpmn_tokens") {
             std::string synced_cultivar_id;
             if (json_util::ReadString(cmd_json, "cultivar_id", synced_cultivar_id) ||
                 json_util::ReadString(cmd_json, "selected_cultivar_id", synced_cultivar_id)) {
                 if (!synced_cultivar_id.empty()) {
                     ApplyActiveCultivarSelection(synced_cultivar_id);
+                }
+            }
+            int64_t synced_skill_tier = 0;
+            if (json_util::ReadInt64(cmd_json, "agronomy_skill_tier", synced_skill_tier) && synced_skill_tier >= 1) {
+                if (synced_skill_tier >= 3) {
+                    steward_agronomy_skill_tier_ = AgronomySkillTier::L2_AUTOMATED;
+                } else if (synced_skill_tier == 2) {
+                    steward_agronomy_skill_tier_ = AgronomySkillTier::EXPERIENCED;
+                } else {
+                    steward_agronomy_skill_tier_ = AgronomySkillTier::NOVICE;
                 }
             }
             bool sync_active = false;
@@ -2819,6 +3163,17 @@ private:
             coop_eggs = coop.get<InventoryComponent>().CountItem("item.pasture_egg");
         }
 
+        GardenBedHealthState snap_health{};
+        snap_health.skill_tier = steward_agronomy_skill_tier_;
+        for (flecs::entity e : map_entities_) {
+            if (e.is_alive() && e.has<EntitySpatialMetaComponent>() && e.has<GardenBedHealthState>()) {
+                if (e.get<EntitySpatialMetaComponent>().archetype_id == "arch.raised_garden_bed") {
+                    snap_health = e.get<GardenBedHealthState>();
+                    break;
+                }
+            }
+        }
+
         const HaulingToolDef* equipped_def = steward_equipped_tool_.ResolveTool(registry_);
         const std::string_view equipped_label =
             (equipped_def != nullptr) ? std::string_view(equipped_def->display_name) : std::string_view{};
@@ -2839,8 +3194,24 @@ private:
             << "\"map_generator\":\"" << (procedural_mode_active_ ? "procedural" : "static") << "\","
             << "\"active_cultivar_id\":\"" << detail::JsonEscape(CultivarIdFromCode(active_cultivar_code_)) << "\","
             << "\"active_cultivar_name\":\"" << detail::JsonEscape(CultivarDisplayNameFromCode(active_cultivar_code_)) << "\","
+            << "\"steward_agronomy_skill_tier\":" << static_cast<unsigned>(steward_agronomy_skill_tier_) << ","
             << "\"observed_garden_growth_bp\":" << last_observed_garden_growth_bp_ << ","
             << "\"observed_garden_moisture_bp\":" << last_observed_garden_moisture_bp_ << ","
+            << "\"garden_plot_scope\":{"
+            << "\"origin_x\":" << plot_scope_origin_x_ << ","
+            << "\"origin_z\":" << plot_scope_origin_z_ << ","
+            << "\"width_tiles\":" << plot_scope_width_tiles_ << ","
+            << "\"length_tiles\":" << plot_scope_length_tiles_ << ","
+            << "\"area_m2\":" << (plot_scope_width_tiles_ * plot_scope_length_tiles_) << ","
+            << "\"scope_defined\":" << (plot_scope_defined_ ? "true" : "false")
+            << "},"
+            << "\"garden_health\":{"
+            << "\"crop_health_bp\":" << snap_health.crop_health_bp << ","
+            << "\"care_quality_score_bp\":" << snap_health.care_quality_score_bp << ","
+            << "\"uncertainty_bp\":" << DiagnosticUncertaintyBpForSkill(has_soil_pin ? AgronomySkillTier::L2_AUTOMATED : steward_agronomy_skill_tier_) << ","
+            << "\"active_issue_code\":" << static_cast<unsigned>(snap_health.true_issue) << ","
+            << "\"diagnosed_issue_code\":" << static_cast<unsigned>(snap_health.diagnosed_issue)
+            << "},"
             << "\"feel\":{"
             << "\"hunger\":" << static_cast<unsigned>(tiers.hunger_tier) << ","
             << "\"energy\":" << static_cast<unsigned>(tiers.energy_tier) << ","
@@ -2968,6 +3339,10 @@ private:
     uint32_t                 last_observed_garden_moisture_bp_{0u};
     int32_t                  last_mouse_x_{0};
     int32_t                  last_mouse_y_{0};
+    int32_t                  plot_scope_origin_x_{20};
+    int32_t                  plot_scope_origin_z_{4};
+    int32_t                  plot_scope_width_tiles_{1};
+    int32_t                  plot_scope_length_tiles_{2};
     bool                     running_{false};
     bool                     procedural_mode_active_{false};
     bool                     shift_down_{false};
@@ -2975,7 +3350,9 @@ private:
     bool                     panning_camera_{false};
     bool                     bpmn_token_sync_active_{false};
     uint8_t                  active_cultivar_code_{kCultivarCodeChronoVirtualPea};
-    [[maybe_unused]] uint8_t app_pad_[5]{0u, 0u, 0u, 0u, 0u};
+    AgronomySkillTier        steward_agronomy_skill_tier_{AgronomySkillTier::NOVICE};
+    bool                     plot_scope_defined_{false};
+    [[maybe_unused]] uint8_t app_pad_[3]{0u, 0u, 0u};
 };
 
 } // namespace oasis::engine::app

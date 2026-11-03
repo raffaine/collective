@@ -29,6 +29,55 @@
         "trellis_ridge_height_mm",
         "harvest_legume_batches"
       ]
+    },
+    "steward_agronomy_skill_tier": {
+      "type": "col:AgronomySkillTier",
+      "default": "NOVICE_OBSERVER",
+      "tiers": {
+        "NOVICE_OBSERVER": {
+          "tier_code": 1,
+          "diagnostic_uncertainty_bp": 2800,
+          "diagnostic_confidence_bp": 7200,
+          "observable_stressors": ["DROUGHT_WILTING", "WEED_COMPETITION", "PEST_APHID_BLIGHT", "CROP_FAILURE_BLIGHT"],
+          "masked_stressors_without_l2": ["NUTRIENT_DEFICIENCY", "SOIL_INSULATION_FLOW"],
+          "guided_questionnaire": [
+            "1. Does the top knuckle of soil feel bone-dry or cool & damp?",
+            "2. Are the leaves perky green, drooping/pale, or chewed/sticky with bugs?",
+            "3. Are wild weeds crowding the pea stems?"
+          ]
+        },
+        "EXPERIENCED_AGRONOMIST": {
+          "tier_code": 2,
+          "diagnostic_uncertainty_bp": 900,
+          "diagnostic_confidence_bp": 9100,
+          "observable_stressors": [
+            "DROUGHT_WILTING",
+            "WEED_COMPETITION",
+            "PEST_APHID_BLIGHT",
+            "NUTRIENT_DEFICIENCY",
+            "SOIL_INSULATION_FLOW",
+            "CROP_FAILURE_BLIGHT"
+          ],
+          "masked_stressors_without_l2": [],
+          "guided_questionnaire": [
+            "1. Foliar diagnostic: Uniform lower-leaf chlorosis (mobile N deficit) vs. purple petiole anthocyanin (P cold-lock) vs. marginal scorch (K)?",
+            "2. Rhizosphere tilth & thermal insulation: Does a 10 cm soil ribbon hold 3-4 mm porous biochar-humus crumb structure for capillary water/nutrient flow and night frost buffering?",
+            "3. Stipule & root-nodule check: Any Macrosiphum aphid honeydew or leghemoglobin nodule senescence?"
+          ]
+        },
+        "L2_SENSOR_ACTUATOR_DETERMINISTIC": {
+          "tier_code": 3,
+          "diagnostic_uncertainty_bp": 150,
+          "diagnostic_confidence_bp": 9850,
+          "required_l2_schemas": ["l2.schema.soil_probe.v1", "l2.schema.irrigation_valve.v1"]
+        }
+      }
+    },
+    "harvest_outcome_tiers": {
+      "CROP_FAILURE": { "max_health_bp": 2000, "yield_multiplier_bp": 0, "requires_resow": true },
+      "POOR_STUNTED": { "max_composite_bp": 6199, "yield_multiplier_bp": 5000 },
+      "STANDARD_NOMINAL": { "min_composite_bp": 6200, "max_composite_bp": 9049, "yield_multiplier_bp": 10000 },
+      "BUMPER_ABUNDANT": { "min_composite_bp": 9050, "min_health_bp": 9000, "yield_multiplier_bp": 15000 }
     }
   },
   "workflows": [
@@ -292,7 +341,7 @@
     },
     {
       "workflow_id": "wf.garden.irrigate_and_weed_manual",
-      "workflow_name": "Manual Soil/Leaf Inspection, Liquid Water Hauling by Can/Bucket & Hand Weeding",
+      "workflow_name": "Skill-Tiered Epistemic Soil/Leaf Inspection, Guided Stressor Remediation & Timed Irrigation",
       "governed_asset_id": "asset:backyard_pea_and_mirepoix_beds",
       "fulfills_need_ids": ["need:split_peas", "need:mirepoix_roots"],
       "automation_mode": "MANUAL_HUMAN_STEWARD",
@@ -302,25 +351,51 @@
         {
           "id": "start",
           "bpmn_type": "bpmn:StartEvent",
-          "name": "Daily Manual Garden Tend Trigger (No L2 Sensors Required)",
+          "name": "Timed Garden Verification Trigger (Skill-Adapted Guidance when No L2 Sensors)",
           "ipc_socket": "l4_l5.sock"
         },
         {
           "id": "task_manual_inspect_soil_and_leaves",
           "bpmn_type": "bpmn:UserTask",
-          "name": "Walk to Raised Bed & Inspect Soil Dampness at Knuckle Depth + Pea Tendril Turgor",
+          "name": "Walk to Raised Bed & Complete Skill-Tiered Diagnostic Questionnaire (Novice vs. Experienced)",
           "ipc_socket": "l3_l4.sock",
           "station_capability": "SOIL_CULTIVATION_BED",
           "physical_parameters": {
             "knuckle_probe_depth_mm": 50,
-            "visual_cues": ["soil_color_darkness", "leaf_stipule_turgor", "powdery_mildew_absence"],
+            "novice_cues": ["top_knuckle_dry_or_damp", "plant_alive_wilted_or_dead", "visible_weeds_or_bugs"],
+            "experienced_cues": ["foliar_npk_chlorosis_pattern", "soil_crumb_thermal_insulation_and_flow", "aphid_stipule_colony_scout"],
             "duration_sim_seconds": 240
+          }
+        },
+        {
+          "id": "gw_issue_detected",
+          "bpmn_type": "bpmn:ExclusiveGateway",
+          "name": "Agronomic Stressor Diagnosed (Drought / Weeds / Pests / N-P-K Deficit / Soil Insulation)?"
+        },
+        {
+          "id": "task_remediate_garden_stressor",
+          "bpmn_type": "bpmn:UserTask",
+          "name": "Execute Targeted Remediation (Hand-Weed / Neem-Soap Wash / Compost Tea / Biochar Mulch / Re-Sow)",
+          "ipc_socket": "l3_l4.sock",
+          "station_capability": "SOIL_CULTIVATION_BED",
+          "remediation_branches": {
+            "DROUGHT_WILTING": "Deep 10 L watering can root-crown soak",
+            "WEED_COMPETITION": "Hand-pull competing weeds & route biomass to compost",
+            "PEST_APHID_BLIGHT": "Wash terminal stipules with diluted castile soap & neem mist",
+            "NUTRIENT_DEFICIENCY": "Side-dress screened thermophilic compost & wood-ash K/P tea",
+            "SOIL_INSULATION_FLOW": "Broadfork aerate & top-dress 3 cm pyrolysis biochar-straw thermal mulch",
+            "CROP_FAILURE_BLIGHT": "Clear dead vines to thermophilic compost (60 C) & reset bed for re-sowing"
+          },
+          "physical_parameters": {
+            "restores_crop_health_bp": 1100,
+            "improves_care_quality_bp": 750,
+            "duration_sim_seconds": 750
           }
         },
         {
           "id": "check_water_l3",
           "bpmn_type": "bpmn:ServiceTask",
-          "name": "Reserve 10,000 ml Potable/Cistern Water in L3",
+          "name": "Reserve ${cultivar.irrigation_dose_ml} ml Potable/Cistern Water in L3",
           "ipc_socket": "l3_l4.sock",
           "ipc_operation": "L3_QUERY_AND_LOCK_INVENTORY",
           "required_inputs": [
@@ -377,14 +452,17 @@
         {
           "id": "end_settle",
           "bpmn_type": "bpmn:EndEvent",
-          "name": "Settle Timed Verification Loop & Advance Token to Harvest",
+          "name": "Settle Timed Verification Loop & Advance Token to Variable-Yield Harvest",
           "ipc_socket": "l3_l4.sock",
           "ipc_operation": "L3_SETTLE_ESCROW"
         }
       ],
       "sequence_flows": [
         { "id": "f1", "sourceRef": "start", "targetRef": "task_manual_inspect_soil_and_leaves" },
-        { "id": "f2", "sourceRef": "task_manual_inspect_soil_and_leaves", "targetRef": "check_water_l3" },
+        { "id": "f2", "sourceRef": "task_manual_inspect_soil_and_leaves", "targetRef": "gw_issue_detected" },
+        { "id": "f2_remediate", "sourceRef": "gw_issue_detected", "targetRef": "task_remediate_garden_stressor", "condition": "diagnosed_issue_code != 0" },
+        { "id": "f2_remediated", "sourceRef": "task_remediate_garden_stressor", "targetRef": "check_water_l3" },
+        { "id": "f2_nominal", "sourceRef": "gw_issue_detected", "targetRef": "check_water_l3", "condition": "diagnosed_issue_code == 0" },
         { "id": "f3", "sourceRef": "check_water_l3", "targetRef": "gw_water_ok" },
         { "id": "f4_miss", "sourceRef": "gw_water_ok", "targetRef": "yield_water_l5", "condition": "escrow_locked == false" },
         { "id": "f4_ok", "sourceRef": "gw_water_ok", "targetRef": "task_haul_water_vessel_and_irrigate", "condition": "escrow_locked == true" },

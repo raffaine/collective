@@ -41,6 +41,15 @@ if(EMSCRIPTEN)
     )
     set_property(TARGET oasis_engine APPEND PROPERTY LINK_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/shell_minimal.html")
     set_target_properties(oasis_engine PROPERTIES SUFFIX ".html")
+    add_custom_command(TARGET oasis_engine POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+            "${CMAKE_CURRENT_SOURCE_DIR}/web"
+            "${CMAKE_CURRENT_BINARY_DIR}/web"
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+            "${CMAKE_CURRENT_SOURCE_DIR}/web/companion"
+            "${CMAKE_CURRENT_BINARY_DIR}/companion"
+        COMMENT "Syncing web/ and companion/ assets into WebAssembly build directory"
+    )
 else()
     target_link_libraries(oasis_engine PRIVATE 
         $<TARGET_NAME_IF_EXISTS:SDL2::SDL2main> 

@@ -237,6 +237,41 @@
             `;
           }).join('') + bpmnChoreographyNote;
 
+      const isBackyardLawnTile =
+        coords.x !== null &&
+        coords.z !== null &&
+        coords.x >= 18 &&
+        coords.x <= 24 &&
+        coords.z >= 2 &&
+        coords.z <= 14 &&
+        (!data.archetype_id || data.archetype_id === '' || data.archetype_id === 'arch.raised_garden_bed');
+
+      const backyardPlotStakeHtml = isBackyardLawnTile
+        ? `
+          <div class="ctx-divider" style="color:#fcd34d;">📐 Designate Garden Plot Scope Here</div>
+          <div class="ctx-affordance-list" style="margin-bottom:6px;">
+            <button type="button" class="ctx-aff-btn" data-stake-plot="1x2" style="border-color:rgba(251,191,36,0.55);background:rgba(251,191,36,0.12);">
+              <div class="ctx-aff-top">
+                <span style="color:#fde68a;font-weight:700;">📐 Stake 1×2m Plot Here (${coords.x}, 1, ${coords.z})</span>
+                <span style="color:#fcd34d;font-size:9px;">2 m² · 1 PKT</span>
+              </div>
+            </button>
+            <button type="button" class="ctx-aff-btn" data-stake-plot="2x2" style="border-color:rgba(52,211,153,0.45);background:rgba(16,185,129,0.10);">
+              <div class="ctx-aff-top">
+                <span style="color:#6ee7b7;font-weight:700;">📐 Stake 2×2m Plot Here (${coords.x}, 1, ${coords.z})</span>
+                <span style="color:#6ee7b7;font-size:9px;">4 m² · 2 PKT</span>
+              </div>
+            </button>
+            <button type="button" class="ctx-aff-btn" data-stake-plot="2x3" style="border-color:rgba(56,189,248,0.45);background:rgba(56,189,248,0.10);">
+              <div class="ctx-aff-top">
+                <span style="color:#7dd3fc;font-weight:700;">📐 Stake 2×3m Plot Here (${coords.x}, 1, ${coords.z})</span>
+                <span style="color:#7dd3fc;font-size:9px;">6 m² · 3 PKT</span>
+              </div>
+            </button>
+          </div>
+        `
+        : '';
+
       menuEl.innerHTML = `
         <div class="ctx-header">
           <div class="ctx-header-top">
@@ -256,6 +291,8 @@
         </div>
 
         <div id="ctx-epistemic-box" class="ctx-epistemic-box hidden"></div>
+
+        ${backyardPlotStakeHtml}
 
         <div class="ctx-divider">Available Affordances</div>
         <div class="ctx-affordance-list">
@@ -289,6 +326,32 @@
           this.close();
         });
       }
+
+      // Bind backyard plot staking buttons
+      menuEl.querySelectorAll('[data-stake-plot]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const dims = String(btn.getAttribute('data-stake-plot') || '1x2').split('x');
+          const w = Math.max(1, Math.min(4, Number(dims[0] || 1)));
+          const l = Math.max(1, Math.min(4, Number(dims[1] || 2)));
+          const ox = Math.max(18, Math.min(24, Number(coords.x || 20)));
+          const oz = Math.max(2, Math.min(14, Number(coords.z || 4)));
+          if (window.OasisDaemonClient && typeof window.OasisDaemonClient.setGardenPlotScope === 'function') {
+            window.OasisDaemonClient.setGardenPlotScope(ox, oz, w, l);
+          }
+          if (window.OasisUI && typeof window.OasisUI.enqueueEngineCommand === 'function') {
+            window.OasisUI.enqueueEngineCommand({
+              type: 'set_garden_plot_scope',
+              action: 'set_garden_plot_scope',
+              origin_x: ox,
+              origin_z: oz,
+              width_tiles: w,
+              length_tiles: l
+            });
+          }
+          if (window.OasisAudio) window.OasisAudio.playStamp();
+          this.close();
+        });
+      });
 
       // Bind domain affordances
       menuEl.querySelectorAll('[data-aff-idx]').forEach((btn) => {
