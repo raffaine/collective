@@ -1,85 +1,97 @@
-# Scenario-Driven Development (SDD) Dashboard & Incremental Cross-Scenario Maturity Matrix
+# Scenario-Driven Development (SDD) Dashboard & Cross-Scenario Maturity Matrix
 
-This dashboard defines the acceptance criteria for the **Oasis** engine (`Layer 1b`), the **Sovereign Stack** daemons (`Layers 2–7`), and the **Dual-Fidelity Real Blueprints** (`core/6_intent/blueprints/*.jsonld`).
+This dashboard serves as the master navigation index for the **twenty-five Sovereign Scenarios (`Zero` through `Omega`)**, organized across **Six Horizontal Waves (Waves A–F)** and **Four Incremental Maturity Tiers**:
 
-Rather than attempting to implement any single scenario monolithically from suburban garage to full bioregional maturity in one swoop, development proceeds in **Horizontal Cross-Scenario Waves (Waves A–F)** across **Four Incremental Maturity Tiers**:
+1. **Stage 1A — Household Seed ($N = 1$ or Single Household, $R_0 \dots R_1$, Single Suburban Lot + $\$20\text{k}$ Reserve $\Phi_0$):** Unconditional **Baseline Right to Exist ($B_{\mathrm{baseline}} = 10{,}000\,\mathrm{bp}$ — Pea Soup, Bean Stew, Warm Shower, Basic Heating, Sanitation & Emergency Care)** + initial Dual-Fidelity Real Blueprints operating under **UUNAA Section 6** private association envelopes ($\le 550\,\mathrm{cB}$ workshop day, $\le 380\,\mathrm{cB}$ night).
+2. **Stage 1B — Neighborhood Mesh ($N_s \ge 1, N_p > 1$, $R_1 \dots R_2$, 5–12 Peered Households):** Pairwise Bilateral Clearing Channels (`BCC`), multi-node DAG BOM dependencies, consolidated cargo-trike milk-runs ($\eta_{\mathrm{route}} \ge 6000\,\mathrm{bp}$), rotational care pods, and `Learn -> Work -> Reputational Wealth (R)` stewardship progression.
+3. **Stage 2 — Cooperative Shell ($N_s > 1, N_p > 1$, $R_2 \dots R_3$, Leased Mixed-Use / Subchapter T Carapace):** Co-located commercial commissary, tool library, coworking carapace (`Carapace-as-a-Service`), and regional HVDC/Reticulum mesh routing with self-sustaining $\Phi_t \to 0$ bill-zeroing buffers.
+4. **Stage 3 — Sovereign Campus ($N_s > 1, N_p > 1$, $R_3 \dots R_5$, Community Land Trust / Perpetual Purpose Trust):** Permanently decommodified land, full stoichiometric HIL verification, reversible *Kigumi* mass-timber architecture, terminal decoupling ($D_t \le 200\text{–}500\,\mathrm{bp}$), and the outbound **Planetary Lighthouse & Genesis Seedbed Bridge**.
 
-1. **Stage 1A — Household Seed ($R_0 \dots R_1$, Single Suburban Lot + $\$20\text{k}$ Reserve $\Phi_0$):** Unconditional **Baseline Right to Exist ($B_{\mathrm{baseline}}$ — Pea Soup, Bean Stew, Warm Shower, Basic Heating, Sanitation & Emergency Care)** + initial Dual-Fidelity Real Blueprints (`MACRO_ABSTRACTED` / `MULTI_STAGE_SUBSET` in Oasis) operating under **UUNAA § 6** private association envelopes ($\le 550\,\mathrm{cB}$ workshop, $\le 380\,\mathrm{cB}$ homelab).
-2. **Stage 1B — Neighborhood Mesh ($R_1 \dots R_2$, 5–12 Peered Households):** Pairwise Bilateral Clearing Channels ($BCC$), multi-node DAG BOM dependencies, scheduled cargo-trike milk-runs, rotational care pods, and `Learn -> Work -> Reputational Wealth (R)` stewardship progression.
-3. **Stage 2 — Cooperative Shell ($R_2 \dots R_3$, Leased Mixed-Use / Subchapter T Carapace):** Co-located commercial commissary, tool library, coworking carapace, and regional HVDC/Reticulum mesh routing with self-sustaining $\Phi_t$ revenue buffers.
-4. **Stage 3 — Sovereign Campus ($R_3 \dots R_5$, Community Land Trust / Perpetual Purpose Trust):** Permanently de-commodified land, full stoichiometric HIL simulation (`FULL_STOICHIOMETRIC_HIL`), mass-timber/hempcrete algorithmic architecture, and terminal decoupling from legacy rent extraction.
+---
 
-Click on any Scenario Name to view its detailed workflow, physical acceptance tests, and layer-by-layer architectural requirements.
+## Two-Tier Scenario Documentation Architecture
+
+Each scenario lives in its own dedicated directory under `docs/scenarios/<slug>/` with three structured artifacts:
+
+* **`README.md` (Forward-Facing Condensed View):** Free of historical baggage and low-level C++ scaffolding, organized into six human-first sections:
+  1. *Intended Scope & Domain Vision*
+  2. *The Current Landscape (Layer 7) & Its Structural Problems*
+  3. *Wide Feature Horizon*
+  4. *The Layer 6 Surface: Needs, Intents, Semantic Representations & Constellation of Application Lenses*
+  5. *Governance Across Human Scales ($N = 1 \longrightarrow N_s \ge 1, N_p > 1 \longrightarrow N_s > 1, N_p > 1$)*
+  6. *Governing the Reach into Layer 7 (Extractive/Transitional vs. Purely Defensive)*
+* **`versions/v1_full_stack_spec.md` (Versioned 7-Layer Engineering Specification):** Preserves the complete layer-by-layer daemon architecture, Mermaid state machines, JSON-LD wire payloads, Oasis (`Layer 1b`) voxel/ECS specs, and compilable C++20 verification harnesses.
+* **`CHANGELOG.md` (Architectural Decision & Evolution Log):** Records why architectural changes were made across versions to prevent repeating past design mistakes.
 
 ---
 
 ## Wave A: Meta, Onboarding & Homeostasis Core
-*Foundation for autopoietic daemon self-hosting, Day-1 suburban Steward Genesis, and anti-burnout pacing.*
+*Foundation for autopoietic software self-hosting, four-pathway inclusive Steward Genesis, and burnout-proof somatic homeostasis.*
 
-| ID | Scenario Name | Primary Layers | Stage 1A: Household Seed ($R_0\text{–}R_1$) | Stage 1B: Neighborhood Mesh ($R_1\text{–}R_2$) | Stage 2: Cooperative Shell ($R_2\text{–}R_3$) | Stage 3: Sovereign Campus ($R_3\text{–}R_5$) | Blueprint & Policy Artifacts |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Zero** | [The Sovereign Software Forge (Meta-Scenario)](./scenarios/zero_software.md) | L1 through L7 (Meta) | 🟢 Verified (`col-storaged` + Hermetic Canary) | 🟡 In Progress (Reticulum DTN Sync) | 🔴 Planned | 🔴 Planned | `bp_zero_stage1_homelab.jsonld` (🟢 Verified) |
-| **Tau** | [Steward Genesis (Character Creation)](./scenarios/tau_genesis.md) | L2, L6, L7 | 🟢 Verified (Suburban $\$20\text{k}$ + $B_{\mathrm{baseline}}$) | 🟢 Verified (5-Node Peering) | 🔴 Planned | 🔴 Planned | `stage1_baseline_and_envelopes.json` (🟢 Verified) |
-| **Sigma** | [Altruism Fatigue (Burnout & Homeostasis)](./scenarios/sigma_burnout.md) | L3, L4, L6 | 🟢 Verified (Chill Loop & Acoustic Cap) | 🟡 In Progress (Load Shedding) | 🔴 Planned | 🔴 Planned | `stage1_baseline_and_envelopes.json` (🟢 Verified) |
+| ID | Scenario Overview (`README.md`) | Deep Spec & Log | Primary Surface & Constellation Lenses | Stage 1A ($N=1$) | Stage 1B ($N_s \ge 1, N_p > 1$) | Stage 2–3 ($N_s > 1, N_p > 1$) |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **Zero** | [The Sovereign Software, Game & Digital Commons](./scenarios/zero_software/README.md) | [v1 Spec](./scenarios/zero_software/versions/v1_full_stack_spec.md) · [Log](./scenarios/zero_software/CHANGELOG.md) | Forge Studio, Capability Nutrition Labels, Detox Quarantine Diode | 🟢 Verified (`col-storaged` + Canary) | 🟡 In Progress (Reticulum DTN Sync) | 🔴 Planned (Dual-Guild FROST Store) |
+| **Tau** | [Steward Genesis, Multi-Pathway Onboarding & Inclusion](./scenarios/tau_genesis/README.md) | [v1 Spec](./scenarios/tau_genesis/versions/v1_full_stack_spec.md) · [Log](./scenarios/tau_genesis/CHANGELOG.md) | Sensory-Calm Genesis Slate, Zero-App Walk-In (`R0_GUEST`), Shamir Helper | 🟢 Verified (Suburban $\$20\text{k}$ + $B_{\mathrm{baseline}}$) | 🟢 Verified (2-of-3 NFC Vouch) | 🔴 Planned (4-Pathway Campus) |
+| **Sigma** | [Burnout Prevention, Somatic Homeostasis & Rotational Care](./scenarios/sigma_burnout/README.md) | [v1 Spec](./scenarios/sigma_burnout/versions/v1_full_stack_spec.md) · [Log](./scenarios/sigma_burnout/CHANGELOG.md) | `RestShield` Widget, Physical Brass Door Latch, Work-Bee Quest Board | 🟢 Verified (Chill Loop & $\le 300\,\mathrm{cB}$) | 🟡 In Progress (Pull-Only Relief) | 🔴 Planned ($\le 4000\,\mathrm{bp}$ Concentration Breaker) |
 
 ---
 
 ## Wave B: Suburban Survival, Energy, Fabrication & Transit Seed
-*Scrapping legacy grocery and electric utility bills on Day 1 via the Commons Baseline ($B_{\mathrm{baseline}}$), backyard solar/tooling, and 48V cargo e-trike milk-runs.*
+*Replacing grocery, hardware, and fossil-fuel delivery bills via unconditional nourishment ($B_{\mathrm{baseline}}$), shared fabrication/tool cribs, and consolidated five-artery milk-runs.*
 
-| ID | Scenario Name | Primary Layers | Stage 1A: Household Seed ($R_0\text{–}R_1$) | Stage 1B: Neighborhood Mesh ($R_1\text{–}R_2$) | Stage 2: Cooperative Shell ($R_2\text{–}R_3$) | Stage 3: Sovereign Campus ($R_3\text{–}R_5$) | Blueprint & Policy Artifacts |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Gamma** | [The Commons Kitchen (Pea Soup & Bean Stew Baseline)](./scenarios/gamma_kitchen.md) | L2, L3, L4, L6 | 🟢 Verified (Peas/Roots + Hens/Eggs/Meat + 24h Bone Broth + Communal Pea Soup) | 🟢 Verified (Neighborhood Tiffin Service) | 🔴 Planned (Subchapter T Commissary) | 🔴 Planned (Agro-Ecological Hearth) | `bp_gamma_stage1_hearth_and_garden.jsonld` (🟢 Verified) |
-| **Alpha** | [The Fabrication Commons & Tool Library](./scenarios/alpha_fabrication.md) | L1, L2, L3, L4 | 🟢 Verified (Garage Bench + Coop/Trellis Fab + 400W Solar) | 🟡 In Progress (Recursive DAG BOMs) | 🔴 Planned (Industrial Micro-Factory) | 🔴 Planned (Bioregional Foundry Hub) | `bp_alpha_stage1_solar_array.jsonld` (🟢 Verified) |
-| **Beta** | [Decentralized Transit & Five-Artery Logistics](./scenarios/beta_transit.md) | L3, L4, L5, L6 | 🟢 Ready (48V Cargo Trike + Cistern) | 🟡 In Progress (BCC Milk-Runs & LoRa) | 🔴 Planned (380V HVDC + Shared EVs) | 🔴 Planned (Watershed Barge/Rail Mesh) | `bp_beta_stage1_cargo_trike_depot.jsonld` (🟢 Ready) |
+| ID | Scenario Overview (`README.md`) | Deep Spec & Log | Primary Surface & Constellation Lenses | Stage 1A ($N=1$) | Stage 1B ($N_s \ge 1, N_p > 1$) | Stage 2–3 ($N_s > 1, N_p > 1$) |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **Gamma** | [The Communal Hearth, Keyline Agroecology & Nourishment](./scenarios/gamma_kitchen/README.md) | [v1 Spec](./scenarios/gamma_kitchen/versions/v1_full_stack_spec.md) · [Log](./scenarios/gamma_kitchen/CHANGELOG.md) | IP67 Hearth E-Ink, Cultivar Fieldbook, `BBS+` Allergen Tiffin Locker | 🟢 Ready (Hearth Baseline + Garden) | 🟡 In Progress (Porch Tiffin Train) | 🔴 Planned (Subchapter T Commissary) |
+| **Alpha** | [Convivial Fabrication, Parametric Blueprints & Tool Library](./scenarios/alpha_fabrication/README.md) | [v1 Spec](./scenarios/alpha_fabrication/versions/v1_full_stack_spec.md) · [Log](./scenarios/alpha_fabrication/CHANGELOG.md) | Blueprint Cost Browser ($\mathbf{C}_{\mathrm{prod}}$), Shop BOM E-Ink + $<10\,\mathrm{ms}$ LOTO | 🟢 Ready (400W Solar + Garage Bench) | 🟡 In Progress (Recursive DAG BOMs) | 🔴 Planned (5-Modality Fab Guild) |
+| **Beta** | [Five-Artery Logistics, Cold-Chain Milk-Runs & `No-Transit`](./scenarios/beta_transit/README.md) | [v1 Spec](./scenarios/beta_transit/versions/v1_full_stack_spec.md) · [Log](./scenarios/beta_transit/CHANGELOG.md) | Handlebar Domain-B Courier Deck, Red-Lever Intertie, `No-Transit` Map | 🟢 Ready (48V Cargo Trike + Cistern) | 🟡 In Progress (CVRP $\eta \ge 6000\,\mathrm{bp}$) | 🔴 Planned (380V HVDC + Barge/Rail) |
 
 ---
 
-## Wave C: Care, Kinship, Apprenticeship & Lodging
-*Non-tokenizable human care, dual-parent Care Leave Shields, pairwise Trust Rings, open learning (`Learn -> Work -> Govern`), and warm showers/hospitality.*
+## Wave C: Care, Kinship, Apprenticeship & Decommodified Shelter
+*Non-tokenizable human care (`domestic_care_token_minting == 0`), 90-day postpartum cocoons, pluralistic kinship with $<500\,\mathrm{ms}$ unilateral exit, $R_0$-private mastery, and screenless $R_0$ homes.*
 
-| ID | Scenario Name | Primary Layers | Stage 1A: Household Seed ($R_0\text{–}R_1$) | Stage 1B: Neighborhood Mesh ($R_1\text{–}R_2$) | Stage 2: Cooperative Shell ($R_2\text{–}R_3$) | Stage 3: Sovereign Campus ($R_3\text{–}R_5$) | Blueprint & Policy Artifacts |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Delta** | [Mutual Aid Childcare Pod & Perinatal Sanctuary](./scenarios/delta_childcare.md) | L3, L4, L5, L6 | 🟢 Ready (Living-Room Pod + 4th-Trimester Cocoon) | 🟡 In Progress (Diaper Loop + Dynamic Ratio) | 🔴 Planned (Co-Located Nursery Suite) | 🔴 Planned (Birthing & Forest School) | `bp_delta_stage1_childcare_pod.jsonld` (🟢 Ready) |
-| **Omicron**| [The Kinship Protocol (Trust Rings)](./scenarios/omicron_kinship.md) | L3, L4, L5, L6 | 🟡 Next Sprint ($R_0\text{–}R_2$ Pairwise `did:peer`) | 🔴 Planned | 🔴 Planned | 🔴 Planned | Planned (`Wave C` Sprint) |
-| **Kappa** | [The Apprenticeship Protocol (Learn to Govern)](./scenarios/kappa_apprenticeship.md) | L1, L3, L5, L6 | 🟢 Verified (Supervised Mode + $+600\,\mathrm{bp}\;\mathcal{R}$) | 🔴 Planned | 🔴 Planned | 🔴 Planned | `stage1_baseline_and_envelopes.json` (🟢 Verified) |
-| **Zeta** | [Micro-Lodging Mesh & Hydronic Bathhouse](./scenarios/zeta_lodging.md) | L3, L4, L5, L6 | 🟢 Verified (6-Room Furnished House + Warm Shower/Sanitation) | 🔴 Planned | 🔴 Planned | 🔴 Planned | `stage1_baseline_and_envelopes.json` (🟢 Verified) |
+| ID | Scenario Overview (`README.md`) | Deep Spec & Log | Primary Surface & Constellation Lenses | Stage 1A ($N=1$) | Stage 1B ($N_s \ge 1, N_p > 1$) | Stage 2–3 ($N_s > 1, N_p > 1$) |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **Delta** | [Perinatal Sanctuary, Postpartum Cocoons & Childcare Pods](./scenarios/delta_childcare/README.md) | [v1 Spec](./scenarios/delta_childcare/versions/v1_full_stack_spec.md) · [Log](./scenarios/delta_childcare/CHANGELOG.md) | Camera-Free Pod E-Ink, 2-Adult NFC Slate, 1-Sign 90d Cocoon Planner | 🟢 Ready (Living-Room Pod + Cocoon) | 🟡 In Progress (Diaper Loop + Ratios) | 🔴 Planned (Birthing & Forest School) |
+| **Omicron**| [Chosen Kinship Covenants & Unilateral Safe-Harbor Exit](./scenarios/omicron_kinship/README.md) | [v1 Spec](./scenarios/omicron_kinship/versions/v1_full_stack_spec.md) · [Log](./scenarios/omicron_kinship/CHANGELOG.md) | Kinship Ceremony Slate, $R_1$ Sanctuary Switch, $<500\,\mathrm{ms}$ Safe Exit | 🟡 Next Sprint ($R_0\text{–}R_2$ Covenants) | 🔴 Planned (POA/HIPAA Armor) | 🔴 Planned (Standing Refuge Suites) |
+| **Kappa** | [Debt-Free Polymathic Guild Apprenticeship & Mastery](./scenarios/kappa_apprenticeship/README.md) | [v1 Spec](./scenarios/kappa_apprenticeship/versions/v1_full_stack_spec.md) · [Log](./scenarios/kappa_apprenticeship/CHANGELOG.md) | $R_0$-Private BKT Workbook, Hazard Drill Lens, $\le 2\,\mathrm{m}$ BLE Tether | 🟡 Next Sprint (Supervised Mode + ZKP) | 🔴 Planned (3-of-3 Capstone) | 🔴 Planned (Trade School Carapace) |
+| **Zeta** | [Decommodified CLT Shelter & Regenerative Bathhouses](./scenarios/zeta_lodging/README.md) | [v1 Spec](./scenarios/zeta_lodging/versions/v1_full_stack_spec.md) · [Log](./scenarios/zeta_lodging/CHANGELOG.md) | Vestibule Bathhouse Kiosk, Screenless $R_0$ Brass Controls, Crisis Key | 🟡 Next Sprint ($43.2\,\mathrm{MJ/d}$ + Shower) | 🔴 Planned (DWHR + 72h Wetland) | 🔴 Planned (99-Yr CLT Courtyard) |
 
 ---
 
 ## Wave D: Regenerative Land, Extraction, Materials & Architecture
-*Closing the physical material loop so Scenario Alpha and Gamma blueprints source timber, compost, metals, textiles, and structural retrofits from the watershed instead of Layer 7 GPO imports.*
+*Closing the heavy bioregional material loop across rotational coppice forestry, five-stream biorefining, solar scrap metallurgy, zero-PFAS textiles, and two-track Kigumi open building.*
 
-| ID | Scenario Name | Primary Layers | Stage 1A: Household Seed ($R_0\text{–}R_1$) | Stage 1B: Neighborhood Mesh ($R_1\text{–}R_2$) | Stage 2: Cooperative Shell ($R_2\text{–}R_3$) | Stage 3: Sovereign Campus ($R_3\text{–}R_5$) | Blueprint & Policy Artifacts |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Eta** | [Coppice & Carbon Commons](./scenarios/eta_coppice.md) | L1, L2, L4 | 🔴 Planned (Backyard Micro-Nursery) | 🔴 Planned (Locust/Willow Coppice Lot) | 🔴 Planned (Solar Lumber Kiln) | 🔴 Planned (Watershed Agroforestry) | Planned (`Wave D` Sprint) |
-| **Mu** | [Regenerative Extraction (Biochar & Compost)](./scenarios/mu_extraction.md) | L1, L2, L3, L4 | 🟢 Verified (TLUD Biochar Kiln + $55^\circ\text{C}$ Compost Drum + Struvite + *Terra Preta*) | 🟡 In Progress (PEX Waste-Heat Hydronics) | 🔴 Planned (Urbanite Salvage Depot) | 🔴 Planned (Bioregional Soil Lab) | `bp_gamma_stage1_hearth_and_garden.jsonld` (🟢 Verified) |
-| **Theta** | [The Extraction & Refinement Foundry](./scenarios/theta_foundry.md) | L1, L2, L3, L4 | 🔴 Planned (E-Waste/Scrap Sorting Nook) | 🔴 Planned (Induction Crucible Micro-Melt) | 🔴 Planned (Recycled Bronze/Alu Foundry) | 🔴 Planned (Closed-Loop Metalworks) | Planned (`Wave D` Sprint) |
-| **Nu** | [Circular Textiles & Soft Infrastructure](./scenarios/nu_fashion.md) | L1, L4, L6 | 🔴 Planned (Mending & Cloth Diaper Repair) | 🔴 Planned (Shared Industrial Sewing Loft) | 🔴 Planned (Bast-Fiber/Wool Micro-Mill) | 🔴 Planned (Bioregional Textile Guild) | Planned (`Wave D` Sprint) |
-| **Xi** | [Algorithmic Architecture & Urban Retrofit](./scenarios/xi_architecture.md) | L1, L2, L4, L5 | 🔴 Planned (Blower-Door & Cellulose Insulation) | 🔴 Planned (Fence-Removal Yard Unification) | 🔴 Planned (Accessory Cooperative Suites) | 🔴 Planned (CLT Mass-Timber Village) | Planned (`Wave D` Sprint) |
+| ID | Scenario Overview (`README.md`) | Deep Spec & Log | Primary Surface & Constellation Lenses | Stage 1A ($N=1$) | Stage 1B ($N_s \ge 1, N_p > 1$) | Stage 2–3 ($N_s > 1, N_p > 1$) |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **Eta** | [Regenerative Agroforestry, Coppice & Botanical Apothecary](./scenarios/eta_coppice/README.md) | [v1 Spec](./scenarios/eta_coppice/versions/v1_full_stack_spec.md) · [Log](./scenarios/eta_coppice/CHANGELOG.md) | Offline GIS Fieldbook (`Mother-Tree Veto`), Dual-Assay Apothecary Slate | 🔴 Planned (Backyard Micro-Nursery) | 🔴 Planned (Coppice Lot $\le 2500\,\mathrm{bp}$) | 🔴 Planned (Solar Kiln & Forest Tax) |
+| **Mu** | [Five-Stream Urban Unbuilding, Biochar & Nutrient Recovery](./scenarios/mu_extraction/README.md) | [v1 Spec](./scenarios/mu_extraction/versions/v1_full_stack_spec.md) · [Log](./scenarios/mu_extraction/CHANGELOG.md) | NIR/XRF Triage Scanner, 72h Compost/Struvite Slate, Taint Lockout | 🔴 Planned (72h Hot Compost) | 🔴 Planned (TLUD Biochar Retort) | 🔴 Planned ($\ge 9800\,\mathrm{bp}$ Unbuilding) |
+| **Theta** | [Secondary Foundry, XRF Scrap Metallurgy & Solar Batching](./scenarios/theta_foundry/README.md) | [v1 Spec](./scenarios/theta_foundry/versions/v1_full_stack_spec.md) · [Log](./scenarios/theta_foundry/CHANGELOG.md) | Foundry Crucible Console, $\le 250\,\mathrm{ms}$ 2-Person Dead-Man Pour Gate | 🔴 Planned (Tier-1 Cold Reuse & Sort) | 🔴 Planned (2-Person Micro-Melt) | 🔴 Planned (3-Tier Foundry & Glass) |
+| **Nu** | [Bioregional Fiber Shed, Zero-PFAS Textiles & Footwear](./scenarios/nu_fashion/README.md) | [v1 Spec](./scenarios/nu_fashion/versions/v1_full_stack_spec.md) · [Log](./scenarios/nu_fashion/CHANGELOG.md) | Ephemeral-RAM Atelier (`OP_PURGE_R0_LINEAGE`), Sashiko Mending Board | 🔴 Planned (Mending & Diaper Repair) | 🔴 Planned (Shared Sewing Loft) | 🔴 Planned (Bast/Wool Mill & Cobbler) |
+| **Xi** | [Two-Track Parametric Open Building & Kigumi Barn-Raising](./scenarios/xi_architecture/README.md) | [v1 Spec](./scenarios/xi_architecture/versions/v1_full_stack_spec.md) · [Log](./scenarios/xi_architecture/CHANGELOG.md) | Kigumi Barn-Raising Tablet, Track-2 Private Sketchpad, PE Code Compiler | 🔴 Planned (Blower-Door & Insulation) | 🔴 Planned (Fence-Removal Courtyards) | 🔴 Planned (Track-1/2 Kigumi Village) |
 
 ---
 
-## Wave E: Third Place, Epistemic R&D, Culture & Guilds
-*Establishing the legal, fiscal, research, and cultural commons that bind neighborhood pods into a self-governing bioregional federation.*
+## Wave E: Third Place, Epistemic R&D, Culture & Polycentric Guilds
+*Uniting zero-ID civic hospitality, $N \ge 3$ empirical citizen science, unmediated acoustic/STEAM culture, and stigmergic multi-guild federation.*
 
-| ID | Scenario Name | Primary Layers | Stage 1A: Household Seed ($R_0\text{–}R_1$) | Stage 1B: Neighborhood Mesh ($R_1\text{–}R_2$) | Stage 2: Cooperative Shell ($R_2\text{–}R_3$) | Stage 3: Sovereign Campus ($R_3\text{–}R_5$) | Blueprint & Policy Artifacts |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Epsilon**| [Sovereign Third Place (Coworking Carapace)](./scenarios/epsilon_coworking.md) | L2, L3, L4, L6 | 🔴 Planned (Living-Room Study Nook) | 🔴 Planned (Shared Fiber/Quiet Porch) | 🔴 Planned (Subchapter T Commercial Hub) | 🔴 Planned (Guild Hall & Agora) | Planned (`Wave E` Sprint) |
-| **Iota** | [The Epistemic Mesh (Open R&D)](./scenarios/iota_epistemic.md) | L2, L3, L5, L6 | 🔴 Planned (Home Soil/Water Assay Kit) | 🔴 Planned (Peer-Replicated Blueprint Trials) | 🔴 Planned (Wet-Lab & Metrology Bench) | 🔴 Planned (Bioregional Research Institute) | Planned (`Wave E` Sprint) |
-| **Lambda** | [Cultural Commons (Arts, Sound & Somatic Play)](./scenarios/lambda_cultural.md) | L2, L3, L4, L6 | 🔴 Planned (Acoustic Hearth & Lawn Play) | 🔴 Planned (Block Feast & Tool Raising) | 🔴 Planned (Acoustic Studio & Amphitheater) | 🔴 Planned (Festival & Somatic Sanctuary) | Planned (`Wave E` Sprint) |
-| **Pi** | [The Sovereign Guild (Identity & Treasury)](./scenarios/pi_guild.md) | L2, L4, L5, L6 | 🔴 Planned (FROST Key + $\$20\text{k}$ Reserve Shield) | 🔴 Planned (Neighborhood GPO Pool) | 🔴 Planned (Multi-Guild Stewardship Chamber) | 🔴 Planned (Bioregional Commonwealth) | Planned (`Wave E` Sprint) |
+| ID | Scenario Overview (`README.md`) | Deep Spec & Log | Primary Surface & Constellation Lenses | Stage 1A ($N=1$) | Stage 1B ($N_s \ge 1, N_p > 1$) | Stage 2–3 ($N_s > 1, N_p > 1$) |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **Epsilon**| [Shared Third-Place Portal, Compute & Subchapter T Carapace](./scenarios/epsilon_coworking/README.md) | [v1 Spec](./scenarios/epsilon_coworking/versions/v1_full_stack_spec.md) · [Log](./scenarios/epsilon_coworking/CHANGELOG.md) | Zero-ID Neighbor Portal, VLAN 40/30 Diode Placard, Fiduciary Studio | 🔴 Planned (Study Nook + VLAN Switch) | 🔴 Planned (Shared Fiber & GPO Pool) | 🔴 Planned (Third-Place Café & Co-op) |
+| **Iota** | [Epistemic Open Science, Metrology & Alexandria Commons](./scenarios/iota_epistemic/README.md) | [v1 Spec](./scenarios/iota_epistemic/versions/v1_full_stack_spec.md) · [Log](./scenarios/iota_epistemic/CHANGELOG.md) | Lab Notebook ($\le 50\,\mathrm{bp}$ Drift), $N \ge 3$ Workbench, Alexandria Reader | 🔴 Planned (Home Soil/Water Assay) | 🔴 Planned (Inquiry Circle & Bindery) | 🔴 Planned ($N \ge 3$ Ontology Calibration) |
+| **Lambda** | [Cultural, Acoustic & Land-Rooted STEAM Commons](./scenarios/lambda_cultural/README.md) | [v1 Spec](./scenarios/lambda_cultural/versions/v1_full_stack_spec.md) · [Log](./scenarios/lambda_cultural/CHANGELOG.md) | Unmediated Mic Kill-Switch, Broadside Calendar, SPL Stage Lantern | 🔴 Planned (Acoustic Hearth & Craft) | 🔴 Planned (Parlor Salon & Luthiery) | 🔴 Planned (Amphitheater & Festivals) |
+| **Pi** | [Polycentric Guild Patchwork, Demand Beacons & Treaties](./scenarios/pi_guild/README.md) | [v1 Spec](./scenarios/pi_guild/versions/v1_full_stack_spec.md) · [Log](./scenarios/pi_guild/CHANGELOG.md) | 4-Stage Ricardian Treaty Studio, `MeshGrowthBeacon` Map, Swarm Board | 🔴 Planned (1-of-1 `BCC` Peering) | 🔴 Planned (FROST Pod + Growth Beacons) | 🔴 Planned (Spatial $\times$ Guild Federation) |
 
 ---
 
 ## Wave F: Health, Resilience, Elder Care, Justice & Terminal Decoupling
-*Hardening the bioregion against clinical emergencies, ecological/grid shocks, aging, internal conflict, adversarial attack, and legacy land/tax extraction.*
+*Hardening the commonwealth across zero-LLM clinical triage, 72-hour black-start solidarity, dignified elder sagehood, transformative justice, fault-first immunity, and post-scarcity graduation.*
 
-| ID | Scenario Name | Primary Layers | Stage 1A: Household Seed ($R_0\text{–}R_1$) | Stage 1B: Neighborhood Mesh ($R_1\text{–}R_2$) | Stage 2: Cooperative Shell ($R_2\text{–}R_3$) | Stage 3: Sovereign Campus ($R_3\text{–}R_5$) | Blueprint & Policy Artifacts |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Chi** | [Paramedic Mesh & Pharmacopeia](./scenarios/chi_paramedic.md) | L1, L2, L4, L5 | 🔴 Planned ($B_{\mathrm{baseline}}$ First-Aid & Triage Kit) | 🔴 Planned (Block Paramedic Responder Ring) | 🔴 Planned (Community Clinic & Herbal Lab) | 🔴 Planned (Sanctuary Hospital & Compounding) | Planned (`Wave F` Sprint) |
-| **Upsilon**| [Ecological Shock (Disaster Resilience & Nurture)](./scenarios/upsilon_shock.md) | L1, L2, L3, L4 | 🔴 Planned (72h Islanded 48V/Cistern Hold) | 🔴 Planned (Microgrid Black-Start & Relief) | 🔴 Planned (Neighborhood Refuge Shelter) | 🔴 Planned (Watershed Climate Buffer) | Planned (`Wave F` Sprint) |
-| **Phi** | [Elder Ring & End-of-Life Sanctuary](./scenarios/phi_elder.md) | L2, L4, L5, L6 | 🔴 Planned (Accessible Ground-Floor Suite) | 🔴 Planned (Intergenerational Delta/Phi Pairing) | 🔴 Planned (Co-Housing Elder Court) | 🔴 Planned (Hospice & Memorial Grove) | Planned (`Wave F` Sprint) |
-| **Psi** | [Restorative Justice & Conflict Resolution](./scenarios/psi_mediation.md) | L2, L3, L4, L7 | 🔴 Planned (Household/Neighbor Cooling Hold) | 🔴 Planned (Sortition Mediation Circle) | 🔴 Planned (Inter-Pod Restorative Compact) | 🔴 Planned (Graceful Fission Protocol) | Planned (`Wave F` Sprint) |
-| **Rho** | [The Adversarial Mesh (Threat Modeling & Defense)](./scenarios/rho_adversarial.md) | L2, L3, L5 | 🔴 Planned (`col-adversaryd` Sybil/Float Audit) | 🔴 Planned (Passive Sensor Quarantine) | 🔴 Planned (DMZ Legal/Fiscal Carapace) | 🔴 Planned (Autonomous Mesh Immunity) | Planned (`Wave F` Sprint) |
-| **Omega** | [The Terminal Decoupling](./scenarios/omega_decoupling.md) | L1 through L6 | 🔴 Planned ($D_t$ Dependency Telemetry) | 🔴 Planned ($D_t \le 5000\,\mathrm{bp}$ Halfway Gate) | 🔴 Planned (CLT Title Conversion) | 🔴 Planned ($D_t < 500\,\mathrm{bp}$ Sovereign Horizon) | Planned (`Wave F` Sprint) |
+| ID | Scenario Overview (`README.md`) | Deep Spec & Log | Primary Surface & Constellation Lenses | Stage 1A ($N=1$) | Stage 1B ($N_s \ge 1, N_p > 1$) | Stage 2–3 ($N_s > 1, N_p > 1$) |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **Chi** | [Zero-LLM Clinical Triage, Primary Care & Pharmacopoeia](./scenarios/chi_paramedic/README.md) | [v1 Spec](./scenarios/chi_paramedic/versions/v1_full_stack_spec.md) · [Log](./scenarios/chi_paramedic/CHANGELOG.md) | Zero-LLM `<500ms` Trauma Pager, `HPLC`/`GC-MS` $\ge 9950\,\mathrm{bp}$ Assay Slate | 🔴 Planned (Trauma Kit & Cold Fridge) | 🔴 Planned (Block Medic Ring $<180\,\mathrm{s}$) | 🔴 Planned (Clinic & Open-Insulin Lab) |
+| **Upsilon**| [Ecological Shock, Black-Start Microgrids & Open Refuge](./scenarios/upsilon_shock/README.md) | [v1 Spec](./scenarios/upsilon_shock/versions/v1_full_stack_spec.md) · [Log](./scenarios/upsilon_shock/CHANGELOG.md) | 0-mW Black-Start E-Ink, Open-Hearth Refuge Board, LoRa Pager | 🔴 Planned (72h Islanded Hold) | 🔴 Planned (Open-Hearth Block Refuge) | 🔴 Planned (Keyline Sponge & Jubilee) |
+| **Phi** | [Dignified Aging, Emeritus Sagehood & Hospice Sanctuary](./scenarios/phi_elder/README.md) | [v1 Spec](./scenarios/phi_elder/versions/v1_full_stack_spec.md) · [Log](./scenarios/phi_elder/CHANGELOG.md) | AAA Tactile/Voice Companion, Edge mmWave Fall Sensor, Vigil Switch | 🔴 Planned (Accessible Ground Suite) | 🔴 Planned ($\le 2000\,\mathrm{bp}$ Care Ring) | 🔴 Planned (Hospice & Memorial Grove) |
+| **Psi** | [Transformative Justice, Restorative Circles & Fission](./scenarios/psi_mediation/README.md) | [v1 Spec](./scenarios/psi_mediation/versions/v1_full_stack_spec.md) · [Log](./scenarios/psi_mediation/CHANGELOG.md) | `<500ms` Safe-Harbor Intake, Unmediated Peace Hearth, Fission Workbench | 🔴 Planned (Cooling-Off & Telemetry) | 🔴 Planned (VRF Sortition Circle) | 🔴 Planned (Graceful Fission Protocol) |
+| **Rho** | [Autopoietic Immunity, Fault-Before-Malice & Shielding](./scenarios/rho_adversarial/README.md) | [v1 Spec](./scenarios/rho_adversarial/versions/v1_full_stack_spec.md) · [Log](./scenarios/rho_adversarial/CHANGELOG.md) | Fault-First Calibration Lens, VLAN 40 Quarantine Viewer, Leak Auditor | 🔴 Planned (Split-Sandbox & Leak Check) | 🔴 Planned (Two-Person Meter Check) | 🔴 Planned (Subpoena Sterility Proof) |
+| **Omega** | [Terminal Decoupling, Post-Scarcity & Planetary Lighthouse](./scenarios/omega_decoupling/README.md) | [v1 Spec](./scenarios/omega_decoupling/versions/v1_full_stack_spec.md) · [Log](./scenarios/omega_decoupling/CHANGELOG.md) | 5-Domain $D_t$ Observatory, Planetary Lighthouse & Seedbed Studio | 🔴 Planned (5-Domain $D_t$ Tracker) | 🔴 Planned ($D_t \le 5000\,\mathrm{bp}$ Halfway) | 🔴 Planned ($D_t \le 200\,\mathrm{bp}$ + Lighthouse) |
