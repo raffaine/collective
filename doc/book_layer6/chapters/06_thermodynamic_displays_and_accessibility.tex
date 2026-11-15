@@ -26,7 +26,7 @@ Electrophoretic \textbf{bistable E-Ink} displays invert this thermodynamic equat
 \toprule
 \textbf{Constellation Surface / Modality} & \textbf{Static Hold (\texttt{mW})} & \textbf{Update Impulse (\texttt{uJ})} & \textbf{24h Duty Budget (\texttt{uJ})} & \textbf{Microgrid SoC Shedding Policy} \\
 \midrule
-3D Oasis WebGPU Proving Viewport & $18{,}000\text{--}65{,}000$ & Continuous $60\,\mathrm{Hz}$ & $\ge 2.6 \times 10^{11}$ & Suspended first below \texttt{SoC < 5500 bp} \\
+Multi-Pane Desktop CAD \& Treaty Studio & $18{,}000\text{--}65{,}000$ & Continuous $60\,\mathrm{Hz}$ & $\ge 2.6 \times 10^{11}$ & Suspended first below \texttt{SoC < 5500 bp} \\
 Emissive OLED/LCD Personal Slate & $1{,}800\text{--}4{,}200$ & Continuous frame & $2.5 \times 10^{10}$ & Auto-sleep / dark-theme below \texttt{3500 bp} \\
 Bistable 1-Bit / 16-Gray E-Ink Board & $0$ & $240{,}000\text{ / flip}$ & $1.44 \times 10^{7}$ ($60$ flips) & Active down to \texttt{SoC = 500 bp} Black-Start \\
 LoRa / Reticulum Emergency Pager & $12$ (RX duty) & $85{,}000\text{ / pkt}$ & $1.04 \times 10^{9}$ & Protected Tier-1 Life-Safety Bus (\texttt{Chi}/\texttt{Upsilon}) \\
@@ -41,8 +41,8 @@ Printed QR/OCR Paper Traveler/Ballot & $0$ & Ink/press once & $0$ (post-print) &
 
 Table~\ref{tab:ch6-display-exergy} directly governs \texttt{col-gatewayd}'s automatic \textbf{Display Exergy Shedding State Machine}. As local microgrid State-of-Charge (\texttt{SoC\_bp}, reported in basis points from Layer~2 BMS shunts via Layer~3) declines during multi-day cloud cover or grid islanding:
 \begin{itemize}
-    \item \textbf{Tier A (\texttt{SoC >= 5500 bp}):} Full Constellation availability, including high-fidelity Oasis WebGPU simulation sessions and local Drafting LLM assistance.
-    \item \textbf{Tier B (\texttt{3500 bp <= SoC < 5500 bp}):} Oasis 3D rendering pauses after session save; emissive Constellation web clients switch automatically to high-contrast dark solar-saver palettes and extend background delta intervals.
+    \item \textbf{Tier A (\texttt{SoC >= 5500 bp}):} Full Constellation availability, including multi-pane desktop CAD/Treaty workstations and local Drafting LLM assistance.
+    \item \textbf{Tier B (\texttt{3500 bp <= SoC < 5500 bp}):} High-draw desktop GPU workstations suspend after session save; emissive Constellation web clients switch automatically to high-contrast dark solar-saver palettes and extend background delta intervals.
     \item \textbf{Tier C (\texttt{1500 bp <= SoC < 3500 bp}):} Local LLM token generation sheds cleanly to structured SHACL forms; station E-Ink placards switch to $15$-minute batched partial refreshes.
     \item \textbf{Tier D (\texttt{SoC < 1500 bp}, 72-Hour Black-Start Survival):} Only 1-bit E-Ink station boards, LoRa/Reticulum emergency pagers, passive NFC taps, and printable paper batch travelers remain active, preserving battery microjoules strictly for insulin/vaccine refrigeration, potable water UV pumps, and clinical trauma triage.
 \end{itemize}
@@ -79,7 +79,7 @@ Whenever a physical room's mechanical \textbf{Unmediated Space Latch} is thrown 
 
 \subsection{Mathematical Luminance Contrast, Fluid Typography, and Fitts-Law Targets}
 
-When stewards \textit{do} use graphical Constellation apps, those interfaces must honor universal human ergonomics rather than dense ``cyberpunk'' micro-text. As our Specialist Council documents in Chapter~\ref{ch:oasis-council-l6}, the bootstrap Lot~402 stylesheet (\texttt{oasis.css}) inherited game-HUD habits---hardcoding $8.5\text{--}9.5\,\mathrm{px}$ font sizes, $< 24\,\mathrm{px}$ buttons, suppressed \texttt{:focus} outlines, and muted slate-on-navy text with $\approx 5.6:1$ contrast.
+When stewards \textit{do} use graphical Constellation apps, those interfaces must honor universal human ergonomics rather than dense ``cyberpunk'' micro-text. As our Specialist Council documents in Chapter~\ref{ch:oasis-council-l6}, the early bootstrap stylesheet inherited dense diagnostic-HUD habits---hardcoding $8.5\text{--}9.5\,\mathrm{px}$ font sizes, $< 24\,\mathrm{px}$ buttons, suppressed \texttt{:focus} outlines, and muted slate-on-navy text with $\approx 5.6:1$ contrast.
 
 Version~3.1 mandates \textbf{W3C WCAG~2.2 Level~AAA} compliance \parencite{w3c2023wcag} across every production Constellation design-token sheet:
 \begin{enumerate}

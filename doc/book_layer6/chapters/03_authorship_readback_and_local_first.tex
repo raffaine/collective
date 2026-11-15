@@ -74,12 +74,12 @@ Constellation endpoints operate across two physical deployment profiles, each en
   \item \textbf{Shared Workshop, Hearth, and Field Terminals (\texttt{ATECC608A} Secure Element):} On communal hardware---such as a sawdust-proof Shop-Floor BOM E-Ink Terminal in \texttt{node-02:garage-fab} or a Care Sanctuary Check-In Slate---browser state is shared or headless. These stations wire a Microchip \texttt{ATECC608A} cryptographic co-processor \parencite{microchip_atecc608a} over a local $\mathrm{I^2C}$ bus (\texttt{0x60} address) paired with a capacitive physical-presence button and steward NFC/badge tap. Private keys are generated internally within the \texttt{ATECC608A} EEPROM slots with \texttt{SlotConfig.ReadKey = 0x00} (permanently prohibiting key reads), active hardware monotonic counters (\texttt{Counter[0]}, \texttt{Counter[1]}) preventing rollback, and physical-presence gating ensuring the chip signs an SHA-256 digest only during a live human finger press on the chassis contact pad.
 \end{enumerate}
 
-\subsection{The Anti-Canvas Principle: Separating Simulation from Commitment}
+\subsection{The Stationary Read-Back Principle: Separating Spatial Inspection from Commitment}
 \label{subsec:anti-canvas}
 
-A critical architectural lesson codified during the Lot~402 Oasis refactor (\texttt{companion\_l6.js}, \texttt{hud\_feel.js}) is the \textbf{Anti-Canvas Principle}: \emph{zero governance ratifications, resource allocations, mutual-credit commitments, or Layer~7 external settlements may ever be triggered from inside a 3D WebGPU/WebGL spatial viewport}.
+A critical human-factors rule governing all Layer~6 Application Lenses is the \textbf{Stationary Read-Back Principle}: \emph{zero governance ratifications, resource allocations, mutual-credit commitments, or Layer~7 external settlements may ever be triggered from inside a moving spatial map, CAD canvas, or animated visualization viewport}.
 
-In immersive 3D digital-twin or game-like views (\texttt{Layer 1b} running at \texttt{QUALITY\_SIMULATED = 0x01}), pointer clicks serve continuous spatial navigation, camera orbit, roof-cutaway toggling (\texttt{toggleRoof()} in \texttt{hud\_feel.js}), and diegetic voxel inspection (\texttt{aff.look}, \texttt{aff.inspect} in \texttt{core\_catalog.json}). Placing an executable ``Approve Proposal'' or ``Authorize L7 Order'' button on a floating 3D billboard invites classic mode-error and perspective-shift mis-clicks \parencite{norman2013design}: a camera pan or sudden frame-time hitch moves a world-space hit-box directly beneath a descending cursor. Under the Anti-Canvas Principle, clicking an object inside the 3D viewport at most opens a read-only inspection toast or deep-links (\texttt{col://...}) into the orthogonal, typography-stable Layer~6 Companion DOM (\texttt{\#l6-companion-root} or standalone Constellation app), where Stage~4 Deterministic Read-Back and Stage~5 signing occur on stationary 2D controls.
+In spatial CAD, GIS contour maps, or facility walkthrough lenses, pointer clicks serve continuous navigation, pan/zoom, layer toggling, and read-only object inspection. Placing an executable ``Approve Proposal'' or ``Authorize L7 Order'' button on a moving spatial overlay invites classic mode-error and perspective-shift mis-clicks \parencite{norman2013design}: a map pan or frame update moves a hit-box directly beneath a descending cursor. Under the Stationary Read-Back Principle, clicking an entity inside any spatial visualization at most opens a read-only inspection card or deep-links (\texttt{col://...}) into an orthogonal, typography-stable Layer~6 Application Lens surface, where Stage~4 Deterministic Read-Back and Stage~5 signing occur on stationary 2D controls.
 
 \subsection{Fitts-Law $500\,\mathrm{ms}$ Tactile Speedbumps Against Dark Patterns}
 \label{subsec:fitts-speedbumps}
@@ -108,7 +108,7 @@ export interface SignedCivicEnvelope {
   canonicalJsonLd: string;        // RFC 8785 JCS deterministic UTF-8 string
   readBackText: string;           // Deterministic zero-LLM template projection
   provenanceTag: ProvenanceTag;
-  actorDid: string;               // e.g. "did:collective:lot402:steward"
+  actorDid: string;               // e.g. "did:collective:valley-north:steward"
   deviceId: string;               // e.g. "dev:hearth-slate-04"
   sequenceNum: string;            // Monotonic uint64 decimal string
   dependencyHeads: string[];      // Causal Automerge + L3/L4 snapshot CIDs
@@ -192,7 +192,7 @@ When a Constellation client holds a live TLS~1.3 connection (\texttt{port = 8443
 \subsection{Domain~B: Disconnected \texttt{IndexedDB} Queuing, Sequence Monotonicity, and Automerge CRDTs}
 \label{subsec:domain-b}
 
-Whenever link probes detect radio loss, high packet-loss LoRa links, or explicit offline field mode, the Constellation client transitions seamlessly from Domain~A to \textbf{Domain~B} without interrupting the steward's workflow \parencite{kleppmann2019localfirst}. In the Phase~1 Oasis bootstrap (\texttt{companion\_l6.js}), daemon disconnection displays an amber status banner; across full Constellation apps, offline operation is a first-class operational mode backed by an embedded \textbf{Automerge JSON CRDT} replica \parencite{kleppmann2017automerge,shapiro2011crdt} persisted in \texttt{IndexedDB}.
+Whenever link probes detect radio loss, high packet-loss LoRa links, or explicit offline field mode, the Application Lens transitions seamlessly from Domain~A to \textbf{Domain~B} without interrupting the steward's workflow \parencite{kleppmann2019localfirst}. While a minimal starter client simply displays an offline status banner when disconnected, full Constellation lenses treat offline operation as a first-class operational mode backed by an embedded \textbf{Automerge JSON CRDT} replica \parencite{kleppmann2017automerge,shapiro2011crdt} persisted in \texttt{IndexedDB}.
 
 In Domain~B, wall-clock freshness $|\Delta t_{\mathrm{epoch}}| \le 3{,}000\,\mathrm{ms}$ is intentionally suspended---an agroecology observation signed at \texttt{09:15} in a canyon orchard may not reach \texttt{col-gatewayd} until \texttt{16:40} when the cargo e-trike docks at the garage charger. Replay protection and causal integrity are instead anchored by two mandatory HTTP/bundle headers signed inside the Stage~5 Ed25519 envelope:
 
@@ -219,7 +219,7 @@ Following Kevin Fall's Delay-Tolerant Networking architecture \parencite{fall200
 
 In purely informational local-first software---such as collaborative text editing or shared calendars \parencite{kleppmann2019localfirst,kleppmann2017automerge}---merging concurrent offline edits via an operation-based CRDT join-semilattice $(\mathcal{S}, \sqcup)$ suffices to achieve Strong Eventual Consistency \parencite{shapiro2011crdt}: whenever two replicas have received the same set of signed operations, their JSON document states converge identically without coordination.
 
-In a cyber-physical settlement \parencite{grieves2014digital,kleppmann2017designing}, however, \textbf{semantic convergence does not imply physical conservation}. JSON-LD graphs form a mathematical join-semilattice; water cisterns, lithium-iron-phosphate battery banks, cedar lumber racks, and simmering soup cauldrons do not. Consider a concrete Lot~402 scenario:
+In a cyber-physical settlement \parencite{grieves2014digital,kleppmann2017designing}, however, \textbf{semantic convergence does not imply physical conservation}. JSON-LD graphs form a mathematical join-semilattice; water cisterns, lithium-iron-phosphate battery banks, cedar lumber racks, and simmering soup cauldrons do not. Consider a concrete homestead scenario:
 \begin{itemize}
   \item At \texttt{08:30}, Steward~A caches snapshot $C_0$ showing \texttt{potable\_water\_liters = 18,000 mL} ($18.0\,\mathrm{L}$) in the garden cistern and walks offline to the lower terrace with an Agroecology Fieldbook. At \texttt{09:10}, Steward~A signs a Domain~B task completion and irrigation allocation drawing $12{,}000\,\mathrm{mL}$ for newly transplanted brassicas (\texttt{X-Collective-Dependency-Vector} referencing $C_0$).
   \item Meanwhile at \texttt{09:25}, an online kitchen workflow (\texttt{CookCommunalPeaSoupBatch}) plus an automated Layer~2 drip-solenoid pulse (\texttt{irrigation\_valve\_v1} reported via \texttt{col-telemetryd}) draws $10{,}000\,\mathrm{mL}$ from the same physical cistern, confirmed by a live Layer~2 hydrostatic pressure probe reading \texttt{remaining\_volume\_ml = 8,000 mL} at state $C_4$.

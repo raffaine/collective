@@ -1,0 +1,190 @@
+\chapter{Developing Layer 6 in Practice: Reference Implementation, Specialist Council Audit, and Developer Roadmap}
+\label{ch:oasis-council-l6}
+
+\epigraph{The best way to predict the future is to invent it---and then subject the working prototype to unsparing criticism before mistaking the scaffolding for the building.}{---Adapted from Alan Kay \& \textcite{engelbart1962augmenting}}
+
+Chapters~\ref{ch:constellation-membrane} through~\ref{ch:agora-treaties} specified the full constitutional and developer architecture of Layer~6: strict bilateral \texttt{SOCK\_SEQPACKET} adjacency across \texttt{l5\_l6.sock} and \texttt{l6\_l7.sock}, a **Wide-Purpose Semantic and Ontological Surface** (\texttt{col-commonsd} + \texttt{col-gatewayd}), an open-ended **Constellation of Application Lenses** (\texttt{AppCapabilityManifestV1} + JSON-LD Framing + SHACL forms), mandatory pre-sign Deterministic Read-Back with hardware Ed25519 custody, high-density Spatial Homestead Round Coalescing, dual-sandbox edge language models, WCAG~2.2~AAA and screenless parity, and pure-integer Ricardian treaties shielded by Mundane Semantic Camouflage.
+
+For software engineers, UX designers, and ontology authors coming to the repository to build or extend Layer~6, this chapter bridges specification and running code. Over the recent engineering cycle, the repository achieved a foundational separation of concerns: Layer~6 civic, need-authoring, governance, and workflow-inspection interactions were cleanly extracted into an independent **Layer~6 Reference Web Lens** (\texttt{core/1\_simulation/src/web/companion/index.html} and \texttt{companion\_l6.js}) backed by real C++20 stack execution via \texttt{col-gatewayd}, \texttt{col-commonsd}, and the semantic catalogs under \texttt{core/6\_intent/}.
+
+This chapter performs three practical tasks for Layer~6 developers:
+\begin{enumerate}
+    \item Section~\ref{sec:reference-highlights} documents **six working Layer~6 architectural patterns** already executing end-to-end in the codebase today, citing exact source files, line ranges, C++20 methods, and JSON-LD catalogs;
+    \item Section~\ref{sec:council-audit-l6} convenes the **Six-Specialist Layer~6 Architectural Council** to diagnose **seven concrete prototype ceilings** in the current bootstrap implementation---providing exact code-level remedies required to mature the reference client into a full multi-lens platform; and
+    \item Section~\ref{sec:constellation-roadmap} provides a **Practical Application Lens Developer Checklist** alongside a four-milestone engineering roadmap from the single starter lens to a full open-ended Constellation.
+\end{enumerate}
+
+\section{Six Working Layer~6 Patterns in the Reference Codebase Today}
+\label{sec:reference-highlights}
+
+\subsection{Why Separating the Reference Companion Proved the Semantic Lens Model}
+
+When newcomers first explore a multi-layer cybernetic architecture, there is a recurring danger that human interfaces get welded directly into internal engine loops or mock UI stubs. By extracting Layer~6 interactions into an independent web client (\texttt{companion\_l6.js}) communicating over HTTP and \texttt{BroadcastChannel} with \texttt{col-gatewayd} and backed by real C++20 Layer~2--7 state machines and W3C JSON-LD ontologies, the codebase established a crucial baseline: **the starter application is a genuine Layer~6 semantic lens driving real stack implementations**. While it currently bundles four tabs into one starter surface during initial node bootstrap, it demonstrates six core patterns that every specialized Application Lens in the Constellation builds upon:
+
+\subsubsection{Pattern 1: Standalone Web Mounting and Zero-Mock Offline Honesty}
+The reference module \texttt{core/1\_simulation/src/web/js/companion\_l6.js} (lines~1--1482) runs as a standalone web/mobile application served directly by \texttt{col-gatewayd} at \texttt{GET /companion} (\texttt{core/1\_simulation/src/web/companion/index.html}, routed in \texttt{src/daemons/col-gatewayd/gateway\_server.hpp}, lines~1483--1535) and can also mount inside a side drawer during local developer testing (\texttt{shell\_minimal.html}, lines~104--106) without forked UI logic. Cross-window state synchronization runs over \texttt{BroadcastChannel('oasis\_daemon\_sync')} inside \texttt{daemon\_client.js} (lines~56--73). Crucially, if \texttt{col-gatewayd} is unreachable, \texttt{companion\_l6.js} (lines~156--161) refuses to invent synthetic client-side mock numbers, surfacing an explicit \texttt{\#l6-offline-banner} until daemon telemetry resumes.
+
+\subsubsection{Pattern 2: Ontological Need Discovery, Stoichiometric Enrichment, and \texttt{+ Define Need}}
+Tab~1 (\textit{Needs \& Requests}, \texttt{companion\_l6.js}, lines~566--818) projects live community needs enriched at daemon startup from \texttt{core/6\_intent/needs/pea\_to\_soup\_needs.jsonld} via \texttt{SharedStackRuntime::TryEnrichNeedsFromJsonLd} (\texttt{src/stack/shared\_stack\_runtime.hpp}, lines~3598--3661). Users can query both the $10$ \texttt{MAPPED\_ACTIVE} needs (such as \texttt{need:pea\_soup}, \texttt{need:split\_peas}, \texttt{need:bone\_broth}, and \texttt{need:thermophilic\_compost}) and the $3$ \texttt{UNMAPPED\_CANDIDATE} items, inspecting recursive \texttt{recipe\_bom} inputs and closed-loop \texttt{byproducts}. Invoking \texttt{+ Define Need} calls \texttt{DefineNewMeshNeed} (\texttt{shared\_stack\_runtime.hpp}, lines~1205--1270), registering an L6 semantic need, an L5 asset entry, and a pending Layer~5 workflow-mapping proposal---demonstrating how a Layer~6 lens authors new ontological concepts without mutating Layer~4 directly.
+
+\subsubsection{Pattern 3: Declarative \textit{Fabaceae} Cultivar Parameterization Over Invariant Workflows}
+In \texttt{companion\_l6.js} (lines~647--679), the garden cultivar selector binds directly to \texttt{core/6\_intent/cultivars/fabaceae\_cultivars.jsonld}, allowing stewards to select among \texttt{little\_marvel\_pea}, \texttt{alderman\_telephone\_pea}, \texttt{kentucky\_wonder\_bean}, and rehearsal cultivar \texttt{chrono\_virtual\_pea}. Dispatching \texttt{set\_garden\_cultivar} invokes \texttt{SetGardenCultivar} and \texttt{ApplyCultivarParametersToWorkflow} (\texttt{shared\_stack\_runtime.hpp}, lines~1023--1038 and 4163--4410), re-parameterizing root-zone millikelvins, moisture basis-point bands, $\mathrm{N}_2$ fixation rates, and trellis ridge heights on \texttt{wf:pea\_cultivation} without touching workflow bytecode, and locking automatically once \texttt{crop\_sown != 0}.
+
+\subsubsection{Pattern 4: Strict HTTP \texttt{405} Lower-Layer Read-Only Guard and BPMN Token Projection}
+\texttt{GatewayServer::IsDiagnosticLayerPath} and \texttt{HandleRequest} (\texttt{gateway\_server.hpp}, lines~545--625) enforce the constitutional read-only hood: any \texttt{POST}, \texttt{PUT}, \texttt{PATCH}, or \texttt{DELETE} targeting \texttt{/api/v1/l1*}, \texttt{/l2*}, \texttt{/l3*}, \texttt{/l4*}, \texttt{/l5*}, or \texttt{/l7*} is immediately rejected with \textbf{\texttt{HTTP 405 Method Not Allowed}} (\texttt{L4\_IS\_STRICTLY\_READ\_ONLY\_NO\_MUTATIONS}). Tab~3 (\textit{L4 Workflows}, \texttt{companion\_l6.js}, lines~1006--1101) projects BPMN step tokens, boundary timers, and \texttt{UnmodeledStepAdapter} human check-offs strictly as read-only views while routing all requested actions through Layer~6/Layer~5 governance endpoints.
+
+\subsubsection{Pattern 5: Epistemic 1-to-5 \texttt{BiologicalFeelTiers} and Two-Stage Voluntary Task Pull}
+In \texttt{core/1\_simulation/src/web/js/hud\_feel.js} (lines~14--45, 375--417), the somatic strip renders five qualitative 1-to-5 tier labels backed by \texttt{chill\_loop.hpp}, suppressing raw \texttt{bpm} and \texttt{kcal} telemetry unless \texttt{l2\_biometric\_installed === true}. Alongside it, \texttt{hud\_feel.js} (lines~548--809) implements calm, paginated two-stage pull cards (\texttt{availablePageSize: 2}) separating the open \textit{Available Tasks} Commons Pool from personal \textit{My Committed Tasks}.
+
+\subsubsection{Pattern 6: Multi-Scale 4-Node Intra-Lot Topology vs.\ $R_1$ BCC Swarm and SHA-256 \texttt{Treaty\_CID}}
+Tab~4 (\texttt{companion\_l6.js}, lines~1270--1422) distinguishes a parcel's four room-scoped $R_0$ SBC sub-nodes (\texttt{node-01:office-coordinator}, \texttt{node-02:garage-fab}, \texttt{node-03:garden-agro}, and \texttt{node-04:hearth-galley}, defined in \texttt{shared\_stack\_runtime.hpp}, lines~2734--2800) from opt-in $R_1$ neighborhood peers verified via \texttt{VerifyPairwiseZeroSumInvariant} (lines~874--883). Concurrently, the native \texttt{col-commonsd} binary (\texttt{src/daemons/col-commonsd/main.cpp}, lines~33--192, 243--298) executes standalone FIPS~180-4 SHA-256 \texttt{RicardianTreaty} hashing and continuous double-auction midpoint matching.
+
+\section{The Six-Specialist Layer~6 Architectural Council Audit: Seven Prototype Ceilings}
+\label{sec:council-audit-l6}
+
+To guide developers evolving Layer~6 from a single starter reference client into a production semantic surface supporting dozens of specialized Application Lenses and $2{,}600+$ concurrent workflows, the **Six-Specialist Layer~6 Architectural Council** audited \texttt{companion\_l6.js}, \texttt{daemon\_client.js}, \texttt{hud\_feel.js}, \texttt{col-commonsd}, \texttt{col-gatewayd}, and \texttt{shared\_stack\_runtime.hpp}. Table~\ref{tab:ch8-council-ceilings} summarizes the **seven structural prototype ceilings** diagnosed by the Council and their ratified v3.1 engineering remedies.
+
+\begin{table}[htbp]
+\centering
+\caption{Seven Prototype Ceilings in the Bootstrap Codebase and Ratified v3.1 Remedies for Layer~6 Developers}
+\label{tab:ch8-council-ceilings}
+\small
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}llll@{}}
+\toprule
+\textbf{\#} & \textbf{Bootstrap Prototype Ceiling} & \textbf{Primary Codebase Locus} & \textbf{Ratified v3.1 Developer Specification} \\
+\midrule
+C1 & 1.5s full-snapshot polling \& monolithic 4-tab DOM & \texttt{daemon\_client.js:11}, \texttt{companion\_l6.js:444} & \texttt{/ws/v1} JSON-LD \texttt{@frame} deltas + \texttt{AppCapabilityManifestV1} Lenses \\
+C2 & Unsigned POSTs, spoofable DID \& post-hoc read-back & \texttt{daemon\_client.js:252}, \texttt{gateway\_server.hpp:1360} & Two-phase Pre-Sign Deterministic Read-Back + Web Crypto Ed25519 + \texttt{TextProvenance} \\
+C3 & \texttt{.find()} stubs, floats, IRI drift \& \texttt{"|"} CID collision & \texttt{col-commonsd/main.cpp:178--239} & Unified \texttt{w3id.org/collective/v1/}, length-prefixed \texttt{RDFC-1.0}/JCS, pure \texttt{int64\_t} \texttt{uJ} \\
+C4 & Legacy statutory currency bleed across L6 \& L3 & \texttt{companion\_l6.js:55--59}, \texttt{shared\_stack\_runtime:852} & Quarantine statutory cents inside scoped L7 Carapace Lens behind Camouflage Filter \\
+C5 & In-process runtime, \texttt{CORS: *} \& dropped offline intents & \texttt{gateway\_server.hpp:245, 1553}, \texttt{main.cpp:315} & True \texttt{l5\_l6.sock}/\texttt{l6\_l7.sock} \texttt{SEQPACKET} IPC + IndexedDB Automerge CRDT outbox \\
+C6 & Missing Dual-Sandbox Edge NLU \& \texttt{uJ} shedding & \texttt{col-commonsd/main.cpp} (NLU absent) & Split-process FSM Intake vs.\ Drafting workers, SHA-256 weights \& \texttt{SoC\_bp} shedding \\
+C7 & Sub-10px CSS, missing Refusal button \& flat lists & \texttt{oasis.css:144, 943}, \texttt{hud\_feel.js:771} & WCAG 2.2 AAA tokens, \texttt{UNCLAIM\_GUILT\_FREE}/\texttt{RestShield}, Paper/Voice/E-Ink \& Rounds \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+\subsection{Ceiling 1 (Local-First \& Gateway Specialist): 1.5s Full-Snapshot Polling and Single-App Hardcoding}
+\textbf{Diagnosis:} \texttt{daemon\_client.js} (line~11) polls the unpaginated endpoint \texttt{GET /api/v1/snapshot} every $1{,}500\,\mathrm{ms}$, invoking \texttt{SerializeFullNodeSnapshotJson()} (\texttt{shared\_stack\_runtime.hpp}, lines~2143--2495) to serialize every layer's state into one monolithic payload. On each tick, \texttt{companion\_l6.js} (lines~444--478) runs \texttt{JSON.stringify} dirty checks and overwrites \texttt{innerHTML} across all four tabs---even hidden ones---resetting unfocused scroll positions and \texttt{<details>} disclosures while burning client CPU and battery. Moreover, all four domain views are hardcoded inside one script rather than projected per Application Lens.
+
+\textbf{v3.1 Developer Remedy:} Replace snapshot polling with topic-scoped WebSocket/SSE delta streams (\texttt{/ws/v1/subscribe?topics=hearth.*}) accepting a declarative W3C JSON-LD \texttt{@frame} and emitting RFC~6902 JSON-Patch / CBOR frames keyed by monotonic HLC cursors, paired with surgical keyed DOM patching and declarative \texttt{AppCapabilityManifestV1} lens registration.
+
+\subsection{Ceiling 2 (Cryptographic Authorship Specialist): Unsigned Mutations and Post-Hoc Read-Back}
+\textbf{Diagnosis:} \texttt{daemon\_client.js} (lines~252--271) dispatches plaintext \texttt{POST /api/v1/command} payloads without cryptographic signatures; \texttt{companion\_l6.js} (line~558) populates \texttt{requester\_did} from an unverified string; \texttt{gateway\_server.hpp} (lines~1360--1416) zeroes out \texttt{ed25519\_signature} when constructing internal envelopes while leaving \texttt{did\_auth\_required} (\texttt{col-gatewayd/main.cpp}, line~63) unenforced; zero \texttt{crypto.subtle} (\texttt{extractable: false}) IndexedDB keys exist yet; \texttt{plain\_language\_read\_back} (\texttt{gateway\_server.hpp}, line~1425) is returned \textit{after} state mutation rather than gating signature before mutation; and the four provenance tags (\texttt{human\_authored}, \texttt{machine\_drafted\_human\_approved}, \texttt{machine\_generated}, \texttt{system\_authenticated}) are absent from wire structs.
+
+\textbf{v3.1 Developer Remedy:} Split mutation into a mandatory two-phase protocol across all Application Lenses: \texttt{POST /api/v1/intent/compile} returns the canonical \texttt{Intent\_CID}, fixed-template \texttt{deterministic\_read\_back} prose, and \texttt{TextProvenance} tag; only after the user holds a $500\,\mathrm{ms}$ confirmation gesture does Web Crypto (\texttt{extractable: false}) or \texttt{ATECC608A} sign $\mathrm{SHA256}(\texttt{"COL-INTENT-V3.1\textbackslash0"} \,\|\, \texttt{Intent\_CID} \,\|\, \texttt{read\_back\_hash})$ for \texttt{POST /api/v1/intent/commit}, verified strictly by \texttt{col-kmsd} across \texttt{l5\_l6.sock}.
+
+\subsection{Ceiling 3 (Semantic Web Architect): Substring Stubs, Floats, IRI Drift, and \texttt{Treaty\_CID} Collision}
+\textbf{Diagnosis:} \texttt{JsonLdIntent::ParseStub} (\texttt{col-commonsd/main.cpp}, lines~206--219) parses JSON-LD via brittle \texttt{std::string::find()} substring checks while \texttt{gateway\_server.hpp} (line~1372) truncates \texttt{payload\_jsonld[128]} at $127\,\mathrm{bytes}$; \texttt{col-commonsd/main.cpp} (lines~203, 229--239) and \texttt{pea\_to\_soup\_needs.jsonld} (line~35, \texttt{4.68 MJ}) admit floating-point numbers; three divergent \texttt{@context} IRIs coexist; and \texttt{RicardianTreaty::ComputeCID()} (\texttt{col-commonsd/main.cpp}, lines~178--187) concatenates \texttt{legal\_prose + "|" + jsonld\_schema + "|" + bpmn\_invariants} without byte-length framing.
+
+\textbf{v3.1 Developer Remedy:} Enforce the unified offline \texttt{https://w3id.org/collective/v1/} context registry, replace \texttt{ParseStub} and $128$-byte truncation with streaming arena-backed JSON-LD~1.1 expansion + W3C \texttt{RDFC-1.0} and \texttt{RFC 8785 JCS} canonicalization, frame all \texttt{Treaty\_CID} components with 64-bit big-endian lengths (Equation~\ref{eq:length-prefixed-cid}), and convert all quantities to \texttt{int64\_t} / \texttt{uint64\_t} fixed-point SI units (\texttt{4680000000000 uJ}).
+
+\subsection{Ceiling 4 (Legal Carapace Counsel): Legacy Statutory Currency Bleed Across Layer~6 and Layer~3}
+\textbf{Diagnosis:} \texttt{companion\_l6.js} formats legacy statutory currency cents across all four Layer~6 tabs (lines~13, 55--59, 200, 495, 694, 833, 1121, and 1354), and \texttt{L3NodeLedger} (\texttt{shared\_stack\_runtime.hpp}, lines~852--864) embeds \texttt{household\_reserve\_cents} and \texttt{monthly\_legacy\_bills\_cents} directly inside a Layer~3 thermodynamic struct. Exposing statutory currency figures across daily Layer~6 civic lenses subtly re-anchors human cognition around external market pricing instead of physical microjoules, milligrams, and unconditional $R_0$ care.
+
+\textbf{v3.1 Developer Remedy:} Purge all statutory currency fields from \texttt{L3NodeLedger} and general Layer~6 Application Lenses (Hearth, Garden, Workshop, Care, and Agora lenses render exclusively physical SI quantities and pairwise zero-sum \texttt{BCC} credits with \texttt{domestic\_care\_token\_minting == 0}). Quarantine statutory tax, utility-bill, and Subchapter~T reserve accounting strictly inside a dedicated, role-gated \textbf{Layer~7 Carapace Fiduciary Lens} (\texttt{carapace:fiduciary}) communicating across \texttt{l6\_l7.sock}.
+
+\subsection{Ceiling 5 (Gateway \& IPC Engineer): In-Process Runtime, Wildcard CORS, and Dropped Offline Intents}
+\textbf{Diagnosis:} \texttt{GatewayServer} (\texttt{gateway\_server.hpp}, line~1553) embeds a private \texttt{SharedStackRuntime} instance in-process rather than speaking over \texttt{AF\_UNIX} \texttt{SOCK\_SEQPACKET} sockets to separate daemons; \texttt{col-commonsd/main.cpp} (lines~315--327) runs a standalone loop without binding \texttt{l5\_l6.sock} or \texttt{l6\_l7.sock}; \texttt{gateway\_server.hpp} binds \texttt{0.0.0.0:8090} in plaintext with \texttt{Access-Control-Allow-Origin: *} (lines~245, 717) and unauthenticated \texttt{/api/v1/l2\_pins} mutation hooks (line~675); and \texttt{daemon\_client.js} (lines~267--270) drops mutations on network failure rather than queuing them offline.
+
+\textbf{v3.1 Developer Remedy:} Bind \texttt{col-commonsd} strictly to \texttt{/run/collective/ipc/l5\_l6.sock} and \texttt{/run/collective/ipc/l6\_l7.sock} with \texttt{SO\_PEERCRED} UID/PID verification; restrict virtual pin injection exclusively to local test builds; pin \texttt{col-gatewayd} to VLAN~30 TLS~1.3 origin allowlists; and persist offline mutations in an IndexedDB \textbf{Domain~B Automerge CRDT Outbox} carrying monotonic \texttt{X-Collective-Sequence} and \texttt{X-Collective-Dependency-Vector} headers.
+
+\subsection{Ceiling 6 (Adversarial ML Auditor): Missing Dual-Sandbox Edge NLU and Exergy Shedding}
+\textbf{Diagnosis:} Neither \texttt{col-commonsd} nor \texttt{col-gatewayd} yet implements process-isolated Intake vs.\ Drafting language-model sandboxes, finite-state grammar-constrained slot extraction, SHA-256 model-weight attestation, or microjoule (\texttt{uJ}) inference load shedding.
+
+\textbf{v3.1 Developer Remedy:} Spawn two unprivileged Linux namespace workers under \texttt{col-commonsd}---\texttt{col-nlu-intake} (zero L5 schema/user-history visibility, Outlines/GBNF FSM-constrained scalar slot pipe for untrusted \texttt{l6\_l7.sock} documents) and \texttt{col-nlu-draft} (authenticated human input only, zero raw L7 text)---governed by Layer-5-ratified SHA-256 weight manifests and gated by \texttt{SoC\_bp} battery thresholds.
+
+\subsection{Ceiling 7 (Calm HCI \& Accessibility Specialist): Sub-10px CSS, Missing Refusal Control, and Flat Lists}
+\textbf{Diagnosis:} The bootstrap stylesheet (\texttt{oasis.css}) hardcodes $8.5\text{--}9.5\,\mathrm{px}$ font sizes (lines~144, 355, 456, 1029), $< 24\,\mathrm{px}$ action buttons (lines~291, 349, 964), \texttt{outline: none} (line~943), and $\approx 5.6:1$ muted contrast (\texttt{\#94a3b8} on \texttt{\#0f172a}); \texttt{companion\_l6.js} (lines~146--151) omits WAI-ARIA \texttt{tablist}/\texttt{tabpanel} roving keyboard focus; \texttt{hud\_feel.js} (lines~771--809) lacks a guilt-free \texttt{Step Back / Unclaim} button once a task is committed; print/voice/E-Ink stylesheets are absent; and Tab~3 renders flat workflow rows rather than spatially coalesced Homestead Rounds.
+
+\textbf{v3.1 Developer Remedy:} Ship the WCAG~2.2~AAA fluid \texttt{rem} / $\ge 7:1$ / $\ge 48\,\mathrm{px}$ design-token sheet (Chapter~\ref{ch:thermodynamic-accessibility}) alongside \texttt{@media print} QR batch travelers and E-Ink themes, wire \texttt{UNCLAIM\_GUILT\_FREE} and \texttt{RestShield} controls into every task lens, and group \texttt{WAITING\_HUMAN} tokens via the Spatial Homestead Round Coalescer (Chapter~\ref{ch:cognitive-triage}).
+
+\begin{lstlisting}[language=C++,caption={Ratified v3.1 two-phase Pre-Sign Deterministic Read-Back envelope and \texttt{TextProvenance} enforcement across \texttt{col-gatewayd} and \texttt{l5\_l6.sock} (C++20).}]
+#include <array>
+#include <cstdint>
+
+namespace col::commons::authorship {
+
+enum class TextProvenance : std::uint8_t {
+    HUMAN_AUTHORED                 = 1,
+    MACHINE_DRAFTED_HUMAN_APPROVED = 2,
+    MACHINE_GENERATED              = 3,
+    SYSTEM_AUTHENTICATED           = 4
+};
+
+// Phase 1 output from col-commonsd -> Application Lens BEFORE hardware signing:
+struct alignas(8) CompiledReadBackChallengeV3 {
+    std::array<std::uint8_t, 32> intent_cid{};          // Length-prefixed RDFC-1.0 SHA-256
+    std::array<std::uint8_t, 32> read_back_prose_cid{}; // Deterministic template SHA-256
+    std::uint64_t                compiled_hlc{};
+    std::uint32_t                required_hold_ms{500}; // Fitts-law speedbump floor
+    TextProvenance               provenance{TextProvenance::HUMAN_AUTHORED};
+    std::array<std::uint8_t, 3>  reserved{};
+};
+static_assert(sizeof(CompiledReadBackChallengeV3) == 80);
+
+// Phase 2 commitment dispatched across /run/collective/ipc/l5_l6.sock ONLY after personal sign:
+struct alignas(8) SignedIntentCommitFrameV3 {
+    std::array<std::uint8_t, 32> intent_cid{};
+    std::array<std::uint8_t, 32> read_back_prose_cid{};
+    std::array<std::uint8_t, 32> signer_did_key_id{};
+    std::array<std::uint8_t, 64> ed25519_signature{};   // Non-zero, hardware-backed
+    std::uint64_t                domain_b_seq_no{};     // Monotonic offline CRDT sequence
+    TextProvenance               provenance{TextProvenance::HUMAN_AUTHORED};
+    std::uint8_t                 quality_flag{0x02};    // 0x02 Hardware Root vs 0x01 Rehearsal
+    std::array<std::uint8_t, 6>  padding{};
+};
+static_assert(sizeof(SignedIntentCommitFrameV3) == 176);
+
+} // namespace col::commons::authorship
+\end{lstlisting}
+
+\section{Application Lens Developer Checklist and Four-Milestone Roadmap}
+\label{sec:constellation-roadmap}
+
+\subsection{Checklist for Authoring a New Layer~6 Application Lens}
+
+Any developer or guild creating a new Application Lens over the Semantic Surface can verify full architectural compliance against six rules:
+\begin{enumerate}
+    \item \textbf{Zero Private Business Logic or Direct Lower-Layer Writes:} Never compute ad-hoc ledger balances in client code or attempt \texttt{POST} mutations to \texttt{/api/v1/l1..l5}; project all state via JSON-LD Framing and submit all changes as signed Layer~6 intents.
+    \item \textbf{Least-Privilege \texttt{AppCapabilityManifestV1}:} Request only the minimal RBAC bitmask required by the lens's situated craft and pair via VLAN~30 \texttt{\#pair\_token} to bind a dedicated non-exportable \texttt{did:peer} keypair.
+    \item \textbf{Pure 64-Bit Fixed-Point QUDT Units:} Bind all numeric inputs to declarative \texttt{sh:NodeShape} constraints in canonical integer SI units (\texttt{uJ}, \texttt{mK}, \texttt{bp}, \texttt{mg}, \texttt{mL}, \texttt{mm}, \texttt{mpH}, \texttt{ppm}, \texttt{cB}, \texttt{ms})---never emitting IEEE-754 floats or internal fiat prices.
+    \item \textbf{Two-Phase Deterministic Read-Back \& $500\,\mathrm{ms}$ Hardware Sign:} Always display the daemon-compiled plain-language read-back card and require a deliberate $500\,\mathrm{ms}$ confirmation gesture before invoking hardware Ed25519 signature.
+    \item \textbf{Offline-First Domain~B Automerge Outbox \& Protocol of Refusal:} Queue signed intents seamlessly inside IndexedDB during radio loss, and expose a single-tap, zero-penalty \texttt{UNCLAIM\_GUILT\_FREE} / \texttt{RestShield} release on every claimed task view.
+    \item \textbf{WCAG 2.2 Level AAA \& Screenless Parity:} Enforce $\ge 7.0:1$ luminance contrast, fluid \texttt{rem} typography, $\ge 48 \times 48\,\mathrm{px}$ targets, full keyboard/ARIA navigation, and support 1-bit E-Ink, spoken TTS read-back, or printable QR paper travelers where appropriate.
+\end{enumerate}
+
+\subsection{Four-Milestone Engineering Roadmap}
+
+\begin{enumerate}
+    \item \textbf{Milestone M1 --- Ontological \& Ergonomic Hygiene on the Reference Lens:} Unify \texttt{@context} mappings under offline \texttt{https://w3id.org/collective/v1/}, eliminate the remaining float literal in \texttt{pea\_to\_soup\_needs.jsonld} and float fields in \texttt{col-commonsd}, upgrade CSS and \texttt{companion\_l6.js} to WCAG~2.2~AAA contrast/sizing/ARIA compliance, add the one-tap \texttt{UNCLAIM\_GUILT\_FREE} / \texttt{RestShield} control, and segregate Layer~7 statutory bill figures out of \texttt{L3NodeLedger} into a dedicated L7 Carapace lens.
+    \item \textbf{Milestone M2 --- True \texttt{SOCK\_SEQPACKET} Daemon Split \& Two-Phase Hardware Signing:} Decouple \texttt{GatewayServer} from in-process \texttt{SharedStackRuntime} by activating \texttt{/run/collective/ipc/l5\_l6.sock} and \texttt{l6\_l7.sock} with \texttt{SO\_PEERCRED} enforcement, and implement two-phase \texttt{Compile -> Deterministic Read-Back -> Web Crypto / ATECC608A Ed25519 Sign}.
+    \item \textbf{Milestone M3 --- JSON-LD Framing Deltas, Domain~B CRDT Outbox \& First Specialized Lenses:} Replace $1.5\,\mathrm{s}$ full-snapshot polling with \texttt{/ws/v1} framed topic delta patches and IndexedDB Automerge CRDT offline queuing; extract the first four dedicated Constellation lenses sharing the Ontological Surface (\textit{Hearth \& Pantry E-Ink Lens}, \textit{Agroecology Cultivar Fieldbook Lens}, \textit{Shop-Floor BOM Lens}, and \textit{Cargo-Trike Offline Courier Lens}) alongside printable QR batch travelers.
+    \item \textbf{Milestone M4 --- Dual-Sandbox Edge NLU, Spatial Round Coalescer \& Screenless Assembly Suite:} Deploy \texttt{col-nlu-intake} (GBNF/FSM slot pipe) and \texttt{col-nlu-draft} with SHA-256 weight governance and \texttt{SoC\_bp} load shedding, activate Spatial Homestead Round Coalescing across $100+$ concurrent workflows, and certify Helios verifiable paper ballots, offline voice read-back loops, and hardware-severed Unmediated Space latches.
+\end{enumerate}
+
+\begin{figure}[htbp]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+    node distance=0.8cm and 0.85cm,
+    ms/.style={draw=blue!75!black, rounded corners=3pt, thick, fill=blue!6, align=left, font=\scriptsize, text width=3.15cm, minimum height=2.25cm, inner sep=5pt},
+    arr/.style={-{Stealth[length=2.4mm]}, very thick, teal!80!black}
+]
+    \node[ms] (m1) {\textbf{M1: Ontology \& AAA Hygiene}\\[3pt]$\bullet$ Unified \texttt{w3id} context\\$\bullet$ Zero-float \texttt{uJ} schemas\\$\bullet$ WCAG 2.2 AAA + ARIA\\$\bullet$ \texttt{UNCLAIM\_GUILT\_FREE}\\$\bullet$ L7 currency quarantine};
+    \node[ms, right=0.55cm of m1] (m2) {\textbf{M2: IPC \& Hardware Sign}\\[3pt]$\bullet$ Live \texttt{l5\_l6} \& \texttt{l6\_l7.sock}\\$\bullet$ \texttt{SO\_PEERCRED} isolation\\$\bullet$ Pre-Sign Read-Back gate\\$\bullet$ Web Crypto / \texttt{ATECC608A}\\$\bullet$ \texttt{TextProvenance} tags};
+    \node[ms, right=0.55cm of m2] (m3) {\textbf{M3: Lens SDK \& CRDTs}\\[3pt]$\bullet$ \texttt{/ws/v1} \texttt{@frame} deltas\\$\bullet$ Domain B Automerge outbox\\$\bullet$ Hearth, Field, Bench \&\\$\phantom{\bullet}$ Courier Lenses\\$\bullet$ QR Paper Travelers};
+    \node[ms, right=0.55cm of m3] (m4) {\textbf{M4: Edge NLU \& Rounds}\\[3pt]$\bullet$ FSM Intake vs.\ Draft NLU\\$\bullet$ SHA-256 weight \& \texttt{uJ} gates\\$\bullet$ Spatial Round Coalescer\\$\bullet$ Helios Paper Ballots \&\\$\phantom{\bullet}$ Unmediated Space Latch};
+
+    \draw[arr] (m1.east) -- (m2.west);
+    \draw[arr] (m2.east) -- (m3.west);
+    \draw[arr] (m3.east) -- (m4.west);
+\end{tikzpicture}%
+}
+\caption{Four-Milestone Developer Roadmap advancing Layer~6 from the single starter reference client to a cryptographically hardened Ontological Surface supporting an open-ended Constellation of Application Lenses.}
+\label{fig:ch8-constellation-roadmap}
+\end{figure}
+
+With Part~I's ontological foundations, Application Lens Developer Contract, reference codebase audit, and engineering roadmap complete, \textbf{Part~II (Chapters~\ref{ch:wave-a}--\ref{ch:wave-f})} demonstrates how specialized Application Lenses project and steward all twenty-five Sovereign Scenarios (\texttt{Zero} through \texttt{Omega}) across every domain of community life.
