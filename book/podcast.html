@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RADIO LAMBDA | Dispatches from the Sovereign Stack</title>
+    <style>
+        :root {
+            --bg-dark: #121417;
+            --card-bg: #1b1f24;
+            --text-gold: #F4C430;
+            --leaf-green: #5E9A4E;
+            --mesh-blue: #3898FF;
+            --border-muted: #2e343d;
+            --text-main: #e6e8eb;
+            --text-dim: #9aa2ad;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        header {
+            padding: 48px 24px 28px;
+            text-align: center;
+            border-bottom: 1px solid var(--border-muted);
+            background: radial-gradient(circle at 50% 0%, rgba(244, 196, 48, 0.10), transparent 70%);
+        }
+
+        .badge-top {
+            display: inline-block;
+            padding: 4px 12px;
+            border: 1px solid var(--leaf-green);
+            color: var(--leaf-green);
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.78rem;
+            letter-spacing: 0.14rem;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        h1 {
+            color: var(--text-gold);
+            font-size: 2.5rem;
+            letter-spacing: 0.35rem;
+            margin: 0;
+            text-transform: uppercase;
+        }
+
+        .subtitle {
+            color: var(--text-dim);
+            font-size: 1rem;
+            max-width: 680px;
+            margin: 10px auto 0;
+        }
+
+        .nav-bar {
+            display: flex;
+            justify-content: center;
+            gap: 14px;
+            margin-top: 22px;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            padding: 8px 16px;
+            border: 1px solid var(--border-muted);
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 0.82rem;
+            letter-spacing: 0.08rem;
+            text-transform: uppercase;
+            transition: 0.2s;
+        }
+
+        .nav-btn:hover {
+            border-color: var(--text-gold);
+            color: var(--text-gold);
+        }
+
+        .main-wrap {
+            max-width: 1060px;
+            margin: 36px auto 80px;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1.38fr 0.82fr;
+            gap: 28px;
+        }
+
+        @media (max-width: 860px) {
+            .main-wrap { grid-template-columns: 1fr; }
+        }
+
+        .panel {
+            background: var(--card-bg);
+            border: 1px solid var(--border-muted);
+            padding: 26px;
+            border-radius: 4px;
+        }
+
+        .ep-tag {
+            color: var(--mesh-blue);
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.8rem;
+            font-weight: bold;
+            letter-spacing: 0.12rem;
+            text-transform: uppercase;
+        }
+
+        .ep-title {
+            color: var(--text-gold);
+            font-size: 1.65rem;
+            margin: 6px 0 12px;
+        }
+
+        .audio-box {
+            background: rgba(0, 0, 0, 0.35);
+            border: 1px solid var(--border-muted);
+            padding: 18px;
+            margin: 18px 0 22px;
+            border-radius: 4px;
+        }
+
+        .player-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.82rem;
+            color: var(--text-dim);
+        }
+
+        .speed-btn {
+            background: transparent;
+            border: 1px solid var(--border-muted);
+            color: var(--text-main);
+            padding: 5px 10px;
+            cursor: pointer;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.78rem;
+            transition: 0.2s;
+        }
+
+        .speed-btn:hover, .speed-btn.active {
+            border-color: var(--text-gold);
+            color: var(--text-gold);
+        }
+
+        .chapters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
+            gap: 10px;
+            margin: 16px 0 24px;
+        }
+
+        .chap-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-muted);
+            padding: 12px;
+            cursor: pointer;
+            text-align: left;
+            transition: 0.2s;
+        }
+
+        .chap-card:hover {
+            border-color: var(--mesh-blue);
+            background: rgba(56, 152, 255, 0.06);
+        }
+
+        .chap-time {
+            color: var(--text-gold);
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.78rem;
+            font-weight: bold;
+        }
+
+        .chap-name {
+            color: var(--text-main);
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-top: 4px;
+        }
+
+        .section-h3 {
+            color: var(--leaf-green);
+            font-size: 1.05rem;
+            letter-spacing: 0.08rem;
+            text-transform: uppercase;
+            border-bottom: 1px solid var(--border-muted);
+            padding-bottom: 8px;
+            margin-top: 26px;
+        }
+
+        .notes-list {
+            padding-left: 20px;
+            color: #ccc;
+            font-size: 0.95rem;
+        }
+
+        .notes-list li {
+            margin-bottom: 10px;
+        }
+
+        .lyrics-box {
+            background: rgba(244, 196, 48, 0.04);
+            border-left: 3px solid var(--text-gold);
+            padding: 14px 18px;
+            font-family: 'Georgia', serif;
+            font-style: italic;
+            color: #d8dce2;
+            white-space: pre-line;
+            font-size: 0.92rem;
+            margin-top: 14px;
+        }
+
+        .ep-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .ep-item {
+            border: 1px solid var(--border-muted);
+            padding: 14px;
+            border-radius: 3px;
+            background: rgba(255, 255, 255, 0.015);
+            transition: 0.2s;
+        }
+
+        .ep-item.clickable {
+            cursor: pointer;
+        }
+
+        .ep-item.clickable:hover {
+            border-color: var(--mesh-blue);
+        }
+
+        .ep-item.active-ep {
+            border-color: var(--text-gold);
+            background: rgba(244, 196, 48, 0.06);
+        }
+
+        .status-pill {
+            display: inline-block;
+            padding: 2px 8px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            border-radius: 2px;
+        }
+
+        .status-live {
+            background: var(--text-gold);
+            color: #000;
+            font-weight: bold;
+        }
+
+        .status-ready {
+            border: 1px solid var(--mesh-blue);
+            color: var(--mesh-blue);
+        }
+
+        .status-planned {
+            border: 1px solid var(--border-muted);
+            color: var(--text-dim);
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="badge-top">SCENARIO LAMBDA // UNMEDIATED AUDIO COMMONS</div>
+    <h1>Radio Lambda</h1>
+    <p class="subtitle">
+        Two-host conversational deep dives &amp; calm walking landscapes unpacking the 7-Layer Sovereign Stack, the origin stories, and the 25 Sovereign Scenarios.
+    </p>
+    <div class="nav-bar">
+        <a href="index.html" class="nav-btn">&larr; The Mythos</a>
+        <a href="../library.html" class="nav-btn">The Archives</a>
+        <a href="genesis.html?ch=1" class="nav-btn">&#9654; System Call: Genesis</a>
+        <a href="../index.html" class="nav-btn">Beacon Portal</a>
+    </div>
+</header>
+
+<div class="main-wrap">
+    <!-- Left Column: Active Episode Player & Show Notes -->
+    <div class="panel">
+        <div id="ep-header-tag" class="ep-tag">EPISODE 02 // MEGA-BROADCAST &bull; 1:08:21</div>
+        <h2 id="ep-header-title" class="ep-title">No Floating Points in the Basement: Inside Layers 1 to 4</h2>
+        <p id="ep-header-desc" style="color: var(--text-dim); margin-top: 0;">
+            A 68-minute deep dive into the Cybernetic Basement: Layer 1 Physical Reality &amp; The Rule of the Red Lever, Layer 1b Oasis 10,000-tick Canary rehearsals, Layer 2 Zephyr RTOS spinal-cord reflexes, Layer 3 integer thermodynamics &amp; Pairwise BCC channels, and Layer 4's 10 Hz deterministic orchestrator.
+        </p>
+
+        <div class="audio-box">
+            <video id="podcast-audio" controls preload="metadata" poster="../doc/podcast/renders/ep02/scenes/scene_01.png" style="width: 100%; aspect-ratio: 16 / 9; background: #000; border: 1px solid var(--border-muted); border-radius: 3px; margin-bottom: 12px;">
+                <source id="video-src" src="../doc/podcast/episodes/02.episode_youtube.mp4" type="video/mp4">
+                <source id="audio-src" src="../doc/podcast/episodes/02.episode.m4a" type="audio/mp4">
+                Your browser does not support the HTML5 video/audio element.
+            </video>
+            <div class="player-controls">
+                <span id="time-readout">> VIDEO STREAM: 02.episode_youtube.mp4 (30 Walking Landscapes + 44.1 kHz AAC &bull; 1:08:21)</span>
+                <div>
+                    <span>SPEED:</span>
+                    <button class="speed-btn active" onclick="setSpeed(1.0, this)">1.0x</button>
+                    <button class="speed-btn" onclick="setSpeed(1.15, this)">1.15x</button>
+                    <button class="speed-btn" onclick="setSpeed(1.25, this)">1.25x</button>
+                    <button class="speed-btn" onclick="setSpeed(1.5, this)">1.5x</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-h3">Jump to Act / Part Markers</div>
+        <div id="chapters-container" class="chapters-grid"></div>
+
+        <div class="section-h3">Episode Show Notes &amp; Architectural Anchors</div>
+        <ul id="notes-container" class="notes-list"></ul>
+
+        <div id="lyrics-header" class="section-h3">Companion Song Lyrics</div>
+        <div id="lyrics-container" class="lyrics-box"></div>
+    </div>
+
+    <!-- Right Column: Season 1 Broadcast Queue -->
+    <div class="panel">
+        <div style="display: flex; gap: 14px; align-items: center; margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--border-muted);">
+            <img src="../doc/podcast/renders/radio_lambda_cover_titled.png" alt="Radio Lambda Cover Art" style="width: 96px; height: 96px; border-radius: 4px; border: 1px solid var(--text-gold); object-fit: cover; flex-shrink: 0;">
+            <div>
+                <div class="ep-tag">SEASON 01 // 11-EPISODE ARC</div>
+                <h3 style="color: var(--text-gold); margin: 4px 0 4px; font-size: 1.15rem;">Dispatches from the Sovereign Stack</h3>
+                <div style="font-size: 0.82rem; color: var(--text-dim);">Hosted by <strong>Sam Vance</strong> &amp; <strong>Clara Lin</strong> &bull; 10h 45m total runtime across 150 walking scenes.</div>
+            </div>
+        </div>
+        <h3 style="color: var(--text-gold); margin: 6px 0 14px; font-size: 1rem;">Broadcast Schedule (Click to Switch)</h3>
+
+        <div class="ep-list">
+            <div id="card-ep1" class="ep-item clickable" onclick="selectEpisode(1)">
+                <span class="status-pill status-live">&#9654; LIVE &bull; 18:55</span>
+                <div style="font-weight: bold; color: var(--text-gold); margin-top: 6px;">Ep. 01 &mdash; Pry-Bar at 2:38 AM: Why the Stack Exists</div>
+                <div style="font-size: 0.84rem; color: var(--text-dim); margin-top: 4px;">Origin crisis, 7-Layer overview, <code>bp</code> units, and $N=1$ to watershed governance (15 walking scenes).</div>
+            </div>
+
+            <div id="card-ep2" class="ep-item clickable active-ep" onclick="selectEpisode(2)">
+                <span class="status-pill status-live">&#9654; LIVE MEGA-DIVE &bull; 1:08:21</span>
+                <div style="font-weight: bold; color: var(--text-gold); margin-top: 6px;">Ep. 02 &mdash; No Floating Points in the Basement (Layers 1&ndash;4)</div>
+                <div style="font-size: 0.84rem; color: var(--text-dim); margin-top: 4px;">The Red Lever, Oasis 10,000-tick Canary, <code>&lt;10 ms</code> saw reflexes, Fault-Before-Malice, Pairwise <code>BCC</code>, and the 72h compost clock (30 walking scenes).</div>
+            </div>
+
+            <div id="card-ep3" class="ep-item clickable" onclick="selectEpisode('3')">
+                <span class="status-pill status-live">&#9654; LIVE V1 &bull; 28:18</span>
+                <div style="font-weight: bold; color: var(--text-gold); margin-top: 6px;">Ep. 03 (v1) &mdash; When the Interface Knows How to Be Quiet (Layers 5&ndash;7)</div>
+                <div style="font-size: 0.84rem; color: var(--text-dim); margin-top: 4px;">Initial 28-minute cut covering scale-adaptive governance, Constellation lenses, and Layer 7 reach (15 walking scenes).</div>
+            </div>
+
+            <div id="card-ep3_02" class="ep-item clickable" onclick="selectEpisode('3_02')">
+                <span class="status-pill status-live">&#9654; LIVE DIRECTOR'S CUT &bull; 1:11:45</span>
+                <div style="font-weight: bold; color: var(--text-gold); margin-top: 6px;">Ep. 03.02 &mdash; Kinship, Ostrom Commons, Indigenous Ontologies &amp; Circular Layer 7</div>
+                <div style="font-size: 0.84rem; color: var(--text-dim); margin-top: 4px;">71-minute deep dive into Ostrom's 8 principles, Chosen Kinship, pluralistic RDF Named Graphs, and Healthy Circular Extraction + Catered GPO Sourcing (35 walking scenes).</div>
+            </div>
+
+            <div id="card-ep4" class="ep-item clickable" onclick="selectEpisode('4')">
+                <span class="status-pill status-live">&#9654; LIVE MEGA-DIVE &bull; 54:00</span>
+                <div style="font-weight: bold; color: var(--text-gold); margin-top: 6px;">Ep. 04 &mdash; 20-Year Laptops, Walk-In Sanctuary &amp; The Brass Rest Latch</div>
+                <div style="font-size: 0.84rem; color: var(--text-dim); margin-top: 4px;">Wave A: Scenarios <code>Zero</code>, <code>Tau</code>, and <code>Sigma</code> (30 walking scenes).</div>
+            </div>
+
+            <div id="card-ep5" class="ep-item clickable" onclick="selectEpisode('5')">
+                <span class="status-pill status-live">&#9654; LIVE MEGA-DIVE &bull; 58:09</span>
+                <div style="font-weight: bold; color: var(--text-gold); margin-top: 6px;">Ep. 05 &mdash; Pea Soup, Shop-Floor LOTO &amp; Cargo-Trike Sneakernet</div>
+                <div style="font-size: 0.84rem; color: var(--text-dim); margin-top: 4px;">Wave B: Scenarios <code>Gamma</code>, <code>Alpha</code>, and <code>Beta</code> (30 walking scenes).</div>
+            </div>
+
+            <div id="card-ep6" class="ep-item clickable" onclick="selectEpisode('6')">
+                <span class="status-pill status-live">&#9654; LIVE MEGA-DIVE &bull; 1:00:54</span>
+                <div style="font-weight: bold; color: var(--text-gold); margin-top: 6px;">Ep. 06 &mdash; The 90-Day Cocoon, Chosen Kin &amp; Screenless Homes</div>
+                <div style="font-size: 0.84rem; color: var(--text-dim); margin-top: 4px;">Wave C: Scenarios <code>Delta</code>, <code>Omicron</code>, <code>Kappa</code>, and <code>Zeta</code> (30 walking scenes).</div>
+            </div>
+
+            <div id="card-ep7" class="ep-item clickable" onclick="selectEpisode('7')">
+                <span class="status-pill status-live">&#9654; LIVE MEGA-DIVE &bull; 55:24</span>
+                <div style="font-weight: bold; color: var(--text-gold); margin-top: 6px;">Ep. 07 &mdash; Mother-Tree Vetoes, Solar Crucibles &amp; Reversible Timber</div>
+                <div style="font-size: 0.84rem; color: var(--text-dim); margin-top: 4px;">Wave D: Scenarios <code>Eta</code>, <code>Mu</code>, <code>Theta</code>, <code>Nu</code>, and <code>Xi</code> (30 walking scenes).</div>
+            </div>
+
+            <div id="card-ep8" class="ep-item clickable" onclick="selectEpisode('8')">
+                <span class="status-pill status-live">&#9654; LIVE MEGA-DIVE &bull; 1:03:49</span>
+                <div style="font-weight: bold; color: var(--text-gold); margin-top: 6px;">Ep. 08 &mdash; Zero-ID Caf&eacute;s, Null-Result Science &amp; Unmediated Music</div>
+                <div style="font-size: 0.84rem; color: var(--text-dim); margin-top: 4px;">Wave E: Scenarios <code>Epsilon</code>, <code>Iota</code>, <code>Lambda</code>, and <code>Pi</code> (29 walking scenes).</div>
+            </div>
+
+            <div id="card-ep9" class="ep-item clickable" onclick="selectEpisode('9')">
+                <span class="status-pill status-live">&#9654; LIVE MEGA-DIVE &bull; 58:40</span>
+                <div style="font-weight: bold; color: var(--text-gold); margin-top: 6px;">Ep. 09 &mdash; Red Pull-Cords, Open-Hearth Storms &amp; Emeritus Sages</div>
+                <div style="font-size: 0.84rem; color: var(--text-dim); margin-top: 4px;">Wave F (Part 1): Scenarios <code>Chi</code>, <code>Upsilon</code>, and <code>Phi</code> (30 walking scenes).</div>
+            </div>
+
+            <div id="card-ep10" class="ep-item clickable" onclick="selectEpisode('10')">
+                <span class="status-pill status-live">&#9654; LIVE MEGA-DIVE &bull; 56:14</span>
+                <div style="font-weight: bold; color: var(--text-gold); margin-top: 6px;">Ep. 10 &mdash; Peace Hearths, Fault-Before-Malice &amp; The Planetary Lighthouse</div>
+                <div style="font-size: 0.84rem; color: var(--text-dim); margin-top: 4px;">Wave F (Part 2): Scenarios <code>Psi</code>, <code>Rho</code>, and <code>Omega</code> (30 walking scenes).</div>
+            </div>
+
+            <div id="card-ep11" class="ep-item clickable" onclick="selectEpisode('11')">
+                <span class="status-pill status-live">&#9654; LIVE SEASON FINALE &bull; 51:51</span>
+                <div style="font-weight: bold; color: var(--text-gold); margin-top: 6px;">Ep. 11 &mdash; The Minimum Viable Society &amp; The Historical Rupture</div>
+                <div style="font-size: 0.84rem; color: var(--text-dim); margin-top: 4px;">Season 1 Grand Finale: Full MVS retrospective (Waves A&ndash;F, Non-Stewards), Marx/Lenin/Trotsky, China &amp; Tolkien's One Ring, and the Medieval Centering Arch (36 walking scenes).</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const audioEl = document.getElementById('podcast-audio');
+
+    const episodes = {
+        1: {
+            tag: 'EPISODE 01 // PILOT BROADCAST • 18:55',
+            title: 'Pry-Bar at 2:38 AM: Why the Sovereign Stack Exists',
+            desc: "From an eight-year-old's remotely locked asthma inhaler in Grey Seattle and a freezing 2:38 AM nursery server bug to the 7-Layer Sovereign Stack, integer basis points (bp), the Layer 6 Constellation of calm lenses, and scale-adaptive governance.",
+            video: '../doc/podcast/episodes/01.episode_youtube.mp4',
+            audio: '../doc/podcast/episodes/01.episode.m4a',
+            poster: '../doc/podcast/renders/ep01/scenes/scene_08.png',
+            streamLabel: '> VIDEO STREAM: 01.episode_youtube.mp4 (15 Walking Landscapes + 44.1 kHz AAC • 18:55)',
+            chapters: [
+                { sec: 0, time: '[00:00] ACT I', name: 'The Locked Inhaler & The 2:38 AM Nursery Bug' },
+                { sec: 378, time: '[06:18] ACT II', name: 'The 7 Layers & Why We Use Basis Points (bp)' },
+                { sec: 756, time: '[12:36] ACT III', name: 'Calm Lenses, N=1 to Watershed Governance & Omega' }
+            ],
+            notes: [
+                '<strong>Twin Origin Failures (<em>System Call: Genesis</em>):</strong> Why neither corporate cloud rent-extraction (Gabe\'s locked smart inhaler) nor naive algorithmic rationing (Jax\'s 2:38 AM priority-inversion bug freezing the toddlers\' nursery) can be trusted with human survival.',
+                '<strong>Unconditional Survival (10,000 bp):</strong> Food (<code>Scenario Gamma</code>), shelter (<code>Zeta</code>), childcare (<code>Delta</code>), eldercare (<code>Phi</code>), and trauma care (<code>Chi</code>) mint <strong>zero tokens</strong>.',
+                '<strong>Why Basis Points (<code>bp</code>) Replace Decimals:</strong> 10,000 bp = 100%. Banning IEEE-754 floating-point numbers guarantees zero rounding drift across 20-year-old salvaged hardware.',
+                '<strong>Layer 6 Constellation & Zero-Surveillance Craft:</strong> Washable E-Ink soup slates, zero-knowledge allergy tiffin latches, the wooden bedroom Sanctuary Latch (<code>Scenario Sigma</code>), and wiping body measurements from RAM upon garment handoff (<code>Scenario Nu</code>).'
+            ],
+            songTitle: 'Companion Song Lyrics: “Pry-Bar at Two Thirty-Eight”',
+            lyrics: `[Verse 1]
+Twelfth-floor glass and a grey plastic mouse
+Clicking the heat off a stranger's house...
+
+[Chorus]
+Throw the ledger in the barrel, let the pine-scrap burn
+Every locked-up ration has a page to turn
+Ten thousand basis points of bread and heat
+No price on the soup, no lien on the seat
+Put a pry-bar to the door at two thirty-eight
+The children come first, let the database wait!`
+        },
+        2: {
+            tag: 'EPISODE 02 // MEGA-BROADCAST • 1:08:21',
+            title: 'No Floating Points in the Basement: Inside Layers 1 to 4',
+            desc: 'A 68-minute deep dive into the Cybernetic Basement: Layer 1 Physical Reality & The Rule of the Red Lever, Layer 1b Oasis 10,000-tick Canary rehearsals, Layer 2 Zephyr RTOS spinal-cord reflexes, Layer 3 integer thermodynamics & Pairwise BCC channels, and Layer 4\'s 10 Hz deterministic orchestrator.',
+            video: '../doc/podcast/episodes/02.episode_youtube.mp4',
+            audio: '../doc/podcast/episodes/02.episode.m4a',
+            poster: '../doc/podcast/renders/ep02/scenes/scene_01.png',
+            streamLabel: '> VIDEO STREAM: 02.episode_youtube.mp4 (30 Walking Landscapes + 44.1 kHz AAC • 1:08:21)',
+            chapters: [
+                { sec: 0, time: '[00:00] PART I', name: 'Layer 1: Physical Reality & The Rule of the Red Lever' },
+                { sec: 820, time: '[13:40] PART II', name: 'Layer 1b: Oasis & The 10,000-Tick Canary Rehearsal' },
+                { sec: 1640, time: '[27:20] PART III', name: 'Layer 2: Spinal-Cord Reflexes & Fault-Before-Malice' },
+                { sec: 2460, time: '[41:00] PART IV', name: 'Layer 3: Thermodynamic Ledger & Pairwise BCC' },
+                { sec: 3280, time: '[54:40] PART V', name: 'Layer 4: 10 Hz Orchestrator, 72h Compost & 90d Cocoon' }
+            ],
+            notes: [
+                '<strong>Layer 1 (The Rule of the Red Lever):</strong> Zero software in Layer 1—mechanical red disconnect levers on every 48V battery and cistern (<code>Scenario Beta</code>), wooden bedroom rest latches (<code>Sigma</code>), brass microphone kill-switches (<code>Lambda</code>), and biochar keyline sponge swales (<code>Upsilon</code>).',
+                '<strong>Layer 1b (Oasis Rehearsal Sandbox):</strong> Hardware provenance byte (<code>0x01</code> simulated rehearsal vs. <code>0x02</code> physical hardware) and the 10,000-tick Canary stress-test that catches priority bugs on screen before they ever touch a real valve.',
+                '<strong>Layer 2 (Zephyr RTOS Spinal-Cord Reflexes):</strong> Sub-10ms table-saw brake (<code>Alpha</code>), 250ms two-person dead-man bronze furnace pour (<code>Theta</code>), 38.0°C nursery anti-scald valve (<code>Delta</code>), zero-camera 60GHz elder fall radar (<code>Phi</code>), and <em>Fault-Before-Malice</em> flowmeter checks (<code>Rho</code>).',
+                '<strong>Layer 3 (Why It Is Neither Debt-Money Nor a Crypto Coin):</strong> Zero tokens for domestic care, 64-bit integer SI units (<code>uJ</code>, <code>mg</code>, <code>mK</code>, <code>bp</code>), Pairwise zero-sum Bilateral Clearing Channels (<code>BCC</code>), and Shock-Verified Commons Jubilees.',
+                '<strong>Layer 4 (10 Hz Deterministic Orchestrator):</strong> Resetting the 72-hour 55.0°C compost clock to zero on any thermal dip (<code>Mu</code>), running 90-day Postpartum Cocoons silently from one signature (<code>Delta</code>), and pausing with an <code>UpwardYieldPacket</code> for human judgment.'
+            ],
+            songTitle: 'Companion Song Lyrics: “Spinal Cord of Copper and Glass”',
+            lyrics: `[Verse 1]
+When your fingers touch a cast-iron pan
+You don't send a packet to a distant land
+Asking a server in a desert town
+Whether your hand ought to put it down...
+
+[Chorus]
+No floating points in the basement tonight
+Every integer honest, every ledger light
+Pull the red lever if the storm winds blow
+The copper and the river know the way to go
+Ten ticks a second on the garden clock
+And a human hand on the mechanical lock!`
+        },
+        3: {
+            tag: 'EPISODE 03 // DEEP-DIVE BROADCAST • 28:18',
+            title: 'When the Interface Knows How to Be Quiet: Inside Layers 5, 6 & 7',
+            desc: 'A 28-minute exploration of the upper three layers: Layer 5 scale-adaptive governance (N=1 to watershed), Layer 6\'s Constellation of calm lenses & Asymmetric Friction, and Layer 7 Extractive vs. Defensive reach on the road to Scenario Omega\'s Planetary Lighthouse.',
+            video: '../doc/podcast/episodes/03.episode_youtube.mp4',
+            audio: '../doc/podcast/episodes/03.episode.m4a',
+            poster: '../doc/podcast/renders/ep03/scenes/scene_09.png',
+            streamLabel: '> VIDEO STREAM: 03.episode_youtube.mp4 (15 Walking Landscapes + 44.1 kHz AAC • 28:18)',
+            chapters: [
+                { sec: 0, time: '[00:00] PART I', name: 'Layer 5: Governance Scales (N=1 to Watershed & 40% Anti-Martyrdom)' },
+                { sec: 566, time: '[09:26] PART II', name: 'Layer 6: Calm Constellation, 3200:1 Attenuation & Safe-Harbor Exit' },
+                { sec: 1132, time: '[18:52] PART III', name: 'Layer 7: Extractive ($0 Shutoff) vs. Defensive Reach & Scenario Omega' }
+            ],
+            notes: [
+                '<strong>Layer 5 Across Human Scales:</strong> Zero meetings at $N=1$ (solo homesteader); <code>&lt;50 ms</code> unlinkable <code>BBS+</code> badges, pull-only queues, and the $40\%$ Anti-Martyrdom Circuit Breaker at $N_s \\ge 1, N_p &gt; 1$; bicameral Stewardship vs. Commons Chambers, non-decaying Emeritus Sages, auto-dissolving Work-Bee Swarms, and <code>MeshGrowthBeacon</code> demand capture across a watershed.',
+                '<strong>Layer 6 (No Monolithic Super-App):</strong> <code>HTTP 405</code> read-only lower-layer containment, Capability Nutrition Labels (<code>Zero</code>), washable E-Ink soup slates (<code>Gamma</code>), offline cargo-trike sneakernet decks (<code>Beta</code>), <code>&lt;500 ms</code> Zero-LLM red trauma pull-cords (<code>Chi</code>), and complete digital silence inside private $R_0$ homes (<code>Zeta</code>/<code>Xi</code>).',
+                '<strong>Asymmetric Friction:</strong> Stepping into rest (<code>Sigma</code>) or triggering a <code>&lt;500 ms</code> Unilateral Safe-Harbor exit (<code>Omicron</code>) takes ONE gesture and zero explanation; committing community resources requires <code>Draft -&gt; Deterministic Read-Back -&gt; Personal Hardware Sign</code>.',
+                '<strong>Layer 7 Extractive vs. Defensive Reach &amp; Omega:</strong> GPO wholesale + <code>Scenario Mu</code> tipping-fee inversion + automatic <code>$0</code> monthly bill shutoff ($\\Phi_t \\to 0$) vs. the Tripartite Legal Chassis, Mundane Semantic Camouflage, <em>NAACP v. Alabama</em> subpoena sterility, and <code>Scenario Omega</code>\'s Planetary Lighthouse.'
+            ],
+            songTitle: 'Companion Song Lyrics: “When the Interface Knows How to Be Quiet”',
+            lyrics: `[Verse 1]
+One person working in a quiet shed
+No committee voting on the daily bread
+Ten neighbors sharing from the soup-pot steam
+Nobody drowning in a selfish dream...
+
+[Chorus]
+When the interface knows how to be quiet
+And the screen steps back from the kitchen door
+One tap to rest, one tap to walk away free
+Two hands together when we sign the treaty floor
+Nothing to sell and nothing left to hide
+Where the river and the commonwealth abide!`
+        },
+        4: {
+            tag: 'EPISODE 04 // WAVE A MEGA-BROADCAST • 54:00',
+            title: '20-Year Laptops, Walk-In Sanctuary & The Brass Rest Latch (Zero, Tau, Sigma)',
+            desc: 'A 54-minute deep dive into Horizontal Wave A: Scenario Zero (20-year salvaged hardware, Capability Nutrition Labels, Detox Quarantine Diode & compiler-heated bathhouses), Scenario Tau (4-pathway onboarding, 3-of-5 Shamir recovery over tea & disability justice), and Scenario Sigma (the wooden-and-brass bedroom Sanctuary Latch, 40% Anti-Martyrdom circuit breaker & Drudgery-to-Automation quests).',
+            video: '../doc/podcast/episodes/04.episode_youtube.mp4',
+            audio: '../doc/podcast/episodes/04.episode.m4a',
+            poster: '../doc/podcast/renders/ep04/scenes/scene_01.png',
+            streamLabel: '> VIDEO STREAM: 04.episode_youtube.mp4 (30 Walking Landscapes + 44.1 kHz AAC • 54:00)',
+            chapters: [
+                { sec: 0, time: '[00:00] PART I', name: 'Scenario Zero: 20-Year Laptops, Nutrition Labels, Oasis & Bathhouse Heat' },
+                { sec: 1080, time: '[18:00] PART II', name: 'Scenario Tau: 4 Pathways (R0_GUEST Walk-In), Shamir Tea Vouch & Disability Justice' },
+                { sec: 2160, time: '[36:00] PART III', name: 'Scenario Sigma: Brass Rest Latch, 40% Anti-Martyrdom & Automation Quests' }
+            ],
+            notes: [
+                '<strong>Scenario Zero (<code>SCN-ZERO-SOFTWARE</code>):</strong> 20-Year Salvaged Hardware Mandate (<code>&lt;=256 MiB</code> OS, <code>&lt;=512 MiB</code> app RAM), Capability Nutrition Labels, Detox Quarantine Diode stripping corporate telemetry across <code>l6_l7.sock</code>, warming <code>Scenario Zeta</code> bathhouses with $\\ge 80\\%$ of compiler/GPU heat, and <strong>Oasis</strong> &amp; Sovereign Game Studios with automatic SBOM reputation flow.',
+                '<strong>Scenario Tau (<code>SCN-TAU-GENESIS</code>):</strong> Four welcoming pathways (Hybrid Neighbor, Full CLT Resident, Visiting Artisan / youth <em>Rumspringa</em>, and Zero-Smartphone Crisis Walk-In <code>R0_GUEST</code>), in-person $\\le 40\\,\\mathrm{mm}$ NFC vouch + 3-of-5 Shamir recovery over tea, <code>0 bp</code> starting reputation, WCAG 2.2 AAA sensory calm, and permanent $R_0$ assistive equipment ownership.',
+                '<strong>Scenario Sigma (<code>SCN-SIGMA-BURNOUT</code>):</strong> Asymmetric friction (sliding the physical wooden-and-brass bedroom Sanctuary Latch emits a 1-bit <code>RestIntent</code> with zero explanation and $\\le 300\\,\\mathrm{cB}$ quiet), local $R_0$ <code>8500/4500 bp</code> Schmitt-trigger homeostat, the $40\\%$ (<code>4000 bp</code>) Anti-Martyrdom Circuit Breaker, Dual-Freeze Care Leave, Rotational Work-Bees (<code>0</code> care tokens), and the Drudgery-to-Automation Pipeline.'
+            ],
+            songTitle: 'Companion Song Lyrics: “Slide the Brass Latch (No Martyrs in the Mill)”',
+            lyrics: `[Verse 1]
+Twenty-year laptop on a cedar desk
+Five hundred megabytes and nothing less
+Read the nutrition label on the screen
+Zero float drift and the socket's clean...
+
+[Chorus]
+Come through the doorway, leave your debt outside
+Four open pathways and the porch is wide
+No twenty-four words that you might forget
+Just three friends over tea when the table's set
+And if your back gets heavy before the day is through
+Slide the brass latch, let the village carry you!`
+        },
+        '3_02': {
+            tag: "EPISODE 03.02 // DIRECTOR'S CUT MEGA-BROADCAST • 1:11:45",
+            title: 'The Soul of the Machine: Kinship, Ostrom Commons, Indigenous Ontologies & Circular Layer 7',
+            desc: "A 71-minute Director's Cut expanding Layers 5, 6, and 7: Elinor Ostrom's 8 Nobel-winning commons principles + VSM System 5, Chosen Kinship (Scenario Omicron) across Rings R0–R6, pluralistic & Indigenous RDF Named Graphs without ontological colonialism, closed-loop Stoichiometric Need DAGs, and Layer 7 Healthy Circular Extraction + Catered GPO Sourcing.",
+            video: '../doc/podcast/episodes/03.02.episode_youtube.mp4',
+            audio: '../doc/podcast/episodes/03.02.episode.m4a',
+            poster: '../doc/podcast/renders/ep03/scenes/scene_02.png',
+            streamLabel: '> VIDEO STREAM: 03.02.episode_youtube.mp4 (35 Walking Landscapes + 44.1 kHz AAC • 1:11:45)',
+            chapters: [
+                { sec: 0, time: '[00:00] PART I', name: "Ostrom's 8 Principles, VSM System 5 & Chosen Kinship (Omicron)" },
+                { sec: 1352, time: '[22:32] PART II', name: 'Defeating the 25x25 Sybil Cartel & Scale-Adaptive Governance' },
+                { sec: 1719, time: '[28:39] PART III', name: 'Pluralistic & Indigenous RDF Named Graphs (Te Mana o te Wai & Ayllu)' },
+                { sec: 2456, time: '[40:56] PART IV', name: 'Pipe-Delimiter Hash Fix, Stoichiometric Need DAGs & Calm Lenses' },
+                { sec: 3193, time: '[53:13] PART V', name: 'Layer 7: Healthy Circular Extraction, Catered GPO Sourcing & Siphon' }
+            ],
+            notes: [
+                '<strong>Elinor Ostrom + Stafford Beer VSM System 5:</strong> How Layer 5 operationalizes all 8 of Ostrom\'s Design Principles (clear boundaries, local ecological congruence, graduated sanctions, low-cost restorative justice) and VSM System 5 constitutional closure without turning neighbors into unpaid bureaucrats.',
+                '<strong>Kinship Without Financialization (<code>Scenario Omicron</code>):</strong> Multi-generational households, chosen-kin care pods, Concentric Accountability Rings ($R_0 \\dots R_6$), and the unconditional rule that caregiving and parenting never mint financial debt or tokens.',
+                '<strong>Pluralistic &amp; Indigenous Ontologies in Layer 6:</strong> Coexisting RDF/OWL Named Graphs over shared physical events—letting Western agronomic taxonomies, Māori <em>Te Mana o te Wai</em>, Quechua <em>Ayllu</em> reciprocity, and Haudenosaunee Seven Generations impact horizons govern the same creek without ontological colonialism.',
+                '<strong>Stoichiometric Need Composition &amp; Pipe-Delimiter Fix:</strong> Fixing the canonical hash collision bug (`A|B` + `C` vs. `A` + `B|C`) with 32-bit length prefixes, and enforcing closed-loop material balance so no manufacturing intent can leave orphaned toxic waste.',
+                '<strong>Layer 7 as Healthy Circular Extraction &amp; Catered Procurement:</strong> Internalizing extracted tungsten, silicon, and copper into a permanent 100% recycled circular commons, scoring outside suppliers via the multi-attribute Catered GPO Sourcing Engine (repairability, fair labor, zero conflict minerals, regenerative soil), and ramping the Progressive Siphon (10% &rarr; 95%).'
+            ],
+            songTitle: 'Companion Song Lyrics: “Seven Generations in the Graph”',
+            lyrics: `[Verse 1]
+Ostrom walked the pastures where the mountain waters run
+Counted how the villagers shared the rain and sun
+No distant king or banker kept the meadow green
+Just clear and honest boundaries and a hearth between...
+
+[Chorus]
+Speak in your own language to the river and the stone
+Every named ontology has a roof it calls its own
+What we draw from the outside, we bring into the ring
+Never twice extracted from the mountain spring!`
+        },
+        5: {
+            tag: 'EPISODE 05 // WAVE B MEGA-BROADCAST • 58:09',
+            title: 'Pea Soup, Shop-Floor LOTO & Cargo-Trike Sneakernet (Gamma, Alpha, Beta)',
+            desc: 'A 58-minute deep dive into Horizontal Wave B: Scenario Gamma (the unconditional Pea Soup & Bean Stew hearth, 0 mg grain fed to livestock, Bigelow 74°C pasteurization & BBS+ allergen tiffin latches), Scenario Alpha (Cosmopolitan Localism, <10ms hardware LOTO brakes & R0 creative hobby privacy), and Scenario Beta (5 physical arteries, 60% load-factor cargo-trike milk-runs, 4TB NVMe sneakernet & >=80% salmon instream floor).',
+            video: '../doc/podcast/episodes/05.episode_youtube.mp4',
+            audio: '../doc/podcast/episodes/05.episode.m4a',
+            poster: '../doc/podcast/renders/ep05/scenes/scene_01.png',
+            streamLabel: '> VIDEO STREAM: 05.episode_youtube.mp4 (30 Walking Landscapes + 44.1 kHz AAC • 58:09)',
+            chapters: [
+                { sec: 0, time: '[00:00] PART I', name: 'Scenario Gamma: Unconditional Pea Soup, Zero-Grain Hens & BBS+ Tiffins' },
+                { sec: 1163, time: '[19:23] PART II', name: 'Scenario Alpha: Black-Locust CNC, <10ms LOTO & R0 Creative Privacy' },
+                { sec: 2326, time: '[38:46] PART III', name: 'Scenario Beta: 5 Arteries, Cargo-Trike Sneakernet & >=80% River Floor' }
+            ],
+            notes: [
+                '<strong>Scenario Gamma (<code>SCN-GAMMA-KITCHEN</code>):</strong> 100% unconditional nourishment ($10{,}000\\,\\mathrm{bp}$, <code>0</code> care tokens), Trophic Non-Competition (<code>human_edible_grain_fed_mg == 0</code>; hens fed on silvopasture, trimmings &amp; BSFL), hardware-locked Bigelow pasteurization ($\\ge 74.0^\\circ\\mathrm{C}$ for $120\\,\\mathrm{s}$) &amp; botulism acidification ($\\mathrm{pH} \\le 4.6$), and Zero-Knowledge <code>BBS+</code> Allergen NFC Tiffin Lockers.',
+                '<strong>Scenario Alpha (<code>SCN-ALPHA-FAB</code>):</strong> Cosmopolitan Localism ("Design Global, Manufacture Local") across 5 workshop modalities, Total Production Cost Vector ($\\mathbf{C}_{\\mathrm{prod}}$) Read-Backs with solar battery spindle batching, Dust-Sealed Shop-Floor BOM E-Ink Terminals with <code>&lt;10 ms</code> hardware <code>LOTO</code> brakes, Inviolable $R_0$ Creative Privacy (<code>PersonalSlotIntent</code> logs <code>0</code> hobby telemetry), and stigmergic MTBF evolution.',
+                '<strong>Scenario Beta (<code>SCN-BETA-TRANSIT</code>):</strong> Five Physical Arteries (People, Freight, 48V/380V DC Power, Cascading Water, and Fiber/LoRa/DTN), consolidated Clarke-Wright cargo-trike milk-runs ($\\ge 60\\%$ load factor) carrying hot tiffins + 4TB NVMe sneakernet drives, Two-Phase Cold-Chain Custody ($2.0\\text{–}4.0^\\circ\\mathrm{C}$), $\\ge 80\\%$ (<code>8000 bp</code>) salmon instream river floor, and spatial <code>No-Transit</code> sanctuary polygons.'
+            ],
+            songTitle: 'Companion Song Lyrics: “Pea Soup on the Porch, Ten Milliseconds on the Saw”',
+            lyrics: `[Verse 1]
+Twenty separate kitchens at the end of Tuesday night
+Twenty tired neighbors underneath a fluorescent light
+Why chop twenty onions when the cauldron's warm and wide
+And the stainless tiffin's waiting on the cedar porch outside?
+
+[Chorus]
+Ten thousand basis points of pea soup in the pot
+Zero grain to feedlots on the keyline garden lot
+Ten milliseconds on the saw-blade if your fingers slip too near
+And eighty percent of the mountain creek left running cold and clear!`
+        },
+        6: {
+            tag: 'EPISODE 06 // WAVE C MEGA-BROADCAST • 1:00:54',
+            title: 'The 90-Day Cocoon, Chosen Kin, Debt-Free Mastery & Screenless Homes (Delta, Omicron, Kappa, Zeta)',
+            desc: 'A 61-minute deep dive into Horizontal Wave C: Scenario Delta (1-Sign 90-Day Postpartum Cocoon, 2-Adult NFC Play Pods & zero cameras), Scenario Omicron (N-ary Chosen Kinship Covenants, wet-ink POA/HIPAA wallet cards, <500ms Unilateral Safe-Harbor Exit & the Anti-Moralism Firewall), Scenario Kappa (R0-private integer BKT mastery, 2m BLE mentor tether & 3-of-3 Capstone panels), and Scenario Zeta (99-year 0-rent CLT homes, 100% screenless R0 interiors & waste-heat cedar bathhouses).',
+            video: '../doc/podcast/episodes/06.episode_youtube.mp4',
+            audio: '../doc/podcast/episodes/06.episode.m4a',
+            poster: '../doc/podcast/renders/ep06/scenes/scene_01.png',
+            streamLabel: '> VIDEO STREAM: 06.episode_youtube.mp4 (30 Walking Landscapes + 44.1 kHz AAC • 1:00:54)',
+            chapters: [
+                { sec: 0, time: '[00:00] PART I', name: 'Scenario Delta: 90-Day Postpartum Cocoon & Zero-Camera Play Pods' },
+                { sec: 853, time: '[14:13] PART II', name: 'Scenario Omicron: Chosen Kinship, POA/HIPAA Armor & <500ms Safe Exit' },
+                { sec: 1705, time: '[28:25] PART III', name: 'Scenario Kappa: R0-Private BKT Mastery, 2m BLE Tether & 3-of-3 Capstone' },
+                { sec: 2680, time: '[44:40] PART IV', name: 'Scenario Zeta: 0-Rent CLT Homes, Screenless R0 & Cedar Bathhouses' }
+            ],
+            notes: [
+                '<strong>Scenario Delta (<code>SCN-DELTA-CHILD</code>):</strong> 1-Sign 90-Day Postpartum Cocoon (daily <code>Gamma</code> broth/stew tiffins, twice-weekly <code>Beta</code> cloth-diaper $71.0^\\circ\\mathrm{C}$ ozone sanitation &amp; <code>Sigma</code> Dual-Freeze Care Leave), Mandatory Two-Adult NFC Safeguarding ($N_{\\mathrm{adults}} \\ge 2$) with age-weighted ratios, Zero-Camera Thermodynamic Safety ($\\le 38.0^\\circ\\mathrm{C}$ anti-scald valve), and Holder ($62.5^\\circ\\mathrm{C}$) milk banking.',
+                '<strong>Scenario Omicron (<code>SCN-OMICRON-KIN</code>):</strong> Radical kinship pluralism ($N\\text{-ary}$ <code>SovereignKinshipCovenant</code>), automated Ricardian synthesis of wet-ink Layer 7 Durable Medical POAs &amp; HIPAA hospital wallet cards, the Anti-Moralism Firewall (<code>SCHEMA_VIOLATION_MORALISTIC_OVERREACH</code>), and the 1-Tap <code>&lt;500 ms</code> Unilateral Safe-Harbor Exit (<code>SafeHarborSeveranceIntent</code>) backed by a $\\ge 500\\,\\mathrm{bp}$ standing refuge buffer.',
+                '<strong>Scenario Kappa (<code>SCN-KAPPA-APPRENTICE</code>):</strong> Four-Tier Somatic Competency (<code>T1</code> $\\to$ <code>T4</code>), 100% $R_0$-private integer Bayesian Knowledge Tracing (<code>BKT</code> $\\ge 9500\\,\\mathrm{bp}$) where all mistakes stay on the learner\'s device, the $\\le 2000\\,\\mathrm{mm}$ ($2.0\\,\\mathrm{m}$) encrypted BLE mentor proximity tether, and nepotism-proof 3-of-3 Capstone panels.',
+                '<strong>Scenario Zeta (<code>SCN-ZETA-LODGE</code>):</strong> 99-year Community Land Trust (<code>CLT</code>) occupancy with <code>0</code> internal rent and $43.2\\,\\mathrm{MJ/day}$ comfort baseline, <code>R0_INTERIOR_DARK</code> (100% screenless $R_0$ homes with tactile brass switches and mechanical radiator dials), cedar bathhouses heated by $\\ge 55\\%$ copper <code>DWHR</code> + <code>Scenario Zero</code> compute heat, and 72-hour reed-bed wetlands + $\\le -25\\,\\mathrm{Pa}$ odor-free biochar vaults.'
+            ],
+            songTitle: 'Companion Song Lyrics: “Ninety Days of Broth and Cedar (No Cameras in the Crib)”',
+            lyrics: `[Verse 1]
+One signature before the baby cries
+And ninety mornings of the kitchen's rise
+Hot tiffin waiting on the cedar rail
+Clean cotton linen in the cargo pail
+Two pairs of hands before the play-pod opens wide
+And not a single camera on the wall inside
+
+[Chorus]
+No price on the cradle, no rent on the floor
+Brass toggle switches behind the bedroom door
+Speak your own covenant and tap the ring in three
+Or one quiet gesture sets a captive spirit free
+Learn any craft without a penny owed
+Where the bathhouse steams beside the garden road!`
+        },
+        7: {
+            tag: 'EPISODE 07 // WAVE D MEGA-BROADCAST • 55:24',
+            title: 'Mother-Tree Vetoes, 98% Urban Unbuilding, Solar Crucibles, Zero-RAM Tailoring & Kigumi Barn-Raising (Eta, Mu, Theta, Nu, Xi)',
+            desc: 'A 55-minute deep dive into Horizontal Wave D: Scenario Eta (winter-dormant rotational coppice, Mother-Tree Sanctuary vetoes, 25% wild-foraging cap & 70–90% forest property-tax slash), Scenario Mu (98% five-stream urban unbuilding, tipping-fee inversion, 72h thermophilic compost & >=90% struvite), Scenario Theta (3-Tier salvage-before-melt hierarchy & <=250ms 2-person pour gates), Scenario Nu (zero-PFAS botanical vats & OP_PURGE_R0_LINEAGE ephemeral-RAM tailoring), and Scenario Xi (Habraken 2-Track Open Building & reversible nail-free CNC Kigumi barn-raisings).',
+            video: '../doc/podcast/episodes/07.episode_youtube.mp4',
+            audio: '../doc/podcast/episodes/07.episode.m4a',
+            poster: '../doc/podcast/renders/ep07/scenes/scene_01.png',
+            streamLabel: '> VIDEO STREAM: 07.episode_youtube.mp4 (30 Walking Landscapes + 44.1 kHz AAC • 55:24)',
+            chapters: [
+                { sec: 0, time: '[00:00] PART I', name: 'Scenario Eta: Winter Coppice, Mother-Tree Veto & 70–90% Forest Tax Slash' },
+                { sec: 665, time: '[11:05] PART II', name: 'Scenario Mu: 98% Unbuilding, Tipping-Fee Inversion, 72h Compost & Struvite' },
+                { sec: 1330, time: '[22:09] PART III', name: 'Scenario Theta: Tier-1 Salvage First, <=250ms 2-Person Pour & Glass Kilns' },
+                { sec: 1994, time: '[33:14] PART IV', name: 'Scenario Nu: Fiber Shed, Zero-PFAS Vats & OP_PURGE_R0_LINEAGE Tailoring' },
+                { sec: 2659, time: '[44:19] PART V', name: 'Scenario Xi: Fence Removal, Reversible CNC Kigumi & Habraken 2-Track Homes' }
+            ],
+            notes: [
+                '<strong>Scenario Eta (<code>SCN-ETA-COPPICE</code>):</strong> Rotational coppicing strictly during winter sap dormancy ($&lt; 5.0^\\circ\\mathrm{C}$ root zone), inviolable <code>Mother-Tree Sanctuary Polygons</code>, 1-in-4 ($\\le 2500\\,\\mathrm{bp}$) wild-foraging cap, $94\\%$ silent <code>DORMANT</code> workflows, Dual-Assay Botanical Apothecary (<code>0 ng</code> amatoxin), and $70\\text{–}90\\%$ forest property-tax reduction.',
+                '<strong>Scenario Mu (<code>SCN-MU-EXTRACTION</code>):</strong> Surgical five-stream urban unbuilding ($\\ge 9800\\,\\mathrm{bp}$ diversion), Tipping-Fee Inversion (getting paid in Layer 7 fiat to harvest old-growth beams and copper), 72-hour continuous $\\ge 55.0^\\circ\\mathrm{C}$ compost holds, $\\ge 90\\%$ struvite phosphorus/nitrogen recovery, smokeless <code>TLUD</code> biochar, and immutable <code>TAINTED_HEAVY_METAL_ASH</code> quarantine locks.',
+                '<strong>Scenario Theta (<code>SCN-THETA-FOUNDRY</code>):</strong> Enforced Three-Tier Material Hierarchy (<code>tier1CacheMissProof</code> salvage-before-melt saving $95\\%$ exergy $\\to$ $\\ge 8500\\,\\mathrm{bp}$ solar-batched scrap remelting $\\to$ $R_4$ supermajority Tier-3 quarrying with $10\\times \\lambda_{\\mathrm{ERC}}$ escrow), <code>XRF</code>/<code>OES</code> alloy metrology, and $\\le 250\\,\\mathrm{ms}$ two-person dead-man pour switches.',
+                '<strong>Scenario Nu (<code>SCN-NU-TEXTILES</code>):</strong> Bioregional Fiber Shed (flax, hemp, wool, oak-bark vegetable tanning with <code>0 mg</code> PFAS and <code>0 mg</code> $\\mathrm{Cr(VI)}$), <code>OP_PURGE_R0_LINEAGE</code> wiping 3D body/foot measurements from volatile RAM upon handoff, <em>Sashiko</em> visible mending &amp; Goodyear-welt boot resoling ($&lt; 15\\%$ exergy), and $\\ge 98\\%$ ($50\\,\\mu\\mathrm{m}$) microfiber traps.',
+                '<strong>Scenario Xi (<code>SCN-XI-ARCH</code>):</strong> Habraken Two-Track Open Building separating Track 1 Communal <code>Support</code> ($\\ge 2.5\\times$ integer FEA safety factor, reversible nail-free CNC <em>Kigumi</em> joinery raised in weekend barn-raisings) from Track 2 Sovereign $R_0$ <code>Infill</code> (zero interior scanning or HOA policing), plus the federated Licensed <code>PE</code> Stamp Pool (<code>IBC Section 104.11</code>).'
+            ],
+            songTitle: 'Companion Song Lyrics: “Oak Pegs and Living Roots (Nothing Goes to Waste)”',
+            lyrics: `[Verse 1]
+Wait until the winter sap is sleeping in the root
+Leave the Mother Tree alone and count the forest fruit
+Only one in four we take and three remain behind
+While the solar kiln is curing timber of the finest kind
+
+[Chorus]
+Nothing goes to the landfill, nothing goes to waste
+Every salvaged beam and bolt is measured and embraced
+Salvage first before you melt, and melt when sun is high
+Two hands on the dead-man switch before the sparks can fly
+Wipe the measurements from RAM the moment that it fits
+And raise the Kigumi timber frame where the neighborhood sits!`
+        },
+        8: {
+            tag: 'EPISODE 08 // WAVE E MEGA-BROADCAST • 1:03:49',
+            title: 'Zero-ID Cafés, Null-Result Science, Unmediated Music & Polycentric Swarms (Epsilon, Iota, Lambda, Pi)',
+            desc: 'A 64-minute deep dive into Horizontal Wave E: Scenario Epsilon (Zero-ID Municipal Neighbor Portal, Physical Brass VLAN 40/30 Switch & Carapace-as-a-Service), Scenario Iota (<=50bp metrology drift gates, N>=3 empirical replication, strict null-result parity & the Alexandria rag-paper bindery), Scenario Lambda (Physical Brass Unmediated Mic Kill-Switch, CITES-free tonewood luthiery & lot-boundary SPL lanterns), and Scenario Pi (3D Polycentric Patchwork, auto-dissolving Work-Bee Swarms, 4-stage Ricardian Treaties & MeshGrowthBeacons).',
+            video: '../doc/podcast/episodes/08.episode_youtube.mp4',
+            audio: '../doc/podcast/episodes/08.episode.m4a',
+            poster: '../doc/podcast/renders/ep08/scenes/scene_01.png',
+            streamLabel: '> VIDEO STREAM: 08.episode_youtube.mp4 (29 Walking Landscapes + 44.1 kHz AAC • 1:03:49)',
+            chapters: [
+                { sec: 0, time: '[00:00] PART I', name: 'Scenario Epsilon: Zero-ID Neighbor Portal, Brass VLAN Switch & Carapace' },
+                { sec: 924, time: '[15:24] PART II', name: 'Scenario Iota: <=50bp Metrology, N>=3 Replication, Null Results & Bindery' },
+                { sec: 1848, time: '[30:48] PART III', name: 'Scenario Lambda: Brass Mic Kill-Switch, CITES-Free Luthiery & SPL Lantern' },
+                { sec: 2772, time: '[46:12] PART IV', name: 'Scenario Pi: 3D Patchwork, Auto-Dissolving Swarms & MeshGrowthBeacons' }
+            ],
+            notes: [
+                '<strong>Scenario Epsilon (<code>SCN-EPSILON-COWORK</code>):</strong> Street-facing Zero-ID Open Municipal Neighbor Portal, Physical Brass Rotary <code>VLAN 40/30</code> Switch isolating employer spyware from the sovereign mesh inside $\\le 400\\,\\mathrm{cB}$ ($40\\,\\mathrm{dBA}$) study halls, $\\ge 8000\\,\\mathrm{bp}$ ($80\\%$) hydronic compute heat recovery, and <code>Carapace-as-a-Service</code> (pooling Subchapter T tax filings, GPO wholesale orders, and umbrella insurance in one sortition-audited enclave).',
+                '<strong>Scenario Iota (<code>SCN-IOTA-EPISTEMIC</code>):</strong> Pre-registered lab notebooks gated by a $\\le 50\\,\\mathrm{bp}$ ($0.5\\%$) metrology calibration drift gate, $N \\ge 3$ multi-node empirical replication ($p &lt; 100\\,\\mathrm{bp}$) updating shared ontological parameters, strict equal publication parity for null and negative results, the offline IPFS Alexandria Library &amp; rag-paper bookbindery, and timestamped defensive prior art.',
+                '<strong>Scenario Lambda (<code>SCN-LAMBDA-CULTURE</code>):</strong> Physical Brass Unmediated Performance Kill-Switch (<code>interiorAudioVideoBusOpenCircuit == true</code>), CITES-free bioregional luthiery using solar-kilned ($\\le 800\\,\\mathrm{bp}$ moisture) local maple/spruce/black-locust tonewoods, zero-algorithmic chronological broadsides, and lot-boundary <code>AcousticComplianceAttestation</code> proofs ($&lt; 550\\,\\mathrm{cB}$ day / $&lt; 380\\,\\mathrm{cB}$ night).',
+                '<strong>Scenario Pi (<code>SCN-PI-GUILD</code>):</strong> Three-Dimensional Patchwork (Spatial Polities $\\times$ Non-Spatial Craft Guilds $\\times$ Ephemeral Work-Bee Swarms with <code>autoDissolveOnCompletion: true</code>), 4-Stage Multi-Party Ricardian Treaties (<code>Treaty_CID</code> + threshold <code>FROST</code>), privacy-preserving <code>MeshGrowthBeacon</code> demand capture, and Anti-Isolationism / Anti-Siphon guards.'
+            ],
+            songTitle: 'Companion Song Lyrics: “Pull the Brass Switch on the Wall (Sing Where Nobody’s Recording)”',
+            lyrics: `[Verse 1]
+Walk in off the sidewalk through the café vestibule
+No login on the kiosk and no corporation's rule
+Click the brass rotary switch to keep the spyware out
+While the server rack below us warms the bathhouse waterspout
+
+[Chorus]
+Pull the brass switch on the parlor wall and open up the line
+Sing a song where no machine is recording what is mine
+Three valleys replicate the trial and write the null result in ink
+And when the barn-raising is finished, let the committee gently sink!`
+        },
+        9: {
+            tag: 'EPISODE 09 // WAVE F (PART 1) MEGA-BROADCAST • 58:40',
+            title: 'Red Pull-Cords, Open-Hearth Storms & Emeritus Sages (Chi, Upsilon, Phi)',
+            desc: 'A 58-minute deep dive into Horizontal Wave F (Part 1): Scenario Chi (<500ms Zero-LLM red trauma pull-cords, <180s medics, non-carceral peer respite & HPLC/GC-MS >=9950bp Open-Insulin), Scenario Upsilon (<16ms black-start microgrid islanding, 0-mW E-Ink, $0 Open-Hearth Neighbor Storm Refuge, 72h anti-authoritarian sunset & Shock-Verified Jubilee), and Scenario Phi (zero-decay T4 Emeritus Sages, zero-camera 60GHz mmWave fall radar, <=20% care cap, unmediated hospice & ecological terramation).',
+            video: '../doc/podcast/episodes/09.episode_youtube.mp4',
+            audio: '../doc/podcast/episodes/09.episode.m4a',
+            poster: '../doc/podcast/renders/ep09/scenes/scene_01.png',
+            streamLabel: '> VIDEO STREAM: 09.episode_youtube.mp4 (30 Walking Landscapes + 44.1 kHz AAC • 58:40)',
+            chapters: [
+                { sec: 0, time: '[00:00] PART I', name: 'Scenario Chi: <500ms Zero-LLM Pull-Cord, Peer Respite & >=9950bp Open-Insulin' },
+                { sec: 1173, time: '[19:33] PART II', name: 'Scenario Upsilon: <16ms Black-Start, $0 Open-Hearth Storm Refuge & 72h Sunset' },
+                { sec: 2347, time: '[39:07] PART III', name: 'Scenario Phi: T4 Emeritus Sages, 60GHz Fall Radar, Hospice & Terramation' }
+            ],
+            notes: [
+                '<strong>Scenario Chi (<code>SCN-CHI-PARAMEDIC</code>):</strong> 100% deterministic <code>&lt;500 ms</code> red trauma pull-cord dispatch (zero LLM code in the loop, <code>&lt;180 s</code> bedside arrival), Six-Modality Sovereign Healthcare (<code>0</code> care tokens), Non-Carceral Mental-Health Peer-Respite Suites, patient-key-encrypted <code>R0_CLINICAL_ENCLAVE</code>, and dual independent <code>HPLC</code>/<code>GC-MS</code> $\\ge 9950\\,\\mathrm{bp}$ ($99.5\\%$) assay gates for <code>Open-Insulin</code> and essential medicines.',
+                '<strong>Scenario Upsilon (<code>SCN-UPSILON-SHOCK</code>):</strong> Pre-emptive biochar keyline sponge swales and willow/alder firebreaks, <code>&lt;16 ms</code> autonomous microgrid islanding with 5-tier load shedding, 0-mW 1-bit bistable E-Ink survival consoles + 14-day 915 MHz LoRa pagers, the Zero-ID Open-Hearth Neighbor Refuge (<code>$0</code> / <code>0 uJ</code>), the hard-coded 72-hour ($259{,}200\\,\\mathrm{s}$) emergency sunset, and the Shock-Verified Commons Jubilee.',
+                '<strong>Scenario Phi (<code>SCN-PHI-ELDER</code>):</strong> Non-decaying <code>T4_Emeritus_Sage</code> standing (<code>wisdom_decay_rate_bp == 0</code>, <code>coercive_command_rank_bp == 0</code>) with Long-Horizon Memory Consultations, zero-camera edge $60\\,\\mathrm{GHz}$ mmWave posture radar in volatile RAM, the $\\le 2000\\,\\mathrm{bp}$ ($20\\%$) rotational care dispersion cap, and 100% unmediated home hospice vigils (<code>POLST</code>) + ecological terramation in <code>Scenario Eta</code> Memorial Coppice Groves.'
+            ],
+            songTitle: 'Companion Song Lyrics: “Lantern on the Storm-Porch (Zero Decay on the Sage’s Name)”',
+            lyrics: `[Verse 1]
+Pull the red cord on the vestibule wall
+No chatbot between you and the medic's call
+Three minutes flat through the garden gate
+And ninety-nine point five on the assay slate
+When the ice-storm snaps the county line in two
+Sixteen milliseconds and the hearth comes through!
+
+[Chorus]
+Hang the amber lantern on the storm-porch rail
+Hot soup for the neighbors when the power lines fail
+Seventy-two hours on the sunset clock
+And zero decay on the elder's lock
+From the newborn's crib to the memorial grove
+Every life is held in the commonwealth we wove!`
+        },
+        10: {
+            tag: 'EPISODE 10 // WAVE F (PART 2) MEGA-BROADCAST • 56:14',
+            title: 'Peace Hearths, Fault-Before-Malice & The Planetary Lighthouse (Psi, Rho, Omega)',
+            desc: 'A 56-minute deep dive into Horizontal Wave F (Part 2): Scenario Psi (<500ms coercion/abuse Safe-Harbor bypass, Unmediated Peace Hearths, SystemicRootCauseIntent, Watershed Standing & Graceful Fission), Scenario Rho (Fault-Before-Malice two-person meter checks, VLAN 40 Split-Sandbox prompt quarantine, 0 bp Sybil weight & NAACP v. Alabama subpoena sterility), and Scenario Omega (5-Domain Dependency Observatory <=200 bp, 100% Property Tax Escrow Endowment, <100ms carapace zeroization, 15-hour post-scarcity weeks & the R6 Planetary Lighthouse).',
+            video: '../doc/podcast/episodes/10.episode_youtube.mp4',
+            audio: '../doc/podcast/episodes/10.episode.m4a',
+            poster: '../doc/podcast/renders/ep10/scenes/scene_15.png',
+            streamLabel: '> VIDEO STREAM: 10.episode_youtube.mp4 (30 Walking Landscapes + 44.1 kHz AAC • 56:14)',
+            chapters: [
+                { sec: 0, time: '[00:00] PART I', name: 'Scenario Psi: <500ms Abuse Bypass, Peace Hearths & Graceful Fission' },
+                { sec: 1125, time: '[18:45] PART II', name: 'Scenario Rho: Fault-Before-Malice Meter Checks & Subpoena Sterility' },
+                { sec: 2137, time: '[35:37] PART III', name: 'Scenario Omega: 5-Domain Dt<=200bp, Tax Endowment & Planetary Lighthouse' }
+            ],
+            notes: [
+                '<strong>Scenario Psi (<code>SCN-PSI-MEDIATION</code>):</strong> <code>&lt;500 ms</code> Coercion/Abuse Safe-Harbor Bypass (never forcing an abuse survivor to mediate), 24h cooling-off buffers, Unmediated Peace Hearths (physical brass mic/camera kill-switch pulled open, <code>0</code> transcripts, <code>0</code> permanent accusation graphs), <code>SystemicRootCauseIntent</code> engineering fixes, Watershed Standing ($F_{\\mathrm{eco}}$), and the Constitutional Right of Graceful Fission.',
+                '<strong>Scenario Rho (<code>SCN-RHO-ADVERSARIAL</code>):</strong> Anti-Autoimmune Guardrails (<code>0</code> internal CCTV, $10{,}000\\,\\mathrm{bp}$ baseline untouched by security alerts), Presumption of "Fault Before Malice" (<code>TelemetryDivergenceAttestation</code> dispatching a two-person technician pair to check for a spiderweb or corroded shunt rather than accusing a neighbor), VLAN 40 Split-Sandbox prompt quarantine, and continuous <em>NAACP v. Alabama</em> subpoena-sterility auditing.',
+                '<strong>Scenario Omega (<code>SCN-OMEGA-DECOUPLE</code>):</strong> Five-Domain Weakest-Link Dependency Observatory ($D_1 \\dots D_5 \\le 200\\text{–}500\\,\\mathrm{bp}$ across 12 lunar cycles), 100% Capitalized Irrevocable Property Tax Escrow Endowment + Perpetual Purpose Trust (<code>UTC Section 409</code>) / <code>CLT</code> lock, Entrenched Core 80% supermajority + 60-day islanded drill + <code>&lt;100 ms</code> zeroization of <code>col-adversaryd</code>, $\\le 15\\text{ hours/week}$ post-scarcity stewardship, and the $R_6$ Planetary Lighthouse &amp; $\\ge 5\\%$ Genesis Seedbed Kits.'
+            ],
+            songTitle: 'Companion Song Lyrics: “Keep the Lighthouse Burning (Fifteen Hours and the World Is Ours)”',
+            lyrics: `[Verse 1]
+If two neighbors quarrel when the summer day is hot
+Check the kitchen vent and lathe before you tie a knot
+Pull the brass switch in the Peace Hearth so no camera hears us speak
+Or part as sister valleys by the willow-shaded creek
+And when the meter drifts a little on the garden line
+Check the spiderweb and resistor—every neighbor's fine!
+
+[Chorus]
+Five domains below two hundred on the lunar chart
+Endowment locked forever so the sheriff's courts depart
+Unlink the legacy socket in a hundred milliseconds clean
+Fifteen hours a week to tend the sweetest world we've seen
+And keep the Planetary Lighthouse burning on the hill
+Sending Genesis Seed Kits out until the Earth is still!`
+        },
+        11: {
+            tag: 'EPISODE 11 // SEASON 1 GRAND FINALE • 51:51',
+            title: 'The Minimum Viable Society, The Historical Rupture & Casting the One Ring Into the Fire',
+            desc: "A 52-minute Season 1 Grand Finale: (1) Looking back across the entire Minimum Viable Society (Waves A–F, Non-Stewards vs. NPCs, and total dissociation from predatory extraction), and (2) Returning to Chapter 1 ('The Historical Rupture') & Chapter 12 ('The Centering Arch')—why Marx, Lenin & Trotsky's 1917 assault hit a structural wall, why China trying to wield Capitalism like J.R.R. Tolkien's One Ring fails, and how we walk like the joyful Hobbits using the Medieval Centering Arch (le cintre) to cast the Ring into the fire.",
+            video: '../doc/podcast/episodes/11.episode_youtube.mp4',
+            audio: '../doc/podcast/episodes/11.episode.m4a',
+            poster: '../doc/podcast/renders/radio_lambda_banner_wide.jpg',
+            streamLabel: '> VIDEO STREAM: 11.episode_youtube.mp4 (36 Walking Landscapes + 44.1 kHz AAC • 51:51)',
+            chapters: [
+                { sec: 0, time: '[00:00] PART I', name: 'The Minimum Viable Society (MVS vs. MVP), Waves A–F & Non-Stewards' },
+                { sec: 1383, time: '[23:03] PART II', name: "Chapter 1's Historical Rupture: Marx, Lenin, Trotsky & Tolkien's One Ring" },
+                { sec: 2074, time: '[34:34] PART III', name: 'Gustav Landauer, Buckminster Fuller & The Medieval Centering Arch' },
+                { sec: 2679, time: '[44:39] PART IV', name: 'Casting the Ring Into the Fire & The Planetary Lighthouse Harvest' }
+            ],
+            notes: [
+                '<strong>Minimum Viable Society (<code>MVS</code>) vs. <code>MVP</code>:</strong> Curing Byung-Chul Han\'s <em>Physics of Exhaustion</em> and Mark Fisher\'s <em>Capitalist Realism</em> across Waves A–F, and enshrining Chapter 1\'s <strong>Non-Adversarial Promotion of Non-Stewards</strong> (rejecting the cyberpunk "NPC" caricature so children, elders, the sick, and the exhausted hold 100% equal standing).',
+                '<strong>Why 1917 Hit a Structural Wall (Marx, Lenin &amp; Trotsky):</strong> Honoring Marx\'s diagnosis of surplus extraction and the Metabolic Rift, while showing why head-on state assault ran into Hannah Arendt &amp; Murray Bookchin\'s trap (emergency vanguard power lacking a hard-coded 72-hour sunset <code>Scenario Upsilon</code> or auto-dissolving swarm receipt <code>Scenario Pi</code>) and Stafford Beer\'s Cybernetic Bottleneck (Moscow\'s Gosplan lacking Layers 1–6).',
+                '<strong>China &amp; J.R.R. Tolkien\'s One Ring Allegory:</strong> Why Capitalism / Fiat Money ($M \\to C \\to M\'$) is Tolkien\'s One Ring—China projects that a strong state can wear the Ring and wield it for good, but the One Ring takes no other lord (<code>996</code> exhaustion, Eye-of-Sauron panoptic surveillance, ecological extraction). Why we must walk like the joyful Hobbits of the Shire: carrying the Ring only at arm\'s length on a chain (<code>VLAN 40</code> carapace) so we can cast it into the fire (<code>Scenario Omega</code>).',
+                '<strong>The Medieval Centering Arch (<em>Le Cintre</em>):</strong> Combining Gustav Landauer and Buckminster Fuller with Gothic cathedral masonry—using existing Layer 7 society\'s own legal, material, and financial rails (<code>Oasis</code>, <code>Proto-Ledger</code>, <code>UUNAA Section 6</code> / <code>Subchapter T</code> / <code>CLT</code> carapace, <code>Mu</code> tipping-fee inversion, <code>Eta</code> 70–90% forest tax slashes, the $\\Phi_t = 0$ release wedge, and the 100% Property Tax Escrow Endowment) as leverage for its own obsolescence.'
+            ],
+            songTitle: 'Companion Song Lyrics: “Cast the Ring Into the Fire (Like the Hobbits of the Shire)”',
+            lyrics: `[Verse 1]
+Marx saw the furnace eating up the soil and human bone
+Lenin and Trotsky stormed the gates to topple down the throne
+And mighty kingdoms thought that they could wear the golden Ring
+To wield the market's ancient curse and make the desert spring
+But the One Ring takes no other lord, it bends the bearer's mind
+With cameras on the boulevard and ninety-nine-six grind!
+
+[Chorus]
+Be like the joyful Hobbits when the shadow grows too tall
+Carry it only on a chain and never wear it at all!
+Build the wooden centering arch inside the world we know
+Lay the stone of twenty-five scenarios row by row
+And when the keystone locks in place above the river's bend
+Cast the Ring into the fire—let the scaffolding descend!`
+        }
+    };
+
+    let activeEpKey = '2';
+
+    function getSceneFolderForEp(key) {
+        if (key === '3_02') return 'ep03';
+        if (key === '11') return 'ep10';
+        const n = Number(key);
+        return 'ep' + String(n).padStart(2, '0');
+    }
+
+    function selectEpisode(epKey) {
+        const key = String(epKey);
+        const ep = episodes[key] || episodes[Number(key)] || episodes[2];
+        activeEpKey = episodes[key] ? key : (episodes[Number(key)] ? String(Number(key)) : '2');
+        document.getElementById('ep-header-tag').textContent = ep.tag;
+        document.getElementById('ep-header-title').textContent = ep.title;
+        document.getElementById('ep-header-desc').textContent = ep.desc;
+        document.getElementById('time-readout').textContent = ep.streamLabel;
+        document.getElementById('lyrics-header').textContent = ep.songTitle;
+        document.getElementById('lyrics-container').textContent = ep.lyrics;
+
+        ['1', '2', '3', '3_02', '4', '5', '6', '7', '8', '9', '10', '11'].forEach(k => {
+            const el = document.getElementById('card-ep' + k);
+            if (el) el.classList.toggle('active-ep', activeEpKey === k);
+        });
+
+        audioEl.poster = ep.poster;
+        document.getElementById('video-src').src = ep.video;
+        document.getElementById('audio-src').src = ep.audio;
+        audioEl.load();
+
+        const chapBox = document.getElementById('chapters-container');
+        chapBox.innerHTML = ep.chapters.map(c => `
+            <div class="chap-card" onclick="seekTo(${c.sec})">
+                <div class="chap-time">${c.time}</div>
+                <div class="chap-name">${c.name}</div>
+            </div>
+        `).join('');
+
+        const notesBox = document.getElementById('notes-container');
+        notesBox.innerHTML = ep.notes.map(n => `<li>${n}</li>`).join('');
+    }
+
+    // When playing audio-only (.m4a fallback on static web hosting where .mp4 is git-ignored),
+    // dynamically cycle the poster across the episode's 15 walking landscape scenes!
+    audioEl.addEventListener('timeupdate', () => {
+        if (audioEl.videoWidth === 0 && audioEl.duration > 0) {
+            const folder = getSceneFolderForEp(activeEpKey);
+            const idx = Math.min(15, Math.max(1, Math.floor((audioEl.currentTime / audioEl.duration) * 15) + 1));
+            const scenePath = `../doc/podcast/renders/${folder}/scenes/scene_${String(idx).padStart(2, '0')}.png`;
+            if (audioEl.getAttribute('poster') !== scenePath) {
+                audioEl.setAttribute('poster', scenePath);
+            }
+        }
+    });
+
+    function setSpeed(rate, btn) {
+        audioEl.playbackRate = rate;
+        document.querySelectorAll('.speed-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+    }
+
+    function seekTo(seconds) {
+        audioEl.currentTime = seconds;
+        audioEl.play();
+    }
+
+    // Initialize from URL ?ep=1..11 or 3_02 (defaulting to Episode 1)
+    const params = new URLSearchParams(window.location.search);
+    const requestedEp = params.get('ep') || '1';
+    selectEpisode(requestedEp);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,88 @@
+# Episode 02 Mega-Source Pack: "No Floating Points in the Basement — Inside Layers 1 to 4"
+
+> **SHOW-RUNNER DIRECTOR BRIEF FOR THE HOSTS (Episode 02 of *Radio Lambda*):**
+> - **Host Roles:** Host A is the *Grounded Neighbor & Pragmatic Skeptic* (witty, practical, allergic to crypto-hype and smart-home cloud junk); Host B is the *Systems Steward & Storyteller* (warm, clear, explaining engineering through physical tools and human stories).
+> - **Pacing & Depth:** This is Episode 2 of *Radio Lambda*. Take your time unpacking all five parts in order:
+>   1. **Layer 1 (Physical Reality & The Rule of the Red Lever):** Zero software in Layer 1; physical red disconnect levers on $48\,\mathrm{V}$ batteries/cisterns (`Beta`), wooden bedroom rest latches (`Sigma`), brass microphone kill-switches (`Lambda`), and biochar sponge swales (`Upsilon`).
+>   2. **Layer 1b (Oasis — Why a Real Village Needs a 3D Game Engine):** Provenance byte (`0x01` simulated rehearsal vs. `0x02` real hardware) and the 10,000-tick Canary Rehearsal that would have caught Jax's 2:38 AM nursery heating bug on screen in 5 seconds.
+>   3. **Layer 2 (The Spinal Cord Reflex Arc — Zephyr RTOS):** Why safety reflexes never wait for a cloud server or an LLM—tour the `< 10 ms` saw brake (`Alpha`), `<= 250 ms` two-person dead-man bronze furnace pour (`Theta`), $38.0^\circ\mathrm{C}$ nursery anti-scald valve (`Delta`), zero-camera $60\,\mathrm{GHz}$ radar fall sensor in Maria's elder cottage (`Phi`), and **Fault Before Malice** (`Rho`—checking for a spiderweb in the flowmeter before accusing a neighbor of stealing water).
+>   4. **Layer 3 (The Thermodynamic Ledger — Why It Is Neither Bank Debt-Money Nor a Crypto Coin):** Unpack the three rules: (a) `0` tokens for domestic care/survival ($10{,}000\,\mathrm{bp}$ unconditional baseline), (b) exact 64-bit integer SI units (`uJ`, `mg`, `mK`, `bp`) banning floating-point drift across 20-year-old laptops, and (c) Pairwise zero-sum Bilateral Clearing Channels (`BCC`) between Valley A's foundry and Valley B's orchards + the **Shock-Verified Commons Jubilee**.
+>   5. **Layer 4 (The 10 Hz Deterministic Orchestrator):** Resetting the 72-hour $55^\circ\mathrm{C}$ compost sanitation clock to zero if cold rain dips temperature at hour 70 (`Scenario Mu`), running a 90-day Postpartum Cocoon silently from one signature (`Scenario Delta`), and pausing with an `UpwardYieldPacket` whenever human judgment is needed.
+
+---
+
+## Part I: Layer 1 (Physical Reality) & Layer 1b (Oasis, The Rehearsal Sandbox)
+
+### 1. Why Layer 1 Contains Zero Software (The Rule of the Red Lever)
+In the commercial tech world, "smart infrastructure" means ripping out physical switches and replacing them with touchscreens and cloud APIs. If the Wi-Fi drops or a vendor pushes a bad firmware update, you can't open your garage door, adjust your thermostat, or turn off a valve.
+
+In **The Sovereign Stack**, **Layer 1 is pure physical reality**: living *Terra Preta* soil, rotational black-locust coppice groves (`Scenario Eta`), $304$-stainless induction stockpots (`Scenario Gamma`), $48\,\mathrm{V}$ and $380\,\mathrm{V}$ copper DC microgrid busbars (`Scenario Beta`), reversible nail-free *Kigumi* timber joinery (`Scenario Xi`), and mechanical linkages. **Zero software, zero firmware, and zero cryptographic keys exist in Layer 1.**
+
+Every piece of physical infrastructure in Layer 1 obeys **The Rule of the Red Lever** (born directly from the 2:38 AM nursery crisis in *System Call: Genesis*, where carpenter Jonas had to rip open a locked server rack with a steel pry-bar):
+* **In the Utility Room (`Scenario Beta` & `Upsilon`):** Every household's connection to the neighborhood $48\,\mathrm{V}$/cistern intertie has a physical mechanical disconnect lever. If a housemate ever wants to island their home battery or water tank, they pull the red lever by hand—physically separating the copper contacts in under 5 milliseconds without asking any computer for permission.
+* **On the Bedroom Door (`Scenario Sigma`) & Music Parlor Wall (`Scenario Lambda`):** A physical wooden-and-brass bolt on your bedroom door mutes task notifications, while a heavy brass knife-switch on the music parlor wall physically severs the copper wires to every microphone and camera in the room.
+* **In the Living Landscape (`Scenario Eta` & `Upsilon`):** Before a settlement writes a single line of emergency-response code for floods or wildfires, it shapes Layer 1 earthworks—plowing keyline swales packed with porous biochar (`Scenario Mu`) that soak up atmospheric-river deluges like a giant sponge, and planting irrigated willow/alder coppice belts that act as living green firebreaks.
+
+### 2. Layer 1b — What Is "Oasis", and Why Does a Real Settlement Need a Game Engine?
+Sitting right beside Layer 1 is **Layer 1b: Oasis**. On the surface, Oasis is a beloved, open-source 3D settlement and bioregional simulation game built by the community's own game studios in `Scenario Zero` (complete with music from `Scenario Lambda` and zero-royalty community modding).
+
+Beneath the surface, however, Oasis performs a vital constitutional job: it is the node's **Deterministic Shadow Simulator and Canary Sandbox**.
+* **The Provenance Bit (`0x01` Rehearsal vs. `0x02` Real Hardware):** Every packet moving through the Sovereign Stack carries a hardware-enforced provenance byte. Real physical sensors in Layer 2 stamp their readings with `0x02` (`QUALITY_HARDWARE_ATTESTED`). Simulated voxels and virtual sensors inside Oasis stamp their readings with `0x01` (`QUALITY_SIMULATED`). The system kernel makes it mathematically impossible for a `0x01` simulation packet to ever open a real physical valve or mint real mutual credit.
+* **The 10,000-Tick Canary Rehearsal:** Why is that so powerful? Because whenever a developer writes a new application in `Scenario Zero`, or whenever a neighborhood proposes a new microgrid load-shedding treaty (`Scenario Pi`/`Upsilon`), the node first runs that exact code inside **Oasis (`0x01`) for at least 10,000 accelerated ticks**—throwing simulated ice storms, battery drops, and sensor faults at it! If Jax had tested his ration-ledger code in an Oasis 10,000-tick winter canary simulation first, they would have seen the nursery heat pump shut off on screen in five seconds instead of discovering frost on toddlers' cribs at 2:38 AM!
+* **Safe Hazard Training (`Scenario Kappa`):** Before an apprentice ever steps up to a live $1{,}500^\circ\mathrm{C}$ induction bronze furnace (`Scenario Theta`) or a spinning 3-axis CNC mill (`Scenario Alpha`), they practice emergency shutoffs and kickback recovery inside Oasis (`0x01`) until their muscle memory is second nature.
+
+---
+
+## Part II: Layer 2 — The Cybernetic Membrane (Why Reflexes Belong in Microcontrollers, Never in the Cloud)
+
+Above physical reality sits **Layer 2: The Cybernetic Membrane (`col-peripheral`)**. Think of Layer 2 as the settlement's **spinal cord reflex arc**.
+
+When you touch a hot cast-iron skillet, your hand pulls back *before* the pain signal even reaches your conscious brain—because the reflex loop happens right in your spinal cord in milliseconds. If your body had to send an HTTP request to a cloud server (or ask a Large Language Model!) *"Hey, my finger is at $180^\circ\mathrm{C}$, what do you think I should do?"*, your hand would be burned to a crisp before the packet came back.
+
+Yet modern "smart factories" and "IoT homes" routinely put safety loops on Wi-Fi networks or cloud servers! Layer 2 rejects that completely. It runs on tiny, deterministic real-time microcontrollers (**Zephyr RTOS** on isolated hardware network **VLAN 10**) wired directly to physical sensors and contactors:
+
+### Five Everyday Layer 2 Reflexes Across the Scenarios
+1. **The $< 10\,\mathrm{ms}$ Saw & Lathe Guard (`Scenario Alpha`):** When a woodworker or machinist taps their badge at the Shop-Floor BOM Terminal, Layer 2 checks their unlinkable `Scenario Kappa` safety credential in under $50\text{ milliseconds}$. While the blade is spinning, if a physical guard is lifted or the operator's hand crosses an optical curtain, the Layer 2 microcontroller drops contactor power and engages the mechanical brake in **under 10 milliseconds**—even if every higher-layer server in the building is unplugged.
+2. **The $\le 250\,\mathrm{ms}$ Two-Person Furnace Pour Gate (`Scenario Theta`):** Melting bronze or iron in a solar-powered induction crucible is awe-inspiring—and dangerous if done alone. Layer 2 physically locks the hydraulic tilt-pour actuator unless **two certified foundry stewards** hold down physical dead-man switches spaced $2.5\text{ meters}$ apart within a **250-millisecond coincidence window**, while differential-pressure sensors simultaneously verify that the fume scrubber hood is drawing negative pressure.
+3. **The $38.0^\circ\mathrm{C}$ Nursery Anti-Scald & Holder Pasteurization Reflex (`Scenario Delta`):** In a cooperative childcare pod, Layer 2 bans all optical cameras and microphones (`0` surveillance). Instead, it protects babies through pure thermodynamics: thermostatic mixing valves are mechanically and electronically locked at $\le 311{,}150\,\mathrm{mK}$ ($38.0^\circ\mathrm{C}$) so a toddler can never be scalded at a sink, room $\mathrm{CO}_2$ is kept below $800\,\mathrm{ppm}$, and donor breast-milk pasteurizers verify exact Holder thermal holds ($62.5^\circ\mathrm{C}$ for $30\text{ minutes}$).
+4. **Zero-Camera $60\,\mathrm{GHz}$ Radar Fall Safety (`Scenario Phi`):** How do you make sure an 85-year-old elder living independently in a ground-floor cottage is safe if they slip in the bathroom, without putting humiliating video cameras in their home? Layer 2 uses a ceiling-mounted **$60\,\mathrm{GHz}$ millimeter-wave radar chip**. It bounces harmless radio waves off the room, processes posture-drop geometry purely inside the tiny microcontroller's volatile RAM, **deletes the raw waveform immediately**, and emits only a 1-bit alert (*"Posture drop detected—check on Maria"*) after prompting her via an offline voice speaker.
+5. **"Fault Before Malice" Sensor Conservation (`Scenario Rho`):** What happens when the water flowmeter at the main cistern says $500\text{ liters}$ went out, but the sum of the five houses on the street only adds up to $420\text{ liters}$? In a paranoid system, an alarm screams *"Someone is stealing water!"* and starts a neighborhood feud. In Layer 2 and `Scenario Rho`, the system enforces **Fault Before Malice**: it knows that sensors get spiderwebs in them, shunt resistors corrode, and underground pipes develop pinhole leaks. So it calmly schedules a two-person maintenance walk to inspect the pipe and recalibrate the meter against the `Scenario Iota` reference standard!
+
+---
+
+## Part III: Layer 3 (The Thermodynamic Ledger) & Layer 4 (The 10 Hz Deterministic Orchestrator)
+
+### 1. Why Both Fiat Debt-Money and "Crypto Blockchains" Fail Communities
+When people hear that Layer 3 (`col-storaged`) is a "ledger," skeptics immediately ask: *"Oh no, did you guys invent another cryptocurrency coin where early founders get rich and everyone has to pay tokens to eat soup?"*
+
+**No—and understanding why is one of the most important parts of the whole architecture.**
+* **Why Legacy Fiat Money (Layer 7) Fails:** Conventional money is created out of thin air by commercial banks as **interest-bearing debt**. If a bank lends a town $\$1{,}000{,}000$ at $7\%$ compounding interest, the town owes $\$1{,}070{,}000$ next year—which means the community *must* cut down more trees, mine more ore, or cannibalize its neighbors every single year just to pay the interest.
+* **Why Speculative Crypto Blockchains Also Fail:** Most "Web3 / DAO" coins simply replicate the worst parts of Wall Street without regulations—turning everything into a speculative casino where whales buy up governance tokens, transaction fees spike, and human care gets reduced to transactional piecework.
+
+### 2. How Layer 3 (`col-storaged`) Actually Works: Three Simple Rules
+Instead of a speculative coin, Layer 3 is a **Thermodynamic & Physical Accounting Book** governed by three unbreakable rules:
+
+1. **Rule 1 — Domestic Care & Survival Never Touch a Token (`domestic_care_token_minting == 0`):**
+   Inside your home ($R_0$) and your neighborhood commons ($R_1 / R_2$), **food (`Gamma`), housing (`Zeta`), childcare (`Delta`), eldercare (`Phi`), education (`Iota`/`Kappa`), and healthcare (`Chi`) are 100% unconditional ($B_{\mathrm{baseline}} = 10{,}000\,\mathrm{bp}$)**. You never pay a token to eat pea soup, put your toddler in the play pod, or call a paramedic. And caregivers never "mine tokens" for changing diapers or sitting vigil with a dying friend—because turning love and care into piecework destroys the soul of a community.
+2. **Rule 2 — Exact Fixed-Point SI Physics (Why `bp` and `uJ` Rule the Wire):**
+   When workshops (`Alpha`), foundries (`Theta`), and microgrids (`Beta`) account for physical resources, they don't price them in volatile dollars. They track exact physical quantities in **64-bit integer International System (`SI`) units**:
+   * **Energy / Exergy in microjoules (`uJ`):** Where **1 Exergy Credit quantum** equals $1\text{ kilowatt-hour} = 3{,}600\text{ kilojoules} = 3{,}600{,}000{,}000{,}000\,\mu\mathrm{J}$.
+   * **Mass in milligrams (`mg`)** and **Volume in milliliters (`mL`)**.
+   * **Temperature in millikelvin (`mK`):** For example, freezing water ($0^\circ\mathrm{C}$) is $273{,}150\,\mathrm{mK}$, and soup pasteurization ($74.0^\circ\mathrm{C}$) is $347{,}150\,\mathrm{mK}$—never a negative number, never a decimal point!
+   * **Ratios in basis points (`bp`):** Where $10{,}000\,\mathrm{bp} = 100\%$.
+   Because every number is an integer (`0` IEEE-754 floating-point instructions), a calculation run on a salvaged 2008 laptop in Valley A and an ARM microcontroller in Valley B produces the **exact same bit-for-bit hash forever**.
+3. **Rule 3 — Pairwise Zero-Sum Bilateral Clearing Channels (`BCC`) Between Neighbors & Valleys:**
+   What happens when Valley A (which has a big solar induction foundry in `Scenario Theta`) casts 50 bronze pump impellers for Valley B (which has fertile apple orchards and bean fields in `Scenario Gamma`/`Eta`)?
+   They don't need a central bank or a global coin! They open a **Pairwise Bilateral Clearing Channel (`BCC`)** directly between Valley A and Valley B:
+   $$B_{\mathrm{Valley\,A} \to \mathrm{Valley\,B}}(t) + B_{\mathrm{Valley\,B} \to \mathrm{Valley\,A}}(t) = 0$$
+   In spring, Valley A sends bronze impellers ($+50\text{ quanta}$ on A's side, $-50\text{ quanta}$ on B's side—always summing to zero!). In autumn, Valley B sends dried beans, cider, and cured locust timber back via a `Scenario Beta` cargo barge, bringing the channel right back to `0`!
+   * What if Valley A needs medicine from Valley C, and only Valley B knows both of them? Layer 3 chains a **Multi-Hop Hashed Timelock Contract (`HTLC`)** paired with physical two-phase NFC delivery receipts ($\sigma_{\mathrm{delivery}}$)—settling the whole hop atomically the instant the cargo-trike courier taps the cold-chain tote at Valley C's clinic door!
+   * And what if a catastrophic flood or wildfire (`Scenario Upsilon`) wipes out Valley B's apple harvest so they can't pay back their autumn balance? A capitalist bank would foreclose on Valley B's land. In Layer 3, hardware-verified storm telemetry triggers a **Shock-Verified Commons Jubilee**, forgiving the damaged balance back to `0 uJ` and dispatching rebuilding swarms!
+
+### 3. Layer 4 — The 10 Hz Deterministic Orchestrator (`col-execd`)
+Sitting right above the ledger is **Layer 4 (`col-execd`)**—the settlement's tireless, predictable workflow conductor.
+
+Running at **10 ticks per second ($10\text{ Hz}$, one tick every $100\text{ milliseconds}$)** inside a sandboxed WebAssembly (`WASM`) and BPMN 2.0 state-machine engine, Layer 4 coordinates the step-by-step physical recipes of the settlement without ever improvising or hallucinating:
+* **The Unforgiving 72-Hour Compost Clock (`Scenario Mu`):** To turn organic waste and `Scenario Zeta` toilet solids into EPA Class-A pathogen-free garden soil, the core of the compost pile must stay at or above **$55.0^\circ\mathrm{C}$ ($328{,}150\,\mathrm{mK}$) for 72 continuous hours ($259{,}200\text{ seconds}$)**. Layer 4 watches the PT100 temperature probe every tick. If a cold rain cools the pile to $54.8^\circ\mathrm{C}$ at hour 70, Layer 4 **automatically resets the 72-hour timer back to zero**! It never says *"Eh, 70 hours is close enough"*—because deterministic physics keeps human food safe.
+* **The 90-Day Silent Postpartum Cocoon (`Scenario Delta`):** When an expectant mother or adoptive parent signs a single `PostpartumCocoonIntent` before birth, Layer 4 unpacks that one signature into **90 days of interlocking child workflows**: scheduling daily `Scenario Gamma` hot soup tiffins onto the morning `Scenario Beta` cargo-trike milk-run, queuing twice-weekly sanitized cloth-diaper swaps, and holding the parents' `Scenario Sigma` Care-Leave shield active for 2,160 hours—without bothering the exhausted parents with a single scheduling prompt!
+* **The Upward Yield (`UpwardYieldPacket`):** Layer 4 knows its limits. Whenever a workflow hits a missing part, an ethical question, or a human sign-off gate (like two chemists verifying an `HPLC` insulin assay in `Scenario Chi`), Layer 4 pauses that token cleanly and emits a tiny 456-byte `UpwardYieldPacket` upward to Layers 5 and 6—waiting patiently until a real human steward reviews the **Deterministic Read-Back** and taps their hardware key.
