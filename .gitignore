@@ -64,4 +64,5 @@ verification/*.json
 
 # Large rendered YouTube MP4 video files (keep audio .m4a, scene renders, and scripts tracked)
 doc/podcast/episodes/*.mp4
+doc/podcast/pt-br/episodes/*.mp4
 
