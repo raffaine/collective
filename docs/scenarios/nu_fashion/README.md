@@ -4,6 +4,7 @@
 * **Horizontal Wave:** Wave D (Regenerative Land, Extraction, Materials & Architecture)
 * **Versioned Full-Stack Specification:** [versions/v1_full_stack_spec.md](./versions/v1_full_stack_spec.md)
 * **Architectural Decision Log:** [CHANGELOG.md](./CHANGELOG.md)
+* **Edição Brasil & Lusofonia (PT-BR):** [bra/README.md](./bra/README.md)
 
 ---
 

@@ -4,6 +4,7 @@
 * **Horizontal Wave:** Wave B (Suburban Survival, Energy, Fabrication & Transit Seed)
 * **Versioned Full-Stack Specification:** [versions/v1_full_stack_spec.md](./versions/v1_full_stack_spec.md)
 * **Architectural Decision Log:** [CHANGELOG.md](./CHANGELOG.md)
+* **Edição Brasil & Lusofonia (PT-BR):** [bra/README.md](./bra/README.md)
 
 ---
 
