@@ -1,4 +1,4 @@
-\chapter[Layer 7: The Legacy Interface]{Layer 7: The Legacy Interface: The Protective Carapace, Inter-Node Trade, and Systemic Blinding}
+\chapter[Layer 7: The Carapace and Assimilation Bridge]{Layer 7: The Cooperative Legal Carapace, Assimilation Bridge, and Hardware Obsolescence Horizon}
 
 \begin{epigraphs}
   \qitem{The purpose of a system is what it does. If a system is to remain viable, it must adapt to the variety of its environment without surrendering its internal cohesion.}%
@@ -17,7 +17,7 @@ This structural separation is codified as the \textit{Dual-Membrane Doctrine}, f
   \item \textit{The Internal Sovereign Core (Membrane~2):} The polycentric, thermodynamic, and cryptographic commons governed by Layers~1 through~6. It operates on physical exergy accounting, pairwise decentralized identifiers (\texttt{did:peer}), zero-knowledge attestations, and direct assembly democracy, completely isolated from legacy jurisprudence.
 \end{enumerate}
 
-Layer~7 fulfills two distinct operational mandates. The first is \textit{protection}. As an ablative shield, Layer~7 absorbs the legal, regulatory, and municipal friction that would otherwise fall upon the Stack's technical protocols and individual Stewards. The second is \textit{extraction}. Layer~7 draws from the legacy market the fiat currency the Node cannot yet dispense with, selling genuine surplus goods, services, or exergy to acquire the physical capital inputs ratified on the community's needs list.
+Layer~7 fulfills three strictly bounded operational mandates (developed in full statutory and engineering detail in Companion Volume~7, \textit{Layer 7: The Layer 7 Carapace \& Assimilation Bridge}). The first is \textit{protection}: as an ablative shield, Layer~7 absorbs the legal, regulatory, and municipal friction that would otherwise fall upon the Stack's technical protocols and individual Stewards. The second is \textit{purpose-bound assimilation and residual trade}: Layer~7 manages the settlement's external fiat reserves (starting with the Stage~1A $\$20{,}000$ / \texttt{2,000,000 cents} Genesis reserve $\Phi_0$) and sells genuine surplus goods, services, or exergy to acquire physical capital inputs ratified on the community's needs list ($\Phi_t$). The third is \textit{overcoming Scavenged Layer~7 Hardware Friction}: shielding and quantifying the settlement's hardware transition from Stage~I scavenged corporate appliances through Stage~II Right-to-Repair hybrid retrofits to Stage~III native open-spec machinery.
 
 One governing axiom constrains both roles: \textit{Export is a residual, never a target.} The volume of exergy, labor, and fabricated mass the community is willing to export is determined strictly from below: by what Layer~3 measures as physically available, after ecological floors, the unconditional survival baseline, standing commons commitments, and human capacity ceilings have been satisfied. Fiat is raised solely against a ratified needs list, and extraction halts the moment those needs are met. Layer~7 succeeds when the Node depends less on the legacy economy each cycle, not when its fiat revenue grows. Extraction is a transitory scaffolding tolerated only while physical autarky matures, and every mechanism in this chapter is designed to prevent extraction from degenerating into an engine of capital accumulation.
 
@@ -265,9 +265,9 @@ Layer~7 legally establishes that inter-node physical clearing via Layer~3 Bilate
 
 To bridge the gap between Layer~5 cybernetic routing and Layer~7 legacy enforceability, inter-node transactions crossing legacy corridors are compiled as Ricardian contracts \parencite{grigg2004}.
 
-When Layer~5 ratifies an inter-node resource route and Layer~6 generates the contract, the operational intent is cryptographically hashed:
+When Layer~5 ratifies an inter-node resource route and Layer~6 generates the contract, the operational intent is cryptographically hashed using 64-bit big-endian length-prefixed, domain-separated hashing over W3C \texttt{RDFC-1.0} and \texttt{RFC 8785 JCS}:
 \begin{equation}
-  \mathrm{Treaty\_CID} = \mathrm{SHA256}\left(\mathrm{Text}_{\mathrm{prose}} \parallel \mathrm{Schema}_{\mathrm{JSON-LD}} \parallel \mathrm{Invariants}_{\mathrm{BPMN}}\right)
+  \mathrm{Treaty\_CID} = \mathrm{SHA256}\left(\texttt{"COL-TREATY-V3.1\textbackslash0"} \parallel \mathrm{BE64}(|\mathrm{Text}_{\mathrm{prose}}|) \parallel \mathrm{Text}_{\mathrm{prose}} \parallel \mathrm{BE64}(|\mathrm{Schema}_{\mathrm{JCS}}|) \parallel \mathrm{Schema}_{\mathrm{JCS}} \parallel \mathrm{Invariants}_{\mathrm{BPMN}}\right)
   \label{eq:l7_ricardian_hash}
 \end{equation}
 where $\mathrm{Text}_{\mathrm{prose}}$ is human-readable legal prose stipulating mutual-aid or shared-services terms; $\mathrm{Schema}_{\mathrm{JSON-LD}}$ is the structured parameter payload defining physical mass, delivery coordinates, and safety constraints; and $\mathrm{Invariants}_{\mathrm{BPMN}}$ defines the executable state machine.
@@ -634,6 +634,29 @@ Every legacy-facing action follows a deterministic, unidirectional traversal thr
   \item \textit{Physical Transport:} Cooperative transport vehicles convey the physical cargo across public highways without UCC Article~2 commercial sale exposure.
   \item \textit{Physical Ingestion \& Settlement (Layer~3):} Destination sensors verify physical mass and exergy delivery; Layer~3 Bilateral Clearing Channels ($BCC$) adjust pairwise channel balances in 3.6 MJ Exergy Credits without touching fiat currency or legacy banks.
 \end{enumerate}
+
+\section{Anatomy of Scavenged Layer 7 Hardware Friction and the Hardware Obsolescence Horizon}
+\label{sec:l7-hardware-friction}
+
+Why do early Stage~1A Genesis Nodes---both in physical suburban neighborhoods and inside the Oasis proving ground (\texttt{Layer 1b})---experience chronic maintenance friction during their first months of operation? Because real communities do not boot inside a cleanroom stocked with bespoke open-source machinery; they bootstrap out of their initial $\$20{,}000$ (\texttt{2,000,000 cents}) fiat reserve $\Phi_0$ by purchasing secondhand, off-the-shelf Layer~7 appliances: Craigslist commercial refrigerators, induction ranges with potted circuit boards, DRM-locked inverters, and ultrasonically welded shop tools (\texttt{D7}, \texttt{D8}, Companion Volume~7 Chapters~2 and~3).
+
+\subsection{The Four Structural Penalties of Scavenged Layer 7 Hardware (``The Shim Tax'')}
+
+Under Layer~7 venture and industrial capitalism, hardware is engineered never to be permanently repairable so manufacturers can extract recurring replacement-part rents. Across the seven layers of the Sovereign Stack, relying on hostile black-box Layer~7 equipment imposes four concrete mechanical and fiscal penalties (\texttt{CCI-6}):
+\begin{enumerate}
+  \item \textbf{Parasitic Layer~2 Shims (\texttt{QUALITY\_SCAVENGED\_L7\_SHIM = 0x04}):} Locked proprietary firmware refuses direct fieldbus telemetry or deterministic setpoint control, forcing stewards to wrap the machine in external current-transformer clamps, taped surface thermistors, and optical fault-LED scrapers. These parasitic shims draw continuous standby power ($15{,}000\text{--}45{,}000\,\mathrm{mW}$) and yield laggy, coarse state inference ($\pm 1{,}500\,\mathrm{bp}$ uncertainty).
+  \item \textbf{Blind Layer~4 Mid-Batch Hard-Blocks (\texttt{SCAVENGED\_L7\_BLIND\_HARDBLOCK}):} Because closed controllers hide internal bearing wear, winding resistance drift, and thermal gradients behind a single binary fault LED, Layer~2 cannot project a continuous degradation curve. Layer~4 (\texttt{col-execd}) cannot schedule predictive five-minute maintenance; the machine runs until a sealed pump or board dies unannounced mid-batch, halting workflows while \textit{The Pantry}'s perishable Arrhenius clocks tick down.
+  \item \textbf{Layer~7 Fiat Tribute Escalation (\texttt{ScavengedHardwareTributeEvent}):} When a serialized heating element or DRM-chipped control board fails without local CAD or PCB specs, the fault escalates up through Layer~5 and Layer~6 into Layer~7 (\texttt{col-adversaryd}). The settlement is forced to bleed scarce fiat reserves ($\Phi_t$ in integer \texttt{cents}) to external vendor monopolies and endure multi-day courier lead-time stalls.
+  \item \textbf{Layer~3 Ecological Replacement Cost ($\lambda_{\mathrm{ERC}}$) Penalties:} Discarding an entire $15\,\mathrm{kg}$ potted sub-assembly over a degraded two-dollar seal or capacitor multiplies the tool's per-cycle $\lambda_{\mathrm{ERC}}$ by $5\times\text{--}20\times$, depressing the node's \texttt{collective:thermodynamicProof} efficiency ranking without minting local stewardship value.
+\end{enumerate}
+
+\subsection{Quantifying Tribute Elimination Across the Three-Tier Fleet Progression}
+
+Rather than inventing artificial video-game ``tech trees,'' the Sovereign Stack overcomes the shim tax through the authentic \textbf{Three-Tier Hardware Fleet Progression} (Companion Volume~7, Chapter~3 and Appendices~00--24):
+\begin{itemize}
+  \item \textbf{Stage~I $\to$ Stage~II Right-to-Repair Hybrid Retrofits (\texttt{0x04} $\to$ \texttt{0x08}):} Engineering guilds reverse-engineer ubiquitous consumer and commercial appliances, publishing open RISC-V / STM32H7 / ESP32-S3 Layer~2 replacement controller boards and 3D-printable metric adapter brackets (\texttt{CERN-OHL-S v2}) into Layer~6's Sovereign Libraries under statutory Right-to-Repair exemptions (17~U.S.C.~\S\,1201 DMCA repair exemptions and state Right-to-Repair statutes). When a crew strips the potted PCB from a $400\,\mathrm{kg}$ cast-iron commercial oven or lathe and installs an open Layer~2 retrofit kit, \texttt{col-storaged} and \texttt{col-adversaryd} record a \textbf{\texttt{ProofOfStewardshipRetrofitRecordV50}} quantifying both the rescued embodied chassis exergy (\texttt{rescued\_chassis\_embodied\_exergy\_uj}) and the eliminated annual fiat spare-part tribute (\texttt{eliminated\_l7\_tribute\_cents\_per\_yr}), minting a first-class Layer~5 Proof of Stewardship bonus ($\Delta R_{i,\mathrm{bp}} > 0$) while permanently lowering future cycle fiat targets $\Phi_{t+1}$.
+  \item \textbf{Stage~II $\to$ Stage~III Native Open-Spec Collective Fleet (\texttt{0x08} $\to$ \texttt{0x02}) and Zero-Stat Liberation:} As end-of-life sub-assemblies are remanufactured on the local Maker Bench to open modular SI geometry (\textbf{Gastronorm GN~1/1} pans, \textbf{ISO $600 \times 400\,\mathrm{mm}$} totes, \textbf{ISO~355} bearings, and the \textbf{\texttt{M6}/\texttt{M8} One-Wrench Rule}), continuous Layer~2 vibration and thermal telemetry allows Layer~4 to slot five-minute predictive swaps between batches. External Layer~7 spare-part tribute drops to \texttt{0 cents}, unscheduled interrupts vanish from the fault bus, and the community achieves \textbf{Zero-Stat Liberation}---reclaiming quiet, unmonitored hours of boundless human time.
+\end{itemize}
 
 \section{The Severance Protocol and Asymptotic Shrinkage}
 \label{sec:l7-severance}
