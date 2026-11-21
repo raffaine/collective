@@ -90,7 +90,7 @@ its canonical tuple $k = \mathrm{BLAKE3}(\mathtt{resource\_cid} \parallel
 \begin{enumerate}
 \item The first yield arriving for key $k$ opens a coalescing slot, aggregates requested
         milligrams/microjoules, evaluates whether local upstream workflow instantiation (such as
-        binding \texttt{wf.garden.\textit{} to replenish \texttt{wf.soup.}}) or Tier-2 Ring-1
+        binding \texttt{wf:garden} to replenish \texttt{wf:soup}) or Tier-2 Ring-1
         \texttt{BPVP} sourcing is pre-authorized under the asset's standing envelope, and---only
         if human approval is required---emits \textbf{one} unified docket to Layer~6.
 \item All $m - 1$ subsequent yields matching key $k$ append their \texttt{correlation\_id}s to
@@ -140,26 +140,83 @@ deterministic transition disciplines via \texttt{0x0501}:
         routes post-actuation tokens into Second-Law forward salvage sagas.
 \end{itemize}
 
-\section{Orthogonal Bicameralism and Anti-Oligarchy Mathematics}
+\section{The Four Constitutional Pillars and Orthogonal Bicameralism Harmonized With $V_i(t) = 1 + R_i(t)$}
 \label{sec:ch4-bicameralism}
 
+To replace vague references to ``governance rules'' with an exact, verifiable schema, the v3.2
+Horizon synthesis (\texttt{D6} / \S3.5) structures every Layer~5 node constitution around
+\textbf{Four Constitutional Pillars} (Table~\ref{tab:ch4-four-pillars}):
+\begin{enumerate}
+\item \textbf{Pillar I --- Surface Allocation (\texttt{collective:SurfaceAllocationPolicy}):}
+        Governs time-division multiplexing, spatial bays, finite lease TTLs, and Enveloping Node
+        boundary budgets (\texttt{cB}, \texttt{mW}, \texttt{mK}, \texttt{mm}) across competing
+        activities. For example, Pillar~I allocates $8{,}500\,\mathrm{bp}$ ($85\%$) of bakery
+        hearth hours to verified neighborhood staple production and reserves $1{,}500\,\mathrm{bp}$
+        ($15\%$) of off-peak hours for Dr\_Sofia's experimental \textit{montage} recipes
+        (\texttt{D4}), while allocating daytime high-decibel windows to the Woodshop and evening
+        low-noise windows to the Recording Studio.
+\item \textbf{Pillar II --- Work Capabilities (\texttt{collective:WorkCapabilityMatrix}):}
+        Maps Layer~4 BPMN task hazard classes to required \texttt{BBS+} safety credentials and
+        solves the Cold-Start Apprentice Paradox ($R_i(0) = 0 \to R_i(t) > 0$) via Tier-0
+        unsupervised prep tasks and Tier-1 mentor dual-key hardware interlocks
+        (Chapter~\ref{ch:l5-hardware-custody}).
+\item \textbf{Pillar III --- Process Voice (\texttt{collective:ProcessVoiceCharter}):}
+        Maintains the node's membership registry $\mathcal{M}_{\mathrm{node}}$ ($N_s$), evaluates
+        the unified voting weight $V_i(t) = B + R_i(t) = 1 + R_i(t)$
+        ($V_{i,\mathrm{bp}}(t) = 10{,}000 + R_{i,\mathrm{bp}}(t)$) with half-life $\tau_{1/2}$ and
+        safety-floor quorum $R_{\min,\mathrm{safety}}$, enforces Dormant Equilibrium protection,
+        and bounds acyclic liquid democracy delegations ($W_{\mathrm{delegated},j} \le 2{,}000\,\mathrm{bp}$
+        [$20\%$] with instant zero-latency direct ballot override).
+\item \textbf{Pillar IV --- Jurisprudence Rules (\texttt{collective:JurisprudenceEngine}):}
+        Encodes Two-Speed Jurisprudence: \textbf{Fast-Path} finite lease TTLs and millisecond Layer~2
+        physical hazard preemption paired with \textbf{Slow-Path} upward decompilation into a Layer~6
+        Semantic Diff Card and downward compilation into a permanent Layer~4 BPMN preemption
+        precedent (Chapter~\ref{ch:l5-sanctuary-justice}).
+\end{enumerate}
+
+\begin{table}[htbp]
+\centering
+\caption{The Four Constitutional Pillars of a Layer~5 Node in \texttt{col-kmsd} (v3.2)}
+\label{tab:ch4-four-pillars}
+\footnotesize
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}llll@{}}
+\toprule
+\textbf{Pillar} & \textbf{JSON-LD Namespace} & \textbf{Constitutional Domain} & \textbf{Representative Fixed-Point Rule} \\
+\midrule
+Pillar I: Surface Allocation & \texttt{collective:SurfaceAllocationPolicy} & Spatial bays, TDM slots, boundary budgets & $8500\,\mathrm{bp}$ staples / $1500\,\mathrm{bp}$ \textit{montage}; diurnal \texttt{cB}/\texttt{mW} \\
+Pillar II: Work Capabilities & \texttt{collective:WorkCapabilityMatrix} & Hazard classes, \texttt{BBS+} VCs, apprenticeship & Tier-0 prep ($R_i=0$ OK) $\to$ Tier-1 dual-key UWB $\le 2000\,\mathrm{mm}$ \\
+Pillar III: Process Voice & \texttt{collective:ProcessVoiceCharter} & $N_s$ roster, $V_i(t)=1+R_i(t)$, $\tau_{1/2}$, liquid delegation & $B=10{,}000\,\mathrm{bp}$ non-decaying + $R_{i,\mathrm{bp}}(t)$; $N_s > R_{\max}+2$ \\
+Pillar IV: Jurisprudence & \texttt{collective:JurisprudenceEngine} & Fast-Path preemption \& Slow-Path Semantic Diffs & Finite \texttt{lease\_ttl\_ms}; L2 hazard tier $\ge 900 \succ$ quiet lease \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+\subsection{Harmonizing Orthogonal Bicameralism With $V_i(t) = B + R_i(t) = 1 + R_i(t)$}
+
 When a boundary trigger or policy proposal genuinely requires collective human judgment,
-\texttt{col-kmsd} prevents both uninformed recklessness (say, overriding electrical lockout rules
-by popular whim) and technocratic rule (engineers dictating community priorities) via
-\textbf{Orthogonal Bicameralism} \parencite{ostrom2010,buck2007sociocracy}:
+\texttt{col-kmsd} unifies \textbf{Orthogonal Bicameralism} \parencite{ostrom2010,buck2007sociocracy}
+directly with every member's state vector $(B_{\mathrm{bp}} = 10{,}000,\; R_{i,\mathrm{bp}}(t))$:
 
 \begin{enumerate}
-\item \textbf{The Commons Chamber (Normative Ends \& Allocation):} Comprises all Ring~$R_1$
-        stewards on a strictly egalitarian \textbf{1-person-1-vote (`10,000 bp`)} basis. Votes are
-        non-transferable and \textbf{strictly non-delegable}. The Commons Chamber holds exclusive
-        authority over community ends: acoustic curfews, $\Phi_t$ bill-offset ceilings, cultural
-        fellowships, ethical design vetoes, and constitutional amendments.
-\item \textbf{The Stewardship Chamber (Technical Means \& Safety Rubrics):} Weighted by
-        \textbf{domain-scoped Reputational Wealth ($\mathcal{R}_d$)} earned through anonymous
-        \texttt{ClaimHandle} PoTW completions, Scenario Kappa apprenticeships, and peer-attested
-        care/maintenance. Critically, $\mathcal{R}_d$ is \textbf{strictly partitioned by craft domain}
-        (metallurgy $\mathcal{R}_{\mathrm{theta}}$ grants zero weight in clinical
-        $\mathcal{R}_{\mathrm{chi}}$) and \textbf{never buys personal goods or survival priority}.
+\item \textbf{The Civic Commons Projection ($B = 1 = 10{,}000\,\mathrm{bp}$) and Combined General Tally ($V_i(t) = 1 + R_i(t)$):}
+        Every inducted member $i \in \mathcal{M}_{\mathrm{node}}$ ($|\mathcal{M}_{\mathrm{node}}| = N_s$)
+        holds the non-decaying baseline $B_{\mathrm{bp}} = 10{,}000$. General node governance and
+        workflow amendments are evaluated via the combined weight
+        $V_{i,\mathrm{bp}}(t) = 10{,}000 + R_{i,\mathrm{bp}}(t)$ (guaranteeing Dormant-Node Hijack
+        immunity as $R_i(t) \to 0$), while fundamental community ends (acoustic curfews, $\Phi_t$
+        bill-offset ceilings, cultural fellowships, ethical design vetoes, and Entrenched Core
+        amendments) require concurrent passage in the pure egalitarian $B = 10{,}000\,\mathrm{bp}$
+        (1-person-1-vote, non-delegable) Commons tally.
+\item \textbf{The Technical Stewardship Chamber Projection ($R_{i,\mathrm{bp}}(t) \ge R_{\min,\mathrm{safety}}$):}
+        Safety-critical Layer~2/3 hardware calibration gates and high-hazard rubrics require
+        concurrent passage in the combined $V_i(t) = 1 + R_i(t)$ tally \textbf{and} a minimum
+        technical stewardship threshold $\sum_{i \in \text{Yes}} R_{i,\mathrm{bp}}(t) \ge
+        R_{\min,\mathrm{safety}}$ among certified stewards---ensuring uncertified newcomers cannot
+        vote to disable boiler pressure-relief valves or CNC spindle torque limits. Critically,
+        $R_{i,\mathrm{bp}}(t)$ is \textbf{strictly partitioned by craft domain} and \textbf{never
+        buys personal goods or survival priority}.
 \end{enumerate}
 
 \subsection{Seasonal Half-Life Decay, Sublinear `800 bp` Cap, and 1-Hop Delegation}

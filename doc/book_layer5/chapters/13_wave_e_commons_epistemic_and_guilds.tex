@@ -283,8 +283,14 @@ static_assert(sizeof(PiGuildBeaconGateV31) == 32, "PiGuildBeaconGateV31 ABI lock
 ZK growth beacons aggregate upward/downward through BPVP (\texttt{0x0504}) without leaking a single
 household's $R_0$ ledger state.
 
-\section{Wave E Synthesis: Convivial Maturity Progression}
+\section{Wave E Synthesis: Convivial Maturity, $V_i(t)=1+R_i(t)$, Enveloping Leases, and Two-Speed Jurisprudence}
 \label{sec:wavee-synthesis}
+
+In Wave~E, polycentric co-location reaches its fullest expression: an $N_s = 1$ Solo Luthier Studio,
+an $N_s = 4$ Acoustic Mastering Node (\texttt{SCN-LAMBDA-CULTURE}), an $N_s = 12$ Woodshop Guild
+(\texttt{SCN-PI-GUILD}), and a docked Coworking Hall (\texttt{SCN-EPSILON-COWORK}) share a single
+cooperative building wrapped by a domain-blind \textbf{Room/Building Enveloping Node Hypervisor}
+(Tables~\ref{tab:wavee-maturity} and~\ref{tab:wavee-v32-jurisprudence}).
 
 \begin{table}[htbp]
 \centering
@@ -296,10 +302,29 @@ household's $R_0$ ledger state.
 \toprule
 \textbf{Scenario} & \textbf{Stage 1A (Suburban Seed)} & \textbf{Stage 1B (Neighborhood Mesh)} & \textbf{Stage 2 (Cooperative Hub)} & \textbf{Stage 3 (CLT Sovereign Campus)} \\
 \midrule
-\texttt{Epsilon} (Cowork) & Home study VLAN + heat recapture & Docked UUNAA/Sub-T peer treaty & $\Phi_{\mathrm{cluster}}$ shutoff + \texttt{STC-50} booths & Multi-node carapace ($0$ VSM bossing) \\
+\texttt{Epsilon} (Cowork) & $N_s=1$ studio VLAN + heat reuse & Docked UUNAA/Sub-T peer treaty & Building Enveloping Node + $\Phi_{\mathrm{cluster}}$ & Multi-node carapace ($0$ VSM bossing) \\
 \texttt{Iota} (Science) & Open lab notebook; $0$ tuition & Calibrated soil/HPTLC bench ($\le 50\,\mathrm{bp}$) & $\ge 3$-node \texttt{L1b} replication + null parity & Bioregional research mesh + \texttt{DPL v1} \\
 \texttt{Lambda} (Culture) & Living-room acoustic circle ($\le 450\,\mathrm{cB}$) & Porch festival + scalar \texttt{cB} monitor & 1p1v Cultural Fellowships ($0$ NFTs) & Amphitheater + physical vigil relay cutoff \\
 \texttt{Pi} (Guilds) & Weekend neighbor work-bee TTL & $R_1/R_2$ craft guild check-ride sharing & 3-axis Ostrom matrix + Anti-Siphon gate & ZK Homomorphic Growth Beacons ($R_3\text{--}R_5$) \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Wave E v3.2 Constitutional Kernel Parameters: $(N_s, B=1, R_i(t), \tau_{1/2})$, Enveloping Node Leases, and Two-Speed Jurisprudence}
+\label{tab:wavee-v32-jurisprudence}
+\footnotesize
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}lllll@{}}
+\toprule
+\textbf{Scenario} & \textbf{Voice $(N_s, B, R_i, \tau_{1/2})$} & \textbf{Enveloping Boundary Lease} & \textbf{Fast-Path Hazard Preemption} & \textbf{Slow-Path Semantic Diff Precedent} \\
+\midrule
+\texttt{Epsilon} (Cowork) & $N_{\mathrm{envelope}}$ co-located members ($V_i=1+R_i$, $\tau_{1/2}=180\mathrm{d}$); $0$ VSM over child & Open floor $\le 550\,\mathrm{cB}$, \texttt{802.1Q} VLAN, $\ge 8000\,\mathrm{bp}$ server heat to \texttt{Zeta}, TTL $8\mathrm{h}$ & $\Phi_{\mathrm{cluster}}$ reaching $100\%$ offset or $>550\,\mathrm{cB}$ for $>180\,\mathrm{s}$ triggers immediate booth redirect & Diurnal partition contention between Woodshop ($850\,\mathrm{cB}$) \& Cowork $\to$ L6 Diff compiles 08:00--20:00 schedule \\
+\texttt{Iota} (Science) & $N_s$ lab stewards ($V_i=1+R_i$, $\tau_{1/2}=365\mathrm{d}$); $100\%$ null-result parity & Cleanroom/optical lab vibration \& EMI envelope, $\le 1{,}500{,}000\,\mathrm{mW}$, \texttt{No-Transit} mm & Calibration drift $>50\,\mathrm{bp}$ or fume-hood airflow drop locks out reagent synthesis in $<10\,\mathrm{ms}$ & Cross-watershed \texttt{L1b} physics coefficient divergence $\to$ L6 Diff ratifies $\ge 3$-node replication protocol \\
+\texttt{Lambda} (Culture) & $N_s=1$ luthier or $N_s$ studio ($B=10{,}000\,\mathrm{bp}$, $\mathcal{R}_{\mathrm{culture}}\le 800\,\mathrm{bp}$) & Tier~\texttt{200} quiet lease: $\le 450\,\mathrm{cB}$ night, $\le 650\,\mathrm{cB}$ dBC wildlife, TTL $3\mathrm{h}$ & Burst-pipe wet-vac (\texttt{HAZARD\_CLASS\_WATER\_INGRESS}, $820\,\mathrm{cB}$, Tier~\texttt{950}) preempts studio quiet lease & Studio challenges single-sensor trip $\to$ L6 Diff compiles dual-sensor check + $+120\,\mathrm{min}$ priority compensation \\
+\texttt{Pi} (Guilds) & $N_s$ guild members ($V_i=1+R_i$, $N_s > R_{\max}+2$); swarm TTL $\to 0$ & Imported host-room \texttt{EnvelopingBoundaryLeaseV50} ($\le 550\,\mathrm{cB}$, $\le 1.5\,\mathrm{kW}$, TTL $\le \mathtt{swarm\_ttl}$) & \texttt{current\_hlc >= swarm\_ttl\_hlc} or Anti-Siphon flag collapses swarm authority to \texttt{ZERO\_AUTHORITY} & \texttt{BEACON\_GRAVITY\_WELL} ($\ge 18\,\mathrm{GJ/mo}$ 3-hop haul) $\to$ L6 Diff charters local $R_1/R_2$ kiln clone \\
 \bottomrule
 \end{tabular}%
 }

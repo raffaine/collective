@@ -305,4 +305,134 @@ enclave key $K_{\mathrm{L5}}$; additionally, any expired or \texttt{UNCLAIM\_GUI
 \texttt{ClaimHandle} triggers zero standing deduction in \texttt{col-kmsd}.
 \end{invariant}
 
-With individual trust, Sybil resistance, and blinded capability issuance established, Chapter~\ref{ch:l5-intranode-envelopes} addresses the central scaling question of a living node: how Layer~5 governs hundreds or thousands of concurrent workflows inside one settlement without burying citizens in perpetual committee meetings.
+\section{Unified Voting Weight $V_i(t) = 1 + R_i(t)$, Scale Regimes, and Scoping to Node Membership ($N_s$) vs.\ External Consumers ($N_p$)}
+\label{sec:ch3-ns-vs-np}
+
+In Chapter~\ref{ch:l5-bilateral-membrane} (Theorem~\ref{thm:ch1-dormant-hijack-immunity}), we
+proved that pairing the non-decaying Universal Civic Baseline $B = 1$ ($10{,}000\,\mathrm{bp}$)
+with decaying domain Proof of Stewardship $R_i(t) \ge 0$ ($R_{i,\mathrm{bp}}(t)$) makes
+Dormant-Node Single-Maintainer Hijack impossible when a mature node rests in Dormant Equilibrium
+(``The \TeX{} Asymptote''). We now specify how \texttt{col-kmsd} evaluates
+$V_i(t) = B + R_i(t) = 1 + R_i(t)$ across the three structural scale regimes of a node
+(Table~\ref{tab:ch3-scale-regimes}) and why $V_i(t)$ is scoped strictly to \textbf{Node Membership
+($N_s$)} rather than external consumers ($N_p$).
+
+\begin{table}[htbp]
+\centering
+\caption{Behavior of $V_i(t) = B + R_i(t) = 1 + R_i(t)$ Across the Three Universal Scale Regimes}
+\label{tab:ch3-scale-regimes}
+\footnotesize
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}llll@{}}
+\toprule
+\textbf{Scale Regime} & \textbf{Members ($N_s$)} & \textbf{Weight Behavior $V_i(t) = 1 + R_i(t)$} & \textbf{Constitutional Mechanics \& Archetypes} \\
+\midrule
+Regime I: Solo Genesis Node & $N_s = 1$ & $V_1(t) = 1 + R_1(t) = 100\%$ of local node weight & Zero-friction internal autonomy from Day~0 ($R_1(0)=0 \implies V_1=1$); imports external tool/room covenants \\
+Regime II: Dyadic Collaboration & $N_s = 2$ & $V_1 = 1 + R_1(t)$, $V_2 = 1 + R_2(t)$ & Mentor ($R_1=2 \implies 75\%$) vs.\ Apprentice ($R_2=0 \implies 25\%$ floor); deadlock $\to$ Ontological Forking \\
+Regime III: Community Commons & $N_s \gg 2$ & Civic Floor $= N_s \cdot B$; Merit $= \sum R_i(t)$ & \textbf{Anti-Capture Crossover ($N_s > R_{\max} + 2$)}: lone master share $< 50\%$; safety gates require $R_{\min,\mathrm{safety}}$ \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+\subsection{Why External Consumers ($N_p$) Do Not Receive $B=1$ Inside a Producer Guild ($N_s$)}
+
+Consider a neighborhood bakery guild (\texttt{SCN-GAMMA-KITCHEN}) staffed by $N_s = 5$ active
+bakers that feeds $N_p = 500$ surrounding residents. If all $500$ bread consumers received a
+$B = 1$ voting baseline inside the Bakery Guild's internal Layer~5 constitution, two fatal
+pathologies would follow immediately (\texttt{D3}, \texttt{D4}):
+\begin{enumerate}
+\item \textbf{Tyranny of Casual Consumers Over Workers:} The $500$ non-bakers would outvote the
+        $5$ actual bakers $500 : (5 + \sum_{i=1}^5 R_i)$ on starter hydration, oven preheat
+        schedules, and shift ergonomics.
+\item \textbf{Surveillance Roster Violation:} Determining which $500$ residents are ``regular
+        sourdough eaters'' would require persistent identity-linked consumption tracking at the
+        bakery pickup counter, violating the Zero-Surveillance Local Need Capture law (\texttt{CCI-2}).
+\end{enumerate}
+
+Instead, \texttt{col-kmsd} enforces a strict constitutional separation between \textbf{Loop~1 (Node
+Membership Governance, $N_s$)} and \textbf{Loop~2 (Zero-Surveillance Demand \& Enveloping Node
+Countervailing Power, $N_p$)}:
+\begin{itemize}
+\item \textbf{Anonymous Demand Withdrawal \& Competitive Forking:} External residents ($N_p$)
+        signal appetite exclusively through local Layer~6 \textit{Pantry} lenses whose personal
+        DIDs are stripped by their local \texttt{col-kmsd} via \texttt{BBS+} ring-membership
+        zero-knowledge proofs before emitting anonymous cohort appetite vectors and short-lived,
+        auto-expiring pickup intent leases (\texttt{AnonymousAppetiteLeaseV50}) to Layer~3. If a
+        guild ignores community tastes, anonymous pickup leases dry up, or an alternative 3-person
+        baking crew forks the open JSON-LD recipe onto an adjacent oven time-slot.
+\item \textbf{Enveloping Node Hypervisor Membership ($N_{\mathrm{envelope}}$):} Every resident of
+        the building or street \textit{does} hold $B = 1$ ($10{,}000\,\mathrm{bp}$) inside the
+        \textbf{Enveloping Habitat or Street Node} (\texttt{SCN-ZETA-LODGE} /
+        \texttt{SCN-EPSILON-COWORK}) that leases physical floor space, electrical power
+        (\texttt{mW}), and acoustic/thermal budgets (\texttt{cB}, \texttt{mK}) to the Bakery
+        Guild. Neighbors can therefore constitutionally bound the bakery's 03:00~AM acoustic
+        ceiling or flue exhaust via the Enveloping Node without ever micro-managing the bakers'
+        dough hydration.
+\end{itemize}
+
+\subsection{The Three-Way Anti-Farming Invariant and Right-to-Repair Stewardship Minting}
+
+Unlike Layer~7 token DAOs where actors farm governance weight through spam commits or wash
+trading, \texttt{col-kmsd} mints Proof of Stewardship $\Delta R_{i,\mathrm{bp}} > 0$ \textit{if and
+only if} three cross-layer cryptographic proofs concur:
+\begin{equation}
+    \Delta R_{i,\mathrm{bp}} > 0 \;\Longleftrightarrow\;
+    \text{L6 Validated Demand/RFC Lease} \;\land\;
+    \text{L4 Completed BPMN Task} \;\land\;
+    \text{L2/L3 Hardware Verification }\bigl(\Delta S_{\mathrm{actual}} \le \Delta S_{\mathrm{expected}} \land \text{ERC Spike} = 0\bigr).
+\end{equation}
+Crucially, during Stage~1A/1B and Stage~2 bring-up (\texttt{D8}), when an engineering crew
+executes a \textbf{Right-to-Repair Hybrid Retrofit}---replacing a scavenged Layer~7 appliance's
+proprietary locked PCB (Stage~I) with an open RISC-V/STM32/ESP32 Layer~2 controller board and
+3D-printable metric adapters (Stage~II)---Layer~3 and Layer~5 recognize the rescued chassis
+embodied exergy (\texttt{ProofOfStewardshipRetrofitRecordV50}) as a first-class stewardship
+minting event ($\Delta R_{i,\mathrm{bp}} > 0$).
+
+\begin{lstlisting}[language=C++,caption={Production \texttt{NodeMemberVoiceStateV50} and Anti-Farming / Anti-Capture Evaluator in \texttt{col-kmsd}.},label={lst:ch3-node-member-voice}]
+#include <array>
+#include <cstdint>
+
+namespace collective::l5 {
+
+inline constexpr int64_t kUniversalCivicBaselineBp = 10000LL; // B = 1.0000 (10,000 bp)
+
+struct alignas(8) NodeMemberVoiceStateV50 {
+    std::array<uint8_t, 32> member_did_hash{};      // Scoped strictly to Node Membership (N_s)
+    std::array<uint8_t, 32> node_id_hash{};         // Polycentric guild or Enveloping Node ID
+    int64_t  civic_baseline_bp{kUniversalCivicBaselineBp}; // Non-decaying B = 10,000 bp
+    int64_t  stewardship_bonus_bp{0};               // Decaying R_i(t) in basis points (>= 0)
+    int64_t  last_decay_epoch_ms{0};                // Monotonic timestamp of last entropy step
+    int64_t  half_life_ms{15552000000LL};           // Default 180-day half-life in ms
+    uint32_t certified_capability_mask{0};          // Pillar II work capability bitmask
+    uint32_t active_node_members_ns{1};             // Inducted node membership count N_s
+};
+static_assert(sizeof(NodeMemberVoiceStateV50) == 104,
+              "NodeMemberVoiceStateV50 must be 104 bytes.");
+
+[[nodiscard]] constexpr int64_t ComputeTotalVotingWeightBp(
+    const NodeMemberVoiceStateV50& m, bool care_shield_frozen) noexcept
+{
+    (void)care_shield_frozen; // When frozen, caller holds stewardship_bonus_bp constant
+    const int64_t r_bp = (m.stewardship_bonus_bp > 0LL) ? m.stewardship_bonus_bp : 0LL;
+    return m.civic_baseline_bp + r_bp;
+}
+
+[[nodiscard]] constexpr bool SatisfiesAntiCaptureCrossover(
+    uint32_t active_members_ns, int64_t max_member_r_bp) noexcept
+{
+    // Regime I (N_s == 1) is sovereign personal autonomy; for N_s > 2, verify N_s > R_max + 2
+    if (active_members_ns == 1U) return true;
+    const int64_t lhs_bp = static_cast<int64_t>(active_members_ns) * kUniversalCivicBaselineBp;
+    return lhs_bp > (max_member_r_bp + 2LL * kUniversalCivicBaselineBp);
+}
+
+} // namespace collective::l5
+\end{lstlisting}
+
+With individual trust, Sybil resistance, blinded capability issuance, and the unified voting law
+$V_i(t) = 1 + R_i(t)$ scoped to Node Membership ($N_s$) established,
+Chapter~\ref{ch:l5-intranode-envelopes} addresses the central scaling question of a living node:
+how Layer~5 structures every node constitution around the Four Constitutional Pillars, harmonizes
+bicameralism with $V_i(t) = 1 + R_i(t)$, and governs hundreds of concurrent workflows without
+burying citizens in perpetual committee meetings.

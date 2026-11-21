@@ -429,6 +429,106 @@ $R_0$ Hearth Sanctuary at Level~$N-1$. Cross-level coordination occurs solely vi
 counter-signed Ricardian treaties (\texttt{Treaty\_CID}) and inviolable constitutional floors.
 \end{invariant}
 
-With the bilateral socket membrane sealed, the SQLCipher vault isolated, and VSM System~5
-bounded at Recursion Level~$N$, we now turn in Chapter~\ref{ch:l5-hardware-custody} to the
-physical silicon inside which sovereign keys are born, guarded, and recovered.
+\section{Why Pure Meritocracy ($B=0$) Fails in Mature Commons: The Dormant-Node Single-Maintainer Hijack}
+\label{sec:ch1-dormant-hijack}
+
+A foundational insight of the v3.2 Horizon synthesis (\textit{Architecture of Boundless Time},
+Dialogues~\texttt{D2}, \texttt{D3}, and \texttt{D8}) concerns what happens to a cybernetic
+governance node \textit{after} its engineering succeeds. Under Layer~7 venture capitalism,
+software and workshop protocols are never permitted to be finished because recurring rent
+extraction requires perpetual UI churn and manufactured obsolescence. In The Collective, by
+contrast, Layers~4 and~5 (\texttt{col-execd} and \texttt{col-kmsd}) operate as formal cybernetic
+execution engines while Layer~6 (\texttt{col-commonsd} and specialized Application Lenses) acts
+as the \textbf{downward societal compiler} ($\Pi_{\mathrm{down}} : \mathrm{L6} \to \mathrm{L5} \to
+\mathrm{L4}$) and \textbf{upward Semantic Diff decompiler} ($\Pi_{\mathrm{up}} : \mathrm{L4} \to
+\mathrm{L5} \to \mathrm{L6}$).
+
+In any domain-specific node---whether a software working group (\texttt{SCN-ZERO-SOFTWARE},
+stewarding a Layer~6 software specification the way the Khronos Group stewards OpenGL), an
+acoustic luthier repository (\texttt{SCN-LAMBDA-CULTURE}), or a precision metallurgy kiln
+(\texttt{SCN-ALPHA-FAB} / \texttt{SCN-THETA-FOUNDRY})---stewardship activity naturally follows an
+\textbf{S-curve of thermodynamic and functional maturity}:
+\begin{enumerate}
+\item \textbf{High-Velocity Founding Phase:} Architects and operators resolve dozens of Layer~4
+        BPMN workflows per week, accumulating domain-specific Proof of Stewardship weights
+        $R_i(t) > 0$.
+\item \textbf{Dormant Equilibrium (``The \TeX{} Asymptote''):} Like Donald Knuth's \TeX{}
+        typesetting engine or a hardened UNIX utility, a well-engineered Layer~6 software artifact
+        running inside deterministic Layer~4 WebAssembly state machines eventually converges
+        toward near-zero defects. Servicing incidents drop to zero, freeing human stewards to
+        pivot to new life chapters (\textit{compositional montage}) without resignation drama or
+        lifelong maintainer servitude.
+\item \textbf{Exponential Reputational Entropy ($\lambda > 0$):} Because Layer~5 applies a
+        continuous decay constant $\lambda = \frac{\ln 2}{\tau_{1/2}}$ (e.g., $\tau_{1/2} = 180$
+        or $365\,\mathrm{days}$) to all historical Proof of Stewardship scores to prevent
+        permanent gerontocracy:
+        \begin{equation}
+            R_i(t) = R_i(t_0)\cdot e^{-\lambda(t - t_0)} + \int_{t_0}^{t} \dot{r}_i(\tau)\,e^{-\lambda(t - \tau)}\,d\tau,
+        \end{equation}
+        during Dormant Equilibrium ($\dot{r}_i(\tau) \to 0$) every founding member's operational
+        stewardship score decays asymptotically toward zero:
+        \[
+            \lim_{t \to \infty} R_i(t) = 0 \quad \forall i \in \mathcal{M}_{\mathrm{node}}.
+        \]
+\item \textbf{The Substrate Drift Wake-Up Cycle:} ``Bit-rot'' is never immutable Layer~6 code
+        decaying; it is Layer~1 physics and Layer~2 hardware drifting underneath a stationary
+        specification (a new silicon revision, sensor tolerance shift, or worn transducer). When a
+        Layer~2 edge revision violates an old assumption, telemetry climbs through Layer~3 into
+        Layer~4, triggering an unknown-state hard-block that \texttt{col-kmsd} escalates over
+        \texttt{l5\_l6.sock} into a \textbf{Layer~6 Semantic Diff Card}.
+\end{enumerate}
+
+Here the fatal flaw of pure meritocracy ($V_i(t) = R_i(t)$ with $B = 0$) appears. When a mature
+node of $N_s$ members sits in Dormant Equilibrium so that $\sum_{j=1}^{N_s} R_j(t) \to \epsilon \approx 0$,
+a single opportunistic actor who steps in to commit one trivial hardware-drift adapter or minor
+calibration cycle ($\Delta R_{\mathrm{attacker}} = 0.05$) instantaneously captures nearly $100\%$
+of the node's Layer~5 voting weight:
+\[
+    \frac{V_{\mathrm{attacker}}^{\mathrm{pure\text{-}R}}(t)}{\sum_{j=1}^{N_s} V_j^{\mathrm{pure\text{-}R}}(t)}
+    = \frac{0.05}{0.05 + N_s \cdot \epsilon} \;\xrightarrow{\;\epsilon \to 0\;}\; 1.00 \quad (100\%).
+\]
+Under $B = 0$, that lone patcher could unilaterally rewrite the node's Ricardian covenants,
+expropriate tool custody, or inject hostile dependencies into a mature commons while its $N_s = 50$
+active member-stewards hold zero constitutional defense (\textbf{Dormant-Node Single-Maintainer
+Hijack}).
+
+\begin{theorem}[Immunity to Dormant-Node Single-Maintainer Hijack Under $V_i(t) = 1 + R_i(t)$]
+\label{thm:ch1-dormant-hijack-immunity}
+Let every inducted member $i \in \mathcal{M}_{\mathrm{node}}$ ($|\mathcal{M}_{\mathrm{node}}| = N_s$)
+carry the unified constitutional voting weight
+\[
+    V_i(t) = B + R_i(t) = 1 + R_i(t) \quad
+    \bigl(\text{fixed-point: } V_{i,\mathrm{bp}}(t) = 10{,}000 + R_{i,\mathrm{bp}}(t)\bigr),
+\]
+where $B = 1$ ($10{,}000\,\mathrm{bp}$) is the non-decaying Universal Civic Baseline and
+$R_i(t) \ge 0$ decays under reputational entropy $\lambda > 0$. As the node enters Dormant
+Equilibrium ($R_j(t) \to 0$ for all $j$), any single actor accruing an isolated maintenance credit
+$\Delta R_{\mathrm{attacker}} > 0$ has total voting share strictly bounded by
+\[
+    S_{\mathrm{attacker}}(t) = \frac{1 + \Delta R_{\mathrm{attacker}}}{N_s + \Delta R_{\mathrm{attacker}}},
+\]
+which satisfies $S_{\mathrm{attacker}}(t) < \frac{1}{2}$ whenever $N_s > \Delta R_{\mathrm{attacker}} + 2$,
+and $S_{\mathrm{attacker}}(t) < \theta_{\mathrm{const}} = \frac{2}{3}$ whenever
+$N_s > \frac{1}{2}\Delta R_{\mathrm{attacker}} + \frac{3}{2}$.
+\end{theorem}
+
+\begin{proof}
+In the Dormant Equilibrium limit $\lim_{t\to\infty} R_j(t) = 0$, every member $j \in \{1,\dots,N_s\}$
+retains $V_j(t) = B = 1$ ($10{,}000\,\mathrm{bp}$), so aggregate baseline weight is $\sum_{j=1}^{N_s} B = N_s$.
+When one member or newly inducted contributor performs an isolated maintenance event yielding
+$\Delta R_{\mathrm{attacker}} > 0$, their weight becomes $1 + \Delta R_{\mathrm{attacker}}$ while
+the remaining $N_s - 1$ members retain $(N_s - 1)\cdot 1$, giving total node weight
+$N_s + \Delta R_{\mathrm{attacker}}$ and share $S_{\mathrm{attacker}} =
+\frac{1 + \Delta R_{\mathrm{attacker}}}{N_s + \Delta R_{\mathrm{attacker}}}$. Algebraic
+rearrangement yields $S_{\mathrm{attacker}} < \frac{1}{2} \iff 2 + 2\Delta R_{\mathrm{attacker}} <
+N_s + \Delta R_{\mathrm{attacker}} \iff N_s > \Delta R_{\mathrm{attacker}} + 2$. For $N_s = 50$
+and $\Delta R_{\mathrm{attacker}} = 0.5$ ($5{,}000\,\mathrm{bp}$), $S_{\mathrm{attacker}} =
+\frac{1.5}{50.5} \approx 2.97\% \ll 66.7\%$. Thus the node transitions automatically from
+merit-weighted active engineering during high-churn development to one-member-one-vote civic
+custody during Dormant Equilibrium without a manual mode switch.
+\end{proof}
+
+With the bilateral socket membrane sealed, the SQLCipher vault isolated, VSM System~5 bounded at
+Recursion Level~$N$, and Dormant-Node Hijack mathematically closed via $V_i(t) = 1 + R_i(t)$, we
+now turn in Chapter~\ref{ch:l5-hardware-custody} to the physical silicon inside which sovereign
+keys and mentor-apprentice capability interlocks are born, guarded, and recovered.

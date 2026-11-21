@@ -139,6 +139,43 @@ Maintainer and Commons ballots arrive over \texttt{l5\_l6.sock} (\texttt{0x0601}
 \texttt{DRAIN\_ACTIVE\_TOKENS} over \texttt{l4\_l5.sock} so hundreds of in-flight node workflows
 drain cleanly before binary cutover.
 
+\subsection{The Khronos/OpenGL Working-Group Lifecycle, Dormant Equilibrium, and Substrate Drift}
+
+As codified in the v3.2 Horizon synthesis (\texttt{D1}, \texttt{D2}, \texttt{D3}), Oasis
+(\texttt{Layer 1b}) is not self-compiling code and never emulates inner guest operating systems at
+Layer~1. Rather, Oasis---and every software package in The Collective---is a \textbf{governed
+Layer~6 Software Artifact} whose institutional care is entrusted to a dedicated \textbf{Layer~5
+Working Group} ($V_i(t) = 1 + R_i(t)$ scoped to $N_s$ active working-group members), exactly as
+the OpenGL specification is cared for by the Khronos Group. Inside Oasis's simulated physical
+world, software exhibits only a \textbf{mild Layer~1 and Layer~2 footprint} (workstation and server
+rack electrical draw in \texttt{mW}/\texttt{uJ}, waste-heat rejection in \texttt{mK} with
+$\ge 8{,}000\,\mathrm{bp}$ hydronic recapture, and fan/SSD wear), while executing its full
+five-phase organizational lifecycle across Layers~4 through~6:
+\begin{enumerate}
+\item \textbf{Phase 1 --- Friction to RFC ($\mathrm{L2/L3} \to \mathrm{L6}$):} Coordination friction
+        or $\lambda_{\mathrm{ERC}}$ spikes prompt affected nodes to publish a Layer~6
+        \texttt{SoftwareRequirementRfcIntent} ($\le 512\,\mathrm{MiB}$ target footprint).
+\item \textbf{Phase 2 --- Working Group Charter ($\mathrm{L5} \to \mathrm{L4}$):} Stakeholders
+        charter a Scenario~Zero Stewardship Node ($N_s$ members, $V_i(t) = 1 + R_i(t)$,
+        $\tau_{1/2} = 180\,\mathrm{d}$).
+\item \textbf{Phase 3 --- Inception and Build ($\mathrm{L4} + \mathrm{L2} \to \mathrm{L3/L5}$):}
+        \texttt{col-execd} runs scoping, code review, hermetic 3-arch build, and $10{,}000$-tick
+        canary conformance workflows while Layer~2 meters rack watt-hours and Layer~5 credits
+        $\Delta R_{i,\mathrm{bp}}$ upon verified milestones.
+\item \textbf{Phase 4 --- Spec Ratification ($\mathrm{L4} \to \mathrm{L5} \to \mathrm{L6}$):}
+        Once deterministic gates pass, the Layer~5 Working Group ratifies an immutable,
+        content-addressed Layer~6 Software Artifact alongside its \texttt{AppCapabilityManifestV1}
+        nutrition label.
+\item \textbf{Phase 5 --- Servicing, Dormant Equilibrium (``The \TeX{} Asymptote'') \& Substrate Drift Wake-Up:}
+        When a mature WASM artifact reaches zero-defect stability, servicing incidents drop to
+        zero, $R_i(t) \to 0$, and the working group rests in \textbf{Dormant Equilibrium} protected
+        from Single-Maintainer Hijack by $B = 1$ ($10{,}000\,\mathrm{bp}$). Whenever Layer~1/2
+        hardware drifts underneath the specification (e.g., a new ESP32 sensor revision), Layer~4
+        hits an unknown-state hard-block (\texttt{SUBSTRATE\_DRIFT\_ADAPTER\_REQUIRED}) that
+        \texttt{col-kmsd} escalates into a \textbf{Layer~6 Semantic Diff Card}, waking the working
+        group only long enough to ratify the adapter and return to sleep.
+\end{enumerate}
+
 \section{Scenario Tau (\texttt{SCN-TAU-GENESIS}): Steward Genesis, Assimilation, and Exit}
 \label{sec:wavea-tau}
 
@@ -292,11 +329,13 @@ Unclaimed-task aging yields arrive from \texttt{col-execd} via \texttt{0x0505}; 
 \texttt{0x0502 L5\_SPAWN\_INSTANCE} on \texttt{l4\_l5.sock} and posts the open engineering call on
 \texttt{l5\_l6.sock} (\texttt{0x0602}).
 
-\section{Wave A Synthesis: Convivial Maturity Progression}
+\section{Wave A Synthesis: Convivial Maturity, $V_i(t)=1+R_i(t)$, Enveloping Leases, and Two-Speed Jurisprudence}
 \label{sec:wavea-synthesis}
 
-Table~\ref{tab:wavea-maturity} synthesizes how Wave~A's governance envelopes scale from a single
-suburban household cluster to a federated campus without increasing meeting burden.
+Tables~\ref{tab:wavea-maturity} and~\ref{tab:wavea-v32-jurisprudence} synthesize how Wave~A's
+governance envelopes, $V_i(t) = 1 + R_i(t)$ membership regimes, Enveloping Node Hypervisor
+boundary leases, and Two-Speed Jurisprudence scale from a single suburban household cluster to a
+federated campus without increasing meeting burden.
 
 \begin{table}[htbp]
 \centering
@@ -308,9 +347,27 @@ suburban household cluster to a federated campus without increasing meeting burd
 \toprule
 \textbf{Scenario} & \textbf{Stage 1A (Suburban Seed)} & \textbf{Stage 1B (Neighborhood Mesh)} & \textbf{Stage 2 (Cooperative Hub)} & \textbf{Stage 3 (CLT Sovereign Campus)} \\
 \midrule
-\texttt{Zero} (Forge) & 4-SBC local A/B canary; $0$-float gate & $R_1$ CAS mirror; 2-of-3 maintainer sig & Tri-arch (\texttt{x86}/\texttt{arm}/\texttt{rv64}) farm & Full bicameral L3/L5 ratification \& DPL \\
-\texttt{Tau} (Genesis) & Clean-slate boot; $R_0$ household keys & 2-of-3 $R_1$ NFC vouching \& Shamir shards & 3-of-5 Faraday FROST + disability parity & Multi-node onboarding \& staggered exit pool \\
+\texttt{Zero} (Forge) & 4-SBC local A/B canary; $0$-float gate & $R_1$ CAS mirror; 2-of-3 maintainer sig & Tri-arch (\texttt{x86}/\texttt{arm}/\texttt{rv64}) farm & Khronos WG + \TeX{} Dormant Equilibrium \\
+\texttt{Tau} (Genesis) & Clean-slate $N_s=1$ boot; $R_0$ keys & 2-of-3 $R_1$ NFC vouching \& Shamir shards & 3-of-5 Faraday FROST + Pillar II $R_i=0$ & Multi-node onboarding \& staggered exit pool \\
 \texttt{Sigma} (Rest) & Voluntary household \texttt{RestShield} & $R_1$ tiffin/chore relief pool on shield & $144{,}000\,\mathrm{s}$ Dual-Freeze + $3\times$ drudgery & Auto \texttt{Alpha}/\texttt{Zero} R\&D bounty loops \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Wave A v3.2 Constitutional Kernel Parameters: $(N_s, B=1, R_i(t), \tau_{1/2})$, Enveloping Node Leases, and Two-Speed Jurisprudence}
+\label{tab:wavea-v32-jurisprudence}
+\footnotesize
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}lllll@{}}
+\toprule
+\textbf{Scenario} & \textbf{Voice $(N_s, B, R_i, \tau_{1/2})$} & \textbf{Enveloping Boundary Lease} & \textbf{Fast-Path Hazard Preemption} & \textbf{Slow-Path Semantic Diff Precedent} \\
+\midrule
+\texttt{Zero} (Forge) & $N_s \ge 1$ WG; $B=10{,}000\,\mathrm{bp}$; $\tau_{1/2}=180\mathrm{d}$; $R_i \to 0$ dormant & Server rack $\le 1{,}200{,}000\,\mathrm{mW}$, $\le 450\,\mathrm{cB}$, $\ge 8000\,\mathrm{bp}$ heat reuse, TTL $24\mathrm{h}$ & $<500\,\mathrm{ms}$ hardware Break-Glass rollback or rack over-temp ($>348{,}150\,\mathrm{mK}$) throttle & \texttt{SUBSTRATE\_DRIFT\_ADAPTER\_REQUIRED} $\to$ L6 Semantic Diff wakes WG to ratify L2 adapter \\
+\texttt{Tau} (Genesis) & $N_s=1$ ($V_1=100\%$) $\to N_s \gg 2$ ($B=10{,}000\,\mathrm{bp}$, $R_i(0)=0$ Tier-0) & Sanctuary suite $\le 400\,\mathrm{cB}$ night, $293{,}150\,\mathrm{mK}$ warmth, TTL $30\mathrm{d}$ renewable & Unconditional $B_{\mathrm{baseline}}$ and $<500\,\mathrm{ms}$ \texttt{SafeHarborExit} preempts all credit locks & Custom Pillar~II equivalence check-ride rubric compiled into permanent onboarding precedent \\
+\texttt{Sigma} (Rest) & Freezes $\lambda = 0$ ($\tau_{1/2} \to \infty$) while preserving $B=10{,}000\,\mathrm{bp}$ & Priority Tier~\texttt{850} sleep/rest envelope ($\le 380\,\mathrm{cB}$, $0$ non-urgent alerts, TTL $7\mathrm{d}$) & Tier~\texttt{850} fatigue lockout after $>144{,}000\,\mathrm{s}$ immediately blocks high-hazard spindle claims & Chronic unpicked drudgery ($30{,}000\,\mathrm{bp}$) compiles into permanent \texttt{Alpha}/\texttt{Zero} R\&D bounty rule \\
 \bottomrule
 \end{tabular}%
 }

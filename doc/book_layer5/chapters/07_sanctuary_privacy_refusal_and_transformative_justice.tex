@@ -254,7 +254,115 @@ static_assert(sizeof(PassiveQuarantineStateV31) == 40, "PassiveQuarantineStateV3
 \end{lstlisting}
 
 Chapters~\ref{ch:l5-bilateral-membrane} through~\ref{ch:l5-sanctuary-justice} have laid out the
-complete ratified v3.1 constitutional architecture of Layer~5. In Chapter~\ref{ch:l5-oasis-council},
-we hold this target specification directly up against the running C++20 code of Oasis (\texttt{Layer 1b})
-and \texttt{Lot 402}, celebrating what already executes cleanly today and convening the Five-Specialist
-Architectural Council to audit and resolve eight concrete prototype ceilings.
+core protective architecture of Layer~5. We conclude this chapter by formalizing \textbf{Pillar~IV
+(\texttt{collective:JurisprudenceEngine})} in action: the \textbf{Two-Speed Jurisprudence Engine} that
+pairs millisecond \textbf{Fast-Path Hazard Preemption} with asynchronous \textbf{Slow-Path Semantic Diff
+Precedent Compilation}, before turning in Chapter~\ref{ch:l5-oasis-council} to the running C++20
+code of Oasis (\texttt{Layer 1b}) and the Specialist Council audit.
+
+\section{Two-Speed Jurisprudence: Fast-Path Hazard Preemption vs.\ Slow-Path Semantic Diff Precedents}
+\label{sec:ch7-two-speed-jurisprudence}
+
+When a physical boundary conflict occurs inside an Enveloping Node (\texttt{D6} / \S3.5.2),
+Layer~5 never freezes urgent physical remediation behind an hours-long parliamentary meeting, nor
+does it allow emergency overrides to harden into arbitrary rule. Instead, \texttt{col-kmsd} and
+\texttt{col-execd} execute \textbf{Two-Speed Jurisprudence}:
+
+\subsection{The Fast Path: Mandatory Finite Lease TTLs and Millisecond L2 Hazard Preemption}
+
+\begin{enumerate}
+\item \textbf{Mandatory Finite Lease TTLs (\texttt{lease\_ttl\_ms}):} No Layer~4 capability or
+        spatial custody lease is ever perpetual. Every \texttt{EnvelopingBoundaryLeaseV50} carries
+        a hardware-enforced \texttt{lease\_ttl\_ms} and maximum renewal ceiling; upon expiration,
+        \texttt{col-execd} automatically returns the surface to Pillar~I's allocation pool so a
+        Solo Studio cannot lock a building's quiet-hours envelope all week.
+\item \textbf{Layer~2 / Layer~3 Physical Hazard Preemption:} When Layer~2 Edge Twin sensors detect
+        an acute physical integrity hazard, \texttt{col-execd} and \texttt{col-kmsd} trigger
+        \textbf{Fast-Path Hazard Preemption} in millisecond hardware time:
+        \begin{itemize}
+        \item Suppose the Acoustic Recording Studio (\texttt{SCN-LAMBDA-CULTURE}) holds an active
+                Enveloping Node Quiet Lease ($L_{\max} = 450\,\mathrm{cB}$ / $45.0\,\mathrm{dBA}$,
+                or $4{,}500$ in $0.01\,\mathrm{dB}$ fine centibel ticks, Priority Tier~\texttt{200})
+                from \texttt{20:00} to \texttt{23:00}.
+        \item At \texttt{21:15}, a water pipe bursts in the utility chase beneath the studio.
+                Layer~2 moisture and pressure transducers trip a \texttt{HAZARD\_CLASS\_WATER\_INGRESS}
+                alert.
+        \item Under Pillar~IV Fast-Path rules, an L2-verified structural remediation workflow
+                (\texttt{bpmn:EmergencyWetVacExtraction}, requiring $820\,\mathrm{cB}$
+                [$82.0\,\mathrm{dBA}$], $2{,}200{,}000\,\mathrm{mW}$ [$2.2\,\mathrm{kW}$], Priority
+                Tier~\texttt{950}) \textbf{immediately preempts} the Tier~\texttt{200} studio quiet
+                lease.
+        \item \texttt{col-execd} grants the emergency acoustic and power override lease to the
+                maintenance crew's wet-vac and pump, safely ramps down the studio's isolation lock,
+                and logs a cryptographic preemption receipt to Layer~3 (\texttt{col-storaged}).
+        \end{itemize}
+\end{enumerate}
+
+\subsection{The Slow Path: Upward Semantic Diff Decompilation to Permanent Layer 4 Precedent}
+
+When a conflict is \textit{not} an unmapped Layer~2 hazard---or when a preempted child node
+challenges the threshold parameters after an event---Layer~5 enters the \textbf{Slow Path}:
+\begin{enumerate}
+\item \textbf{Upward Decompilation ($\mathrm{L4} \to \mathrm{L5} \to \mathrm{L6}$):}
+        \texttt{col-execd} emits a structured \texttt{UpwardYieldPacketV31} /
+        \texttt{ConstraintConflictEvent} containing the exact SI telemetry trace (\texttt{cB},
+        \texttt{mW}, \texttt{mK}, \texttt{mL}, \texttt{ms}) across \texttt{l4\_l5.sock} to
+        \texttt{col-kmsd}, which forwards it over \texttt{l5\_l6.sock} (\texttt{0x0602}) to
+        \texttt{col-commonsd} for decompilation into a \textbf{Layer~6 Semantic Diff Card}.
+\item \textbf{Deliberation via $V_i(t) = 1 + R_i(t)$ Without Halting the Settlement:} Affected
+        Enveloping Node members review the Semantic Diff Card in their Layer~6 governance lens:
+        \begin{itemize}
+        \item \textit{Existing Rule:} \texttt{QuietHoursAcousticCeiling = 450 cB (45 dBA);
+                PreemptionThreshold = MoistureSensor > 100 mL}.
+        \item \textit{Proposed Precedent Diff:} \texttt{Require dual-sensor corroboration
+                (MoistureSensor > 100 mL AND FlowRateDelta > 50 mL/s) before preempting an active
+                Studio Master Recording lease, AND automatically reschedule preempted studio
+                custody with +120 min priority compensation}.
+        \end{itemize}
+\item \textbf{Downward Compilation ($\mathrm{L6} \to \mathrm{L5} \to \mathrm{L4}$):} Once ratified
+        by the Enveloping Node's $V_i(t) = 1 + R_i(t)$ tally, \texttt{col-commonsd} compiles the
+        new precedent into a deterministic Layer~5 \texttt{PolicyBundle\_CID} amendment and
+        \texttt{col-kmsd} pushes the updated integer guard predicate directly into
+        \texttt{col-execd}'s Layer~4 BPMN preemption table (\texttt{0x0504}). Future incidents
+        resolve in sub-millisecond hardware time so \textbf{nobody ever votes on the same issue
+        twice}.
+\end{enumerate}
+
+\begin{lstlisting}[language=C++, caption={Two-Speed Jurisprudence Fast-Path Wet-Vac Hazard Preemption and Slow-Path Precedent Evaluator (\texttt{col-kmsd})}, label={lst:ch7-two-speed-jurisprudence}]
+#include <cstdint>
+
+namespace collective::l5::sanctuary {
+
+struct alignas(8) TwoSpeedJurisprudenceEventV50 {
+    uint64_t preempted_lease_cid_lo{0};      // Active Studio quiet lease (e.g. 450 cB)
+    uint64_t hazard_workflow_cid_lo{0};      // bpmn:EmergencyWetVacExtraction
+    uint64_t compiled_precedent_cid_lo{0};   // Compiled Slow-Path precedent rule CID
+    int64_t  active_quiet_lease_cb{450};     // 450 cB (45.0 dBA) studio boundary cap
+    int64_t  hazard_required_cb{820};        // 820 cB (82.0 dBA) wet-vac acoustic draw
+    int64_t  hazard_required_power_mw{2200000}; // 2.2 kW (2,200,000 mW) pump + wet-vac
+    uint32_t moisture_ingress_ml{0};         // L2 chase moisture sensor (> 100 mL)
+    uint32_t flow_rate_delta_ml_s{0};        // L2 pipe differential flow (> 50 mL/s)
+    uint16_t studio_priority_tier{200};      // Tier 200 quiet recording lease
+    uint16_t hazard_priority_tier{950};      // Tier 950 acute water-ingress remediation
+    uint16_t studio_comp_minutes{120};       // +120 min automatic studio reschedule
+    uint8_t  dual_sensor_corroborated{0};    // 1 iff moisture + flow delta both tripped
+    uint8_t  slow_path_precedent_compiled{0};// 1 iff precedent active in L4 FIB/guard
+};
+static_assert(sizeof(TwoSpeedJurisprudenceEventV50) == 64,
+              "TwoSpeedJurisprudenceEventV50 must occupy one 64-byte cache line.");
+
+[[nodiscard]] constexpr bool EvaluateFastPathHazardPreemption(
+    const TwoSpeedJurisprudenceEventV50& ev) noexcept
+{
+    if (ev.hazard_priority_tier <= ev.studio_priority_tier) return false;
+    if (ev.slow_path_precedent_compiled != 0U) {
+        // Ratified Slow-Path precedent requires dual-sensor corroboration
+        return (ev.moisture_ingress_ml > 100U) &&
+               (ev.flow_rate_delta_ml_s > 50U) &&
+               (ev.dual_sensor_corroborated == 1U);
+    }
+    return ev.moisture_ingress_ml > 100U;
+}
+
+} // namespace collective::l5::sanctuary
+\end{lstlisting}

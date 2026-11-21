@@ -375,6 +375,120 @@ static_assert(sizeof(RicardianTreatyEnvelopeV31) == 264, "RicardianTreatyEnvelop
 \end{lstlisting}
 
 Having established how \texttt{col-kmsd} federates capabilities and covenants across bioregional
-space without central command, we turn in Chapter~\ref{ch:l5-constitutional-floors} to the
-inviolable material and somatic floor beneath every single local and federated decision:
-thermodynamic survival baselines, ecological preemption, and non-commensurable human care.
+space without central command, we next examine how multiple autonomous Layer~5 nodes coexist
+peacefully inside the \textit{same} physical room or building via the Domain-Blind Enveloping Node
+Hypervisor, before turning in Chapter~\ref{ch:l5-constitutional-floors} to thermodynamic survival
+baselines and non-commensurable care.
+
+\section{Polycentric Overlapping Nodes in One Physical Space and the Domain-Blind Enveloping Node Hypervisor}
+\label{sec:ch5-enveloping-hypervisor}
+
+One of the richest architectural insights of the v3.2 Horizon synthesis (\texttt{D5}, \texttt{D6}
+/ \S3.4) is how the Sovereign Stack rejects modernist monoculture zoning (``a building is
+\textit{either} a home \textit{or} an office \textit{or} a workshop'') by decoupling Layer~5
+institutional topology from Layer~2 spatial coordinates. A single suburban house or cooperative
+building can simultaneously host a Household Hearth ($N_s = 4$), a Solo Recording Studio
+($N_s = 1$), a Ceramicist Kiln ($N_s = 1$), and a Woodshop Maker Bench ($N_s = 12$), all served by
+one local Layer~6 Semantic Daemon (\texttt{col-commonsd}).
+
+\subsection{How an $N_s = 1$ Solo Node Imports External Layer 5 Covenants}
+
+Consider a solo luthier ($N_s = 1$) working alone in Room~104 at 22:00:
+\begin{itemize}
+\item Inside her personal \textbf{Craft Node (\texttt{Node-Luthier-Maya})}, she is $N_s = 1$
+        ($V_{\mathrm{Maya}}(t) = 1 + R_{\mathrm{Maya}}(t) = 100\%$). She decides unilaterally what
+        instrument she is building and which JSON-LD workflow branch she runs.
+\item However, the physical room belongs to the \textbf{Habitat Envelope Node
+        (\texttt{Node-Habitat-Block4})}, and the precision 5-axis CNC router she uses is stewarded
+        by the \textbf{Tool Guild Node (\texttt{Node-FabGuild-Alpha})}.
+\item When Maya's Layer~6 \textit{Workshop} lens requests a 2-hour CNC routing slot at 22:00, her
+        $N_s = 1$ node automatically \textbf{imports two external Layer~5 covenants}: (1)~the Tool
+        Guild's Pillar~II capability and custody covenant (verifying Maya's \texttt{cnc:5axis:operator}
+        \texttt{BBS+} credential and binding preventive-maintenance $\lambda_{\mathrm{ERC}}$
+        amortization), and (2)~the Enveloping Habitat Node's Pillar~I spatial/acoustic/power
+        boundary lease (capping activity in Room~104 after 21:00 to $L_{\max} = 420\text{--}500\,\mathrm{cB}$
+        [$42\text{--}50\,\mathrm{dBA}$] at the partition boundary microphone and
+        $P_{\max} = 1{,}500{,}000\,\mathrm{mW}$ [$1.5\,\mathrm{kW}$]).
+\end{itemize}
+
+\subsection{Eliminating $O(K^2)$ Horizontal Politics via Fractal Domain-Blind Enveloping Nodes}
+
+Without an Enveloping Node architecture, if $K$ specialized nodes coexist in the same physical
+footprint, every pair of nodes must negotiate bilateral treaties over noise, dust, vibration,
+heat, and circuit-breaker amps---creating $\binom{K}{2} = O(K^2)$ horizontal political friction.
+Layer~5 eliminates $O(K^2)$ bilateral negotiations by wrapping shared physical space in a
+\textbf{Fractal Hierarchy of Domain-Blind Enveloping Node Hypervisors} containing $O(K)$ radial
+boundary leases:
+\begin{equation}
+    \text{Room / House Envelope } (\mathtt{cB}, \mathtt{mW}, \mathtt{mK}, \mathtt{mm})
+    \;\longrightarrow\;
+    \text{Street / Microgrid Envelope } (\text{feeder }\mathtt{mW}, \text{nocturnal }\mathtt{cB})
+    \;\longrightarrow\;
+    \text{Bioregional Watershed Envelope } (\text{aquifer }\mathtt{mL/s}, \lambda_{\mathrm{ERC}}).
+\end{equation}
+
+Every human operating a child node inside that physical footprint is also an inducted member
+($V_i(t) = 1 + R_i(t)$) of the Enveloping Node. Crucially, the Enveloping Node Hypervisor is
+\textbf{strictly domain-blind}: it never votes on the Maker Bench's spindle feed-rate, the Bakery's
+sourdough hydration, or the Solo Studio's Scenario~Zero backlog. It ratifies and enforces
+\textit{only} physical boundary invariants measured at the shared spatial partition across the
+five-layer vertical trace:
+\begin{enumerate}
+\item \textbf{Layer~2 (\texttt{col-telemetryd}):} Samples domain-blind partition boundary
+        microphones (\texttt{cB}), smart breaker CT clamps (\texttt{mW}), and differential thermal
+        sensors (\texttt{mK}).
+\item \textbf{Layer~3 (\texttt{col-storaged}):} Appends the signed boundary telemetry digest and
+        meters the active capability lease's microjoule exergy budget.
+\item \textbf{Layer~4 (\texttt{col-execd}):} Continuously checks whether the active child node's
+        BPMN execution remains within its \texttt{EnvelopingBoundaryLeaseV50}. If
+        $L_{\mathrm{boundary}} > L_{\mathrm{lease\_max}}$ past the transient grace window,
+        \texttt{col-execd} throttles the actuator setpoint or pauses the non-emergency task.
+\item \textbf{Layer~5 (\texttt{col-kmsd}):} Stores the Enveloping Node's ratified diurnal boundary
+        schedule and adjudicates Fast-Path preemptions and Slow-Path precedent updates.
+\item \textbf{Layer~6 (\texttt{col-commonsd} + Lenses):} Decompiles any lease contention into a
+        human-readable \textbf{Semantic Diff Card} (e.g., \textit{``Acoustic Boundary Conflict in
+        House Envelope: Maker Bench CNC cut ($750\,\mathrm{cB}$) exceeds the $420\,\mathrm{cB}$
+        ceiling while Solo Studio holds an active recording lease''}).
+\end{enumerate}
+
+\begin{lstlisting}[language=C++, caption={Domain-Blind \texttt{EnvelopingBoundaryLeaseV50} Enforced by \texttt{col-kmsd} and \texttt{col-execd} (v3.2)}, label={lst:ch5-enveloping-lease}]
+#include <cstdint>
+#include <array>
+
+namespace collective::l5::envelope {
+
+struct alignas(8) EnvelopingBoundaryLeaseV50 {
+    std::array<uint8_t, 32> lease_cid;             // Content-addressed boundary lease CID
+    std::array<uint8_t, 32> enveloping_node_id;    // Room/House, Street, or Watershed Envelope
+    std::array<uint8_t, 32> child_node_id;         // Woodshop, Bakery, or N_s=1 Solo Studio
+    int64_t  lease_start_ms{0};                    // Monotonic start timestamp (ms)
+    int64_t  lease_ttl_ms{0};                      // Mandatory finite TTL (Fast-Path invariant)
+    int64_t  max_acoustic_cb{550};                 // Partition acoustic cap (e.g. 550 cB = 55 dBA)
+    int64_t  max_power_mw{1500000};                // Continuous power cap (1.5 kW = 1,500,000 mW)
+    int64_t  max_exergy_budget_uj{5400000000000LL};// Window exergy cap (5.4 MJ in uJ)
+    int64_t  max_thermal_delta_mk{3000};           // Boundary exhaust delta (+3.0 K = 3000 mK)
+    int64_t  bounding_box_mm[6]{0, 0, 0, 0, 0, 0}; // [x_min, y_min, z_min, x_max, y_max, z_max]
+    uint16_t preemption_priority_tier{100};        // L2 hazard workflows carry tier >= 900
+    uint16_t child_members_ns{1};                  // N_s of child node (1 for Solo Studio)
+    uint32_t reserved_pad{0};
+};
+static_assert(sizeof(EnvelopingBoundaryLeaseV50) == 200, "EnvelopingBoundaryLeaseV50 ABI");
+
+[[nodiscard]] constexpr bool VerifyBoundaryTelemetryWithinLease(
+    const EnvelopingBoundaryLeaseV50& lease,
+    int64_t now_ms,
+    int64_t observed_acoustic_cb,
+    int64_t observed_power_mw,
+    int64_t observed_thermal_delta_mk) noexcept
+{
+    if (lease.lease_ttl_ms <= 0LL) return false; // Perpetual leases are unconstitutional
+    if (now_ms < lease.lease_start_ms || now_ms >= (lease.lease_start_ms + lease.lease_ttl_ms)) {
+        return false;
+    }
+    return (observed_acoustic_cb <= lease.max_acoustic_cb) &&
+           (observed_power_mw <= lease.max_power_mw) &&
+           (observed_thermal_delta_mk <= lease.max_thermal_delta_mk);
+}
+
+} // namespace collective::l5::envelope
+\end{lstlisting}

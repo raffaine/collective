@@ -122,6 +122,65 @@ Batch thermal-hold attestations and stock-miss yields cross \texttt{l4\_l5.sock}
 tiffin latch \texttt{ClaimHandle} grants cross \texttt{0x0503}, while boundary cultivar votes
 (such as Lot~402's \texttt{dec:pea\_cultivation}) escalate over \texttt{l5\_l6.sock} (\texttt{0x0602}).
 
+\subsection{The Dual-Loop Bakery Anonymizer, \textit{The Pantry} Detour Absorption, and the 85/15 \textit{Montage} Split}
+
+As established in the v3.2 Horizon synthesis (\texttt{D4}, \texttt{D5} / \S2.2--\S2.3), Scenario~Gamma
+cleanly separates household perishable consumption (\textbf{\textit{The Pantry} Lens}, tracking
+Arrhenius biological TTL curves and stock drawdowns) from communal culinary production
+(\textbf{\textit{The Bakery / Hearth} Craft Lens}) through the \textbf{Dual-Loop Bakery Architecture}:
+\begin{enumerate}
+\item \textbf{Loop 1 --- Node Membership Governance ($N_s$ Active Bakers):} Voting weight
+        $V_i(t) = 1 + R_i(t)$ inside the Bakery Guild belongs exclusively to the $N_s$ active
+        member-bakers (never to the $N_p = 500$ external bread eaters). Under Pillar~I
+        (\texttt{collective:SurfaceAllocationPolicy}), bakers dedicate \textbf{$8{,}500\,\mathrm{bp}$
+        ($85\%$)} of Layer~4 oven/kettle capacity to verified neighborhood staples (sourdough,
+        split-pea baseline tiffins) and reserve \textbf{$1{,}500\,\mathrm{bp}$ ($15\%$)} for
+        Dr\_Sofia's compositional \textit{montage} (unrequested culinary experiments validated by
+        Layer~2 shelf-clearance load cells and optional anonymous taste notes).
+\item \textbf{Loop 2 --- Zero-Surveillance Demand Stripping \& Spontaneous Weekend Detour Absorption ($N_p$):}
+        When a citizen's local \textit{Pantry} lens crosses a replenishment curve, local
+        \texttt{col-kmsd} strips all personal \texttt{did:peer} identifiers via a \texttt{BBS+}
+        ring-membership zero-knowledge proof before emitting a 64-byte
+        \textbf{\texttt{AnonymousAppetiteLeaseV50}} (Listing~\ref{lst:waveb-appetite-lease}) with a
+        short-lived auto-expiring \texttt{expiry\_hlc\_ms} ($12\,\mathrm{hours}$). If half the
+        neighborhood heads spontaneously for the mountains on a sunny Saturday, local Layer~2
+        pantry drawdowns pause automatically and unrenewed pickup leases expire silently---throttling
+        bakery batch counts to prevent food waste with \textbf{zero GPS tracking, zero calendar
+        surveillance, and zero nagging confirmation alerts}.
+\end{enumerate}
+
+\begin{lstlisting}[language=C++, caption={Zero-Surveillance 64-Byte \texttt{AnonymousAppetiteLeaseV50} Stripped of DIDs by Local \texttt{col-kmsd} (v3.2)}, label={lst:waveb-appetite-lease}]
+#include <cstdint>
+
+namespace collective::l5::wave_b {
+
+enum class DemandCommitmentTier : uint8_t {
+    AMBIENT_TASTE_AFFINITY   = 0, // Soft seasonal preference forecast
+    SHORT_LIVED_PICKUP_LEASE = 1, // Firm near-term Pantry drawdown lease (auto-expires)
+    MONTAGE_TASTE_FEEDBACK   = 2  // Post-pickup anonymous rating on 15% experiment
+};
+
+struct alignas(64) AnonymousAppetiteLeaseV50 {
+    uint64_t lease_nonce_hash{0};         // [0..7]   Unlinkable PRF lease token
+    uint64_t target_need_cid_prefix{0};   // [8..15]  e.g. need:sourdough_rye / pea_soup
+    uint64_t issued_hlc_ms{0};            // [16..23] Issue timestamp (HLC ms)
+    uint64_t expiry_hlc_ms{0};            // [24..31] Auto-expires on weekend detour!
+    uint64_t zk_ring_membership_tag{0};   // [32..39] Verifies valid R1 neighbor without DID
+    uint32_t requested_mass_mg{0};        // [40..43] Requested portion mass (mg)
+    uint32_t allergen_exclusion_mask{0};  // [44..47] Bitmask for BBS+ anaphylactic safety
+    uint16_t taste_affinity_bp{5000};     // [48..49] 0..10000 bp flavor resonance
+    uint16_t target_cohort_zone_id{1};    // [50..51] Coarse delivery porch cluster
+    DemandCommitmentTier tier{DemandCommitmentTier::SHORT_LIVED_PICKUP_LEASE}; // [52]
+    uint8_t  auto_throttled_by_detour{0}; // [53]     1 if L2 Pantry consumption paused
+    uint8_t  quality_flags{0x02};         // [54]     0x02=HardwareRoot, 0x01=Simulated
+    uint8_t  reserved_pad[9]{0};          // [55..63] Exact 64-byte cache-line padding
+};
+static_assert(sizeof(AnonymousAppetiteLeaseV50) == 64,
+              "AnonymousAppetiteLeaseV50 must occupy one 64-byte cache line.");
+
+} // namespace collective::l5::wave_b
+\end{lstlisting}
+
 \section{Scenario Alpha (\texttt{SCN-ALPHA-FAB}): Micro-Fabrication and Evolutionary Drift}
 \label{sec:waveb-alpha}
 
@@ -250,8 +309,20 @@ Compiled transit FIB corridors and HTLC treaty bounds push downward over \texttt
 (\texttt{0x0504}), while spatial \texttt{No-Transit} polygon amendments ratify upward via the
 local Commons Chamber on \texttt{l5\_l6.sock} (\texttt{0x0601}).
 
-\section{Wave B Synthesis: Convivial Maturity Progression}
+\section{Wave B Synthesis: Convivial Maturity, $V_i(t)=1+R_i(t)$, Enveloping Leases, and Two-Speed Jurisprudence}
 \label{sec:waveb-synthesis}
+
+In Scenario~Alpha (\texttt{SCN-ALPHA-FAB}), v3.2 pairs \textbf{\textit{The Workshop} Durable Lens}
+(tracking discrete spindle hours, mechanical wear, calibration intervals, and custody leases across
+the three Sovereign Libraries: \textit{Ontological Graph}, \textit{Orchestration Registry}, and
+\textit{Physics Baseline}) with the three-tier hardware fleet progression (\texttt{D7},
+\texttt{D8}): transitioning from \textbf{Stage~I Scavenged Layer~7 Appliances} (suffering parasitic
+L2 shims and blind mid-batch hard-blocks) to \textbf{Stage~II Right-to-Repair Hybrid Retrofits}
+(minting first-class Layer~3/5 Proof of Stewardship $\Delta R_{i,\mathrm{bp}} > 0$ via
+\texttt{ProofOfStewardshipRetrofitRecordV50}) and \textbf{Stage~III Native Open-Spec Hardware}
+(5-minute predictive metric swaps and \textbf{Zero-Stat Liberation}). Tables~\ref{tab:waveb-maturity}
+and~\ref{tab:waveb-v32-jurisprudence} summarize Wave~B across maturity stages and v3.2 kernel
+parameters.
 
 \begin{table}[htbp]
 \centering
@@ -263,9 +334,27 @@ local Commons Chamber on \texttt{l5\_l6.sock} (\texttt{0x0601}).
 \toprule
 \textbf{Scenario} & \textbf{Stage 1A (Suburban Seed)} & \textbf{Stage 1B (Neighborhood Mesh)} & \textbf{Stage 2 (Cooperative Hub)} & \textbf{Stage 3 (CLT Sovereign Campus)} \\
 \midrule
-\texttt{Gamma} (Hearth) & Backyard mirepoix; $R_0$ larder envelope & Shared $R_1$ tiffin latch + \texttt{BBS+} allergy & \texttt{316L} CIP retort + cottage $\Phi_t = 0\text{\,c}$ cap & Rotational silvopasture ($0\,\mathrm{mg}$ grain) \\
-\texttt{Alpha} (Fab) & Garage bench; acoustic curfew $\le 380\,\mathrm{cB}$ & $R_1$ tool library via \texttt{Kappa L1+} VC & Commons Ethics Veto + PCB/CNC bays & BPVP Evolutionary Drift MTBF routing \\
+\texttt{Gamma} (Hearth) & \textit{Pantry} TTL + $R_0$ larder envelope & Dual-Loop Bakery ($85/15$) + detour lease & \texttt{316L} CIP retort + cottage $\Phi_t = 0\text{\,c}$ cap & Rotational silvopasture ($0\,\mathrm{mg}$ grain) \\
+\texttt{Alpha} (Fab) & Stage~I scavenged bench; $\le 380\,\mathrm{cB}$ night & Stage~II Right-to-Repair $\Delta R_i$ mint & Turnkey JSON-LD franchise + Ethics Veto & Stage~III Open-Spec + MTBF Drift FIB \\
 \texttt{Beta} (Transit) & Rain barrel + $48\,\mathrm{V}$ battery + LoRa & Curbside e-trike dual-NFC handoffs & PEX-a hydronic loop + \texttt{No-Transit} yards & $8000\,\mathrm{bp}$ river floor + $380\,\mathrm{V}$ microgrid \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Wave B v3.2 Constitutional Kernel Parameters: $(N_s, B=1, R_i(t), \tau_{1/2})$, Enveloping Node Leases, and Two-Speed Jurisprudence}
+\label{tab:waveb-v32-jurisprudence}
+\footnotesize
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}lllll@{}}
+\toprule
+\textbf{Scenario} & \textbf{Voice $(N_s, B, R_i, \tau_{1/2})$} & \textbf{Enveloping Boundary Lease} & \textbf{Fast-Path Hazard Preemption} & \textbf{Slow-Path Semantic Diff Precedent} \\
+\midrule
+\texttt{Gamma} (Hearth) & $N_s$ bakers ($V_i=1+R_i$, $\tau_{1/2}=180\mathrm{d}$); $N_p$ ZK demand only & Tier~\texttt{700}: $\le 600\,\mathrm{cB}$, $\le 4{,}500{,}000\,\mathrm{mW}$ ovens, $+4000\,\mathrm{mK}$ flue, TTL $8\mathrm{h}$ & Cold-chain breach ($>277{,}150\,\mathrm{mK}$) or anaphylactic \texttt{BBS+} bitmask mismatch halts latch in $<5\,\mathrm{ms}$ & \texttt{TRUE\_CONSTRAINT\_HARDWARE\_GAP} (missing $\le 277{,}150\,\mathrm{mK}$ cooler) $\to$ L6 Diff binds $R_1$ cold-room lease \\
+\texttt{Alpha} (Fab) & $N_s=1$ solo or $N_s$ guild; $B=10{,}000\,\mathrm{bp}$; $\tau_{1/2}=180\mathrm{d}$ & Tier~\texttt{400}: $\le 550\,\mathrm{cB}$ day / $\le 380\,\mathrm{cB}$ night, $\le 2{,}400{,}000\,\mathrm{mW}$, TTL $4\mathrm{h}$ & Partition mic $>550\,\mathrm{cB}$ or Tier~\texttt{850} sleep shield throttles CNC spindle RPM automatically & \texttt{ENVELOPE\_LEASE\_CONTENTION} ($750\,\mathrm{cB}$ CNC vs.\ $420\,\mathrm{cB}$ Studio) $\to$ L6 Diff compiles acoustic-hood rule \\
+\texttt{Beta} (Transit) & $N_s$ corridor stewards; $B=10{,}000\,\mathrm{bp}$; $\tau_{1/2}=365\mathrm{d}$ & Street Envelope feeder $\le 25{,}000{,}000\,\mathrm{mW}$, courtyard \texttt{No-Transit} polygon mm & Manual \texttt{Chi}/\texttt{Upsilon} Tier~\texttt{950} ambulance/fire override preempts \texttt{No-Transit} gate & Microgrid brownout contention across 20 houses $\to$ L6 Diff ratifies staggered EV/trike charging precedent \\
 \bottomrule
 \end{tabular}%
 }

@@ -306,7 +306,75 @@ by the primary hardware enclave for $\Delta_{\mathrm{cooloff}} = 259{,}200\,\mat
 Sparse Merkle Tree key replacement.
 \end{invariant}
 
+\section{Binding Silicon Custody to Pillar II (\texttt{collective:WorkCapabilityMatrix}) Apprentice Interlocks}
+\label{sec:ch2-pillar-two-interlocks}
+
+A central institutional puzzle resolved by the v3.2 Council Guidance (\texttt{D6} / \S3.5) is the
+\textbf{Cold-Start Apprentice Paradox}: if operational Proof of Stewardship $R_i(t)$ is earned by
+completing physical or epistemic Layer~4 workflows, yet high-exergy tools (induction foundries,
+5-axis CNC routers, $380\,\mathrm{V}$ HVDC buses, clinical autoclaves) require verified safety
+credentials before \texttt{col-kmsd} will issue a \texttt{0x0503} \texttt{ClaimHandle}, how does a
+newcomer starting at $R_i(0) = 0$ ($V_i(0) = B = 1$) ever earn their first stewardship credit?
+
+Layer~5 solves this directly in hardware by binding pairwise \texttt{did:peer} smartcards and
+\texttt{FROST} multi-signatures to \textbf{Pillar~II (\texttt{collective:WorkCapabilityMatrix})}
+across two onboarding tiers:
+\begin{enumerate}
+\item \textbf{Tier-0 Unsupervised Safe Prep \& Stewardship Tasks:} Newcomers with $R_i(0) = 0$ can
+        immediately claim low-hazard Layer~4 prep, mise-en-place, cleaning, sorting, and standard
+        assembly tasks using their single smartcard tap. Upon Layer~2/3 physical verification,
+        these tasks mint full initial $\Delta R_{i,\mathrm{bp}} > 0$ and advance Bayesian Knowledge
+        Tracing (\texttt{BKT}) familiarity.
+\item \textbf{Tier-1 Mentor Co-Signed Hardware Interlocks:} For high-precision or high-hazard
+        machinery (\texttt{Scenario Kappa} \texttt{L0} apprenticeship), the workbench terminal
+        requires a \textbf{Dual-Key Hardware Interlock}: the apprentice taps their NFC smartcard
+        ($R_i \ge 0$) \textit{and} a certified \texttt{L2}/\texttt{L3} mentor taps their smartcard
+        while maintaining Ultra-Wideband (UWB) physical co-presence $\le 2{,}000\,\mathrm{mm}$.
+        Both enclaves co-sign the session lease, energizing the machine relay while crediting the
+        apprentice with full $\Delta R_{i,\mathrm{bp}}$ upon verified Layer~2/3 task completion
+        with zero Ecological Replacement Cost ($\lambda_{\mathrm{ERC}}$) spikes.
+\end{enumerate}
+
+\begin{lstlisting}[language=C++,caption={Pillar II (\texttt{collective:WorkCapabilityMatrix}) dual-key mentor-apprentice hardware interlock in \texttt{col-kmsd}.},label={lst:ch2-pillar2-interlock}]
+#include <cstdint>
+
+namespace collective::l5 {
+
+struct alignas(8) PillarTwoDualKeyInterlockV50 {
+    uint64_t apprentice_pairwise_did_hash{0}; // Apprentice did:peer (may have R_i == 0)
+    uint64_t mentor_pairwise_did_hash{0};     // Certified L2/L3 mentor did:peer
+    uint64_t task_node_cid_prefix{0};         // Layer 4 BPMN task node identifier
+    uint16_t mentor_uwb_distance_mm{0};       // Must be <= 2000 mm for Tier-1 hazard
+    uint16_t minted_stewardship_delta_bp{0};  // Delta R_i(t) credited on L2/L3 verify
+    uint8_t  hazard_tier{0};                  // 0 = Tier-0 Unsupervised, 1 = Dual-Key
+    uint8_t  dual_atecc608a_cosigned{0};      // 1 iff apprentice + mentor enclaves signed
+    uint8_t  l2_l3_erc_spike_zero{0};         // 1 iff L2/L3 verified 0 ERC fault spike
+    uint8_t  apprentice_initial_r_zero_ok{1}; // Always 1: solves cold-start R_i(0)=0
+};
+static_assert(sizeof(PillarTwoDualKeyInterlockV50) == 32,
+              "PillarTwoDualKeyInterlockV50 must be 32 bytes.");
+
+[[nodiscard]] constexpr bool AuthorizePillarTwoWorkAndMintR(
+    const PillarTwoDualKeyInterlockV50& g) noexcept
+{
+    if (g.apprentice_pairwise_did_hash == 0ULL || g.l2_l3_erc_spike_zero == 0U) {
+        return false;
+    }
+    if (g.hazard_tier == 0U) {
+        return true; // Tier-0 unsupervised prep/assembly task: immediate R_i minting
+    }
+    return (g.mentor_pairwise_did_hash != 0ULL) &&
+           (g.mentor_pairwise_did_hash != g.apprentice_pairwise_did_hash) &&
+           (g.dual_atecc608a_cosigned == 1U) &&
+           (g.mentor_uwb_distance_mm <= 2000U);
+}
+
+} // namespace collective::l5
+\end{lstlisting}
+
 Having established how sovereign identities are anchored in tamper-resistant silicon, kept
-pairwise unlinkable across councils, and recovered through human solidarity, we turn in
-Chapter~\ref{ch:l5-trust-rings} to how \texttt{col-kmsd} maps concentric trust rings, defeats
-collusive Sybil botnets in fixed-point arithmetic, and issues blinded task capabilities.
+pairwise unlinkable across councils, recovered through human solidarity, and bound to Pillar~II
+dual-key apprenticeship interlocks, we turn in Chapter~\ref{ch:l5-trust-rings} to how
+\texttt{col-kmsd} maps concentric trust rings, evaluates the unified voting weight
+$V_i(t) = 1 + R_i(t)$ across scale regimes $N_s = 1$, $N_s = 2$, and $N_s \gg 2$, and strictly
+separates Node Membership ($N_s$) from zero-surveillance external demand ($N_p$).
