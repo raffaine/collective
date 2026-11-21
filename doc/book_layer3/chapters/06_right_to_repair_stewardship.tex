@@ -1,0 +1,152 @@
+\chapter{Right-to-Repair Hybrid Retrofits as First-Class Stewardship Events}
+\label{ch:right-to-repair-stewardship}
+
+\epigraph{A real genesis settlement does not boot inside a science-fiction cleanroom full of bespoke open-source hardware. It boots with a twenty-thousand-dollar reserve and a garage full of scavenged Craigslist refrigerators, potted controller boards, and DRM-locked CNC mills. Liberation is not a fake RPG tech tree that magically adds $+25\%$ cooking speed; liberation is tearing out the locked board, wiring an open RISC-V digital twin to the heavy cast-iron frame, and silencing the unexpected fault bus forever.}{---Horizon Council Dialogue 8 (\texttt{D8}), \textit{The Architecture of Boundless Time}}
+
+\section{The Anatomy of Scavenged Layer 7 Hardware Friction (``The Shim Tax'')}
+\label{sec:ch6-scavenged-friction}
+
+Both in real-world Stage~1A Genesis Nodes (booting on Lot~402 with the initial $\$20{,}000$ / \texttt{2'000'000 cents} fiat reserve $\Phi_0$) and inside the Oasis (\texttt{Layer 1b}) simulation proving ground, communities begin by scavenging affordable, ubiquitous Layer~7 appliances: commercial deck ovens, domestic cold-storage walk-ins, used e-bike battery packs, and secondhand machine tools.
+
+As codified in Cross-Cutting Invariant \texttt{CCI-6}, the Sovereign Stack strictly forbids fake role-playing-game ``Tech Trees'' (e.g., spending ``500 Research Points'' to unlock an arbitrary ``$+15\%$ Oven Efficiency'' stat buff). Instead, the incentive to progress from scavenged corporate machinery to hybrid retrofits and native open-spec tooling emerges mechanically from eliminating \textbf{four structural penalties imposed by hostile black-box Layer~7 hardware} across the seven-layer stack:
+
+\begin{table}[htbp]
+\centering
+\caption{The Four Structural Penalties of Stage I Scavenged Layer~7 Hardware Across the Sovereign Stack (\texttt{D8}, \texttt{CCI-6})}
+\label{tab:ch6-four-penalties}
+\small
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}llll@{}}
+\toprule
+\textbf{Penalty Class} & \textbf{Primary Layers} & \textbf{Cyber-Physical Mechanism} & \textbf{Concrete Layer 3 Ledger \& Operational Impact} \\
+\midrule
+\textbf{1. Parasitic Layer 2 Shims} & L2 (\texttt{col-telemetryd}) $\to$ L3 & Locked firmware forces external CT current clamps, taped thermistors, and smart relays (\texttt{QUALITY\_SCAVENGED\_L7\_SHIM = 0x04}). & High diagnostic uncertainty ($\pm 1{,}500\,\mathrm{bp}$) + continuous phantom standby drain (\texttt{parasitic\_shim\_overhead\_mw}). \\
+\textbf{2. Blind Layer 4 Hard-Blocks} & L2 $\to$ L3 $\to$ L4 (\texttt{col-execd}) & Sealed boards hide internal bearing/winding wear behind opaque binary fault LEDs, preventing degradation curves. & Sudden unscheduled mid-batch hard-blocks (\texttt{unscheduled\_fault\_prob\_bp = 350}) while \textit{The Pantry}'s perishable TTL clocks tick down. \\
+\textbf{3. Layer 7 Tribute Escalation} & L4 $\to$ L5 $\to$ L6 $\to$ L7 (\texttt{col-adversaryd}) & Missing CAD specs and DRM-serialized parts force upward procurement yields to external Layer~7 vendors. & Drains scarce external fiat reserves ($\Phi_t$ in \texttt{cents}) and stalls workflows for multi-day external courier lead times. \\
+\textbf{4. Layer 3 ERC Penalties} & L3 (\texttt{col-storaged}) & Potted electronics and glued housings force discarding an entire $15\,\mathrm{kg}$ sub-assembly over a degraded $\$2$ capacitor or seal. & Spikes per-cycle Ecological Replacement Cost ($\lambda_{\mathrm{ERC}}$) by $5\times\text{--}20\times$ without minting local $\Delta R_{i,\mathrm{bp}}$ stewardship value. \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+\section{The Three-Tier Hardware Fleet Progression and Zero-Stat Liberation}
+\label{sec:ch6-three-tier-fleet}
+
+Rather than prematurely scrapping a $400\,\mathrm{kg}$ cast-iron bakery oven or a $1{,}200\,\mathrm{kg}$ engine lathe just because its proprietary control PCB is potted in epoxy---which would inflict a massive embodied-exergy write-off on the Layer~3 ledger---communities progress across three physical hardware reliability tiers:
+
+\begin{figure}[htbp]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+    >=Stealth,
+    node distance=1.0cm and 1.2cm,
+    tier/.style={draw, rounded corners=3pt, thick, align=center, font=\footnotesize, minimum width=4.0cm, minimum height=2.5cm, inner sep=6pt},
+    arr/.style={->, very thick}
+]
+    \node[tier, fill=red!7] (t1) {
+        \textbf{Tier 1: Scavenged L7 Fleet}\\
+        (\texttt{QUALITY\_SCAVENGED\_L7\_SHIM = 0x04})\\[4pt]
+        Parasitic Clamp/Thermistor Shim\\
+        Uncertainty $\pm 1{,}500\,\mathrm{bp}$ $\cdot$ Blind Faults\\
+        High $\lambda_{\mathrm{ERC}}$ \& L7 Fiat Tribute Drain
+    };
+    \node[tier, fill=orange!12!yellow!12, right=1.25cm of t1] (t2) {
+        \textbf{Tier 2: Right-to-Repair Hybrid}\\
+        (\texttt{QUALITY\_RETROFIT\_HYBRID = 0x08})\\[4pt]
+        Heavy Iron Chassis Rescued\\
+        Open ESP32/RISC-V/STM32 L2 Brain\\
+        \textbf{Mints L3 Proof of Stewardship ($\Delta R_i$)}
+    };
+    \node[tier, fill=green!8, right=1.25cm of t2] (t3) {
+        \textbf{Tier 3: Native Open-Spec Fleet}\\
+        (\texttt{QUALITY\_OPEN\_SPEC\_NATIVE = 0x02})\\[4pt]
+        \texttt{ATECC608A} Signed ($\pm 50\,\mathrm{bp}$)\\
+        Continuous RPM \& Bearing Harmonics\\
+        \textbf{5-Min Predictive Swaps (Zero-Stat)}
+    };
+
+    \draw[arr] (t1.east) -- node[above, font=\scriptsize\bfseries] {L6 Retrofit Kit} node[below, font=\scriptsize] {PCB + Metric Adapter} (t2.west);
+    \draw[arr] (t2.east) -- node[above, font=\scriptsize\bfseries] {Closed-Loop Remanufacture} node[below, font=\scriptsize] {M6/M8 \& ISO Bearings} (t3.west);
+\end{tikzpicture}%
+}
+\caption{The Three-Tier Hardware Fleet Progression in Layer~3 (\texttt{col-storaged}), replacing artificial RPG tech trees with verifiable thermodynamic and reliability improvements.}
+\label{fig:ch6-fleet-progression}
+\end{figure}
+
+\begin{enumerate}
+    \item \textbf{Tier 1 — Scavenged Layer 7 Fleet (\texttt{kScavengedLayer7Shimmed = 0}):} Fast Day-0 deployment out of the $\$20{,}000$ Genesis reserve, but burdened by parasitic shim watt drain (\texttt{parasitic\_shim\_overhead\_mw}), high telemetry uncertainty ($\pm 1{,}500\,\mathrm{bp}$), unscheduled mid-batch hard-blocks (\texttt{350 bp}), and recurring Layer~7 spare-part tribute.
+    \item \textbf{Tier 2 — Right-to-Repair Hybrid Fleet (\texttt{kRightToRepairHybrid = 1}):} Craft and electronics guilds (\texttt{Scenario Alpha} and \texttt{Scenario Pi}) reverse-engineer ubiquitous consumer and commercial appliances, publishing open ESP32-S3, STM32H7, or RISC-V Layer~2 replacement controller boards and 3D-printable metric mechanical adapters as content-addressed Layer~6 retrofit kits. Executing a Right-to-Repair Hybrid Retrofit rescues the heavy structural chassis ($E_{\mathrm{rescued\_chassis}}$), reduces uncertainty to $\pm 350\,\mathrm{bp}$, slashes per-cycle $\lambda_{\mathrm{ERC}}$, and severs external vendor tribute.
+    \item \textbf{Tier 3 — Native Open-Spec Collective Fleet (\texttt{kNativeOpenSpec = 2}):} Fabricated or remanufactured natively to open Collective specifications (\texttt{M6}/\texttt{M8} fasteners, standard ISO bearings, Gastronorm/Euro geometry, and native \texttt{ATECC608A}-signed sensor harnesses at $\pm 50\,\mathrm{bp}$ uncertainty). Because Layer~2 streams continuous motor RPM and bearing acoustic harmonics straight through Layer~3, Layer~4 schedules \textbf{five-minute predictive metric swaps} fabricated on a neighboring Maker Bench between production waves.
+\end{enumerate}
+
+\textbf{Zero-Stat Liberation:} Notice what happens when a node transitions from Tier~1 to Tier~3. A Tier~3 oven does not magically bake sourdough in five minutes by violating the physics of starch gelatinization. Instead, \textbf{fiat spare-parts bleed drops to zero and unscheduled mid-batch interrupts vanish}. The machine stops ambushing human schedules, returning hours of unstructured, unmonitored free time to the stewards (\textit{The Architecture of Boundless Time}).
+
+\section{Layer 3 Accounting for Right-to-Repair Retrofit Stewardship (\texttt{ProofOfStewardshipRetrofitRecordV50})}
+\label{sec:ch6-retrofit-accounting}
+
+In Dialogue~8 (\texttt{D8}), the Horizon Council ratified that reverse-engineering and installing Right-to-Repair Hybrid Retrofit kits for scavenged Layer~7 appliances is a \textbf{first-class Layer~3 Proof of Stewardship activity}. When a crew completes a Stage~I $\to$ Stage~II retrofit workflow and Layer~2 verifies the new open controller's telemetry signature over \texttt{l2\_l3.sock}, \texttt{col-storaged} commits a \texttt{ProofOfStewardshipRetrofitRecordV50} and computes the stewardship credit $\Delta R_{i,\mathrm{bp}}$ from three verified physical quantities:
+\begin{equation}
+\Delta E_{\mathrm{stewardship}}(c) = E_{\mathrm{rescued\_chassis}}(c) + N_{\mathrm{remaining\_cycles}} \cdot \bigl(\lambda_{\mathrm{ERC}}^{\mathrm{pre}}(c) - \lambda_{\mathrm{ERC}}^{\mathrm{post}}(c)\bigr)
+\label{eq:ch6-retrofit-exergy-saved}
+\end{equation}
+
+\begin{lstlisting}[language=C++,caption={Production C++20 \texttt{ProofOfStewardshipRetrofitRecordV50} and deterministic retrofit stewardship verifier in \texttt{col-storaged}.},label={lst:ch6-retrofit-record}]
+#pragma once
+#include <cstdint>
+#include <array>
+
+namespace collective::l3 {
+
+enum class HardwareFleetTier : uint8_t {
+    kScavengedLayer7Shimmed = 0, // Tier 1: QUALITY_SCAVENGED_L7_SHIM (0x04), +/- 1500 bp uncertainty
+    kRightToRepairHybrid    = 1, // Tier 2: QUALITY_RETROFIT_HYBRID   (0x08), +/- 350 bp uncertainty
+    kNativeOpenSpec         = 2  // Tier 3: QUALITY_OPEN_SPEC_NATIVE  (0x02), +/- 50 bp uncertainty
+};
+
+/**
+ * @brief First-class Layer 3 Proof of Stewardship record when retrofitting
+ * Stage I Scavenged Layer 7 hardware into Stage II Right-to-Repair Hybrid hardware (D7, D8, CCI-6).
+ */
+struct alignas(64) ProofOfStewardshipRetrofitRecordV50 {
+    uint64_t retrofit_tx_cid_hash{0};               // [0..7]   Content-addressed transaction CID
+    uint64_t tool_did_hash{0};                      // [8..15]  Target Layer 2 appliance/tool twin ID
+    uint64_t retrofit_kit_blueprint_cid{0};         // [16..23] L6 Open PCB + metric adapter CAD CID
+    uint64_t blinded_claim_handle_hash{0};          // [24..31] L4/L5 24-byte ClaimHandle digest
+    int64_t  rescued_chassis_embodied_exergy_uj{0}; // [32..39] Embodied exergy saved from landfill (uJ)
+    int64_t  pre_retrofit_erc_per_cycle_uj{0};      // [40..47] Tier 1 potted-PCB ERC per cycle (uJ)
+    int64_t  post_retrofit_erc_per_cycle_uj{0};     // [48..55] Tier 2 modular-repair ERC per cycle (uJ)
+    int32_t  eliminated_l7_tribute_cents_per_yr{0}; // [56..59] Annual external fiat tribute severed (cents)
+    int16_t  minted_stewardship_bonus_bp{0};        // [60..61] Delta R_{i,bp} credited to NodeMemberVoice
+    HardwareFleetTier prior_tier{HardwareFleetTier::kScavengedLayer7Shimmed}; // [62] (1B)
+    HardwareFleetTier new_tier{HardwareFleetTier::kRightToRepairHybrid};      // [63] (1B -> 64B total)
+};
+static_assert(sizeof(ProofOfStewardshipRetrofitRecordV50) == 64,
+              "ProofOfStewardshipRetrofitRecordV50 must occupy exactly 1 cache line (64 bytes).");
+
+[[nodiscard]] constexpr bool VerifyAndComputeRetrofitStewardshipV50(
+    ProofOfStewardshipRetrofitRecordV50& rec,
+    int64_t expected_remaining_cycles = 1'000) noexcept {
+    if (rec.retrofit_tx_cid_hash == 0 ||
+        rec.retrofit_kit_blueprint_cid == 0 ||
+        rec.rescued_chassis_embodied_exergy_uj <= 0 ||
+        rec.post_retrofit_erc_per_cycle_uj >= rec.pre_retrofit_erc_per_cycle_uj ||
+        static_cast<uint8_t>(rec.new_tier) <= static_cast<uint8_t>(rec.prior_tier)) {
+        rec.minted_stewardship_bonus_bp = 0;
+        return false;
+    }
+    const int64_t erc_delta_per_cycle_uj =
+        rec.pre_retrofit_erc_per_cycle_uj - rec.post_retrofit_erc_per_cycle_uj;
+    const int64_t total_rescued_uj =
+        rec.rescued_chassis_embodied_exergy_uj + (erc_delta_per_cycle_uj * expected_remaining_cycles);
+
+    // 100 bp (0.01 R_i unit) per 3.6 MJ (1 kWh = 3,600,000,000,000 uJ) of rescued embodied exergy,
+    // capped at 2,500 bp (0.25 R_i unit) per single appliance retrofit event.
+    constexpr int64_t kUjPerHundredBp = 3'600'000'000'000LL;
+    const int64_t raw_bp = (total_rescued_uj * 100LL) / kUjPerHundredBp;
+    rec.minted_stewardship_bonus_bp = static_cast<int16_t>(
+        (raw_bp > 2'500LL) ? 2'500LL : ((raw_bp < 50LL) ? 50LL : raw_bp));
+    return true;
+}
+
+} // namespace collective::l3
+\end{lstlisting}

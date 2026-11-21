@@ -1,0 +1,93 @@
+\chapter{Wave A and Wave B Ledger Walkthroughs (\texttt{Zero}, \texttt{Tau}, \texttt{Sigma}, \texttt{Gamma}, \texttt{Alpha}, \texttt{Beta})}
+\label{ch:waves-a-and-b}
+
+\epigraph{Before a settlement can federate across a watershed, it must prove that its software can fall asleep without being hijacked, that its kitchen can bake for forty neighbors without tracking their weekends, and that its workshop can rescue a scavenged CNC mill from proprietary exile.}{---Horizon Council Synthesis, Waves A \& B (Stages 1A \& 1B)}
+
+\section{Overview of Waves A and B (Maturity Stages 1A and 1B)}
+\label{sec:ch10-overview}
+
+Part~II of this monograph traces how the nine core Layer~3 primitives established in Part~I operate across all \textbf{25 Reorganized Sovereign Scenarios} (\texttt{docs/03\_SCENARIOS.md}). We begin in this chapter with \textbf{Wave~A (Stage~1A: Household Seed / Foundational Meta-Infrastructure)}---comprising \texttt{SCN-ZERO-SOFTWARE}, \texttt{SCN-TAU-GENESIS}, and \texttt{SCN-SIGMA-BURNOUT}---and \textbf{Wave~B (Stage~1B: Neighborhood Mesh Metabolism)}---comprising \texttt{SCN-GAMMA-KITCHEN}, \texttt{SCN-ALPHA-FAB}, and \texttt{SCN-BETA-TRANSIT}.
+
+\begin{table}[htbp]
+\centering
+\caption{Horizon Council v3.2 Layer 3 Ledger Binding Matrix for Wave A (Stage 1A) and Wave B (Stage 1B)}
+\label{tab:ch10-wave-ab-matrix}
+\small
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}lllll@{}}
+\toprule
+\textbf{Scenario ID \& Slug} & \textbf{$N_s$ Regime \& $V_i(t)$} & \textbf{Active Layer 6 Lenses} & \textbf{Enveloping Node Boundary Lease} & \textbf{Core Layer 3 Ledger Records \& Hardware Progression} \\
+\midrule
+\textbf{\texttt{SCN-ZERO-SOFTWARE}} (\texttt{zero\_software}) & $N_s = 1 \to 12$; TeX Asymptote $R_i \to 0, B=1$ & \textit{Scenario Zero Forge Studio} & Server Closet Lease: \texttt{4200 cB}, \texttt{450,000 mW}, \texttt{+2000 mK} & 3-builder \texttt{MerkleArtifactRecord} (32B); $\ge 8000\,\mathrm{bp}$ hydronic waste-heat recovery (\texttt{uJ}); Substrate-Drift diff provenance. \\
+\textbf{\texttt{SCN-TAU-GENESIS}} (\texttt{tau\_genesis}) & $N_s = 1 \to 4$ household ($B=1$ from Day 0) & \textit{The Pantry} + \textit{The Workshop} + \textit{Envelope} & Lot 402 House Envelope: \texttt{5500/3800 cB}, \texttt{9,600,000 mW} & Clean-Slate Day-1 boot; $\$20\text{k}$ (\texttt{2,000,000 cents}) $\Phi_0$ reserve; Turnkey blueprint import; Stage~I L7 shim overhead (\texttt{mW}). \\
+\textbf{\texttt{SCN-SIGMA-BURNOUT}} (\texttt{sigma\_burnout}) & $N_s = 1 \to 6$; $B=1$ preserved during rest & \textit{The Workshop} + \textit{The Pantry} (Calm Triage) & Sanctuary Quiet Shield: \texttt{3800 cB} cap, 0 non-hazard pings & \texttt{AttemptTokenizeBaselineCare() == false}; burnout load-shedding receipts; Stage~I$\to$III \textbf{Zero-Stat Liberation}. \\
+\textbf{\texttt{SCN-GAMMA-KITCHEN}} (\texttt{gamma\_kitchen}) & $N_s = 5$ bakers $\neq N_p = 500$ eaters (85/15 split) & \textit{The Pantry} + \textit{The Bakery / Hearth Lens} & Ground Hearth Envelope: \texttt{6800 cB}, \texttt{6,000,000 mW}, \texttt{+4500 mK} & \texttt{AnonymousAppetiteLeaseV50} (detour TTL expiry); \texttt{PantryPerishableBatchV50}; \texttt{GN 1/1} pan $\lambda_{\mathrm{ERC}}$; Stage~II PID oven retrofit. \\
+\textbf{\texttt{SCN-ALPHA-FAB}} (\texttt{alpha\_fabrication}) & $N_s = 1 \to 6$ machinists; Pillar II ladder & \textit{The Workshop Lens} (durable cycle wear) & Industrial Bay Envelope: \texttt{8500/5000 cB}, \texttt{4,500,000 mW} & \texttt{WorkshopDurableToolTwinV50}; \texttt{ProofOfStewardshipRetrofitRecordV50} (Stage~I CNC $\to$ Stage~II open RISC-V); \texttt{M6}/\texttt{M8} $\lambda_{\mathrm{ERC}}$. \\
+\textbf{\texttt{SCN-BETA-TRANSIT}} (\texttt{beta\_transit}) & $N_s = 6 \to 25$ couriers/mechanics ($N \gg 2$) & \textit{The Workshop} + \textit{Transit Appetite Lens} & Street \& Depot Envelope: \texttt{8200 cB}, feeder \texttt{mW}, curb \texttt{mm} & Multi-hop \texttt{PairwiseBccChannel} \& HTLC freight receipts; \texttt{ISO 600x400 mm} tote leases; Stage~II open e-bike BMS retrofit. \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+\section{Wave A Walkthroughs: \texttt{Zero}, \texttt{Tau}, and \texttt{Sigma}}
+\label{sec:ch10-wave-a}
+
+\subsection{1. Scenario Zero (\texttt{SCN-ZERO-SOFTWARE}): Khronos Lifecycle, Server Heat Recovery, and the TeX Asymptote}
+As established in Dialogue~1 (\texttt{D1}) and Dialogue~2 (\texttt{D2}), Oasis (\texttt{Layer 1b}) and every piece of software in The Collective is a governed \textbf{Layer~6 Software Object} stewarded by a \textbf{Layer~5 Working Group} ($N_s = 1 \to 12$), analogous to the Khronos Group stewarding OpenGL. Inside Oasis, software never runs inner binary emulation; instead, Layer~3 (\texttt{col-storaged}) tracks its \textbf{mild Layer~1/2 physical footprint} alongside its \textbf{five-phase organizational lifecycle}:
+\begin{enumerate}
+    \item \textit{Phase 1 (Friction to RFC):} When coordination waste or hardware drift surfaces as a Layer~3 $\lambda_{\mathrm{ERC}}$ spike, affected nodes commit a content-addressed \texttt{SoftwareRequirementRfcIntent} CID into \texttt{col-storaged}.
+    \item \textit{Phase 2 \& Phase 3 (Working Group Charter, Build \& Hydronic Heat Recovery):} As the chartered working group runs hermetic 3-architecture builds (\texttt{x86\_64}, \texttt{aarch64}, \texttt{riscv64}) and $10{,}000$-tick Oasis canary soaks, Layer~2 meters server rack power draw ($P_{\mathrm{rack}} \le 450{,}000\,\mathrm{mW}$) and direct-to-chip copper water-block heat recovery. \texttt{col-storaged} verifies that $\ge 8{,}000\,\mathrm{bp}$ ($80\%$) of the server's dissipated electrical exergy ($\Delta E_{\mathrm{compute},\mathrm{uJ}}$) is captured into the domestic hot-water or greenhouse hydronic buffer at $318{,}150\text{--}328{,}150\,\mathrm{mK}$ ($45\text{--}55\,^\circ\mathrm{C}$).
+    \item \textit{Phase 4 (Spec Ratification):} Once \texttt{VerifyMerkleArtifactConsensus} confirms $\texttt{builder\_consensus\_count} \ge 3$ and zero floating-point opcodes, \texttt{col-storaged} activates the 32-byte \texttt{MerkleArtifactRecord} and credits $\Delta R_{i,\mathrm{bp}}$ to the builders.
+    \item \textit{Phase 5 (Dormant Equilibrium \& Substrate Drift Wake-Up):} When a mature software package reaches \textbf{Dormant Equilibrium (``The TeX Asymptote'')}, incidents drop to zero and every member's $R_{i,\mathrm{bp}}(t)$ decays via reputational entropy $\lambda$ toward $0\,\mathrm{bp}$. Because each working-group member retains their non-decaying civic baseline $B = 10{,}000\,\mathrm{bp}$ ($V_{i,\mathrm{bp}}(t) = 10{,}000 + R_{i,\mathrm{bp}}(t)$), the dormant package is mathematically immune to single-maintainer hijack. When a new Layer~2 sensor revision violates an old ABI assumption (\textbf{Substrate Drift}), Layer~4 hard-blocks and emits a structured yield frame that decompiles into a Layer~6 Semantic Diff, waking the working group to ratify an adapter patch before falling back asleep.
+\end{enumerate}
+
+\subsection{2. Scenario Tau (\texttt{SCN-TAU-GENESIS}): Clean-Slate Lot 402 Boot and Stage I Scavenged Appliance Shims}
+When a founding household ($N_s = 1 \to 4$) boots a Stage~1A node on Lot~402, \texttt{col-storaged} initializes with a clean-slate operational table (\texttt{workflows\_.empty()}), an initial external Layer~7 fiat reserve register $\Phi_0 = \texttt{2'000'000 cents}$ ($\$20{,}000$), and the Lot~402 House Enveloping Node boundary policy ($5{,}500\,\mathrm{cB}$ daytime / $3{,}800\,\mathrm{cB}$ nighttime acoustic cap, $9{,}600{,}000\,\mathrm{mW}$ main breaker ceiling). Because Day-1 households bootstrap with scavenged Layer~7 appliances (\texttt{QUALITY\_SCAVENGED\_L7\_SHIM = 0x04}), \texttt{col-storaged} explicitly meters the parasitic shim standby overhead (\texttt{parasitic\_shim\_overhead\_mw = 45'000 mW}) and high diagnostic uncertainty ($\pm 1{,}500\,\mathrm{bp}$), making visible the exact thermodynamic cost of proprietary hardware lock-in.
+
+\subsection{3. Scenario Sigma (\texttt{SCN-SIGMA-BURNOUT}): Somatic Homeostasis and Zero-Stat Liberation}
+In \texttt{Scenario Sigma}, Layer~3 enforces two anti-burnout constitutional guarantees. First, \texttt{AttemptTokenizeBaselineCare()} unconditionally returns \texttt{false}: a steward activating a voluntary \texttt{RestShield} or recovering from exhaustion never suffers a deduction in baseline meals, hydronic warmth, or $B = 10{,}000\,\mathrm{bp}$ civic standing. Second, \texttt{col-storaged} tracks the node's unscheduled fault interrupt rate (\texttt{unscheduled\_fault\_prob\_bp}). As the household upgrades its appliances from Stage~I scavenged shims (\texttt{350 bp} blind hard-block rate) to Stage~II hybrid retrofits (\texttt{40 bp}) and Stage~III native open-spec hardware (\texttt{5 bp} with 5-minute scheduled swaps), unplanned maintenance interrupts vanish---achieving \textbf{Zero-Stat Liberation}.
+
+\section{Wave B Walkthroughs: \texttt{Gamma}, \texttt{Alpha}, and \texttt{Beta}}
+\label{sec:ch10-wave-b}
+
+\subsection{4. Scenario Gamma (\texttt{SCN-GAMMA-KITCHEN}): The Dual-Loop Bakery, Weekend Detours, and GN 1/1 Convergence}
+\texttt{Scenario Gamma} brings together four flagship Layer~3 mechanisms inside the communal hearth and neighborhood bakery ($N_s = 5$ active bakers serving $N_p = 500$ neighborhood residents):
+\begin{itemize}
+    \item \textbf{Dual-Loop Demand \& Spontaneous Weekend Detours:} Household \textit{Pantry} lenses emit ZK-stripped 64-byte \texttt{AnonymousAppetiteLeaseV50} records into \texttt{col-storaged}. When twenty neighbors spontaneously head to the mountains on Friday afternoon, their local Layer~2 fridge/shelf drawdowns pause and their unrenewed pickup leases expire silently at \texttt{expiry\_hlc\_ms}. At the 02:00 dough-make cutoff, \texttt{AggregateActiveBakeryDemandV50()} schedules only the active non-expired staple mass ($8{,}500\,\mathrm{bp}$ / $85\%$ capacity) plus the $1{,}500\,\mathrm{bp}$ ($15\%$) Dr\_Sofia \textit{montage} experiment batch---zero wasted loaves and zero nagging phone alerts.
+    \item \textbf{Bigelow $F_0$ Pasteurization \& Arrhenius Cold-Chain Ledgers:} For split-pea soup and canned broths, \texttt{col-storaged} records the piecewise-quadratic Bigelow thermal lethality integral ($T \ge 347{,}150\,\mathrm{mK}$ / $74.0\,^\circ\mathrm{C}$ for $\ge 120{,}000\,\mathrm{ms}$), while cold-room walk-ins integrate \texttt{PantryPerishableBatchV50} Arrhenius decay at $275{,}150\text{--}277{,}150\,\mathrm{mK}$.
+    \item \textbf{Gastronorm GN 1/1 $\lambda_{\mathrm{ERC}}$ Convergence \& Stage II Oven Retrofit:} By standardizing on $316$ stainless \textbf{Gastronorm GN~1/1 pans ($530 \times 325\,\mathrm{mm}$)} across prep, bake, and e-trike tiffin transport, the bakery slashes container $\lambda_{\mathrm{ERC}}$ by $76\times$ (Table~\ref{tab:ch2-erc-comparison}). When the crew retrofits their scavenged commercial deck oven with an open STM32/MAX31856 K-type thermocouple PID board, \texttt{col-storaged} commits a \texttt{ProofOfStewardshipRetrofitRecordV50}, minting $\Delta R_{i,\mathrm{bp}}$ and eliminating external vendor thermostat tribute.
+\end{itemize}
+
+\subsection{5. Scenario Alpha (\texttt{SCN-ALPHA-FAB}): \textit{The Workshop} Durable Ledger and Right-to-Repair CNC Retrofits}
+In the solar-powered fabrication bay ($N_s = 1 \to 6$ machinists under an Industrial Bay Envelope lease of $8{,}500\,\mathrm{cB}$ daytime / $5{,}000\,\mathrm{cB}$ nighttime and $4{,}500{,}000\,\mathrm{mW}$), \texttt{col-storaged} maintains \texttt{WorkshopDurableToolTwinV50} records for every lathe, 3D printer, and 5-axis CNC mill. Tool depreciation is strictly calendar-agnostic, accruing $\lambda_{\mathrm{ERC}}$ microjoules only during active spindle milliseconds. When an imported Turnkey blueprint calls for laser seam welding that the local bay lacks, Layer~4 executes a \textbf{Tier~2 Macro-Activity Substitution} (\texttt{D8}), splicing an open \textbf{ISO metric \texttt{M6} bolted flange} sub-workflow from the Ontological Graph and logging the substitution in the batch's \texttt{ThermodynamicProofRecordV50}.
+
+\subsection{6. Scenario Beta (\texttt{SCN-BETA-TRANSIT}): Five-Artery Kinetic Freight, ISO Euro-Totes, and BCC/HTLC Clearing}
+\texttt{Scenario Beta} coordinates cargo e-trikes, utility trailers, and neighborhood milk-runs ($N_s = 6 \to 25$, where $N_s > R_{\max} + 2$ guarantees anti-capture community governance). Physical payloads travel in modular \textbf{ISO $600 \times 400\,\mathrm{mm}$ Euro-totes} (which nest two Gastronorm GN~1/1 pans side-by-side with zero dead volume). Inter-node freight deliveries settle across multi-hop \texttt{PairwiseBccChannel} HTLCs upon Layer~2 load-cell arrival verification, while replacing proprietary CAN-locked e-bike battery management systems (BMS) with open RISC-V BMS boards mints Stage~II Right-to-Repair Proof of Stewardship.
+
+\begin{lstlisting}[language=C++,caption={Wave A/B integration verification: Scenario Zero hydronic heat recovery and Dual-Loop Bakery detour-aware batch commit in \texttt{col-storaged}.},label={lst:ch10-wave-ab-code}]
+#pragma once
+#include <cstdint>
+
+namespace collective::l3::wave_ab {
+
+struct ScenarioZeroBuildHeatReceiptV50 {
+    uint64_t build_artifact_cid{0};
+    int64_t  rack_electrical_input_uj{0};     // Total workstation/server electrical draw (uJ)
+    int64_t  hydronic_captured_heat_uj{0};    // Waste heat transferred to domestic/greenhouse loop (uJ)
+    int64_t  coolant_outlet_temp_mk{323'150}; // 50.0 C = 323,150 mK
+    uint16_t recovery_efficiency_bp{0};       // Must be >= 8,000 bp (80.00%) for full PoTW credit
+};
+
+[[nodiscard]] constexpr bool VerifyScenarioZeroHydronicRecoveryV50(
+    ScenarioZeroBuildHeatReceiptV50& rec) noexcept {
+    if (rec.rack_electrical_input_uj <= 0 || rec.hydronic_captured_heat_uj < 0 ||
+        rec.hydronic_captured_heat_uj > rec.rack_electrical_input_uj) {
+        return false; // First-Law conservation violation
+    }
+    rec.recovery_efficiency_bp = static_cast<uint16_t>(
+        (rec.hydronic_captured_heat_uj * 10'000LL) / rec.rack_electrical_input_uj);
+    return rec.recovery_efficiency_bp >= 8'000U;
+}
+
+} // namespace collective::l3::wave_ab
+\end{lstlisting}

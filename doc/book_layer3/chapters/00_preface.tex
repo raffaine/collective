@@ -1,0 +1,84 @@
+\chapter*{Preface: From Extractive Tokenomics to Multi-Dimensional Thermodynamic Truth}
+\addcontentsline{toc}{chapter}{Preface}
+\markboth{Preface}{Preface}
+
+\epigraph{Money is a poor instrument for ecological calculation because it collapses irreducibly diverse physical realities---the fertility of living topsoil, the kilowatt-hours of a winter battery bank, the fatigue of a human carpenter, and the embodied exergy of cast iron---into a single scalar price that remembers nothing of entropy.}{---Architectural Charter of The Collective, Cascadia Horizon Synthesis (after \textcite{neurath1919,georgescu1971})}
+
+Every political economy rests upon an ontology of measurement. When a society decides what its ledgers count, what units those ledgers permit, and what realities they discard as unpriced ``externalities,'' it determines in advance whether its institutions will conserve the living biosphere or liquidate it \parencite{kapp1950social,polanyi1944}. Across the industrial and digital eras, two ostensibly rival accounting paradigms dominated institutional design: state-backed fiat finance and speculative blockchain tokenomics. Beneath their ideological antagonism, both systems shared the same foundational error. Both reduced the multi-dimensional metabolism of matter, energy, ecological regeneration, and human care to a single one-dimensional scalar currency.
+
+In the legacy Layer~7 economy, a thousand dollars obtained by clear-cutting an old-growth watershed is mathematically indistinguishable on a balance sheet from a thousand dollars obtained by repairing neighborhood cargo trikes or baking sourdough loaves. Worse, when early decentralized ledger experiments attempted to escape central-bank debasement, they reproduced the most pathological features of the market inside cryptographic state machines: proof-of-work hash puzzles that burned megawatts of electrical exergy for artificial scarcity; automated market makers (AMMs) and continuous double auctions (CDAs) that priced community survival by speculative liquidity; stake-slashing penalties that weaponized financial ruin as a consensus mechanism; and panoptic ``Proof of Labor'' schemes that proposed strapping inertial measurement units and current clamps onto workers' tools to mint piece-rate tokens per physical calorie expended \parencite{zuboff2019,han2015}.
+
+The Sovereign Stack rejects both fiat abstraction and crypto-tokenomic financialization at the root. Positioned between the hardware reflexes and edge digital twins of Layer~2 (\texttt{col-telemetryd}) and the deterministic BPMN~2.0 / WebAssembly state machines of Layer~4 (\texttt{col-execd}), \textbf{Layer~3: The Thermodynamic \& Ecological Ledger}---realized in POSIX silicon as the hardened C++20 storage and synchronization daemon \texttt{col-storaged} paired with the delay-tolerant mesh daemon \texttt{col-meshd}---does not mint a circulating currency, does not run double auctions, and never prices human care. Instead, Layer~3 maintains an immutable, local-first, conflict-free \textbf{multi-dimensional vector ledger} of physical reality expressed exclusively in canonical 64-bit fixed-point International System (SI) units \parencite{bipm2019si,neurath1919,odum1996environmental}.
+
+\section*{The Eight Boundless-Time Architectural Laws in Layer 3}
+
+This v3.2 Companion Monograph incorporates the full architectural synthesis of the Horizon Council's \textit{Architecture of Boundless Time} dialogues (\texttt{D1}--\texttt{D8}) and enforces the six mandatory Cross-Cutting Invariants (\texttt{CCI-1} through \texttt{CCI-6}) across every equation, C++20 wire structure, and scenario walkthrough:
+
+\begin{enumerate}
+    \item \textbf{Multi-Dimensional SI Vector Accounting Over Scalar Tokenomics (\texttt{CCI-6}):} Layer~3 tracks physical stocks and flows in irreducible 64-bit integer SI dimensions---microjoules (\texttt{uJ}), milliwatts (\texttt{mW}), milligrams (\texttt{mg}), micrograms (\texttt{ug}), millimeters (\texttt{mm}), micrometers (\texttt{um}), milliliters (\texttt{mL}), microliters (\texttt{uL}), millikelvins (\texttt{mK}), millikelvin-seconds (\texttt{mks}), centibels (\texttt{cB}), milliseconds (\texttt{ms}), and basis points (\texttt{bp})---with zero IEEE-754 floating-point instructions (\texttt{floating\_point\_opcodes == 0}) \parencite{goldberg1991float}. Human cultural idioms (baker's hydration percentages, cups, inches, degrees Fahrenheit or Celsius) are localized exclusively at the Layer~6 application lens edge.
+    \item \textbf{Ecological Replacement Cost ($\lambda_{\mathrm{ERC}}$) and Emergent Modular Convergence (\texttt{D6}, \texttt{D8}, \texttt{CCI-5}):} Why do Layer~7 markets spawn fifteen incompatible battery sleds, proprietary fasteners, and bespoke plastic trays? Because manufacturers externalize disposal entropy while capturing monopoly replacement rents. Once Layer~3 computes the cradle-to-cradle \textbf{Ecological Replacement Cost} ($\lambda_{\mathrm{ERC}}$) of every physical component in microjoules and Layer~4 minimizes total path exergy $\sum (E_{\mathrm{direct}} + \lambda_{\mathrm{ERC}})$, artificial fragmentation exposes itself as pure thermodynamic waste. Without any authoritarian standards ministry, independent nodes voluntarily converge on open modular geometry: \textbf{Gastronorm GN~1/1 stainless pans ($530 \times 325\,\mathrm{mm}$)}, \textbf{ISO $600 \times 400\,\mathrm{mm}$ Euro-totes}, and \textbf{ISO metric \texttt{M6}/\texttt{M8} fasteners} (\textit{The One-Wrench Rule}).
+    \item \textbf{Content-Addressed Sovereign Libraries and Empirical Lineage Ranking (\texttt{D5}, \texttt{D7}, \texttt{CCI-5}):} Layer~3 replicates the three Sovereign JSON-LD Libraries---\textit{The Ontological Graph}, \textit{The Orchestration Registry}, and \textit{The Physics Baseline}---that power \textbf{Open-Source Franchising (``The Speedee Service System Without the Rent'')}. Every completed Layer~4 batch verified by Layer~2 sensors appends a cryptographically signed \texttt{collective:thermodynamicProof} record to \texttt{col-storaged}, allowing communities to rank forked recipe lineages by empirical exergy efficiency ($\mathrm{uJ/mg}$), spoilage reduction, and observed mean time between failures (\texttt{observed\_mtbf\_sec}) rather than marketing budgets.
+    \item \textbf{Zero-Surveillance Appetite Vectors and Ephemeral Pickup Leases (\texttt{D1}, \texttt{D2}, \texttt{D4}, \texttt{CCI-2}):} In the \textbf{Dual-Loop Bakery}, internal governance voice belongs strictly to the $N_s$ active bakers of the node, while the $N_p$ neighborhood residents signal demand without panoptic tracking. Local Layer~5 (\texttt{col-kmsd}) strips personal DIDs via \texttt{BBS+} ring-membership zero-knowledge proofs before Layer~4 commits 64-byte \texttt{AnonymousAppetiteLeaseV50} records to Layer~3. When a resident takes a \textbf{Spontaneous Weekend Detour} to the mountains, Layer~2 pantry consumption pauses and unrenewed pickup leases expire silently at \texttt{expiry\_hlc\_ms}---preventing food waste with zero calendar surveillance, zero GPS tracking, and zero nagging phone alerts, while leaving $8{,}500\,\mathrm{bp}$ ($85\%$) of hearth capacity for verified staples and $1{,}500\,\mathrm{bp}$ ($15\%$) for compositional \textit{montage}.
+    \item \textbf{Proof of Stewardship ($R_{i,\mathrm{bp}}(t)$), Reputational Entropy ($\lambda$), and the $B=1$ Civic Floor (\texttt{D2}, \texttt{D3}, \texttt{CCI-2}):} Operational stewardship bonus $\Delta R_{i,\mathrm{bp}} > 0$ cannot be farmed through self-assigned busywork; it mints only upon the three-way conjunction of a validated Layer~6 demand lease, a completed Layer~4 BPMN workflow, and Layer~2/3 physical verification with zero $\lambda_{\mathrm{ERC}}$ spike. As a mature commons or software specification (\texttt{Scenario Zero}) approaches \textbf{Dormant Equilibrium (``The TeX Asymptote'')} \parencite{knuth1984tex}, exponential reputational entropy $\lambda$ decays $R_{i,\mathrm{bp}}(t) \to 0$, while Layer~5's non-decaying Universal Civic Baseline $B = 1$ ($10{,}000\,\mathrm{bp}$) inside $V_i(t) = 1 + R_i(t)$ mathematically prevents \textbf{Dormant-Node Single-Maintainer Hijack}.
+    \item \textbf{Right-to-Repair Hybrid Retrofits as First-Class Proof of Stewardship (\texttt{D7}, \texttt{D8}, \texttt{CCI-6}):} Real settlements boot on \textbf{Stage~I Scavenged Layer~7 Hardware} burdened by four concrete physical penalties: \textit{Parasitic Layer~2 Shims}, \textit{Blind Layer~4 Mid-Batch Hard-Blocks}, \textit{Layer~7 Fiat Tribute Escalation}, and \textit{Layer~3 ERC Penalties}. When a crew strips a locked proprietary PCB from a $400\,\mathrm{kg}$ commercial deck oven or CNC mill and installs an open RISC-V/STM32 Layer~2 retrofit board (\textbf{Stage~II Right-to-Repair Hybrid Fleet}), \texttt{col-storaged} notarizes the rescued embodied exergy (\texttt{ProofOfStewardshipRetrofitRecordV50}) as a first-class stewardship event on the path toward \textbf{Stage~III Native Open-Spec Hardware} and \textbf{Zero-Stat Liberation}.
+    \item \textbf{Perishable Arrhenius Entropy vs.\ Durable Cycle Amortization (\texttt{D1}, \texttt{D5}, \texttt{CCI-3}):} Layer~3 provides the distinct dual-ledger physics underneath Layer~6's application lenses: continuous temperature-integrated Arrhenius kinetics ($k(T) = A\exp(-E_a/RT)$ over millikelvin-seconds \texttt{mks}) for \textbf{\textit{The Pantry}} (\texttt{PantryPerishableBatchV50}) versus calendar-agnostic discrete usage-cycle counters, wear indices, and custody leases for \textbf{\textit{The Workshop}} (\texttt{WorkshopDurableToolTwinV50}).
+    \item \textbf{Domain-Blind Enveloping Node Boundary Accounting \& Two-Speed Jurisprudence (\texttt{D4}, \texttt{D6}, \texttt{CCI-4}):} To allow multiple autonomous polycentric nodes ($N=1$ luthier studio, $N=1$ maker bench, $N=4$ hearth) to share a physical building without $O(K^2)$ bilateral political treaties, Layer~3 meters domain-blind \textbf{Enveloping Node Spatial Hypervisor} leases (\texttt{EnvelopingBoundaryLeaseV50}) across partition acoustics (\texttt{cB}), electrical power (\texttt{mW}), exergy windows (\texttt{uJ}), thermal exhaust (\texttt{mK}), and spatial polygons (\texttt{mm}), while recording millisecond \textbf{Fast-Path Layer~2 Hazard Preemption} receipts and notarizing \textbf{Slow-Path Semantic Diff Precedents}.
+\end{enumerate}
+
+\begin{figure}[htbp]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+    node distance=0.85cm and 1.2cm,
+    box/.style={draw, rounded corners=3pt, thick, align=center, font=\footnotesize, minimum height=0.95cm, inner sep=6pt},
+    plane/.style={draw, dashed, rounded corners=5pt, inner sep=8pt},
+    arr/.style={-{Stealth[length=2.3mm]}, thick}
+]
+    \node[box, fill=blue!7, minimum width=12.4cm] (l4) {
+        \textbf{Layer 4 Deterministic Orchestrator (\texttt{col-execd} @ 10 Hz)} $\cdot$ \texttt{BatchStepCommit}, \texttt{L3ResourceLeaseLock}, 3-Tier BPMN Hardware Cascade
+    };
+
+    \node[box, fill=green!7, minimum width=3.8cm, below left=1.05cm and -3.9cm of l4] (vec) {
+        \textbf{64-Bit SI Vector Ledger}\\[2pt]
+        \texttt{uJ}, \texttt{mW}, \texttt{mg}, \texttt{mm}, \texttt{mL}, \texttt{mK}, \texttt{cB}\\
+        Arrhenius Pantry TTL (\texttt{mks})\\
+        Workshop Cycle Wear \& $\lambda_{\mathrm{ERC}}$
+    };
+
+    \node[box, fill=orange!10!yellow!12, minimum width=3.8cm, below=1.05cm of l4] (prov) {
+        \textbf{3 Sovereign Libraries \& ZKP}\\[2pt]
+        Ontological $\cdot$ Orchestration\\
+        Physics Baseline (\texttt{thermodynamicProof})\\
+        \texttt{AnonymousAppetiteLeaseV50}
+    };
+
+    \node[box, fill=orange!9, minimum width=3.8cm, below right=1.05cm and -3.9cm of l4] (mesh) {
+        \textbf{CRDTs, BCC \& Envelopes}\\[2pt]
+        RocksDB WAL + Automerge/Yrs\\
+        Zero-Sum \texttt{PairwiseBccChannel}\\
+        \texttt{EnvelopingBoundaryLeaseV50}
+    };
+
+    \node[plane, fit=(vec) (prov) (mesh), label={[font=\footnotesize\bfseries]above:\texttt{col-storaged} + \texttt{col-meshd} $\cdot$ Layer 3 Thermodynamic \& Ecological Ledger (Zero Floats, Zero Personal DIDs)}] (l3fit) {};
+
+    \node[box, fill=gray!11, minimum width=12.4cm, below=1.1cm of l3fit] (l2) {
+        \textbf{Layer 2 Edge Digital Twin (\texttt{col-telemetryd})} $\cdot$ \texttt{ATECC608A} Epoch Merkle Batches, 3-Tier Fleet Flags (\texttt{0x02/0x04/0x08}), Partition Sensors
+    };
+
+    \draw[arr, <->] (l4.south -| vec.north) -- node[left, font=\scriptsize] {\texttt{l3\_l4.sock}} (l3fit.north -| vec.north);
+    \draw[arr, <->] (l4.south -| mesh.north) -- node[right, font=\scriptsize] {\texttt{SO\_PEERCRED}} (l3fit.north -| mesh.north);
+    \draw[arr, <-] (l3fit.south -| vec.south) -- node[left, font=\scriptsize] {\texttt{l2\_l3.sock}} (l2.north -| vec.south);
+    \draw[arr, ->] (l3fit.south -| mesh.south) -- node[right, font=\scriptsize] {\texttt{l3\_l2.sock} (Kinetic Ring)} (l2.north -| mesh.south);
+\end{tikzpicture}%
+}
+\caption{Architectural topology of Layer~3 (\texttt{col-storaged} and \texttt{col-meshd}), bounded strictly between Layer~4 (\texttt{col-execd}) and Layer~2 (\texttt{col-telemetryd}) across kernel-authenticated \texttt{AF\_UNIX} \texttt{SOCK\_SEQPACKET} membranes.}
+\label{fig:preface-l3-architecture}
+\end{figure}
+
+\section*{Structure of This Companion Volume}
+
+This book is organized into two parts across fourteen chapters:
+\begin{itemize}
+    \item \textbf{Part~I (Chapters~1--9)} specifies the mathematical, metrological, cryptographic, and distributed-systems architecture of \texttt{col-storaged}: multi-dimensional 64-bit SI vector accounting (Chapter~1); Ecological Replacement Cost $\lambda_{\mathrm{ERC}}$ and emergent modular convergence (Chapter~2); content-addressed provenance and the \textit{Physics Baseline} library (Chapter~3); zero-surveillance appetite vectors and auto-expiring pickup leases (Chapter~4); Proof of Stewardship $R_{i,\mathrm{bp}}(t)$, physical demurrage, and reputational entropy $\lambda$ feeding $V_i(t) = 1 + R_i(t)$ (Chapter~5); Right-to-Repair hybrid retrofits as first-class stewardship events (Chapter~6); perishable Arrhenius entropy versus durable cycle amortization (Chapter~7); Enveloping Node boundary accounting and Two-Speed Jurisprudence ledgers (Chapter~8); and causal CRDT mesh replication, pairwise zero-sum \texttt{BCC}/HTLC clearing, and passive oracle quarantine (Chapter~9).
+    \item \textbf{Part~II (Chapters~10--14)} traces exact Layer~3 ledger schemas, fixed-point C++20 transitions, and thermodynamic invariants across all \textbf{25 Sovereign Scenarios} organized into six horizontal metabolic waves (\textbf{Waves~A through~F}): Wave~A and Wave~B in Chapter~10 (\texttt{Zero}, \texttt{Tau}, \texttt{Sigma}, \texttt{Gamma}, \texttt{Alpha}, \texttt{Beta}); Wave~C in Chapter~11 (\texttt{Delta}, \texttt{Omicron}, \texttt{Kappa}, \texttt{Zeta}); Wave~D in Chapter~12 (\texttt{Eta}, \texttt{Mu}, \texttt{Theta}, \texttt{Nu}, \texttt{Xi}); Wave~E and Wave~F in Chapter~13 (\texttt{Epsilon}, \texttt{Iota}, \texttt{Lambda}, \texttt{Pi}, \texttt{Chi}, \texttt{Upsilon}, \texttt{Phi}, \texttt{Psi}, \texttt{Rho}, \texttt{Omega}); and the concluding synthesis in Chapter~14 (\textit{The Ledger That Disappears into Abundance}).
+\end{itemize}

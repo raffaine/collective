@@ -1,0 +1,123 @@
+\chapter{Perishable Arrhenius Entropy versus Durable Cycle Amortization}
+\label{ch:perishable-vs-durable}
+
+\epigraph{A sack of winter carrots and a cast-iron woodshop jointer obey two completely different arrows of time. Carrots respire continuously against the ambient kelvin clock whether anyone touches them or not; a jointer ignores the calendar and ages only when timber crosses its spinning knives. Conflating the two into a single generic inventory table blinds a community to both spoilage and maintenance.}{---Horizon Council Dialogue 5 (\texttt{D5}), \textit{The Architecture of Boundless Time}}
+
+\section{Why Layer 3 Separates Perishable Biological Entropy from Durable Mechanical Cycles (\texttt{CCI-3})}
+\label{sec:ch7-thermodynamic-split}
+
+In Dialogue~5 (\texttt{D5}), the Council established that Layer~6 is an HTTP-like semantic protocol layer served locally by \texttt{col-commonsd} and \texttt{col-gatewayd} below a plural constellation of specialized Application Lenses. Foremost among those lenses are \textbf{\textit{The Pantry}} (the perishable biological entropy lens) and \textbf{\textit{The Workshop}} (the durable mechanical cycles lens).
+
+Crucially, because neither \textit{The Pantry} nor \textit{The Workshop} is hardcoded inside Oasis's Layer~1 simulation engine---both are native Collective applications running over the Sovereign Stack---an autonomous Oasis agent and a real household on Lot~402 execute the exact same stock, expiration, and tool-custody logic. To support that separation without floating-point drift, Layer~3 (\texttt{col-storaged}) partitions its material asset store into two distinct thermodynamic state machines:
+\begin{enumerate}
+    \item \textbf{\texttt{PantryPerishableBatchV50} (Continuous Arrhenius Thermal-Time Integration):} Models food, seed stocks, biological cultures, and clinical cold-chain reagents (\texttt{Scenario Gamma}, \texttt{Scenario Delta}, \texttt{Scenario Chi}) whose remaining biological time-to-live (TTL) degrades continuously as an exponential function of ambient storage temperature $T(t) \in \mathrm{mK}$ \parencite{arrhenius1889}.
+    \item \textbf{\texttt{WorkshopDurableToolTwinV50} (Calendar-Agnostic Discrete Usage-Cycle Amortization):} Models hand tools, CNC spindles, induction furnaces, looms, and cargo-trike drivetrains (\texttt{Scenario Alpha}, \texttt{Scenario Beta}, \texttt{Scenario Theta}, \texttt{Scenario Nu}) that suffer near-zero degradation while resting dry on a tool rack and age strictly as a function of discrete operational work cycles, spindle milliseconds, and mechanical torque integrals.
+\end{enumerate}
+
+\section{Arrhenius Thermal-Time Kinetics in \textit{The Pantry} Ledger}
+\label{sec:ch7-arrhenius-kinetics}
+
+In physical biochemistry, the spoilage rate $k(T)$ of a perishable biological lot is governed not by wall-clock hours alone, but by Svante Arrhenius's activation-energy law \parencite{arrhenius1889}:
+\begin{equation}
+k(T) = A \cdot \exp\left(-\frac{E_a}{R \cdot T}\right)
+\label{eq:ch7-arrhenius}
+\end{equation}
+where $E_a$ is the spoilage activation energy, $R$ is the universal gas constant, and $T$ is absolute temperature in kelvins. A batch of raw milk or vaccine vials stored at an ideal cold-chain reference temperature $T_{\mathrm{ref}} = 277{,}150\,\mathrm{mK}$ ($4.0\,^\circ\mathrm{C}$) degrades at nominal baseline speed $M_{\mathrm{rate}}(T_{\mathrm{ref}}) = 10{,}000\,\mathrm{bp}$ ($1.0000\times$). If a Stage~I scavenged refrigerator suffers a compressor fault and drifts up to $T = 287{,}150\,\mathrm{mK}$ ($14.0\,^\circ\mathrm{C}$), microbial respiration accelerates by a $Q_{10}$ factor of $2.2\times$ to $3.0\times$ ($22{,}000\text{--}30{,}000\,\mathrm{bp}$).
+
+To evaluate Equation~\eqref{eq:ch7-arrhenius} deterministically in \texttt{col-storaged} with zero floating-point opcodes, each perishable archetype defines a reference cold-chain temperature $T_{\mathrm{ref},\mathrm{mK}}$, a nominal shelf life $\mathrm{TTL}_{0,\mathrm{ms}}$ at $T_{\mathrm{ref},\mathrm{mK}}$, and an integer $Q_{10,\mathrm{bp}}$ doubling coefficient per $10{,}000\,\mathrm{mK}$ ($10.0\,\mathrm{K}$) excursion. Over each Layer~2 telemetry interval $\Delta t_{\mathrm{ms}}$ at measured temperature $T_{\mathrm{mK}}$, the effective biological TTL consumption $\Delta \tau_{\mathrm{bio},\mathrm{ms}}$ is integrated in fixed point:
+\begin{equation}
+\Delta \tau_{\mathrm{bio},\mathrm{ms}} = \left\lfloor \frac{\Delta t_{\mathrm{ms}} \cdot \Phi_{\mathrm{Arrhenius},\mathrm{bp}}(T_{\mathrm{mK}}, T_{\mathrm{ref},\mathrm{mK}}, Q_{10,\mathrm{bp}})}{10{,}000} \right\rfloor
+\label{eq:ch7-arrhenius-fixed}
+\end{equation}
+When remaining biological TTL drops below the surplus-sharing window ($\tau_{\mathrm{rem},\mathrm{ms}} \le \tau_{\mathrm{surplus\_window},\mathrm{ms}}$) while local consumption is paused (e.g., during a spontaneous weekend detour), \texttt{col-storaged} sets \texttt{surplus\_offer\_active = 1}, enabling \textit{The Pantry} lens to broadcast an anonymous Ring~$R_1$ neighbor claim offer before the food becomes Layer~1 waste.
+
+\section{Discrete Usage-Cycle Amortization and Custody Leases in \textit{The Workshop} Ledger}
+\label{sec:ch7-workshop-ledger}
+
+By contrast, nails, torque wrenches, circuit boards, and lathe chucks in \textit{The Workshop} ignore the calendar. For each durable asset, \texttt{col-storaged} tracks:
+\begin{itemize}
+    \item \textbf{Cumulative Active Duty (\texttt{cumulative\_active\_use\_ms} and \texttt{cumulative\_cycles}):} Incremented solely when Layer~2 current transformers or spindle encoders report active load under a valid Layer~4 \texttt{ActuationEnvelopeV1}.
+    \item \textbf{Discrete Wear Index (\texttt{wear\_index\_bp} $\in [0, 10{,}000\,\mathrm{bp}]$) and Calibration Countdown (\texttt{cycles\_until\_calibration}):} When \texttt{wear\_index\_bp} crosses the preventive maintenance threshold ($8{,}500\,\mathrm{bp}$ on Stage~II/III tools), Layer~3 emits a predictive maintenance signal to Layer~4, slotting a 5-minute scheduled bearing or blade swap between work waves.
+    \item \textbf{Finite Custody Leases (\texttt{custody\_lease\_cid} and \texttt{custody\_expiry\_hlc\_ms}):} When a steward checks out a shared tool via \textit{The Workshop} lens, Layer~3 records a finite-TTL custody lease bound to a 24-byte blinded \texttt{ClaimHandle}, automatically releasing the reservation upon return or TTL expiry.
+\end{itemize}
+
+\begin{lstlisting}[language=C++,caption={Dual-ledger C++20 structs \texttt{PantryPerishableBatchV50} and \texttt{WorkshopDurableToolTwinV50} in \texttt{col-storaged}.},label={lst:ch7-pantry-workshop-structs}]
+#pragma once
+#include <cstdint>
+#include <algorithm>
+
+namespace collective::l3 {
+
+/**
+ * @brief Layer 3 Perishable Biological Entropy Record backing "The Pantry" Lens (D1, D5, CCI-3).
+ * Integrates continuous Arrhenius thermal-time decay (mK * ms) with zero floats. 64 bytes exact.
+ */
+struct alignas(64) PantryPerishableBatchV50 {
+    uint64_t batch_lot_cid_hash{0};          // [0..7]   Content-addressed food/reagent lot CID
+    uint64_t cultivar_or_recipe_cid{0};      // [8..15]  Ontological Graph archetype CID
+    int64_t  current_mass_mg{0};             // [16..23] Remaining physical mass in milligrams (mg)
+    int64_t  remaining_bio_ttl_ms{0};        // [24..31] Remaining Arrhenius biological TTL (ms)
+    int64_t  surplus_share_window_ms{86'400'000LL}; // [32..39] Trigger neighbor offer at <= 24h left
+    int64_t  reference_temp_mk{277'150};     // [40..47] Baseline storage temp (4.0 C = 277,150 mK)
+    int64_t  last_measured_temp_mk{277'150}; // [48..55] Latest L2 cold-chain probe reading (mK)
+    uint16_t q10_acceleration_bp{25'000};    // [56..57] 2.50x spoilage speed per +10,000 mK (+10 K)
+    uint16_t spoilage_hazard_bp{0};          // [58..59] 0..10000 bp cumulative spoilage risk
+    uint8_t  surplus_offer_active{0};        // [60]     1 if broadcast to R1 neighbors pre-spoilage
+    uint8_t  detour_pause_detected{0};       // [61]     1 if local household drawdown paused
+    uint16_t reserved_pad{0};                // [62..63] Explicit cache-line padding (64B total)
+};
+static_assert(sizeof(PantryPerishableBatchV50) == 64,
+              "PantryPerishableBatchV50 must occupy exactly 1 cache line (64 bytes).");
+
+/**
+ * @brief Layer 3 Durable Mechanical Cycle Record backing "The Workshop" Lens (D5, D7, CCI-3, CCI-6).
+ * Calendar-agnostic; ages strictly by active use cycles, spindle ms, and mechanical work. 64 bytes exact.
+ */
+struct alignas(64) WorkshopDurableToolTwinV50 {
+    uint64_t tool_did_hash{0};               // [0..7]   Layer 2 Digital Twin hardware identity hash
+    uint64_t custody_lease_cid{0};           // [8..15]  Active finite-TTL custody lease CID (0=free)
+    uint64_t custody_expiry_hlc_ms{0};       // [16..23] Mandatory finite lease expiry timestamp
+    int64_t  cumulative_active_use_ms{0};    // [24..31] Total active motor/spindle runtime (ms)
+    int64_t  erc_amortized_per_cycle_uj{0};  // [32..39] Layer 3 lambda_ERC per work cycle (uJ)
+    int64_t  cumulative_cycles{0};           // [40..47] Discrete actuation / fabrication cycles
+    int32_t  cycles_until_calibration{500};  // [48..51] Countdown to scheduled L4 calibration job
+    uint32_t required_capability_mask{0};    // [52..55] Pillar II Scenario Kappa VC bitmask
+    uint16_t wear_index_bp{0};               // [56..57] 0..10000 bp (8500 bp triggers 5-min swap)
+    uint16_t unscheduled_fault_prob_bp{350}; // [58..59] Stage I: 350 bp, Stage II: 40 bp, Stage III: 5 bp
+    uint8_t  fleet_tier{0};                  // [60]     0=ScavengedL7, 1=RightToRepairHybrid, 2=OpenSpec
+    uint8_t  predictive_swap_queued{0};      // [61]     1 if 5-min preventive metric swap scheduled
+    uint16_t reserved_pad{0};                // [62..63] Explicit cache-line padding (64B total)
+};
+static_assert(sizeof(WorkshopDurableToolTwinV50) == 64,
+              "WorkshopDurableToolTwinV50 must occupy exactly 1 cache line (64 bytes).");
+
+constexpr void StepPantryArrheniusDecayV50(
+    PantryPerishableBatchV50& lot,
+    int64_t ambient_temp_mk,
+    int64_t dt_ms,
+    int64_t initial_nominal_ttl_ms) noexcept {
+    if (dt_ms <= 0 || lot.remaining_bio_ttl_ms <= 0) {
+        return;
+    }
+    lot.last_measured_temp_mk = ambient_temp_mk;
+    const int64_t delta_mk = ambient_temp_mk - lot.reference_temp_mk;
+    // Piecewise linear-exponential Q10 multiplier in basis points per 10,000 mK (10 K)
+    int64_t rate_multiplier_bp = 10'000;
+    if (delta_mk > 0) {
+        const int64_t excess_slope_bp = static_cast<int64_t>(lot.q10_acceleration_bp) - 10'000;
+        rate_multiplier_bp = 10'000 + ((delta_mk * excess_slope_bp) / 10'000);
+    }
+    const int64_t bio_burn_ms = (dt_ms * rate_multiplier_bp) / 10'000;
+    lot.remaining_bio_ttl_ms = std::max<int64_t>(0, lot.remaining_bio_ttl_ms - bio_burn_ms);
+    if (initial_nominal_ttl_ms > 0) {
+        const int64_t consumed_ms = initial_nominal_ttl_ms - lot.remaining_bio_ttl_ms;
+        lot.spoilage_hazard_bp = static_cast<uint16_t>(
+            std::clamp<int64_t>((consumed_ms * 10'000LL) / initial_nominal_ttl_ms, 0, 10'000));
+    }
+    if (lot.remaining_bio_ttl_ms <= lot.surplus_share_window_ms && lot.remaining_bio_ttl_ms > 0) {
+        lot.surplus_offer_active = 1;
+    }
+}
+
+} // namespace collective::l3
+\end{lstlisting}

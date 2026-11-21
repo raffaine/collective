@@ -1,0 +1,180 @@
+\chapter{Beyond Price Signals: Multi-Dimensional Vector Accounting in Canonical SI Units}
+\label{ch:vector-accounting-si}
+
+\epigraph{To calculate in kind is to treat fifty tons of iron, two hundred megawatt-hours of electricity, and ten hectares of living forest as distinct coordinates of a physical state vector that no valid algebra may collapse into a single sum of money.}{---Adapted from \textcite{neurath1919}}
+
+\section{Why Scalar Money Fails Thermodynamic and Ecological Reality}
+\label{sec:ch1-scalar-failure}
+
+In conventional economics, the price mechanism is celebrated as a universal data-compression algorithm. By mapping every resource, machine, parcel of land, and hour of human labor onto a single scalar field $\mathbb{R}_{\ge 0}$ denominated in fiat currency (or an equivalent single-dimensional crypto token), market systems allow heterogeneous quantities to be added, subtracted, and cleared through a single scalar balance \parencite{polanyi1944}. From the standpoint of physical cybernetics and the Second Law of Thermodynamics, however, this projection from an $M$-dimensional physical phase space $\mathcal{X} \subset \mathbb{Z}^M$ onto a one-dimensional price line $\mathbb{R}$ is a catastrophic lossy compression \parencite{georgescu1971,ashby1956}.
+
+Specifically, scalar price accounting violates three fundamental requirements of a viable cyber-physical commonwealth:
+\begin{enumerate}
+    \item \textbf{Dimensional Non-Substitutability (Violation of Conservation Laws):} A community bakery requires $750{,}000\,\mathrm{mg}$ of bread flour, $585{,}000\,\mu\mathrm{L}$ of potable water, $15{,}000\,\mathrm{mg}$ of salt, and $4{,}680{,}000{,}000{,}000\,\mu\mathrm{J}$ ($1.30\,\mathrm{kWh}$) of thermal exergy at $503{,}150\,\mathrm{mK}$ ($230.0\,^\circ\mathrm{C}$) to bake a batch of sourdough loaves. Excess thermal exergy cannot substitute for missing flour mass, nor can surplus acoustic headroom in centibels (\texttt{cB}) substitute for cold-chain refrigeration below $277{,}150\,\mathrm{mK}$ ($4.0\,^\circ\mathrm{C}$). A scalar token balance of ``$100$ Value Units'' conceals which physical coordinate is actually available or depleted until a physical process starves mid-batch.
+    \item \textbf{Erasure of Exergy Grade and Irreversible Entropy Production:} Under the First Law of Thermodynamics, gross energy is conserved; under the Second Law, available work potential (\textit{exergy}) is irreversibly destroyed in every real transformation \parencite{kondepudi2014modern,jorgensen2001thermodynamics}. A scalar currency that prices electrical work, low-grade $305\,\mathrm{K}$ hydronic water, and virgin mineral extraction on a single monetary scale cannot distinguish a closed-loop regenerative cycle from irreversible ecological liquidation \parencite{kapp1950social,odum1996environmental}.
+    \item \textbf{Vulnerability to Speculative Hoarding and Artificial Scarcity:} Whenever a ledger collapses physical stocks into a universal medium of exchange or runs a continuous double auction (CDA) to clear internal community needs, it rewards actors who withhold critical resources to drive up clearing prices.
+\end{enumerate}
+
+For these reasons, the Horizon Council permanently retired all early prototype references to ``Exergy Tokens ($E_T$),'' ``FabricationTokens ($T_f$),'' ``Value Tokens,'' and internal continuous double auctions. Layer~3 of the Sovereign Stack (\texttt{col-storaged}) implements \textbf{Otto Neurath's In-Kind Vector Accounting (\textit{Naturalrechnung})} modernized into a deterministic, cryptographically attested \textbf{Multi-Dimensional SI State Vector} \parencite{neurath1919,bipm2019si}.
+
+\begin{definition}[The Layer 3 Multi-Dimensional Node State Vector]
+\label{def:ch1-state-vector}
+At any Hybrid Logical Clock instant $\tau = (t_{\mathrm{phys}}, c_{\mathrm{logical}}, \mathrm{node\_id})$, the material and thermodynamic state of a Sovereign Node $u$ in \texttt{col-storaged} is represented not by a scalar monetary balance, but by an explicit, dimensionally typed integer state vector:
+\begin{equation}
+\mathbf{S}_u(\tau) = \Bigl\langle \mathbf{E}_u(\tau), \, \mathbf{M}_u(\tau), \, \mathbf{V}_u(\tau), \, \mathbf{\Lambda}_{\mathrm{ERC},u}(\tau), \, \mathbf{L}_{\mathrm{env},u}(\tau), \, \mathbf{B}_{u \leftrightarrow \mathcal{N}(u)}(\tau), \, \mathbf{R}_{u}(\tau) \Bigr\rangle \in \mathbb{Z}^{D}
+\label{eq:ch1-vector-ledger}
+\end{equation}
+where:
+\begin{itemize}
+    \item $\mathbf{E}_u(\tau) \in \mathbb{Z}^{K_E}$ enumerates stored and flowing net exergy reserves in microjoules (\texttt{uJ}) and instant power commitments in milliwatts (\texttt{mW}), partitioned by physical storage medium (e.g., $48\,\mathrm{V}$ $\mathrm{LiFePO_4}$ electrochemical cells, insulated hydronic buffer tanks at explicit millikelvin strata $T_k \in \mathrm{mK}$, gravity water head);
+    \item $\mathbf{M}_u(\tau) \in \mathbb{Z}^{K_M}$ and $\mathbf{V}_u(\tau) \in \mathbb{Z}^{K_V}$ enumerate content-addressed material stock lots in milligrams (\texttt{mg}), micrograms (\texttt{ug}), milliliters (\texttt{mL}), microliters (\texttt{uL}), and linear geometry in millimeters (\texttt{mm}) or micrometers (\texttt{um});
+    \item $\mathbf{\Lambda}_{\mathrm{ERC},u}(\tau) \in \mathbb{Z}^{K_{\mathrm{tool}}}$ records the cradle-to-cradle Ecological Replacement Cost ($\lambda_{\mathrm{ERC}}$) and discrete cycle wear of every physical asset in microjoules per cycle;
+    \item $\mathbf{L}_{\mathrm{env},u}(\tau)$ records active domain-blind Enveloping Node Spatial Hypervisor boundary leases across acoustic centibels (\texttt{cB}), power (\texttt{mW}), thermal delta (\texttt{mK}), and spatial bounding boxes (\texttt{mm});
+    \item $\mathbf{B}_{u \leftrightarrow \mathcal{N}(u)}(\tau)$ records zero-sum Pairwise Bilateral Clearing Channel (\texttt{BCC}) mutual-aid balances in microjoules (\texttt{uJ}) with peered nodes $v \in \mathcal{N}(u)$;
+    \item $\mathbf{R}_{u}(\tau)$ records domain-scoped Proof of Stewardship bonus weights $R_{i,\mathrm{bp}}(\tau)$ in integer basis points (\texttt{bp}) for active node members $i \in \mathcal{M}_{\mathrm{node}}$ ($N_s$).
+\end{itemize}
+No arithmetic operator exists inside \texttt{col-storaged} that adds coordinates of different physical dimensions.
+\end{definition}
+
+\section{Strict Seven-Layer Adjacency and the Bilateral Layer 3 Membrane}
+\label{sec:ch1-bilateral-membrane}
+
+Under Cross-Cutting Invariant \texttt{CCI-1} (\textit{Strict 7-Layer Adjacency \& L6 Compiler/Decompiler Boundary}), \texttt{col-storaged} is a passive, deterministic persistence and verification engine. It never evaluates BPMN workflows (which belong to Layer~4, \texttt{col-execd}), never holds human identity keys or adjudicates constitutional ballots (which belong to Layer~5, \texttt{col-kmsd}), never renders human user interfaces or runs language models (which belong to Layer~6, \texttt{col-commonsd} and \texttt{col-gatewayd}), and never actuates GPIO pins directly (which belong to Layer~2, \texttt{col-telemetryd}).
+
+\begin{table}[htbp]
+\centering
+\caption{Bilateral Socket Adjacency and Isolation Enforcement for Layer~3 (\texttt{col-storaged})}
+\label{tab:ch1-l3-sockets}
+\small
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}llll@{}}
+\toprule
+\textbf{Socket / Channel} & \textbf{Adjacent Peer Daemon} & \textbf{Direction \& Frame Opcodes} & \textbf{Kernel \& Security Guard} \\
+\midrule
+\texttt{/run/collective/ipc/l2\_l3.sock} & \texttt{col-telemetryd} (L2) & $\mathrm{L2} \to \mathrm{L3}$ (\texttt{0x0201..0x027F}): Signed telemetry, boundary frames & \texttt{AF\_UNIX SOCK\_SEQPACKET}, \texttt{SO\_PEERCRED == uid\_col\_telemetryd} \\
+\texttt{/run/collective/ipc/l3\_l2.sock} & \texttt{col-telemetryd} (L2) & $\mathrm{L3} \to \mathrm{L2}$ (\texttt{0x0280..0x02FF}): Leased \texttt{ActuationEnvelopeV1} ring & Lock-free SPSC ring + \texttt{HardwareAirgapFilter} (\texttt{0x01} drop) \\
+\texttt{/run/collective/ipc/l3\_l4.sock} & \texttt{col-execd} (L4) & $\mathrm{L3} \leftrightarrow \mathrm{L4}$ (\texttt{0x0300..0x03FF}): Leases, \texttt{BatchStepCommit}, proofs & \texttt{AF\_UNIX SOCK\_SEQPACKET}, \texttt{SO\_PEERCRED == uid\_col\_execd} \\
+\texttt{/run/collective/ipc/l3\_mesh.sock} & \texttt{col-meshd} (L3 Mesh) & $\mathrm{L3} \leftrightarrow \mathrm{Mesh}$ (\texttt{0x0380..0x03BF}): CRDT deltas, IPLD CIDs, HTLCs & Local UDS only; \texttt{col-storaged} has zero \texttt{AF\_INET} sockets \\
+\texttt{/dev/shm/col\_l3\_telemetry\_ro} & \texttt{col-gatewayd} (L6) & Read-only SPSC observability projection page & \texttt{O\_RDONLY} mmap; \texttt{HTTP 405} on \texttt{/api/v1/l3/*} mutations \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+As summarized in Table~\ref{tab:ch1-l3-sockets}, any external attempt to mutate Layer~3 state via HTTP (\texttt{POST}, \texttt{PUT}, \texttt{DELETE}, or \texttt{PATCH} on \texttt{/api/v1/l3/*}) is rejected at the Layer~6 gateway membrane with \texttt{HTTP 405 Method Not Allowed} (\texttt{L3\_LEDGER\_IS\_READ\_ONLY\_NO\_DIRECT\_MUTATIONS}). Every legitimate state mutation in Layer~3 arrives either from bottom-up hardware-attested telemetry over \texttt{l2\_l3.sock} or from top-down governance-ratified, orchestrator-executed step commits over \texttt{l3\_l4.sock}.
+
+\section{The Canonical 64-Bit Fixed-Point SI Metrological Core (\texttt{CCI-6})}
+\label{sec:ch1-si-core}
+
+Why does the Sovereign Stack enforce a complete ban on IEEE-754 floating-point arithmetic (\texttt{float}, \texttt{double}) across Layers~2, 3, and 4, while simultaneously rejecting non-SI internal units?
+
+First, IEEE-754 floating-point arithmetic is non-associative ($(a + b) + c \neq a + (b + c)$) and varies across compiler fused-multiply-add (\texttt{FMA}) optimizations, rounding modes, and CPU microarchitectures (\texttt{x86\_64}, \texttt{aarch64}, \texttt{riscv64}) \parencite{goldberg1991float}. In a content-addressed CRDT and Merkle-DAG ledger where three independent builders (\texttt{Scenario Zero}) must compute bit-for-bit identical state roots across twenty-year salvaged hardware, a single least-significant-bit rounding divergence fractures Merkle consensus.
+
+Second, history is littered with catastrophic cyber-physical failures caused by mixed metrological units inside control software---most famously the loss of the Mars Climate Orbiter when pound-force seconds collided with newton-seconds. In Dialogue~8 (\texttt{D8}), the Horizon Council established the \textbf{Two-Zone Metrological Invariant (\texttt{CCI-6})}:
+\begin{itemize}
+    \item \textbf{Zone 1 (The Cybernetic SI Core — Layers 2, 3, and 4):} Every wire struct, RocksDB key-value record, Automerge CRDT register, and WASM state machine executes exclusively in canonical 64-bit fixed-point SI integers (\texttt{int64\_t} and \texttt{uint64\_t}).
+    \item \textbf{Zone 2 (The Human Localization Edge — Layer 6 Application Lenses):} Humans are never forced to perform mental millikelvin or microjoule arithmetic. Layer~6 application lenses (\textit{The Pantry}, \textit{The Workshop}, \textit{The Bakery / Hearth}, \textit{Scenario Zero Forge Studio}) accept craft and cultural idioms at the human edge---baker's hydration percentages ($78\%$), imperial inches ($1.5\,\mathrm{in}$), degrees Fahrenheit ($165.2\,^\circ\mathrm{F}$) or Celsius ($74.0\,^\circ\mathrm{C}$), or A-weighted decibels ($42.0\,\mathrm{dBA}$)---and deterministically compile them into canonical fixed-point SI integers prior to Stage~4 Deterministic Read-Back and hardware signature.
+\end{itemize}
+
+\begin{table}[htbp]
+\centering
+\caption{Canonical 64-Bit Fixed-Point SI Metrological Core (Layers 2--4) vs.\ Layer 6 Human Edge Localization}
+\label{tab:ch1-si-metrology}
+\small
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}lllll@{}}
+\toprule
+\textbf{Physical Dimension} & \textbf{C++20 Type} & \textbf{Canonical Base Unit \& Scale} & \textbf{Exact L2--L4 Ledger Value} & \textbf{L6 Edge Read-Back Localization} \\
+\midrule
+\textbf{Energy / Exergy} & \texttt{int64\_t} & Microjoules (\texttt{uJ}, $10^{-6}\,\mathrm{J}$) & \texttt{3'600'000'000'000 uJ} & \texttt{3.60 MJ} ($1.00\,\mathrm{kWh}$) \\
+\textbf{Power} & \texttt{int64\_t} & Milliwatts (\texttt{mW}, $10^{-3}\,\mathrm{W}$) & \texttt{2'200'000 mW} & \texttt{2.20 kW} \\
+\textbf{Mass} & \texttt{int64\_t} & Milligrams (\texttt{mg}, $10^{-6}\,\mathrm{kg}$) / \texttt{ug} & \texttt{750'000 mg} & \texttt{750 g} ($\approx 3$ cups bread flour) \\
+\textbf{Length / Position} & \texttt{int64\_t} & Millimeters (\texttt{mm}, $10^{-3}\,\mathrm{m}$) / \texttt{um} & \texttt{530 mm x 325 mm} (\texttt{38'100 um}) & \texttt{GN 1/1 Pan} ($1.50\,\mathrm{in} = 38.1\,\mathrm{mm}$) \\
+\textbf{Volume} & \texttt{int64\_t} & Milliliters (\texttt{mL}) / Microliters (\texttt{uL}) & \texttt{240'000 uL} (\texttt{240 mL}) & \texttt{240 mL} ($1.0\,\mathrm{cup}$) \\
+\textbf{Temperature} & \texttt{int64\_t} & Millikelvins (\texttt{mK}, $10^{-3}\,\mathrm{K}$) & \texttt{347'150 mK} / \texttt{503'150 mK} & \texttt{74.0 $^\circ\mathrm{C}$} ($165.2\,^\circ\mathrm{F}$) / \texttt{230.0 $^\circ\mathrm{C}$} \\
+\textbf{Thermal Time} & \texttt{int64\_t} & Millikelvin-seconds (\texttt{mks}, $\mathrm{mK\cdot s}$) & \texttt{86'400'000 mks} & $1.0\,^\circ\mathrm{C\cdot day}$ GDD / Arrhenius integral \\
+\textbf{Acoustic Level} & \texttt{int64\_t} & Centibels (\texttt{cB}, $10^{-1}\,\mathrm{dB}$) & \texttt{4'200 cB} / \texttt{7'500 cB} & \texttt{42.0 dBA} / \texttt{75.0 dBA} \\
+\textbf{Time / Duration} & \texttt{int64\_t} & Milliseconds (\texttt{ms}) / Microseconds (\texttt{us}) & \texttt{2'700'000 ms} & \texttt{45 min 00 s} \\
+\textbf{Ratios / Voice} & \texttt{int64\_t} & Basis Points (\texttt{bp}, $10^{-4}$) & \texttt{10'000 bp} / \texttt{7'800 bp} & \texttt{1.0000 B} ($100.0\%$) / $78.0\%$ hydration \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+\subsection{The Exact Watt-Millisecond-Microjoule Identity and the $10^{12}$ Megajoule Law}
+
+A remarkable mathematical property of the canonical SI unit set in Table~\ref{tab:ch1-si-metrology} is that integrating power in milliwatts (\texttt{mW}, $10^{-3}\,\mathrm{J/s}$) over time intervals in milliseconds (\texttt{ms}, $10^{-3}\,\mathrm{s}$) yields energy in microjoules (\texttt{uJ}, $10^{-6}\,\mathrm{J}$) with \textbf{unit scaling factor equal to unity}:
+\begin{equation}
+1\,\mathrm{mW} \times 1\,\mathrm{ms} = 10^{-3}\,\frac{\mathrm{J}}{\mathrm{s}} \times 10^{-3}\,\mathrm{s} = 10^{-6}\,\mathrm{J} = 1\,\mu\mathrm{J}
+\label{eq:ch1-mw-ms-uj-identity}
+\end{equation}
+Because of Equation~\eqref{eq:ch1-mw-ms-uj-identity}, integrating instantaneous sensor power $P_k\,\mathrm{mW}$ across a $100\,\mathrm{ms}$ tick requires zero division: $\Delta E_k = P_k \cdot \Delta t_{\mathrm{ms}}\,\mu\mathrm{J}$. Furthermore, a 64-bit signed integer (\texttt{int64\_t}, maximum value $\approx 9.22 \times 10^{18}\,\mu\mathrm{J}$) can represent up to $9.22\,\mathrm{Terajoules}$ ($2.56\,\mathrm{GWh}$) in a single register without overflow.
+
+\begin{invariant}[The $10^{12}$ Microjoule-to-Megajoule Scaling Law]
+\label{inv:ch1-mj-scaling}
+Because $1\,\mathrm{J} = 10^6\,\mu\mathrm{J}$ and $1\,\mathrm{MJ} = 10^6\,\mathrm{J}$, one megajoule equals exactly one trillion microjoules:
+\begin{equation}
+1\,\mathrm{MJ} = 10^{12}\,\mu\mathrm{J} = \texttt{1'000'000'000'000LL uJ}, \qquad 1\,\mathrm{kWh} = 3.6\,\mathrm{MJ} = \texttt{3'600'000'000'000LL uJ}
+\label{eq:ch1-mj-law}
+\end{equation}
+Dividing a microjoule register by $10^9$ (\texttt{1'000'000'000LL}) yields \textbf{kilojoules (\texttt{kJ})}, not megajoules (\texttt{MJ}), overstating megajoule quantities by $1{,}000\times$. Every Layer~2--4 wire structure and ledger calculation must preserve raw \texttt{int64\_t} microjoules (\texttt{\_uj}) and divide by \texttt{1'000'000'000'000LL} only when projecting whole megajoules for human display.
+\end{invariant}
+
+When integer division is required inside \texttt{col-storaged} (for instance, computing Carnot thermal exergy factors or efficiency-adjusted power), truncation drift is prevented via \textbf{Carry-Save Euclidean Remainder Accumulators}. Given dividend $N_t$ and divisor $D > 0$, the accumulator maintains persistent remainder state $r_{t-1} \in [0, D-1]$:
+\begin{equation}
+A_t = N_t + r_{t-1}, \qquad q_t = \left\lfloor \frac{A_t}{D} \right\rfloor, \qquad r_t = A_t \bmod D
+\label{eq:ch1-carry-save}
+\end{equation}
+Summing over any number of ticks $T$ guarantees exact conservation: $\sum_{t=1}^{T} N_t = D \sum_{t=1}^{T} q_t + r_T - r_0$, bounding cumulative quantization error to strictly less than one physical quantum ($< 1\,\mu\mathrm{J}$) across decades of operation.
+
+\begin{lstlisting}[language=C++,caption={Canonical 64-bit fixed-point SI metrological constants and carry-save exergy integrator in \texttt{col-storaged}.},label={lst:ch1-si-core}]
+#pragma once
+#include <cstdint>
+#include <type_traits>
+
+namespace collective::l3 {
+
+// Exact 64-bit SI scaling constants (CCI-6: floating_point_opcodes == 0)
+inline constexpr int64_t kMicrojoulesPerJoule      = 1'000'000LL;
+inline constexpr int64_t kMicrojoulesPerKilojoule  = 1'000'000'000LL;
+inline constexpr int64_t kMicrojoulesPerMegajoule  = 1'000'000'000'000LL;       // 10^12 uJ = 1 MJ
+inline constexpr int64_t kMicrojoulesPerKwh        = 3'600'000'000'000LL;       // 3.6 MJ = 1 kWh
+inline constexpr int64_t kBasisPointsUnity         = 10'000LL;                  // 100.00% = 1.0000
+inline constexpr int64_t kZeroCelsiusInMillikelvin = 273'150LL;                 // 0.0 C = 273,150 mK
+
+struct alignas(64) SiVectorStockRecordV50 {
+    uint64_t stock_lot_cid_hash{0};       // [0..7]   Content-addressed material/exergy lot CID
+    uint64_t custodian_node_hash{0};      // [8..15]  Local custody shard ID
+    int64_t  net_exergy_uj{0};            // [16..23] Available net exergy in microjoules (uJ)
+    int64_t  mass_mg{0};                  // [24..31] Physical mass in milligrams (mg)
+    int64_t  volume_ul{0};                // [32..39] Liquid/bulk volume in microliters (uL)
+    int64_t  storage_temp_mk{293'150};    // [40..47] Measured storage temperature in mK
+    int64_t  carry_remainder_uj{0};       // [48..55] Carry-save Euclidean remainder accumulator
+    uint32_t length_um{0};                // [56..59] Characteristic dimension in micrometers (um)
+    uint16_t quality_provenance_flags{2}; // [60..61] 0x02=NativeOpenSpec, 0x04=L7Shim, 0x08=Hybrid
+    uint16_t reserved_pad{0};             // [62..63] Explicit cache-line padding (64B total)
+};
+static_assert(sizeof(SiVectorStockRecordV50) == 64,
+              "SiVectorStockRecordV50 must occupy exactly 1 cache line (64 bytes).");
+
+[[nodiscard]] constexpr int64_t IntegrateThermalExergyCarrySaveUj(
+    int64_t power_mw,
+    int64_t duration_ms,
+    int64_t source_temp_mk,
+    int64_t ambient_sink_temp_mk,
+    int64_t& remainder_accum) noexcept {
+    if (power_mw <= 0 || duration_ms <= 0 || source_temp_mk <= ambient_sink_temp_mk) {
+        return 0;
+    }
+    // Gross enthalpy increment in microjoules: 1 mW * 1 ms == 1 uJ exact
+    const int64_t gross_enthalpy_uj = power_mw * duration_ms;
+    const int64_t delta_temp_mk = source_temp_mk - ambient_sink_temp_mk;
+    // Carnot exergy numerator: gross_enthalpy_uj * (T_source - T_sink) + carry remainder
+    const int64_t numerator = (gross_enthalpy_uj * delta_temp_mk) + remainder_accum;
+    const int64_t net_exergy_uj = numerator / source_temp_mk;
+    remainder_accum = numerator % source_temp_mk;
+    return net_exergy_uj;
+}
+
+} // namespace collective::l3
+\end{lstlisting}

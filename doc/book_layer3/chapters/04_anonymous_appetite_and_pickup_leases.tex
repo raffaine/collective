@@ -1,0 +1,176 @@
+\chapter{Zero-Surveillance Appetite Vectors and Ephemeral Anonymous Pickup Leases}
+\label{ch:anonymous-appetite-leases}
+
+\epigraph{A neighborhood bakery fails if five hundred bread eaters vote on starter hydration and oven administration, just as surely as it fails if five bakers guess tomorrow's bake in the dark. And if the software nags citizens on a sunny Friday afternoon to confirm their Saturday sourdough pickup or lose their slot, we have merely rebuilt corporate calendar anxiety inside the commons.}{---Horizon Council Dialogues 4 \& 5 (\texttt{D4}, \texttt{D5}), \textit{The Architecture of Boundless Time}}
+
+\section{The Coordination Trilemma of Physical Commons Production}
+\label{sec:ch4-coordination-trilemma}
+
+Every material commons that produces perishable nourishment---such as a neighborhood bakery or communal commissary hearth (\texttt{Scenario Gamma})---confronts a three-way structural tension:
+\begin{enumerate}
+    \item \textbf{Against Surveillance Capitalism:} Commercial delivery platforms predict demand by harvesting identity-linked behavioral exhaust---tracking every citizen's purchase history, GPS location, household calendar, and dietary habits in centralized databases, then deploying algorithmic nudges and artificial scarcity timers to manufacture consumption \parencite{zuboff2019}.
+    \item \textbf{Against Authoritarian Central Planning:} Twentieth-century command economies avoided market marketing by abolishing personal taste altogether, issuing standardized caloric rations from top-down planning ministries that left shelves simultaneously choked with unwanted goods and bare of what residents actually craved \parencite{scott1998}.
+    \item \textbf{Against Consumer Tyranny Over Craft Workers:} If a cooperative reacts to central planning by granting all $N_p = 500$ neighborhood bread consumers voting seats inside the $N_s = 5$ person Bakery Guild, casual eaters outvote the actual bakers $500 : 5$ on dough fermentation curves, oven preheat schedules, and shift ergonomics---while verifying who is an ``eligible bread voter'' requires panoptic identity tracking at the bakery counter (\texttt{D3}, \texttt{D4}).
+\end{enumerate}
+
+The Sovereign Stack resolves this trilemma through the \textbf{Dual-Loop Bakery Architecture (\texttt{D4}, \texttt{CCI-2}, \texttt{CCI-3})}, mediated at Layer~3 by \textbf{Zero-Surveillance Cohort Appetite Weather-Maps} and \textbf{Short-Lived Auto-Expiring Pickup Intent Leases (\texttt{AnonymousAppetiteLeaseV50})}.
+
+\section{The Dual-Loop Bakery: $N_s$ Craft Governance vs.\ $N_p$ Zero-Surveillance Demand}
+\label{sec:ch4-dual-loop-bakery}
+
+As illustrated in Figure~\ref{fig:ch4-dual-loop-ledger}, the Dual-Loop Bakery separates internal craft governance from community appetite across two orthogonal cybernetic loops that meet inside \texttt{col-storaged} without ever exposing a single personal Decentralized Identifier (\texttt{did:peer}):
+
+\begin{figure}[htbp]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+    >=Stealth,
+    node distance=0.9cm and 1.2cm,
+    box/.style={draw, rounded corners=3pt, thick, align=center, font=\footnotesize, minimum height=0.95cm, inner sep=6pt},
+    arr/.style={->, thick}
+]
+    \node[box, fill=teal!8, minimum width=4.0cm] (pantry) {
+        \textbf{Citizen Household (\textit{The Pantry} L6)}\\
+        Local Dietary Rhythm \& Stock TTL\\
+        L2 Fridge/Shelf Load-Cell Drawdown
+    };
+    \node[box, fill=blue!7, minimum width=4.0cm, right=1.1cm of pantry] (zk) {
+        \textbf{Local Layer 5 (\texttt{col-kmsd})}\\
+        Strips Personal \texttt{did:peer}\\
+        Emits \texttt{BBS+} Ring-$R_1$ ZKP Tag
+    };
+    \node[box, fill=orange!10!yellow!14, minimum width=4.4cm, below=1.0cm of $(pantry)!0.5!(zk)$] (l3) {
+        \textbf{Layer 3 Ledger (\texttt{col-storaged})}\\
+        64B \texttt{AnonymousAppetiteLeaseV50}\\
+        Auto-Expiring \texttt{expiry\_hlc\_ms} (Zero DIDs)
+    };
+    \node[box, fill=orange!9, minimum width=4.2cm, below left=1.0cm and -1.6cm of l3] (b4) {
+        \textbf{Bakery Layer 4 (\texttt{col-execd})}\\
+        85\% Verified Staples (\texttt{8500 bp})\\
+        15\% \textit{Montage} Experiments (\texttt{1500 bp})
+    };
+    \node[box, fill=green!8, minimum width=4.2cm, below right=1.0cm and -1.6cm of l3] (b5) {
+        \textbf{Bakery Guild L5 (\texttt{col-kmsd})}\\
+        Scoped Strictly to $N_s = 5$ Bakers\\
+        $V_i(t) = 1 + R_i(t)$ Craft Sovereignty
+    };
+
+    \draw[arr] (pantry.east) -- node[above, font=\scriptsize] {\texttt{l5\_l6.sock}} (zk.west);
+    \draw[arr] (zk.south) -- node[right, font=\scriptsize] {\texttt{l4\_l5} $\to$ \texttt{l3\_l4}} (l3.north east);
+    \draw[arr, dashed] (pantry.south) -- node[left, font=\scriptsize] {Detour Pause $\to$ TTL Expiry} (l3.north west);
+    \draw[arr] (l3.south west) -- node[left, font=\scriptsize] {\texttt{l3\_l4.sock}} (b4.north);
+    \draw[arr] (b5.west) -- node[above, font=\scriptsize] {Ratified Schedule} (b4.east);
+\end{tikzpicture}%
+}
+\caption{The Dual-Loop Bakery Architecture across Layers 2--6: Loop~1 confines voting weight $V_i(t) = 1 + R_i(t)$ strictly to the $N_s$ active bakers, while Loop~2 aggregates zero-knowledge-stripped $N_p$ household appetite leases and absorbs spontaneous weekend detours via HLC TTL expiration in Layer~3.}
+\label{fig:ch4-dual-loop-ledger}
+\end{figure}
+
+\begin{enumerate}
+    \item \textbf{Loop 1 (Node Membership Governance, $N_s$):} Inside the Bakery Node, Layer~5 voting weight $V_i(t) = 1 + R_i(t)$ ($10{,}000\,\mathrm{bp} + R_{i,\mathrm{bp}}(t)$) is scoped exclusively to the $N_s$ active member-bakers who steward the ovens.
+    \item \textbf{Loop 2 (Zero-Surveillance Demand \& Physical Shelf Validation, $N_p$):}
+    \begin{itemize}
+        \item \textit{Local-First Need Reflection:} Residents log dietary rhythms, allergen exclusions, and flavor affinities privately inside their own household Layer~6 lens (\textbf{\textit{The Pantry}}).
+        \item \textit{Layer 5 Zero-Knowledge Identity Stripping:} Before any demand signal leaves the household node, local \texttt{col-kmsd} strips the resident's \texttt{did:peer} and replaces it with a unlinkable \texttt{BBS+} ring-membership zero-knowledge proof tag (\texttt{zk\_ring\_membership\_tag}) proving only that the lease originates from a valid $R_1$ neighbor within the delivery porch cluster \parencite{camenisch2004signature,naacp1958}.
+        \item \textit{The 85\% Staple / 15\% Montage Split:} Bakery Layer~4 merges the anonymous Layer~3 cohort appetite weather-map with Layer~2 pickup-shelf clearance load cells. By constitutional convention in \texttt{Scenario Gamma}, bakers allocate \textbf{$8{,}500\,\mathrm{bp}$ ($85\%$) of oven capacity} to verified neighborhood staples (sourdough, seeded rye, split-pea tiffins) and reserve \textbf{$1{,}500\,\mathrm{bp}$ ($15\%$) for compositional \textit{montage}}---unrequested culinary experiments whose resonance is validated organically by Layer~2 shelf clearance and optional anonymous taste feedback (\texttt{MONTAGE\_TASTE\_FEEDBACK}).
+    \end{itemize}
+\end{enumerate}
+
+\section{How \textit{The Pantry} and Layer 3 Solve the ``Spontaneous Weekend Detour'' Without Surveillance}
+\label{sec:ch4-weekend-detour}
+
+Consider the physical coordination hazard posed in Dialogues~4 and~5 (\texttt{D4}, \texttt{D5}): forty neighbors express a standing preference for Saturday morning sourdough, and a bright Friday inspires twenty of them to head spontaneously into the mountains for the weekend---precisely as Dr\_Sofia's boundless-time ethos encourages. If the bakery bakes forty loaves on a static weekly pledge, twenty loaves rot into Layer~1 food waste. Conversely, if the software demands Friday afternoon check-in confirmations, Layer~6 degenerates into an intrusive digital boss.
+
+Layer~3 and \textit{The Pantry} solve this thermodynamically through \textbf{Two-Tier Demand Signaling} and \textbf{Asynchronous Detour Absorption}:
+\begin{enumerate}
+    \item \textbf{Tier 0 — Ambient Taste Affinity (\texttt{AMBIENT\_TASTE\_AFFINITY = 0}):} Soft seasonal preferences shape long-horizon flour milling and crop planting (\texttt{Scenario Eta}), never immediate oven firing.
+    \item \textbf{Tier 1 — Short-Lived Auto-Expiring Pickup Intent Leases (\texttt{SHORT\_LIVED\_PICKUP\_LEASE = 1}):} Near-term bake counts are driven by \textit{The Pantry} acting as a \textbf{physical stock buffer}. Only when a household's actual bread or tiffin stock on its Layer~2 load-cell shelf crosses its replenishment threshold does \textit{The Pantry} emit or renew a short-lived Layer~3 pickup intent lease with a finite Hybrid Logical Clock time-to-live (\texttt{expiry\_hlc\_ms = issued\_hlc\_ms + 43'200'000}, i.e., $12\,\mathrm{hours}$).
+    \item \textbf{Silent Detour Throttling:} When a household departs for the mountains, local Layer~2 pantry consumption pauses (\texttt{auto\_throttled\_by\_detour = 1}). Stock remains above the drawdown threshold, or any active near-term lease expires silently in \texttt{col-storaged} at $\tau_{\mathrm{HLC}} \ge \texttt{expiry\_hlc\_ms}$ prior to the bakery's midnight dough-make cutoff. Outbound demand scales down automatically with \textbf{zero GPS tracking, zero calendar inspection, and zero nagging notifications}.
+    \item \textbf{Pre-Spoilage Neighbor Surplus Offers (\texttt{L3SurplusOffer}):} If perishable milk or greens inside a household larder approach their Arrhenius biological TTL threshold while the steward is away, \textit{The Pantry}'s standing Layer~5 rule posts an anonymous Ring~$R_1$ surplus offer into \texttt{col-storaged} so an adjacent neighbor's Pantry claims the stock before spoilage occurs.
+\end{enumerate}
+
+\begin{invariant}[Zero Persistent Consumer Histories in Layer 3]
+\label{inv:ch4-zero-consumer-history}
+At every HLC instant $\tau$, every record $r \in \mathcal{T}_{\mathrm{appetite}}(\tau)$ stored in \texttt{col-storaged}'s demand table satisfies:
+\begin{equation}
+\mathrm{Fields}(r) \cap \{ \texttt{did:peer}, \, \texttt{human\_name}, \, \texttt{ip\_address}, \, \texttt{gps\_coord} \} = \emptyset \quad \land \quad (\tau > r.\texttt{expiry\_hlc\_ms} \implies \mathrm{Active}(r) = \mathrm{false})
+\end{equation}
+In accordance with \textit{NAACP v.\ Alabama} data non-existence \parencite{naacp1958}, \texttt{col-storaged} physically cannot reconstruct which citizen ate which loaf.
+\end{invariant}
+
+\begin{lstlisting}[language=C++,caption={Cache-aligned 64-byte \texttt{AnonymousAppetiteLeaseV50} and deterministic weekend-detour cohort aggregator in \texttt{col-storaged}.},label={lst:ch4-appetite-lease}]
+#pragma once
+#include <cstdint>
+#include <span >
+
+namespace collective::l3 {
+
+enum class DemandCommitmentTier : uint8_t {
+    AMBIENT_TASTE_AFFINITY   = 0, // Soft seasonal forecast (non-binding)
+    SHORT_LIVED_PICKUP_LEASE = 1, // Firm near-term Pantry drawdown lease (auto-expires)
+    MONTAGE_TASTE_FEEDBACK   = 2  // Post-pickup optional anonymous rating on 15% experiment
+};
+
+/**
+ * @brief Zero-Surveillance Layer 3 Cohort Appetite & Auto-Expiring Pickup Lease (D4, D5, CCI-2).
+ * Stripped of all personal DIDs by local Layer 5 (col-kmsd) via BBS+ ring-membership ZKP
+ * before crossing l4_l5.sock -> l3_l4.sock. Strictly 64 bytes (1 cache line), zero floats.
+ */
+struct alignas(64) AnonymousAppetiteLeaseV50 {
+    uint64_t lease_nonce_hash{0};         // [0..7]   Unlinkable PRF lease token
+    uint64_t target_need_cid_prefix{0};   // [8..15]  e.g. need:sourdough_rye / need:pea_soup
+    uint64_t issued_hlc_ms{0};            // [16..23] Issue timestamp (HLC ms)
+    uint64_t expiry_hlc_ms{0};            // [24..31] Auto-expires on weekend detour!
+    uint64_t zk_ring_membership_tag{0};   // [32..39] Verifies valid R1 neighbor without DID
+    uint32_t requested_mass_mg{0};        // [40..43] Requested portion mass in milligrams
+    uint32_t allergen_exclusion_mask{0};  // [44..47] Bitmask for BBS+ anaphylactic disjointness
+    uint16_t taste_affinity_bp{5000};     // [48..49] 0..10000 bp flavor resonance
+    uint16_t target_cohort_zone_id{1};    // [50..51] Coarse neighborhood delivery porch cluster
+    DemandCommitmentTier tier{DemandCommitmentTier::SHORT_LIVED_PICKUP_LEASE}; // [52] (1B)
+    uint8_t  auto_throttled_by_detour{0}; // [53]     1 if L2 Pantry consumption paused (1B)
+    uint8_t  quality_flags{0x02};         // [54]     0x02=HardwareRoot, 0x01=Simulated (1B)
+    uint8_t  reserved_pad[9]{0};          // [55..63] Explicit cache-line padding (9B)
+};
+static_assert(sizeof(AnonymousAppetiteLeaseV50) == 64,
+              "AnonymousAppetiteLeaseV50 must occupy exactly 1 cache line (64 bytes).");
+
+struct CohortBakeScheduleAllocationV50 {
+    int64_t verified_staple_mass_mg{0};   // 85% staple demand backed by active non-expired leases
+    int64_t montage_experiment_mass_mg{0};// 15% capacity reserved for Dr_Sofia culinary montage
+    uint32_t active_lease_count{0};
+    uint32_t detour_expired_count{0};
+};
+
+[[nodiscard]] constexpr CohortBakeScheduleAllocationV50 AggregateActiveBakeryDemandV50(
+    const AnonymousAppetiteLeaseV50* leases,
+    std::size_t count,
+    uint64_t current_hlc_ms,
+    uint64_t target_need_cid,
+    int64_t montage_reserve_bp = 1'500) noexcept {
+    CohortBakeScheduleAllocationV50 out{};
+    for (std::size_t i = 0; i < count; ++i) {
+        const auto& l = leases[i];
+        if (l.target_need_cid_prefix != target_need_cid ||
+            l.tier != DemandCommitmentTier::SHORT_LIVED_PICKUP_LEASE ||
+            l.zk_ring_membership_tag == 0) {
+            continue;
+        }
+        // Automatic weekend detour throttling: drop paused or HLC-expired leases
+        if (l.auto_throttled_by_detour != 0 || current_hlc_ms >= l.expiry_hlc_ms) {
+            ++out.detour_expired_count;
+            continue;
+        }
+        out.verified_staple_mass_mg += static_cast<int64_t>(l.requested_mass_mg);
+        ++out.active_lease_count;
+    }
+    // 85% staple / 15% montage split: total = staple / 0.85 -> montage = staple * 1500 / 8500
+    const int64_t staple_share_bp = 10'000 - montage_reserve_bp;
+    if (staple_share_bp > 0 && out.verified_staple_mass_mg > 0) {
+        out.montage_experiment_mass_mg =
+            (out.verified_staple_mass_mg * montage_reserve_bp) / staple_share_bp;
+    }
+    return out;
+}
+
+} // namespace collective::l3
+\end{lstlisting}

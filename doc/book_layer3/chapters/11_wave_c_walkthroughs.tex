@@ -1,0 +1,128 @@
+\chapter{Wave C Ledger Walkthroughs: Care Shields, Kinship, Apprenticeship, and Lodging Envelopes (\texttt{Delta}, \texttt{Omicron}, \texttt{Kappa}, \texttt{Zeta})}
+\label{ch:wave-c-walkthroughs}
+
+\epigraph{A ledger that charges tokens for rocking a feverish infant or locks a newcomer out of the workshop because their reputation register starts at zero is not a commonwealth; it is a debtor's prison with cryptographic signatures. Care is unconditional at the gate, and every apprentice begins with a full civic baseline $B = 1$ and a mentor-signed path to mastery.}{---Horizon Council Synthesis, Wave C (Stage 2)}
+
+\section{Overview of Wave C (Maturity Stage 2: Social Reproduction, Kinship, and Habitat Envelopes)}
+\label{sec:ch11-overview}
+
+As a neighborhood mesh matures from Stage~1B into a \textbf{Stage~2 Cooperative Mixed-Use Shell}, its ledger must support generational continuity: perinatal and early-childhood nurseries (\texttt{SCN-DELTA-CHILDCARE}), fluid multi-generational kinship households (\texttt{SCN-OMICRON-KINSHIP}), practical craft onboarding from zero initial reputation (\texttt{SCN-KAPPA-APPRENTICESHIP}), and multi-suite residential buildings wrapping overlapping indoor nodes (\texttt{SCN-ZETA-LODGING}).
+
+\begin{table}[htbp]
+\centering
+\caption{Horizon Council v3.2 Layer 3 Ledger Binding Matrix for Wave C (Stage 2)}
+\label{tab:ch11-wave-c-matrix}
+\small
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}lllll@{}}
+\toprule
+\textbf{Scenario ID \& Slug} & \textbf{$N_s$ Regime \& $V_i(t)$} & \textbf{Active Layer 6 Lenses} & \textbf{Enveloping Node Boundary Lease} & \textbf{Core Layer 3 Ledger Mechanics} \\
+\midrule
+\textbf{\texttt{SCN-DELTA-CHILDCARE}} (\texttt{delta\_childcare}) & $N_s = 4 \to 18$ care stewards \& parents & \textit{The Pantry} + \textit{Enveloping Node Lens} & Nursery Wing Envelope: Tier \texttt{950}, \texttt{4000 cB} nap shield, \texttt{294,150 mK} & \texttt{AttemptTokenizeBaselineCare(4) == false}; Arrhenius breast-milk/formula TTL ledger; Fast-Path acoustic throttling of adjacent bays. \\
+\textbf{\texttt{SCN-OMICRON-KINSHIP}} (\texttt{omicron\_kinship}) & $N_s = 2 \to 15$ ($N=2$ dyadic \& $N \gg 2$ hearth) & \textit{The Pantry} + \textit{Enveloping Node Lens} & Multi-Suite Kinship Envelope: shared \texttt{mW} \& quiet \texttt{cB} covenants & Frictionless split/merge of spatial leases and pooled pantry drawdown curves with zero biometric or calendar surveillance. \\
+\textbf{\texttt{SCN-KAPPA-APPRENTICESHIP}} (\texttt{kappa\_apprenticeship}) & $N_s = 2 \to 20$ ($R_{\mathrm{mentor}} > 0$, $R_{\mathrm{apprentice}}(0) = 0, B=1$) & \textit{The Workshop Lens} (Pillar II dual-key tasks) & Training Bay Envelope: \texttt{7500 cB}, hardware interlock \texttt{mW} lease & Solves cold-start $R_i(0)=0$ paradox via Tier-0 unsupervised \& Tier-1 mentor co-signed Stage~II Right-to-Repair retrofit tasks. \\
+\textbf{\texttt{SCN-ZETA-LODGING}} (\texttt{zeta\_lodging}) & $N_s = 20 \to 120$ building residents ($B=1$ per resident) & \textit{The Enveloping Node Hypervisor Lens} & \textbf{Primary Building \& Block Enveloping Hypervisor} & Eliminates spatial NFTs; executes Two-Speed Jurisprudence (Fast-Path L2 hazard override + Slow-Path diurnal \texttt{cB} precedent compilation). \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+\section{Scenario Delta (\texttt{SCN-DELTA-CHILDCARE}): Non-Commensurable Care Shields and Priority 950 Nap Envelopes}
+\label{sec:ch11-delta}
+
+Early October~2026 drafts of Layer~3 proposed using continuous millimeter-wave FMCW radar and BLE Angle-of-Arrival arrays to push infant respiration telemetry onto a public zk-SNARK ledger. The Horizon Council purged all continuous biometric person-tracking from Layers~2 and~3 (\texttt{CCI-2}). In v3.2, \texttt{col-storaged} protects early-childhood sanctuaries through three strictly non-panoptic mechanisms:
+\begin{enumerate}
+    \item \textbf{Unconditional $B_{\mathrm{baseline}}$ Exergy and Nutrition Floor:} Under \texttt{AttemptTokenizeBaselineCare(PERINATAL\_AND\_CHILDCARE\_AFFECTION) == false}, nursery hydronic heating ($294{,}150\,\mathrm{mK} = 21.0\,^\circ\mathrm{C}$), medical sterilization power, and infant nourishment sit at Tier~2 ($B_{\mathrm{baseline}}$) of the lexicographic preemption queue, immune to discretionary load shedding.
+    \item \textbf{Priority 950 Enveloping Node Acoustic Nap Shield:} During scheduled nursery rest windows, the Nursery Wing's \texttt{EnvelopingBoundaryLeaseV50} elevates its partition acoustic ceiling enforcement to \texttt{preemption\_priority\_tier = 950} with $\texttt{max\_acoustic\_cb} = 4{,}000\,\mathrm{cB}$ ($40.0\,\mathrm{dBA}$). If an adjacent tier-\texttt{100} Maker Bench attempts to acquire a $7{,}500\,\mathrm{cB}$ routing lease across a shared structural wall during the nap window, \texttt{col-storaged} denies the high-decibel lock and triggers a Layer~6 Semantic Diff suggesting the afternoon open-acoustic slot.
+    \item \textbf{Arrhenius Cold-Chain TTL for Expressed Milk and Formula:} Nursery refrigerators track expressed milk and pediatric probiotics via \texttt{PantryPerishableBatchV50} at $275{,}150\text{--}277{,}150\,\mathrm{mK}$ ($2.0\text{--}4.0\,^\circ\mathrm{C}$), alerting care stewards immediately if a Stage~I compressor shim detects a thermal excursion.
+\end{enumerate}
+
+\section{Scenario Omicron (\texttt{SCN-OMICRON-KINSHIP}): Chosen Kinship and Fluid Household Lease Partitioning}
+\label{sec:ch11-omicron}
+
+In \texttt{Scenario Omicron} ($N_s = 2 \to 15$), chosen families, multi-generational pods, and dyadic partnerships form, expand, or amicably reconfigure their living suites without bank mortgages or landlord evictions. When two adjacent suites merge into a shared kinship hearth---or when a dyadic household ($N_s = 2$) splits into two independent solo studios ($N_s = 1$)---\texttt{col-storaged} executes an atomic CRDT partition/merge of their \texttt{EnvelopingBoundaryLeaseV50} spatial polygons (\texttt{mm}) and local \textit{Pantry} stock vectors ($\mathbf{M}_u, \mathbf{V}_u$) with zero financial penalty and zero historical behavioral logging.
+
+\section{Scenario Kappa (\texttt{SCN-KAPPA-APPRENTICESHIP}): Solving the Cold-Start $R_i(0) = 0$ Apprentice Paradox via Pillar II}
+\label{sec:ch11-kappa}
+
+In Dialogue~6 (\texttt{D6}), the Council addressed a classic operational paradox: \textit{If high-voltage or high-exergy tools in \textit{The Workshop} require verified capability credentials to prevent accidents, how does a newcomer arriving at a node with zero operational reputation ($R_i(0) = 0\,\mathrm{bp}$) ever run workflows, contribute value, and build $R_i(t) > 0$?}
+
+\texttt{Scenario Kappa} resolves this cold-start paradox through \textbf{Constitutional Pillar~II (\texttt{collective:WorkCapabilityMatrix})} paired with Layer~3's \textbf{Dual-Key Mentor-Apprentice Stewardship Ledger}:
+\begin{enumerate}
+    \item \textbf{Day-Zero Civic Baseline ($B = 10{,}000\,\mathrm{bp}$):} Upon joining a guild node ($N_s$), the apprentice immediately holds $V_{\mathrm{apprentice}}(0) = B + 0 = 10{,}000\,\mathrm{bp}$ ($1.0$ full civic vote).
+    \item \textbf{Pillar II Tier-0 Unsupervised Prep Workflows:} Low-hazard BPMN tasks (material staging, Gastronorm pan sanitization, timber de-nailing, 3D-printed metric adapter clean-up) carry \texttt{required\_capability\_mask == 0}. An apprentice with $R_i = 0$ can claim these tasks autonomously via a 24-byte \texttt{ClaimHandle} and earn initial verified Proof of Stewardship increments ($\Delta R_{i,\mathrm{bp}} > 0$).
+    \item \textbf{Pillar II Tier-1 Dual-Key Mentor-Co-Signed Tasks (Right-to-Repair Retrofits):} For high-hazard equipment (e.g., wiring an open STM32/RISC-V controller into a $480\,\mathrm{V}$ three-phase commercial oven or operating a CNC mill), \texttt{col-storaged} authorizes the \texttt{ActuationEnvelopeV1} lease when presented with a 2-of-2 \texttt{FROST} hardware co-signature combining the apprentice's \texttt{ClaimHandle} with a certified mentor's \texttt{ClaimHandle}. Upon Layer~2/3 physical verification, \textbf{both} the apprentice receive full $\Delta R_{i,\mathrm{bp}}$ stewardship credit and Bayesian Knowledge Tracing (\texttt{BKT} $\ge 9{,}500\,\mathrm{bp}$) progression toward independent Pillar~II certification \parencite{corbett1995bkt,komlo2020frost}.
+\end{enumerate}
+
+\section{Scenario Zeta (\texttt{SCN-ZETA-LODGING}): Replacing Spatial NFTs with the Building Enveloping Node Hypervisor}
+\label{sec:ch11-zeta}
+
+Early October~2026 stubs in \texttt{04\_smart\_contracts.tex} mistakenly proposed minting ``Non-Fungible Tokens (NFTs) and Spatial Smart Contracts'' to control room doors. The Horizon Council permanently abolished spatial NFTs: housing in The Collective is a decommodified constitutional right anchored in a Community Land Trust (CLT), never a tradable speculative token.
+
+In v3.2, \texttt{Scenario Zeta} ($N_s = 20 \to 120$ residents) is the canonical realization of the \textbf{Primary Building \& Block Enveloping Node Hypervisor (\texttt{D6}, \texttt{CCI-4})}:
+\begin{itemize}
+    \item Every resident holds $V_i(t) = 1 + R_i(t)$ inside the Building Enveloping Node while enjoying sovereign privacy inside their personal residential suite ($N_s = 1$ or kinship pod).
+    \item Shared building boundaries---nighttime quiet hours ($3{,}800\,\mathrm{cB}$ after 22:00), communal laundry and sauna hydronic budgets (\texttt{uJ}), and guest lodging suites for visiting federated couriers or apprentices---are coordinated via finite-TTL \texttt{EnvelopingBoundaryLeaseV50} records in \texttt{col-storaged}, governed by Two-Speed Jurisprudence.
+\end{itemize}
+
+\begin{lstlisting}[language=C++,caption={Pillar II Apprentice Dual-Key Stewardship Minting and Cold-Start Onboarding Verifier in \texttt{col-storaged} (\texttt{SCN-KAPPA-APPRENTICESHIP}).},label={lst:ch11-kappa-apprentice}]
+#pragma once
+#include <cstdint>
+
+namespace collective::l3::wave_c {
+
+struct alignas(64) ApprenticeDualKeyTaskCommitV50 {
+    uint64_t task_commit_cid_hash{0};         // [0..7]   L4 BatchStepCommit CID
+    uint64_t apprentice_claim_handle_hash{0}; // [8..15]  Blinded 24B ClaimHandle digest (R_i may be 0!)
+    uint64_t mentor_claim_handle_hash{0};     // [16..23] Certified mentor ClaimHandle (0 if Tier-0 task)
+    uint64_t l2_telemetry_merkle_root{0};     // [24..31] ATECC608A verified physical completion root
+    int64_t  verified_work_exergy_uj{0};      // [32..39] Useful thermodynamic work or rescued ERC (uJ)
+    uint32_t task_hazard_capability_mask{0};  // [40..43] 0 = Tier-0 unsupervised; >0 = requires mentor/VC
+    uint32_t mentor_certified_mask{0};        // [44..47] Mentor's Pillar II capability bitmask
+    uint16_t apprentice_prior_bkt_bp{2'000};  // [48..49] Prior mastery probability in bp (0..10000)
+    uint16_t apprentice_post_bkt_bp{0};       // [50..51] Updated BKT mastery probability in bp
+    int16_t  minted_apprentice_delta_r_bp{0}; // [52..53] Stewardship bonus credited to apprentice
+    int16_t  minted_mentor_delta_r_bp{0};     // [54..55] Pedagogical stewardship bonus credited to mentor
+    uint8_t  frost_dual_key_verified{0};      // [56]     1 iff hardware dual-key interlock verified
+    uint8_t  erc_spike_detected{0};           // [57]     Must be 0 for stewardship minting
+    uint8_t  reserved_pad[6]{0};              // [58..63] Explicit cache-line padding (64B total)
+};
+static_assert(sizeof(ApprenticeDualKeyTaskCommitV50) == 64,
+              "ApprenticeDualKeyTaskCommitV50 must occupy exactly 1 cache line (64 bytes).");
+
+[[nodiscard]] constexpr bool EvaluateApprenticeStewardshipCommitV50(
+    ApprenticeDualKeyTaskCommitV50& commit) noexcept {
+    if (commit.apprentice_claim_handle_hash == 0 ||
+        commit.l2_telemetry_merkle_root == 0 ||
+        commit.erc_spike_detected != 0) {
+        return false;
+    }
+    // Tier-0 Unsupervised Task: newcomer with R_i(0) == 0 can execute directly!
+    if (commit.task_hazard_capability_mask == 0) {
+        commit.minted_apprentice_delta_r_bp = 120; // +0.0120 R_i unit initial onboarding step
+        commit.minted_mentor_delta_r_bp = 0;
+        commit.apprentice_post_bkt_bp = (commit.apprentice_prior_bkt_bp + 800 <= 10'000)
+            ? static_cast<uint16_t>(commit.apprentice_prior_bkt_bp + 800)
+            : 10'000;
+        return true;
+    }
+    // Tier-1 Hazard Task: requires mentor dual-key FROST hardware co-signature
+    const bool mentor_qualified =
+        (commit.mentor_certified_mask & commit.task_hazard_capability_mask) ==
+        commit.task_hazard_capability_mask;
+    if (!mentor_qualified || commit.frost_dual_key_verified == 0 ||
+        commit.mentor_claim_handle_hash == 0 ||
+        commit.mentor_claim_handle_hash == commit.apprentice_claim_handle_hash) {
+        return false;
+    }
+    commit.minted_apprentice_delta_r_bp = 350; // Full craft stewardship credit
+    commit.minted_mentor_delta_r_bp     = 150; // Mentorship transmission credit
+    // Deterministic integer BKT mastery update toward 9,500 bp certification threshold
+    const int64_t gap_bp = 10'000 - static_cast<int64_t>(commit.apprentice_prior_bkt_bp);
+    commit.apprentice_post_bkt_bp = static_cast<uint16_t>(
+        commit.apprentice_prior_bkt_bp + ((gap_bp * 3'500) / 10'000));
+    return true;
+}
+
+} // namespace collective::l3::wave_c
+\end{lstlisting}

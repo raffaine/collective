@@ -1,0 +1,151 @@
+\chapter{Proof of Stewardship ($R_{i,\mathrm{bp}}(t)$), Physical Demurrage, and Reputational Entropy ($\lambda$)}
+\label{ch:proof-of-stewardship-entropy}
+
+\epigraph{Under venture capitalism, software is never permitted to be finished because subscription rent requires perpetual churn. In The Collective, when a mature artifact reaches the TeX Asymptote, maintenance incidents drop to zero, operational reputation $R_i(t)$ decays peacefully to zero, and the universal civic baseline $B = 1$ prevents any opportunistic stranger from hijacking the sleeping commons.}{---Horizon Council Dialogues 2 \& 3 (\texttt{D2}, \texttt{D3}), \textit{The Architecture of Boundless Time}}
+
+\section{The Three-Way Anti-Farming Minting Conjunction for Proof of Stewardship}
+\label{sec:ch5-anti-farming}
+
+In Layer~7 token-voting DAOs and gamified productivity platforms, governance weight can either be purchased outright on secondary markets or ``farmed'' by spamming trivial commits, opening synthetic tickets, or running self-assigned busywork. Moreover, early October~2026 drafts of Layer~3 mistakenly proposed a ``Cryptographic Proof of Labor'' that sampled tool Hall-effect current sensors and inertial measurement units (IMUs) to mint value tokens proportional to worker physical exertion---an intolerable panoptic piece-rate surveillance architecture that was permanently abolished by the Council.
+
+In v3.2 of the Sovereign Stack, Layer~3 (\texttt{col-storaged}) never surveils human bodies and never mints circulating tokens. Instead, when an active member $i \in \mathcal{M}_{\mathrm{node}}$ ($N_s$) of a Layer~5 node completes an operational workflow, Layer~3 verifies the physical outcome and issues a cryptographically attested \textbf{Proof of Stewardship increment ($\Delta R_{i,\mathrm{bp}} > 0$)} across \texttt{l3\_l4.sock} $\to$ \texttt{l4\_l5.sock} to \texttt{col-kmsd}.
+
+\begin{invariant}[The Three-Way Anti-Farming Stewardship Conjunction (\texttt{D3}, \texttt{CCI-2})]
+\label{inv:ch5-anti-farming}
+\texttt{col-storaged} attests a non-zero Proof of Stewardship increment $\Delta R_{i,\mathrm{bp}} > 0$ if and only if three independent cross-layer cryptographic conditions hold simultaneously:
+\begin{equation}
+\Delta R_{i,\mathrm{bp}} > 0 \iff \underbrace{\mathrm{ValidL6Demand}(L_{\mathrm{cid}})}_{\text{1. Layer 6 Need / RFC Lease}} \;\land\; \underbrace{\mathrm{CompletedL4Task}(W_{\mathrm{cid}}, H_{\mathrm{claim}})}_{\text{2. Layer 4 BPMN State Finality}} \;\land\; \underbrace{\mathrm{VerifiedL2L3Physics}(\Delta\mathbf{S}_{\mathrm{actual}}, \Delta\lambda_{\mathrm{ERC}} \le 0)}_{\text{3. Layer 2/3 Conservation \& Zero ERC Spike}}
+\label{eq:ch5-anti-farming-conjunction}
+\end{equation}
+where $H_{\mathrm{claim}}$ is the 24-byte PRF-blinded Layer~4 \texttt{ClaimHandle} bound inside Layer~5 to member $i \in \mathcal{M}_{\mathrm{node}}$. Self-assigned busywork lacking a prior Layer~6 requirement artifact or anonymous demand lease, or any workflow execution that induces an uncompensated Ecological Replacement Cost ($\lambda_{\mathrm{ERC}}$) spike or fails Layer~2 hardware conservation checks, mints $\Delta R_{i,\mathrm{bp}} \equiv 0$.
+\end{invariant}
+
+\section{Constitutional Non-Commensurability of Baseline Care (\texttt{AttemptTokenizeBaselineCare() == false})}
+\label{sec:ch5-non-commensurability}
+
+Before examining how $R_{i,\mathrm{bp}}(t)$ decays and feeds Layer~5 governance, we must state the most sacred boundary of Layer~3: \textbf{the unconditional non-commensurability of human care and baseline survival ($B_{\mathrm{baseline}}$)}.
+
+As implemented in \texttt{src/daemons/col-storaged/storaged\_engine.hpp} (\texttt{AttemptTokenizeBaselineCare}), Layer~3 structurally refuses to price, meter per-person consumption of, open auctions for, or deduct Bilateral Clearing Channel (\texttt{BCC}) credits for the six categories of Ring~$R_0$ baseline human existence:
+\begin{enumerate}
+    \item \texttt{HUMBLE\_HEARTH\_PEA\_SOUP\_BEAN\_STEW} (nourishing staple meals at the communal hearth);
+    \item \texttt{WARM\_SHOWER\_AND\_HYDRONIC\_HEATING} (domestic warmth and hot water);
+    \item \texttt{SANITATION\_AND\_COMPOST\_STEWARDSHIP} (clean water and ecological sanitation);
+    \item \texttt{PERINATAL\_AND\_CHILDCARE\_AFFECTION} (\texttt{Scenario Delta} nursery care);
+    \item \texttt{ELDER\_AND\_EMERGENCY\_HEALTH\_CARE} (\texttt{Scenario Phi} sanctuary and \texttt{Scenario Chi} trauma response);
+    \item \texttt{OPEN\_KNOWLEDGE\_AGORA\_LEARNING} (\texttt{Scenario Kappa} and \texttt{Scenario Iota} education).
+\end{enumerate}
+Resource allocation in \texttt{col-storaged} obeys the strict lexicographic 5-tier constitutional preemption hierarchy:
+\begin{equation}
+F_{\mathrm{eco}}\;(\text{Ecological Floor}) \;\succ\; B_{\mathrm{baseline}}\;(\text{Unconditional Survival \& Care}) \;\succ\; \text{Federated Mutual Aid} \;\succ\; \text{Local Discretionary} \;\succ\; \Phi_t\;\text{Export}
+\label{eq:ch5-lexicographic-hierarchy}
+\end{equation}
+
+\section{Physical Demurrage on Stored Exergy vs.\ Reputational Entropy ($\lambda$) in Dormant Equilibrium}
+\label{sec:ch5-demurrage-and-entropy}
+
+In the physical universe, both stored thermodynamic potential and operational familiarity are subject to the arrow of time \parencite{kondepudi2014modern,landauer2010}. Layer~3 models two distinct fixed-point exponential decay processes:
+
+\subsection{1. Physical Demurrage on Stored Material and Exergy Reserves}
+Electrochemical batteries self-discharge through internal leakage resistance; insulated hydronic water tanks lose thermal gradient across their jackets; stored grain respires. To prevent any disconnect between ledger claims and physical reality, \texttt{col-storaged} applies medium-specific \textbf{Physical Demurrage} $\lambda_{\mathrm{phys}}$ to stored exergy reserves:
+\begin{equation}
+\mathcal{E}(\tau) = \mathcal{E}(\tau_0) \cdot e^{-\lambda_{\mathrm{phys}}(\tau - \tau_0)}
+\label{eq:ch5-physical-demurrage}
+\end{equation}
+matching the actual physical half-life of the storage medium ($\mathrm{LiFePO_4}$ bank, hydronic buffer tank, or sealed grain silo).
+
+\subsection{2. Reputational Entropy ($\lambda$), ``The TeX Asymptote,'' and $V_i(t) = 1 + R_i(t)$}
+In Dialogue~2 (\texttt{D2}), the Council examined what happens when a piece of software (\texttt{Scenario Zero}) or a workshop process reaches genuine functional maturity---\textbf{``The \TeX{} Asymptote,''} named after Donald Knuth's \TeX{} typesetting engine, whose version numbers converge asymptotically to $\pi$ as defects vanish \parencite{knuth1984tex}.
+\begin{itemize}
+    \item As bugs and servicing incidents drop to zero, no new Layer~4 maintenance workflows need to be run ($\dot{r}_i(\tau) \to 0$).
+    \item Under reputational entropy $\lambda > 0$ (with half-life $\tau_{1/2} = \frac{\ln 2}{\lambda}$, default $180\,\mathrm{days} = 15{,}552{,}000{,}000\,\mathrm{ms}$), every member's operational stewardship bonus $R_{i,\mathrm{bp}}(t)$ decays smoothly toward zero:
+    \begin{equation}
+    R_{i,\mathrm{bp}}(t) = \left\lfloor R_{i,\mathrm{bp}}(t_0) \cdot 2^{-(t - t_0)/\tau_{1/2}} \right\rfloor \xrightarrow{t \to \infty} 0
+    \label{eq:ch5-reputational-decay}
+    \end{equation}
+    This decay liberates founders like Dr\_Sofia to pivot to new life chapters (\textit{montage}) without guilt or lifelong maintainer servitude.
+    \item \textbf{The Dormant-Node Single-Maintainer Hijack Hazard (\texttt{D3}):} If Layer~5 evaluated voting weight via pure meritocracy ($V_i(t) = R_i(t)$ with $B = 0$), then once a mature node entered Dormant Equilibrium ($\sum_{j=1}^{N_s} R_j(t) \to 0$), the first opportunistic stranger who fixed a trivial hardware-drift ticket ($\Delta R_{\mathrm{attacker}} = 500\,\mathrm{bp}$) would instantaneously hold $100\%$ of the node's voting weight!
+\end{itemize}
+
+To defeat Dormant-Node Single-Maintainer Hijack across every scenario and scale regime, Layer~3 and Layer~5 pair the decaying operational reputation $R_{i,\mathrm{bp}}(t)$ with the \textbf{Non-Decaying Universal Civic Baseline $B = 1$ ($B_{\mathrm{bp}} = 10{,}000\,\mathrm{bp}$)} scoped strictly to Node Membership ($N_s$):
+\begin{equation}
+V_i(t) = B + R_i(t) = 1 + R_i(t) \qquad \Bigl(\text{fixed-point: } V_{i,\mathrm{bp}}(t) = 10{,}000 + R_{i,\mathrm{bp}}(t)\Bigr)
+\label{eq:ch5-unified-voting-formula}
+\end{equation}
+
+\begin{theorem}[Universal Anti-Capture Across $N_s = 1$, $N_s = 2$, and $N_s \gg 2$ (\texttt{CCI-2})]
+\label{thm:ch5-anti-capture}
+Under the Unified Constitutional Voting Weight Law $V_{i,\mathrm{bp}}(t) = 10{,}000 + R_{i,\mathrm{bp}}(t)$ scoped to active node members $i \in \{1, \dots, N_s\}$:
+\begin{enumerate}
+    \item \textbf{Genesis Solo Node ($N_s = 1$):} $V_1(t) / \sum V_j(t) = 100\%$ from Day~0 ($R_1(0) = 0$), providing zero-friction personal autonomy over one's own studio or bench while external spatial effects remain bounded by the Enveloping Node Hypervisor.
+    \item \textbf{Dyadic Split ($N_s = 2$):} Any earned stewardship $R_1(t) > R_2(t)$ breaks a two-person tie toward the active contributor (or protects mentor safety lead in apprenticeship), while content-addressed Layer~3/6 artifacts guarantee the dissenting partner clean fork freedom.
+    \item \textbf{Community Scale ($N_s \gg 2$) \& Dormant Equilibrium Immunity:} Any single member $i$'s voting share is strictly less than $50\%$ whenever total node membership satisfies the crossover condition:
+    \begin{equation}
+    N_s > \frac{R_{i,\mathrm{bp}}(t)}{10{,}000} + 2 \quad \Longleftrightarrow \quad N_s \cdot 10{,}000\,\mathrm{bp} > R_{i,\mathrm{bp}}(t) + 20{,}000\,\mathrm{bp}
+    \label{eq:ch5-crossover}
+    \end{equation}
+    In Dormant Equilibrium ($R_j(t) \to 0 \;\forall j$), if an opportunistic actor accrues $\Delta R_{\mathrm{attacker}}$, their share is bounded by $\frac{10{,}000 + \Delta R_{\mathrm{attacker},\mathrm{bp}}}{N_s \cdot 10{,}000 + \Delta R_{\mathrm{attacker},\mathrm{bp}}} \ll \theta_{\mathrm{supermajority}}$, rendering single-maintainer hijack mathematically impossible.
+\end{enumerate}
+\end{theorem}
+
+\begin{lstlisting}[language=C++,caption={Fixed-point reputational entropy decay ($\tau_{1/2}$), 3-way stewardship minting guard, and $V_{i,\mathrm{bp}}(t) = 10{,}000 + R_{i,\mathrm{bp}}(t)$ evaluator.},label={lst:ch5-stewardship-voice}]
+#pragma once
+#include <cstdint>
+#include <array>
+
+namespace collective::l3 {
+
+inline constexpr int64_t kUniversalCivicBaselineBp = 10'000;          // B = 1.0000 (never decays)
+inline constexpr int64_t kDefaultHalfLifeMs        = 15'552'000'000LL; // 180 days in milliseconds
+
+struct alignas(64) NodeMemberStewardshipRecordV50 {
+    uint64_t member_did_hash{0};                        // [0..7]   Scoped strictly to Node Membership (N_s)
+    uint64_t node_id_hash{0};                           // [8..15]  Polycentric guild or enveloping node ID
+    int64_t  civic_baseline_bp{kUniversalCivicBaselineBp}; // [16..23] Non-decaying B = 10,000 bp
+    int64_t  stewardship_bonus_bp{0};                   // [24..31] Decaying R_{i,bp}(t) >= 0
+    uint64_t last_decay_hlc_ms{0};                      // [32..39] HLC timestamp of last entropy update
+    uint64_t half_life_ms{kDefaultHalfLifeMs};          // [40..47] Half-life tau_{1/2} in ms
+    uint64_t last_verified_proof_cid{0};                // [48..55] L3 ThermodynamicProofRecord CID
+    uint32_t certified_capability_mask{0};              // [56..59] Pillar II work capability bitmask
+    uint32_t completed_stewardship_count{0};            // [60..63] Cumulative verified L4 tasks (64B total)
+
+    [[nodiscard]] constexpr int64_t TotalVotingWeightBp() const noexcept {
+        return civic_baseline_bp + (stewardship_bonus_bp > 0 ? stewardship_bonus_bp : 0);
+    }
+};
+static_assert(sizeof(NodeMemberStewardshipRecordV50) == 64,
+              "NodeMemberStewardshipRecordV50 must occupy exactly 1 cache line (64 bytes).");
+
+/**
+ * @brief Deterministic integer half-life decay using 4-term Taylor/Pade sub-epoch interpolation.
+ * Guarantees R_{i,bp}(t) -> 0 during Dormant Equilibrium ("The TeX Asymptote") while B = 10,000 bp holds.
+ */
+constexpr void ApplyReputationalEntropyDecayV50(
+    NodeMemberStewardshipRecordV50& member,
+    uint64_t current_hlc_ms) noexcept {
+    if (current_hlc_ms <= member.last_decay_hlc_ms || member.stewardship_bonus_bp <= 0) {
+        member.last_decay_hlc_ms = current_hlc_ms;
+        return;
+    }
+    const uint64_t elapsed_ms = current_hlc_ms - member.last_decay_hlc_ms;
+    const uint64_t tau_ms     = (member.half_life_ms > 0) ? member.half_life_ms : kDefaultHalfLifeMs;
+
+    // Exact bit-shift for whole half-lives elapsed
+    const uint64_t whole_half_lives = elapsed_ms / tau_ms;
+    if (whole_half_lives >= 62U) {
+        member.stewardship_bonus_bp = 0;
+        member.last_decay_hlc_ms = current_hlc_ms;
+        return;
+    }
+    int64_t r_bp = member.stewardship_bonus_bp >> whole_half_lives;
+
+    // Fractional half-life decay in basis points: 2^{-f} ~= (10000 - 3466*f) / (10000 + 3466*f)
+    const int64_t frac_bp = static_cast<int64_t>(((elapsed_ms % tau_ms) * 10'000ULL) / tau_ms);
+    const int64_t kLn2HalfBp = 3'466; // (ln(2)/2) * 10,000 = 3465.7359
+    const int64_t num = 100'000'000LL - (kLn2HalfBp * frac_bp);
+    const int64_t den = 100'000'000LL + (kLn2HalfBp * frac_bp);
+    member.stewardship_bonus_bp = (r_bp * num) / den;
+    member.last_decay_hlc_ms = current_hlc_ms;
+}
+
+} // namespace collective::l3
+\end{lstlisting}

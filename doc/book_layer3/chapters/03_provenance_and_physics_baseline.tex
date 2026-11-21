@@ -1,0 +1,155 @@
+\chapter{Content-Addressed Provenance and the Physics Baseline Library}
+\label{ch:provenance-physics-baseline}
+
+\epigraph{McDonald's Speedee Service System---grill choreography, cold-chain buffers, prep ergonomics, and sanitation loops---was genuine operational science corrupted only by intellectual-property monopolies, royalty extraction, and forced corporate uniformity. Free the operational blueprint from the rent, rank forks by real thermodynamic telemetry, and every neighborhood inherits day-one mastery.}{---Horizon Council Dialogue 7 (\texttt{D7}), \textit{The Architecture of Boundless Time}}
+
+\section{Open-Source Franchising Across the Three Sovereign Libraries (\texttt{CCI-5})}
+\label{sec:ch3-sovereign-libraries}
+
+Why do so many cooperative caf\'es, community tool cribs, and neighborhood workshops fail in their first eighteen months while corporate franchise chains survive? As analyzed in Dialogue~7 (\texttt{D7}), the corporate franchise does not triumph because extractive rent-seeking is efficient; it triumphs because a new independent cooperative is typically forced to reinvent fifty subtle operational routines from scratch---thermal holding intervals, preventive cleaning sequences, bill-of-materials lead times, and station ergonomics---whereas a franchise hands a new crew a battle-tested operational bundle on Day~1.
+
+The Sovereign Stack decouples operational mastery from corporate rent extraction through \textbf{Open-Source Franchising (``The Speedee Service System Without the Rent'')}. Instead of locking standard operating procedures behind proprietary trade secrets, Layer~3 (\texttt{col-storaged} and \texttt{col-meshd}) replicates all cyber-physical knowledge across \textbf{Three Sovereign Content-Addressed JSON-LD Libraries} indexed by InterPlanetary Linked Data (IPLD) SHA-256 Content Identifiers (CIDs) \parencite{w3c2020jsonld,kleppmann2017designing}:
+
+\begin{table}[htbp]
+\centering
+\caption{The Three Sovereign Content-Addressed JSON-LD Libraries Replicated Across Layer~3 (\texttt{col-storaged})}
+\label{tab:ch3-three-libraries}
+\small
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}llll@{}}
+\toprule
+\textbf{Sovereign Library} & \textbf{JSON-LD Root Type} & \textbf{Layer Custody \& Consumers} & \textbf{Content \& Metrological Role} \\
+\midrule
+\textbf{1. The Ontological Graph} & \texttt{collective:OntologicalArtifactGraph} & Stored in L3; framed by L6, queried by L4/L2 & Content-addressed specifications of materials, tools, \texttt{M6}/\texttt{M8} fasteners, \texttt{GN 1/1} pans, \texttt{ISO} totes, capability VCs, and functional equivalence classes. \\
+\textbf{2. The Orchestration Registry} & \texttt{collective:ParameterizedBpmnTemplate} & Stored in L3; compiled by L6$\to$L5, executed by L4 & Composable, parameterized BPMN~2.0 process DAGs (\texttt{prov:wasDerivedFrom}) declaring abstract SI transformation intervals (\texttt{uJ}, \texttt{mK}, \texttt{ms}, \texttt{mL}). \\
+\textbf{3. The Physics Baseline} & \texttt{collective:ThermodynamicBenchmarkLedger} & Attested by L2$\to$L3; queried by L4/L6 & Cryptographically signed empirical distributions (\texttt{collective:thermodynamicProof}) of actual exergy ($\mathrm{uJ/mg}$), scrap (\texttt{bp}), $\lambda_{\mathrm{ERC}}$, and \texttt{observed\_mtbf\_sec}. \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+Together, these three libraries support the \textbf{Four Modes of Open-Source Franchise Instantiation}:
+\begin{enumerate}
+    \item \textbf{Mode 1 — Turnkey Instantiation (``Day-One Competence''):} A newly chartered node pulls a verified blueprint bundle (e.g., \texttt{cid:bafy...hearth-sourdough-v4} or \texttt{cid:bafy...woodshop-joinery-v3}) from local \texttt{col-storaged}. Layer~6 compiles its Layer~5 safety gates and Layer~4 station workflows down to the room's Layer~2 equipment inventory in minutes.
+    \item \textbf{Mode 2 — Localized Semantic Forking:} When local grain cultivars, high-altitude boiling points, or cultural schedules differ, stewards fork the blueprint in their Layer~6 craft lens. \texttt{col-storaged} stores only the content-addressed structural delta linked via \texttt{prov:wasDerivedFrom} to \texttt{parentBlueprintCid}, leaving core Bigelow $F_0$ pasteurization and Lockout/Tagout (LOTO) invariants intact.
+    \item \textbf{Mode 3 — Empirical Lineage Ranking via \texttt{collective:thermodynamicProof}:} Every completed batch pushes Layer~2 energy, yield, and fault telemetry into Layer~3's \textit{Physics Baseline}, allowing nodes to rank forks by real physical performance rather than advertising budgets.
+    \item \textbf{Mode 4 — Greenfield Montage:} Pioneers authoring an entirely novel process in \textit{Scenario Zero Forge Studio} or the $15\%$ \textit{montage} window publish their validated template back into the commons as a new root lineage.
+\end{enumerate}
+
+\section{Structure and Verification of \texttt{collective:thermodynamicProof}}
+\label{sec:ch3-thermodynamic-proof}
+
+How does a decentralized federation prevent a node from publishing fabricated benchmark claims into \textit{The Physics Baseline} to artificially boost the ranking of its favored recipe fork?
+
+In Layer~3, a \texttt{collective:thermodynamicProof} record cannot be authored directly by a human user interface or an unverified script. It is synthesized deterministically inside \texttt{col-storaged} by joining an upward Layer~2 hardware-signed telemetry batch digest (\texttt{ATECC608A} Epoch Merkle Root over \texttt{l2\_l3.sock}) with a completed Layer~4 \texttt{BatchStepCommit} frame (over \texttt{l3\_l4.sock}).
+
+\begin{definition}[Empirical Lineage Quality Score $Q_{\mathrm{lineage}}(w)$]
+\label{def:ch3-lineage-score}
+For any workflow template CID $w$ in the Orchestration Registry with $K \ge 1$ hardware-attested \texttt{ThermodynamicProofRecordV50} executions stored in the Physics Baseline, \texttt{col-storaged} maintains the integer aggregate vector:
+\begin{equation}
+\mathbf{\Theta}(w) = \Bigl\langle \bar{e}_{\mathrm{specific}}(w)\;\bigl[\mathrm{uJ/mg}\bigr], \; \bar{s}_{\mathrm{spoilage}}(w)\;\bigl[\mathrm{bp}\bigr], \; \bar{\lambda}_{\mathrm{ERC}}(w)\;\bigl[\mathrm{uJ/batch}\bigr], \; \widehat{\mathrm{MTBF}}(w)\;\bigl[\mathrm{s}\bigr] \Bigr\rangle
+\label{eq:ch3-physics-baseline-vector}
+\end{equation}
+where $\bar{e}_{\mathrm{specific}}(w) = \left\lfloor \frac{\sum_{k=1}^{K} (E_{\mathrm{direct},k} + E_{\mathrm{shim},k})}{\sum_{k=1}^{K} M_{\mathrm{output},k}} \right\rfloor$ is the specific exergy per milligram of verified output, $\bar{s}_{\mathrm{spoilage}}(w) \in [0, 10{,}000\,\mathrm{bp}]$ is the empirical scrap/spoilage fault ratio, $\bar{\lambda}_{\mathrm{ERC}}(w)$ is the realized Ecological Replacement Cost per batch, and $\widehat{\mathrm{MTBF}}(w)$ is the observed mean time between unscheduled Layer~4 hard-blocks in seconds (\texttt{observed\_mtbf\_sec}).
+\end{definition}
+
+\begin{figure}[htbp]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+    >=Stealth,
+    node distance=0.9cm and 1.3cm,
+    box/.style={draw, rounded corners=3pt, thick, align=center, font=\footnotesize, minimum height=0.95cm, inner sep=6pt},
+    arr/.style={->, thick}
+]
+    \node[box, fill=gray!12, minimum width=3.6cm] (l2) {
+        \textbf{Layer 2 (\texttt{col-telemetryd})}\\
+        \texttt{ATECC608A} Signed Epoch\\
+        Exergy (\texttt{uJ}), Mass (\texttt{mg}), Temp (\texttt{mK})
+    };
+    \node[box, fill=blue!7, minimum width=3.6cm, above=1.1cm of l2] (l4) {
+        \textbf{Layer 4 (\texttt{col-execd})}\\
+        \texttt{BatchStepCommit} Frame\\
+        \texttt{workflow\_def\_cid} \& Cascade Tier
+    };
+    \node[box, fill=green!8, minimum width=4.3cm, right=1.3cm of $(l2.east)!0.5!(l4.east)$] (l3join) {
+        \textbf{Layer 3 (\texttt{col-storaged})}\\
+        Conservation \& Merkle Join\\
+        Synthesizes \texttt{ThermodynamicProofRecordV50}
+    };
+    \node[box, fill=orange!10!yellow!14, minimum width=3.8cm, right=1.2cm of l3join] (lib) {
+        \textbf{Physics Baseline Library}\\
+        Content-Addressed IPLD DAG\\
+        Gossiped via \texttt{col-meshd}
+    };
+
+    \draw[arr] (l2.east) -- node[below, sloped, font=\scriptsize] {\texttt{l2\_l3.sock}} (l3join.south west);
+    \draw[arr] (l4.east) -- node[above, sloped, font=\scriptsize] {\texttt{l3\_l4.sock}} (l3join.north west);
+    \draw[arr] (l3join.east) -- node[above, font=\scriptsize] {\texttt{RDFC-1.0 CID}} (lib.west);
+\end{tikzpicture}%
+}
+\caption{Synthesis of a content-addressed \texttt{collective:thermodynamicProof} record inside \texttt{col-storaged} by joining hardware-signed Layer~2 telemetry with Layer~4 workflow completion commits.}
+\label{fig:ch3-proof-synthesis}
+\end{figure}
+
+\section{Three-Builder Reproducible Consensus for Scenario Zero Artifacts}
+\label{sec:ch3-merkle-artifact}
+
+For digital artifacts governed under \textbf{Scenario Zero (\texttt{SCN-ZERO-SOFTWARE})}---where Oasis and all stack daemons are stewarded as Khronos/OpenGL-style Layer~6 Software Objects (\texttt{D1})---\texttt{col-storaged} enforces a strict three-architecture reproducible consensus gate (\texttt{VerifyMerkleArtifactConsensus}) before any binary or WebAssembly workflow bundle can be marked \texttt{is\_verified\_active = 1}.
+
+As codified in \texttt{src/daemons/col-storaged/storaged\_engine.hpp}, a \texttt{MerkleArtifactRecord} (32 bytes) requires at least three independent builders (\texttt{builder\_consensus\_count >= 3U}) across heterogeneous silicon (\texttt{x86\_64}, \texttt{aarch64}, \texttt{riscv64}) to attest to the exact same \texttt{artifact\_cid\_hash}, recursive Software Bill of Materials root (\texttt{sbom\_merkle\_root\_hash}), and binary digest prefix (\texttt{agreed\_sha256\_prefix}).
+
+\begin{lstlisting}[language=C++,caption={Content-addressed \texttt{MerkleArtifactRecord} (32B) and \texttt{ThermodynamicProofRecordV50} (64B) in \texttt{col-storaged}.},label={lst:ch3-thermodynamic-proof}]
+#pragma once
+#include <cstdint>
+#include <type_traits>
+
+namespace collective::l3 {
+
+/**
+ * @brief Layer 3 Content-Addressed Merkle Artifact Record (SCN-ZERO-SOFTWARE).
+ * Matches src/daemons/col-storaged/storaged_engine.hpp (32 bytes exact).
+ */
+struct alignas(8) MerkleArtifactRecord {
+    uint64_t artifact_cid_hash{0};       // [0..7]   Content-addressed software/blueprint CID
+    uint64_t sbom_merkle_root_hash{0};   // [8..15]  Recursive vendored SBOM Merkle root
+    uint64_t agreed_sha256_prefix{0};    // [16..23] Bit-for-bit reproducible binary hash prefix
+    uint32_t builder_consensus_count{0}; // [24..27] >= 3 independent builders (x86_64/aarch64/riscv64)
+    uint16_t asset_category{0};          // [28..29] 1=Daemon, 2=WasmWorkflow, 3=L6Lens, 4=RetrofitCad
+    uint8_t  is_verified_active{0};      // [30]     1 iff 3-builder consensus + 10k Oasis canary pass
+    uint8_t  pad_{0};                    // [31]     Explicit padding (32B total)
+};
+static_assert(sizeof(MerkleArtifactRecord) == 32, "MerkleArtifactRecord must be 32 bytes.");
+
+/**
+ * @brief Empirical Physics Baseline Proof Record (collective:thermodynamicProof).
+ * Appended to col-storaged upon L2-verified completion of an L4 BPMN batch (D5, D7, CCI-5).
+ * Strictly 64 bytes (1 cache line), zero IEEE-754 floats.
+ */
+struct alignas(64) ThermodynamicProofRecordV50 {
+    uint64_t proof_cid_hash{0};           // [0..7]   Length-prefixed SHA-256 CID of this proof
+    uint64_t blueprint_template_cid{0};   // [8..15]  Orchestration Registry workflow_def_cid
+    uint64_t parent_lineage_cid{0};       // [16..23] prov:wasDerivedFrom upstream blueprint CID
+    uint64_t l2_epoch_merkle_root{0};     // [24..31] ATECC608A hardware-signed L2 telemetry root
+    int64_t  total_exergy_consumed_uj{0}; // [32..39] Direct + parasitic shim exergy in uJ
+    int64_t  realized_erc_amortized_uj{0};// [40..47] Layer 3 lambda_ERC incurred during batch (uJ)
+    int64_t  verified_output_mass_mg{0};  // [48..55] L2 load-cell verified good output mass (mg)
+    uint32_t observed_mtbf_sec{0};        // [56..59] Observed mean time between hard-blocks (s)
+    uint16_t spoilage_or_scrap_bp{0};     // [60..61] Scrap/spoilage rate in basis points (0..10000)
+    uint8_t  fleet_tier_mask{0};          // [62]     Bitmask of Stage I/II/III hardware used
+    uint8_t  cascade_resolution_tier{0};  // [63]     0=Direct, 1=SI_Scaled, 2=Macro_Substituted
+};
+static_assert(sizeof(ThermodynamicProofRecordV50) == 64,
+              "ThermodynamicProofRecordV50 must occupy exactly 1 cache line (64 bytes).");
+
+[[nodiscard]] constexpr int64_t ComputeSpecificExergyUjPerMg(
+    const ThermodynamicProofRecordV50& rec) noexcept {
+    if (rec.verified_output_mass_mg <= 0) {
+        return INT64_MAX;
+    }
+    const int64_t total_uj = rec.total_exergy_consumed_uj + rec.realized_erc_amortized_uj;
+    return (total_uj + rec.verified_output_mass_mg - 1) / rec.verified_output_mass_mg;
+}
+
+} // namespace collective::l3
+\end{lstlisting}

@@ -1,0 +1,106 @@
+\chapter{Causal Mesh Replication, Pairwise BCC Clearing, and Oracle Quarantine (\texttt{col-storaged} + \texttt{col-meshd})}
+\label{ch:causal-mesh-bcc}
+
+\epigraph{Global blockchains collapse under rural network partitions because they demand that every valley agree on a single planetary spending pool before two neighbors can swap a crate of apples for a kiln firing. Pre-partition your physical custody shards, clear inter-node trade through zero-sum bilateral channels, and a severed fiber trunk becomes a non-event.}{---Architectural Charter of The Collective, Layer 3 Storage \& Mesh Working Group}
+
+\section{Dual-Engine Persistence: RocksDB LSM-Trees and Automerge/Yrs CRDTs}
+\label{sec:ch9-dual-engine}
+
+To operate reliably on frugal, twenty-year salvaged single-board computers ($\le 512\,\mathrm{MiB}$ RAM budget) across intermittent LoRaWAN, Wi-Fi HaLow, and cargo-trike sneakernet links (\texttt{Scenario Beta} and \texttt{Scenario Upsilon}), Layer~3 rejects heavyweight global Byzantine validator sets (such as pBFT or Proof-of-Stake chains) and Directed Acyclic Graph (DAG) proof-of-work tangles. Instead, \texttt{col-storaged} pairs two deterministic local storage engines synchronized horizontally via \texttt{col-meshd}:
+
+\begin{enumerate}
+    \item \textbf{The Immutable Append-Log (\texttt{RocksDB} WAL + SSTables):} Every hardware-signed Layer~2 telemetry epoch (\texttt{l2\_l3.sock}), Layer~4 \texttt{BatchStepCommit} frame (\texttt{l3\_l4.sock}), \texttt{ThermodynamicProofRecordV50}, and \texttt{FastPathPreemptionReceiptV50} is committed to an embedded RocksDB Log-Structured Merge-tree (LSM-tree) \parencite{oneil1996lsm,dong2021rocksdb} keyed by a monotonic Hybrid Logical Clock (\texttt{HLC}) timestamp \parencite{kulkarni2014logical} and linked into content-addressed IPLD SHA-256 Merkle-DAG blocks.
+    \item \textbf{The Conflict-Free Replicated Operational State (\texttt{Automerge} / \texttt{Yrs} CRDTs):} Mutable operational state---local stock vectors $\mathbf{S}_u(\tau)$, active \texttt{EnvelopingBoundaryLeaseV50} tables, tool custody leases, and Sovereign Library indexes---is structured as state- and delta-based Conflict-Free Replicated Data Types (CRDTs) \parencite{shapiro2011crdt,kleppmann2017automerge}.
+\end{enumerate}
+
+\subsection{Pre-Partition Cryptographic Sharding}
+Why can two partitioned sub-meshes merge their CRDT state deltas after a 72-hour mountain storm without encountering a physical double-spend? Because Layer~3 enforces \textbf{Pre-Partition Cryptographic Sharding}: every physical stock lot or battery reserve $\mathcal{E}_i$ is cryptographically bound to the specific physical node and spatial domain $\mathcal{D}_u$ that holds physical custody of that mass or exergy:
+\begin{equation}
+\mathcal{S}_{\mathrm{local}}(u) = \Bigl\{ \mathcal{E}_i \;\Big|\; \mathrm{Custodian}(\mathcal{E}_i) = u \;\land\; \mathrm{Location}(\mathcal{E}_i) \in \mathcal{D}_u \Bigr\}
+\label{eq:ch9-local-shard}
+\end{equation}
+During a network partition, Node~$u$ can allocate, transform, or consume only physical assets in $\mathcal{S}_{\mathrm{local}}(u)$. Because disjoint physical shards never mutate the same physical custodian register concurrently, post-partition CRDT join-semilattice merges ($\mathbf{S}_u \sqcup \mathbf{S}_v$) are mathematically conflict-free.
+
+\section{Meshed Spatial Reasoning and Passive Quarantine (Erasing Stake Slashing)}
+\label{sec:ch9-passive-quarantine}
+
+Early October~2026 drafts of Layer~3 proposed ``Adversarial Slashing'' that burned $50\%$ of a node's staked exergy tokens upon telemetry equivocation. The Horizon Council permanently abolished stake slashing for two constitutional reasons: first, burning abstract tokens does not repair a faulty thermocouple; second, financial slashing inside a physical community violates the \textbf{``Fault Before Malice''} doctrine and threatens the inviolable survival floor $B_{\mathrm{baseline}}$.
+
+Instead, \texttt{col-storaged} resolves the physical Oracle Problem through \textbf{Meshed Spatial Reasoning} coupled with \textbf{Passive Quarantine}:
+\begin{itemize}
+    \item \textbf{Cross-Sensor Conservation Checks:} Inbound Layer~2 telemetry claims are cross-checked against physical conservation laws before committing to the active state vector. For example, a borehole pump claiming volumetric water delivery $Q_{\mathrm{water}}$ (\texttt{mL}) against dynamic head $h_{\mathrm{head}}$ (\texttt{mm}) must satisfy the First-Law electromechanical work bound against the inverter's measured electrical exergy $\Delta E_{\mathrm{pump}}$ (\texttt{uJ}):
+    \begin{equation}
+    \Delta E_{\mathrm{pump}} \cdot \eta_{\mathrm{motor},\mathrm{bp}} \ge 10{,}000 \cdot \rho_{\mathrm{water}} \cdot g \cdot Q_{\mathrm{water}} \cdot h_{\mathrm{head}}
+    \label{eq:ch9-pump-conservation}
+    \end{equation}
+    Similarly, a solar MPPT controller claiming $5{,}000{,}000\,\mathrm{mW}$ generation while adjacent pyranometers and peer roof arrays in Ring~$R_1$ report nightfall fails spatial median consensus ($\hat{y} = \mathrm{median}(y_1, \dots, y_n)$).
+    \item \textbf{Passive Quarantine \& Pillar II Capability Revocation:} When a sensor or tool controller violates conservation bounds or emits conflicting Ed25519/\texttt{ATECC608A} signatures \parencite{bernstein2012high,microchip_atecc608a}, \texttt{col-storaged} neither sounds alarms nor slashes survival access. It sets \texttt{QUARANTINE\_ORACLE\_DIVERGENCE} on that hardware public key, isolates its CRDT branch from minting exergy or stewardship proofs, and signals Layer~4/5 over \texttt{l3\_l4.sock} to revoke the tool's Pillar~II automated actuation lease and schedule a physical calibration inspection.
+\end{itemize}
+
+\section{Pairwise Zero-Sum Bilateral Clearing Channels (\texttt{BCC}) and Multi-Hop HTLCs}
+\label{sec:ch9-bcc-htlc}
+
+When autonomous Sovereign Nodes $u$ and $v$ exchange surplus electricity, timber, foundry castings, or guild stewardship across a bioregional federation, they never clear through a central bank or global token ledger. They settle across peer-to-peer \textbf{Pairwise Bilateral Clearing Channels (\texttt{PairwiseBccChannel})} governed by the strict zero-sum conservation law:
+\begin{equation}
+B_{u \to v}(\tau) + B_{v \to u}(\tau) = 0, \qquad -C_{u \to v} \le B_{u \to v}(\tau) \le +C_{v \to u}
+\label{eq:ch9-bcc-zero-sum}
+\end{equation}
+denominated in integer microjoules (\texttt{\_uj}) of verified embodied/net exergy within bilaterally ratified mutual-aid credit windows $[-C_{u \to v}, +C_{v \to u}]$ (default $200\,\mathrm{MJ} = \texttt{200'000'000'000'000LL uJ}$).
+
+\begin{enumerate}
+    \item \textbf{Two-Phase Sensor-Verified Delivery Receipts:} Phase~1 locks an in-transit microjoule escrow when Node~$u$ dispatches physical freight or power. Phase~2 finalizes the balance shift $B_{u \to v}(\tau^+) = B_{u \to v}(\tau) + \Delta E_{\mathrm{verified},\mathrm{uJ}}$ only when Node~$v$'s Layer~2 revenue meter or receiving scale returns an \texttt{ATECC608A}-signed physical arrival receipt $\sigma_{\mathrm{delivery}}$.
+    \item \textbf{Multi-Hop Chained Hashed Timelock Contracts (HTLCs):} Across multi-hop Bioregional Path-Vector Protocol (BPVP) routes $A \to B \to C$ (\texttt{col-meshd}), atomic settlement is enforced via hashlock $H(S) = \mathrm{SHA256}(S)$ and strictly decrementing HLC timelocks ($\Delta t_{A \to B} > \Delta t_{B \to C}$). When physical delivery is sensor-verified at destination $C$, preimage $S$ cascades backward $C \to B \to A$, settling each pairwise \texttt{BCC} hop atomically.
+    \item \textbf{Non-Monetary Clearance, Commons Jubilee \& 26 U.S.C.\ \S~6045 Exemption:} Channels bear zero interest, cannot be traded or securitized, and clear via counter-seasonal physical delivery, guild labor dispatch, or a Watershed Congress \textbf{Commons Jubilee} following ecological shocks (\texttt{Scenario Upsilon}). Because \texttt{col-storaged} operates zero commercial brokerage, pools costs internally under cooperative doctrine (26 U.S.C.\ Subchapter~T), enforces strict fiat inconvertibility (\textit{Howey} / \textit{Reves}) \parencite{howey1946,reves1990}, and stores zero personal consumer identities (\textit{NAACP v.\ Alabama}) \parencite{naacp1958}, it remains structurally outside 26 U.S.C.\ \S~6045 commercial barter reporting.
+\end{enumerate}
+
+\begin{lstlisting}[language=C++,caption={Zero-sum \texttt{PairwiseBccChannel} settlement, multi-hop HTLC escrow, and \texttt{AttemptTokenizeBaselineCare() == false} in \texttt{col-storaged}.},label={lst:ch9-bcc-engine}]
+#pragma once
+#include <cstdint>
+#include <limits>
+
+namespace collective::l3 {
+
+struct alignas(8) PairwiseBccChannel {
+    int64_t  balance_u_to_v_uj{0};                       // [0..7]   Node u net balance vs v (uJ)
+    int64_t  balance_v_to_u_uj{0};                       // [8..15]  Node v net balance vs u (uJ)
+    int64_t  credit_limit_u_to_v_uj{200'000'000'000'000LL}; // [16..23] 200 MJ mutual-aid window
+    int64_t  credit_limit_v_to_u_uj{200'000'000'000'000LL}; // [24..31] 200 MJ mutual-aid window
+    uint64_t peer_did_hash{0};                           // [32..39] Peered node identity hash (40B)
+};
+static_assert(sizeof(PairwiseBccChannel) == 40, "PairwiseBccChannel must be exactly 40 bytes.");
+
+[[nodiscard]] constexpr bool SettlePairwiseBccTransfer(
+    PairwiseBccChannel& ch,
+    uint64_t transfer_uj) noexcept {
+    if ((ch.balance_u_to_v_uj + ch.balance_v_to_u_uj) != 0) {
+        return false; // Zero-sum pre-condition violated
+    }
+    if (transfer_uj > static_cast<uint64_t>(std::numeric_limits<int64_t>::max()) ||
+        ch.credit_limit_u_to_v_uj < 0 || ch.credit_limit_v_to_u_uj < 0) {
+        return false;
+    }
+    const int64_t delta_uj = static_cast<int64_t>(transfer_uj);
+    if (delta_uj > 0 && ch.balance_u_to_v_uj > (std::numeric_limits<int64_t>::max() - delta_uj)) {
+        return false;
+    }
+    const int64_t next_u_to_v = ch.balance_u_to_v_uj + delta_uj;
+    const int64_t next_v_to_u = ch.balance_v_to_u_uj - delta_uj;
+    if (next_u_to_v > ch.credit_limit_u_to_v_uj || (-next_v_to_u) > ch.credit_limit_v_to_u_uj) {
+        return false; // Exceeds bilateral mutual-aid credit window
+    }
+    ch.balance_u_to_v_uj = next_u_to_v;
+    ch.balance_v_to_u_uj = next_v_to_u;
+    return (ch.balance_u_to_v_uj + ch.balance_v_to_u_uj) == 0;
+}
+
+/**
+ * @brief Constitutional Non-Commensurability Invariant (CCI-2):
+ * Baseline R0 human care and survival can never be tokenized or charged BCC credits.
+ */
+[[nodiscard]] constexpr bool AttemptTokenizeBaselineCare(uint16_t care_category = 0) noexcept {
+    (void)care_category;
+    return false;
+}
+
+} // namespace collective::l3
+\end{lstlisting}

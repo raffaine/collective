@@ -1,0 +1,92 @@
+\chapter{Wave D Ledger Walkthroughs: Silviculture, Biorefineries, Metallurgy, Textiles, and Open-Building (\texttt{Eta}, \texttt{Mu}, \texttt{Theta}, \texttt{Nu}, \texttt{Xi})}
+\label{ch:wave-d-walkthroughs}
+
+\epigraph{When a foundry casts its own M8 metric dies from reclaimed scrap steel and a joinery builds walls engineered to be unbolted a century hence without a single gram of demolition rubble, Ecological Replacement Cost ($\lambda_{\mathrm{ERC}}$) collapses toward zero and the watershed breathes easy.}{---Horizon Council Synthesis, Wave D (Stage 2 Heavy Metabolism)}
+
+\section{Overview of Wave D (Maturity Stage 2: Land, Primary Materials, and Structural Architecture)}
+\label{sec:ch12-overview}
+
+\textbf{Wave~D} extends the Layer~3 vector ledger outward from indoor workshops into the bioregional substrate: regenerative coppice forestry (\texttt{SCN-ETA-COPPICE}), mineral and chemical reclamation biorefineries (\texttt{SCN-MU-EXTRACTION}), high-temperature induction metallurgy (\texttt{SCN-THETA-FOUNDRY}), natural-fiber textile looms (\texttt{SCN-NU-FASHION}), and Habraken Open-Building construction (\texttt{SCN-XI-ARCHITECTURE}) \parencite{habraken1972supports}. Across Wave~D, Layer~3's \textbf{Ecological Replacement Cost ($\lambda_{\mathrm{ERC}}$)} and the \textbf{3-Tier Layer~4 BPMN Hardware Adaptation Cascade} govern heavy material flows.
+
+\begin{table}[htbp]
+\centering
+\caption{Horizon Council v3.2 Layer 3 Ledger Binding Matrix for Wave D (Stage 2 Heavy Metabolism)}
+\label{tab:ch12-wave-d-matrix}
+\small
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}lllll@{}}
+\toprule
+\textbf{Scenario ID \& Slug} & \textbf{$N_s$ Regime \& $V_i(t)$} & \textbf{Active Layer 6 Lenses} & \textbf{Enveloping Node Boundary Lease} & \textbf{Core Layer 3 Ledger \& Hardware Cascade Mechanics} \\
+\midrule
+\textbf{\texttt{SCN-ETA-COPPICE}} (\texttt{eta\_coppice}) & $N_s = 4 \to 16$ agro-forestry stewards & \textit{The Pantry} + \textit{The Workshop Lens} & Bioregional Forestry Sub-Envelope: parcel \texttt{mm}, biomass \texttt{uJ} & Asymptotic $\lambda_{\mathrm{ERC}}^{\mathrm{living}}$ firewall ($U_{\mathrm{ceil}} = 7500\,\mathrm{bp}$); solar kiln \texttt{mks} drying ledger; Stage~II open sawmill retrofit. \\
+\textbf{\texttt{SCN-MU-EXTRACTION}} (\texttt{mu\_extraction}) & $N_s = 6 \to 25$ quarry, clay \& recycling stewards & \textit{The Workshop Lens} ($\lambda_{\mathrm{ERC}}$ stock recovery) & Extraction Envelope: \texttt{9000 cB}, particulate \texttt{ug} \& runoff \texttt{mL/s} & Feeds $E_{\mathrm{recoverable\_stock}}$ (\texttt{uJ}, \texttt{mg}) back into $\lambda_{\mathrm{ERC}}$ ledger, slashing regional embodied exergy costs. \\
+\textbf{\texttt{SCN-THETA-FOUNDRY}} (\texttt{theta\_foundry}) & $N_s = 8 \to 35$ metallurgy \& casting engineers & \textit{The Workshop Lens} (crucible cycles, \texttt{M6/M8} dies) & Heavy Foundry Envelope: \texttt{9200 cB}, megawatt \texttt{mW}, scrubber \texttt{ug} & Tier~3 True-Constraint Hard-Block temp deficit (\texttt{mK}); casts frames \& \texttt{M6}/\texttt{M8} dies for \textbf{Stage~III Native Open-Spec Fleet}. \\
+\textbf{\texttt{SCN-NU-FASHION}} (\texttt{nu\_fashion}) & $N_s = 1 \to 12$ weavers \& textile stewards & \textit{The Workshop Lens} (15\% \textit{montage} pattern tree) & Shared Textile Studio Envelope: \texttt{6500 cB}, \texttt{1,200,000 mW} & Tier~1 bolt-width scaling (\texttt{mm}) \& Tier~2 fastener substitution; Stage~I DRM loom $\to$ Stage~II open stepper retrofit. \\
+\textbf{\texttt{SCN-XI-ARCHITECTURE}} (\texttt{xi\_architecture}) & $N_s = 10 \to 45$ builders \& habitat fabricators & \textit{The Workshop} + \textit{Enveloping Node Lens} & Construction Site Envelope: \texttt{mm} tolerances, crane \texttt{mW}, \texttt{cB} window & Open-Source Franchising wall/plenum templates pre-certified for Enveloping Node acoustic (\texttt{cB}) and thermal (\texttt{mK}) isolation. \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+\section{Scenario Eta (\texttt{SCN-ETA-COPPICE}) and Scenario Mu (\texttt{SCN-MU-EXTRACTION}): Closing the Bioregional $\lambda_{\mathrm{ERC}}$ Loop}
+\label{sec:ch12-eta-mu}
+
+In early October~2026 drafts, \texttt{Scenario Eta} was modeled as an ``Automated Market Maker (AMM)'' pricing timber harvest tokens. In v3.2, all internal AMMs and price tokens are replaced by physical vector accounting under the \textbf{Bioregional Forestry \& Watershed Enveloping Hypervisor}:
+\begin{enumerate}
+    \item \textbf{Asymptotic Harvest Firewall in \texttt{SCN-ETA-COPPICE}:} Layer~2 sap-flow transducers, soil tensiometers, and seasonal LiDAR biomass scans update the coppice parcel's annual regenerative increment $C_{\max}$ (\texttt{mg} of dry lignocellulosic mass and \texttt{uJ} of embodied photosynthate). Every timber cut request evaluates \texttt{ApplyAsymptoticEcologicalFirewallUj()} (Listing~\ref{lst:ch2-erc-calc}). If drought reduces canopy growth, $U_{\mathrm{bp}}$ approaches the $7{,}500\,\mathrm{bp}$ ecological reserve ceiling and $\lambda_{\mathrm{ERC}}^{\mathrm{living}}$ rises hyperbolically, prompting Layer~4 to substitute reclaimed structural timber from \texttt{Scenario Mu}.
+    \item \textbf{Reclamation Credit $E_{\mathrm{recoverable\_stock}}$ in \texttt{SCN-MU-EXTRACTION}:} \texttt{Scenario Mu} operates the settlement's urban-mining, glass cullet, scrap-metal sorting, and biogas digestion loops under strict Enveloping Node particulate (\texttt{ug}) and watershed runoff (\texttt{mL/s}) hardware interlocks. Whenever \texttt{Scenario Mu} recovers $1{,}000{,}000\,\mathrm{mg}$ ($1.0\,\mathrm{kg}$) of $316$ stainless steel or aluminum alloy and verifies its alloy purity via Layer~2 XRF spectrometry, \texttt{col-storaged} credits $E_{\mathrm{recoverable\_stock}}$ directly into the regional \texttt{ComponentLifecycleErcSpecV50} table---driving per-cycle $\lambda_{\mathrm{ERC}}$ down across every downstream workshop in the federation.
+\end{enumerate}
+
+\section{Scenario Theta (\texttt{SCN-THETA-FOUNDRY}): Tier 3 Temperature Hard-Blocks and Forging the Stage III Native Fleet}
+\label{sec:ch12-theta}
+
+\texttt{Scenario Theta} ($N_s = 8 \to 35$ metallurgists operating under a Heavy Foundry Envelope lease of $9{,}200\,\mathrm{cB}$ and megawatt-class solar/battery curtailment leases) plays two pivotal roles in Layer~3:
+\begin{itemize}
+    \item \textbf{Tier 3 True-Constraint Hard-Block Verification (\texttt{D8}, \texttt{CCI-5}):} Suppose a guild imports a BPMN workflow requiring titanium sintering or high-alumina ceramic firing at $T_{\mathrm{req}} = 1{,}923{,}150\,\mathrm{mK}$ ($1{,}650.0\,^\circ\mathrm{C}$), while the local induction kiln's Layer~2 twin reports $\texttt{max\_temp\_mk} = 1{,}473{,}150\,\mathrm{mK}$ ($1{,}200.0\,^\circ\mathrm{C}$). Neither Tier~1 batch splitting nor Tier~2 macro-substitution can violate the intensive thermodynamic melting point of the alloy. \texttt{col-execd} triggers a \textbf{Tier~3 True-Constraint Hard-Block}, and \texttt{col-storaged} logs the exact capability deficit ($\Delta T_{\mathrm{deficit}} = 450{,}000\,\mathrm{mK}$) for upward Semantic Diff decompilation and federated \texttt{col-meshd} routing to a regional arc furnace.
+    \item \textbf{Manufacturing the Stage III Native Open-Spec Fleet:} By casting open-spec machine frames, stamping \textbf{Gastronorm GN~1/1 pans}, and machining \textbf{ISO metric \texttt{M6}/\texttt{M8} fasteners} from local \texttt{Scenario Mu} scrap during solar curtailment peaks, \texttt{Scenario Theta} transitions the entire federation from Stage~II hybrids to \textbf{Stage~III Native Open-Spec Hardware}.
+\end{itemize}
+
+\section{Scenario Nu (\texttt{SCN-NU-FASHION}) and Scenario Xi (\texttt{SCN-XI-ARCHITECTURE}): Pattern Fork Trees and Certified Envelope Partitions}
+\label{sec:ch12-nu-xi}
+
+In \texttt{Scenario Nu} ($N_s = 1 \to 12$), weavers and garment makers fork open-source JSON-LD garment patterns (\texttt{prov:wasDerivedFrom}) in Layer~6, reserving $15\%$ of loom hours for experimental textile \textit{montage} while retrofitting DRM-locked embroidery machines with open stepper controllers (\texttt{ProofOfStewardshipRetrofitRecordV50}).
+
+In \texttt{Scenario Xi} ($N_s = 10 \to 45$), structural builders erect and modify buildings using N.~John Habraken's \textbf{Support and Infill} open-building methodology \parencite{habraken1972supports} combined with \textbf{Open-Source Franchising (\texttt{D7})}. Every modular wall assembly and acoustic floor plenum template stored in \texttt{col-storaged}'s Ontological Graph carries an empirically verified acoustic attenuation rating ($\Delta L_{\mathrm{isolation}} \ge 4{,}500\,\mathrm{cB} = 45.0\,\mathrm{dB}$) and thermal resistance certificate ($\mathrm{mK/mW}$). When a new partition wall is bolted into place using reversible \texttt{M8} joinery ($E_{\mathrm{recoverable\_stock}} \ge 0.95\,E_{\mathrm{embodied}}$), Layer~2 acoustic sweep tests verify the partition's centibel attenuation and automatically register the new room's \texttt{EnvelopingBoundaryLeaseV50} ceiling in \texttt{col-storaged}.
+
+\begin{lstlisting}[language=C++,caption={Wave D integration: Circular reclamation $\lambda_{\mathrm{ERC}}$ credit (\texttt{SCN-MU}) and Open-Building partition acoustic certification (\texttt{SCN-XI}) in \texttt{col-storaged}.},label={lst:ch12-wave-d-code}]
+#pragma once
+#include <cstdint>
+
+namespace collective::l3::wave_d {
+
+struct alignas(64) PartitionAcousticCertificationRecordV50 {
+    uint64_t partition_assembly_cid{0};       // [0..7]   Open-Source Franchise wall template CID
+    uint64_t enveloping_node_id_hash{0};      // [8..15]  Building Envelope Hypervisor ID
+    uint64_t child_room_node_id_hash{0};      // [16..23] Newly partitioned Studio or Workshop ID
+    uint64_t l2_sweep_merkle_root{0};         // [24..31] ATECC608A signed acoustic/thermal test root
+    int64_t  reversible_joinery_embodied_uj{0}; // [32..39] M8 bolted timber/steel embodied exergy (uJ)
+    int64_t  recoverable_demOUNT_exergy_uj{0};// [40..47] >= 95% recoverable upon future reconfiguration
+    int16_t  measured_attenuation_cb{4'500};  // [48..49] Measured partition isolation (4,500 cB = 45 dB)
+    int16_t  neighbor_sleep_ceiling_cb{3'800};// [50..51] Adjacent bedroom quiet floor (3,800 cB = 38 dBA)
+    int16_t  authorized_child_max_cb{0};      // [52..53] Computed max_acoustic_cb for child room lease
+    uint16_t thermal_r_value_mk_per_kw{0};    // [54..55] Thermal isolation rating
+    uint32_t fastener_standard_code{8};       // [56..59] 8 = ISO M8 reversible socket cap
+    uint32_t reserved_pad{0};                 // [60..63] 64-byte alignment
+};
+static_assert(sizeof(PartitionAcousticCertificationRecordV50) == 64,
+              "PartitionAcousticCertificationRecordV50 must be 64 bytes.");
+
+[[nodiscard]] constexpr bool CertifyRoomEnvelopeAcousticCeilingV50(
+    PartitionAcousticCertificationRecordV50& cert) noexcept {
+    if (cert.l2_sweep_merkle_root == 0 || cert.measured_attenuation_cb <= 0 ||
+        cert.neighbor_sleep_ceiling_cb <= 0) {
+        return false;
+    }
+    // Maximum internal child-node acoustic level that keeps neighbor side <= neighbor_sleep_ceiling_cb
+    cert.authorized_child_max_cb = static_cast<int16_t>(
+        cert.neighbor_sleep_ceiling_cb + cert.measured_attenuation_cb);
+    return cert.authorized_child_max_cb >= 5'000;
+}
+
+} // namespace collective::l3::wave_d
+\end{lstlisting}

@@ -1,34 +1,163 @@
-\documentclass[11pt,oneside]{book}
+\documentclass[11pt,a4paper]{book}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage{lmodern} % Utilizing robust modern fonts for Sandbox compilation
+\usepackage{tgpagella}
+\usepackage[scale=0.92]{tgheros}
+\usepackage[scale=0.86]{tgcursor}
 \linespread{1.05}
-\usepackage{amsmath, amssymb, amsthm}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
 \usepackage{graphicx}
-\usepackage{hyperref}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,shapes.geometric,shapes.multipart,automata,calc,fit,backgrounds,decorations.pathreplacing}
+\usepackage{listings}
 \usepackage{geometry}
-
 \geometry{a4paper, margin=1in}
-
-\title{
-    \Huge \textbf{Layer 3: The Cryptographic Ledger} \\
-    \vspace{0.5cm}
-    \Large Consensus, Tokenomics, and Zero-Knowledge Physics
+\IfFileExists{epigraph.sty}{%
+    \usepackage{epigraph}%
+    \setlength{\epigraphwidth}{0.68\textwidth}%
+    \renewcommand{\epigraphrule}{0pt}%
+}{%
+    \newcommand{\epigraph}[2]{%
+        \begin{flushright}%
+        \begin{minipage}{0.68\textwidth}%
+        \small\itshape ##1\par\vspace{0.35em}%
+        \upshape\raggedleft ##2\par%
+        \end{minipage}%
+        \end{flushright}%
+        \vspace{1.2em}%
+    }%
 }
-\author{Lead Cryptography \& Distributed Systems Architect}
-\date{\today}
+\usepackage{csquotes}
+\usepackage{xcolor}
+\newif\ifusebiblatex
+\IfFileExists{biblatex.sty}{%
+    \usebiblatextrue
+    \usepackage[style=authoryear,backend=bibtex]{biblatex}
+    \addbibresource{references.bib}
+}{%
+    \usebiblatexfalse
+    \usepackage[round,authoryear]{natbib}
+    \newcommand{\parencite}[2][]{\ifx\relax##1\relax\citep{##2}\else\citep[##1]{##2}\fi}
+    \newcommand{\textcite}[2][]{\ifx\relax##1\relax\citet{##2}\else\citet[##1]{##2}\fi}
+}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,
+    urlcolor=teal,
+    citecolor=gray,
+    pdftitle={The Sovereign Stack — Companion Volume: Layer 3: The Thermodynamic and Ecological Ledger},
+    pdfauthor={The Collective Architectural Council},
+}
+
+% --- Line-Breaking & Running Header Typography ---
+\setlength{\emergencystretch}{3em}
+\DeclareRobustCommand{\_}{\ifmmode\text{\symbol{95}}\else\symbol{95}\allowbreak\fi}
+\pdfstringdefDisableCommands{\def\_{_}}
+\usepackage{fancyhdr}
+\setlength{\headheight}{22pt}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.3pt}
+\fancyhead[LE]{\small\thepage}
+\fancyhead[RE]{\parbox[b]{0.86\textwidth}{\raggedleft\footnotesize\itshape\nouppercase{\leftmark}}}
+\fancyhead[LO]{\parbox[b]{0.86\textwidth}{\raggedright\footnotesize\itshape\nouppercase{\rightmark}}}
+\fancyhead[RO]{\small\thepage}
+
+% --- Theorem & Definition Environments ---
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{invariant}[theorem]{Invariant}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+
+% --- Listings Setup ---
+\definecolor{codebg}{rgb}{0.97,0.97,0.98}
+\definecolor{codeframe}{rgb}{0.82,0.84,0.87}
+\definecolor{codekw}{rgb}{0.12,0.28,0.58}
+\definecolor{codecmt}{rgb}{0.35,0.42,0.38}
+\lstset{
+    basicstyle=\footnotesize\ttfamily,
+    backgroundcolor=\color{codebg},
+    frame=single,
+    rulecolor=\color{codeframe},
+    keywordstyle=\bfseries\color{codekw},
+    commentstyle=\itshape\color{codecmt},
+    breaklines=true,
+    columns=fullflexible,
+    keepspaces=true,
+    showstringspaces=false,
+    aboveskip=0.8em,
+    belowskip=0.8em
+}
 
 \begin{document}
 
-\maketitle
+\frontmatter
+\begin{titlepage}
+    \thispagestyle{empty}
+    \begin{center}
+        \vspace*{3.0cm}
+        {\Large \textsc{The Sovereign Stack $\cdot$ Technical Companion Series}} \\[1.1cm]
+        {\scalebox{1.42}{\textbf{Layer 3: The Thermodynamic \& Ecological Ledger}}} \\[0.85cm]
+        {\Large \textit{Multi-Dimensional SI Vector Accounting, Ecological Replacement Cost,}} \\[0.25cm]
+        {\Large \textit{Zero-Surveillance Provenance, and Causal CRDT Mesh Synchronization}} \\[2.4cm]
+        {\large \textbf{The Collective Architectural Council}} \\[0.4cm]
+        {\normalsize Ratified v3.2 Companion Monograph (Oasis \texttt{L1b} \& 25-Scenario Horizon Synthesis)}
+        \vfill
+        {\large Cascadia Bioregion $\cdot$ November 2026}
+        \vspace*{2.0cm}
+    \end{center}
+    \clearpage
+\end{titlepage}
+
 \tableofcontents
 
-\part{Foundations of Sovereign Consensus}
-\include{chapters/01_consensus}
-\include{chapters/02_cryptographic_primitives}
+\input{chapters/00_preface}
 
-\part{Tokenomics and Physical State}
-\include{chapters/03_thermodynamic_tokenomics}
-\include{chapters/04_smart_contracts}
+\mainmatter
+
+% ==========================================================================
+% PART I: CORE VECTOR LEDGER, ECOLOGICAL REPLACEMENT COST & PROVENANCE
+% ==========================================================================
+\part{Core Vector Ledger, Ecological Replacement Cost, and Zero-Surveillance Provenance}
+
+\input{chapters/01_vector_accounting_and_si_core}
+\input{chapters/02_ecological_replacement_cost}
+\input{chapters/03_provenance_and_physics_baseline}
+\input{chapters/04_anonymous_appetite_and_pickup_leases}
+\input{chapters/05_proof_of_stewardship_and_entropy}
+\input{chapters/06_right_to_repair_stewardship}
+\input{chapters/07_perishable_entropy_vs_durable_cycles}
+\input{chapters/08_enveloping_node_boundary_accounting}
+\input{chapters/09_causal_mesh_and_bcc_clearing}
+
+% ==========================================================================
+% PART II: HORIZONTAL WAVES & SOVEREIGN SCENARIOS LEDGER REFERENCE
+% ==========================================================================
+\part{Horizontal Waves and Sovereign Scenarios Ledger Reference}
+
+\input{chapters/10_waves_a_and_b_walkthroughs}
+\input{chapters/11_wave_c_walkthroughs}
+\input{chapters/12_wave_d_walkthroughs}
+\input{chapters/13_waves_e_and_f_walkthroughs}
+\input{chapters/14_conclusion_abundance_and_boundless_time}
+
+\backmatter
+\ifusebiblatex
+    \printbibliography[heading=bibintoc]
+\else
+    \cleardoublepage
+    \phantomsection
+    \addcontentsline{toc}{chapter}{Bibliography}
+    \bibliographystyle{plainnat}
+    \bibliography{references}
+\fi
 
 \end{document}

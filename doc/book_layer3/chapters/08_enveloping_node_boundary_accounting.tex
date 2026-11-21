@@ -1,0 +1,166 @@
+\chapter{Enveloping Node Boundary Accounting and Two-Speed Jurisprudence Ledgers}
+\label{ch:enveloping-node-boundary}
+
+\epigraph{Modernist zoning decreed that a building is either a home, an office, or a factory because legacy law lacked a domain-blind hypervisor for shared physical space. When a single house hosts a four-person Hearth, a solo Recording Studio, and a solo Maker Bench, they do not need $O(K^2)$ bilateral treaties over spindle RPMs or sourdough recipes. They need an Enveloping Node that meters decibels, watts, kelvins, and millimeters at the wall partition---and preempts a quiet recording session in milliseconds when a burst pipe demands a wet-vac.}{---Horizon Council Dialogue 6 (\texttt{D6}), \textit{The Architecture of Boundless Time}}
+
+\section{Polycentric Overlapping Nodes and the Domain-Blind Spatial Hypervisor (\texttt{CCI-4})}
+\label{sec:ch8-enveloping-hypervisor}
+
+In twentieth-century urban planning, Euclidean monoculture zoning forcibly segregated residential housing, craft fabrication, culinary production, and cultural studios into disconnected geographic districts \parencite{scott1998}. In The Collective, Layer~5 institutional topology is deliberately decoupled from Layer~2 spatial coordinates (\texttt{D5}, \texttt{D6}). A single physical structure---whether a suburban house on Lot~402 (\texttt{Scenario Tau}) or a mixed-use coworking floorplate (\texttt{Scenario Epsilon} and \texttt{Scenario Zeta})---routinely hosts $K$ overlapping polycentric nodes simultaneously:
+\begin{itemize}
+    \item A \textbf{Household Hearth Node} ($N_s = 4$ residents sharing kitchen and living quarters);
+    \item A \textbf{Solo Acoustic / Software Studio Node} ($N_s = 1$, where the steward holds $100\%$ of internal $V_1(t) = 1 + R_1(t)$ voice);
+    \item A \textbf{Solo Maker Bench / Luthier Node} ($N_s = 1$, importing external Layer~5 tool-safety covenants from \texttt{Scenario Alpha} and \texttt{Scenario Kappa}).
+\end{itemize}
+
+If $K$ co-located nodes had to negotiate pairwise horizontal treaties with one another over every physical spillover (spindle noise, electrical breaker capacity, kiln waste heat, floor footprint), coordination complexity would explode quadratically as $O(K^2)$.
+
+As established in Dialogue~6 (\texttt{D6}) and Cross-Cutting Invariant \texttt{CCI-4}, the Sovereign Stack eliminates $O(K^2)$ horizontal politics by wrapping shared physical footprints inside a \textbf{Fractal Hierarchy of Domain-Blind Enveloping Node Hypervisors}:
+\begin{equation}
+\text{Room / House Envelope} \;\subset\; \text{Street / Microgrid Envelope} \;\subset\; \text{Bioregional Watershed Envelope}
+\label{eq:ch8-fractal-envelopes}
+\end{equation}
+Every human operating a child node inside that physical footprint is automatically a member ($V_i(t) = 1 + R_i(t)$ with $B = 10{,}000\,\mathrm{bp}$) of the Enveloping Node. Crucially, the Enveloping Node is \textbf{completely domain-blind} to child-node internals: it never votes on the Maker Bench's 3D-printer nozzle temperature or the Studio's Scenario Zero backlog. It ratifies, meters in Layer~3 (\texttt{col-storaged}), and enforces in Layer~4 (\texttt{col-execd}) strictly \textbf{shared physical boundary invariants}:
+\begin{enumerate}
+    \item \textbf{Partition Acoustic Flux (\texttt{max\_acoustic\_cb}):} Measured in centibels (\texttt{cB}, $10^{-1}\,\mathrm{dB}$) by calibrated Layer~2 partition boundary microphones (e.g., $4{,}200\,\mathrm{cB} = 42.0\,\mathrm{dBA}$ quiet ceiling vs.\ $7{,}500\,\mathrm{cB} = 75.0\,\mathrm{dBA}$ daytime fabrication window).
+    \item \textbf{Instantaneous Power \& Window Exergy (\texttt{max\_power\_mw}, \texttt{max\_exergy\_budget\_uj}):} Measured by solid-state sub-breaker CT clamps against the room or building feeder limit (e.g., $9{,}600{,}000\,\mathrm{mW} = 9.6\,\mathrm{kW}$ residential main breaker or $1{,}500{,}000\,\mathrm{mW} = 1.5\,\mathrm{kW}$ branch circuit).
+    \item \textbf{Thermal Exhaust \& Particulate Flux (\texttt{max\_thermal\_delta\_mk}):} Measured in millikelvins (\texttt{mK}) across shared HVAC plenums.
+    \item \textbf{Spatial Bounding Polygon (\texttt{bounding\_box\_mm[6]}) and Finite Lease TTL (\texttt{lease\_ttl\_ms}):} Measured in millimeters (\texttt{mm}) and Hybrid Logical Clock milliseconds (\texttt{ms}).
+\end{enumerate}
+
+\section{Deadlock-Free Lexicographic Lease Locking in \texttt{col-storaged}}
+\label{sec:ch8-lexicographic-locks}
+
+When a child node's Layer~4 BPMN workflow prepares to energize a tool (for example, spinning up a $750\,\mathrm{cB}$ / $75\,\mathrm{dBA}$ CNC router on the Maker Bench), \texttt{col-execd} requests an atomic multi-resource lease (\texttt{L3ResourceLeaseLock}) from \texttt{col-storaged} over \texttt{l3\_l4.sock} covering both the child node's tool twin and the Enveloping Node's acoustic/power boundary budget.
+
+To prevent circular-wait deadlocks \parencite{coffman1971deadlocks} when dozens of concurrent workflows request overlapping material, tool, and envelope leases, \texttt{col-storaged} enforces \textbf{Strict Lexicographic CID Ordering}:
+\begin{invariant}[Deadlock-Free Lexicographic Lease Acquisition]
+\label{inv:ch8-lexicographic-leases}
+Every multi-resource reservation request $\mathcal{R} = \{ \ell_1, \ell_2, \dots, \ell_k \}$ submitted to \texttt{col-storaged} over \texttt{l3\_l4.sock} must be sorted in strictly ascending 256-bit lexicographic order of its target resource Content Identifiers:
+\begin{equation}
+\mathrm{CID}(\ell_1) <_{\mathrm{lex}} \mathrm{CID}(\ell_2) <_{\mathrm{lex}} \dots <_{\mathrm{lex}} \mathrm{CID}(\ell_k)
+\label{eq:ch8-lex-order}
+\end{equation}
+Any lease bundle violating Equation~\eqref{eq:ch8-lex-order} is rejected atomically without acquiring partial locks, eliminating Coffman's fourth deadlock condition (\textit{circular wait}) across all intra-node and envelope-boundary workflows.
+\end{invariant}
+
+\section{Two-Speed Jurisprudence: Fast-Path Hazard Preemption vs.\ Slow-Path Precedent Ledgers}
+\label{sec:ch8-two-speed-jurisprudence}
+
+What happens when physical reality collides with an active Enveloping Node lease? In Dialogue~6 (\texttt{D6}), the Council structured Layer~5 around the \textbf{Four Constitutional Pillars} (\textit{Surface Allocation}, \textit{Work Capabilities}, \textit{Process Voice}, and \textit{Jurisprudence Rules}) and backed Pillar~IV in Layer~3 with \textbf{Two-Speed Jurisprudence}:
+
+\begin{figure}[htbp]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+    >=Stealth,
+    node distance=0.95cm and 1.25cm,
+    box/.style={draw, rounded corners=3pt, thick, align=center, font=\footnotesize, minimum height=1.0cm, inner sep=6pt},
+    arr/.style={->, thick}
+]
+    \node[box, fill=red!8, minimum width=4.1cm] (l2haz) {
+        \textbf{Fast Path: L2 Hazard Sensor}\\
+        Burst Pipe Moisture + Pressure Drop\\
+        \texttt{HAZARD\_WATER\_INGRESS} (Tier 990)
+    };
+    \node[box, fill=orange!12!yellow!12, minimum width=4.3cm, right=1.2cm of l2haz] (l3pre) {
+        \textbf{Layer 3 (\texttt{col-storaged})}\\
+        Preempts Studio Quiet Lease (\texttt{4200 cB})\\
+        Grants Wet-Vac Override (\texttt{8200 cB})\\
+        Commits \texttt{FastPathPreemptionReceiptV50}
+    };
+    \node[box, fill=blue!7, minimum width=4.1cm, right=1.2cm of l3pre] (l6diff) {
+        \textbf{Slow Path: L4$\to$L5$\to$L6 Diff}\\
+        Decompiles Unmapped Contention\\
+        Ratifies $V_i(t)=1+R_i(t)$ Precedent\\
+        Compiles Permanent L4 Guard
+    };
+
+    \draw[arr] (l2haz.east) -- node[above, font=\scriptsize\bfseries] {$< 5\,\mathrm{ms}$} node[below, font=\scriptsize] {\texttt{l2\_l3.sock}} (l3pre.west);
+    \draw[arr] (l3pre.east) -- node[above, font=\scriptsize\bfseries] {Post-Event / Block} node[below, font=\scriptsize] {\texttt{l3\_l4} $\to$ \texttt{l6}} (l6diff.west);
+\end{tikzpicture}%
+}
+\caption{Two-Speed Jurisprudence in Layer~3: Fast-Path Layer~2 physical hazard telemetry preempts lower-tier Enveloping Node boundary leases in milliseconds with zero ballot delay, while Slow-Path unmapped conflicts escalate to a Layer~6 Semantic Diff and compile back down into permanent precedent.}
+\label{fig:ch8-two-speed-jurisprudence}
+\end{figure}
+
+\begin{enumerate}
+    \item \textbf{The Fast Path (Finite Lease TTLs \& Hardware-Time Hazard Preemption):}
+    \begin{itemize}
+        \item Every \texttt{EnvelopingBoundaryLeaseV50} carries a mandatory finite duration (\texttt{lease\_ttl\_ms > 0}); no studio or workshop can lock an acoustic or power ceiling indefinitely.
+        \item Every lease carries a deterministic \texttt{preemption\_priority\_tier}. Routine craft or studio recording leases run at tier \texttt{100}; nursery nap-hour shields (\texttt{Scenario Delta}) and elder sanctuary floors (\texttt{Scenario Phi}) run at tier \texttt{950}; acute structural/safety hazard remediation (\texttt{HAZARD\_CLASS\_WATER\_INGRESS}, fire suppression, clinical trauma response in \texttt{Scenario Chi}) runs at tier \texttt{990..999}.
+        \item When a pipe bursts in the Household Hearth while the Solo Studio holds an active $4{,}200\,\mathrm{cB}$ ($42\,\mathrm{dBA}$) recording lease, Layer~2 moisture telemetry trips \texttt{HAZARD\_CLASS\_WATER\_INGRESS} over \texttt{l2\_l3.sock}. Within milliseconds---with \textbf{zero human ballot delay}---\texttt{col-storaged} and \texttt{col-execd} preempt the Studio's tier-\texttt{100} quiet lease, authorize the tier-\texttt{990} emergency wet-vac extraction lease ($8{,}200\,\mathrm{cB}$, $2{,}200{,}000\,\mathrm{mW}$), and append an immutable \texttt{FastPathPreemptionReceiptV50} to the RocksDB audit log.
+    \end{itemize}
+    \item \textbf{The Slow Path (Unmapped Conflict $\to$ Layer 6 Semantic Diff $\to$ Compiled Precedent):}
+    \begin{itemize}
+        \item Human ballots fire \textit{only} when Layer~4 hard-blocks on an unmapped conflict between equal-priority leases (or when stewards refine a preemption threshold after an incident).
+        \item The conflict decompiles upward ($\mathrm{L3} \to \mathrm{L4} \to \mathrm{L5} \to \mathrm{L6}$) into a readable \textbf{Layer~6 Semantic Diff Card}. Once the Enveloping Node members ratify the resolution under $V_i(t) = 1 + R_i(t)$, the societal compiler pushes the new integer guard predicate back down into Layer~4 and notarizes its content-addressed precedent CID in Layer~3 so \textbf{nobody ever votes on the same issue twice}.
+    \end{itemize}
+\end{enumerate}
+
+\begin{lstlisting}[language=C++,caption={Domain-blind \texttt{EnvelopingBoundaryLeaseV50} and \texttt{FastPathPreemptionReceiptV50} in \texttt{col-storaged}.},label={lst:ch8-envelope-lease}]
+#pragma once
+#include <cstdint>
+#include <array>
+
+namespace collective::l3 {
+
+/**
+ * @brief Domain-blind Enveloping Node Hypervisor boundary lease stored in col-storaged
+ * and enforced by col-execd & col-kmsd (D6, CCI-4). Strictly fixed-point SI integers.
+ */
+struct alignas(64) EnvelopingBoundaryLeaseV50 {
+    uint64_t lease_cid_hash{0};                     // [0..7]   Content-addressed lease ID
+    uint64_t enveloping_node_id_hash{0};            // [8..15]  Room/House, Street, or Watershed Envelope
+    uint64_t child_node_id_hash{0};                 // [16..23] e.g. Maker Bench, Bakery, or N=1 Studio
+    uint64_t lease_start_hlc_ms{0};                 // [24..31] Lease activation HLC timestamp (ms)
+    int64_t  lease_ttl_ms{0};                       // [32..39] Mandatory finite TTL (Fast-Path invariant)
+    int64_t  max_exergy_budget_uj{5'400'000'000'000LL}; // [40..47] Window budget (e.g. 5.4 MJ = 5.4e12 uJ)
+    int32_t  max_power_mw{1'500'000};               // [48..51] Continuous breaker cap (1.5 kW = 1,500,000 mW)
+    int16_t  max_acoustic_cb{4'200};                // [52..53] Partition acoustic cap (4,200 cB = 42.0 dBA)
+    int16_t  max_thermal_delta_mk{3'000};           // [54..55] Exhaust delta ceiling (+3.0 K = 3,000 mK)
+    uint16_t preemption_priority_tier{100};         // [56..57] Routine=100, CareShield=950, L2Hazard=990
+    uint16_t active_hazard_override_code{0};        // [58..59] Non-zero when preempted by L2 hazard
+    uint32_t spatial_zone_polygon_id{0};            // [60..63] Index into mm bounding box table (64B total)
+};
+static_assert(sizeof(EnvelopingBoundaryLeaseV50) == 64,
+              "EnvelopingBoundaryLeaseV50 must occupy exactly 1 cache line (64 bytes).");
+
+struct alignas(64) FastPathPreemptionReceiptV50 {
+    uint64_t receipt_cid_hash{0};                   // [0..7]   Immutable RocksDB WAL receipt CID
+    uint64_t preempted_lease_cid_hash{0};           // [8..15]  e.g. Studio 4,200 cB quiet lease
+    uint64_t overriding_lease_cid_hash{0};          // [16..23] e.g. Emergency Wet-Vac 8,200 cB lease
+    uint64_t l2_hazard_telemetry_merkle_root{0};    // [24..31] ATECC608A signed moisture/pressure proof
+    uint64_t preemption_hlc_ms{0};                  // [32..39] Sub-millisecond hardware trigger HLC
+    int64_t  observed_acoustic_cb{0};               // [40..47] Partition decibel reading during override
+    int64_t  observed_power_mw{0};                  // [48..55] Breaker power draw during override
+    uint16_t preempted_priority_tier{100};          // [56..57] Tier of suspended lease
+    uint16_t overriding_priority_tier{990};         // [58..59] Tier of L2 hazard workflow
+    uint32_t compiled_precedent_rule_id{0};         // [60..63] Slow-Path ratified rule ID (64B total)
+};
+static_assert(sizeof(FastPathPreemptionReceiptV50) == 64,
+              "FastPathPreemptionReceiptV50 must occupy exactly 1 cache line (64 bytes).");
+
+[[nodiscard]] constexpr bool EvaluateFastPathPreemptionV50(
+    EnvelopingBoundaryLeaseV50& active_lease,
+    const EnvelopingBoundaryLeaseV50& candidate_hazard_lease,
+    uint64_t current_hlc_ms,
+    uint16_t verified_l2_hazard_code) noexcept {
+    // 1. Finite TTL enforcement: expired leases release automatically
+    if (active_lease.lease_ttl_ms <= 0 ||
+        current_hlc_ms >= (active_lease.lease_start_hlc_ms + static_cast<uint64_t>(active_lease.lease_ttl_ms))) {
+        active_lease = candidate_hazard_lease;
+        return true;
+    }
+    // 2. Hardware-verified L2 hazard preemption (e.g. tier 990 wet-vac preempts tier 100 studio quiet lease)
+    if (verified_l2_hazard_code != 0 &&
+        candidate_hazard_lease.preemption_priority_tier > active_lease.preemption_priority_tier) {
+        active_lease = candidate_hazard_lease;
+        active_lease.active_hazard_override_code = verified_l2_hazard_code;
+        return true;
+    }
+    return false;
+}
+
+} // namespace collective::l3
+\end{lstlisting}
