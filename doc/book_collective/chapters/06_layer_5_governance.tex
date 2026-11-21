@@ -28,7 +28,7 @@ It is the metabolic conscience of the Sovereign Stack. Beneath it, Layers~1 thro
 
 \subsection{Strict Adjacency and the Daemon Triad}
 
-The Sovereign Stack enforces absolute separation of concerns. Monolithic threading models and layer-skipping shortcuts are strictly prohibited. Layer~5 does not exist as an amorphous set of scripts; it is instantiated as an autonomous POSIX daemon: \texttt{col-kmsd} (The Key Management and Governance Policy Daemon). 
+The Sovereign Stack enforces absolute separation of concerns. Monolithic threading models and layer-skipping shortcuts are strictly prohibited. Layer~5 does not exist as an amorphous set of scripts; it is instantiated as an autonomous, key-isolated C++20 POSIX daemon: \texttt{col-kmsd} (The Key Management and Constitutional Governance Daemon), executing purely in 64-bit integer fixed-point SI and basis-point (\texttt{bp}, where $10{,}000\,\mathrm{bp} = 1.0000$) arithmetic with zero floating-point opcodes. Companion Volume~5 (\textit{Layer 5: The Constitutional Kernel, Universal Baseline \& Enveloping Node Hypervisor}) develops the complete cryptographic protocols and 25-scenario governance gates; this chapter presents Layer~5's constitutional architecture and its cross-layer interconnections. 
 
 The governance daemon operates as a strictly bounded \textit{Legislative Membrane}. It sits between Layer~4 below it and Layer~6 above it, maintaining communication exclusively across local Unix Domain Sockets:
 \begin{itemize}
@@ -126,50 +126,55 @@ Layer~5 maintains an isolated governance database, partitioned by council namesp
 \end{itemize}
 The two stores never share database foreign keys, and Layer~5 holds zero write privileges over Layer~3.
 
-\section{Standing, Stewardship, and Reputational Wealth}
+\section{Standing, Stewardship, and the Unified Constitutional Voting Law}
 \label{sec:l5-standing}
 
-\subsection{Two Kinds of Standing}
+\subsection{The Unified Constitutional Voting Weight Law: \texorpdfstring{$V_i(t) = B + R_i(t) = 1 + R_i(t)$}{V\_i(t) = 1 + R\_i(t)}}
 
-A fatal flaw of both capitalist corporations and early Web3 DAOs is the conflation of wealth with governance voice. In a joint-stock company or token-weighted DAO, one dollar (or one token) equals one vote; power flows inevitably to capital accumulation. Conversely, naive egalitarian systems grant equal voice over every intricate technical detail, allowing vocal non-practitioners to override experienced artisans on complex engineering matters.
+A fatal flaw of both capitalist corporations and early Web3 DAOs is the conflation of financial wealth with governance voice. Conversely, a pure meritocracy ($V_i(t) = R_i(t)$ with zero civic baseline) suffers a subtle, catastrophic vulnerability in mature commons (\texttt{D2}, \texttt{D3}, Companion Volume~5 Chapter~1): as a well-engineered software protocol (Scenario~Zero) or workshop reaches rock-solid maturity---what we call \textbf{Dormant Equilibrium (``The \TeX{} Asymptote'')}---maintenance incidents drop to zero and every founding member's operational reputation decays under reputational entropy $\lambda$ toward $R_i(t) \to 0$, freeing creators to live a compositional \textit{montage} life. If voting weight were purely $R_i(t)$, a dormant node where $\sum_j R_j(t) \to \epsilon \approx 0$ would be defenseless against \textbf{Dormant-Node Single-Maintainer Hijack}: a single opportunistic actor committing one trivial hardware-drift patch ($\Delta R_{\mathrm{attacker}} = 0.05$) would instantaneously capture $\frac{0.05}{0.05 + N_s \epsilon} \to 100\%$ of the node's Layer~5 voting power!
 
-Layer~5 resolves this dilemma by bifurcating standing into two orthogonal categories:
+To make Dormant-Node Single-Maintainer Hijack mathematically impossible while preserving domain-earned technical leadership during active operations, \texttt{col-kmsd} enforces the \textbf{Unified Constitutional Voting Weight Law (\texttt{CCI-2})}:
+\begin{equation}
+V_i(t) = B + R_i(t) = 1 + R_i(t) \qquad \bigl(\text{fixed-point: } V_{i,\mathrm{bp}}(t) = B_{\mathrm{bp}} + R_{i,\mathrm{bp}}(t) = 10{,}000 + R_{i,\mathrm{bp}}(t)\bigr)
+\label{eq:l5_unified_voting_law}
+\end{equation}
+for every inducted member $i \in \mathcal{M}_{\mathrm{node}}$ of a Layer~5 node ($N_s = |\mathcal{M}_{\mathrm{node}}|$), stored in \texttt{NodeMemberVoiceStateV50}:
 \begin{enumerate}
-  \item \textbf{Membership Standing (The Inalienable Floor):} Held equally by every recognized member of the community (one person = one standing). It cannot be purchased, earned, transferred, or accumulated. It grants one vote in the Commons Chamber, guarantees the protections of the Entrenched Core, and secures an unconditional claim on the survival baseline (clean water, caloric sustenance, shelter, healthcare). It can never be reduced or revoked through lack of labor.
-  \item \textbf{Reputational Wealth (Stewardship Weight):} Domain-specific influence within the Stewardship Chamber of a particular council (such as Agriculture, Microgrid Energy, or Public Health). It reflects verified value contributed to the community in that specific field. It is earned through labor, decays over time, and is bounded by strict sublinear caps.
+  \item \textbf{The Non-Decaying Universal Civic Baseline ($B = 1 \equiv 10{,}000\,\mathrm{bp}$):} Bestowed automatically upon every human member of the node ($N_s$). It cannot be purchased, transferred, or lost through inactivity ($\frac{dB}{dt} = 0$), and in residential Enveloping Nodes it secures an unconditional claim on the survival baseline ($B_{\mathrm{baseline}}$).
+  \item \textbf{The Decaying Proof of Stewardship Bonus ($R_i(t) \ge 0 \equiv R_{i,\mathrm{bp}}(t)$):} Domain-specific operational weight earned exclusively within that node's ontology and subject to exponential reputational entropy $\lambda$ (Equation~\ref{eq:reputation_decay}).
 \end{enumerate}
 
-This separation guarantees that a community member who experiences chronic illness, disability, grief, or caregiving obligations loses technical voice in specialized councils but never loses their basic rights, their equal vote in the Commons Chamber, or their means of physical survival.
+Under Equation~\eqref{eq:l5_unified_voting_law}, when a mature node of $N_s = 50$ members enters Dormant Equilibrium ($R_j(t) \to 0$), total node voting weight converges to the civic floor $\sum_{j=1}^{N_s} V_j(t) = N_s \cdot B = 50$. A single maintainer performing an isolated patch ($\Delta R = 0.5$) holds only $\frac{1 + 0.5}{50 + 0.5} \approx 2.97\%$ of governance weight---gracefully transitioning the node from merit-weighted active engineering during high-churn bring-up to one-member-one-vote civic custody during dormancy without a single manual mode switch.
 
-\subsection{How Reputational Wealth Is Earned}
+\subsection{Universal Scale Regimes (\texorpdfstring{$N_s = 1$, $N_s = 2$, $N_s \gg 2$}{N\_s = 1, 2, >> 2}) and Strict \texorpdfstring{$N_s$ vs.\ $N_p$}{N\_s vs. N\_p} Scoping}
 
-When a physical task is completed, Layer~4 (\texttt{col-execd}) transmits a completion attestation upward across the IPC socket, referenced to an anonymous claim handle. Layer~5, which alone holds the secret key linking that claim handle to the Steward's pairwise identifier, credits Reputational Wealth to the Steward in that council.
-
-Crucially, human beings do not mint exergy currency. The physical work performed enters Layer~3's ledger as Proof-of-Thermodynamic-Work and accrues directly to the \textit{community commons}. The worker earns social trust and governance voice, not private financial debt claims.
-
-Furthermore, Layer~5 recognizes labor that deterministic machines cannot see. Caregiving, early childhood education, conflict mediation, meal preparation, and cultural ritual cannot be verified by Modbus power meters. These essential contributions are attested through Guild Councils and peer attestations, ensuring that domestic and emotional care labor holds equal standing with kinetic engineering.
-
-Reputational Wealth is strictly non-financial: it cannot be sold, rented, transferred, borrowed against, or exported to govern another Node. Its authority exists exclusively within the domain and community where it was earned.
-
-\subsection{Thermodynamic Decay, Caps, and the Care Leave Shield}
-
-Without temporal decay, early founders would accumulate permanent governance power, freezing the community into an entrenched gerontocracy. Conversely, aggressive linear decay turns life into a frantic treadmill, punishing reflection, study, and rest.
-
-Layer~5 combines three mathematical safeguards to ensure dynamic, humane equilibrium:
+Equation~\eqref{eq:l5_unified_voting_law} scales seamlessly across all three human structural regimes (Companion Volume~5, Chapter~3):
 \begin{itemize}
-  \item \textbf{Half-Life Decay:} Reputational Wealth decays continuously according to an exponential half-life $\tau_{half}$:
+  \item \textbf{Regime I --- Solo Genesis Node ($N_s = 1$):} A lone crafter or studio founder holds $V_1(t) / V_1(t) = 100\%$ of their personal node's internal Layer~5 voice from Day~0 ($R_1(0) = 0 \implies V_1(0) = 1$), enjoying zero-friction personal autonomy while still importing external tool-safety covenants and obeying the Enveloping Node Hypervisor's spatial boundary leases.
+  \item \textbf{Regime II --- Dyadic Collaboration ($N_s = 2$):} Any earned stewardship $R_1(t) > R_2(t)$ breaks a two-person operational tie toward the active practitioner (for example, a veteran mentor guiding a $R_2 = 0$ apprentice in Scenario~$\kappa$), while open content-addressed Layer~6 artifacts guarantee frictionless ontological fork freedom if two co-founders diverge creatively.
+  \item \textbf{Regime III --- Polycentric Community Commons ($N_s \gg 2$):} Once active membership exceeds the \textbf{Anti-Capture Crossover} $N_s > R_{\max} + 2$ (or $N_s \cdot 10{,}000\,\mathrm{bp} > R_{\max,\mathrm{bp}} + 20{,}000\,\mathrm{bp}$), even the highest-reputation master engineer's share drops strictly below $50\%$, pairing earned operational leadership with a democratic safety ceiling.
+\end{itemize}
+
+Crucially, voting weight $V_i(t) = 1 + R_i(t)$ inside a producer or craft guild node is scoped strictly to \textbf{Node Membership ($N_s$)}, never to external consumers ($N_p$) (\texttt{D4}). In the \textbf{Dual-Loop Bakery} (Scenario~$\gamma$), 500 neighborhood bread eaters ($N_p$) do not receive $B=1$ inside the 5-person Bakery Guild ($N_s = 5$); giving 500 non-bakers votes over starter hydration would crush worker autonomy and require panoptic consumption tracking at the counter. Instead, citizens log needs locally in Layer~6 (\textit{The Pantry}), and their local \texttt{col-kmsd} strips all personal DIDs via a \texttt{BBS+} ring-membership zero-knowledge proof before passing anonymous cohort appetite vectors (\texttt{AnonymousAppetiteLeaseV50}) downward to Layer~4 and Layer~3. External residents exercise countervailing power without surveillance either by withdrawing anonymous pickup leases (or forking an adjacent oven slot) or through their $B=1$ membership in the \textbf{Enveloping Neighborhood/Habitat Node} that leases physical space, power, and acoustic budgets to the bakery.
+
+\subsection{Anti-Farming Invariant, Reputational Entropy (\texorpdfstring{$\lambda$}{Lambda}), and the Care Leave Shield}
+
+Unlike speculative Web3 token schemes, $R_{i,\mathrm{bp}}(t)$ cannot be artificially farmed through self-assigned busywork or synthetic commits. In \texttt{col-kmsd}, minting $\Delta R_{i,\mathrm{bp}} > 0$ requires a three-layer cryptographic conjunction:
+\begin{equation}
+\Delta R_{i,\mathrm{bp}} > 0 \iff \text{L6 Validated Demand Lease} \;\land\; \text{L4 Completed BPMN Task} \;\land\; \text{L2/L3 Hardware Verification }(\Delta \lambda_{\mathrm{ERC}} \le 0)
+\label{eq:l5_anti_farming}
+\end{equation}
+When Layer~4 (\texttt{col-execd}) reports a verified task or Right-to-Repair hybrid retrofit completion keyed to a 24-byte blinded \texttt{ClaimHandle}, \texttt{col-kmsd} credits $\Delta R_{i,\mathrm{bp}}$ to the Steward while the physical PoTW exergy accrues directly to the community commons on Layer~3. Caregiving, early childhood education, and conflict mediation are likewise attested through Guild Councils without tokenizing care.
+
+To prevent permanent gerontocracy while protecting human rest, \texttt{col-kmsd} applies three mathematical bounds:
+\begin{itemize}
+  \item \textbf{Exponential Reputational Entropy ($\lambda$):} Operational stewardship $R_i(t)$ decays continuously with seasonal half-life $\tau_{1/2} = \frac{\ln 2}{\lambda}$ (default $180$ days in \texttt{NodeMemberVoiceStateV50}), while the civic baseline $B = 10{,}000\,\mathrm{bp}$ never decays:
   \begin{equation}
-      \mathcal{R}(t) = \mathcal{R}_0 \, e^{-\frac{\ln(2)}{\tau_{half}} t}
+      R_i(t) = R_i(t_0) \, e^{-\lambda (t - t_0)} + \int_{t_0}^{t} \dot{r}_i(\tau)\,e^{-\lambda(t - \tau)}\,d\tau
       \label{eq:reputation_decay}
   \end{equation}
-  The half-life is established per council as a meta-rule and is measured in seasonal cycles (typically one to three years) rather than days.
-  \item \textbf{Sublinear Caps:} Influence scales logarithmically rather than linearly with labor volume:
-  \begin{equation}
-      \mathcal{W}_{steward} = \min\left( \mathcal{W}_{max}, \, \kappa \cdot \ln(1 + \mathcal{R}) \right)
-      \label{eq:reputation_cap}
-  \end{equation}
-  Ten times the physical work yields only a modest increase in voice, preventing workaholism from monopolizing governance. Furthermore, no single Steward (including delegated weight) may exercise more than a fixed percentage (typically 8\%) of a chamber's total weight.
-  \item \textbf{The Care Leave Shield:} A Steward may declare care leave through Layer~6 for parenting, illness, bereavement, spiritual retreat, or study. The declaration is private: it is recorded against the Steward's pairwise key without publishing the reason. While leave is active, the decay clock freezes completely.
+  \item \textbf{Sublinear Caps and Concentration Ceilings:} Operational bonus saturates sublinearly, and delegated weight is capped ($\le 20\%$ of total node weight) so workaholism can never monopolize a council.
+  \item \textbf{The Care Leave Shield:} A Steward may activate a private Care Leave Shield through Layer~6 (or slide their physical bedroom Sanctuary Latch in Scenario~$\sigma$) for parenting, illness, bereavement, or rest. While active, the decay clock freezes completely ($\lambda \gets 0$).
 \end{itemize}
 
 \subsection{Bounded Liquid Delegation}
@@ -185,8 +190,34 @@ However, unconstrained liquid delegation reliably concentrates power into charis
 \end{enumerate}
 Membership standing in the Commons Chamber cannot be delegated under any circumstances.
 
-\section{The Internal Polity: The Three Levels of Governance}
+\section{The Internal Polity: Enveloping Node Hypervisors, the Four Constitutional Pillars, and Two-Speed Jurisprudence}
 \label{sec:l5-polity}
+
+\subsection{Polycentric Overlapping Nodes and the Domain-Blind Enveloping Node Hypervisor}
+\label{subsec:l5-enveloping-hypervisor}
+
+Modernist urban zoning forced a rigid spatial monoculture onto human life: a building was legally permitted to be \textit{either} a residence \textit{or} an office \textit{or} a workshop. As Companion Volume~5 (Chapters~4 and~5) establishes under Dialogues~\texttt{D5} and~\texttt{D6}, Layer~5 decouples institutional topology from spatial coordinates (\texttt{CCI-4}). A single suburban house or cooperative floorplate can simultaneously host an $N_s = 4$ Household Hearth, an $N_s = 1$ Solo Recording Studio, and an $N_s = 1$ Precision Maker Bench---all talking to one local Layer~6 Semantic Daemon while maintaining independent Layer~5 node namespaces in \texttt{col-kmsd}. Even an $N_s = 1$ solo node can import external Layer~5 governance templates (such as Scenario~Zero release gates or tool-guild safety covenants) to interoperate with external guilds without ceding control over its private space.
+
+If $K$ co-located nodes in a shared building had to negotiate bilateral horizontal treaties with one another over noise, breaker amps, heat, and dust, coordination friction would explode at $O(K^2)$. The Sovereign Stack eliminates $O(K^2)$ horizontal politics by wrapping shared physical footprints inside a fractal hierarchy of \textbf{Domain-Blind Enveloping Node Hypervisors}:
+\begin{center}
+\textit{Room / House Envelope} (\texttt{cB}, \texttt{mW}, \texttt{mK}, \texttt{mm}) $\longrightarrow$ \textit{Street / Microgrid Envelope} (transformer $\mathrm{kVA}$, nocturnal street acoustics) $\longrightarrow$ \textit{Bioregional Watershed Envelope} (aquifer drawdown $\mathrm{mL/s}$, $\lambda_{\mathrm{ERC}}$ asymptotes)
+\end{center}
+Every human operating a child node inside that physical footprint holds $V_i(t) = 1 + R_i(t)$ membership in the Enveloping Node. Crucially, the Enveloping Node is \textbf{strictly domain-blind}: it never votes on the Maker Bench's CNC feed rate, the Hearth's soup recipe, or the Studio's song mix. It ratifies and enforces only \textbf{shared physical boundary invariants} encapsulated in 64-bit fixed-point \textbf{\texttt{EnvelopingBoundaryLeaseV50}} structs (\texttt{max\_acoustic\_cb}, \texttt{max\_power\_mw}, \texttt{max\_exergy\_budget\_uj}, \texttt{max\_thermal\_delta\_mk}, 3D \texttt{bounding\_box\_mm[6]}, and mandatory finite \texttt{lease\_ttl\_ms}), verified at the partition boundary by domain-blind Layer~2 sensors.
+
+\subsection{The Four Constitutional Pillars and Two-Speed Jurisprudence}
+\label{subsec:l5-four-pillars-jurisprudence}
+
+Every Layer~5 node constitution in \texttt{col-kmsd} is structured around \textbf{Four Constitutional Pillars} (\texttt{D6}, Companion Volume~5 Chapter~4):
+\begin{enumerate}
+  \item \textbf{Pillar I --- Surface Allocation (\texttt{collective:SurfaceAllocationPolicy}):} Governs time-division multiplexing, spatial bays, finite lease TTLs, and Enveloping Node boundary budgets (\texttt{cB}, \texttt{mW}, \texttt{mK}, \texttt{mm}), including the Dual-Loop Bakery's $8{,}500\,\mathrm{bp}$ ($85\%$) verified staple and $1{,}500\,\mathrm{bp}$ ($15\%$) experimental \textit{montage} allocation.
+  \item \textbf{Pillar II --- Work Capabilities (\texttt{collective:WorkCapabilityMatrix}):} Gates operational actuation by verifying zero-knowledge \texttt{BBS+} safety credentials (Scenario~$\kappa$) before Layer~4 tasks can energize Layer~2 hardware. Pillar~II solves the \textbf{Cold-Start Apprentice Paradox} ($R_i(0) = 0$) by defining \textit{Tier-0 Unsupervised Prep Tasks} and \textit{Tier-1 Mentor-Co-Signed Apprentice Tasks} (dual-key \texttt{FROST} hardware interlocks) so newcomers can safely execute real workflows and build $R_i(t) > 0$ from Day~1.
+  \item \textbf{Pillar III --- Process Voice (\texttt{collective:ProcessVoiceCharter}):} Encodes the node's membership registry $\mathcal{M}_{\mathrm{node}}$ ($N_s$), the unified voting law $V_i(t) = 1 + R_i(t)$ (with safety-critical Layer~2/3 calibration gates requiring concurrent passage of $\sum_{i \in \text{Yes}} R_{i,\mathrm{bp}}(t) \ge R_{\min,\mathrm{safety}}$ among certified stewards), reputational half-life $\tau_{1/2}$, and Dormant Equilibrium protection.
+  \item \textbf{Pillar IV --- Jurisprudence Rules (\texttt{collective:JurisprudenceEngine}):} Arbitrates physical contention through \textbf{Two-Speed Jurisprudence}:
+  \begin{itemize}
+    \item \textbf{The Fast Path (Finite Lease TTLs \& Millisecond Hazard Preemption):} No capability or spatial lease is perpetual (\texttt{lease\_ttl\_ms} prevents indefinite resource starvation). Whenever Layer~2 edge sensors detect an acute physical integrity hazard (\texttt{preemption\_priority\_tier >= 900}, such as a burst water pipe requiring a loud $820\,\mathrm{cB}$ emergency wet-vac), Layer~4 automatically preempts lower-tier non-safety leases (such as an active $420\,\mathrm{cB}$ Studio quiet recording lease) in milliseconds with zero ballot delay, logging a cryptographic preemption receipt to Layer~3.
+    \item \textbf{The Slow Path (Dispute-to-Precedent Semantic Diff Compilation):} Community votes fire \textit{only} when Layer~4 hard-blocks on an unmapped non-emergency conflict (\texttt{UNMAPPED\_POLICY\_CONFLICT}), escalating across \path{l4_l5.sock} and \path{l5_l6.sock} into a human-readable \textbf{Layer~6 Semantic Diff Card}. Once the affected members ratify a resolution under $V_i(t) = 1 + R_i(t)$, Layer~6 compiles the decision back down into Layer~5 and Layer~4 as a permanent integer guard predicate so the community \textit{never votes on the same conflict twice}.
+  \end{itemize}
+\end{enumerate}
 
 \subsection{Level One: Governing the Orchestrator}
 \label{subsec:l5-level-one}
@@ -868,7 +899,9 @@ Table~\ref{tab:l5-records} defines the principal data structures maintained in t
 \hline
 \textbf{Attestation} & Verifiable Credential bound to pairwise identifier; issuer DID; BBS+ signature; cryptographic accumulator registry reference. \\
 \hline
-\textbf{Reputational Contribution} & Council namespace; anonymous claim handle; completion timestamp (decay clock); raw exergy weight before caps. \\
+\textbf{Reputational Contribution \& Voice State} & \texttt{NodeMemberVoiceStateV50}: \texttt{member\_did\_hash}, \texttt{node\_id\_hash}, non-decaying \texttt{civic\_baseline\_bp = 10000}, decaying \texttt{stewardship\_bonus\_bp}, \texttt{half\_life\_ms}, and Pillar~II \texttt{certified\_capability\_mask}. \\
+\hline
+\textbf{Enveloping Boundary Lease} & \texttt{EnvelopingBoundaryLeaseV50}: \texttt{enveloping\_node\_id}, \texttt{child\_node\_id}, finite \texttt{lease\_ttl\_ms}, \texttt{max\_acoustic\_cb}, \texttt{max\_power\_mw}, \texttt{max\_exergy\_budget\_uj}, \texttt{max\_thermal\_delta\_mk}, \texttt{bounding\_box\_mm[6]}, and \texttt{preemption\_priority\_tier}. \\
 \hline
 \textbf{Delegation} & Encrypted delegation edge; expiry timestamp; visible only to delegator and aggregate homomorphic tally. \\
 \hline
@@ -891,9 +924,9 @@ Table~\ref{tab:l5-records} defines the principal data structures maintained in t
 
 \subsection{The Ricardian Inter-Node Treaty Schema}
 
-Bilateral treaties between peered Nodes are compiled as dual-layered Ricardian contracts \parencite{grigg2004}:
+Bilateral treaties between peered Nodes are compiled as dual-layered Ricardian contracts \parencite{grigg2004} using 64-bit big-endian length-prefixed, domain-separated hashing over W3C \texttt{RDFC-1.0} and \texttt{RFC 8785 JCS} canonicalization:
 \begin{equation}
-\mathrm{Treaty\_CID} = \mathrm{SHA256}\left( \mathrm{Text}_{\mathrm{prose}} \parallel \mathrm{Schema}_{\mathrm{JSON-LD}} \parallel \mathrm{Invariants}_{\mathrm{BPMN}} \right)
+\mathrm{Treaty\_CID} = \mathrm{SHA256}\left( \texttt{"COL-TREATY-V3.1\textbackslash0"} \parallel \mathrm{BE64}(|\mathrm{Text}_{\mathrm{prose}}|) \parallel \mathrm{Text}_{\mathrm{prose}} \parallel \mathrm{BE64}(|\mathrm{Schema}_{\mathrm{JCS}}|) \parallel \mathrm{Schema}_{\mathrm{JCS}} \parallel \mathrm{Invariants}_{\mathrm{BPMN}} \right)
 \label{eq:treaty_hash}
 \end{equation}
 The human-readable text articulates bioregional friendship, mutual aid intentions, and watershed stewardship; the machine-verifiable JSON-LD specification defines credit limits, exergy conversion ratios, and delivery verification predicates; and the BPMN invariants compile into Layer~4's execution engine.
