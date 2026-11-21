@@ -1,0 +1,76 @@
+\chapter{Purpose-Bound Procurement, the 3-Tier BPMN Hardware Cascade, and the Automatic \texorpdfstring{$\Phi_t = 0$}{Phi\_t = 0} Shutoff}
+\label{ch:l7-predictive-procurement}
+
+\epigraph{When procurement is divorced from physical necessity, tools multiply while autonomy shrinks. Only when a community knows exactly what its own hands and neighbors cannot yet make does external trade become an instrument of liberation rather than a leash.}{---\textcite{illich1973}, \textit{Tools for Conviviality}}
+
+A foundational constitutional principle of Layer~7 is that \textbf{fiat currency is strictly purpose-bound}: the settlement never accumulates an open-ended cash treasury, never speculates on financial markets, and never purchases an external commodity that can be satisfied by local stock, local fabrication, or a federated mesh neighbor. Whether a node is allocating its initial Stage~1A $\$20{,}000$ (\texttt{2,000,000 cents}) Genesis reserve $\Phi_0$ (\texttt{Scenario Tau}) or drawing down residual export receipts in Stage~2, every external purchase order executed by \texttt{col-adversaryd} is the terminal fallback of a deterministic cross-layer cascade.
+
+This chapter formalizes the connection between \textbf{Layer~4's 3-Tier BPMN Hardware Adaptation Cascade (\texttt{D8}, \texttt{CCI-5})}, \textbf{Layer~4's 3-Tier Recursive BOM Resolver}, the \textbf{Layer~6 Procurement Wrapper Lens}, the \textbf{Ratified Needs List ($\Phi_t$)}, and the \textbf{Automatic $\Phi_t = 0$ Bill-Zeroing Shutoff}.
+
+\section{Pre-Procurement Exhaustion: The 3-Tier BPMN Hardware Adaptation Cascade (\texttt{CCI-5})}
+\label{sec:l7-bpmn-cascade-gate}
+
+In conventional enterprises, whenever a new production blueprint specifies a $20\,\mathrm{L}$ mixer or a laser seam welder that the facility does not own, management immediately issues a capital purchase order to an external vendor. In the Sovereign Stack, Layer~4 (\texttt{col-execd}) is prohibited from escalating a hardware gap to Layer~7 until it has exhausted the \textbf{3-Tier BPMN Hardware Adaptation Cascade} established in Dialogue~8 (\texttt{D8}) and Part~IV (\S 4.2):
+
+\begin{enumerate}
+    \item \textbf{Tier~1 --- Automatic SI Parameter Scaling (\texttt{kTier1SiParameterScaled}):} When a turnkey JSON-LD blueprint from the \textbf{Orchestration Registry} requires batch volume $V_{\mathrm{req}} = 20{,}000\,\mathrm{mL}$ and thermal energy $E_{\mathrm{req}} = 7{,}200{,}000{,}000\,\mu\mathrm{J}$ at $T_{\mathrm{req}} = 503{,}150\,\mathrm{mK}$ ($230.0\,^\circ\mathrm{C}$), and the local Layer~2 Digital Twin reports an oven with $V_{\mathrm{tool}} = 10{,}000\,\mathrm{mL}$ and $P_{\mathrm{tool}} = 1{,}800{,}000\,\mathrm{mW}$, \texttt{EvaluateBpmnHardwareCascadeV50()} automatically splits the task into $k = \lceil 20{,}000 / 10{,}000 \rceil = 2$ sub-batches and scales the duration to $\Delta t = 2 \times (7{,}200{,}000{,}000 / 1{,}800{,}000) = 8{,}000\,\mathrm{ms}$ (or appropriate thermal hold time), requiring \textbf{zero external procurement}.
+    \item \textbf{Tier~2 --- Macro-Activity Substitution (\texttt{kTier2MacroActivitySpliced}):} When scalar SI scaling cannot bridge a process modality mismatch (for example, a blueprint specifies an ultrasonic or laser seam weld, while the workshop possesses a CNC drill press and \texttt{M6} stainless fasteners), \texttt{col-execd} queries the \textbf{Ontological Graph} for an approved functional equivalence class (\texttt{macro:FlangedM6BoltedJointWithGasket}) and splices the substitute sub-workflow DAG in place---again requiring \textbf{zero external procurement}.
+    \item \textbf{Tier~3 --- True-Constraint Hard-Block (\texttt{kTier3TrueConstraintHardBlock}):} Only when an intensive physical law or hard safety constraint cannot be met locally (e.g., a food-safety blueprint requires cold storage at $\le 277{,}150\,\mathrm{mK}$ [$4.0\,^\circ\mathrm{C}$] while the room has only an ambient larder at $291{,}150\,\mathrm{mK}$, or a metallurgy step requires $1{,}923{,}150\,\mathrm{mK}$ when the local kiln maxes out at $1{,}473{,}150\,\mathrm{mK}$, leaving a $\Delta T_{\mathrm{deficit}} = 450{,}000\,\mathrm{mK}$ gap) does \texttt{col-execd} halt and enter the \textbf{3-Tier Recursive BOM \& Capability Resolver}.
+\end{enumerate}
+
+\section{The 3-Tier Recursive BOM Resolver and the Meshing-First Rule}
+\label{sec:l7-recursive-bom}
+
+When a Tier~3 True-Constraint Hard-Block or a missing physical material input occurs, \texttt{col-execd} (\texttt{src/daemons/col-execd/execd\_self\_host.hpp}) executes the \textbf{3-Tier Recursive BOM Resolution Protocol}:
+\begin{equation}
+\text{Tier A: }\texttt{LOCAL\_STOCK\_OR\_FAB} \;\longrightarrow\; \text{Tier B: }\texttt{MESH\_PEER\_BCC\_SUBORDER} \;\longrightarrow\; \text{Tier C: }\texttt{UPWARD\_YIELD\_L7\_PROCUREMENT}
+\label{eq:ch6-three-tier-bom}
+\end{equation}
+
+\begin{itemize}
+    \item \textbf{Tier~A (Local Stock or Local Workshop Fabrication):} Checks Layer~3 (\texttt{col-storaged}) for existing local inventory or spawns a child BPMN fabrication job in \textbf{\textit{The Workshop}} (\texttt{Scenario Alpha}) if raw feedstock and tool capability exist locally.
+    \item \textbf{Tier~B (Federated Mesh Peer BCC Sub-Order --- The Meshing-First Rule):} Before touching a single cent of fiat currency, \texttt{col-execd} and \texttt{col-swarmd} query neighboring nodes across Trust Rings $R_1 \dots R_3$ over \texttt{col-meshd}. If a sister node possesses the required cold room, high-temperature induction furnace (\texttt{Scenario Theta}), or spare component, the requirement is fulfilled horizontally via a zero-sum Layer~3 Bilateral Clearing Channel (\texttt{BCC}) lease wrapped in a Subchapter~T Shared Services Agreement (SSA) or Brazilian \textit{Ato Cooperativo}.
+    \item \textbf{Tier~C (Upward Yield to Layer~7 Procurement):} Only when both Tier~A and Tier~B return empty (for example, raw $\mathrm{LiFePO_4}$ cells, STM32H7/ESP32-S3 silicon wafers, borosilicate glass tubing, or pharmaceutical precursors) does \texttt{col-execd} emit an \texttt{UpwardYieldPacketV50} with reason \texttt{UPWARD\_YIELD\_L7\_PROCUREMENT}.
+\end{itemize}
+
+\begin{invariant}[Keyless Layer 4 Blindness and Exact $10^{12}\,\mu\mathrm{J/\mathrm{MJ}}$ Scaling in Upward Yields]
+\label{inv:l7-exec-yield-fix}
+In remediation of \textbf{Drift EXEC-1} identified by the Horizon Council Audit (\texttt{execd\_self\_host.hpp:324--328}):
+\begin{enumerate}
+    \item \textbf{Zero Plaintext DIDs in Layer~4 Yield Packets:} Layer~4 (\texttt{col-execd}) is cryptographically keyless and identity-blind. An upward procurement or demand yield packet must never contain a plaintext string such as \texttt{"did:peer:steward:..."} in \texttt{claimant\_did}; it carries only a 24-byte PRF-blinded \texttt{ClaimHandle} or a 32-byte zero-knowledge \texttt{anonymous\_lease\_cid} (\texttt{CCI-2}).
+    \item \textbf{Exact Microjoule-to-Megajoule Scaling ($1\,\mathrm{MJ} = 10^{12}\,\mu\mathrm{J}$):} Because $1\,\mathrm{J} = 10^6\,\mu\mathrm{J}$ and $1\,\mathrm{MJ} = 10^6\,\mathrm{J} = 10^{12}\,\mu\mathrm{J}$, all upward yield packets preserve raw \texttt{int64\_t required\_exergy\_uj} and divide by \texttt{1'000'000'000'000LL} ($10^{12}$, never $10^9$ which is $1\,\mathrm{kJ}$) only when projecting whole megajoules for human display at Layer~6.
+\end{enumerate}
+\end{invariant}
+
+\section{The Ratified Needs List ($\Phi_t$), Tax Reserve Segregation ($\rho_t$), and the $\$20{,}000$ Genesis Budget ($\Phi_0$)}
+\label{sec:l7-needs-list-equations}
+
+When \texttt{col-commonsd} decompiles an \texttt{UPWARD\_YIELD\_L7\_PROCUREMENT} packet into a human-readable \textbf{Layer~6 Semantic Diff Card}, the node's members ($N_s$) deliberate and vote via $V_i(t) = 1 + R_i(t)$ to ratify the item onto the cycle's \textbf{Needs List}.
+
+Let $\{c_1, c_2, \dots, c_m\}$ denote the integer fiat costs (in \texttt{cents}) of the $m$ ratified Needs List items for operating cycle~$t$, let $\rho_{t,\mathrm{cents}}$ denote the mandatory statutory tax and compliance reserve (property tax escrow, sales/VAT obligations, and corporate filing fees), and let $T_{t,\mathrm{cents}}$ denote the usable fiat treasury reserve already held by \texttt{col-adversaryd} (such as the Stage~1A Genesis reserve $\Phi_0 = 2{,}000{,}000\,\text{cents} = \$20{,}000.00$). The cycle's \textbf{Net Fiat Target ($\Phi_{t,\mathrm{cents}}$)} is:
+\begin{equation}
+\Phi_{t,\mathrm{cents}} = \max\!\left(0,\; \sum_{k=1}^{m} c_{k,\mathrm{cents}} + \rho_{t,\mathrm{cents}} - T_{t,\mathrm{cents}}\right)
+\label{eq:ch6-fiat-target-cents}
+\end{equation}
+
+Every inbound dollar of external commercial revenue received by \texttt{col-adversaryd} first passes through \textbf{Automatic Tax Reserve Segregation}:
+\begin{equation}
+\Delta \rho_{t,\mathrm{cents}} = \left\lfloor \frac{\Delta V_{\mathrm{gross,cents}} \cdot \tau_{\mathrm{effective,bp}}}{10{,}000} \right\rfloor
+\label{eq:ch6-tax-segregation}
+\end{equation}
+where $\tau_{\mathrm{effective,bp}}$ is the certified effective statutory tax rate in basis points (Accounting for MACRS multi-year capital depreciation schedules and IRC Subchapter~T patronage deductions). This ring-fenced reserve guarantees that the cooperative can never spend money owed to municipal or federal tax authorities on hardware.
+
+\section{The Automatic \texorpdfstring{$\Phi_t = 0$}{Phi\_t = 0} Bill-Zeroing Shutoff and the Layer 7 Procurement Wrapper Lens}
+\label{sec:l7-bill-zeroing-shutoff}
+
+Unlike a capitalist enterprise whose objective function is $\max(\text{Revenue})$, Layer~7 is governed by an automatic homeostatic stop rule:
+\begin{theorem}[The Automatic $\Phi_t = 0$ Bill-Zeroing Shutoff]
+\label{thm:l7-bill-zeroing}
+The moment cumulative net fiat receipts in cycle~$t$ reduce the remaining unallocated Needs List deficit $\Phi_{t,\mathrm{cents}}$ to zero ($\Phi_{t,\mathrm{cents}} = 0$), \texttt{col-commonsd} dispatches opcode \texttt{0x0704 kFreezeOrderIntakeBillZeroed} across \texttt{l6\_l7.sock} to \texttt{col-adversaryd}. Upon receipt:
+\begin{enumerate}
+    \item \texttt{col-adversaryd} immediately closes external storefront intake, pauses utility arbitrage export beyond net-zero bill offsetting, and releases all export-allocated labor hours ($L_t \to 0$) back to internal commons stewardship and unstructured free time;
+    \item Any residual fiat over-collection $\Delta T_{\mathrm{surplus,cents}} > 0$ from in-flight batch settlements rolls forward solely to reduce the next cycle's target ($\Phi_{t+1,\mathrm{cents}} \leftarrow \max(0, \Phi_{t+1,\mathrm{cents}} - \Delta T_{\mathrm{surplus,cents}})$), ensuring that a productive cycle always results in \textbf{less} external market engagement in the next cycle, never more.
+\end{enumerate}
+\end{theorem}
+
+When executing an approved Needs List purchase, the \textbf{Layer~6 Procurement Wrapper Lens} (colloquially dubbed the ``Green Amazon Wrapper'' during Stage~1A onboarding) presents the steward with a calm, transparent comparison of external supplier options ranked not by manipulative advertising, but by lowest \textbf{Layer~3 Ecological Replacement Cost ($\lambda_{\mathrm{ERC}}$)}, \textbf{Gastronorm/ISO/M6 modular compliance}, and \textbf{Stage~II/III Right-to-Repair schematic availability}. Once the steward completes Stage~4 Deterministic Read-Back and signs with their hardware Ed25519 key, \texttt{col-adversaryd} settles the invoice via credit-union ACH/wire rails and logs the incoming shipment for Layer~2/3 physical onboarding.

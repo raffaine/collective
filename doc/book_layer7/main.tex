@@ -1,76 +1,207 @@
-\documentclass[11pt,oneside]{book}
+\documentclass[11pt,a4paper]{book}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage{lmodern}
+\usepackage{tgpagella}
+\usepackage[scale=0.92]{tgheros}
+\usepackage[scale=0.86]{tgcursor}
 \linespread{1.05}
-\usepackage{amsmath, amssymb, amsthm}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
 \usepackage{graphicx}
-\usepackage{hyperref}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,shapes.geometric,shapes.multipart,automata,calc,fit,backgrounds,decorations.pathreplacing}
+\usepackage{listings}
 \usepackage{geometry}
-
 \geometry{a4paper, margin=1in}
-
-\title{
-    \Huge \textbf{Layer 7: Legacy Bridging} \\
-    \vspace{0.5cm}
-    \Large Strategic Parasitism and the Obsolescence Horizon
+\IfFileExists{epigraph.sty}{%
+    \usepackage{epigraph}%
+    \setlength{\epigraphwidth}{0.68\textwidth}%
+    \renewcommand{\epigraphrule}{0pt}%
+}{%
+    \newcommand{\epigraph}[2]{%
+        \begin{flushright}%
+        \begin{minipage}{0.68\textwidth}%
+        \small\itshape ##1\par\vspace{0.35em}%
+        \upshape\raggedleft ##2\par%
+        \end{minipage}%
+        \end{flushright}%
+        \vspace{1.2em}%
+    }%
 }
-\author{Chief Cybernetic Architect}
-\date{\today}
+\usepackage{csquotes}
+\usepackage{xcolor}
+\newif\ifusebiblatex
+\IfFileExists{biblatex.sty}{%
+    \usebiblatextrue
+    \usepackage[style=authoryear,backend=bibtex]{biblatex}
+    \addbibresource{references.bib}
+}{%
+    \usebiblatexfalse
+    \usepackage[round,authoryear]{natbib}
+    \newcommand{\parencite}[2][]{\ifx\relax##1\relax\citep{##2}\else\citep[##1]{##2}\fi}
+    \newcommand{\textcite}[2][]{\ifx\relax##1\relax\citet{##2}\else\citet[##1]{##2}\fi}
+}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,
+    urlcolor=teal,
+    citecolor=gray,
+    pdftitle={The Sovereign Stack --- Companion Volume: Layer 7: The Layer 7 Carapace and Assimilation Bridge},
+    pdfauthor={The Collective Architectural Council},
+}
+
+% --- Line-Breaking & Running Header Typography ---
+\setlength{\emergencystretch}{3em}
+\DeclareRobustCommand{\_}{\ifmmode\text{\symbol{95}}\else\symbol{95}\allowbreak\fi}
+\pdfstringdefDisableCommands{\def\_{_}}
+\usepackage{fancyhdr}
+\setlength{\headheight}{22pt}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.3pt}
+\fancyhead[LE]{\small\thepage}
+\fancyhead[RE]{\parbox[b]{0.86\textwidth}{\raggedleft\footnotesize\itshape\nouppercase{\leftmark}}}
+\fancyhead[LO]{\parbox[b]{0.86\textwidth}{\raggedright\footnotesize\itshape\nouppercase{\rightmark}}}
+\fancyhead[RO]{\small\thepage}
+
+% --- Theorem & Definition Environments ---
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{invariant}[theorem]{Invariant}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+
+% --- Listings Setup ---
+\definecolor{codebg}{rgb}{0.97,0.97,0.98}
+\definecolor{codeframe}{rgb}{0.82,0.84,0.87}
+\definecolor{codekw}{rgb}{0.12,0.28,0.58}
+\definecolor{codecmt}{rgb}{0.35,0.42,0.38}
+\lstdefinelanguage{jsonld}{
+    morestring=[b]",
+    morecomment=[l]{//},
+    literate=
+     *{:}{{{\color{codekw}{:}}}}{1}
+      {,}{{{\color{codekw}{,}}}}{1}
+      {\{}{{{\color{codekw}{\{}}}}{1}
+      {\}}{{{\color{codekw}{\}}}}}{1}
+      {[}{{{\color{codekw}{[}}}}{1}
+      {]}{{{\color{codekw}{]}}}}{1}
+}
+\lstset{
+    basicstyle=\footnotesize\ttfamily,
+    backgroundcolor=\color{codebg},
+    frame=single,
+    rulecolor=\color{codeframe},
+    keywordstyle=\bfseries\color{codekw},
+    commentstyle=\itshape\color{codecmt},
+    breaklines=true,
+    columns=fullflexible,
+    keepspaces=true,
+    showstringspaces=false,
+    aboveskip=0.8em,
+    belowskip=0.8em
+}
 
 \begin{document}
 
-\maketitle
+\frontmatter
+\begin{titlepage}
+    \thispagestyle{empty}
+    \begin{center}
+        \vspace*{2.8cm}
+        {\Large \textsc{The Sovereign Stack $\cdot$ Technical Companion Series}} \\[1.0cm]
+        {\scalebox{1.38}{\textbf{Layer 7: The Layer 7 Carapace \& Assimilation Bridge}}} \\[0.75cm]
+        {\Large \textit{The Cooperative Legal Carapace, Transitional Interface,}} \\[0.22cm]
+        {\Large \textit{and Hardware Obsolescence Horizon: Bootstrapping the Commons}} \\[0.22cm]
+        {\Large \textit{from Legacy Markets and Scavenged Hardware}} \\[2.2cm]
+        {\large \textbf{The Collective Architectural Council}} \\[0.4cm]
+        {\normalsize Ratified v3.2 Companion Monograph (Oasis \texttt{L1b} \& 25-Scenario Horizon Synthesis)}
+        \vfill
+        {\large Cascadia Bioregion $\cdot$ November 2026}
+        \vspace*{1.8cm}
+    \end{center}
+    \clearpage
+\end{titlepage}
+
 \tableofcontents
 
-% ==========================================
-% PART I: CORE ARCHITECTURE
-% ==========================================
-\part{Core Bridging Architecture}
+\input{chapters/00_preface}
 
-% The following chapters will be generated by the swarm based on the MD guide:
-\include{chapters/01_fiat_crypto_bridge}
-\include{chapters/02_api_parasitism}
-\include{chapters/03_physical_grid_leeching}
-\include{chapters/04_obsolescence_horizon}
-\include{chapters/05_legal_parasitism}
-\include{chapters/06_cultural_ethical_bridge}
-\include{chapters/07_node_fiat_extraction}
-\include{chapters/08_references}
+\mainmatter
 
-% ==========================================
-% PART II: APPENDIX (THE 25 SCENARIOS)
-% ==========================================
+% ==========================================================================
+% PART I: THE COOPERATIVE CARAPACE, SCAVENGED HARDWARE & TRANSITIONAL BRIDGE
+% ==========================================================================
+\part{The Cooperative Legal Carapace, Scavenged Hardware Friction, and Transitional Market Interface}
+
+\input{chapters/01_fiat_crypto_bridge}
+\input{chapters/02_scavenged_hardware_friction}
+\input{chapters/03_right_to_repair_retrofits}
+\input{chapters/04_modular_standards_and_procurement}
+\input{chapters/05_corporate_shell_defense}
+\input{chapters/06_predictive_procurement}
+\input{chapters/07_utility_interconnection_and_arbitrage}
+\input{chapters/08_export_surplus_and_clearing}
+\input{chapters/09_open_source_franchising_export}
+\input{chapters/10_regulatory_and_anti_capture_defense}
+
+% ==========================================================================
+% PART II: HORIZONTAL WAVES A-F ASSIMILATION & THE SEVERANCE HORIZON
+% ==========================================================================
+\part{Horizontal Waves A--F Assimilation Walkthroughs and the Severance Horizon}
+
+\input{chapters/11_waves_a_and_b_assimilation}
+\input{chapters/12_waves_c_and_d_assimilation}
+\input{chapters/13_waves_e_and_f_assimilation}
+\input{chapters/14_the_inversion_point}
+
+% ==========================================================================
+% PART III: APPENDIX (THE 25 SOVEREIGN SCENARIOS)
+% ==========================================================================
 \appendix
-\part{Appendix: Legacy Integration Scenarios}
-\chapter*{Scenario Index}
-\addcontentsline{toc}{chapter}{Scenario Index}
-The following appendices serve as an exhaustive reference, proving that the Layer 7 architecture can safely extract value from existing world structures across all 25 Sovereign Scenarios until obsolescence is achieved.
+\part{Appendix: The 25 Sovereign Scenarios --- Dual-Mode Layer 7 Reach, Hardware Fleet Progression \& Tribute Elimination Reference}
 
-\include{chapters/appendix_00_scenario_zero}
-\include{chapters/appendix_01_alpha_fabrication}
-\include{chapters/appendix_02_beta_transit}
-\include{chapters/appendix_03_gamma_kitchen}
-\include{chapters/appendix_04_delta_childcare}
-\include{chapters/appendix_05_epsilon_coworking}
-\include{chapters/appendix_06_zeta_lodging}
-\include{chapters/appendix_07_eta_coppice}
-\include{chapters/appendix_08_theta_foundry}
-\include{chapters/appendix_09_iota_epistemic}
-\include{chapters/appendix_10_kappa_apprenticeship}
-\include{chapters/appendix_11_lambda_cultural}
-\include{chapters/appendix_12_mu_extraction}
-\include{chapters/appendix_13_nu_fashion}
-\include{chapters/appendix_14_xi_architecture}
-\include{chapters/appendix_15_omicron_kinship}
-\include{chapters/appendix_16_pi_guild}
-\include{chapters/appendix_17_rho_adversarial}
-\include{chapters/appendix_18_sigma_burnout}
-\include{chapters/appendix_19_tau_genesis}
-\include{chapters/appendix_20_upsilon_shock}
-\include{chapters/appendix_21_phi_elder}
-\include{chapters/appendix_22_chi_paramedic}
-\include{chapters/appendix_23_psi_mediation}
-\include{chapters/appendix_24_omega_decoupling}
+\input{chapters/appendix_00_scenario_zero}
+\input{chapters/appendix_01_alpha_fabrication}
+\input{chapters/appendix_02_beta_transit}
+\input{chapters/appendix_03_gamma_kitchen}
+\input{chapters/appendix_04_delta_childcare}
+\input{chapters/appendix_05_epsilon_coworking}
+\input{chapters/appendix_06_zeta_lodging}
+\input{chapters/appendix_07_eta_coppice}
+\input{chapters/appendix_08_theta_foundry}
+\input{chapters/appendix_09_iota_epistemic}
+\input{chapters/appendix_10_kappa_apprenticeship}
+\input{chapters/appendix_11_lambda_cultural}
+\input{chapters/appendix_12_mu_extraction}
+\input{chapters/appendix_13_nu_fashion}
+\input{chapters/appendix_14_xi_architecture}
+\input{chapters/appendix_15_omicron_kinship}
+\input{chapters/appendix_16_pi_guild}
+\input{chapters/appendix_17_rho_adversarial}
+\input{chapters/appendix_18_sigma_burnout}
+\input{chapters/appendix_19_tau_genesis}
+\input{chapters/appendix_20_upsilon_shock}
+\input{chapters/appendix_21_phi_elder}
+\input{chapters/appendix_22_chi_paramedic}
+\input{chapters/appendix_23_psi_mediation}
+\input{chapters/appendix_24_omega_decoupling}
+
+\backmatter
+\ifusebiblatex
+    \printbibliography[heading=bibintoc]
+\else
+    \cleardoublepage
+    \phantomsection
+    \addcontentsline{toc}{chapter}{Bibliography}
+    \bibliographystyle{plainnat}
+    \bibliography{references}
+\fi
 
 \end{document}

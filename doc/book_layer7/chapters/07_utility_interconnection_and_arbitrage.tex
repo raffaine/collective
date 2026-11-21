@@ -1,0 +1,74 @@
+\chapter{Lawful Municipal Utility Interconnection, Tariff Arbitrage, and IEEE 1547 Islanding}
+\label{ch:l7-utility-interconnection}
+
+\epigraph{Reliability in a polycentric grid does not come from dominating the macro-system, nor from hiding in the dark; it comes from clean boundary contactors that can cooperate at noon and stand alone in the storm.}{---\textcite{ieee1547}, \textit{IEEE Std 1547-2018 Interconnection Principles}}
+
+In compliance with \texttt{docs/BOOK\_TEAM\_DRIFT\_REPORT.md} and the Horizon Council's v3.2 directive (\S 1.4 and \S 5.1/5.8), all legacy references to ``Physical Grid Leeching'' and ``Macroscopic Infrastructure Leeching'' (such as clamping unauthorized inductive taps onto $12\,\mathrm{kV}$ utility drops or tapping municipal water mains with illegal saddle valves) are permanently excised from the Sovereign Stack architecture. Unlawful utility tampering is physically hazardous, violates electrical and plumbing safety codes, and hands utility monopolies an immediate criminal and civil injunction (\texttt{UTILITY\_DISCONNECT\_ORDER} and \texttt{REGULATORY\_CIVIL\_INJUNCTION} in \texttt{col-adversaryd}) to raid and disconnect the settlement.
+
+Instead, a Sovereign Stack node interfaces with municipal electrical, water, and telecommunications grids through \textbf{Lawful Municipal Utility Interconnection}, \textbf{Thermodynamic Tariff Arbitrage}, \textbf{Sub-Cycle IEEE~1547-2018 Islanding}, and \textbf{Enveloping Node Feeder Leases (\texttt{CCI-4})}.
+
+\section{IEEE 1547-2018 Grid-Tie Architecture and Phase-Locked Loop Synchronization}
+\label{sec:l7-ieee1547-pll}
+
+During Stages~1A, 1B, and~2, most suburban and urban nodes retain a physical point of common coupling (PCC) with the legacy municipal AC utility grid ($120/240\,\mathrm{V}_{\mathrm{AC}}$ split-phase in North America; $127/220\,\mathrm{V}_{\mathrm{AC}}$ or $220/380\,\mathrm{V}_{\mathrm{AC}}$ three-phase under ANEEL PRODIST Module~3 in Brazil) while building out their internal $48\,\mathrm{V}_{\mathrm{DC}}$ (house/lot) and $380\,\mathrm{V}_{\mathrm{DC}}$ (neighborhood block) solar-plus-storage microgrids (\texttt{Scenario Beta}, \texttt{Scenario Upsilon}).
+
+At the PCC, the bi-directional hybrid inverter controlled by Layer~2 (\texttt{col-telemetryd}) and bounded by Layer~4 (\texttt{col-execd}) maintains strict compliance with \textbf{IEEE Std 1547-2018} (and California Rule~21 / UL~1741~SA):
+\begin{enumerate}
+    \item \textbf{Synchronous Phase-Locked Loop (PLL) Tracking:} When the grid tie contactor is closed, the inverter's STM32H7 DSP tracks the municipal grid voltage waveform $v_g(t) = V_m \sin(\omega_g t + \theta_g)$, matching frequency ($\omega_g \approx 2\pi \times 60\,\mathrm{Hz}$), phase angle ($\theta_g$), and voltage amplitude within $\pm 50\,\mathrm{bp}$ before closing the solid-state interconnect relay.
+    \item \textbf{Galvanic and Cybernetic Airgap at the PCC:} The utility's revenue smart meter sits strictly outside the node's internal bus on the legacy side of the PCC. Internal branch-circuit current transformers (CTs), battery State-of-Charge (SoC) registers, and room-level Enveloping Node sensors never share a data bus with the utility meter.
+\end{enumerate}
+
+\section{Time-of-Use Tariff Arbitrage and Bill-Zeroing ($\Phi_{\mathrm{utility,t}} \to 0$)}
+\label{sec:l7-tariff-arbitrage}
+
+Legacy investor-owned utilities (modeled in \texttt{col-adversaryd} as \texttt{"AmeriGrid"} and \texttt{"MetroPower"}) impose volatile Time-of-Use (TOU) tariff schedules, peak-demand charges, and surprise rate adjustments (\texttt{UTILITY\_SURPRISE\_RATE\_ADJUSTMENT}, scaling up to $300\%$ under \texttt{LEVEL\_2\_HOSTILE}).
+
+Rather than fighting the utility unlawfully, Layer~4 (\texttt{col-execd}) and Layer~7 (\texttt{col-adversaryd}) execute deterministic \textbf{Thermodynamic Tariff Arbitrage} within the bounds of the node's net-metering or PURPA Qualifying Facility interconnection agreement (or Brazilian ANEEL Lei~14.300/2022 \textit{Micro e Minigera{\c{c}}{\~a}o Distribu{\'\i}da} net-metering credits):
+\begin{itemize}
+    \item \textbf{Off-Peak / Midday Solar Absorption:} When local rooftop photovoltaic generation exceeds immediate baseload consumption---or during super-off-peak municipal wind/hydro surplus windows---Layer~4 charges the node's $\mathrm{LiFePO_4}$ / sodium-ion battery banks ($48{,}000\,\mathrm{mV}$) and schedules high-exergy thermal batches (heating domestic hot-water tanks in \texttt{Scenario Zeta}, pre-heating bakery deck mass in \texttt{Scenario Gamma}, or running induction melts in \texttt{Scenario Theta}).
+    \item \textbf{Peak-Tariff Self-Consumption and Residual Net-Metering Export:} During peak evening tariff windows (\texttt{16:00--21:00}), the PCC inverter zeroes grid import ($P_{\mathrm{import,mW}} = 0$) and, if Layer~3 verifies a positive exergy residual $R_t > 0$ after all five internal priority tiers ($F_t, B_t, C_t, O_t, M_t$) are satisfied, exports bounded surplus power ($X_{t,\mu\mathrm{J}} \le R_{t,\mu\mathrm{J}}$) solely up to the amount required to zero out the cooperative's annual utility standing charges and water/property bills ($\Phi_{\mathrm{utility},t} \to 0\,\text{cents}$).
+\end{itemize}
+
+\section{Sub-Cycle IEEE 1547 Islanding ($\le 16\,\mathrm{ms}$) and Enveloping Node Feeder Leases (\texttt{CCI-4})}
+\label{sec:l7-subcycle-islanding}
+
+When the external macro-grid suffers a blackout, brownout, or hostile administrative shutoff (\texttt{UTILITY\_DISCONNECT\_ORDER} in \texttt{col-adversaryd}), the node must disconnect instantaneously so that it neither back-feeds lethal high voltage onto downed municipal lines nor collapses its own internal critical loads.
+
+\begin{figure}[htbp]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+    node distance=0.7cm and 0.9cm,
+    grid/.style={draw=red!75!black, rounded corners=3pt, thick, fill=red!5, align=center, font=\scriptsize, minimum width=3.2cm, minimum height=1.3cm, inner sep=4pt},
+    relay/.style={draw=orange!85!black, rounded corners=3pt, very thick, fill=orange!10, align=center, font=\scriptsize, minimum width=3.7cm, minimum height=1.3cm, inner sep=4pt},
+    env/.style={draw=blue!75!black, rounded corners=3pt, very thick, fill=blue!6, align=center, font=\scriptsize, minimum width=4.2cm, minimum height=1.3cm, inner sep=4pt},
+    child/.style={draw=teal!75!black, rounded corners=3pt, thick, fill=teal!6, align=center, font=\scriptsize, minimum width=3.6cm, minimum height=1.3cm, inner sep=4pt},
+    arr/.style={-{Stealth[length=2.2mm]}, thick}
+]
+    \node[grid] (pcc) {\textbf{Legacy Municipal Grid}\\PCC Smart Meter (VLAN 40)\\TOU Tariffs \& Blackouts};
+    \node[relay, right=0.85cm of pcc] (sic) {\textbf{SiC MOSFET ATS \& PLL}\\IEEE 1547 Anti-Islanding\\Opens in $\le 12{,}000\,\mu\mathrm{s}$ ($12\,\mathrm{ms}$)};
+    \node[env, right=0.85cm of sic] (hyper) {\textbf{Street / House Enveloping Node}\\Feeder Cap: $9{,}600{,}000\,\mathrm{mW}$\\5-Tier SoC Load Shedding};
+    \node[child, right=0.85cm of hyper] (loads) {\textbf{Child Node Leases (\texttt{CCI-4})}\\Tier 1: Clinic/Nursery/Pantry (\texttt{999})\\Tier 4--5: Foundry/CNC Shed First};
+
+    \draw[arr, <->] (pcc.east) -- node[above, font=\tiny]{AC Tie} (sic.west);
+    \draw[arr, <->] (sic.east) -- node[above, font=\tiny]{48V/380V DC} (hyper.west);
+    \draw[arr] (hyper.east) -- node[above, font=\tiny]{\texttt{max\_power\_mw}} (loads.west);
+\end{tikzpicture}%
+}
+\caption{IEEE~1547-2018 Sub-Cycle Islanding and Enveloping Node Feeder Arbitration: Silicon Carbide (SiC) MOSFET solid-state contactors open within $12\,\mathrm{ms}$ ($\le 1$ AC cycle) upon macro-grid fault detection, while the Enveloping Node Hypervisor sheds low-priority child-node power leases.}
+\label{fig:ch7-ieee1547-islanding}
+\end{figure}
+
+\begin{enumerate}
+    \item \textbf{Sub-Cycle Hardware Trip ($\le 12{,}000\,\mu\mathrm{s}$):} Layer~2's STM32H7 protection loop monitors Rate-of-Change-of-Frequency ($df/dt$, ROCOF) and vector phase shift at $20\,\mathrm{kHz}$. The instant voltage or frequency departs the IEEE~1547 trip envelope, Silicon Carbide (SiC) MOSFET solid-state transfer switches physically open the PCC within $12{,}000\,\mu\mathrm{s}$ ($12\,\mathrm{ms}$, under three-quarters of a $60\,\mathrm{Hz}$ cycle), transitioning the settlement seamlessly into grid-forming islanded mode (\texttt{Scenario Upsilon}).
+    \item \textbf{Enveloping Node Hypervisor 5-Tier SoC Power Shedding (\texttt{CCI-4}):} Once islanded, the Street and Building \textbf{Enveloping Node Hypervisors} immediately adjust their active child-node electrical boundary leases (\texttt{EnvelopingBoundaryLeaseV50::max\_power\_mw}) across the 5-tier State-of-Charge (SoC) priority hierarchy:
+    \begin{itemize}
+        \item \textbf{Tier~5 (Residual Export) \& Tier~4 (Heavy Industrial / Foundry / Non-Essential CNC):} Preempted immediately via Fast-Path Jurisprudence (\texttt{preemption\_priority\_tier < 500}).
+        \item \textbf{Tier~1 (Survival Baseline $B_t$, Clinical Cold-Chain \texttt{Scenario Chi}, Nursery Thermal Shield \texttt{Scenario Delta}, Elder Sanctuary \texttt{Scenario Phi}, and \textit{The Pantry} Cold Storage):} Holds priority tier \texttt{950--999}, guaranteeing $>72\,\mathrm{hours}$ of uninterrupted autonomous operation without external grid power.
+    \end{itemize}
+\end{enumerate}
+
+\section{DMZ Telemetry Obfuscation Against Smart-Meter Surveillance}
+\label{sec:l7-telemetry-obfuscation}
+
+High-frequency utility smart meters are notorious instruments of \textbf{Non-Intrusive Load Monitoring (NILM)}: external data brokers analyze $1\,\mathrm{Hz}$ edge power transients to infer when residents wake, shower, cook, or run specific workshop machinery. Layer~7 neutralizes NILM surveillance physically at the PCC: because the node's local $\mathrm{LiFePO_4}$ battery bank and DC bus act as a low-pass thermodynamic buffer between internal child nodes and the utility meter, the external utility grid sees only a flat, scheduled constant-wattage charging plateau or a smooth IEEE~1547 net-metering curve. All internal switching transients terminate inside Layer~2, revealing zero pattern-of-life information to the outside world.

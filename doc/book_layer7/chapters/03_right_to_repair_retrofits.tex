@@ -1,0 +1,117 @@
+\chapter{Breaking the DRM and Spare-Part Tether: Right-to-Repair Hybrid Retrofits and the 3-Tier Fleet Progression}
+\label{ch:l7-right-to-repair}
+
+\epigraph{When the things we own are engineered to fail and locked against our own hands, repair ceases to be mere maintenance and becomes an act of constitutional self-governance.}{---\textcite{perzanowski2022right}, \textit{The Right to Repair}}
+
+How does an autonomous settlement escape the four structural penalties of Scavenged Layer~7 Hardware without squandering the massive embodied exergy already locked inside existing steel, copper, and cast-iron machinery? If a newly founded neighborhood bakery (\texttt{Scenario Gamma}) or machine shop (\texttt{Scenario Alpha}) threw its $400\,\mathrm{kg}$ commercial deck oven or $1{,}200\,\mathrm{kg}$ engine lathe into a landfill simply because its proprietary PCB was potted in epoxy and DRM-locked, Layer~3 (\texttt{col-storaged}) would record a catastrophic Ecological Replacement Cost ($\lambda_{\mathrm{ERC}}$) spike.
+
+In Dialogue~8 (\texttt{D8}) and Cross-Cutting Invariant~\textbf{CCI-6}, the Horizon Council formalized the \textbf{Three-Tier Hardware Fleet Progression}. Rather than discarding heavy legacy chassis or inventing fictional game stat buffs, communities progress through an authentic thermodynamic and engineering transition:
+\begin{equation}
+\textbf{Stage~I: Scavenged L7 Fleet} \;\xrightarrow{\text{Right-to-Repair Hybrid Retrofit Kit}}\; \textbf{Stage~II: Hybrid Fleet} \;\xrightarrow{\text{Local Open-Spec Remanufacture}}\; \textbf{Stage~III: Native Open-Spec Fleet}
+\label{eq:ch3-three-tier-progression}
+\end{equation}
+
+This chapter specifies the engineering anatomy of a \textbf{Stage~II Right-to-Repair Hybrid Retrofit Kit}, its recognition as a \textbf{first-class Layer~3 Proof of Stewardship event}, its statutory legal defenses in Layer~7, and how \textbf{Stage~III Native Open-Spec Hardware} achieves \textbf{Zero-Stat Liberation}.
+
+\section{Engineering Anatomy of a Stage II Right-to-Repair Hybrid Retrofit}
+\label{sec:l7-stage2-anatomy}
+
+In almost every legacy commercial or domestic appliance, the physical structure that embodies $95\%$ of the thermodynamic manufacturing exergy---the cast-iron hearth deck, the stainless-steel wash drum, the induction motor windings, the precision-ground cast-iron lathe bed, or the insulated refrigeration cabinet---remains mechanically sound for 30 to 80 years. What fails or locks the steward out in Year~4 is the $250\,\mathrm{g}$ proprietary control board and cheap plastic linkage.
+
+A \textbf{Right-to-Repair Hybrid Retrofit Kit} is a content-addressed Layer~6 engineering artifact (\texttt{collective:HardwareRetrofitBlueprint}, licensed under \texttt{CERN-OHL-S-2.0} and \texttt{AGPL-3.0}) published into the \textbf{Ontological Graph} and \textbf{Orchestration Registry} by federated hardware guilds (\texttt{Scenario Alpha} and \texttt{Scenario Pi}). Every retrofit kit comprises three standardized layers:
+\begin{enumerate}
+    \item \textbf{The Open Layer~2 Replacement Controller PCB:} An open-hardware microcontroller carrier board based on the Sovereign Stack's 3-tier Zephyr RTOS MCU hierarchy (\texttt{STM32H7} for deterministic real-time motion/inverter control, \texttt{ESP32-S3} for local room telemetry, or \texttt{RP2040/RP2350} for PIO state-machine interfacing), protected by $2.5\,\mathrm{kV}_{\mathrm{RMS}}$ galvanic opto-isolation and an onboard \texttt{ATECC608A} cryptographic root-of-trust chip.
+    \item \textbf{Direct Internal Transducer Harness:} The retrofit crew strips out the legacy potted PCB and parasitic outer clamps, wiring internal K-type thermocouples, Hall-effect motor phase current sensors, optical spindle encoders, and piezoelectric bearing accelerometers directly into the open Layer~2 ADC channels.
+    \item \textbf{3D-Printable / CNC-Machinable Metric Mechanical Adapters:} Parametric STEP/OpenSCAD files for mounting brackets, shaft couplers, and seal glands that convert proprietary plastic clips and non-standard bushings to standard ISO metric \texttt{M6}/\texttt{M8} fasteners and off-the-shelf industrial bearings (e.g., standard \texttt{608-2RS} or \texttt{6204-ZZ} bearings).
+\end{enumerate}
+
+When the retrofit BPMN~2.0 workflow completes and passes its Layer~2/4 safety interlock test, \texttt{col-telemetryd} upgrades the tool twin's provenance register from \texttt{QUALITY\_SCAVENGED\_L7\_SHIM = 0x04} to \texttt{QUALITY\_RETROFIT\_HYBRID = 0x08}. As quantified in Table~\ref{tab:ch2-fleet-penalty-comparison}:
+\begin{itemize}
+    \item Parasitic standby overhead drops by $>92\%$ (from $45{,}000\,\mathrm{mW}$ to $3{,}500\,\mathrm{mW}$);
+    \item Telemetry uncertainty narrows from $\pm 1{,}500\,\mathrm{bp}$ to $\pm 350\,\mathrm{bp}$;
+    \item Unscheduled mid-batch hard-blocks fall nearly $9\times$ (from $350\,\mathrm{bp}$ to $40\,\mathrm{bp}$); and
+    \item Annualized Layer~7 OEM spare-part fiat tribute drops by $>90\%$ (from $48{,}000\,\text{cents/yr}$ to $4{,}500\,\text{cents/yr}$ for generic commodity relays or bearings).
+\end{itemize}
+
+\section{Right-to-Repair Retrofits as First-Class Layer 3 Proof of Stewardship (\texttt{D8})}
+\label{sec:l7-retrofit-stewardship}
+
+During Stage~1A and Stage~1B Genesis, reverse-engineering a ubiquitous consumer appliance, authoring a new retrofit kit, or executing a verified Stage~I $\to$ Stage~II retrofit on a community machine is one of the highest-leverage thermodynamic contributions a steward can perform. It rescues hundreds of megajoules of embodied chassis exergy from the landfill while permanently reducing the settlement's external fiat dependency ratio $D_t$.
+
+Accordingly, Dialogue~8 (\texttt{D8}) and Cross-Cutting Invariant~\textbf{CCI-6} mandate that Layer~3 (\texttt{col-storaged}) and Layer~5 (\texttt{col-kmsd}) treat verified Right-to-Repair Hybrid Retrofits as \textbf{first-class Proof of Stewardship ($\Delta V$ and $\Delta R_{i,\mathrm{bp}}$) events} via \texttt{ProofOfStewardshipRetrofitRecordV50}:
+
+\begin{theorem}[Thermodynamic Verification of Right-to-Repair Stewardship Minting]
+\label{thm:l7-retrofit-minting}
+Let $c_{\mathrm{tool}}$ be a Stage~I Scavenged Layer~7 appliance with embodied chassis exergy $E_{\mathrm{chassis},\mu\mathrm{J}}$, pre-retrofit per-cycle Ecological Replacement Cost $\lambda_{\mathrm{ERC,pre}}$, and annualized external Layer~7 tribute $\Phi_{\mathrm{tribute,pre}}$. When a steward or mentor-apprentice dyad (\texttt{Scenario Kappa}) completes a Layer~4 retrofit workflow (\texttt{wf:right\_to\_repair\_retrofit}) and Layer~2 (\texttt{col-telemetryd}) verifies that the tool now streams \texttt{0x08} signed telemetry with post-retrofit $\lambda_{\mathrm{ERC,post}} < \lambda_{\mathrm{ERC,pre}}$, the stewardship bonus $\Delta R_{i,\mathrm{bp}} > 0$ minted into the steward's Layer~5 node membership state $V_{i,\mathrm{bp}}(t) = 10{,}000 + R_{i,\mathrm{bp}}(t)$ is strictly bounded by verified thermodynamic savings:
+\begin{equation}
+\Delta R_{i,\mathrm{bp}} = \left\lfloor \frac{\alpha_{\mathrm{rescue}} \cdot E_{\mathrm{chassis},\mu\mathrm{J}} + \beta_{\mathrm{ERC}} \cdot N_{\mathrm{horizon}} \cdot \bigl(\lambda_{\mathrm{ERC,pre}} - \lambda_{\mathrm{ERC,post}}\bigr)}{E_{\mathrm{ref},\mu\mathrm{J}}} \right\rfloor
+\label{eq:ch3-retrofit-stewardship}
+\end{equation}
+where $E_{\mathrm{ref},\mu\mathrm{J}} = 3{,}600{,}000{,}000{,}000\,\mu\mathrm{J}$ ($3.6\,\mathrm{MJ}$), satisfying the Anti-Farming Invariant (\texttt{D3}): zero $\Delta R_{i,\mathrm{bp}}$ can be minted unless physical Layer~2/3 telemetry confirms the reduction in $\lambda_{\mathrm{ERC}}$ and parasitic shim draw.
+\end{theorem}
+
+\begin{lstlisting}[language=C++,caption={First-Class Layer 3 Proof of Stewardship Record for Stage I $\to$ Stage II Right-to-Repair Retrofits}]
+#pragma once
+#include <cstdint>
+#include <array>
+
+namespace collective::layer4 {
+
+struct ProofOfStewardshipRetrofitRecordV50 {
+    std::array<uint8_t, 32> retrofit_tx_cid;
+    std::array<uint8_t, 32> tool_did_hash;
+    std::array<uint8_t, 32> steward_did_hash;
+    int64_t rescued_chassis_embodied_exergy_uj{0}; // Embodied exergy saved from premature scrap (uJ)
+    int64_t pre_retrofit_erc_per_cycle_uj{0};      // Stage I ERC per cycle (e.g., 850,000,000 uJ)
+    int64_t post_retrofit_erc_per_cycle_uj{0};     // Stage II ERC per cycle (e.g., 120,000,000 uJ)
+    int64_t eliminated_l7_tribute_cents_per_yr{0}; // Annual OEM fiat tribute severed (cents/yr)
+    int64_t minted_stewardship_bonus_bp{0};        // Delta R_i minted into col-kmsd NodeMemberVoiceStateV50
+};
+
+} // namespace collective::layer4
+\end{lstlisting}
+
+Crucially, as established in Part~III (\S 3.5, Pillar~II \texttt{collective:WorkCapabilityMatrix}), Stage~II Right-to-Repair retrofits also solve the \textbf{Cold-Start Apprentice Paradox}: a newcomer arriving with $R_i(0) = 0$ ($V_i(0) = B = 1$) can co-execute a Stage~II appliance retrofit alongside a certified mentor under a dual-key hardware interlock, simultaneously upgrading the settlement's physical tooling, learning open-hardware electronics, and earning their initial verified $\Delta R_{i,\mathrm{bp}}$ stewardship weight.
+
+\section{Stage III Native Open-Spec Fleet and ``Zero-Stat Liberation''}
+\label{sec:l7-stage3-zero-stat}
+
+As regional metallurgy (\texttt{Scenario Theta}) and fabrication guilds (\texttt{Scenario Alpha}, \texttt{Scenario Pi}) mature in Stages~2 and~3, worn-out hybrid chassis are remanufactured into \textbf{Stage~III Native Open-Spec Collective Hardware} (\texttt{QUALITY\_OPEN\_SPEC\_NATIVE = 0x02}):
+\begin{itemize}
+    \item Every bearing seat, seal groove, and fastener hole adheres to the \textbf{One-Wrench Rule} (ISO metric \texttt{M6}/\texttt{M8} socket-head cap screws) and standard modular envelopes (\textbf{Gastronorm GN~1/1} pans, \textbf{ISO $600 \times 400\,\mathrm{mm}$} totes).
+    \item Internal sensor harnesses stream continuous motor RPM, winding resistance drift, and acoustic-harmonic bearing wear registers directly through Layer~2 (\texttt{col-telemetryd}) and Layer~3 (\texttt{col-storaged}).
+    \item When a bearing's acoustic harmonic signature crosses its preventive wear threshold 40 hours before mechanical failure, Layer~4 (\texttt{col-execd}) automatically schedules a \textbf{5-minute predictive metric swap} between production waves and pre-stages the exact locally fabricated replacement part in \textbf{\textit{The Workshop}} lens.
+\end{itemize}
+
+This is \textbf{Zero-Stat Liberation} (\texttt{D8}, \texttt{CCI-6}):
+\begin{quote}
+\textit{Upgrading from Stage~I Scavenged Hardware to a Stage~III Native Open-Spec Fleet never grants a fake ``$+25\%$ baking speed'' multiplier. Instead, external fiat spare-part bleed drops to zero ($\Phi_{\mathrm{tribute}} = 0\,\text{cents}$) and surprise mid-batch interrupts vanish ($350\,\mathrm{bp} \to 5\,\mathrm{bp}$). The machine falls silent on the fault bus, liberating Dr\_Sofia's boundless human time for rest, study, and creative montage.}
+\end{quote}
+
+\section{Statutory Right-to-Repair Defenses in Layer 7}
+\label{sec:l7-statutory-r2r-shield}
+
+Legacy OEMs frequently threaten independent repair workshops with cease-and-desist letters alleging Digital Millennium Copyright Act (DMCA) anti-circumvention violations, patent infringement, or trademark dilution when open replacement controller boards are published. Layer~7 shields the settlement and federated guilds (\texttt{Scenario Pi}) through four concrete legal doctrines:
+
+\begin{table}[htbp]
+\centering
+\caption{Layer~7 Statutory Right-to-Repair and Open-Hardware Legal Defenses (US, EU, and Brazil)}
+\label{tab:ch3-r2r-legal-shields}
+\small
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Legal Vector} & \textbf{US / EU Statutory Authority} & \textbf{Layer~7 Operational \& Licensing Defense} \\
+\midrule
+Firmware Lock Circumvention & 17 U.S.C. \S~1201 Triennial Repair Exemptions \parencite{dmca1201} & Complete PCB Brain Replacement: Stage~II kits physically remove and discard the OEM PCB rather than copying or distributing proprietary OEM firmware binaries. \\
+Warranty & Magnuson-Moss Act, 15 U.S.C. \S~2302(c) \parencite{magnusonmoss1975} & Bars OEMs from voiding equipment warranties or tying service contracts to branded parts unless OEM parts are provided free of charge. \\
+Diagnostic & EU Directive 2024/1799 \parencite{eu_r2r_2024}; State R2R Acts & Mandates spare-part availability, prohibits software part-pairing blocks, and protects independent repairers and open-hardware replacement components. \\
+Patent Exhaustion & \textit{Impression Products v. Lexmark}, 581 U.S. 360 (2017) & First-sale exhaustion extinguishes all OEM patent rights in a lawfully acquired secondhand appliance, guaranteeing the absolute right to repair and re-control its chassis. \\
+Brazilian / Lusophone Shield & CDC Lei 8.078/90 (Arts. 21, 32, 39) \& Lei 9.279/96 Art.~43 & Brazilian Consumer Defense Code forbids abusive tying (\textit{venda casada}) and guarantees repair access; Industrial Property Law exempts non-commercial/cooperative repair. \\
+Reciprocal Copyleft Lock & \texttt{CERN-OHL-S-2.0} \parencite{cern_ohl_v2} \& \texttt{AGPL-3.0} \parencite{agplv3} & Ensures no external corporation can enclose a community-designed Stage~II retrofit PCB into a proprietary product without releasing all derivative CAD/gerber files. \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+Crucially, because a Stage~II Right-to-Repair Hybrid Retrofit \textbf{completely replaces} the proprietary OEM control board with an open-source Zephyr RTOS controller running clean-room Sovereign Stack firmware, the node never copies, patches, or redistributes a single byte of copyrighted OEM firmware. The OEM's intellectual property is physically unbolted and recycled in \texttt{Scenario Mu}, rendering DMCA copyright claims legally moot from the outset.

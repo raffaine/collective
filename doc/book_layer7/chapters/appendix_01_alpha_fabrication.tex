@@ -1,21 +1,38 @@
-\chapter{Appendix 01: Scenario Alpha - Distributed Fabrication}
+\chapter{Scenario Alpha (\texttt{SCN-ALPHA-FAB}): Convivial Fabrication, Parametric Blueprints, and Tool Library}
+\label{app:scenario-alpha}
 
-\section{The Legacy Dependency (Technical \\\& Cultural)}
-Alpha Fabrication focuses on material autonomy, yet it inherently requires physical inputs that the Sovereign Stack cannot immediately synthesize ex nihilo. This includes raw materials such as PLA filament, specialized aluminum stock, CNC tooling, and rare-earth components. Furthermore, it relies heavily on legacy logistics networks (e.g., postal services, multinational freight forwarders, and intermodal transport) for delivery. 
+\section{Dual-Mode Layer 7 Reach and Cooperative Legal Carapace}
+Scenario Alpha (\texttt{docs/scenarios/alpha\_fabrication/}, Wave~B, Stage~1A $\to$ 3) governs the neighborhood tool library, machine shop, and parametric fabrication commons.
+\begin{itemize}
+    \item \textbf{Layer~7 Reach Mode:} \textit{Dual-Mode (Transitional Alloy/Component Procurement \& Residual Precision CNC Export)}. Procures raw bar stock, silicon microcontrollers, and carbide inserts via the 3-tier recursive BOM resolver (\texttt{UPWARD\_YIELD\_L7\_PROCUREMENT}) only after local stock (\texttt{Tier~A}) and federated Ring~$R_1\text{--}R_3$ \texttt{BCC} peers (\texttt{Tier~B}) return empty; exports residual high-craft CNC fixtures under the Exergy Shield ($V \le \kappa E$) until $\Phi_t = 0$.
+    \item \textbf{US / Common-Law Carapace:} UUNAA~\S~6 Unincorporated Tool Library (Stage~1A/1B) transitioning to an IRC Subchapter~T Worker/Shared-Services Cooperative (26~U.S.C.~\S\S~1381--1388) executing cost-reimbursement SSAs and statutory Right-to-Repair defenses (17~U.S.C.~\S~1201 exemptions; Magnuson-Moss 15~U.S.C.~\S~2302(c)).
+    \item \textbf{Brazilian / Lusophone Carapace (\texttt{bra/README.md}):} \textit{Cooperativa de Trabalho e Produ{\c{c}}{\~a}o Industrial} (\texttt{Lei 12.690/2012} and \texttt{Ato Cooperativo Lei 5.764/1971, Art.~79}) paired with open-hardware reciprocity under \texttt{CERN-OHL-S-2.0}.
+\end{itemize}
 
-Culturally and legally, the dependency is rooted in traditional intellectual property (IP) frameworks (patents, copyrights) and fiat-based supply chain contracts. Legacy suppliers operate on net-30 credit terms and require commercial accounts tied to recognized legal entities. Bypassing these structures means navigating a web of Uniform Commercial Code (UCC) filings and avoiding the legal liability of utilizing proprietary CAD designs within a decentralized manufacturing network.
+\section{Horizon Council v3.2 Architectural Binding (\texttt{D5}--\texttt{D8}, \texttt{CCI-2}--\texttt{CCI-6})}
+\begin{enumerate}
+    \item \textbf{Node Membership ($N_s = 1 \to 6$) \& Pillar II Apprentice Ladder:} Voting weight $V_{i,\mathrm{bp}}(t) = 10{,}000 + R_{i,\mathrm{bp}}(t)$ is scoped to active shop stewards ($N_s$). Hardware actuation requires \texttt{Scenario Kappa} \texttt{BBS+} capability VCs (\texttt{<10 ms} hardware LOTO trip), while newcomers ($R_i = 0$) earn initial stewardship by co-signing Stage~II Right-to-Repair retrofits with a mentor.
+    \item \textbf{Primary Layer~6 Lens (\textit{The Workshop} vs.\ \textit{The Pantry}):} \textbf{\textit{The Workshop Lens}} tracks calendar-agnostic discrete usage cycles (\texttt{workshop:cumulativeUseMs}, \texttt{wearIndexBp}, \texttt{calibrationDueUse}), custody leases, and $R_0$-private creative slots.
+    \item \textbf{Enveloping Node Hypervisor Lease \& 3-Tier BPMN Cascade:} Operates inside an Industrial Bay Enveloping Lease ($L_{\max} = 8{,}500\,\mathrm{cB}$ daytime / $5{,}000\,\mathrm{cB}$ nighttime, $P_{\max} = 4{,}500{,}000\,\mathrm{mW}$). When a blueprint calls for a laser seam weld unavailable locally, Layer~4's \textbf{Tier~2 Macro-Activity Substitution} splices in \texttt{macro:FlangedM6BoltedJointWithGasket} adhering to the \textbf{One-Wrench Rule} (\texttt{M6}/\texttt{M8} 316 stainless fasteners).
+\end{enumerate}
 
-\section{The Parasitic Bridge (Technical \\\& Legal)}
-To establish a foothold, Layer 7 executes automated API Parasitism. The system programmatically scrapes legacy supplier databases (e.g., industrial metal suppliers, Web2 logistics tracking APIs) to dynamically identify the most cost-effective and reliable material sources, bypassing human procurement officers. 
+\section{3-Tier Hardware Fleet Progression, Retrofit Kit BOM, and Tribute Elimination}
+\begin{table}[htbp]
+\centering
+\caption{Scenario Alpha (\texttt{SCN-ALPHA-FAB}) Hardware Fleet Progression and Fiat Tribute Elimination Curve}
+\label{tab:app01-alpha-hardware}
+\small
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}llllr@{}}
+\toprule
+\textbf{Fleet Stage} & \textbf{Fabrication Tooling Configuration} & \textbf{L2 Provenance \& Telemetry} & \textbf{Stage II Right-to-Repair Retrofit Kit BOM} & \textbf{Annual L7 Tribute} \\
+\midrule
+\textbf{Stage I:} Scavenged L7 & Secondhand DRM-locked 3-axis CNC router \& potted MIG welder & \texttt{0x04} ($p_{\mathrm{fault}}=350\,\mathrm{bp}$, $\pm 1{,}500\,\mathrm{bp}$ clamp jitter) & External spindle CT clamp + optical fault-LED scraper & $85{,}000\,\text{cents/yr}$ \\
+\textbf{Stage II:} R2R Hybrid & Cast-iron CNC gantry retained + open RISC-V/STM32H7 motion brain & \texttt{0x08} ($p_{\mathrm{fault}}=40\,\mathrm{bp}$, closed-loop encoder feedback) & STM32H7 LinuxCNC/GRBL board, $2.5\,\mathrm{kV}$ optos, M6/M8 T-slot bed & $7{,}500\,\text{cents/yr}$ \\
+\textbf{Stage III:} Open-Spec & Native open-spec 5-axis mill \& lathe with acoustic bearing twins & \texttt{0x02} ($p_{\mathrm{fault}}=5\,\mathrm{bp}$, 5-min predictive spindle bearing swap) & Locally cast \texttt{Scenario Theta} bed + ISO 6204 bearings + ATECC608A & $0\,\text{cents/yr}$ \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
 
-Legal Wrappers (shell corporations) are instantiated to sign delivery contracts and establish trade credit, appearing as standard manufacturing startups to the legacy world. The Fiat-Crypto Bridge handles the automated, just-in-time payment of legacy invoices using funds escrowed by the decentralized fabrication DAO. By spoofing User-Agents and rotating IP addresses, the system avoids rate-limiting and terms-of-service bans from legacy APIs. This mechanism completely shields the sovereign fabrication nodes from fiat banking de-platforming or supplier embargoes based on the political nature of the DAO.
-
-\section{The Decoupling Trigger}
-The Decoupling Trigger for raw material supply chains is strictly defined by the \textit{Circular Material Autonomy Metric}. Complete decoupling from the legacy supply chain occurs when local sovereign recycling infrastructure (e.g., open-source plastic shredders, filament extruders, and metal smelting induction furnaces) combined with locally sourced biomaterials can supply 95\% of the fabrication network's input requirements. 
-
-Once this threshold is reached, the network severs its API hooks into legacy logistics providers and phases out the legal wrappers used for fiat procurement. The network then relies entirely on internal material routing and closed-loop manufacturing.
-
-\section{Orchestration \\\& Ethical Mechanics}
-Orchestration is handled by Layer 4/5 logic executing smart contracts that trigger Layer 7 APIs to automatically order materials only when internal stockpiles fall below mathematically optimized critical thresholds. 
-
-Ethically, the system must carefully navigate the extraction of materials from legacy supply chains without inadvertently contributing to exploitative labor practices or environmental degradation inherent in the old world. To mitigate this, cryptographic oracles are tasked with analyzing supply chain provenance, verifying the ethical sourcing of legacy inputs (e.g., conflict-free minerals) before triggering the parasitic bridge. The ultimate goal is to abandon the exploitative legacy supply chain entirely in favor of a localized, accountable circular economy.
+\textbf{Severance Trigger ($D_{\mathrm{fab},t} \le 300\,\mathrm{bp}$):} Reached when $\ge 95\%$ of mechanical fasteners and brackets conform to \texttt{M6}/\texttt{M8} modular standards and local \texttt{Scenario Theta} scrap metallurgy supplies all structural aluminum and steel stock.

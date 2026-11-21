@@ -1,0 +1,162 @@
+\chapter{Anatomy of Scavenged Layer 7 Hardware Friction: The Four Structural Penalties}
+\label{ch:l7-scavenged-hardware-friction}
+
+\epigraph{In a consumer society there are inevitably two kinds of slaves: the prisoners of addiction and the prisoners of envy. Tools for conviviality are those which give each person who uses them the greatest opportunity to enrich the environment with the fruits of his or her vision.}{---\textcite{illich1973}, \textit{Tools for Conviviality}}
+
+When a real-world Stage~1A Genesis Node boots on a suburban lot with its initial $\$20{,}000$ (\texttt{2,000,000 cents}) fiat reserve $\Phi_0$---or when a founding player cohort launches a settlement inside the Oasis (\texttt{Layer~1b}) proving ground---the community does not unpack a shipping container of custom-manufactured open-source machinery. It bootstraps with \textbf{Scavenged Layer~7 Hardware}: secondhand Craigslist commercial refrigerators, restaurant-liquidation convection ovens, used CNC routers with proprietary potted motion controllers, consumer washing machines with epoxy-encapsulated control boards, and e-bike battery packs locked behind encrypted CAN-bus handshakes \parencite{perzanowski2022right}.
+
+In Dialogue~8 (\texttt{D8}) of \textit{The Architecture of Boundless Time} and Cross-Cutting Invariant~\textbf{CCI-6}, the Horizon Council established a foundational engineering law: \textbf{neither Oasis nor the Sovereign Stack monographs may ever model technological progress through artificial RPG ``tech trees''} (such as paying ``500 Science Points'' to unlock a magical ``$+25\%$ Cooking Speed'' modifier). A $2{,}200{,}000\,\mathrm{mW}$ ($2.2\,\mathrm{kW}$) heating element obeys the exact same First Law of Thermodynamics whether it is mounted inside a scavenged corporate appliance or a native open-spec collective kettle.
+
+Why, then, is a settlement running entirely on Scavenged Layer~7 Hardware chronically stressed, fragile, and tethered to external wage labor? Because hostile corporate hardware imposes \textbf{Four Concrete Structural Friction Penalties (``The Shim Tax'')} across Layers~2, 3, 4, and~7. This chapter dissects the cyber-physical mechanics of each penalty.
+
+\section{Why Layer 7 Hardware Is Engineered to Resist Stewardship}
+\label{sec:l7-planned-obsolescence}
+
+Under Layer~7 shareholder capitalism, an industrial or consumer appliance manufacturer faces a structural contradiction: once a durable machine is sold, a truly reliable, easily repairable design extinguishes future demand from that customer \parencite{georgescu1971entropy,perzanowski2022right}. To sustain quarterly revenue growth and extract recurring aftermarket rents, legacy manufacturers engineer three deliberate forms of anti-convivial friction into physical hardware:
+\begin{enumerate}
+    \item \textbf{Epistemic Obfuscation and Firmware Serialization:} Internal sensor registers (motor current, bearing vibration, thermistor curves) are hidden behind encrypted bootloaders and cryptographic part-pairing handshakes (e.g., serialized heating elements or battery management systems that brick the unit if swapped with a generic equivalent).
+    \item \textbf{Physical Anti-Repair Encapsulation:} Control electronics are potted in thermoset polyurethane resin; housings are ultrasonically welded or glued rather than bolted; and mechanical sub-assemblies use bespoke fastener profiles (pentalobe, proprietary security spline) and non-standard metric/imperial hybrid threads.
+    \item \textbf{Sub-Assembly Monolithization:} A $200\,\mathrm{mg}$ elastomeric seal or a $5\,\mathrm{g}$ deep-groove ball bearing is permanently press-fit inside a $15{,}000{,}000\,\mathrm{mg}$ ($15\,\mathrm{kg}$) sealed motor-drum assembly so that a trivial wear failure forces the purchase of an entire proprietary replacement module.
+\end{enumerate}
+
+When a Stage~1A Collective node integrates these scavenged machines into its cybernetic loop, those three corporate design choices manifest across the seven-layer stack as four measurable penalties.
+
+\begin{figure}[htbp]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+    node distance=0.65cm and 0.9cm,
+    box/.style={draw=red!75!black, rounded corners=3pt, thick, fill=red!5, align=left, font=\scriptsize, minimum width=6.4cm, minimum height=1.55cm, inner sep=5pt},
+    core/.style={draw=black!80, rounded corners=3pt, very thick, fill=gray!10, align=center, font=\footnotesize, minimum width=5.2cm, minimum height=1.35cm, inner sep=5pt},
+    arr/.style={-{Stealth[length=2.2mm]}, thick, red!75!black}
+]
+    \node[core] (hw) {\textbf{Stage I: Scavenged Layer 7 Appliance}\\Potted PCB $\cdot$ Encrypted Firmware $\cdot$ Glued Housing};
+
+    \node[box, above left=0.8cm and 0.6cm of hw] (p1) {\textbf{Penalty 1: Parasitic Layer 2 Shims (\texttt{0x04})}\\External CT clamps, taped thermistors \& optical\\LED scrapers $\to$ $+45{,}000\,\mathrm{mW}$ standby drain\\and $\pm 1{,}500\,\mathrm{bp}$ state inference uncertainty.};
+
+    \node[box, above right=0.8cm and 0.6cm of hw] (p2) {\textbf{Penalty 2: Blind Layer 4 Mid-Batch Hard-Blocks}\\Zero internal bearing/coil telemetry $\to$ sudden\\mid-batch failure ($p_{\mathrm{fault}} = 350\,\mathrm{bp}$) while\\*The Pantry*'s Arrhenius TTL clocks tick down.};
+
+    \node[box, below left=0.8cm and 0.6cm of hw] (p3) {\textbf{Penalty 3: Layer 7 Fiat Tribute Escalation}\\Missing CAD/PCB specs escalate fault to VLAN 40\\(\texttt{col-adversaryd}) $\to$ drains $\Phi_t$ (\texttt{cents}) and\\stalls workflow $72\text{--}168\,\mathrm{h}$ awaiting external courier.};
+
+    \node[box, below right=0.8cm and 0.6cm of hw] (p4) {\textbf{Penalty 4: Layer 3 ERC Spikes ($\lambda_{\mathrm{ERC}}$)}\\Discarding $15\,\mathrm{kg}$ potted assembly over a $\$2$ seal\\spikes $\lambda_{\mathrm{ERC}}$ ($850\,\mathrm{MJ/cycle}$) and depresses\\the node's \texttt{collective:thermodynamicProof} rank.};
+
+    \draw[arr] (hw.north west) -- (p1.south east);
+    \draw[arr] (hw.north east) -- (p2.south west);
+    \draw[arr] (hw.south west) -- (p3.north east);
+    \draw[arr] (hw.south east) -- (p4.north west);
+\end{tikzpicture}%
+}
+\caption{The Four Structural Penalties (``The Shim Tax'') imposed by Stage~I Scavenged Layer~7 Hardware across Layers~2, 3, 4, and~7 (\texttt{CCI-6}).}
+\label{fig:ch2-four-penalties}
+\end{figure}
+
+\section{Penalty 1: Parasitic Layer 2 Shims (\texttt{QUALITY\_SCAVENGED\_L7\_SHIM = 0x04})}
+\label{sec:l7-penalty-shims}
+
+Because a scavenged Layer~7 appliance refuses to expose a deterministic RS-485 Modbus or CANopen fieldbus register table to \texttt{col-telemetryd}, stewards cannot read its internal state directly. Instead, to bring the machine online on Day~1, the node must wrap it in an external \textbf{Parasitic Layer~2 Shim}:
+\begin{itemize}
+    \item A split-core current transformer (CT) clamped around the AC power cord to infer whether the compressor or heating element is energized;
+    \item An external K-type thermocouple or NTC thermistor taped to the outer chassis or slipped through a door gasket to estimate internal cavity temperature;
+    \item An optical photodiode array taped over a 7-segment display to scrape opaque error codes (\texttt{ERR\_42}); and
+    \item An inline solid-state contactor or cloud-spoofing proxy translator that toggles power coarsely from the outside.
+\end{itemize}
+
+In \texttt{col-telemetryd}, every telemetry frame originating from such an externally wrapped machine is tagged with hardware provenance flag \texttt{QUALITY\_SCAVENGED\_L7\_SHIM = 0x04}. This parasitic shim imposes two immediate thermodynamic and informational taxes:
+\begin{enumerate}
+    \item \textbf{Phantom Standby and Shim Exergy Overhead ($P_{\mathrm{shim}}$):} Keeping the legacy appliance's internal transformer, Wi-Fi spyware module, and external Layer~2 translation bridge energized consumes continuous parasitic power $P_{\mathrm{shim}} \in [15{,}000,\, 85{,}000]\,\mathrm{mW}$ ($15\text{--}85\,\mathrm{W}$). Over a task of duration $\Delta t_{\mathrm{ms}}$, the wasted shim exergy in microjoules (\texttt{uJ}, using the exact SI identity $1\,\mathrm{mW} \times 1\,\mathrm{ms} = 1\,\mu\mathrm{J}$) is:
+    \begin{equation}
+    E_{\mathrm{shim\_waste},\mu\mathrm{J}} = P_{\mathrm{shim},\mathrm{mW}} \times \Delta t_{\mathrm{ms}} + P_{\mathrm{standby},\mathrm{mW}} \times \Delta t_{\mathrm{idle,ms}}
+    \label{eq:ch2-shim-waste}
+    \end{equation}
+    \item \textbf{Coarse, Laggy State Inference ($\sigma_{\mathrm{shim}} = \pm 1{,}500\,\mathrm{bp}$):} Because a thermistor taped to an outer stainless housing lags behind the true core temperature by thermal resistance $R_{\mathrm{th}}$ and capacitance $C_{\mathrm{th}}$, Layer~2 Kalman innovation residuals carry a $\pm 15.00\%$ ($\pm 1{,}500\,\mathrm{bp}$) diagnostic uncertainty band, forcing Layer~4 (\texttt{col-execd}) to add conservative safety hold margins to every thermal soak step.
+\end{enumerate}
+
+\section{Penalty 2: Blind Layer 4 Mid-Batch Hard-Blocks}
+\label{sec:l7-penalty-blind-hardblocks}
+
+In a native open-spec tool (Stage~III), \texttt{col-telemetryd} monitors motor phase current harmonics, spindle bearing acoustic emissions (\texttt{cB}), and MOSFET junction temperature (\texttt{mK}) continuously, projecting component time-to-failure 40 operating hours in advance.
+
+In a Stage~I Scavenged Layer~7 machine, the proprietary firmware suppresses all progressive degradation signals until an internal threshold trips a fatal binary fault lock. The machine appears to operate normally at the start of a morning sourdough bake or a structural timber milling job, and then halts mid-batch without warning:
+\begin{itemize}
+    \item \texttt{col-execd} receives an unexpected current drop to zero alongside an optical fault flag and emits an \texttt{UpwardYieldPacketV31} with reason \texttt{YieldReason::SCAVENGED\_L7\_BLIND\_HARDBLOCK} ($p_{\mathrm{fault}} \approx 350\,\mathrm{bp} = 3.50\%$ per cycle).
+    \item Meanwhile, biological entropy in Layer~1 does not pause: inside \textbf{\textit{The Pantry}} and \textbf{\textit{The Bakery / Hearth}} lenses, hydrated dough or heated milk sits at room temperature ($295{,}150\,\mathrm{mK}$), accelerating its Arrhenius spoilage curve while operators scramble to re-route the half-finished batch to a backup oven via Layer~4's 3-Tier BPMN Hardware Adaptation Cascade.
+\end{itemize}
+
+\section{Penalty 3: Layer 7 Fiat Tribute Escalation (\texttt{ScavengedHardwareTributeEventV50})}
+\label{sec:l7-penalty-tribute}
+
+When a blind mid-batch hard-block occurs on a scavenged Layer~7 appliance for which the settlement possesses no open CAD drawings or replacement PCB schematics, Layer~4's 3-tier recursive Bill-of-Materials (BOM) resolver (\texttt{execd\_self\_host.hpp}) attempts to source the repair part:
+\begin{equation}
+\texttt{LOCAL\_STOCK\_OR\_FAB} \;\xrightarrow{\text{miss}}\; \texttt{MESH\_PEER\_BCC\_SUBORDER} \;\xrightarrow{\text{miss}}\; \texttt{UPWARD\_YIELD\_L7\_PROCUREMENT}
+\label{eq:ch2-bom-escalation}
+\end{equation}
+Because the blown component is a potted, proprietary control module or DRM-serialized valve that neither the local \textbf{\textit{Workshop}} lens nor any Ring~$R_1\text{--}R_3$ federated neighbor can fabricate, the fault escalates all the way through Layer~5 and Layer~6 across \texttt{l6\_l7.sock} into Layer~7 (\texttt{col-adversaryd}).
+
+This triggers a \textbf{Layer~7 Fiat Tribute Escalation}:
+\begin{enumerate}
+    \item \textbf{Direct Fiat Reserve Drain ($\Delta \Phi_{\mathrm{tribute,cents}}$):} The settlement must disburse scarce external fiat currency from its $\$20{,}000$ Genesis reserve $\Phi_0$ (or export buffer) to purchase an overpriced OEM sub-assembly ($c_{\mathrm{OEM}} \in [18{,}000,\, 95{,}000]\,\text{cents}$, i.e., $\$180\text{--}\$950$) plus shipping fees.
+    \item \textbf{Multi-Day External Courier Stall ($\Delta t_{\mathrm{courier,ms}}$):} While a native metric bearing swap takes 5 minutes ($300{,}000\,\mathrm{ms}$) using local stock, waiting on a legacy commercial freight carrier stalls the workstation for $3\text{--}7\text{ days}$ ($259{,}200{,}000\text{--}604{,}800{,}000\,\mathrm{ms}$).
+\end{enumerate}
+
+\section{Penalty 4: Layer 3 Ecological Replacement Cost ($\lambda_{\mathrm{ERC}}$) Spikes}
+\label{sec:l7-penalty-erc}
+
+Finally, Layer~3 (\texttt{col-storaged}) evaluates the thermodynamic cost of every tool cycle using the full cradle-to-cradle \textbf{Ecological Replacement Cost ($\lambda_{\mathrm{ERC}}$)} equation from Dialogue~6 (\texttt{D6}) and Part~IV (\S 4.3):
+\begin{equation}
+\lambda_{\mathrm{ERC}}(c) = E_{\mathrm{embodied}}(c) + E_{\mathrm{transport}}(c) + \frac{E_{\mathrm{retooling\_amortized}}(c)}{N_{\mathrm{reuse\_cycles}}(c)} - E_{\mathrm{recoverable\_stock}}(c)
+\label{eq:ch2-erc-formula}
+\end{equation}
+
+When a scavenged Layer~7 appliance forces the premature disposal of a $15\,\mathrm{kg}$ potted electronics-and-pump module after only $N_{\mathrm{reuse\_cycles}} = 400$ cycles with near-zero local material recoverability ($E_{\mathrm{recoverable\_stock}} \approx 0$) and high external freight exergy ($E_{\mathrm{transport}}$), its amortized per-cycle $\lambda_{\mathrm{ERC}}$ spikes to $850{,}000{,}000\,\mu\mathrm{J}$ ($850\,\mathrm{J}$ to $850\,\mathrm{kJ}$ depending on subsystem mass)---$5\times$ to $20\times$ higher than an open-spec modular equivalent.
+
+\begin{table}[htbp]
+\centering
+\caption{Quantitative Comparison of the Four Hardware Friction Penalties Across the 3-Tier Hardware Fleet (\texttt{CCI-6})}
+\label{tab:ch2-fleet-penalty-comparison}
+\small
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+\textbf{Cyber-Physical Metric (64-Bit Fixed-Point SI)} & \textbf{Stage I: Scavenged L7 Shimmed} & \textbf{Stage II: Right-to-Repair Hybrid} & \textbf{Stage III: Native Open-Spec} \\
+\midrule
+L2 Hardware Provenance Flag & \texttt{0x04} (\texttt{SCAVENGED\_L7\_SHIM}) & \texttt{0x08} (\texttt{RETROFIT\_HYBRID}) & \texttt{0x02} (\texttt{OPEN\_SPEC\_NATIVE}) \\
+Parasitic Shim Power Overhead (\texttt{parasitic\_shim\_overhead\_mw}) & $45{,}000\,\mathrm{mW}$ ($45\,\mathrm{W}$) & $3{,}500\,\mathrm{mW}$ ($3.5\,\mathrm{W}$) & $0\,\mathrm{mW}$ (Integrated Bus) \\
+L2 Diagnostic Uncertainty Band ($\sigma_{\mathrm{telemetry}}$) & $\pm 1{,}500\,\mathrm{bp}$ ($\pm 15.0\%$) & $\pm 350\,\mathrm{bp}$ ($\pm 3.5\%$) & $\pm 50\,\mathrm{bp}$ ($\pm 0.5\%$) \\
+Unscheduled Mid-Batch Hard-Block Rate (\texttt{unscheduled\_fault\_prob\_bp}) & $350\,\mathrm{bp}$ ($3.50\%\text{ / cycle}$) & $40\,\mathrm{bp}$ ($0.40\%\text{ / cycle}$) & $5\,\mathrm{bp}$ ($0.05\%\text{ / cycle}$) \\
+Mean Repair Downtime per Fault ($\Delta t_{\mathrm{downtime}}$) & $345{,}600{,}000\,\mathrm{ms}$ ($96\,\mathrm{h}$ courier) & $2{,}700{,}000\,\mathrm{ms}$ ($45\,\mathrm{min}$ local swap) & $300{,}000\,\mathrm{ms}$ ($5\,\mathrm{min}$ predictive swap) \\
+Annualized Layer 7 Fiat Spare-Part Tribute (\texttt{cents / yr}) & $48{,}000\,\text{cents}$ ($\$480.00\text{/yr}$) & $4{,}500\,\text{cents}$ ($\$45.00\text{/yr}$ commodity) & $0\,\text{cents}$ (100\% local/mesh fab) \\
+Amortized Layer 3 ERC per Cycle (\texttt{erc\_amortized\_per\_cycle\_uj}) & $850{,}000{,}000\,\mu\mathrm{J}$ & $120{,}000{,}000\,\mu\mathrm{J}$ & $25{,}000{,}000\,\mu\mathrm{J}$ \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+\section{C++20 Modeling of Layer 7 Tribute Escalation in \texttt{col-adversaryd}}
+\label{sec:l7-tribute-struct}
+
+To replace legacy floating-point penalty approximations in \texttt{src/daemons/col-adversaryd/adversary\_engine.hpp} with deterministic v5.0 fixed-point accounting, \texttt{col-adversaryd} logs every scavenged hardware breakdown that escapes local/mesh BOM resolution as a 64-byte \texttt{ScavengedHardwareTributeEventV50}:
+
+\begin{lstlisting}[language=C++,caption={Fixed-Point Layer 7 Hardware Tribute Escalation Record in \texttt{col-adversaryd} (\texttt{adversary\_engine.hpp})}]
+#pragma once
+#include <cstdint>
+#include <array>
+
+namespace collective::l7 {
+
+struct alignas(64) ScavengedHardwareTributeEventV50 {
+    std::array<uint8_t, 32> failed_tool_did_hash; // [0..31]  Layer 2 Tool Twin identifier
+    uint64_t fault_hlc_ms{0};                     // [32..39] HLC timestamp of blind hard-block
+    int64_t  fiat_parts_tribute_cents{0};         // [40..47] OEM spare part + shipping cost (cents)
+    int64_t  erc_landfill_penalty_uj{0};          // [48..55] Discarded potted module embodied exergy (uJ)
+    uint32_t courier_stall_duration_sec{345'600}; // [56..59] External shipping delay (e.g., 96h = 345,600s)
+    uint16_t fault_code_scraped{42};              // [60..61] Opaque 7-segment error code (e.g. ERR_42)
+    uint8_t  fleet_tier_at_fault{0};              // [62]     0 = Stage I Scavenged L7 Shimmed
+    uint8_t  retrofit_kit_available_in_graph{0};  // [63]     1 if Stage II Retrofit Blueprint exists in L6
+};
+static_assert(sizeof(ScavengedHardwareTributeEventV50) == 64,
+              "ScavengedHardwareTributeEventV50 must occupy exactly 1 cache line (64 bytes).");
+
+} // namespace collective::l7
+\end{lstlisting}
+
+Notice byte~63 (\texttt{retrofit\_kit\_available\_in\_graph}): whenever a Stage~I machine suffers a blind hard-block and triggers a Layer~7 tribute escalation, \texttt{col-commonsd} automatically checks the Ontological Graph to see whether a federated guild (\texttt{Scenario Pi} or \texttt{Scenario Alpha}) has published a \textbf{Stage~II Right-to-Repair Hybrid Retrofit Kit} for that appliance model. If one exists, the upward Semantic Diff Card presented to the stewards offers an immediate alternative to paying OEM tribute: executing the retrofit locally and permanently severing the vendor tether.
