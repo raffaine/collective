@@ -533,3 +533,89 @@ instantiates a deterministic four-stage \textbf{Safe-Harbor Fission Saga}:
     cycle---proving that federation in the Sovereign Stack is always a voluntary covenant among
     self-sufficient peers, never an algorithmic cage.
 \end{enumerate}
+
+\subsection{Tier 3 True-Constraint Hard-Block Federation Discovery and Sovereign Library Gossip (\texttt{CCI-5}, \texttt{D7}, \texttt{D8})}
+\label{subsec:tier3-federation-and-library-gossip}
+
+Chapter~\ref{ch:intranode-choreography} established how \texttt{col-execd} resolves local equipment heterogeneity through Tier 1 Automatic SI Parameter Scaling (\texttt{kTier1SiParameterScaled}) and Tier 2 Macro-Activity Substitution (\texttt{kTier2MacroActivitySpliced}). Yet physical laws impose hard intensive boundaries that no single household or fledgling neighborhood guild can scale or substitute away internally. When \texttt{EvaluateBpmnHardwareCascadeV50} returns \texttt{BpmnCascadeResolution::kTier3TrueConstraintHardBlock}, the inter-node mesh transforms what would otherwise be an insurmountable local bottleneck into a federated BPMN collaboration across Ring $R_1$ and Ring $R_2$ peers.
+
+\subsubsection{Dual-Path Resolution of Tier 3 True-Constraint Hard-Blocks}
+
+Consider two canonical Tier 3 True-Constraint Hard-Blocks encountered during franchise template instantiation and advanced fabrication:
+\begin{enumerate}
+    \item \textbf{Missing Cold-Chain Safety Floor (\texttt{Scenario Gamma} Turnkey Burger Kitchen):} A three-person crew instantiates a turnkey Burger Kitchen blueprint from the Orchestration Registry requiring $\ge 120{,}000\,\mathrm{mL}$ ($120\,\mathrm{L}$) of refrigerated storage holding core temperature $T_{\mathrm{cold}} \le 277{,}150\,\mathrm{mK}$ ($4.00\,^\circ\mathrm{C}$) to prevent pathogen proliferation in fresh patty stock. Their improvised storefront currently possesses only an unrefrigerated ambient larder at $291{,}150\,\mathrm{mK}$ ($18.00\,^\circ\mathrm{C}$). Neither Tier 1 batch splitting nor Tier 2 utensil substitution can alter microbial growth kinetics at $291{,}150\,\mathrm{mK}$.
+    \item \textbf{High-Temperature Sintering Deficit (\texttt{Scenario Alpha} / \texttt{Scenario Theta} Ceramic-Metallic Tooling):} A repair workflow requires sintering a technical alumina-titanium wear insert at $T_{\mathrm{req}} = 1{,}923{,}150\,\mathrm{mK}$ ($1{,}650.00\,^\circ\mathrm{C}$), whereas the local guild's resistive kiln maxes out at $T_{\max,\mathrm{tool}} = 1{,}473{,}150\,\mathrm{mK}$ ($1{,}200.00\,^\circ\mathrm{C}$), leaving an intensive temperature deficit of $\texttt{temp\_deficit\_mk} = 450{,}000\,\mathrm{mK}$ ($450.00\,\mathrm{K}$).
+\end{enumerate}
+
+When \texttt{col-execd} traps on either Tier 3 boundary, it executes a synchronized \textbf{Upward Decompilation and Lateral Mesh Discovery} sequence across \texttt{l4\_l5.sock} and \texttt{l3\_l4.sock}:
+
+\begin{itemize}
+    \item \textbf{Upward Decompilation ($\mathrm{L4} \to \mathrm{L5} \to \mathrm{L6}$ Semantic Diff Card):} \texttt{col-execd} emits an \texttt{UpwardYieldPacketV31} tagged with \texttt{YieldReason::TRUE\_CONSTRAINT\_HARDWARE\_GAP}, encoding the exact 64-bit SI requirement vector and local deficit ($\texttt{required\_temp\_mk} = 277{,}150\,\mathrm{mK}$ vs.\ local $291{,}150\,\mathrm{mK}$, or $\texttt{temp\_deficit\_mk} = 450{,}000\,\mathrm{mK}$). Layer 5 (\texttt{col-kmsd}) forwards the yield over \texttt{l5\_l6.sock} to Layer 6 (\texttt{col-commonsd}), which decompiles the binary register trap into a human-readable \textbf{Layer 6 Semantic Diff Card} on the crew's craft lens.
+    \item \textbf{Simultaneous \texttt{BPVP} Capability Discovery via \texttt{col-meshd} and \texttt{col-swarmd}:} In parallel with upward decompilation, \texttt{col-kmsd} queries its Border Policy Vector Protocol (\texttt{BPVP}) Forwarding Information Base (\texttt{FIB}) and dispatches a capability discovery probe across \texttt{col-meshd} / \texttt{col-swarmd} over Ring $R_1$ and Ring $R_2$ treaties. Because \texttt{BPVP} route announcements advertise each federated node's ratified Layer 2 Digital Twin capability extrema (such as cold-room volume available at $\le 275{,}150\,\mathrm{mK}$ or induction/vacuum kiln headroom at $\ge 2{,}000{,}000\,\mathrm{mK}$) alongside pairwise Bilateral Clearing Channel (\texttt{BCC}) exergy headroom $L_{u,v} - |B_{u \to v}|$, the discovery query returns candidate peer leases within milliseconds.
+    \item \textbf{One-Click Federated Sub-Lease Binding:} When the steward views the Layer 6 Semantic Diff Card, the federated \texttt{BPVP} match is already pre-populated alongside local alternatives:
+    \begin{itemize}
+        \item For the Burger Kitchen cold-chain gap: \texttt{[Bind Neighbor R1 Cold-Room Lease ($150\,\mathrm{L}$ at $275{,}650\,\mathrm{mK}$, 45 m walk at North-Oak Commons)]}, \texttt{[Procure/Retrofit Stage II Cooler]}, or \texttt{[Switch to Shelf-Stable Dry-Bean Menu Fork]}.
+        \item For the $1{,}923{,}150\,\mathrm{mK}$ sintering gap: \texttt{[Dispatch Sintering Sub-Workflow to Creekside Foundry ($R_1$ HTLC Escrow: $18.4\,\mathrm{MJ}$)]} or \texttt{[Select Bolted Bronze-Bushing Macro-Fork]}.
+    \end{itemize}
+    Ratifying the federated option compiles a cross-pool BPMN Call Activity wrapped in a chained \texttt{ChainedHtlcEscrowV1} and two-phase \texttt{ThermodynamicDeliveryReceiptV1} ($\sigma_{\mathrm{dispatch}}, \sigma_{\mathrm{delivery}}$), turning a local Tier 3 hard-block into a seamless neighborhood collaboration.
+\end{itemize}
+
+\begin{lstlisting}[language=C++, caption={Tier 3 True-Constraint Hard-Block federation discovery query and capability sub-lease offer across \texttt{col-meshd}.}]
+struct alignas(8) Tier3FederationCapabilityQueryV50 {
+    uint8_t  template_cid[32]{};           // Blocked BPMN template CID
+    uint64_t correlation_nonce{0ULL};      // Unlinkable query correlation token
+    int64_t  req_min_temp_mk{0};           // e.g., 1,923,150 mK for sintering kiln
+    int64_t  req_max_cold_temp_mk{0};      // e.g., <= 277,150 mK (4.0 C) for cold room
+    int64_t  req_volume_ml{0};             // e.g., 120,000 mL cold storage volume
+    int64_t  req_duration_ms{0};           // Requested custody lease window (ms)
+    uint16_t max_ring_hop_distance{2U};    // R1 = 1 hop, R2 = 2 hops
+    uint16_t pad_[3]{0U, 0U, 0U};
+};
+static_assert(sizeof(Tier3FederationCapabilityQueryV50) == 80,
+              "Tier3FederationCapabilityQueryV50 must be 80 bytes.");
+
+struct alignas(8) NeighborCapabilitySubLeaseOfferV50 {
+    uint8_t  provider_pool_id_hash[32]{};  // Blinded BPVP FIB route handle
+    uint8_t  treaty_cid[32]{};             // Governing Ricardian Treaty_CID
+    uint64_t correlation_nonce{0ULL};
+    int64_t  offered_temp_capability_mk{0};
+    int64_t  offered_volume_ml{0};
+    int64_t  required_bcc_exergy_escrow_uj{0}; // Integer microjoules (1 MJ = 10^12 uJ)
+    uint32_t one_way_haul_distance_mm{0U};     // Physical distance for HaulingPhysics
+    uint16_t trust_ring_tier{1U};              // 1 = R1 Neighbor, 2 = R2 Cooperative
+    uint16_t offer_ttl_sec{900U};              // Ephemeral 15-minute reservation window
+};
+static_assert(sizeof(NeighborCapabilitySubLeaseOfferV50) == 104,
+              "NeighborCapabilitySubLeaseOfferV50 must be 104 bytes.");
+\end{lstlisting}
+
+\subsubsection{Delay-Tolerant Gossip of the Three Sovereign Libraries and \texttt{collective:thermodynamicProof}}
+
+Beyond real-time capability leasing, \texttt{col-meshd} serves as the replication backbone for \textbf{Open-Source Franchising (``The Speedee Service System Without the Rent'')} (\texttt{CCI-5}, \texttt{D7}). How do widely dispersed rural homesteads, urban co-ops, and bioregional campuses share improved culinary, agronomic, and fabrication workflows without a central cloud registry or corporate App Store?
+
+Over Reticulum Delay-Tolerant Networking (\texttt{DTN}) store-and-forward links \parencite{fall2003} and local Layer 3 anti-entropy sync (\texttt{col-storaged}), \texttt{col-meshd} continuously gossips immutable, content-addressed JSON-LD bundles belonging to the \textbf{Three Sovereign Libraries}:
+\begin{enumerate}
+    \item \textbf{The Ontological Graph (\texttt{collective:OntologicalArtifactGraph}):} Content-addressed definitions of materials, open modular containers (Gastronorm GN 1/1 $530\times 325\,\mathrm{mm}$ pans, ISO $600\times 400\,\mathrm{mm}$ Euro-totes), metric fasteners ($\mathrm{M6}$, $\mathrm{M8}$), \texttt{collective:functionalEquivalenceClass} mappings for Tier 2 macro-substitution, and Stage II Right-to-Repair PCB/CAD retrofit kits.
+    \item \textbf{The Orchestration Registry (\texttt{collective:ParameterizedBpmnTemplate}):} Compiled, float-free parameterized BPMN 2.0 workflow templates and Wasmtime guardrails linked into a provenance DAG via \texttt{prov:wasDerivedFrom} whenever a node performs a Mode 2 Localized Semantic Fork or publishes a Mode 4 Greenfield Montage workflow.
+    \item \textbf{The Physics Baseline (\texttt{collective:ThermodynamicBenchmarkLedger}):} Signed empirical batch execution digests---\texttt{collective:thermodynamicProof}---recorded automatically by Layer 2 and Layer 3 upon completion of every physical workflow batch.
+\end{enumerate}
+
+\begin{lstlisting}[language=C++, caption={Fixed-point \texttt{ThermodynamicProofGossipRecordV50} propagated by \texttt{col-meshd} for empirical lineage ranking.}]
+struct alignas(8) ThermodynamicProofGossipRecordV50 {
+    uint8_t  proof_cid[32]{};              // Content-addressed IPLD proof digest
+    uint8_t  workflow_template_cid[32]{};  // Target BPMN recipe in Orchestration Registry
+    uint8_t  parent_template_cid[32]{};    // prov:wasDerivedFrom lineage parent (0 if root)
+    int64_t  specific_exergy_uj_per_g{0};  // Empirical exergy efficiency (uJ per gram yield)
+    int64_t  erc_incurred_per_batch_uj{0}; // Layer 3 Ecological Replacement Cost (lambda_ERC)
+    uint64_t observed_mtbf_sec{0ULL};      // Mean time between unscheduled hard-blocks (s)
+    uint32_t completed_batch_count{0U};    // Sample size backing this aggregate proof
+    uint16_t spoilage_or_scrap_rate_bp{0U};// Defect rate in basis points [0..10000]
+    uint8_t  hardware_fleet_tier{0U};      // 0=Stage I L7 Shim, 1=Stage II Hybrid, 2=Stage III Native
+    uint8_t  quality_flags{0x02U};         // Must be 0x02 (ATECC608A physical hardware root)
+    uint8_t  zk_ring_attestation[64]{};    // Anonymous BBS+ ring signature (zero node DID leak)
+};
+static_assert(sizeof(ThermodynamicProofGossipRecordV50) == 192,
+              "ThermodynamicProofGossipRecordV50 must be 192 bytes.");
+\end{lstlisting}
+
+Crucially, \texttt{col-meshd} enforces two cryptographic invariants before merging any inbound \texttt{ThermodynamicProofGossipRecordV50} bundle into the local Physics Baseline ledger. First, \texttt{quality\_flags} must equal \texttt{QUALITY\_PHYSICAL\_AUTHENTICATED} (\texttt{0x02}, hardware-attested by Layer 2 \texttt{ATECC608A} provenance \parencite{microchip_atecc608a}); simulated Oasis canary frames (\texttt{QUALITY\_SIMULATED = 0x01}) are strictly filtered from empirical lineage rankings so synthetic game runs can never skew real-world physical benchmarks (\texttt{CCI-1}). Second, the proof is signed with a zero-knowledge BBS+ ring attestation \parencite{camenisch2004signature} proving that the emitter is an active federated node without exposing its private household inventory or steward identities. When any crew browses the Orchestration Registry in their Layer 6 lens, forks are ranked strictly by verified thermodynamic performance---lowest specific exergy ($\mu\mathrm{J/g}$), lowest Ecological Replacement Cost ($\lambda_{\mathrm{ERC}}$), lowest spoilage rate ($\mathrm{bp}$), and highest \texttt{observed\_mtbf\_sec}---replacing corporate franchise royalties and advertising hype with peer-verified physical truth.

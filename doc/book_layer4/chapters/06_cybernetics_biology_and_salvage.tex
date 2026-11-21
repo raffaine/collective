@@ -500,3 +500,119 @@ exclusively to the $> 773{,}150\,\mathrm{mK}$ ($500^\circ\mathrm{C}$) \texttt{TL
 kiln, sterilizing every spore into stable Terra Preta carbon. Thus Layer 4 honors the arrow of
 time: digital promises roll back cleanly before actuation, while living matter flows forward
 without waste through the metabolic web of the commons.
+
+\section{Ecological Replacement Cost ($\lambda_{\mathrm{ERC}}$), Scavenged Layer 7 Hardware Friction, and the 3-Tier Hardware Fleet Progression (\texttt{CCI-6}, \texttt{D5}, \texttt{D8})}
+\label{sec:erc-scavenged-l7-fleet-progression}
+
+The Second Law of Thermodynamics governs not only the biological and culinary transformations inside a vessel, but also the physical tools, containers, fasteners, and electronic controllers that execute those transformations \parencite{georgescu1971,odum1971}. In both early smart-home prototypes and video-game resource managers, physical inventory is routinely flattened into a single homogeneous table where a fresh sourdough loaf and a cast-iron milling machine differ only by an item ID string. Worse, when games or simulations attempt to model technological progress, they almost universally invent fake RPG ``Tech Trees'' (``Spend 500 Science Points to unlock $+20\%$ Oven Efficiency'').
+
+The Sovereign Stack v5.0.0-HORIZON rejects both abstractions (\texttt{CCI-3}, \texttt{CCI-6}, \texttt{D5}, \texttt{D8}). First, it establishes a strict thermodynamic demarcation between \textbf{Continuous Arrhenius Perishable Entropy} (the domain of \emph{The Pantry} lens) and \textbf{Discrete Mechanical Cycle Wear} (the domain of \emph{The Workshop} lens). Second, it prices every material component's cradle-to-cradle \textbf{Ecological Replacement Cost ($\lambda_{\mathrm{ERC}}$)} in canonical microjoules ($\mu\mathrm{J}$), driving voluntary convergence onto open modular geometry. Third, it models real-world Stage 1A bootstrap friction on \textbf{Scavenged Layer 7 Hardware} and replaces fictional RPG stat buffs with the physical \textbf{3-Tier Hardware Fleet Progression}.
+
+\subsection{Continuous Arrhenius Perishable Entropy (\emph{The Pantry}) vs.\ Discrete Mechanical Cycle Wear (\emph{The Workshop})}
+\label{subsec:arrhenius-pantry-vs-workshop-wear}
+
+Why must Layer 6 separate \emph{The Pantry} from \emph{The Workshop} as distinct application lenses over \texttt{col-commonsd}, and why must \texttt{col-execd} schedule them under distinct mathematical clocks? Because perishable organic stock and durable mechanical tooling obey orthogonal entropy regimes at Layers 1, 2, and 3:
+
+\begin{enumerate}
+    \item \textbf{Continuous Arrhenius Perishable Entropy (\emph{The Pantry} Lens):}
+    Biological foodstuffs, lacto-ferments, seed stocks, and clinical biologics (\texttt{pantry:StockLot}) degrade continuously with wall-clock time regardless of whether a human touches them. Their shelf-life Time-to-Live (\texttt{pantry:expiryHlcMs}) is governed by temperature-activated enzymatic and microbial respiration integrated continuously over millikelvin-milliseconds ($\mathrm{mK \cdot ms}$). When cold-chain storage holds $T(t) \in [275{,}150,\, 277{,}150]\,\mathrm{mK}$ ($2.0\text{--}4.0\,^\circ\mathrm{C}$), the Arrhenius hazard rate $\dot{h}_{\mathrm{spoil}}(T)$ remains minimal; if a door seal leaks or ambient temperature climbs to $293{,}150\,\mathrm{mK}$ ($20.0\,^\circ\mathrm{C}$), Layer 2 integrates the accelerated thermal-time depletion curve in integer basis points (\texttt{pantry:spoilageHazardBp}), triggering pre-spoilage neighbor surplus offers (\texttt{L3SurplusOffer}) or preventive retort canning workflows in Layer 4 before the lot crosses into Regime 2 waste.
+    \item \textbf{Discrete Mechanical Cycle Wear (\emph{The Workshop} Lens):}
+    Conversely, a box of $\mathrm{M6}$ socket-head cap screws, a 304-stainless Gastronorm pan, a hand plane, or a CNC spindle (\texttt{workshop:ToolAsset}) does \emph{not} rot on the shelf on Friday afternoon. Its degradation is calendar-agnostic and strictly proportional to discrete physical actuation: cumulative energized spindle milliseconds (\texttt{workshop:cumulativeUseMs}), thermal expansion-contraction cycles, and mechanical torque-impulse integrals (\texttt{workshop:wearIndexBp}). Consequently, \texttt{col-execd} never schedules tool calibration or bearing replacement off a naive 30-day calendar cron job; it triggers preventive maintenance workflows strictly when cumulative Layer 2 usage registers cross the tool's verified mechanical wear horizon (\texttt{workshop:calibrationDueUse}).
+\end{enumerate}
+
+\subsection{Layer 3 Ecological Replacement Cost ($\lambda_{\mathrm{ERC}}$) and Emergent Modular Convergence}
+\label{subsec:lambda-erc-modular-convergence}
+
+In legacy Layer 7 markets, corporations deliberately proliferate fifteen incompatible battery sleds, bespoke plastic latch clips, proprietary fastener heads, and non-standard tray dimensions. Artificial fragmentation is lucrative under capitalism because the vendor externalizes cradle-to-grave extraction and landfill entropy onto the biosphere while capturing monopoly rents on replacement parts. How does the Sovereign Stack converge on universal, interchangeable hardware standards without establishing an authoritarian central standardization ministry \parencite{scott1998}?
+
+The answer lies in Layer 3's (\texttt{col-storaged}) exact lifecycle accounting of \textbf{Ecological Replacement Cost ($\lambda_{\mathrm{ERC}}$)}. For every physical component or container class $c$ in the Ontological Graph, Layer 3 computes its per-cycle amortized replacement exergy in canonical 64-bit integer microjoules ($\mu\mathrm{J}$, where $1\,\mathrm{MJ} = 10^{12}\,\mu\mathrm{J}$):
+\begin{equation}
+\label{eq:lambda-erc-definition}
+\lambda_{\mathrm{ERC}}(c) = E_{\mathrm{embodied}}(c) + E_{\mathrm{transport}}(c) + \frac{E_{\mathrm{retooling\_amortized}}(c)}{N_{\mathrm{reuse\_cycles}}(c)} - E_{\mathrm{recoverable\_stock}}(c),
+\end{equation}
+where $E_{\mathrm{embodied}}(c)$ is the primary smelting, synthesis, or machining exergy required to produce $c$; $E_{\mathrm{transport}}(c)$ is the hauling exergy required to source $c$; $E_{\mathrm{retooling\_amortized}}(c)$ is the die, mold, or fixture setup exergy divided by the empirical lifetime reuse cycle count $N_{\mathrm{reuse\_cycles}}(c)$; and $E_{\mathrm{recoverable\_stock}}(c)$ is the closed-loop remelt or reuse credit recovered at end-of-life.
+
+\begin{proposition}[Thermodynamic Gradient Descent Toward Open Modular Standards]
+\label{prop:erc-modular-convergence}
+Let $\mathcal{P}$ be the set of feasible workflow execution paths evaluated by \texttt{col-execd}'s Petri-net solver for a material transformation, where each path $p \in \mathcal{P}$ consumes direct operational exergy $E_{\mathrm{direct}}(p)$ and utilizes hardware/container set $C(p)$. When \texttt{col-execd} minimizes total lifecycle path exergy
+\begin{equation}
+\label{eq:erc-solver-objective}
+J(p) = \sum_{s \in p} \Bigl( E_{\mathrm{direct}}(s) + \lambda_{\mathrm{ERC}}\bigl(c(s)\bigr) \Bigr),
+\end{equation}
+and Layer 6's Orchestration Registry ranks recipe forks by empirical \texttt{collective:thermodynamicProof} efficiency, independent sovereign nodes voluntarily converge on open modular standards---specifically \textbf{Gastronorm GN 1/1 stainless pans ($530 \times 325\,\mathrm{mm}$)}, \textbf{ISO $600 \times 400\,\mathrm{mm}$ Euro-totes}, and \textbf{ISO metric $\mathrm{M6}$ / $\mathrm{M8}$ fasteners}---with zero bureaucratic coercion.
+\end{proposition}
+
+\begin{proof}
+Compare a bespoke proprietary container or fastener $c_{\mathrm{prop}}$ against an open modular standard $c_{\mathrm{open}}$ (such as a 304-stainless Gastronorm GN 1/1 pan of $530 \times 325\,\mathrm{mm}$). For $c_{\mathrm{prop}}$, non-interchangeability across stations restricts $N_{\mathrm{reuse\_cycles}}(c_{\mathrm{prop}})$ to a small local count ($\sim 10^1\text{--}10^2$), leaving $E_{\mathrm{retooling\_amortized}} / N_{\mathrm{reuse\_cycles}}$ large, while potted or glued composite construction forces $E_{\mathrm{recoverable\_stock}}(c_{\mathrm{prop}}) \approx 0$ and requires long-distance Layer 7 courier replacement ($E_{\mathrm{transport}} \gg 0$). Conversely, because $c_{\mathrm{open}}$ fits steam ovens, cold-chain racks, cargo e-trike panniers, lacto-fermentation stations, and robotic grippers across all twenty-five Sovereign Scenarios, its reuse horizon approaches $N_{\mathrm{reuse\_cycles}}(c_{\mathrm{open}}) \ge 10^4$, driving $\lfloor E_{\mathrm{retooling\_amortized}} / N_{\mathrm{reuse\_cycles}} \rfloor \to 0$, while $100\%$ local alloy recyclability maximizes $E_{\mathrm{recoverable\_stock}}(c_{\mathrm{open}})$. Thus $\lambda_{\mathrm{ERC}}(c_{\mathrm{open}}) \ll \lambda_{\mathrm{ERC}}(c_{\mathrm{prop}})$, so minimizing Equation~\ref{eq:erc-solver-objective} strictly selects $c_{\mathrm{open}}$.
+\end{proof}
+
+\subsection{The Four Structural Penalties of Scavenged Layer 7 Hardware (``The Shim Tax'')}
+\label{subsec:four-penalties-scavenged-l7}
+
+Real-world Stage 1A Genesis Nodes (booting with the \$20,000 / $2{,}000{,}000\text{-cent}$ fiat reserve $\Phi_0$ on Lot 402) do not drop from orbit with a full suite of custom open-hardware machinery. They bootstrap by acquiring \textbf{Scavenged Layer 7 Hardware}: secondhand Craigslist refrigerators, commercial deck ovens with potted controller boards, DRM-locked appliances, and consumer power tools with glued housings. Across the seven-layer stack, hostile black-box Layer 7 hardware imposes \textbf{Four Structural Penalties (``The Shim Tax'')}, codified in Table~\ref{tab:four-scavenged-l7-penalties}.
+
+\begin{table}[htbp]
+\centering
+\caption{The Four Structural Penalties of Scavenged Layer 7 Hardware (``The Shim Tax'') across the Sovereign Stack (\texttt{CCI-6}, \texttt{D8}).}
+\label{tab:four-scavenged-l7-penalties}
+\footnotesize
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}llll@{}}
+\toprule
+\textbf{Penalty Class} & \textbf{Stack Layer \& Register / Struct} & \textbf{Cyber-Physical Mechanism} & \textbf{Operational Consequence in \texttt{col-execd}} \\
+\midrule
+1. \textbf{Parasitic L2 Shims} & Layer 2 (\texttt{col-telemetryd}) & Locked firmware forces external CT current clamps, & High diagnostic uncertainty ($\pm 1{,}500\,\mathrm{bp}$), \\
+& \texttt{QUALITY\_SCAVENGED\_L7\_SHIM = 0x04} & taped thermistors, optical 7-segment readers, & laggy state inference, and continuous phantom \\
+& \texttt{parasitic\_shim\_overhead\_mw} & and smart-relay wrappers onto black-box gear. & standby drain ($45{,}000\,\mathrm{mW}$ per shimmed tool). \\
+\addlinespace[3pt]
+2. \textbf{Blind L4 Mid-Batch} & Layer 4 (\texttt{col-execd}) & Sealed PCB hides internal bearing wear, winding & Zero predictive maintenance warnings; tool runs \\
+\textbf{Hard-Blocks} & \texttt{unscheduled\_fault\_prob\_bp} & resistance, and thermal fatigue behind a single & until sudden mid-batch failure ($350\,\mathrm{bp} = 3.50\%$), \\
+& \texttt{SCAVENGED\_L7\_BLIND\_HARDBLOCK} & opaque \texttt{ERR\_42} fault LED. & forcing emergency Regime 2 salvage sagas. \\
+\addlinespace[3pt]
+3. \textbf{L7 Fiat Tribute} & Layer 7 (\texttt{col-adversaryd} / \texttt{gatewayd}) & DRM-serialized control boards, proprietary seals, & Drains scarce fiat reserve $\Phi_t$ (\texttt{cents}) and \\
+\textbf{Escalation} & \texttt{ScavengedHardwareTributeEvent} & and non-metric cartridges cannot be fabricated & stalls dependent workflows for multi-day \\
+& \texttt{eliminated\_l7\_tribute\_cents} & locally on the Maker Bench. & external Layer 7 courier lead times. \\
+\addlinespace[3pt]
+4. \textbf{L3 ERC Penalties} & Layer 3 (\texttt{col-storaged}) & Ultrasonic-welded housings and potted electronics & Multiplies per-cycle $\lambda_{\mathrm{ERC}}$ by $5\times\text{--}20\times$, \\
+($\lambda_{\mathrm{ERC}}$ Spike) & \texttt{erc\_amortized\_per\_cycle\_uj} & force discarding a $15\,\mathrm{kg}$ sub-assembly when & depressing the node's empirical \\
+& ($\lambda_{\mathrm{ERC}}$ $5\times\text{--}20\times$ multiplier) & a single $2\,\mathrm{g}$ capacitor or $10\,\mathrm{g}$ seal degrades. & \texttt{collective:thermodynamicProof} ranking. \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+\subsection{The 3-Tier Hardware Fleet Progression (Zero Fake RPG Tech Trees)}
+\label{subsec:three-tier-hardware-fleet-progression}
+
+Rather than rewarding players or stewards with magical RPG stat multipliers, the Sovereign Stack models hardware maturation as the systematic elimination of the Four Structural Penalties across three physical provenance tiers (\texttt{HardwareFleetTier}):
+
+\begin{enumerate}
+    \item \textbf{Stage I (\texttt{kScavengedLayer7Shimmed}, \texttt{QUALITY\_SCAVENGED\_L7\_SHIM = 0x04}) --- Scavenged Layer 7 Fleet:}
+    Provides rapid Day-0 physical bootstrap out of the \$20,000 Genesis reserve $\Phi_0$, but suffers all four penalties in Table~\ref{tab:four-scavenged-l7-penalties}: high \texttt{parasitic\_shim\_overhead\_mw}, $\pm 1{,}500\,\mathrm{bp}$ sensor uncertainty, chronic blind mid-batch hard-blocks (\texttt{unscheduled\_fault\_prob\_bp = 350}), recurring Layer 7 fiat spare-part tribute (\texttt{ScavengedHardwareTributeEvent}), and elevated $\lambda_{\mathrm{ERC}}$.
+
+    \item \textbf{Stage II (\texttt{kRightToRepairHybrid}, \texttt{QUALITY\_RETROFIT\_HYBRID = 0x08}) --- Right-to-Repair Hybrid Fleet:}
+    Scrapping a $400\,\mathrm{kg}$ cast-iron commercial deck oven or a $1{,}200\,\mathrm{kg}$ engine lathe merely because its proprietary PCB is locked would waste tens of gigajoules of embodied metallurgical exergy. Instead, maker guilds reverse-engineer ubiquitous Layer 7 appliances and publish open-source Layer 2 replacement controller boards (ESP32 / RISC-V / STM32 wired directly to K-type thermocouples, current transformers, and MEMS accelerometers) alongside 3D-printable metric mechanical adapters as Layer 6 Content-Addressed Retrofit Artifacts. Executing a Stage I $\to$ Stage II Right-to-Repair BPMN workflow rescues the heavy cast-iron frame, drops sensor uncertainty to $\pm 350\,\mathrm{bp}$, severs the Layer 7 spare-part tribute tether, and is recognized by Layer 3 (\texttt{col-storaged}) and Layer 5 (\texttt{col-kmsd}) as a \textbf{first-class Proof of Stewardship activity} (\texttt{ProofOfStewardshipRetrofitRecordV50}, Listing~\ref{lst:proof-of-stewardship-retrofit-v50}) that mints decaying operational reputation $\Delta R_{i,\mathrm{bp}} > 0$ into the steward's $V_i(t) = 1 + R_i(t)$ governance voice.
+
+    \item \textbf{Stage III (\texttt{kNativeOpenSpec}, \texttt{QUALITY\_OPEN\_SPEC\_NATIVE = 0x02}) --- Native Open-Spec Collective Fleet:}
+    Engineered natively around open modular geometry ($\mathrm{M6}$/$\mathrm{M8}$ fasteners, standard ISO bearings, Gastronorm/Euro-tote bays) and \texttt{ATECC608A}-authenticated Layer 2 Digital Twins ($\pm 50\,\mathrm{bp}$ precision). Continuous acoustic-harmonic bearing analysis and motor winding resistance telemetry detect wear $40\,\mathrm{operating\ hours}$ before physical failure ($\texttt{unscheduled\_fault\_prob\_bp} \le 5\,\mathrm{bp}$). Instead of suffering catastrophic mid-batch soup or foundry aborts, \texttt{col-execd} automatically slots a \textbf{5-minute predictive metric swap} between production batches using a replacement bushing or seal fabricated locally on a neighboring Maker Bench---closing the material loop inside the subnet with zero Layer 7 fiat contact.
+\end{enumerate}
+
+\begin{lstlisting}[language=C++, label={lst:proof-of-stewardship-retrofit-v50}, caption={First-class Layer 3 Proof of Stewardship record minted when retrofitting Stage I Scavenged Layer 7 hardware into a Stage II Right-to-Repair Hybrid Twin (\texttt{CCI-6}, \texttt{D8}).}]
+namespace collective::layer4 {
+
+// First-class Layer 3 Proof of Stewardship record when retrofitting Stage I -> Stage II hardware
+struct ProofOfStewardshipRetrofitRecordV50 {
+    std::array<uint8_t, 32> retrofit_tx_cid;
+    std::array<uint8_t, 32> tool_did_hash;
+    std::array<uint8_t, 32> steward_did_hash;
+    int64_t rescued_chassis_embodied_exergy_uj{0}; // Embodied exergy saved from premature scrap (uJ)
+    int64_t pre_retrofit_erc_per_cycle_uj{0};
+    int64_t post_retrofit_erc_per_cycle_uj{0};
+    int64_t eliminated_l7_tribute_cents_per_yr{0};
+    int64_t minted_stewardship_bonus_bp{0};        // Delta R_i minted into col-kmsd NodeMemberVoiceStateV50
+};
+
+} // namespace collective::layer4
+\end{lstlisting}
+
+By grounding hardware evolution in \texttt{ProofOfStewardshipRetrofitRecordV50} and continuous Layer 2 wear telemetry rather than fictional tech trees, Chapter~\ref{ch:cybernetics-salvage} and Chapter~\ref{ch:somatic-ux} unite physical thermodynamics with human liberation: every Stage II retrofit and Stage III open-spec tool directly reduces Regime 2 mid-batch salvage emergencies, returning quiet, unmonitored hours to the human commons.

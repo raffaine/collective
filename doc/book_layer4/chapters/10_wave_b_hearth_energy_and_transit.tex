@@ -229,6 +229,117 @@ enforces node \texttt{Dietary\_And\_Husbandry\_Charter} vetoes (Vegan, Vegetaria
 or Silvopasture), verifies \texttt{BBS+} anaphylactic proofs, and yields
 \texttt{YIELD\_UPWARD\_L5} on inorganic trace-mineral deficits (\texttt{KI}, $\mathrm{NaCl}$).
 
+\subsection{\emph{The Pantry} vs.\ \emph{The Bakery / Hearth}, the Dual-Loop Bakery, and the 85/15 \emph{Montage} Split (\texttt{D4}, \texttt{D5})}
+\label{sec:gamma-dual-loop-bakery}
+
+A central architectural contribution of the v3.2 Horizon Council (\texttt{D4}, \texttt{D5}) is the
+thermodynamic and constitutional separation between household perishable consumption---\emph{\textbf{The
+Pantry}}---and communal culinary production---\emph{\textbf{The Bakery / Hearth Craft Lens}}---served over
+the local Layer~6 Semantic Daemon (\texttt{col-commonsd} + \texttt{col-gatewayd}):
+
+\begin{enumerate}
+    \item \textbf{Thermodynamic Split Between \emph{The Pantry} and \emph{The Bakery / Hearth}:}
+    Grouping a household refrigerator larder and a neighborhood commissary bakery into one generic
+    ``inventory UI'' obscures two distinct physical dynamics. \emph{\textbf{The Pantry}} is a
+    \textbf{Perishable Biological Entropy Lens}: it integrates continuous Arrhenius temperature-time
+    spoilage curves ($T(t)$ in $\mathrm{mK} \cdot \mathrm{ms}$ across cold-chain windows
+    $275{,}150\text{--}277{,}150\,\mathrm{mK}$), tracks local stock drawdown rates
+    (\texttt{pantry:drawdownRateMgPerDay}), and solves the \textbf{Spontaneous Weekend Detour Problem}
+    with zero surveillance. Suppose forty neighbors express an ambient preference for Saturday sourdough,
+    and a sunny morning inspires half of them to hike spontaneously into the mountains. Under Layer~7
+    apps, the system either bakes twenty wasted loaves or badgers citizens with Friday push-notification
+    confirmations. In The Collective, near-term production is driven by short-lived, auto-expiring Layer~3
+    pickup intent leases (\texttt{AnonymousAppetiteLeaseV50}, \texttt{lease\_ttl\_ms = 43,200,000}
+    [$12\text{ hours}$]) emitted only when local Layer~2 shelf/fridge load cells cross their replenishment
+    threshold. When a resident heads for the mountains, local Layer~2 consumption pauses, unrenewed leases
+    expire silently at \texttt{expiry\_hlc\_ms}, and \emph{The Pantry} throttles outbound demand with
+    \textbf{zero calendar inspection, zero GPS tracking, and zero nagging alerts}---while automatically
+    posting pre-spoilage neighbor surplus offers (\texttt{L3SurplusOffer}) if perishable greens or milk
+    approach their Arrhenius TTL ceiling while the steward is away.
+
+    \item \textbf{The Dual-Loop Bakery Architecture ($N_s$ Craft Governance vs.\ $N_p$ Zero-Surveillance Demand):}
+    A neighborhood bakery fails if $N_p = 500$ external bread eaters vote on starter hydration, oven
+    preheat schedules, or shift ergonomics, just as surely as it fails if $N_s = 5$ bakers guess
+    tomorrow's bake in the dark \parencite{ostrom1990}. Scenario Gamma resolves this tension through two
+    strictly decoupled cybernetic loops:
+    \begin{itemize}
+        \item \emph{Loop 1 (Node Membership Governance, $N_s$):} Constitutional voting weight
+        $V_i(t) = B + R_i(t) = 1 + R_i(t)$ ($V_{i,\mathrm{bp}}(t) = 10{,}000 + R_{i,\mathrm{bp}}(t)$)
+        inside the Bakery Guild's \texttt{col-kmsd} kernel is scoped strictly to the $N_s$ active
+        member-bakers of that node (\texttt{NodeMemberVoiceStateV50}). External bread consumers ($N_p$)
+        never hold governance franchise inside the bakery's operational constitution (though all co-located
+        residents hold $B=1$ inside the wrapping Street/Building \textbf{Enveloping Node Hypervisor} to
+        govern 03:00~AM partition acoustics \texttt{max\_acoustic\_cb} and flue exhaust
+        \texttt{max\_thermal\_delta\_mk}).
+        \item \emph{Loop 2 (Zero-Surveillance Demand \& Physical Validation, $N_p \to \mathrm{L3} \to \mathrm{L4}$):}
+        Citizens log dietary rhythms and flavor affinities locally in \emph{The Pantry}; their local
+        \texttt{col-kmsd} strips all personal DIDs via a \texttt{BBS+} ring-membership zero-knowledge proof
+        \parencite{camenisch2004signature} before local \texttt{col-execd} publishes a 64-byte
+        \texttt{AnonymousAppetiteLeaseV50} to Layer~3 (\texttt{col-storaged}). The bakery's
+        \texttt{col-execd} merges the resulting anonymous cohort appetite weather-map with physical Layer~2
+        oven watt-hour meters (\texttt{uJ}), core-temperature probes (\texttt{mK}), and pickup-shelf
+        clearance load cells (\texttt{mg}).
+    \end{itemize}
+
+    \item \textbf{The 85\% Verified Staples / 15\% Compositional \emph{Montage} Schedule Split:}
+    To prevent data-driven demand matching from reducing bakers to mechanical order-fulfillment clerks,
+    Pillar~I (\texttt{collective:SurfaceAllocationPolicy}) of the Scenario Gamma Hearth charter partitions
+    \texttt{col-execd} oven and kettle capacity into two constitutional bands:
+    \begin{equation}
+    \begin{aligned}
+        \mathtt{hearth:stapleAllocationBp} &= 8{,}500\,\mathrm{bp}\;(85\%), \\
+        \mathtt{hearth:montageAllocationBp} &= 1{,}500\,\mathrm{bp}\;(15\%).
+    \end{aligned}
+        \label{eq:gamma-85-15-montage}
+    \end{equation}
+    Eighty-five percent of Layer~4 batch slots answer verified neighborhood staples (country sourdough,
+    seeded rye, split-pea baseline tiffins), while fifteen percent is constitutionally reserved for
+    \textbf{Dr\_Sofia's compositional \emph{montage}}---unrequested culinary experiments such as
+    roasted-miso buckwheat loaves or wild-ferment rosemary focaccia. Nobody had to petition for the
+    surprise loaf in advance; Layer~2 pickup-shelf load cells and optional anonymous Layer~6
+    \texttt{MONTAGE\_TASTE\_FEEDBACK} notes immediately inform the guild whether the experiment cleared
+    the shelf and merits promotion into a permanent Layer~4 staple workflow slot.
+\end{enumerate}
+
+Listing~\ref{lst:anonymous-appetite-lease-v50} presents the ratified 64-byte cache-aligned C++20 wire
+contract (\texttt{AnonymousAppetiteLeaseV50}) shared across \texttt{col-execd} and \texttt{col-storaged}.
+
+\begin{lstlisting}[language=C++,label={lst:anonymous-appetite-lease-v50},caption={Zero-surveillance 64-byte Layer~3 cohort appetite and auto-expiring pickup intent lease (\texttt{AnonymousAppetiteLeaseV50}) for the Dual-Loop Bakery.}]
+namespace collective::l3 {
+
+enum class DemandCommitmentTier : uint8_t {
+    AMBIENT_TASTE_AFFINITY     = 0, // Soft seasonal preference (non-binding forecast)
+    SHORT_LIVED_PICKUP_LEASE   = 1, // Firm near-term Pantry drawdown lease (auto-expires)
+    MONTAGE_TASTE_FEEDBACK     = 2  // Post-pickup optional anonymous rating on 15% experiment
+};
+
+/**
+ * @brief Zero-Surveillance Layer 3 Cohort Appetite & Auto-Expiring Pickup Lease.
+ *
+ * Stripped of all personal DIDs by local Layer 5 (col-kmsd) via BBS+ ring-membership ZKP
+ * before crossing l4_l5.sock -> l3_l4.sock. Strictly 64 bytes (1 cache line), zero floats.
+ */
+struct alignas(64) AnonymousAppetiteLeaseV50 {
+    uint64_t lease_nonce_hash{0};         // [0..7]   Unlinkable PRF lease token
+    uint64_t target_need_cid_prefix{0};   // [8..15]  e.g. need:sourdough_rye / need:pea_soup
+    uint64_t issued_hlc_ms{0};            // [16..23] Issue timestamp (HLC ms)
+    uint64_t expiry_hlc_ms{0};            // [24..31] Auto-expires on weekend detour!
+    uint64_t zk_ring_membership_tag{0};   // [32..39] Verifies valid R1 neighbor without DID
+    uint32_t requested_mass_mg{0};        // [40..43] Requested portion mass in milligrams
+    uint32_t allergen_exclusion_mask{0};  // [44..47] Bitmask for BBS+ anaphylactic disjointness
+    uint16_t taste_affinity_bp{5000};     // [48..49] 0..10000 bp flavor resonance
+    uint16_t target_cohort_zone_id{1};    // [50..51] Coarse neighborhood delivery porch cluster
+    DemandCommitmentTier tier{DemandCommitmentTier::SHORT_LIVED_PICKUP_LEASE}; // [52] (1B)
+    uint8_t  auto_throttled_by_detour{0}; // [53]     1 if L2 Pantry consumption paused (1B)
+    uint8_t  quality_flags{0x02};         // [54]     0x02=HardwareRoot, 0x01=Simulated (1B)
+    uint8_t  reserved_pad[9]{0};          // [55..63] Explicit cache-line padding (9B)
+};
+static_assert(sizeof(AnonymousAppetiteLeaseV50) == 64,
+              "AnonymousAppetiteLeaseV50 must occupy exactly 1 cache line (64 bytes).");
+
+} // namespace collective::l3
+\end{lstlisting}
+
 % ==========================================================================
 \section{Scenario Alpha: Solar Microgrid, Exergy Cascade, and Distributed Fab Lab (\texttt{SCN-ALPHA-FAB})}
 \label{sec:wave-b-alpha}
@@ -336,6 +447,104 @@ operator proofs, emits \texttt{YIELD\_UPWARD\_L5} for multi-node BOM sub-orders 
 leaf procurement, and streams empirical \texttt{LifecycleDurabilityReport} MTBF metrics
 upward so Layer 5 evolutionary routing elevates high-longevity designs and steadily drives
 $D_t \to 0$.
+
+\subsection{\emph{The Workshop} Lens, Open-Source Franchising, the 3-Tier BPMN Hardware Cascade, and the 3-Tier Fleet Progression (\texttt{D5}, \texttt{D7}, \texttt{D8})}
+\label{sec:alpha-franchising-cascade-fleet}
+
+In direct contrast to \emph{The Pantry} (which integrates continuous calendar/Arrhenius biological
+decay for perishables), Scenario Alpha's Layer~6 application lens---\emph{\textbf{The Workshop}}---models
+\textbf{Calendar-Agnostic Durable Mechanical Cycles} (\texttt{D5}). Nails, M6/M8 stainless fasteners,
+cast-iron lathe beds, and RISC-V controller boards do not spoil on a sunny weekend; \emph{The
+Workshop} tracks discrete usage-cycle wear (\texttt{workshop:cumulativeUseMs},
+\texttt{workshop:wearIndexBp}), spindle revolution counts, thermal stress cycles, tool-crib custody
+leases, and calibration intervals (\texttt{workshop:calibrationDueUse}), checking Scenario Kappa
+\texttt{BBS+} work-capability credentials (Pillar~II \texttt{WorkCapabilityMatrix}, allowing
+apprentices at $R_i(0)=0$ to run Tier-0 prep or Tier-1 mentor-co-signed machining steps to earn
+initial $\Delta R_{i,\mathrm{bp}}$) before energizing Layer~2 contactors.
+
+Moreover, Scenario Alpha and Scenario Beta exemplify how \texttt{col-execd} operationalizes
+\textbf{Open-Source Franchising (``The Speedee Service System Without the Rent'', \texttt{D7})} and
+the transition from scavenged corporate machinery to native open-spec tooling (\texttt{D8}):
+
+\begin{enumerate}
+    \item \textbf{Open-Source Franchising Across the Three Sovereign Libraries:}
+    McDonald's \emph{Speedee Service System} and industrial fab turnkeys proved the operational power
+    of packaging station choreography, bills of materials, and sanitation/safety loops into a
+    repeatable blueprint---corrupted only by Layer~7 IP monopolies and royalty extraction. The
+    Collective stores proven workshop, kitchen, and transit depot templates across three
+    Content-Addressed JSON-LD repositories replicated over \texttt{col-storaged} and \texttt{col-meshd}:
+    (i)~\textbf{The Ontological Graph} (\texttt{collective:OntologicalArtifactGraph}, defining ISO
+    $600 \times 400\,\mathrm{mm}$ Euro-totes, Gastronorm GN~1/1 pans, and M6/M8 fasteners selected by
+    minimizing Layer~3 Ecological Replacement Cost $\lambda_{\mathrm{ERC}}$), (ii)~\textbf{The
+    Orchestration Registry} (\texttt{collective:ParameterizedBpmnTemplate}), and (iii)~\textbf{The
+    Physics Baseline} (\texttt{collective:ThermodynamicBenchmarkLedger}). Nodes instantiate blueprints
+    across four modes: \emph{Turnkey Instantiation}, \emph{Localized Semantic Forking}
+    (\texttt{prov:wasDerivedFrom} delta compilation via $\Pi_{\mathrm{down}}$), \emph{Empirical Lineage
+    Ranking} via signed \texttt{collective:thermodynamicProof} batch records ($\mathrm{uJ/mg}$, scrap
+    basis points, $\lambda_{\mathrm{ERC}}$, and \texttt{observed\_mtbf\_sec}), and \emph{Greenfield
+    Montage} ($15\%$ experimental capacity).
+
+    \item \textbf{The 3-Tier Layer~4 BPMN Hardware Adaptation Cascade (\texttt{EvaluateBpmnHardwareCascadeV50}):}
+    When a turnkey workshop or kitchen blueprint is instantiated inside an improvised garage or co-op
+    bay with non-standard Layer~2 Digital Twin equipment, \texttt{col-execd} resolves hardware
+    heterogeneity deterministically across three tiers before ever halting:
+    \begin{itemize}
+        \item \emph{Tier 1 --- Automatic SI Parameter Scaling (\texttt{kTier1SiParameterScaled}):} If
+        the local tool matches the functional archetype at a smaller volume or lower wattage (e.g., a
+        $10{,}000\,\mathrm{mL}$ mixer or $1{,}800{,}000\,\mathrm{mW}$ heater against a
+        $20{,}000\,\mathrm{mL}$, $7{,}200{,}000{,}000\,\mu\mathrm{J}$ task), \texttt{col-execd} keeps
+        the sub-process intact, splits the job into $k = \lceil V_{\mathrm{req}} / V_{\mathrm{tool}} \rceil$
+        sub-batches, and scales thermal ramp duration $\Delta t_{\mathrm{ms}} = E_{\mathrm{uj}} / P_{\mathrm{mw}}$
+        in canonical 64-bit SI units.
+        \item \emph{Tier 2 --- Macro-Activity Substitution (\texttt{kTier2MacroActivitySpliced}):} If
+        scalar scaling cannot bridge a modality gap (e.g., a fabrication template specifies
+        \texttt{process:LaserSeamWeld} on an enclosure or a griddle sear, and the local node possesses
+        only a CNC drill press with M6 fastener stock or a convection oven), \texttt{col-execd} queries
+        the Ontological Graph for a verified \texttt{collective:functionalEquivalenceClass} match and
+        splices the equivalent BPMN Call Activity sub-workflow (\texttt{macro:FlangedM6BoltedJointWithGasket})
+        behind strict material interface contracts.
+        \item \emph{Tier 3 --- True-Constraint Hard-Block (\texttt{kTier3TrueConstraintHardBlock}):}
+        Only when a genuine intensive physical law is violated (e.g., a sintering step requiring
+        $1{,}923{,}150\,\mathrm{mK}$ on a $1{,}473{,}150\,\mathrm{mK}$ kiln, or missing cold-chain
+        storage $\le 277{,}150\,\mathrm{mK}$) does \texttt{col-execd} halt and emit
+        \texttt{UpwardYieldReasonV50::TRUE\_CONSTRAINT\_HARDWARE\_GAP}, decompiling the exact SI
+        deficit ($\Delta T = 450{,}000\,\mathrm{mK}$) into a Layer~6 Semantic Diff Card while querying
+        \texttt{col-meshd} / \texttt{col-swarmd} for a neighboring Ring~$R_1$ capability lease.
+    \end{itemize}
+
+    \item \textbf{The 3-Tier Hardware Fleet Progression (Replacing Fake RPG Tech Trees):}
+    Both real Stage~1A Genesis Nodes (bootstrapping from the \$$20{,}000$ / $2{,}000{,}000\text{-cent}$
+    fiat reserve $\Phi_0$) and Oasis (\texttt{Layer 1b}) reject synthetic RPG ``Tech Trees.'' Instead,
+    machinery across Scenario Alpha, Scenario Gamma, and Scenario Beta progresses through three
+    thermodynamic reliability tiers:
+    \begin{itemize}
+        \item \emph{Stage~I --- Scavenged Layer~7 Fleet (\texttt{kScavengedLayer7Shimmed}, \texttt{0x04}):}
+        Secondhand Craigslist appliances and DRM-locked tools wrapped in \textbf{Parasitic Layer~2
+        Shims} (external CT clamps, taped thermistors, optical 7-segment readers drawing extra
+        \texttt{parasitic\_shim\_overhead\_mw} standby power with $\pm 1{,}500\,\mathrm{bp}$ jitter).
+        Because sealed potted PCBs hide internal wear, Stage~I tools suffer unwarned \textbf{Blind
+        Mid-Batch Hard-Blocks} (\texttt{unscheduled\_fault\_prob\_bp = 350}), triggering
+        \textbf{Layer~7 Tribute Escalation} (\texttt{ScavengedHardwareTributeEvent} draining scarce fiat
+        $\Phi_t$ and stalling workflows for days waiting on external couriers) and \textbf{Layer~3 ERC
+        Penalties} ($\lambda_{\mathrm{ERC}}$ spikes from discarding proprietary sub-assemblies).
+        \item \emph{Stage~II --- Right-to-Repair Hybrid Fleet (\texttt{kRightToRepairHybrid}, \texttt{0x08}):}
+        Stewards retain the heavy cast-iron/steel chassis (rescuing its embodied exergy
+        \texttt{rescued\_chassis\_embodied\_exergy\_uj}) while replacing proprietary potted electronics
+        with an open ESP32/RISC-V/STM32 Layer~2 controller board and 3D-printed metric adapters
+        ($\pm 350\,\mathrm{bp}$ uncertainty). Publishing and executing a verified retrofit kit is
+        recorded via \texttt{ProofOfStewardshipRetrofitRecordV50} as a \textbf{first-class Layer~3
+        Proof of Stewardship ($\Delta V$) and Layer~5 reputation ($\Delta R_{i,\mathrm{bp}}$) minting
+        event}.
+        \item \emph{Stage~III --- Native Open-Spec Collective Fleet (\texttt{kNativeOpenSpec}, \texttt{0x02}):}
+        Built natively to open metric geometry (\texttt{One-Wrench Rule}: M6/M8 fasteners, ISO
+        bearings, Gastronorm/Euro modularity) with \texttt{ATECC608A}-rooted internal sensors
+        ($\pm 50\,\mathrm{bp}$ uncertainty) streaming continuous motor-RPM and bearing-harmonic wear to
+        Layer~3. \texttt{col-execd} detects bearing degradation $40$ operating hours before failure and
+        schedules a \textbf{5-minute predictive metric swap} fabricated locally on the Maker Bench,
+        driving external Layer~7 tribute to zero ($D_t \to 0$) and achieving \textbf{Zero-Stat
+        Liberation}.
+    \end{itemize}
+\end{enumerate}
 
 % ==========================================================================
 \section{Scenario Beta: Cargo E-Trike CVRP and Five-Artery Bioregional Transit (\texttt{SCN-BETA-TRANS})}
@@ -447,6 +656,19 @@ by \texttt{No-Transit} vetoes and Export Surplus Bounds, while Layer 7 (\texttt{
 scrubs internal DIDs across shared WireGuard/Tor WAN backhauls and issues non-commercial
 Subchapter T inter-cooperative Bills of Lading.
 
+In addition, Scenario Beta's neighborhood e-trike and cargo-van depots leverage the exact same
+\textbf{Open-Source Franchising} and \textbf{3-Tier Hardware Fleet Progression} (\texttt{D7},
+\texttt{D8}) established in Scenario Alpha: a newly formed Stage~1B block depot instantiates a
+turnkey \emph{Cargo E-Trike \& Battery-Swap Depot} blueprint from the Orchestration Registry, adapts
+charger ramp durations via Tier~1 SI Parameter Scaling (\texttt{EvaluateBpmnHardwareCascadeV50}), and
+progressively retrofits Stage~I scavenged commercial e-bikes (replacing proprietary BMS bricks that
+suffer blind mid-route hard-blocks with Stage~II open RISC-V Smart-BMS boards via
+\texttt{ProofOfStewardshipRetrofitRecordV50}) before graduating to Stage~III native open-spec
+$48\,\mathrm{V}$ cargo trikes using standardized ISO $600 \times 400\,\mathrm{mm}$ cold-chain Euro-totes
+and Gastronorm GN~1/1 tiffin racks---while Artery~5's Reticulum and vehicular DTN sneakernet mules
+gossip content-addressed Sovereign Library blueprints and \texttt{collective:thermodynamicProof}
+lineage rankings across the bioregion.
+
 % ==========================================================================
 \section{Wave B Convivial Maturity Progression (\texttt{Stage 1A} to \texttt{Stage 3})}
 \label{sec:wave-b-maturity}
@@ -464,17 +686,19 @@ envelope.
 \caption{Wave B (\texttt{Gamma}, \texttt{Alpha}, \texttt{Beta}) workflow concurrency and physical topology progression per node across settlement maturity stages ($10\,\mathrm{Hz}$ \texttt{col-execd}).}
 \label{tab:wave-b-maturity}
 \footnotesize
+\resizebox{\textwidth}{!}{%
 \begin{tabular}{@{}p{2.1cm}p{2.6cm}p{2.8cm}p{2.8cm}p{2.9cm}@{}}
 \toprule
 \textbf{Dimension} & \textbf{Stage 1A: Seed} (1 Lot, $R_0\text{--}R_1$) & \textbf{Stage 1B: Mesh} (5--12 Lots, $R_1\text{--}R_2$) & \textbf{Stage 2: Co-op Shell} (Subchapter T, $R_2\text{--}R_3$) & \textbf{Stage 3: Campus} (CLT / PPT, $R_3\text{--}R_5$) \\
 \midrule
 \textbf{Wave B Active Workflows} & $18\text{--}32$ instances ($2\text{--}6$ tokens/tick; $84\%$ autonomic) & $48\text{--}92$ instances ($6\text{--}16$ tokens/tick; $86\%$ autonomic) & $135\text{--}280$ instances ($16\text{--}48$ tokens/tick; $87\%$ autonomic) & $420\text{--}1{,}150+$ instances ($50\text{--}185$ tokens/tick; $89\%$ autonomic) \\
 \addlinespace[3pt]
-\textbf{\texttt{Gamma} Hearth \& Soil} & $10\text{--}16$ WFs: pea/root beds, $4\text{--}8$ hens, 24h broth, $R_0$ pea soup, BSFL bin & $26\text{--}48$ WFs: staggered block beds, lacto-crocks, NFC porch tiffin milk-run & $90\text{--}145$ WFs (96 nominal): commissary, HTST, \texttt{316L} B12, 21d ferments, caves & $240\text{--}580$ WFs: rotational silvopasture, solar $\mathrm{H_2}$ SCP, nixtamal/salt refinery \\
+\textbf{\texttt{Gamma} Hearth \& Soil} & $10\text{--}16$ WFs: \emph{Pantry} Arrhenius TTL, pea/root beds, 24h broth, $R_0$ soup, BSFL & $26\text{--}48$ WFs: 64B \texttt{AnonymousAppetiteLeaseV50}, weekend-detour auto-expiry, tiffins & $90\text{--}145$ WFs (96 nominal): Dual-Loop Bakery ($N_s$ vs.\ $N_p$), 85/15 \emph{montage}, HTST & $240\text{--}580$ WFs: rotational silvopasture, solar $\mathrm{H_2}$ SCP, nixtamal/salt refinery \\
 \addlinespace[3pt]
-\textbf{\texttt{Alpha} Solar \& Fab Lab} & $5\text{--}10$ WFs: $48\,\mathrm{V}$ MPPT, garage joinery/FDM ($\le 550\,\mathrm{cB}$), porch Tool Locker & $14\text{--}26$ WFs: multi-lot recursive DAG BOMs, shared tool cribs, repair triage & $30\text{--}85$ WFs: 3-phase CNC/lathe/TIG LOTO bays, commercial $\Phi_t$ fab reserve & $110\text{--}340$ WFs: 5-modality hall, urbanite deconstruction, $D_t \to 0$ tooling \\
+\textbf{\texttt{Alpha} Solar \& Fab Lab} & $5\text{--}10$ WFs: Stage~I Scavenged L7 shims (\texttt{0x04}), $48\,\mathrm{V}$ MPPT, $\le 550\,\mathrm{cB}$ envelope & $14\text{--}26$ WFs: 3-Tier BPMN Hardware Cascade, Stage~II Hybrid Retrofits (\texttt{0x08}, $\Delta R_i$) & $30\text{--}85$ WFs: \emph{Workshop} durable-cycle lens, 3-phase CNC/TIG LOTO, Open Franchising & $110\text{--}340$ WFs: Stage~III Native Open-Spec (\texttt{0x02}), 5-min predictive swaps, $D_t \to 0$ \\
 \addlinespace[3pt]
-\textbf{\texttt{Beta} 5-Artery Transit} & $3\text{--}6$ WFs: $48\,\mathrm{V}$ cargo e-trike, rainwater cistern + Red Lever, local fiber/Wi-Fi & $8\text{--}18$ WFs: integer WASM \texttt{CVRP} milk-runs, battery-swap leases, LoRa RNS & $15\text{--}50$ WFs: $380\,\mathrm{V}$ HVDC DAB interties, cold-chain EVs, shared L7 WAN DMZ & $70\text{--}230$ WFs: watershed shuttles/canal barges, district PEX-a, multi-hop HTLCs \\
+\textbf{\texttt{Beta} 5-Artery Transit} & $3\text{--}6$ WFs: $48\,\mathrm{V}$ cargo e-trike, rainwater cistern + Red Lever, local fiber/Wi-Fi & $8\text{--}18$ WFs: integer WASM \texttt{CVRP} milk-runs, Open-BMS retrofits, LoRa RNS & $15\text{--}50$ WFs: $380\,\mathrm{V}$ HVDC DAB interties, ISO/GN cold-chain EVs, Sovereign Library sync & $70\text{--}230$ WFs: watershed shuttles/canal barges, district PEX-a, multi-hop HTLCs \\
 \bottomrule
-\end{tabular}
+\end{tabular}%
+}
 \end{table}

@@ -637,3 +637,217 @@ loads, \texttt{col-execd} only inherits scheduling priority for tasks explicitly
 signed \texttt{SubOrder\_Bind} authorization over \texttt{l4\_l5.sock}. Thus a discretionary workflow can
 never spoof an upward dependency to pilfer protected exergy, and single-node density scales cleanly to
 hundreds of workflows with provable isolation, bounded latency, and deadlock-free ecological closure.
+
+\section{The 3-Tier Layer 4 BPMN Hardware Adaptation Cascade and Co-Located Enveloping Node Choreography (\texttt{CCI-4}, \texttt{CCI-5}, \texttt{D6}, \texttt{D8})}
+\label{sec:bpmn-hardware-cascade-and-envelope}
+
+High-density intra-node choreography faces two fundamental physical realities as soon as a community moves beyond idealized laboratory simulations. First, when a household or guild instantiates a turnkey or localized-fork JSON-LD franchise blueprint from the Sovereign Libraries (\texttt{CCI-5}, \texttt{D7})---``The Speedee Service System Without the Rent''---the local workshop or galley rarely possesses the exact nominal machine model referenced by the upstream author. A recipe calibrated for a $20{,}000\,\mathrm{mL}$ planetary mixer and a $2{,}400{,}000\,\mathrm{mW}$ steam deck oven must run inside an improvised garage or kitchen equipped with a $10{,}000\,\mathrm{mL}$ spiral mixer, a $1{,}800{,}000\,\mathrm{mW}$ convection oven, or a cast-iron cloche. In brittle industrial automation, any capacity or geometry mismatch throws a fatal runtime exception; in the Sovereign Stack, \texttt{col-execd} resolves local equipment heterogeneity deterministically through the \textbf{3-Tier Layer 4 BPMN Hardware Adaptation Cascade} (\texttt{CCI-5}, \texttt{D8}).
+
+Second, rejecting modernist single-use zoning means a single physical house or building routinely hosts \textbf{polycentric overlapping nodes} (\texttt{CCI-4}, \texttt{D5}, \texttt{D6}): an $N=4$ Household Hearth (\texttt{Scenario Gamma}), an $N=1$ Solo Studio (\texttt{Scenario Zero} / \texttt{Scenario Lambda}), and an $N=1$ Maker Bench (\texttt{Scenario Alpha}) all sharing one roof, one local Layer 6 Semantic Daemon, one $9{,}600{,}000\,\mathrm{mW}$ ($9.6\,\mathrm{kW}$) main electrical panel, and common interior partition walls. Before any intra-node workflow step can energize a high-decibel CNC spindle or high-wattage induction coil, it must choreograph its physical boundary footprint through the domain-blind \textbf{House Enveloping Node Hypervisor}.
+
+\subsection{Formalizing the 3-Tier BPMN Hardware Adaptation Cascade}
+\label{subsec:three-tier-bpmn-cascade}
+
+Every parameterized task node in the Orchestration Registry (\texttt{collective:ParameterizedBpmnTemplate}) specifies its required transformation in canonical 64-bit fixed-point SI intensive and extensive invariants rather than vendor-specific part numbers: required batch volume $V_{\mathrm{req}}$ ($\mathrm{mL}$) or mass $M_{\mathrm{req}}$ ($\mathrm{mg}$), required thermal or mechanical enthalpy transfer $\Delta H_{\mathrm{uJ}}$ ($\mu\mathrm{J}$), intensive target temperature $T_{\mathrm{req}}$ ($\mathrm{mK}$), and whether the stoichiometric transformation permits discrete batch partitioning (\texttt{allow\_batch\_splitting}). When \texttt{col-execd} binds an abstract task requirement against a local Layer 2 Digital Twin capability descriptor (\texttt{ToolTwinCapabilityV50}) over \texttt{l3\_l4.sock}, it evaluates three progressive resolution tiers:
+
+\begin{enumerate}
+    \item \textbf{Tier 1 (\texttt{kTier1SiParameterScaled}) --- Automatic SI Parameter Scaling (Zero Human Intervention):}
+    When the local Layer 2 tool twin satisfies the intensive physical threshold ($T_{\mathrm{req}} \le T_{\max,\mathrm{tool}}$) and matches the functional archetype, \texttt{col-execd} keeps the BPMN sub-process topology intact and scales extensive parameters directly in 64-bit SI arithmetic. If the required batch volume exceeds local vessel capacity ($V_{\mathrm{req}} > V_{\mathrm{tool}}$) and \texttt{allow\_batch\_splitting == true}, \texttt{col-execd} partitions the activity into $k$ serialized or parallel sub-batches:
+    \begin{equation}
+    \label{eq:tier1-batch-split}
+    k = \left\lceil \frac{V_{\mathrm{req}}}{V_{\mathrm{tool}}} \right\rceil = \left\lfloor \frac{V_{\mathrm{req}} + V_{\mathrm{tool}} - 1}{V_{\mathrm{tool}}} \right\rfloor.
+    \end{equation}
+    Simultaneously, because canonical power in milliwatts ($1\,\mathrm{mW} = 10^{-3}\,\mathrm{J/s} = 10^{3}\,\mu\mathrm{J/s}$) and duration in milliseconds ($1\,\mathrm{ms} = 10^{-3}\,\mathrm{s}$) obey the exact dimensional identity
+    \begin{equation}
+    \label{eq:mw-ms-uj-identity}
+    1\,\mathrm{mW} \times 1\,\mathrm{ms} = 1\,\mu\mathrm{J} \qquad (\text{exact integer identity, zero scaling factor}),
+    \end{equation}
+    \texttt{col-execd} integrates the exact per-batch thermal or mechanical ramp duration $\Delta t_{\mathrm{batch,ms}}$ and total exergy budget $E_{\mathrm{total,uJ}}$ (incorporating Stage I parasitic Layer 2 shim overhead $P_{\mathrm{shim,mW}}$ and Layer 3 Ecological Replacement Cost $\lambda_{\mathrm{ERC}}$ per cycle):
+    \begin{equation}
+    \label{eq:tier1-thermal-ramp}
+    \Delta t_{\mathrm{batch,ms}} = \left\lfloor \frac{\Delta H_{\mathrm{uJ}}}{P_{\mathrm{tool,mW}}} \right\rfloor, \qquad
+    E_{\mathrm{total,uJ}} = k \cdot \Delta H_{\mathrm{uJ}} + P_{\mathrm{shim,mW}} \cdot (k \cdot \Delta t_{\mathrm{batch,ms}}) + k \cdot \lambda_{\mathrm{ERC,uJ}}.
+    \end{equation}
+    Thus a $20{,}000\,\mathrm{mL}$ dough kneading or broth pasteurization step automatically executes as $k = 2$ sub-batches of $10{,}000\,\mathrm{mL}$ with adjusted thermal ramp hold durations and zero operator interruption.
+
+    \item \textbf{Tier 2 (\texttt{kTier2MacroActivitySpliced}) --- Macro-Activity Substitution via the Ontological Graph:}
+    When scalar scaling cannot bridge a capability or geometry mismatch---either because $T_{\mathrm{req}} > T_{\max,\mathrm{tool}}$, because an indivisible structural assembly prohibits batch splitting (\texttt{allow\_batch\_splitting == false}), or because the primary tool archetype is absent---\texttt{col-execd} queries the local Layer 3 replica of the Ontological Graph (\texttt{collective:OntologicalArtifactGraph}) for an approved \texttt{collective:functionalEquivalenceClass} substitute (\texttt{has\_macro\_substitute\_available == true}). Because BPMN 2.0 Call Activities encapsulate sub-workflows behind strict input/output material contracts \parencite{omg2011bpmn,grieves2014digital}, \texttt{col-execd} splices the functionally equivalent sub-workflow DAG (\texttt{macro\_substitute\_cid}) directly into the active token path without altering upstream prep or downstream packaging:
+    \begin{itemize}
+        \item \emph{Culinary Sear \& Bake Equivalence:} Swapping a flat-top induction griddle sear sub-process for a high-airflow convection-oven roast sub-process, or substituting a commercial steam-injected deck oven sub-workflow with a heavy cast-iron Dutch-oven cloche steam-trap sub-workflow.
+        \item \emph{Mechanical Joining Equivalence:} Swapping an unavailable \texttt{process:LaserSeamWeld} sheet-metal enclosure task for \texttt{macro:FlangedM6BoltedJointWithGasket} (3-step CNC drill-press flange boring, EPDM gasket seating, and calibrated $\mathrm{M6}$ torque-wrench fastening).
+    \end{itemize}
+
+    \item \textbf{Tier 3 (\texttt{kTier3TrueConstraintHardBlock}) --- True-Constraint Hard-Block and Upward Semantic Diff Decompilation:}
+    Only when neither Tier 1 SI scaling nor Tier 2 ontological macro-substitution can satisfy an intensive physical law or constitutional food/clinical safety floor does \texttt{col-execd} halt the token at a \textbf{Tier 3 True-Constraint Hard-Block}. Rather than crashing or emitting an opaque hexadecimal fault code, \texttt{col-execd} populates the exact SI capability deficit (such as \texttt{temp\_deficit\_mk} $= T_{\mathrm{req}} - T_{\max,\mathrm{tool}} > 0$, or a missing cold-storage threshold $\le 277{,}150\,\mathrm{mK}$ [$4.0\,^\circ\mathrm{C}$]) inside an \texttt{UpwardYieldPacketV31} frame with reason \texttt{YieldReason::TRUE\_CONSTRAINT\_HARDWARE\_GAP} over \texttt{l4\_l5.sock}. Layer 5 (\texttt{col-kmsd}) and Layer 6 (\texttt{col-commonsd}) decompile this machine frame upward ($\Pi_{\mathrm{up}}^{\mathrm{diff}} : \mathrm{L4} \to \mathrm{L5} \to \mathrm{L6}$) into a human-readable \textbf{Layer 6 Semantic Diff Card} while simultaneously querying \texttt{col-meshd} across Ring $R_1$ for a neighboring capability lease, as detailed in Chapter~\ref{ch:internode-mesh}.
+\end{enumerate}
+
+\begin{figure}[htbp]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+    font=\footnotesize\sffamily,
+    >=Latex,
+    startbox/.style={draw=black!80, thick, rounded corners=3pt, fill=gray!12, align=center, inner sep=5pt, minimum width=4.6cm},
+    decbox/.style={draw=blue!75!black, thick, rounded corners=3pt, fill=blue!6, align=center, inner sep=5pt, minimum width=4.5cm},
+    execbox/.style={draw=teal!75!black, very thick, rounded corners=3pt, fill=teal!8, align=center, inner sep=5pt, minimum width=4.8cm},
+    haltbox/.style={draw=red!75!black, very thick, rounded corners=3pt, fill=red!8, align=center, inner sep=5pt, minimum width=5.2cm}
+]
+    \node[startbox] (inst) at (0, 3.6) {
+        \textbf{L4 BPMN Task Instantiation (\texttt{col-execd})}\\
+        {\scriptsize \texttt{BpmnTaskRequirementV50}: $(V_{\mathrm{req,mL}}, \Delta H_{\mathrm{uJ}}, T_{\mathrm{req,mK}})$ vs.\ \texttt{ToolTwinCapabilityV50}}
+    };
+
+    \node[decbox] (t1) at (0, 1.8) {
+        \textbf{Tier 1 Gate: Intensive Limit \& Batch Splitting?}\\
+        {\scriptsize $T_{\mathrm{req,mK}} \le T_{\max,\mathrm{mK}}$ \textbf{and} ($V_{\mathrm{req}} \le V_{\mathrm{tool}}$ \textbf{or} \texttt{allow\_batch\_splitting})}
+    };
+
+    \node[execbox] (exec1) at (6.8, 1.8) {
+        \textbf{Tier 1: \texttt{kTier1SiParameterScaled}}\\
+        {\scriptsize Split $k = \lceil V_{\mathrm{req}}/V_{\mathrm{tool}} \rceil$; Integrate $\Delta t_{\mathrm{ms}} = \Delta H_{\mathrm{uJ}} / P_{\mathrm{mW}}$}\\
+        {\scriptsize Exact 64-Bit SI Execution ($1\,\mathrm{mW}\cdot 1\,\mathrm{ms} = 1\,\mu\mathrm{J}$)}
+    };
+
+    \node[decbox] (t2) at (0, -0.3) {
+        \textbf{Tier 2 Gate: Ontological Graph Equivalence?}\\
+        {\scriptsize Query \texttt{collective:functionalEquivalenceClass}}\\
+        {\scriptsize (\texttt{has\_macro\_substitute\_available == true})}
+    };
+
+    \node[execbox] (exec2) at (6.8, -0.3) {
+        \textbf{Tier 2: \texttt{kTier2MacroActivitySpliced}}\\
+        {\scriptsize Splice BPMN Call Activity \texttt{macro\_substitute\_cid}}\\
+        {\scriptsize (Griddle $\to$ Convection; Laser Weld $\to$ \texttt{M6} Flange)}
+    };
+
+    \node[haltbox] (t3) at (0, -2.4) {
+        \textbf{Tier 3: \texttt{kTier3TrueConstraintHardBlock}}\\
+        {\scriptsize Compute \texttt{temp\_deficit\_mk} $= T_{\mathrm{req}} - T_{\max} > 0$; Halt Token}\\
+        {\scriptsize Emit \texttt{UpwardYieldPacketV31} (\texttt{l4\_l5.sock}) $\to$ L6 Semantic Diff \& $R_1$ Mesh Lease}
+    };
+
+    \draw[->, thick] (inst.south) -- (t1.north);
+    \draw[->, very thick, teal!75!black] (t1.east) -- node[above, font=\scriptsize\bfseries] {Yes} (exec1.west);
+    \draw[->, thick, blue!75!black] (t1.south) -- node[left, font=\scriptsize\bfseries] {No} (t2.north);
+    \draw[->, very thick, teal!75!black] (t2.east) -- node[above, font=\scriptsize\bfseries] {Yes} (exec2.west);
+    \draw[->, very thick, red!75!black] (t2.south) -- node[left, font=\scriptsize\bfseries] {No (Physical Floor)} (t3.north);
+\end{tikzpicture}%
+}
+\caption{The 3-Tier Layer 4 BPMN Hardware Adaptation Cascade evaluated deterministically by \texttt{col-execd} (\texttt{EvaluateBpmnHardwareCascadeV50}) when binding turnkey or forked franchise templates to local Layer 2 Digital Twin hardware.}
+\label{fig:three-tier-bpmn-cascade}
+\end{figure}
+
+Listing~\ref{lst:bpmn-hardware-cascade-v50} presents the complete production C++20 implementation of \texttt{EvaluateBpmnHardwareCascadeV50} and its supporting 64-bit fixed-point SI structures from the Sovereign Stack v5.0.0-HORIZON runtime.
+
+\begin{lstlisting}[language=C++, label={lst:bpmn-hardware-cascade-v50}, caption={Production C++20 structures and deterministic evaluator for the 3-Tier BPMN Hardware Adaptation Cascade (\texttt{CCI-5}, \texttt{D8}).}]
+#pragma once
+#include <cstdint>
+#include <array>
+
+namespace collective::layer4 {
+
+enum class HardwareFleetTier : uint8_t {
+    kScavengedLayer7Shimmed = 0, // Stage I: Proprietary brain + external L2 shim (high ERC & blind faults)
+    kRightToRepairHybrid    = 1, // Stage II: Scavenged heavy chassis + open L2 sensor/actuator brain
+    kNativeOpenSpec         = 2  // Stage III: Open-spec mechanics + full predictive L2 twin
+};
+
+enum class BpmnCascadeResolution : uint8_t {
+    kDirectExecution              = 0,
+    kTier1SiParameterScaled       = 1, // Scaled batch count, feed rate, or thermal ramp duration in SI units
+    kTier2MacroActivitySpliced    = 2, // Substituted functionally equivalent sub-workflow from Ontological Graph
+    kTier3TrueConstraintHardBlock = 3  // Physical law / capability deficit -> decompile to L6 Semantic Diff
+};
+
+struct ToolTwinCapabilityV50 {
+    std::array<uint8_t, 32> tool_did_hash;
+    HardwareFleetTier fleet_tier{HardwareFleetTier::kScavengedLayer7Shimmed};
+    int64_t max_volume_ml{10'000};                 // Canonical milliliters (mL)
+    int64_t max_power_mw{1'800'000};               // Canonical milliwatts (mW)
+    int64_t max_temp_mk{523'150};                  // Canonical millikelvins (523.15 K = 250.0 C)
+    int64_t parasitic_shim_overhead_mw{45'000};    // Extra standby/shim power draw for Stage I hardware
+    int64_t erc_amortized_per_cycle_uj{850'000'000LL}; // Layer 3 Ecological Replacement Cost per cycle (uJ)
+    int64_t unscheduled_fault_prob_bp{350};        // Blind hard-block rate in basis points (Stage I: 3.50%, Stage III: 5 bp)
+    bool has_macro_substitute_available{false};
+    std::array<uint8_t, 32> macro_substitute_cid{};
+};
+
+struct BpmnTaskRequirementV50 {
+    int64_t required_volume_ml{20'000};
+    int64_t required_thermal_energy_uj{7'200'000'000LL};
+    int64_t required_temp_mk{503'150};             // 230.0 C
+    bool allow_batch_splitting{true};
+};
+
+struct BpmnCascadeOutcomeV50 {
+    BpmnCascadeResolution resolution{BpmnCascadeResolution::kDirectExecution};
+    int64_t scaled_sub_batch_count{1};
+    int64_t scaled_duration_ms{0};
+    int64_t total_exergy_with_erc_uj{0};
+    int64_t temp_deficit_mk{0};                    // Non-zero only on Tier 3 True-Constraint Hard-Block
+};
+
+[[nodiscard]] constexpr BpmnCascadeOutcomeV50 EvaluateBpmnHardwareCascadeV50(
+    const BpmnTaskRequirementV50& req,
+    const ToolTwinCapabilityV50& tool) noexcept {
+    BpmnCascadeOutcomeV50 out{};
+    // Check fundamental intensive thermodynamic limit (temperature ceiling)
+    if (req.required_temp_mk > tool.max_temp_mk) {
+        if (tool.has_macro_substitute_available) {
+            out.resolution = BpmnCascadeResolution::kTier2MacroActivitySpliced;
+            return out;
+        }
+        out.resolution = BpmnCascadeResolution::kTier3TrueConstraintHardBlock;
+        out.temp_deficit_mk = req.required_temp_mk - tool.max_temp_mk;
+        return out;
+    }
+    // Tier 1: SI Parameter Scaling across volume (mL) and power (mW -> duration ms)
+    int64_t batches = 1;
+    if (req.required_volume_ml > tool.max_volume_ml) {
+        if (!req.allow_batch_splitting) {
+            out.resolution = tool.has_macro_substitute_available
+                ? BpmnCascadeResolution::kTier2MacroActivitySpliced
+                : BpmnCascadeResolution::kTier3TrueConstraintHardBlock;
+            return out;
+        }
+        batches = (req.required_volume_ml + tool.max_volume_ml - 1) / tool.max_volume_ml;
+    }
+    // Power in mW = 10^-3 J/s = 10^3 uJ/s = 1 uJ/ms -> duration_ms = energy_uj / power_mw
+    const int64_t single_batch_duration_ms =
+        (tool.max_power_mw > 0) ? (req.required_thermal_energy_uj / tool.max_power_mw) : 0;
+    out.scaled_sub_batch_count = batches;
+    out.scaled_duration_ms = batches * single_batch_duration_ms;
+    const int64_t shim_waste_uj = tool.parasitic_shim_overhead_mw * out.scaled_duration_ms;
+    out.total_exergy_with_erc_uj =
+        (batches * req.required_thermal_energy_uj) + shim_waste_uj + (batches * tool.erc_amortized_per_cycle_uj);
+    out.resolution = (batches > 1)
+        ? BpmnCascadeResolution::kTier1SiParameterScaled
+        : BpmnCascadeResolution::kDirectExecution;
+    return out;
+}
+
+} // namespace collective::layer4
+\end{lstlisting}
+
+\subsection{Co-Located Enveloping Node Choreography Across Shared Domestic Partitions}
+\label{subsec:colocated-envelope-choreography}
+
+Resolving a task's internal tool capability via \texttt{EvaluateBpmnHardwareCascadeV50} is necessary but not sufficient when multiple autonomous Layer 5 nodes coexist inside the same physical structure (\texttt{CCI-4}, \texttt{D5}, \texttt{D6}). Consider a single residence hosting three overlapping polycentric nodes beneath one roof:
+\begin{itemize}
+    \item \textbf{Child Node A --- The Maker Bench ($N_s = 1$):} A solo fabrication node in the ground-floor workshop bay operating a CNC router and joinery planer rated at $L_{\mathrm{spindle}} = 750\,\mathrm{cB}$ ($75.0\,\mathrm{dBA}$) and $P_{\mathrm{spindle}} = 2{,}200{,}000\,\mathrm{mW}$ ($2.2\,\mathrm{kW}$).
+    \item \textbf{Child Node B --- The Solo Studio ($N_s = 1$):} An acoustic recording and \texttt{Scenario Zero} software-forge workspace in the adjacent room requiring an interior partition acoustic ceiling of $L_{\mathrm{quiet}} \le 420\,\mathrm{cB}$ ($42.0\,\mathrm{dBA}$) during active mastering or deep-focus leases.
+    \item \textbf{Child Node C --- The Household Hearth ($N_s = 4$):} The shared kitchen and living commons drawing up to $6{,}000{,}000\,\mathrm{mW}$ ($6.0\,\mathrm{kW}$) across induction stockpots, water heaters, and laundry loops.
+\end{itemize}
+
+Rather than forcing these three co-located child nodes into $\mathcal{O}(K^2)$ bilateral political negotiations over who may run a router while someone records audio or simmers broth, all three child nodes are wrapped by a domain-blind \textbf{House Enveloping Node Hypervisor} (where every resident holds $V_i(t) = 1 + R_i(t)$ membership voice). The House Enveloping Node knows nothing of the Maker Bench's G-code toolpaths, the Solo Studio's Scenario Zero RFC backlog, or the Hearth's pea-soup recipe. It governs strictly the shared physical partition invariants (\texttt{EnvelopingBoundaryLeaseV50}): acoustic flux in centibels ($\mathrm{cB}$), instantaneous feeder draw in milliwatts ($\mathrm{mW}$), window exergy in microjoules ($\mu\mathrm{J}$), thermal rejection ($\mathrm{mK}$), and mandatory finite lease TTLs (\texttt{lease\_ttl\_ms}).
+
+Before \texttt{col-execd} issues a Layer 2 \texttt{ActuationEnvelopeV1} to spin up the Maker Bench's $750\,\mathrm{cB}$ CNC spindle at \texttt{13:20}, it executes a deterministic four-step boundary choreography loop across \texttt{l3\_l4.sock} and \texttt{l4\_l5.sock}:
+
+\begin{enumerate}
+    \item \textbf{Boundary Lease Intersection Check:} \texttt{col-execd} queries Layer 3 (\texttt{col-storaged}) for all active \texttt{EnvelopingBoundaryLeaseV50} records bound to the House Enveloping Node. It detects that the Solo Studio holds an active quiet-hours recording lease with ceiling $L_{\max,\mathrm{env}} = 420\,\mathrm{cB}$ ($42.0\,\mathrm{dBA}$) expiring in $38\,\mathrm{minutes}$ ($\texttt{lease\_ttl\_ms} = 2{,}280{,}000\,\mathrm{ms}$), and that the House feeder breaker cap ($9{,}600{,}000\,\mathrm{mW}$) currently has $5{,}800{,}000\,\mathrm{mW}$ committed to the Hearth's simmer kettles.
+    \item \textbf{Acoustic and Electrical Admission Gate:} While the Maker Bench's $2{,}200{,}000\,\mathrm{mW}$ spindle fits within the remaining $3{,}800{,}000\,\mathrm{mW}$ electrical feeder headroom ($5{,}800{,}000 + 2{,}200{,}000 = 8{,}000{,}000\,\mathrm{mW} \le 9{,}600{,}000\,\mathrm{mW}$), its unattenuated $750\,\mathrm{cB}$ acoustic emission breaches the active $420\,\mathrm{cB}$ House Envelope ceiling by $330\,\mathrm{cB}$ ($33.0\,\mathrm{dBA}$).
+    \item \textbf{Upward Semantic Diff Escalation (\texttt{ENVELOPE\_LEASE\_CONTENTION}):} Because the CNC routing job is a normal Tier 3 fabrication task rather than a Tier 0/1 Layer 2 physical hazard (unlike an emergency burst-pipe wet-vac at $8{,}200\,\mathrm{cB}$, which would trigger Pillar IV Fast-Path preemption), \texttt{col-execd} withholds the spindle actuation lease and emits an \texttt{UpwardYieldPacketV31} with \texttt{YieldReason::ENVELOPE\_LEASE\_CONTENTION} over \texttt{l4\_l5.sock}.
+    \item \textbf{Three Deterministic Resolution Paths in Layer 6:} Layer 6 (\texttt{col-commonsd}) decompiles the yield packet into an actionable Semantic Diff Card on the Maker Bench lens offering three friction-free choices: (a) \emph{Time-Shift Queueing}---park the token on \texttt{col-execd}'s HLC timer wheel to auto-start at \texttt{14:00} the instant the Studio's $420\,\mathrm{cB}$ lease TTL expires; (b) \emph{Physical Acoustic Attenuation Attestation}---close the workshop's soundproofed cellular-concrete baffle enclosure ($-350\,\mathrm{cB}$ verified via the Layer 2 partition boundary MEMS sensor in \texttt{col-telemetryd}, bringing partition transmission to $750 - 350 = 400\,\mathrm{cB} \le 420\,\mathrm{cB}$) so the cut proceeds immediately; or (c) \emph{Slow-Path Precedent Proposal}---request a mutual schedule swap with the Studio member.
+\end{enumerate}
+
+Thus the 3-Tier BPMN Hardware Adaptation Cascade and the House Enveloping Node Hypervisor complement each other seamlessly inside \texttt{col-execd}: the cascade adapts global commons recipes to the imperfect tools inside a room, while the enveloping boundary lease ensures that dozens of high-exergy tools across overlapping rooms operate in quiet physical harmony.

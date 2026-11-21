@@ -162,12 +162,14 @@ and architecturally independent builder nodes executing hermetic Nix/Guix and Ba
 SBOM Merkle root $R_{\mathrm{sbom}}$ with $\mathtt{SOURCE\_DATE\_EPOCH} = 0$ and external build-time socket count
 $N_{\mathrm{net}} = 0$. A candidate artifact $p$ of criticality class $c(p)$ is admissible for Agora publication or
 daemon promotion if and only if:
+{\footnotesize
 \begin{align}
     &\text{(Multi-Arch Consensus)} && \sum_{b \in \mathcal{B}} \mathbf{1}\!\left[\mathrm{SHA256}\big(\mathrm{bin}_{b}(p, \tau_{\mathrm{target}})\big) = H^{\star}\right] \ge K(c), \label{eq:zero-consensus}\\
     &\text{(Ethics \& Frugality)} && N_{\mathrm{telemetry}}(p) = 0 \;\land\; N_{\mathrm{drm}}(p) = 0 \;\land\; M_{\mathrm{idle\_mib}}(p) \le M_{\max}(c), \label{eq:zero-ethics}\\
     &\text{(Constitutional Canary)} && c = \mathtt{STACK\_DAEMON} \implies N_{\mathrm{float\_op}}(p) = 0 \;\land\; T_{\mathrm{oasis}} \ge 10{,}000, \label{eq:zero-canary}\\
     &\text{(Hydronic Recovery)} && \eta_{\mathrm{hydronic\_bp}} = \left\lfloor \frac{E_{\mathrm{recovered\_uj}} \cdot 10{,}000}{E_{\mathrm{compile\_uj}}} \right\rfloor \ge 8000 \quad (\text{Stages 2--3}). \label{eq:zero-heat}
 \end{align}
+}
 Here $K(c) = 2$ (2-of-3 multi-architecture quorum) suffices for non-privileged creative mods and desktop tools during
 transient mesh partitions, whereas $K(\mathtt{STACK\_DAEMON}) = 3$ (unanimous 3-of-3 bit-for-bit agreement) is
 mandatory for constitutional stack daemons, BPMN Wasmtime modules, and Layer 2 RTOS firmware.
@@ -237,6 +239,144 @@ Scenario Beta DTN mules at zero marginal per-copy cost. Over \texttt{/run/collec
 \texttt{col-execd} consumes ratified \texttt{SoftwareAgoraPackageManifest} payloads, \texttt{StudioVeto} verdicts, and
 blinded dual-steward co-signatures, while emitting \texttt{YIELD\_UPWARD\_L5} on missing vendored leaves and reporting
 SBOM usage lineage so Layer 5 can attribute non-financial Reputational Wealth ($\mathcal{R}$) upstream.
+
+\subsection{Scenario Zero as a Khronos/OpenGL-Style Governed Layer~6 Object (\texttt{D1})}
+\label{sec:zero-khronos-lifecycle}
+
+A foundational insight of the Horizon Council (\texttt{D1}) resolves how software itself fits into a seven-layer
+cyber-physical ontology: \emph{Oasis (\texttt{Layer 1b}) is not self-compiling code and never emulates inner functional
+guest operating systems or application binaries}. Rather, Oasis---and every software package in The Collective---is a
+canonical \textbf{Layer~6 Software Artifact} whose institutional care is entrusted to a dedicated \textbf{Layer~5
+Working Group}, exactly as the \textbf{OpenGL} specification is stewarded by the \textbf{Khronos Group}
+\parencite{ostrom1990,w3c2020jsonld}.
+
+Inside the Oasis simulation (\texttt{Layer 1b}, tagged \texttt{QUALITY\_SIMULATED = 0x01}), a running program exhibits
+only a \textbf{mild Layer~1 and Layer~2 physical footprint}: server and workstation blades drawing electrical power
+(\texttt{mW} and \texttt{uJ}), rejecting thermal watts (\texttt{mK}) into a room or hydronic recovery loop ($\ge
+8{,}000\,\mathrm{bp}$ heat reuse), accumulating discrete cooling-fan bearing and SSD write-cycle wear, and
+periodically generating servicing tasks for stewards. Oasis never needs to execute an inner transit-routing or
+shader-compilation guest binary to test whether a settlement's software commons is viable; instead, \texttt{col-execd}
+executes software's \textbf{full-fidelity Five-Phase Layer~4--6 BPMN Organizational Lifecycle}:
+\begin{enumerate}
+    \item \textbf{Phase 1 --- Friction to RFC (Layer~2 \& Layer~3 $\to$ Layer~6 Requirement Artifact):} When a
+    settlement encounters an operational coordination bottleneck---such as cargo e-trike routing jitter in Scenario Beta
+    or battery curtailment stalls in Scenario Alpha---the friction surfaces as Layer~2 telemetry anomalies and Layer~3
+    Ecological Replacement Cost ($\lambda_{\mathrm{ERC}}$) spikes. Affected guilds publish a \textbf{Layer~6 Requirement
+    Artifact (\texttt{SoftwareRequirementRfcIntent})} specifying the functional contract, target salvaged-hardware RAM
+    ceiling ($\le 256\,\mathrm{MiB}$ or $\le 512\,\mathrm{MiB}$), and safety invariants.
+    \item \textbf{Phase 2 --- Working Group Charter (Layer~5 Subsidiarity $\to$ Layer~4 Scenario Zero Binding):} Through
+    Layer~5 liquid democracy and subsidiarity, interested contributors charter a dedicated \textbf{Stewardship Node}---a
+    Khronos-style working group whose active members ($N_s$) hold voting weight $V_i(t) = 1 + R_i(t)$---bound to
+    Scenario Zero's BPMN choreography inside \texttt{col-execd}.
+    \item \textbf{Phase 3 --- Inception and Build (Layer~4 Conformance BPMN + Layer~2 Metering + Layer~3/5
+    Attestation):} \texttt{col-execd} orchestrates scoping, peer review, hermetic 3-architecture reproducible builds
+    (\texttt{x86\_64}, \texttt{aarch64}, \texttt{riscv64}), and the $10{,}000$-tick Oasis canary soak. Concurrently,
+    Layer~2 (\texttt{col-telemetryd}) meters workstation and rack watt-hours (\texttt{uJ}) and hydronic waste-heat
+    capture, while Layer~3 (\texttt{col-storaged}) records verified thermodynamic work ($\Delta V$) and Layer~5
+    (\texttt{col-kmsd}) mints domain Proof of Stewardship ($\Delta R_{i,\mathrm{bp}}$) upon verified milestone completion.
+    \item \textbf{Phase 4 --- Spec Ratification (Layer~4 Conformance Gates $\to$ Content-Addressed Layer~6 Artifact):}
+    Once all deterministic conformance predicates pass (\texttt{floating\_point\_opcodes == 0},
+    \texttt{layer\_skipping\_imports == 0}, \texttt{external\_network\_calls == 0}, 3-builder SHA-256 consensus, and
+    zero Studio Conscience Vetoes), the Layer~5 Working Group ratifies an immutable, content-addressed \textbf{Layer~6
+    Software Artifact (\texttt{SoftwareAgoraPackageManifest})} into the Ontological Graph alongside its plain-language
+    capability nutrition label (\texttt{AppCapabilityManifestV1}).
+    \item \textbf{Phase 5 --- Servicing, Operations, Dormant Equilibrium, and Fork Migration:} Adopting subnets execute
+    Layer~4 deployment, A/B watchdog promotion, and incident-response BPMN loops, metering rack cooling loads at
+    Layer~2 while routing field bug reports back up to Layer~5. If an active working group stagnates or ignores
+    escalations while faults accumulate, adopting communities exercise constitutional fork freedom
+    \parencite{hirschman1970}---repointing their Layer~5 consensus to a responsive Layer~6 fork.
+\end{enumerate}
+
+\subsection{Dormant Equilibrium (``The \TeX{} Asymptote''), Universal Civic Baseline $V_i(t) = 1 + R_i(t)$, and Substrate Drift Wake-Up (\texttt{D2}, \texttt{D3})}
+\label{sec:zero-tex-asymptote}
+
+Under Layer~7 venture capitalism, software is never permitted to \emph{be finished}: recurring SaaS subscription
+extraction demands perpetual UI churn, forced API deprecations, and manufactured lock-in \parencite{zuboff2019,illich1973}.
+In The Collective, coupling Layer~5 process voice to ongoing Layer~4 verified contributions while letting thermodynamic
+reputational entropy ($\lambda = \ln(2)/\tau_{1/2}$) erode idle operational scores makes a compositional
+\emph{montage} life structurally native. Creators can author a foundational solver, bring it to rock-solid stability,
+and pivot to carpentry, parenthood, or music without resignation drama or lifelong maintainer servitude.
+
+When a mature Layer~6 software artifact running inside deterministic Layer~4 WASM state machines converges toward
+zero defects---like Donald Knuth's \TeX{} typesetting engine or a classic UNIX filter---servicing incidents drop to
+zero ($\dot{r}_i(t) \to 0$). Under exponential reputational decay with half-life $\tau_{1/2}$ ($180$ or $365$ days),
+every working-group member's operational stewardship bonus decays asymptotically toward zero:
+\begin{equation}
+    R_i(t) = R_i(t_0)\,e^{-\lambda(t - t_0)} + \int_{t_0}^{t} \dot{r}_i(\tau)\,e^{-\lambda(t - \tau)}\,\mathrm{d}\tau \;\xrightarrow{\;\dot{r}_i \to 0\;}\; 0 \qquad (\forall\,i \in \mathcal{M}_{\mathrm{node}}).
+    \label{eq:zero-rep-decay}
+\end{equation}
+The working group enters \textbf{Dormant Equilibrium (``The \TeX{} Asymptote'')}, existing as silent public
+infrastructure that liberates human hours rather than consuming them.
+
+However, Dormant Equilibrium exposes a fatal flaw in pure meritocratic weighting ($V_i(t) = R_i(t)$ with baseline
+$B=0$): once $\sum_{j=1}^{N_s} R_j(t) \to \varepsilon \approx 0$, the first opportunistic stranger who resolves one
+minor hardware-drift ticket ($\Delta R_{\mathrm{att}} > 0$) would instantaneously command
+$V_{\mathrm{att}} / \sum_j V_j = \Delta R_{\mathrm{att}} / (\Delta R_{\mathrm{att}} + N_s \varepsilon) \to 100\%$ of
+the node's voting weight (\textbf{Dormant-Node Single-Maintainer Hijack}). The Sovereign Stack eliminates this
+vulnerability across all twenty-five scenarios by pairing a \textbf{non-decaying Universal Civic Baseline}
+($B = 1$, or $B_{\mathrm{bp}} = 10{,}000\,\mathrm{bp}$) with the decaying stewardship bonus $R_i(t)$ inside
+\texttt{NodeMemberVoiceStateV50}:
+\begin{equation}
+    V_i(t) = B + R_i(t) = 1 + R_i(t), \qquad V_{i,\mathrm{bp}}(t) = 10{,}000 + R_{i,\mathrm{bp}}(t) \qquad (\forall\,i \in \{1,\dots,N_s\}).
+    \label{eq:zero-unified-voice}
+\end{equation}
+
+\begin{theorem}[Immunity to Dormant-Node Single-Maintainer Hijack Across Scale Regimes]
+\label{thm:dormant-hijack-immunity}
+Let a polycentric Layer~5 node have $N_s = |\mathcal{M}_{\mathrm{node}}|$ active members, each evaluated under the
+unified voting weight $V_{i,\mathrm{bp}}(t) = 10{,}000 + R_{i,\mathrm{bp}}(t)$ with $\mathrm{d}B/\mathrm{d}t = 0$ and
+$R_{i,\mathrm{bp}}(t) \ge 0$. Then:
+\begin{enumerate}
+    \item \textbf{Genesis Solo Autonomy ($N_s = 1$):} The sole steward holds $V_1(t)/V_1(t) = 100\%$ of internal node
+    governance regardless of $R_1(t) \ge 0$, guaranteeing zero-friction personal autonomy on Day~0 while remaining
+    bound to imported external tool-guild covenants and Enveloping Node physical boundary leases.
+    \item \textbf{Dyadic Collaboration ($N_s = 2$):} Active stewardship $R_1(t) > R_2(t) = 0$ breaks operational ties
+    in favor of the active contributor or mentor ($V_1 / (V_1 + V_2) = (1 + R_1)/(2 + R_1) > 1/2$), while the
+    apprentice or co-founder retains an inviolable civic floor $1/(2 + R_1)$ plus unconditional JSON-LD fork freedom.
+    \item \textbf{Community Anti-Capture Crossover ($N_s \gg 2$):} For any single contributor or awakener $k$ holding
+    maximum operational stewardship $R_{\max}(t) = R_k(t)$ while all other $N_s - 1$ members sit at Dormant Equilibrium
+    ($R_j(t) = 0$ for $j \ne k$), $k$'s share of total voting weight satisfies
+    \begin{equation}
+        \sigma_k(t) = \frac{V_k(t)}{\sum_{j=1}^{N_s} V_j(t)} = \frac{1 + R_{\max}(t)}{N_s + R_{\max}(t)} < \frac{1}{2} \iff N_s > R_{\max}(t) + 2
+        \label{eq:anti-capture-crossover}
+    \end{equation}
+    (in fixed-point basis points, $N_s \cdot 10{,}000\,\mathrm{bp} > R_{\max,\mathrm{bp}}(t) + 20{,}000\,\mathrm{bp}$).
+    Furthermore, $R_{i,\mathrm{bp}}(t)$ cannot be artificially farmed: \texttt{col-kmsd} mints $\Delta R_{i,\mathrm{bp}} > 0$
+    if and only if a completed Layer~4 BPMN task resolves a pre-existing Layer~6 requirement or demand lease and passes
+    Layer~2/Layer~3 hardware verification with zero fault or $\lambda_{\mathrm{ERC}}$ spike.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+In Regime~I ($N_s = 1$), $\sum_{j=1}^{1} V_j(t) = 1 + R_1(t) > 0$, so $\sigma_1(t) = 1$ identically. In Regime~II
+($N_s = 2$) with $R_2(t) = 0$, $\sigma_1(t) = (1 + R_1(t))/(2 + R_1(t)) = 1/2 + R_1(t)/[2(2 + R_1(t))] > 1/2$ whenever
+$R_1(t) > 0$. In Regime~III ($N_s \gg 2$), because $\sum_{j \ne k} R_j(t) \ge 0$, member $k$'s voting share is bounded
+above by the worst-case dormant limit $\lim_{\{R_j \to 0\}_{j \ne k}} V_k / \sum_{j=1}^{N_s} V_j = (1 + R_{\max}) / (N_s + R_{\max})$.
+Setting $(1 + R_{\max}) / (N_s + R_{\max}) < 1/2$ yields $2 + 2R_{\max} < N_s + R_{\max}$, or $N_s > R_{\max} + 2$.
+Thus, once membership exceeds $R_{\max} + 2$, no lone awakener or high-reputation founder can unilaterally capture a
+majority ballot, and any constitutional supermajority ($\theta_{\mathrm{const}} = 6{,}667\,\mathrm{bp}$) requires
+broad civic consent across the baseline $B=1$ floor.
+\end{proof}
+
+Finally, Dormant Equilibrium clarifies the true cyber-physical nature of software maintenance: \textbf{``bit-rot'' is
+never immutable Layer~6 bytecode decaying in storage; it is Layer~1 physics and Layer~2 hardware drifting underneath a
+stationary specification} (silicon revisions, sensor dielectric shifts, actuator tolerance drift). When a new Layer~2
+sensor board revision violates an older schema, the **Substrate Drift Wake-Up Cycle** executes deterministically across
+the stack:
+\begin{enumerate}
+    \item \textbf{Layer~2/3 Anomaly to Layer~4 Hard-Block:} The revised Layer~2 probe emits a frame that violates the
+    active WASM module's input contract; \texttt{col-execd} halts the affected step and emits a 64-byte
+    \texttt{UpwardYieldPacketV31} with \texttt{UpwardYieldReasonV50::SUBSTRATE\_DRIFT\_ADAPTER\_REQUIRED} over
+    \texttt{l4\_l5.sock}.
+    \item \textbf{Upward Semantic Diff Decompilation (\texttt{L4} $\to$ \texttt{L5} $\to$ \texttt{L6}):}
+    \texttt{col-kmsd} forwards the yield to \texttt{col-commonsd}, which decompiles the machine register mismatch into
+    a human-readable \textbf{Layer~6 Semantic Diff Card} inside the \emph{Scenario Zero Forge Studio} lens (identifying
+    the exact sensor revision, incompatible ABI field, and fallback manual observation option).
+    \item \textbf{Ad-Hoc Wake-Up, Fresh $R_i(t)$ Accrual, and Return to Sleep:} Whoever cares enough \emph{today} claims
+    the Scenario Zero adapter task, writes and canary-tests the shim across $10{,}000$ Oasis ticks, accrues fresh
+    $R_{i,\mathrm{bp}}(t)$ from zero to steer the technical patch while the $N_s$ civic baseline guards constitutional
+    integrity, ratifies the new \texttt{workflow\_def\_cid}, and lets the working group fall peacefully back to sleep.
+\end{enumerate}
 
 % ==========================================================================
 \section{Scenario Tau: Steward Onboarding and Node Genesis (\texttt{SCN-TAU-GENESIS})}
@@ -310,12 +450,14 @@ During \texttt{wf.tau.hardware\_key\_ceremony}, internal \texttt{ATECC608A} hard
 generators synthesize an Ed25519 keypair locked in silicon while \texttt{col-kmsd} splits a recovery
 seed over $\mathrm{GF}(2^8)$ into $n = 5$ guardian shards with threshold $k = 3$, subject to four
 invariants:
+{\footnotesize
 \begin{align}
     &\text{(Physical Co-Presence)} && \mathrm{RSSI}_{\mathrm{nfc\_mdbm}} > -55{,}000 \;\lor\; \mathtt{bedside\_visit\_cosigned} = 1, \label{eq:tau-nfc}\\
     &\text{(Sensory \& Anti-Biometric)} && N_{\mathrm{biometric}} = 0 \;\land\; \big(\mathtt{sensory\_calm} \implies L_{\mathrm{noise\_cb}} \le 350\big), \label{eq:tau-calm}\\
     &\text{(Anti-Dynastic Baseline)} && B_{\mathrm{baseline\_bp}} = 10{,}000 \;\land\; \mathcal{R}_{\mathrm{initial}} = 0 \quad (\forall\,\mathcal{R}_{\mathrm{parent}}), \label{eq:tau-antidynastic}\\
     &\text{(Blinded Shamir Quorum)} && \sum_{g=1}^{5} \mathbf{1}\!\left[\mathtt{guardian\_ack}_{g}(\kappa) = \mathtt{VERIFIED}\right] = 5 \quad (\text{reconstruct at } \ge 3). \label{eq:tau-shamir}
 \end{align}
+}
 Preserving Keyless Blindness, \texttt{col-execd} never touches private keys, DID strings, or
 polynomial share bytes. It tracks only an opaque 32-byte correlation key $\kappa$ across five
 parallel \texttt{ReceiveTask} tokens awaiting encrypted guardian escrow receipts from
@@ -371,6 +513,29 @@ seamlessly presents calm \texttt{MANUAL\_HUMAN\_OBSERVATION} prompts signed via
 Across \texttt{l4\_l5.sock}, \texttt{col-kmsd} binds DID-blinded 24-byte \texttt{ClaimHandle}s,
 shields Hybrid Pathway 1 members under \textit{NAACP v.\ Alabama} roster blinding, and arms the
 \textbf{Disability Flare-Up Decay Shield} ($d\mathcal{R}/dt = 0$).
+
+Furthermore, under the v3.2 / \texttt{v5.0.0-HORIZON} architecture (\texttt{D3}, \texttt{D5}, \texttt{D6}, \texttt{D7}),
+Day-0 onboarding in Scenario Tau connects directly to \textbf{Turnkey JSON-LD Franchise Instantiation} and
+\textbf{$N_s=1$ Enveloping Node Boundary Lease Registration}:
+\begin{itemize}
+    \item \textbf{Day-0 Turnkey JSON-LD Franchise Instantiation:} Once \texttt{wf.tau.clean\_slate\_genesis} brings the
+    daemons online with an empty workflow table, a newcomer or founding household never hand-wires raw BPMN state
+    machines or Layer~5 capability matrices. Instead, they browse the three Content-Addressed \textbf{Sovereign
+    Libraries} (\emph{Ontological Graph}, \emph{Orchestration Registry}, and \emph{Physics Baseline}) through their
+    local Layer~6 Semantic Daemon (\texttt{col-commonsd} + \texttt{col-gatewayd}), pull a proven turnkey template
+    (e.g., a Stage~1A Seed Garden, Micro-Bakery, or Solo Luthier Bench ranked by empirical
+    \texttt{collective:thermodynamicProof} lineage), and let the downward Societal Compiler ($\Pi_{\mathrm{down}} :
+    \mathrm{L6} \to \mathrm{L5} \to \mathrm{L4}$) bind tested safety gates and station workflows to local Layer~2
+    appliances in minutes.
+    \item \textbf{$N_s=1$ Genesis Solo Autonomy and Enveloping Node Boundary Lease Registration:} When an onboarded
+    steward spawns a personal studio or craft bench ($N_s = 1$), \texttt{col-kmsd} initializes their
+    \texttt{NodeMemberVoiceStateV50} with $B_{\mathrm{bp}} = 10{,}000\,\mathrm{bp}$ and $R_{1,\mathrm{bp}}(0) = 0$,
+    granting $100\%$ sovereign control over their own child node's internal workflows while automatically importing
+    external tool-guild safety covenants (Pillar~II \texttt{WorkCapabilityMatrix}) and registering an
+    \texttt{EnvelopingBoundaryLeaseV50} with the wrapping Room/House Enveloping Node Hypervisor (governing shared
+    partition decibels \texttt{max\_acoustic\_cb}, branch circuit milliwatts \texttt{max\_power\_mw}, thermal exhaust
+    \texttt{max\_thermal\_delta\_mk}, and mandatory finite \texttt{lease\_ttl\_ms}).
+\end{itemize}
 
 % ==========================================================================
 \section{Scenario Sigma: Somatic Homeostasis, Burnout, and Rest Shields (\texttt{SCN-SIGMA-BURNOUT})}
@@ -506,6 +671,29 @@ clocks across the $31{,}536{,}000$-tick annual half-life), activates $10{,}000\,
 notification blinding in \texttt{col-kmsd}, and routes \texttt{AntiMartyrdomReliefBeacon} and
 \texttt{DrudgeryAutomationQuestIntent} frames upward.
 
+In the v3.2 Boundless-Time architecture (\texttt{D6}, \texttt{D8}), Scenario Sigma's acoustic and metabolic governors
+integrate directly with the \textbf{Enveloping Node Hypervisor} and culminate in \textbf{Zero-Stat Liberation}:
+\begin{itemize}
+    \item \textbf{Enveloping Node Two-Speed Jurisprudence for Sanctuary \& Quiet Leases:} The $300\,\mathrm{cB}$
+    ($30\,\mathrm{dBA}$) convalescent sanctuary cap and $450\,\mathrm{cB}$ ($45\,\mathrm{dBA}$) nocturnal quiet cap of
+    Equation~\eqref{eq:sigma-acoustic} are enforced as domain-blind \texttt{EnvelopingBoundaryLeaseV50} invariants at
+    the Room/House and Street Envelope levels. If an adjacent child node (such as a late-night Maker Bench) requests a
+    $750\,\mathrm{cB}$ spindle lease during an active Studio or Sanctuary quiet lease, \texttt{col-execd} halts the
+    spindle and emits \texttt{UpwardYieldReasonV50::ENVELOPE\_LEASE\_CONTENTION}, decompiling into a calm Layer~6
+    Semantic Diff Card offering next-morning scheduling or enclosure attenuation attestation. Conversely, if a Layer~2
+    moisture sensor trips an acute physical hazard (such as a burst water pipe requiring an $8{,}200\,\mathrm{cB}$
+    emergency wet-vac extraction), Pillar~IV \textbf{Fast-Path Hazard Preemption} overrides the quiet lease in
+    sub-second hardware time and logs a cryptographic preemption receipt for optional Slow-Path compensation review.
+    \item \textbf{Zero-Stat Liberation (The Antidote to Gamified Productivity):} Scenario Sigma rejects fake RPG stat
+    buffs, productivity leaderboards, and streak counters. As a settlement upgrades its physical tooling from Stage~I
+    Scavenged Layer~7 appliances (plagued by unscheduled blind hard-blocks) through Stage~II Right-to-Repair Hybrid
+    retrofits to Stage~III Native Open-Spec hardware (scheduling 5-minute predictive metric swaps) and lets mature
+    Scenario Zero software rest in Dormant Equilibrium, unscheduled emergency interrupts and fiat tribute bleed vanish.
+    The reward is never a synthetic ``$+25\%$ work speed'' badge; it is \textbf{Zero-Stat Liberation}---getting human
+    stewards out of the orchestration interface in under 30 seconds and returning quiet, unmonitored hours to rest,
+    kinship, and creative \emph{montage}.
+\end{itemize}
+
 % ==========================================================================
 \section{Wave A Convivial Maturity Progression (\texttt{Stage 1A} to \texttt{Stage 3})}
 \label{sec:wave-a-maturity}
@@ -535,6 +723,7 @@ zero-power 1000-year M-DISC optical archive, a step-free Coming-of-Age Pavilion
 \caption{Wave A (\texttt{Zero}, \texttt{Tau}, \texttt{Sigma}) workflow concurrency and topological progression per node across settlement maturity stages ($10\,\mathrm{Hz}$ \texttt{col-execd} tick budget).}
 \label{tab:wave-a-maturity}
 \footnotesize
+\resizebox{\textwidth}{!}{%
 \begin{tabular}{@{}p{2.1cm}p{2.6cm}p{2.8cm}p{2.8cm}p{2.9cm}@{}}
 \toprule
 \textbf{Dimension} & \textbf{Stage 1A: Seed} (1 Lot, $R_0\text{--}R_1$) & \textbf{Stage 1B: Mesh} (5--12 Lots, $R_1\text{--}R_2$) & \textbf{Stage 2: Co-op Shell} (Subchapter T, $R_2\text{--}R_3$) & \textbf{Stage 3: Campus} (CLT / PPT, $R_3\text{--}R_5$) \\
@@ -543,9 +732,10 @@ zero-power 1000-year M-DISC optical archive, a step-free Coming-of-Age Pavilion
 \addlinespace[3pt]
 \textbf{\texttt{Zero} Forge Topology} & Homelab mini-PC ($\le 380\,\mathrm{cB}$); 2-of-3 peer hash check; local \texttt{L1b} 10k-tick canary & 3-arch block consensus (\texttt{x86}/\texttt{ARM}/\texttt{RISC-V}); DTN/WireGuard Agora sync & Liquid-cooled build/render rack ($\ge 8000\,\mathrm{bp}$ heat to bathhouse); L7 game/app $\Phi_t$ & Solar/hydronic conservatory; full 7-layer HIL bench; 1000-yr M-DISC cold vault \\
 \addlinespace[3pt]
-\textbf{\texttt{Tau} Genesis \& Identity} & \texttt{CleanSlateGenesis}; Node 0 $6.4\,\mathrm{kW}$ PV seed; kitchen NFC tap; $B_{\mathrm{baseline}}$ & 3-of-5 Shamir shards across 5 peer lots; Hybrid L7 blinding; \texttt{Kappa} check-ride & Step-free Welcome Hearth; $R_0$ Assistive-Tech CNC/AAC Atelier; Oasis VR bay & Universal-design gateway ($\le 500\,\mathrm{bp}$ slope); Native Coming-of-Age Pavilion ($\mathcal{R}=0$) \\
+\textbf{\texttt{Tau} Genesis \& Identity} & \texttt{CleanSlateGenesis}; Turnkey JSON-LD seed; $N_s=1$ Envelope lease; $B_{\mathrm{baseline}}$ & 3-of-5 Shamir shards across 5 peer lots; Hybrid L7 blinding; \texttt{Kappa} check-ride & Step-free Welcome Hearth; $R_0$ Assistive-Tech CNC/AAC Atelier; Oasis VR bay & Universal-design gateway ($\le 500\,\mathrm{bp}$ slope); Native Coming-of-Age Pavilion ($\mathcal{R}=0$) \\
 \addlinespace[3pt]
-\textbf{\texttt{Sigma} Somatic Immune} & Local \texttt{ChillLoop} ($8500/4500\,\mathrm{bp}$); $\le 450\,\mathrm{cB}$ night cap; $\le 300\,\mathrm{cB}$ bedroom latch & Block Commons Pool Tier 1/2 handoff; passive hopper work-bees; Dual-Freeze & Waste-heat cedar sauna decompression; \texttt{Pi} relief beacons; drudgery R\&D quests & Watershed sabbatical cabins; seasonal winter $\rho_{\max}$ governor; full robotics assist \\
+\textbf{\texttt{Sigma} Somatic Immune} & Local \texttt{ChillLoop} ($8500/4500\,\mathrm{bp}$); $\le 450\,\mathrm{cB}$ night cap; $\le 300\,\mathrm{cB}$ bedroom latch & Block Commons Pool Tier 1/2 handoff; passive hopper work-bees; Dual-Freeze & Waste-heat cedar sauna decompression; \texttt{Pi} relief beacons; drudgery R\&D quests & Watershed sabbatical cabins; seasonal winter $\rho_{\max}$ governor; Zero-Stat Liberation \\
 \bottomrule
-\end{tabular}
+\end{tabular}%
+}
 \end{table}

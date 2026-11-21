@@ -25,8 +25,9 @@ concurrent workflows without formal lock ordering invites classic circular-wait 
 across shared hearth hobs, joinery benches, and wheelbarrows
 \parencite{coffman1971deadlocks}.
 
-This chapter specifies the four mechanisms by which Layer~4 achieves crash-safe durability,
-mathematical deadlock freedom, and thermodynamic survival prioritization:
+This chapter specifies the five mechanisms by which Layer~4 achieves crash-safe durability,
+mathematical deadlock freedom, spatial polycentric coexistence, and thermodynamic survival
+prioritization:
 \begin{enumerate}
 \item \textbf{Stateless Execution Over Layer~3 (\texttt{col-storaged}):} Treating
         \texttt{col-execd}'s L1-cache arena strictly as an ephemeral, reconstructible
@@ -38,6 +39,14 @@ mathematical deadlock freedom, and thermodynamic survival prioritization:
         deadlocks by construction across four canonical physical resource classes, fortified
         by Hybrid Logical Clock (HLC) lease Time-To-Live (TTL) expirations and monotonic
         fencing tokens \parencite{kulkarni2014logical}.
+\item \textbf{Enveloping Node Hypervisor Boundary Leases and Two-Speed Jurisprudence (\texttt{CCI-4}, \texttt{D5}, \texttt{D6}):}
+        Wrapping multiple co-located polycentric Layer~5 nodes ($N=1$ Solo Studio, $N=1$ Maker
+        Bench, $N=4$ Household Hearth) inside a fractal, domain-blind \textbf{Enveloping Node
+        Hypervisor} (\textit{Room/Building $\to$ Street/Microgrid $\to$ Bioregional
+        Watershed}) that replaces $O(K^2)$ bilateral political treaties with $O(K)$
+        domain-blind physical boundary leases (\texttt{EnvelopingBoundaryLeaseV50}) governed
+        by Fast-Path Layer~2 hazard preemption and Slow-Path Semantic Diff precedent
+        compilation.
 \item \textbf{The Constitutional Five-Tier Priority Queue and SoC Shedding:} Enforcing
         strict ecological and human survival precedence ($F_{\mathrm{eco}} \succ B_{\mathrm{baseline}} \succ \mathrm{MutualAid} \succ \mathrm{Discretionary} \succ \mathrm{Export}$)
         via Schmitt-trigger fuel-budget hysteresis curves and single-tick Tier~5 export
@@ -317,6 +326,163 @@ temporal safety fields \parencite{kulkarni2014logical,kleppmann2017designing}:
         zombie writes after partition healing.
 \end{itemize}
 
+\section{Enveloping Node Hypervisor Boundary Leases and Two-Speed Jurisprudence (\texttt{CCI-4}, \texttt{D5}, \texttt{D6})}
+\label{sec:ch3-enveloping-hypervisor}
+
+In modernist municipal zoning and legacy enterprise software, institutional boundaries are
+conflated with physical walls: a building is assumed to be \textit{either} a domestic home,
+\textit{or} a recording studio, \textit{or} a machine shop. In living convivial communities
+(\texttt{D5}, \texttt{D6}), however, Layer~5 institutional topology is decoupled from
+Layer~2 spatial coordinates \parencite{ostrom2010,habraken1972supports}. A single physical
+house or cooperative wing frequently hosts multiple overlapping polycentric Layer~5 nodes
+sharing one local Layer~6 Semantic Daemon (\texttt{col-commonsd} + \texttt{col-gatewayd}):
+for instance, a \textbf{Household Hearth ($N_s = 4$)}, a \textbf{Solo Studio ($N_s = 1$)}
+stewarding \texttt{Scenario Zero} software or acoustic mastering, and a \textbf{Maker Bench
+($N_s = 1$)} running precision CNC joinery.
+
+Even an $N_s = 1$ solo node---where one Steward holds $V_1(t) = 1 + R_1(t) = 100\%$ of
+internal process voice---does not float in a physical vacuum. To actuate shared tools or emit
+noise, heat, and electrical load inside a shared structure, an $N_s = 1$ node imports
+external Layer~5 governance templates (such as a Tool Guild's Pillar~II safety and custody
+covenant or Scenario~Zero reproducible build gates) and operates inside the physical
+partition boundaries of the shared building.
+
+\subsection{Eliminating $O(K^2)$ Horizontal Politics via Fractal Domain-Blind Envelopes}
+
+If $K$ specialized child nodes co-located in the same physical footprint had to negotiate
+bilateral treaties with one another over spindle decibels, dust extraction, thermal exhaust,
+and breaker amperage, coordination overhead would scale quadratically as $\binom{K}{2} = O(K^2)$
+horizontal political negotiations.
+
+Dialogue~6 (\texttt{D6}) and Cross-Cutting Invariant~\texttt{CCI-4} eliminate $O(K^2)$
+treaty friction by wrapping shared physical footprints in a fractal hierarchy of
+\textbf{Domain-Blind Enveloping Node Hypervisors}, analogous to an operating-system container
+hypervisor:
+\begin{enumerate}
+\item \textbf{Room / Building Envelope Hypervisor:} Wraps co-located child nodes ($N=1$ Solo
+        Studio, $N=1$ Maker Bench, $N=4$ Household Hearth) inside a shared structure. Every
+        human operating a child node inside that footprint holds universal civic baseline
+        membership $V_i(t) = 1 + R_i(t)$ in the Enveloping Node. The Room/Building Envelope
+        is \textbf{completely domain-blind} to child-node internals---it never votes on the
+        Maker Bench's CNC feed rate, the Studio's software backlog, or the Hearth's soup
+        spices. It ratifies and enforces \textit{only} shared physical boundary invariants
+        measured by domain-blind Layer~2 partition sensors: acoustic flux in centibels
+        (\texttt{cB}), continuous electrical power in milliwatts (\texttt{mW}), window exergy
+        in microjoules (\texttt{uJ}), exhaust thermal delta in millikelvins (\texttt{mK}),
+        spatial bounding boxes in millimeters (\texttt{mm}), and finite lease durations in
+        milliseconds (\texttt{ms}).
+\item \textbf{Street / Microgrid Envelope Hypervisor:} Wraps twenty House Envelopes and a
+        Neighborhood Bakery around distribution transformer kVA limits (\texttt{mW}), shared
+        cargo e-trike logistics lanes (\texttt{mm}), and nocturnal street acoustic ceilings
+        (\texttt{cB}).
+\item \textbf{Bioregional Watershed Envelope Hypervisor:} Wraps multiple Street Envelopes
+        around hydrological aquifer drawdown ceilings ($\mathrm{mL/s}$), watershed emissions
+        ($\mu\mathrm{g}$), and Layer~3 Ecological Replacement Cost ($\lambda_{\mathrm{ERC}}$)
+        asymptotes.
+\end{enumerate}
+
+At each fractal level, $K$ child nodes negotiate $O(K)$ vertical physical boundary leases
+with their immediate Enveloping Node Hypervisor rather than $O(K^2)$ peer treaties.
+Listing~\ref{lst:ch3-enveloping-lease} presents the exact production C++20
+\texttt{EnvelopingBoundaryLeaseV50} structure enforced jointly by \texttt{col-kmsd} and
+\texttt{col-execd}.
+
+\begin{lstlisting}[language=C++,caption={Production C++20 \texttt{EnvelopingBoundaryLeaseV50} struct enforcing domain-blind physical boundary invariants in \texttt{col-execd} and \texttt{col-kmsd} (\texttt{CCI-4}, \texttt{D6}).},label={lst:ch3-enveloping-lease}]
+namespace collective::layer5 {
+
+// Domain-blind Enveloping Node Hypervisor boundary lease enforced by col-execd & col-kmsd
+struct EnvelopingBoundaryLeaseV50 {
+    std::array<uint8_t, 32> lease_cid;
+    std::array<uint8_t, 32> enveloping_node_id;    // e.g., Room/Building or Street Envelope
+    std::array<uint8_t, 32> child_node_id;         // e.g., Woodshop, Bakery, or N=1 Studio
+    int64_t lease_start_ms{0};
+    int64_t lease_ttl_ms{0};                       // Mandatory finite TTL (Fast-Path invariant)
+    int64_t max_acoustic_cb{5'500};                // Centibels (5,500 cB = 55.0 dBA at partition)
+    int64_t max_power_mw{1'500'000};               // Milliwatts (1.5 kW continuous ceiling)
+    int64_t max_exergy_budget_uj{5'400'000'000'000LL}; // Microjoules (5.4 MJ window budget)
+    int64_t max_thermal_delta_mk{3'000};           // Millikelvins (+3.0 K boundary exhaust delta)
+    int64_t bounding_box_mm[6]{0, 0, 0, 0, 0, 0};  // [x_min, y_min, z_min, x_max, y_max, z_max] in mm
+    uint16_t preemption_priority_tier{100};        // L2 hazard workflows carry tier >= 900
+};
+
+} // namespace collective::layer5
+\end{lstlisting}
+
+When a child node's BPMN workflow prepares to energize a tool---for example, the $N=1$ Maker
+Bench requesting a spindle cut generating $750\,\mathrm{cB}$ ($75.0\,\mathrm{dBA}$) or a high-power
+workshop planer drawing $1{,}800{,}000\,\mathrm{mW}$---\texttt{col-execd} checks the active
+\texttt{EnvelopingBoundaryLeaseV50} before emitting any \texttt{ActuationEnvelopeV1}. During
+execution, Layer~2 partition boundary microphones (\texttt{cB}), branch breaker CT clamps
+(\texttt{mW}), and exhaust thermistors (\texttt{mK}) stream signed telemetry through Layer~3
+into Layer~4. If boundary flux exceeds \texttt{max\_acoustic\_cb} or \texttt{max\_power\_mw}
+beyond the transient grace window, \texttt{col-execd} throttles the actuator setpoint or halts
+the offending non-emergency step and emits \texttt{YieldReason::ENVELOPE\_LEASE\_CONTENTION}.
+
+\subsection{Two-Speed Jurisprudence in \texttt{col-execd}: Fast-Path Preemption vs. Slow-Path Precedent Compilation}
+
+Under the Four Constitutional Pillars of Layer~5---(I) \textit{Surface Allocation}
+(\texttt{collective:SurfaceAllocationPolicy}), (II) \textit{Work Capabilities}
+(\texttt{collective:WorkCapabilityMatrix}), (III) \textit{Process Voice}
+(\texttt{collective:ProcessVoiceCharter}), and (IV) \textit{Jurisprudence Rules}
+(\texttt{collective:JurisprudenceEngine})---\texttt{col-execd} resolves physical boundary
+collisions through \textbf{Two-Speed Jurisprudence} (\texttt{CCI-4}, \texttt{D6}):
+
+\begin{enumerate}
+\item \textbf{The Fast Path (Mandatory Finite \texttt{lease\_ttl\_ms} + Sub-Second Layer~2 Physical Hazard Preemption):}
+        First, every \texttt{EnvelopingBoundaryLeaseV50} enforces a mandatory finite
+        \texttt{lease\_ttl\_ms} $> 0$, guaranteeing that no child node can starve co-located
+        siblings by holding a quiet-hours or high-power lease indefinitely. Second, when
+        Layer~2 Edge Twin sensors detect an acute physical integrity hazard, \texttt{col-execd}
+        preempts lower-priority boundary leases in millisecond hardware time with zero ballot
+        delay.
+
+        Consider the canonical burst-pipe preemption trace from Dialogue~6 (\texttt{D6}):
+        \begin{itemize}
+        \item Between \texttt{20:00} and \texttt{23:00}, the Acoustic Studio child node
+                (\texttt{Scenario Lambda}) holds an active Enveloping Node quiet-hour lease
+                capping partition noise at $\mathrm{max\_acoustic\_cb} = 4{,}500\,\mathrm{cB}$
+                (or $420\text{--}4{,}500\,\mathrm{cB}$ depending on partition scaling,
+                $\mathrm{preemption\_priority\_tier} = 100$).
+        \item At \texttt{21:15}, a pressurized water pipe bursts in the shared utility chase
+                beneath the Household Hearth. Layer~2 moisture and pressure transducers
+                immediately trip a hardware-signed \texttt{HAZARD\_CLASS\_WATER\_INGRESS}
+                frame into Layer~3 (\texttt{col-storaged}).
+        \item On the very next $100\,\mathrm{ms}$ tick, \texttt{col-execd} instantiates the
+                Pillar~IV emergency remediation workflow
+                \texttt{bpmn:EmergencyWetVacExtraction}, which carries
+                $\mathrm{preemption\_priority\_tier} = 950 \ge 900$ and requires an acoustic
+                envelope of $8{,}200\,\mathrm{cB}$ and continuous pump/vacuum power of
+                $2{,}200{,}000\,\mathrm{mW}$ ($2.20\,\mathrm{kW}$).
+        \item Because $950 > 100$ under Pillar~IV Fast-Path rules, \texttt{col-execd}
+                \textbf{automatically preempts} the Acoustic Studio's $4{,}500\,\mathrm{cB}$
+                quiet-hour lease, grants the $8{,}200\,\mathrm{cB}$ /
+                $2{,}200{,}000\,\mathrm{mW}$ emergency boundary override to the wet-vac and
+                sump pump, transitions the Studio's non-hazard recording token into a clean
+                safepoint pause, and writes an immutable cryptographic preemption receipt to
+                Layer~3. The basement is saved before a single human ballot could even be
+                drafted.
+        \end{itemize}
+\item \textbf{The Slow Path (\texttt{ConstraintConflictEvent} $\to$ L5 $\to$ L6 Semantic Diff Ballot $\to$ Compiled Layer~4 Precedent):}
+        Whenever two child nodes collide on an unmapped non-emergency conflict (for example,
+        Ceramic Kiln Unloading and Children's Puppet Rehearsal both requesting a Saturday
+        \texttt{10:00} courtyard lease at equal priority tier), or when a preempted node
+        wishes to refine sensor thresholds after a Fast-Path event, \texttt{col-execd} never
+        guesses politically. It halts the contending step and emits a structured
+        \texttt{ConstraintConflictEvent} (\texttt{YieldReason::UNMAPPED\_POLICY\_CONFLICT})
+        carrying the exact SI telemetry trace (\texttt{cB}, \texttt{mW}, \texttt{mK},
+        \texttt{ms}) upward across \texttt{l4\_l5.sock} to \texttt{col-kmsd}. Layer~5
+        escalates the conflict across \texttt{l5\_l6.sock} to \texttt{col-commonsd}, which
+        decompiles it into a human-readable \textbf{Layer~6 Semantic Diff ballot} (for
+        instance, proposing dual-sensor corroboration $\text{MoistureSensor} > 100\,\mathrm{mL} \land \text{FlowRateDelta} > 50\,\mathrm{mL/s}$
+        plus automatic $+120\,\mathrm{min}$ priority studio rescheduling). Once the
+        Enveloping Node members ratify the ballot under the unified voting law
+        $V_i(t) = B + R_i(t) = 1 + R_i(t)$ ($V_{i,\mathrm{bp}}(t) = 10{,}000 + R_{i,\mathrm{bp}}(t)$),
+        Layer~6's Downward Societal Compiler ($\Pi_{\mathrm{down}}$) compiles the ratified
+        resolution back down through Layer~5 into permanent Layer~4 BPMN preemption guard
+        predicates---guaranteeing that the community \textit{never votes on the same conflict
+        twice}.
+\end{enumerate}
+
 \section{The Constitutional Five-Tier Priority Queue and Exergy Shedding}
 \label{sec:ch3-priority-queue}
 
@@ -540,7 +706,8 @@ holds across all $H$ buckets, parks the token cleanly in \texttt{WAITING\_TIMER}
 calm schedule-shift notice via Layer~5), and leaves every physical ingredient unharmed.
 
 Together, stateless \texttt{BatchStepCommit} persistence over Layer~3, deadlock-free
-lexicographic \texttt{L3ResourceLeaseLock} ordering, 5-tier Schmitt-trigger exergy shedding,
-and lookahead horizon admission control give \texttt{col-execd} the ironclad operational
-reliability of an industrial safety PLC---operating entirely on community-governed,
-twenty-year sovereign silicon.
+lexicographic \texttt{L3ResourceLeaseLock} ordering, fractal Enveloping Node Hypervisor
+boundary leases (\texttt{EnvelopingBoundaryLeaseV50}) with Two-Speed Jurisprudence, 5-tier
+Schmitt-trigger exergy shedding, and lookahead horizon admission control give
+\texttt{col-execd} the ironclad operational reliability of an industrial safety
+PLC---operating entirely on community-governed, twenty-year sovereign silicon.

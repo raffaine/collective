@@ -21,12 +21,14 @@ POSIX sockets. It holds no network interfaces, possesses no cryptographic identi
 knows no citizen's name, touches no hardware pins, and rejects every direct mutation from
 user-facing interfaces.
 
-In this opening chapter of Part~I, we establish the four constitutional pillars that bound
+In this opening chapter of Part~I, we establish the five constitutional pillars that bound
 \texttt{col-execd} within a Sovereign Node: (1) strict seven-layer adjacency across the
 bilateral Unix-domain socket membrane; (2) clean-slate genesis and the Constitutional Intent
-U-Turn; (3) keyless cryptographic blindness via 24-byte capability handles; and (4)
-cybernetic closure at Recursion Level~$N$ of Stafford Beer's Viable System Model
-\parencite{beer1972,beer1979}.
+U-Turn; (3) Layer~4 as the cybernetic compiler target of Layer~6's Downward Societal Compiler
+($\Pi_{\mathrm{down}}$) and source of Upward Semantic Diff Decompilation
+($\Pi_{\mathrm{up}}^{\mathrm{diff}}$); (4) keyless cryptographic blindness via 24-byte
+capability handles; and (5) cybernetic closure at Recursion Level~$N$ of Stafford Beer's
+Viable System Model \parencite{beer1972,beer1979}.
 
 \section{Strict Seven-Layer Adjacency and the Bilateral Socket Membrane}
 \label{sec:ch1-bilateral-sockets}
@@ -333,6 +335,79 @@ exhausted does \texttt{col-execd} populate an \texttt{UpwardYieldPacket} with
 \texttt{YieldReason::RESOURCE\_DEFICIT\_CURTAILMENT} and
 \texttt{Gate\_L7\_GPO\_Procurement}, handing the leaf deficit upward across
 \texttt{l4\_l5.sock} rather than opening a network socket to an external supplier.
+
+\subsection{Layer 4 as Cybernetic Compiler Target and Upward Semantic Diff Source (\texttt{CCI-1}, \texttt{D7})}
+\label{subsec:ch1-compiler-decompiler}
+
+Dialogue~7 (\texttt{D7}) and Cross-Cutting Invariant~\texttt{CCI-1} formalize a hard
+computational demarcation across the upper waist of the Sovereign Stack:
+
+\begin{itemize}
+\item \textbf{Layers 4 and 5 Are Formal Cybernetic Execution Engines (\texttt{col-execd} and \texttt{col-kmsd}):}
+        They execute deterministic WebAssembly state machines, 64-byte token transition frames,
+        64-bit capability bitmasks, lexicographically ordered resource leases, and fixed-point SI
+        ledgers. Humans are \textit{never} expected to hand-wire raw Layer~5 capability matrices
+        or edit Layer~4 BPMN bytecode tables directly.
+\item \textbf{Layer 6 Carries $100\%$ of the Burden of Human Semantic Meaning (\texttt{col-commonsd} + \texttt{col-gatewayd}):}
+        Operating like an HTTP-style local semantic protocol daemon serving plural application
+        lenses (\textit{The Pantry}, \textit{The Workshop}, \textit{The Bakery / Hearth},
+        \textit{Scenario Zero Forge Studio}), Layer~6 acts as a \textbf{Downward Societal
+        Compiler} ($\Pi_{\mathrm{down}}$) and an \textbf{Upward Societal Decompiler}
+        ($\Pi_{\mathrm{up}}^{\mathrm{diff}}$).
+\end{itemize}
+
+Formally, the downward compilation functor $\Pi_{\mathrm{down}}$ and upward semantic diff
+decompilation functor $\Pi_{\mathrm{up}}^{\mathrm{diff}}$ factor strictly across the adjacent
+\texttt{SOCK\_SEQPACKET} membranes:
+\begin{align}
+\Pi_{\mathrm{down}} &: \mathcal{I}_{\mathrm{L6}}^{\mathrm{human}} \xrightarrow{\texttt{l5\_l6.sock}} \mathcal{A}_{\mathrm{L5}}^{\mathrm{policy}} \xrightarrow{\texttt{l4\_l5.sock}} \mathcal{B}_{\mathrm{L4}}^{\mathrm{BPMN/WASM}}, \label{eq:ch1-pi-down} \\
+\Pi_{\mathrm{up}}^{\mathrm{diff}} &: \mathcal{Y}_{\mathrm{L4}}^{\mathrm{hard\text{-}block}} \xrightarrow{\texttt{l4\_l5.sock}} \mathcal{E}_{\mathrm{L5}}^{\mathrm{escalation}} \xrightarrow{\texttt{l5\_l6.sock}} \mathcal{D}_{\mathrm{L6}}^{\mathrm{SemanticDiff}}. \label{eq:ch1-pi-up}
+\end{align}
+
+In the downward pass $\Pi_{\mathrm{down}}$, when a Steward instantiates a turnkey franchise
+blueprint from the Sovereign Libraries or forks a local schedule in a Layer~6 lens,
+\texttt{col-commonsd} normalizes human craft units into canonical 64-bit fixed-point SI
+integers prior to Stage~4 Deterministic Read-Back, computes the structural AST delta against
+\texttt{parentBlueprintCid}, and compiles \textit{only} the ratified delta downward through
+Layer~5 (\texttt{PolicyBundle\_CID}) into Layer~4 (\texttt{workflow\_def\_cid} parameter
+bindings), preserving verified Bigelow sanitation and lockout-tagout (LOTO) safety gates
+intact.
+
+Conversely, in the upward pass $\Pi_{\mathrm{up}}^{\mathrm{diff}}$, whenever \texttt{col-execd}
+encounters a physical, spatial, or constitutional boundary that cannot be resolved
+autonomously via Tier~1 parameter scaling, Tier~2 macro-activity substitution, or Fast-Path
+hazard preemption, it halts the affected token in \texttt{YIELDED\_UPWARD\_L5} and emits a
+compact binary \texttt{UpwardYieldPacketV31} across \texttt{l4\_l5.sock}. When \texttt{col-kmsd}
+determines that human deliberation or physical intervention is required, it escalates the
+yield frame across \texttt{l5\_l6.sock} (\texttt{0x0602 L5\_ESCALATE\_DECISION\_DOCKET}) to
+\texttt{col-commonsd}, which decompiles the raw machine register hashes, bytecode node
+indices, and SI deficits into a human-readable \textbf{Layer~6 Semantic Diff Card}.
+Table~\ref{tab:ch1-hardblock-semantic-diffs} specifies the five canonical Layer~4 hard-block
+classes and their decompiled Layer~6 Semantic Diff projections.
+
+\begin{table}[htbp]
+\centering
+\caption{The Five Canonical Layer~4 Hard-Block Classes and Their Decompiled Layer~6 Semantic Diff Cards (\texttt{CCI-1}, \texttt{D2}, \texttt{D6}, \texttt{D7}, \texttt{D8})}
+\label{tab:ch1-hardblock-semantic-diffs}
+\footnotesize
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}p{4.3cm}p{4.5cm}p{7.2cm}@{}}
+\toprule
+\textbf{Hard-Block Class \& Dialogue} & \textbf{Layer 4 / Layer 5 Machine Yield State} & \textbf{Decompiled Layer 6 Semantic Diff Card Presented to Stewards} \\
+\midrule
+\textbf{1. \texttt{SUBSTRATE\_DRIFT\_}} \textbf{\texttt{ADAPTER\_REQUIRED}} (\texttt{D2}) & L2 hardware revision \texttt{0x04} emits dielectric frame outside pinned WASM ABI schema \texttt{v1.2} during Dormant Equilibrium. & \textit{``Hardware Drift on Backyard Soil Probe \#2: New ESP32-S3 moisture board emits 24-bit dielectric frames incompatible with \texttt{wf:pea\_cultivation v1.2}. [Open Scenario Zero RFC to build \& ratify L2->L4 adapter] or [Fallback to Manual Observation].''} \\
+\addlinespace
+\textbf{2. \texttt{ENVELOPE\_LEASE\_}} \textbf{\texttt{CONTENTION}} (\texttt{D6}) & Child node requests \texttt{750 cB} ($75.0\,\mathrm{dBA}$) spindle lease; Enveloping Node holds active \texttt{420 cB} ($42.0\,\mathrm{dBA}$) Studio quiet lease. & \textit{``Acoustic Boundary Conflict in House Envelope: Maker Bench CNC cut (75.0 dBA / 750 cB) exceeds the 42.0 dBA (420 cB) partition ceiling while Solo Studio holds an active recording lease (expires in 38m). [Queue CNC Cut for 14:00], [Attest Acoustic Enclosure Closed (-35 dBA)], or [Propose Envelope Exception].''} \\
+\addlinespace
+\textbf{3. \texttt{UNMAPPED\_POLICY\_}} \textbf{\texttt{CONFLICT}} (\texttt{D6} Slow Path) & Two co-equal Tier-4 workflows request conflicting Saturday courtyard boundary lease with zero compiled tie-breaker precedent. & \textit{``Unmapped Courtyard Contention (Slow-Path Precedent Vote): Ceramic Kiln Unloading and Children's Puppet Rehearsal both request Saturday 10:00 Courtyard lease. Ratifying a resolution under $V_i(t) = 1 + R_i(t)$ will compile a permanent Layer 4 tie-breaker precedent so you never vote on this again.''} \\
+\addlinespace
+\textbf{4. \texttt{TRUE\_CONSTRAINT\_}} \textbf{\texttt{HARDWARE\_GAP}} (\texttt{D8} Tier 3) & Turnkey blueprint requires cold storage $\le 277{,}150\,\mathrm{mK}$ ($4.0\,^\circ\mathrm{C}$); local L2 Twin reports only ambient larder ($291{,}150\,\mathrm{mK}$). & \textit{``Blueprint Instantiation Halted --- Missing Cold-Chain Constraint: Turnkey Burger Kitchen requires >= 120 L cold storage at <= 4.0 C (277,150 mK). Local L2 Digital Twin reports no refrigeration below 18.0 C (291,150 mK; deficit 14,000 mK). [Bind Neighbor R1 Cold-Room Lease], [Procure/Retrofit Cooler], or [Switch to Dry-Bean Menu Fork].''} \\
+\addlinespace
+\textbf{5. \texttt{SCAVENGED\_L7\_}} \textbf{\texttt{BLIND\_HARDBLOCK}} (\texttt{D8} Stage I) & Stage I shimmed appliance (\texttt{0x04}) drops current to $0\,\mathrm{mW}$ mid-batch with opaque \texttt{FAULT\_ERR\_42} and zero wear pre-warning. & \textit{``Unscheduled Mid-Batch Hard-Block on Scavenged Deck Oven \#1: Parasitic CT shim detected sudden heater open-circuit at 341,150 mK while Pantry dough TTL ticks down. [Reroute Batch to Hearth Vessel \#2 Salvage Saga], [Stage Right-to-Repair Hybrid Retrofit Kit (Mints L3 Proof of Stewardship)], or [Escalate L7 Spare-Part Tribute].''} \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
 
 \section{Keyless Cryptographic Blindness and the 24-Byte \texttt{ClaimHandle}}
 \label{sec:ch1-keyless-blindness}

@@ -23,6 +23,7 @@ Selective-Disclosure Credentials, and Intent-Driven Demand Capture).
 
 \begin{figure}[htbp]
 \centering
+\resizebox{\textwidth}{!}{%
 \begin{tikzpicture}[
     node distance=1.5cm and 2.1cm,
     box/.style={rectangle, rounded corners=3pt, draw=black!75, thick, fill=gray!8, text width=3.4cm, align=center, font=\footnotesize, minimum height=1.25cm},
@@ -41,7 +42,8 @@ Selective-Disclosure Credentials, and Intent-Driven Demand Capture).
     \draw[zkp] (pi) -- node[below, font=\scriptsize, text=blue!70!black, align=center] {Rigging \& Audio\\Safety Proofs} (lambda);
     \draw[flow] (epsilon) -- node[left, font=\scriptsize, align=center] {Subchapter T\\Event Shield ($\Phi_t$)} (lambda);
     \draw[flow] (iota) to[bend right=16] node[above, sloped, font=\scriptsize] {Open Acoustics \& Bindery} (lambda);
-\end{tikzpicture}
+\end{tikzpicture}%
+}
 \caption{Wave E Civic, Epistemic, Cultural, and Polycentric Guild Choreography. Solid arrows represent physical tool, hydronic exergy, corpus, and legal-carapace flows; dashed blue arrows denote identity-blinded BBS+ capability proofs minted by \texttt{col-kmsd} across \texttt{/run/collective/ipc/l4\_l5.sock}.}
 \label{fig:wave-e-topology}
 \end{figure}
@@ -83,7 +85,7 @@ crosses manufacturer metrology intervals or a user self-reports a dropped instru
 into \texttt{SALVAGE\_COMPENSATING} (\texttt{CALIBRATION\_QUARANTINE}), automatically spawning a Scenario
 \texttt{Alpha}/\texttt{Pi} bench recalibration ticket without fining honest reporting.
 
-\subsection{Restorative Acoustic Mediation, Rack Heat Recovery, and $\Phi_{\mathrm{cluster}}$ Curtailment}
+\subsection{Restorative Acoustic Mediation, Polycentric Overlapping Nodes, and Two-Speed Jurisprudence (\texttt{D6})}
 
 Open-plan third places fail when unmediated phone calls shatter collective concentration or when human
 hall-monitors police quietude. Scenario \texttt{Epsilon} delegates acoustic norms to a calm, memoryless
@@ -95,8 +97,58 @@ $\Delta t > 180000\,\mathrm{ms}$ ($180\,\mathrm{seconds}$) does \texttt{Actuatio
 a warm amber desk-lamp halo and dispatch an ephemeral local invitation offering an unoccupied
 \texttt{STC-50} soundproof booth.
 
+More broadly, Scenario \texttt{Epsilon} and Scenario \texttt{Lambda} exemplify \textbf{Polycentric
+Overlapping Nodes in a Single Physical Building} (\texttt{D5}, \texttt{D6}, \texttt{CCI-4}). Consider the
+canonical Horizon Council example of a solo artisan ($N_s = 1$, such as Maya's personal Luthier/Maker
+Bench \texttt{Node-Luthier-Maya} or a 1-person Recording Studio) working at 22:00 inside a room of the
+shared building \texttt{Node-Habitat-Block4}. Inside her own $N_s = 1$ craft node, Maya holds
+$V_{\mathrm{Maya}}(t) = 1 + R_{\mathrm{Maya}}(t) = 100\%$ sovereign control over her instrument design and
+JSON-LD workflow branch. Yet to run a precision 5-axis CNC router in Room 104 at 22:00, her $N_s = 1$ node
+automatically imports two external Layer 5 covenants enforced by \texttt{col-execd}:
+\begin{enumerate}
+    \item \textbf{External Tool-Guild Covenant (\texttt{Node-FabGuild-Alpha}):} Verifies Maya's blinded
+    24-byte \texttt{ClaimHandle} against \texttt{cnc:5axis:operator} under Pillar II
+    (\texttt{collective:WorkCapabilityMatrix}) and binds her session to the tool's $\lambda_{\mathrm{ERC}}$
+    wear amortization ledger in \textit{The Workshop} lens.
+    \item \textbf{Building Enveloping Node Boundary Lease (\texttt{EnvelopingBoundaryLeaseV50} from
+    \texttt{Node-Habitat-Block4}):} Enforces the building's domain-blind evening partition limits after
+    21:00 (\texttt{max\_acoustic\_cb = 5500} [$55.0\,\mathrm{dBA}$ boundary scale],
+    \texttt{max\_power\_mw = 1,500,000} [$1.5\,\mathrm{kW}$], \texttt{max\_thermal\_delta\_mk = 3000}
+    [$+3.0\,\mathrm{K}$], and a mandatory finite \texttt{lease\_ttl\_ms}).
+\end{enumerate}
+
+When physical leases collide inside the shared building, \texttt{col-kmsd} and \texttt{col-execd} execute
+\textbf{Two-Speed Jurisprudence} (\texttt{D6}) without freezing physical safety behind a parliamentary vote:
+\begin{itemize}
+    \item \textbf{(1) The Fast Path (Finite \texttt{lease\_ttl\_ms} \& Burst-Pipe Emergency Wet-Vac Preemption):}
+    Every \texttt{EnvelopingBoundaryLeaseV50} carries a hardware-enforced finite \texttt{lease\_ttl\_ms}
+    so no studio or bench can starve neighbors indefinitely. Furthermore, suppose an adjacent Scenario
+    \texttt{Lambda} Acoustic Recording Studio holds an active quiet-hour boundary lease
+    (\texttt{max\_acoustic\_cb = 4500}, or $45.0\,\mathrm{dBA}$, \texttt{preemption\_priority\_tier = 200})
+    from 20:00 to 23:00. At 21:15, a water pipe bursts in the utility chase beneath the studio and Layer 2
+    moisture/pressure sensors trip a \texttt{HAZARD\_CLASS\_WATER\_INGRESS} alert. Under Pillar IV
+    (\texttt{collective:JurisprudenceEngine}), the structural remediation workflow
+    \texttt{bpmn:EmergencyWetVacExtraction} (\texttt{preemption\_priority\_tier = 950}, requiring
+    $8{,}200\,\mathrm{cB}$ [$82.0\,\mathrm{dBA}$] and $2{,}200{,}000\,\mathrm{mW}$ [$2.2\,\mathrm{kW}$])
+    \textbf{preempts} the Studio's $4{,}500\,\mathrm{cB}$ quiet lease in sub-second hardware time:
+    \texttt{col-execd} grants the emergency acoustic/power override lease to the wet-vac and sump pump,
+    safely ramps down the studio's master-take flag, and logs a cryptographic preemption receipt to
+    \texttt{col-storaged}.
+    \item \textbf{(2) The Slow Path (Upward Semantic Diff Decompilation \& Downward Precedent Compilation):}
+    After the flood is cleared (or whenever an unmapped non-emergency boundary contention occurs),
+    \texttt{col-execd} emits an upward \texttt{UpwardYieldPacketV31} (\texttt{ENVELOPE\_LEASE\_CONTENTION})
+    across $\mathrm{L4} \to \mathrm{L5} \to \mathrm{L6}$, where \texttt{col-commonsd} decompiles the exact SI
+    telemetry trace into a human-readable \textbf{Layer 6 Semantic Diff Card}. The building's Enveloping Node
+    members ($V_i(t) = 1 + R_i(t)$) review and ratify a permanent precedent diff---requiring dual-sensor
+    corroboration (\texttt{MoistureSensor > 100 mL AND FlowRateDelta > 50 mL/s}) before preempting an
+    active Studio master-take lease, and automatically granting preempted studio sessions a
+    \texttt{+120 min} ($7{,}200{,}000\,\mathrm{ms}$) priority compensation lease. Once ratified,
+    \texttt{col-commonsd} compiles the new precedent back down ($\mathrm{L6} \to \mathrm{L5} \to \mathrm{L4}$)
+    into permanent Layer 4 BPMN integer guard predicates so nobody ever votes on the same conflict twice.
+\end{itemize}
+
 Concurrently, liquid-cooled community compute racks (hosting \texttt{col-storaged} replicas, Scenario
-\texttt{Iota} knowledge mirrors, and rendering/CAD jobs) couple into Scenario \texttt{Beta}'s PEX-a
+\texttt{Iota} knowledge mirrors, and Scenario Zero CI jobs) couple into Scenario \texttt{Beta}'s PEX-a
 hydronic manifold via brazed-plate heat exchangers. Layer 4 enforces a waste-heat recovery efficiency
 $\eta_{\mathrm{rack}} \ge 8000\,\mathrm{bp}$ ($80\%$) into domestic hot-water preheat whenever winter
 heating demand exists, and automatically throttles Tier 4--5 batch compute jobs whenever microgrid battery
@@ -161,17 +213,38 @@ test-score cohorts ranked along coercive bell curves \parencite{illich1973,corbe
 Alexandria} knowledge DAG, multi-cluster experimental replication pipelines anchored in hardware sensor
 provenance, and multi-age inquiry circles completely purged of tuition gates and classroom surveillance.
 
-\subsection{Geographic 3-Cluster Corpus Pinning and Solar-Surplus Index Rebuilds}
+\subsection{Geographic 3-Cluster Corpus Pinning, the Three Sovereign JSON-LD Libraries, and Solar-Surplus Rebuilds}
 
 To guarantee survival of practical and theoretical human knowledge across network partitions or
 institutional censorship, \texttt{col-execd} runs a deterministic \textbf{3-Cluster Geographic Corpus
-Pinning Workflow} over the \texttt{AlexandriaKnowledgeDAG} (comprising open-access scientific corpora,
-Kiwix encyclopedic snapshots, POSIX/Rust/RISC-V compiler toolchains, seed-saving monographs, and repair
-CAD schematics). Every ratified IPLD root CID must be cryptographically pinned across at least $k \ge 3$
-geographically and topologically distinct $R_3 \dots R_5$ watershed clusters \parencite{fall2003,shapiro2011crdt}
-on ECC ZFS mirrors. Monthly silent bit-rot scrub tasks verify BLAKE3 Merkle trees; if a drive sector degrades
-or a remote cluster drops offline, an autonomic repair saga fetches missing IPLD blocks over BPVP/DTN links
-until $3\text{-cluster}$ redundancy is restored.
+Pinning Workflow} over the \texttt{AlexandriaKnowledgeDAG}. Under the \textbf{Ratified v3.2 Open-Source
+Franchising Architecture ("The Speedee Service System Without the Rent")} (\texttt{D7}, \texttt{CCI-5}),
+Scenario \texttt{Iota} and Scenario \texttt{Pi} organize all cyber-physical knowledge across the
+\textbf{Three Sovereign Content-Addressed JSON-LD Libraries} replicated over Layer 3 (\texttt{col-storaged}
+/ \texttt{col-meshd}):
+\begin{enumerate}
+    \item \textbf{1.\ The Ontological Graph (\texttt{collective:OntologicalArtifactGraph}):} Content-addressed
+    W3C JSON-LD definitions of materials, tools, standard metric fasteners (\texttt{M6}, \texttt{M8}),
+    modular containers (\texttt{Gastronorm GN 1/1}, \texttt{ISO 600x400 mm} tote), functional equivalence
+    classes, capability credentials, and Stage II \textbf{Right-to-Repair Hybrid Retrofit Kit} schematics.
+    \item \textbf{2.\ The Orchestration Registry (\texttt{collective:ParameterizedBpmnTemplate}):}
+    Composable, parameterized BPMN 2.0 / Petri-net franchise templates where every task node declares
+    abstract functional constraints and canonical 64-bit SI intervals rather than proprietary machine models,
+    supporting \textit{Turnkey Instantiation}, \textit{Localized Semantic Forking} (\texttt{prov:wasDerivedFrom}),
+    and \textit{Greenfield Montage} (15\% experimental capacity).
+    \item \textbf{3.\ The Physics Baseline (\texttt{collective:ThermodynamicBenchmarkLedger}):} Signed
+    empirical telemetry distributions (\textbf{\texttt{collective:thermodynamicProof}}) recording the actual
+    specific exergy consumed ($\mathrm{uJ / mg}$), scrap/spoilage fault rate (basis points $\mathrm{bp}$),
+    cycle duration ($\mathrm{ms}$), observed mean time between failures (\texttt{observed\_mtbf\_sec}), and
+    Layer 3 Ecological Replacement Cost ($\lambda_{\mathrm{ERC}}$) achieved by every recipe lineage in
+    live physical deployments---enabling \textit{Empirical Lineage Ranking} without corporate rating agencies.
+\end{enumerate}
+Every ratified IPLD root CID across the Three Sovereign Libraries and open scientific corpora (Kiwix
+snapshots, POSIX/Rust/RISC-V compiler toolchains, seed-saving monographs) must be cryptographically pinned
+across at least $k \ge 3$ geographically and topologically distinct $R_3 \dots R_5$ watershed clusters
+\parencite{fall2003,shapiro2011crdt} on ECC ZFS mirrors. Monthly silent bit-rot scrub tasks verify BLAKE3
+Merkle trees; if a drive sector degrades or a remote cluster drops offline, an autonomic repair saga
+fetches missing IPLD blocks over BPVP/DTN links until $3\text{-cluster}$ redundancy is restored.
 
 Full-text inverted index rebuilds, multi-language OCR passes, and 4-modality curriculum compilations
 (generating tactile wooden manipulatives via Scenario \texttt{Alpha}, soy-ink risograph workbooks bound on
@@ -396,6 +469,41 @@ VRF Calibration Audits}: a Verifiable Random Function selects peer guild steward
 to inspect torque calibration, weld radiographs, and autoclave lethality logs, renewing cluster-level guild
 endorsements upon clean physical sign-off.
 
+Furthermore, under the \textbf{Ratified v3.2 Constitutional Kernel} (\texttt{D3}, \texttt{D4}, \texttt{D8},
+\texttt{CCI-2}), Scenario \texttt{Pi} enforces three foundational guild governance invariants:
+\begin{enumerate}
+    \item \textbf{Strict Scoping of $V_i(t) = 1 + R_i(t)$ to Active Guild Members ($N_s$) vs.\ External Settlement Beneficiaries ($N_p$):}
+    Inside any producer or craft guild node, constitutional voting weight $V_i(t) = B + R_i(t) = 1 + R_i(t)$
+    (with non-decaying civic baseline $B = 1$, or $10{,}000\,\mathrm{bp}$, and decaying stewardship bonus
+    $R_{i,\mathrm{bp}}(t)$) is scoped strictly to \textbf{Active Guild Members ($N_s$)}---so 500 external
+    settlement beneficiaries ($N_p$) who eat bread or play instruments cannot outvote the $N_s$ active
+    stewards on kiln firing profiles, starter hydration, or spindle safety limits, nor does the stack ever
+    track persistent consumer voter IDs. Instead, external residents ($N_p$) exercise countervailing power
+    through anonymous Layer 6 $\to$ Layer 3 appetite leases (\texttt{AnonymousAppetiteLeaseV50}), fork
+    freedom, and their own $B = 1$ membership inside the \textbf{Enveloping Habitat/Neighborhood Node}
+    ($N_{\mathrm{envelope}}$) that grants the guild's spatial, acoustic, and electrical boundary leases.
+    \item \textbf{The Cross-Layer Anti-Farming Invariant:} Proof of Stewardship $\Delta R_{i,\mathrm{bp}} > 0$
+    can never be self-minted through synthetic commits or unrequested busywork; \texttt{col-execd} and
+    \texttt{col-kmsd} mint $\Delta R_{i,\mathrm{bp}} > 0$ if and only if the three-way cross-layer
+    conjunction holds:
+    \begin{equation}
+    \begin{aligned}
+        \Delta R_{i,\mathrm{bp}} > 0 \iff{} &\text{L6 Demand Lease} \;\land\; \text{L4 BPMN Completion} \\
+        &\land\; \text{L2/L3 Hardware Verification }\bigl(\Delta S_{\mathrm{actual}} \le \Delta S_{\mathrm{expected}},\, \Delta\lambda_{\mathrm{ERC\_spike}} = 0\bigr).
+    \end{aligned}
+        \label{eq:pi-antifarm}
+    \end{equation}
+    \item \textbf{Guild Publication of Stage II Right-to-Repair Hybrid Retrofit Kits (\texttt{ProofOfStewardshipRetrofitRecordV50}):}
+    During Stage 1A--2 Genesis, a primary mission of Scenario \texttt{Pi} craft guilds is reverse-engineering
+    ubiquitous scavenged Layer 7 appliances and publishing open RISC-V/STM32/ESP32 replacement controller
+    PCBs, K-type thermocouple harnesses, and 3D-printable metric (\texttt{M6}/\texttt{M8}) mounts into the
+    \textit{Ontological Graph} and \textit{Orchestration Registry}. Each verified retrofit commits a
+    first-class \textbf{\texttt{ProofOfStewardshipRetrofitRecordV50}} to Layer 3 (\texttt{col-storaged}),
+    crediting $\Delta R_{i,\mathrm{bp}} > 0$ proportional to the rescued chassis embodied exergy
+    (\texttt{rescued\_chassis\_embodied\_exergy\_uj}), $\Delta\lambda_{\mathrm{ERC}}$ reduction, and
+    eliminated annual Layer 7 spare-part tribute (\texttt{eliminated\_l7\_tribute\_cents\_per\_yr}).
+\end{enumerate}
+
 \subsection{Intent-Driven Demand Capture and Anti-Siphon Reciprocity Guardrails}
 
 How does a non-market federation discover where to build a new induction foundry, grain mill, or optical
@@ -484,17 +592,19 @@ federations operate as a self-governing epistemic and cultural civilization (850
 \label{tab:wave-e-maturity}
 \footnotesize
 \setlength{\tabcolsep}{4.2pt}
+\resizebox{\textwidth}{!}{%
 \begin{tabular}{@{}p{1.45cm}p{2.65cm}p{2.55cm}p{2.55cm}p{2.65cm}p{2.65cm}@{}}
 \toprule
 \textbf{Scenario} & \textbf{Core SI \& Cryptographic Gates} & \textbf{Stage 1A: Household Seed ($R_0\text{--}R_1$)} & \textbf{Stage 1B: Neighbor Mesh ($R_1\text{--}R_2$)} & \textbf{Stage 2: Co-op Shell ($R_2\text{--}R_3$)} & \textbf{Stage 3: Sovereign Campus ($R_3\text{--}R_5$)} \\
 \midrule
-\textbf{\texttt{Epsilon}} \newline Third Place \& L7 Carapace & Focus $\le 550\,\mathrm{cB}$ ($180\,\mathrm{s}$); rack heat $\ge 8000\,\mathrm{bp}$; $\mathrm{SoC} \ge 3000\,\mathrm{bp}$; $\Phi_{\mathrm{cluster}} \le 10000\,\mathrm{bp}$. & Shared study table, hallway tool pegboard, wholesale buying club, $0$ surge. & Garage electronics lounge, BLE tool locker, PEX server-heat preheater. & Storefront coworking + \texttt{STC-50} booths, Subchapter T \texttt{GPO} \& guild carapace. & Campus Third-Place pavilion, metrological tool library, post-carapace sunset. \\
+\textbf{\texttt{Epsilon}} \newline Third Place \& L7 Carapace & Focus $\le 550\,\mathrm{cB}$ ($180\,\mathrm{s}$); rack heat $\ge 8000\,\mathrm{bp}$; $\mathrm{SoC} \ge 3000\,\mathrm{bp}$; $\Phi_{\mathrm{cluster}} \le 10000\,\mathrm{bp}$. & Shared study table, $N_s=1$ studio envelope lease, wholesale club, $0$ surge. & Garage electronics lounge, BLE tool locker, PEX server-heat preheater. & Storefront coworking + \texttt{STC-50} booths, Subchapter T \texttt{GPO} \& guild carapace. & Campus Third-Place pavilion, metrological tool library, post-carapace sunset. \\
 \addlinespace[4pt]
-\textbf{\texttt{Iota}} \newline Epistemic \& Open Science & $k \ge 3$ geo-pins; $N \ge 3$ replications; drift $\le 50\,\mathrm{bp}$; \texttt{0x22} prov; $0$ tuition/surveillance. & Offline Kiwix SBC mirror, home inquiry kits, local $R_0$ mastery journal. & Multi-age backyard inquiry pod, shared microscope \& triple-point cell. & 3-cluster ZFS corpus, open wet/metrology lab, solar risograph press, \texttt{DPL v1}. & Bioregional observatory, Oasis physics patching, open polytechnic commons. \\
+\textbf{\texttt{Iota}} \newline Epistemic \& Open Science & 3 Sovereign Libraries; $k \ge 3$ geo-pins; $N \ge 3$ replications; drift $\le 50\,\mathrm{bp}$; \texttt{0x22} prov. & Offline Kiwix SBC mirror, home inquiry kits, local $R_0$ mastery journal. & Multi-age backyard inquiry pod, shared microscope \& triple-point cell. & 3-cluster ZFS corpus, \texttt{thermodynamicProof} ranking, solar risograph, \texttt{DPL v1}. & Bioregional observatory, Oasis physics patching, open polytechnic commons. \\
 \addlinespace[4pt]
-\textbf{\texttt{Lambda}} \newline Culture \& Amphitheater & Day $\le 550\,\mathrm{cB}$, night $\le 450\,\mathrm{cB}$, bass $\le 650\,\mathrm{cB}$; $0\,\mathrm{mg}$ waste; $0$ art tokens/PCM. & Acoustic salon, backyard hearth potluck, sacred \texttt{Protocol of Refusal}. & Courtyard murals, $\le 800\,\mathrm{bp}$ luthiery stock, stainless dishware block feasts. & Black-box theater, \texttt{LC} artist fellowships, rag-paper \& ochre printshop. & Earth-bermed ($180\,\mathrm{cB}$) amphitheater, multi-hundred-guest zero-waste festivals. \\
+\textbf{\texttt{Lambda}} \newline Culture \& Amphitheater & Day $\le 550\,\mathrm{cB}$, night $\le 450\,\mathrm{cB}$, bass $\le 650\,\mathrm{cB}$; Two-Speed Fast/Slow Path; $0\,\mathrm{mg}$ waste. & Acoustic salon, burst-pipe $8200\,\mathrm{cB}$ wet-vac preemption, \texttt{Protocol of Refusal}. & Courtyard murals, $\le 800\,\mathrm{bp}$ luthiery stock, stainless dishware block feasts. & Black-box theater, \texttt{LC} artist fellowships, rag-paper \& ochre printshop. & Earth-bermed ($180\,\mathrm{cB}$) amphitheater, multi-hundred-guest zero-waste festivals. \\
 \addlinespace[4pt]
-\textbf{\texttt{Pi}} \newline Polycentric Craft Guilds & 24-B BBS+ \texttt{ClaimHandle} ($0$ DID in L4); haul $\ge 18\,\mathrm{GJ}$ or $k < 3$ beacon; $\ge 7000\,\mathrm{bp}$ recip. & Peer tool safety sign-off, open repair notes, manual lockout-tagout. & Cross-block Work-Bee barn-raisings, shared torque/weld check rigs. & Trans-local guild \texttt{Treaty\_CID}s, BBS+ CNC/kiln interlocks, VRF peer audits. & Watershed polycentric guild mesh, ZK demand beacons driving import substitution. \\
+\textbf{\texttt{Pi}} \newline Polycentric Craft Guilds & $V_i=1+R_i$ ($N_s$ vs.\ $N_p$); 24-B BBS+ \texttt{ClaimHandle}; Stage II retrofit kits; $\ge 7000\,\mathrm{bp}$ recip. & Peer tool safety sign-off, Stage I$\to$II appliance retrofit kits, manual LOTO. & Cross-block Work-Bee barn-raisings, shared torque/weld check rigs. & Trans-local guild \texttt{Treaty\_CID}s, BBS+ CNC/kiln interlocks, VRF peer audits. & Watershed polycentric guild mesh, ZK demand beacons driving import substitution. \\
 \bottomrule
-\end{tabular}
+\end{tabular}%
+}
 \end{table}

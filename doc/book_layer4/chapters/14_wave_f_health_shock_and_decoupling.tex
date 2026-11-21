@@ -19,6 +19,7 @@ Carapace Dissolution, and Sovereign Decoupling).
 
 \begin{figure}[htbp]
 \centering
+\resizebox{\textwidth}{!}{%
 \begin{tikzpicture}[
     node distance=1.45cm and 1.9cm,
     box/.style={rectangle, rounded corners=3pt, draw=black!75, thick, fill=gray!8, text width=3.2cm, align=center, font=\footnotesize, minimum height=1.2cm},
@@ -41,7 +42,8 @@ Carapace Dissolution, and Sovereign Decoupling).
     \draw[flow] (psi) -- node[above, font=\scriptsize, align=center] {Clean \texttt{BCC}/Lot\\Split} (omega);
     \draw[flow] (upsilon) to[bend right=15] node[above, sloped, font=\scriptsize] {60-Day Island Drill} (omega);
     \draw[flow] (chi) -- node[right, font=\scriptsize, align=center] {Essential Med\\$D_{\mathrm{med}}(t)$} (omega);
-\end{tikzpicture}
+\end{tikzpicture}%
+}
 \caption{Wave F Homeostatic Defense, Restorative Justice, Immunological Chaos, and Decoupling Topology. Dashed crimson arrows denote sub-$500\,\mathrm{ms}$ Priority Tier 1--2 interrupting preemption paths; solid arrows trace constitutional audit, fission, and $D(t)$ sovereignty gates.}
 \label{fig:wave-f-topology}
 \end{figure}
@@ -56,15 +58,17 @@ insurers and data brokers; wearable ``wellness'' platforms demand continuous bio
 cold-chain biologics stewardship, and dual-key open-pharmacology compounding while enforcing \texttt{retained\_central\_ehr\_records == 0} and
 \texttt{involuntary\_carceral\_psych\_locks == 0}.
 
-\subsection{Sub-$100\,\mathrm{ms}$ Load Preemption, Two-Responder Dispatch, and Hospital Handoff}
+\subsection{Sub-$100\,\mathrm{ms}$ Pillar IV Fast-Path Hazard Preemption, Two-Responder Dispatch, and Hospital Handoff}
 
 Scenario \texttt{Chi} rejects continuous biometric wearables; acute dispatch initiates exclusively via intentional physical pull-boxes, local
-push-to-talk cords, Scenario \texttt{Phi} confirmed fall escalations, or $915\,\mathrm{MHz}$ LoRa field emergency flares. The instant an acute
-\texttt{sig:chi.trauma\_flare} arrives at \texttt{col-execd}, a \textbf{Priority-1/2 Interrupting Event Subprocess} executes deterministic preemption in
+push-to-talk cords, Scenario \texttt{Phi} confirmed fall escalations, or $915\,\mathrm{MHz}$ LoRa field emergency flares. Under the \textbf{Ratified
+v3.2 Enveloping Node Hypervisor and Constitutional Pillar IV (\texttt{collective:JurisprudenceEngine})} (\texttt{D6}, \texttt{CCI-4}), the instant an
+acute \texttt{sig:chi.trauma\_flare} arrives at \texttt{col-execd}, a \textbf{Pillar IV Fast-Path Hazard Preemption}
+(\texttt{preemption\_priority\_tier = 980 >= 900}) executes deterministic override across all child-node \texttt{EnvelopingBoundaryLeaseV50} envelopes in
 $< 100\,\mathrm{ms}$ (single $10\,\mathrm{Hz}$ tick) \parencite{liu1973scheduling}: Tier 3--5 loads across Scenario \texttt{Alpha} CNC spindles,
-Scenario \texttt{Theta} induction preheaters, and Scenario \texttt{Epsilon} batch racks receive immediate pause envelopes, dedicating guaranteed
-microgrid bus headroom to clinic surgical lighting, medical oxygen concentrators, suction pumps, and automated external defibrillator (\texttt{AED})
-bays.
+Scenario \texttt{Theta} induction preheaters, and Scenario \texttt{Epsilon} batch racks receive immediate hardware pause envelopes, dedicating guaranteed
+microgrid bus headroom (\texttt{max\_power\_mw}) and acoustic corridor clearance to clinic surgical lighting, medical oxygen concentrators, suction
+pumps, and automated external defibrillator (\texttt{AED}) bays.
 
 Simultaneously, \texttt{col-execd} pages the two nearest on-call guild-certified responders (targeting physical arrival $\le 180000\,\mathrm{ms}$, or
 $3\,\mathrm{minutes}$) and unlocks the nearest sealed two-responder trauma kit. To prevent fatal drug interactions without exposing a patient's medical
@@ -76,22 +80,30 @@ voucher, and Good Samaritan statutory attestations), authorized either by explic
 whose audit receipt is delivered directly to the patient's $R_0$ vault upon recovery. Every acute call chains automatically into a mandatory Scenario
 \texttt{Sigma} responder decompression and kit-restock saga before those stewards can return to the active on-call roster.
 
-\subsection{Cold-Chain Excursion Sagas and Dual-Key Open-Insulin Synthesis}
+\subsection{Cold-Chain Excursion Sagas, Tier 3 True-Constraint Hard-Blocks, and Dual-Key Open-Insulin Synthesis}
 
 Thermolabile biologics---insulin, tetanus antitoxin, oxytocin, vaccines---denature rapidly above $8^\circ\mathrm{C}$ and suffer crystal damage if frozen
 below $2^\circ\mathrm{C}$. Layer 2 phase-change cold-chain cabinets run a hardware-leased \texttt{ActuationEnvelopeV1} holding internal temperature
-strictly within $T_{\mathrm{cold}} \in [275150, 281150]\,\mathrm{mK}$ ($2.00^\circ\mathrm{C}\text{--}8.00^\circ\mathrm{C}$), attested by dual PT100
-witness probes (\texttt{0x08}). Any boundary excursion outside $[275150, 281150]\,\mathrm{mK}$ immediately engages redundant $24\,\mathrm{V}$ LFP
+strictly within $T_{\mathrm{cold}} \in [275{,}150, 281{,}150]\,\mathrm{mK}$ ($2.00^\circ\mathrm{C}\text{--}8.00^\circ\mathrm{C}$), attested by dual PT100
+witness probes (\texttt{0x08}). Any boundary excursion outside $[275{,}150, 281{,}150]\,\mathrm{mK}$ immediately engages redundant $24\,\mathrm{V}$ LFP
 Peltier backup loops and dispatches a cold-chain transfer token to an adjacent refrigerator; if cumulative thermal excursion exceeds pharmacopeia
 stability integrals, the lot transitions irreversibly into \texttt{SALVAGE\_COMPENSATING} (\texttt{BIO\_QUARANTINE}), physically locking dispense
 solenoids so degraded insulin can never be injected.
 
 At Stage 2--3 clinical autonomy, Scenario \texttt{Chi} orchestrates a 4-stage \textbf{Open-Pharmacology \& Recombinant Biologics Pipeline} (expression
 bioreactor $\to$ cell lysis $\to$ affinity chromatography $\to$ sterile $0.22\,\mu\mathrm{m}$ filtration and lyophilization, sterile-autoclaved at
-$\ge 394150\,\mathrm{mK}$). No compounded vial may enter clinical inventory without a hardware-signed \textbf{Dual-Key Analytical Release}: independent
-\texttt{HPLC} and \texttt{GC-MS} assay spectra signed by two distinct \texttt{Clinical\_Chemist\_L3} capability handles verifying purity
-$\ge 9950\,\mathrm{bp}$ ($99.50\%$) and endotoxin limits. Off-spec batches divert $10000\,\mathrm{bp}$ of mass to Scenario \texttt{Mu}/\texttt{Theta}
-high-temperature pyrolysis ($\ge 1100000\,\mathrm{mK}$, or $> 827^\circ\mathrm{C}$ thermal destruction).
+$\ge 394{,}150\,\mathrm{mK}$) distributed through the \textbf{Three Sovereign Libraries}. When a local node evaluates a pharmaceutical or insulin
+compounding blueprint through \textbf{\texttt{EvaluateBpmnHardwareCascadeV50}} (\texttt{D8}, \texttt{CCI-5}), \texttt{col-execd} enforces a strict safety
+floor against unsafe improvisation: whereas sterile buffer preparation can use \textbf{Tier 1 SI Parameter Scaling}, any sterile fill-finish or
+antibiotic/insulin synthesis step requiring an \textbf{ISO Class 5 sterile laminar-flow particulate ceiling} ($< 3{,}520\,\mathrm{particles/m^3}$ at
+$\ge 0.5\,\mu\mathrm{m}$) or verified $[275{,}150, 281{,}150]\,\mathrm{mK}$ cold-chain lyophilization envelope that cannot be met by local room hardware
+triggers an immediate \textbf{Tier 3 True-Constraint Hard-Block (\texttt{kTier3TrueConstraintHardBlock})}. Rather than risking non-sterile compounding,
+\texttt{col-execd} halts local execution, decompiles the exact SI capability deficit upward ($\mathrm{L4} \to \mathrm{L5} \to \mathrm{L6}$) into a
+human-readable \textbf{Layer 6 Semantic Diff Card}, and routes a federated clinical sub-lease request across Ring $R_1$/$R_2$ peer laboratories via
+\texttt{col-meshd} and \texttt{col-swarmd}. No compounded vial may enter clinical inventory without a hardware-signed \textbf{Dual-Key Analytical
+Release}: independent \texttt{HPLC} and \texttt{GC-MS} assay spectra signed by two distinct \texttt{Clinical\_Chemist\_L3} capability handles verifying
+purity $\ge 9950\,\mathrm{bp}$ ($99.50\%$) and endotoxin limits. Off-spec batches divert $10000\,\mathrm{bp}$ of mass to Scenario \texttt{Mu}/\texttt{Theta}
+high-temperature pyrolysis ($\ge 1{,}100{,}000\,\mathrm{mK}$, or $> 827^\circ\mathrm{C}$ thermal destruction).
 
 \begin{invariant}[Sub-$100\,\mathrm{ms}$ Trauma Preemption, Cold-Chain Integrity, and Zero Central EHR]
 \label{inv:chi-clinical}
@@ -134,7 +146,7 @@ $\mathrm{PM2.5} > 500\,\mu\mathrm{g/m^3}$ wildfire smoke plumes, municipal water
 \parencite{holling1973,rockstrom2009safe}. Scenario \texttt{Upsilon} (\texttt{SCN-UPSILON-SHOCK}) transforms shock response from chaotic improvisation
 or martial law into calm, pre-rehearsed cybernetic homeostasis bounded by a hard $72\text{-hour}$ constitutional sunset timer.
 
-\subsection{Landscape Attenuation, $<16\,\mathrm{ms}$ Islanding, and 5-Tier Load Shedding}
+\subsection{Landscape Attenuation, $<16\,\mathrm{ms}$ Pillar IV Islanding Preemption, and 5-Tier Load Shedding}
 
 Resilience begins prior to acute shock: coupled with Scenarios \texttt{Eta} and \texttt{Mu}, \texttt{col-execd} maintains hydrated keyline biochar
 swales and deciduous willow/alder coppice firebreaks around settlement perimeters, pre-saturating roof/perimeter misting headers from rainwater cisterns
@@ -143,11 +155,13 @@ Automatic Transfer Switches (\texttt{ATS}) detect IEEE 1547 loss-of-mains and ph
 $\Delta t_{\mathrm{island}} < 16\,\mathrm{ms}$ (sub-cycle seamless transition), shifting microgrid inverters into grid-forming droop control without
 dropping local $48\,\mathrm{V}$ DC or $120/240\,\mathrm{V}$ critical buses.
 
-Within $\Delta t_{\mathrm{shed}} < 100\,\mathrm{ms}$ of receiving \texttt{sig:upsilon.grid\_islanded}, \texttt{col-execd} enforces the canonical
-\textbf{5-Tier Priority Load-Shedding Schedule}: Priority Tier 5 (External exports) and Tier 4 (Foundry melts, batch compute, non-essential kilns) shed
-instantaneously; if solar/LFP horizon projections tighten, Tier 3 discretionary loads throttle smoothly while unconditionally protecting \textbf{Tier 1
-($F_{\mathrm{eco}}$ life-support/sanitation aeration)} and \textbf{Tier 2 ($B_{\mathrm{baseline}}$ Scenario \texttt{Chi} clinics, cold-chain biologics,
-potable UV water, warm hearths, and smoke filtration)}.
+Within $\Delta t_{\mathrm{shed}} < 100\,\mathrm{ms}$ of receiving \texttt{sig:upsilon.grid\_islanded}, the Street/Microgrid \textbf{Enveloping Node
+Hypervisor} executes \textbf{Pillar IV Fast-Path Hazard Preemption} (\texttt{preemption\_priority\_tier = 990 >= 900}), overriding child-node
+\texttt{EnvelopingBoundaryLeaseV50} power ceilings (\texttt{max\_power\_mw}) across the canonical \textbf{5-Tier Priority Load-Shedding Schedule}:
+Priority Tier 5 (External exports) and Tier 4 (Foundry melts, batch compute, non-essential kilns) shed instantaneously; if solar/LFP horizon
+projections tighten, Tier 3 discretionary loads throttle smoothly while unconditionally protecting \textbf{Tier 1 ($F_{\mathrm{eco}}$
+life-support/sanitation aeration)} and \textbf{Tier 2 ($B_{\mathrm{baseline}}$ Scenario \texttt{Chi} clinics, cold-chain biologics, potable UV water,
+warm hearths, and smoke filtration)}.
 
 \subsection{Smoke Sanctuary Envelopes, $915\,\mathrm{MHz}$ DTN Custody, and $72\text{-Hour}$ Sunset}
 
@@ -226,9 +240,10 @@ Escalation Ladder}:
     ``Private Rest'' suite consent veto), immediately terminating the token in $R_0$ without alerting neighbors.
     \item \textbf{Stage 2 (Trusted Care-Circle Knock, $> 60000\,\mathrm{ms}$):} If unacknowledged, \texttt{col-execd} pages the elder's pre-selected
     $R_1$ trusted neighbor care circle for a respectful verbal door knock.
-    \item \textbf{Stage 3 (Confirmed High-Velocity Fall Preemption, $< 500\,\mathrm{ms}$):} When $60\,\mathrm{GHz}$ vertical micro-Doppler impact plus
-    floor immobility confirms an acute fall (unacknowledged or accompanied by pull-cord activation), \texttt{col-execd} releases the
-    fail-secure/fail-safe emergency solenoid latch for responder entry and triggers a Scenario \texttt{Chi} paramedic dispatch in $< 500\,\mathrm{ms}$.
+    \item \textbf{Stage 3 (Confirmed High-Velocity Fall Pillar IV Preemption, $< 500\,\mathrm{ms}$):} When $60\,\mathrm{GHz}$ vertical micro-Doppler impact plus
+    floor immobility confirms an acute fall (unacknowledged or accompanied by pull-cord activation), the building's Enveloping Node Hypervisor executes
+    \textbf{Pillar IV Fast-Path Hazard Preemption} (\texttt{preemption\_priority\_tier = 960 >= 900}), releasing the fail-secure/fail-safe emergency
+    solenoid latch for responder entry and triggering a Scenario \texttt{Chi} paramedic dispatch in $< 500\,\mathrm{ms}$.
 \end{enumerate}
 
 \subsection{Medication Envelopes, \texttt{T4\_Emeritus\_Sage} Standing, and Caregiver Respite}
@@ -298,9 +313,13 @@ Tap} completed within a $60000\,\mathrm{ms}$ window by both participants and a m
 Layer 4 never learns \emph{why} two neighbors disagreed; it receives across \texttt{l4\_l5.sock} only structural execution outcomes encoded in a signed
 \texttt{Treaty\_CID}:
 \begin{itemize}
-    \item \textbf{Transformative Root-Cause Tickets:} Recognizing that interpersonal conflict frequently masks material friction (a noisy heat pump,
-    unventilated solder fumes, or unacknowledged shift fatigue), facilitators emit anonymous systemic remediation intents directly to Scenario
-    \texttt{Alpha} (acoustic baffle fabrication), Scenario \texttt{Sigma} (rota rebalancing), or Scenario \texttt{Kappa} (policy clarification).
+    \item \textbf{Transformative Root-Cause Tickets \& Slow-Path Semantic Diff Precedent Compilation:} Recognizing that interpersonal conflict
+    frequently masks material or boundary friction (a noisy heat pump, unventilated solder fumes, or unacknowledged shift fatigue), facilitators emit
+    anonymous systemic remediation intents directly to Scenario \texttt{Alpha} (acoustic baffle fabrication), Scenario \texttt{Sigma} (rota rebalancing),
+    or Scenario \texttt{Kappa} (policy clarification). Furthermore, under \textbf{Two-Speed Jurisprudence} (\texttt{D6}, \texttt{CCI-4}), any structural
+    boundary resolution reached in the Peace Hearth is lifted by \texttt{col-commonsd} into a \textbf{Slow-Path Layer 6 Semantic Diff Card} and ratified
+    by the Enveloping Node's $V_i(t) = 1 + R_i(t)$ assembly, compiling directly back down ($\mathrm{L6} \to \mathrm{L5} \to \mathrm{L4}$) into permanent
+    Layer 4 BPMN guard predicates and \texttt{EnvelopingBoundaryLeaseV50} limits so nobody ever has to mediate or vote on the same conflict twice.
     \item \textbf{Ecological Standing:} Designated watershed stewards may invoke Scenario \texttt{Psi} on behalf of non-human $F_{\mathrm{eco}}$ commons
     (stream buffers, Mother Trees) when operational drift threatens ecological baselines.
     \item \textbf{Survivor-First Safe-Harbor Bypass:} In cases of acute domestic harm or intimidation, mediation is never forced; an immediate
@@ -401,6 +420,24 @@ strictly obeying Anti-Autoimmune Constitutional Guardrails.
     zero-DID persistence.
 \end{enumerate}
 
+Beyond the seven core runtime vectors, \texttt{col-adversaryd} in v5.0.0-HORIZON continuously red-teams two structural socioeconomic and hardware-boot
+attack surfaces (\texttt{D2}, \texttt{D3}, \texttt{D8}):
+\begin{itemize}
+    \item \textbf{Dormant-Node Single-Maintainer Hijack Verification:} \texttt{col-adversaryd} simulates a mature software or workshop node resting in
+    \textbf{Dormant Equilibrium ("The TeX Asymptote")} where exponential reputational entropy ($\lambda > 0$, half-life $\tau_{1/2}$) has decayed every
+    founding member's operational reputation $R_j(t) \to 0$. An opportunistic adversary then claims a single Substrate-Drift adapter ticket yielding
+    $\Delta R_{\mathrm{attacker}} > 0$ and attempts to unilaterally rewrite the node's Ricardian covenants. Chaos verification proves that under
+    $V_i(t) = B + R_i(t) = 1 + R_i(t)$ with non-decaying civic baseline $B = 10{,}000\,\mathrm{bp}$ and active membership $N_s > R_{\max} + 2$, the
+    attacker's share $\frac{1 + \Delta R_{\mathrm{attacker}}}{N_s + \Delta R_{\mathrm{attacker}}}$ remains strictly below the $50\%$ simple majority and
+    $66.7\%$ constitutional supermajority gates, blocking capture mathematically.
+    \item \textbf{Stage I Scavenged Layer 7 Hardware Blind Hard-Blocks \& Fiat Tribute Escalation (\texttt{ScavengedHardwareTributeEvent}):}
+    \texttt{col-adversaryd} injects unscheduled mid-batch faults (\texttt{unscheduled\_fault\_prob\_bp = 350}, \texttt{QUALITY\_SCAVENGED\_L7\_SHIM = 0x04})
+    on Stage I scavenged Layer 7 appliances, verifying that \texttt{col-execd} safely catches \texttt{SCAVENGED\_L7\_BLIND\_HARDBLOCK}, evacuates
+    perishable batches before \textit{The Pantry}'s Arrhenius clocks expire, accounts for external spare-part fiat bleed and courier delay ticks via
+    \texttt{ScavengedHardwareTributeEvent}, and automatically elevates a Scenario \texttt{Kappa}/\texttt{Pi} Stage II Right-to-Repair Hybrid Retrofit
+    ticket into the guild queue.
+\end{itemize}
+
 \subsection{Anti-Autoimmune Constitutional Guardrails: ``Fault Before Malice''}
 
 Security systems turn cancerous when sensor drift or human clumsiness triggers punitive accusations. Scenario \texttt{Rho} enforces four
@@ -462,9 +499,26 @@ D(t) = \max_{d \in \mathcal{D}} D_d(t),
 \label{eq:omega-dependency-index}
 \end{equation}
 where $I_d^{\mathrm{L7}}(t)$ denotes Layer 7 external inflows required to sustain $F_{\mathrm{eco}} + B_{\mathrm{baseline}}$ in domain $d$, and
-$C_d^{\mathrm{total}}(t)$ denotes total baseline consumption across Trust Rings $R_0 \dots R_5$. Whenever any domain $D_d(t)$ exceeds target
-trajectories, \texttt{col-execd} couples with Scenario \texttt{Pi} to emit prioritized \texttt{MeshGrowthBeacon} import-substitution workflows (for
-example, commissioning a Scenario \texttt{Theta} bronze bearing cell or a Scenario \texttt{Chi} reagent line).
+$C_d^{\mathrm{total}}(t)$ denotes total baseline consumption across Trust Rings $R_0 \dots R_5$. Crucially, under the \textbf{Ratified v3.2 Architecture}
+(\texttt{D2}, \texttt{D7}, \texttt{D8}, \texttt{CCI-5}, \texttt{CCI-6}), the asymptotic descent of $D(t) \to 0$ ($\le 200\,\mathrm{bp}$) is driven
+mechanically---without fake RPG tech-tree buffs---by four convergent engines:
+\begin{enumerate}
+    \item \textbf{The 3-Tier Hardware Fleet Progression:} Replacing \textbf{Stage I Scavenged Layer 7 appliances} (and their recurring fiat spare-part
+    tribute \texttt{ScavengedHardwareTributeEvent} and high $\lambda_{\mathrm{ERC}}$ write-offs) with \textbf{Stage II Right-to-Repair Hybrid Retrofits}
+    (\texttt{ProofOfStewardshipRetrofitRecordV50}) and \textbf{Stage III Native Open-Spec Collective twins} fabricated locally on Scenario
+    \texttt{Alpha}/\texttt{Theta} benches collapses $D_{\mathrm{repair\_med}}(t)$ toward zero.
+    \item \textbf{Open-Source Franchising Across the Three Sovereign Libraries:} Replicating proven JSON-LD blueprints across the \textit{Ontological
+    Graph}, \textit{Orchestration Registry}, and \textit{Physics Baseline} (ranked empirically via \texttt{collective:thermodynamicProof} and adapted via
+    \texttt{EvaluateBpmnHardwareCascadeV50}) eliminates licensing rent and accelerates local import substitution whenever Scenario \texttt{Pi} emits a
+    \texttt{MeshGrowthBeacon}.
+    \item \textbf{Dormant Equilibrium ("The TeX Asymptote"):} As software and process templates in Scenario \texttt{Zero} reach rock-solid maturity inside
+    deterministic Wasmtime sandboxes, servicing incidents drop to zero and working groups rest in Dormant Equilibrium ($R_i(t) \to 0$, guarded against
+    hijack by the non-decaying civic baseline $B = 1$ in $V_i(t) = 1 + R_i(t)$), waking only when physical \textbf{Substrate Drift} raises an upward
+    Semantic Diff.
+    \item \textbf{Zero-Stat Liberation (\textit{The Architecture of Boundless Time}):} Predictive 5-minute Stage III maintenance swaps and frictionless
+    Enveloping Node choreography eliminate surprise mid-batch breakdowns, compressing somatic baseline stewardship to $\le 15\,\mathrm{hours/week}$ and
+    returning quiet, unmonitored, boundless hours to human life.
+\end{enumerate}
 
 Statutory eligibility for Stage 3 Carapace Dissolution requires crossing the primary gate $D(t) \le 500\,\mathrm{bp}$ ($5.00\%$, or
 $\le 50000\,\mathrm{ppm}$ across every domain simultaneously for $365$ consecutive days), while ongoing post-decoupling stewardship converges
@@ -545,46 +599,66 @@ No-Fault Fission guarantees, red-team immunity, and irreversible \texttt{l6\_l7.
 \label{tab:wave-f-maturity}
 \footnotesize
 \setlength{\tabcolsep}{4.0pt}
+\resizebox{\textwidth}{!}{%
 \begin{tabular}{@{}p{1.4cm}p{2.7cm}p{2.55cm}p{2.55cm}p{2.65cm}p{2.65cm}@{}}
 \toprule
 \textbf{Scenario} & \textbf{Core SI \& Constitutional Gates} & \textbf{Stage 1A: Household Seed ($R_0\text{--}R_1$)} & \textbf{Stage 1B: Neighbor Mesh ($R_1\text{--}R_2$)} & \textbf{Stage 2: Co-op Shell ($R_2\text{--}R_3$)} & \textbf{Stage 3: Sovereign Campus ($R_3\text{--}R_5$)} \\
 \midrule
-\textbf{\texttt{Chi}} \newline Acute Triage \& Biologics & Preempt $< 100\,\mathrm{ms}$; $275150\text{--}281150\,\mathrm{mK}$; HPLC $\ge 9950\,\mathrm{bp}$; $0$ central EHR/locks. & Trauma bag, LFP $2\text{--}8^\circ\mathrm{C}$ cooler, $R_0$ allergy card, WFR skill drill. & Block AED, $915\,\mathrm{MHz}$ pull-box flare ($\le 180\,\mathrm{s}$), 2-responder pager. & Triage bay, BBS+ drug ZKP, ERISA stop-loss ambulance handoff. & Minor trauma clinic, dual-key Open-Insulin lab, \texttt{Mu} $1100\,\mathrm{K}$ disposal. \\
+\textbf{\texttt{Chi}} \newline Acute Triage \& Biologics & Pillar IV preempt $< 100\,\mathrm{ms}$; $275150\text{--}281150\,\mathrm{mK}$; Tier 3 ISO-5 block; HPLC $\ge 9950\,\mathrm{bp}$. & Trauma bag, LFP $2\text{--}8^\circ\mathrm{C}$ cooler, $R_0$ allergy card, WFR skill drill. & Block AED, $915\,\mathrm{MHz}$ pull-box flare ($\le 180\,\mathrm{s}$), 2-responder pager. & Triage bay, BBS+ drug ZKP, ERISA stop-loss ambulance handoff. & Minor trauma clinic, dual-key Open-Insulin lab, \texttt{Mu} $1100\,\mathrm{K}$ disposal. \\
 \addlinespace[4pt]
-\textbf{\texttt{Upsilon}} \newline Grid Shock \& Smoke Refuge & ATS $< 16\,\mathrm{ms}$; shed $< 100\,\mathrm{ms}$; $\mathrm{PM2.5} \le 10\,\mu\mathrm{g/m^3}$; $72\,\mathrm{h}$ ($259200\,\mathrm{s}$) sunset. & HEPA box, $14\,\mathrm{d}$ water/grain barrel, $48\,\mathrm{V}$ inverter, LoRa handheld. & Cross-yard DC tie, Open-Hearth Neighbor Refuge ($0$ fee), DTN shards. & $< 16\,\mathrm{ms}$ islanded clean-air hall, 5-tier load shed, Jubilee waiver. & Hydrated coppice firebreaks, $60\,\mathrm{d}$ watershed autonomy, hilltop DTN. \\
+\textbf{\texttt{Upsilon}} \newline Grid Shock \& Smoke Refuge & Pillar IV ATS $< 16\,\mathrm{ms}$; shed $< 100\,\mathrm{ms}$; $\mathrm{PM2.5} \le 10\,\mu\mathrm{g/m^3}$; $72\,\mathrm{h}$ ($259200\,\mathrm{s}$) sunset. & HEPA box, $14\,\mathrm{d}$ water/grain barrel, $48\,\mathrm{V}$ inverter, LoRa handheld. & Cross-yard DC tie, Open-Hearth Neighbor Refuge ($0$ fee), DTN shards. & $< 16\,\mathrm{ms}$ islanded clean-air hall, 5-tier load shed, Jubilee waiver. & Hydrated coppice firebreaks, $60\,\mathrm{d}$ watershed autonomy, hilltop DTN. \\
 \addlinespace[4pt]
-\textbf{\texttt{Phi}} \newline Elder Dignity \& Respite & $0$ cameras/mics; $60\,\mathrm{GHz}$ fall $< 500\,\mathrm{ms}$; respite $\le 2000\,\mathrm{bp}$; $0$ wisdom decay. & Grab bars, water-flow anomaly plug, $R_0$ advance directive, tea check-in. & $60\,\mathrm{GHz}$ mmWave node, 3-step escalation, $R_1$ $30\,\mathrm{min}$ respite rota. & Accessible ground courtyard suites, \texttt{T4\_Emeritus\_Sage} guild seats. & Intergenerational hospice cottages, Memorial Coppice terramation. \\
+\textbf{\texttt{Phi}} \newline Elder Dignity \& Respite & $0$ cameras/mics; Pillar IV $60\,\mathrm{GHz}$ fall $< 500\,\mathrm{ms}$; respite $\le 2000\,\mathrm{bp}$; $0$ wisdom decay. & Grab bars, water-flow anomaly plug, $R_0$ advance directive, tea check-in. & $60\,\mathrm{GHz}$ mmWave node, 3-step escalation, $R_1$ $30\,\mathrm{min}$ respite rota. & Accessible ground courtyard suites, \texttt{T4\_Emeritus\_Sage} guild seats. & Intergenerational hospice cottages, Memorial Coppice terramation. \\
 \addlinespace[4pt]
-\textbf{\texttt{Psi}} \newline Peace Hearth \& Fission & $0\,\mathrm{B}$ transcript; 3-of-3 NFC $\le 60\,\mathrm{s}$; $0$ police calls; $10000\,\mathrm{bp}$ $R_0$ exit. & Roommate NVC pact, clean pro-rata pantry/tool exit checklist. & Rotating block facilitators, Safe-Harbor lock re-key, root-cause tickets. & Air-gapped Peace Hearth, \texttt{9 U.S.C.\ \S~3} FAA shield, Subchapter T split. & Watershed restorative council, lossless inter-node No-Fault Fission. \\
+\textbf{\texttt{Psi}} \newline Peace Hearth \& Fission & $0\,\mathrm{B}$ transcript; 3-of-3 NFC $\le 60\,\mathrm{s}$; Slow-Path precedent compile; $10000\,\mathrm{bp}$ $R_0$ exit. & Roommate NVC pact, clean pro-rata pantry/tool exit checklist. & Rotating block facilitators, Safe-Harbor lock re-key, root-cause tickets. & Air-gapped Peace Hearth, \texttt{9 U.S.C.\ \S~3} FAA shield, Subchapter T split. & Watershed restorative council, lossless inter-node No-Fault Fission. \\
 \addlinespace[4pt]
-\textbf{\texttt{Rho}} \newline 7-Vector Immunity & $0$ float opcodes; $\neq \mathtt{0x01}$ live; First-Law quarantine; $\prec_{\mathrm{res}}$ $0$ deadlocks. & Nightly CRDT backup verify, manual GFCI \& thermal snap-switch test. & LoRa partition drill, dual-RTD witness check, Fault-Before-Malice ticket. & Oasis shadow-twin fuzzing across Vectors 1--7, Passive Quarantine. & Continuous \texttt{col-adversaryd} red-team game days across clusters. \\
+\textbf{\texttt{Rho}} \newline 7-Vector + v5.0 Immunity & $0$ float opcodes; $V_i=1+R_i$ anti-hijack ($N_s>R_{\max}+2$); L7 tribute chaos. & Nightly CRDT backup verify, manual GFCI \& thermal snap-switch test. & LoRa partition drill, dual-RTD witness check, Fault-Before-Malice ticket. & Oasis shadow-twin fuzzing (Vectors 1--7 + dormant hijack + L7 blind block). & Continuous \texttt{col-adversaryd} red-team game days across clusters. \\
 \addlinespace[4pt]
-\textbf{\texttt{Omega}} \newline Decoupling \& Seedbed & $D(t) \le 500 \to 200\,\mathrm{bp}$; $10000\,\mathrm{bp}$ tax escrow; $60\,\mathrm{d}$ drill; $< 100\,\mathrm{ms}$ unlink. & Baseline $D_d(t)$ ledger audit, backyard caloric/repair substitution. & Block tool/seed pooling cutting L7 spend, CLT land-fund contributions. & PPT/CLT title debt retirement, tax endowment buildup, beacon targeting. & \texttt{Title 23B} wind-up, $8000\,\mathrm{bp}$ vote, \texttt{l6\_l7.sock} unlink, $500\,\mathrm{bp}$ Seed Kits. \\
+\textbf{\texttt{Omega}} \newline Decoupling \& Seedbed & $D(t) \le 500 \to 200\,\mathrm{bp}$; Stage I$\to$III fleet; TeX Asymptote; Zero-Stat Liberation. & Baseline $D_d(t)$ ledger audit, Stage I$\to$II appliance retrofit substitution. & Block tool/seed pooling cutting L7 spend, CLT land-fund contributions. & PPT/CLT title debt retirement, tax endowment buildup, beacon targeting. & \texttt{Title 23B} wind-up, $8000\,\mathrm{bp}$ vote, \texttt{l6\_l7.sock} unlink, $500\,\mathrm{bp}$ Seed Kits. \\
 \bottomrule
-\end{tabular}
+\end{tabular}%
+}
 \end{table}
 
 % ==========================================================================
-\section{Architectural Coda: The Silent Metronome of Convivial Freedom}
+\section{Architectural Coda: The Silent Metronome of Convivial Freedom and the Architecture of Boundless Time}
 \label{sec:layer4-coda}
 
-Across fourteen chapters, eight foundational architectural treatises, and all twenty-five scenarios from \texttt{Alpha} to \texttt{Omega}, a single
-unifying thesis has governed \texttt{col-execd}: \emph{human emancipation requires deterministic, bounded, auditable machinery precisely so that human
-life itself never has to become mechanical} \parencite{wiener1954,weiser1996calm,illich1973}.
+Across fourteen chapters, the eight architectural dialogues of \textit{The Architecture of Boundless Time} (\texttt{D1}--\texttt{D8}), and all twenty-five
+scenarios from \texttt{Zero} to \texttt{Omega}, a single unifying thesis has governed \texttt{col-execd}: \emph{human emancipation requires deterministic,
+bounded, auditable machinery precisely so that human life itself never has to become mechanical} \parencite{wiener1954,weiser1996calm,illich1973}.
 
 When software orchestrators blur policy with mechanism, indulge in non-deterministic floating-point drift, reach directly into raw hardware without
 bounded safety envelopes, or hoard personal identity inside workflow logs, they inevitably oscillate between fragile physical failure and panoptic
-bureaucratic control \parencite{beer1974,saltzer1984end}. By contrast, Layer 4 of The Sovereign Stack accepts radical asceticism in its own design. Its
-$10\,\mathrm{Hz}$ WebAssembly interpreter executes pure 64-bit integer arithmetic ($\mathrm{mK}$, $\mathrm{bp}$, $\mu\mathrm{J}$, $\mathrm{mpH}$,
-$\mathrm{ppm}$, $\mathrm{cB}$, $\mathrm{ms}$, $\mathrm{mg}$) over cache-aligned 64-byte \texttt{BpmnTokenFrame} bitsets. It delegates sub-second
-physical continuity downward into hardware-leased \texttt{ActuationEnvelopeV1} hysteresis bands on Zephyr microcontrollers, defers social legitimacy and
-zero-knowledge BBS+ identity upward across \texttt{l4\_l5.sock} into blinded 24-byte \texttt{ClaimHandle}s, orders every shared resource lease along
-$\prec_{\mathrm{res}}$ to banish deadlock by construction, and honors the Second Law of Thermodynamics at $t_{\mathrm{actuate}}$ through
-milligram-conserving Physical Salvage Sagas \parencite{georgescu1971,garciamolina1987sagas}.
+bureaucratic control \parencite{beer1974,saltzer1984end}. By contrast, Layer 4 of The Sovereign Stack (\texttt{v5.0.0-HORIZON}) accepts radical
+asceticism in its own design. Operating purely as the deterministic cybernetic execution target of Layer 6's downward Societal Compiler
+($\Pi_{\mathrm{down}}: \mathrm{L6} \to \mathrm{L5} \to \mathrm{L4}$) and the source of upward Semantic Diff Decompilation
+($\Pi_{\mathrm{up}}^{\mathrm{diff}}: \mathrm{L4} \to \mathrm{L5} \to \mathrm{L6}$), its $10\,\mathrm{Hz}$ WebAssembly interpreter executes pure 64-bit
+fixed-point SI integer arithmetic ($\mathrm{uJ}$ [$1\,\mathrm{MJ} = 10^{12}\,\mu\mathrm{J}$], $\mathrm{mW}$, $\mathrm{mK}$, $\mathrm{mg}$, $\mathrm{mm}$,
+$\mathrm{mL}$, $\mathrm{mpH}$, $\mathrm{ppm}$, $\mathrm{cB}$, $\mathrm{bp}$, $\mathrm{ms}$) over cache-aligned 64-byte \texttt{BpmnTokenFrame} bitsets.
+It delegates sub-second physical continuity downward into hardware-leased \texttt{ActuationEnvelopeV1} hysteresis bands on Zephyr microcontrollers,
+defers social legitimacy and zero-knowledge BBS+ identity upward across \texttt{l4\_l5.sock} into blinded 24-byte \texttt{ClaimHandle}s, orders every
+shared resource lease along $\prec_{\mathrm{res}}$ to banish deadlock by construction, and honors the Second Law of Thermodynamics at
+$t_{\mathrm{actuate}}$ through milligram-conserving Physical Salvage Sagas \parencite{georgescu1971,garciamolina1987sagas}.
 
-Most importantly, \texttt{col-execd} knows where not to tread. It halts outside the $R_0$ bedroom threshold of Scenario \texttt{Xi}, purges garment
-lineage at the workbench edge of Scenario \texttt{Nu}, refuses every camera and microphone in the elder sanctuary of Scenario \texttt{Phi}, records zero
-bytes inside the Peace Hearth of Scenario \texttt{Psi}, never mints a ledger token for a child's embrace in Scenario \texttt{Delta}, and cleanly unlinks
-\texttt{l6\_l7.sock} when Scenario \texttt{Omega} reaches the $D(t) \le 200\,\mathrm{bp}$ Sovereign Horizon. Ticking quietly beneath the floorboards
-like a faithful cedar waterwheel, the Deterministic Orchestrator carries the thermodynamic bookkeeping of the commons---leaving the hearth warm, the
-watershed whole, and the afternoon free.
+At the societal scale, \texttt{col-execd} makes \textbf{Open-Source Franchising ("The Speedee Service System Without the Rent")} and polycentric physical
+coexistence frictionless. Through the \textbf{Three Sovereign JSON-LD Libraries} (\textit{Ontological Graph}, \textit{Orchestration Registry},
+\textit{Physics Baseline}) and the \textbf{3-Tier BPMN Hardware Adaptation Cascade (\texttt{EvaluateBpmnHardwareCascadeV50})}, a fledgling household node
+can instantiate proven recipes on Day 1, scale batch volumes or splice macro-activities automatically, and rank lineages empirically via
+\texttt{collective:thermodynamicProof} while minimizing Layer 3 Ecological Replacement Cost ($\lambda_{\mathrm{ERC}}$) across open modular standards
+(Gastronorm trays, ISO $600\times 400\,\mathrm{mm}$ totes, \texttt{M6}/\texttt{M8} fasteners). Through the \textbf{Fractal Domain-Blind Enveloping Node
+Hypervisor} and \textbf{Two-Speed Jurisprudence}, solo studios ($N_s = 1$), dyadic mentor-apprentice benches ($N_s = 2$), and community hearths
+($N_s \gg 2$) share physical buildings in $O(K)$ linear harmony under the Unified Constitutional Voting Weight Law $V_i(t) = B + R_i(t) = 1 + R_i(t)$
+($B = 10{,}000\,\mathrm{bp}$), while external consumer appetite ($N_p$) flows without surveillance from \textit{The Pantry} as short-lived
+\texttt{AnonymousAppetiteLeaseV50} vectors supporting the 85\% staple / 15\% compositional \textit{montage} rhythm.
+
+Above all, \texttt{col-execd} realizes \textbf{Zero-Stat Liberation} and \textbf{Dormant Equilibrium ("The TeX Asymptote")}. As guilds progress from
+\textbf{Stage I Scavenged Layer 7 appliances} through \textbf{Stage II Right-to-Repair Hybrid Retrofits} (\texttt{ProofOfStewardshipRetrofitRecordV50})
+to \textbf{Stage III Native Open-Spec Collective twins}, unscheduled mid-batch breakdowns and recurring fiat tribute dissolve into predictable 5-minute
+preventive maintenance swaps, while mature Scenario \texttt{Zero} software rests quietly until physical \textbf{Substrate Drift} calls a working group
+awake. Knowing where never to tread---halting outside the $R_0$ bedroom threshold of Scenario \texttt{Xi}, purging garment lineage at the workbench edge
+of Scenario \texttt{Nu}, refusing every camera and microphone in the elder sanctuary of Scenario \texttt{Phi}, recording zero bytes inside the Peace
+Hearth of Scenario \texttt{Psi}, never minting a ledger token for a child's embrace in Scenario \texttt{Delta}, and cleanly unlinking
+\texttt{l6\_l7.sock} when Scenario \texttt{Omega} reaches the $D(t) \le 200\,\mathrm{bp}$ Sovereign Horizon---the Deterministic Orchestrator ticks
+quietly beneath the floorboards like a faithful cedar waterwheel: carrying the thermodynamic bookkeeping of the commons, and returning quiet,
+unmonitored, boundless hours to human life.

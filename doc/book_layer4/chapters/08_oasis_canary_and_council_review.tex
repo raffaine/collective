@@ -5,7 +5,7 @@
 
 Architectural specifications for deterministic workflow engines routinely look airtight on paper while concealing subtle unit mismatches, lock-ordering deadlocks, or thermodynamic split-brain bugs that surface only when coupled to continuous physical dynamics \parencite{meadows2008,astrom2008feedback}. Yet testing unverified orchestration bytecode directly against a living homestead's 48\,V battery bus, irrigation manifolds, or food-pasteurization vessels violates every principle of safety-critical engineering \parencite{iec61508}. To bridge the chasm between static formal verification and physical actuation, the Sovereign Stack pairs the physical hardware plane (\texttt{Layer 1a}) with an in-silico voxel and fixed-point physics laboratory: \textbf{Oasis (\texttt{Layer 1b})}, instantiated on the canonical reference parcel known as \textbf{Lot~402}.
 
-This closing chapter examines Layer~4 where theory meets running code. First, we establish the constitutional demarcation between \texttt{Layer 1b} synthetic simulation and \texttt{Layer 1a} physical hardware, detailing the \texttt{HardwareAirgapFilter} in \texttt{col-telemetryd} and the $10{,}000$-tick \emph{Scenario Zero} canary gate in \texttt{col-execd}. Second, we tour six working architectural highlights already executing end-to-end across Lot~402 in C++20 and JSON-LD. Third, we present the complete findings of the \textbf{Five-Specialist Architectural Council Audit}, diagnosing seven concrete runtime ceilings in the current prototype---down to exact file names, line numbers, and struct layouts---alongside their ratified v3.1 fixes. Finally, we lay out the prioritized four-milestone engineering roadmap that promotes \texttt{col-execd} from its Lot~402 prototype to full $300$-workflow Wasmtime production sovereignty.
+This closing chapter of Part~I examines Layer~4 where theory meets running code. First, we establish the constitutional demarcation between \texttt{Layer 1b} synthetic simulation and \texttt{Layer 1a} physical hardware, detailing the \texttt{HardwareAirgapFilter} in \texttt{col-telemetryd} and the $10{,}000$-tick \emph{Scenario Zero} canary gate in \texttt{col-execd}. Second, we tour six working architectural highlights already executing end-to-end across Lot~402 in C++20 and JSON-LD. Third, we present the complete findings of the \textbf{Five-Specialist Architectural Council Audit} (diagnosing seven concrete runtime ceilings in the prototype alongside their ratified v3.1 fixes) and the \textbf{Horizon Council v5.0 Cross-Stack Audit} (\texttt{D1}--\texttt{D8} and Gaps \texttt{SSR-1} through \texttt{SSR-5} for Ratified v3.2 / Sovereign Stack \texttt{v5.0.0-HORIZON}). Finally, we lay out the prioritized five-milestone engineering roadmap that promotes \texttt{col-execd} from its Lot~402 prototype to full $300+$-workflow Wasmtime and Boundless-Time production sovereignty.
 
 \section{Constitutional Demarcation of \texttt{Layer 1b} and the SITL Canary Gate}
 \label{sec:oasis-constitutional-demarcation}
@@ -45,6 +45,7 @@ While \texttt{0x01} frames are barred from physical relays, they are indispensab
 
 \begin{figure}[htbp]
 \centering
+\resizebox{\textwidth}{!}{%
 \begin{tikzpicture}[
     >=Stealth,
     plane/.style={
@@ -79,7 +80,8 @@ While \texttt{0x01} frames are barred from physical relays, they are indispensab
     \draw[->, thick] (airgap) -- node[right, lbl] {Verified L2$\to$L3} (l3l4hitl);
     \draw[->, very thick, dashed] (l3l4sitl.east) -- node[above, lbl] {Promote Binary /} node[below, lbl] {\texttt{workflow\_def\_cid}} (l3l4hitl.west);
     \draw[->, thick, dotted] (l1b.south east) -- node[sloped, above, lbl] {\texttt{0x01} Blocked at HAL} (airgap.north west);
-\end{tikzpicture}
+\end{tikzpicture}%
+}
 \caption{Dual-membrane isolation between Oasis (\texttt{Layer 1b}, \texttt{QUALITY\_SIMULATED = 0x01}) and the physical homestead (\texttt{Layer 1a}, \texttt{QUALITY\_HARDWARE\_ROOT = 0x02}). Live home data never enters \texttt{Layer 1b}; synthetic \texttt{0x01} packets never actuate physical relays; promoted \texttt{col-execd} binaries must pass $10{,}000$ SITL soak ticks.}
 \label{fig:dual-membrane-airgap}
 \end{figure}
@@ -360,6 +362,7 @@ static_assert(sizeof(StewardObservationAttestation) == 128, "Two cache lines (12
 \caption{Summary of the Seven Runtime Ceilings identified by the Five-Specialist Architectural Council and their ratified v3.1 engineering resolutions.}
 \label{tab:seven-ceilings-summary}
 \footnotesize
+\resizebox{\textwidth}{!}{%
 \begin{tabular}{@{}cp{3.6cm}p{4.1cm}p{4.6cm}@{}}
 \toprule
 \textbf{\#} & \textbf{Codebase Location} & \textbf{Diagnosed Prototype Ceiling} & \textbf{Ratified v3.1 Resolution} \\
@@ -378,17 +381,106 @@ static_assert(sizeof(StewardObservationAttestation) == 128, "Two cache lines (12
 \addlinespace[3pt]
 \textbf{7} & \texttt{shared\_stack\_runtime.hpp} (\texttt{:1614}); \texttt{unmodeled\_step\_adapter.hpp:134}; \texttt{hud\_feel.js:116} & Unsigned \texttt{!answer.empty()} strings; synthetic \texttt{1380 bp} spoofing mold gate; \texttt{pageSize: 2} UI collapse. & 6-tier \texttt{TelemetryProvenanceFlags} (\texttt{0x08}/\texttt{0x20} for safety gates) + Ed25519 attestations + 4 Calm UX Laws. \\
 \bottomrule
-\end{tabular}
+\end{tabular}%
+}
 \end{table}
 
-\section{Prioritized Four-Milestone Engineering Roadmap}
+\subsection{Horizon Council v5.0 Cross-Stack Audit (\texttt{D1}--\texttt{D8} \& Gaps \texttt{SSR-1} Through \texttt{SSR-5})}
+\label{sec:horizon-v50-cross-stack-audit}
+
+Following the ratification of the v3.1 deterministic core, the \textbf{Oasis \& Sovereign Stack Horizon Council} convened to audit the entire 9-daemon native C++20 codebase (\texttt{src/stack/shared\_stack\_runtime.hpp} at $6{,}716$ lines and \texttt{src/daemons/col-*}) against the eight architectural dialogues of \emph{The Architecture of Boundless Time} (\texttt{D1}--\texttt{D8}) and the six mandatory cross-cutting invariants (\texttt{CCI-1}--\texttt{CCI-6}). The Council identified five cross-stack gaps (\texttt{Gap SSR-1} through \texttt{Gap SSR-5}) and corresponding daemon-level upgrades required for Ratified v3.2 / Sovereign Stack \texttt{v5.0.0-HORIZON}:
+
+\begin{enumerate}
+  \item \textbf{\texttt{Gap SSR-1} / \texttt{KMS-1} (Unified Node Membership Voting Formula $V_{i,\mathrm{bp}}(t) = 10{,}000 + R_{i,\mathrm{bp}}(t)$, Reputational Entropy $\lambda$, and Dormant Equilibrium):}
+  In the v3.1 prototype, \texttt{L3NodeLedger::steward\_reputation\_bp} (\texttt{shared\_stack\_runtime.hpp:1091}) and \texttt{L5GovernedAsset::steward\_reputation\_credit\_bp} (line~850) tracked a single scalar integer, while \texttt{CitizenGovernanceStanding} in \texttt{col-kmsd} (\texttt{kms\_assimilation.hpp:453--482}) applied a static \texttt{2500 bp} threshold. That formulation lacked the per-member Node Membership voting equation
+  \[
+    V_i(t) = B + R_i(t) = 1 + R_i(t), \qquad V_{i,\mathrm{bp}}(t) = 10{,}000 + R_{i,\mathrm{bp}}(t),
+  \]
+  implemented in \texttt{NodeMemberVoiceStateV50} \parencite{ostrom1990}. As a mature software module or craft node approaches zero defects---\textbf{Dormant Equilibrium (``The \TeX{} Asymptote'')}---reputational entropy $\lambda = \ln(2)/\tau_{1/2}$ decays every member's operational bonus $R_{i,\mathrm{bp}}(t) \to 0$. Under pure reputation weighting ($B=0$), the first opportunist who commits a minor hardware-drift fix would capture $100\%$ of governance weight (\emph{Dormant-Node Single-Maintainer Hijack}). Pairing the non-decaying civic baseline $B_{\mathrm{bp}} = 10{,}000\,\mathrm{bp}$ with decaying $R_{i,\mathrm{bp}}(t)$ guarantees smooth scaling across \textbf{Genesis Solo ($N_s=1$)}, \textbf{Dyadic Collaboration ($N_s=2$)}, and \textbf{Polycentric Community Scale ($N_s \gg 2$)}, enforcing the anti-capture crossover $N_s > R_{\max} + 2$ ($N_s \cdot 10{,}000\,\mathrm{bp} > R_{\max,\mathrm{bp}} + 20{,}000\,\mathrm{bp}$) while scoping $V_i(t)$ strictly to active node members ($N_s$) rather than external consumers ($N_p$).
+
+  \item \textbf{\texttt{Gap SSR-2} / \texttt{COM-3} (Separation of \emph{The Pantry}, \emph{The Workshop}, and \emph{The Bakery / Hearth} Under the Shared Local Layer~6 Semantic Daemon):}
+  \texttt{SharedStackRuntime} previously tracked \texttt{timber\_planks\_stock\_}, \texttt{pea\_seed\_packets\_}, and \texttt{pantry\_grocery\_meals\_} as flat monolith counters (lines~1163--1168). Under v3.2 / \texttt{v5.0.0-HORIZON}, the local Layer~6 Semantic Daemon (\texttt{col-commonsd} + \texttt{col-gatewayd}) serves distinct capability-scoped (\texttt{AppCapabilityManifestV1}) application lenses for distinct thermodynamic regimes:
+  \begin{itemize}
+    \item \emph{\textbf{The Pantry} (Perishable Biological Entropy Lens):} Tracks continuous Arrhenius TTL spoilage curves, shelf drawdown rates, and spontaneous weekend-detour throttling (with zero calendar surveillance), emitting BBS+ ZK-stripped anonymous cohort appetite vectors and short-lived auto-expiring pickup intent leases (\texttt{AnonymousAppetiteLeaseV50}) plus pre-spoilage neighbor offers (\texttt{L3SurplusOffer}).
+    \item \emph{\textbf{The Workshop} (Durable Mechanical Cycles Lens):} Tracks calendar-agnostic discrete usage-cycle wear, spindle operating hours, calibration intervals, and tool-crib custody leases.
+    \item \emph{\textbf{The Bakery / Hearth} (Stoichiometric Craft Lens):} Consumes Layer~3 anonymous cohort demand and Layer~2 shelf-clearance load-cell feedback under an \textbf{$85\%$ Verified Staples / $15\%$ Compositional \emph{Montage}} schedule split (\texttt{hearth:stapleAllocationBp = 8500}, \texttt{hearth:montageAllocationBp = 1500}).
+  \end{itemize}
+
+  \item \textbf{\texttt{Gap SSR-3} / \texttt{KMS-2} (Dynamic Enveloping Node Hypervisor \texttt{EnvelopingBoundaryLeaseV50} and Two-Speed Jurisprudence):}
+  \texttt{HomesteadClusterNode} (\texttt{shared\_stack\_runtime.hpp:862--878}) previously hardcoded four static sub-nodes with a flat governance assumption. Sovereign Stack \texttt{v5.0.0-HORIZON} replaces static 4-node assumptions with the domain-blind \textbf{Enveloping Node Hypervisor} (\texttt{EnvelopingBoundaryLeaseV50}), allowing one physical building to host overlapping polycentric child nodes---such as an $N_s=1$ Solo Studio, an $N_s=1$ Maker Bench (importing external tool-guild safety covenants), and an $N_s=4$ Household Hearth---without $O(K^2)$ bilateral negotiations \parencite{ostrom2010}. Scaling fractally from Room/House to Street and Bioregional Watershed, the Enveloping Node arbitrates partition acoustics (\texttt{max\_acoustic\_cb}), power (\texttt{max\_power\_mw}), exergy (\texttt{max\_exergy\_budget\_uj}), thermal exhaust (\texttt{max\_thermal\_delta\_mk}), and spatial footprint (\texttt{bounding\_box\_mm}) under \textbf{Two-Speed Jurisprudence}: \emph{Fast-Path} finite lease TTLs (\texttt{lease\_ttl\_ms}) and sub-second Layer~2 hazard preemption (e.g., an $8{,}200\,\mathrm{cB}$ emergency wet-vac preempting a $4{,}500\,\mathrm{cB}$ studio quiet lease), paired with \emph{Slow-Path} escalation (\texttt{L4} $\to$ \texttt{L5} $\to$ \texttt{L6} Semantic Diff) that compiles ratified resolutions back down into permanent Layer~4 BPMN guard precedents.
+
+  \item \textbf{\texttt{Gap SSR-4} / \texttt{EXEC-2} (3-Tier BPMN Hardware Adaptation Cascade and Structured \texttt{UpwardYieldPacketV31} Semantic Diff Decompilation):}
+  To support \textbf{Open-Source Franchising (``The Speedee Service System Without the Rent'')} across the three Sovereign Libraries (\emph{Ontological Graph}, \emph{Orchestration Registry}, and \emph{Physics Baseline}), \texttt{col-execd} replaces imperative workflow branches with \texttt{EvaluateBpmnHardwareCascadeV50}: (\textbf{Tier~1}) \emph{Automatic SI Parameter Scaling} across volume (\texttt{mL}) and thermal power (\texttt{mW} $\to$ \texttt{ms}) $\to$ (\textbf{Tier~2}) \emph{Macro-Activity Substitution} splicing functionally equivalent sub-workflows via BPMN Call Activities $\to$ (\textbf{Tier~3}) \emph{True-Constraint Hard-Block}. When \texttt{col-execd} encounters a condition that cannot be resolved autonomously, it emits a 64-byte \texttt{UpwardYieldPacketV31} carrying explicit v5.0 yield reasons (\texttt{SUBSTRATE\_DRIFT\_ADAPTER\_REQUIRED}, \texttt{ENVELOPE\_LEASE\_CONTENTION}, \texttt{TRUE\_CONSTRAINT\_HARDWARE\_GAP}, \texttt{SCAVENGED\_L7\_BLIND\_HARDBLOCK}) for upward decompilation by \texttt{col-commonsd} into human-readable Layer~6 Semantic Diff Cards.
+
+  \item \textbf{\texttt{Gap SSR-5} \& \texttt{col-telemetryd} / \texttt{col-storaged} / \texttt{col-adversaryd} Upgrades (3-Tier Hardware Fleet Provenance, Retrofit Stewardship, and \texttt{collective:thermodynamicProof}):}
+  Real settlements bootstrap on scavenged off-the-shelf appliances rather than fake RPG tech trees. To capture the exact thermodynamic mechanics of hardware liberation, \texttt{col-telemetryd} discriminates three hardware fleet provenance flags alongside \texttt{QUALITY\_SIMULATED = 0x01}:
+  \begin{itemize}
+    \item \texttt{QUALITY\_SCAVENGED\_L7\_SHIM = 0x04} (\textbf{Stage~I Scavenged Layer~7 Fleet}): Parasitic current-clamp and taped-thermistor shims exhibiting $\pm 1{,}500\,\mathrm{bp}$ diagnostic uncertainty, continuous \texttt{parasitic\_shim\_overhead\_mw} standby drain, and unwarned mid-batch blind hard-blocks.
+    \item \texttt{QUALITY\_RETROFIT\_HYBRID = 0x08} (\textbf{Stage~II Right-to-Repair Hybrid Fleet}): Heavy scavenged chassis retrofitted with open ESP32/RISC-V/STM32 Layer~2 controller boards and printable metric adapters ($\pm 350\,\mathrm{bp}$ uncertainty), recorded in \texttt{col-storaged} via \texttt{ProofOfStewardshipRetrofitRecordV50} as a first-class Layer~3 Proof of Stewardship event ($\Delta V$ and $\Delta R_{i,\mathrm{bp}}$).
+    \item \texttt{QUALITY\_OPEN\_SPEC\_NATIVE = 0x02} (\textbf{Stage~III Native Open-Spec Fleet}): Native \texttt{ATECC608A}-signed telemetry ($\pm 50\,\mathrm{bp}$ uncertainty) streaming continuous bearing-harmonic and RPM wear registers so \texttt{col-execd} schedules 5-minute predictive metric swaps on the neighboring Maker Bench.
+  \end{itemize}
+  Concurrently, \texttt{col-adversaryd} models \texttt{ScavengedHardwareTributeEvent} (quantifying the Layer~7 fiat parts drain in integer \texttt{cents} and multi-day external courier delay ticks when a Stage~I appliance suffers a blind hard-block), while \texttt{col-storaged} commits \texttt{ThermodynamicProofRecord} (\texttt{collective:thermodynamicProof}) summaries to rank open-source franchise lineages by empirical exergy efficiency, spoilage, and \texttt{observed\_mtbf\_sec}.
+\end{enumerate}
+
+\begin{lstlisting}[language=C++,label={lst:v50-horizon-audit-structs},caption={Ratified v3.2 / v5.0.0-HORIZON C++20 hardware provenance flags, structured \texttt{UpwardYieldPacketV31} Semantic Diff frame, and Layer~7 tribute escalation record.}]
+#include <array>
+#include <cstdint>
+
+namespace collective::v50 {
+
+// Gap SSR-5: 3-tier hardware fleet provenance flags in col-telemetryd
+enum HardwareFleetQualityFlags : uint8_t {
+    QUALITY_SIMULATED          = 0x01, // Oasis Layer 1b SITL outward producer only
+    QUALITY_OPEN_SPEC_NATIVE   = 0x02, // Stage III: Native ATECC608A (+/- 50 bp, predictive wear)
+    QUALITY_SCAVENGED_L7_SHIM  = 0x04, // Stage I: Parasitic L2 shim (+/- 1500 bp, standby mW tax)
+    QUALITY_RETROFIT_HYBRID    = 0x08  // Stage II: Open RISC-V/ESP32 retrofit (+/- 350 bp)
+};
+
+// Gap SSR-4 / EXEC-2: Structured upward yield reasons for L4 -> L5 -> L6 Semantic Diffs
+enum class UpwardYieldReasonV50 : uint8_t {
+    INVENTORY_STOCK_MISS              = 0,
+    SUBSTRATE_DRIFT_ADAPTER_REQUIRED  = 1, // New L2 sensor revision violates old WASM schema
+    ENVELOPE_LEASE_CONTENTION         = 2, // Acoustic/power conflict in Enveloping Node
+    UNMAPPED_POLICY_CONFLICT          = 3, // Slow-Path Jurisprudence precedent ballot required
+    TRUE_CONSTRAINT_HARDWARE_GAP      = 4, // Tier 3 BPMN cascade physical limit deficit
+    SCAVENGED_L7_BLIND_HARDBLOCK      = 5  // Unpredicted Stage I sealed-PCB/pump failure
+};
+
+// Strictly 64-byte DID-blinded upward yield frame emitted over l4_l5.sock
+struct alignas(64) UpwardYieldPacketV31 {
+    uint64_t                yield_packet_id;
+    uint64_t                workflow_instance_id;
+    uint64_t                token_id;
+    uint64_t                scope_entity_id;
+    int64_t                 required_si_value;     // e.g., required temp mK or acoustic cB
+    int64_t                 observed_si_capability;// e.g., local tool max temp mK or lease cap cB
+    std::array<uint8_t, 8>  claim_handle_prefix;   // Prefix of 24B PRF-blinded ClaimHandle (zero DID)
+    UpwardYieldReasonV50    yield_reason;
+    uint8_t                 fleet_quality_flag;    // 0x04, 0x08, or 0x02
+    std::array<uint8_t, 6>  reserved_pad;
+};
+static_assert(sizeof(UpwardYieldPacketV31) == 64, "UpwardYieldPacketV31 must be 64 bytes");
+
+// Gap SSR-5: Scavenged Layer 7 blind hard-block tribute escalation in col-adversaryd
+struct ScavengedHardwareTributeEvent {
+    uint64_t tool_entity_id;
+    uint64_t fault_hlc_ms;
+    int64_t  fiat_parts_tribute_cents; // Scarce external fiat reserve drain (integer cents)
+    int64_t  courier_stall_duration_ms;// Multi-day workflow stall waiting on L7 courier
+    int64_t  unmitigated_erc_spike_uj; // Landfill embodied-exergy penalty (lambda_ERC in uJ)
+};
+
+} // namespace collective::v50
+\end{lstlisting}
+
+\section{Prioritized Five-Milestone Engineering Roadmap}
 \label{sec:next-sprint-roadmap}
 
-Because each ceiling interacts with adjacent layers---fixing split-brain physics (Ceiling~3) presupposes clean Layer~3 property slots (Ceiling~2), while promoting the Wasmtime runner (Ceiling~1) requires passing the corrected microjoule and provenance invariants (Ceilings~6 and~7) under \emph{Scenario Zero}---the Council ratified a strictly sequenced, four-milestone engineering roadmap (Table~\ref{tab:engineering-roadmap}).
+Because each ceiling and cross-stack gap interacts with adjacent layers---fixing split-brain physics (Ceiling~3) presupposes clean Layer~3 property slots (Ceiling~2), promoting the Wasmtime runner (Ceiling~1) requires passing the corrected microjoule and provenance invariants (Ceilings~6 and~7) under \emph{Scenario Zero}, and activating Boundless-Time federation (\texttt{Gaps SSR-1}--\texttt{SSR-5}) builds atop the Wasmtime and \texttt{SOCK\_SEQPACKET} substrate---the Council ratified a strictly sequenced, five-milestone engineering roadmap (Table~\ref{tab:engineering-roadmap}).
 
 \begin{table}[htbp]
 \centering
-\caption{Prioritized four-milestone engineering roadmap from the Lot~402 prototype to $300$-workflow self-hosted production.}
+\caption{Prioritized five-milestone engineering roadmap from the Lot~402 prototype to $300+$-workflow self-hosted \texttt{v5.0.0-HORIZON} Boundless-Time production.}
 \label{tab:engineering-roadmap}
 \footnotesize
 \resizebox{\textwidth}{!}{%
@@ -402,7 +494,9 @@ Because each ceiling interacts with adjacent layers---fixing split-brain physics
 \addlinespace[4pt]
 \textbf{M3: Closed-Loop L1b Physics \& Salvage} & \texttt{Oasis (L1b)}, \texttt{col-execd} & Purge L4 biology timers; add photo-thermal $\text{GDD}$ \& frost/drought necrosis to \texttt{soil\_physics.hpp}; wire 64B \texttt{ActuationEnvelopeV1}; implement 12-state tokens \& Forward Salvage Sagas. & $100.00\%$ ($10{,}000\,\text{bp}$) mass conservation verified across simulated power blackouts, frost events, and spoiled-batch BSFL salvage. \\
 \addlinespace[4pt]
-\textbf{M4: Wasmtime VM \& Calm 300-WF Scale} & \texttt{col-execd}, \texttt{col-governanced}, \texttt{L6 Web} & Embed float-free Wasmtime bytecode engine in \texttt{col-execd/main.cpp}; cut over to \texttt{SOCK\_SEQPACKET}; ship 4 Calm UX Scaling Laws ($\Pi_{\text{calm}}$, $\rho_{\text{human}} \le 0.70$). & \emph{Scenario Zero} gate green: $N = 320$ concurrent workflows soak $\ge 10{,}000$ Lot~402 ticks at $<5$ visible daily rounds and zero faults. \\
+\textbf{M4: Wasmtime VM \& Calm 300-WF Scale} & \texttt{col-execd}, \texttt{col-kmsd}, \texttt{col-commonsd} & Embed float-free Wasmtime bytecode engine in \texttt{col-execd/main.cpp}; cut over to \texttt{SOCK\_SEQPACKET}; ship 4 Calm UX Scaling Laws ($\Pi_{\text{calm}}$, $\rho_{\text{human}} \le 0.70$). & \emph{Scenario Zero} gate green: $N = 320$ concurrent workflows soak $\ge 10{,}000$ Lot~402 ticks at $<5$ visible daily rounds and zero faults. \\
+\addlinespace[4pt]
+\textbf{M5: \texttt{v5.0.0-HORIZON} Boundless-Time Integration} & All 9 Daemons (\texttt{col-execd}, \texttt{col-kmsd}, \texttt{col-commonsd}, \texttt{col-storaged}, \texttt{col-telemetryd}, \texttt{col-adversaryd}) & Ship $V_{i,\mathrm{bp}}(t) = 10{,}000 + R_{i,\mathrm{bp}}(t)$ \& Dormant Equilibrium (\texttt{SSR-1}); \emph{Pantry}/\emph{Workshop}/\emph{Bakery} lenses \& 64B \texttt{AnonymousAppetiteLeaseV50} (\texttt{SSR-2}); \texttt{EnvelopingBoundaryLeaseV50} \& Two-Speed Jurisprudence (\texttt{SSR-3}); 3-Tier BPMN Hardware Cascade \& \texttt{UpwardYieldPacketV31} Semantic Diffs (\texttt{SSR-4}); 3-tier fleet flags (\texttt{0x04}/\texttt{0x08}/\texttt{0x02}) \& \texttt{ProofOfStewardshipRetrofitRecordV50} (\texttt{SSR-5}). & Dormant-node hijack immunity verified across $N_s=1,2,50$; weekend-detour lease auto-expires with zero waste; Fast-Path wet-vac preempts studio quiet lease in $<100\,\mathrm{ms}$; Stage~I$\to$II$\to$III retrofit eliminates L7 tribute and achieves Zero-Stat Liberation. \\
 \bottomrule
 \end{tabular}%
 }
