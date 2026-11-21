@@ -1,0 +1,89 @@
+\chapter*{Preface: From Corporate IoT Surveillance to the Non-Panoptic Cybernetic Membrane}
+\addcontentsline{toc}{chapter}{Preface}
+\markboth{Preface}{Preface}
+
+\epigraph{The cell is an autopoietic system: an entity that continuously generates and specifies its own organization through its operation as a production system of components\dots\ The membrane is not a boundary that separates; it is the physical condition for the existence of an inside that can communicate with an outside.}{--- \textcite{maturana1980}}
+
+Every social order builds sensors in its own image. In the final decades of extractive platform capitalism, the ``Internet of Things'' (\texttt{IoT}) and industrial supervisory control (\texttt{SCADA}) evolved into a dual apparatus of human surveillance and material hostage-taking \parencite{zuboff2019,han2015}. On the warehouse floor and inside the domestic home, cameras, biometric wearables, and cloud-tethered microphones were deployed to track every pause in human motion, converting bodily exhaustion into algorithmic productivity scores. Simultaneously, ordinary appliances---refrigerators, induction ranges, agricultural tractors, solar inverters, and machine tools---were sealed inside glued housings and potted epoxy boards, cryptographically locked by Digital Rights Management (\texttt{DRM}) so that communities could neither read their own physical telemetry nor replace a worn two-dollar bearing seal without paying recurring tribute to a distant corporate cloud \parencite{illich1973}.
+
+The Sovereign Stack begins from the opposite constitutional premise. In Volume~1 of this series, we introduced the seven-layer cybernetic architecture of The Collective, demonstrating how unmediated physical reality (Layer~1) connects through a selectively permeable hardware boundary (Layer~2) to a multi-dimensional thermodynamic ledger (Layer~3), a deterministic WebAssembly and BPMN~2.0 workflow orchestrator (Layer~4), a polycentric constitutional kernel (Layer~5), an HTTP-like local semantic protocol daemon serving specialized human application lenses (Layer~6), and a cooperative legal carapace interfacing with legacy external markets (Layer~7).
+
+This companion volume provides the complete v3.2 engineering specification, embedded signal-processing mathematics, three-tier hardware fleet progression, domain-blind spatial boundary sensing architecture, and 25-scenario operational reference for \textbf{Layer~2: The Cyber-Physical Membrane and Edge Digital Twin}, implemented across bare-metal Zephyr RTOS microcontrollers and the POSIX daemons \texttt{col-telemetryd} (incorporating \texttt{col-membraned}, \texttt{col-sensord}, and \texttt{col-actuated}) and \texttt{col-meshd}.
+
+\section*{The Eight Architectural Understandings of Boundless Time (\texttt{D1--D8})}
+
+Revised under the Horizon Council's v3.2 synthesis of \textit{The Architecture of Boundless Time} (\texttt{D1} through \texttt{D8}), this volume retires early prototype assumptions---including any notion of ``Cryptographic Proof of Labor'' worker monitoring, scalar ``Value Tokens,'' floating-point telemetry packets, or bidirectional live telemetry ingestion into the Oasis simulation engine---and anchors Layer~2 in six cross-cutting architectural laws:
+
+\begin{enumerate}
+    \item \textbf{The Non-Panoptic Membrane and Strict Outward-Only SITL Airgap (\texttt{CCI-1}, \texttt{CCI-2}):} Layer~2 sensors monitor \textit{machines, material stocks, and spatial partition boundaries}---never human faces, gait, heart rates, chest respiration, or personal movements. Boundary microphones compute root-mean-square sound pressure levels in integer centibels (\texttt{cB}) inside microcontroller SRAM and immediately destroy the raw audio waveform before any packet can cross a bus. Conversely, the Oasis simulation proving ground (\texttt{Layer 1b}) operates strictly as an outward-only producer of synthetic telemetry frames tagged \texttt{QUALITY\_SIMULATED = 0x01}; inside \texttt{col-telemetryd}, the \texttt{HardwareAirgapFilter} mathematically blocks any \texttt{0x01} frame from actuating physical relays.
+    \item \textbf{The Canonical 64-Bit Fixed-Point SI Metrological Core (\texttt{CCI-6}, \texttt{D6}, \texttt{D8}):} To prevent floating-point rounding drift across heterogeneous CPU architectures (\texttt{x86\_64}, \texttt{aarch64}, \texttt{riscv64}, \texttt{Xtensa}) and eliminate dimensional conversion failures, Layers~2, 3, and~4 execute exclusively in 64-bit fixed-point International System (SI) integers: microjoules (\texttt{uJ}), milliwatts (\texttt{mW}, where $1\,\mathrm{mW} \times 1\,\mathrm{ms} = 1\,\mu\mathrm{J}$ exact), milligrams (\texttt{mg}), millimeters and micrometers (\texttt{mm}, \texttt{um}), milliliters (\texttt{mL}), millikelvins (\texttt{mK}), centibels (\texttt{cB}), milliseconds (\texttt{ms}), and basis points (\texttt{bp}). Cultural and craft units (baker's hydration percentages, inches, degrees Fahrenheit or Celsius, cups) live strictly at the Layer~6 human application lens edge.
+    \item \textbf{Three-Tier Hardware Fleet Progression Without Fake RPG Tech Trees (\texttt{CCI-6}, \texttt{D7}, \texttt{D8}):} Real communities do not boot in a pristine sci-fi cleanroom; they bootstrap out of a Stage~1A $\$20{,}000$ (\texttt{2,000,000 cents}) reserve using \textbf{Stage~I Scavenged Layer~7 Appliances} wrapped in external \textit{Parasitic Layer~2 Shims} (\texttt{QUALITY\_SCAVENGED\_L7\_SHIM = 0x04}). This volume models the four mechanical penalties of shimmed black-box hardware---parasitic standby watt drain and coarse state inference ($\pm 1{,}500\,\mathrm{bp}$), unannounced blind mid-batch hard-blocks, Layer~7 fiat spare-part tribute escalation, and Layer~3 Ecological Replacement Cost ($\lambda_{\mathrm{ERC}}$) spikes---and traces how settlements progress to \textbf{Stage~II Right-to-Repair Hybrid Retrofit Kits} (\texttt{0x08}, open RISC-V/STM32/ESP32-S3 control boards that rescue heavy cast-iron chassis and mint first-class Layer~3 Proof of Stewardship $\Delta R_i$) and \textbf{Stage~III Native Open-Spec Collective Twins} (\texttt{0x02}, continuous acoustic-harmonic bearing wear and winding telemetry enabling 5-minute predictive Layer~4 metric swaps and \textit{Zero-Stat Liberation}).
+    \item \textbf{Domain-Blind Enveloping Node Partition Sensing and Two-Speed Jurisprudence (\texttt{CCI-4}, \texttt{D4}, \texttt{D6}):} When multiple autonomous Layer~5 nodes ($N=1$ Solo Studio, $N=1$ Maker Bench, $N=4$ Household Hearth, or $K$ guilds in a coworking floorplate) share one physical building, they are wrapped by a fractal \textbf{Domain-Blind Enveloping Node Hypervisor} (\textit{Room/House $\to$ Street/Microgrid $\to$ Bioregional Watershed}). Layer~2 provides the domain-blind partition sensors---wall centibels (\texttt{cB}), branch breaker milliwatts (\texttt{mW}), differential thermal millikelvins (\texttt{mK}), particulate micrograms (\texttt{ug}), and SPAD Time-of-Flight threshold curtains (\texttt{mm})---that enforce capability leases and trigger millisecond \textbf{Fast-Path Hazard Preemption} (such as a burst-pipe wet-vac overriding a recording studio quiet lease) alongside \textbf{Slow-Path Semantic Diff Precedent Compilation}.
+    \item \textbf{Perishable Entropy (\textit{The Pantry}) vs.\ Durable Cycles (\textit{The Workshop}) vs.\ \textit{Dual-Loop Bakery} Validation (\texttt{CCI-3}, \texttt{D1}, \texttt{D4}, \texttt{D5}):} Layer~2 distinguishes continuous temperature-time Arrhenius shelf-life integration ($\mathrm{mK \cdot ms}$) and gravimetric shelf drawdown sensors for Layer~6's \textit{The Pantry} lens---allowing spontaneous weekend detours to throttle outbound bakery demand leases with zero calendar or GPS surveillance---from calendar-agnostic spindle-revolution and wear counters for \textit{The Workshop} lens, and pickup-shelf clearance load cells validating the 85\% staple / 15\% compositional \textit{montage} split in \textit{The Bakery / Hearth} lens.
+    \item \textbf{Substrate Drift and the 3-Tier BPMN Hardware Adaptation Cascade (\texttt{CCI-5}, \texttt{D2}, \texttt{D5}, \texttt{D8}):} Layer~2 Digital Twin capability registers (\texttt{ToolTwinCapabilityV50}) feed Layer~4's 3-Tier BPMN Hardware Adaptation Cascade (\textit{Tier~1: SI Parameter Scaling $\to$ Tier~2: Macro-Activity Substitution $\to$ Tier~3: True-Constraint Hard-Block}). Furthermore, when physical silicon revisions or transducer tolerances shift beneath a mature software artifact resting in \textbf{Dormant Equilibrium (``The \TeX\ Asymptote'')}, Layer~2 frame schema mismatch triggers an upward Layer~4 $\to$ Layer~5 $\to$ Layer~6 \textbf{Semantic Diff} that wakes the Scenario~Zero working group on demand.
+\end{enumerate}
+
+\begin{figure}[htbp]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+    node distance=0.85cm and 1.2cm,
+    box/.style={draw, rounded corners=3pt, thick, align=center, font=\footnotesize, minimum height=0.95cm, inner sep=5.5pt},
+    arr/.style={-{Stealth[length=2.3mm]}, thick}
+]
+    \node[box, fill=gray!12, minimum width=12.4cm] (l3) {
+        \textbf{Layer 3 Thermodynamic \& Ecological Ledger (\texttt{col-storaged})} $\cdot$ 64-Bit SI Vector Ledger, $\lambda_{\mathrm{ERC}}$, \texttt{thermodynamicProof} \& \texttt{AnonymousAppetiteLeaseV50}
+    };
+
+    \node[box, fill=blue!7, minimum width=3.9cm, below left=1.0cm and -3.9cm of l3] (tier1) {
+        \textbf{3-Tier Hardware Fleet (\texttt{D7/D8})}\\[2pt]
+        Stage I: Scavenged L7 Shim (\texttt{0x04})\\
+        Stage II: Right-to-Repair Hybrid (\texttt{0x08})\\
+        Stage III: Native Open-Spec (\texttt{0x02})
+    };
+
+    \node[box, fill=green!7, minimum width=4.0cm, below=1.0cm of l3] (env) {
+        \textbf{Enveloping Partition Array (\texttt{D4/D6})}\\[2pt]
+        Wall SPL (\texttt{cB}, Waveform Zeroized)\\
+        Breaker CTs (\texttt{mW}, \texttt{uJ}) $\cdot$ Plenums (\texttt{mK})\\
+        Fast-Path Hazard Preemption Interlocks
+    };
+
+    \node[box, fill=orange!8, minimum width=3.9cm, below right=1.0cm and -3.9cm of l3] (therm) {
+        \textbf{Dual Thermodynamic Regimes (\texttt{D1/D5})}\\[2pt]
+        \textit{The Pantry}: Arrhenius $\mathrm{mK\cdot ms}$ \& Load Cells\\
+        \textit{The Workshop}: Discrete Wear \& Cycles\\
+        \textit{Dual-Loop Bakery}: 85/15 Shelf Clearance
+    };
+
+    \node[draw, dashed, rounded corners=5pt, inner sep=7pt, fit=(tier1) (env) (therm), label={[font=\footnotesize\bfseries]above:\texttt{col-telemetryd} \& \texttt{col-meshd} $\cdot$ Zephyr RTOS 3-Tier MCU Membrane (\texttt{HardwareAirgapFilter} Drops \texttt{0x01} SITL)}] (l2fit) {};
+
+    \node[box, fill=amber!10, minimum width=12.4cm, below=1.05cm of l2fit] (l1) {
+        \textbf{Layer 1a Physical Reality \& Layer 1b Oasis SITL Proving Ground} $\cdot$ $2.5\,\mathrm{kV}_{\mathrm{RMS}}$ Galvanic Isolation, Actuators, Soil, Ovens \& Outward-Only \texttt{0x01} Canary Ring
+    };
+
+    \draw[arr, ->] (l2fit.north -| tier1.north) -- node[left, font=\scriptsize] {\texttt{l2\_l3.sock} (\texttt{BLAKE2b} Merkle)} (l3.south -| tier1.north);
+    \draw[arr, <-] (l2fit.north -| therm.north) -- node[right, font=\scriptsize] {\texttt{l3\_l2.sock} (\texttt{ActuationEnvelopeV1})} (l3.south -| therm.north);
+    \draw[arr, <->] (l1.north -| env.south) -- node[right, font=\scriptsize] {\texttt{l1\_l2.sock} (\texttt{CAN-FD} / \texttt{RS-485})} (l2fit.south -| env.south);
+\end{tikzpicture}%
+}
+\caption{Architectural Overview of Layer~2 (\texttt{col-telemetryd} and \texttt{col-meshd}) at Horizon Council v3.2.}
+\label{fig:preface-l2-architecture}
+\end{figure}
+
+\section*{Structure of This Companion Monograph}
+
+\textbf{Part~I (Chapters~1--9)} develops the core hardware, metrological, and cybernetic architecture of Layer~2:
+\begin{itemize}
+    \item \textbf{Chapter~1} defines the Non-Panoptic Membrane, the Three-Tier Microcontroller Hierarchy (\texttt{STM32H743}, \texttt{ESP32-S3}, \texttt{RP2040/RP2350}) under Zephyr RTOS, $2.5\,\mathrm{kV}_{\mathrm{RMS}}$ galvanic isolation, the \texttt{HardwareAirgapFilter} enforcing outward-only \texttt{0x01} SITL isolation, and constitutional hardware air-gaps against person-tracking.
+    \item \textbf{Chapter~2} formalizes the Canonical 64-Bit Fixed-Point SI Metrological Core across L2--L4 versus Layer~6 edge localization, ADC quantization equations, and the 5-stage Afferent Variety Attenuation and Discrete Kalman Innovation Residual pipeline.
+    \item \textbf{Chapter~3} examines Stage~I Hardware Reality: engineering parasitic Layer~2 shims (CT clamps, taped thermistors, RP2040 PIO optical fault-code readers, local cloud-spoofing shims) onto scavenged Layer~7 appliances on Day~0, and quantifying the four structural penalties of the shim tax.
+    \item \textbf{Chapter~4} details Stage~II Hardware Evolution: Right-to-Repair Hybrid Retrofit Kits that replace potted DRM boards with open RISC-V/STM32/ESP32-S3 controllers while rescuing heavy cast-iron frames, minting first-class Layer~3 Proof of Stewardship ($\Delta R_i$).
+    \item \textbf{Chapter~5} presents Stage~III Hardware Maturity: Native Open-Spec Collective Twins with continuous acoustic-harmonic bearing FFT, winding resistance drift, and thermal gradient telemetry enabling 5-minute predictive Layer~4 metric swaps, the 3-Tier BPMN Hardware Adaptation Cascade, and Substrate Drift wake-ups from Dormant Equilibrium.
+    \item \textbf{Chapter~6} specifies Enveloping Node Partition Sensing: the domain-blind boundary microphone (\texttt{cB}), solid-state breaker CT (\texttt{mW}), differential thermal plenum (\texttt{mK}), particulate (\texttt{ug}), and SPAD ToF threshold (\texttt{mm}) arrays powering the fractal Spatial Hypervisor.
+    \item \textbf{Chapter~7} formalizes Fast-Path Physical Hazard Interlocks, the 64-byte \texttt{ActuationEnvelopeV1} and its five mathematical predicates $\mathbf{\Phi}$, Joukowsky water-hammer slew limits, back-calculation anti-windup PID stability, Two-Speed Jurisprudence preemption, and the Red Lever Rule.
+    \item \textbf{Chapter~8} contrasts Perishable Cold-Chain telemetry (\textit{The Pantry}'s Arrhenius $\mathrm{mK\cdot ms}$ integration and weekend-detour drawdown throttling) against Durable Tool-Crib telemetry (\textit{The Workshop}'s discrete cycle wear) and \textit{The Dual-Loop Bakery}'s 85/15 shelf-clearance load cells.
+    \item \textbf{Chapter~9} details the \texttt{ATECC608A} Hardware Root of Trust, \texttt{Ed25519} signing, 1-Hz \texttt{BLAKE2b} Epoch Merkle Batching, physical tamper zeroization, and \texttt{col-meshd} Reticulum LoRa/fiber/DTN propagation of the three Sovereign Libraries.
+\end{itemize}
+
+\textbf{Part~II (Chapters~10--14)} walks through concrete Layer~2 sensor/actuator register maps, Enveloping Node boundary leases, and Stage~I$\to$II$\to$III hardware retrofit progressions across all \textbf{25 Sovereign Scenarios} organized into \textbf{Waves~A through~F} (Chapters~10--13), concluding in Chapter~14 with a synthesis of how silent, self-diagnosing open-spec machines return boundless, unmonitored time to human life.

@@ -1,0 +1,87 @@
+\chapter{Wave D Walkthroughs: Land, Silviculture, Biorefinery, Foundry, Textiles, and Open Architecture (\texttt{Eta}, \texttt{Mu}, \texttt{Theta}, \texttt{Nu}, \texttt{Xi})}
+\label{ch:wave-d-walkthroughs}
+
+\epigraph{Why does a capitalist hardware store stock fifteen incompatible plastic storage bins and proprietary fastener heads? Because disposable fragmentation is profitable when the biosphere pays the replacement cost. Once a ledger accounts for Ecological Replacement Cost in microjoules, every workshop naturally converges on Gastronorm steel, ISO totes, and M6 metric bolts.}{--- Architectural Commentary on Dialogue~6 and Dialogue~8 (\texttt{D6}, \texttt{D8}), Horizon Council Synthesis}
+
+\section{Overview of Wave D (Stage 2: Primary Production \& Material Closure)}
+\label{sec:l2-wave-d-overview}
+
+\textbf{Wave~D} closes the bioregional material loop across forestry, mineral and organic reclamation, high-temperature metallurgy, textile fabrication, and modular habitat construction. Crucially, Wave~D is where the settlement manufactures the frames, metric fasteners, and wear plates for its \textbf{Stage~III Native Open-Spec Collective Fleet}, driving the Legacy Dependency Ratio $D_t \to 0$. Table~\ref{tab:l2-wave-d-matrix} summarizes the Horizon Council v3.2 Layer~2 bindings across all five Wave~D scenarios.
+
+\begin{table}[htbp]
+\centering
+\caption{Horizon Council v3.2 Layer~2 Architectural Binding Matrix for Wave~D (Stage~2).}
+\label{tab:l2-wave-d-matrix}
+\footnotesize
+\begin{tabular}{@{}p{2.5cm}p{2.0cm}p{2.8cm}p{3.1cm}p{3.3cm}@{}}
+\toprule
+\textbf{Scenario ID \& Slug} & \textbf{Node Regime ($N_s$)} & \textbf{Primary Layer 6 Lens} & \textbf{Enveloping Boundary Lease (\texttt{cB}, \texttt{mW}, \texttt{mK}, \texttt{ug})} & \textbf{L4 3-Tier Cascade \& Stage I$\to$III Hardware Archetype} \\
+\midrule
+\textbf{\texttt{SCN-ETA-COPPICE}} (\texttt{eta\_coppice}) & $N_s = 4 \to 16$ forestry stewards & \textit{The Pantry} (harvest cadence) + \textit{The Workshop} & Bioregional Forestry \& Watershed Sub-Envelope (\texttt{mm} polygons, \texttt{uJ}) & Tier~1 timber dimension scaling (\texttt{mm}) \& solar kiln integration (\texttt{mK}, \texttt{ms}); Stage~I mill $\to$ Stage~II open controller. \\
+\addlinespace[3pt]
+\textbf{\texttt{SCN-MU-EXTRACTION}} (\texttt{mu\_extraction}) & $N_s = 6 \to 25$ reclamation stewards & \textit{The Workshop} (crusher wear, $\lambda_{\mathrm{ERC}}$ stock recovery) & Extraction \& Reclamation Envelope: $\le 9{,}000\,\mathrm{cB}$, dust \texttt{ug} \& runoff \texttt{mL/s} & NDIR Beer-Lambert biogas (\texttt{ppm}); thermophilic $\ge 328{,}150\,\mathrm{mK}$ kill; feeds recycled \texttt{mg} into Layer~3 $\lambda_{\mathrm{ERC}}$. \\
+\addlinespace[3pt]
+\textbf{\texttt{SCN-THETA-FOUNDRY}} (\texttt{theta\_foundry}) & $N_s = 8 \to 35$ metallurgy engineers & \textit{The Workshop} (furnace lining wear, M6/M8 die library) & Heavy Foundry Envelope: $\le 9{,}200\,\mathrm{cB}$, megawatt \texttt{mW} lease, flue \texttt{ug} & Tier~3 True-Constraint Hard-Block pyrometry (\texttt{mK}); casts frames for \textbf{Stage~III Native Open-Spec Fleet}. \\
+\addlinespace[3pt]
+\textbf{\texttt{SCN-NU-FASHION}} (\texttt{nu\_fashion}) & $N_s = 1 \to 12$ weavers \& tailors & \textit{The Workshop} (loom cycles, 15\% \textit{montage} pattern reserve) & Shared Textile Studio Envelope: $\le 6{,}500\,\mathrm{cB}$, $\le 1{,}200{,}000\,\mathrm{mW}$ & Tier~1 bolt-width scaling (\texttt{mm}) \& Tier~2 stitch substitution; UHF RFID provenance; Stage~I loom $\to$ Stage~II stepper retrofit. \\
+\addlinespace[3pt]
+\textbf{\texttt{SCN-XI-ARCHITECTURE}} (\texttt{xi\_architecture}) & $N_s = 10 \to 45$ habitat builders & \textit{The Workshop} + \textit{Enveloping Hypervisor Lens} & Construction Site Envelope: \texttt{mm} tolerances, crane \texttt{mW}, $\le 8{,}500\,\mathrm{cB}$ & Open-Source Franchising wall templates pre-certified for Enveloping Node acoustic (\texttt{cB}) \& thermal (\texttt{mK}) isolation. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ==========================================================================
+\section{Scenario Eta: Coppice Silviculture, NDVI Carrying Capacity, and Solar Timber Kilns (\texttt{SCN-ETA-COPPICE} / \texttt{eta\_coppice})}
+\label{sec:l2-wave-d-eta}
+
+Scenario~Eta ($N_s = 4 \to 16$ agro-forestry and sawmill stewards) operates under the top-level \textbf{Bioregional Forestry and Watershed Sub-Envelope}:
+\begin{enumerate}
+    \item \textbf{Multispectral NDVI Canopy Reflectance and Aquifer Flow Denominators:} To anchor Layer~3's Ecological Replacement Cost ($\lambda_{\mathrm{ERC}}$) and forest regeneration floor $F_{\mathrm{eco}}$ in objective biophysical truth rather than human guesswork, watershed survey drones and tower pods measure Near-Infrared ($\mathrm{NIR}$, $840\,\mathrm{nm}$) and Visible Red ($\mathrm{Red}$, $660\,\mathrm{nm}$) canopy irradiance to compute the fixed-point Normalized Difference Vegetation Index in basis points:
+    \begin{equation}
+        \mathrm{NDVI}_{\mathrm{bp}} = \left\lfloor \frac{\bigl(\mathrm{NIR}_{\mathrm{uw\_cm2}} - \mathrm{Red}_{\mathrm{uw\_cm2}}\bigr) \cdot 10{,}000}{\mathrm{NIR}_{\mathrm{uw\_cm2}} + \mathrm{Red}_{\mathrm{uw\_cm2}}} \right\rfloor \in [-10{,}000,\; 10{,}000]\,\mathrm{bp},
+        \label{eq:l2-ndvi-bp}
+    \end{equation}
+    paired with heat-pulse sap-flow probes, FDR soil moisture arrays (\texttt{soil\_probe\_v1}), and inline ultrasonic aquifer extraction flowmeters ($\mathrm{mL/s}$) communicating over \texttt{col-meshd} LoRa links.
+    \item \textbf{Tier~1 Timber Dimension Scaling and Solar Kiln Psychrometry:} In the sawmill bay, solar-thermal dehumidification kilns integrate wood-core resistance moisture pins ($\mathtt{wood\_mc\_bp} \to 800\text{--}1{,}200\,\mathrm{bp}$ [$8\text{--}12\%$ equilibrium moisture]) and platen temperatures ($\mathrm{mK}$). When a structural joinery blueprint meets local coppice poles of slightly smaller diameter, Layer~4 executes \textbf{Tier~1 SI Parameter Scaling} across millimeter (\texttt{mm}) cross-sections, while Stage~I proprietary chainsaw/bandsaw electronics are retrofitted with Stage~II open ignition and VFD controllers.
+\end{enumerate}
+
+% ==========================================================================
+\section{Scenario Mu: Anaerobic Biorefinery, NDIR Methanogenesis, and $\lambda_{\mathrm{ERC}}$ Stock Reclamation (\texttt{SCN-MU-EXTRACTION} / \texttt{mu\_extraction})}
+\label{sec:l2-wave-d-mu}
+
+Scenario~Mu ($N_s = 6 \to 25$ quarry, clay, compost, and mineral recycling stewards) operates inside the Extraction and Reclamation Envelope ($\le 9{,}000\,\mathrm{cB}$ daytime window, optical particulate interlock $\mathrm{PM}_{2.5} \le 35\,\mu\mathrm{g/m^3}$, and zero contaminated runoff $\mathrm{mL/s}$):
+\begin{enumerate}
+    \item \textbf{NDIR Beer-Lambert Biogas Telemetry and Thermophilic Pathogen Eradication:} Receiving organic salvage mass from Scenario~Gamma (\texttt{sig:gamma.salvage\_to\_mu}), anaerobic digesters track headspace methane ($\mathrm{CH_4}$) and carbon dioxide ($\mathrm{CO_2}$) in parts per million (\texttt{ppm}) via Non-Dispersive Infrared (\texttt{NDIR}) optical absorption ($I = I_0 e^{-\varepsilon c l}$) \parencite{hodgkinson2013non}, which isolates the optical detector behind sapphire windows immune to corrosive $\mathrm{H_2S}$. In parallel aerobic thermophilic drums, 4-wire PT100 core probes enforce $\mathtt{compost\_core\_temp\_mk} \ge 328{,}150\,\mathrm{mK}$ ($55.0\,^\circ\mathrm{C}$) for $\ge 259{,}200{,}000\,\mathrm{ms}$ ($72\,\mathrm{hours}$) before releasing finished humus to Pillar~1 living soil.
+    \item \textbf{Direct $\lambda_{\mathrm{ERC}}$ Reduction via Gravimetric Scrap Reclamation:} Jaw crushers, eddy-current metal separators, and polymer granulators weigh reclaimed aluminum, copper, steel, glass cullet, and bio-resin pellets on calibrated platform load cells (\texttt{mg}). Every kilogram of sorted alloy or re-ground polymer committed across \path{l2_l3.sock} replenishes local $E_{\mathrm{recoverable\_stock}}(c)$ in Layer~3's $\lambda_{\mathrm{ERC}}$ equation, directly lowering the embodied exergy cost of downstream Wave~B and Wave~D fabrication.
+\end{enumerate}
+
+% ==========================================================================
+\section{Scenario Theta: High-Temperature Foundry, Tier 3 Thermal Hard-Blocks, and Stage III Fleet Casting (\texttt{SCN-THETA-FOUNDRY} / \texttt{theta\_foundry})}
+\label{sec:l2-wave-d-theta}
+
+Scenario~Theta ($N_s = 8 \to 35$ metallurgy and casting engineers) governs the Heavy Foundry Envelope ($\le 9{,}200\,\mathrm{cB}$, megawatt-class $\mathrm{mW}$ induction furnace leases admitted only at $\mathrm{SoC}_{\mathrm{bp}} \ge 8{,}500\,\mathrm{bp}$ Tier~5 surplus, and electrostatic flue-gas scrubber particulate interlocks in $\mu\mathrm{g/m^3}$):
+\begin{enumerate}
+    \item \textbf{Seebeck Type-K/Type-S and Dual-Wavelength Optical Pyrometry (\texttt{mK}):} Because silicon bandgap sensors melt above $423{,}150\,\mathrm{mK}$ ($150\,^\circ\mathrm{C}$), induction crucibles and heat-treatment kilns deploy Chromel-Alumel Type-K ($\le 1{,}523{,}150\,\mathrm{mK}$) and Platinum-Rhodium Type-S ($\le 1{,}973{,}150\,\mathrm{mK}$) thermocouples digitized by galvanically isolated \texttt{MAX31855}/\texttt{MAX31856} cold-junction-compensated ADCs \parencite{rowe1995crc}, corroborated by non-contact dual-wavelength optical pyrometers. If crucible lining temperature breaches the refractory safety ceiling ($T > T_{\mathrm{critical\_mk}}$), Layer~2's $\Phi_{\mathrm{safe}}$ comparator drops the main vacuum contactor directly in $< 8\,\mathrm{ms}$, bypassing Layer~4 latency entirely.
+    \item \textbf{Canonical Showcase of Tier~3 True-Constraint Hard-Blocks (\texttt{EvaluateBpmnHardwareCascadeV50}):} When a blueprint requests a thermal regime exceeding a local kiln's intensive physical ceiling (e.g., $\mathtt{required\_temp\_mk} = 1{,}923{,}150\,\mathrm{mK}$ [$1{,}650\,^\circ\mathrm{C}$] while the local kiln reports $\mathtt{max\_temp\_mk} = 1{,}473{,}150\,\mathrm{mK}$ [$1{,}200\,^\circ\mathrm{C}$]), \texttt{EvaluateBpmnHardwareCascadeV50} (Listing~\ref{lst:l2-bpmn-cascade-v50}) returns \texttt{kTier3TrueConstraintHardBlock} with exact deficit $\mathtt{temp\_deficit\_mk} = 450{,}000\,\mathrm{mK}$. \texttt{col-commonsd} decompiles this into a Layer~6 Semantic Diff Card while \texttt{col-swarmd} queries \texttt{col-meshd} for a neighboring federated Scenario~Theta induction foundry capable of accepting a sub-order lease.
+    \item \textbf{Casting the Stage~III Native Open-Spec Fleet:} Using shared progressive dies for \texttt{M6}/\texttt{M8} fasteners, Gastronorm GN~1/1 pans, and ISO bearing housings, Scenario~Theta casts and machines the physical frames that graduate the settlement from Stage~II hybrids to \textbf{Stage~III Native Open-Spec Collective Twins}.
+\end{enumerate}
+
+% ==========================================================================
+\section{Scenario Nu: Convivial Textiles, UHF RFID Provenance, and Pattern Forking (\texttt{SCN-NU-FASHION} / \texttt{nu\_fashion})}
+\label{sec:l2-wave-d-nu}
+
+Scenario~Nu ($N_s = 1 \to 12$ weavers, tailors, and textile engineers) operates inside the Shared Textile Studio Envelope ($\le 6{,}500\,\mathrm{cB}$, $\le 1{,}200{,}000\,\mathrm{mW}$) and reserves $1{,}500\,\mathrm{bp}$ ($15\%$) of loom capacity for compositional \textit{montage} garment experiments:
+\begin{itemize}
+    \item \textbf{Optical Yarn-Tension Transducers and Tier~1/Tier~2 BPMN Adaptation:} Jacquard looms and CNC laser fabric cutters monitor warp/weft tension in millinewtons (\texttt{mN}) and bolt width in millimeters (\texttt{mm}). When a garment pattern is forked in Layer~6 for a locally woven bast/hemp bolt of narrower width, Layer~4 executes \textbf{Tier~1 SI Parameter Scaling} on marker nesting layout and \textbf{Tier~2 Macro-Activity Substitution} (swapping ultrasonic synthetic seam bonding for a reinforced flat-felled linen stitch).
+    \item \textbf{Passive UHF RFID Lifecycle Provenance and Stage~II Loom Retrofits:} Woven passive UHF RFID threads ($R^{-4}$ backscatter locality $\le 3{,}000\,\mathrm{mm}$, Equation~\eqref{eq:l2-rfid-bistatic}) bind each garment to its organic fiber batch and dye stoichiometry without tracking the human wearer outside the studio. Stage~I DRM-locked commercial embroidery and knitting machines (which require proprietary encrypted USB dongles) are liberated via Stage~II \texttt{STM32H743} stepper-driver retrofit kits (\texttt{kit:motion-cnc-v2}).
+\end{itemize}
+
+% ==========================================================================
+\section{Scenario Xi: Open-Building Architecture and Partition Acoustic/Thermal Certification (\texttt{SCN-XI-ARCHITECTURE} / \texttt{xi\_architecture})}
+\label{sec:l2-wave-d-xi}
+
+Scenario~Xi ($N_s = 10 \to 45$ structural builders and habitat fabricators) translates N.~John Habraken's Open Building theory (\textit{Supports} vs.\ detachable \textit{Infill}) \parencite{habraken1972supports} into physical reality under the Construction Site Envelope ($\le 8{,}500\,\mathrm{cB}$ daytime window, crane/hoist $\mathrm{mW}$ leases, millimeter laser-level tolerances):
+\begin{enumerate}
+    \item \textbf{Pre-Certified Open-Source Franchise Wall and Plenum Templates (\texttt{D4}, \texttt{D5}):} When Scenario~Xi fabricates a demountable cross-laminated timber (\texttt{CLT}) or hemp-lime partition wall from the Orchestration Registry, embedded Layer~2 commissioning tests verify its acoustic transmission loss ($\Delta L_{\mathrm{isolation\_cb}} \ge 4{,}500\,\mathrm{cB}$ [$45.0\,\mathrm{dB}$] across the partition via dual PDM MEMS microphones) and thermal resistance ($R_{\mathrm{thermal}}$ via differential PT100 plenums in $\mathrm{mK}$). Once certified, the wall's structural and acoustic rating is written directly into the building's \textbf{Enveloping Node Hypervisor} ontology.
+    \item \textbf{Bonded Structural Strain Gauges and Non-Panoptic SPAD ToF Thermal Zoning:} Load-bearing timber trusses and earth-sheltered vaults embed Wheatstone-bridge foil strain gauges ($\mu\varepsilon$ microstrain) and piezoelectric modal accelerometers (Equation~\eqref{eq:l2-stage3-fft}) to track snow-load or seismic deflection continuously. Meanwhile, ceiling-mounted $8 \times 8$ SPAD Time-of-Flight (\texttt{VL53L5CX}, $940\,\mathrm{nm}$ infrared photon round-trip $d_{\mathrm{mm}} = \lfloor c\Delta t/2\rfloor$) threshold arrays modulate HVAC heat-pump dampers to follow biological heat loads across zones without deploying a single optical camera (\texttt{INV\_ANTI\_PANOPTICON}).
+\end{enumerate}

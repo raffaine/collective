@@ -1,0 +1,146 @@
+\chapter{Stage II Hardware Evolution: Right-to-Repair Hybrid Retrofit Kits}
+\label{ch:stage2-right-to-repair-retrofits}
+
+\epigraph{To rescue a four-hundred-kilogram cast-iron machine from the landfill by replacing fifty grams of malicious corporate silicon with an open-source circuit board is not merely a clever hack; it is an act of thermodynamic and political emancipation.}{--- Engineering Charter of the Scenario~Pi Hardware Guild, Cascadia Bioregion}
+
+\section{The Embodied Exergy Paradox of Legacy Machinery (\texttt{D7}, \texttt{D8})}
+\label{sec:l2-stage2-embodied-exergy}
+
+Why do early-stage sovereign settlements not simply scrap their Stage~I Scavenged Layer~7 appliances as soon as the first potted controller board fails? The answer lies in the Second Law of Thermodynamics and Layer~3's \textbf{Ecological Replacement Cost ($\lambda_{\mathrm{ERC}}$)} accounting \parencite{georgescu1971,odum1971}.
+
+Consider a commercial three-deck bakery oven ($420\,\mathrm{kg}$ of refractory stone, aluminized steel, and rockwool insulation), an industrial horizontal washing machine ($180\,\mathrm{kg}$ of \texttt{304} stainless steel drum and cast-iron counterweights), or a $1{,}200\,\mathrm{kg}$ manual-turned-CNC machine lathe. Over $98\%$ of the embodied exergy of these machines resides in their heavy metallurgical frames, copper motor windings, and precision-ground ways:
+\begin{equation}
+    E_{\mathrm{embodied,chassis}} \approx 18{,}000{,}000{,}000{,}000\text{--}65{,}000{,}000{,}000{,}000\,\mu\mathrm{J} \quad (18\text{--}65\,\mathrm{GJ}).
+    \label{eq:l2-chassis-embodied-exergy}
+\end{equation}
+ mechanically, a cast-iron lathe bed or a refractory deck oven can serve a neighborhood for a hundred years. Yet in the Layer~7 economy, the manufacturer renders the entire $420\,\mathrm{kg}$ machine inoperable after seven years by locking its temperature regulation and safety relays inside a $60\,\mathrm{g}$ proprietary printed circuit board potted in black polyurethane resin, paired with serialized replacement sensors and discontinued firmware support.
+
+If a settlement discards that $420\,\mathrm{kg}$ chassis because its proprietary brain died, Layer~3 records a massive embodied-exergy write-off ($\Delta \lambda_{\mathrm{ERC}}$ spike). Instead, as codified in Dialogue~7 and Dialogue~8 (\texttt{CCI-6}), communities execute a \textbf{Stage~II Right-to-Repair Hybrid Retrofit}:
+\begin{enumerate}
+    \item \textbf{Retain the Heavy Iron and Copper:} Keep the high-exergy mechanical chassis, refractory chambers, Induction/BLDC motor windings, and stainless vessels intact.
+    \item \textbf{Excise the Hostile Silicon:} Unbolt and recycle the proprietary DRM-locked controller PCB, cloud-tethered Wi-Fi module, and non-standard thermistor harness.
+    \item \textbf{Install an Open-Spec Layer~2 Retrofit Brain (\texttt{QUALITY\_RETROFIT\_HYBRID = 0x08}):} Drop in a standardized open-hardware Layer~2 controller board (\texttt{ESP32-S3}, \texttt{STM32H743}, or open \texttt{RISC-V} \texttt{RV32IMAC}) running Zephyr RTOS, wired directly to internal Class-A 4-wire PT100 RTDs, Type-K thermocouples, internal Hall/CT current shunts, and zero-crossing solid-state contactors, mounted via 3D-printable or CNC-milled metric (\texttt{M6}/\texttt{M8}) adapter plates.
+\end{enumerate}
+
+\section{Anatomy of an Open-Spec Layer 2 Hybrid Retrofit Kit}
+\label{sec:l2-stage2-kit-anatomy}
+
+Published as content-addressed JSON-LD and KiCad/STEP bundles inside the \textbf{Ontological Graph} and \textbf{Orchestration Registry} by federated hardware guilds (\texttt{Scenario Pi} and \texttt{Scenario Alpha}), every Stage~II Right-to-Repair Hybrid Retrofit Kit standardizes around four modular sub-assemblies (Table~\ref{tab:l2-retrofit-kit-archetypes}):
+
+\begin{table}[htbp]
+\centering
+\caption{Canonical Stage~II Right-to-Repair Hybrid Retrofit Kit Archetypes Across Waves~A--F.}
+\label{tab:l2-retrofit-kit-archetypes}
+\footnotesize
+\begin{tabular}{@{}p{2.6cm}p{2.7cm}p{4.3cm}p{4.1cm}@{}}
+\toprule
+\textbf{Retrofit Kit CID Slug} & \textbf{Target Stage~I Scavenged Gear} & \textbf{Open Layer~2 Replacement Hardware} & \textbf{Metrological \& $\lambda_{\mathrm{ERC}}$ Upgrade} \\
+\midrule
+\textbf{\texttt{kit:thermal-pid-v2}} (\texttt{Scenario Gamma}) & Commercial deck ovens, walk-in coolers, domestic fridges, autoclaves (\texttt{Chi}) & \texttt{ESP32-S3} + isolated \texttt{MAX31865} 4-wire PT100 / \texttt{MAX31855} Type-K + zero-crossing \texttt{40A} SSR + \texttt{INA226} shunt & Eliminates $240\,\mathrm{s}$ skin lag; uncertainty drops $1{,}500 \to 350\,\mathrm{bp}$; enables direct Arrhenius \& Bigelow $F_0$ gating. \\
+\addlinespace[3pt]
+\textbf{\texttt{kit:motion-cnc-v2}} (\texttt{Scenario Alpha/Nu}) & DRM-locked desktop CNC mills, 3D printers, industrial sewing/embroidery looms & \texttt{STM32H743} / \texttt{RISC-V} running Zephyr GRBL-HAL + \texttt{TMC2209} back-EMF drivers + \texttt{AS5600} magnetic encoders & Exposes closed-loop stall torque, spindle current, and cumulative cycle counters to \textit{The Workshop} lens. \\
+\addlinespace[3pt]
+\textbf{\texttt{kit:bms-canfd-v2}} (\texttt{Scenario Beta/Alpha}) & Proprietary CAN-locked cargo e-bike battery packs & Open 16S $\mathrm{LiFePO_4}$ BMS (\texttt{BQ76952} + \texttt{ESP32-C6} RISC-V) + isolated \texttt{TCAN1042} CAN-FD + \texttt{ATECC608A} & Unlocks depot battery-swap leases ($\mathrm{SoC} \ge 9{,}000\,\mathrm{bp}$) and cell-level internal resistance ($R_{\mathrm{int}}$) tracking. \\
+\addlinespace[3pt]
+\textbf{\texttt{kit:hydro-wash-v2}} (\texttt{Scenario Omicron/Eta}) & Potted-board commercial washers, irrigation pumps, solar timber kilns & \texttt{RP2350} + isolated triac/contactor array + inline ultrasonic flowmeter + M6/M8 metric flange adapters & Cuts per-cycle $\lambda_{\mathrm{ERC}}$ by $78\%$; integrates greywater heat recovery and dry-run cavitation trips. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Eliminating the Parasitic Shim Tax and Shrinking Diagnostic Uncertainty}
+
+The instant a Stage~I appliance is upgraded with a Stage~II Hybrid Retrofit Kit and passes its hardware-in-the-loop verification sweep, its Layer~2 register profile undergoes four measurable physical improvements:
+\begin{enumerate}
+    \item \textbf{Provenance Promotion (\texttt{0x04} $\to$ \texttt{0x08}):} \texttt{col-telemetryd} updates the device's quality byte from \texttt{QUALITY\_SCAVENGED\_L7\_SHIM = 0x04} to \texttt{QUALITY\_RETROFIT\_HYBRID = 0x08} (\texttt{HardwareFleetTier::kRightToRepairHybrid}).
+    \item \textbf{Elimination of Parasitic Shim Power ($\mathtt{parasitic\_shim\_overhead\_mw} \to 0$):} Because the always-on proprietary display transformer, vendor Wi-Fi radio, and external cloud-spoofing proxy are physically removed, idle standby power drops from $45{,}000\,\mathrm{mW}$ to $< 1{,}200\,\mathrm{mW}$ (or $10\,\mu\mathrm{A}$ in Zephyr deep sleep).
+    \item \textbf{Direct Internal Transduction ($\pm 1{,}500\,\mathrm{bp} \to \pm 350\,\mathrm{bp}$):} Because the 4-wire PT100 RTD or thermocouple now sits inside the geometric center of the oven chamber or cold-room plenum rather than taped to the exterior sheet-metal skin, the $4\text{-minute}$ thermal diffusion lag ($\tau_{\mathrm{lag}}$ in Equation~\eqref{eq:l2-shim-thermal-lag}) vanishes. Diagnostic uncertainty shrinks from $\pm 1{,}500\,\mathrm{bp}$ ($\pm 15.0\%$) to $\pm 350\,\mathrm{bp}$ ($\pm 3.5\%$).
+    \item \textbf{7-Fold Reduction in Unscheduled Mid-Batch Hard-Blocks:} Because the open controller monitors heater coil resistance $R_{\mathrm{coil}}(t) = V_{\mathrm{bus}}(t)/I_{\mathrm{shunt}}(t)$ and motor phase current directly, Kalman innovation residuals catch degrading relays before mid-batch failure, dropping $\mathtt{unscheduled\_fault\_prob\_bp}$ from $350\,\mathrm{bp}$ ($3.50\%$) down to $45\,\mathrm{bp}$ ($0.45\%$).
+\end{enumerate}
+
+\section{Right-to-Repair Retrofits as First-Class Layer 3 Proof of Stewardship (\texttt{D7}, \texttt{D8})}
+\label{sec:l2-stage2-proof-of-stewardship}
+
+In Dialogue~8, the Horizon Council established a pivotal socio-technical incentive for Genesis and Stage~1B/Stage~2 communities: \textbf{reverse-engineering proprietary Layer~7 appliances, publishing open Layer~6 retrofit kits (KiCad PCB layouts, Zephyr firmware, and 3D-printable metric adapters), and executing Stage~I $\to$ Stage~II hardware retrofits is recognized as a first-class Layer~3 Proof of Stewardship ($\Delta V$ and Layer~5 $\Delta R_{i,\mathrm{bp}}$) activity}.
+
+\subsection{The Three-Way Cryptographic Verification Conjunction}
+
+As established in Part~III (\S3.3) of the Council Guidance (\texttt{CCI-2}), operational reputation $R_{i,\mathrm{bp}}(t)$ in the unified voting weight equation $V_{i,\mathrm{bp}}(t) = 10{,}000 + R_{i,\mathrm{bp}}(t)$ can never be self-minted through synthetic commits or busywork. For \texttt{col-storaged} and \texttt{col-kmsd} to mint a retrofit stewardship bonus $\Delta R_{i,\mathrm{bp}} > 0$, Layer~2 must supply the hardware verification leg of the three-way conjunction:
+\begin{equation}
+    \Delta R_{i,\mathrm{bp}} > 0 \iff \text{L6 Ratified Retrofit Intent} \;\land\; \text{L4 Completed Retrofit BPMN} \;\land\; \text{L2/L3 Hardware Burn-In Verification}.
+    \label{eq:l2-retrofit-stewardship-conjunction}
+\end{equation}
+
+Specifically, during the final step of the Layer~4 retrofit workflow (\texttt{wf.alpha.right\_to\_repair\_retrofit}), \texttt{col-telemetryd} executes an automated 300-second \textbf{Hardware-in-the-Loop (HIL) Burn-In Handshake}:
+\begin{enumerate}
+    \item The new open-spec Tier~2 controller signs a cryptographic identity challenge using its onboard \texttt{ATECC608A} secure element ($sk_{\mathrm{hw}}$).
+    \item \texttt{col-actuated} sweeps the retrofitted actuator across three calibration setpoints while \texttt{col-sensord} verifies that the internal transducer response tracks the physical plant model within the Stage~II uncertainty bound ($\le 350\,\mathrm{bp}$) and that parasitic standby draw has dropped below the Stage~II threshold.
+    \item Upon passing burn-in, \texttt{col-telemetryd} emits a signed \texttt{RetrofitBurnInAttestationV50} frame over \path{/run/collective/ipc/l2_l3.sock} to \texttt{col-storaged}, which commits the \texttt{ProofOfStewardshipRetrofitRecordV50} (Listing~\ref{lst:l2-stage2-retrofit-record}).
+\end{enumerate}
+
+\begin{theorem}[Thermodynamic Proportionality of Retrofit Stewardship Minting]
+\label{thm:l2-retrofit-stewardship}
+Let $E_{\mathrm{rescued\_uj}}$ denote the embodied exergy of the heavy machine chassis rescued from premature obsolescence, $\Delta \lambda_{\mathrm{ERC\_uj}} = \lambda_{\mathrm{ERC,StageI\_uj}} - \lambda_{\mathrm{ERC,StageII\_uj}} > 0$ denote the verified per-cycle Ecological Replacement Cost reduction over expected post-retrofit lifetime cycles $N_{\mathrm{life}}$, and $\Delta \Phi_{\mathrm{tribute\_cents}}$ denote the eliminated annual Layer~7 spare-part tribute. The domain-scoped Proof of Stewardship bonus $\Delta R_{i,\mathrm{bp}}$ minted to the executing stewards (and upstream kit authors via content-addressed lineage citation) is bounded and strictly proportional to the verified thermodynamic savings:
+\begin{equation}
+    \Delta R_{i,\mathrm{bp}} = \min\!\left( R_{\mathrm{cap\_bp}},\; \left\lfloor \frac{\kappa_{\mathrm{steward}} \cdot \bigl(E_{\mathrm{rescued\_uj}} + N_{\mathrm{life}} \cdot \Delta \lambda_{\mathrm{ERC\_uj}}\bigr)}{E_{\mathrm{ref\_uj}}} \right\rfloor \right),
+    \label{eq:l2-retrofit-delta-r}
+\end{equation}
+where $E_{\mathrm{ref\_uj}} = 3{,}600{,}000{,}000{,}000\,\mu\mathrm{J}$ ($3.6\,\mathrm{MJ}$ reference exergy quantum). If a subsequent Layer~2 telemetry epoch detects a safety regression or ERC spike ($\Delta \lambda_{\mathrm{ERC\_uj}} \le 0$), zero stewardship bonus is minted.
+\end{theorem}
+
+\subsection{Solving the Cold-Start Apprentice Paradox via Stage II Dual-Key Retrofits (\texttt{D6})}
+
+Stage~II Right-to-Repair retrofits also provide the canonical physical onboarding ladder for \textbf{Pillar~II (\texttt{collective:WorkCapabilityMatrix})} of Layer~5 governance (\texttt{Scenario Kappa: Apprenticeship}). How does a newcomer arriving at a node with zero operational reputation ($R_2(0) = 0$, holding only their non-decaying civic baseline $B = 1 \equiv 10{,}000\,\mathrm{bp}$) earn initial technical stewardship if high-voltage industrial tools require safety certification?
+
+As wired at Layer~2, every Stage~II retrofit bench incorporates a \textbf{Dual-Key Mentor-Apprentice Hardware Interlock} (\texttt{require\_dual\_key\_kappa = 1} in \texttt{ActuationEnvelopeV1}):
+\begin{itemize}
+    \item The apprentice ($R_2(0) = 0$) strips the dead potted PCB from a scavenged refrigerator or CNC router, prints the \texttt{M6} metric mounting bracket, crimps the 4-wire PT100 harness, and flashes the Zephyr RTOS image under a Tier-1 Co-Signed Apprentice BPMN task.
+    \item Before live $240\,\mathrm{V}_{\mathrm{AC}}$ or $48\,\mathrm{V}_{\mathrm{DC}}$ bus power can energize the retrofitted chassis for the 300-second HIL burn-in test, Layer~2's physical interlock requires two concurrent hardware signatures: the apprentice's local NFC/Ed25519 key token \textbf{and} a certified mentor's ($R_1 > 0$) physical key-turn on the bench LOTO selector switch.
+    \item When the burn-in succeeds and Layer~2 signs \texttt{RetrofitBurnInAttestationV50}, the apprentice earns full co-stewardship credit $\Delta R_{2,\mathrm{bp}} > 0$ from zero---building real technical voice in the guild while rescuing physical infrastructure for the commons.
+\end{itemize}
+
+\begin{lstlisting}[language=C++,caption={Layer~2 Hardware-in-the-Loop (HIL) Burn-In Attestation and Layer~3 Proof of Stewardship Retrofit Record (\texttt{col-telemetryd} $\to$ \texttt{col-storaged}).},label={lst:l2-stage2-retrofit-record}]
+#pragma once
+#include <cstdint>
+#include <array>
+
+namespace collective::layer2 {
+
+struct RetrofitBurnInAttestationV50 {
+    std::array<uint8_t, 32> kit_blueprint_cid;     // Content-addressed KiCad/Zephyr kit CID
+    std::array<uint8_t, 32> tool_did_hash;         // Upgraded physical appliance identity
+    uint64_t burn_in_duration_ms{300'000};         // 300-second closed-loop HIL verification
+    int64_t  pre_shim_overhead_mw{45'000};         // Stage I parasitic shim drain (45.0 W)
+    int64_t  post_idle_power_mw{850};              // Stage II Zephyr idle draw (0.85 W)
+    uint16_t pre_uncertainty_bp{1'500};            // Stage I +/- 15.00%
+    uint16_t post_uncertainty_bp{350};             // Stage II +/- 3.50%
+    uint8_t  mentor_dual_key_verified{1};          // Pillar II mentor+apprentice hardware key check
+    uint8_t  promoted_quality_flag{0x08};          // QUALITY_RETROFIT_HYBRID = 0x08
+    std::array<uint8_t, 64> atecc608a_ed25519_sig; // Signed by the new open board's secure element
+};
+
+// Synchronized with Part IV (Section 4.4) of COUNCIL_GUIDANCE_SOVEREIGN_STACK_AND_BOOKS.md
+struct ProofOfStewardshipRetrofitRecordV50 {
+    std::array<uint8_t, 32> retrofit_tx_cid;
+    std::array<uint8_t, 32> tool_did_hash;
+    std::array<uint8_t, 32> steward_did_hash;
+    int64_t rescued_chassis_embodied_exergy_uj{0}; // Embodied exergy saved from scrap (uJ)
+    int64_t pre_retrofit_erc_per_cycle_uj{0};
+    int64_t post_retrofit_erc_per_cycle_uj{0};
+    int64_t eliminated_l7_tribute_cents_per_yr{0};
+    int64_t minted_stewardship_bonus_bp{0};        // Delta R_i minted into NodeMemberVoiceStateV50
+};
+
+[[nodiscard]] constexpr bool VerifyStage2RetrofitPromotion(
+    const RetrofitBurnInAttestationV50& att,
+    int64_t pre_erc_uj,
+    int64_t post_erc_uj) noexcept {
+    if (att.burn_in_duration_ms < 300'000ULL) return false;
+    if (att.promoted_quality_flag != 0x08) return false;
+    if (att.post_uncertainty_bp > 400 || att.post_idle_power_mw >= att.pre_shim_overhead_mw) {
+        return false;
+    }
+    return (post_erc_uj < pre_erc_uj);
+}
+
+} // namespace collective::layer2
+\end{lstlisting}

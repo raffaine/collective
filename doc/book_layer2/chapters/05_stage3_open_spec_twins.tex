@@ -1,0 +1,181 @@
+\chapter{Stage III Hardware Maturity: Native Open-Spec Collective Twins and Substrate Drift}
+\label{ch:stage3-open-spec-twins}
+
+\epigraph{Perfection is achieved, not when there is nothing more to add, but when there is nothing left to take away---when the machine works so quietly and predictably that its builders are free to forget it and walk into the afternoon sun.}{--- after Antoine de Saint-Exup\'ery, cited in the Scenario~Zero Working Group Charter}
+
+\section{Stage III Native Open-Spec Collective Twins and Zero-Stat Liberation (\texttt{D7}, \texttt{D8})}
+\label{sec:l2-stage3-native-open-spec}
+
+As a settlement matures from Stage~1B and Stage~2 into a federated Stage~3 campus (\texttt{Scenario Theta: Foundry}, \texttt{Scenario Alpha: Fab Lab}, and \texttt{Scenario Pi: Guild}), worn-out scavenged chassis are progressively remanufactured or replaced by \textbf{Stage~III Native Open-Spec Collective Twins} (\texttt{HardwareFleetTier::kNativeOpenSpec}, tagged \texttt{QUALITY\_OPEN\_SPEC\_NATIVE = 0x02}).
+
+Unlike corporate machinery engineered for planned obsolescence and proprietary lock-in, a Stage~III machine is built from the ground up around three physical invariants:
+\begin{enumerate}
+    \item \textbf{Open Modular Geometry Driven by $\lambda_{\mathrm{ERC}}$ Convergence (\texttt{D6}, \texttt{D8}):} Every structural fastener uses standard ISO metric \texttt{M6} or \texttt{M8} socket-head cap screws (the \textit{One-Wrench Rule}); every rotary shaft rides in standard ISO metric pillow-block bearings (\texttt{608}, \texttt{6204}, \texttt{6206}); every culinary chamber accepts standard \textbf{Gastronorm GN~1/1 ($530 \times 325\,\mathrm{mm}$)} pans; and every transit carrier latches standard \textbf{ISO $600 \times 400\,\mathrm{mm}$} modular totes. Because spare wear plates, gaskets, and bearing housings can be cast or CNC-milled locally on a neighboring Maker Bench from shared content-addressed STEP files in the Ontological Graph, per-cycle Ecological Replacement Cost ($\lambda_{\mathrm{ERC}}$) drops to its thermodynamic floor and external Layer~7 fiat tribute drops to zero ($\Delta \Phi_{\mathrm{tribute}} = 0$).
+    \item \textbf{Embedded Internal Prognostic Sensor Harnesses ($\pm 50\,\mathrm{bp}$ Uncertainty):} Rather than measuring skin temperature from the outside (Stage~I) or retrofitting probes onto an old frame (Stage~II), Stage~III machines embed piezoelectric accelerometers directly onto bearing seats, 4-wire Kelvin sense leads across motor stator windings, magnetic absolute encoders (\texttt{AS5600}) on drive shafts, and internal 4-wire PT100 arrays signed at the silicon edge by an \texttt{ATECC608A} secure element. Diagnostic uncertainty shrinks to $\pm 50\,\mathrm{bp}$ ($\pm 0.50\%$).
+    \item \textbf{Zero-Stat Liberation (Replacing Unplanned Breakdowns with 5-Minute Predictive Swaps):} In a conventional video game, upgrading a machine to ``Tier~3'' grants an imaginary stat multiplier (``$+25\%$ baking speed''). In the Sovereign Stack, Stage~III achieves \textbf{Zero-Stat Liberation}: a Stage~III oven still bakes sourdough at $503{,}150\,\mathrm{mK}$ ($230.0\,^\circ\mathrm{C}$) for $2{,}700{,}000\,\mathrm{ms}$ ($45\,\mathrm{minutes}$) because bread chemistry does not accelerate for silicon. What changes is that \textbf{unscheduled mid-batch hard-blocks virtually disappear} ($\mathtt{unscheduled\_fault\_prob\_bp}$ drops from $350\,\mathrm{bp}$ in Stage~I to $5\,\mathrm{bp}$ in Stage~III). Instead of losing a four-hour afternoon to an emergency teardown and spoiled dough, Layer~2 detects a bearing's acoustic harmonic shift 40 operating hours in advance, allowing Layer~4 (\texttt{col-execd}) to schedule a calm, five-minute preventive metric swap between batches---liberating Dr\_Sofia's boundless human time.
+\end{enumerate}
+
+\begin{table}[htbp]
+\centering
+\caption{Quantitative Metrological and Thermodynamic Comparison Across the Three-Tier Hardware Fleet (\texttt{CCI-6}, \texttt{D7}, \texttt{D8}).}
+\label{tab:l2-three-tier-fleet-comparison}
+\footnotesize
+\begin{tabular}{@{}p{3.4cm}p{3.3cm}p{3.3cm}p{3.5cm}@{}}
+\toprule
+\textbf{Layer 2 / 3 / 4 Parameter} & \textbf{Stage I: Scavenged L7 Fleet (\texttt{0x04})} & \textbf{Stage II: Right-to-Repair Hybrid (\texttt{0x08})} & \textbf{Stage III: Native Open-Spec (\texttt{0x02})} \\
+\midrule
+\textbf{C++20 Enum Tag} & \texttt{kScavengedLayer7Shimmed} & \texttt{kRightToRepairHybrid} & \texttt{kNativeOpenSpec} \\
+\textbf{UHAI Provenance Byte} & \texttt{0x04} & \texttt{0x08} & \texttt{0x02} (\texttt{ATECC608A} root) \\
+\textbf{Diagnostic Uncertainty} & $\pm 1{,}500\,\mathrm{bp}$ ($\pm 15.00\%$) & $\pm 350\,\mathrm{bp}$ ($\pm 3.50\%$) & $\pm 50\,\mathrm{bp}$ ($\pm 0.50\%$) \\
+\textbf{Parasitic Shim Overhead} & $15{,}000\text{--}65{,}000\,\mathrm{mW}$ & $0\,\mathrm{mW}$ (shim removed) & $0\,\mathrm{mW}$ (native deep sleep) \\
+\textbf{Blind Fault Probability} & $350\,\mathrm{bp}$ ($3.50\%$ / cycle) & $45\,\mathrm{bp}$ ($0.45\%$ / cycle) & $5\,\mathrm{bp}$ ($0.05\%$ / cycle) \\
+\textbf{Amortized $\lambda_{\mathrm{ERC}}$ / Cycle} & $850{,}000{,}000\,\mu\mathrm{J}$ ($850\,\mathrm{J}$) & $190{,}000{,}000\,\mu\mathrm{J}$ ($190\,\mathrm{J}$) & $35{,}000{,}000\,\mu\mathrm{J}$ ($35\,\mathrm{J}$) \\
+\textbf{L7 Fiat Tribute / Fault} & $8{,}000\text{--}45{,}000\,\text{\texttt{cents}} + 72\,\mathrm{h}$ & $0\,\text{\texttt{cents}}$ (open PCB/3D print) & $0\,\text{\texttt{cents}}$ (local M6/M8 swap) \\
+\textbf{Maintenance Modality} & Blind mid-batch hard-block \& salvage saga & Threshold residual alert \& modular board swap & 40-hour lookahead $\to$ 5-min scheduled L4 metric swap \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Prognostic Physical Physics on Stage III Twins: Bearing FFT, Winding Drift, and Back-EMF}
+\label{sec:l2-stage3-prognostic-physics}
+
+How does a Stage~III Native Open-Spec machine predict mechanical fatigue 40 operating hours before physical failure? Tier~1 (\texttt{STM32H743}) microcontrollers execute three continuous integer signal-processing loops on internal transducer channels:
+
+\subsection{1. Piezoelectric Modal FFT and Bearing Ball-Pass Harmonics}
+
+Piezoelectric accelerometers bonded directly to spindle, turbine, and mixer bearing housings sample structural vibration $x(n)$ at $f_s = 25{,}600\,\mathrm{Hz}$. A 1024-point radix-2 fixed-point Fast Fourier Transform (FFT) computes the discrete spectral power density $X(k)$ \parencite{brincker2015introduction}:
+\begin{equation}
+    X(k) = \sum_{n=0}^{N-1} x(n)\, e^{-j \frac{2\pi}{N} k n}, \qquad \omega_{\mathrm{res}} = \sqrt{\frac{k_{\mathrm{stiff}}}{m}}.
+    \label{eq:l2-stage3-fft}
+\end{equation}
+As a structural member or bearing race develops sub-millimeter spalling or micro-fractures, its effective stiffness $k_{\mathrm{stiff}}$ decreases, shifting the structural resonant frequency $\omega_{\mathrm{res}}$ downward while exciting characteristic Ball-Pass Frequency Outer-Race ($\mathrm{BPFO}$) harmonics. When the integer spectral energy in the $\mathrm{BPFO}$ sideband crosses $+600\,\mathrm{cB}$ ($+6.0\,\mathrm{dB}$) above the machine's commissioned baseline signature, \texttt{col-sensord} sets \texttt{predictive\_swap\_recommended = 1} with an estimated remaining useful life ($\mathtt{rul\_operating\_ms} \approx 144{,}000{,}000\,\mathrm{ms}$ [40 hours]), allowing Layer~4 to queue a five-minute \texttt{ISO 6204} bearing swap during the next quiet maintenance window.
+
+\subsection{2. Closed-Loop Back-EMF and Magnetic Encoder Stall Prevention}
+
+In Stage~III CNC mills, 3D printers, and automated valves (\texttt{Scenario Alpha}), open-loop stepper control is replaced by closed-loop control combining 12-bit diametric magnetic rotary encoders (\texttt{AS5600}) with continuous Back Electromotive Force (Back-EMF) sensing (\texttt{TMC2209}) \parencite{hughes2019electric}:
+\begin{equation}
+    V_{\mathrm{emf}}(t) = -K_e \frac{\mathrm{d}\theta}{\mathrm{d}t}, \qquad e_{\theta}(t) = \theta_{\mathrm{target}}(t) - \theta_{\mathrm{actual}}(t).
+    \label{eq:l2-back-emf}
+\end{equation}
+If a cutting tool encounters a hard knot or chip buildup, the phase angle between motor current and $V_{\mathrm{emf}}$ shifts instantaneously. The Tier~1 microcontroller throttles feed rate in $< 250\,\mu\mathrm{s}$ (Tier~1 SI Parameter Scaling) before steps are lost or the endmill fractures.
+
+\section{Feeding the 3-Tier Layer 4 BPMN Hardware Adaptation Cascade (\texttt{D5}, \texttt{D8})}
+\label{sec:l2-bpmn-adaptation-cascade}
+
+When a steward pulls a turnkey open-source franchise blueprint from the Sovereign Libraries at Layer~6 (\textit{``The Speedee Service System Without the Rent''} from Dialogue~7) and compiles it down to Layer~4 (\texttt{col-execd}), the blueprint's abstract SI task requirements (\texttt{BpmnTaskRequirementV50}) must be matched against the local room's actual Layer~2 Digital Twin inventory (\texttt{ToolTwinCapabilityV50}).
+
+As ratified in Part~IV (\S4.2 and \S4.4) of the Council Guidance (\texttt{CCI-5}), Layer~2 exposes the exact capability registers (\texttt{max\_volume\_ml}, \texttt{max\_power\_mw}, \texttt{max\_temp\_mk}, \texttt{parasitic\_shim\_overhead\_mw}, \texttt{erc\_amortized\_per\_cycle\_uj}) that drive Layer~4's deterministic \textbf{3-Tier BPMN Hardware Adaptation Cascade} (Listing~\ref{lst:l2-bpmn-cascade-v50}):
+\begin{enumerate}
+    \item \textbf{Tier 1 --- Automatic SI Parameter Scaling (\texttt{kTier1SiParameterScaled}):} When the local Layer~2 appliance matches the blueprint's functional archetype and intensive temperature limit ($\mathtt{required\_temp\_mk} \le \mathtt{max\_temp\_mk}$) but has a smaller volumetric chamber ($\mathtt{max\_volume\_ml} = 10{,}000\,\mathrm{mL}$ vs.\ $20{,}000\,\mathrm{mL}$) or different power rating ($\mathtt{max\_power\_mw}$), Layer~4 keeps the sub-workflow intact, splits the batch into $k = \lceil V_{\mathrm{req}} / V_{\mathrm{tool}} \rceil$ sub-batches, and recalculates thermal duty duration $\Delta t_{\mathrm{ms}} = E_{\mathrm{req\_uj}} / P_{\mathrm{tool\_mw}}$ directly from Layer~2 telemetry.
+    \item \textbf{Tier 2 --- Macro-Activity Substitution (\texttt{kTier2MacroActivitySpliced}):} When scalar scaling cannot bridge a process modality difference (e.g., a burger kitchen blueprint specifies an induction griddle sub-process while the local Layer~2 twin reports only a convection deck oven, or a chassis blueprint calls for laser seam welding while the workshop twin reports only a CNC drill press and \texttt{M6} fastener stock), Layer~4 splices the functionally equivalent BPMN Call Activity (\texttt{macro\_substitute\_cid}) behind strict material contracts without altering upstream prep.
+    \item \textbf{Tier 3 --- True-Constraint Hard-Block (\texttt{kTier3TrueConstraintHardBlock}):} Only when neither Tier~1 scaling nor Tier~2 substitution can satisfy physical safety or intensive thermodynamic laws---for example, a turnkey kitchen blueprint requiring cold storage at $\le 277{,}150\,\mathrm{mK}$ ($4.0\,^\circ\mathrm{C}$) when Layer~2 reports only an ambient larder at $291{,}150\,\mathrm{mK}$ ($18.0\,^\circ\mathrm{C}$), or a titanium sintering task requiring $1{,}923{,}150\,\mathrm{mK}$ when the local kiln maxes out at $1{,}473{,}150\,\mathrm{mK}$---does Layer~4 halt and escalate the exact SI deficit ($\mathtt{temp\_deficit\_mk} = 450{,}000\,\mathrm{mK}$) via Layer~5 into a human-readable \textbf{Layer~6 Semantic Diff Card}.
+\end{enumerate}
+
+\begin{lstlisting}[language=C++,caption={Layer~2 \texttt{ToolTwinCapabilityV50} register contract and deterministic 3-Tier BPMN Hardware Adaptation Cascade evaluator (\texttt{EvaluateBpmnHardwareCascadeV50}).},label={lst:l2-bpmn-cascade-v50}]
+#pragma once
+#include <cstdint>
+#include <array>
+
+namespace collective::layer2 {
+
+enum class HardwareFleetTier : uint8_t {
+    kScavengedLayer7Shimmed = 0, // Stage I: Proprietary brain + external L2 shim (0x04)
+    kRightToRepairHybrid    = 1, // Stage II: Scavenged heavy chassis + open L2 brain (0x08)
+    kNativeOpenSpec         = 2  // Stage III: Open-spec mechanics + full predictive L2 twin (0x02)
+};
+
+enum class BpmnCascadeResolution : uint8_t {
+    kDirectExecution              = 0,
+    kTier1SiParameterScaled       = 1, // Scaled batch count or thermal ramp duration in SI units
+    kTier2MacroActivitySpliced    = 2, // Substituted equivalent sub-workflow from Ontological Graph
+    kTier3TrueConstraintHardBlock = 3  // Intensive physical deficit -> decompile to L6 Semantic Diff
+};
+
+struct ToolTwinCapabilityV50 {
+    std::array<uint8_t, 32> tool_did_hash;
+    HardwareFleetTier fleet_tier{HardwareFleetTier::kScavengedLayer7Shimmed};
+    int64_t max_volume_ml{10'000};                 // Canonical milliliters (mL)
+    int64_t max_power_mw{1'800'000};               // Canonical milliwatts (mW)
+    int64_t max_temp_mk{523'150};                  // Canonical millikelvins (523.15 K = 250.0 C)
+    int64_t parasitic_shim_overhead_mw{45'000};    // Extra standby/shim power draw for Stage I gear
+    int64_t erc_amortized_per_cycle_uj{850'000'000LL}; // Layer 3 ERC per cycle (uJ)
+    int64_t unscheduled_fault_prob_bp{350};        // Stage I: 350 bp; Stage II: 45 bp; Stage III: 5 bp
+    bool has_macro_substitute_available{false};
+    std::array<uint8_t, 32> macro_substitute_cid{};
+};
+
+struct BpmnTaskRequirementV50 {
+    int64_t required_volume_ml{20'000};
+    int64_t required_thermal_energy_uj{7'200'000'000LL};
+    int64_t required_temp_mk{503'150};             // 230.0 C
+    bool allow_batch_splitting{true};
+};
+
+struct BpmnCascadeOutcomeV50 {
+    BpmnCascadeResolution resolution{BpmnCascadeResolution::kDirectExecution};
+    int64_t scaled_sub_batch_count{1};
+    int64_t scaled_duration_ms{0};
+    int64_t total_exergy_with_erc_uj{0};
+    int64_t temp_deficit_mk{0};                    // Non-zero on Tier 3 True-Constraint Hard-Block
+};
+
+[[nodiscard]] constexpr BpmnCascadeOutcomeV50 EvaluateBpmnHardwareCascadeV50(
+    const BpmnTaskRequirementV50& req,
+    const ToolTwinCapabilityV50& tool) noexcept {
+    BpmnCascadeOutcomeV50 out{};
+    if (req.required_temp_mk > tool.max_temp_mk) {
+        if (tool.has_macro_substitute_available) {
+            out.resolution = BpmnCascadeResolution::kTier2MacroActivitySpliced;
+            return out;
+        }
+        out.resolution = BpmnCascadeResolution::kTier3TrueConstraintHardBlock;
+        out.temp_deficit_mk = req.required_temp_mk - tool.max_temp_mk;
+        return out;
+    }
+    int64_t batches = 1;
+    if (req.required_volume_ml > tool.max_volume_ml) {
+        if (!req.allow_batch_splitting) {
+            out.resolution = tool.has_macro_substitute_available
+                ? BpmnCascadeResolution::kTier2MacroActivitySpliced
+                : BpmnCascadeResolution::kTier3TrueConstraintHardBlock;
+            return out;
+        }
+        batches = (req.required_volume_ml + tool.max_volume_ml - 1) / tool.max_volume_ml;
+    }
+    // 1 mW * 1 ms = 1 uJ exact -> duration_ms = energy_uj / power_mw
+    const int64_t single_batch_duration_ms =
+        (tool.max_power_mw > 0) ? (req.required_thermal_energy_uj / tool.max_power_mw) : 0;
+    out.scaled_sub_batch_count = batches;
+    out.scaled_duration_ms = batches * single_batch_duration_ms;
+    const int64_t shim_waste_uj = tool.parasitic_shim_overhead_mw * out.scaled_duration_ms;
+    out.total_exergy_with_erc_uj =
+        (batches * req.required_thermal_energy_uj) + shim_waste_uj + (batches * tool.erc_amortized_per_cycle_uj);
+    out.resolution = (batches > 1)
+        ? BpmnCascadeResolution::kTier1SiParameterScaled
+        : BpmnCascadeResolution::kDirectExecution;
+    return out;
+}
+
+} // namespace collective::layer2
+\end{lstlisting}
+
+\section{Dormant Equilibrium (``The \TeX\ Asymptote'') and Substrate Drift Wake-Ups (\texttt{D2})}
+\label{sec:l2-substrate-drift-wakeup}
+
+In Dialogue~2, the Horizon Council exposed why software under Layer~7 venture capitalism is never allowed to \textit{be finished}: recurring SaaS subscription extraction requires perpetual UI churn and manufactured API breakage. In The Collective, once a Layer~6 software artifact and its compiled Layer~4 WASM state machine reach genuine stability---like Donald Knuth's \TeX\ typesetting engine \parencite{knuth1984texbook}---servicing incidents drop to zero, every working-group member's operational reputation $R_i(t)$ decays asymptotically toward zero under reputational entropy $\lambda$ while their non-decaying civic baseline $B = 1$ ($10{,}000\,\mathrm{bp}$) prevents single-maintainer capture (\texttt{CCI-2}), and the Scenario~Zero working group enters \textbf{Dormant Equilibrium}.
+
+What ever wakes a software node from Dormant Equilibrium? \textbf{Substrate Drift at Layer~1 and Layer~2.}
+
+``Bit-rot'' is never an immutable, content-addressed Layer~6 specification decaying in storage; it is \textbf{Layer~1 physics and Layer~2 hardware drifting underneath a stationary specification}:
+\begin{itemize}
+    \item A semiconductor supply transition forces the hardware guild (\texttt{Scenario Pi}) to replace a discontinued 16-bit Modbus soil probe ADC with a new 24-bit RISC-V dielectric probe board emitting schema revision \texttt{l2.schema.soil\_probe.v2}.
+    \item Mineral buildup in an aging watershed weir alters the nozzle discharge coefficient of a Pelton micro-hydro needle valve outside the calibration curve assumed by the WASM controller.
+\end{itemize}
+
+When \texttt{col-telemetryd} detects an unrecognized register schema version or an innovation residual divergence ($\mathcal{M}_i(t)$ in Equation~\eqref{eq:l2-mahalanobis-anomaly}) that violates the compiled WASM ABI contract, it refuses to silently guess or coerce the reading. Instead, the stack executes the \textbf{Substrate Drift Wake-Up Cycle}:
+\begin{enumerate}
+    \item \texttt{col-telemetryd} flags the channel with \texttt{STATUS\_SUBSTRATE\_DRIFT\_SCHEMA\_MISMATCH} and commits the raw signed descriptor to \texttt{col-storaged} over \path{l2_l3.sock}.
+    \item \texttt{col-execd} hits an unknown-state hard-block and emits an \texttt{UpwardYieldPacketV31} with \texttt{YieldReason::SUBSTRATE\_DRIFT\_ADAPTER\_REQUIRED} across \path{l4_l5.sock}.
+    \item \texttt{col-kmsd} escalates the yield across \path{l5_l6.sock} to \texttt{col-commonsd}, which decompiles the hardware register delta into a human-readable \textbf{Layer~6 Semantic Diff Card} inside the \textit{Scenario Zero Forge Studio} lens (e.g., \textit{``Hardware Drift Detected on Backyard Soil Probe \#2: New ESP32-C6 board emits 24-bit dielectric frames incompatible with \texttt{wf:pea\_cultivation v1.2}. [Open Scenario Zero RFC to build \& ratify L2$\to$L4 adapter]''}).
+    \item Whichever engineer cares enough \textit{today} steps into Scenario~Zero, writes the deterministic fixed-point register adapter, passes the $10{,}000$-tick Oasis canary soak test, accrues fresh $\Delta R_i(t)$ from zero, ratifies the patch under $V_i(t) = 1 + R_i(t)$, and lets the working group fall quietly back asleep.
+\end{enumerate}

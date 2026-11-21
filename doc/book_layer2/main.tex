@@ -1,34 +1,166 @@
-\documentclass[11pt,oneside]{book}
+\documentclass[11pt,a4paper]{book}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage{lmodern}
-\linespread{1.05} % Palatino looks better with slightly increased leading
-\usepackage{amsmath, amssymb, amsthm}
+\usepackage{tgpagella}
+\usepackage[scale=0.92]{tgheros}
+\usepackage[scale=0.86]{tgcursor}
+\linespread{1.05}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
 \usepackage{graphicx}
-\usepackage{hyperref}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,shapes.geometric,shapes.multipart,automata,calc,fit,backgrounds,decorations.pathreplacing}
+\usepackage{listings}
 \usepackage{geometry}
-
 \geometry{a4paper, margin=1in}
-
-\title{
-    \Huge \textbf{Layer 2: Sensors and Actuators} \\
-    \vspace{0.5cm}
-    \Large Hardware Telemetry, Signal Processing, and Cryptographic Oracles
+\IfFileExists{epigraph.sty}{%
+    \usepackage{epigraph}%
+    \setlength{\epigraphwidth}{0.68\textwidth}%
+    \renewcommand{\epigraphrule}{0pt}%
+}{%
+    \newcommand{\epigraph}[2]{%
+        \begin{flushright}%
+        \begin{minipage}{0.68\textwidth}%
+        \small\itshape ##1\par\vspace{0.35em}%
+        \upshape\raggedleft ##2\par%
+        \end{minipage}%
+        \end{flushright}%
+        \vspace{1.2em}%
+    }%
 }
-\author{Embedded Systems Architect \& Domain Specialists}
-\date{\today}
+\usepackage{csquotes}
+\usepackage{xcolor}
+\newif\ifusebiblatex
+\IfFileExists{biblatex.sty}{%
+    \usebiblatextrue
+    \usepackage[style=authoryear,backend=bibtex]{biblatex}
+    \addbibresource{references.bib}
+}{%
+    \usebiblatexfalse
+    \usepackage[round,authoryear]{natbib}
+    \newcommand{\parencite}[2][]{\ifx\relax##1\relax\citep{##2}\else\citep[##1]{##2}\fi}
+    \newcommand{\textcite}[2][]{\ifx\relax##1\relax\citet{##2}\else\citet[##1]{##2}\fi}
+}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,
+    urlcolor=teal,
+    citecolor=gray,
+    pdftitle={The Sovereign Stack — Companion Volume: Layer 2: The Cyber-Physical Membrane and Edge Digital Twin},
+    pdfauthor={The Collective Architectural Council},
+}
+
+% --- Line-Breaking & Running Header Typography ---
+\setlength{\emergencystretch}{3em}
+\DeclareRobustCommand{\_}{\ifmmode\text{\symbol{95}}\else\symbol{95}\allowbreak\fi}
+\pdfstringdefDisableCommands{\def\_{_}}
+\usepackage{fancyhdr}
+\setlength{\headheight}{22pt}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.3pt}
+\fancyhead[LE]{\small\thepage}
+\fancyhead[RE]{\parbox[b]{0.86\textwidth}{\raggedleft\footnotesize\itshape\nouppercase{\leftmark}}}
+\fancyhead[LO]{\parbox[b]{0.86\textwidth}{\raggedright\footnotesize\itshape\nouppercase{\rightmark}}}
+\fancyhead[RO]{\small\thepage}
+
+% --- Theorem & Definition Environments ---
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{invariant}[theorem]{Invariant}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+
+% --- Listings & Diagram Palette Setup ---
+\definecolor{amber}{rgb}{0.85,0.55,0.05}
+\definecolor{codebg}{rgb}{0.97,0.97,0.98}
+\definecolor{codeframe}{rgb}{0.82,0.84,0.87}
+\definecolor{codekw}{rgb}{0.12,0.28,0.58}
+\definecolor{codecmt}{rgb}{0.35,0.42,0.38}
+\lstset{
+    basicstyle=\footnotesize\ttfamily,
+    backgroundcolor=\color{codebg},
+    frame=single,
+    rulecolor=\color{codeframe},
+    keywordstyle=\bfseries\color{codekw},
+    commentstyle=\itshape\color{codecmt},
+    breaklines=true,
+    columns=fullflexible,
+    keepspaces=true,
+    showstringspaces=false,
+    aboveskip=0.8em,
+    belowskip=0.8em
+}
 
 \begin{document}
 
-\maketitle
+\frontmatter
+\begin{titlepage}
+    \thispagestyle{empty}
+    \begin{center}
+        \vspace*{3.0cm}
+        {\Large \textsc{The Sovereign Stack $\cdot$ Technical Companion Series}} \\[1.1cm]
+        {\scalebox{1.45}{\textbf{Layer 2: The Cyber-Physical Membrane}}} \\[0.35cm]
+        {\scalebox{1.32}{\textbf{and Edge Digital Twin}}} \\[0.85cm]
+        {\Large \textit{Non-Panoptic Transduction, Canonical 64-Bit Fixed-Point SI Metrology,}} \\[0.25cm]
+        {\Large \textit{Three-Tier Hardware Fleet Progression, and Enveloping Node Boundary}} \\[0.25cm]
+        {\Large \textit{Reflexes Across Sovereign Settlements}} \\[2.3cm]
+        {\large \textbf{The Collective Architectural Council}} \\[0.4cm]
+        {\normalsize Ratified v3.2 Companion Monograph (Horizon Council \texttt{D1--D8} \& 25-Scenario Synthesis)}
+        \vfill
+        {\large Cascadia Bioregion $\cdot$ November 2026}
+        \vspace*{2.0cm}
+    \end{center}
+    \clearpage
+\end{titlepage}
+
 \tableofcontents
 
-\part{The Physical-Digital Boundary}
-\include{chapters/01_signal_processing}
-\include{chapters/02_sensor_modalities}
+\input{chapters/00_preface}
 
-\part{Kinetic Control and Decentralized Networks}
-\include{chapters/03_actuation_relays}
-\include{chapters/04_embedded_networking}
+\mainmatter
+
+% ==========================================================================
+% PART I: CORE CYBER-PHYSICAL TRANSDUCTION, 3-TIER FLEET PROGRESSION & REFLEXES
+% ==========================================================================
+\part{Core Cyber-Physical Transduction, Three-Tier Fleet Progression, and Edge Reflexes}
+
+\input{chapters/01_non_panoptic_membrane}
+\input{chapters/02_canonical_si_metrology}
+\input{chapters/03_stage1_scavenged_shims}
+\input{chapters/04_stage2_right_to_repair_retrofits}
+\input{chapters/05_stage3_open_spec_twins}
+\input{chapters/06_enveloping_node_partition_sensing}
+\input{chapters/07_fast_path_hazard_interlocks}
+\input{chapters/08_pantry_vs_workshop_telemetry}
+\input{chapters/09_hardware_root_of_trust_and_mesh}
+
+% ==========================================================================
+% PART II: HORIZONTAL WAVES & SOVEREIGN SCENARIOS EDGE TELEMETRY REFERENCE
+% ==========================================================================
+\part{Horizontal Waves and Sovereign Scenarios Edge Telemetry Reference}
+
+\input{chapters/10_waves_a_and_b_walkthroughs}
+\input{chapters/11_wave_c_walkthroughs}
+\input{chapters/12_wave_d_walkthroughs}
+\input{chapters/13_waves_e_and_f_walkthroughs}
+\input{chapters/14_conclusion_silent_machines}
+
+\backmatter
+\ifusebiblatex
+    \printbibliography[heading=bibintoc]
+\else
+    \cleardoublepage
+    \phantomsection
+    \addcontentsline{toc}{chapter}{Bibliography}
+    \bibliographystyle{plainnat}
+    \bibliography{references}
+\fi
 
 \end{document}

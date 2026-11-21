@@ -1,0 +1,217 @@
+\chapter{The Non-Panoptic Membrane: Selective Permeability, Zephyr Silicon, and Hardware Air-Gaps}
+\label{ch:non-panoptic-membrane}
+
+\epigraph{A convivial tool is one which gives each person who uses it the greatest opportunity to enrich the environment with the fruits of his or her vision\dots\ Tools foster conviviality to the extent to which they can be easily used, by anybody, as often or as seldom as desired, for the accomplishment of a purpose chosen by the user.}{--- \textcite{illich1973}}
+
+\section{The Threshold of Perception and the Anti-Panopticon Mandate}
+\label{sec:l2-threshold-anti-panopticon}
+
+In the seven-layer constitutional topology of The Sovereign Stack, Layer~1 (Physical Reality) contains zero software, zero firmware, and zero cryptographic keys, answering solely to the conservation of mass, momentum, and energy \parencite{georgescu1971,odum1971}. Above it, Layers~3 through~7 execute discrete, content-addressed state machines over deterministic 64-bit integer ledgers, capability-sandboxed WebAssembly modules, threshold signatures, and semantic JSON-LD graphs. Between the continuous, noisy analog mud of Layer~1 and the discrete cryptographic invariants of Layer~3 stands \textbf{Layer~2: The Cyber-Physical Membrane}.
+
+In biological autopoiesis, a living cell survives only because its phospholipid bilayer exercises \textit{selective permeability} \parencite{maturana1980,varela1979,margulis1998}. An impermeable wall starves the organism of metabolic exergy; an unguarded opening allows external noise and toxins to destroy internal homeostatic order. Layer~2 performs this exact biological duty for a Sovereign Node:
+\begin{enumerate}
+    \item \textbf{The Inward Membrane (Afferent Telemetry):} It samples microvolt thermocouple gradients, manganin shunt drops, capacitive dielectric shifts, and acoustic partition vibrations, conditioning them through galvanic barriers and Kalman filters into dimensionally pure, hardware-signed 64-bit SI integer claims pushed upward over \path{/run/collective/ipc/l2_l3.sock}.
+    \item \textbf{The Outward Membrane (Efferent Actuation):} It receives hardware-leased 64-byte actuation envelopes (\texttt{ActuationEnvelopeV1}) descending from Layer~4 via Layer~3 over \path{/run/collective/ipc/l3_l2.sock}, verifies five physical safety predicates in sub-millisecond hardware time, and drives solid-state relays, MOSFET bridges, and motorized valves over \path{/run/collective/ipc/l1_l2.sock}.
+\end{enumerate}
+
+\subsection{Eradicating the Corporate IoT Panopticon and ``Proof of Labor'' Drift}
+
+Before specifying a single amplifier or fieldbus, Layer~2 enforces an absolute constitutional prohibition (\texttt{CCI-2}): \textbf{the Cyber-Physical Membrane senses machines, material stocks, and spatial partition boundaries---never human bodies}.
+
+In late-stage platform capitalism, sensors were weaponized against workers and households \parencite{zuboff2019,han2015}. Warehouse scanners timed bathroom breaks; biometric wristbands monitored heart-rate variability; computer-vision cameras tracked facial posture; and even early decentralised prototypes fell into the trap of ``Cryptographic Proof of Labor''---proposing to attach Hall-effect sensors and 6-DoF inertial measurement units (IMUs) to hand tools so an embedded digital signal processor could verify a worker's physical exertion signature and mint ``Value Tokens.''
+
+The Horizon Council's v3.2 specification permanently purges ``Proof of Labor'' worker surveillance, scalar ``Value Tokens,'' optical person-tracking, and continuous vital-sign telemetry from Layer~2:
+\begin{itemize}
+    \item \textbf{No Worker Surveillance or Exertion Signatures:} Layer~2 never verifies \textit{who} held a soldering iron or how hard a carpenter pushed a saw. In The Collective, Proof of Stewardship ($\Delta R_{i,\mathrm{bp}}(t)$ feeding the unified Layer~5 voting weight $V_i(t) = 1 + R_i(t)$) is minted exclusively when a ratified Layer~4 BPMN workflow resolves a community need verified by objective material or thermodynamic state transitions in Layer~2 and Layer~3 (e.g., a cistern filled, a pasteurization hold completed, or a right-to-repair controller board passing hardware-in-the-loop diagnostics).
+    \item \textbf{Ban on Body-Worn and Biometric Transducers:} No sensor measuring heart rate, galvanic skin response, electroencephalography, step counts, eye gaze, or sleeping chest-cavity respiration is permitted on a Layer~2 bus. Even in elder sanctuary suites (\texttt{Scenario Phi}), safety relies on non-biometric ambient environmental telemetry (fixture power draw, bathroom floor hydro/thermal trip arrays, and voluntary tactile pull-cords), never non-consensual radar vital-sign tracking.
+    \item \textbf{Waveform Zeroization on Acoustic and Optical Channels:} Where Layer~2 measures room acoustics to enforce Enveloping Node quiet leases (Chapter~\ref{ch:enveloping-node-partition-sensing}), the microcontroller's $I^2S$ DMA buffer converts Pulse Density Modulation (PDM) samples immediately into scalar root-mean-square centibels (\texttt{cB}) and overwrites the waveform memory with zeros before any frame can enter the network stack. Speech and faces are physically non-existent to the ledger.
+\end{itemize}
+
+\begin{invariant}[The Non-Panoptic Hardware Membrane Law (\texttt{CCI-2})]
+\label{inv:l2-non-panoptic}
+Let $\mathcal{S}_{\mathrm{L2}}$ denote the set of all telemetry registers exposed across \path{/run/collective/ipc/l2_l3.sock} and \path{/dev/shm/oasis_telemetry}. Every register $r \in \mathcal{S}_{\mathrm{L2}}$ must represent an intensive or extensive thermodynamic state of a machine, a material stock lot, or an architectural partition boundary:
+\begin{equation}
+    \forall r \in \mathcal{S}_{\mathrm{L2}}: \quad \mathrm{Subject}(r) \in \{\text{\normalfont MachineTwin},\; \text{\normalfont MaterialStockLot},\; \text{\normalfont PartitionBoundary}\} \;\land\; \mathrm{BiometricOrIdentityBits}(r) = 0.
+    \label{eq:l2-non-panoptic}
+\end{equation}
+Any firmware image or device schema importing person-identification, facial/gait optical tracking, raw audio streaming, or worker-exertion scoring symbols is rejected at compile time and by the Zephyr hardware secure bootloader.
+\end{invariant}
+
+\section{Strict Seven-Layer Adjacency and the Nine-Daemon Roster}
+\label{sec:l2-strict-adjacency-daemons}
+
+Layer~2 never opens sockets directly to Layer~4 (\texttt{col-execd}), Layer~5 (\texttt{col-kmsd}), Layer~6 (\texttt{col-commonsd} / \texttt{col-gatewayd}), or Layer~7 (\texttt{col-adversaryd}). All upward and downward transitions traverse strictly adjacent Unix Domain Sockets (\texttt{AF\_UNIX} \texttt{SOCK\_SEQPACKET} with \texttt{SO\_PEERCRED} kernel credential verification) inside the nine-daemon Sovereign Stack runtime (Table~\ref{tab:l2-nine-daemon-roster}).
+
+\begin{table}[htbp]
+\centering
+\caption{The Canonical Nine-Daemon Sovereign Stack Topology and Layer~2 Socket Boundaries (v3.2).}
+\label{tab:l2-nine-daemon-roster}
+\footnotesize
+\begin{tabular}{@{}llllp{5.5cm}@{}}
+\toprule
+\textbf{Layer} & \textbf{POSIX Daemon} & \textbf{Downward Socket} & \textbf{Upward Socket} & \textbf{Core Cyber-Physical Responsibility} \\
+\midrule
+\textbf{L7} & \texttt{col-adversaryd} & \texttt{l6\_l7.sock} & VLAN 40 DMZ & Tripartite legal carapace, municipal tariff arbitrage, Stage~I spare-part tribute tracker \& chaos fault injector. \\
+\textbf{L6} & \texttt{col-gatewayd} & \texttt{l6\_gateway.sock} & TLS 1.3 \texttt{:8443} & HTTP-like lens framing (\textit{Pantry}, \textit{Workshop}, \textit{Bakery}, \textit{Forge}, \textit{Envelope}); \texttt{HTTP 405} read-only guard on L1--L5. \\
+\textbf{L6} & \texttt{col-commonsd} & \texttt{l5\_l6.sock} & \texttt{l6\_l7.sock} & Local Semantic Daemon: JSON-LD Ontological Graph, edge SI unit normalizer, downward compiler \& Semantic Diff decompiler. \\
+\textbf{L5} & \texttt{col-kmsd} & \texttt{l4\_l5.sock} & \texttt{l5\_l6.sock} & Constitutional Kernel: $V_i(t) = 1 + R_i(t)$, Four Pillars, Enveloping Node Hypervisor, Two-Speed Jurisprudence \& ZK demand stripping. \\
+\textbf{L4} & \texttt{col-execd} & \texttt{l3\_l4.sock} & \texttt{l4\_l5.sock} & Deterministic $10\,\mathrm{Hz}$ BPMN/WASM orchestrator, 3-Tier Hardware Adaptation Cascade \& Open-Source Franchising engine. \\
+\textbf{L4/3} & \texttt{col-swarmd} & \texttt{l3\_l4.sock} & Peer Mesh IPC & Pure-integer \texttt{SplitMix64} peer swarm simulator, Tier~3 Hard-Block federated task router \& cohort appetite lease generator. \\
+\textbf{L3} & \texttt{col-storaged} & \texttt{l2\_l3.sock} / \texttt{l3\_l2.sock} & \texttt{l3\_l4.sock} & 64-bit SI vector ledger (RocksDB + Automerge CRDTs), $\lambda_{\mathrm{ERC}}$, \texttt{thermodynamicProof}, anonymous leases \& retrofit stewardship. \\
+\textbf{L2} & \texttt{col-telemetryd} & \texttt{l1\_l2.sock} & \texttt{l2\_l3.sock} / \texttt{l3\_l2.sock} & Cyber-Physical Membrane (\texttt{col-membraned}, \texttt{col-sensord}, \texttt{col-actuated}): \texttt{HardwareAirgapFilter}, 3-Tier fleet tags \& $\mathbf{\Phi}$ interlocks. \\
+\textbf{L2} & \texttt{col-meshd} & LoRa / Fiber / DTN & \texttt{l3\_l2.sock} & Reticulum packet radio, OS2 optical fiber \& vehicular DTN gossip transport for CRDT deltas and Sovereign Library bundles. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+On the primary node Single-Board Computer (SBC) cluster (e.g., Rockchip RK3588 or salvaged \texttt{x86\_64} host), \texttt{col-telemetryd} orchestrates three privilege-separated worker processes sandboxed via \texttt{systemd} and Linux capabilities:
+\begin{itemize}
+    \item \textbf{\texttt{col-membraned} (Central Membrane Arbiter):} Locked into physical RAM via \texttt{mlockall(\allowbreak MCL\_CURRENT | MCL\_FUTURE)} under \texttt{SCHED\_FIFO} priority~80 (\texttt{CAP\_IPC\_LOCK}). It manages the cache-aligned UHAI shared-memory ring buffers, enforces the \texttt{HardwareAirgapFilter}, verifies Layer~3 \texttt{Lease\_CID} vouchers on descending \texttt{ActuationEnvelopeV1} orders, and monitors the $1{,}000\,\mathrm{ms}$ inter-daemon heartbeat lease over \path{/run/collective/ipc/l3_l2.sock}.
+    \item \textbf{\texttt{col-sensord} (Afferent Bus Aggregator):} Restricted to \texttt{DeviceAllow=/dev/ttyUSB* rw} and \texttt{spidev*}. It polls isolated CAN-FD and RS-485 Modbus RTU buses, executes integer Kalman filtering, tags frames with hardware provenance flags (\texttt{0x02}, \texttt{0x04}, \texttt{0x08}), and coordinates 1-Hz \texttt{BLAKE2b} Epoch Merkle Batching with the \texttt{ATECC608A} secure element.
+    \item \textbf{\texttt{col-actuated} (Efferent Interlock \& PID Supervisor):} Restricted to \texttt{gpiochip*} and \texttt{pwmchip*}. It evaluates the five physical invariance predicates $\mathbf{\Phi}$ prior to energizing any output pin, executes back-calculation anti-windup PID loops, and drops actuators into fail-safe resting states upon lease expiry or Fast-Path hazard preemption.
+\end{itemize}
+
+\section{The Three-Tier Microcontroller Hierarchy Under Zephyr RTOS}
+\label{sec:l2-zephyr-mcu-hierarchy}
+
+Physical transducers cannot be wired directly to a multi-tasking Linux application processor without inviting kernel scheduling jitter and catastrophic single-point failure. Layer~2 distributes edge intelligence across a \textbf{Three-Tier Microcontroller Hierarchy} (Table~\ref{tab:l2-mcu-taxonomy}), harmonized across all 25 Sovereign Scenarios.
+
+\begin{table}[htbp]
+\centering
+\caption{The Three-Tier Edge Microcontroller Taxonomy for Layer~2 under Zephyr RTOS.}
+\label{tab:l2-mcu-taxonomy}
+\footnotesize
+\begin{tabular}{@{}p{2.3cm}p{2.8cm}p{3.4cm}p{5.2cm}@{}}
+\toprule
+\textbf{Silicon Tier} & \textbf{Reference Part} & \textbf{Core, Memory \& Clocks} & \textbf{Layer 2 Cyber-Physical Role} \\
+\midrule
+\textbf{Tier 1: Real-Time Aggregator} & STMicroelectronics \texttt{STM32H743ZIT6} \parencite{st_stm32h743} & ARM Cortex-M7 @ $480\,\mathrm{MHz}$; $2\,\mathrm{MB}$ Flash; $1\,\mathrm{MB}$ SRAM ($128\,\mathrm{KB}$ zero-wait DTCM); $3 \times 16\text{-bit}$ ADCs & High-speed analog aggregation, CAN-FD arbitration, 48V/380V microgrid regulation, piezoelectric FFT bearing diagnostics, and fixed-point Kalman filtering. \\
+\addlinespace[3pt]
+\textbf{Tier 2: Distributed Biome Pod} & Espressif \texttt{ESP32-S3-WROOM-1} / \texttt{ESP32-C6} (RISC-V) & Dual Xtensa LX7 @ $240\,\mathrm{MHz}$ (or RV32IMAC); $512\,\mathrm{KB}$ SRAM; $8\,\mathrm{MB}$ Flash; ULP coprocessor ($< 10\,\mu\mathrm{A}$) & Rhizosphere FDR soil moisture arrays, cold-chain \textit{Pantry} Arrhenius integrators, Enveloping Node boundary SPL (\texttt{cB}) monitors, and Stage~II Right-to-Repair retrofit boards. \\
+\addlinespace[3pt]
+\textbf{Tier 3: Salvage \& PIO Bridge} & Raspberry Pi \texttt{RP2040} / \texttt{RP2350} (ARM/Hazard3 RISC-V) & Dual Cortex-M0+/M33 or Hazard3 RISC-V @ $150\,\mathrm{MHz}$; $264\text{--}520\,\mathrm{KB}$ SRAM; $8\text{--}12\times$ PIO state machines & Cycle-accurate bit-banging of Stage~I Parasitic Layer~2 Shims: optical 7-segment display decoders, Gray-code rotary encoders, 1-Wire strings, and legacy serial scrap. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Deterministic Execution and MPU Sandboxing in Zephyr RTOS}
+
+Proprietary vendor SDKs and ad-hoc bare-metal superloops are prohibited in Layer~2. Every microcontroller executes open-source firmware built on \textbf{Zephyr RTOS} \parencite{zephyr2024}, enforcing three hardware-backed guarantees:
+\begin{enumerate}
+    \item \textbf{Immutable Device Tree Abstraction (\texttt{.dts}):} Pin multiplexers, DMA channels, SPI/I$^2$C clock trees, and interrupt lines are bound declaratively via \texttt{DEVICE\_DT\_GET}. During a semiconductor supply shock (\texttt{Scenario Upsilon}) or Stage~II Right-to-Repair retrofit (\texttt{Scenario Pi}), stewards can recompile the exact same telemetry and PID source code from an ARM Cortex-M7 to an open-source \texttt{riscv64}/\texttt{rv32imac} microcontroller simply by swapping the board Device Tree overlay.
+    \item \textbf{32-Level Preemptive Real-Time Priority Bands:} Cooperative non-preemptible priorities ($0\text{--}4$) are reserved for Fast-Path physical hazard trips (over-current fault comparators, water-ingress emergency cutoffs, LOTO hasp openings) with worst-case interrupt latency $< 2\,\mu\mathrm{s}$. Preemptible real-time threads ($5\text{--}15$) run ADC DMA completion handlers, fixed-point Kalman filters, and \texttt{BLAKE2b} Merkle hashing, while background fieldbus framing runs in low-priority bands ($16\text{--}31$).
+    \item \textbf{Hardware Memory Protection Unit (\texttt{CONFIG\_USERSPACE=y}) Partitions:} The ARM/RISC-V MPU divides SRAM into three isolated protection domains:
+    \begin{itemize}
+        \item \textit{Domain~0 (Privileged Kernel \& Crypto Bus):} Houses the Zephyr microkernel, Watchdog ISRs, and the isolated $400\,\mathrm{kHz}$ I$^2$C driver talking to the \texttt{ATECC608A} cryptographic co-processor. Unprivileged threads hold zero read/write permissions to Domain~0.
+        \item \textit{Domain~1 (Afferent Conditioning \& Zeroization Pool):} Executes fixed-point ADC scaling, Kalman innovation tracking, and $I^2S$ PDM acoustic centibel integration. Raw PDM audio buffers are mapped exclusively inside Domain~1's scratchpad and wiped immediately after RMS computation.
+        \item \textit{Domain~2 (Untrusted Fieldbus \& Stage~I Shim Parser Sandbox):} Parses external RS-485 Modbus RTU frames, CAN-FD payloads, and Stage~I scavenged appliance protocol shims. Surrounded by hardware MPU stack-guard pages, any malformed packet or buffer overflow on a scavenged appliance wire triggers an immediate \texttt{MemManage} hardware fault that restarts Domain~2 in $< 500\,\mu\mathrm{s}$ without disturbing Domain~0 life-support or Domain~1 telemetry.
+    \end{itemize}
+\end{enumerate}
+
+\section{Galvanic Isolation and Industrial Fieldbus Immunity}
+\label{sec:l2-galvanic-isolation}
+
+In a real settlement microgrid (\texttt{Scenario Alpha}, \texttt{Scenario Theta}), switching a $5\,\mathrm{kW}$ induction furnace or absorbing an atmospheric lightning transient induces common-mode voltage surges ($\mathrm{d}V/\mathrm{d}t > 50{,}000{,}000\,\mathrm{mV/\mu s}$) and ground potential rises between power electronics and logic enclosures. Direct conductive wiring destroys microcontroller silicon and corrupts telemetry.
+
+Layer~2 mandates \textbf{complete galvanic isolation} across every physical transducer boundary:
+\begin{itemize}
+    \item \textbf{Capacitive Digital Isolators ($2.5\,\mathrm{kV}_{\mathrm{RMS}}$):} All SPI, UART, and CAN-FD logic lines cross a silica dielectric barrier via Texas Instruments \texttt{ISO7741} isolators ($2.5\,\mathrm{kV}_{\mathrm{RMS}}$ continuous rating, $5.0\,\mathrm{kV}_{\mathrm{RMS}}$ surge withstand per UL~1577 / IEC~60747-17, Common-Mode Transient Immunity $> 100\,\mathrm{kV/\mu s}$).
+    \item \textbf{Isolated DC-DC Power Islands ($3.0\,\mathrm{kV}_{\mathrm{DC}}$):} Sensor front-ends are powered by Murata \texttt{NXE2} isolated DC-DC converters, severing field transducer ground (\texttt{ISO\_GND}) from digital logic ground (\texttt{DGND}).
+    \item \textbf{CAN-FD Industrial Backbone (ISO 11898-1:2015):} High-speed intra-building telemetry and Enveloping Node boundary sensors route over CAN-FD \parencite{iso11898_2015} via Microchip \texttt{MCP2518FD} controllers and isolated \texttt{TCAN1042} transceivers ($500\,\mathrm{kbps}$ arbitration phase, $2.0\,\mathrm{Mbps}$ data phase, 21-bit hardware CRC, and non-destructive bitwise priority arbitration where Fast-Path hazard frames carry CAN ID prefix \texttt{0x001..0x01F}).
+    \item \textbf{Fail-Safe Isolated RS-485 Modbus RTU:} Rhizosphere soil probes (\texttt{soil\_probe\_v1}), induction vessels (\texttt{culinary\_vessel\_v1}), and legacy industrial inverters connect over Maxim \texttt{MAX14840E} half-duplex transceivers ($\pm 35\,\mathrm{kV}$ ESD protection with $560\,\Omega$ fail-safe pull-up/pull-down biasing).
+\end{itemize}
+
+\section{Outward-Only SITL Demarcation and the Hardware Airgap Filter (\texttt{CCI-1}, \texttt{SBR-5})}
+\label{sec:l2-hardware-airgap-filter}
+
+A critical architectural correction ratified by the Horizon Council in Deliverable~\#2 (\texttt{CCI-1} and \texttt{SBR-5}) resolves the ontological relationship between physical settlements (\texttt{Layer 1a}) and the Oasis Software-in-the-Loop (\texttt{SITL}) simulation proving ground (\texttt{Layer 1b}).
+
+Early drafts of the main volume erroneously described a ``Living Mirror'' phase transition in which Oasis would ingest live $60\,\mathrm{Hz}$ physical telemetry from real homes over \path{/dev/shm/oasis_telemetry}. That bidirectional ingestion model is \textbf{architecturally prohibited}:
+\begin{enumerate}
+    \item \textbf{Oasis (\texttt{Layer 1b}) Is Strictly an Outward-Only Producer of \texttt{0x01} Simulated Telemetry:} Oasis is a standalone C++20 proving ground and Scenario~Zero canary soak-testbed ($\ge 10{,}000$ deterministic ticks). It produces synthetic physical telemetry tagged with provenance flag \texttt{QUALITY\_SIMULATED = 0x01} into the lock-free UHAI ring buffer so that the real Sovereign Stack daemons (\texttt{col-telemetryd} $\to$ \texttt{col-storaged} $\to$ \texttt{col-execd} $\to$ \texttt{col-kmsd} $\to$ \texttt{col-commonsd}) can be tested against simulated droughts, blizzard shocks, and hardware failures. Oasis never ingests live telemetry from physical households.
+    \item \textbf{The Hardware Airgap Filter in \texttt{col-telemetryd}:} Conversely, on a physical node, synthetic simulation frames (\texttt{0x01}) must never be permitted to energize real physical MOSFETs, solenoids, or high-voltage contactors. Inside \path{src/daemons/col-telemetryd/airgap_filter.hpp}, the \texttt{HardwareAirgapFilter} inspects the 8-bit \texttt{quality\_flags} register of every incoming frame before any state can cross into physical Hardware Abstraction Layer (\texttt{HAL}) actuation relays.
+\end{enumerate}
+
+At Horizon Council v3.2, \texttt{HardwareAirgapFilter} is extended to discriminate across both the SITL airgap and the \textbf{Three-Tier Hardware Fleet Provenance Flags} (Chapters~\ref{ch:stage1-scavenged-shims}--\ref{ch:stage3-open-spec-twins}), as formalized in Listing~\ref{lst:l2-airgap-filter-v50}.
+
+\begin{lstlisting}[language=C++,caption={Hardened v3.2 \texttt{HardwareAirgapFilter} enforcing outward-only \texttt{0x01} SITL isolation and 3-tier hardware fleet provenance discrimination in \texttt{col-telemetryd}.},label={lst:l2-airgap-filter-v50}]
+#pragma once
+#include <cstdint>
+#include <string_view>
+
+namespace collective::layer2 {
+
+// Canonical v3.2 / v5.0 UHAI Provenance & Hardware Fleet Quality Flags
+inline constexpr uint8_t QUALITY_SIMULATED          = 0x01; // Layer 1b Oasis SITL (Airgap Drop!)
+inline constexpr uint8_t QUALITY_OPEN_SPEC_NATIVE   = 0x02; // Stage III Native Open-Spec (+/- 50 bp)
+inline constexpr uint8_t QUALITY_SCAVENGED_L7_SHIM  = 0x04; // Stage I Parasitic L2 Shim (+/- 1500 bp)
+inline constexpr uint8_t QUALITY_RETROFIT_HYBRID    = 0x08; // Stage II Right-to-Repair (+/- 350 bp)
+
+enum class AirgapDecision : uint8_t {
+    ACCEPTED_STAGE3_OPEN_SPEC_NATIVE       = 0, // 0x02: Full predictive twin, +/- 50 bp uncertainty
+    ACCEPTED_STAGE2_RETROFIT_HYBRID        = 1, // 0x08: Open MCU retrofit on salvaged chassis
+    ACCEPTED_STAGE1_SCAVENGED_L7_SHIM      = 2, // 0x04: Parasitic clamp/thermistor shim (high uncertainty)
+    DROPPED_SIMULATED_SECURITY_VIOLATION   = 3, // 0x01: Synthetic Oasis SITL frame barred from HAL
+    DROPPED_INVALID_FLAG                   = 4  // Unrecognized or corrupted provenance byte
+};
+
+struct AirgapFilterStatsV50 {
+    uint64_t total_inspected{0};
+    uint64_t accepted_stage3_native{0};
+    uint64_t accepted_stage2_hybrid{0};
+    uint64_t accepted_stage1_shimmed{0};
+    uint64_t dropped_simulated{0};
+    uint64_t dropped_invalid{0};
+};
+
+class HardwareAirgapFilterV50 {
+public:
+    constexpr HardwareAirgapFilterV50() noexcept = default;
+
+    [[nodiscard]] constexpr AirgapDecision Evaluate(uint8_t quality_flag) noexcept {
+        stats_.total_inspected++;
+        switch (quality_flag) {
+            case QUALITY_OPEN_SPEC_NATIVE:
+                stats_.accepted_stage3_native++;
+                return AirgapDecision::ACCEPTED_STAGE3_OPEN_SPEC_NATIVE;
+            case QUALITY_RETROFIT_HYBRID:
+                stats_.accepted_stage2_hybrid++;
+                return AirgapDecision::ACCEPTED_STAGE2_RETROFIT_HYBRID;
+            case QUALITY_SCAVENGED_L7_SHIM:
+                stats_.accepted_stage1_shimmed++;
+                return AirgapDecision::ACCEPTED_STAGE1_SCAVENGED_L7_SHIM;
+            case QUALITY_SIMULATED:
+                stats_.dropped_simulated++;
+                return AirgapDecision::DROPPED_SIMULATED_SECURITY_VIOLATION;
+            default:
+                stats_.dropped_invalid++;
+                return AirgapDecision::DROPPED_INVALID_FLAG;
+        }
+    }
+
+    [[nodiscard]] constexpr bool IsAuthorizedForPhysicalHal(uint8_t quality_flag) noexcept {
+        const auto d = Evaluate(quality_flag);
+        return d == AirgapDecision::ACCEPTED_STAGE3_OPEN_SPEC_NATIVE ||
+               d == AirgapDecision::ACCEPTED_STAGE2_RETROFIT_HYBRID  ||
+               d == AirgapDecision::ACCEPTED_STAGE1_SCAVENGED_L7_SHIM;
+    }
+
+    [[nodiscard]] static constexpr int64_t DiagnosticUncertaintyBp(uint8_t quality_flag) noexcept {
+        switch (quality_flag) {
+            case QUALITY_OPEN_SPEC_NATIVE:  return 50;    // +/- 0.50%
+            case QUALITY_RETROFIT_HYBRID:   return 350;   // +/- 3.50%
+            case QUALITY_SCAVENGED_L7_SHIM: return 1'500; // +/- 15.00%
+            default:                        return 10'000;
+        }
+    }
+
+    [[nodiscard]] constexpr const AirgapFilterStatsV50& GetStats() const noexcept { return stats_; }
+
+private:
+    AirgapFilterStatsV50 stats_{};
+};
+
+} // namespace collective::layer2
+\end{lstlisting}
+
+Through \texttt{HardwareAirgapFilterV50}, \texttt{col-telemetryd} guarantees two simultaneous properties: first, no synthetic \texttt{0x01} packet from an Oasis canary test can ever close a physical relay on the settlement floor; second, every authentic physical sample (\texttt{0x02}, \texttt{0x04}, \texttt{0x08}) carries its exact metrological uncertainty band ($\pm 50\,\mathrm{bp}$, $\pm 350\,\mathrm{bp}$, or $\pm 1{,}500\,\mathrm{bp}$) upward into Layer~3 and Layer~4.

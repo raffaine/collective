@@ -1,0 +1,101 @@
+\chapter{Wave A \& Wave B Walkthroughs: Epistemic Foundations, Genesis, Homeostasis, Hearth, Fab Lab, and Transit (\texttt{Zero}..\texttt{Beta})}
+\label{ch:waves-a-and-b-walkthroughs}
+
+\epigraph{A software specification in The Collective does not float in an immaterial cloud; it draws milliwatts from a battery bus, warms a domestic hot-water loop by two thousand millikelvins, and rests quietly in Dormant Equilibrium until a physical sensor drifts beneath it.}{--- Architectural Commentary on Dialogue~1 and Dialogue~2 (\texttt{D1}, \texttt{D2}), Horizon Council Synthesis}
+
+\section{Overview of Waves A and B (Stages 1A and 1B)}
+\label{sec:l2-waves-ab-overview}
+
+Part~II of this monograph translates the theoretical hardware, metrological, and cybernetic primitives of Part~I into concrete operational specifications across all \textbf{25 Reorganized Sovereign Scenarios} (\texttt{docs/03\_SCENARIOS.md}). In this chapter, we examine \textbf{Wave~A (Stage~1A: The Foundational Triad --- \texttt{zero\_software}, \texttt{tau\_genesis}, \texttt{sigma\_burnout})} and \textbf{Wave~B (Stage~1B: The Metabolic Core --- \texttt{gamma\_kitchen}, \texttt{alpha\_fabrication}, \texttt{beta\_transit})}, summarized in Table~\ref{tab:l2-waves-ab-matrix}.
+
+\begin{table}[htbp]
+\centering
+\caption{Horizon Council v3.2 Layer~2 Architectural Binding Matrix for Wave~A (Stage~1A) and Wave~B (Stage~1B).}
+\label{tab:l2-waves-ab-matrix}
+\footnotesize
+\begin{tabular}{@{}p{2.3cm}p{2.0cm}p{3.0cm}p{3.0cm}p{3.4cm}@{}}
+\toprule
+\textbf{Scenario ID \& Slug} & \textbf{Node Regime ($N_s$)} & \textbf{Primary Layer 6 Lens} & \textbf{Enveloping Boundary Lease (\texttt{cB}, \texttt{mW}, \texttt{mK})} & \textbf{Stage I $\to$ II $\to$ III Fleet \& L4 Cascade Archetype} \\
+\midrule
+\textbf{\texttt{SCN-ZERO-SOFTWARE}} (\texttt{zero\_software}) & $N_s = 1 \to 12$ ($B=1$ anti-hijack at $R_i \to 0$) & \textit{Scenario Zero Forge Studio Lens} & Server Closet Lease: $\le 4{,}200\,\mathrm{cB}$, $\le 450{,}000\,\mathrm{mW}$, $+2{,}000\,\mathrm{mK}$ & Mild L1/L2 rack thermal/power footprint ($\ge 8{,}000\,\mathrm{bp}$ heat reuse); Substrate Drift wake-up. \\
+\addlinespace[3pt]
+\textbf{\texttt{SCN-TAU-GENESIS}} (\texttt{tau\_genesis}) & $N_s = 1 \to 4$ founding household & \textit{Pantry} + \textit{Workshop} + \textit{Envelope} Lenses & Lot/House Genesis Envelope: $5{,}500\,\mathrm{cB}$ day / $3{,}800\,\mathrm{cB}$ night, $9{,}600{,}000\,\mathrm{mW}$ & JTAG \texttt{ATECC608A} key birth; boots on Stage~I Scavenged L7 gear wrapped in parasitic L2 shims (\texttt{0x04}). \\
+\addlinespace[3pt]
+\textbf{\texttt{SCN-SIGMA-BURNOUT}} (\texttt{sigma\_burnout}) & $N_s = 1 \to 6$ stewards ($B=1$ preserved at rest) & \textit{Workshop} + \textit{Pantry} (Calm Triage UX) & Personal Sanctuary Quiet Shield: $\le 3{,}800\,\mathrm{cB}$, zero non-hazard alerts & Piezoelectric FFT modal vibration; Stage~I$\to$III transition achieves \textbf{Zero-Stat Liberation}. \\
+\addlinespace[3pt]
+\textbf{\texttt{SCN-GAMMA-KITCHEN}} (\texttt{gamma\_kitchen}) & $N_s = 5$ bakers (distinct from $N_p = 500$ eaters) & \textit{The Pantry} + \textit{The Bakery / Hearth} (85/15 split) & Ground-Floor Hearth Envelope: $\le 6{,}800\,\mathrm{cB}$, $6{,}000{,}000\,\mathrm{mW}$, $+4{,}500\,\mathrm{mK}$ & Tier~1 dough splitting ($20 \to 2\times 10\,\mathrm{kg}$); GN~1/1 pan ERC; Stage~I oven $\to$ Stage~II open PID PT100 retrofit. \\
+\addlinespace[3pt]
+\textbf{\texttt{SCN-ALPHA-FAB}} (\texttt{alpha\_fabrication}) & $N_s = 1 \to 6$ machinists & \textit{The Workshop} (cycle wear \& custody leases) & Industrial Bay Envelope: $8{,}500\,\mathrm{cB}$ day / $5{,}000\,\mathrm{cB}$ night, $4{,}500{,}000\,\mathrm{mW}$ & Tier~2 Macro-Substitution (laser weld $\to$ M6 bolted flange); Stage~I DRM CNC $\to$ Stage~II RISC-V GRBL retrofit. \\
+\addlinespace[3pt]
+\textbf{\texttt{SCN-BETA-TRANSIT}} (\texttt{beta\_transit}) & $N_s = 6 \to 25$ mechanics \& couriers & \textit{The Workshop} + \textit{Transit Appetite Lens} & Street Lane \& Depot Envelope: $\le 8{,}200\,\mathrm{cB}$, feeder \texttt{mW}, curb \texttt{mm} & ISO $600\times 400\,\mathrm{mm}$ tote splitting; cold-chain RTDs; Stage~I CAN-locked e-bike BMS $\to$ Stage~II open BMS. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ==========================================================================
+\section{Wave A Walkthroughs: The Foundational Triad (Stage 1A)}
+\label{sec:l2-wave-a-walkthroughs}
+
+\subsection{Scenario Zero: Autopoietic Software as a Khronos-Style Layer 6 Object (\texttt{SCN-ZERO-SOFTWARE} / \texttt{zero\_software})}
+
+In Dialogue~1 and Dialogue~2 (\texttt{D1}, \texttt{D2}), the Horizon Council clarified that Oasis (\texttt{Layer 1b}) never emulates inner guest operating systems or application binaries at Layer~1. Instead, software in The Collective is a \textbf{governed Layer~6 Software Artifact} stewarded by a dedicated \textbf{Layer~5 Working Group} ($N_s = 1 \to 12$, analogous to the Khronos Group stewarding OpenGL) across a five-phase organizational BPMN lifecycle (\textit{Friction to RFC $\to$ Working Group Charter $\to$ Inception and Build $\to$ Spec Ratification $\to$ Servicing and Dormant Equilibrium}).
+
+At Layer~2, Scenario~Zero exhibits two exact physical behaviors:
+\begin{enumerate}
+    \item \textbf{Mild Thermal-Electric and Component-Wear Footprint:} Inside both a physical settlement server closet and the Oasis simulation, the three reproducible build architectures (\texttt{x86\_64}, \texttt{aarch64}, \texttt{riscv64}) operate under a Habitat Enveloping Node Server Closet Lease ($\mathtt{max\_acoustic\_cb} = 4{,}200\,\mathrm{cB}$ [$42.0\,\mathrm{dBA}$], $\mathtt{max\_power\_mw} = 450{,}000\,\mathrm{mW}$, $\mathtt{max\_thermal\_delta\_mk} = +2{,}000\,\mathrm{mK}$). High-side \texttt{INA226} DC bus shunts meter exact build exergy ($\Delta E_{\mathrm{uj}} = P_{\mathrm{mw}}\cdot\Delta t_{\mathrm{ms}}$), while paired manifold PT100 RTDs ($T_{\mathrm{inlet\_mk}}$, $T_{\mathrm{outlet\_mk}}$) and an inline turbine flowmeter ($Q_{\mathrm{coolant\_ml\_s}}$) verify that $\ge 8{,}000\,\mathrm{bp}$ ($80.0\%$) of compute waste heat is captured into the domestic hot-water or greenhouse hydronic loop (\texttt{ComputeHydronicHeatRecoveryAndBcc} in \path{src/daemons/col-execd/execd_self_host.hpp}). Simultaneously, \texttt{col-sensord} tracks cooling-fan tachometer RPM and NVMe SSD SMART write-wear basis points for \textit{The Workshop} lens.
+    \item \textbf{Substrate Drift Wake-Up from Dormant Equilibrium (``The \TeX\ Asymptote''):} When a Scenario~Zero software package reaches rock-solid maturity, servicing tickets drop to zero and working-group operational reputation $R_i(t) \to 0$ while the non-decaying civic baseline $B = 1$ ($10{,}000\,\mathrm{bp}$) protects the repository against single-maintainer hijack. When a physical Layer~2 sensor revision drifts underneath the stationary specification (e.g., a new soil probe firmware revision emitting 24-bit dielectric frames), \texttt{col-telemetryd} flags \texttt{STATUS\_SUBSTRATE\_DRIFT\_SCHEMA\_MISMATCH}, triggering a Layer~4 hard-block that decompiles into a Layer~6 \textit{Scenario Zero Forge Studio} Semantic Diff Card to wake the working group.
+\end{enumerate}
+
+\subsection{Scenario Tau: Clean-Slate Genesis and Stage I Shim Bootstrapping (\texttt{SCN-TAU-GENESIS} / \texttt{tau\_genesis})}
+
+Scenario~Tau models Day-0 bring-up on Lot~402 ($N_s = 1 \to 4$ founding stewards starting with the $\$20{,}000$ / \texttt{2,000,000 cents} reserve $\Phi_0$):
+\begin{enumerate}
+    \item \textbf{Silicon Birth and JTAG Fuse Lockout:} Stewards flash the deterministic Zephyr RTOS image onto the four-node homestead cluster (\texttt{node-01:office}, \texttt{node-02:garage}, \texttt{node-03:garden}, \texttt{node-04:hearth}) via Serial Wire Debug (\texttt{SWD}), trigger internal thermal-avalanche key generation inside each \texttt{ATECC608A} Slot~0, and blow the external JTAG readback fuse.
+    \item \textbf{Clean-Slate Hardware Gate (\texttt{DENIED\_NO\_L2\_SENSOR}):} On Day~1, \texttt{SharedStackRuntime} boots with zero phantom sensors. Any query to an uncommissioned register returns \texttt{DENIED\_NO\_L2\_SENSOR}, keeping Layer~4 tasks in \texttt{MANUAL\_HUMAN\_OBSERVATION} until physical transducers (\texttt{enclosure\_env\_v1}, \texttt{soil\_probe\_v1}, \texttt{irrigation\_valve\_v1}, \texttt{culinary\_vessel\_v1}) are physically wired and cryptographically attested.
+    \item \textbf{Booting on Stage~I Scavenged Layer~7 Appliances:} Rather than exhausting $\Phi_0$ on luxury gear, the household acquires a Craigslist commercial refrigerator, an induction stockpot, and a used washing machine, wrapping each in a Tier~3 \texttt{RP2040} Parasitic Layer~2 Shim (\texttt{QUALITY\_SCAVENGED\_L7\_SHIM = 0x04}) under the Lot/House Genesis Envelope ($\le 5{,}500\,\mathrm{cB}$ daytime / $\le 3{,}800\,\mathrm{cB}$ nighttime, $\le 9{,}600{,}000\,\mathrm{mW}$ main breaker).
+\end{enumerate}
+
+\subsection{Scenario Sigma: Somatic Homeostasis, Modal Vibration, and Zero-Stat Liberation (\texttt{SCN-SIGMA-BURNOUT} / \texttt{sigma\_burnout})}
+
+Scenario~Sigma protects human stewards ($N_s = 1 \to 6$) from nervous exhaustion without ever attaching biometric sensors to human bodies (\texttt{INV\_ANTI\_PANOPTICON}):
+\begin{itemize}
+    \item \textbf{Personal Sanctuary Quiet Shield (\texttt{3,800 cB}):} When a steward reports somatic fatigue in their Layer~6 lens (or enters scheduled rest while retaining $100\%$ of their non-decaying $B=1$ civic baseline), the Enveloping Node Hypervisor activates a Personal Sanctuary Quiet Shield around sleeping quarters, capping partition acoustics to $\le 3{,}800\,\mathrm{cB}$ ($38.0\,\mathrm{dBA}$) and muting all non-life-safety alerts in favor of calm peripheral amber/blue wood-baffle luminescence \parencite{weiser1996calm}.
+    \item \textbf{Zero-Stat Liberation via Predictive Piezoelectric FFT Diagnostics:} The primary driver of founder burnout in Stage~1A is chronic emergency interruptions caused by Stage~I Scavenged Layer~7 machines suffering blind mid-batch hard-blocks ($350\,\mathrm{bp}$ fault rate). As stewards execute Stage~II Right-to-Repair retrofits and commission Stage~III Native Open-Spec tools equipped with bonded piezoelectric accelerometers ($X(k)$ modal FFT in Equation~\eqref{eq:l2-stage3-fft}), unannounced breakdowns turn into calm, five-minute scheduled Layer~4 swaps---proving how reliable open hardware directly liberates human rest.
+\end{itemize}
+
+% ==========================================================================
+\section{Wave B Walkthroughs: The Metabolic Core (Stage 1B)}
+\label{sec:l2-wave-b-walkthroughs}
+
+\subsection{Scenario Gamma: The Six-Pillar Commons Kitchen, \textit{The Pantry}, and \textit{The Dual-Loop Bakery} (\texttt{SCN-GAMMA-KITCHEN} / \texttt{gamma\_kitchen})}
+
+Scenario~Gamma ($N_s = 5$ active bakers/cooks strictly separated from $N_p = 500$ neighborhood eaters) operates inside the Ground-Floor Hearth Envelope ($\mathtt{max\_acoustic\_cb} = 6{,}800\,\mathrm{cB}$, $\mathtt{max\_power\_mw} = 6{,}000{,}000\,\mathrm{mW}$, flue exhaust $\Delta T \le +4{,}500\,\mathrm{mK}$). It exercises four canonical Layer~2 schemas and hardware loops:
+\begin{enumerate}
+    \item \textbf{Rhizosphere Soil \& Autonomous Irrigation (\texttt{soil\_probe\_v1} \& \texttt{irrigation\_valve\_v1}):} Across 28 staggered legume/brassica beds, FDR probes report $\mathtt{moisture\_vwc\_bp}$, $\mathtt{soil\_temp\_mk}$, $\mathtt{nitrogen\_ppm}$, $\mathtt{phosphorus\_ppm}$, $\mathtt{potassium\_ppm}$, $\mathtt{organic\_carbon\_bp}$, and $\mathtt{ph\_centi}$ over isolated RS-485. Hardware interlock \texttt{INV\_SOIL\_FROST\_IRRIGATION\_INHIBIT} blocks automated drip irrigation whenever $\mathtt{soil\_temp\_mk} < 274{,}150\,\mathrm{mK}$ ($1.0\,^\circ\mathrm{C}$).
+    \item \textbf{Induction Cauldron Bigelow Lethality (\texttt{culinary\_vessel\_v1}):} Communal $40{,}000\,\mathrm{mL}$ stockpots combine a Class-A 4-wire PT100 core probe ($\mathtt{core\_temp\_mk}$), a gravimetric load cell ($\mathtt{volume\_ml}$), and an \texttt{INA226}-metered induction driver ($\mathtt{heater\_power\_mw} \le 3{,}500{,}000\,\mathrm{mW}$). Hardware interlock \texttt{INV\_VESSEL\_PASTEURIZATION\_GATE} certifies a batch for tiffin portioning only after $\mathtt{core\_temp\_mk} \ge 347{,}150\,\mathrm{mK}$ ($74.0\,^\circ\mathrm{C}$) is held continuously for $\mathtt{pasteurization\_hold\_s} \ge 120\,\mathrm{s}$ (with mandatory reset to $0\,\mathrm{s}$ upon any dip into the $277{,}150\text{--}333{,}150\,\mathrm{mK}$ danger zone), while anaerobic lacto-fermentation crocks require inline glass-electrode pH verification ($\mathtt{batch\_acidity\_mph} \le 4{,}600\,\mathrm{mpH}$).
+    \item \textbf{\textit{The Pantry} Cold-Chain \& Weekend-Detour Throttling:} Household and commissary cold rooms ($275{,}150\text{--}277{,}150\,\mathrm{mK}$) integrate Arrhenius biological TTL ($\tau_{\mathrm{remaining\_ttl\_ms}}$) and gravimetric shelf drawdown ($\dot{m}_{\mathrm{draw\_mg\_day}}$), automatically throttling outbound \texttt{AnonymousAppetiteLeaseV50} leases when a resident takes a spontaneous weekend detour.
+    \item \textbf{\textit{The Dual-Loop Bakery} 85/15 Shelf Clearance \& Stage~I$\to$II Oven Retrofit:} Standard \textbf{Gastronorm GN~1/1 ($530 \times 325\,\mathrm{mm}$)} pans on calibrated pickup-shelf load cells validate the $8{,}500\,\mathrm{bp}$ ($85\%$) staple and $1{,}500\,\mathrm{bp}$ ($15\%$) compositional \textit{montage} bakes. When a turnkey $20{,}000\,\mathrm{mL}$ dough recipe meets a local $10{,}000\,\mathrm{mL}$ spiral mixer, Layer~4's \textbf{Tier~1 SI Parameter Scaling} splits the job into $2 \times 10{,}000\,\mathrm{mL}$ sub-batches; meanwhile, retrofitting the Stage~I scavenged deck oven with \texttt{kit:thermal-pid-v2} promotes telemetry from \texttt{0x04} to \texttt{0x08} and mints Proof of Stewardship $\Delta R_i$.
+\end{enumerate}
+
+\subsection{Scenario Alpha: Solar Microgrid, Exergy Cascade, and Distributed Fab Lab (\texttt{SCN-ALPHA-FAB} / \texttt{alpha\_fabrication})}
+
+Scenario~Alpha ($N_s = 1 \to 6$ machinists) operates under the Industrial Bay Envelope ($\le 8{,}500\,\mathrm{cB}$ daytime / $\le 5{,}000\,\mathrm{cB}$ nighttime, $\le 4{,}500{,}000\,\mathrm{mW}$ feeder lease):
+\begin{enumerate}
+    \item \textbf{48V $\mathrm{LiFePO_4}$ Microgrid \& 4-Stage Hydronic Thermal Cascade:} Tier~1 \texttt{STM32H743} aggregators sample 16S battery cell voltages ($\Delta V_{\mathrm{cell}} \le 20\,\mathrm{mV}$) and manganin shunts at $10\,\mathrm{Hz}$ to broadcast the 5-tier $\mathrm{SoC}_{\mathrm{bp}}$ admission vector ($\Theta_{\mathrm{enter}} = \langle 0, 2000, 4000, 6000, 8500\rangle\,\mathrm{bp}$), while motorized hydronic mixing valves cascade kiln/spindle waste heat ($750{,}000\,\mathrm{mK} \to 340{,}000\,\mathrm{mK}$ radiant floors $\to 315{,}000\,\mathrm{mK}$ greenhouse root beds).
+    \item \textbf{LOTO Functional Safety and \textit{The Workshop} Durable Cycle Counters:} Machine contactors energize only when the composite LOTO hardware predicate holds:
+    \begin{equation}
+        \mathbf{\Phi}_m = \mathtt{LeaseValid} \;\land\; \mathtt{KappaZkpOrSupervised} \;\land\; (\dot{V}_{\mathrm{dust\_ml\_s}} \ge \dot{V}_{\min}) \;\land\; (L_{\mathrm{perim\_cb}} \le L_{\mathrm{zone\_cb}}) \;\land\; \neg\mathtt{LOTO\_PadlockOpen},
+        \label{eq:alpha-loto}
+    \end{equation}
+    requiring a valid Layer~3 exergy lease, Scenario~Kappa \texttt{BBS+} capability proof, cyclone dust-extractor airflow $\dot{V}_{\mathrm{dust\_ml\_s}} \ge \dot{V}_{\min}$, partition acoustic level $L_{\mathrm{perim\_cb}} \le L_{\mathrm{zone\_cb}}$, and physical LOTO padlock closed. Closed-loop \texttt{AS5600} + \texttt{TMC2209} drivers integrate under-load spindle milliseconds (\texttt{cumulative\_use\_ms}) and post-job touch-probe cutter runout (\texttt{cutter\_wear\_um}) into \textit{The Workshop} lens.
+    \item \textbf{Tier~2 Macro-Activity Substitution \& Stage~I$\to$II CNC Retrofit:} When a fabrication blueprint calls for laser seam welding unavailable in the bay, Layer~4 executes \textbf{Tier~2 Macro-Activity Substitution}, splicing a CNC-drilled \texttt{M6} bolted-flange sub-workflow. Replacing a Stage~I DRM-locked desktop CNC controller with the open RISC-V \texttt{kit:motion-cnc-v2} board eliminates cloud-tethered lockouts and mints first-class Layer~3 Proof of Stewardship.
+\end{enumerate}
+
+\subsection{Scenario Beta: Cargo E-Trike CVRP and Five-Artery Bioregional Transit (\texttt{SCN-BETA-TRANSIT} / \texttt{beta\_transit})}
+
+Scenario~Beta ($N_s = 6 \to 25$ transit mechanics and couriers, $N \gg 2$ anti-capture crossover) coordinates the Street Lane and Charging Depot Envelope ($\le 8{,}200\,\mathrm{cB}$, depot feeder \texttt{mW}, curb polygon \texttt{mm}) across all five physical arteries:
+\begin{enumerate}
+    \item \textbf{Fixed-Point GNSS + 6-DoF IMU Kalman Dead Reckoning (Arteries 1 \& 2):} Cargo e-trikes fuse low-frequency GNSS coordinates with $200\,\mathrm{Hz}$ 6-DoF IMU acceleration ($a_{\mathrm{mm\_s2}}$) and angular velocity ($\omega_{\mathrm{mrad\_s}}$) via the fixed-point Discrete Kalman Filter (Equation~\eqref{eq:l2-kalman-update}), maintaining millimeter trajectory integrity through urban canyons or RF jamming without tracking passenger identities. Payloads standardize on \textbf{ISO $600 \times 400\,\mathrm{mm}$ Euro-totes} weighed on vehicle load cells ($\mathtt{payload\_mass\_mg} \le \mathtt{max\_payload\_mg}$).
+    \item \textbf{In-Transit Cold-Chain Tote Envelopes and Depot Battery-Swap Docks:} Insulated smart-totes carrying Scenario~Gamma dairy or Scenario~Chi biologics log continuous 4-wire PT100 temperature ($\mathtt{tote\_temp\_mk} \in [275{,}150, 277{,}150]\,\mathrm{mK}$); any thermal excursion triggers a Regime~2 \texttt{ColdChainBreachSaga} that locks the recipient food latch upon arrival. At intermediate relay depots, CAN-FD dock shunts verify reserved $48\,\mathrm{V}$ battery packs at $\mathrm{SoC} \ge 9{,}000\,\mathrm{bp}$ and settle multi-hop HTLC handoffs ($\sigma_{\mathrm{delivery}}$) via local load-cell + UHF RFID ($R \le 3{,}000\,\mathrm{mm}$) confirmation. Retrofitting Stage~I CAN-locked commercial e-bike packs with open \texttt{kit:bms-canfd-v2} boards integrates scavenged fleets into the unified swap pool.
+    \item \textbf{380V HVDC Interties, RPZ Hydraulic Plausibility, and DTN Mules (Arteries 3, 4 \& 5):} Isolated $380\,\mathrm{V}$ HVDC Dual-Active-Bridge (\texttt{DAB}) converters settle inter-node microjoule flows under \texttt{FlowContractV50}; inline ultrasonic water flowmeters cross-check pumped volume against motor exergy ($\Delta E_{\mathrm{pump\_uj}} \ge \lfloor \rho g Q h / \eta \rfloor$) behind Reduced Pressure Zone (\texttt{RPZ}) physical air-gaps; and docked e-trikes exchange terabyte DTN sneakernet bundles over \texttt{col-meshd}.
+\end{enumerate}

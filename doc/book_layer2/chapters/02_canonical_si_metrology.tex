@@ -1,0 +1,180 @@
+\chapter{Canonical 64-Bit Fixed-Point SI Metrology and Afferent Variety Attenuation}
+\label{ch:canonical-si-metrology}
+
+\epigraph{To live effectively is to live with adequate information. Thus, communication and control belong to the essence of man's inner life, even as they belong to his life in society\dots\ Only variety can destroy variety.}{--- \textcite{wiener1954} and \textcite{ashby1956}}
+
+\section{Why Market Fragmentation Dissolves Into Canonical SI Uniformity (\texttt{D6}, \texttt{D8})}
+\label{sec:l2-two-zone-metrology}
+
+In legacy Layer~7 markets, metrological and mechanical fragmentation is deliberately engineered. Appliance conglomerates proliferate fifteen incompatible battery sleds, proprietary imperial and fractional fastener heads, bespoke thermistor Beta curves, and non-standard tray dimensions to impose switching costs and capture monopoly spare-part rents. Inside software stacks, legacy industrial controllers compound this fragmentation by transmitting untyped IEEE-754 floating-point values across network boundaries---precipitating unit-conversion failures whenever one subsystem interprets a float as gallons per minute or degrees Fahrenheit while another expects liters per second or kelvins.
+
+In Dialogue~6 and Dialogue~8 (\texttt{CCI-6}), the Horizon Council resolved how the Sovereign Stack eliminates both floating-point non-determinism and metrological fragmentation without erecting an authoritarian central planning bureaucracy:
+\begin{enumerate}
+    \item \textbf{Thermodynamic Gradient Descent via $\lambda_{\mathrm{ERC}}$:} Once Layer~3 (\texttt{col-storaged}) computes the lifecycle \textbf{Ecological Replacement Cost ($\lambda_{\mathrm{ERC}}$)} of every physical component in canonical microjoules (\texttt{uJ}), proprietary non-standard parts expose themselves as pure thermodynamic waste (low reuse cycles $N_{\mathrm{reuse\_cycles}}$ and high amortized retooling exergy). Independent nodes minimizing total workflow path exergy $\sum (E_{\mathrm{direct}} + \lambda_{\mathrm{ERC}})$ voluntarily converge on open modular standards: \textbf{Gastronorm GN~1/1 pans ($530 \times 325\,\mathrm{mm}$)}, \textbf{ISO $600 \times 400\,\mathrm{mm}$ Euro-totes}, and \textbf{ISO metric \texttt{M6} / \texttt{M8} fasteners}.
+    \item \textbf{The Two-Zone Metrological Invariant (\texttt{CCI-6}):} Internally, \textbf{Layers~2, 3, and~4 enforce a single canonical 64-bit fixed-point International System (SI) metrological core} (\texttt{int64\_t}, with \texttt{floating\_point\_opcodes == 0}), while \textbf{Layer~6 acts as a human localization lens} that translates familiar craft or cultural idioms (baker's hydration percentages, imperial inches, degrees Fahrenheit or Celsius, cups, A-weighted decibels) at the human edge prior to Stage~4 Deterministic Read-Back.
+\end{enumerate}
+
+\begin{table}[htbp]
+\centering
+\caption{The Two-Zone Metrological Invariant (\texttt{CCI-6}): Canonical 64-Bit Fixed-Point SI Core (Layers~2--4) vs.\ Layer~6 Edge Localization.}
+\label{tab:l2-canonical-si-core}
+\footnotesize
+\begin{tabular}{@{}llllp{4.3cm}@{}}
+\toprule
+\textbf{Physical Observable} & \textbf{L2--L4 Wire Type} & \textbf{Base SI Unit} & \textbf{Exact Scaling Identity} & \textbf{Example L2--L4 Value $\leftrightarrow$ L6 Lens Display} \\
+\midrule
+\textbf{Energy / Exergy} & \texttt{int64\_t} & Microjoule (\texttt{uJ}) & $10^{-6}\,\mathrm{J}$ ($1\,\mathrm{MJ} = 10^{12}\,\mu\mathrm{J}$) & \texttt{3'600'000'000'000 uJ} $\leftrightarrow$ \texttt{3.60 MJ} (\texttt{1.00 kWh}) \\
+\textbf{Active Power} & \texttt{int64\_t} & Milliwatt (\texttt{mW}) & $10^{-3}\,\mathrm{W}$ ($1\,\mathrm{mW}\cdot\mathrm{ms} = 1\,\mu\mathrm{J}$) & \texttt{2'200'000 mW} $\leftrightarrow$ \texttt{2.20 kW} \\
+\textbf{Electrical Potential} & \texttt{int32\_t} & Millivolt (\texttt{mV}) & $10^{-3}\,\mathrm{V}$ & \texttt{48'000 mV} $\leftrightarrow$ \texttt{48.00 V DC Bus} \\
+\textbf{Electrical Current} & \texttt{int32\_t} & Milliampere (\texttt{mA}) & $10^{-3}\,\mathrm{A}$ ($1\,\mathrm{mV}\cdot\mathrm{mA} = 1\,\mu\mathrm{W}$) & \texttt{24'520 mA} $\leftrightarrow$ \texttt{24.52 A} \\
+\textbf{Mass} & \texttt{int64\_t} & Milligram (\texttt{mg}) / \texttt{ug} & $10^{-6}\,\mathrm{kg}$ / $10^{-9}\,\mathrm{kg}$ & \texttt{750'000 mg} $\leftrightarrow$ \texttt{750 g} (\texttt{3 cups Bread Flour}) \\
+\textbf{Length / Tolerance} & \texttt{int64\_t} & Millimeter (\texttt{mm}) / \texttt{um} & $10^{-3}\,\mathrm{m}$ / $10^{-6}\,\mathrm{m}$ & \texttt{38'100 um} (\texttt{38 mm}) $\leftrightarrow$ \texttt{1.50 inches} \\
+\textbf{Volume / Flow} & \texttt{int64\_t} & Milliliter (\texttt{mL}) / \texttt{uL} & $10^{-6}\,\mathrm{m^3}$ / $10^{-9}\,\mathrm{m^3}$ & \texttt{240'000 uL} (\texttt{240 mL}) $\leftrightarrow$ \texttt{1 cup water} \\
+\textbf{Temperature} & \texttt{int64\_t} & Millikelvin (\texttt{mK}) & $10^{-3}\,\mathrm{K}$ ($0^\circ\mathrm{C} = 273{,}150\,\mathrm{mK}$) & \texttt{347'150 mK} $\leftrightarrow$ $74.0\,^\circ\mathrm{C}$ ($165.2\,^\circ\mathrm{F}$) \\
+\textbf{Thermal Time} & \texttt{int64\_t} & Millikelvin-sec (\texttt{mks}) & $10^{-3}\,\mathrm{K\cdot s}$ & \texttt{86'400'000 mks} $\leftrightarrow$ \texttt{86.4 kK$\cdot$s GDD} \\
+\textbf{Acoustic Pressure} & \texttt{int64\_t} & Centibel (\texttt{cB}) & $10^{-1}\,\mathrm{dB}$ ($1\,\mathrm{dBA} = 10\,\mathrm{cB}$) & \texttt{4'200 cB} (or \texttt{420 cB} rel) $\leftrightarrow$ \texttt{42.0 dBA} \\
+\textbf{Duration / Epoch} & \texttt{int64\_t} & Millisecond (\texttt{ms}) / \texttt{us} & $10^{-3}\,\mathrm{s}$ / $10^{-6}\,\mathrm{s}$ & \texttt{2'700'000 ms} $\leftrightarrow$ \texttt{45 min 00 s} \\
+\textbf{Ratio / Moisture} & \texttt{int64\_t} & Basis Point (\texttt{bp}) & $10^{-4}$ ($10{,}000\,\mathrm{bp} = 100.00\%$) & \texttt{7'800 bp} $\leftrightarrow$ \texttt{78.00\% Baker's Hydration} \\
+\textbf{Acidity} & \texttt{uint16\_t} & Milli-pH (\texttt{mpH}) & $10^{-3}\,\mathrm{pH}$ & \texttt{4'600 mpH} $\leftrightarrow$ \texttt{pH 4.60 Botulinum Gate} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{invariant}[Exact Microjoule Integration Identity and the $10^{12}$ Megajoule Scaling Law]
+\label{inv:l2-microjoule-identity}
+In every Layer~2 ADC power integrator (\texttt{col-sensord}), Layer~3 ledger record (\texttt{col-storaged}), and Layer~4 workflow step (\texttt{col-execd}), electrical or thermal power $P_{\mathrm{mw}} \in \mathbb{Z}$ (in milliwatts, $10^{-3}\,\mathrm{W}$) integrated over discrete sampling interval $\Delta t_{\mathrm{ms}} \in \mathbb{Z}$ (in milliseconds, $10^{-3}\,\mathrm{s}$) yields exact integer microjoules $\Delta E_{\mathrm{uj}} \in \mathbb{Z}$ ($10^{-6}\,\mathrm{J}$) with zero division and zero truncation error:
+\begin{equation}
+    \Delta E_{\mathrm{uj}} = P_{\mathrm{mw}} \times \Delta t_{\mathrm{ms}} \qquad \Bigl(10^{-3}\,\mathrm{W} \times 10^{-3}\,\mathrm{s} = 10^{-6}\,\mathrm{J} = 1\,\mu\mathrm{J}\Bigr).
+    \label{eq:l2-exact-uj}
+\end{equation}
+Furthermore, because $1\,\mathrm{J} = 10^6\,\mu\mathrm{J}$ and $1\,\mathrm{MJ} = 10^6\,\mathrm{J} = 10^{12}\,\mu\mathrm{J}$, any upward diagnostic projection from microjoules to megajoules must divide by \texttt{1'000'000'000'000LL} ($10^{12}$), never $10^9$ ($1\,\mathrm{kJ}$).
+\end{invariant}
+
+\section{Edge Transducer Physics and Direct Integer Quantization}
+\label{sec:l2-adc-transducer-physics}
+
+Every analog phenomenon entering a Tier~1 (\texttt{STM32H743}) or Tier~2 (\texttt{ESP32-S3}) microcontroller is converted directly from raw ADC counts into its canonical 64-bit SI integer representation inside Domain~1 of the Zephyr MPU using integer polynomial calibration and Euclidean carry-save remainder accumulators.
+
+\subsection{High-Side Current Shunt and Exergy Metering (\texttt{uJ}, \texttt{mW})}
+
+For server racks (\texttt{Scenario Zero}), $48\,\mathrm{V}$ $\mathrm{LiFePO_4}$ battery banks (\texttt{Scenario Alpha}), and branch circuit breakers (\texttt{Scenario Zeta}), high-side current-sense amplifiers (Texas Instruments \texttt{INA226} / \texttt{INA228}) measure bus potential $V_{\mathrm{bus}}$ and the differential drop $V_{\mathrm{shunt}}$ across a precision manganin shunt resistor $R_{\mathrm{shunt}}$ (typically $500\,\mu\Omega$ with $< 15\,\mathrm{ppm/K}$ thermal drift). The instantaneous active power in milliwatts is:
+\begin{equation}
+    P_{\mathrm{mw}}(k) = \left\lfloor \frac{V_{\mathrm{bus\_mv}}(k) \cdot I_{\mathrm{shunt\_ma}}(k) + r_{\mathrm{p}}(k-1)}{1{,}000} \right\rfloor, \qquad I_{\mathrm{shunt\_ma}}(k) = \frac{V_{\mathrm{shunt\_uv}}(k) \cdot 1{,}000}{R_{\mathrm{shunt\_uohm}}},
+    \label{eq:l2-shunt-power}
+\end{equation}
+where $r_{\mathrm{p}}(k) = \bigl(V_{\mathrm{bus\_mv}}(k) \cdot I_{\mathrm{shunt\_ma}}(k) + r_{\mathrm{p}}(k-1)\bigr) \bmod 1{,}000$ is the carry-save sub-milliwatt remainder accumulator ensuring zero long-term energy drift. For an $N$-bit Delta-Sigma or SAR ADC ($N = 16$ to $24$), the theoretical Signal-to-Quantization-Noise Ratio is $\mathrm{SNR}_{\mathrm{dB}} = 6.02 N + 1.76\,\mathrm{dB}$ ($98.08\,\mathrm{dB}$ at 16 bits; $146.24\,\mathrm{dB}$ at 24 bits) \parencite{kester2005data}. Raw ADC sample $q(k)$ is clamped against input transient saturation via:
+\begin{equation}
+    q(k) = \mathrm{clamp}\!\left( \left\lfloor \frac{V(k T_s) - V_{\min}}{\Delta V} + \frac{1}{2} \right\rfloor,\; 0,\; 2^N - 1 \right), \qquad \Delta V = \frac{V_{\max} - V_{\min}}{2^N - 1}.
+    \label{eq:l2-adc-clamp}
+\end{equation}
+
+\subsection{Seebeck Thermocouples and 4-Wire PT100 RTDs (\texttt{mK})}
+
+In communal soup cauldrons (\texttt{culinary\_vessel\_v1} in \texttt{Scenario Gamma}), clinical autoclaves (\texttt{Scenario Chi}), and metallurgy induction furnaces (\texttt{Scenario Theta}), temperature is digitized in millikelvins (\texttt{mK}, where $0.00\,^\circ\mathrm{C} = 273{,}150\,\mathrm{mK}$).
+\begin{itemize}
+    \item \textbf{4-Wire Class-A PT100 RTDs ($200{,}000\text{--}673{,}150\,\mathrm{mK}$):} A precision constant-current source ($I_{\mathrm{ex}} = 1{,}000\,\mu\mathrm{A}$) drives two outer leads while a 24-bit ratiometric ADC (\texttt{MAX31865}) measures potential across the two inner sense leads, cancelling lead-wire resistance completely. Callendar-Van Dusen linearization is evaluated in 64-bit integer arithmetic via a horner-factored fixed-point polynomial.
+    \item \textbf{Type-K and Type-S Thermocouples ($273{,}150\text{--}1{,}973{,}150\,\mathrm{mK}$):} Operating on the Seebeck effect $V_{\mathrm{tc}} = \int_{T_{\mathrm{cold}}}^{T_{\mathrm{hot}}} S(T)\,\mathrm{d}T$ \parencite{rowe1995crc}, isolated \texttt{MAX31855}/\texttt{MAX31856} digitizers perform internal cold-junction compensation and emit signed millikelvin integers directly over SPI.
+\end{itemize}
+
+\subsection{Wheatstone Bridge Load Cells (\texttt{mg}), FDR Soil Dielectric (\texttt{bp}), and NDIR Gas (\texttt{ppm})}
+
+\begin{itemize}
+    \item \textbf{Gravimetric Load Cells (\texttt{mg}):} In \textit{The Pantry} shelves, \textit{Dual-Loop Bakery} pickup racks, and compost scales, four strain gauges wired in a Wheatstone bridge yield differential output $\Delta V = V_{\mathrm{ex}}\bigl(\frac{R_1}{R_1+R_2} - \frac{R_3}{R_3+R_4}\bigr)$ \parencite{fraden2010handbook}. Digitized by a 24-bit bridge ADC (\texttt{HX711} or \texttt{ADS1232}) and compensated for ambient temperature (\texttt{mK}), net mass is reported in exact milligrams (\texttt{mg}).
+    \item \textbf{FDR Multiparameter Rhizosphere Probes (\texttt{soil\_probe\_v1}, \texttt{bp}):} Rather than DC resistive probes that electrolyze and corrode within weeks, Layer~2 soil probes emit a $70\text{--}150\,\mathrm{MHz}$ Frequency Domain Reflectometry (FDR) oscillating electric field into the root zone. Because liquid water has relative permittivity $\varepsilon_r \approx 80$ compared to dry mineral soil ($\varepsilon_r \approx 3\text{--}5$), the resonant dielectric permittivity maps via integer Topp polynomial lookup directly to Volumetric Water Content in basis points ($\mathtt{moisture\_vwc\_bp} \in [0, 10{,}000]$), paired with $\mathtt{soil\_temp\_mk}$, $\mathtt{nitrogen\_ppm}$, $\mathtt{phosphorus\_ppm}$, $\mathtt{potassium\_ppm}$, $\mathtt{organic\_carbon\_bp}$, and $\mathtt{ph\_centi}$ (see \path{core/2_membrane/schemas/soil_probe_v1.json}).
+    \item \textbf{Non-Dispersive Infrared (NDIR) Biogas \& Indoor Air Quality (\texttt{ppm}):} In anaerobic digesters (\texttt{Scenario Mu}) and coworking halls (\texttt{Scenario Epsilon}), gas concentration $c_{\mathrm{ppm}}$ ($\mathrm{CO_2}$ at $\lambda = 4.26\,\mu\mathrm{m}$, $\mathrm{CH_4}$ at $\lambda = 3.31\,\mu\mathrm{m}$) is derived from the Beer-Lambert optical absorption law $I = I_0 e^{-\varepsilon c l}$ \parencite{hodgkinson2013non}, completely isolating optical windows from corrosive $\mathrm{H_2S}$.
+\end{itemize}
+
+\section{Ashby's Law and the Five-Stage Afferent Variety Attenuation Pipeline}
+\label{sec:l2-variety-attenuation}
+
+By W.~Ross Ashby's Law of Requisite Variety \parencite{ashby1956}, a regulator's capacity is bounded by $\log_2 |V_R| \ge \log_2 |V_E| - \log_2 |V_O|$. Because Layer~1 environmental variety is continuous and uncountably infinite ($V_E = \aleph_1$) while Layer~3's RocksDB/Automerge ledger and Layer~4's $10\,\mathrm{Hz}$ BPMN engine are discrete and finite ($V_{\mathrm{stack}} \in \mathbb{Z}^k$), Layer~2 must avoid two opposite failure modes:
+\begin{itemize}
+    \item \textbf{Entropic Saturation:} Forwarding unconditioned kilohertz ADC noise upward floods Unix sockets, bloats RocksDB SSTables, and causes CRDT merge storms.
+    \item \textbf{Catastrophic Variety Collapse:} Naively averaging analog readings crushes high-frequency diagnostic precursors---such as rising battery internal resistance variance or bearing harmonic rattle---blinding the settlement until a machine suffers a catastrophic mid-batch breakdown.
+\end{itemize}
+
+Layer~2 resolves this tension through a deterministic \textbf{Five-Stage Afferent Variety Attenuation Pipeline}:
+\begin{enumerate}
+    \item \textbf{Stage 1 --- Active 4th-Order Sallen-Key Anti-Aliasing:} Analog signals pass through hardware Butterworth low-pass filters with cutoff frequency $f_c \le \frac{1}{2} f_s$ satisfying the Nyquist-Shannon sampling theorem \parencite{nyquist1928,shannon1948}, rejecting $16\text{--}100\,\mathrm{kHz}$ inverter PWM switching harmonics before the ADC pin.
+    \item \textbf{Stage 2 --- Saturation-Clamped Fixed-Point Quantization:} Conversion into canonical 64-bit SI integers (Table~\ref{tab:l2-canonical-si-core}) via Equation~\eqref{eq:l2-adc-clamp}.
+    \item \textbf{Stage 3 --- Fixed-Point Discrete Kalman State Estimation:} Every Tier~1/Tier~2 channel executes a fixed-point Discrete Kalman Filter \parencite{kalman1960,grewal2014kalman} scaled in Q32.32 integer arithmetic:
+    \begin{align}
+        \hat{\mathbf{x}}_{k|k} &= \hat{\mathbf{x}}_{k|k-1} + \mathbf{K}_k \bigl(\mathbf{z}_k - \mathbf{H}_k \hat{\mathbf{x}}_{k|k-1}\bigr), \label{eq:l2-kalman-update}\\
+        \mathbf{P}_{k|k} &= \bigl(\mathbf{I} - \mathbf{K}_k \mathbf{H}_k\bigr)\mathbf{P}_{k|k-1}, \label{eq:l2-kalman-cov}
+    \end{align}
+    separating true thermodynamic trajectory $\hat{\mathbf{x}}_{k|k}$ from zero-mean Gaussian transducer noise.
+    \item \textbf{Stage 4 --- Normalized Innovation Residual Anomaly Detection:} Rather than discarding the innovation residual $\tilde{\mathbf{y}}_k = \mathbf{z}_k - \mathbf{H}_k \hat{\mathbf{x}}_{k|k-1}$ and innovation covariance $\mathbf{S}_k = \mathbf{H}_k \mathbf{P}_{k|k-1} \mathbf{H}_k^T + \mathbf{R}_k$, Layer~2 integrates the standardized Mahalanobis innovation variance across $N_{\mathrm{eff}} = T_{\mathrm{detect}} \cdot f_s$ samples:
+    \begin{equation}
+        \mathcal{M}_i(t) = \frac{1}{N_{\mathrm{eff}}} \sum_{m=0}^{N_{\mathrm{eff}}-1} \frac{\tilde{y}_{i,k-m}^2}{\sigma_i^2} > 1 + \frac{3}{\sqrt{N_{\mathrm{eff}}}},
+        \label{eq:l2-mahalanobis-anomaly}
+    \end{equation}
+    or, in square-root-free integer L1 folded-normal form ($\mathbb{E}[|\tilde{y}_i|] = \sigma_i\sqrt{2/\pi} \approx 7{,}979\,\mathrm{bp}\cdot\sigma_i$):
+    \begin{equation}
+        \frac{1}{N_{\mathrm{eff}}} \sum_{m=0}^{N_{\mathrm{eff}}-1} \Bigl(10{,}000\cdot|\tilde{y}_{i,k-m}| - 7{,}979\cdot\sigma_i\Bigr) > \frac{18{,}083\cdot\sigma_i}{\sqrt{N_{\mathrm{eff}}}}.
+        \label{eq:l2-folded-normal-integer}
+    \end{equation}
+    Breaching Equation~\eqref{eq:l2-folded-normal-integer} flags incipient hardware degradation (e.g., subterranean pipe leakage, PV string bypass-diode failure, or spindle bearing wear) weeks before mean process values cross an alarm limit.
+    \item \textbf{Stage 5 --- Significance-Triggered Deadband Delta Emission:} Upward frames are emitted over \path{l2_l3.sock} only when $|\hat{x}(t) - \hat{x}(t_{\mathrm{last}})| \ge \delta_{\mathrm{sig}}$ or $(t - t_{\mathrm{last}}) \ge \tau_{\mathrm{heartbeat}}$, cutting quiescent ledger write traffic by $> 90\%$ while preserving sub-millisecond transient capture.
+\end{enumerate}
+
+\section{Purging IEEE-754 Floats from UHAI Shared-Memory Wire Structs (\texttt{Drift UHAI-1})}
+\label{sec:l2-uhai-zero-float-remediation}
+
+As audited in Part~I (\S1.3.A and \S5.11.1) of the Horizon Council Guidance, the legacy v4.0 header \path{core/1_simulation/src/uhai/uhai_ring_buffer.hpp} contained IEEE-754 floating-point fields (\texttt{float fps}, \texttt{float founder\_stress}, \texttt{float world\_x/y/z}, \texttt{double rate\_per\_tick}, \texttt{float target\_state}) that violated both the Zero-Float Law (\texttt{floating\_point\_opcodes == 0}) and Stack Boundary Rules \texttt{SBR-2}/\texttt{SBR-3} (which forbid game engine rendering metrics like \texttt{fps} or game-entity psychological stats like \texttt{founder\_stress} inside Sovereign Stack headers).
+
+Listing~\ref{lst:l2-uhai-v50} specifies the remediated v5.0 cache-aligned 64-byte UHAI wire structs (\texttt{TelemetrySampleV50} and \texttt{ActuatorCommandFrameV50}), replacing every float with canonical 64-bit fixed-point SI registers.
+
+\begin{lstlisting}[language=C++,caption={Zero-Float 64-byte cache-aligned UHAI wire structs (\texttt{TelemetrySampleV50} and \texttt{ActuatorCommandFrameV50}) eradicating \texttt{Drift UHAI-1}.},label={lst:l2-uhai-v50}]
+#pragma once
+#include <cstdint>
+
+namespace collective::layer2::uhai {
+
+/**
+ * @brief Canonical 64-byte (1 CPU cache line) Layer 2 Telemetry Sample (v5.0).
+ * Replaces legacy float fps / founder_stress with pure fixed-point SI registers.
+ * Strictly zero IEEE-754 floating-point members (CCI-6, SBR-2, SBR-3).
+ */
+struct alignas(64) TelemetrySampleV50 {
+    uint64_t frame_sequence_id{0};         // [0..7]   Monotonic hardware/SITL sample counter
+    uint64_t timestamp_hlc_ms{0};          // [8..15]  Hybrid Logical Clock timestamp (ms)
+    int64_t  primary_value_si{0};          // [16..23] Canonical SI value (uJ, mW, mK, mg, mL, cB, bp)
+    int64_t  cumulative_exergy_uj{0};      // [24..31] Integrated exergy in microjoules (1 mW*ms = 1 uJ)
+    uint32_t sensor_channel_id{0};         // [32..35] Registered L2 transducer / partition ID
+    uint32_t sample_interval_us{10'000};   // [36..39] Sampling period in microseconds (replaces float fps)
+    int32_t  innovation_residual_bp{0};    // [40..43] Kalman residual normalized in basis points
+    uint16_t diagnostic_uncertainty_bp{50};// [44..45] 50 bp (Stage III), 350 bp (Stage II), 1500 bp (Stage I)
+    uint16_t homeostatic_strain_bp{0};     // [46..47] System thermal/load strain in bp (0..10000)
+    uint8_t  si_unit_code{0};              // [48]     Canonical SI dimension enum tag
+    uint8_t  quality_flags{0x02};          // [49]     0x01=SITL, 0x02=StageIII, 0x04=StageI, 0x08=StageII
+    uint8_t  hardware_fleet_tier{2};       // [50]     0=ScavengedL7, 1=HybridRetrofit, 2=NativeOpenSpec
+    uint8_t  active_hazard_class{0};       // [51]     0=Nominal, >=1 triggers Fast-Path Preemption
+    uint8_t  reserved_pad[12]{0};          // [52..63] Explicit cache-line alignment padding (12B)
+};
+static_assert(sizeof(TelemetrySampleV50) == 64,
+              "TelemetrySampleV50 must occupy exactly 1 CPU cache line (64 bytes).");
+
+/**
+ * @brief Canonical 64-byte Efferent Actuation Envelope descending over l3_l2.sock (v5.0).
+ * Replaces legacy float target_state and double rate_per_tick with fixed-point SI limits.
+ */
+struct alignas(64) ActuationEnvelopeV1 {
+    uint64_t command_nonce_cid{0};         // [0..7]   Unique command correlation ID
+    uint64_t exergy_lease_cid_prefix{0};   // [8..15]  Layer 3 Escrowed Exergy Lease Voucher (Phi_lease)
+    uint64_t lease_expiry_hlc_ms{0};       // [16..23] Hard lease deadline (mandatory finite TTL)
+    int64_t  target_setpoint_si{0};        // [24..31] Commanded setpoint in canonical SI (mW, mK, mL/s, bp)
+    int64_t  max_exergy_escrow_uj{0};      // [32..39] Maximum permitted exergy draw (uJ)
+    int32_t  max_slew_rate_si_per_s{0};    // [40..43] Slew-rate limit (Phi_slew, e.g., Joukowsky valve limit)
+    uint32_t min_dwell_time_ms{0};         // [44..47] Anti-chatter Schmitt dwell lockout (Phi_dwell)
+    uint32_t actuator_channel_id{0};       // [48..51] Target hardware HAL actuator channel
+    uint16_t preemption_priority_tier{100};// [52..53] Pillar IV tier (L2 hazard workflows carry >= 900)
+    uint16_t deadband_hysteresis_bp{200};  // [54..55] Schmitt deadband width in basis points
+    uint8_t  si_unit_code{0};              // [56]     Expected actuator SI unit tag
+    uint8_t  require_dual_key_kappa{0};    // [57]     1 = Pillar II mentor+apprentice hardware interlock
+    uint8_t  reserved_pad[6]{0};           // [58..63] Explicit cache-line alignment padding (6B)
+};
+static_assert(sizeof(ActuationEnvelopeV1) == 64,
+              "ActuationEnvelopeV1 must occupy exactly 1 CPU cache line (64 bytes).");
+
+} // namespace collective::layer2::uhai
+\end{lstlisting}

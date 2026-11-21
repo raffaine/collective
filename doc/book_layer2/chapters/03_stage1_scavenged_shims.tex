@@ -1,0 +1,170 @@
+\chapter{Stage I Hardware Reality: Parasitic Layer 2 Shims on Scavenged Layer 7 Machines}
+\label{ch:stage1-scavenged-shims}
+
+\epigraph{When a tool grows beyond a certain threshold of complexity and proprietary enclosure, it ceases to be an instrument of human freedom and becomes an engine of compulsory dependency.}{--- after \textcite{illich1973}}
+
+\section{The Day-Zero Bootstrap Reality: Scavenged Appliances and the $\$20{,}000$ Reserve (\texttt{D7}, \texttt{D8})}
+\label{sec:l2-stage1-boot-reality}
+
+A persistent fallacy in utopian systems engineering is assuming that a new community boots inside a gleaming sci-fi cleanroom populated from Day~0 with custom open-source silicon, precision-cast modular machinery, and native fieldbus sensors. In physical reality---and inside the Oasis simulation proving ground (\texttt{Scenario Tau: Genesis} on Lot~402)---communities bootstrap out of the ruins and surplus of Layer~7.
+
+When a Stage~1A Genesis Node launches with its initial $\$20{,}000$ fiat reserve ($\Phi_0 = 2{,}000{,}000\,\text{\texttt{cents}}$), stewards do not spend $\$18{,}000$ commissioning a custom industrial autoclave or a bespoke open-frame induction hearth. They buy secondhand commercial refrigerators off Craigslist, salvage three-phase bakery deck ovens from closed restaurants, pick up used consumer washing machines, repurpose CAN-locked cargo e-bikes, and inherit desktop CNC routers or 3D printers whose controller boards are encased in black epoxy potting compound and locked behind vendor Digital Rights Management (\texttt{DRM}).
+
+In Dialogue~7 and Dialogue~8 (\texttt{CCI-6}), the Horizon Council codified a foundational design law governing how the Sovereign Stack models this hardware evolution:
+
+\begin{quote}
+\textbf{Prohibition of Fake RPG Tech Trees (\texttt{CCI-6}):} Neither Oasis nor the Sovereign Stack monographs may ever invent an artificial video-game ``Tech Tree'' (e.g., \textit{``Spend 500 Science Points to unlock Tier~2 Ovens with $+25\%$ Cooking Speed''}). A $2{,}200{,}000\,\mathrm{mW}$ heating element obeys the same First Law of Thermodynamics whether it is controlled by a proprietary corporate PCB or an open-source RISC-V board. Every advantage of progressing from Stage~I Scavenged Layer~7 appliances to Stage~II Right-to-Repair Hybrid Retrofits and Stage~III Native Open-Spec Collective Twins emerges \textbf{purely and mechanically from eliminating four structural friction penalties (``the shim tax'') across Layers~2, 3, 4, and~7}.
+\end{quote}
+
+\section{Anatomy of the Four Structural Penalties of Scavenged Layer 7 Hardware}
+\label{sec:l2-four-penalties-shim-tax}
+
+Why is hostile, black-box Layer~7 hardware so costly to operate inside a cooperative commons? When a machine's internal microcontroller refuses to speak open CAN-FD or Modbus RTU, encrypts its diagnostic bus, and seals its wear components inside non-serviceable sub-assemblies, it inflicts four coupled cyber-physical penalties across the seven-layer stack (Table~\ref{tab:l2-four-shim-penalties}).
+
+\begin{table}[htbp]
+\centering
+\caption{The Four Structural Penalties (``The Shim Tax'') of Stage~I Scavenged Layer~7 Hardware (\texttt{D7}, \texttt{D8}).}
+\label{tab:l2-four-shim-penalties}
+\footnotesize
+\begin{tabular}{@{}p{2.7cm}p{2.3cm}p{4.3cm}p{4.4cm}@{}}
+\toprule
+\textbf{Penalty Class} & \textbf{Primary Layer} & \textbf{Cyber-Physical Mechanism} & \textbf{Operational \& Thermodynamic Cost} \\
+\midrule
+\textbf{1. Parasitic Layer~2 Shims} & Layer~2 (\texttt{col-telemetryd}) & Locked firmware forces external split-core CT clamps, taped thermistors, optical 7-segment readers, and local cloud-spoofing proxy daemons onto the exterior of the appliance. & Continuous phantom standby drain ($\mathtt{parasitic\_shim\_overhead\_mw} \approx 15{,}000\text{--}65{,}000\,\mathrm{mW}$) plus coarse, laggy thermal/state inference ($\pm 1{,}500\,\mathrm{bp}$ uncertainty). \\
+\addlinespace[3pt]
+\textbf{2. Blind Mid-Batch Hard-Blocks} & Layer~4 (\texttt{col-execd}) & Sealed firmware hides internal bearing harmonics, brush wear, and coil resistance drift behind a single opaque \texttt{ERR\_42} fault LED, preventing Kalman residual prognostics. & High unscheduled mid-batch fault probability ($\mathtt{unscheduled\_fault\_prob\_bp} \approx 350\,\mathrm{bp}$); sudden failures halt Layer~4 while \textit{The Pantry}'s perishable clocks tick toward spoilage. \\
+\addlinespace[3pt]
+\textbf{3. Layer~7 Tribute Escalation} & Layer~7 (\texttt{col-adversaryd}) & Missing CAD files and DRM-serialized heater/pump modules force faults to escalate up through Layer~5 and Layer~6 into Layer~7 external procurement. & Drains scarce external fiat reserves ($\Phi_t$ in \texttt{cents}) and stalls production workflows for $48\text{--}168\,\mathrm{hours}$ waiting on external corporate couriers. \\
+\addlinespace[3pt]
+\textbf{4. Layer~3 ERC Spikes ($\lambda_{\mathrm{ERC}}$)} & Layer~3 (\texttt{col-storaged}) & Potted electronics and ultrasonically welded plastic housings force stewards to discard an entire $12\,\mathrm{kg}$ sub-assembly when a $\$2$ capacitor or $10\,\mathrm{g}$ elastomeric seal degrades. & Multiplies per-cycle Ecological Replacement Cost ($\lambda_{\mathrm{ERC}}$ in \texttt{uJ}) by $5\times\text{--}20\times$ without minting local $\Delta V$ or Layer~5 $\Delta R_i$ stewardship credit. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Engineering Parasitic Layer 2 Shims (\texttt{QUALITY\_SCAVENGED\_L7\_SHIM = 0x04})}
+\label{sec:l2-parasitic-shim-engineering}
+
+To bring a Stage~I Scavenged Layer~7 appliance online on Day~0 without violating the hardware airgap or voiding immediate functionality, Layer~2 wraps the black-box machine in a non-invasive \textbf{Parasitic Layer~2 Shim} driven by a Tier~3 \texttt{RP2040}/\texttt{RP2350} or Tier~2 \texttt{ESP32-S3} node (Figure~\ref{fig:l2-stage1-parasitic-shim}). Every frame emitted by such a wrapper is explicitly tagged with provenance flag \texttt{QUALITY\_SCAVENGED\_L7\_SHIM = 0x04} and $\pm 1{,}500\,\mathrm{bp}$ ($\pm 15.0\%$) diagnostic uncertainty.
+
+\begin{figure}[htbp]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+    node distance=0.9cm and 1.3cm,
+    blk/.style={draw=black!80, rounded corners=3pt, thick, align=center, font=\footnotesize, inner sep=6pt},
+    shim/.style={draw=orange!80!black, rounded corners=3pt, thick, fill=orange!8, align=center, font=\footnotesize, inner sep=5.5pt},
+    arr/.style={-{Stealth[length=2.2mm]}, thick}
+]
+    \node[blk, fill=gray!18, minimum width=4.8cm, minimum height=3.8cm] (l7box) {};
+    \node[anchor=north, font=\footnotesize\bfseries] at ($(l7box.north)+(0,-0.15)$) {Scavenged Layer 7 Appliance};
+    \node[font=\scriptsize, align=center] at ($(l7box.center)+(0,-0.2)$) {
+        Potted Epoxy DRM Controller PCB\\
+        Closed Firmware (Zero Fieldbus)\\
+        Internal Thermistor \& Motor Hidden\\
+        7-Segment LED Panel (\texttt{ERR\_42})\\
+        Wi-Fi ``Smart Cloud'' Telemetry Trap
+    };
+
+    \node[shim, right=1.6cm of l7box, minimum width=5.6cm] (pio) {
+        \textbf{Tier 3 RP2040 / ESP32-S3 Parasitic Shim}\\[2pt]
+        1. Split-Core CT Clamp on AC Cord ($\hat{P}_{\mathrm{mw}}$)\\
+        2. Exterior Taped NTC Thermistor ($\hat{T}_{\mathrm{skin\_mk}}$)\\
+        3. Photodiode Array over 7-Seg LEDs (PIO OCR)\\
+        4. Optocoupler Dry-Contact Button Pusher / SSR\\
+        5. VLAN-Isolated Local Cloud-Spoofing Responder
+    };
+
+    \node[blk, fill=blue!7, right=1.4cm of pio, minimum width=3.8cm] (telem) {
+        \textbf{\texttt{col-telemetryd}}\\[2pt]
+        \texttt{quality\_flags = 0x04}\\
+        \texttt{uncertainty = 1500 bp}\\
+        \texttt{shim\_overhead = 45 W}\\
+        $\to$ \texttt{l2\_l3.sock}
+    };
+
+    \draw[arr, dashed, orange!85!black] (l7box.east) -- node[above, font=\scriptsize] {Skin Heat / AC Flux} node[below, font=\scriptsize] {LED Photons} (pio.west);
+    \draw[arr] (pio.east) -- node[above, font=\scriptsize] {\texttt{RS-485} / \texttt{CAN-FD}} (telem.west);
+\end{tikzpicture}%
+}
+\caption{Anatomy of a Stage~I Parasitic Layer~2 Shim (\texttt{QUALITY\_SCAVENGED\_L7\_SHIM = 0x04}) wrapping a closed-firmware Layer~7 appliance.}
+\label{fig:l2-stage1-parasitic-shim}
+\end{figure}
+
+\subsection{The Five Hardware Channels of a Stage I Parasitic Shim}
+
+\begin{enumerate}
+    \item \textbf{Split-Core Non-Invasive Current Transformer (CT) State Inference:} Because the appliance's internal power relays cannot be queried, a split-core ferromagnetic CT clamp (e.g., \texttt{SCT-013-030}) is clipped around the external AC supply conductor. By sampling the $50/60\,\mathrm{Hz}$ current envelope at $2{,}400\,\mathrm{Hz}$, the shim infers coarse operational states from quantized power plateaus:
+    \begin{itemize}
+        \item $P_{\mathrm{mw}} \in [2{,}000,\; 12{,}000]\,\mathrm{mW}$: Idle standby phantom draw (proprietary Wi-Fi board + display transformer).
+        \item $P_{\mathrm{mw}} \in [120{,}000,\; 350{,}000]\,\mathrm{mW}$: Circulation pump or agitation motor active.
+        \item $P_{\mathrm{mw}} \in [1{,}800{,}000,\; 3{,}200{,}000]\,\mathrm{mW}$: Primary resistive heating element or compressor active.
+    \end{itemize}
+    \item \textbf{Exterior Taped Thermistor Thermal Lag and Coarse Uncertainty ($\pm 1{,}500\,\mathrm{bp}$):} When a sealed fridge or commercial oven hides its internal RTD probe on a proprietary bus, stewards tape an external surface thermocouple or NTC thermistor to the outer wall or exhaust flue. Because heat must diffuse through the thermal resistance $R_{\mathrm{wall}}$ and capacitance $C_{\mathrm{wall}}$ of the chassis insulation:
+    \begin{equation}
+        \tau_{\mathrm{lag}} = R_{\mathrm{wall}} C_{\mathrm{wall}} \approx 180{,}000\text{--}420{,}000\,\mathrm{ms} \quad (3\text{--}7\,\text{minutes}),
+        \label{eq:l2-shim-thermal-lag}
+    \end{equation}
+    the inferred internal core temperature $\hat{T}_{\mathrm{core\_mk}}(t) = T_{\mathrm{skin\_mk}}(t) + \alpha_{\mathrm{cal}}\bigl(T_{\mathrm{skin\_mk}}(t) - T_{\mathrm{amb\_mk}}(t)\bigr)$ suffers severe phase lag and a $\pm 1{,}500\,\mathrm{bp}$ ($\pm 15\%$) uncertainty band. Consequently, Layer~4 (\texttt{col-execd}) must pad Bigelow pasteurization hold windows and cold-chain safety margins on Stage~I gear to compensate for sensor lag.
+    \item \textbf{RP2040 PIO Photodiode 7-Segment Fault-Code Scraper:} Many commercial appliances expose fault states exclusively by blinking a multiplexed 7-segment LED display (\texttt{E04}, \texttt{F21}). Rather than pointing a power-hungry camera at the machine (which would risk violating \texttt{INV\_ANTI\_PANOPTICON}), stewards adhere a 3D-printed light-proof shroud containing 14 miniature photodiodes directly over the 7-segment digits. An \texttt{RP2040} Programmable I/O (\texttt{PIO}) state machine locks onto the $250\,\mathrm{Hz}$ cathode-multiplexing strobe in deterministic hardware cycles and translates segment bitmasks into integer fault codes (\texttt{SCAVENGED\_FAULT\_CODE\_E04}) with zero optical imaging.
+    \item \textbf{Inline Solid-State Relay (SSR) and Optocoupler Button Actuation:} To start or halt a Stage~I appliance without internal bus access, the shim solders reed-relay optocouplers (\texttt{PC817}) across the front-panel membrane pushbuttons (or uses a mechanical micro-servo finger) paired with a main AC line zero-crossing SSR contactor for hard emergency cutoff.
+    \item \textbf{Local VLAN-Isolated Cloud-Spoofing Responder:} Certain late-capitalist appliances (e.g., cloud-tethered solar inverters, filament printers, or smart heat pumps) refuse to boot unless they complete a TLS handshake with a vendor telemetry server every 24 hours. Layer~2 cages the appliance's Ethernet/Wi-Fi MAC address inside a dead-end local bridge where a lightweight responder emulates the vendor's \texttt{200 OK} keep-alive JSON heartbeat locally while blocking 100\% of outbound WAN traffic.
+\end{enumerate}
+
+\section{Mathematical Model of Stage I Shim Overhead and Blind Hard-Blocks}
+\label{sec:l2-stage1-math-model}
+
+In \path{src/stack/shared_stack_runtime.hpp}, \path{src/daemons/col-telemetryd/main.cpp}, and \path{src/daemons/col-adversaryd/adversary_engine.hpp}, Stage~I hardware friction is governed by two deterministic C++20 structures: the parasitic exergy tax and the blind mid-batch hard-block generator (Listing~\ref{lst:l2-stage1-shim-tribute}).
+
+Given a batch workflow of duration $\Delta t_{\mathrm{batch\_ms}}$ running on a Stage~I machine with active process power $P_{\mathrm{active\_mw}}$, parasitic shim and standby power $P_{\mathrm{shim\_mw}} = \mathtt{parasitic\_shim\_overhead\_mw}$, and high Stage~I Ecological Replacement Cost $\lambda_{\mathrm{ERC,StageI\_uj}}$, total batch exergy charged in Layer~3 is:
+\begin{equation}
+    E_{\mathrm{total,StageI\_uj}} = \bigl(P_{\mathrm{active\_mw}} + P_{\mathrm{shim\_mw}}\bigr)\cdot \Delta t_{\mathrm{batch\_ms}} + \lambda_{\mathrm{ERC,StageI\_uj}}.
+    \label{eq:l2-stage1-total-exergy}
+\end{equation}
+Even when idle between batches ($\Delta t_{\mathrm{idle\_ms}}$), a Stage~I appliance keeping its proprietary transformer and cloud-spoofing shim alive drains continuous standby exergy $E_{\mathrm{standby\_uj}} = P_{\mathrm{shim\_mw}} \cdot \Delta t_{\mathrm{idle\_ms}}$.
+
+Worse, because the sealed PCB hides internal component degradation ($\mathcal{M}_i(t)$ in Equation~\eqref{eq:l2-mahalanobis-anomaly} cannot observe internal motor windings or bearing harmonics), the appliance exhibits a per-cycle unscheduled fault probability $p_{\mathrm{fault\_bp}} = \mathtt{unscheduled\_fault\_prob\_bp} \approx 350\,\mathrm{bp}$ ($3.50\%$ per heavy cycle). When a blind fault strikes mid-batch:
+\begin{enumerate}
+    \item Layer~2 detects an abrupt current drop ($P_{\mathrm{mw}} \to P_{\mathrm{shim\_mw}}$) and a 7-segment fault strobe (\texttt{ERR\_42}), emitting \texttt{UpwardYieldPacketV31} with \texttt{YieldReason::SCAVENGED\_L7\_BLIND\_HARDBLOCK}.
+    \item Layer~4 halts the active BPMN token and triggers a Regime~2 Forward Physical Salvage Saga (routing half-baked dough or cooling broth to compost/BSFL before bacterial danger-zone limits expire).
+    \item Because no open CAD or PCB schematic exists yet for the Stage~I unit, the fault escalates through Layer~5 and Layer~6 to Layer~7 (\texttt{col-adversaryd}), emitting a \texttt{ScavengedHardwareTributeEvent} that deducts external fiat spare-part tribute (\texttt{fiat\_tribute\_cents}) from $\Phi_t$ and locks the station for $\mathtt{courier\_lead\_time\_ticks}$ ($48\text{--}120\,\mathrm{hours}$).
+\end{enumerate}
+
+\begin{lstlisting}[language=C++,caption={Stage~I Parasitic Layer~2 Shim telemetry and Layer~7 Tribute Escalation event structs (\texttt{col-telemetryd} and \texttt{col-adversaryd}).},label={lst:l2-stage1-shim-tribute}]
+#pragma once
+#include <cstdint>
+#include <array>
+
+namespace collective::layer2 {
+
+struct Stage1ParasiticShimRegistersV50 {
+    uint32_t appliance_tool_id{0};
+    int64_t  inferred_active_power_mw{0};        // From external split-core CT clamp (mW)
+    int64_t  parasitic_shim_overhead_mw{45'000}; // 45.0 W continuous phantom/shim tax (mW)
+    int64_t  exterior_skin_temp_mk{293'150};     // Taped surface thermistor (mK)
+    int64_t  inferred_core_temp_mk{293'150};     // Lag-compensated estimate (+/- 1500 bp)
+    uint32_t thermal_lag_tau_ms{240'000};        // 4-minute thermal diffusion lag across chassis
+    uint16_t diagnostic_uncertainty_bp{1'500};   // +/- 15.00% uncertainty band
+    uint16_t unscheduled_fault_prob_bp{350};     // 3.50% blind mid-batch hard-block probability
+    uint16_t pio_7seg_fault_code{0};             // 0 = OK, non-zero = optical 7-seg fault (e.g. 0xE04)
+    uint8_t  quality_flags{0x04};                // QUALITY_SCAVENGED_L7_SHIM = 0x04
+    uint8_t  blind_hardblock_latched{0};         // 1 = Mid-batch breakdown; escalates to L4->L7
+};
+
+/**
+ * @brief Emitted when a Stage I Scavenged Layer 7 appliance suffers a blind hard-block
+ * without a local Stage II Right-to-Repair Hybrid Retrofit Kit available in the library.
+ */
+struct ScavengedHardwareTributeEventV50 {
+    std::array<uint8_t, 32> incident_cid;
+    uint32_t failed_appliance_tool_id{0};
+    uint16_t vendor_opaque_fault_code{0};        // e.g., 0xE04 potted mainboard failure
+    int64_t  fiat_tribute_cents{18'500};         // $185.00 drained from Stage 1A $20k reserve
+    int64_t  discarded_module_mass_mg{4'200'000};// 4.2 kg sealed assembly discarded to scrap
+    int64_t  erc_penalty_spike_uj{68'000'000'000'000LL}; // 68 MJ embodied exergy penalty
+    uint64_t courier_delay_ms{259'200'000ULL};   // 72 hours (3 days) external shipping stall
+};
+
+} // namespace collective::layer2
+\end{lstlisting}
+
+It is precisely this recurring bleed of human hours, spoiled batches, $\lambda_{\mathrm{ERC}}$ penalties, and external fiat tribute that motivates a settlement's machinists and electronics stewards to execute the Stage~II Right-to-Repair Hybrid Retrofit revolution detailed in Chapter~\ref{ch:stage2-right-to-repair-retrofits}.

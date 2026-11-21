@@ -1,0 +1,132 @@
+\chapter{Hardware Root of Trust, Epoch Merkle Batching, and Reticulum Edge Mesh (\texttt{col-telemetryd} \& \texttt{col-meshd})}
+\label{ch:hardware-root-of-trust-and-mesh}
+
+\epigraph{In an adversarial world, an unsigned sensor reading is merely a rumor, and a sensor that relies on a corporate ISP to reach its neighbor is a hostage awaiting a cut cable.}{--- Security \& Mesh Charter of The Collective, Scenario~Rho and Scenario~Omega}
+
+\section{The Oracle Problem and the Microchip \texttt{ATECC608A} Hardware Root of Trust}
+\label{sec:l2-atecc608a-root-of-trust}
+
+While Layer~3 (\texttt{col-storaged}) is protected by content-addressed Merkle-DAGs and Layer~1 physics obeys strict conservation laws, Layer~2 sits at the physical oracle threshold between them. If an adversary or defective driver could inject falsified exergy claims (e.g., spoofing $100{,}000{,}000{,}000\,\mu\mathrm{J}$ of solar generation or falsifying a Stage~II Right-to-Repair burn-in attestation), the settlement's thermodynamic accounting and Proof of Stewardship ($R_{i,\mathrm{bp}}(t)$) would be corrupted.
+
+To anchor physical transduction in unforgeable mathematics, every Tier~1 and Tier~2 Layer~2 node embeds a \textbf{Microchip \texttt{ATECC608A} Cryptographic Co-Processor} \parencite{microchip_atecc608a} isolated within \textbf{Zephyr MPU Domain~0} over a dedicated $400\,\mathrm{kHz}$ I$^2$C bus:
+\begin{enumerate}
+    \item \textbf{Internal Thermal-Avalanche Key Genesis (\texttt{Scenario Tau}):} During Day-0 JTAG/SWD provisioning, the node's private hardware signing key ($sk_{\mathrm{hw}}$) is minted internally inside hardware Slot~0 using the \texttt{ATECC608A}'s NIST SP~800-90A/B/C True Random Number Generator (\texttt{TRNG}) driven by thermal diode avalanche noise. Slot~0 is permanently write-locked and configured as non-exportable; $sk_{\mathrm{hw}}$ can never be read across the I$^2$C pins.
+    \item \textbf{Deterministic \texttt{Ed25519} Sensor Claim Signing:} Every conditioned fixed-point SI observation $i$ is bound to the device's 72-bit silicon Unique Identifier (\texttt{UID}), a non-volatile monotonic hardware counter $c_{\mathrm{mono}}$ (rendering replay attacks impossible), the Hybrid Logical Clock timestamp $\tau_{\mathrm{hlc\_ms}}$ \parencite{kulkarni2014logical}, the canonical SI unit tag, the Kalman state estimate $\hat{x}_{i,\mathrm{si}}$, and the 3-tier provenance byte (\texttt{0x02}, \texttt{0x04}, \texttt{0x08}) via an \texttt{Ed25519} signature \parencite{bernstein2012ed25519}:
+    \begin{equation}
+        \sigma_i = \mathrm{Sign}_{\mathrm{Ed25519}}\!\Bigl(sk_{\mathrm{hw}},\; \mathrm{BLAKE2b}\bigl(\mathrm{UID} \parallel c_{\mathrm{mono}} \parallel \tau_{\mathrm{hlc\_ms}} \parallel \mathrm{ChanID} \parallel \mathrm{SIUnit} \parallel \hat{x}_{i,\mathrm{si}} \parallel \sigma_{\hat{x}_i,\mathrm{bp}} \parallel \mathrm{QualFlag}\bigr)\Bigr).
+        \label{eq:l2-ed25519-claim}
+    \end{equation}
+    \item \textbf{Active Serpentine Shield and Physical Anti-Tamper Zeroization (\texttt{Scenario Rho}):} The \texttt{ATECC608A} die is protected by an active metal serpentine capacitance mesh; focused ion beam (\texttt{FIB}) decapping immediately zeroes cryptographic EEPROM. At the enclosure boundary, normally-closed (\texttt{NC}) chassis microswitches monitor the junction box lid. If an adversary forces open an outdoor field pod to attach a logic analyzer or JTAG probe, the switch break triggers a non-maskable hardware interrupt that actively zeroes Domain~0 SRAM session keys within $< 10\,\mu\mathrm{s}$, logs a \texttt{TAMPER\_SEAL\_BREACH} frame, and quarantines the node's DID in Layer~5 (\texttt{col-kmsd}) until re-provisioned by physical 2-of-3 steward quorum. Once Genesis keys are provisioned into TrustZone/MPU flash, the external JTAG/SWD debug fuse is blown.
+\end{enumerate}
+
+\section{1-Hz \texttt{BLAKE2b} Epoch Merkle Batching Across \texttt{l2\_l3.sock}}
+\label{sec:l2-epoch-merkle-batching}
+
+Sampling microgrid shunts, acoustic partition boundaries, and CNC spindle encoders at $10\,\mathrm{Hz}$ to $1{,}000\,\mathrm{Hz}$ produces tens of thousands of observations per minute. Writing individual 64-byte signatures directly to Layer~3's RocksDB write-ahead log (\texttt{WAL}) would induce severe flash write amplification and compaction stalls on salvaged 20-year storage media.
+
+Layer~2 (\texttt{col-sensord} and \texttt{col-membraned}) eliminates write amplification through \textbf{1-Hz \texttt{BLAKE2b} Epoch Merkle Batching} \parencite{saarinen2013blake2}:
+\begin{enumerate}
+    \item Over each $T_{\mathrm{epoch}} = 1{,}000\,\mathrm{ms}$ window, the aggregator collects $N = 2^h$ discrete fixed-point SI sensor claims and hashes each leaf with domain-separation prefix \texttt{0x00}:
+    \begin{equation}
+        L_i = \mathrm{BLAKE2b\text{-}256}\bigl(\mathtt{0x00} \parallel \mathrm{Encode}(\mathrm{SensorClaim}_i)\bigr), \qquad i \in \{0,\dots,N-1\}.
+        \label{eq:l2-merkle-leaf-hash}
+    \end{equation}
+    \item Internal binary nodes are folded recursively with prefix \texttt{0x01}:
+    \begin{equation}
+        I_{j,d} = \mathrm{BLAKE2b\text{-}256}\bigl(\mathtt{0x01} \parallel I_{2j,d-1} \parallel I_{2j+1,d-1}\bigr), \qquad \mathcal{R}_{\mathrm{epoch}} = I_{0,h}.
+        \label{eq:l2-merkle-internal-hash}
+    \end{equation}
+    \item The \texttt{ATECC608A} executes a single hardware signature over the compact \textbf{Epoch Manifest} $M_{\mathrm{batch}}$ containing the Merkle root $\mathcal{R}_{\mathrm{epoch}}$ and exact integer epoch summary statistics $\mathbf{\Sigma}_{\mathrm{stats}} = \langle x_{\min,\mathrm{si}},\, x_{\max,\mathrm{si}},\, \bar{x}_{\mathrm{si}},\, \Delta E_{\mathrm{epoch\_uj}} \rangle$:
+    \begin{equation}
+        M_{\mathrm{batch}} = \mathrm{UID} \parallel c_{\mathrm{epoch}} \parallel \tau_{\mathrm{start\_ms}} \parallel \tau_{\mathrm{end\_ms}} \parallel \mathcal{R}_{\mathrm{epoch}} \parallel N \parallel \mathbf{\Sigma}_{\mathrm{stats}}, \qquad \sigma_{\mathrm{batch}} = \mathrm{Sign}_{\mathrm{Ed25519}}\bigl(sk_{\mathrm{hw}},\, \mathrm{BLAKE2b}(M_{\mathrm{batch}})\bigr).
+        \label{eq:l2-epoch-manifest-sig}
+    \end{equation}
+\end{enumerate}
+
+Only $(M_{\mathrm{batch}}, \sigma_{\mathrm{batch}})$ crosses \path{/run/collective/ipc/l2_l3.sock} into \texttt{col-storaged} once per second. Whenever Layer~4 or a peer audit challenges a specific sub-second sample $k$, \texttt{col-telemetryd} serves the $O(\log_2 N)$ Merkle inclusion branch $\Pi_k = \{\mathrm{sibling}_1,\dots,\mathrm{sibling}_h\}$ from its local circular DRAM cache.
+
+\section{\texttt{col-meshd}: Low-Power Field Networking, RFID Locality, and Sovereign Library Gossip}
+\label{sec:l2-col-meshd-networking}
+
+Because a Sovereign Node cannot rely on corporate Internet Service Providers (\texttt{Scenario Omega: Decoupling} and \texttt{Scenario Upsilon: Shock}), Layer~2 includes a dedicated mesh transport daemon, \textbf{\texttt{col-meshd}}, which bridges local field transducers and inter-node Layer~3 CRDT / HTLC traffic over physical radio, optical fiber, and vehicular sneakernet links (\texttt{Scenario Beta} Artery~5).
+
+\subsection{1. LoRa Chirp Spread Spectrum and the Ban on Bloated Wire JSON}
+
+For long-range watershed and agroforestry pods (\texttt{Scenario Eta}, \texttt{Scenario Mu}, \texttt{Scenario Omega}), \texttt{col-meshd} drives Semtech \texttt{SX1262} transceivers in the sub-GHz ISM band ($915\,\mathrm{MHz}$ / $868\,\mathrm{MHz}$) under the Reticulum Network Stack. Utilizing Chirp Spread Spectrum (\texttt{CSS}) modulation, LoRa demodulates signals up to $20\,\mathrm{dB}$ ($200\,\mathrm{cB}$) below the thermal noise floor, bounded by the Shannon-Hartley channel capacity theorem \parencite{shannon1949communication}:
+\begin{equation}
+    C_{\mathrm{bps}} = B_{\mathrm{hz}} \log_2\bigl(1 + \mathrm{SNR}\bigr).
+    \label{eq:l2-shannon-hartley}
+\end{equation}
+Adjusting the Spreading Factor ($\mathrm{SF} \in \{7,\dots,12\}$) trades bit rate for physical range. When an acute hazard or shock occurs (\texttt{Scenario Chi} / \texttt{Scenario Upsilon}), transceivers shift automatically to $\mathrm{SF12}$, where packet Time-on-Air (\texttt{ToA}) scales exponentially:
+\begin{equation}
+    T_{\mathrm{packet\_ms}} = \frac{2^{\mathrm{SF}}\cdot 1{,}000}{\mathrm{BW}_{\mathrm{hz}}} \times N_{\mathrm{symbols}}.
+    \label{eq:l2-lora-toa}
+\end{equation}
+Because $\mathrm{SF12}$ at $\mathrm{BW} = 125\,\mathrm{kHz}$ requires $32.768\,\mathrm{ms}$ per symbol, \textbf{Layer~2 strictly forbids verbose text JSON payloads over radio or serial links}. All fieldbus and LoRa frames are serialized as 64-byte fixed-point binary structs or deterministic \textbf{Canonical CBOR (RFC~8949)} \parencite{rfc8949} with integer map keys framed via Consistent Overhead Byte Stuffing (\texttt{COBS}) \parencite{cheshire1999cobs}.
+
+\subsection{2. Passive UHF RFID Backscatter and $R^{-4}$ Spatial Locality (\texttt{Scenario Nu}, \texttt{Gamma})}
+
+To track textile provenance (\texttt{Scenario Nu}), reusable stainless tiffin containers (\texttt{Scenario Gamma}), and tool-crib checkouts (\textit{The Workshop}) without battery-powered trackers, Layer~2 uses passive Ultra-High Frequency (\texttt{UHF}) RFID tags operating via backscatter impedance modulation. Received power $P_r$ at the reader obeys the bistatic radar equation \parencite{dobkin2012rf}:
+\begin{equation}
+    P_r = \frac{P_t\, G_t\, G_r\, \lambda^2\, \sigma_{\mathrm{rcs}}}{(4\pi)^3\, R^4}.
+    \label{eq:l2-rfid-bistatic}
+\end{equation}
+Because received backscatter power decays with the fourth power of distance ($R^{-4}$), passive UHF RFID enforces strict \textbf{cryptographic spatial locality}: an interrogator can energize and read a garment, tool, or tiffin tag only within $R \le 3{,}000\,\mathrm{mm}$ ($3.0\,\mathrm{meters}$), physically preventing remote spoofing of custody handoffs.
+
+\subsection{3. Remediating \texttt{col-meshd}: Integer \texttt{FlowContractV50} and DTN Sovereign Library Gossip}
+
+As identified in Part~I (\S1.3.E.3) and Part~V (\S5.11.2) of the Horizon Council Guidance, \path{src/daemons/col-meshd/main.cpp} requires two specific v3.2 upgrades (Listing~\ref{lst:l2-col-meshd-v50}):
+\begin{enumerate}
+    \item \textbf{Purging \texttt{double rate\_per\_tick} from \texttt{FlowContract}:} Replace the legacy IEEE-754 floating-point flow rate with canonical 64-bit integer microjoules per tick (\texttt{int64\_t rate\_uj\_per\_tick}) and milligrams/milliliters per tick.
+    \item \textbf{DTN Gossip Propagation of the Three Sovereign Libraries and \texttt{thermodynamicProof}:} Across OS2 optical fiber, $802.11\mathrm{ah}$ Wi-Fi HaLow, LoRa, and Scenario~Beta cargo e-trike Delay-Tolerant Networking (\texttt{DTN}) sneakernet bricks \parencite{fall2003,shapiro2011crdt}, \texttt{col-meshd} replicates content-addressed deltas for the three \textbf{Sovereign Libraries} (\textit{Ontological Graph}, \textit{Orchestration Registry}, and \textit{Physics Baseline} \texttt{collective:thermodynamicProof} records) alongside federated Tier~3 True-Constraint Hard-Block capability queries for \texttt{col-swarmd}.
+\end{enumerate}
+
+\begin{lstlisting}[language=C++,caption={Zero-Float \texttt{FlowContractV50} and DTN Sovereign Library Gossip Envelope in \texttt{col-meshd} (\texttt{src/daemons/col-meshd/main.cpp} v3.2 remediation).},label={lst:l2-col-meshd-v50}]
+#pragma once
+#include <cstdint>
+#include <array>
+
+namespace collective::layer2::mesh {
+
+enum class SovereignLibraryKind : uint8_t {
+    kOntologicalGraph      = 0, // Materials, M6/M8 fasteners, Gastronorm/ISO geometry, Stage II Retrofit Kits
+    kOrchestrationRegistry = 1, // Parameterized BPMN 2.0 franchise templates (Speedee Without the Rent)
+    kPhysicsBaselineProof  = 2, // collective:thermodynamicProof (uJ/mg, spoilage bp, observed_mtbf_sec)
+    kTier3HardBlockQuery   = 3  // Federated capability query when local node hits Tier 3 Hard-Block
+};
+
+/**
+ * @brief Pure-integer inter-node thermodynamic flow contract in col-meshd (v5.0).
+ * Replaces legacy double rate_per_tick with exact int64_t rate_uj_per_tick (CCI-6).
+ */
+struct alignas(64) FlowContractV50 {
+    std::array<uint8_t, 32> contract_cid;          // [0..31]  Content-addressed contract digest
+    int64_t  rate_uj_per_tick{0};                  // [32..39] Microjoules per 100ms tick (replaces double!)
+    int64_t  cumulative_settled_uj{0};             // [40..47] Total exergy transferred across intertie (uJ)
+    uint64_t expiry_hlc_ms{0};                     // [48..55] Mandatory finite HLC lease deadline (ms)
+    uint32_t source_node_id{0};                    // [56..59] Producer node mesh ID
+    uint32_t dest_node_id{0};                      // [60..63] Consumer node mesh ID
+};
+static_assert(sizeof(FlowContractV50) == 64,
+              "FlowContractV50 must occupy exactly 1 cache line (64 bytes).");
+
+/**
+ * @brief Delay-Tolerant Networking (DTN) Gossip Bundle for Sovereign Library & Lineage Proofs.
+ * Replicated over OS2 Fiber, 802.11ah HaLow, SX1262 LoRa, and Scenario Beta e-trike data mules.
+ */
+struct alignas(64) SovereignLibraryGossipFrameV50 {
+    std::array<uint8_t, 32> artifact_cid;          // [0..31]  Content-addressed JSON-LD / STEP / WASM CID
+    int64_t  verified_exergy_per_kg_uj{0};         // [32..39] Empirical uJ per kg output (Physics Baseline)
+    int64_t  verified_erc_per_cycle_uj{0};         // [40..47] Empirical lambda_ERC in microjoules
+    uint32_t observed_mtbf_sec{0};                 // [48..51] Empirical Mean Time Between Failures (s)
+    uint16_t spoilage_or_scrap_rate_bp{0};         // [52..53] Empirical fault rate in basis points
+    uint16_t hop_ttl_remaining{16};                // [54..55] Reticulum mesh hop limit
+    SovereignLibraryKind library_kind{SovereignLibraryKind::kPhysicsBaselineProof}; // [56] (1B)
+    uint8_t  hardware_fleet_tier_tested{2};        // [57]     0=StageI, 1=StageII, 2=StageIII
+    uint8_t  reserved_pad[6]{0};                   // [58..63] Explicit cache-line padding (6B)
+};
+static_assert(sizeof(SovereignLibraryGossipFrameV50) == 64,
+              "SovereignLibraryGossipFrameV50 must occupy exactly 1 cache line (64 bytes).");
+
+} // namespace collective::layer2::mesh
+\end{lstlisting}

@@ -1,0 +1,127 @@
+\chapter{Fast-Path Physical Hazard Interlocks, Actuation Envelopes, and Two-Speed Jurisprudence}
+\label{ch:fast-path-hazard-interlocks}
+
+\epigraph{Information may flow upward freely, but physical force may flow downward only through mathematical firewalls. When a pipe bursts at midnight, the building must not wait for a parliamentary committee to energize the sump pump.}{--- Architectural Commentary on Dialogue~6 (\texttt{D6}), Horizon Council Synthesis}
+
+\section{The Efferent Variety Amplifier and the Five Actuation Invariant Predicates}
+\label{sec:l2-five-actuation-predicates}
+
+While the afferent membrane attenuates continuous physical variety into discrete ledger claims, the efferent membrane operates as an Ashby \textbf{Variety Amplifier} ($\beta_{\mathrm{amp}} \gg 10^5$) \parencite{ashby1956}. A human assembly (Layer~5) or workflow orchestrator (Layer~4) issues compact, low-frequency policy and task envelopes; Layer~2 (\texttt{col-actuated} and Zephyr RTOS edge controllers) must synthesize millions of microsecond gate-drive transitions, zero-crossing triac firings, and closed-loop PID adjustments while guaranteeing that no software fault above Layer~2 can ever destroy hardware or endanger life.
+
+Whenever a 64-byte \texttt{ActuationEnvelopeV1} (Listing~\ref{lst:l2-uhai-v50}) descends from Layer~4 through Layer~3's zero-latency in-memory actuation ring buffer across \path{/run/collective/ipc/l3_l2.sock}, the Layer~2 Hardware Abstraction Layer (\texttt{HAL}) treats the command as an untrusted request until it satisfies the \textbf{Five Mathematical Invariant Predicates} $\mathbf{\Phi}$:
+\begin{equation}
+    \mathbf{\Phi}\bigl(\mathbf{u}_{\mathrm{cmd}},\, \mathbf{x}(t),\, \mathcal{L}_{\mathrm{CID}}\bigr) = \Phi_{\mathrm{bound}} \;\land\; \Phi_{\mathrm{slew}} \;\land\; \Phi_{\mathrm{dwell}} \;\land\; \Phi_{\mathrm{lease}} \;\land\; \Phi_{\mathrm{safe}} \stackrel{?}{=} \mathbf{true}.
+    \label{eq:l2-composite-phi}
+\end{equation}
+
+\begin{enumerate}
+    \item \textbf{Admissible Operating Boundary Invariant ($\Phi_{\mathrm{bound}}$):} The commanded setpoint $\mathbf{u}_{\mathrm{cmd}}$ must reside strictly within the state-dependent safe physical envelope:
+    \begin{equation}
+        \Phi_{\mathrm{bound}} \iff u_{\min}\bigl(\mathbf{x}(t)\bigr) \le \mathbf{u}_{\mathrm{cmd}} \le u_{\max}\bigl(\mathbf{x}(t)\bigr).
+        \label{eq:l2-phi-bound}
+    \end{equation}
+    For $48\,\mathrm{V}$ $\mathrm{LiFePO_4}$ battery charging (\texttt{Scenario Alpha}), maximum charging current $I_{\max}(T_{\mathrm{cell\_mk}})$ drops to $0\,\mathrm{mA}$ whenever cell temperature falls below $273{,}150\,\mathrm{mK}$ ($0.0\,^\circ\mathrm{C}$, preventing metallic lithium dendrite plating) or exceeds $318{,}150\,\mathrm{mK}$ ($45.0\,^\circ\mathrm{C}$, preventing thermal runaway). For induction stockpots (\texttt{culinary\_vessel\_v1}), $\mathtt{volume\_ml} < 250\,\mathrm{mL}$ forces $\mathtt{heater\_power\_mw} = 0\,\mathrm{mW}$ (hard boil-dry cutoff).
+    \item \textbf{Slew-Rate and Joukowsky Water-Hammer Invariant ($\Phi_{\mathrm{slew}}$):} Actuation steps must obey mechanical and hydraulic rate-of-change limits:
+    \begin{equation}
+        \Phi_{\mathrm{slew}} \iff \left| \frac{\mathbf{u}_{\mathrm{cmd}}(t) - \mathbf{u}_{\mathrm{actual}}(t^-)}{\Delta t_{\mathrm{ms}}} \right| \le \dot{u}_{\max}.
+        \label{eq:l2-phi-slew}
+    \end{equation}
+    In hydraulic distribution mains (\texttt{Scenario Beta} Artery~4 and \texttt{Scenario Eta} irrigation), instantaneous valve closure converts fluid kinetic momentum into a destructive pressure shockwave governed by the Joukowsky water-hammer equation:
+    \begin{equation}
+        \Delta P_{\mathrm{pa}} = \rho_{\mathrm{fluid}} \cdot c_{\mathrm{sound}} \cdot \Delta v,
+        \label{eq:l2-joukowsky-hammer}
+    \end{equation}
+    where $\rho_{\mathrm{fluid}} = 1{,}000\,\mathrm{kg/m^3}$ and acoustic wave velocity $c_{\mathrm{sound}} \approx 1{,}200\,\mathrm{m/s}$ in Schedule~40 pipe (where an instantaneous shutoff of $\Delta v = 2.5\,\mathrm{m/s}$ generates a catastrophic $3.0\,\mathrm{MPa} = 30\,\mathrm{bar}$ pipe-bursting spike). Layer~2 stepper-driven butterfly valves enforce angular slew $\dot{\theta}_{\max} \le 50{,}000\,\mathrm{mdeg/s}$ ($5.0\,^\circ/\mathrm{s}$) in hardware.
+    \item \textbf{Schmitt Anti-Chatter, Dwell Lockout, and Zero-Crossing Invariant ($\Phi_{\mathrm{dwell}}$):} To prevent contactor arc erosion and compressor locked-rotor stall, discrete actuators combine dual-threshold Schmitt trigger hysteresis $\mathcal{H}_{\Delta}$ \parencite{astrom2008feedback} with a mandatory minimum dwell timer $\tau_{\mathrm{dwell\_ms}}$:
+    \begin{equation}
+        \Phi_{\mathrm{dwell}} \iff \Bigl(\bigl|\mathbf{u}_{\mathrm{cmd}} - \mathbf{u}_{\mathrm{actual}}\bigr| \le \epsilon_{\mathrm{deadband}}\Bigr) \;\lor\; \Bigl(t_{\mathrm{ms}} - t_{\mathrm{last\_toggle\_ms}} \ge \tau_{\mathrm{dwell\_ms}}\Bigr).
+        \label{eq:l2-phi-dwell}
+    \end{equation}
+    Automatic Transfer Switches (\texttt{ATS}) enforce break-before-make mechanical dwell $\tau_{\mathrm{dwell\_ms}} \ge 50\,\mathrm{ms}$; heat-pump compressors enforce $\tau_{\mathrm{dwell\_ms}} \ge 180{,}000\,\mathrm{ms}$ ($180\,\mathrm{s}$). Furthermore, Solid-State Relays (\texttt{SSRs}) switching inductive AC loads (\texttt{Scenario Upsilon}) employ hardware \textbf{Zero-Crossing Detection}: the microcontroller fires the internal triac exclusively when instantaneous AC line voltage crosses $0\,\mathrm{mV}$, eliminating $V = L\,\mathrm{d}i/\mathrm{d}t$ inductive transient spikes and electromagnetic interference (\texttt{EMI}).
+    \item \textbf{Cryptographic Exergy Lease Voucher Invariant ($\Phi_{\mathrm{lease}}$):} No power-consuming actuator may energize without an unexpired Layer~3 exergy lease voucher $\mathcal{L}_{\mathrm{CID}}$ (\texttt{exergy\_lease\_cid\_prefix}) whose escrowed microjoule balance covers the projected trajectory:
+    \begin{equation}
+        \Phi_{\mathrm{lease}} \iff \left(\sum_{k} P_{\mathrm{est\_mw}}(k)\cdot\Delta t_{\mathrm{ms}} \le E_{\mathrm{escrow\_uj}}(\mathcal{L}_{\mathrm{CID}})\right) \;\land\; \bigl(t_{\mathrm{hlc\_ms}} < \mathtt{lease\_expiry\_hlc\_ms}\bigr).
+        \label{eq:l2-phi-lease}
+    \end{equation}
+    \item \textbf{Autonomous Hardware Safety Preemption Invariant ($\Phi_{\mathrm{safe}}$):} Local physical safety comparators ($\mathbf{x}(t) \in \mathcal{X}_{\mathrm{safe}}$: LOTO padlock closed, optical light curtain unbroken, dust-extractor airflow $\dot{V}_{\mathrm{dust\_ml\_s}} \ge \dot{V}_{\min}$, zero smoke/methane trip) hold absolute hardware veto over software commands.
+\end{enumerate}
+
+\section{Back-Calculation Anti-Windup PID Regulation and Lyapunov Stability}
+\label{sec:l2-pid-lyapunov}
+
+For continuous regulatory loops (hydronic mixing valves, induction power trim, kiln temperature ramps), Tier~1/Tier~2 firmware executes fixed-point Proportional-Integral-Derivative (\texttt{PID}) control with back-calculation anti-windup \parencite{astrom2008feedback}:
+\begin{align}
+    v(t) &= K_p e(t) + I(t) + K_d \frac{\mathrm{d}e(t)}{\mathrm{d}t}, \qquad u(t) = \mathrm{sat}_{[u_{\min}, u_{\max}]}\bigl(v(t)\bigr), \label{eq:l2-pid-out}\\
+    \frac{\mathrm{d}I(t)}{\mathrm{d}t} \&= K_i e(t) + \frac{1}{T_t}\bigl(u(t) - v(t)\bigr), \qquad T_t = \begin{cases} \sqrt{T_i T_d} \& \text{if } T_d > 0, \\ T_i \& \text{if } T_d = 0, \end{cases} \label{eq:l2-pid-antiwindup}
+\end{align}
+where setting tracking time constant $T_t = T_i = K_p / K_i$ whenever derivative action is disabled ($T_d = 0$ on noisy flow Loops) avoids division-by-zero singularity while bleeding down integrator windup during actuator saturation ($u \ne v$). Under positive-definite Lyapunov storage function $V(\mathbf{x}) = \frac{1}{2}\mathbf{x}^T \mathbf{P}\mathbf{x} > 0$, the bounded envelope guarantees $\dot{V}(\mathbf{x}) = \mathbf{x}^T\mathbf{P}\mathbf{A}\mathbf{x} + \mathbf{x}^T\mathbf{P}\mathbf{B}u \le -\alpha\|\mathbf{x}\|^2 < 0$ for all $\mathbf{x} \ne \mathbf{0}$. Upon completion of the actuation window, the \texttt{ATECC608A} signs an \texttt{ActuationReceipt} recording exact consumed microjoules $E_{\mathrm{actual\_uj}}$ and physical state delta $\Delta\mathbf{x}_{\mathrm{actual}}$ upward across \path{l2_l3.sock}.
+
+\section{Layer 2 Hardware Execution of Two-Speed Jurisprudence (\texttt{D4}, \texttt{D6})}
+\label{sec:l2-two-speed-jurisprudence}
+
+In Dialogue~6 (\texttt{CCI-4}), the Horizon Council established how the Sovereign Stack resolves physical resource and boundary collisions inside an Enveloping Node without freezing urgent operations behind parliamentary votes. Layer~2 hardware directly drives both halves of \textbf{Two-Speed Jurisprudence}:
+
+\subsection{1. The Fast Path: Mandatory Finite Lease TTLs and Millisecond Hazard Preemption}
+
+Every Layer~4 capability or Enveloping Node boundary lease carries a mandatory finite duration ($\mathtt{lease\_ttl\_ms}$, enforced in hardware by \texttt{col-actuated} via Equation~\eqref{eq:l2-phi-lease}) so a Solo Studio can never lock a building's quiet-hours lease indefinitely.
+
+More importantly, when Layer~2 Edge Twin sensors detect an acute physical integrity hazard (\texttt{PhysicalHazardClass} $\ne 0$ in \texttt{EnvelopingPartitionTelemetryFrameV50}), the stack executes \textbf{Fast-Path Hazard Preemption} in millisecond hardware time:
+\begin{itemize}
+    \item \textbf{Canonical Walkthrough (The Burst Pipe vs.\ The Recording Studio Quiet Lease):} Suppose the Acoustic Studio (\texttt{Scenario Lambda}) holds an active Enveloping Node Quiet Lease ($\mathtt{max\_acoustic\_cb} = 4{,}200\,\mathrm{cB}$ [$42.0\,\mathrm{dBA}$], priority tier $\mathtt{100}$) from \texttt{20:00} to \texttt{23:00}.
+    \item At \texttt{21:15}, a pressurized water pipe bursts in the Hearth utility chase directly beneath the studio partition. The Layer~2 floor-plenum capacitive moisture array ($\mathtt{water\_depth\_um} > 1{,}500\,\mu\mathrm{m}$) and inline ultrasonic flowmeter ($\Delta Q_{\mathrm{unaccounted}} > 80\,\mathrm{mL/s}$) trip \texttt{PhysicalHazardClass::kWaterIngressFloodAlert} (\texttt{0x0001}) on priority CAN-FD ID \texttt{0x002}.
+    \item Under Pillar~IV (\texttt{collective:JurisprudenceEngine}) Fast-Path rules, an L2-corroborated structural remediation workflow (\texttt{bpmn:EmergencyWetVacAndSumpExtraction}, carrying priority tier $\mathtt{950}$, requiring $8{,}200\,\mathrm{cB}$ [$82.0\,\mathrm{dBA}$] and $2{,}200{,}000\,\mathrm{mW}$) \textbf{immediately preempts} the tier-\texttt{100} Studio Quiet Lease with zero ballot delay.
+    \item \texttt{col-actuated} closes the emergency motorized water-main shutoff valve (obeying Joukowsky slew $\Phi_{\mathrm{slew}}$), energizes the $2.2\,\mathrm{kW}$ wet-vac and sump breaker lease, notifies the Studio lens to save its audio buffer, and commits a signed cryptographic preemption receipt to \texttt{col-storaged} over \path{l2_l3.sock}.
+\end{itemize}
+
+\subsection{2. The Slow Path: Upward Sensor Trace Decompilation into Compiled Precedents}
+
+What if a preempted child node challenges the sensitivity of the Fast-Path trigger after the water is cleaned up (e.g., arguing that a minor condensation drip triggered a false flood preemption during a master recording session)? Layer~5 enters the \textbf{Slow Path}:
+\begin{enumerate}
+    \item \textbf{Upward Decompilation (\texttt{L2 $\to$ L3 $\to$ L4 $\to$ L5 $\to$ L6}):} The signed 60-second Layer~2 pre-incident ring buffer (\texttt{water\_depth\_um}, \texttt{flow\_delta\_ml\_s}, \texttt{boundary\_acoustic\_cb}) is bundled by \texttt{col-execd} and \texttt{col-kmsd} and decompiled by \texttt{col-commonsd} into a human-readable \textbf{Layer~6 Semantic Diff Card}.
+    \item \textbf{Deliberation and Precedent Compilation (\texttt{L6 $\to$ L5 $\to$ L4 $\to$ L2}):} The Enveloping Node members vote under $V_i(t) = 1 + R_i(t)$ to ratify a refined guard predicate: \textit{``Require dual-sensor corroboration ($\mathtt{moisture\_ml} > 100\,\mathrm{mL} \;\land\; \mathtt{flow\_delta\_ml\_s} > 50\,\mathrm{mL/s}$) before preempting an active Studio Master Lease.''} Once ratified, \texttt{col-commonsd} compiles the new integer thresholds directly down into \texttt{col-execd} and \texttt{col-actuated}'s hardware comparator table so the community never votes on the same conflict twice.
+\end{enumerate}
+
+\begin{lstlisting}[language=C++,caption={Deterministic Fast-Path Hazard Preemption and Five-Predicate Actuation Evaluator in \texttt{col-actuated}.},label={lst:l2-fast-path-preemption}]
+#pragma once
+#include <cstdint>
+#include "02_canonical_si_metrology.hpp"
+#include "06_enveloping_node_partition_sensing.hpp"
+
+namespace collective::layer2 {
+
+struct FastPathCorroborationConfigV50 {
+    int32_t min_flood_moisture_ml{100};         // Compiled from Slow-Path Semantic Diff precedent
+    int32_t min_flood_flow_delta_ml_s{50};      // Dual-sensor corroboration threshold
+    uint16_t hazard_preemption_tier_floor{900}; // Preempts routine tier 100..500 child leases
+};
+
+[[nodiscard]] constexpr bool EvaluateFastPathHazardPreemption(
+    const EnvelopingPartitionTelemetryFrameV50& part,
+    int32_t observed_moisture_ml,
+    int32_t observed_flow_delta_ml_s,
+    uint16_t active_child_lease_priority_tier,
+    const FastPathCorroborationConfigV50& cfg) noexcept {
+    if (part.active_hazard == PhysicalHazardClass::kNominalNoHazard) {
+        return false;
+    }
+    if (part.active_hazard == PhysicalHazardClass::kWaterIngressFloodAlert) {
+        // Enforce compiled Slow-Path dual-sensor corroboration precedent
+        const bool dual_corroborated =
+            (observed_moisture_ml >= cfg.min_flood_moisture_ml) &&
+            (observed_flow_delta_ml_s >= cfg.min_flood_flow_delta_ml_s);
+        if (!dual_corroborated) return false;
+    }
+    return (cfg.hazard_preemption_tier_floor > active_child_lease_priority_tier);
+}
+
+} // namespace collective::layer2
+\end{lstlisting}
+
+\section{Three-Tier Watchdogs, Baseline Survival Mode, and the Red Lever Rule}
+\label{sec:l2-watchdogs-red-lever}
+
+Finally, Layer~2 guarantees \textbf{Local-First Physical Autonomy}: if Layers~3 through~7 suffer a total software crash or kernel panic, Layer~2 never leaves high-power actuators latched on:
+\begin{itemize}
+    \item \textbf{Three-Tier Watchdog Containment:} (Tier~0) The microcontroller's Independent Watchdog (\texttt{IWDG} clocked by a separate $32\,\mathrm{kHz}$ RC oscillator) plus an external Texas Instruments \texttt{TPS3823} supervisor reset GPIO pins to high-impedance within $1{,}500\,\mathrm{ms}$ of any firmware hang; (Tier~1) Linux \path{/dev/watchdog} resets the RK3588 SBC on kernel lockup; (Tier~2) if \texttt{col-membraned} misses three consecutive $1{,}000\,\mathrm{ms}$ heartbeats from \texttt{col-storaged} over \path{l3_l2.sock}, it declares an \textbf{Upper-Stack Partition Event} and drops into \textbf{Baseline Survival Mode} (maintaining only autonomous Zephyr reflexes: $\mathrm{LiFePO_4}$ $2{,}500\text{--}3{,}650\,\mathrm{mV}$ cell cutoffs, $275{,}150\,\mathrm{mK}$ [$2.0\,^\circ\mathrm{C}$] greenhouse frost-circulator duty cycles, and borehole cavitation float trips).
+    \item \textbf{Normally-Open Contactors and the Red Lever Rule:} All high-power contactors are wired Normally-Open (\texttt{NO}) against heavy return springs with force-guided contacts (IEC~61810-3) \parencite{iec61810_3} and a physical dual-channel E-Stop loop. Every motorized valve and damper is paired with an un-electrified mechanical brass bypass lever (\textbf{The Red Lever Rule}) and analog sight-glass/Bourdon gauge, ensuring a human hand with a single \texttt{M6}/\texttt{M8} wrench can always override silicon.
+\end{itemize}

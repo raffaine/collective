@@ -1,0 +1,95 @@
+\chapter{Wave C Walkthroughs: Care, Kinship, Apprenticeship, and the Building Enveloping Hypervisor (\texttt{Delta}, \texttt{Omicron}, \texttt{Kappa}, \texttt{Zeta})}
+\label{ch:wave-c-walkthroughs}
+
+\epigraph{The true measure of an automation architecture is how gently it behaves around a sleeping infant, how patiently it onboards a novice apprentice with zero reputation, and how swiftly it preempts a quiet-hour lease when a water main ruptures in the basement.}{--- Architectural Commentary on Dialogue~3 and Dialogue~6 (\texttt{D3}, \texttt{D6}), Horizon Council Synthesis}
+
+\section{Overview of Wave C (Stage 2: Social Reproduction \& Habitat)}
+\label{sec:l2-wave-c-overview}
+
+As a neighborhood mesh consolidates into a Stage~2 Cooperative Shell, \textbf{Wave~C} anchors social reproduction, multi-generational kinship, technical apprenticeship, and shared residential architecture. Table~\ref{tab:l2-wave-c-matrix} summarizes the Horizon Council v3.2 Layer~2 bindings across the four Wave~C scenarios: \textbf{Scenario Delta} (\texttt{delta\_childcare}), \textbf{Scenario Omicron} (\texttt{omicron\_kinship}), \textbf{Scenario Kappa} (\texttt{kappa\_apprenticeship}), and \textbf{Scenario Zeta} (\texttt{zeta\_lodging}).
+
+\begin{table}[htbp]
+\centering
+\caption{Horizon Council v3.2 Layer~2 Architectural Binding Matrix for Wave~C (Stage~2).}
+\label{tab:l2-wave-c-matrix}
+\footnotesize
+\begin{tabular}{@{}p{2.5cm}p{2.1cm}p{2.9cm}p{3.0cm}p{3.2cm}@{}}
+\toprule
+\textbf{Scenario ID \& Slug} & \textbf{Node Regime ($N_s$)} & \textbf{Primary Layer 6 Lens} & \textbf{Enveloping Boundary Lease (\texttt{cB}, \texttt{mW}, \texttt{mK})} & \textbf{Layer 2 Reflex \& Fleet Retrofit Archetype} \\
+\midrule
+\textbf{\texttt{SCN-DELTA-CHILDCARE}} (\texttt{delta\_childcare}) & $N_s = 4 \to 18$ care stewards \& parents & \textit{The Pantry} (formula TTL) + \textit{Envelope Lens} & Nursery Wing Envelope: strict $\le 4{,}000\,\mathrm{cB}$ nap shield, $294{,}150\,\mathrm{mK}$ floor & Priority \texttt{950} Fast-Path acoustic shield throttling adjacent workshop leases; BLE AoA perimeter. \\
+\addlinespace[3pt]
+\textbf{\texttt{SCN-OMICRON-KINSHIP}} (\texttt{omicron\_kinship}) & $N_s = 2 \to 15$ ($N=2$ dyadic \& $N \gg 2$ household) & \textit{The Pantry} + \textit{Enveloping Node Hypervisor Lens} & Multi-Suite Kinship Envelope: shared laundry/kitchen \texttt{mW} \& quiet \texttt{cB} & Frictionless split/merge of suite breaker/thermal leases; Stage~I washer $\to$ Stage~II \texttt{kit:hydro-wash-v2}. \\
+\addlinespace[3pt]
+\textbf{\texttt{SCN-KAPPA-APPRENTICESHIP}} (\texttt{kappa\_apprenticeship}) & $N_s = 2 \to 20$ ($R_{\mathrm{mentor}} > 0$, $R_{\mathrm{apprentice}}(0) = 0$) & \textit{The Workshop} (Pillar~II Tier-0 \& Tier-1 dual-key tasks) & Training Bay Envelope: $\le 7{,}500\,\mathrm{cB}$, dual-key interlock power \texttt{mW} & Dual-Key Mentor-Apprentice Hardware Interlock solving cold-start $R_i=0$ via Stage~II retrofits. \\
+\addlinespace[3pt]
+\textbf{\texttt{SCN-ZETA-LODGING}} (\texttt{zeta\_lodging}) & $N_s = 20 \to 120$ residents ($B=1$ civic floor each) & \textit{The Enveloping Node Hypervisor Lens} & \textbf{Primary Building \& Block Enveloping Hypervisor} (\texttt{cB}, \texttt{mW}, \texttt{mK}, \texttt{mm}) & Executes Two-Speed Jurisprudence (Fast-Path flood/fire override + Slow-Path \texttt{cB} precedent compilation). \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ==========================================================================
+\section{Scenario Delta: Perinatal Sanctuary, Nap-Hour Acoustic Shields, and Localized BLE AoA (\texttt{SCN-DELTA-CHILDCARE} / \texttt{delta\_childcare})}
+\label{sec:l2-wave-c-delta}
+
+Scenario~Delta ($N_s = 4 \to 18$ care stewards and parents) upholds constitutional non-commensurability (\texttt{AttemptTokenizeBaselineCare() == false}): childcare is never priced, metered for wages, or subjected to camera surveillance. At Layer~2, Scenario~Delta relies on three specialized hardware protections:
+\begin{enumerate}
+    \item \textbf{Priority \texttt{950} Nursery Acoustic Sleep-Shield (\texttt{4,000 cB}) and Thermal Floor (\texttt{294,150 mK}):} Inside the building's Enveloping Node Hypervisor, the Nursery Wing holds a priority-\texttt{950} Care Shield lease enforcing an indoor thermal comfort band of $294{,}150 \pm 1{,}000\,\mathrm{mK}$ ($21.0 \pm 1.0\,^\circ\mathrm{C}$) and a nap-window partition acoustic ceiling of $\mathtt{max\_acoustic\_cb} = 4{,}000\,\mathrm{cB}$ ($40.0\,\mathrm{dBA}$). If an adjacent Maker Bench or courtyard workflow causes the nursery partition's PDM MEMS microphone (with waveform zeroization, Equation~\eqref{eq:l2-centibel-spl}) to approach $4{,}000\,\mathrm{cB}$ during an active nap lease, \texttt{col-execd} and \texttt{col-actuated} automatically throttle or pause the adjacent tier-\texttt{100} high-decibel machine lease in hardware time.
+    \item \textbf{\textit{The Pantry} Donor-Milk and Formula Cold-Chain (\texttt{275,150..277,150 mK}):} Dedicated medical-grade breastmilk and infant formula refrigerators log continuous 4-wire PT100 Arrhenius thermal-time (\texttt{PantryPerishableBatchV50}) backed by Tier~1 $\mathrm{LiFePO_4}$ uninterruptible battery reserve ($\Theta_{\mathrm{enter}} = 0\,\mathrm{bp}$). Pasteurized donor milk bottles carry passive NFC tags verified against Bigelow thermal hold records ($\ge 335{,}650\,\mathrm{mK}$ [$62.5\,^\circ\mathrm{C}$] Holder pasteurization for $1{,}800\,\mathrm{s}$).
+    \item \textbf{Hyper-Localized BLE Direction Finding (Angle-of-Arrival Geofencing):} To alert stewards if a toddler wanders toward an exterior gate or workshop threshold without deploying optical cameras or cloud GPS trackers, perimeter doorways mount multi-antenna Bluetooth Low Energy (\texttt{BLE~5.1}) Angle-of-Arrival (\texttt{AoA}) arrays. Measuring carrier phase difference $\Delta\phi$ across antenna elements separated by distance $d$ yields spatial bearing angle $\theta$:
+    \begin{equation}
+        \theta = \arccos\!\left(\frac{\lambda_{\mathrm{rf}}\, \Delta\phi}{2\pi d}\right),
+        \label{eq:l2-ble-aoa}
+    \end{equation}
+    providing sub-meter threshold alerts strictly inside the local Domain~1 Zephyr mesh while zero location packets ever cross outside the nursery subnet.
+\end{enumerate}
+
+% ==========================================================================
+\section{Scenario Omicron: Multi-Suite Kinship Envelopes and Lease Split/Merge (\texttt{SCN-OMICRON-KINSHIP} / \texttt{omicron\_kinship})}
+\label{sec:l2-wave-c-omicron}
+
+Scenario~Omicron ($N_s = 2 \to 15$ members across dyadic $N=2$ partnerships and $N \gg 2$ multi-generational chosen-family pods) rejects the nuclear-family single-mortgage trap by allowing households to dynamically expand, contract, or reconfigure adjacent living suites without landlord friction:
+\begin{itemize}
+    \item \textbf{Modular Sub-Panel CT Arrays and Motorized Hydronic Zone Valves:} Every residential suite boundary is wired with per-branch solid-state \texttt{INA228} CT channels (\texttt{mW}, \texttt{uJ}) and motorized PEX-a hydronic zone valves (\texttt{mK}, \texttt{mL/s}). When two adjacent kinship suites vote in their \textit{Enveloping Node Hypervisor Lens} to merge their shared kitchen and laundry commons (or when an emerging adult forks an $N=1$ private studio suite), \texttt{col-kmsd} and \texttt{col-telemetryd} re-bind the partition acoustic (\texttt{cB}) and breaker (\texttt{mW}) lease channels in software within seconds---zero rewiring required.
+    \item \textbf{\textit{The Pantry} Meal Pooling \& Stage~II Laundry Retrofits:} Shared kinship larders pool \textit{Pantry} load-cell drawdown vectors and weekend-detour pauses seamlessly across the pod, while shared laundry rooms upgrade scavenged Stage~I commercial washers with open \texttt{RP2350} \texttt{kit:hydro-wash-v2} boards that recover greywater rinse heat and eliminate vendor coin/card lockouts.
+\end{itemize}
+
+% ==========================================================================
+\section{Scenario Kappa: Pillar II Dual-Key Apprenticeship Interlocks (\texttt{SCN-KAPPA-APPRENTICESHIP} / \texttt{kappa\_apprenticeship})}
+\label{sec:l2-wave-c-kappa}
+
+Scenario~Kappa ($N_s = 2 \to 20$ mentors and apprentices) is the constitutional showcase for \textbf{Scale Regime~II (Dyadic Mentor-Apprentice Asymmetry)} under $V_i(t) = 1 + R_i(t)$ and \textbf{Pillar~II (\texttt{collective:WorkCapabilityMatrix})} (\texttt{D3}, \texttt{D6}).
+
+Early October 2026 drafts of Layer~2 mistakenly proposed verifying apprentice hours via ``Cryptographic Proof of Labor''---using tool Hall-effect sensors and 6-DoF IMUs to score worker motion signatures. As established in Chapter~\ref{ch:non-panoptic-membrane}, that worker-surveillance model is permanently abolished. Instead, Layer~2 implements \textbf{Pillar~II Dual-Key Hardware Interlocks} inside the Training Bay Envelope ($\le 7{,}500\,\mathrm{cB}$):
+\begin{enumerate}
+    \item \textbf{Tier-0 Unsupervised Safe Prep Tasks ($R_{\mathrm{apprentice}}(0) = 0$):} An inducted newcomer starts with $R_2(0) = 0$ and non-decaying civic baseline $B = 1$ ($V_2(0) = 10{,}000\,\mathrm{bp}$). Layer~2 NFC tool-crib latches allow any member with $B=1$ to check out low-hazard Tier-0 hand tools, run non-energized PCB assembly, or execute cold calibration steps unsupervised, earning initial $\Delta R_2 > 0$ when Layer~2 test fixtures verify the completed artifact.
+    \item \textbf{Tier-1 Co-Signed Dual-Key High-Exergy Tasks (\texttt{require\_dual\_key\_kappa = 1}):} When the apprentice advances to operating a $4{,}500{,}000\,\mathrm{mW}$ 3-axis CNC mill, a TIG welder, or a live $240\,\mathrm{V}_{\mathrm{AC}}$ Stage~II Right-to-Repair appliance burn-in bench, \texttt{col-actuated} enforces a physical \textbf{Dual-Key Hardware AND-Gate} on the Class-T contactor holding coil:
+    \begin{equation}
+        \Phi_{\mathrm{kappa\_dual}} \iff \mathrm{Verify}_{\mathrm{BBS+}}\bigl(\pi_{\mathrm{apprentice\_tier1}}\bigr) \;\land\; \mathrm{Verify}_{\mathrm{Ed25519}}\bigl(\sigma_{\mathrm{mentor\_key\_switch}},\, R_{\mathrm{mentor\_bp}} \ge R_{\min,\mathrm{cert}}\bigr).
+        \label{eq:l2-kappa-dual-key}
+    \end{equation}
+    Both the apprentice's capability token and the supervising mentor's physical rotary key-switch on the machine console must be engaged concurrently. Upon verified completion of the machined part or Stage~II retrofit kit (\texttt{RetrofitBurnInAttestationV50}), Layer~3 credits full stewardship $\Delta R_{2,\mathrm{bp}}$ to the apprentice without ever monitoring their bodily movements.
+\end{enumerate}
+
+% ==========================================================================
+\section{Scenario Zeta: The Building Enveloping Hypervisor and Cryptographic Hospitality (\texttt{SCN-ZETA-LODGING} / \texttt{zeta\_lodging})}
+\label{sec:l2-wave-c-zeta}
+
+Scenario~Zeta ($N_s = 20 \to 120$ building residents, each holding non-decaying $B = 1 \equiv 10{,}000\,\mathrm{bp}$ civic standing) operates the \textbf{Primary Building and Block Enveloping Node Hypervisor} wrapping all indoor child nodes (residential suites, ground-floor Hearth, basement Maker Bench, and Acoustic Studio):
+
+\subsection{1. Offline-First Capability-Leased Smart Locks with Mechanical Fail-Safe Egress}
+
+When a federation guest or resident unlocks a suite door, their local device presents an anonymous \texttt{BBS+} or \texttt{Ed25519} capability lease token over NFC / BLE to the door's Tier~2 \texttt{ESP32-C6} controller. Upon signature verification against the cached Layer~5 root inside Domain~0, the microcontroller drives a MOSFET energizing the deadbolt solenoid coil. By Ampere's and Faraday's laws, the magnetic traction force $F_{\mathrm{mag}}$ across air gap $g$ is \parencite{griffiths2005introduction}:
+\begin{equation}
+    F_{\mathrm{mag}} = \frac{\mu_0\, N_{\mathrm{turns}}^2\, I^2\, A_{\mathrm{core}}}{2 g^2},
+    \label{eq:l2-solenoid-force}
+\end{equation}
+scaled in millinewtons (\texttt{mN}) from coil current $I_{\mathrm{ma}}$ and gap $g_{\mathrm{um}}$. In strict compliance with the \textbf{Red Lever Rule} and life-safety fire codes, the interior door handle is mechanically coupled directly to the deadbolt retraction cam: an occupant can always exit with one hand even if building power and silicon fail completely, and the door controller never logs identity-linked entry/exit timestamps to Layer~3.
+
+\subsection{2. Building-Scale Two-Speed Jurisprudence Execution}
+
+Scenario~Zeta's Layer~2 partition network (\texttt{EnvelopingPartitionTelemetryFrameV50} pods on every stairwell, riser, and party wall) executes the building's \textbf{Two-Speed Jurisprudence} engine (Chapter~\ref{ch:fast-path-hazard-interlocks}):
+\begin{itemize}
+    \item \textbf{Fast Path:} Sub-panel solid-state CTs enforce the building's diurnal power envelope; partition MEMS microphones (\texttt{cB}) enforce nighttime quiet hours (\texttt{22:00--07:00}: $\le 4{,}000\,\mathrm{cB}$); and utility-chase water-ingress / smoke sensors trigger instant priority-\texttt{950} hazard preemption (shutting main water solenoids under Joukowsky slew limits and overriding studio quiet leases for emergency wet-vac extraction).
+    \item \textbf{Slow Path:} Whenever two child nodes collide on an unmapped courtyard or elevator lease, \texttt{col-telemetryd} supplies the signed objective physical trace (\texttt{cB}, \texttt{mW}, \texttt{mK}, \texttt{ms}) for upward decompilation into a Layer~6 Semantic Diff ballot whose ratified precedent compiles directly back into the building's Layer~4 and Layer~2 guard tables.
+\end{itemize}

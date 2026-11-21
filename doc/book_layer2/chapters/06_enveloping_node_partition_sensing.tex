@@ -1,0 +1,203 @@
+\chapter{Enveloping Node Partition Sensing: Domain-Blind Spatial Hypervisor Hardware}
+\label{ch:enveloping-node-partition-sensing}
+
+\epigraph{Good fences do not merely make good neighbors; in a polycentric commons, a well-instrumented acoustic and thermodynamic partition allows a woodshop, a recording studio, a communal hearth, and a nursery to share a single roof without a single bureaucratic committee.}{--- Architectural Commentary on Dialogue~6 (\texttt{D6}), Horizon Council Synthesis}
+
+\section{Polycentric Overlapping Nodes and the Fractal Enveloping Node Hypervisor (\texttt{D5}, \texttt{D6})}
+\label{sec:l2-enveloping-hypervisor-overview}
+
+Twentieth-century modernist urban planning enforced authoritarian monoculture zoning: a building was legally permitted to be \textit{either} a domestic residence \textit{or} an office \textit{or} a workshop \textit{or} a bakery \parencite{scott1998,habraken1972supports}. In Dialogue~5 and Dialogue~6 (\texttt{CCI-4}), the Horizon Council severed Layer~5 institutional topology from Layer~2 spatial coordinates: \textbf{a single physical building envelope can simultaneously host multiple overlapping, autonomous Layer~5 nodes} sharing one local Layer~6 Semantic Daemon (\texttt{col-commonsd}).
+
+For example, one large suburban house on Lot~402---or one shared urban floorplate in \texttt{Scenario Epsilon: Coworking}---may simultaneously house:
+\begin{itemize}
+    \item \textbf{Child Node A:} A four-person Household Hearth ($N_s = 4$, governing kitchen schedules and larder stock);
+    \item \textbf{Child Node B:} Maya's Solo Audio \& Software Studio ($N_s = 1$, importing Scenario~Zero covenants and requiring a $< 4{,}200\,\mathrm{cB}$ [$42.0\,\mathrm{dBA}$] quiet recording window);
+    \item \textbf{Child Node C:} An $N_s = 1$ or $N_s = 6$ Maker Bench (\texttt{Scenario Alpha}, importing external tool-guild LOTO safety covenants and running a $7{,}500\,\mathrm{cB}$ [$75.0\,\mathrm{dBA}$] CNC spindle and $2{,}200{,}000\,\mathrm{mW}$ dust extractor).
+\end{itemize}
+
+If $K$ co-located nodes had to negotiate bilateral horizontal treaties over noise, breaker amps, heat, and dust with one another, coordination complexity would explode as $O(K^2)$. The Sovereign Stack eliminates $O(K^2)$ horizontal politics by wrapping shared physical space in a \textbf{Domain-Blind Enveloping Layer~5 Node} that acts like an operating-system container hypervisor:
+\begin{enumerate}
+    \item \textbf{Universal Resident Franchise ($1 + R_i(t)$):} Every human operating a child node inside that physical footprint is automatically a member ($V_i(t) = 1 + R_i(t)$) of the Enveloping Node.
+    \item \textbf{Strict Domain Blindness:} The Enveloping Node Hypervisor never votes on the Maker Bench's CNC feed rate, the Bakery's sourdough hydration, or the Solo Studio's C++ backlog. It governs and meters \textbf{exclusively physical boundary invariants across shared partitions} via Layer~4 capability leases (\texttt{EnvelopingBoundaryLeaseV50}) and domain-blind Layer~2 partition sensors (\texttt{EnvelopingPartitionTelemetryFrameV50}).
+    \item \textbf{Fractal Spatial Subsidiarity:} The exact same Layer~2 boundary-sensing primitive scales fractally across three physical horizons:
+    \begin{equation}
+        \text{\textbf{Room / Building Envelope}} \;\longrightarrow\; \text{\textbf{Street / Microgrid Envelope}} \;\longrightarrow\; \text{\textbf{Bioregional Watershed Envelope}}.
+        \label{eq:l2-fractal-envelope-scale}
+    \end{equation}
+\end{enumerate}
+
+\begin{figure}[htbp]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+    node distance=0.85cm and 1.1cm,
+    envbox/.style={draw=blue!75!black, rounded corners=4pt, very thick, fill=blue!4, inner sep=8pt},
+    childbox/.style={draw=black!80, rounded corners=3pt, thick, fill=white, align=center, font=\scriptsize, minimum width=3.6cm, minimum height=2.1cm, inner sep=5pt},
+    sens/.style={draw=teal!80!black, rounded corners=2pt, fill=teal!8, font=\scriptsize\ttfamily, align=center, inner sep=3.5pt},
+    arr/.style={-{Stealth[length=2.2mm]}, thick}
+]
+    \node[childbox] (studio) {
+        \textbf{Child Node A: Solo Studio ($N_s=1$)}\\
+        Imports Scenario Zero L5 Template\\
+        Active Quiet Lease: $\le 4{,}200\,\mathrm{cB}$\\
+        Power Lease: $\le 450{,}000\,\mathrm{mW}$
+    };
+
+    \node[childbox, right=1.3cm of studio] (hearth) {
+        \textbf{Child Node B: Household Hearth ($N_s=4$)}\\
+        \textit{The Pantry} \& \textit{Hearth} Lenses\\
+        Acoustic Ceiling: $\le 6{,}000\,\mathrm{cB}$\\
+        Induction Lease: $\le 3{,}500{,}000\,\mathrm{mW}$
+    };
+
+    \node[childbox, right=1.3cm of hearth] (maker) {
+        \textbf{Child Node C: Maker Bench ($N_s=1$)}\\
+        Imports Alpha Fab LOTO Covenant\\
+        Daytime Lease: $\le 7{,}500\,\mathrm{cB}$\\
+        Spindle Lease: $\le 2{,}400{,}000\,\mathrm{mW}$
+    };
+
+    \node[sens, below=0.75cm of studio] (s1) {Partition Array \#1\\PDM MEMS (\texttt{cB}) + CT (\texttt{mW})};
+    \node[sens, below=0.75cm of hearth] (s2) {Partition Array \#2\\Diff RTD (\texttt{mK}) + Float/Flow};
+    \node[sens, below=0.75cm of maker] (s3) {Partition Array \#3\\PM2.5 (\texttt{ug}) + SPAD ToF (\texttt{mm})};
+
+    \node[draw=blue!75!black, rounded corners=4pt, thick, fill=blue!8, minimum width=13.4cm, below=0.8cm of s2, align=center, font=\footnotesize] (hyper) {
+        \textbf{Building Enveloping Node Hypervisor (\texttt{col-telemetryd} $\to$ \texttt{col-storaged} $\to$ \texttt{col-execd} $\to$ \texttt{col-kmsd})}\\
+        Domain-Blind Arbitration of \texttt{EnvelopingBoundaryLeaseV50} ($\le 9{,}600{,}000\,\mathrm{mW}$ Main Breaker, Diurnal \texttt{cB} Schedule, Fast-Path Hazard Override)
+    };
+
+    \draw[arr, teal!80!black] (studio.south) -- (s1.north);
+    \draw[arr, teal!80!black] (hearth.south) -- (s2.north);
+    \draw[arr, teal!80!black] (maker.south) -- (s3.north);
+    \draw[arr] (s1.south) -- (hyper.north -| s1.south);
+    \draw[arr] (s2.south) -- (hyper.north -| s2.south);
+    \draw[arr] (s3.south) -- (hyper.north -| s3.south);
+\end{tikzpicture}%
+}
+\caption{Layer~2 Domain-Blind Partition Sensor Arrays enforcing \texttt{EnvelopingBoundaryLeaseV50} invariants across co-located polycentric child nodes inside a shared building envelope.}
+\label{fig:l2-enveloping-partition-array}
+\end{figure}
+
+\section{Hardware Architecture of the Four Domain-Blind Partition Sensor Arrays}
+\label{sec:l2-four-partition-sensor-arrays}
+
+Every physical partition separating co-located child nodes is instrumented with a standardized \textbf{Layer~2 Enveloping Boundary Sensor Pod} (powered by a Tier~2 \texttt{ESP32-S3} or \texttt{ESP32-C6} microcontroller over isolated CAN-FD). The pod measures four domain-blind physical fluxes:
+
+\subsection{1. Acoustic Boundary Flux in Centibels (\texttt{cB}) with Hardware Waveform Zeroization}
+
+To verify that a child node respects its partition acoustic lease ($L_{\mathrm{boundary\_cb}} \le \mathtt{max\_acoustic\_cb}$, e.g., $4{,}200\,\mathrm{cB} = 42.0\,\mathrm{dBA}$ during Studio recording hours or $4{,}000\,\mathrm{cB} = 40.0\,\mathrm{dBA}$ outside a \texttt{Scenario Delta} nursery nap wing) without ever recording human conversation:
+\begin{enumerate}
+    \item A digital MEMS microphone (e.g., Knowles \texttt{SPH0645LM4H}) mounted flush in the partition drywall streams 1-bit Pulse Density Modulation (PDM) or 24-bit $I^2S$ audio samples into a dedicated DMA circular buffer inside \textbf{MPU Domain~1} at $f_s = 16{,}000\,\mathrm{Hz}$.
+    \item Inside the non-networked Domain~1 ISR, the microcontroller applies a fixed-point IEC~61672 A-weighting biquad cascade filter and integrates the root-mean-square acoustic pressure $p_{\mathrm{rms}}$ over a $T_{\mathrm{win}} = 125\,\mathrm{ms}$ fast time-weighting window ($N = 2{,}000$ samples):
+    \begin{equation}
+        L_{p,\mathrm{cb}} = \left\lfloor 200 \cdot \log_{10}\!\left(\frac{p_{\mathrm{rms}}}{p_{\mathrm{ref}}}\right) \right\rfloor = \left\lfloor 100 \cdot \log_{10}\!\left(\frac{\frac{1}{N}\sum_{n=0}^{N-1} p_A^2(n)}{p_{\mathrm{ref}}^2}\right) \right\rfloor \quad [\text{\texttt{cB}}],
+        \label{eq:l2-centibel-spl}
+    \end{equation}
+    where $p_{\mathrm{ref}} = 20\,\mu\mathrm{Pa}$ is the standard reference sound pressure in air and $1\,\mathrm{dB} = 10\,\mathrm{cB}$ exact.
+    \item \textbf{Mandatory SRAM Zeroization:} Immediately upon latching scalar integer $L_{p,\mathrm{cb}}$ into the outbound register, the ISR executes a volatile memory wipe (\texttt{explicit\_bzero(pdm\_dma\_buf, sizeof(pdm\_dma\_buf))}) before exiting Domain~1. The raw time-domain waveform and any spectral phase capable of reconstructing speech are physically destroyed in RAM within $125\,\mathrm{ms}$ of acoustic arrival.
+\end{enumerate}
+
+\subsection{2. Solid-State Branch Breaker Power (\texttt{mW}) and Exergy Window (\texttt{uJ}) Metering}
+
+At the building's sub-panel, each child node's branch circuit passes through an isolated Hall-effect or fluxgate current transducer (\texttt{INA228} / \texttt{LEM HO-series}) paired with a zero-crossing solid-state circuit breaker. Sampling voltage and current at $4{,}000\,\mathrm{Hz}$, the pod computes continuous active power $P_{\mathrm{instant\_mw}}$ and cumulative lease window exergy $E_{\mathrm{window\_uj}} = \sum P_{\mathrm{instant\_mw}} \cdot \Delta t_{\mathrm{ms}}$.
+
+If the House Envelope's main breaker is rated at $P_{\mathrm{main\_mw}} = 9{,}600{,}000\,\mathrm{mW}$ ($9.6\,\mathrm{kW}$, $40\,\mathrm{A}$ at $240\,\mathrm{V}$) and the Hearth holds an active $6{,}000{,}000\,\mathrm{mW}$ dinner induction lease while the Studio draws $450{,}000\,\mathrm{mW}$, the Enveloping Node Hypervisor automatically caps the Maker Bench's available power lease to $3{,}150{,}000\,\mathrm{mW}$.
+
+\subsection{3. Differential Thermal Plenums (\texttt{mK}) and Particulate Counters (\texttt{ug})}
+
+When a Maker Bench (\texttt{Scenario Alpha}), Ceramic Kiln (\texttt{Scenario Lambda}), or Bakery Hearth (\texttt{Scenario Gamma}) rejects waste heat or dust toward a shared partition:
+\begin{itemize}
+    \item Paired 4-wire PT100 RTDs on the supply and return air plenums measure the boundary thermal perturbation $\Delta T_{\mathrm{exhaust\_mk}} = T_{\mathrm{partition\_mk}} - T_{\mathrm{ambient\_mk}}$ against the lease ceiling $\mathtt{max\_thermal\_delta\_mk}$ (typically $+2{,}000$ to $+4{,}500\,\mathrm{mK}$).
+    \item A laser-scattering optical particulate sensor (Sensirion \texttt{SPS30}) meters $\mathrm{PM}_{2.5}$ and $\mathrm{PM}_{10}$ mass concentration in micrograms per cubic meter ($\mu\mathrm{g/m^3}$) and mass flux in micrograms per second ($\mathtt{particulate\_flux\_ug\_s}$). If dust-extractor failure allows $\mathrm{PM}_{2.5}$ at the partition to breach the safety threshold, Layer~2 trips the spindle contactor directly via Equation~\eqref{eq:alpha-loto}.
+\end{itemize}
+
+\subsection{4. Non-Panoptic SPAD Time-of-Flight Spatial Threshold Curtains (\texttt{mm})}
+
+To enforce spatial bay polygons ($\mathtt{bounding\_box\_mm}[6] = [x_{\min}, y_{\min}, z_{\min}, x_{\max}, y_{\max}, z_{\max}]$ in millimeters) in shared workshops (\texttt{Scenario Alpha}), coworking halls (\texttt{Scenario Epsilon}), and architecture bays (\texttt{Scenario Xi}) without deploying optical cameras:
+\begin{itemize}
+    \item Layer~2 mounts Single-Photon Avalanche Diode (\texttt{SPAD}) Time-of-Flight (\texttt{ToF}) laser-ranging arrays (\texttt{VL53L5CX}, emitting eye-safe $940\,\mathrm{nm}$ infrared photon pulses) along ceiling beams and bay thresholds.
+    \item Measuring photon round-trip time $\Delta t_{\mathrm{tof}}$ yields exact millimeter distance $d_{\mathrm{mm}} = \lfloor (c \cdot \Delta t_{\mathrm{tof}}) / 2 \rfloor$. An $8 \times 8$ coarse distance matrix verifies whether a pallets/material lot sits inside its leased floor polygon or whether a limb has breached a machine tool's safety light-curtain perimeter---with zero ability to capture facial features or personal identity.
+\end{itemize}
+
+\section{Vertical Stack Trace of Enveloping Boundary Enforcement (\texttt{L2 $\to$ L3 $\to$ L4 $\to$ L5 $\to$ L6})}
+\label{sec:l2-enveloping-vertical-trace}
+
+Listing~\ref{lst:l2-enveloping-partition-frame} specifies the canonical 64-byte \texttt{EnvelopingPartitionTelemetryFrameV50} emitted by \texttt{col-telemetryd} (remediating the missing boundary telemetry channel identified in Part~V, \S5.11.2 of the Council Guidance) alongside its deterministic lease-compliance evaluator.
+
+\begin{lstlisting}[language=C++,caption={Canonical 64-byte \texttt{EnvelopingPartitionTelemetryFrameV50} emitted by \texttt{col-telemetryd} to enforce domain-blind Enveloping Node Hypervisor boundary leases.},label={lst:l2-enveloping-partition-frame}]
+#pragma once
+#include <cstdint>
+#include <array>
+
+namespace collective::layer2 {
+
+enum class PhysicalHazardClass : uint16_t {
+    kNominalNoHazard             = 0,
+    kWaterIngressFloodAlert      = 1, // Burst pipe / sump overflow -> Fast-Path Wet-Vac Preemption
+    kThermalRunawayFireAlert     = 2, // Battery / flue over-temp -> Instant contactor drop
+    kParticulateDustBreachAlert  = 3, // Cyclone dust extractor loss -> Spindle halt
+    kClinicalTraumaSurgeOverride = 4  // Scenario Chi priority 999 corridor/power preemption
+};
+
+/**
+ * @brief 64-byte (1 cache line) Domain-Blind Enveloping Partition Telemetry Frame (v5.0).
+ * Streamed from col-telemetryd over l2_l3.sock to col-storaged and col-execd.
+ * Zero audio waveforms, zero optical images, zero IEEE-754 floats.
+ */
+struct alignas(64) EnvelopingPartitionTelemetryFrameV50 {
+    uint64_t frame_sequence_id{0};         // [0..7]   Monotonic hardware epoch counter
+    uint64_t timestamp_hlc_ms{0};          // [8..15]  HLC timestamp in milliseconds
+    uint64_t active_lease_cid_prefix{0};   // [16..23] Bound EnvelopingBoundaryLeaseV50 CID prefix
+    int64_t  boundary_acoustic_cb{3'500};  // [24..31] Partition SPL in centibels (3500 cB = 35.0 dBA)
+    int64_t  instant_power_mw{0};          // [32..39] Child node branch breaker power (mW)
+    int64_t  window_exergy_consumed_uj{0}; // [40..47] Cumulative exergy drawn in lease window (uJ)
+    int32_t  exhaust_delta_mk{0};          // [48..51] Differential thermal plenum rise (mK)
+    uint32_t particulate_pm25_ug_m3{0};    // [52..55] Partition PM2.5 dust density (ug/m^3)
+    uint16_t max_polygon_overrun_mm{0};    // [56..57] SPAD ToF bounding-box excursion (mm; 0 = inside)
+    PhysicalHazardClass active_hazard{PhysicalHazardClass::kNominalNoHazard}; // [58..59] (2B)
+    uint8_t  pdm_waveform_zeroized{1};     // [60]     Hardware attestation: 1 = SRAM audio wiped
+    uint8_t  quality_flags{0x02};          // [61]     0x02 = ATECC608A Hardware Root
+    uint8_t  reserved_pad[2]{0};           // [62..63] Explicit cache-line padding (2B)
+};
+static_assert(sizeof(EnvelopingPartitionTelemetryFrameV50) == 64,
+              "EnvelopingPartitionTelemetryFrameV50 must occupy exactly 1 cache line (64 bytes).");
+
+struct BoundaryViolationMask {
+    bool acoustic_exceeded{false};
+    bool power_exceeded{false};
+    bool exergy_exceeded{false};
+    bool thermal_exceeded{false};
+    bool spatial_polygon_exceeded{false};
+    bool acute_hazard_preemption{false};
+
+    [[nodiscard]] constexpr bool AnyLeaseViolation() const noexcept {
+        return acoustic_exceeded || power_exceeded || exergy_exceeded ||
+               thermal_exceeded  || spatial_polygon_exceeded;
+    }
+};
+
+[[nodiscard]] constexpr BoundaryViolationMask EvaluatePartitionBoundaryFrame(
+    const EnvelopingPartitionTelemetryFrameV50& frame,
+    int64_t max_acoustic_cb,
+    int64_t max_power_mw,
+    int64_t max_exergy_uj,
+    int32_t max_thermal_delta_mk) noexcept {
+    BoundaryViolationMask m{};
+    m.acoustic_exceeded        = (frame.boundary_acoustic_cb > max_acoustic_cb);
+    m.power_exceeded           = (frame.instant_power_mw > max_power_mw);
+    m.exergy_exceeded          = (frame.window_exergy_consumed_uj > max_exergy_uj);
+    m.thermal_exceeded         = (frame.exhaust_delta_mk > max_thermal_delta_mk);
+    m.spatial_polygon_exceeded = (frame.max_polygon_overrun_mm > 0);
+    m.acute_hazard_preemption  = (frame.active_hazard != PhysicalHazardClass::kNominalNoHazard);
+    return m;
+}
+
+} // namespace collective::layer2
+\end{lstlisting}
+
+When a child node attempts to start a high-decibel task during another child node's quiet lease---for instance, the Maker Bench requesting a $7{,}500\,\mathrm{cB}$ ($75.0\,\mathrm{dBA}$) CNC routing pass while the Solo Studio holds an active $4{,}200\,\mathrm{cB}$ ($42.0\,\mathrm{dBA}$) recording lease on the House Envelope---the vertical stack resolves the contention without human confrontation:
+\begin{enumerate}
+    \item Layer~4 (\texttt{col-execd}) checks the candidate CNC workflow's expected acoustic footprint against the House Envelope's active \texttt{EnvelopingBoundaryLeaseV50} table.
+    \item Detecting that $7{,}500\,\mathrm{cB} > 4{,}200\,\mathrm{cB}$, \texttt{col-execd} halts spindle energization before a single decibel is emitted (or throttles spindle RPM if an acoustic enclosure is attested closed, providing $-3{,}500\,\mathrm{cB}$ attenuation as verified by the partition MEMS microphone).
+    \item If the spindle cannot meet $4{,}200\,\mathrm{cB}$ even with the enclosure closed, \texttt{col-execd} emits \texttt{YieldReason::ENVELOPE\_LEASE\_CONTENTION} across \path{l4_l5.sock} $\to$ \path{l5_l6.sock}, which \texttt{col-commonsd} decompiles into a clear Layer~6 Semantic Diff Card offering one-tap queuing for the next high-acoustic window after the Studio lease expires.
+\end{enumerate}

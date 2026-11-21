@@ -1,0 +1,144 @@
+\chapter{Perishable Cold-Chain vs.\ Durable Tool-Crib Telemetry: \textit{The Pantry}, \textit{The Workshop}, and \textit{The Dual-Loop Bakery}}
+\label{ch:pantry-vs-workshop-telemetry}
+
+\epigraph{A nail in a tool chest does not care if you go to the mountains for the weekend; a bottle of raw milk and a loaf of warm sourdough care very much. When software conflates durable iron with respiring biology, it either wastes food or enslaves the citizen to a push-notification calendar.}{--- Architectural Commentary on Dialogue~4 and Dialogue~5 (\texttt{D4}, \texttt{D5}), Horizon Council Synthesis}
+
+\section{Thermodynamic Basis of Layer 6 Lens Separation (\texttt{CCI-3}, \texttt{D1}, \texttt{D5})}
+\label{sec:l2-thermodynamic-lens-separation}
+
+In Part~II (\S2.2) of the Horizon Council Guidance (\texttt{CCI-3}), the Council established why Layer~6 is not a single monolithic ``inventory super-app,'' but an HTTP-like local Semantic Daemon (\texttt{col-commonsd} + \texttt{col-gatewayd}) serving distinct Application Lenses: \textbf{\textit{The Pantry}}, \textbf{\textit{The Workshop}}, \textbf{\textit{The Bakery / Hearth}}, and \textbf{\textit{Scenario Zero Forge Studio}}.
+
+That separation at Layer~6 is not a superficial UX preference; it mirrors three fundamentally incompatible physical and metrological regimes down in Layer~1 and Layer~2:
+\begin{enumerate}
+    \item \textbf{Perishable Biological Entropy (\textit{The Pantry} Lens):} Governed by continuous temperature-dependent biochemical kinetics (Arrhenius spoilage and microbial respiration). Time runs relentlessly even when no human touches the shelf.
+    \item \textbf{Durable Mechanical Cycles (\textit{The Workshop} Lens):} Governed by discrete usage work, spindle revolutions, thermal cycles, and mechanical torque. A cast-iron plane or a box of \texttt{M6} stainless bolts experiences zero degradation while sitting on a dry shelf over a long weekend.
+    \item \textbf{Stoichiometric Thermal Transformation (\textit{The Bakery / Hearth} Lens):} Governed by irreversible Bigelow pathogen lethality ($F_0$), fermentation acidification ($\mathrm{mpH}$), and physical shelf-clearance balance between verified neighborhood staples ($8{,}500\,\mathrm{bp}$) and compositional \textit{montage} experiments ($1{,}500\,\mathrm{bp}$).
+\end{enumerate}
+
+\section{\textit{The Pantry} Telemetry: Arrhenius Thermal-Time Integration and Asynchronous Weekend-Detour Absorption (\texttt{D4}, \texttt{D5})}
+\label{sec:l2-pantry-arrhenius-detour}
+
+Every cold-chain cellar, domestic refrigerator, and communal larder shelf coupled to \textit{The Pantry} lens is instrumented with two non-panoptic Layer~2 channels: a 4-wire PT100 or digital RTD probe measuring storage temperature $T_{\mathrm{pantry\_mk}}(t)$ in millikelvins (\texttt{mK}) and a tare-subtracted Wheatstone bridge load-cell shelf (\texttt{HX711} / \texttt{ADS1232}) measuring remaining stock mass $m_{\mathrm{stock\_mg}}(t)$ in milligrams (\texttt{mg}) (plus passive NFC/RFID container lot tags).
+
+\subsection{Fixed-Point Arrhenius Shelf-Life Integration (\texttt{mK $\cdot$ ms})}
+
+A fixed calendar expiration date printed on a food container is physically naive: milk or leafy greens held at $275{,}150\,\mathrm{mK}$ ($2.0\,^\circ\mathrm{C}$) decay roughly four times slower than the same lot exposed to a $285{,}150\,\mathrm{mK}$ ($12.0\,^\circ\mathrm{C}$) door-open transient. Following Svante Arrhenius's reaction-rate law $k(T) = A \exp(-E_a / R T)$ \parencite{arrhenius1889reaction} and the $Q_{10}$ biological temperature-quotient approximation, Layer~2 (\texttt{col-sensord}) integrates effective biological aging time $\Delta \tau_{\mathrm{bio\_ms}}$ on every $\Delta t_{\mathrm{ms}} = 1{,}000\,\mathrm{ms}$ tick using a fixed-point lookup/polynomial acceleration factor $\alpha_{\mathrm{arr\_bp}}\bigl(T_{\mathrm{pantry\_mk}}(t)\bigr)$ referenced to baseline cold-chain temperature $T_{\mathrm{ref\_mk}} = 277{,}150\,\mathrm{mK}$ ($4.00\,^\circ\mathrm{C}$, where $\alpha_{\mathrm{arr\_bp}}(277{,}150) = 10{,}000\,\mathrm{bp} = 1.0000\times$):
+\begin{equation}
+    \tau_{\mathrm{remaining\_ttl\_ms}}(t + \Delta t_{\mathrm{ms}}) = \tau_{\mathrm{remaining\_ttl\_ms}}(t) - \left\lfloor \frac{\alpha_{\mathrm{arr\_bp}}\bigl(T_{\mathrm{pantry\_mk}}(t)\bigr) \cdot \Delta t_{\mathrm{ms}} + r_{\mathrm{ttl}}(t)}{10{,}000} \right\rfloor.
+    \label{eq:l2-arrhenius-ttl}
+\end{equation}
+At $T_{\mathrm{pantry\_mk}} = 287{,}150\,\mathrm{mK}$ ($14.0\,^\circ\mathrm{C}$ with $Q_{10} = 2.5$), $\alpha_{\mathrm{arr\_bp}} = 25{,}000\,\mathrm{bp}$ ($2.50\times$ biological clock speed); if temperature enters the bacterial danger zone above $281{,}150\,\mathrm{mK}$ ($8.0\,^\circ\mathrm{C}$) for longer than the cultivar safety window, \texttt{spoilage\_hazard\_bp} escalates toward $10{,}000\,\mathrm{bp}$.
+
+\subsection{How Layer 2 Solves the ``Spontaneous Weekend Detour'' Without Surveillance}
+
+In Dialogue~4 and Dialogue~5, the Council posed a crucial test of human freedom: suppose forty neighbors normally pick up Saturday morning sourdough, and a sunny Friday afternoon inspires twenty of them to head spontaneously into the mountains for the weekend. How does the settlement prevent twenty loaves from becoming Layer~1 food waste \textit{without} turning Layer~6 into an intrusive corporate calendar manager that badgers citizens with push notifications (\textit{``Confirm your Saturday bread slot within 2 hours or lose your loaf!''}) or tracks their smartphone GPS?
+
+Layer~2 and \textit{The Pantry} solve this thermodynamically through \textbf{Gravimetric Drawdown Gating} and \textbf{Short-Lived Auto-Expiring Pickup Intent Leases} (\texttt{AnonymousAppetiteLeaseV50}):
+\begin{enumerate}
+    \item \textbf{Drawdown-Triggered Lease Emission:} Near-term bakery production is not driven by rigid weekly calendar pledges. Instead, \textit{The Pantry} monitors the household bread/tiffin shelf load cell $m_{\mathrm{stock\_mg}}(t)$ and rolling drawdown rate $\dot{m}_{\mathrm{draw\_mg\_day}}$. Only when physical drawdown crosses the local replenishment curve does \textit{The Pantry} emit a ZK-stripped, anonymous Layer~3 pickup intent lease (\texttt{AnonymousAppetiteLeaseV50} with finite $\mathtt{lease\_ttl\_ms} = 43{,}200{,}000\,\mathrm{ms}$ [12 hours]).
+    \item \textbf{Automatic Detour Throttling (\texttt{auto\_throttled\_by\_detour = 1}):} When a steward spontaneously departs for the mountains on Friday morning, physical consumption on the household kitchen load cells drops to zero ($\dot{m}_{\mathrm{draw\_mg\_day}} \to 0$). Because larder mass remains above the replenishment trigger---and any prior near-term lease expires silently at $\mathtt{expiry\_hlc\_ms}$ without renewal---\textit{The Pantry} automatically sets \texttt{auto\_throttled\_by\_detour = 1} and withholds the Saturday morning pickup lease. The neighborhood bakery's Layer~4 schedule (\texttt{col-execd}) sees Friday evening aggregate cohort demand drop from 40 loaves to 20 loaves prior to dough bulk-ferment mix---\textbf{with zero GPS tracking, zero calendar inspection, and zero nagging notifications}.
+    \item \textbf{Pre-Spoilage Neighbor Surplus Sharing:} Simultaneously, if the load cell in the absent steward's refrigerator detects $800{,}000\,\mathrm{mg}$ ($800\,\mathrm{g}$) of fresh greens whose Arrhenius TTL ($\tau_{\mathrm{remaining\_ttl\_ms}}$ in Equation~\eqref{eq:l2-arrhenius-ttl}) will cross its pre-spoilage sharing window ($\mathtt{surplus\_share\_window\_ms} = 86{,}400{,}000\,\mathrm{ms}$ [24 hours]) while $\dot{m}_{\mathrm{draw\_mg\_day}} == 0$, \textit{The Pantry}'s standing Layer~5 rule automatically posts an anonymous Ring~$R_1$ surplus offer (\texttt{L3SurplusOffer}) so a neighbor's Pantry claims the greens before they decay into Layer~1 waste.
+\end{enumerate}
+
+\section{\textit{The Workshop} Telemetry: Calendar-Agnostic Durable Cycles and Custody Leases (\texttt{D5})}
+\label{sec:l2-workshop-durable-telemetry}
+
+In contrast to \textit{The Pantry}, a physical tool in \textbf{\textit{The Workshop}} lens (\texttt{Scenario Alpha: Fab Lab}, \texttt{Scenario Beta: Transit Depot}, \texttt{Scenario Eta: Sawmill}) is governed by \textbf{calendar-agnostic discrete usage cycles}. Its Layer~2 twin (\texttt{WorkshopDurableToolTwinV50}, Listing~\ref{lst:l2-pantry-workshop-bakery}) ignores wall-clock calendar decay ($\mathrm{d}\tau_{\mathrm{ttl}}/\mathrm{d}t_{\mathrm{idle}} = 0$) and integrates four mechanical quantities during active custody leases:
+\begin{itemize}
+    \item \textbf{Cumulative Active Under-Load Duration (\texttt{cumulative\_use\_ms}):} Incremented only when spindle/motor current exceeds idle no-load threshold $I_{\mathrm{load\_ma}} > I_{\mathrm{idle\_ma}}$.
+    \item \textbf{Mechanical Work and Cycle Count (\texttt{cumulative\_cycles}, \texttt{work\_integral\_uj}):} Counts discrete press strokes, relay actuations, battery charge-discharge cycles, or spindle revolutions via Hall/optical encoders.
+    \item \textbf{Direct Tool Wear and Calibration Drift (\texttt{cutter\_wear\_um}, \texttt{wear\_index\_bp}):} Measured via post-job automated touch-probe runout checks (\texttt{Scenario Alpha}) or piezoelectric FFT harmonic shift ($\mathrm{BPFO}$ in Equation~\eqref{eq:l2-stage3-fft}). When $\mathtt{wear\_index\_bp} \ge 8{,}500\,\mathrm{bp}$ ($85.0\%$), Layer~2 flags \texttt{calibration\_or\_sharpening\_due = 1}, spawning a Layer~4 sharpening or 5-minute metric replacement job.
+\end{itemize}
+
+\section{\textit{The Dual-Loop Bakery} Telemetry: 85\% Staples / 15\% \textit{Montage} Shelf Clearance (\texttt{D4})}
+\label{sec:l2-dual-loop-bakery-telemetry}
+
+In Dialogue~4 (\texttt{CCI-2}, \texttt{CCI-3}), the Horizon Council formalized the \textbf{Dual-Loop Bakery Architecture} (\texttt{Scenario Gamma}):
+\begin{itemize}
+    \item \textbf{Loop 1 (Node Membership Governance, $N_s$):} Voting weight $V_i(t) = 1 + R_i(t)$ inside the bakery guild belongs strictly to the $N_s$ active bakers ($N_s = 5$), never to the $N_p = 500$ bread consumers.
+    \item \textbf{Loop 2 (Zero-Surveillance Demand \& Physical Layer~2 Validation):} The $N_s$ bakers dedicate \textbf{$8{,}500\,\mathrm{bp}$ ($85\%$) of Layer~4 oven schedule capacity} to verified neighborhood staples (answering aggregated \texttt{AnonymousAppetiteLeaseV50} demand vectors) and reserve \textbf{$1{,}500\,\mathrm{bp}$ ($15\%$) of capacity for Dr\_Sofia's compositional \textit{montage}} (unrequested culinary experiments such as miso-buckwheat loaves or wild-ferment focaccia).
+\end{itemize}
+
+How do the bakers know whether an unrequested $15\%$ \textit{montage} experiment resonated with the neighborhood without forcing citizens to fill out mandatory consumer marketing surveys or tracking individual identity at the bread rack? \textbf{Layer~2 Gravimetric Pickup-Shelf Clearance Telemetry:}
+\begin{enumerate}
+    \item Each bakery cooling and pickup cubby is built around a standard \textbf{Gastronorm GN~1/1 ($530 \times 325\,\mathrm{mm}$)} stainless pan resting on a calibrated 24-bit Wheatstone bridge load cell ($\pm 500\,\mathrm{mg}$ resolution) paired with an ambient PT100 cooling probe.
+    \item When a baker loads 12 experimental miso-buckwheat loaves ($m_{\mathrm{initial\_mg}} = 9{,}600{,}000\,\mathrm{mg}$ [$9.6\,\mathrm{kg}$]) onto the \textit{Montage} rack at \texttt{07:30}, \texttt{col-sensord} records the batch timestamp and initial mass.
+    \item As neighbors pass through the Hearth and take half-loaves or whole loaves freely under $B_{\mathrm{baseline}}$, the load cell tracks the physical mass clearance curve $m_{\mathrm{shelf\_mg}}(t)$ and computes the \textbf{Shelf Clearance Velocity} ($\mathtt{clearance\_rate\_bp\_per\_hr}$) and \textbf{Residual Spoilage Mass} at the end of the service window.
+    \item Layer~3 pairs the oven's exact batch exergy (\texttt{uJ} from the \texttt{INA226} breaker shunt) against the shelf clearance rate. If the $15\%$ \textit{montage} loaf clears the shelf in 90 minutes with zero waste (and optionally receives anonymous Layer~6 \texttt{MONTAGE\_TASTE\_FEEDBACK} notes), Layer~4 surfaces the empirical resonance in the bakers' \textit{Bakery Craft Lens} so the guild can vote under $1 + R_i(t)$ to promote the recipe into the permanent Orchestration Registry.
+\end{enumerate}
+
+\begin{lstlisting}[language=C++,caption={Layer~2 register specifications for \textit{The Pantry} (Arrhenius TTL \& weekend-detour pause), \textit{The Workshop} (durable cycle wear), and \textit{The Dual-Loop Bakery} (85/15 shelf clearance) in \texttt{SharedStackRuntime} and \texttt{col-telemetryd}.},label={lst:l2-pantry-workshop-bakery}]
+#pragma once
+#include <cstdint>
+#include <array>
+#include "05_stage3_open_spec_twins.hpp"
+
+namespace collective::layer2 {
+
+/**
+ * @brief Layer 2 Perishable Stock Batch backing Layer 6 "The Pantry" Lens (v5.0).
+ * Remediates Gap SSR-2 in src/stack/shared_stack_runtime.hpp.
+ */
+struct PantryPerishableBatchV50 {
+    uint64_t batch_lot_cid_prefix{0};
+    int64_t  current_mass_mg{0};                   // Live gravimetric shelf load-cell mass (mg)
+    int64_t  rolling_drawdown_mg_per_day{0};       // 24h mass consumption rate (0 on weekend detour!)
+    int64_t  replenishment_threshold_mg{500'000};  // Emit L3 pickup lease only when mass <= threshold
+    int64_t  ambient_storage_temp_mk{276'150};     // Cold-chain RTD reading (276150 mK = 3.00 C)
+    int64_t  remaining_arrhenius_ttl_ms{432'000'000LL}; // Temperature-integrated biological TTL (ms)
+    int64_t  surplus_share_window_ms{86'400'000LL};// Offer to R1 neighbors if TTL < 24h & drawdown == 0
+    uint32_t ttl_remainder_accum{0};               // Carry-save sub-ms remainder for Arrhenius step
+    uint16_t spoilage_hazard_bp{0};                // 0..10000 bp
+    uint8_t  detour_pause_detected{0};             // 1 = L2 drawdown paused -> throttle outbound leases
+    uint8_t  r1_surplus_offer_emitted{0};          // 1 = Anonymous neighbor surplus offer posted
+};
+
+[[nodiscard]] constexpr void StepPantryArrhenius1Hz(
+    PantryPerishableBatchV50& lot,
+    uint32_t arrhenius_accel_bp) noexcept {
+    const uint64_t num = static_cast<uint64_t>(arrhenius_accel_bp) * 1000ULL + lot.ttl_remainder_accum;
+    const int64_t  decay_ms = static_cast<int64_t>(num / 10'000ULL);
+    lot.ttl_remainder_accum = static_cast<uint32_t>(num % 10'000ULL);
+    lot.remaining_arrhenius_ttl_ms =
+        (lot.remaining_arrhenius_ttl_ms > decay_ms) ? (lot.remaining_arrhenius_ttl_ms - decay_ms) : 0;
+    lot.detour_pause_detected = (lot.rolling_drawdown_mg_per_day == 0) ? 1u : 0u;
+    if (lot.detour_pause_detected == 1u &&
+        lot.remaining_arrhenius_ttl_ms <= lot.surplus_share_window_ms &&
+        lot.current_mass_mg > 0) {
+        lot.r1_surplus_offer_emitted = 1u;
+    }
+}
+
+/**
+ * @brief Layer 2 Durable Tool Digital Twin backing Layer 6 "The Workshop" Lens (v5.0).
+ * Calendar-agnostic: degrades strictly by under-load usage cycles and mechanical wear.
+ */
+struct WorkshopDurableToolTwinV50 {
+    std::array<uint8_t, 32> tool_did_hash;
+    HardwareFleetTier fleet_tier{HardwareFleetTier::kNativeOpenSpec};
+    uint64_t active_custody_lease_cid_prefix{0};
+    int64_t  cumulative_use_ms{0};                 // Incremented only under mechanical load
+    int64_t  cumulative_cycles{0};                 // Discrete spindle/stroke/charge cycles
+    int64_t  calibration_due_use_ms{360'000'000LL};// 100 operating hours between calibrations
+    int64_t  erc_amortized_per_cycle_uj{35'000'000LL};
+    uint32_t cutter_or_bearing_wear_um{0};         // Measured runout or FFT harmonic wear (um)
+    uint16_t wear_index_bp{0};                     // >= 8500 bp triggers 5-min predictive L4 swap
+    uint8_t  quality_flags{0x02};                  // 0x04=StageI, 0x08=StageII, 0x02=StageIII
+    uint8_t  predictive_swap_queued{0};
+};
+
+/**
+ * @brief Layer 2 Bakery Shelf Clearance Registers validating the 85% Staple / 15% Montage Split.
+ */
+struct BakeryShelfClearanceRegistersV50 {
+    uint64_t recipe_batch_cid_prefix{0};
+    int64_t  oven_batch_exergy_uj{0};              // Metered by Layer 2 oven INA226 shunt (uJ)
+    int64_t  initial_loaded_mass_mg{0};            // Gastronorm GN 1/1 pickup shelf initial mass (mg)
+    int64_t  remaining_shelf_mass_mg{0};           // Live load-cell reading (mg)
+    uint32_t core_pasteurization_temp_mk{368'150}; // Verified >= 347150 mK Bigelow lethality
+    uint16_t staple_vs_montage_flag{0};            // 0 = 85% Verified Staple; 1 = 15% Montage Experiment
+    uint16_t clearance_ratio_bp{0};                // (initial - remaining) * 10000 / initial
+};
+
+} // namespace collective::layer2
+\end{lstlisting}
