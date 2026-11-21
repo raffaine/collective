@@ -62,11 +62,10 @@ The physical environment of Layer~1 generates massive, high-frequency, non-linea
 
 Strict Adjacency mandates that Layer~1 contains \textbf{zero software, zero firmware, zero cryptographic keys, and zero network routing}. Software does not execute in Layer~1. 
 
-The boundary between Layer~1 and Layer~2 is purely physical: copper screw terminals, ADC differential input pins, optocoupler LED anodes, MOSFET gate pins, and relay holding coils. Layer~1 consists of the physical state variables and the analog signals passing through transducers. It is strictly the responsibility of Layer~2 (the bare-metal HAL and daemons running on isolated microcontrollers) to sample these analog voltages, apply calibration polynomial curves, digitize the values, attach monotonic timestamps, and pass signed telemetry upward across the boundary socket:
+The boundary between Layer~1 and Layer~2 is purely physical: copper screw terminals, ADC differential input pins, optocoupler LED anodes, MOSFET gate pins, and relay holding coils. Layer~1a (physical reality) consists of the physical state variables and the analog signals passing through transducers into Layer~2's isolated microcontroller front-ends, while Layer~1b (the air-gapped Oasis Software-in-the-Loop proving ground) emits simulated physical frames tagged \texttt{QUALITY\_SIMULATED = 0x01} across an outward-only shared-memory SPSC ring buffer (\texttt{/dev/shm}) into Layer~2. It is strictly the responsibility of Layer~2 (the bare-metal HAL and \texttt{col-telemetryd} daemon running on isolated microcontrollers and anchor SBCs) to sample these physical signals, enforce the \texttt{HardwareAirgapFilter} (unconditionally blocking \texttt{0x01} simulated frames from physical actuation paths), normalize measurements into canonical 64-bit fixed-point SI integers, attach monotonic hardware timestamps, and pass signed telemetry upward to Layer~3 across the adjacent daemon boundary socket:
 \begin{center}
-\texttt{/run/collective/ipc/l1\_l2.sock}
+\texttt{/run/collective/ipc/l2\_l3.sock}
 \end{center}
-and into the shared-memory UHAI ring buffer (\texttt{/dev/shm}).
 
 % ============================================================================
 % SECTION 2.2: THE NODE 0 HARDWARE BILL OF MATERIALS (BOM)
@@ -92,7 +91,7 @@ To ground the Sovereign Stack in undeniable engineering reality, Table~\ref{tab:
 \hline
 \textbf{Subsystem} & \textbf{Component / Part Number} & \textbf{Physical Specification} & \textbf{Thermodynamic \& Layer Role} \\
 \hline
-\textbf{Anchor Compute} & 3$\times$ Rockchip RK3588 Octa-Core ARM64 SBCs & 4$\times$ Cortex-A76 @ 2.4 GHz, 4$\times$ A55 @ 1.8 GHz; 6.0 TOPS NPU; 32 GB LPDDR4x; Dual 1 TB NVMe SSD (ZFS RAID-1) & Runs 7-daemon POSIX stack; local neural inference; 2U passive aluminum chassis dissipating $18\,\mathrm{W}$ idle / $75\,\mathrm{W}$ peak. \\
+\textbf{Anchor Compute} & 3$\times$ Rockchip RK3588 Octa-Core ARM64 SBCs & 4$\times$ Cortex-A76 @ 2.4 GHz, 4$\times$ A55 @ 1.8 GHz; 6.0 TOPS NPU; 32 GB LPDDR4x; Dual 1 TB NVMe SSD (ZFS RAID-1) & Runs 9-daemon POSIX stack; local neural inference; 2U passive aluminum chassis dissipating $18\,\mathrm{W}$ idle / $75\,\mathrm{W}$ peak. \\
 \hline
 \textbf{Hardware HSM} & Microchip ATECC608A Cryptographic Co-processor & Hardware ECDSA P-256, Ed25519, TRNG diode, physical tamper-mesh sensing; I2C @ 400 kHz & Protects node root signing keys; active memory zeroization upon chassis intrusion ($<15\,\mathrm{mW}$). \\
 \hline
@@ -199,7 +198,7 @@ If the Node suffers total thermodynamic depletion (zero voltage on all buses, ba
     \item \textbf{Stage 3 (Main DC Contactor Closure):} When $V_{\mathrm{cap}} \ge 0.95\,V_{\mathrm{bus}}$ ($48.6\,\mathrm{V}$), the main 400A vacuum DC contactor closes, establishing a low-resistance path ($<0.5\,\mathrm{m}\Omega$). The pre-charge contactor drops out.
     \item \textbf{Stage 4 (Logic Rail Energization):} The 48V-to-24V synchronous buck converter powers on, charging the 50F supercapacitor buffer and stabilizing the compute chassis plane.
     \item \textbf{Stage 5 (Hardware HAL and Compute Boot):} Dual ESP32-S3 microcontrollers boot Zephyr RTOS; the three RK3588 nodes boot into encrypted ZFS root pools. The ATECC608A validates kernel signature integrity.
-    \item \textbf{Stage 6 (Daemon Traversal \& Inverter Ramp):} The host daemon asserts the inverter enable line over isolated Modbus RTU, executing a 50-cycle soft-start ramp. Finally, \texttt{col-telemetryd} binds \texttt{/run/collective/ipc/l1\_l2.sock}, initiating the upper-stack daemon initialization sequence codified in Chapter~12:
+    \item \textbf{Stage 6 (Daemon Traversal \& Inverter Ramp):} The host daemon asserts the inverter enable line over isolated Modbus RTU, executing a 50-cycle soft-start ramp. Finally, \texttt{col-telemetryd} establishes its hardware fieldbus links and binds \texttt{/run/collective/ipc/l2\_l3.sock}, initiating the upper-stack daemon initialization sequence codified in Chapter~12:
     \begin{equation}
     \mathcal{B}_{\mathrm{daemon}} = \prod_{i=1}^{7} \mathrm{Init}\left(\mathcal{L}_i \,|\, \mathcal{L}_{i-1} \equiv \mathrm{READY}\right)
     \end{equation}
@@ -369,6 +368,151 @@ N_f = C \cdot (\Delta \epsilon_p)^{-\beta}
 \label{eq:coffin_manson}
 \end{equation}
 Passive heatsink dampening and thermal cycling buffering are necessary to prevent solder joint fracture over decades of operation.
+
+% ============================================================================
+% SECTION 2.7: ARRHENIUS PERISHABLE SPOILAGE VS. DISCRETE MECHANICAL CYCLE WEAR
+% ============================================================================
+\section{Arrhenius Perishable Spoilage vs.\ Discrete Mechanical Cycle Wear}
+\label{sec:l1_perishable_vs_durable}
+
+A foundational physical insight of the Sovereign Stack's Horizon Architecture (\texttt{CCI-3} and \texttt{CCI-6}) is that human settlements interact with two fundamentally incompatible regimes of material entropy at Layer~1. Conflating perishable biological goods and durable workshop tools inside a single generic ``inventory'' model obscures the distinct physical differential equations that govern their decay. Layer~6 therefore separates \textbf{\textit{The Pantry}} (the perishable biological entropy lens) from \textbf{\textit{The Workshop}} (the durable mechanical cycles lens) because their underlying Layer~1 thermodynamics diverge at the molecular level.
+
+\subsection{Continuous Perishable Biological Entropy (The Arrhenius Spoilage Regime)}
+
+Every biological foodstuff stored in a household larder or communal commissary (\textit{The Pantry} and \textit{The Bakery / Hearth}, Scenario~$\gamma$) is a non-equilibrium biochemical system undergoing continuous enzymatic autolysis, lipid oxidation, and microbial respiration. Even when a larder shelf is untouched by human hands, the clock of biological entropy never stops ticking. The degradation of remaining freshness quality $C_{\mathrm{fresh}}(t)$ follows coupled $n$-th order chemical kinetics governed by the Arrhenius temperature relation:
+\begin{equation}
+\frac{d C_{\mathrm{fresh}}}{dt} = - k_0 \cdot C_{\mathrm{fresh}}^n \cdot \exp\left( - \frac{E_a}{R \cdot T(t)} \right)
+\label{eq:l1_arrhenius_spoilage}
+\end{equation}
+where $E_a$ is the apparent activation energy of the dominant spoilage pathway (typically $45\text{--}85\,\mathrm{kJ/mol}$ for mesophilic bacterial proliferation and enzymatic browning), $R = 8.314\,\mathrm{J/(mol\cdot K)}$ is the universal gas constant, and $T(t)$ is the instantaneous absolute storage temperature in Kelvin (represented at Layer~2 in canonical integer millikelvins, $\mathrm{mK}$).
+
+Integrating Equation~\eqref{eq:l1_arrhenius_spoilage} over a fluctuating thermal history $T(\tau)$ yields the remaining biological Time-to-Live ($\mathrm{TTL}_{\mathrm{rem}}$):
+\begin{equation}
+\mathrm{TTL}_{\mathrm{rem}}(t) = \mathrm{TTL}_{\mathrm{ref}}(T_{\mathrm{ref}}) - \int_{t_0}^{t} \exp\left[ \frac{E_a}{R} \left( \frac{1}{T_{\mathrm{ref}}} - \frac{1}{T(\tau)} \right) \right] d\tau
+\label{eq:l1_ttl_integral}
+\end{equation}
+Three physical consequences flow directly from Equation~\eqref{eq:l1_ttl_integral}:
+\begin{enumerate}
+    \item \textbf{Cold-Chain Thermal Sensitivity:} A $10\,\mathrm{K}$ ($10{,}000\,\mathrm{mK}$) excursion above the cold-chain target window ($275{,}150\text{--}277{,}150\,\mathrm{mK}$, or $2.0\text{--}4.0\,^\circ\mathrm{C}$) accelerates microbial spoilage by a factor of $Q_{10} \approx 2.2\text{--}3.0$. Conversely, during thermal food preparation, holding a stockpot core at or above the Bigelow pasteurization threshold ($T_{\mathrm{core}} \ge 347{,}150\,\mathrm{mK}$ / $74.0\,^\circ\mathrm{C}$ for integrated lethality $F_0$) resets the vegetative pathogen population by $6\,\log_{10}$ orders of magnitude.
+    \item \textbf{Thermodynamic Necessity of Spontaneous Weekend-Detour Absorption:} Because freshly baked sourdough or ladled pea soup enters Equation~\eqref{eq:l1_arrhenius_spoilage} the moment it leaves the oven or kettle, baking forty loaves for neighbours who have spontaneously departed for the mountains guarantees Layer~1 organic waste. By coupling Layer~2 shelf load cells to short-lived, auto-expiring Layer~3 pickup intent leases (\texttt{AnonymousAppetiteLeaseV50}), \textit{The Pantry} arrests production upstream before raw grain and thermal exergy are committed to an irreversible perishable decay curve.
+    \item \textbf{Pre-Spoilage Surplus Routing:} When $\mathrm{TTL}_{\mathrm{rem}}(t)$ crosses a household's local consumption horizon ($\mathrm{TTL}_{\mathrm{rem}} < M_{\mathrm{stock}} / \dot{m}_{\mathrm{drawdown}}$), Layer~1 entropy can only be defeated by expanding the consumer pool---prompting \textit{The Pantry} to broadcast an anonymous Ring~$R_1$ surplus offer while the food remains wholesome.
+\end{enumerate}
+
+\subsection{Discrete Mechanical Cycle Wear (The Archard and Palmgren-Miner Durable Regime)}
+
+In stark contrast to a loaf of bread or a jar of milk, a box of \texttt{M6} stainless bolts, a cast-iron wood lathe, or a 5-axis CNC router spindle in \textit{The Workshop} (Scenario~$\alpha$) does not spoil on the calendar. Stored dry at ambient indoor temperatures ($291{,}150\text{--}295{,}150\,\mathrm{mK}$), its calendar time-to-live is effectively infinite ($\dot{W}_{\mathrm{calendar}} \approx 0$). Instead, durable assets degrade strictly as a \textbf{discrete function of active kinetic work cycles}.
+
+At Layer~1, mechanical wear across bearings, cutting edges, lead screws, and relay contacts is governed by two physical laws:
+\begin{enumerate}
+    \item \textbf{Archard's Adhesive and Abrasive Sliding Wear Equation:} The volume of material $V_{\mathrm{wear}}$ removed from interacting tribological surfaces (such as spindle bearings, way guides, or planar blades) is proportional to the normal contact load $F_N$ and cumulative sliding distance $s = \int \omega(\tau) r \, d\tau$, and inversely proportional to the material Brinell/Vickers hardness $H$:
+    \begin{equation}
+    V_{\mathrm{wear}} = K_{\mathrm{Archard}} \cdot \frac{F_N \cdot s}{H}
+    \label{eq:l1_archard_wear}
+    \end{equation}
+    where $K_{\mathrm{Archard}}$ is the dimensionless wear coefficient (ranging from $10^{-7}$ for hydrodynamically lubricated tool steel to $10^{-3}$ for unlubricated dry friction).
+    \item \textbf{Palmgren-Miner Cumulative Cycle Fatigue:} Under cyclic mechanical or thermal loading across $M$ discrete stress regimes, each operating for $n_k$ cycles at stress amplitude $\sigma_k$ (whose S-N endurance limit is $N_{f,k}$ cycles to failure), cumulative structural damage $D_{\mathrm{fatigue}}$ accumulates linearly per discrete actuation cycle:
+    \begin{equation}
+    D_{\mathrm{fatigue}} = \sum_{k=1}^{M} \frac{n_k}{N_{f,k}} \le 1.0 \quad \bigl(\text{fixed-point: } D_{\mathrm{wear,bp}} \le 10{,}000\,\mathrm{bp}\bigr)
+    \label{eq:l1_palmgren_miner}
+    \end{equation}
+\end{enumerate}
+Because Equations~\eqref{eq:l1_archard_wear} and~\eqref{eq:l1_palmgren_miner} advance only when $\omega(t) > 0$ or $\Delta \sigma_k > 0$, \textit{The Workshop} lens ignores calendar expiration and tracks cumulative spindle milliseconds (\texttt{cumulativeUseMs}), integrated mechanical work (\texttt{uJ}), and acoustic bearing harmonic shifts---triggering calibration, blade sharpening, or bearing replacement strictly on verified cycle thresholds.
+
+\subsection{Scavenged Layer 7 Planned Obsolescence vs.\ Open Modular SI Geometry}
+
+In the legacy Layer~7 economy, manufacturers deliberately sabotage the durable mechanical regime of Equations~\eqref{eq:l1_archard_wear} and~\eqref{eq:l1_palmgren_miner} to force durable tools to behave like perishables:
+\begin{itemize}
+    \item \textbf{Manufactured Fragility and Non-Repairability:} Consumer and commercial appliances pair heavy, long-lived cast-iron or stainless frames with potted epoxy circuit boards, ultrasonically welded plastic housings, undersized electrolytic capacitors placed adjacent to heatsinks (accelerating Arrhenius electrolyte dry-out), and proprietary fastener heads. When a two-gram seal or capacitor fails, the entire fifteen-kilogram sub-assembly is condemned to the landfill.
+    \item \textbf{Proprietary Dimensional Fragmentation:} Layer~7 brands proliferate fifteen incompatible tray widths, battery sleds, and mounting flanges so that no component can be scavenged or shared across product lines.
+\end{itemize}
+
+At Layer~1, the Sovereign Stack defeats planned obsolescence through \textbf{Open Modular SI Geometry} and the \textbf{Three-Tier Hardware Fleet Progression (\texttt{CCI-6})}:
+\begin{enumerate}
+    \item \textbf{Stage~I (Scavenged Layer~7 Fleet):} A Genesis Node boots by salvaging secondhand legacy appliances. Because their internal firmware is locked, stewards attach external Layer~2 current clamps, taped thermistors, and optical shims (\textit{the shim tax}), enduring coarse state inference and unscheduled mid-batch breakdowns until the machine can be opened.
+    \item \textbf{Stage~II (Right-to-Repair Hybrid Fleet):} Rather than discarding a $400\,\mathrm{kg}$ cast-iron commercial oven or lathe whose embodied metallurgical exergy is immense, stewards strip out the potted proprietary PCB and install an open ESP32-S3 or RISC-V Layer~2 retrofit board wired directly to standard Type-K thermocouples and current transformers, paired with 3D-printed or milled metric adapter brackets.
+    \item \textbf{Stage~III (Native Open-Spec Collective Fleet):} Tools fabricated or remanufactured to native Collective blueprints enforce the \textbf{One-Wrench Rule} (\texttt{M6} and \texttt{M8} ISO metric socket-head cap screws), standard ISO~355 rolling-element bearings, \textbf{Gastronorm GN~1/1 ($530 \times 325\,\mathrm{mm}$)} stainless vessels, and \textbf{ISO $600 \times 400\,\mathrm{mm}$} modular totes. Because every wear surface is accessible and dimensionally standardized, a bearing nearing its Palmgren-Miner threshold ($D_{\mathrm{wear,bp}} \ge 8{,}500\,\mathrm{bp}$) is swapped in five minutes during an unhurried maintenance pit stop.
+\end{enumerate}
+
+% ============================================================================
+% SECTION 2.8: ENVELOPING NODE SPATIAL AND ACOUSTIC PARTITION PHYSICS
+% ============================================================================
+\section{Enveloping Node Spatial and Acoustic Partition Physics}
+\label{sec:l1_enveloping_partition_physics}
+
+Modernist urban zoning rested on a spatial monoculture: a building was legally designated \textit{either} a domestic residence \textit{or} an office \textit{or} a workshop. In a living neighbourhood commons (\texttt{CCI-4}), institutional topology is decoupled from physical coordinates. A single two-story timber-frame house or cooperative block may simultaneously host a four-person Household Hearth ($N_s = 4$), a Solo Audio Recording Studio ($N_s = 1$), and a Precision Maker Bench ($N_s = 1$).
+
+While Layer~5 keeps their internal governance graphs completely independent, \textbf{Layer~1 physics couples co-located nodes across shared walls, floor joists, air plenums, and copper electrical feeders}. To allow a domain-blind \textbf{Enveloping Node Hypervisor} to arbitrate shared space without ever inspecting what song the studio is recording or what part the maker bench is milling, Layer~1 formalizes four physical boundary fluxes measured strictly at the spatial partition perimeter ($\partial \Omega_{\mathrm{child}}$):
+
+\subsection{Acoustic Partition Transmission and Centibel (\texttt{cB}) Attenuation}
+
+When a child node operates a rotary spindle, dust extractor, or wet-vac inside room volume $\Omega_k$, it radiates acoustic power $W_{\mathrm{acoustic}}$ (watts), generating a sound pressure level $L_{p,\mathrm{source}}$ inside the source room relative to the human auditory reference threshold $p_0 = 20\,\mu\mathrm{Pa}$:
+\begin{equation}
+L_p = 10 \log_{10}\left(\frac{p_{\mathrm{rms}}^2}{p_0^2}\right)\,\mathrm{dB} \equiv 100 \log_{10}\left(\frac{p_{\mathrm{rms}}^2}{p_0^2}\right)\,\mathrm{cB}
+\label{eq:l1_centibel_def}
+\end{equation}
+In the Sovereign Stack's 64-bit fixed-point SI core, acoustic levels are represented strictly in integer \textbf{centibels (\texttt{cB}, where $1\,\mathrm{dB} = 10\,\mathrm{cB}$ or $0.1\,\mathrm{dB}$ resolution; in sub-centibel basis scaling, $42.0\,\mathrm{dBA} = 420\,\mathrm{cB}$)}.
+
+Across a shared interior partition wall of surface mass density $m_s$ ($\mathrm{kg/m^2}$) separating the Maker Bench from the Solo Studio, normal-incidence airborne sound transmission loss $\mathrm{TL}(f)$ at frequency $f$ is governed by the physical \textbf{Mass Law}:
+\begin{equation}
+\mathrm{TL}(f) \approx 20 \log_{10}\left(f \cdot m_s\right) - 47.2\,\mathrm{dB}
+\label{eq:l1_acoustic_mass_law}
+\end{equation}
+supplemented by structural decoupling (resilient channels and elastomeric neoprene machine mounts that attenuate structure-borne flanking vibration across floor joists). The resulting boundary sound pressure level $L_{p,\mathrm{boundary}}$ arriving at the Enveloping Node's partition microphone is:
+\begin{equation}
+L_{p,\mathrm{boundary}} = L_{p,\mathrm{source}} - \Delta L_{\mathrm{enclosure}} - \mathrm{TL}_{\mathrm{partition}} + 10\log_{10}\left(\frac{S_{\mathrm{wall}}}{A_{\mathrm{abs}}}\right) \le L_{\mathrm{lease\_max,cB}}
+\label{eq:l1_partition_acoustic_bound}
+\end{equation}
+where $\Delta L_{\mathrm{enclosure}}$ is the attenuation of a local tool hood (for example, closing a double-glazed mass-loaded vinyl CNC enclosure provides $\Delta L_{\mathrm{enclosure}} \approx 350\,\mathrm{cB}$ / $35.0\,\mathrm{dBA}$ reduction), $S_{\mathrm{wall}}$ is partition area, and $A_{\mathrm{abs}}$ is the receiving room's Sabin absorption area. Equation~\eqref{eq:l1_partition_acoustic_bound} explains how physical engineering and Layer~4 scheduling work in concert: if the Enveloping Node enforces a quiet-hours partition ceiling of $L_{\mathrm{lease\_max}} = 420\,\mathrm{cB}$ ($42.0\,\mathrm{dBA}$), a $750\,\mathrm{cB}$ ($75.0\,\mathrm{dBA}$) spindle cut that would violate an unshielded wall passes the physical boundary check effortlessly once the steward closes the $-350\,\mathrm{cB}$ acoustic hood. Conversely, if a pressurized domestic water pipe ruptures at 21:15 ($\mathrm{Layer~1}$ hydraulic flood hazard), the emergency wet-vac remediation workflow ($820\,\mathrm{cB}$) physically must override the quiet lease under Fast-Path Jurisprudence to prevent structural water damage to the shared building envelope.
+
+\subsection{Shared Branch-Feeder Ampacity, Thermal Dissipation, and Spatial Polygons}
+
+Alongside acoustics, the physical building envelope enforces three additional conservation bounds across co-located child nodes $k \in \{1,\dots,K\}$:
+\begin{enumerate}
+    \item \textbf{Branch-Feeder Electrical Power and Exergy Ceiling (\texttt{mW} and \texttt{uJ}):} All child nodes drawing from a shared building sub-panel or street transformer feeder of continuous thermal-magnetic rating $P_{\mathrm{feeder\_max}}$ (for example, a $40\,\mathrm{A}$ continuous 240V split-phase feeder rated at $9{,}600{,}000\,\mathrm{mW}$ / $9.6\,\mathrm{kW}$) must satisfy instantaneous Kirchhoff current summation:
+    \begin{equation}
+    \sum_{k=1}^{K} P_k(t) \le P_{\mathrm{feeder\_max,mW}} \qquad \text{and} \qquad \int_{t_0}^{t_0 + \tau_{\mathrm{lease}}} P_k(\tau)\,d\tau \le E_{\mathrm{lease\_max,uJ}}
+    \label{eq:l1_envelope_power_bound}
+    \end{equation}
+    \item \textbf{Indoor Thermal and Particulate Boundary Flux (\texttt{mK} and \texttt{ug}):} Waste heat $\dot{Q}_{k,\mathrm{exhaust}}$ rejected by a ceramic kiln, foundry induction coil, or server closet into a shared building thermal zone of air mass $M_{\mathrm{air}}$ and specific heat $c_p$ drives an indoor temperature rise $\Delta T_{\mathrm{boundary}} = \frac{\int (\dot{Q}_{k,\mathrm{exhaust}} - \dot{Q}_{\mathrm{HVAC}})\,dt}{M_{\mathrm{air}} c_p} \le \Delta T_{\mathrm{lease\_max,mK}}$ (for example, $+3{,}000\,\mathrm{mK}$ / $+3.0\,\mathrm{K}$), while local HEPA/cyclone extraction must bound airborne particulate leakage across the doorway boundary to $\dot{m}_{\mathrm{PM2.5}} \le \dot{m}_{\mathrm{lease\_max,ug}}$.
+    \item \textbf{Spatial Bounding-Box Clearance (\texttt{mm}):} Every active physical workflow occupies a 3D axis-aligned bounding box $\mathcal{B}_k = [x_{\min}, y_{\min}, z_{\min}, x_{\max}, y_{\max}, z_{\max}]$ in integer millimeters (\texttt{mm}). For any two concurrent leases in the same room envelope, $\mathcal{B}_j \cap \mathcal{B}_k = \emptyset$, preserving unobstructed life-safety egress corridors ($\ge 1{,}000\,\mathrm{mm}$ width).
+\end{enumerate}
+
+% ============================================================================
+% SECTION 2.9: THE PHYSICAL SERVER FOOTPRINT OF SCENARIO ZERO
+% ============================================================================
+\section{The Physical Server Footprint of Scenario Zero}
+\label{sec:l1_scenario_zero_footprint}
+
+In Dialogue~1 of \textit{The Architecture of Boundless Time}, the Horizon Council resolved a fundamental question: \textit{How does software exist at Layer~1, both inside a physical settlement (\texttt{Layer 1a}) and inside the Oasis simulation (\texttt{Layer 1b})?}
+
+As established in Section~\ref{sec:l1_bedrock}, code does not execute in Layer~1; software is a governed \textbf{Layer~6 Software Artifact} stewarded by a \textbf{Layer~5 Working Group} under \textbf{Scenario Zero (\texttt{SCN-ZERO-SOFTWARE})}. Consequently, Oasis (\texttt{Layer 1b}) never emulates inner guest operating systems or application binaries. Yet software is never free of physical consequence. At Layer~1, every running daemon, compiler build farm, and simulation soak manifests through a concrete, mild \textbf{thermal-electric and mechanical wear footprint}:
+
+\subsection{CMOS Switching Exergy and Salvaged Silicon Frugal Bounds}
+
+The instantaneous electrical power $P_{\mathrm{compute}}(t)$ (in milliwatts, \texttt{mW}) drawn from the 48V/24V DC bus by an anchor SBC cluster or a steward's workstation is the sum of dynamic CMOS gate-capacitance switching power and sub-threshold static leakage power:
+\begin{equation}
+P_{\mathrm{compute}}(t) = \underbrace{\alpha_{\mathrm{activity}} \cdot C_{\mathrm{eff}} \cdot V_{\mathrm{dd}}^2 \cdot f_{\mathrm{clk}}}_{\text{Dynamic Switching Power}} + \underbrace{V_{\mathrm{dd}} \cdot I_{\mathrm{leak},0} \cdot \exp\left(\frac{T_j - T_0}{T_{\mathrm{scale}}}\right)}_{\text{Arrhenius Sub-Threshold Leakage}} + P_{\mathrm{peripheral}}
+\label{eq:l1_cmos_power}
+\end{equation}
+where $\alpha_{\mathrm{activity}}$ is the instruction switching activity factor, $C_{\mathrm{eff}}$ is effective switched capacitance, $V_{\mathrm{dd}}$ is core voltage, $f_{\mathrm{clk}}$ is clock frequency, and $T_j$ is silicon junction temperature ($\le 358{,}150\,\mathrm{mK}$ / $85.0\,^\circ\mathrm{C}$).
+
+Because Scenario~Zero constitutionally mandates that the entire nine-daemon Sovereign Stack operate within $\le 256\text{--}512\,\mathrm{MiB}$ of system RAM with zero floating-point opcodes and zero polling spin-loops, a community does not need hyperscale data centers or new consumer laptops every three years. Twenty-year-old salvaged x86\_64 laptops and low-wattage ARM64 or RISC-V boards remain first-class production nodes, avoiding millions of megajoules of embodied semiconductor manufacturing exergy ($\lambda_{\mathrm{ERC}}$).
+
+\subsection{First-Law Hydronic Heat Recovery ($\ge 8{,}000\,\mathrm{bp}$ Reuse) and Dormant Equilibrium}
+
+By the First Law of Thermodynamics, virtually $100\%$ of the electrical exergy $E_{\mathrm{compute}} = \int P_{\mathrm{compute}}(t)\,dt$ (in microjoules, \texttt{uJ}) consumed by microprocessors, NVMe drives, and network transceivers is converted directly into thermal heat $\dot{Q}_{\mathrm{compute}}$ at the silicon die:
+\begin{equation}
+\dot{Q}_{\mathrm{recovered}} = \eta_{\mathrm{hydronic}} \cdot P_{\mathrm{compute}}(t), \qquad \eta_{\mathrm{hydronic}} \ge 0.80 \quad \bigl(8{,}000\,\mathrm{bp}\bigr)
+\label{eq:l1_compute_heat_recovery}
+\end{equation}
+During Phase~3 of Scenario~Zero (\textit{Inception and Build}), when a working group compiles three-architecture reproducible binaries (\texttt{x86\_64}, \texttt{aarch64}, \texttt{riscv64}) and runs $10{,}000$-tick Oasis canary verification soaks, the compute rack draws $60{,}000\text{--}250{,}000\,\mathrm{mW}$ ($60\text{--}250\,\mathrm{W}$). Rather than rejecting this heat to the outdoor air via parasitic cooling fans, copper liquid-cooling blocks transfer $\ge 80\%$ ($8{,}000\,\mathrm{bp}$) of the thermal output directly into Stage~0 of the node's thermal cascade (Section~\ref{sec:l1_exergy_cascade}) to pre-heat bathhouse water (Scenario~$\zeta$) or warm winter greenhouse root zones (Scenario~$\gamma$).
+
+Equally important is what happens at Layer~1 when a Scenario~Zero software artifact reaches \textbf{Dormant Equilibrium (``The \TeX{} Asymptote'')}:
+\begin{itemize}
+    \item Because the specification is finished and stable, continuous re-compilation churn ceases ($\alpha_{\mathrm{activity}} \to \alpha_{\mathrm{idle}}$), dropping server rack electrical draw from peak build wattage down to an $18{,}000\,\mathrm{mW}$ ($18\,\mathrm{W}$) quiescent baseline.
+    \item Mechanical cooling fan revolutions, NVMe NAND flash program-erase wear cycles, and thermal-cycling solder strain (Equation~\ref{eq:coffin_manson}) drop by an order of magnitude, extending physical server hardware longevity across decades.
+    \item Only when \textbf{Substrate Drift} occurs at Layer~1 or Layer~2---such as a replacement soil probe using a new dielectric sensor chip or a retrofitted workshop appliance exposing a new Modbus register layout---does the hardware mismatch trigger an upward Layer~4 hard-block and Layer~6 Semantic Diff, waking the Scenario~Zero working group to author and verify a compact adapter before returning the silicon to quiet equilibrium.
+\end{itemize}
 
 % ============================================================================
 % SECTION 2.7: PHYSICAL TELEMETRY & HARD FAIL-SAFES
@@ -575,14 +719,14 @@ Late-stage capitalism infantilizes citizens by enclosing life-support behind opa
 Furthermore, physical maintenance is transformed from an isolating chore into a celebration through the \textbf{Convivial Work Bee}---the modern Barn-Raising: collective physical work accompanied by shared outdoor meals, live music, storytelling, and multi-generational participation where caregiving and child tending are honored as equal contributions to labor \parencite{ostrom1990}.
 
 % ============================================================================
-% SECTION 2.11: THE OASIS SIMULATION STRATEGY
+% SECTION 2.14: THE OASIS SIMULATION STRATEGY
 % ============================================================================
-\section{The Oasis Simulation Engine: Discretization and Twin-Loop Cybernetics}
+\section{The Oasis Simulation Engine: Discretization and Outward-Only SITL Canary Proving Ground}
 \label{sec:l1_oasis}
 
 \subsection{Spatial Discretization: Decimeter 3D DDA Voxel Lattice}
 
-To simulate Layer~1 without falling into either atomistic computational intractability or unphysical game approximations, the Oasis Engine (written in C++20 and rendering via WebGPU) discretizes physical reality into a uniform 3D grid at \textbf{one decimeter resolution} ($10\,\mathrm{cm} \times 10\,\mathrm{cm} \times 10\,\mathrm{cm} = 1\,\mathrm{dm}^3$ per voxel).
+To simulate Layer~1 (\texttt{Layer 1b}) without falling into either atomistic computational intractability or unphysical game approximations, the Oasis Engine (written in C++20 and rendering via WebGPU) discretizes physical reality into a uniform 3D grid at \textbf{one decimeter resolution} ($10\,\mathrm{cm} \times 10\,\mathrm{cm} \times 10\,\mathrm{cm} = 1\,\mathrm{dm}^3$ per voxel).
 
 Every voxel's thermodynamic state is packed into a cache-coherent 32-bit structure:
 \begin{equation}
@@ -596,9 +740,9 @@ Moisture quantizes volumetric soil water content from bone-dry ($0$) to full hyd
 Physical infrastructure assets map directly to cache-aligned component structs in the Flecs Entity Component System:
 \begin{itemize}
     \item \texttt{SolarInsolation}: Tracks direct normal irradiance ($I_{\mathrm{DNI}}$), diffuse sky flux, DDA raymarched occlusion factor, and temperature derating.
-    \item \texttt{ElectrochemicalStorage}: Tracks state-of-charge (Q16.16 fixed-point), terminal millivolts, current draw ($\mathrm{mA}$), internal resistance ($\mathrm{m}\Omega$), and thermal runaway ceilings.
-    \item \texttt{FluidStorage} \& \texttt{PipeConduit}: Tracks stored liters, hydrostatic head ($\mathrm{kPa}$), Darcy-Weisbach head loss, and contamination indices.
-    \item \texttt{ThermalDissipation}: Tracks compute wattage draw, waste heat output ($\mathrm{W}$), spatial voxel dump coordinates, and hydronic loop IDs.
+    \item \texttt{ElectrochemicalStorage}: Tracks state-of-charge (fixed-point basis points), terminal millivolts, current draw ($\mathrm{mA}$), internal resistance ($\mathrm{m}\Omega$), and thermal runaway ceilings.
+    \item \texttt{FluidStorage} \& \texttt{PipeConduit}: Tracks stored milliliters, hydrostatic head ($\mathrm{Pa}$), Darcy-Weisbach head loss, and contamination indices.
+    \item \texttt{ThermalDissipation}: Tracks compute milliwatt draw, waste heat output ($\mathrm{mW}$), spatial voxel dump coordinates, and hydronic loop IDs---modeling Scenario~Zero software via its mild Layer~1/2 thermal-electric and component wear footprint without inner binary emulation.
 \end{itemize}
 
 \subsection{Spatial Mechanics: Raymarching, Line Losses, and Hydraulic Friction}
@@ -626,11 +770,11 @@ The Sovereign Attenuation Potential $\Psi(t)$ is driven by the Node's physical a
 \end{equation}
 where $\epsilon = 0.001$ is the Genesis Epsilon Guard preventing division-by-zero singularities during initial bring-up. As battery reserves, rainwater cisterns, and depaved loam increase, $\Phi_{\mathrm{infrastructure}}$ rises toward $1.0$, exponentially dampening legacy shocks ($\lambda(t) \to \lambda_{\min}$).
 
-\subsection{Twin-Loop Cybernetics: Rehearsal, Actuation, and Calibration}
+\subsection{Outward-Only SITL Canary Demarcation (\texttt{Layer 1a} vs.\ \texttt{Layer 1b})}
 
-Simulation and reality do not operate in a one-way waterfall; they form a \textbf{continuous Twin-Loop Cybernetic System}:
+To preserve total household privacy and deterministic physical safety (\texttt{SBR-5} and \texttt{CCI-1}), the Sovereign Stack enforces an unbreakable one-way airgap between physical reality (\textbf{\texttt{Layer 1a}}) and the Oasis simulation engine (\textbf{\texttt{Layer 1b}}):
 \begin{enumerate}
-    \item \textbf{Loop 1 (Feedforward ScDD Rehearsal):} Before breaking ground, proposed microgrid and permaculture layouts are tested in Oasis under Scenario Driven Development (ScDD) \parencite{beck2002test, north2006introducing}. Monte Carlo stress testing simulates ten-year historical weather datasets, polar freezes, and multi-week droughts. Only when the virtual ledger balances without breaching ecological floors are designs compiled into Layer~4 BPMN 2.0 workflows.
-    \item \textbf{Loop 2 (Ground-Truth Calibration):} Once physical hardware is commissioned, Layer~2 sensors continuously emit signed telemetry (shunt currents, thermocouple voltages, soil moisture) upward into Layer~3. Crucially, this real-world telemetry feeds back into Oasis, calibrating internal physical parameters ($R_{\mathrm{int}}$, $K_{\mathrm{sat}}$) and eliminating simulation drift.
+    \item \textbf{Outward-Only Simulated Producer (\texttt{QUALITY\_SIMULATED = 0x01}):} Oasis (\texttt{Layer 1b}) is strictly an outward producer of simulated physical telemetry frames tagged with \texttt{quality\_flags = 0x01} (\texttt{QUALITY\_SIMULATED}) and a sandbox consumer of downward Layer~4 actuator commands during Software-in-the-Loop (SITL) canary verification. Oasis \textit{never} ingests live 60\,Hz physical telemetry from real homes or production sensors, and never operates as a bi-directional ``Living Mirror'' over real-world households.
+    \item \textbf{Hardware Airgap Filtering and Native Layer~2 Parameter Estimation:} At the top of Layer~2 (\texttt{col-telemetryd}), the \texttt{HardwareAirgapFilter} inspects the hardware provenance bitmask of every incoming frame, unconditionally dropping \texttt{0x01} simulated frames from physical actuation paths and production ledger minting. Live Kalman filtering and innovation-residual fault detection ($\epsilon(t) = \mathbf{y}_{\mathrm{actual}}(t) - \hat{\mathbf{y}}_{\mathrm{model}}(t)$) execute natively inside \texttt{col-telemetryd} over hardware-attested \texttt{Layer 1a} frames (\texttt{0x02}/\texttt{0x04}/\texttt{0x08}).
+    \item \textbf{$10{,}000$-Tick ScDD Canary Soak and Black-Sky Drills:} Before any new or forked Layer~4 BPMN workflow, Enveloping Node boundary policy, or Scenario~Zero software release is ratified for physical deployment, it is loaded into Oasis (\texttt{Layer 1b}) for an accelerated $10{,}000$-tick SITL canary soak against ten-year historical weather datasets, polar freezes, and simulated Stage~I scavenged-hardware blind hard-blocks. Communities likewise conduct regular ``Black-Sky Drills'' inside Oasis, rehearsing manual load shedding and mutual-aid triage in a risk-free sandbox where autonomous agents interact with the exact same Layer~6 Application Lenses (\textit{The Pantry}, \textit{The Workshop}, \textit{The Bakery / Hearth}, and \textit{Forge Studio}) used in daily settlement life. The simulation is not an escape from reality; it is the air-gapped cybernetic wind tunnel through which physical reality is kept safe.
 \end{enumerate}
-Furthermore, Oasis remains permanently active as a \textbf{Shadow Simulator} for ongoing disaster preparedness. Communities conduct regular ``Black-Sky Drills'' within Oasis, practicing manual load shedding and mutual-aid triage in response to simulated inverter failures or storm damage. The simulation is not an escape from reality; it is the cybernetic organ through which reality is mastered.
