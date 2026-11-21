@@ -260,52 +260,63 @@ The engine models matric potential $\psi_m(\theta)$ using the van Genuchten soil
 \end{equation}
 This allows agricultural planners to simulate water drainage after torrential rains, capillary rise during droughts, and root-zone water absorption in permaculture guilds.
 
-\section{Twin-Loop Cybernetics: Feedforward ScDD Rehearsal and Signed Telemetry Calibration}
+\section{Layer 1a vs. Layer 1b Demarcation (SBR-5): Feedforward SITL Rehearsal vs. Live Layer 2 Digital Twins}
 
-The Oasis digital twin operates as part of a closed cybernetic loop comprising two distinct operational phases.
+To preserve strict physical safety and prevent any confusion between an in-silico proving ground and live life-support hardware, the Sovereign Stack enforces a hard architectural boundary under \textbf{Stack Boundary Rule 5 (SBR-5)} and \textbf{Council Invariant CCI-1} between \textbf{Layer~1a} and \textbf{Layer~1b}:
 
-\subsection{Loop 1: Feedforward In-Silico Rehearsal}
+\begin{enumerate}
+    \item \textbf{Layer 1a (Physical Reality):} The actual basalt topsoil, copper busbars, lithium-iron-phosphate battery cells, and flowing water of a physical settlement. Layer~1a contains \textbf{zero software, zero firmware, zero microcontrollers, and zero cryptographic keys}. It interfaces exclusively with Layer~2 physical transducers and actuator relays across the Transducer Threshold.
+    \item \textbf{Layer 1b (The Oasis SITL Shadow Proving Ground):} The computational voxel and ECS simulation engine running inside \texttt{core/1\_simulation/}. Under \textbf{SBR-5}, Oasis (\texttt{Layer 1b}) is strictly a \textbf{non-transitionary, outward-only Software-in-the-Loop (SITL) telemetry producer} (emitting frames tagged \texttt{QUALITY\_SIMULATED = 0x01}) and a \textbf{downward consumer} of Layer~4/2 actuator commands (\texttt{0x02}) across \texttt{/run/col/l2\_l1.sock} (or \texttt{/run/collective/ipc/l1\_l2.sock}). Oasis \textbf{never} transitions into a real-world home controller, \textbf{never} embeds Layer~2--7 stack headers, and \textbf{never ingests live 60~Hz physical telemetry from a real settlement} (permanently abolishing the deprecated ``Living Mirror'' anti-pattern).
+\end{enumerate}
 
-In Loop 1, the digital twin runs faster than real time. Operating entirely within memory, it evaluates proposed actions (such as switching from legacy municipal water to rainwater harvesting) under simulated stochastic disturbances.
+\subsection{Mode 1: Layer 1b Feedforward In-Silico SITL Rehearsal (Oasis)}
 
-The engine injects Monte Carlo weather files, simulated grid outages, and boundary shocks to test settlement survivability. If a proposed design causes water tanks to run dry during a 100-year drought scenario, the design fails in software before a single dollar of community funds is spent.
+Inside \textbf{Layer~1b}, the Oasis simulation engine runs faster than real time as an outward-only SITL canary and Scenario-Driven Development (ScDD) proving ground. Operating entirely within memory, it evaluates proposed settlement architectures, turnkey Layer~4 BPMN franchise templates, and Layer~5 constitutional amendments against decades of simulated stochastic weather, equipment wear, and boundary shocks before a single physical foundation is poured.
 
-\subsection{Loop 2: Ground-Truth Signed Telemetry Calibration}
+Because everything above Layer~1 physical physics lives in the Sovereign Stack's actual Layer~2--6 daemons, an autonomous agent inside Oasis (\texttt{Layer 1b}) and a real household operating over \textbf{Layer~1a} interact with the \textbf{exact same Layer~6 Application Lenses} (\textit{The Pantry}, \textit{The Workshop}, \textit{The Bakery / Hearth}, \textit{Scenario Zero Forge Studio}) backed by the local Layer~6 Semantic Daemon (\texttt{col-commonsd} + \texttt{col-gatewayd}).
 
-Once physical infrastructure is built, Loop 2 takes over. Real physical transducers (INA226 current shunts, PT100 temperature sensors, flow meters) sample physical reality in Layer 1. Layer 2 microcontrollers digitize and sign these readings, passing them upward into the digital twin.
+\subsection{Mode 2: Layer 2 Edge Digital Twin Calibration Over Layer 1a}
 
-The simulation compares real physical telemetry against its predicted state:
+When physical infrastructure is deployed in \textbf{Layer~1a}, real physical transducers (INA226 current shunts, PT1000 RTDs, boundary microphones, flow meters) sample physical reality. Layer~2 microcontrollers (running Zephyr RTOS) and the host telemetry daemon (\texttt{col-telemetryd}, paired with \texttt{core/2\_twin/}) digitize and sign these readings into canonical 64-bit fixed-point SI registers tagged with hardware provenance (\texttt{QUALITY\_HARDWARE\_ROOT = 0x02}).
+
+Crucially, live physical telemetry is processed by the \textbf{Layer~2 Edge Digital Twin} (\texttt{core/2\_twin/} and \texttt{col-telemetryd})---never piped back into the Oasis Layer~1b game engine. The Layer~2 Edge Digital Twin compares real hardware telemetry against its local state-space prediction:
 \begin{equation}
-\mathbf{e}(t) = \mathbf{y}_{\mathrm{hardware}}(t) - \hat{\mathbf{y}}_{\mathrm{sim}}(t)
+\mathbf{e}(t) = \mathbf{y}_{\mathrm{hardware}}(t) - \hat{\mathbf{y}}_{\mathrm{L2\_twin}}(t)
 \label{eq:telemetry_error}
 \end{equation}
-If the error $\mathbf{e}(t)$ diverges, the engine uses Bayesian parameter estimation to calibrate its physical constants (e.g., updating soil infiltration rates to account for biochar amendments or adjusting battery internal resistance to reflect calendar aging).
+using Kalman innovation residuals to track battery internal resistance aging, soil infiltration shifts, or tool bearing wear across the 3-tier hardware fleet.
 
 \section{The Hardware Airgap Filter and Codebase Drift Concern 1}
 
-To ensure complete safety when running digital twin simulations alongside live physical hardware, the Sovereign Stack implements strict cryptographic isolation.
+To ensure complete safety when running Layer~1b SITL canary simulations alongside live Layer~1a physical hardware, the Sovereign Stack implements strict cryptographic and bitmask isolation at the Layer~2 membrane.
 
-\subsection{The Hardware Airgap Filter}
+\subsection{The Hardware Airgap Filter and 3-Tier Hardware Provenance Flags}
 
 In \texttt{src/daemons/col-telemetryd/airgap\_filter.hpp}, the stack defines the \texttt{HardwareAirgapFilter}:
 \begin{verbatim}
 enum class AirgapDecision : uint8_t {
-    ACCEPTED_HARDWARE_ROOT = 0,               // 0x02: Authentic hardware root
-    DROPPED_SIMULATED_SECURITY_VIOLATION = 1, // 0x01: Synthetic simulation packet
+    ACCEPTED_HARDWARE_ROOT = 0,               // 0x02/0x04/0x08: Physical hardware
+    DROPPED_SIMULATED_SECURITY_VIOLATION = 1, // 0x01: Oasis Layer 1b SITL packet
     DROPPED_INVALID_FLAG = 2                  // Corrupted or unrecognized
 };
 \end{verbatim}
 
-Every telemetry packet arriving across the UHAI shared memory bus carries a mandatory \texttt{quality\_flag}. When Oasis is running in simulation or rehearsal mode, it emits packets marked with \texttt{QUALITY\_SIMULATED = 0x01}. 
+Every telemetry packet arriving across the UHAI shared memory bus or \texttt{l2\_l1.sock} carries a mandatory \texttt{quality\_flag}. When Oasis (\texttt{Layer 1b}) is running, it emits packets strictly marked with \texttt{QUALITY\_SIMULATED = 0x01}. Physical Layer~1a hardware frames carry provenance flags distinguishing the three hardware fleet maturity tiers (Dialogue~D8, Invariant \textbf{CCI-6}):
+\begin{itemize}
+    \item \texttt{QUALITY\_SIMULATED = 0x01}: Outward-only Oasis Layer~1b SITL simulation frame.
+    \item \texttt{QUALITY\_OPEN\_SPEC\_NATIVE = 0x02} (\texttt{QUALITY\_HARDWARE\_ROOT}): Native open-spec Stage~III hardware signed by an \texttt{ATECC608A} secure element ($\pm 50\,\mathrm{bp}$ uncertainty, full predictive bearing/RPM wear registers).
+    \item \texttt{QUALITY\_SCAVENGED\_L7\_SHIM = 0x04}: Stage~I scavenged Layer~7 appliance wrapped in a parasitic Layer~2 external current-clamp or taped-thermistor shim ($\pm 1{,}500\,\mathrm{bp}$ diagnostic uncertainty and standby watt tax).
+    \item \texttt{QUALITY\_RETROFIT\_HYBRID = 0x08}: Stage~II Right-to-Repair hybrid retrofit controller (open ESP32-S3/RISC-V board installed on a rescued legacy chassis, $\pm 350\,\mathrm{bp}$ uncertainty).
+\end{itemize}
 
-When \texttt{col-telemetryd} receives a packet marked \texttt{0x01}, the filter immediately drops the packet and logs a security violation:
+When \texttt{col-telemetryd} receives a packet marked \texttt{0x01} on a physical actuation channel, the filter unconditionally drops the packet and logs a security violation:
 \begin{verbatim}
 if (quality_flag == oasis::uhai::QUALITY_SIMULATED) {
     stats_.dropped_simulated++;
     return AirgapDecision::DROPPED_SIMULATED_SECURITY_VIOLATION;
 }
 \end{verbatim}
-This mathematical filter guarantees that simulated runaway states (e.g., a simulated fire or high-voltage test in the digital twin) can \textbf{never} accidentally trigger physical contactors or relays in real hardware. Only packets signed by the ATECC608A secure element with \texttt{QUALITY\_HARDWARE\_ROOT = 0x02} are permitted to affect physical actuation.
+This mathematical filter guarantees that simulated runaway states in Layer~1b (e.g., a simulated kiln over-temperature test or microgrid fault canary) can \textbf{never} trigger physical contactors or relays in Layer~1a.
 
 \subsection{Codebase Drift Concern 1: The Disconnected Raymarcher}
 

@@ -170,6 +170,21 @@ In a consumer economy, fractured components are discarded into landfills, necess
 
 The Sovereign Stack models and incentivizes convivial repair: local forge-welding, precision re-bushing, hardfacing with wear-resistant alloys, and hand-scraping machine slideways. By injecting minimal localized negentropic labor ($<1.5\,\mathrm{MJ/kg}$) into worn tools, the community resets $D \to 0$, sustaining physical capital across generations without reliance on global industrial supply chains.
 
+\subsection{Discrete Mechanical Cycle Wear vs. Continuous Calendar Entropy: The 3-Tier Hardware Fleet}
+\label{subsec:mech_three_tier_fleet}
+As codified in the Horizon Council's \textit{Architecture of Boundless Time} (Dialogues~D1, D5, D7, and D8), Layer~1 physics establishes a foundational thermodynamic dichotomy between two distinct material regimes:
+\begin{enumerate}
+    \item \textbf{Perishable Biological Entropy (\textit{The Pantry} Regime, Chapter~\ref{chap:layer1_thermodynamics}):} Governed by continuous calendar time and temperature-integrated Arrhenius kinetics ($\int k(T(t))\,dt$), where organic stocks decay even while sitting idle on a shelf.
+    \item \textbf{Durable Mechanical Cycle Fatigue (\textit{The Workshop} Regime):} Calendar-agnostic degradation governed strictly by discrete operational usage cycles ($n_i$), spindle revolutions, mechanical torque integrals, and thermal cycling under Archard's wear law (Eq.~\ref{eq:archard_wear}) and Palmgren-Miner cumulative damage (Eq.~\ref{eq:palmgren_miner}). A Box of \textbf{M6} socket-head cap screws, a cast-iron lathe bed, or a carbide endmill does not ``expire'' on a calendar date; its cumulative wear index $W_{\mathrm{bp}} = \lfloor 10{,}000 \cdot D \rfloor$ (in basis points, $\mathrm{bp}$) advances only when mechanical work $\int \boldsymbol{\tau}\cdot\boldsymbol{\omega}\,dt$ is physically performed.
+\end{enumerate}
+
+When a real Stage~1A Genesis Node boots on a suburban lot (or inside the Oasis Layer~1b simulation), it does not start in a cleanroom of bespoke open-source machinery. It boots with \textbf{Scavenged Layer~7 Hardware}---secondhand commercial deck ovens, DRM-locked CNC mills, potted appliance PCBs, ultrasonic-welded plastic housings, and proprietary fasteners designed for planned obsolescence. Across the physical and cybernetic substrate, physical equipment evolves across three authentic mechanical reliability tiers (with \textbf{zero fake RPG stat buffs}, Invariant \textbf{CCI-6}):
+\begin{itemize}
+    \item \textbf{Stage I --- Scavenged Layer 7 Fleet (Planned Obsolescence \& Parasitic Shims):} Hostile black-box corporate hardware obscures internal bearing wear and coil temperature behind potted epoxy and locked firmware. Because internal mechanical wear $D(t)$ cannot be observed directly, Layer~2 must wrap the machine in external \textbf{parasitic shims} (inductive CT clamps on power cords, taped exterior thermistors, optical 7-segment fault readers) that draw phantom standby power ($P_{\mathrm{shim}} \approx 15{,}000\text{--}45{,}000\,\mathrm{mW}$) and yield coarse state estimates ($\pm 1{,}500\,\mathrm{bp}$ uncertainty). Worse, non-standard fasteners and glued sub-assemblies turn a degraded $\$2$ bearing seal into a catastrophic \textbf{Blind Mid-Batch Hard-Block} ($D \ge 1.0$ without warning), spoiling active material batches, inflating Layer~3 Ecological Replacement Cost ($\lambda_{\mathrm{ERC}}$ in $\mu\mathrm{J}$) by $5\times\text{--}20\times$, and forcing \textbf{Layer~7 Tribute Escalation} (draining scarce fiat reserves $\Phi_t$ and stalling production for days awaiting proprietary courier spares).
+    \item \textbf{Stage II --- Right-to-Repair Hybrid Retrofit Fleet:} Rather than scrapping a $400\,\mathrm{kg}$ cast-iron machine frame or commercial oven chassis (which would waste tens of gigajoules of embodied smelting exergy $E_{\mathrm{embodied}}$), stewards execute a \textbf{Right-to-Repair Hybrid Retrofit}. They strip out the proprietary potted controller board, machine a 3D-printed or milled metric adapter plate (\textbf{M6}/\textbf{M8}), and wire an open-spec ESP32-S3 or RISC-V Layer~2 board directly to K-type thermocouples, current shunts, and piezoelectric vibration accelerometers. Rescuing the heavy iron chassis while exposing internal wear trajectories reduces per-cycle $\lambda_{\mathrm{ERC}}$ dramatically and is recognized by Layer~3 as a first-class \textbf{Proof of Stewardship} event.
+    \item \textbf{Stage III --- Native Open-Spec Collective Fleet (\textit{Zero-Stat Liberation}):} Tools fabricated or remanufactured natively to open Collective specifications standardize on ISO metric fasteners (\textbf{M6}/\textbf{M8}), standard ISO bearing races, and modular geometry (\textbf{Gastronorm GN 1/1} $530 \times 325\,\mathrm{mm}$ pans and \textbf{ISO $600 \times 400\,\mathrm{mm}$} Euro-totes). Continuous acoustic-harmonic bearing telemetry detects spalling nucleation 40 operating hours before $D \to 1.0$, allowing Layer~4 (\texttt{col-execd}) to slot a predictable \textbf{5-minute preventive metric bearing swap} between production waves. The machine never gains a magical ``$+25\%$ crafting speed'' multiplier; instead, unscheduled mid-batch breakdowns and Layer~7 fiat parts bleed drop to zero, liberating human stewards into unstructured free time.
+\end{itemize}
+
 % ============================================================================
 % SECTION 2.4: HYDRAULIC TRANSIENTS AND WATER HAMMER
 % ============================================================================
@@ -319,11 +334,12 @@ where $c_u \approx 50\,\mathrm{kPa}$ is soil undrained shear strength and $N_c \
 
 Ivan Illich established that technology must preserve human autonomy rather than degrading citizens into dependent clients of specialized industrial monopolies \cite{illich1973conviviality}. In Layer~1 mechanical architecture, this philosophy is operationalized through two mandatory rules:
 
-\subsection{The One-Wrench Rule (Universal Metric Standardization)}
-Corporate hardware engineering relies on proprietary fasteners (pentalobe screws, security Torx, custom shear pins) to obstruct independent repair. The Sovereign Stack strictly enforces the \textbf{One-Wrench Rule}:
+\subsection{The One-Wrench Rule (Universal Metric \& Modular Geometry Standardization)}
+Corporate hardware engineering relies on proprietary fasteners (pentalobe screws, security Torx, custom shear pins, non-standard tray dimensions) to engineer switching costs and obstruct independent repair. Once Layer~3 prices full cradle-to-cradle \textbf{Ecological Replacement Cost ($\lambda_{\mathrm{ERC}}$)}, artificial differentiation exposes itself as pure thermodynamic waste. The Sovereign Stack strictly enforces the \textbf{One-Wrench Rule} and modular spatial standardization:
 \begin{itemize}
-    \item All structural racking, equipment enclosures, motor mounts, and pipe clamps must standardize exclusively on metric \textbf{M6} and \textbf{M8} Class 8.8 zinc-plated or 316 stainless steel hex fasteners.
-    \item Any non-specialist community member equipped with a single universal combination wrench (10mm for M6, 13mm for M8) can completely assemble, maintain, tension, or disassemble any mechanical subsystem in the settlement.
+    \item All structural racking, equipment enclosures, motor mounts, and pipe clamps standardize exclusively on metric \textbf{M6} ($10\,\mathrm{mm}$ hex head) and \textbf{M8} ($13\,\mathrm{mm}$ hex head) Class 8.8 zinc-plated or 316 stainless steel fasteners.
+    \item All culinary, agricultural, and workshop material handling converges on open modular containers: \textbf{Gastronorm GN 1/1} stainless steel pans ($530 \times 325\,\mathrm{mm}$) and \textbf{ISO $600 \times 400\,\mathrm{mm}$} stackable totes.
+    \item Any non-specialist community member equipped with a single universal combination wrench ($10\,\mathrm{mm} / 13\,\mathrm{mm}$) can completely assemble, maintain, tension, or disassemble any mechanical subsystem in the settlement.
 \end{itemize}
 
 \subsection{The Red Lever Rule (Physical Mechanical Overrides)}
@@ -359,4 +375,38 @@ In the rendering and interaction pipeline, player interaction with physical asse
 \end{equation}
 The DDA algorithm traverses the voxel lattice with integer cell stepping, identifying the precise surface voxel normal $\mathbf{n}$. If a tool has accumulated fatigue damage ($D > 0.8$), the Flecs construction system halts execution, prompting the steward to mend the tool before physical failure occurs.
 
-By uniting classical continuum mechanics, tribological wear equations, and convivial design constraints, Layer~1 guarantees that the physical settlement remains durable, reparable, and eternally subordinate to human freedom.
+% ============================================================================
+% SECTION 2.8: ENVELOPING NODE SPATIAL & ACOUSTIC PROPAGATION PHYSICS
+% ============================================================================
+\section{Enveloping Node Spatial, Vibro-Acoustic, and Partition Physics}
+\label{sec:mech_enveloping_node_acoustics}
+
+Rejecting modernist monoculture zoning---which segregates human life into sterile single-purpose buildings (``a building is \textit{either} a home \textit{or} an office \textit{or} a workshop'')---the Sovereign Stack decouples Layer~5 institutional topology from Layer~2 spatial coordinates (Dialogues~D5 and D6, Invariant \textbf{CCI-4}). A single physical structure can simultaneously host a Household Hearth ($N_s = 4$), a Solo Acoustic Studio ($N_s = 1$), and a Precision Maker Bench ($N_s = 1$). 
+
+Rather than forcing co-located child nodes into $O(K^2)$ bilateral political negotiations over noise, vibration, and floor area, shared physical space is wrapped by a domain-blind \textbf{Enveloping Layer~5 Node Hypervisor} (\textit{Room/Building Envelope} $\to$ \textit{Street Envelope} $\to$ \textit{Bioregional Watershed Envelope}). The Enveloping Node knows nothing of woodworking joinery or audio mastering; it governs exclusively the \textbf{physical boundary fluxes} across shared spatial partitions ($\partial\Omega_{AB}$), measured in canonical 64-bit fixed-point SI units: spatial bounding boxes in millimeters ($\mathrm{mm}$), acoustic pressure levels in centibels ($\mathrm{cB}$, where $1\,\mathrm{dB} = 10\,\mathrm{cB}$ and $42.0\,\mathrm{dBA} \equiv 420\,\mathrm{cB}$ or $4{,}200\,\mathrm{mcB}$ depending on register scaling; canonically $1\,\mathrm{cB} = 0.1\,\mathrm{dB}$), electrical power in milliwatts ($\mathrm{mW}$), and thermal exhaust in millikelvins ($\mathrm{mK}$).
+
+\subsection{Acoustic Wave Propagation, Partition Mass Law, and Centibel Attenuation}
+When a child node (such as a Woodshop Guild or Maker Bench) operates a high-speed spindle or planer emitting acoustic power $W_{\mathrm{source}}$, longitudinal pressure waves $\nabla^2 p - \frac{1}{c_s^2}\frac{\partial^2 p}{\partial t^2} = 0$ propagate toward the partition wall separating the workshop from an adjacent Acoustic Studio or Nursery Wing (Scenario~$\Delta$). The acoustic transmission loss $\mathrm{TL}$ (in decibels or centibels) across a solid partition of surface mass density $m_s = \rho_{\mathrm{wall}} L_{\mathrm{wall}}$ ($\mathrm{kg/m^2}$) at angular frequency $\omega = 2\pi f$ is governed by the classical \textbf{Berger Mass Law} for normal incidence:
+\begin{equation}
+\mathrm{TL}(f) = 10 \log_{10} \left[ 1 + \left( \frac{\omega \, m_s}{2 \rho_0 c_s} \right)^2 \right] \quad (\mathrm{dB}) \quad \Longleftrightarrow \quad \mathrm{TL}_{\mathrm{cB}}(f) = 100 \log_{10} \left[ 1 + \left( \frac{\pi f \rho_{\mathrm{wall}} L_{\mathrm{wall}}}{\rho_0 c_s} \right)^2 \right] \quad (\mathrm{cB})
+\label{eq:acoustic_mass_law}
+\end{equation}
+where $\rho_0 c_s \approx 415\,\mathrm{Pa\cdot s/m}$ is the characteristic specific acoustic impedance of air at $293{,}150\,\mathrm{mK}$.
+
+For a $400\,\mathrm{mm}$ rammed-earth structural partition ($\rho_{\mathrm{wall}} = 2{,}100\,\mathrm{kg/m^3}$, $m_s = 840\,\mathrm{kg/m^2}$), the normal-incidence transmission loss at $f = 500\,\mathrm{Hz}$ exceeds $64\,\mathrm{dB}$ ($640\,\mathrm{cB}$). Where lightweight timber partitions are deployed (Scenario~$\Xi$), double-leaf decoupled stud walls with cellulose insulation cavity damping ($d_{\mathrm{cavity}} = 150\,\mathrm{mm}$) suppress mass-air-mass resonance $f_0 = \frac{1}{2\pi}\sqrt{\frac{\rho_0 c_s^2}{d_{\mathrm{cavity}}}\left(\frac{1}{m_{s1}} + \frac{1}{m_{s2}}\right)}$ below $40\,\mathrm{Hz}$, achieving an airborne Sound Transmission Class of $\mathrm{STC} \ge 60$ ($\ge 600\,\mathrm{cB}$ attenuation).
+
+\subsection{Structural Vibration Isolation and Fast-Path Physical Hazard Preemption}
+Solid-borne mechanical vibration from rotating machinery (unbalanced centrifuge rotors, forge hammers, or wet-vac pumps) couples directly into floor slabs unless isolated by elastomeric or spring mounts with natural frequency $\omega_n = \sqrt{k_m / m}$. The force transmissibility $T_r$ across a damped mount with damping ratio $\zeta$ excited at frequency $\omega$ is:
+\begin{equation}
+T_r(\omega) = \left| \frac{F_{\mathrm{transmitted}}}{F_{\mathrm{excitation}}} \right| = \sqrt{ \frac{1 + \left(2 \zeta \frac{\omega}{\omega_n}\right)^2}{\left(1 - \left(\frac{\omega}{\omega_n}\right)^2\right)^2 + \left(2 \zeta \frac{\omega}{\omega_n}\right)^2} }
+\label{eq:vibration_transmissibility}
+\end{equation}
+Engineering mounts such that $\omega / \omega_n > \sqrt{2}$ guarantees mechanical attenuation ($T_r < 1$), preventing structure-borne hum from penetrating adjacent quiet zones.
+
+At the cyber-physical interface, Layer~2 calibrated boundary microphones sample partition acoustic levels $L_{\mathrm{boundary}}$ directly in integer centibels while solid-state CT clamps sample branch power in milliwatts ($\mathrm{mW}$). Under the Enveloping Node's \textbf{Two-Speed Jurisprudence} (Dialogue~D6):
+\begin{itemize}
+    \item \textbf{Routine Boundary Enforcement:} If a Maker Bench requests a CNC spindle cut generating $75\,\mathrm{dBA}$ at the partition while an adjacent Solo Studio holds an active quiet-hours recording lease capping partition noise at $42\,\mathrm{dBA}$, Layer~4 (\texttt{col-execd}) halts the non-emergency spindle request and decompiles a Layer~6 \textbf{Semantic Diff} offering to queue the cut or verify that a $-35\,\mathrm{dBA}$ acoustic enclosure hood is latched shut.
+    \item \textbf{Fast-Path Physical Hazard Preemption:} If a pressurized water pipe bursts in the utility chase ($\Delta P_{\mathrm{hammer}}$ rupture), Layer~2 moisture and pressure transducers trip a hardware hazard flag. Without waiting for a human ballot, Layer~4 immediately preempts the Studio's quiet lease in millisecond hardware time, authorizing the emergency maintenance crew's high-decibel wet-vac and bilge pump to protect the building's structural foundation.
+\end{itemize}
+
+By uniting classical continuum mechanics, tribological wear equations, Enveloping Node vibro-acoustic boundary physics, and convivial design constraints, Layer~1 guarantees that the physical settlement remains durable, reparable, and eternally subordinate to human freedom.

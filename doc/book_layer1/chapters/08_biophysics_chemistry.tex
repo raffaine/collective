@@ -266,7 +266,26 @@ In the suboptimal temperature regime ($4.0^\circ\mathrm{C} < T < 45.0^\circ\math
 \end{equation}
 where $T_{\min} \approx 2.0$--$4.0^\circ\mathrm{C}$ is the theoretical minimum temperature below which metabolic enzymes cease activity, and $b$ is a species-specific constant.
 
-Below $4.0^\circ\mathrm{C}$ (active refrigeration), $\mu(T) \to 0$, arresting pathogenic replication. Above $60.0^\circ\mathrm{C}$ (cooking/pasteurization), thermal protein denaturation causes irreversible cell lysis. The range between $4.0^\circ\mathrm{C}$ and $60.0^\circ\mathrm{C}$ is the physical **Temperature Danger Zone**. If food residues linger within this zone, $N(t)$ doubles every $20\,\mathrm{minutes}$, reaching toxic thresholds within hours.
+Below $4.0^\circ\mathrm{C}$ ($277{,}150\,\mathrm{mK}$, active refrigeration), $\mu(T) \to 0$, arresting pathogenic replication. Above $60.0^\circ\mathrm{C}$ ($333{,}150\,\mathrm{mK}$, cooking/pasteurization, and $\ge 347{,}150\,\mathrm{mK}$ / $74.0^\circ\mathrm{C}$ for Bigelow $F_0$ lethality), thermal protein denaturation causes irreversible cell lysis. The range between $4.0^\circ\mathrm{C}$ ($277{,}150\,\mathrm{mK}$) and $60.0^\circ\mathrm{C}$ ($333{,}150\,\mathrm{mK}$) is the physical \textbf{Temperature Danger Zone}. If food residues linger within this zone, $N(t)$ doubles every $20\,\mathrm{minutes}$, reaching toxic thresholds within hours.
+
+\subsection{Arrhenius Perishable Spoilage Kinetics in \textit{The Pantry} Lens and Ecological Replacement Cost \texorpdfstring{($\lambda_{\mathrm{ERC}}$)}{(lambda\_ERC)}}
+\label{subsec:bio_pantry_arrhenius_erc}
+As formalized in Horizon Council Dialogues~D4, D5, and D8 (Invariants \textbf{CCI-3} and \textbf{CCI-6}), Layer~1 biophysics provides the continuous thermodynamic substrate for Layer~6's \textbf{\textit{The Pantry} Application Lens} (as distinct from \textbf{\textit{The Workshop} Durable Cycles Lens} and \textbf{\textit{The Bakery / Hearth} Craft Lens}):
+\begin{enumerate}
+    \item \textbf{Temperature-Integrated Arrhenius Shelf-Life TTL (\texttt{pantry:expiryHlcMs}):} Every perishable stock lot (fresh milk, leafy greens, sourdough loaves, split-pea tiffins, or clinical blood/vaccine reagents in Scenario~$\mathrm{X}$) experiences continuous enzymatic and microbial respiration governed by the ambient temperature trajectory $T_{\mathrm{mK}}(t)$ (sampled by Layer~2 cold-chain RTDs in canonical millikelvins, $\mathrm{mK}$, and integrated over milliseconds, $\mathrm{ms}$). Letting $k_{\mathrm{ref}}$ denote the spoilage rate at reference cold-chain temperature $T_{\mathrm{ref}} = 277{,}150\,\mathrm{mK}$ ($4.0^\circ\mathrm{C}$), the effective biological decay rate at instantaneous temperature $T_{\mathrm{mK}}(t)$ is:
+    \begin{equation}
+    k_{\mathrm{spoil}}(T_{\mathrm{mK}}) = k_{\mathrm{ref}} \exp\left[ \frac{E_a}{R} \left( \frac{1}{277.15} - \frac{1}{T_{\mathrm{mK}} \cdot 10^{-3}} \right) \right]
+    \label{eq:pantry_arrhenius_rate}
+    \end{equation}
+    The remaining biological time-to-live $\tau_{\mathrm{TTL}}(t)$ (in milliseconds) evolves continuously as:
+    \begin{equation}
+    \tau_{\mathrm{TTL}}(t) = \tau_{\mathrm{TTL},0} - \int_{t_0}^{t} \frac{k_{\mathrm{spoil}}\bigl(T_{\mathrm{mK}}(\tau)\bigr)}{k_{\mathrm{ref}}} \, d\tau
+    \label{eq:pantry_remaining_ttl_ms}
+    \end{equation}
+    If a cold-room door is left ajar or a Stage~I scavenged refrigerator suffers a blind compressor hard-block ($T_{\mathrm{mK}}$ rising from $277{,}150\,\mathrm{mK}$ to $293{,}150\,\mathrm{mK}$), the integrand accelerates by $4\times\text{--}8\times$, rapidly compressing $\tau_{\mathrm{TTL}}(t)$ and elevating the spoilage hazard register (\texttt{pantry:spoilageHazardBp}).
+    \item \textbf{Asynchronous Weekend-Detour Absorption \& Zero-Surveillance Surplus Sharing:} When a household steward heads spontaneously to the mountains for the weekend, Layer~2 shelf load cells and optical container sensors detect that local drawdown (\texttt{pantry:drawdownRateMgPerDay}) has paused. \textit{The Pantry} automatically throttles outbound short-lived Layer~3 pickup intent leases (\texttt{AnonymousAppetiteLeaseV50}) to the Neighborhood Bakery (\texttt{SCN-GAMMA-KITCHEN}) with zero GPS tracking, zero calendar surveillance, and zero nagging push notifications. Simultaneously, if an existing perishable lot in the larder approaches its pre-spoilage window (\texttt{pantry:surplusShareWindowMs}) before the steward returns, \textit{The Pantry}'s standing Layer~5 rule posts an anonymous Ring~$R_1$ surplus offer so a neighbor claims the food before it degrades into Layer~1 waste.
+    \item \textbf{Biophysical Basis of Ecological Replacement Cost ($\lambda_{\mathrm{ERC}}$):} Preventing food and material spoilage directly preserves the real thermodynamic embodied exergy $\lambda_{\mathrm{ERC}}$ (in microjoules, $\mu\mathrm{J}$) invested by the settlement's soil, waterworks, and ovens. Every gram of spoiled food represents wasted photosynthetic solar radiation, pumped irrigation water, and kitchen thermal exergy that must be regenerated by the living biosphere.
+\end{enumerate}
 
 \section{Human Metabolic Energetics, Thermal Stress, and The Inviolable Protocol of Refusal}
 

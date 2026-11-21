@@ -133,8 +133,8 @@ The Sovereign Stack specifies an autonomous, fully self-starting \textbf{7-Stage
     \item \textbf{Stage 5: Secure Element Attestation and Cluster Power Release} \\
     The primary ESP32-S3 microcontroller initializes its I2C bus at $400\,\mathrm{kHz}$ and queries the Microchip ATECC608A cryptographic secure element. The ATECC608A verifies the integrity of the boot firmware via ECDSA signature verification. Once hardware integrity is established, the microcontroller asserts the active-low reset lines on the three Rockchip RK3588 single-board computers, releasing their power management ICs (PMICs).
     
-    \item \textbf{Stage 6: Linux Initialization, Shared Memory Mount, and Soft-Start Ramps} \\
-    The three RK3588 SBCs boot encrypted Debian/Linux root filesystems from dual NVMe SSDs configured in ZFS RAID-1. Within $12\,\mathrm{seconds}$, the OS mounts the POSIX shared memory filesystem (\texttt{/dev/shm}), initializes the 7-daemon Sovereign Stack, and executes soft-start frequency ramps on RS-485 Modbus RTU and CAN FD fieldbuses, bringing inverters and solar strings into synchronized closed-loop operation.
+    \item \textbf{Stage 6: Linux Initialization, Shared Memory Mount, 9-Daemon Sovereign Stack Bring-Up, and Soft-Start Ramps} \\
+    The three RK3588 SBCs boot encrypted Debian/Linux root filesystems from dual NVMe SSDs configured in ZFS RAID-1. Within $12\,\mathrm{seconds}$, the OS mounts the POSIX shared memory filesystem (\texttt{/dev/shm}), initializes the \textbf{9-daemon Sovereign Stack topology} (\texttt{col-gatewayd}, \texttt{col-commonsd}, \texttt{col-kmsd}, \texttt{col-execd}, \texttt{col-storaged}, \texttt{col-telemetryd}, \texttt{col-meshd}, \texttt{col-adversaryd}, and \texttt{col-swarmd}), and executes soft-start frequency ramps on RS-485 Modbus RTU and CAN FD fieldbuses, bringing inverters and solar strings into synchronized closed-loop operation.
 \end{itemize}
 
 \section{UHAI Shared Memory IPC: Lock-Free SPSC Ring Buffer Architecture}
@@ -208,18 +208,18 @@ Memory synchronization is entirely non-blocking, utilizing acquire-release atomi
 \end{itemize}
 This lock-free design delivers deterministic sub-microsecond IPC latency, processing over $100,000$ telemetry frames per second without operating system context switches.
 
-\section{The Hardware Airgap Filter and SITL Isolation}
+\section{The Hardware Airgap Filter, SBR-5 SITL Isolation, and the 9-Daemon Stack Topology}
 
-To prevent software simulation frames from triggering physical contactors, the Sovereign Stack implements the \texttt{HardwareAirgapFilter} (\texttt{src/daemons/col-telemetryd/airgap\_filter.hpp}).
+To prevent software simulation frames from triggering physical contactors, the Sovereign Stack enforces \textbf{Stack Boundary Rule 5 (SBR-5)} and implements the \texttt{HardwareAirgapFilter} (\texttt{src/daemons/col-telemetryd/airgap\_filter.hpp}). Under SBR-5, Layer~1a (Physical Reality: zero software, zero firmware, zero keys) is strictly demarcated from Layer~1b (the Oasis SITL Shadow Proving Ground): Layer~1b is strictly an outward producer of \texttt{QUALITY\_SIMULATED = 0x01} frames and downward consumer of \texttt{0x02} actuator commands over \texttt{/run/col/l2\_l1.sock} (or \texttt{/run/collective/ipc/l1\_l2.sock}), and never ingests live home or settlement telemetry.
 
-\subsection{Quality Flag Inspection and Security Filtering}
+\subsection{Quality Flag Inspection, 3-Tier Fleet Provenance, and Security Filtering}
 
-Every telemetry sample carries an 8-bit \texttt{quality\_flag} bitmask:
+Every telemetry sample carries an 8-bit \texttt{quality\_flag} bitmask encoding both SITL isolation and 3-tier hardware fleet provenance (Dialogue~D8, Invariant \textbf{CCI-6}):
 \begin{itemize}
-    \item \texttt{QUALITY\_SIMULATED = 0x01}: Frame emitted by external Software-in-the-Loop (SITL) simulators (such as Oasis).
-    \item \texttt{QUALITY\_HARDWARE\_ROOT = 0x02}: Frame authenticated by an ATECC608A cryptographic signature originating from verified physical transducers.
-    \item \texttt{QUALITY\_OUT\_OF\_BOUNDS = 0x04}: Physical transducer limits breached.
-    \item \texttt{QUALITY\_SPOOF\_SUSPECT = 0x08}: Thermodynamic cross-check anomaly detected.
+    \item \texttt{QUALITY\_SIMULATED = 0x01}: Frame emitted by external Software-in-the-Loop (SITL) simulators (Oasis Layer~1b).
+    \item \texttt{QUALITY\_HARDWARE\_ROOT = 0x02} (\texttt{QUALITY\_OPEN\_SPEC\_NATIVE}): Frame authenticated by an ATECC608A cryptographic signature originating from verified Stage~III native open-spec transducers ($\pm 50\,\mathrm{bp}$ uncertainty).
+    \item \texttt{QUALITY\_SCAVENGED\_L7\_SHIM = 0x04}: Frame originating from a Stage~I scavenged Layer~7 appliance wrapped in a parasitic Layer~2 external current-clamp or taped-thermistor shim ($\pm 1{,}500\,\mathrm{bp}$ uncertainty and phantom standby power draw).
+    \item \texttt{QUALITY\_RETROFIT\_HYBRID = 0x08}: Frame originating from a Stage~II Right-to-Repair hybrid retrofit board (open ESP32-S3/RISC-V controller driving a rescued legacy chassis, $\pm 350\,\mathrm{bp}$ uncertainty).
 \end{itemize}
 
 When \texttt{col-telemetryd} extracts a sample from the UHAI buffer, it executes the \texttt{HardwareAirgapFilter::Evaluate()} predicate:
@@ -239,19 +239,35 @@ AirgapDecision HardwareAirgapFilter::Evaluate(uint8_t quality_flag) noexcept {
 }
 \end{verbatim}
 
-If \texttt{quality\_flag} is \texttt{0x01} (\texttt{QUALITY\_SIMULATED}), the packet is immediately dropped, and \texttt{stats\_.dropped\_simulated} increments. The frame is barred from entering the Layer 2 hardware actuator pipeline. This mathematical airgap ensures that an operator testing a high-temperature furnace burnout or emergency battery dump in the Oasis digital twin cannot accidentally vent physical steam or disconnect live electrical contactors.
+If \texttt{quality\_flag} is \texttt{0x01} (\texttt{QUALITY\_SIMULATED}), the packet is immediately dropped from physical actuation paths, and \texttt{stats\_.dropped\_simulated} increments. The frame is barred from entering the Layer~2 hardware actuator pipeline. This mathematical airgap ensures that an operator testing a high-temperature furnace burnout or emergency battery dump in the Oasis Layer~1b digital twin cannot accidentally vent physical steam or disconnect live electrical contactors in Layer~1a.
 
-\subsection{Codebase Drift Concern 6: SPSC Single-Consumer Limitation}
+\subsection{Codebase Drift Concern 6 \& The 9-Daemon Sovereign Stack Topology}
 
-In \texttt{uhai\_ring\_buffer.hpp}, the current implementation provides a Single-Producer Single-Consumer (SPSC) queue. However, the Sovereign Stack architecture defines seven concurrent POSIX daemons (\texttt{col-telemetryd}, \texttt{col-execd}, \texttt{col-commonsd}, etc.). 
-
-If both \texttt{col-telemetryd} and \texttt{col-execd} attach to \texttt{/dev/shm/uhai\_telemetry} and concurrently invoke \texttt{ring.Pop()}, they compete for the single \texttt{read\_index} in the shared header. Whichever process reads a sample advances \texttt{read\_index}, starving the other process and introducing race conditions.
-
-The architectural roadmap remediates Drift Concern 6 by transitioning UHAI into either:
+In \texttt{uhai\_ring\_buffer.hpp}, the current implementation provides a Single-Producer Single-Consumer (SPSC) queue. However, the Sovereign Stack v5.0 architecture defines \textbf{nine concurrent POSIX daemons} (upgraded from the early 7-daemon baseline by the addition of \texttt{col-gatewayd} and \texttt{col-swarmd}):
 \begin{enumerate}
-    \item A Single-Producer Multi-Consumer (SPMC) broadcast ring where each consumer daemon maintains its own local read index and sequence tracking.
-    \item A dedicated Unix Domain Socket fan-out bus (\texttt{/run/collective/ipc/l1\_l2.sock}) where \texttt{col-telemetryd} acts as the primary bus arbiter and multicasts validated telemetry to downstream daemons.
+    \item \texttt{col-telemetryd} (Layer 2 Cyber-Physical Membrane \& Edge Digital Twin arbiter)
+    \item \texttt{col-meshd} (Layer 2/3 Reticulum \& DTN Gossip Transport)
+    \item \texttt{col-storaged} (Layer 3 Fixed-Point SI Vector Ledger, BCC \& $\lambda_{\mathrm{ERC}}$ Engine)
+    \item \texttt{col-execd} (Layer 4 Deterministic BPMN/WASM Orchestrator \& 3-Tier Hardware Cascade)
+    \item \texttt{col-swarmd} (Layer 4 Distributed Federated Task \& Capability Router)
+    \item \texttt{col-kmsd} (Layer 5 Constitutional Kernel, $V_i(t)=1+R_i(t)$ \& Enveloping Node Hypervisor)
+    \item \texttt{col-commonsd} (Layer 6 Local Semantic Daemon, JSON-LD Graph \& Societal Compiler/Decompiler)
+    \item \texttt{col-gatewayd} (Layer 6/7 TLS 1.3 Plural Lens Gateway \& Read-Only \texttt{HTTP 405} Telemetry Guard)
+    \item \texttt{col-adversaryd} (Layer 7 Legal Carapace, Utility Interface \& Chaos Fault Injector)
 \end{enumerate}
+
+If multiple daemons attach directly to \texttt{/dev/shm/uhai\_telemetry} and concurrently invoke \texttt{ring.Pop()}, they compete for the single \texttt{read\_index} in the shared header. Whichever process reads a sample advances \texttt{read\_index}, starving the other processes and introducing race conditions.
+
+The architectural roadmap remediates Drift Concern~6 by enforcing \textbf{Strict 7-Layer Adjacency (CCI-1)}: \texttt{col-telemetryd} is the sole consumer of the Layer~1/2 SPSC ring buffer (and \texttt{/run/col/l2\_l1.sock}), propagating validated 64-bit fixed-point SI frames strictly upward through adjacent \texttt{AF\_UNIX} \texttt{SOCK\_SEQPACKET} membranes (\texttt{l2\_l3.sock} $\to$ \texttt{l3\_l4.sock} $\to$ \texttt{l4\_l5.sock} $\to$ \texttt{l5\_l6.sock} $\to$ \texttt{l6\_l7.sock}), while read-only diagnostic observability drains via dedicated 1:1 SPSC shared-memory rings into \texttt{col-gatewayd}.
+
+\subsection{Scenario Zero (\texttt{SCN-ZERO-SOFTWARE}) Inside Oasis: Mild Layer 1/2 Footprint Without Inner Binary Emulation}
+\label{subsec:ch07_scenario_zero_footprint}
+As established in Dialogue~D1, software inside The Collective---including Oasis itself---is governed as a Khronos/OpenGL-style \textbf{Layer~6 Software Artifact} stewarded by a dedicated \textbf{Layer~5 Working Group} under \textbf{Scenario Zero (\texttt{SCN-ZERO-SOFTWARE})}. Inside the Oasis simulation (\texttt{Layer 1b}), Scenario Zero never emulates inner guest operating systems or compiles inner application binaries. Instead, software manifests at \textbf{Layers~1 and~2 exclusively through its physical thermal-electric and mechanical wear footprint}:
+\begin{itemize}
+    \item \textbf{Electrical Power \& Exergy Draw:} Local build, CI, and daemon server racks draw continuous fixed-point electrical power ($P_{\mathrm{rack}} \approx 18{,}000\text{--}450{,}000\,\mathrm{mW}$, $E_{\mathrm{build}}$ in $\mu\mathrm{J}$) from the 48V DC bus under an Enveloping Node server-closet lease.
+    \item \textbf{Thermal Waste-Heat Rejection:} Server silicon rejects $100\%$ of its consumed electrical exergy as thermal heat ($\Delta T$ in $\mathrm{mK}$) into the server closet air or directly into Stage~0 of the hydronic Thermal Exergy Cascade ($\ge 8{,}000\,\mathrm{bp}$ / $80\%$ waste-heat recovery into domestic hot water or greenhouse root zones).
+    \item \textbf{Component Fatigue \& Substrate Drift:} Cooling fans, pump bearings, and NVMe SSDs accumulate discrete physical wear cycles ($D(t)$), while Layer~2 hardware revisions (e.g., swapping a soil probe ADC board) trigger \textbf{Substrate Drift} unknown-state hard-blocks in Layer~4 that escalate through Layer~5 into a \textbf{Layer~6 Semantic Diff}, waking a Scenario Zero working group from \textbf{Dormant Equilibrium (``The TeX Asymptote'')} to ratify an adapter patch before falling back asleep.
+\end{itemize}
 
 \section{Convivial Actuation and Ivan Illich's Rules}
 
@@ -277,11 +293,12 @@ The operational state of physical infrastructure must be decipherable through hu
     \item Electrical busbars must incorporate high-visibility mechanical semaphore flags that physically drop to display ``OPEN'' or ``CLOSED'' when contactors actuate.
 \end{itemize}
 
-\subsection{The ``One-Wrench'' Rule (Standardization of Fasteners)}
+\subsection{The ``One-Wrench'' Rule (Standardization of Fasteners \& Modular Geometry)}
 
-To prevent dependency on proprietary manufacturer tooling, all mechanical infrastructure in a sovereign node must standardize on universal fasteners:
+To prevent dependency on proprietary manufacturer tooling and eliminate the high Ecological Replacement Cost ($\lambda_{\mathrm{ERC}}$) of fragmented corporate spare parts (Dialogue~D8), all mechanical infrastructure in a sovereign node standardizes on universal metric fasteners and modular containers:
 \begin{itemize}
     \item All structural racking, electrical enclosures, and equipment mounts must use standard metric hex fasteners: primarily \textbf{M6} ($10\,\mathrm{mm}$ wrench head) and \textbf{M8} ($13\,\mathrm{mm}$ wrench head).
+    \item All culinary, agricultural, and workshop material handling standardizes on \textbf{Gastronorm GN 1/1} stainless steel pans ($530 \times 325\,\mathrm{mm}$) and \textbf{ISO $600 \times 400\,\mathrm{mm}$} stackable Euro-totes.
     \item All plumbing connections must utilize standard universal pipe unions (National Pipe Taper NPT or British Standard Pipe BSP) with standard EPDM O-ring seals.
 \end{itemize}
 Any non-specialist armed with a basic adjustable wrench and hand tools must be capable of disassembling, repairing, and reassembling the node's physical plant.

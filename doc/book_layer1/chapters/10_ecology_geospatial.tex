@@ -264,13 +264,28 @@ The effluent digestate undergoes mechanical screw-press separation:
 \section{Spatial Cadastre Zoning and the Dual Viewport System}
 \label{sec:cadastre_dual_viewport}
 
-\subsection{Concentric Cadastral Zoning \texorpdfstring{($R_0 \dots R_2$)}{(R0 ... R2)}}
+\subsection{Concentric Cadastral Zoning \texorpdfstring{($R_0 \dots R_2$)}{(R0 ... R2)} and the Top-Level Bioregional Watershed Enveloping Node Hypervisor}
 Physical land rights in a sovereign node are not financialized speculative lots traded on blockchain exchanges. Land is managed through transparent spatial cadastre zoning reflecting Ostrom commons stewardship:
 \begin{itemize}
     \item \textbf{Public Commons Zone ($R_0$):} Unfenced pedestrian pathways, public springs, and perennial orchard verges open unconditionally to all human beings.
     \item \textbf{Guild Commons Zone ($R_1$):} Keyline swales, agroforestry alleys, communal kilns, and timber coppice stands. Access and harvest quotas are governed by active participatory membership in the agricultural guild.
     \item \textbf{Covenant Enclosure Zone ($R_2$):} Residential huts, seed storage vaults, and core microgrid enclosures. Access is restricted to designated residents under mutual covenants.
 \end{itemize}
+
+As formalized in Horizon Council Dialogue~D6 (Invariant \textbf{CCI-4}), this spatial cadastre scales fractally upward through a hierarchy of domain-blind \textbf{Enveloping Layer~5 Node Hypervisors}:
+\begin{equation}
+\text{Room / Building Envelope} \;\subset\; \text{Street / Microgrid Envelope} \;\subset\; \text{Bioregional Watershed Envelope Hypervisor}
+\label{eq:fractal_watershed_envelope}
+\end{equation}
+While a Room or Building Envelope Hypervisor governs indoor partition acoustics ($\mathrm{cB}$), circuit-breaker power ($\mathrm{mW}$), and HVAC thermal exhaust ($\mathrm{mK}$), and a Street Envelope governs feeder transformer capacity and nocturnal street noise, the top-level \textbf{Bioregional Watershed Envelope Hypervisor} wraps the entire catchment basin delineated by the topographic drainage divide ($\nabla z \cdot \hat{\mathbf{n}}_{\mathrm{ridge}} = 0$). 
+
+Every child settlement node, agro-forestry coppice guild (\texttt{SCN-ETA-COPPICE}), and mineral reclamation quarry (\texttt{SCN-MU-EXTRACTION}) operating within the watershed is a constitutional member ($V_i(t) = 1 + R_i(t)$) of the Bioregional Watershed Envelope. Remain completely domain-blind to each settlement's internal recipes or workshop schedules, the Watershed Envelope Hypervisor enforces four hard physical boundary invariants across the bioregional substrate via Layer~4 capability leases and Layer~2 hydrological/ecological transducers:
+\begin{enumerate}
+    \item \textbf{Aquifer \& Surface Hydrological Drawdown Ceiling ($\mathrm{mL/s}$):} Total groundwater and spring extraction across all child nodes must never exceed the verified Green-Ampt and Keyline infiltration recharge rate ($\sum_k \dot{Q}_{\mathrm{extract},k} \le \eta_{\mathrm{safe}} \dot{Q}_{\mathrm{recharge}}$, measured in canonical milliliters per second, $\mathrm{mL/s}$), preventing water-table drawdown during summer droughts.
+    \item \textbf{Biomass Harvest \& Coppice Regeneration Exergy Ceiling ($\mu\mathrm{J}$):} Timber and coppice fuelwood extraction (\texttt{SCN-ETA-COPPICE}) is bounded by net primary photosynthetic accumulation ($E_{\mathrm{harvest\_window}} \le E_{\mathrm{regen\_uj}}$ in microjoules, $\mu\mathrm{J}$), guaranteeing non-depleting forest stand structure.
+    \item \textbf{Watershed Effluent \& Particulate Flux Interlocks ($\mu\mathrm{g}$, $\mathrm{mpH}$):} Subsurface wetland outflow and quarry runoff must satisfy strict suspended particulate mass flux ceilings ($\dot{m}_{\mathrm{PM}} \le \dot{m}_{\max}$ in micrograms, $\mu\mathrm{g}$) and neutral acidity windows ($\mathrm{mpH}$), verified by Layer~2 optical turbidity and conductivity probes before entering shared riparian streams.
+    \item \textbf{Regional Ecological Replacement Cost ($\lambda_{\mathrm{ERC}}$) Asymptotes:} The Watershed Envelope tracks aggregate mineral and material depletion across the catchment, incentivizing closed-loop struvite phosphorus recovery ($>95\%$) and Stage~II/III hardware remanufacturing so the bioregion's net entropic export remains within photosynthetic carrying capacity.
+\end{enumerate}
 
 \subsection{The Oasis Dual Viewport System: Perspective vs. Isometric Projection}
 In the Oasis simulation and monitoring runtime (Story~6.5 implemented in \texttt{core/1\_simulation/src/main.cpp} and \texttt{shaders/raymarch.wgsl}), node stewards monitor physical reality through two complementary spatial representations:

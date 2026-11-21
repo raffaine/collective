@@ -182,15 +182,28 @@ M^* = \arg\min_{M} \left\{ L(M) + L(D \mid M) \right\}
 \end{equation}
 This mathematically enforces Occam's razor: the simulation adopts the simplest physical law that captures reality, preventing overfitting to transient sensor noise.
 
-\subsection{Epistemic Consensus and Bioregional Recipe Synthesis}
-In legacy academic and industrial research, scientific knowledge is gatekept by corporate intellectual property paywalls and centralized regulatory bodies. In the Sovereign Stack, empirical findings are synthesized through the \textbf{Epistemic Mesh} (Scenario $\iota$).
+\subsection{Epistemic Consensus, Bioregional Recipe Synthesis, and the Scenario Zero (\texttt{SCN-ZERO-SOFTWARE}) Server Footprint}
+\label{subsec:info_scenario_zero_footprint}
+In legacy academic and industrial research, scientific knowledge and software infrastructure are gatekept by corporate intellectual property paywalls and centralized cloud monopolies. In the Sovereign Stack, empirical findings are synthesized through the \textbf{Epistemic Mesh} (Scenario~$\iota$) and software is governed as an OpenGL/Khronos-style public good under \textbf{Scenario Zero (\texttt{SCN-ZERO-SOFTWARE})} (Dialogues~D1, D2, D5, and D8).
 
-When an agroforestry guild discovers an optimal biochar-to-compost ratio for basaltic clay soil, the empirical parameters are compiled into an open, verifiable \textbf{Bioregional Recipe}. Multiple sovereign nodes replicate the experiment across independent physical soils. The epistemic mesh updates the collective Bayesian prior across nodes using distributed belief propagation:
+When an agroforestry guild discovers an optimal biochar-to-compost ratio for basaltic clay soil, or when a fabrication guild validates a new CNC toolpath, the empirical parameters are compiled into a content-addressed JSON-LD template stored across the \textbf{Three Sovereign Libraries} (\textit{The Ontological Graph}, \textit{The Orchestration Registry}, and \textit{The Physics Baseline}). Multiple sovereign nodes replicate the workflow across independent physical hardware and soils. Each completed batch appends a signed \texttt{collective:thermodynamicProof} summary (recording actual exergy consumed per kilogram in $\mu\mathrm{J/mg}$, spoilage/scrap fault rates in $\mathrm{bp}$, and tool-wear Ecological Replacement Cost $\lambda_{\mathrm{ERC}}$) to Layer~3 (\texttt{col-storaged}). The epistemic mesh updates the collective Bayesian prior across nodes using distributed belief propagation:
 \begin{equation}
 P(\mathbf{\theta}_{\mathrm{guild}} \mid D_1, \dots, D_M) \propto P(\mathbf{\theta}) \prod_{m=1}^M P(D_m \mid \mathbf{\theta})
 \label{eq:distributed_bayesian_consensus}
 \end{equation}
-Because recipes are grounded in physical ground-truth measurements rather than marketing claims, consensus emerges through empirical replication. If an experiment yields a negative result (e.g., a biochar batch stalls root development), publishing the negative finding reduces collective Shannon entropy, preventing neighboring nodes from wasting precious labor on flawed parameters.
+Because open-source franchise blueprints are ranked by empirical thermodynamic proofs rather than marketing budgets, consensus emerges through physical replication.
+
+Crucially, \textbf{Scenario Zero (\texttt{SCN-ZERO-SOFTWARE})} establishes the exact epistemic and physical ontology of software inside both real settlements (\texttt{Layer 1a}) and the Oasis simulation (\texttt{Layer 1b}):
+\begin{enumerate}
+    \item \textbf{Zero Inner-Binary Emulation in Layer 1b:} Oasis never emulates inner guest CPUs or compiles inner software binaries inside the physics engine. Software is a governed \textbf{Layer~6 Software Artifact} stewarded by a dedicated \textbf{Layer~5 Working Group} ($V_i(t) = 1 + R_i(t)$) traversing a five-phase deterministic Layer~4 BPMN lifecycle (\textit{Friction to RFC} $\to$ \textit{Working Group Charter} $\to$ \textit{Inception \& 3-Arch Reproducible Build} $\to$ \textit{Spec Ratification} $\to$ \textit{Servicing \& Dormant Equilibrium}).
+    \item \textbf{The Mild Layer 1/2 Physical Server Footprint of Scenario Zero:} At Layers~1 and~2, the local build, continuous-integration (CI), and 9-daemon Sovereign Stack server rack manifests as a concrete physical plant operating inside a Habitat Envelope server closet under an \texttt{EnvelopingBoundaryLeaseV50} (\texttt{4,200 cB} acoustic ceiling, \texttt{450,000 mW} continuous electrical power cap, \texttt{+2,000 mK} room exhaust thermal delta). During an active Scenario Zero 3-architecture reproducible build (\texttt{x86\_64}, \texttt{aarch64}, \texttt{riscv64}) and $10{,}000$-tick Oasis canary verification, Layer~2 INA226 shunts and PT1000 RTDs meter the exact electrical exergy draw:
+    \begin{equation}
+    E_{\mathrm{build\_uj}} = \int_{t_{\mathrm{start}}}^{t_{\mathrm{end}}} P_{\mathrm{rack\_mw}}(t) \, dt_{\mathrm{ms}} \quad (\mu\mathrm{J}), \qquad \dot{Q}_{\mathrm{hydronic\_mW}} = \eta_{\mathrm{capture}} \, P_{\mathrm{rack\_mw}}(t)
+    \label{eq:scenario_zero_server_footprint}
+    \end{equation}
+    where $\eta_{\mathrm{capture}} \ge 0.80$ ($8{,}000\,\mathrm{bp}$) of the server rack's thermal dissipation ($18{,}000\text{--}450{,}000\,\mathrm{mW}$) is harvested by copper cold plates into Stage~0 of the Thermal Exergy Cascade to pre-heat domestic hot water or winter greenhouse beds.
+    \item \textbf{Dormant Equilibrium (``The TeX Asymptote'') and Substrate Drift Wake-Ups:} Once a Scenario Zero software artifact reaches defect-free maturity (like Donald Knuth's \TeX{}), active servicing drops to zero, working-group operational reputation decays to the non-decaying civic floor ($R_i(t) \to 0 \implies V_i(t) = B = 1$), and the server rack idles at its basal power floor ($18{,}000\,\mathrm{mW}$). In The Collective, ``bit-rot'' is never immutable Layer~6 code decaying; it is \textbf{Layer~1 physics and Layer~2 hardware drifting underneath a stationary specification} (e.g., a new ESP32-S3 soil probe revision emitting 24-bit dielectric frames outside an older WASM ABI). When Layer~2 hardware drift triggers a Layer~4 unknown-state hard-block, it decompiles upward through Layer~5 into a \textbf{Layer~6 Semantic Diff Card}, waking the Scenario Zero working group just long enough to build and ratify the adapter before returning to Dormant Equilibrium.
+\end{enumerate}
 
 \section{Ricardian Treaty Hashing and CID Verification}
 \label{sec:ricardian_treaties}
@@ -205,13 +218,13 @@ Implemented natively within the Sovereign Stack Agora daemon (\texttt{col-common
     \item \textbf{Deterministic Execution Invariants:} A BPMN 2.0 sandboxed state-machine specification detailing autonomous contactor trip thresholds, timeout durations, and exception handlers.
 \end{enumerate}
 
-\subsection{NIST FIPS 180-4 SHA-256 Treaty CID Calculation}
-To ensure that all parties to a treaty are bound to the exact same agreement without trusting a central database, the treaty's Content Identifier (CID) is calculated using a deterministic NIST FIPS 180-4 SHA-256 cryptographic hash:
+\subsection{NIST FIPS 180-4 SHA-256 Treaty CID Calculation and Codebase Drift Concern}
+To ensure that all parties to a treaty are bound to the exact same agreement without trusting a central database, the treaty's Content Identifier (CID) is calculated using a deterministic NIST FIPS 180-4 SHA-256 cryptographic hash over length-prefixed, domain-separated canonical fields (\texttt{RDFC-1.0} and \texttt{RFC 8785 JCS}):
 \begin{equation}
-\mathrm{CID} = \mathrm{SHA256}\left( \text{legal\_prose} \parallel \text{"|"} \parallel \text{jsonld\_schema} \parallel \text{"|"} \parallel \text{bpmn\_invariants} \right)
+\mathrm{CID} = \mathrm{SHA256}\left( \text{"COL-TREATY-V3.1\textbackslash 0"} \parallel \mathrm{BE64}(|P|) \parallel P \parallel \mathrm{BE64}(|S|) \parallel S \parallel \mathrm{BE64}(|B|) \parallel B \right)
 \label{eq:ricardian_cid}
 \end{equation}
-In C++20, \texttt{col-commonsd} verifies this directly via the embedded \texttt{Sha256} transform engine:
+Note that in the current v3.1 draft of \texttt{col-commonsd} (\texttt{src/daemons/col-commonsd/main.cpp}, lines 178--187), \texttt{RicardianTreaty::ComputeCID()} still concatenates unescaped pipe delimiters (\texttt{legal\_prose + "|" + jsonld\_schema + "|" + bpmn\_invariants}), which is tracked as \textbf{Drift COM-1} for remediation to 64-bit big-endian length-prefixed serialization:
 \begin{verbatim}
 struct RicardianTreaty {
     std::string treaty_id;

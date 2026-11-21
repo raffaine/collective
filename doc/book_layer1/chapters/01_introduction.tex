@@ -310,7 +310,7 @@ Table~\ref{tab:ch01_node0_bom} details the physical Bill of Materials ratified f
 \hline
 \textbf{Subsystem} & \textbf{Component} & \textbf{Physical Parameters} & \textbf{Thermodynamic Role} \\
 \hline
-\textbf{Anchor Compute} & 3$\times$ Rockchip RK3588 ARM64 SBCs & 8-core CPU, 6 TOPS NPU, 32GB RAM, Dual 1TB NVMe RAID-1 & Continuous execution of 7 daemons; 2U passive chassis dissipating $18\,\mathrm{W}$--$75\,\mathrm{W}$. \\
+\textbf{Anchor Compute} & 3$\times$ Rockchip RK3588 ARM64 SBCs & 8-core CPU, 6 TOPS NPU, 32GB RAM, Dual 1TB NVMe RAID-1 & Continuous execution of 9 daemons; 2U passive chassis dissipating $18{,}000\,\mathrm{mW}$--$75{,}000\,\mathrm{mW}$. \\
 \hline
 \textbf{Hardware HSM} & Microchip ATECC608A Secure Element & Hardware ECDSA/Ed25519, active tamper-mesh sensing & Root key zeroization upon physical chassis breach ($<15\,\mathrm{mW}$). \\
 \hline
@@ -331,14 +331,19 @@ Table~\ref{tab:ch01_node0_bom} details the physical Bill of Materials ratified f
 \label{tab:ch01_node0_bom}
 \end{table}
 
-\subsection{Grounding in the Oasis Engine and Codebase Drift Concerns}
-Within the Oasis simulation engine, Layer~1 is twinned as a discrete, decimeter-scale 3D Digital Differential Analyzer (DDA) voxel lattice. Every $10\,\mathrm{cm} \times 10\,\mathrm{cm} \times 10\,\mathrm{cm}$ voxel ($1\,\mathrm{dm}^3$) maintains a packed 32-bit state tensor capturing material classification, moisture fraction, and thermodynamic temperature:
+\subsection{Grounding in the Oasis Engine, Layer 1a vs. Layer 1b Demarcation (SBR-5), and Codebase Drift}
+Within the Sovereign Stack architecture, Layer~1 is strictly bifurcated into two non-overlapping domains under \textbf{Stack Boundary Rule 5 (SBR-5)} and \textbf{Council Invariant CCI-1}:
+\begin{enumerate}
+    \item \textbf{Layer 1a (Physical Reality):} The unmediated material world of basalt soil, copper busbars, flowing water, lithium-iron-phosphate cells, and living biology. Layer~1a contains \textbf{zero software, zero firmware, zero microcontrollers, and zero cryptographic keys}. It interfaces upward with Layer~2 exclusively across physical transducer pins and analog actuator coils.
+    \item \textbf{Layer 1b (The Oasis SITL Shadow Proving Ground):} An in-silico software-in-the-loop (SITL) proving ground that models physical reality as a discrete, decimeter-scale 3D Digital Differential Analyzer (DDA) voxel lattice. Every $100\,\mathrm{mm} \times 100\,\mathrm{mm} \times 100\,\mathrm{mm}$ voxel ($1\,\mathrm{dm}^3$) maintains a packed 32-bit state tensor capturing material classification, moisture fraction, and thermodynamic temperature:
 \begin{equation}
 \mathrm{Voxel32} = (M_{\mathrm{id}} \ll 24) \mid (\Theta_{\mathrm{moist}} \ll 16) \mid (T_{\mathrm{quant}} \ll 8) \mid \Phi_{\mathrm{meta}}
 \label{eq:packed_voxel_tensor}
 \end{equation}
+    Under \textbf{SBR-5}, Layer~1b (Oasis) is strictly an \textbf{outward producer} of synthetic physical telemetry tagged with \texttt{QUALITY\_SIMULATED = 0x01} and a \textbf{downward consumer} of Layer~2/4 actuator setpoints (\texttt{0x02}) over \texttt{/run/col/l2\_l1.sock} (or \texttt{/run/collective/ipc/l1\_l2.sock}). It \textbf{never} embeds Layer~2--7 headers, never executes inner guest application binaries, and \textbf{never ingests live physical telemetry back from a real home or settlement} (eliminating the deprecated ``60~Hz Living Mirror'' anti-pattern).
+\end{enumerate}
 
-To prevent simulation artifacts from commanding physical equipment, the host telemetry daemon (\texttt{col-telemetryd}) executes the \textbf{Hardware Airgap Filter}. Telemetry frames emitted by the Oasis simulation engine are tagged with the flag \texttt{QUALITY\_SIMULATED = 0x01}. Frames originating from real physical microcontrollers signed by the ATECC608A secure element carry \texttt{QUALITY\_HARDWARE\_ROOT = 0x02}. The airgap filter unconditionally drops all \texttt{0x01} frames from hardware actuator queues, ensuring that software-in-the-loop tests and synthetic simulations can never trigger physical relays or fire physical microgrid contactors.
+To prevent simulation artifacts from commanding physical equipment, the host telemetry daemon (\texttt{col-telemetryd}) executes the \textbf{Hardware Airgap Filter}. Telemetry frames emitted by the Oasis simulation engine (Layer~1b) are tagged with \texttt{QUALITY\_SIMULATED = 0x01}. Frames originating from real physical microcontrollers signed by the ATECC608A secure element carry \texttt{QUALITY\_HARDWARE\_ROOT = 0x02} (or hardware provenance flags for retrofitted and shimmed fleets). The airgap filter unconditionally drops all \texttt{0x01} frames from physical hardware actuator queues, ensuring that software-in-the-loop tests and synthetic rehearsals can never trigger physical relays or fire physical microgrid contactors.
 
 \subsection{Lock-Free Concurrency and Memory Fences in the UHAI Ring Buffer}
 At the shared memory boundary between the simulation runtime and the Sovereign Stack daemons, communication occurs across \texttt{/dev/shm/uhai\_telemetry} via a Single-Producer Single-Consumer (SPSC) lock-free circular ring buffer defined in \texttt{uhai\_ring\_buffer.hpp}. 
@@ -362,6 +367,6 @@ w = \mathrm{atomic\_load\_explicit}(\&\mathrm{write\_index}, \mathrm{memory\_ord
 \end{equation}
 ensuring that all 32 bytes of the payload (\texttt{TelemetrySample}) are globally visible before the incremented pointer is observed. Furthermore, each slot in the ring buffer is padded to 64 bytes (\texttt{alignas(64) TelemetrySlot}), ensuring that contiguous slot writes do not invalidate adjacent CPU cache lines.
 
-Here, Codebase Drift Concern~6 must be explicitly addressed: while the SPSC ring buffer operates flawlessly between a single producer and a single consumer, the Sovereign Stack specifies seven concurrent host daemons (\texttt{col-telemetryd}, \texttt{col-execd}, \texttt{col-commonsd}, etc.). Multiple daemons performing competing \texttt{Pop()} calls on a single shared \texttt{read\_index} introduce non-deterministic race conditions where frames are silently stolen. The production architecture resolves this by designating \texttt{col-telemetryd} as the sole bus arbiter, fanning out validated frames across dedicated POSIX point-to-point sockets (\texttt{l2\_l3.sock}, \texttt{l2\_l4.sock}).
+Here, Codebase Drift Concern~6 must be explicitly addressed: while the SPSC ring buffer operates flawlessly between a single producer and a single consumer, the Sovereign Stack v5.0 specifies \textbf{nine concurrent host daemons} (\texttt{col-gatewayd}, \texttt{col-commonsd}, \texttt{col-kmsd}, \texttt{col-execd}, \texttt{col-storaged}, \texttt{col-telemetryd}, \texttt{col-meshd}, \texttt{col-adversaryd}, and \texttt{col-swarmd}). Multiple daemons performing competing \texttt{Pop()} calls on a single shared \texttt{read\_index} introduce non-deterministic race conditions where frames are silently stolen. The production architecture resolves this by designating \texttt{col-telemetryd} as the sole Layer~2 bus arbiter on the SPSC ring, fanning out validated fixed-point SI frames strictly upward across adjacent POSIX \texttt{AF\_UNIX} \texttt{SOCK\_SEQPACKET} membranes (\texttt{l2\_l3.sock} $\to$ \texttt{l3\_l4.sock} $\to$ \texttt{l4\_l5.sock} $\to$ \texttt{l5\_l6.sock}, plus \texttt{l6\_l7.sock}).
 
 By enforcing Strict Adjacency and holding the line at the Transducer Threshold, Layer~1 preserves the purity of physical ground truth. Society may construct complex legal fictions, and financial markets may inflate speculative tokens, but the sovereign node remains anchored in the unyielding laws of thermodynamics, classical mechanics, and ecological biology.

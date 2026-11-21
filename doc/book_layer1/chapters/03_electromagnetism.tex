@@ -309,14 +309,30 @@ At a typical resonant inverter frequency of $f = 25.0\,\mathrm{kHz}$:
 \end{itemize}
 Because steel possesses high magnetic permeability below its Curie temperature, its skin depth is extremely thin ($\approx 36\,\mu\mathrm{m}$), resulting in rapid surface heating and high inductive coupling efficiency. Above $770^\circ\mathrm{C}$, steel undergoes a second-order phase transition to paramagnetic austenite ($\mu_r \to 1.0$), causing $\delta$ to expand to $0.39\,\mathrm{mm}$, necessitating automatic frequency tracking by the resonant inverter.
 
-\subsection{Dimensional Purity: Exorcising the ``kW/h'' Fallacy}
+\subsection{Dimensional Purity: Exorcising the ``kW/h'' Fallacy and Enforcing the 64-Bit Fixed-Point SI Core}
 Earlier drafts of simulation specifications contained the scientifically illiterate unit ``kW/h''. In physics, a kilowatt ($\mathrm{kW}$) is already a rate of energy transfer: $1\,\mathrm{kW} = 1,000\,\mathrm{J/s}$. Dividing power by time ($\mathrm{kW/h}$) represents the rate of ramp-up of a power plant ($\mathrm{W/s^2}$), not an energy quantity. 
 
-The Sovereign Stack enforces strict SI metric dimensional integrity:
+Under Council Invariant \textbf{CCI-6} (\textbf{The Two-Zone Metrological Invariant}), the Sovereign Stack enforces strict SI metric dimensional integrity across all hardware and software boundaries:
 \begin{itemize}
-    \item Instantaneous electrical power draw is measured strictly in \textbf{kilowatts} ($\mathrm{kW}$) or \textbf{watts} ($\mathrm{W}$).
-    \item Cumulative exergy consumption is measured strictly in \textbf{megajoules} ($\mathrm{MJ}$) or \textbf{kilowatt-hours} ($\mathrm{kWh}$), where $1.0\,\mathrm{kWh} \equiv 3.60\,\mathrm{MJ} = 3.60 \times 10^6\,\mathrm{J}$.
+    \item \textbf{Canonical 64-Bit Fixed-Point SI Metrological Core (Layers 2--4):} Internally, all wire packets, Digital Twin registers, and ledger entries store instantaneous electrical power strictly as signed 64-bit integer \textbf{milliwatts} ($\mathrm{mW}$, $10^{-3}\,\mathrm{W}$, where $1.50\,\mathrm{kW} \equiv 1{,}500{,}000\,\mathrm{mW}$) and cumulative energy/exergy strictly as signed 64-bit integer \textbf{microjoules} ($\mu\mathrm{J}$, $10^{-6}\,\mathrm{J}$, where $1.00\,\mathrm{MJ} \equiv 10^{12}\,\mu\mathrm{J}$ and $1.00\,\mathrm{kWh} \equiv 3.60\,\mathrm{MJ} = 3{,}600{,}000{,}000{,}000\,\mu\mathrm{J}$). Because $1\,\mathrm{mW} = 10^{-3}\,\mathrm{J/s} = 10^{3}\,\mu\mathrm{J/s} = 1\,\mu\mathrm{J/ms}$, integrating power over time in milliseconds ($\mathrm{ms}$) reduces to exact integer multiplication ($E_{\mu\mathrm{J}} = P_{\mathrm{mW}} \times \Delta t_{\mathrm{ms}}$) with zero IEEE-754 floating-point drift across \texttt{x86\_64}, \texttt{aarch64}, and \texttt{riscv64} architectures.
+    \item \textbf{Layer 6 Human Edge Localization:} At the human interface edge, Layer~6 application lenses translate these canonical fixed-point integers into familiar craft or operational units ($\mathrm{W}$, $\mathrm{kW}$, $\mathrm{MJ}$, $\mathrm{kWh}$) during deterministic read-back.
 \end{itemize}
+
+\subsection{Enveloping Node Sub-Kilowatt and Megawatt Feeder Boundary Limits}
+\label{subsec:em_enveloping_feeder_limits}
+When multiple autonomous Layer~5 nodes coexist within a shared physical footprint (Dialogue~D6, Invariant \textbf{CCI-4})---such as a Solo Studio ($N_s = 1$), a Maker Bench ($N_s = 1$), and a Household Hearth ($N_s = 4$) sharing a residential structure, or twenty House Envelopes, a Neighborhood Bakery (Scenario~$\Gamma$), and an Induction Foundry (Scenario~$\Theta$) sharing a street microgrid---their electrical coupling occurs exclusively through the shared copper busbars and feeder breakers of their \textbf{Enveloping Layer~5 Node Hypervisor}.
+
+At Layer~1, every electrical branch panel and neighborhood feeder is bounded by hard electrodynamic and thermal limits:
+\begin{equation}
+\sum_{k=1}^{K} P_{k,\mathrm{instant}}(t) + P_{\mathrm{shim},k} \le P_{\mathrm{breaker\_max}} \quad (\mathrm{mW}), \qquad \int_{t_0}^{t_0 + \Delta t_{\mathrm{window}}} \sum_{k=1}^{K} P_{k,\mathrm{instant}}(\tau)\,d\tau \le E_{\mathrm{envelope\_window}} \quad (\mu\mathrm{J})
+\label{eq:enveloping_feeder_constraints}
+\end{equation}
+where $P_{\mathrm{shim},k}$ accounts for any parasitic Layer~2 shim standby draw ($15{,}000\text{--}45{,}000\,\mathrm{mW}$) on Stage~I scavenged Layer~7 appliances. Across the fractal spatial hierarchy, the Enveloping Node Hypervisor arbitrates three orders of electrical magnitude using the exact same fixed-point SI boundary primitive (\texttt{EnvelopingBoundaryLeaseV50}):
+\begin{enumerate}
+    \item \textbf{Sub-Kilowatt Precision \& Server Closet Leases ($10^4\text{--}10^6\,\mathrm{mW}$):} A Scenario Zero (\texttt{SCN-ZERO-SOFTWARE}) local build/CI server closet or a quiet bedroom studio holds an enveloping lease capped at $P_{\max} = 450{,}000\,\mathrm{mW}$ ($450\,\mathrm{W}$) to $1{,}500{,}000\,\mathrm{mW}$ ($1.5\,\mathrm{kW}$), protecting branch circuit ampacity and room thermal dissipation limits.
+    \item \textbf{Multi-Kilowatt House \& Hearth Envelope Leases ($10^6\text{--}10^7\,\mathrm{mW}$):} A Lot/House Genesis Envelope (\texttt{SCN-TAU-GENESIS}) or Ground-Floor Bakery Hearth (\texttt{SCN-GAMMA-KITCHEN}) enforces a main bus ceiling of $P_{\max} = 6{,}000{,}000\,\mathrm{mW}$ ($6.0\,\mathrm{kW}$) to $9{,}600{,}000\,\mathrm{mW}$ ($9.6\,\mathrm{kW}$, corresponding to $200\,\mathrm{A}$ at $48\,\mathrm{V}$ DC or $40\,\mathrm{A}$ at $240\,\mathrm{V}$ AC) with a window exergy budget of $E_{\max} = 5{,}400{,}000{,}000{,}000\,\mu\mathrm{J}$ ($5.4\,\mathrm{MJ}$ per slot).
+    \item \textbf{Sub-Megawatt to Megawatt Street \& Foundry Feeder Leases ($10^7\text{--}10^9\,\mathrm{mW}$):} At the Street/Microgrid Envelope level wrapping an Induction Metallurgy Foundry (\texttt{SCN-THETA-FOUNDRY}) and Transit Charging Depot (\texttt{SCN-BETA-TRANSIT}) across bipolar $\pm 380\,\mathrm{V}$ HVDC feeders, the Enveloping Hypervisor coordinates high-power induction melt leases ($50{,}000{,}000\,\mathrm{mW}$ to $1{,}000{,}000{,}000\,\mathrm{mW}$, $50\,\mathrm{kW}\text{--}1.0\,\mathrm{MW}$) against feeder thermal ampacity (Eq.~\ref{eq:busbar_ampacity}) and Solid-State DC Circuit Breaker (SSDCB) trip envelopes. If a Layer~2 feeder CT clamp detects an impending overload or a clinical emergency surge (\texttt{SCN-CHI-PARAMEDIC}, priority tier $999$), Layer~4 (\texttt{col-execd}) executes \textbf{Fast-Path Preemption}, throttling non-safety workshop or charging loads in sub-millisecond hardware time before the SSDCB trips.
+\end{enumerate}
 
 % ============================================================================
 % SECTION 3.6: NERNST CORROSION AND METALLURGY

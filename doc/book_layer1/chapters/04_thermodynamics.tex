@@ -304,8 +304,45 @@ The Sovereign Stack decisively repudiates and purges this cybernetic Taylorism:
 \begin{enumerate}
     \item \textbf{Elimination of Value Tokens from Layer 1:} Physical laws do not execute monetary ledgers. A thermocouple registers kelvins; an ammeter registers amperes. Economic accounting belongs strictly to Layer~3 (via Pairwise Bilateral Clearing Channels) and Layer~6 (the Agora). Injecting token minting into Layer~1 physical equations is an architectural violation.
     \item \textbf{Abolition of Exact-Exergy Fine-Billing:} Domestic living sanctuaries must remain spaces of peace, human dignity, and conviviality. Replacing corporate utility monopolies with algorithmic micro-fine surveillance is not liberation; it is digital servitude. Under Mark Weiser's principles of \textbf{Calm Technology}, environmental sensors must recede into the ambient periphery.
-    \item \textbf{Convivial Physical Units:} Physical energy accounting is maintained strictly in unforgeable SI units: Joules ($\mathrm{J}$), kilowatt-hours ($\mathrm{kWh}$), kilograms ($\mathrm{kg}$), and cubic meters ($\mathrm{m^3}$). Internal community maintenance is governed by Elinor Ostrom's commons design principles and collective work bees, not token auctions.
+    \item \textbf{Convivial Physical Units and Canonical Fixed-Point SI Metrology:} Physical energy and material accounting is maintained strictly in unforgeable SI units---represented across Layers~2, 3, and~4 as 64-bit fixed-point integers: microjoules ($\mu\mathrm{J}$), milliwatts ($\mathrm{mW}$), millikelvins ($\mathrm{mK}$), milligrams ($\mathrm{mg}$), millimeters ($\mathrm{mm}$), milliliters ($\mathrm{mL}$), centibels ($\mathrm{cB}$), milliseconds ($\mathrm{ms}$), and basis points ($\mathrm{bp}$) (Invariant \textbf{CCI-6}). Internal community maintenance is governed by Elinor Ostrom's commons design principles and collective work bees, not token auctions.
 \end{enumerate}
+
+\subsection{Thermodynamic Embodied Exergy and Ecological Replacement Cost \texorpdfstring{($\lambda_{\mathrm{ERC}}$)}{(lambda\_ERC)}}
+\label{subsec:th_erc_modular_convergence}
+Why do legacy Layer~7 markets proliferate fifteen incompatible container sizes, bespoke plastic clips, proprietary battery sleds, and non-interchangeable spare parts? In a capitalist market, artificial geometric fragmentation is profitable because the manufacturer externalizes cradle-to-grave thermodynamic disposal costs onto the biosphere while capturing monopoly rent on replacement parts (Dialogue~D8).
+
+When the Sovereign Stack evaluates physical tools and containers, Layer~3 (\texttt{col-storaged}) prices the full lifecycle \textbf{Ecological Replacement Cost ($\lambda_{\mathrm{ERC}}$)} of every physical component $c$ directly in canonical microjoules ($\mu\mathrm{J}$) of embodied thermodynamic exergy (and micrograms $\mu\mathrm{g}$ of scarce mineral depletion):
+\begin{equation}
+\lambda_{\mathrm{ERC}}(c) = E_{\mathrm{embodied}}(c) + E_{\mathrm{transport}}(c) + \frac{E_{\mathrm{retooling\_amortized}}(c)}{N_{\mathrm{reuse\_cycles}}(c)} - E_{\mathrm{recoverable\_stock}}(c) \quad (\mu\mathrm{J})
+\label{eq:thermodynamic_erc_lifecycle}
+\end{equation}
+where $E_{\mathrm{embodied}}(c) = \int \dot{B}_{\mathrm{in}}\,dt$ is the total cumulative exergy expended in mining, smelting, machining, or molding the component, $E_{\mathrm{retooling\_amortized}}(c)$ is the die/mold fabrication exergy amortized over $N_{\mathrm{reuse\_cycles}}(c)$ operational cycles, and $E_{\mathrm{recoverable\_stock}}(c)$ is the closed-loop material exergy recovered at end-of-life.
+
+Equation~\eqref{eq:thermodynamic_erc_lifecycle} reveals two profound physical consequences:
+\begin{itemize}
+    \item \textbf{The Thermodynamic Penalty of Planned Obsolescence:} When a Stage~I scavenged Layer~7 appliance uses potted electronics or ultrasonic-welded housings that force an entire $15\,\mathrm{kg}$ sub-assembly to be discarded over a failed $2\,\mathrm{g}$ seal ($N_{\mathrm{reuse\_cycles}} \to 1$, $E_{\mathrm{recoverable\_stock}} \to 0$), $\lambda_{\mathrm{ERC}}(c)$ spikes by $5\times\text{--}20\times$. Conversely, when a community executes a \textbf{Stage~II Right-to-Repair Hybrid Retrofit}---retaining a $400\,\mathrm{kg}$ cast-iron commercial oven or lathe chassis while replacing its locked PCB with an open ESP32-S3/RISC-V Layer~2 controller---hundreds of megajoules ($10^{14}\,\mu\mathrm{J}$) of embodied smelting exergy (\texttt{rescued\_chassis\_embodied\_exergy\_uj}) are rescued from premature scrap.
+    \item \textbf{Emergent Convergence on Open Modular Geometry:} A standard \textbf{Gastronorm GN 1/1} stainless steel pan ($530 \times 325\,\mathrm{mm}$), an \textbf{ISO $600 \times 400\,\mathrm{mm}$} Euro-tote, or an ISO metric \textbf{M6}/\textbf{M8} fastener fits hundreds of ovens, racks, cargo trikes, and workshop jigs across all 25 settlement scenarios, driving $N_{\mathrm{reuse\_cycles}} \to 10^4$ and minimizing $\lambda_{\mathrm{ERC}}$ per cycle. Because Layer~4's Petri-net solver minimizes total path exergy $\sum(E_{\mathrm{direct}} + \lambda_{\mathrm{ERC}})$ and Layer~6 ranks open-source franchise blueprints by empirical \texttt{collective:thermodynamicProof}, independent nodes voluntarily converge on open metric and Gastronorm standards purely through thermodynamic gradient descent---without a single bureaucratic standardization ministry.
+\end{itemize}
+
+\subsection{Perishable Biological Entropy (\textit{The Pantry}) vs. Durable Cycle Wear (\textit{The Workshop}) and Enveloping Thermal Coupling}
+\label{subsec:th_pantry_vs_workshop_enveloping}
+At the macroscopic settlement level, Second-Law entropy generation bifurcates household and guild inventories into two distinct thermodynamic regimes (Dialogues~D4, D5, and D6, Invariant \textbf{CCI-3}):
+\begin{enumerate}
+    \item \textbf{Perishable Biological Entropy (\textit{The Pantry} Regime):} Foodstuffs, dairy, greens, and clinical reagents undergo continuous, irreversible biochemical degradation driven by ambient thermal motion $T(t)$ (measured in millikelvins, $\mathrm{mK}$). Even when untouched, a perishable stock lot loses remaining shelf-life TTL ($\tau_{\mathrm{TTL}}$ in milliseconds, $\mathrm{ms}$) according to the temperature-integrated Arrhenius spoilage hazard integral:
+    \begin{equation}
+    \Lambda_{\mathrm{spoilage}}(t) = \int_{t_0}^{t} A_{\mathrm{bio}} \exp\left( -\frac{E_a}{R \cdot T_{\mathrm{mK}}(\tau) \cdot 10^{-3}} \right) d\tau
+    \label{eq:pantry_arrhenius_ttl_integral}
+    \end{equation}
+    Maintaining cold-chain storage between $275{,}150\,\mathrm{mK}$ and $277{,}150\,\mathrm{mK}$ ($2.0^\circ\mathrm{C}\text{--}4.0^\circ\mathrm{C}$) suppresses $\Lambda_{\mathrm{spoilage}}(t)$ exponentially. In Layer~6, \textit{The Pantry} lens tracks this continuous biological entropy curve to emit short-lived, auto-expiring pickup intent leases and pre-spoilage neighbor surplus offers---absorbing spontaneous weekend detours with zero calendar surveillance.
+    \item \textbf{Durable Mechanical Cycles (\textit{The Workshop} Regime):} In contrast, metallic fasteners, hand tools, and kiln frames possess activation energies $E_a \gg k_B T_{\mathrm{ambient}}$, rendering their calendar decay at room temperature virtually zero. Their entropy production is governed strictly by discrete mechanical and thermal work cycles ($\Delta S_{\mathrm{gen}} = \oint \frac{\delta W_{\mathrm{friction}}}{T}$), tracked by \textit{The Workshop} lens via usage-cycle counters and custody leases.
+\end{enumerate}
+
+Finally, when multiple overlapping Layer~5 nodes share a single building envelope (e.g., a Ground-Floor Bakery Hearth operating ovens at $503{,}150\,\mathrm{mK}$, a Scenario Zero server closet rejecting $450{,}000\,\mathrm{mW}$ of continuous compute heat, and a residential nursery wing requiring $294{,}150\,\mathrm{mK}$ comfort), their waste heat fluxes couple across interior partition walls and shared HVAC plenums:
+\begin{equation}
+C_{\mathrm{th},k} \frac{dT_k}{dt} = \sum_{j \in \mathcal{N}(k)} \frac{T_j(t) - T_k(t)}{R_{\mathrm{th},jk}} + \dot{Q}_{\mathrm{process},k}(t) - \dot{Q}_{\mathrm{hydronic\_capture},k}(t)
+\label{eq:enveloping_node_thermal_coupling}
+\end{equation}
+The domain-blind \textbf{Enveloping Node Hypervisor} enforces a strict boundary thermal exhaust ceiling $\Delta T_{\mathrm{exhaust}} \le \Delta T_{\mathrm{lease\_max}}$ (e.g., $+2{,}000\,\mathrm{mK}$ for a server closet or $+3{,}000\,\mathrm{mK}$ across an interior partition), compelling high-heat child nodes to route $\ge 8{,}000\,\mathrm{bp}$ ($80\%$) of their thermal dissipation directly into Stage~0/1 of the hydronic Thermal Exergy Cascade rather than overheating neighboring rooms.
 
 % ============================================================================
 % SECTION 4.7: BIOMASS PYROLYSIS AND AUTOTHERMAL RETORTS
