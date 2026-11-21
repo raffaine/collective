@@ -67,6 +67,10 @@ O Cenário Fi substitui o confinamento geriátrico e as câmeras invasivas por c
 
 ## 5. Governança através das Escalas Humanas ($N = 1 \longrightarrow N_s \ge 1, N_p > 1 \longrightarrow N_s > 1, N_p > 1$)
 
+Em todas as escalas, a governança da Camada 5 no Cenário Fi ancora-se na fórmula unificada de peso de voto restrita estritamente aos **Membros do Nó ($N_s$)**:
+$$V_i(t) = B + R_i(t) = 1 + R_i(t) \qquad \left(V_{i,\mathrm{bp}}(t) = 10.000 + R_{i,\mathrm{bp}}(t)\right)$$
+O Cenário Fi é a pedra angular humana da **Base Cívica Universal Não-Decaível ($B = 1$, `D3`, `D8`)**: à medida que um idoso se aposenta do trabalho físico pesado nas guildas e sua taxa de contribuição física vai a zero ($\dot{r}_i(\tau) \to 0$, fazendo $R_i(t) \to 0$ no Livro-Contábil Termodinâmico com meia-vida $\tau_{1/2}$), sua voz $V_i(t)$ **converge assintoticamente para $B = 1$ ($10.000\,\mathrm{bp}$)**—garantindo que os mais velhos jamais percam sua cidadania constitucional plena.
+
 1. **Escala do Idoso Independente / Vida Solo ($N = 1 \implies N_s = 1\text{ idoso}, N_p = 1\text{ morador}$):**
    * *Contexto:* Uma pessoa idosa independente morando sozinha em sua casa ou suíte térrea que deseja autonomia total sem isolamento.
    * *Modelo de Governança:* **Independência soberana amparada por redes silenciosas de proteção.** O idoso governa sua própria rotina, usa o Companheiro Tátil/Voz para gravar memórias orais ou responder a consultas das guildas, e conta com o radar de queda `60 GHz` sem câmera, desligamento automático de boca de fogão e a visita diária carinhosa na entrega da marmita quente do `Cenário Gama`.
@@ -89,3 +93,14 @@ O Cenário Fi substitui o confinamento geriátrico e as câmeras invasivas por c
 | :--- | :--- | :--- |
 | **1. Alcance Extrativo / Transitório na Camada 7** | **A. Recebimento Integral de Aposentadorias, Pensões & `BPC/LOAS` (`INSS` / Previdência):** Garantir que os guardiões idosos recebam $100\%$ das aposentadorias, pensões e benefícios assistenciais para os quais contribuíram ou a que têm direito na Camada 7.<br>**B. Aquisição de Equipamentos de Mobilidade & Conforto Paliativo (`GPO`):** Importar camas articuladas, guinchos de transferência ou processadores de aparelhos auditivos. | • **Soberania Pessoal sobre a Aposentadoria:** Proventos de aposentadoria ou `BPC/LOAS` pertencem integralmente ao idoso em seu anel privado $R_0$—jamais são confiscados por uma tesouraria central.<br>• **Propriedade Assistiva Inviolável em $R_0$ (`Estatuto da Pessoa Idosa — Lei 10.741/2003` e `LBI Lei 13.146/2015`):** Qualquer andador, cadeira de rodas motorizada ou aparelho auditivo fornecido é titulado permanentemente ao idoso (`Cenário Tau`). |
 | **2. Alcance Puramente Defensivo na Camada 7** | **A. Blindagem do Testamento Vital (`Resolução CFM 1.995/2012`), Tomada de Decisão Apoiada (`Art. 1.783-A CC`) & Cuidados Paliativos Domiciliares (`Portaria GM/MS 3.681/2024`):** Impedir que hospitais externos ou parentes distantes imponham distanásia contra a vontade do idoso ou promovam interdições predatórias.<br>**B. Conformidade Legal de Sepultamento Ecológico & Bosques Memoriais (`CONAMA 335/2003` e `RPPN`):** Proteger o retorno ecológico do corpo à terra nos Bosques Memoriais do `Cenário Eta`. | • **Compilação Ricardiana de Diretivas Antecipadas de Vontade (`Resolução CFM nº 1.995/2012`) & Procuração de Saúde (`Cenário Ômicron`):** Gera documentos físicos e assinados digitalmente (`ICP-Brasil`) co-assinados com médicos do `Cenário Qui`, integrados à **Política Nacional de Cuidados Paliativos do `SUS` (`Portaria GM/MS nº 3.681/2024`)**.<br>• **Bosques Memoriais em `RPPN (Lei 9.985/2000)` / Cemitério Parque Ecológico (`CONAMA nº 335/2003`) & Bloqueio Antiliquidação (`TTC`):** Consagra os Bosques Memoriais de Ipês e Castanheiras sob servidão perpétua e titularidade coletiva `TTC`, extinguindo para sempre o risco de venda forçada da terra comunitária em processos de inventário. |
+
+---
+
+## 7. Vinculação Arquitetural do Conselho Horizonte v3.2 (*A Arquitetura do Tempo Ilimitado* — D1–D8)
+
+| Dimensão do Conselho Horizonte | Vinculação no Cenário Fi (`SCN-PHI-ELDER` / `phi_elder`) |
+| :--- | :--- |
+| **Regime de Membros do Nó ($N_s$) & Voz Unificada $V_i(t) = 1 + R_i(t)$** | $N_s = 6 \to 30$ guardiões do cuidado gerontológico e moradores idosos (voz cívica não-decaível $B=1$ para idosos cuja taxa de trabalho físico $\dot{r}_i(\tau) \to 0$). |
+| **Lente Primária da Camada 6 & Modo de Captura de Necessidades** | ***A Lente da Despensa*** (TTL de Arrhenius para medicamentos/nutrição) + ***A Lente do Hipervisor de Nó Envolvente*** (escudos acústicos e térmicos do santuário). |
+| **Concessão do Hipervisor de Nó Envolvente (`cB`, `mW`, `mK`, `mm`)** | **Envelope do Santuário da Longevidade** (escudo de silêncio de `4.000 cB`, piso térmico de `295.150 mK`, energia `mW` prioritária para equipamentos assistivos). |
+| **Cascata L4 de 3 Níveis & Arquétipo de Retrofit de Hardware Estágio I$\to$III** | Pedra angular humana da **Base Cívica Universal Não-Decaível ($B=1$, `D3`, `D8`)**: idosos aposentados cujo trabalho físico $\dot{r}_i(\tau) \to 0$ jamais perdem sua voz constitucional plena $B=1$. |

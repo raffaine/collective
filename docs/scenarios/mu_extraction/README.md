@@ -68,6 +68,10 @@ Scenario Mu replaces landfills, synthetic fertilizer imports, and toxic dumping 
 
 ## 5. Governance Across Human Scales ($N = 1 \longrightarrow N_s \ge 1, N_p > 1 \longrightarrow N_s > 1, N_p > 1$)
 
+Across every scale, Layer 5 governance in Scenario Mu is anchored in the single unified voting weight formula scoped strictly to **Node Membership ($N_s$)**:
+$$V_i(t) = B + R_i(t) = 1 + R_i(t) \qquad \left(V_{i,\mathrm{bp}}(t) = 10{,}000 + R_{i,\mathrm{bp}}(t)\right)$$
+where $B = 1$ ($10{,}000\,\mathrm{bp}$) is the non-decaying **Universal Civic Baseline** and $R_i(t)$ is decaying Layer 3 deconstruction and biorefining stewardship ($\tau_{1/2}$), feeding recovered stock (`mg`) directly into the **Layer 3 Ecological Replacement Cost ($\lambda_{\mathrm{ERC}}$)** ledger (`D2`).
+
 1. **Solo Steward Scale ($N = 1 \implies N_s = 1\text{ operator}, N_p = 1\text{ homesteader}$):**
    * *Context:* A solo homesteader running a 3-bin thermophilic hot-compost bay, a backyard smokeless `TLUD` garden-biochar stove, and workshop scrap sorting.
    * *Governance Model:* **Zero meetings, automated pathogen safety.** A single wireless PT100 compost probe and `col-commonsd` track the 72-hour $\ge 328{,}150\,\mathrm{mK}$ thermal hold silently, letting the solo gardener know the exact morning their compost is Class-A safe for vegetable beds.
@@ -90,3 +94,14 @@ Scenario Mu replaces landfills, synthetic fertilizer imports, and toxic dumping 
 | :--- | :--- | :--- |
 | **1. Extractive / Transitional Reach into Layer 7** | **A. Tipping-Fee Inversion & Urban Unbuilding Contracts (`policy:commons_plus_l7_zero_bill`):** Contracting with legacy property owners or municipalities to surgically deconstruct retiring buildings or accept clean organic streams—getting **paid in Layer 7 fiat tipping/deconstruction fees** while harvesting high-value timber, metal, and masonry for the commons!<br>**B. Brownfield Land Acquisition at Discount:** Acquiring degraded urban/industrial lots cheaply and remediating them via multi-year phytomining and *Terra Preta* soil building (`Scenario Tau`/`Zeta`). | • **Mandatory Intake `XRF`/`NIR` Quarantine:** Every external salvage lot crosses a strict chemical/spectrometric triage gate before entering internal stock; un-remediable asbestos/PCB hazards are refused at the contract survey stage.<br>• **$\Phi_t = 0$ Revenue Routing:** Tipping-fee and deconstruction revenue routes into the `Scenario Epsilon` cooperative carapace to pay node taxes and fund the Property Tax Escrow Endowment (`Scenario Omega`). |
 | **2. Purely Defensive Reach into Layer 7** | **A. Agricultural Compost & Salvage Grading Safe-Harbor:** Preventing municipal waste monopolies from blocking neighborhood composting, rainwater/greywater nutrient recovery, or structural reuse of salvaged timber.<br>**B. Environmental Audit Defense:** Proving zero hazardous leachate or smoke emissions against pretextual code complaints. | • **EPA 503 Class-A & Agricultural Nutrient Exemption Logs:** Maintains cryptographic 72-hour thermal logs and `TLUD` clean-burn attestations under statutory agricultural/on-site composting exemptions, plus licensed engineer (`Scenario Xi`) re-grading stamps for salvaged structural timber. |
+
+---
+
+## 7. Horizon Council v3.2 Architectural Binding (*The Architecture of Boundless Time* — D1–D8)
+
+| Horizon Council Dimension | Scenario Mu (`SCN-MU-EXTRACTION` / `mu_extraction`) Binding |
+| :--- | :--- |
+| **Node Membership Regime ($N_s$) & Unified Voice $V_i(t) = 1 + R_i(t)$** | $N_s = 6 \to 25$ quarry, clay & mineral recycling stewards ($N_s > R_i(t) + 2$ anti-capture baseline over material reclamation). |
+| **Primary Layer 6 Lens & Need-Capture Mode** | ***The Workshop Lens*** (crusher/sieve wear cycles, $\lambda_{\mathrm{ERC}}$ stock recovery & XRF alloy assaying). |
+| **Enveloping Node Hypervisor Lease (`cB`, `mW`, `mK`, `mm`)** | **Extraction & Reclamation Envelope** (`9,000 cB` daytime window, particulate `ug` & runoff `mL/s` hardware interlocks). |
+| **L4 3-Tier Cascade & Stage I$\to$III Hardware Retrofit Archetype** | Directly feeds raw and recycled stock (`mg`) into the **Layer 3 Ecological Replacement Cost ($\lambda_{\mathrm{ERC}}$)** ledger, slashing regional embodied exergy costs. |

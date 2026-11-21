@@ -73,6 +73,10 @@ Scenario Chi replaces both corporate medical extortion and unsafe DIY guesswork 
 
 ## 5. Governance Across Human Scales ($N = 1 \longrightarrow N_s \ge 1, N_p > 1 \longrightarrow N_s > 1, N_p > 1$)
 
+Across every scale, Layer 5 governance in Scenario Chi is anchored in the single unified voting weight formula scoped strictly to **Node Membership ($N_s$)**:
+$$V_i(t) = B + R_i(t) = 1 + R_i(t) \qquad \left(V_{i,\mathrm{bp}}(t) = 10{,}000 + R_{i,\mathrm{bp}}(t)\right)$$
+where $B = 1$ ($10{,}000\,\mathrm{bp}$) is the non-decaying **Universal Civic Baseline** and $R_i(t)$ is decaying Layer 3 clinical/pharma stewardship ($\tau_{1/2}$). During active trauma or cardiac emergencies, Scenario Chi exercises the highest-tier **Fast-Path Layer 2 Hazard Preemption (`priority: 999`, `D4`)** across building power (`mW`) and transit corridors (`mm`), while enforcing strict **Tier 3 True-Constraint Hard-Blocks (`D5`)** on sterile clinical and HPLC purity boundaries.
+
 1. **Solo Steward Scale ($N = 1 \implies N_s = 1\text{ operator}, N_p = 1\text{ homesteader}$):**
    * *Context:* A solo homesteader maintaining a stocked trauma/first-aid kit, personal essential medications in a $48\,\mathrm{V}$ battery-backed medical fridge, and a wearable emergency beacon peered with neighboring homesteads.
    * *Governance Model:* **Automated expiration & cold-chain guardian.** Layer 6 stays quiet until an epinephrine pen or antibiotic pack approaches expiration or fridge temperature drifts, while pressing the solo steward's emergency fob immediately alerts peered $R_1$ neighbors and external EMS if needed.
@@ -95,3 +99,14 @@ Scenario Chi replaces both corporate medical extortion and unsafe DIY guesswork 
 | :--- | :--- | :--- |
 | **1. Extractive / Transitional Reach into Layer 7** | **A. Tertiary Hospital / Surgical Escalation & Catastrophic Care Pool:** Utilizing external Layer 7 trauma centers, MRI scanners, or oncology units for complex tertiary interventions.<br>**B. Pharmaceutical Precursor, Reagent & Medical Device GPO:** Procuring USP-grade chemical precursors, `HPLC` columns, sutures, or vaccine vials not yet produced in the bioregion. | • **Pooled Catastrophic Reserve ($\Phi_t$):** The `Scenario Epsilon` cooperative carapace maintains a pooled catastrophic medical reserve (and coordinates member health-share/public coverage) so no individual resident ever faces a hospital bill alone.<br>• **Medicine Dependency Tracking ($D_{\mathrm{medicine}}$):** Every imported drug or reagent is logged on the `Scenario Omega` 5-Domain Dependency Register, prioritizing open-source bioreactor and synthesis R&D (`Scenario Iota`) for the most vital essential medicines. |
 | **2. Purely Defensive Reach into Layer 7** | **A. Good Samaritan, Licensed Medical Practice & Compassionate Use Shielding:** Protecting community medics, midwives, and clinics from regulatory harassment.<br>**B. Absolute Reproductive, Gender-Affirming & Mental-Health Subpoena Immunity (`Mundane Semantic Camouflage`):** Protecting sensitive patient charts from hostile state prosecutors, insurers, or employers. | • **Licensed Clinical Cooperative & Good Samaritan Carapace:** Pairs internal `Kappa` clinical credentials with state-licensed MD/NP/RN/EMT/Midwife charters for external regulatory interface.<br>• **Zero Outbound Clinical Data (*NAACP v. Alabama* + HIPAA Shield):** Patient charts live strictly in $R_0$-encrypted enclaves; `col-adversaryd` holds zero patient identities or reproductive/mental-health logs, making external fishing subpoenas mathematically empty. |
+
+---
+
+## 7. Horizon Council v3.2 Architectural Binding (*The Architecture of Boundless Time* — D1–D8)
+
+| Horizon Council Dimension | Scenario Chi (`SCN-CHI-PARAMEDIC` / `chi_paramedic`) Binding |
+| :--- | :--- |
+| **Node Membership Regime ($N_s$) & Unified Voice $V_i(t) = 1 + R_i(t)$** | $N_s = 8 \to 35$ paramedics, nurses, pharmacists & trauma clinicians ($N_s > R_i(t) + 2$ democratic clinical governance paired with Pillar II `T3` licensure interlocks). |
+| **Primary Layer 6 Lens & Need-Capture Mode** | ***The Pantry Lens*** (blood/reagent/vaccine cold-chain Arrhenius TTL) + ***The Workshop Lens*** (defibrillator/ventilator/autoclave readiness). |
+| **Enveloping Node Hypervisor Lease (`cB`, `mW`, `mK`, `mm`)** | **Clinical & Mobile Response Envelope** (priority `999` Fast-Path preemption across power `mW`, acoustic `cB`, and corridor `mm`). |
+| **L4 3-Tier Cascade & Stage I$\to$III Hardware Retrofit Archetype** | Exercises highest-tier **Fast-Path Hazard Preemption (`D4`)** during medical emergencies and enforces strict **Tier 3 True-Constraint Hard-Blocks (`D5`)** on sterile clinical boundaries. |

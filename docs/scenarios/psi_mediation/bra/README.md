@@ -68,6 +68,10 @@ O Cenário Psi substitui jaulas, litígios intermináveis e tribunais de interne
 
 ## 5. Governança através das Escalas Humanas ($N = 1 \longrightarrow N_s \ge 1, N_p > 1 \longrightarrow N_s > 1, N_p > 1$)
 
+Em todas as escalas, a governança da Camada 5 no Cenário Psi ancora-se na fórmula unificada de peso de voto restrita estritamente aos **Membros do Nó ($N_s$)**:
+$$V_i(t) = B + R_i(t) = 1 + R_i(t) \qquad \left(V_{i,\mathrm{bp}}(t) = 10.000 + R_{i,\mathrm{bp}}(t)\right)$$
+O Cenário Psi é a vitrine canônica da **Jurisprudência de Via Lenta (`D4`)**: quando ocorre atrito físico recorrente de fronteira dentro de um **Hipervisor de Nó Envolvente** (`cB`, `mW`, `mK`, `mm`), o Cenário Psi descompila o log de bloqueio da Camada 4 em uma cédula visual de ***Semantic Diff* na Camada 6**, ratificada pelos $N_s$ membros ($N_s > R_i(t) + 2$) e compilada diretamente de volta no `col-execd` como um precedente executável da Camada 4.
+
 1. **Escala Individual / Diádica ($N = 1 \text{ ou } 2 \implies$ Fronteira Pessoal & Atrito entre Dois Vizinhos):**
    * *Contexto:* Dois vizinhos confrontantes ou co-moradores tendo um atrito sobre a devolução de uma ferramenta, divisa de horta ou barulho de oficina à noite.
    * *Modelo de Governança:* **Conversa direta 1-a-1 apoiada por telemetria objetiva & pausa de esfriamento.** Antes de acionar qualquer roda formal, os guardiões podem consultar fatos neutros de hardware (ex.: logs de decibéis na divisa do lote do `Cenário Lambda` ou horários do armário de ferramentas do `Cenário Alfa`) após 12 horas de esfriamento, resolvendo $90\%$ dos mal-entendidos cotidianos tomando um café.
@@ -90,3 +94,14 @@ O Cenário Psi substitui jaulas, litígios intermináveis e tribunais de interne
 | :--- | :--- | :--- |
 | **1. Alcance Extrativo / Transitório na Camada 7** | **A. Medidas Protetivas de Urgência na `Lei Maria da Penha` (Exclusivamente por Iniciativa da Sobrevivente):** Caso uma sobrevivente de violência grave decida requerer medida protetiva judicial na Camada 7 contra um agressor externo ou desligado.<br>**B. Parcerias de Justiça Restaurativa (`Resolução CNJ 225/2016`):** Acolher jovens ou vizinhos encaminhados por programas públicos de justiça restaurativa em mentorias do `Cenário Capa`/`Eta` em vez de processos punitivos. | • **Agência Estrita da Sobrevivente (`Lei 11.340/2006`):** Nenhum daemon ou conselho do nó aciona forças policiais externas por conta própria; apenas a sobrevivente detém soberania pessoal para acionar medidas judiciais externas se assim desejar, com apoio integral da comunidade.<br>• **Zero Contratos Carcerários:** O assentamento jamais aceita verbas estatais vinculadas a monitoramento punitivo ou detenção. |
 | **2. Alcance Puramente Defensivo na Camada 7** | **A. Pacto Vinculante de Arbitragem Restaurativa (`Lei de Arbitragem nº 9.307/1996`) & Mediação (`Lei 13.140/2015`):** Impedir que litigantes de má-fé arrastem disputas cooperativas internas ou uma Fissão Graciosa para anos de litígio em varas empresariais da Camada 7.<br>**B. Sigilo Legal da Mediação & Inexistência Física de Transcrições (`Camuflagem Semântica Mundana`):** Proteger as rodas restaurativas contra devassas ou intimações externas. | • **Cláusula Compromissória Cheia (`Lei 9.307/1996, Arts. 18 e 31`), `Resolução CNJ 225/2016` & `Art. 485, VII do CPC`:** Todos os pactos de entrada (`Cenário Tau`) e tratados de guilda (`Cenário Pi`) incluem **Cláusula Compromissória de Arbitragem Restaurativa e Fissão Graciosa**, conferindo ao acordo comunitário eficácia de título executivo / sentença arbitral irrecorrível e extinguindo ações judiciais externas sem resolução de mérito.<br>• **Confidencialidade Legal (`Art. 30 da Lei 13.140/2015`) & Zero Transcrições:** Como a chave-faca de latão da Lareira de Paz corta fisicamente todos os microfones, **zero gravações ou atas existem** para serem intimadas. |
+
+---
+
+## 7. Vinculação Arquitetural do Conselho Horizonte v3.2 (*A Arquitetura do Tempo Ilimitado* — D1–D8)
+
+| Dimensão do Conselho Horizonte | Vinculação no Cenário Psi (`SCN-PSI-MEDIATION` / `psi_mediation`) |
+| :--- | :--- |
+| **Regime de Membros do Nó ($N_s$) & Voz Unificada $V_i(t) = 1 + R_i(t)$** | $N_s = 3 \to 25$ guardiões de justiça restaurativa e jurisprudência (painéis por sorteio VRF + ratificação $V_i(t) = 1 + R_i(t)$ onde $B=1$ impede a formação de uma casta judicial). |
+| **Lente Primária da Camada 6 & Modo de Captura de Necessidades** | ***A Lente do Hipervisor de Nó Envolvente*** (cédula de *Semantic Diff* de Via Lenta, navegador de precedentes & lareira de esfriamento de 48h). |
+| **Concessão do Hipervisor de Nó Envolvente (`cB`, `mW`, `mK`, `mm`)** | **Envelope da Lareira da Mediação** (teto acústico calmo de `4.800 cB`, santuário fisicamente livre de gravação). |
+| **Cascata L4 de 3 Níveis & Arquétipo de Retrofit de Hardware Estágio I$\to$III** | Vitrine canônica da **Jurisprudência de Via Lenta (`D4`)**: descompila atritos recorrentes de fronteira da Camada 4 em precedentes *Semantic Diff* ratificados na Camada 5 que compilam direto no `col-execd`. |

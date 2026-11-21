@@ -71,6 +71,10 @@ Scenario Kappa replaces tuition debt and surveillance testing with five convivia
 
 ## 5. Governance Across Human Scales ($N = 1 \longrightarrow N_s \ge 1, N_p > 1 \longrightarrow N_s > 1, N_p > 1$)
 
+Across every scale, Layer 5 governance in Scenario Kappa is anchored in the single unified voting weight formula scoped strictly to **Node Membership ($N_s$)**:
+$$V_i(t) = B + R_i(t) = 1 + R_i(t) \qquad \left(V_{i,\mathrm{bp}}(t) = 10{,}000 + R_{i,\mathrm{bp}}(t)\right)$$
+Scenario Kappa is the canonical showcase of **Constitutional Pillar II (`collective:WorkCapabilityMatrix`, `D3`, `D7`)**: a newcomer enters on Day 0 with $R_{\mathrm{apprentice}}(0) = 0$ yet holds full civic equality $V_{\mathrm{apprentice}}(0) = B + 0 = 1$ ($10{,}000\,\mathrm{bp}$), earning $R_i(t) > 0$ through Tier-0 unsupervised starter tasks and Tier-1 mentor co-signed dual-key tasks (including building **Stage II Right-to-Repair Hybrid Retrofit Kits**).
+
 1. **Solo Steward Scale ($N = 1 \implies N_s = 1\text{ operator}, N_p = 1\text{ learner/operator}$):**
    * *Context:* A solo homesteader learning a new craft (e.g., solar battery wiring, pressure canning, or timber joinery) using the node's offline syllabus and `Oasis` rehearsal sandbox.
    * *Governance Model:* **Self-paced safety rehearsal & remote/visiting checkout.** The solo steward uses the `R0-Private Workbook` and `Oasis` hazard drills to build mastery at their own pace; for high-hazard equipment unlocks, they can complete their Capstone checkout during a visiting `Scenario Tau` Pathway 3 artisan round or at a neighboring node's weekend guild bee.
@@ -93,3 +97,14 @@ Scenario Kappa replaces tuition debt and surveillance testing with five convivia
 | :--- | :--- | :--- |
 | **1. Extractive / Transitional Reach into Layer 7** | **A. External Trade-School & Clinical Licensure Portability:** Translating internal `Kappa` bench hours and `SociologicalCapstoneAttestation` proofs into state-recognized journeyman electrician, plumber, EMT (`Scenario Chi`), or PE engineering credits.<br>**B. Importing Reference Textbooks & Calibration Standards:** Acquiring specialized technical manuals or NIST-traceable gauge blocks not yet in the mesh. | • **One-Way Credential Export:** `col-adversaryd` compiles state-compliant apprenticeship hour logs under a registered **State Apprenticeship Sponsor / Cooperative Trade School** wrapper when a member wants a Layer 7 license (e.g., to sign building permits in `Scenario Xi`).<br>• **Immediate Commons Ingestion:** Any imported technical reference is digitized into the `Scenario Iota` Alexandria Commons so no second node ever has to buy it again. |
 | **2. Purely Defensive Reach into Layer 7** | **A. OSHA / Insurer Safety Demonstration:** Proving to municipal inspectors or cooperative insurers (`Scenario Epsilon`) that shared workshops enforce stricter machine safety than commercial factories.<br>**B. Learner Privacy Shield (`Mundane Semantic Camouflage`):** Protecting internal skill distributions and apprentice identities from external labor brokers or state registries. | • **Cryptographic Zero-Knowledge Safety Audit:** Demonstrates hardware $< 10\,\mathrm{ms}$ `LOTO` and `BBS+` interlock compliance to insurers without revealing which individual stewards operated which machines.<br>• **Private Association Vocational Exemption:** Frames internal guild mentorship under **UUNAA Section 6** non-commercial member education. |
+
+---
+
+## 7. Horizon Council v3.2 Architectural Binding (*The Architecture of Boundless Time* — D1–D8)
+
+| Horizon Council Dimension | Scenario Kappa (`SCN-KAPPA-APPRENTICESHIP` / `kappa_apprenticeship`) Binding |
+| :--- | :--- |
+| **Node Membership Regime ($N_s$) & Unified Voice $V_i(t) = 1 + R_i(t)$** | $N_s = 2 \to 20$ mentors & apprentices ($R_{\mathrm{mentor}} > 0$ paired with $R_{\mathrm{apprentice}}(0) = 0$, $B=1$ civic floor guaranteed from Day 0). |
+| **Primary Layer 6 Lens & Need-Capture Mode** | ***The Workshop Lens*** (Pillar II Tier-0 unsupervised starter tasks & Tier-1 mentor co-signed dual-key tasks). |
+| **Enveloping Node Hypervisor Lease (`cB`, `mW`, `mK`, `mm`)** | **Training Bay Envelope** (`7,500 cB`, hardware interlock power lease `mW`, $\le 2,000\,\mathrm{mm}$ BLE mentor tether). |
+| **L4 3-Tier Cascade & Stage I$\to$III Hardware Retrofit Archetype** | Canonical showcase of **Pillar II (`collective:WorkCapabilityMatrix`)**: solves the cold-start $R_i=0$ onboarding paradox via mentor co-signed **Stage II Right-to-Repair** retrofit tasks. |

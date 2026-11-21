@@ -73,6 +73,10 @@ Newcomers, neighbors, and welcoming stewards interact through four primary JSON-
 
 ## 5. Governance Across Human Scales ($N = 1 \longrightarrow N_s \ge 1, N_p > 1 \longrightarrow N_s > 1, N_p > 1$)
 
+Across every scale, Layer 5 governance in Scenario Tau is anchored in the single unified voting weight formula scoped strictly to **Node Membership ($N_s$)**:
+$$V_i(t) = B + R_i(t) = 1 + R_i(t) \qquad \left(V_{i,\mathrm{bp}}(t) = 10{,}000 + R_{i,\mathrm{bp}}(t)\right)$$
+where every onboarded member begins on Day 0 with `initialReputationBp == 0` ($R_i(0) = 0$) yet immediately holds the full non-decaying **Universal Civic Baseline** $B = 1$ ($10{,}000\,\mathrm{bp}$), while bootstrapping the household or neighborhood via **Open-Source Franchising (`D5`)** blueprints on **Stage I Scavenged Layer 7 appliances** wrapped in parasitic Layer 2 shims (`D7`).
+
 1. **Solo Steward Scale ($N = 1 \implies N_s = 1\text{ operator}, N_p = 1\text{ person served}$):**
    * *Context:* A solo founder bootstrapping a Stage 1A suburban homestead lot (`Lot 402`) with their own personal hardware key and initial reserve ($\Phi_0$).
    * *Governance Model:* **Single-key self-sovereignty.** The solo founder initializes the node's root keypair and personal `AccessibilityAndSensoryManifest` with zero external quorum required, establishing the local $B_{\mathrm{baseline}}$ hearth and garden while preparing the node to peer with neighbors when ready.
@@ -95,3 +99,14 @@ Newcomers, neighbors, and welcoming stewards interact through four primary JSON-
 | :--- | :--- | :--- |
 | **1. Extractive / Transitional Reach into Layer 7** | **A. Bootstrap Capital & Tool Seeding ($\Phi_0$):** Accepting voluntary initial fiat, land, or tool contributions from founding stewards (e.g., a $\$20{,}000$ suburban bootstrap reserve) or external public disability/healthcare grants that belong to a resident.<br>**B. Hybrid Neighbor Wage Bridging (Pathway 1):** Allowing part-time neighbors to retain Layer 7 employment while shifting daily food and tool needs into the commons. | • **Zero Equity / Zero Governance Purchase (`initialReputationBp == 0`):** Layer 5 mathematically forbids fiat contributions from minting voting weight, reputational wealth ($\mathcal{R}$), or priority claims over commons housing.<br>• **Personal Benefit Non-Confiscation:** If a disabled or elder steward receives external Layer 7 statutory disability or pension benefits, those funds remain their personal $R_0$ safety buffer—never forcibly confiscated by the node. |
 | **2. Purely Defensive Reach into Layer 7** | **A. Membership List Non-Existence (*NAACP v. Alabama*):** Protecting Pathway 1 hybrid neighbors and vulnerable guests from employer retaliation, landlord eviction, or state fishing expeditions.<br>**B. Guest & Volunteer Safe-Harbor:** Preventing hospitality or mutual aid from being misclassified as unlicensed boarding houses or commercial employment. | • **Structural Data Non-Existence:** `col-kmsd` and `col-commonsd` never transmit member rosters, `did:peer` graphs, or guest counts across `l6_l7.sock`; `col-adversaryd` holds zero member tables to subpoena.<br>• **UUNAA Section 6 & Gratuitous Hospitality Shield:** Frames onboarding within private unincorporated association covenants and non-commercial domestic hospitality exemptions. |
+
+---
+
+## 7. Horizon Council v3.2 Architectural Binding (*The Architecture of Boundless Time* — D1–D8)
+
+| Horizon Council Dimension | Scenario Tau (`SCN-TAU-GENESIS` / `tau_genesis`) Binding |
+| :--- | :--- |
+| **Node Membership Regime ($N_s$) & Unified Voice $V_i(t) = 1 + R_i(t)$** | $N_s = 1 \to 4$ founding household node ($B=1$ solo/small-group autonomy from Day 0, expanding to $N_s > R_i(t) + 2$ neighborhood pods with `initialReputationBp: 0`). |
+| **Primary Layer 6 Lens & Need-Capture Mode** | ***The Pantry Lens*** + ***The Workshop Lens*** + ***The Enveloping Node Hypervisor Lens*** (sensory-calm Genesis pairing & Day-0 blueprint selection). |
+| **Enveloping Node Hypervisor Lease (`cB`, `mW`, `mK`, `mm`)** | **Lot / House Genesis Envelope** (`5,500 cB` day / `3,800 cB` night, `9,600,000 mW` main breaker) governed by `EnvelopingBoundaryLeaseV50`. |
+| **L4 3-Tier Cascade & Stage I$\to$III Hardware Retrofit Archetype** | Turnkey Day-0 blueprint instantiation (`D5`); boots entirely on **Stage I Scavenged Layer 7** appliances wrapped in parasitic L2 shims (`D7`). |

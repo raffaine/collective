@@ -68,6 +68,10 @@ Scenario Rho neutralizes both external sieges and internal autoimmune paranoia t
 
 ## 5. Governance Across Human Scales ($N = 1 \longrightarrow N_s \ge 1, N_p > 1 \longrightarrow N_s > 1, N_p > 1$)
 
+Across every scale, Layer 5 governance in Scenario Rho is anchored in the single unified voting weight formula scoped strictly to **Node Membership ($N_s$)**:
+$$V_i(t) = B + R_i(t) = 1 + R_i(t) \qquad \left(V_{i,\mathrm{bp}}(t) = 10{,}000 + R_{i,\mathrm{bp}}(t)\right)$$
+Scenario Rho mathematically validates the federation's immunity to **Dormant-Node Single-Maintainer Hijack (`D3`, `D8`)**: when a mature repository or infrastructure module enters **Dormant Equilibrium (`"The TeX Asymptote"`)** and its original maintainers' active $R_j(t) \to 0$, an opportunistic attacker who injects a small maintenance patch ($\Delta R_{\mathrm{attacker}} > 0$) has vote share $(1 + \Delta R_{\mathrm{attacker}}) / (N_s + \Delta R_{\mathrm{attacker}})$, which is effortlessly defeated by the $N_s - 1$ dependent members' non-decaying $B=1$ civic floor whenever $N_s > \Delta R_{\mathrm{attacker}} + 2$.
+
 1. **Solo Steward Scale ($N = 1 \implies N_s = 1\text{ operator}, N_p = 1\text{ homesteader}$):**
    * *Context:* A solo homesteader running a Stage 1A node connected to home internet and municipal power.
    * *Governance Model:* **Automated firewall & leak/fault detector.** The node's split-sandbox firewall protects the solo steward from phishing/malware on their Layer 7 interface, while Layer 2 conservation checks immediately alert them if a garden pipe bursts or a battery shunt corrodes.
@@ -90,3 +94,14 @@ Scenario Rho neutralizes both external sieges and internal autoimmune paranoia t
 | :--- | :--- | :--- |
 | **1. Extractive / Transitional Reach into Layer 7** | **A. Multi-Bank & Multi-Vendor Redundancy (`Carapace Failover`):** Maintaining redundant cooperative credit-union accounts and wholesale vendor relationships across jurisdictions during Stages 1 and 2.<br>**B. Open-Source Vulnerability & Threat-Intelligence Ingestion:** Pulling CVE security advisories into `Scenario Zero` compiler pipelines. | • **Zero Single-Bank Dependency:** No single external bank or payment processor ever holds $> 3300\,\mathrm{bp}$ ($33\%$) of the node's transitional fiat operating buffer ($\Phi_t$).<br>• **One-Way Diode Ingestion:** External CVE feeds enter strictly through the `Scenario Zero` Detox Quarantine Diode. |
 | **2. Purely Defensive Reach into Layer 7** | **A. Structural Subpoena Sterility (*NAACP v. Alabama*, 357 U.S. 449):** Defeating dragnet membership subpoenas, civil forfeiture attempts, or regulatory harassment.<br>**B. Prior-Art & Anti-SLAPP Legal Shield (`Mundane Semantic Camouflage`):** Defending against patent trolls or nuisance lawsuits. | • **Architectural Data Non-Existence:** You cannot be compelled by a court to hand over records that your system is mathematically incapable of storing in Layer 7 (`0` member rosters, `0` internal ledger histories in `col-adversaryd`).<br>• **Automated Camouflage & Anti-SLAPP Defense:** All outbound traffic across `l6_l7.sock` is scrubbed to mundane corporate/association aggregates, backed by pooled cooperative legal defense reserves. |
+
+---
+
+## 7. Horizon Council v3.2 Architectural Binding (*The Architecture of Boundless Time* — D1–D8)
+
+| Horizon Council Dimension | Scenario Rho (`SCN-RHO-ADVERSARIAL` / `rho_adversarial`) Binding |
+| :--- | :--- |
+| **Node Membership Regime ($N_s$) & Unified Voice $V_i(t) = 1 + R_i(t)$** | Full node under red-team Byzantine & capture stress (`col-adversaryd`); mathematical proof that $B=1$ across $N_s$ members defeats high-$R_i$ oligarchy and dormant-node hijack. |
+| **Primary Layer 6 Lens & Need-Capture Mode** | ***Scenario Zero Forge Studio Lens*** + ***The Enveloping Node Hypervisor Lens*** (anomaly, Sybil & capture-defense dashboard). |
+| **Enveloping Node Hypervisor Lease (`cB`, `mW`, `mK`, `mm`)** | **Hardened Quarantine Envelope** (automated Layer 2 hardware interlock isolation & VLAN 40 diode air-gap). |
+| **L4 3-Tier Cascade & Stage I$\to$III Hardware Retrofit Archetype** | Validates immunity to **Dormant-Node Single-Maintainer Hijack (`D3`, `D8`)** ($B=1$ defeats attacker $\Delta R$ when $\sum R_j \to 0$), Sybil flood resistance, and Stage I shim fault containment. |

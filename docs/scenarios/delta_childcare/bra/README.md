@@ -73,6 +73,10 @@ O Cenário Delta substitui o isolamento parental e a creche mercantilizada por c
 
 ## 5. Governança através das Escalas Humanas ($N = 1 \longrightarrow N_s \ge 1, N_p > 1 \longrightarrow N_s > 1, N_p > 1$)
 
+Em todas as escalas, a governança da Camada 5 no Cenário Delta ancora-se na fórmula unificada de peso de voto restrita estritamente aos **Membros do Nó ($N_s$)**:
+$$V_i(t) = B + R_i(t) = 1 + R_i(t) \qquad \left(V_{i,\mathrm{bp}}(t) = 10.000 + R_{i,\mathrm{bp}}(t)\right)$$
+onde $B = 1$ ($10.000\,\mathrm{bp}$) é a **Base Cívica Universal** não-decaível detida por cada mãe, pai e educador guardião da ciranda ($N_s > R_i(t) + 2$), enquanto a ala infantil detém proteção de Via Rápida com prioridade `950` de silêncio (`4.000 cB` durante a soneca) e conforto térmico (`294.150 mK`) no **Hipervisor de Nó Envolvente** do edifício.
+
 1. **Escala do Guardião Solitário ($N = 1 \implies N_s = 1\text{ família monoparental}, N_p = 1\text{ unidade familiar}$):**
    * *Contexto:* Uma mãe solo ou pai solo criando um bebê ou criança pequena em sua casa.
    * *Modelo de Governança:* **Abraço comunitário incondicional (`Nenhuma Mãe ou Pai Solo Fica Isolado`).** Mesmo quando uma casa tem apenas $N_s = 1$ adulto, ativar um `PostpartumCocoonIntent` ou `EmergencyCareFlare` mobiliza imediatamente as marmitas da cozinha solidária, o ciclo de fraldas e os cuidadores de alívio dos anéis $R_1 / R_2$, garantindo que uma família monoparental jamais enfrente febre, pós-parto ou privação de sono sozinha.
@@ -95,3 +99,14 @@ O Cenário Delta substitui o isolamento parental e a creche mercantilizada por c
 | :--- | :--- | :--- |
 | **1. Alcance Extrativo / Transitório na Camada 7** | **A. Insumos Pediátricos e Obstétricos Especializados:** Adquirir frascos de vidro borossilicato para pasteurização de leite materno, cadeirinhas veiculares homologadas (`INMETRO`) ou insumos neonatais ainda não fabricados localmente.<br>**B. Exercício de Licença-Maternidade/Paternidade & Salário-Maternidade (`INSS`/`CLT`):** Apoiar mães e pais híbridos (Fases 1 e 2) a receberem integralmente seu salário-maternidade e benefícios legais na Camada 7. | • **Prioridade Máxima à Segurança Pediátrica:** A Camada 5 concede prioridade máxima no orçamento externo do nó para equipamentos certificados de segurança infantil, enquanto registra a demanda de enxovais e mobiliário infantil para produção local no `Cenário Ni` e `Cenário Alfa`.<br>• **Retenção Integral pela Família:** Qualquer salário-maternidade ou benefício infantil recebido na Camada 7 permanece $100\%$ com a família em $R_0$. |
 | **2. Alcance Puramente Defensivo na Camada 7** | **A. Padrão-Ouro de Banco de Leite (`rBLH-BR / Fiocruz / RDC ANVISA 171/2006`) & Cirandas Parentais Associativas:** Proteger as cirandas cooperativas de vizinhos contra exigências mercantis desenhadas para redes comerciais de creches e garantir excelência sanitária no leite materno doado.<br>**B. Sigilo Absoluto de Dados Infantis (`ECA`, `LGPD` e `Camuflagem Semântica Mundana`):** Impedir que corretores de dados ou sistemas externos coletem registros de desenvolvimento infantil ou listas de presença. | • **Carapaça Associativa Parental (`Art. 5º, XVII–XVIII CF/88`), Marco Legal da Primeira Infância (`Lei 13.257/2016`), `ECA (Lei 8.069/1990)` & `RDC ANVISA 171/2006`:** Estrutura as cirandas da quadra como grupos associativos recíprocos de cuidado parental sem fins lucrativos (`0` mensalidade comercial) e alinha a pasteurização Holder ($62{,}5^\circ\mathrm{C}$ / 30 min) às normas da **Rede Brasileira de Bancos de Leite Humano (`rBLH-BR / Fiocruz / SUS`)**.<br>• **Bloqueio Total de Telemetria Infantil (`Art. 14 da LGPD — Lei 13.709/2018`):** Nomes, datas de nascimento e listas de presença de crianças são estritamente bloqueados de cruzar o soquete `l6_l7.sock`. |
+
+---
+
+## 7. Vinculação Arquitetural do Conselho Horizonte v3.2 (*A Arquitetura do Tempo Ilimitado* — D1–D8)
+
+| Dimensão do Conselho Horizonte | Vinculação no Cenário Delta (`SCN-DELTA-CHILDCARE` / `delta_childcare`) |
+| :--- | :--- |
+| **Regime de Membros do Nó ($N_s$) & Voz Unificada $V_i(t) = 1 + R_i(t)$** | $N_s = 4 \to 18$ educadores guardiões e famílias ($B=1$ garante cogovernança entre famílias e educadores sob $N_s > R_i(t) + 2$ com `domesticCareTokenMinting: 0`). |
+| **Lente Primária da Camada 6 & Modo de Captura de Necessidades** | ***A Lente da Despensa*** (TTL de Arrhenius para nutrição/leite) + ***A Lente do Hipervisor de Nó Envolvente*** (escudo acústico na hora da soneca). |
+| **Concessão do Hipervisor de Nó Envolvente (`cB`, `mW`, `mK`, `mm`)** | **Envelope da Ala Infantil / Ciranda** (escudo estrito de silêncio de `4.000 cB` nas janelas de soneca, piso térmico de `294.150 mK`). |
+| **Cascata L4 de 3 Níveis & Arquétipo de Retrofit de Hardware Estágio I$\to$III** | Detém proteção acústica e térmica de Via Rápida com prioridade `950` dentro do envelope predial, modulando automaticamente concessões de oficinas ruidosas adjacentes. |

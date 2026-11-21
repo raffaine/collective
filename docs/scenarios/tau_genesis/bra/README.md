@@ -74,6 +74,10 @@ Recém-chegados, vizinhos e guardiões anfitriões interagem por meio de quatro 
 
 ## 5. Governança através das Escalas Humanas ($N = 1 \longrightarrow N_s \ge 1, N_p > 1 \longrightarrow N_s > 1, N_p > 1$)
 
+Em todas as escalas, a governança da Camada 5 no Cenário Tau ancora-se na fórmula unificada de peso de voto restrita estritamente aos **Membros do Nó ($N_s$)**:
+$$V_i(t) = B + R_i(t) = 1 + R_i(t) \qquad \left(V_{i,\mathrm{bp}}(t) = 10.000 + R_{i,\mathrm{bp}}(t)\right)$$
+onde todo novo membro ingressa no Dia 0 com `initialReputationBp == 0` ($R_i(0) = 0$ no Livro-Contábil Termodinâmico), mas detém imediatamente a **Base Cívica Universal** não-decaível $B = 1$ ($10.000\,\mathrm{bp}$), iniciando o lote ou bairro por meio de gabaritos de **Franquia de Código Aberto (`D5`)** sobre **eletrodomésticos e máquinas Resgatados da Camada 7 (Estágio I)** envoltos em *shims* parasitas da Camada 2 (`D7`).
+
 1. **Escala do Guardião Solitário ($N = 1 \implies N_s = 1\text{ operador}, N_p = 1\text{ pessoa atendida}$):**
    * *Contexto:* Um fundador solitário iniciando um lote urbano ou periurbano na Fase 1A com sua própria chave física e reserva inicial ($\Phi_0$).
    * *Modelo de Governança:* **Autossoberania de chave única.** O fundador inicializa o par de chaves raiz do nó e seu `AccessibilityAndSensoryManifest` pessoal sem necessidade de quórum externo, estabelecendo a horta e a cozinha local $B_{\mathrm{baseline}}$ enquanto prepara o nó para parear com os vizinhos da rua quando estiver pronto.
@@ -96,3 +100,14 @@ Recém-chegados, vizinhos e guardiões anfitriões interagem por meio de quatro 
 | :--- | :--- | :--- |
 | **1. Alcance Extrativo / Transitório na Camada 7** | **A. Capital Semente & Aporte de Ferramentas ($\Phi_0$):** Receber aportes voluntários iniciais em moeda fiat, terra ou máquinas de membros fundadores (para adquirir as primeiras ferramentas CNC, placas solares e cisternas) ou benefícios públicos de direito pessoal do morador.<br>**B. Ponte de Renda do Vizinho Híbrido (Caminho 1):** Permitir que vizinhos do Caminho 1 mantenham seus empregos ou aposentadorias na Camada 7 enquanto transferem gradualmente sua alimentação e ferramentas para o comum. | • **Zero Compra de Poder Político (`initialReputationBp == 0`):** A Camada 5 proíbe matematicamente que aportes financeiros em Reais emitam peso de voto, Riqueza Reputacional ($\mathcal{R}$) no Livro-Contábil ou privilégio sobre moradias.<br>• **Inconfiscabilidade de Benefícios Sociais (`BPC/LOAS` e Previdência):** Quando um morador com deficiência ou idoso recebe **BPC/LOAS (Lei 8.742/1993)**, aposentadoria ou auxílio externo sob a **Lei Brasileira de Inclusão (Lei 13.146/2015)**, esses recursos permanecem $100\%$ na sua reserva pessoal $R_0$—jamais são confiscados pelo nó. |
 | **2. Alcance Puramente Defensivo na Camada 7** | **A. Inexistência de Lista de Membros (`Art. 5º, XVII e XVIII CF/88` e `LGPD`):** Proteger vizinhos híbridos do Caminho 1 e hóspedes vulneráveis do Caminho 4 contra retaliação patronal, despejo ou devassas ilegais.<br>**B. Porto Seguro de Hospitalidade & Ajuda Mútua:** Impedir que o acolhimento solidário seja confundido com hotelaria comercial clandestina. | • **Inexistência Estrutural de Dossiês:** O `col-kmsd` e o `col-commonsd` jamais transmitem listas de membros, grafos `did:peer` ou contagem de hóspedes pelo soquete `l6_l7.sock`; o `col-adversaryd` não possui nenhuma tabela nominal de associados que possa ser intimada.<br>• **Carapaça Associativa (`Art. 5º, XVIII CF/88`) & Hospitalidade Gratuita:** Enquadra o acolhimento comunitário na liberdade constitucional de associação civil sem fins lucrativos e na hospitalidade doméstica gratuita ($0$ cobrança comercial). |
+
+---
+
+## 7. Vinculação Arquitetural do Conselho Horizonte v3.2 (*A Arquitetura do Tempo Ilimitado* — D1–D8)
+
+| Dimensão do Conselho Horizonte | Vinculação no Cenário Tau (`SCN-TAU-GENESIS` / `tau_genesis`) |
+| :--- | :--- |
+| **Regime de Membros do Nó ($N_s$) & Voz Unificada $V_i(t) = 1 + R_i(t)$** | $N_s = 1 \to 4$ no nó familiar fundador (autonomia $B=1$ desde o Dia 0, expandindo para núcleos de bairro com $N_s > R_i(t) + 2$ e `initialReputationBp: 0` no Livro-Contábil). |
+| **Lente Primária da Camada 6 & Modo de Captura de Necessidades** | ***A Lente da Despensa*** + ***A Lente da Oficina*** + ***A Lente do Hipervisor de Nó Envolvente*** (pareamento Gênesis sensorialmente calmo & seleção de gabarito de Dia 0). |
+| **Concessão do Hipervisor de Nó Envolvente (`cB`, `mW`, `mK`, `mm`)** | **Envelope Gênesis de Lote / Casa** (`5.500 cB` dia / `3.800 cB` noite, disjuntor geral de `9.600.000 mW`) governado via `EnvelopingBoundaryLeaseV50`. |
+| **Cascata L4 de 3 Níveis & Arquétipo de Retrofit de Hardware Estágio I$\to$III** | Instanciação turnkey de gabaritos no Dia 0 (`D5`); inicializa 100% sobre eletrodomésticos **Estágio I Resgatados da Camada 7** envoltos em *shims* parasitas da Camada 2 (`D7`). |

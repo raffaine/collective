@@ -67,6 +67,10 @@ Scenario Iota replaces paywalled academia and factory schooling with five episte
 
 ## 5. Governance Across Human Scales ($N = 1 \longrightarrow N_s \ge 1, N_p > 1 \longrightarrow N_s > 1, N_p > 1$)
 
+Across every scale, Layer 5 governance in Scenario Iota is anchored in the single unified voting weight formula scoped strictly to **Node Membership ($N_s$)**:
+$$V_i(t) = B + R_i(t) = 1 + R_i(t) \qquad \left(V_{i,\mathrm{bp}}(t) = 10{,}000 + R_{i,\mathrm{bp}}(t)\right)$$
+where $B = 1$ ($10{,}000\,\mathrm{bp}$) is the non-decaying **Universal Civic Baseline**. Scenario Iota curates the federation's **Three Sovereign Libraries** (*Ontological Graph*, *Orchestration Registry*, *Physics Baseline*, `D5`) and enjoys full **Dormant Equilibrium (`"The TeX Asymptote"`, `D8`)** protection: mature calibration tables and scientific archives remain immune to single-reviewer hijack even after decades of zero edits ($R_i(t) \to 0$).
+
 1. **Solo Steward Scale ($N = 1 \implies N_s = 1\text{ operator}, N_p = 1\text{ learner/researcher}$):**
    * *Context:* A solo homesteader running soil/water assays in a home kitchen lab and studying from the local Alexandria mirror.
    * *Governance Model:* **Full access to planetary knowledge & peer replication invitation.** The solo researcher has the entire offline Alexandria Commons at their fingertips, can log pre-registered backyard cultivar trials, and can broadcast a lightweight replication request inviting two neighboring homesteads ($N \ge 3$) to test the same soil amendment in their gardens.
@@ -89,3 +93,14 @@ Scenario Iota replaces paywalled academia and factory schooling with five episte
 | :--- | :--- | :--- |
 | **1. Extractive / Transitional Reach into Layer 7** | **A. Scientific Literature, Patent & Dataset Ingestion:** Pulling newly published open-access journals, geological surveys, and technical standards from the global internet into the Alexandria Commons.<br>**B. Traceable Metrology Standards & Analytical Reagent GPO:** Procuring NIST-traceable calibration weights, reference thermocouples, or analytical-grade HPLC standards (`Scenario Chi`) not yet synthesized locally. | • **One-Way Detox & Permanent Offline Archiving:** Ingested literature is stripped of publisher tracking scripts across `l6_l7.sock`, indexed into content-addressed `IPFS`/`IPLD` bundles, and replicated across all nodes via `Scenario Beta` DTN sneakernet.<br>• **Primary-Standard Cascade:** A single imported NIST reference standard in an $R_4$ metrology vault is used to calibrate hundreds of locally fabricated secondary working standards (`Scenario Alpha`/`Theta`), driving external metrology dependency toward zero. |
 | **2. Purely Defensive Reach into Layer 7** | **A. Defensive Prior-Art Publication (Patent-Troll Destruction):** Preventing external corporations from patenting open-hardware tools, botanical extracts, or cultivar genetics discovered inside The Collective.<br>**B. Homeschool / Alternative-School Statutory Shielding:** Protecting multi-age Inquiry Circles from truancy or rigid state curriculum enforcement. | • **Timestamped Defensive Prior Art:** `col-commonsd` automatically publishes cryptographic hashes and technical disclosures of all newly canonized `Iota`/`Alpha`/`Chi` breakthroughs to public Layer 7 prior-art registries (`Planetary Lighthouse`), establishing legally binding prior art worldwide.<br>• **Umbrella Private School / Cooperative Education Wrapper:** Files routine statutory homeschool/micro-school equivalence notices while keeping individual learner portfolios $100\%$ private inside $R_0$. |
+
+---
+
+## 7. Horizon Council v3.2 Architectural Binding (*The Architecture of Boundless Time* — D1–D8)
+
+| Horizon Council Dimension | Scenario Iota (`SCN-IOTA-EPISTEMIC` / `iota_epistemic`) Binding |
+| :--- | :--- |
+| **Node Membership Regime ($N_s$) & Unified Voice $V_i(t) = 1 + R_i(t)$** | $N_s = 5 \to 40$ researchers, librarians & metrologists; protected by $B=1$ civic floor during **Dormant Equilibrium** when $R_i(t) \to 0$. |
+| **Primary Layer 6 Lens & Need-Capture Mode** | ***Scenario Zero Forge Studio Lens*** (3 Sovereign Libraries curation, `collective:thermodynamicProof` auditing & substrate-drift review). |
+| **Enveloping Node Hypervisor Lease (`cB`, `mW`, `mK`, `mm`)** | **Archive & Metrology Lab Envelope** (`4,500 cB`, clean power `mW`, climate stability `mK` for primary standards and rag-paper archives). |
+| **L4 3-Tier Cascade & Stage I$\to$III Hardware Retrofit Archetype** | Curates the global **Ontological Graph**, **Orchestration Registry**, and **Physics Baseline** (`D5`) replicated over `col-storaged` and `col-meshd`. |

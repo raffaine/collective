@@ -70,6 +70,10 @@ Scenario Upsilon replaces brittle utilities and bunker paranoia with five resili
 
 ## 5. Governance Across Human Scales ($N = 1 \longrightarrow N_s \ge 1, N_p > 1 \longrightarrow N_s > 1, N_p > 1$)
 
+Across every scale, Layer 5 governance in Scenario Upsilon is anchored in the single unified voting weight formula scoped strictly to **Node Membership ($N_s$)**:
+$$V_i(t) = B + R_i(t) = 1 + R_i(t) \qquad \left(V_{i,\mathrm{bp}}(t) = 10{,}000 + R_{i,\mathrm{bp}}(t)\right)$$
+Because the non-decaying **Universal Civic Baseline** $B = 1$ ($10{,}000\,\mathrm{bp}$) remains constitutionally active even during a `0x01` grid-down or extreme-weather emergency (with a mandatory 72-hour ratification sunset and zero martial-law suspension of civic rights), the **Microgrid & Watershed Shock Envelope** executes Fast-Path load shedding (`D4`) to preserve clinical (`Chi`), care (`Delta`/`Phi`), and cold-chain pantry (`Gamma`) baselines.
+
 1. **Solo Steward Scale ($N = 1 \implies N_s = 1\text{ operator}, N_p = 1\text{ homesteader}$):**
    * *Context:* A solo homesteader riding out a 3-day ice storm or wildfire smoke event on a $48\,\mathrm{V}$ battery, rainwater cistern, and HEPA bedroom filter.
    * *Governance Model:* **Zero panic, autonomic 72-hour survival hold.** Within $< 16\,\mathrm{ms}$ of grid failure, the node sheds workshop/server loads automatically, keeps the stove, fridge, water pump, and HEPA filter running for $72+$ hours, and broadcasts a periodic "All OK on Lot 402" LoRa heartbeat to peered neighbors.
@@ -92,3 +96,14 @@ Scenario Upsilon replaces brittle utilities and bunker paranoia with five resili
 | :--- | :--- | :--- |
 | **1. Extractive / Transitional Reach into Layer 7** | **A. FEMA / Municipal Hazard-Mitigation & Watershed Restoration Grants:** Drawing down public flood-control, wildfire-fuel-reduction, or community-resilience microgrid grants to fund keyline earthworks and battery banks.<br>**B. Emergency Mutual-Aid Coordination with Municipal Fire/EMS:** Sharing real-time LoRa weather/fire-perimeter telemetry and water-tender draft points with local firefighters. | • **Non-Coercive Grant Conditions Only:** Layer 5 rejects any external grant that demands backdoor control over node switchgear or compromises `R_0` resident privacy.<br>• **One-Way Telemetry Export:** Shares anonymized hydrological and wildfire sensor data outward to help protect the wider county without exposing internal node topology. |
 | **2. Purely Defensive Reach into Layer 7** | **A. Good Samaritan Disaster Relief & Emergency Shelter Immunity:** Protecting the settlement from liability when sheltering surrounding Layer 7 neighbors free of charge during blackouts, floods, or smoke waves.<br>**B. Anti-Requisition & Water-Right Defense:** Protecting ecological instream flows ($\ge 8000\,\mathrm{bp}$) and community emergency larders. | • **Statutory Disaster Relief & UUNAA Mutual-Aid Safe-Harbor:** Operates the Open-Hearth Neighbor Refuge under state **Good Samaritan / Voluntary Disaster Shelter** immunity statutes (`$0` charged).<br>• **Senior Instream Ecological Water Trusts (`UCEA`):** Locks watershed retention swales and spring flows inside conservation easements dedicated to riparian survival and fire suppression. |
+
+---
+
+## 7. Horizon Council v3.2 Architectural Binding (*The Architecture of Boundless Time* — D1–D8)
+
+| Horizon Council Dimension | Scenario Upsilon (`SCN-UPSILON-SHOCK` / `upsilon_shock`) Binding |
+| :--- | :--- |
+| **Node Membership Regime ($N_s$) & Unified Voice $V_i(t) = 1 + R_i(t)$** | Federated emergency response across all local nodes ($V_i(t) = 1 + R_i(t)$ constitutional continuity; zero martial-law suspension of the $B=1$ civic floor). |
+| **Primary Layer 6 Lens & Need-Capture Mode** | ***The Enveloping Node Hypervisor Lens*** + ***The Pantry Lens*** (bioregional emergency stock buffers & microgrid islanding state). |
+| **Enveloping Node Hypervisor Lease (`cB`, `mW`, `mK`, `mm`)** | **Microgrid & Watershed Shock Envelope** (`IEEE 1547` hardware islanding in $< 16\,\mathrm{ms}$, automated emergency power `mW` and water `mL/s` shedding). |
+| **L4 3-Tier Cascade & Stage I$\to$III Hardware Retrofit Archetype** | Proves graceful degradation when external Layer 7 supply chains or municipal grids collapse: Fast-Path load shedding preserves clinical, care, and cold-chain pantry baselines. |

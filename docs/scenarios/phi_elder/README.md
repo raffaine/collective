@@ -66,6 +66,10 @@ Scenario Phi replaces institutional warehousing and invasive cameras with five f
 
 ## 5. Governance Across Human Scales ($N = 1 \longrightarrow N_s \ge 1, N_p > 1 \longrightarrow N_s > 1, N_p > 1$)
 
+Across every scale, Layer 5 governance in Scenario Phi is anchored in the single unified voting weight formula scoped strictly to **Node Membership ($N_s$)**:
+$$V_i(t) = B + R_i(t) = 1 + R_i(t) \qquad \left(V_{i,\mathrm{bp}}(t) = 10{,}000 + R_{i,\mathrm{bp}}(t)\right)$$
+Scenario Phi is the human cornerstone of the **Non-Decaying Universal Civic Baseline ($B = 1$, `D3`, `D8`)**: as an elder retires from heavy physical guild labor and their active physical contribution rate drops to zero ($\dot{r}_i(\tau) \to 0$, causing $R_i(t) \to 0$ over half-life $\tau_{1/2}$), their voice $V_i(t)$ **asymptotes cleanly to $B = 1$ ($10{,}000\,\mathrm{bp}$)**—guaranteeing that retired elders never lose their full constitutional citizenship or sanctuary protections.
+
 1. **Solo Elder / Independent Living Scale ($N = 1 \implies N_s = 1\text{ elder}, N_p = 1\text{ resident}$):**
    * *Context:* An independent elder living solo in their own ground-floor cottage or suburban house who wants full autonomy without isolation.
    * *Governance Model:* **Sovereign independence backed by silent safety nets.** The elder controls their own schedule, uses the Tactile/Voice Companion for oral-history recording or guild consultations, and relies on zero-camera mmWave fall detection, automated induction shutoffs, and daily `Scenario Gamma` porch tiffin check-ins peered with next-door neighbors.
@@ -88,3 +92,14 @@ Scenario Phi replaces institutional warehousing and invasive cameras with five f
 | :--- | :--- | :--- |
 | **1. Extractive / Transitional Reach into Layer 7** | **A. Statutory Pension, Social Security & Medicare/Hospice Entitlement Drawdown:** Ensuring aging stewards receive $100\%$ of the external retirement pensions, Social Security, and Medicare hospice equipment benefits they paid into during their Layer 7 working years.<br>**B. Specialized Mobility & Palliative Equipment GPO:** Procuring hospital beds, ceiling hoist tracks, or hearing-aid processors. | • **Personal Pension Sovereignty:** External pension checks belong to the elder in $R_0$ (or voluntarily contribute toward their household's $\Phi_t$ tax share)—never seized by a central commune treasury.<br>• **Inviolable $R_0$ Assistive Ownership:** Any walker, power wheelchair, or hearing aid provisioned is permanently titled to the elder (`Scenario Tau`). |
 | **2. Purely Defensive Reach into Layer 7** | **A. Statutory `POLST`, Advance Directive & Anti-Conservatorship Armor:** Preventing external hospitals or estranged biological relatives from overriding an elder's wish to die peacefully at home or seizing control via predatory guardianship courts.<br>**B. Green Burial & Terramation Legal Compliance:** Protecting ecological body return in `Scenario Eta` Memorial Groves. | • **Ricardian `POLST` / Durable Healthcare POA Compilation:** Generates wet-ink state-statutory **Physician Orders for Life-Sustaining Treatment (`POLST`)** and **Durable Medical POAs** co-signed with `Scenario Chi` physicians.<br>• **Licensed Conservation Cemetery / Natural Organic Reduction Easement:** Dedicates Memorial Coppice Groves under state green-burial / terramation statutes and **UCEA** conservation easements, extinguishing estate-probate land liquidation forever. |
+
+---
+
+## 7. Horizon Council v3.2 Architectural Binding (*The Architecture of Boundless Time* — D1–D8)
+
+| Horizon Council Dimension | Scenario Phi (`SCN-PHI-ELDER` / `phi_elder`) Binding |
+| :--- | :--- |
+| **Node Membership Regime ($N_s$) & Unified Voice $V_i(t) = 1 + R_i(t)$** | $N_s = 6 \to 30$ elder-care stewards & senior residents ($B=1$ non-decaying civic voice for elders whose active $\dot{r}_i(\tau) \to 0$). |
+| **Primary Layer 6 Lens & Need-Capture Mode** | ***The Pantry Lens*** (medication/nutrition Arrhenius TTL) + ***The Enveloping Node Hypervisor Lens*** (sanctuary acoustic/thermal shields). |
+| **Enveloping Node Hypervisor Lease (`cB`, `mW`, `mK`, `mm`)** | **Elder Sanctuary Envelope** (`4,000 cB` quiet shield, `295,150 mK` thermal comfort floor, priority backup `mW` power for assistive devices). |
+| **L4 3-Tier Cascade & Stage I$\to$III Hardware Retrofit Archetype** | Human cornerstone of the **Non-Decaying Universal Civic Baseline ($B=1$, `D3`, `D8`)**: retired elders whose physical work rate $\dot{r}_i(\tau) \to 0$ never lose their full $B=1$ constitutional voice. |

@@ -71,6 +71,10 @@ O Cenário Ípsilon substitui redes frágeis e paranoia de bunker por cinco laç
 
 ## 5. Governança através das Escalas Humanas ($N = 1 \longrightarrow N_s \ge 1, N_p > 1 \longrightarrow N_s > 1, N_p > 1$)
 
+Em todas as escalas, a governança da Camada 5 no Cenário Ípsilon ancora-se na fórmula unificada de peso de voto restrita estritamente aos **Membros do Nó ($N_s$)**:
+$$V_i(t) = B + R_i(t) = 1 + R_i(t) \qquad \left(V_{i,\mathrm{bp}}(t) = 10.000 + R_{i,\mathrm{bp}}(t)\right)$$
+Como a **Base Cívica Universal** não-decaível $B = 1$ ($10.000\,\mathrm{bp}$) permanece constitucionalmente ativa mesmo durante um apagão externo ou emergência climática `0x01` (com expiração obrigatória em 72 horas e zero suspensão de direitos civis), o **Envelope de Choque de Microrrede e Bacia Hidrográfica** executa o corte seletivo de carga em Via Rápida (`D4`) para preservar a clínica (`Qui`), o cuidado (`Delta`/`Fi`) e a cadeia de frio da despensa (`Gama`).
+
 1. **Escala do Guardião Solitário ($N = 1 \implies N_s = 1\text{ operador}, N_p = 1\text{ morador}$):**
    * *Contexto:* Um morador atravessando 3 dias de temporal com queda de árvores ou fumaça de queimadas usando sua bateria de $48\,\mathrm{V}$, cisterna de chuva e filtro `HEPA` no quarto.
    * *Modelo de Governança:* **Zero pânico, sustentação autonômica por 72 horas.** Em $< 16\,\mathrm{ms}$ após a queda da rede externa, o nó desliga automaticamente cargas de oficina/servidor, mantém fogão, geladeira, bomba d'água e filtro `HEPA` rodando por mais de 72 horas e transmite um pulso periódico via `LoRa` (*"Tudo bem no Lote 402"*) para os vizinhos pareados.
@@ -93,3 +97,14 @@ O Cenário Ípsilon substitui redes frágeis e paranoia de bunker por cinco laç
 | :--- | :--- | :--- |
 | **1. Alcance Extrativo / Transitório na Camada 7** | **A. Fomento de Restauração de Bacias Hidrográficas, `PSA` & Mitigação de Desastres:** Acessar recursos públicos de recuperação de nascentes, prevenção de enchentes/incêndios ou Pagamento por Serviços Ambientais (`PSA — Lei 14.119/2021`) para financiar escavações Keyline e bancos de baterias.<br>**B. Coordenação de Ajuda Mútua com Defesa Civil e Corpo de Bombeiros:** Compartilhar telemetria `LoRa` em tempo real de pluviosidade/focos de incêndio e pontos de abastecimento de água com bombeiros locais. | • **Condições Não-Coercitivas:** A Camada 5 rejeita qualquer convênio externo que exija controle remoto sobre os disjuntores do nó ou comprometa a privacidade $R_0$ dos moradores.<br>• **Exportação Unidirecional de Telemetria Ambiental:** Compartilha dados hidrológicos e meteorológicos anonimizados para proteger todo o município sem expor a topologia interna do nó. |
 | **2. Alcance Puramente Defensivo na Camada 7** | **A. Homologação como `NUDEC` (`Lei 12.608/2012`), Rádio de Emergência `RENER / ANATEL` & Imunidade de Abrigo Solidário:** Proteger a brigada comunitária, os enlaces de rádio e o Refúgio de Lareira Aberta durante apagões e enchentes.<br>**B. Defesa das Vazões Ecológicas ($\ge 8.000\,\mathrm{bp}$) & Despensas Comunitárias:** Proteger as águas das nascentes e reservas de emergência. | • **Núcleo Comunitário de Proteção e Defesa Civil (`NUDEC — Lei Federal nº 12.608/2012 Art. 8º XV`), `RENER / ANATEL (Resolução 697/2018)` & Estado de Necessidade (`Art. 188 II CC`):** Homologa o núcleo junto à Defesa Civil, opera rádios de emergência na Rede Nacional de Emergência de Radioamadores e ampara o Refúgio de Lareira Aberta no abrigo humanitário gratuito (`R$ 0,00` cobrados), com ilhamento técnico certificado (`Lei 14.300/2022` / `PRODIST ANEEL`).<br>• **Proteção de Nascentes (`RPPN` / `APP Código Florestal`):** Blinda as bacias de infiltração Keyline e matas ciliares como áreas permanentes de conservação e segurança hídrica. |
+
+---
+
+## 7. Vinculação Arquitetural do Conselho Horizonte v3.2 (*A Arquitetura do Tempo Ilimitado* — D1–D8)
+
+| Dimensão do Conselho Horizonte | Vinculação no Cenário Ípsilon (`SCN-UPSILON-SHOCK` / `upsilon_shock`) |
+| :--- | :--- |
+| **Regime de Membros do Nó ($N_s$) & Voz Unificada $V_i(t) = 1 + R_i(t)$** | Resposta federada de emergência em todos os nós locais (continuidade constitucional $V_i(t) = 1 + R_i(t)$; zero suspensão de estado de sítio sobre o piso cívico $B=1$). |
+| **Lente Primária da Camada 6 & Modo de Captura de Necessidades** | ***A Lente do Hipervisor de Nó Envolvente*** + ***A Lente da Despensa*** (estoques tampão biorregionais de emergência & estado de ilhamento da microrrede). |
+| **Concessão do Hipervisor de Nó Envolvente (`cB`, `mW`, `mK`, `mm`)** | **Envelope de Choque de Microrrede & Bacia Hidrográfica** (ilhamento físico `IEEE 1547` em $< 16\,\mathrm{ms}$, corte seletivo automático de energia `mW` e água `mL/s`). |
+| **Cascata L4 de 3 Níveis & Arquétipo de Retrofit de Hardware Estágio I$\to$III** | Comprova a degradação graciosa quando cadeias de suprimento ou redes elétricas da Camada 7 colapsam: a Via Rápida preserva os pisos clínico, de cuidado e de cadeia de frio da despensa. |

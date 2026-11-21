@@ -72,6 +72,10 @@ Scenario Delta replaces parental isolation and commercial daycare with five inte
 
 ## 5. Governance Across Human Scales ($N = 1 \longrightarrow N_s \ge 1, N_p > 1 \longrightarrow N_s > 1, N_p > 1$)
 
+Across every scale, Layer 5 governance in Scenario Delta is anchored in the single unified voting weight formula scoped strictly to **Node Membership ($N_s$)**:
+$$V_i(t) = B + R_i(t) = 1 + R_i(t) \qquad \left(V_{i,\mathrm{bp}}(t) = 10{,}000 + R_{i,\mathrm{bp}}(t)\right)$$
+where $B = 1$ ($10{,}000\,\mathrm{bp}$) is the non-decaying **Universal Civic Baseline** held by every parent and care steward in the nursery circle ($N_s > R_i(t) + 2$), while the nursery wing holds priority `950` Fast-Path acoustic (`4,000 cB` nap-hour shield) and thermal (`294,150 mK`) protection inside the building's **Enveloping Node Hypervisor**.
+
 1. **Solo Steward Scale ($N = 1 \implies N_s = 1\text{ parent household}, N_p = 1\text{ family unit}$):**
    * *Context:* A solo parent or single household raising an infant or toddler on their homestead lot.
    * *Governance Model:* **Unconditional community wrap-around (`No Solo Parent Left Isolated`).** Even when a household has only $N_s = 1$ adult, activating a `PostpartumCocoonIntent` or `EmergencyCareFlare` mobilizes surrounding $R_1 / R_2$ hearth tiffins, diaper milk-runs, and vetted respite caregivers so a solo parent never faces illness or sleep deprivation alone.
@@ -94,3 +98,14 @@ Scenario Delta replaces parental isolation and commercial daycare with five inte
 | :--- | :--- | :--- |
 | **1. Extractive / Transitional Reach into Layer 7** | **A. Specialized Pediatric & Obstetric Supplies:** Procuring hospital-grade breast-milk pasteurization flasks, car seats, or neonatal clinical consumables not yet fabricated locally.<br>**B. Statutory Child Tax Credits & Paid Parental Leave Drawdown:** Helping hybrid Stage 1/2 parents claim all state paid family leave and child benefit entitlements. | • **Pediatric Safety Priority:** Layer 5 grants top external procurement priority to certified child-safety hardware (e.g., ECE/DOT vehicle restraints) while logging reusable textile/nursery furniture needs for `Scenario Nu` and `Scenario Alpha`.<br>• **Household Benefit Retention:** External statutory child benefits remain $100\%$ with the family unit. |
 | **2. Purely Defensive Reach into Layer 7** | **A. Cooperative Playgroup & Shared-Custody Statutory Exemptions:** Protecting neighborhood parent-cooperative play pods from commercial daycare licensing extortion aimed at corporate chains.<br>**B. Absolute Pediatric Privacy (`Mundane Semantic Camouflage`):** Preventing data brokers, schools, or state agencies from harvesting children's developmental logs or family structures. | • **Parent-Cooperative Reciprocal Playgroup Carapace:** Structures neighborhood pods under statutory reciprocal parent-co-op exemptions and **UUNAA Section 6** private association covenants where parents rotate stewardship with zero commercial fee.<br>• **Zero Outbound Child Telemetry:** Child names, birthdates, and pod attendance logs are strictly blocked from crossing `l6_l7.sock`. |
+
+---
+
+## 7. Horizon Council v3.2 Architectural Binding (*The Architecture of Boundless Time* — D1–D8)
+
+| Horizon Council Dimension | Scenario Delta (`SCN-DELTA-CHILDCARE` / `delta_childcare`) Binding |
+| :--- | :--- |
+| **Node Membership Regime ($N_s$) & Unified Voice $V_i(t) = 1 + R_i(t)$** | $N_s = 4 \to 18$ care stewards & parents ($B=1$ civic floor ensures parent/educator co-governance under $N_s > R_i(t) + 2$ with `domesticCareTokenMinting: 0`). |
+| **Primary Layer 6 Lens & Need-Capture Mode** | ***The Pantry Lens*** (nutrition/formula Arrhenius TTL) + ***The Enveloping Node Hypervisor Lens*** (nap-hour acoustic shield). |
+| **Enveloping Node Hypervisor Lease (`cB`, `mW`, `mK`, `mm`)** | **Nursery Wing Envelope** (strict `4,000 cB` quiet shield during nap windows, thermal `294,150 mK` comfort baseline). |
+| **L4 3-Tier Cascade & Stage I$\to$III Hardware Retrofit Archetype** | Holds priority `950` Fast-Path acoustic/thermal protection inside the building envelope, automatically throttling adjacent high-decibel workshop leases. |

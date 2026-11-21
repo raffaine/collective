@@ -67,6 +67,10 @@ Scenario Eta replaces extractive logging and unverified wildcrafting with five l
 
 ## 5. Governance Across Human Scales ($N = 1 \longrightarrow N_s \ge 1, N_p > 1 \longrightarrow N_s > 1, N_p > 1$)
 
+Across every scale, Layer 5 governance in Scenario Eta is anchored in the single unified voting weight formula scoped strictly to **Node Membership ($N_s$)**:
+$$V_i(t) = B + R_i(t) = 1 + R_i(t) \qquad \left(V_{i,\mathrm{bp}}(t) = 10{,}000 + R_{i,\mathrm{bp}}(t)\right)$$
+where $B = 1$ ($10{,}000\,\mathrm{bp}$) is the non-decaying **Universal Civic Baseline** and $R_i(t)$ is decaying Layer 3 ecological/forestry stewardship ($\tau_{1/2}$). When $N_s > R_i(t) + 2$, the forestry stewards' $B=1$ baseline and Layer 4 Tier-3 Mother-Tree Sanctuary hard-blocks prevent any single timber operator from over-harvesting the watershed.
+
 1. **Solo Steward Scale ($N = 1 \implies N_s = 1\text{ operator}, N_p = 1\text{ homesteader}$):**
    * *Context:* A solo homesteader managing a backyard dwarf-orchard guild, a small willow/hazel coppice hedgerow for garden stakes and basketry, shiitake logs, and an herb drying rack.
    * *Governance Model:* **Calm seasonal calendar & botanical safety guide.** Layer 6 stays silent for months at a time, surfacing gentle phenological reminders when winter pruning dormancy arrives or when shiitake logs are ready to soak, while providing clear mycotoxin/identification checklists for home apothecary teas.
@@ -89,3 +93,14 @@ Scenario Eta replaces extractive logging and unverified wildcrafting with five l
 | :--- | :--- | :--- |
 | **1. Extractive / Transitional Reach into Layer 7** | **A. Bare-Root Heirloom Nursery Stock & Mycelial Spawn Import:** Sourcing disease-resistant chestnut cultivars, fruit scions, or initial fungal cultures to establish diverse perennial stands.<br>**B. Certified Sustainable Tonewood / Specialty Botanical Export (`policy:commons_plus_l7_zero_bill`):** Selling a small fraction of solar-kilned specialty lumber or botanical extracts to pay down land acquisition or forestry equipment costs. | • **Local Propagation Multiplication:** Imported scions and mycelial cultures are immediately propagated in the node's own stool beds and tissue-culture labs (`Scenario Iota`) so external nursery dependence drops to $0\,\mathrm{bp}$.<br>• **Basal-Area Growth Floor & $\Phi_t = 0$ Cap:** External wood/botanical sales are blocked unless annual stand growth exceeds harvest by $\ge 2000\,\mathrm{bp}$ ($20\%$) and shut off automatically once monthly land/tax obligations hit $0\text{ cents}$. |
 | **2. Purely Defensive Reach into Layer 7** | **A. Property-Tax Slash via Forest & Conservation Easements ($70\text{–}90\%$ Reduction):** Neutralizing the largest recurring fiat expense on rural and peri-urban land.<br>**B. Anti-Biopiracy & Heirloom Seed Defense:** Preventing agro-chemical corporations from patenting locally bred cultivars. | • **Designated Forest Land & UCEA Conservation Easements:** Enrolls woodland and agroforestry parcels in statutory **Designated Forest Land / Timber Open Space** tax programs and **Uniform Conservation Easement Act (`UCEA`)** covenants, legally binding the land against commercial subdivision while slashing county property taxes by $70\text{–}90\%$.<br>• **Open-Source Seed Pledge & Prior-Art Publication:** Publishes cultivar genomic/phenotypic descriptions via `Scenario Iota` defensive prior art. |
+
+---
+
+## 7. Horizon Council v3.2 Architectural Binding (*The Architecture of Boundless Time* — D1–D8)
+
+| Horizon Council Dimension | Scenario Eta (`SCN-ETA-COPPICE` / `eta_coppice`) Binding |
+| :--- | :--- |
+| **Node Membership Regime ($N_s$) & Unified Voice $V_i(t) = 1 + R_i(t)$** | $N_s = 4 \to 16$ agro-forestry & timber stewards ($N_s > R_i(t) + 2$ anti-capture baseline guarding watershed ecological ceilings). |
+| **Primary Layer 6 Lens & Need-Capture Mode** | ***The Pantry Lens*** (biological harvest cadence) + ***The Workshop Lens*** (sawmill/kiln wear cycles & tonewood/timber curing). |
+| **Enveloping Node Hypervisor Lease (`cB`, `mW`, `mK`, `mm`)** | **Bioregional Forestry & Watershed Sub-Envelope** (`mm` parcel polygons, biomass exergy `uJ`, avian nesting quiet buffer `< 650 cBC`). |
+| **L4 3-Tier Cascade & Stage I$\to$III Hardware Retrofit Archetype** | Tier 1 timber dimension scaling (`mm`) and solar kiln drying integration (`mK`, `ms`); Stage I proprietary chainsaw/mill electronics $\to$ Stage II open ignition/motor retrofits. |

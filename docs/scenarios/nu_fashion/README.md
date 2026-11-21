@@ -66,6 +66,10 @@ Scenario Nu replaces fast fashion and toxic synthetics with five regenerative te
 
 ## 5. Governance Across Human Scales ($N = 1 \longrightarrow N_s \ge 1, N_p > 1 \longrightarrow N_s > 1, N_p > 1$)
 
+Across every scale, Layer 5 governance in Scenario Nu is anchored in the single unified voting weight formula scoped strictly to **Node Membership ($N_s$)**:
+$$V_i(t) = B + R_i(t) = 1 + R_i(t) \qquad \left(V_{i,\mathrm{bp}}(t) = 10{,}000 + R_{i,\mathrm{bp}}(t)\right)$$
+where $B = 1$ ($10{,}000\,\mathrm{bp}$) is the non-decaying **Universal Civic Baseline** and $R_i(t)$ is decaying Layer 3 textile stewardship ($\tau_{1/2}$). Under **Constitutional Pillar I**, 85% of loom capacity serves staple climate-appropriate clothing and workwear while 15% is reserved for experimental *montage* couture and bespoke creative expression.
+
 1. **Solo Steward Scale ($N = 1 \implies N_s = 1\text{ operator}, N_p = 1\text{ person}$):**
    * *Context:* A solo homesteader or maker operating a sewing machine, mending kit, and small botanical dye pot.
    * *Governance Model:* **Pure creative self-expression.** Zero approvals or logs; the solo steward uses the offline pattern library and nesting tool to sew and mend their own wardrobe at will.
@@ -88,3 +92,14 @@ Scenario Nu replaces fast fashion and toxic synthetics with five regenerative te
 | :--- | :--- | :--- |
 | **1. Extractive / Transitional Reach into Layer 7** | **A. Specialty Technical Fiber & Hardware GPO (`ProcurementIntent`):** Importing aramid (`Kevlar`/`Nomex`) thread for firefighter/foundry `PPE`, surgical-grade stainless needles, or natural crepe rubber soles not yet produced locally.<br>**B. Bespoke Tailoring, Knitwear & Heritage Boot Export (`policy:commons_plus_l7_zero_bill`):** Selling high-craft custom wool coats or Goodyear-welted boots to external Layer 7 customers to fund textile mill equipment and node tax bills. | • **Fiber Dependency Reduction ($D_{\mathrm{materials}}$):** Imported cotton or technical threads are logged on the Legacy Dependency Register, driving `Scenario Eta` flax/hemp acreage and `Scenario Mu` post-consumer textile reclamation.<br>• **Strict $B_{\mathrm{baseline}}$ Priority & $\Phi_t = 0$ Shutoff:** External bespoke sales are permitted only after all resident seasonal clothing/boot needs and `Scenario Delta` infant layettes are fulfilled, shutting off automatically once monthly node fiat bills hit $0\text{ cents}$. |
 | **2. Purely Defensive Reach into Layer 7** | **A. ANSI / OSHA `PPE` & Children's Sleepwear Statutory Compliance:** Protecting workshop operations and community textile distribution from regulatory liability.<br>**B. Biometric & Aesthetic Privacy (`Mundane Semantic Camouflage`):** Preventing external platforms from profiling residents' body sizes or clothing habits. | • **Certified Testing & Cooperative Atelier Carapace:** Logs destructive tensile/flame test attestations on shared `PPE` batches for insurer/OSHA audits and operates external craft sales under an **IRC Subchapter T** artisan cooperative wrapper.<br>• **Zero Outbound Sizing Data:** Because `OP_PURGE_R0_LINEAGE` wipes all body measurements in RAM at creation, zero sizing or biometric records exist to leak or subpoena across `l6_l7.sock`. |
+
+---
+
+## 7. Horizon Council v3.2 Architectural Binding (*The Architecture of Boundless Time* — D1–D8)
+
+| Horizon Council Dimension | Scenario Nu (`SCN-NU-FASHION` / `nu_fashion`) Binding |
+| :--- | :--- |
+| **Node Membership Regime ($N_s$) & Unified Voice $V_i(t) = 1 + R_i(t)$** | $N_s = 1 \to 12$ weavers, tailors & textile stewards (strong $N=1$ creative autonomy & $N_s > R_i(t) + 2$ guild democracy). |
+| **Primary Layer 6 Lens & Need-Capture Mode** | ***The Workshop Lens*** (loom/serger cycle wear, localized pattern fork tree, 15% *montage* creative reserve). |
+| **Enveloping Node Hypervisor Lease (`cB`, `mW`, `mK`, `mm`)** | **Shared Textile Studio Envelope** (`6,500 cB`, `1,200,000 mW`, dye-vat phytoremediation effluent lock). |
+| **L4 3-Tier Cascade & Stage I$\to$III Hardware Retrofit Archetype** | Tier 1 SI scaling across bolt width (`mm`) and Tier 2 stitch/fastener macro-substitution; Stage I DRM embroidery machine $\to$ Stage II open stepper controller retrofit. |

@@ -70,6 +70,10 @@ O Cenário Sigma substitui a produtividade coercitiva e o martírio informal por
 
 ## 5. Governança através das Escalas Humanas ($N = 1 \longrightarrow N_s \ge 1, N_p > 1 \longrightarrow N_s > 1, N_p > 1$)
 
+Em todas as escalas, a governança da Camada 5 no Cenário Sigma ancora-se na fórmula unificada de peso de voto restrita estritamente aos **Membros do Nó ($N_s$)**:
+$$V_i(t) = B + R_i(t) = 1 + R_i(t) \qquad \left(V_{i,\mathrm{bp}}(t) = 10.000 + R_{i,\mathrm{bp}}(t)\right)$$
+onde $B = 1$ ($10.000\,\mathrm{bp}$) é a **Base Cívica Universal** não-decaível no Livro-Contábil Termodinâmico. Como $B=1$ jamais decai quando a taxa de trabalho físico de um guardião vai a zero ($\dot{r}_i(\tau) \to 0$ durante `RestIntent` ou `CareLeaveDeclarationIntent`), quem descansa nunca perde sua voz constitucional, e a evolução das quebras cegas do **Estágio I (Hardware Resgatado L7)** para as trocas preventivas de 5 minutos dos **Estágios II e III** conquista a **Libertação Zero-Stat (`D1`, `D7`)**.
+
 1. **Escala do Guardião Solitário ($N = 1 \implies N_s = 1\text{ operador}, N_p = 1\text{ pessoa atendida}$):**
    * *Contexto:* Um morador solitário cuidando da própria horta, sistema solar e bancada de oficina.
    * *Modelo de Governança:* **Ritmo autocompassivo & corte automático de carga.** Quando o guardião solitário fecha o Ferrolho do Santuário ou fica gripado, o `col-execd` coloca o sítio em **Modo Autonômico de Baixa Manutenção**—passando a irrigação e os comedouros das aves para temporizadores automáticos, pausando projetos não-essenciais da oficina e retendo alertas não-críticos até a recuperação.
@@ -92,3 +96,14 @@ O Cenário Sigma substitui a produtividade coercitiva e o martírio informal por
 | :--- | :--- | :--- |
 | **1. Alcance Extrativo / Transitório na Camada 7** | **A. Aquisição de Componentes Ergonômicos e de Automação:** Importar atuadores mecânicos, talhas de elevação ou bombas de lavagem necessários para cumprir um `DrudgeryAutomationQuestIntent` quando a oficina local ainda não os fabrica.<br>**B. Exercício de Licenças Médicas, Maternidade/Paternidade e Previdenciárias (`INSS`/`CLT`):** Apoiar membros híbridos (Fase 1 e 2) que ainda trabalham em empregos formais na Camada 7 a exercerem integralmente seus direitos de auxílio-doença, licença-maternidade/paternidade e afastamento remunerado. | • **Prioridade de Importação para Alívio Ergonômico:** A Camada 5 concede prioridade máxima no orçamento externo do nó para componentes que eliminem permanentemente lesões por esforço repetitivo (`LER/DORT`) ou trabalho braçal penoso, aplicando internamente padrões ergonômicos superiores à **NR-17 (Norma Regulamentadora de Ergonomia)**.<br>• **Apoio Documental de Afastamento:** O `col-adversaryd` auxilia o morador híbrido com a documentação necessária para seus direitos previdenciários sem expor dados internos da malha. |
 | **2. Alcance Puramente Defensivo na Camada 7** | **A. Blindagem do Mutirão Associativo, Cooperativo e Voluntário:** Impedir que a ajuda mútua e os mutirões entre vizinhos sejam confundidos com vínculo empregatício comercial clandestino.<br>**B. Sigilo Absoluto de Dados Somáticos e de Saúde (`LGPD`):** Impedir que empregadores externos ou planos de saúde acessem o histórico de descanso ou licença-cuidado de um morador. | • **Enquadramento Associativo, Cooperativo e de Voluntariado:** Mantém zero emissão de moeda/salário interno para o cuidado doméstico e ampara as atividades comunitárias no **Art. 5º, XVIII da CF/88 (Associação Civil)**, no **Ato Cooperativo (Lei 5.764/1971 e Lei 12.690/2012 — que assegura repouso remunerado e proteção social nas cooperativas de trabalho)** e na **Lei do Serviço Voluntário (Lei 9.608/1998)**.<br>• **Vazamento Zero de Dados Somáticos (`LGPD Lei 13.709/2018`):** Registros de `RestIntent` e `CareLeaveDeclarationIntent` jamais cruzam o soquete `l6_l7.sock`. |
+
+---
+
+## 7. Vinculação Arquitetural do Conselho Horizonte v3.2 (*A Arquitetura do Tempo Ilimitado* — D1–D8)
+
+| Dimensão do Conselho Horizonte | Vinculação no Cenário Sigma (`SCN-SIGMA-BURNOUT` / `sigma_burnout`) |
+| :--- | :--- |
+| **Regime de Membros do Nó ($N_s$) & Voz Unificada $V_i(t) = 1 + R_i(t)$** | $N_s = 1 \to 6$ operadores (escalando pelas guildas); redistribuição automática de carga & piso cívico $B=1$ preservado intacto durante o descanso quando $\dot{r}_i(\tau) \to 0$. |
+| **Lente Primária da Camada 6 & Modo de Captura de Necessidades** | ***A Lente da Oficina*** + ***A Lente da Despensa*** (**Libertação Zero-Stat** & UX de triagem calma com zero telemetria de ansiedade). |
+| **Concessão do Hipervisor de Nó Envolvente (`cB`, `mW`, `mK`, `mm`)** | **Escudo de Silêncio do Santuário Pessoal** (teto de `3.800 cB`, zero notificações não-emergenciais quando o ferrolho de madeira está fechado). |
+| **Cascata L4 de 3 Níveis & Arquétipo de Retrofit de Hardware Estágio I$\to$III** | Demonstra a **Libertação Zero-Stat (`D1`, `D7`)**: evoluir dos bloqueios cegos de Estágio I para trocas preditivas de 5 minutos nos Estágios II/III elimina o *burnout* dos fundadores. |

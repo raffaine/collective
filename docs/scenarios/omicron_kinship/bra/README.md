@@ -72,6 +72,10 @@ O Cenário Ômicron resolve tanto o cativeiro econômico capitalista quanto o mo
 
 ## 5. Governança através das Escalas Humanas ($N = 1 \longrightarrow N_s \ge 1, N_p > 1 \longrightarrow N_s > 1, N_p > 1$)
 
+Em todas as escalas, a governança da Camada 5 no Cenário Ômicron ancora-se na fórmula unificada de peso de voto restrita estritamente aos **Membros do Nó ($N_s$)**:
+$$V_i(t) = B + R_i(t) = 1 + R_i(t) \qquad \left(V_{i,\mathrm{bp}}(t) = 10.000 + R_{i,\mathrm{bp}}(t)\right)$$
+onde $B = 1$ ($10.000\,\mathrm{bp}$) é a **Base Cívica Universal** não-decaível no Livro-Contábil Termodinâmico. Em uma parceria diádica $N=2$ ($V_1 = 1 + R_1, V_2 = 1 + R_2$), o consentimento mútuo rege o pacto doméstico enquanto qualquer parceiro detém o direito incondicional de saída unilateral em $< 500\,\mathrm{ms}$ (`SafeHarborSeveranceIntent`), levando consigo 100% de seu piso cívico $B=1$ e sua reputação $R_i(t)$.
+
 1. **Escala do Guardião Solitário ($N = 1 \implies N_s = 1\text{ adulto solo}, N_p = 1\text{ pessoa}$):**
    * *Contexto:* Uma pessoa adulta que escolhe morar sozinha.
    * *Modelo de Governança:* **Plena dignidade da vida solo + procuradores de saúde escolhidos.** Moradores solo jamais são tratados como "famílias incompletas" na alocação de moradia ou voz na assembleia; eles podem nomear qualquer amigo ou vizinho de confiança nos anéis $R_1 / R_2$ como seu procurador médico e beneficiário de relíquias afetivas por meio de um `SovereignKinshipCovenant` leve, sem precisar dividir o mesmo teto.
@@ -94,3 +98,14 @@ O Cenário Ômicron resolve tanto o cativeiro econômico capitalista quanto o mo
 | :--- | :--- | :--- |
 | **1. Alcance Extrativo / Transitório na Camada 7** | **A. Otimização Previdenciária, de Dependentes e Tributária:** Utilizar regras disponíveis na Camada 7 para inclusão de dependentes em planos/benefícios, pensão por morte ou declaração fiscal enquanto os membros ainda interagem com instituições legadas.<br>**B. Acolhimento de Sobreviventes de Violência Doméstica Vindos da Camada 7:** Apoiar pessoas que fogem de violência doméstica na sociedade externa a ingressarem imediatamente na comunidade pelo Caminho 4 (`Cenário Tau`). | • **Desacoplamento entre a Verdade Interna e Formulários Fiscais Externos:** O modo como dois membros preenchem uma declaração externa na Camada 7 jamais limita seu verdadeiro `SovereignKinshipCovenant` $N\text{-ário}$ dentro da Camada 6.<br>• **Santuário de Barreira Zero (`Lei Maria da Penha — Lei 11.340/2006`):** Sobreviventes externos que chegam ao nó recebem refúgio imediato `R0_GUEST`, alimentação e proteção física/espacial (`Cenário Psi`/`Rô`) sem exigência de dinheiro ou documentos. |
 | **2. Alcance Puramente Defensivo na Camada 7** | **A. Blindagem de Visitação em UTI, Multiparentalidade e Sucessão:** Impedir que parentes biológicos hostis ou burocracias hospitalares desrespeitem a família escolhida de um morador durante emergências médicas, guarda de filhos ou falecimento.<br>**B. Defesa da Intimidade Familiar (`Art. 5º, X CF/88` e `Camuflagem Semântica Mundana`):** Proteger lares plurais e multigeracionais contra discriminação ou devassa de dados. | • **Síntese Ricardiana de Instrumentos Jurídicos Brasileiros:** Compila automaticamente termos de **Filiação Socioafetiva e Multiparentalidade (`STF Tema 622` e `Provimentos CNJ nº 63/2017 e 83/2019`)**, **Escrituras de União Estável e Dependência Recíproca (`Art. 1.723 CC` / `ADPF 132 STF`)**, **Procurações de Saúde e Diretivas Antecipadas (`Resolução CFM 1.995/2012`)** e **Direito Real de Habitação no `TTC (Lei 13.465/2017)`**.<br>• **Limpeza de Grafos Familiares (`LGPD`):** Mantém a titularidade do solo no `TTC` e remove grafos internos de parentesco antes de cruzar o `l6_l7.sock`. |
+
+---
+
+## 7. Vinculação Arquitetural do Conselho Horizonte v3.2 (*A Arquitetura do Tempo Ilimitado* — D1–D8)
+
+| Dimensão do Conselho Horizonte | Vinculação no Cenário Ômicron (`SCN-OMICRON-KINSHIP` / `omicron_kinship`) |
+| :--- | :--- |
+| **Regime de Membros do Nó ($N_s$) & Voz Unificada $V_i(t) = 1 + R_i(t)$** | $N_s = 2 \to 15$ membros do núcleo familiar multigeracional (consentimento mútuo diádico $N=2$ com saída unilateral $< 500\,\mathrm{ms}$ & voz familiar $N \gg 2$ com $N_s > R_i(t) + 2$). |
+| **Lente Primária da Camada 6 & Modo de Captura de Necessidades** | ***A Lente da Despensa*** + ***A Lente do Hipervisor de Nó Envolvente*** (agrupamento de refeições sem vigilância & partição de concessões de suítes). |
+| **Concessão do Hipervisor de Nó Envolvente (`cB`, `mW`, `mK`, `mm`)** | **Envelope de Parentesco Multi-Suítes** (pactos compartilhados de potência de cozinha/lavanderia `mW` & horário de silêncio `cB` entre suítes $R_0$). |
+| **Cascata L4 de 3 Níveis & Arquétipo de Retrofit de Hardware Estágio I$\to$III** | Divisão e fusão sem atrito de concessões espaciais domésticas e ajuste de refeições de fim de semana (`AnonymousAppetiteLeaseV50`) com zero vigilância de calendário. |

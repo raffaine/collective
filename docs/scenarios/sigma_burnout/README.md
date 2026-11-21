@@ -69,6 +69,10 @@ Scenario Sigma replaces coercive productivity and informal martyrdom with five h
 
 ## 5. Governance Across Human Scales ($N = 1 \longrightarrow N_s \ge 1, N_p > 1 \longrightarrow N_s > 1, N_p > 1$)
 
+Across every scale, Layer 5 governance in Scenario Sigma is anchored in the single unified voting weight formula scoped strictly to **Node Membership ($N_s$)**:
+$$V_i(t) = B + R_i(t) = 1 + R_i(t) \qquad \left(V_{i,\mathrm{bp}}(t) = 10{,}000 + R_{i,\mathrm{bp}}(t)\right)$$
+where $B = 1$ ($10{,}000\,\mathrm{bp}$) is the non-decaying **Universal Civic Baseline**. Because $B=1$ never decays when a steward's active work rate drops to zero ($\dot{r}_i(\tau) \to 0$ during `RestIntent` or `CareLeaveDeclarationIntent`), resting stewards never lose their constitutional voice, and upgrading from **Stage I Scavenged Layer 7** blind breakdowns to **Stage II/III** predictive 5-minute maintenance swaps achieves **Zero-Stat Liberation (`D1`, `D7`)**.
+
 1. **Solo Steward Scale ($N = 1 \implies N_s = 1\text{ operator}, N_p = 1\text{ person served}$):**
    * *Context:* A solo homesteader managing their own garden, solar array, and workshop.
    * *Governance Model:* **Self-compassionate pacing & automated load shedding.** When a solo steward slides their Sanctuary Latch or falls ill with the flu, `col-execd` automatically transitions the homestead into **Low-Maintenance Autonomic Hold**—switching irrigation and poultry feeders to automated timers, pausing non-essential workshop builds, and holding all non-critical alerts until the steward recovers.
@@ -91,3 +95,14 @@ Scenario Sigma replaces coercive productivity and informal martyrdom with five h
 | :--- | :--- | :--- |
 | **1. Extractive / Transitional Reach into Layer 7** | **A. Ergonomic & Automation Component Procurement:** Importing mechanical actuators, lift assists, or wash-down pumps needed to fulfill a `DrudgeryAutomationQuestIntent` when local shops cannot yet fabricate them.<br>**B. Statutory Paid Family & Medical Leave (PFML / FMLA) Drawdown:** Assisting hybrid Stage 1/2 stewards who still work Layer 7 jobs in claiming every paid medical and parental leave benefit they are owed by legacy employers/states. | • **Strain-Prioritized Import Allocation:** Layer 5 grants priority in the node's external procurement budget to components that permanently eliminate repetitive human injury or high-strain manual drudgery.<br>• **Automated PFML Paperwork Generation:** `col-adversaryd` compiles state-compliant medical/family leave filings for hybrid members so they can step away from extractive Layer 7 wage jobs without losing income. |
 | **2. Purely Defensive Reach into Layer 7** | **A. Volunteer & Associational Labor Safe-Harbor (*Tony and Susan Alamo Foundation*):** Preventing hostile labor regulators from misclassifying reciprocal cooperative stewardship or Work-Bees as commercial wage employment subject to payroll taxation.<br>**B. Health & Somatic Data Shielding:** Preventing external insurers or employers from accessing a steward's rest or care-leave history. | • **Non-Commercial Domestic & Associational Framing:** Enforces zero internal wage/token minting for domestic care and structures civic stewardship under **UUNAA Section 6** and cooperative member-owner bylaws.<br>• **Zero Outbound Somatic Leakage:** `RestIntent` and `CareLeaveDeclarationIntent` records never cross `l6_l7.sock`; external interfaces see zero data on individual steward availability or health. |
+
+---
+
+## 7. Horizon Council v3.2 Architectural Binding (*The Architecture of Boundless Time* — D1–D8)
+
+| Horizon Council Dimension | Scenario Sigma (`SCN-SIGMA-BURNOUT` / `sigma_burnout`) Binding |
+| :--- | :--- |
+| **Node Membership Regime ($N_s$) & Unified Voice $V_i(t) = 1 + R_i(t)$** | $N_s = 1 \to 6$ operators (scaling across guild rosters); automatic workload shedding & $B=1$ civic floor preserved intact during rest when $\dot{r}_i(\tau) \to 0$. |
+| **Primary Layer 6 Lens & Need-Capture Mode** | ***The Workshop Lens*** + ***The Pantry Lens*** (**Zero-Stat Liberation** & calm triage UX with zero anxiety telemetry). |
+| **Enveloping Node Hypervisor Lease (`cB`, `mW`, `mK`, `mm`)** | **Personal Sanctuary Quiet Shield** (`3,800 cB` ceiling, zero non-hazard notifications when the wooden sanctuary latch is closed). |
+| **L4 3-Tier Cascade & Stage I$\to$III Hardware Retrofit Archetype** | Demonstrates **Zero-Stat Liberation (`D1`, `D7`)**: upgrading from Stage I blind hard-blocks to Stage II/III predictive 5-minute swaps eliminates founder burnout. |

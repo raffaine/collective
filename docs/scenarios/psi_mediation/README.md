@@ -67,6 +67,10 @@ Scenario Psi replaces cages, courts, and call-out mobs with five transformative 
 
 ## 5. Governance Across Human Scales ($N = 1 \longrightarrow N_s \ge 1, N_p > 1 \longrightarrow N_s > 1, N_p > 1$)
 
+Across every scale, Layer 5 governance in Scenario Psi is anchored in the single unified voting weight formula scoped strictly to **Node Membership ($N_s$)**:
+$$V_i(t) = B + R_i(t) = 1 + R_i(t) \qquad \left(V_{i,\mathrm{bp}}(t) = 10{,}000 + R_{i,\mathrm{bp}}(t)\right)$$
+Scenario Psi is the canonical showcase of **Slow-Path Jurisprudence (`D4`)**: when recurring physical boundary friction occurs inside an **Enveloping Node Hypervisor** (`cB`, `mW`, `mK`, `mm`), Scenario Psi decompiles the Layer 4 hard-block log into a visual **Layer 6 Semantic Diff** ballot ratified by the $N_s$ members ($N_s > R_i(t) + 2$) that compiles directly back into `col-execd` as an executable Layer 4 precedent—replacing endless neighbor arguments with self-healing constitutional law.
+
 1. **Solo / Dyadic Scale ($N = 1 \text{ or } 2 \implies$ Individual Boundary & Two-Neighbor Friction):**
    * *Context:* Two adjoining homesteaders or housemates experiencing friction over a shared tool return, garden boundary, or late-night workshop noise.
    * *Governance Model:* **Direct 1-on-1 conversation assisted by objective telemetry & cooling-off.** Before escalating to any formal circle, the stewards can inspect neutral hardware facts (e.g., `Scenario Lambda` lot-boundary decibel logs or `Scenario Alpha` tool-locker timestamps) after a 12-hour cooling-off pause, resolving $90\%$ of everyday misunderstandings over tea.
@@ -89,3 +93,14 @@ Scenario Psi replaces cages, courts, and call-out mobs with five transformative 
 | :--- | :--- | :--- |
 | **1. Extractive / Transitional Reach into Layer 7** | **A. Statutory Restraining Orders (Survivor-Initiated Only):** If a survivor of severe violence chooses to file an external Layer 7 civil protection order against an external or expelled aggressor.<br>**B. Restorative Diversion Partnerships:** Accepting youth or neighbors referred from municipal restorative-justice diversion programs into `Scenario Kappa`/`Eta` mentorship instead of state court prosecution. | • **Strict Survivor Agency:** No node daemon or council ever calls external Layer 7 police; only an individual survivor retains personal sovereignty to invoke external legal protection if they choose.<br>• **Zero Carceral Contracting:** The settlement never accepts state funds tied to surveillance monitoring, detention, or punitive probation reporting. |
 | **2. Purely Defensive Reach into Layer 7** | **A. Binding Restorative Arbitration Compact (Federal Arbitration Act / Uniform Arbitration Act Shield):** Preventing a bad-faith actor or external litigant from dragging internal cooperative disputes into hostile Layer 7 commercial courts.<br>**B. Mediation Confidentiality Privilege (`Mundane Semantic Camouflage`):** Protecting restorative circle outcomes from external discovery or subpoena. | • **FAA / UAA Restorative Arbitration Clause:** All `Scenario Tau` onboarding and `Scenario Pi` guild covenants include a legally binding **Restorative Arbitration & Graceful Fission Compact** under the Uniform Arbitration Act, requiring courts to dismiss civil suits in favor of the node's restorative process.<br>• **Physical Zero-Existence of Transcripts:** Because the Peace Hearth's hardware kill-switch prevents any audio or transcript from ever being recorded, zero mediation transcripts exist to subpoena. |
+
+---
+
+## 7. Horizon Council v3.2 Architectural Binding (*The Architecture of Boundless Time* — D1–D8)
+
+| Horizon Council Dimension | Scenario Psi (`SCN-PSI-MEDIATION` / `psi_mediation`) Binding |
+| :--- | :--- |
+| **Node Membership Regime ($N_s$) & Unified Voice $V_i(t) = 1 + R_i(t)$** | $N_s = 3 \to 25$ transformative-justice & jurisprudence stewards (sortition panels + $V_i(t) = 1 + R_i(t)$ ratification where $B=1$ prevents judicial caste capture). |
+| **Primary Layer 6 Lens & Need-Capture Mode** | ***The Enveloping Node Hypervisor Lens*** (Slow-Path Semantic Diff ballot, precedent browser & 48h cooling-off hearth). |
+| **Enveloping Node Hypervisor Lease (`cB`, `mW`, `mK`, `mm`)** | **Mediation Commons Envelope** (`4,800 cB` calm acoustic ceiling, hardware-unrecorded hearth sanctuary). |
+| **L4 3-Tier Cascade & Stage I$\to$III Hardware Retrofit Archetype** | Canonical showcase of **Slow-Path Jurisprudence (`D4`)**: decompiling recurring Layer 4 boundary friction into ratified Layer 5 Semantic Diff precedents that compile back into `col-execd`. |

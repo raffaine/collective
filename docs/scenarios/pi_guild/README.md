@@ -72,6 +72,10 @@ Scenario Pi replaces market chaos and bureaucratic hierarchy with five polycentr
 
 ## 5. Governance Across Human Scales ($N = 1 \longrightarrow N_s \ge 1, N_p > 1 \longrightarrow N_s > 1, N_p > 1$)
 
+Across every scale, Layer 5 governance in Scenario Pi is anchored in the single unified voting weight formula scoped strictly to **Node Membership ($N_s$)**:
+$$V_i(t) = B + R_i(t) = 1 + R_i(t) \qquad \left(V_{i,\mathrm{bp}}(t) = 10{,}000 + R_{i,\mathrm{bp}}(t)\right)$$
+where $B = 1$ ($10{,}000\,\mathrm{bp}$) is the non-decaying **Universal Civic Baseline** and $R_i(t)$ is decaying Layer 3 craft/electronics guild stewardship ($\tau_{1/2}$). Scenario Pi designs, tests, and publishes the federation's **Stage II Right-to-Repair Hybrid Retrofit Kits (`D7`)** and **Open-Source Franchising (`D5`)** recipes so any $N=1$ artisan or sister node can import a guild constitution and retrofit kit at zero rent.
+
 1. **Solo Steward Scale ($N = 1 \implies N_s = 1\text{ operator}, N_p = 1\text{ solo node}$):**
    * *Context:* A solo homesteader or artisan node peering for the first time with 3–4 neighboring households ($R_1$).
    * *Governance Model:* **1-of-1 Sovereign Peering & Instant Demand Discovery.** The solo steward holds their own key (or a 2-of-3 social-recovery split via `Scenario Tau`), peers bilaterally with neighbors via lightweight `BCC` channels, and uses the **Mesh Growth Beacon Map** to see what local neighbors need most (e.g., discovering that five nearby households need a shared solar dehydrator or bike-repair bench).
@@ -94,3 +98,14 @@ Scenario Pi replaces market chaos and bureaucratic hierarchy with five polycentr
 | :--- | :--- | :--- |
 | **1. Extractive / Transitional Reach into Layer 7** | **A. Federated `GPO` Bulk Bargaining & Import Substitution:** Aggregating demand signals across multiple nodes to negotiate container-scale wholesale prices on solar cells, bearings, or grain while local `MeshGrowthBeacon` projects are under construction.<br>**B. Inter-Co-op Commercial Clearing (`policy:commons_plus_l7_zero_bill`):** Partnering with friendly external Layer 7 worker cooperatives (`Mondragon` / `Rochdale` peers) to exchange specialty goods. | • **Demand-Capture to Import-Substitution Pipeline:** Every aggregated Layer 7 `GPO` order automatically increases the gravity score of the corresponding `MeshGrowthBeacon`, channeling guild investment toward replacing the highest-volume imports first ($D_t \to 0$).<br>• **Zero Speculative Arbitrage:** External trade is strictly bounded by physical node bills ($\Phi_t$) and real material needs—forbidding commodity speculation or financialized derivatives. |
 | **2. Purely Defensive Reach into Layer 7** | **A. Multi-Entity Compartmentalization (Anti-Contagion Legal Topology):** Ensuring that a frivolous lawsuit or regulatory attack against one commercial activity can never seize residential land or sister-node tools.<br>**B. Federation Graph OpSec (`Mundane Semantic Camouflage`):** Hiding the polycentric treaty topology from external corporate competitors or state surveillance. | • **Separate Legal Shells per Risk Domain:** Segregates land into unencumbered **CLTs / Perpetual Purpose Trusts (`PPTs`)**, internal sharing into **UUNAA Section 6** private associations, and external trade into capped, liability-isolated **Subchapter T** operating shells.<br>• **Pairwise Treaty Confidentiality:** `Treaty_CID` covenants replicate only across participating peer rings ($R_1 \dots R_4$) and never cross `l6_l7.sock`. |
+
+---
+
+## 7. Horizon Council v3.2 Architectural Binding (*The Architecture of Boundless Time* — D1–D8)
+
+| Horizon Council Dimension | Scenario Pi (`SCN-PI-GUILD` / `pi_guild`) Binding |
+| :--- | :--- |
+| **Node Membership Regime ($N_s$) & Unified Voice $V_i(t) = 1 + R_i(t)$** | $N_s = 10 \to 60$ federated craft & electronics guild stewards ($N_s > R_i(t) + 2$ anti-capture baseline + frictionless polycentric guild fork rights). |
+| **Primary Layer 6 Lens & Need-Capture Mode** | ***The Workshop Lens*** + ***Scenario Zero Forge Studio Lens*** (Stage II Retrofit Kit PCB/firmware design & inter-node work-bee dispatch). |
+| **Enveloping Node Hypervisor Lease (`cB`, `mW`, `mK`, `mm`)** | **Guild Hall & Precision Lab Envelope** (`7,200 cB`, `3,500,000 mW`, ESD/particulate `ug` hardware interlocks). |
+| **L4 3-Tier Cascade & Stage I$\to$III Hardware Retrofit Archetype** | Designs, tests, and publishes the **Stage II Right-to-Repair Hybrid Retrofit Kits** (open RISC-V sensor/actuator PCBs + metric adapters) across the federation (`D5`, `D7`). |

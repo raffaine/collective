@@ -70,6 +70,10 @@ Scenario Beta replaces fragmented, fossil-fueled infrastructure with five unifie
 
 ## 5. Governance Across Human Scales ($N = 1 \longrightarrow N_s \ge 1, N_p > 1 \longrightarrow N_s > 1, N_p > 1$)
 
+Across every scale, Layer 5 governance in Scenario Beta is anchored in the single unified voting weight formula scoped strictly to **Node Membership ($N_s$)**:
+$$V_i(t) = B + R_i(t) = 1 + R_i(t) \qquad \left(V_{i,\mathrm{bp}}(t) = 10{,}000 + R_{i,\mathrm{bp}}(t)\right)$$
+where $B = 1$ ($10{,}000\,\mathrm{bp}$) is the non-decaying **Universal Civic Baseline** and $R_i(t)$ is decaying Layer 3 logistics/mechanical stewardship ($\tau_{1/2}$). Transit riders and neighborhood passengers ($N_p$) express routing appetite via zero-knowledge cohort tokens without diluting the $N_s$ mechanics and couriers ($N_s > R_i(t) + 2$).
+
 1. **Solo Steward Scale ($N = 1 \implies N_s = 1\text{ operator}, N_p = 1\text{ person served}$):**
    * *Context:* A single homesteader managing a $48\,\mathrm{V}$ solar battery, rainwater cistern, greywater reed bed, LoRa radio node, and personal cargo e-trike.
    * *Governance Model:* **Zero meetings, automated five-tier self-protection.** Layer 5 and Layer 2 automatically guard the solo homestead's $R_0$ survival floors—shedding discretionary shop loads before survival heating/refrigeration if solar input drops, and keeping $\ge 8000\,\mathrm{bp}$ of creek flow untouched.
@@ -92,3 +96,14 @@ Scenario Beta replaces fragmented, fossil-fueled infrastructure with five unifie
 | :--- | :--- | :--- |
 | **1. Extractive / Transitional Reach into Layer 7** | **A. Asymmetric Municipal Grid & Water Buffering:** Drawing off-peak municipal power or water during deep winter troughs in Stage 1/2 before local solar/storage reaches $100\%$ autonomy.<br>**B. Last-Mile Consolidated Freight Intake:** Receiving bulk GPO deliveries at a single perimeter depot so commercial diesel trucks never enter residential lanes. | • **One-Way Dependency Reduction ($D_{\mathrm{energy}}, D_{\mathrm{water}} \to 0$):** Layer 3 tracks every imported watt-hour and liter on the Legacy Dependency Register, prioritizing battery/cistern expansion until municipal breakers can be locked open (`Scenario Omega`).<br>• **Perimeter Break-Bulk Quarantine:** Commercial carriers drop pallets at the VLAN 40 / perimeter dock; internal distribution switches immediately to electric cargo trikes and reusable stainless totes. |
 | **2. Purely Defensive Reach into Layer 7** | **A. Private Bailment & Utility Easement Shielding:** Preventing state transportation boards or utility monopolies from regulating neighbor-to-neighbor cargo trike milk-runs or cross-lot DC/water lines as commercial common carriers or public utilities.<br>**B. Packet & Route Privacy (`Mundane Semantic Camouflage`):** Protecting inter-node radio/fiber traffic from ISP surveillance. | • **UUNAA Section 6 Gratuitous Bailment & UCEA Easements:** Compiles public-road cargo manifests automatically as non-commercial **Gratuitous Neighbor Bailment Bills of Lading** ($0$ for-hire tariff) and records cross-lot microgrid/water conduits inside **Uniform Conservation Easement Act (`UCEA`)** ecological/utility easements.<br>• **End-to-End Reticulum & WireGuard Encryption:** All packets traversing public rights-of-way or DTN sneakernet drives are hardware-encrypted and padded against traffic analysis. |
+
+---
+
+## 7. Horizon Council v3.2 Architectural Binding (*The Architecture of Boundless Time* — D1–D8)
+
+| Horizon Council Dimension | Scenario Beta (`SCN-BETA-TRANSIT` / `beta_transit`) Binding |
+| :--- | :--- |
+| **Node Membership Regime ($N_s$) & Unified Voice $V_i(t) = 1 + R_i(t)$** | $N_s = 6 \to 25$ transit mechanics & couriers ($N \gg 2$ anti-capture crossover $N_s > R_i(t) + 2$, separated from $N_p$ anonymous transit riders). |
+| **Primary Layer 6 Lens & Need-Capture Mode** | ***The Workshop Lens*** (cargo-bike/shuttle battery & drivetrain cycles) + *Anonymous Transit Appetite Lens*. |
+| **Enveloping Node Hypervisor Lease (`cB`, `mW`, `mK`, `mm`)** | **Street Lane & Charging Depot Envelope** (`8,200 cB`, feeder `mW`, curb polygon `mm`) governed by `EnvelopingBoundaryLeaseV50`. |
+| **L4 3-Tier Cascade & Stage I$\to$III Hardware Retrofit Archetype** | Consumes `SCN-ZERO-SOFTWARE` routing releases; Tier 1 payload splitting across ISO $600 \times 400\,\mathrm{mm}$ totes; Stage I CAN-locked e-bike BMS $\to$ Stage II open BMS retrofit. |

@@ -4,6 +4,16 @@ This log records why architectural changes were made across versions of `SCN-EPS
 
 ---
 
+## `v3.2` (2026-11-20) — Horizon Council Alignment (*The Architecture of Boundless Time*: D1–D8 & CCI-1..CCI-6)
+* **What Changed:** Applied the Horizon Council v3.2 architectural recommendations ([docs/COUNCIL_GUIDANCE_SOVEREIGN_STACK_AND_BOOKS.md](../../COUNCIL_GUIDANCE_SOVEREIGN_STACK_AND_BOOKS.md)) to both the global English specification ([README.md](./README.md)) and the Brazilian & Lusophone Portuguese edition ([bra/README.md](./bra/README.md)).
+* **Key Architectural Bindings Recorded in `v3.2`:**
+  1. **Unified Layer 5 Civic Baseline & Reputational Voice (`D3`, `D8`):** Anchored Section 5 (*Governance Across Human Scales*) explicitly in the unified Layer 5 voting weight formula $V_i(t) = B + R_i(t) = 1 + R_i(t)$ ($V_{i,\mathrm{bp}}(t) = 10{,}000 + R_{i,\mathrm{bp}}(t)$) scoped strictly to **Node Membership ($N_s$)**, proving smooth scaling across $N=1$, $N=2$ dyadic veto, $N \gg 2$ anti-capture ($N_s > R_i(t) + 2$), and **Dormant Equilibrium ("The $\TeX$ Asymptote")** when active stewardship $\dot{r}_i(\tau) \to 0$.
+  2. **Layer 6 Constellation of Lenses & Edge SI Localization (`D1`, `D2`, `D6`):** Bound the scenario to its canonical Layer 6 lenses (*The Pantry Lens*, *The Workshop Lens*, *The Bakery Lens*, *Scenario Zero Forge Studio Lens*, and/or *The Enveloping Node Hypervisor Lens*) with zero-surveillance anonymous pickup leases (`AnonymousAppetiteLeaseV50`, `CCI-2`) and edge SI localization.
+  3. **Domain-Blind Enveloping Node Hypervisor & Two-Speed Jurisprudence (`D4`):** Specified the scenario's physical boundary lease envelope (`EnvelopingBoundaryLeaseV50`: `cB`, `mW`, `mK`, `mm`), respecting internal Layer 5 **Four Constitutional Pillars** while coordinating shared physical space via Fast-Path Layer 2 hazard preemption and Slow-Path Semantic Diff precedent compilation.
+  4. **3-Tier Layer 4 BPMN Adaptation Cascade & 3-Stage Hardware Retrofit Progression (`D5`, `D7`):** Added Section 7 (*Horizon Council v3.2 Architectural Binding*) mapping the scenario's **Open-Source Franchising** across the Three Sovereign Libraries, its Layer 4 3-Tier Cascade (Tier 1 SI Scaling, Tier 2 Macro-Substitution, Tier 3 True-Constraint Hard-Block), and its hardware transition from **Stage I Scavenged Layer 7** to **Stage II Right-to-Repair Hybrid Retrofit Kits** and **Stage III Native Open-Spec Fleet** (**Zero-Stat Liberation**).
+
+---
+
 ## `v2.0` (2026-11-15) — Forward-Facing Layer-6-Centered Reorganization & Scale-Adaptive Governance
 * **What Changed:** Separated the forward-facing scenario presentation ([README.md](./README.md)) from the deep 7-layer engineering specification ([versions/v1_full_stack_spec.md](./versions/v1_full_stack_spec.md)).
 * **Why This Change Was Made (Avoiding Past Mistakes):**

@@ -69,6 +69,10 @@ Scenario Theta replaces extractive mining and dirty blast furnaces with five pre
 
 ## 5. Governance Across Human Scales ($N = 1 \longrightarrow N_s \ge 1, N_p > 1 \longrightarrow N_s > 1, N_p > 1$)
 
+Across every scale, Layer 5 governance in Scenario Theta is anchored in the single unified voting weight formula scoped strictly to **Node Membership ($N_s$)**:
+$$V_i(t) = B + R_i(t) = 1 + R_i(t) \qquad \left(V_{i,\mathrm{bp}}(t) = 10{,}000 + R_{i,\mathrm{bp}}(t)\right)$$
+where $B = 1$ ($10{,}000\,\mathrm{bp}$) is the non-decaying **Universal Civic Baseline** and $R_i(t)$ is decaying Layer 3 metallurgical stewardship ($\tau_{1/2}$). Layer 4 enforces **Tier 3 True-Constraint Hard-Blocks** on liquid-metal temperatures (`mK`) and baghouse emissions (`ug`) that no governance vote can override, while casting the heavy frames for **Stage III Native Open-Spec Collective Fleet** tools (`D7`).
+
 1. **Solo Steward Scale ($N = 1 \implies N_s = 1\text{ operator}, N_p = 1\text{ homesteader}$):**
    * *Context:* A solo homesteader at Stage 1A sorting copper/aluminum/steel scrap in a garage nook and practicing Tier 1 cold/warm mechanical reuse (cutting, drilling, and bolting salvaged stock).
    * *Governance Model:* **Safety-first boundary (`No Solo Molten Pours`).** While a solo steward can freely sort scrap (`Scenario Mu`), anneal small copper workpieces, or run a small automated glass/ceramic test kiln with hardware thermal cutoffs, Scenario Theta's Layer 5 policy **forbids solo molten metal pouring ($N_s < 2$)**—routing molten casting needs to a two-person neighborhood foundry bee (`Stage 1B/2`) so no steward ever handles liquid bronze or iron alone.
@@ -91,3 +95,14 @@ Scenario Theta replaces extractive mining and dirty blast furnaces with five pre
 | :--- | :--- | :--- |
 | **1. Extractive / Transitional Reach into Layer 7** | **A. Scrap-Yard Arbitrage & Specialty Alloy Ingot Procurement:** Buying undervalued municipal scrap metal or importing trace alloying elements (e.g., ferrosilicon, molybdenum, nickel, or virgin borosilicate tubing) not yet recovered in sufficient purity from local urban mining.<br>**B. Recycled Castings / Artistic Bronze Export (`policy:commons_plus_l7_zero_bill`):** Selling custom architectural castings or recycled glasswork to external buyers to fund foundry refractories and tax endowments. | • **Alloy Dependency Tracking ($D_{\mathrm{materials}}$):** Every imported alloying element or virgin stock is logged on the Legacy Dependency Register (`Scenario Omega`), guiding `Scenario Mu` urban-mining scanners to target those specific metals in upcoming demolition harvests.<br>• **$\Phi_t = 0$ Commercial Shutoff:** External commercial casting shuts off automatically each month once foundry maintenance and node fiat bills hit $0\text{ cents}$. |
 | **2. Purely Defensive Reach into Layer 7** | **A. EPA / Clean-Air Permitting & Pretextual Complaint Defense:** Protecting the foundry from industrial zoning challenges or air-quality citations.<br>**B. Scrap-Metal Dealer & HazMat Compliance (`Mundane Semantic Camouflage`):** Complying with statutory scrap-metal anti-theft laws and chemical storage codes without exposing internal node BOMs. | • **Continuous Cryptographic Baghouse & Scrubber Proofs:** Layer 2 differential-pressure and particulate sensors log continuous signed compliance proofs demonstrating emissions far below municipal clean-air ceilings.<br>• **Licensed Scrap-Recycler & Subchapter T Wrapper:** Operates external scrap intake under a mundane licensed secondary-metals cooperative wrapper across `l6_l7.sock`. |
+
+---
+
+## 7. Horizon Council v3.2 Architectural Binding (*The Architecture of Boundless Time* — D1–D8)
+
+| Horizon Council Dimension | Scenario Theta (`SCN-THETA-FOUNDRY` / `theta_foundry`) Binding |
+| :--- | :--- |
+| **Node Membership Regime ($N_s$) & Unified Voice $V_i(t) = 1 + R_i(t)$** | $N_s = 8 \to 35$ metallurgy & casting engineers ($N_s > R_i(t) + 2$ anti-capture baseline paired with Pillar II `T3` hot-metal dual-key safety). |
+| **Primary Layer 6 Lens & Need-Capture Mode** | ***The Workshop Lens*** (induction furnace lining wear, crucible cycles, M6/M8 ISO die library & $\lambda_{\mathrm{ERC}}$ alloy routing). |
+| **Enveloping Node Hypervisor Lease (`cB`, `mW`, `mK`, `mm`)** | **Heavy Foundry Envelope** (`9,200 cB`, megawatt `mW` solar-locked induction leases, flue scrubber `ug` interlocks). |
+| **L4 3-Tier Cascade & Stage I$\to$III Hardware Retrofit Archetype** | Tier 3 True-Constraint Hard-Block temperature enforcement (`mK`); casts and machines the frames for **Stage III Native Open-Spec Collective Fleet** tools (`D7`). |

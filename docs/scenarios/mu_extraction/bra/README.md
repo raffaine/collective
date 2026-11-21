@@ -69,6 +69,10 @@ O Cenário Mi substitui aterros sanitários, fertilizantes sintéticos importado
 
 ## 5. Governança através das Escalas Humanas ($N = 1 \longrightarrow N_s \ge 1, N_p > 1 \longrightarrow N_s > 1, N_p > 1$)
 
+Em todas as escalas, a governança da Camada 5 no Cenário Mi ancora-se na fórmula unificada de peso de voto restrita estritamente aos **Membros do Nó ($N_s$)**:
+$$V_i(t) = B + R_i(t) = 1 + R_i(t) \qquad \left(V_{i,\mathrm{bp}}(t) = 10.000 + R_{i,\mathrm{bp}}(t)\right)$$
+onde $B = 1$ ($10.000\,\mathrm{bp}$) é a **Base Cívica Universal** não-decaível e $R_i(t)$ é a reputação de guarda em desconstrução e biorrefino ($\tau_{1/2}$), alimentando a matéria-prima recuperada (`mg`) diretamente no **Custo de Reposição Ecológica ($\lambda_{\mathrm{ERC}}$)** do Livro-Contábil Termodinâmico da Camada 3 (`D2`).
+
 1. **Escala do Guardião Solitário ($N = 1 \implies N_s = 1\text{ operador}, N_p = 1\text{ morador}$):**
    * *Contexto:* Um morador operando uma composteira termofílica de 3 baias no quintal, um fogareiro `TLUD` sem fumaça para biocarvão de horta e separação de cavacos na garagem.
    * *Modelo de Governança:* **Zero reuniões, segurança automatizada contra patógenos.** Uma única sonda PT100 e o `col-commonsd` acompanham silenciosamente as 72 horas a $\ge 328.150\,\mathrm{mK}$, avisando ao morador a manhã exata em que seu composto está Classe-A seguro para os canteiros de hortaliças.
@@ -91,3 +95,14 @@ O Cenário Mi substitui aterros sanitários, fertilizantes sintéticos importado
 | :--- | :--- | :--- |
 | **1. Alcance Extrativo / Transitório na Camada 7** | **A. Inversão da Taxa de Demolição/Aterro & Contratos de Desconstrução Urbana (`policy:commons_plus_l7_zero_bill`):** Contratar com proprietários externos ou prefeituras sob a **Política Nacional de Resíduos Sólidos (`PNRS — Lei 12.305/2010`)** para desmontar cirurgicamente galpões e edifícios antigos ou processar resíduos orgânicos limpos—**sendo PAGO em Reais (`R$`) pela taxa de serviço/destinação** enquanto colhe gratuitamente vigas centenárias de madeira de lei, cobre puro e alvenaria para o comum!<br>**B. Aquisição com Desconto de Terrenos Urbanos Degradados (*Brownfields*):** Adquirir terrenos pós-industriais baratos e recuperá-los via fitomineração e construção de solo com *Terra Preta* (`Cenário Tau`/`Zeta`). | • **Quarentena `XRF`/`NIR` Obrigatória na Entrada:** Todo lote externo de desconstrução cruza um portão estrito de triagem espectrométrica antes de entrar no estoque interno; passivos irremediáveis de amianto friável ou PCBs são recusados na vistoria prévia.<br>• **Roteamento de Receita para $\Phi_t = \text{R\$ } 0,00$:** A receita em Reais das taxas de desconstrução e compostagem entra na carapaça cooperativa do `Cenário Épsilon` para quitar impostos do nó e capitalizar o Fundo Patrimonial Perpétuo de IPTU/ITR (`Cenário Ômega`). |
 | **2. Alcance Puramente Defensivo na Camada 7** | **A. Blindagem Legal de Compostagem, Resíduos da Construção Civil (`RCC`) & Reuso Estrutural:** Impedir que monopólios de coleta de lixo bloqueiem a compostagem comunitária, a recuperação de nutrientes ou o reuso de vigas de madeira de lei.<br>**B. Defesa em Auditorias Ambientais:** Comprovar emissão zero de chorume tóxico ou fumaça contra denúncias infundadas. | • **Conformidade Criptográfica com `PNRS (Lei 12.305/2010)`, `CONAMA nº 481/2017` (Compostagem), `CONAMA nº 307/2002` (RCC) & `CONAMA nº 420/2009` (Solos):** Mantém logs criptográficos contínuos das 72 horas a $\ge 55{,}0^\circ\mathrm{C}$ e da queima limpa nas retortas `TLUD`, além de laudos técnicos de reclassificação estrutural assinados pelo pool de engenheiros do `Cenário Ksi` (`ABNT NBR 7190`) para as vigas resgatadas. |
+
+---
+
+## 7. Vinculação Arquitetural do Conselho Horizonte v3.2 (*A Arquitetura do Tempo Ilimitado* — D1–D8)
+
+| Dimensão do Conselho Horizonte | Vinculação no Cenário Mi (`SCN-MU-EXTRACTION` / `mu_extraction`) |
+| :--- | :--- |
+| **Regime de Membros do Nó ($N_s$) & Voz Unificada $V_i(t) = 1 + R_i(t)$** | $N_s = 6 \to 25$ guardiões de desconstrução, argila e reciclagem mineral (piso anticaptura $N_s > R_i(t) + 2$ sobre a recuperação de estoques). |
+| **Lente Primária da Camada 6 & Modo de Captura de Necessidades** | ***A Lente da Oficina*** (ciclos de desgaste de britadores/peneiras, recuperação de estoque $\lambda_{\mathrm{ERC}}$ & ensaio de ligas por XRF). |
+| **Concessão do Hipervisor de Nó Envolvente (`cB`, `mW`, `mK`, `mm`)** | **Envelope de Extração & Recuperação Material** (janela diurna de `9.000 cB`, intertravamentos físicos de particulados `ug` e efluentes `mL/s`). |
+| **Cascata L4 de 3 Níveis & Arquétipo de Retrofit de Hardware Estágio I$\to$III** | Alimenta diretamente o estoque reciclado (`mg`) no **Custo de Reposição Ecológica ($\lambda_{\mathrm{ERC}}$)** do Livro-Contábil da Camada 3, reduzindo a exergia incorporada regional. |

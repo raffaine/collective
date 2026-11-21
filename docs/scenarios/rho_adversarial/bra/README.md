@@ -69,6 +69,10 @@ O Cenário Rô neutraliza tanto os cercos externos quanto a paranoia autoimune i
 
 ## 5. Governança através das Escalas Humanas ($N = 1 \longrightarrow N_s \ge 1, N_p > 1 \longrightarrow N_s > 1, N_p > 1$)
 
+Em todas as escalas, a governança da Camada 5 no Cenário Rô ancora-se na fórmula unificada de peso de voto restrita estritamente aos **Membros do Nó ($N_s$)**:
+$$V_i(t) = B + R_i(t) = 1 + R_i(t) \qquad \left(V_{i,\mathrm{bp}}(t) = 10.000 + R_{i,\mathrm{bp}}(t)\right)$$
+O Cenário Rô valida matematicamente a imunidade da federação contra o **Sequestro de Nó Dormente por Mantenedor Único (`D3`, `D8`)**: quando um repositório ou módulo maduro entra em **Equilíbrio Dormente (`"A Assíntota TeX"`)** e a reputação ativa $R_j(t)$ de seus criadores decai para $0$ no Livro-Contábil Termodinâmico, um atacante oportunista que injete um pequeno *patch* ($\Delta R_{\mathrm{atacante}} > 0$) obtém apenas a fração $(1 + \Delta R_{\mathrm{atacante}}) / (N_s + \Delta R_{\mathrm{atacante}})$, sendo derrotado pelo piso cívico não-decaível $B=1$ dos $N_s - 1$ membros dependentes sempre que $N_s > \Delta R_{\mathrm{atacante}} + 2$.
+
 1. **Escala do Guardião Solitário ($N = 1 \implies N_s = 1\text{ operador}, N_p = 1\text{ morador}$):**
    * *Contexto:* Um morador operando um nó semente na Fase 1A conectado à internet residencial e à rede elétrica municipal.
    * *Modelo de Governança:* **Firewall automatizado & detector de vazamentos físicos.** O firewall de sandbox dividido protege o morador contra golpes de phishing e malwares vindos da Camada 7, enquanto os testes de conservação da Camada 2 avisam imediatamente se um cano da horta estourar ou se um conector da bateria oxidar.
@@ -91,3 +95,14 @@ O Cenário Rô neutraliza tanto os cercos externos quanto a paranoia autoimune i
 | :--- | :--- | :--- |
 | **1. Alcance Extrativo / Transitório na Camada 7** | **A. Redundância Multi-Cooperativas de Crédito & Multi-Fornecedores (`Failover da Carapaça`):** Manter contas distribuídas em cooperativas de crédito solidário (`Sicoob`, `Sicredi`, `Cresol`, `BCDs`) e múltiplos fornecedores atacadistas durante as Fases 1 e 2.<br>**B. Ingestão de Alertas de Vulnerabilidades de Código Aberto (`CVEs`):** Baixar boletins de segurança para o pipeline de compilação do `Cenário Zero`. | • **Teto Máximo de $\le 3.300\,\mathrm{bp}$ ($33\%$) por Instituição Bancária:** Nenhum banco ou cooperativa de crédito externa jamais detém mais de $33\%$ do buffer operacional transitório em Reais ($\Phi_t$) do nó.<br>• **Ingestão Unidirecional pelo Diodo Detox:** Alertas externos de `CVE` entram estritamente através do Diodo de Quarentena Detox do `Cenário Zero`. |
 | **2. Alcance Puramente Defensivo na Camada 7** | **A. Esterilidade Estrutural contra Intimações e Devassas (`Art. 5º, XII e XVII–XXI da CF/88` & `LGPD Lei 13.709/2018`):** Neutralizar tentativas de devassa sobre listas de associados, bloqueios abusivos ou assédio regulatório.<br>**B. Blindagem de *Prior Art* & Defesa Jurídica Cooperativa (`Camuflagem Semântica Mundana`):** Defender o comum contra *patent trolls* ou ações judiciais intimidatórias. | • **Inexistência Arquitetônica de Dados Pessoais na Camada 7 (`Art. 6º III e Art. 16 da LGPD` + `Art. 5º XVIII CF/88`):** Cumpre o dever legal brasileiro de minimização e eliminação de dados pessoais tornando o `col-adversaryd` matematicamente incapaz de armazenar listas nominais de membros, chaves `did:peer` ou histórico interno do Livro-Contábil (`0` registros existentes para entregar).<br>• **Camuflagem Automatizada & Fundo de Defesa Cooperativa:** Todo tráfego de saída pelo `l6_l7.sock` é reduzido a agregados contábeis mundanos do CNPJ cooperativo. |
+
+---
+
+## 7. Vinculação Arquitetural do Conselho Horizonte v3.2 (*A Arquitetura do Tempo Ilimitado* — D1–D8)
+
+| Dimensão do Conselho Horizonte | Vinculação no Cenário Rô (`SCN-RHO-ADVERSARIAL` / `rho_adversarial`) |
+| :--- | :--- |
+| **Regime de Membros do Nó ($N_s$) & Voz Unificada $V_i(t) = 1 + R_i(t)$** | Nó completo sob estresse bizantino e teste de captura *red-team* (`col-adversaryd`); prova matemática de que o piso $B=1$ entre os $N_s$ membros derrota oligarquias de alto $R_i$ e sequestro de nós dormentes. |
+| **Lente Primária da Camada 6 & Modo de Captura de Necessidades** | ***Lente do Estúdio de Forja do Cenário Zero*** + ***A Lente do Hipervisor de Nó Envolvente*** (painel de defesa contra anomalias, ataques Sybil e captura). |
+| **Concessão do Hipervisor de Nó Envolvente (`cB`, `mW`, `mK`, `mm`)** | **Envelope de Quarentena Endurecido** (isolamento automático por intertravamento físico na Camada 2 & diodo de separação da `VLAN 40`). |
+| **Cascata L4 de 3 Níveis & Arquétipo de Retrofit de Hardware Estágio I$\to$III** | Valida a imunidade ao **Sequestro de Nó Dormente por Mantenedor Único (`D3`, `D8`)** ($B=1$ derrota $\Delta R$ do atacante quando $\sum R_j \to 0$), resistência a Sybil e contenção de falhas em *shims* de Estágio I. |

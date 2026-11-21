@@ -67,6 +67,10 @@ Scenario Omicron resolves both capitalist economic entrapment and commune morali
 
 ## 5. Governance Across Human Scales ($N = 1 \longrightarrow N_s \ge 1, N_p > 1 \longrightarrow N_s > 1, N_p > 1$)
 
+Across every scale, Layer 5 governance in Scenario Omicron is anchored in the single unified voting weight formula scoped strictly to **Node Membership ($N_s$)**:
+$$V_i(t) = B + R_i(t) = 1 + R_i(t) \qquad \left(V_{i,\mathrm{bp}}(t) = 10{,}000 + R_{i,\mathrm{bp}}(t)\right)$$
+where $B = 1$ ($10{,}000\,\mathrm{bp}$) is the non-decaying **Universal Civic Baseline**. In an $N=2$ dyadic partnership ($V_1 = 1 + R_1, V_2 = 1 + R_2$), mutual consent governs shared domestic covenants while either partner holds an unconditional $< 500\,\mathrm{ms}$ unilateral exit (`SafeHarborSeveranceIntent`) carrying their full $B=1$ civic baseline and personal $R_i(t)$ intact.
+
 1. **Solo Steward Scale ($N = 1 \implies N_s = 1\text{ solo adult}, N_p = 1\text{ person}$):**
    * *Context:* A single adult living solo by choice.
    * *Governance Model:* **Full dignity of solo life + chosen medical proxies.** Solo residents are never treated as "incomplete households" in housing allocation or assembly voice; they can designate any trusted friend or neighbor across $R_1 / R_2$ as their medical proxy and heirloom beneficiary via a lightweight `SovereignKinshipCovenant` without sharing a roof.
@@ -89,3 +93,14 @@ Scenario Omicron resolves both capitalist economic entrapment and commune morali
 | :--- | :--- | :--- |
 | **1. Extractive / Transitional Reach into Layer 7** | **A. Statutory Spousal, Survivor & Tax Optimization:** Utilizing available Layer 7 tax filing brackets, health-insurance dependent rules, or survivor pension benefits while members still interface with legacy institutions.<br>**B. External Domestic Violence Relocation Support:** Assisting survivors fleeing abuse in Layer 7 to enter the settlement via Pathway 4 (`Scenario Tau`). | • **Decoupling Internal Truth from External Tax Forms:** How two members file a legacy IRS tax return in Layer 7 never constrains their true $N\text{-ary}$ `SovereignKinshipCovenant` inside Layer 6.<br>• **Zero-Barrier Survivor Sanctuary:** External survivors arriving at the node receive immediate `R0_GUEST` refuge, food, and physical security (`Scenario Psi`/`Rho`) with zero requirement to pay rent or show ID. |
 | **2. Purely Defensive Reach into Layer 7** | **A. Hospital Visitation, Guardianship & Probate Armor:** Preventing hostile biological relatives or state courts from overriding a resident's chosen family during medical emergencies, child custody, or death.<br>**B. Anti-Bigamy / Anti-Co-Living Zoning Defense (`Mundane Semantic Camouflage`):** Protecting pluralistic and multi-generational households from restrictive municipal "unrelated persons" zoning ordinances. | • **Ricardian Legal Document Synthesis:** Automatically compiles state-compliant **Durable Medical POAs, HIPAA Authorizations, Co-Parenting Trusts, and Revocable Living Trusts** for chosen kin.<br>• **CLT Lease & Private Association Shield:** Holds residential land in a **Community Land Trust (`CLT`)** and scrubs internal kinship graphs before crossing `l6_l7.sock` so municipal authorities see only compliant leaseholders/trust beneficiaries. |
+
+---
+
+## 7. Horizon Council v3.2 Architectural Binding (*The Architecture of Boundless Time* — D1–D8)
+
+| Horizon Council Dimension | Scenario Omicron (`SCN-OMICRON-KINSHIP` / `omicron_kinship`) Binding |
+| :--- | :--- |
+| **Node Membership Regime ($N_s$) & Unified Voice $V_i(t) = 1 + R_i(t)$** | $N_s = 2 \to 15$ multi-generational household members ($N=2$ dyadic mutual consent with unilateral $< 500\,\mathrm{ms}$ exit & $N \gg 2$ household voice $N_s > R_i(t) + 2$). |
+| **Primary Layer 6 Lens & Need-Capture Mode** | ***The Pantry Lens*** + ***The Enveloping Node Hypervisor Lens*** (zero-surveillance household meal pooling & suite lease partitioning). |
+| **Enveloping Node Hypervisor Lease (`cB`, `mW`, `mK`, `mm`)** | **Multi-Suite Kinship Envelope** (shared kitchen/laundry power `mW` & quiet-hour `cB` covenants across $R_0$ suites). |
+| **L4 3-Tier Cascade & Stage I$\to$III Hardware Retrofit Archetype** | Frictionless split/merge of household spatial leases and weekend-detour meal pooling (`AnonymousAppetiteLeaseV50`) with zero biometric or calendar surveillance. |
