@@ -2,6 +2,8 @@
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{tgpagella} % Palatino clone, very readable
+\usepackage[scale=0.92]{tgheros}
+\usepackage[scale=0.86]{tgcursor}
 \linespread{1.05}      % Slight line spacing increase for Palatino
 \usepackage{microtype} % Improves typography (kerning, protrusion)
 \usepackage{amsmath,amssymb}
@@ -10,10 +12,36 @@
 \usepackage{tikz}
 \usepackage{geometry}
 \geometry{a4paper, margin=1in}
-\usepackage{epigraph}
+\IfFileExists{epigraph.sty}{%
+    \usepackage{epigraph}%
+    \setlength{\epigraphwidth}{0.65\textwidth}%
+    \renewcommand{\epigraphrule}{0pt}%
+}{%
+    \newcommand{\epigraph}[2]{%
+        \begin{flushright}%
+        \begin{minipage}{0.65\textwidth}%
+        \small\itshape ##1\par\vspace{0.35em}%
+        \upshape\raggedleft ##2\par%
+        \end{minipage}%
+        \end{flushright}%
+        \vspace{1.2em}%
+    }%
+    \newenvironment{epigraphs}{}{}%
+    \newcommand{\qitem}[2]{\epigraph{##1}{##2}}%
+}
 \usepackage{csquotes}
 \usepackage{xcolor}
-\usepackage[style=authoryear,backend=bibtex]{biblatex}
+\newif\ifusebiblatex
+\IfFileExists{biblatex.sty}{%
+    \usebiblatextrue
+    \usepackage[style=authoryear,backend=bibtex]{biblatex}
+    \addbibresource{collective.bib}
+}{%
+    \usebiblatexfalse
+    \usepackage[round,authoryear]{natbib}
+    \newcommand{\parencite}[2][]{\ifx\relax##1\relax\citep{##2}\else\citep[##1]{##2}\fi}
+    \newcommand{\textcite}[2][]{\ifx\relax##1\relax\citet{##2}\else\citet[##1]{##2}\fi}
+}
 \usepackage{hyperref}
 \hypersetup{
     colorlinks=true,
@@ -23,12 +51,9 @@
     citecolor=gray,
 }
 
-% --- Epigraph Setup ---
-\setlength{\epigraphwidth}{0.65\textwidth}
-\renewcommand{\epigraphrule}{0pt}
-
-% --- Bibliography ---
-\addbibresource{collective.bib}
+\setlength{\emergencystretch}{3em}
+\DeclareRobustCommand{\_}{\ifmmode\text{\symbol{95}}\else\symbol{95}\allowbreak\fi}
+\pdfstringdefDisableCommands{\def\_{_}}
 
 % --- Title Page ---
 \begin{document}
@@ -98,6 +123,14 @@
 
 \input{chapters/12_prime_genesis}
 
-\printbibliography
+\ifusebiblatex
+    \printbibliography
+\else
+    \cleardoublepage
+    \phantomsection
+    \addcontentsline{toc}{chapter}{Bibliography}
+    \bibliographystyle{plainnat}
+    \bibliography{collective}
+\fi
 
 \end{document}
