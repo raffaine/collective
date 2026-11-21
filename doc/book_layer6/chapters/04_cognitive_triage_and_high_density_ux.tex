@@ -1,4 +1,4 @@
-\chapter{Variety Attenuation, Spatial Round Coalescing, and Calm UX Across Hundreds of Workflows}
+\chapter{Variety Attenuation, Spatial Round Coalescing, and the Definitive Five-Lens Reference Catalog}
 \label{ch:cognitive-triage}
 
 \epigraph{The most profound technologies are those that disappear. They weave themselves into the fabric of everyday life until they are indistinguishable from it\ldots{} Calm technology engages both the center and the periphery of our attention, and in fact moves back and forth between the two.}{---\textcite{weiser1996calm}, ``Designing Calm Technology''}
@@ -223,4 +223,168 @@ To enforce Invariant~\ref{inv:protocol-of-refusal} across every audio, visual, a
 \label{fig:ch4-variety-attenuation}
 \end{figure}
 
-Figure~\ref{fig:ch4-variety-attenuation} completes our model of high-density cognitive serenity. By suppressing autonomic noise, projecting domain-scoped deltas onto specialized Constellation tools, coalescing co-located tasks along physically sanitary walking loops, and guaranteeing guilt-free exit at every step, Layer~6 ensures that technology recedes calmly into the periphery of communal life. Next, Chapter~\ref{ch:edge-llms} examines how optional local language models assist human expression within this calm boundary without ever introducing cloud dependency, exergy waste, or indirect prompt-injection vulnerabilities.
+\section{The Definitive Five-Lens Reference Catalog: State Machines, JSON-LD Schemas, and Calm Wireframes}
+\label{sec:five-lens-reference-catalog}
+
+To ground the HTTP-like Semantic Daemon architecture of Chapter~\ref{ch:constellation-membrane} in concrete developer specifications, this section presents the state machines, JSON-LD payload schemas, C++20 wire bindings, and calm UX wireframes for the \textbf{Five Canonical Layer~6 Application Lens Families} served by \texttt{col-commonsd} and \texttt{col-gatewayd}: (1)~\textit{The Pantry Lens}, (2)~\textit{The Workshop Lens}, (3)~\textit{The Bakery / Communal Hearth Lens}, (4)~\textit{The Scenario Zero Forge Studio Lens}, and (5)~\textit{The Enveloping Node Hypervisor Lens}.
+
+\subsection{Lens 1: \textit{The Pantry Lens} (\texttt{/api/l6/v1/pantry}) --- Perishable Arrhenius Entropy and Detour Absorption}
+\label{subsec:lens-pantry}
+
+Unlike durable hand tools, biological food stocks undergo continuous thermodynamic decay governed by the Arrhenius activation-energy kinetics of microbial and enzymatic spoilage at ambient temperature $T(t)$ (measured in millikelvins \texttt{mK} by Layer~2 cold-chain sensors). \textit{The Pantry Lens} integrates remaining shelf-life TTL in milliseconds (\texttt{pantry:expiryHlcMs}) and executes a four-state larder lifecycle:
+\begin{equation}
+    \texttt{STOCKED\_FRESH} \;\xrightarrow{\text{L2 drawdown}}\; \texttt{REPLENISH\_LEASE\_ACTIVE} \;\xrightarrow{\text{L2 pause } > 12\mathrm{h}}\; \texttt{DETOUR\_AUTO\_THROTTLED} \;\xrightarrow{\text{TTL } < 24\mathrm{h}}\; \texttt{R1\_SURPLUS\_OFFERED}
+\end{equation}
+When a household leaves spontaneously for a weekend mountain hike, Layer~2 shelf load-cell drawdowns pause. \textit{The Pantry Lens} transitions automatically to \texttt{DETOUR\_AUTO\_THROTTLED}, letting any short-lived pickup lease (\texttt{AnonymousAppetiteLeaseV50}) expire silently without nagging confirmation alerts while posting pre-spoilage items to the Ring-$R_1$ neighbor surplus board.
+
+\subsection{Lens 2: \textit{The Workshop Lens} (\texttt{/api/l6/v1/workshop}) --- Durable Cycle Wear, Pillar~II Ladders, and Fleet Tiers I--III}
+\label{subsec:lens-workshop}
+
+A lathe, CNC router, or sewing serger does not rot on a calendar shelf; it degrades by discrete mechanical usage cycles, spindle hours, and thermal stress (\texttt{workshop:cumulativeUseMs}, \texttt{workshop:wearIndexBp}). \textit{The Workshop Lens} unites three operational responsibilities:
+\begin{enumerate}
+    \item \textbf{Pillar~II Apprentice Dual-Key Onboarding (\texttt{collective:WorkCapabilityMatrix}):} Solves the cold-start apprentice paradox ($R_i(0) = 0$) by separating \textbf{Tier-0 Unsupervised Tasks} (stock prep, cleaning, M6/M8 fastener kitting) from \textbf{Tier-1 Mentor Co-Signed Tasks}, where an apprentice executes a precision tool step under a certified mentor's dual-key \texttt{ATECC608A} hardware interlock ($\le 2{,}000\,\mathrm{mm}$ BLE tether) to earn initial $\Delta R_{i,\mathrm{bp}} > 0$.
+    \item \textbf{The Four Structural Penalties of Stage~I Scavenged Layer~7 Hardware:} Settlements boot on Day~0 using scavenged commercial appliances (\texttt{HardwareFleetTier::kScavengedLayer7Shimmed}). \textit{The Workshop Lens} surfaces the four mechanical penalties of locked Layer~7 firmware without inventing fake RPG tech trees:
+    \begin{itemize}
+        \item \textit{Penalty 1 --- Parasitic Layer~2 Shims:} External current clamps and optical fault-LED readers incur extra standby power (\texttt{parasitic\_shim\_overhead\_mw}) and $\pm 1{,}500\,\mathrm{bp}$ inference uncertainty.
+        \item \textit{Penalty 2 --- Blind Layer~4 Mid-Batch Hard-Blocks:} Because proprietary firmware hides bearing wear behind an opaque \texttt{FAULT\_ERR\_42} LED, the machine suffers unannounced mid-batch breakdowns (\texttt{unscheduled\_fault\_prob\_bp = 350}).
+        \item \textit{Penalty 3 --- Layer~7 Tribute Escalation:} DRM-chipped heating elements or potted boards drain external fiat reserves ($\Phi_t$ in \texttt{cents}) and stall workflows for days awaiting external couriers.
+        \item \textit{Penalty 4 --- Layer~3 ERC Penalties ($\lambda_{\mathrm{ERC}}$):} Scrapping a $15\,\mathrm{kg}$ potted assembly over a $\$2$ seal multiplies per-cycle $\lambda_{\mathrm{ERC}}$ by $5\times\text{--}20\times$.
+    \end{itemize}
+    \item \textbf{Stage~II Right-to-Repair Hybrid Retrofits and Stage~III Zero-Stat Liberation:} When a guild executes a \textbf{Right-to-Repair Hybrid Retrofit} (\texttt{kRightToRepairHybrid})---retaining the heavy cast-iron chassis while replacing the locked PCB with an open RISC-V/STM32 Layer~2 board and printable metric adapter---Layer~3 mints a \textbf{First-Class Proof of Stewardship bonus ($\Delta R_{i,\mathrm{bp}}$)} (\texttt{ProofOfStewardshipRetrofitRecordV50}) proportional to the rescued embodied exergy (\texttt{rescued\_chassis\_embodied\_exergy\_uj}). At \textbf{Stage~III (\texttt{kNativeOpenSpec})}, full acoustic-harmonic bearing telemetry enables Layer~4 to schedule quiet 5-minute preventive metric swaps, achieving \textbf{Zero-Stat Liberation}.
+\end{enumerate}
+
+\subsection{Lens 3: \textit{The Bakery / Communal Hearth Lens} (\texttt{/api/l6/v1/bakery}) --- Dual-Loop 85\% Staple / 15\% \textit{Montage} Craft}
+\label{subsec:lens-bakery}
+
+Scoped strictly to the $N_s$ inducted member-bakers of the hearth node ($V_i(t) = 1 + R_i(t)$), \textit{The Bakery Lens} merges anonymous Layer~3 cohort appetite weather-maps (\texttt{AnonymousAppetiteLeaseV50}) with Layer~2 pickup-shelf clearance load cells. Under Pillar~I (\texttt{collective:SurfaceAllocationPolicy}), the lens allocates \textbf{$8{,}500\,\mathrm{bp}$ ($85\%$) of oven and cauldron capacity} to verified neighborhood staples (sourdough boules, split-pea baseline tiffins) and reserves \textbf{$1{,}500\,\mathrm{bp}$ ($15\%$) of capacity for Dr\_Sofia's compositional \textit{montage}}---unrequested culinary experiments whose viability is validated post-bake by physical shelf clearance and optional anonymous \texttt{MONTAGE\_TASTE\_FEEDBACK} notes.
+
+\subsection{Lens 4: \textit{The Scenario Zero Forge Studio Lens} (\texttt{/api/l6/v1/scenario-zero}) --- Khronos Lifecycle, \TeX{} Asymptote, and Substrate Drift}
+\label{subsec:lens-forge-studio}
+
+\textit{The Scenario Zero Forge Studio Lens} models software as a Khronos/OpenGL-style governed Layer~6 object traversing five canonical phases (*1.~Friction to RFC $\to$ 2.~Working Group Charter $\to$ 3.~Inception \& Build $\to$ 4.~Spec Ratification $\to$ 5.~Servicing \& Dormant Equilibrium*). When a ratified software artifact reaches rock-solid maturity (**The \TeX{} Asymptote**), incidents drop to zero and every maintainer's operational stewardship decays ($R_i(t) \to 0$) while their non-decaying Universal Civic Baseline ($B = 1 = 10{,}000\,\mathrm{bp}$) prevents Dormant-Node Single-Maintainer Hijack. The lens sleeps in \texttt{DORMANT\_EQUILIBRIUM} until a Layer~2 hardware revision triggers a \textbf{Substrate Drift Semantic Diff Wake-Up Card}.
+
+\subsection{Lens 5: \textit{The Enveloping Node Hypervisor Lens} (\texttt{/api/l6/v1/envelope}) --- Domain-Blind Spatial Leases and Two-Speed Jurisprudence}
+\label{subsec:lens-enveloping-hypervisor}
+
+When $K$ autonomous polycentric nodes (e.g., an $N_s=4$ Household Hearth, an $N_s=1$ Acoustic Recording Studio, and an $N_s=12$ Woodshop Guild) share a single physical building, street, or watershed, \textit{The Enveloping Node Hypervisor Lens} eliminates $O(K^2)$ bilateral political friction by wrapping shared space in $O(K)$ domain-blind boundary leases (\texttt{EnvelopingBoundaryLeaseV50}):
+\begin{itemize}
+    \item \textbf{Domain-Blind Physical Invariants:} The lens never displays internal woodshop joinery or studio mixing tracks; it displays only partition boundary decibels (\texttt{max\_acoustic\_cb}, e.g., $4{,}200\,\mathrm{cB} = 42.0\,\mathrm{dBA}$ quiet ceiling vs.\ $8{,}500\,\mathrm{cB}$ daytime shop window), breaker power (\texttt{max\_power\_mw}), window exergy (\texttt{max\_exergy\_budget\_uj}), exhaust delta (\texttt{max\_thermal\_delta\_mk}), 3D polygon (\texttt{bounding\_box\_mm[6]}), and mandatory finite \texttt{lease\_ttl\_ms}.
+    \item \textbf{Two-Speed Jurisprudence Dashboard:} Displays real-time \textbf{Fast-Path Layer~2 Hazard Preemption} receipts (for instance, a burst pipe tripping moisture sensors and immediately granting an $8{,}200\,\mathrm{cB}$ emergency wet-vac lease that overrides an active $4{,}500\,\mathrm{cB}$ Studio Quiet Lease in millisecond hardware time) alongside asynchronous \textbf{Slow-Path Semantic Diff Precedent Ballots} that compile ratified tie-breaker rules permanently into \texttt{col-execd}.
+\end{itemize}
+
+\begin{lstlisting}[language=jsonld,caption={Canonical JSON-LD payload uniting the Five Layer~6 Lens projections over \texttt{col-commonsd} (v3.2).},label={lst:ch4-five-lens-jsonld}]
+{
+  "@context": {
+    "@version": 1.1,
+    "@vocab": null,
+    "col": "https://w3id.org/collective/v1/core#",
+    "pantry": "https://w3id.org/collective/v1/pantry#",
+    "workshop": "https://w3id.org/collective/v1/workshop#",
+    "hearth": "https://w3id.org/collective/v1/hearth#",
+    "zero": "https://w3id.org/collective/v1/zero#",
+    "env": "https://w3id.org/collective/v1/envelope#"
+  },
+  "@id": "urn:collective:l6:five-lens-composite-view-v32",
+  "pantry:activeStockLot": {
+    "@type": "pantry:StockLot",
+    "pantry:itemNeedRef": "need:sourdough_rye",
+    "pantry:ambientTempMk": 276150,
+    "pantry:expiryHlcMs": 1763856000000,
+    "pantry:drawdownRateMgPerDay": 450000,
+    "pantry:spoilageHazardBp": 820,
+    "pantry:detourAutoThrottled": false,
+    "pantry:surplusShareWindowMs": 43200000
+  },
+  "workshop:activeToolTwin": {
+    "@type": "workshop:ToolAsset",
+    "workshop:toolId": "tool:cnc-router-3axis-bay2",
+    "workshop:fleetTier": "STAGE_II_RIGHT_TO_REPAIR_HYBRID",
+    "workshop:cumulativeUseMs": 144000000,
+    "workshop:wearIndexBp": 1850,
+    "workshop:calibrationDueUseMs": 360000000,
+    "workshop:rescuedChassisExergyUj": 18500000000000,
+    "workshop:mintedRetrofitStewardshipBp": 4200
+  },
+  "hearth:dailyScheduleSplit": {
+    "@type": "hearth:RecipeBatch",
+    "hearth:nodeMembershipCountNs": 5,
+    "hearth:stapleAllocationBp": 8500,
+    "hearth:montageAllocationBp": 1500,
+    "hearth:activeMontageExperiment": "Miso-Buckwheat Wild Ferment Boule"
+  },
+  "zero:governedArtifact": {
+    "@type": "zero:SoftwareArtifact",
+    "zero:artifactId": "pkg:col-transit-router-v2",
+    "zero:khronosLifecyclePhase": "PHASE_5_DORMANT_EQUILIBRIUM",
+    "zero:dormantEquilibriumFlag": true,
+    "zero:universalBaselinePerMemberBp": 10000
+  },
+  "env:activeBoundaryLease": {
+    "@type": "env:BoundaryLease",
+    "env:envelopingNodeId": "node:house-envelope-block4",
+    "env:childNodeId": "node:solo-acoustic-studio",
+    "env:leaseTtlMs": 10800000,
+    "env:maxAcousticCb": 4200,
+    "env:maxPowerMw": 1500000,
+    "env:maxThermalDeltaMk": 2000,
+    "env:preemptionPriorityTier": 100
+  }
+}
+\end{lstlisting}
+
+\begin{figure}[htbp]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}[
+    node distance=0.55cm and 0.6cm,
+    wire/.style={draw=teal!80!black, rounded corners=3pt, thick, fill=teal!5, align=left, font=\scriptsize, minimum width=4.3cm, minimum height=2.25cm, inner sep=5pt},
+    envwire/.style={draw=blue!80!black, rounded corners=3pt, thick, fill=blue!6, align=left, font=\scriptsize, minimum width=9.2cm, minimum height=2.25cm, inner sep=5pt}
+]
+    \node[wire] (w1) {
+        \textbf{1. The Pantry Lens} (\texttt{<30s})\\[2pt]
+        $\bullet$ Cold-Chain: \texttt{3.0 C (276,150 mK)}\\
+        $\bullet$ Rye Loaf TTL: \texttt{38h} (Arrhenius)\\
+        $\bullet$ Pickup Lease: \texttt{12h Auto-Expiry}\\
+        $\bullet$ Detour Status: \texttt{Active / No Nag}\\
+        $\bullet$ \texttt{[Offer R1 Surplus Before Spoil]}
+    };
+    \node[wire, right=0.45cm of w1] (w2) {
+        \textbf{2. The Workshop Lens} (\texttt{<30s})\\[2pt]
+        $\bullet$ CNC Bay 2: \texttt{Stage II Hybrid}\\
+        $\bullet$ Wear: \texttt{1,850 bp} (Next swap: \texttt{60h})\\
+        $\bullet$ Custody: \texttt{Pillar II Dual-Key OK}\\
+        $\bullet$ ERC Saved: \texttt{18.5 MJ} ($\Delta R = +4200\,\mathrm{bp}$)\\
+        $\bullet$ \texttt{[Checkout 2h Slot] [Log Swap]}
+    };
+    \node[wire, right=0.45cm of w2] (w3) {
+        \textbf{3. The Bakery / Hearth} ($N_s=5$)\\[2pt]
+        $\bullet$ L3 Cohort Demand: \texttt{36 Loaves}\\
+        $\bullet$ \textbf{85\% Staples} (\texttt{8500 bp}): Sourdough\\
+        $\bullet$ \textbf{15\% Montage} (\texttt{1500 bp}): Miso-Rye\\
+        $\bullet$ Bigelow $F_0$: \texttt{74.0 C / 347,150 mK}\\
+        $\bullet$ \texttt{[Sign Morning Bake Wave]}
+    };
+
+    \node[wire, below=0.55cm of w1] (w4) {
+        \textbf{4. Scenario Zero Forge Studio}\\[2pt]
+        $\bullet$ WG Voice: $V_i = 10{,}000 + R_{i,\mathrm{bp}}(t)$\\
+        $\bullet$ State: \texttt{Dormant (\TeX{} Asymptote)}\\
+        $\bullet$ Rack Heat Reuse: \texttt{8,400 bp -> DHW}\\
+        $\bullet$ Alert: \texttt{Soil Probe v0x04 Drift}\\
+        $\bullet$ \texttt{[Charter Adapter RFC] [Sleep]}
+    };
+    \node[envwire, right=0.45cm of w4] (w5) {
+        \textbf{5. Enveloping Node Hypervisor Lens} (\textit{Room $\to$ Street $\to$ Watershed})\\[2pt]
+        $\bullet$ Active Child Nodes: \texttt{Hearth (N=4)}, \texttt{Studio (N=1)}, \texttt{Maker Bench (N=1)}\\
+        $\bullet$ Quiet Lease (\texttt{20:00-08:00}): Ceiling \texttt{4,200 cB (42 dBA)}, \texttt{1.5 kW}, TTL \texttt{3h}\\
+        $\bullet$ \textbf{Fast-Path Log:} \texttt{21:15 Burst-Pipe Wet-Vac (8,200 cB) Preempted Studio}\\
+        $\bullet$ \textbf{Slow-Path Semantic Diff Ballot:} \texttt{Ratify Dual-Sensor + 120m Comp Precedent}\\
+        $\bullet$ \texttt{[Hold 500ms to Co-Sign Precedent -> Compile to col-execd]}
+    };
+\end{tikzpicture}%
+}
+\caption{Calm UX wireframes for the Five Canonical Layer~6 Application Lenses over \texttt{col-commonsd}, engineered for Zero-Stat Liberation ($<30$-second interaction loops, zero gamified XP bars, and exact SI read-backs).}
+\label{fig:ch4-five-lens-wireframes}
+\end{figure}
+
+Figure~\ref{fig:ch4-five-lens-wireframes} synthesizes the Definitive Five-Lens Reference Catalog alongside the three-stage variety attenuation pipeline of Figure~\ref{fig:ch4-variety-attenuation}. By suppressing autonomic noise, projecting domain-scoped deltas onto five thermodynamically distinct lens families, coalescing co-located tasks along physically sanitary walking loops, and guaranteeing guilt-free exit at every step, Layer~6 ensures that technology recedes calmly into the periphery of communal life. Next, Chapter~\ref{ch:edge-llms} examines how optional local language models assist human expression and hard-block Semantic Diff parsing within this calm boundary without ever introducing cloud dependency, exergy waste, or indirect prompt-injection vulnerabilities.

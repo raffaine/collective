@@ -269,4 +269,92 @@ Finally, \texttt{core/6\_intent/blueprints/*.jsonld} demonstrates how the ontolo
 \label{fig:ch2-semantic-foundation}
 \end{figure}
 
-Figure~\ref{fig:ch2-semantic-foundation} illustrates why the Wide-Purpose Ontological Surface liberates Layer~6 from single-app lock-in. Because stoichiometry, phenology, safety bounds, and declarative form shapes reside in canonical, self-validating Linked Data graphs rather than hardcoded client views, any community guild can craft a bespoke, calm Application Lens tailored to its physical craft without fracturing institutional truth. Yet before any canonical \texttt{Intent\_CID} may cross \texttt{l5\_l6.sock} to commit resources or ratify law, Layer~6 must prove that a living human being consciously authored, read back, and signed that commitment---even when operating days offline. That ceremony is the subject of Chapter~\ref{ch:authorship-crdt}.
+\section{Layer 6 as Societal Compiler, Semantic Diff Decompiler, and Human Edge SI Localization Lens}
+\label{sec:societal-compiler-si-localization}
+
+Why does the Sovereign Stack draw such a sharp computational boundary between Layers~4--5 (\texttt{col-execd} and \texttt{col-kmsd}) and Layer~6 (\texttt{col-commonsd} and Application Lenses)? Because Layers~4 and~5 are formal cybernetic execution engines operating in machine representations: float-free WASM bytecode, 64-byte \texttt{BpmnTokenFrame} structs, capability bitmasks, lexicographic resource locks, and 64-bit fixed-point SI ledgers. Humans are never expected to hand-wire raw Layer~5 capability matrices or Layer~4 Petri-net state machines. \textbf{Layer~6 carries $100\%$ of the burden of human meaning}---acting as the \textbf{downward societal compiler} ($\Pi_{\mathrm{down}} : \mathrm{L6} \to \mathrm{L5} \to \mathrm{L4}$) and the \textbf{upward societal decompiler} ($\Pi_{\mathrm{up}}^{\mathrm{diff}} : \mathrm{L4} \to \mathrm{L5} \to \mathrm{L6}$).
+
+\subsection{The Two-Zone Metrological Invariant and the Human Edge SI Localization Functor ($\mathcal{U}_{\mathrm{loc}} \leftrightarrow \mathrm{SI}_{\mathrm{fixed}}$)}
+\label{subsec:si-localization-functor}
+
+In the legacy Layer~7 economy, market fragmentation and uncoordinated measuring conventions routinely trigger unit-conversion failures while forcing craftspeople into awkward mental arithmetic. A baker thinks naturally in \textbf{baker's hydration percentages} ($78\%$ hydration) or volumetric flour measures (\texttt{3 cups bread flour}), a reclamation carpenter measures salvaged dimensional lumber in \textbf{imperial inches} ($1.50\,\mathrm{in}$), a cook reads a heritage canning recipe in \textbf{degrees Fahrenheit} ($165.2\,^\circ\mathrm{F}$) or \textbf{degrees Celsius} ($74.0\,^\circ\mathrm{C}$), and a recording engineer specifies room isolation in \textbf{A-weighted decibels} ($42.0\,\mathrm{dBA}$).
+
+To prevent floating-point drift across CPU architectures (\texttt{x86\_64}, \texttt{aarch64}, \texttt{riscv64}) while honoring situated human craft idioms, the Sovereign Stack enforces the \textbf{Two-Zone Metrological Invariant (\texttt{CCI-6})}:
+\begin{enumerate}
+    \item \textbf{Zone 1 --- The Canonical 64-Bit Fixed-Point SI Core (Layers 2, 3, and 4):} Internally, every wire packet, RocksDB ledger entry, and BPMN guard predicate executes exclusively in a single canonical 64-bit signed integer SI metrological core (\texttt{int64\_t}, \texttt{floating\_point\_opcodes == 0}). In particular, energy and exergy are stored strictly in \textbf{microjoules} (\texttt{uJ}, where $1\,\mathrm{J} = 10^6\,\mu\mathrm{J}$ and $1\,\mathrm{MJ} = 10^{12}\,\mu\mathrm{J}$, preventing the $10^9\,\mu\mathrm{J} = 1\,\mathrm{kJ}$ scaling error).
+    \item \textbf{Zone 2 --- The Layer 6 Human Edge SI Localization Functor ($\mathcal{U}_{\mathrm{loc}} \leftrightarrow \mathrm{SI}_{\mathrm{fixed}}$):} Application Lenses accept cultural, craft, or regional expressions at the human input edge and deterministically convert them into canonical 64-bit fixed-point SI integers \emph{prior} to Stage~4 Deterministic Read-Back and hardware signature. Crucially, Stage~4 Deterministic Read-Back displays \textbf{both} the localized human expression and the exact canonical SI integer commitment:
+    \begin{center}
+    \small\texttt{"Hold core temp >= 74.0 deg C (165.2 deg F / 347,150 mK) for 120 s (120,000 ms)"}
+    \end{center}
+\end{enumerate}
+
+\begin{table}[htbp]
+\centering
+\caption{The Two-Zone Metrological Invariant: Canonical L2--L4 64-Bit Fixed-Point SI Core vs.\ Layer~6 Human Edge Localization}
+\label{tab:ch2-two-zone-metrology}
+\footnotesize
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}llllp{4.6cm}@{}}
+\toprule
+\textbf{Physical Quantity} & \textbf{L2--L4 Wire Type} & \textbf{Canonical SI Base Unit} & \textbf{Canonical L2--L4 Value} & \textbf{Layer 6 Edge Localization \& Read-Back} \\
+\midrule
+Energy / Exergy & \texttt{int64\_t} & Microjoules (\texttt{uJ}, $10^{-6}\,\mathrm{J}$) & \texttt{4'680'000'000'000 uJ} & \texttt{4.68 MJ} or \texttt{1.30 kWh} ($1\,\mathrm{MJ} = 10^{12}\,\mu\mathrm{J}$) \\
+Power & \texttt{int64\_t} & Milliwatts (\texttt{mW}, $10^{-3}\,\mathrm{W}$) & \texttt{2'200'000 mW} & \texttt{2.20 kW} continuous breaker draw \\
+Mass & \texttt{int64\_t} & Milligrams (\texttt{mg}, $10^{-6}\,\mathrm{kg}$) / \texttt{ug} & \texttt{750'000 mg} & \texttt{750 g} or \texttt{3 cups Bread Flour} (at $250\,\mathrm{g/cup}$ density) \\
+Length / Geometry & \texttt{int64\_t} & Millimeters (\texttt{mm}) / Micrometers (\texttt{um}) & \texttt{38'100 um} (\texttt{38 mm}) & \texttt{38.1 mm} or \texttt{1.50 in} nominal timber thickness \\
+Volume & \texttt{int64\_t} & Milliliters (\texttt{mL}) / Microliters (\texttt{uL}) & \texttt{240'000 uL} (\texttt{240 mL}) & \texttt{240 mL} or \texttt{1 cup liquid stock} \\
+Temperature & \texttt{int64\_t} & Millikelvins (\texttt{mK}, $10^{-3}\,\mathrm{K}$) & \texttt{347'150 mK} & \texttt{74.0 deg C} or \texttt{165.2 deg F} pasteurization floor \\
+Acoustic Level & \texttt{int64\_t} & Centibels (\texttt{cB}, $10^{-1}\,\mathrm{dB}$) & \texttt{420 cB} (or \texttt{4'200 mcB}) & \texttt{42.0 dBA} partition boundary acoustic ceiling \\
+Time / Duration & \texttt{int64\_t} & Milliseconds (\texttt{ms}, $10^{-3}\,\mathrm{s}$) / \texttt{us} & \texttt{2'700'000 ms} & \texttt{45 min 00 s} thermal soak duration \\
+Ratios / Voice & \texttt{int64\_t} & Basis Points (\texttt{bp}, $10^{-4}$) & \texttt{7'800 bp} / \texttt{10'000 bp} & \texttt{78.00\%} dough hydration / \texttt{1.0000 B} civic baseline \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+\subsection{Why Market Fragmentation Dissolves Into SI Modular Convergence ($\lambda_{\mathrm{ERC}}$)}
+
+In Layer~7 markets, manufacturers proliferate fifteen incompatible battery sleds, custom plastic tote dimensions, and proprietary fastener heads to engineer switching costs and replacement-part rents while externalizing disposal onto the biosphere. In the Sovereign Stack, Layer~3 (\texttt{col-storaged}) prices the \textbf{Ecological Replacement Cost ($\lambda_{\mathrm{ERC}}$)} of every component across its full cradle-to-cradle lifecycle in microjoules (\texttt{uJ}):
+\begin{equation}
+    \lambda_{\mathrm{ERC}}(c) = E_{\mathrm{embodied}}(c) + E_{\mathrm{transport}}(c) + \frac{E_{\mathrm{retooling\_amortized}}(c)}{N_{\mathrm{reuse\_cycles}}(c)} - E_{\mathrm{recoverable\_stock}}(c)
+    \label{eq:ch2-erc-convergence}
+\end{equation}
+A bespoke proprietary container with a small reuse count $N_{\mathrm{reuse\_cycles}}$ carries a steep $\lambda_{\mathrm{ERC}}$ per cycle, whereas an open modular standard---a \textbf{Gastronorm GN~1/1 stainless steel pan ($530 \times 325\,\mathrm{mm}$)}, an \textbf{ISO $600 \times 400\,\mathrm{mm}$ Euro-tote}, or an \textbf{ISO metric \texttt{M6} / \texttt{M8} cap screw}---fits ovens, cargo trikes, and workshop jigs across all twenty-five scenarios with $N_{\mathrm{reuse\_cycles}} \to 10^4$. Because Layer~4's workflow solver minimizes $\sum (E_{\mathrm{direct}} + \lambda_{\mathrm{ERC}})$ and Layer~6's library browser ranks blueprint lineages by empirical $\lambda_{\mathrm{ERC}}$, settlements voluntarily converge on Gastronorm pans, ISO totes, and M6/M8 fasteners through thermodynamic gradient descent without a central standardization bureaucracy.
+
+\subsection{The Downward Societal Compiler ($\Pi_{\mathrm{down}}$) and Upward Semantic Diff Decompiler ($\Pi_{\mathrm{up}}^{\mathrm{diff}}$)}
+\label{subsec:compiler-decompiler}
+
+When a steward authors an intent or customizes a local franchise blueprint (for instance, forking a turnkey hearth menu to swap patty ingredients or adjusting quiet hours in an Enveloping Node), \texttt{col-commonsd} executes \textbf{Delta Recompilation ($\Pi_{\mathrm{down}}$)}: it computes the structural AST diff against \texttt{prov:wasDerivedFrom} (\texttt{parentBlueprintCid}) and compiles only the ratified delta downward into a Layer~5 \texttt{PolicyBundle\_CID} (over \texttt{l5\_l6.sock}) and Layer~4 \texttt{workflow\_def\_cid} parameter bindings (over \texttt{l4\_l5.sock}), keeping verified Bigelow $F_0$ sanitation and LOTO safety interlocks intact.
+
+Conversely, when a Layer~4 workflow encounters hardware heterogeneity, \texttt{col-execd} first evaluates its \textbf{3-Tier BPMN Hardware Adaptation Cascade (\texttt{CCI-5})}:
+\begin{enumerate}
+    \item \textbf{Tier 1 --- Automatic SI Parameter Scaling:} If a local mixer or heater matches the blueprint archetype at a smaller volume ($10{,}000\,\mathrm{mL}$ vs.\ $20{,}000\,\mathrm{mL}$) or lower power ($1{,}800{,}000\,\mathrm{mW}$ vs.\ $2{,}400{,}000\,\mathrm{mW}$), Layer~4 automatically splits the batch ($2 \times 10\,\mathrm{kg}$) and integrates the thermal ramp duration ($\Delta t_{\mathrm{ms}} = E_{\mathrm{uJ}} / P_{\mathrm{mW}}$) with zero human interruption.
+    \item \textbf{Tier 2 --- Macro-Activity Substitution:} If scalar scaling cannot bridge a tool difference (e.g., a template requests \texttt{process:LaserSeamWeld} but the shop holds a drill press and metric fasteners), Layer~4 queries the Ontological Graph for \texttt{collective:functionalEquivalenceClass} matches and splices \texttt{macro:FlangedM6BoltedJointWithGasket} in place of the weld sub-workflow.
+    \item \textbf{Tier 3 --- True-Constraint Hard-Block:} Only when neither scaling nor macro-substitution can satisfy a physical law or safety floor (e.g., missing cold storage below $277{,}150\,\mathrm{mK}$ / $4.0\,^\circ\mathrm{C}$) does Layer~4 halt and emit a structured \texttt{UpwardYieldPacketV31} through Layer~5 to Layer~6.
+\end{enumerate}
+
+Upon receiving an unresolvable yield from Layer~5 across \texttt{l5\_l6.sock}, \texttt{col-commonsd} executes \textbf{Upward Semantic Diff Decompilation ($\Pi_{\mathrm{up}}^{\mathrm{diff}}$)}---translating raw machine register hashes and bytecode indices into a plain-language \textbf{Layer~6 Semantic Diff Card} across the four canonical hard-block classes in Table~\ref{tab:ch2-semantic-diff-classes}.
+
+\begin{table}[htbp]
+\centering
+\caption{The Four Canonical Hard-Block Classes Decompiled by \texttt{col-commonsd} Into Layer~6 Semantic Diff Cards}
+\label{tab:ch2-semantic-diff-classes}
+\footnotesize
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{@{}llp{4.1cm}p{5.5cm}@{}}
+\toprule
+\textbf{Hard-Block Class} & \textbf{L4/L5 Machine Yield Opcode} & \textbf{Underlying Cybernetic Trigger} & \textbf{Decompiled Layer 6 Semantic Diff Card Presented in Lens} \\
+\midrule
+\textbf{1. Substrate Drift} & \texttt{SUBSTRATE\_DRIFT\_ADAPTER\_REQUIRED} & Layer~2 hardware revision \texttt{0x04} emits 24-bit dielectric frame outside stationary WASM ABI \texttt{v1.2}. & \textit{``Hardware Drift on Soil Probe \#2: New ESP32-S3 board emits 24-bit frame incompatible with \texttt{wf:pea\_cultivation v1.2}. [Open Scenario Zero RFC to build \& ratify L2->L4 adapter] or [Manual Observation].''} \\
+\addlinespace[3pt]
+\textbf{2. Envelope Lease Contention} & \texttt{ENVELOPE\_LEASE\_CONTENTION} & Maker Bench requests $750\,\mathrm{cB}$ ($75\,\mathrm{dBA}$) spindle lease while House Envelope holds active $420\,\mathrm{cB}$ ($42\,\mathrm{dBA}$) Studio quiet lease. & \textit{``Acoustic Boundary Conflict in House Envelope: Maker Bench CNC cut ($75\,\mathrm{dBA}$) exceeds $42\,\mathrm{dBA}$ ceiling while Solo Studio recording lease is active (38m left). [Queue CNC for 14:00], [Attest Enclosure Closed ($-35\,\mathrm{dBA}$)], or [Request Variance].''} \\
+\addlinespace[3pt]
+\textbf{3. Unmapped Slow-Path Conflict} & \texttt{UNMAPPED\_POLICY\_CONFLICT} & Two Tier-4 workflows request Saturday 10:00 courtyard polygon with no prior tie-breaker precedent. & \textit{``Unmapped Courtyard Contention (Slow-Path Precedent Ballot): Kiln Unloading and Puppet Rehearsal both request Saturday 10:00 lease. Ratifying a resolution compiles a permanent Layer~4 precedent so you never vote on this again.''} \\
+\addlinespace[3pt]
+\textbf{4. True-Constraint Hard-Block} & \texttt{TRUE\_CONSTRAINT\_HARDWARE\_GAP} & Turnkey kitchen template requires cold storage $\le 277{,}150\,\mathrm{mK}$ ($4.0\,^\circ\mathrm{C}$); L2 Twin has only $291{,}150\,\mathrm{mK}$ ($18.0\,^\circ\mathrm{C}$). & \textit{``Blueprint Halted --- Missing Cold-Chain Constraint: Requires $\ge 120\,\mathrm{L}$ cold storage at $\le 4.0\,^\circ\mathrm{C}$ ($277{,}150\,\mathrm{mK}$). Local Twin reports $18.0\,^\circ\mathrm{C}$ min. [Bind Neighbour $R_1$ Cold-Room Lease], [Retrofit Cooler], or [Fork Dry-Bean Menu].''} \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+Figure~\ref{fig:ch2-semantic-foundation} illustrates why the Wide-Purpose Ontological Surface, paired with the Human Edge SI Localization Functor and the Societal Compiler/Decompiler, liberates Layer~6 from single-app lock-in. Yet before any canonical \texttt{Intent\_CID} or anonymous appetite lease may cross \texttt{l5\_l6.sock} to commit resources or ratify a Slow-Path precedent, Layer~6 must prove that a living human being consciously authored, read back, and signed that commitment without subjecting citizens to panoptic consumption tracking. That ceremony is the subject of Chapter~\ref{ch:authorship-crdt}.

@@ -5,7 +5,7 @@
 
 In conventional cloud applications, clicking a user-interface button emits an ephemeral HTTP request whose meaning is defined entirely by mutable server-side business logic. The human operator neither controls the canonical representation of what was requested nor retains an independent cryptographic record of what was approved; if connectivity to a remote data center drops, agency halts altogether \parencite{kleppmann2019localfirst}. Transposing that client-server posture onto a self-governing physical settlement would be constitutionally fatal. When an action allocates microjoules of stored solar exergy, binds cultivar parameters across a multi-week agroecological workflow, ratifies a neighborhood mutual-credit rule, or authorizes an outward contract through the Layer~7 legal carapace, an interface gesture ceases to be a disposable clickstream event. It becomes an enduring civic commitment.
 
-This chapter establishes the cryptographic, human-factors, and distributed-systems protocols through which Layer~6 secures human authorship across both connected indoor terminals and disconnected field operations. Building upon the bilateral socket membrane of Chapter~\ref{ch:constellation-membrane} and the canonical W3C JSON-LD~1.1 vocabulary of Chapter~\ref{ch:semantic-foundation}, we formalize three interlocking guarantees. First, grounded in the language-action perspective \parencite{winograd1986understanding,habermas1996between}, every state-mutating intent traverses a deterministic six-stage authorship pipeline enforcing the constitutional maxim: \emph{the machine assists, people author, and only people sign}. Second, private signing keys reside exclusively inside non-exportable W3C Web Crypto contexts \parencite{w3c2017webcrypto} or dedicated \texttt{ATECC608A} hardware secure elements \parencite{microchip_atecc608a}, isolated from 3D spatial viewports by the Anti-Canvas Principle and guarded against dark patterns \parencite{gray2018darkpatterns} by a $500\,\mathrm{ms}$ Fitts-law tactile speedbump \parencite{fitts1954information,norman2013design}. Third, a dual-domain authentication and synchronization architecture bridges real-time VLAN~30 sessions (Domain~A) with local-first Automerge Conflict-Free Replicated Data Types (CRDTs) \parencite{kleppmann2017automerge,shapiro2011crdt} and Delay-Tolerant Networking (DTN) couriers \parencite{fall2003} (Domain~B), culminating in deterministic \textbf{Twin Fracture Reconciliation} whenever offline semantic merges encounter conserved Layer~2 physical truth.
+This chapter establishes the cryptographic, human-factors, and distributed-systems protocols through which Layer~6 secures human authorship across both connected indoor terminals and disconnected field operations. Building upon the bilateral socket membrane of Chapter~\ref{ch:constellation-membrane} and the canonical W3C JSON-LD~1.1 vocabulary of Chapter~\ref{ch:semantic-foundation}, we formalize four interlocking guarantees. First, grounded in the language-action perspective \parencite{winograd1986understanding,habermas1996between}, every state-mutating intent traverses a deterministic six-stage authorship pipeline enforcing the constitutional maxim: \emph{the machine assists, people author, and only people sign}. Second, private signing keys reside exclusively inside non-exportable W3C Web Crypto contexts \parencite{w3c2017webcrypto} or dedicated \texttt{ATECC608A} hardware secure elements \parencite{microchip_atecc608a}, isolated from spatial viewports by the Stationary Read-Back Principle and guarded against dark patterns \parencite{gray2018darkpatterns} by a $500\,\mathrm{ms}$ Fitts-law tactile speedbump \parencite{fitts1954information,norman2013design}. Third, a dual-domain authentication and synchronization architecture bridges real-time VLAN~30 sessions (Domain~A) with local-first Automerge Conflict-Free Replicated Data Types (CRDTs) \parencite{kleppmann2017automerge,shapiro2011crdt} and Delay-Tolerant Networking (DTN) couriers \parencite{fall2003} (Domain~B), culminating in deterministic \textbf{Twin Fracture Reconciliation}. Fourth, Layer~6 enforces \textbf{Zero-Surveillance Local Need Capture} and the \textbf{Dual-Loop Bakery Separation of $N_s$ vs.\ $N_p$}: proving how \textit{The Pantry} absorbs spontaneous weekend detours via short-lived, auto-expiring anonymous pickup leases (\texttt{AnonymousAppetiteLeaseV50}) without ever tracking personal calendars or persistent consumer profiles.
 
 \section{Speech-Act Commitments and the Constitutional Authorship Invariant}
 \label{sec:speech-acts-authorship}
@@ -430,4 +430,71 @@ Figure~\ref{fig:dual-domain-fracture} synthesizes the complete lifecycle across 
 
 How does a Twin Fracture feel to the steward when their cargo e-trike rolls back into the homestead yard? Crucially, nothing the steward observed or recorded in the field is ever discarded. Suppose an arborist spent three wet hours grafting rootstocks and logging twelve soil-horizon observations alongside one cistern-draw request whose water stock was concurrently depleted by the kitchen soup cauldron. Because Automerge merges fine-grained operations along independent object subtrees \parencite{kleppmann2017automerge}, all twelve soil observations commit cleanly (\texttt{COMMIT\_CLEAN}) into \texttt{col-commonsd} on the first pass. Only the single over-allocated cistern-draw sub-intent enters \texttt{HOLD\_TWIN\_FRACTURE\_RECONCILIATION}, surfacing calmly in the steward's next Batched Deliberation Digest with an exact physical explanation: \emph{``Cistern \texttt{water\_tote\_01} holds \texttt{8,000 mL} (live L2 probe), below offline-requested \texttt{12,000 mL} signed against \texttt{08:30} snapshot. Apply \texttt{8,000 mL} now, draw \texttt{4,000 mL} from secondary roof barrel, or cancel?''}
 
-By uniting speech-act provenance, non-exportable hardware keys, Anti-Canvas spatial separation, $500\,\mathrm{ms}$ Fitts-law speedbumps, local-first Automerge CRDTs, and conservation-safe Twin Fracture reconciliation, Layer~6 guarantees that human beings remain the sole authors of civic commitments---whether sitting beside the hearth router or working five kilometers off-grid. Yet securing authentic authorship for a single intent solves only half of the human-interface challenge. What happens to human serenity when a maturing settlement scales from four genesis workflows to more than two thousand concurrent intra-node and inter-node processes? Chapter~\ref{ch:cognitive-triage} answers that question through cybernetic variety attenuation and spatial round coalescing.
+\section{Zero-Surveillance Local Need Capture, Spontaneous Weekend Detours, and the Dual-Loop Bakery ($N_s$ vs.\ $N_p$)}
+\label{sec:zero-surveillance-need-capture}
+
+A fundamental constitutional boundary in Version~3.2 (\textbf{Law~3 / \texttt{CCI-2}}) governs how individual household needs in \textit{The Pantry} interact with producer guilds such as \textit{The Bakery / Communal Hearth} (\texttt{SCN-GAMMA-KITCHEN}) or a fabrication shop (\texttt{SCN-ALPHA-FAB}).
+
+\subsection{Strict Separation of Node Membership Governance ($N_s$) from Community Appetite ($N_p$)}
+
+Consider a neighborhood bakery staffed by $N_s = 5$ active member-bakers that nourishes $N_p = 500$ surrounding settlement residents. If all $500$ bread consumers ($N_p$) were granted the Universal Civic Baseline voting weight $B = 1$ ($10{,}000\,\mathrm{bp}$) \emph{inside} the 5-person Bakery Guild Node, two catastrophic failures would immediately follow:
+\begin{enumerate}
+    \item \textbf{Consumer Tyranny Over Workers:} Five hundred casual bread eaters could outvote the five actual bakers $500 : \bigl(5 + \sum_{i=1}^{5} R_i(t)\bigr)$ on starter hydration percentages, 04:00~AM oven preheat schedules, and internal shift ergonomics.
+    \item \textbf{Panoptic Consumption Surveillance:} Determining which residents qualify as ``regular sourdough eaters'' would require persistent identity-linked consumption logging at the bakery pickup shelf---recreating the behavioral surveillance exhaust of Layer~7 platform capitalism \parencite{zuboff2019}.
+\end{enumerate}
+
+The Sovereign Stack prevents both failure modes through the \textbf{Dual-Loop Bakery Architecture}:
+\begin{itemize}
+    \item \textbf{Loop 1 --- Node Membership Governance ($N_s$):} Constitutional voting weight
+    \begin{equation}
+        V_i(t) = B + R_i(t) = 1 + R_i(t) \qquad \bigl(V_{i,\mathrm{bp}}(t) = 10{,}000 + R_{i,\mathrm{bp}}(t)\bigr)
+        \label{eq:ch3-unified-voting-weight}
+    \end{equation}
+    inside any Layer~5 node belongs \emph{exclusively} to the $N_s$ active inducted stewards of that node ($i \in \mathcal{M}_{\mathrm{node}}$). Moreover, operational stewardship $R_{i,\mathrm{bp}}(t)$ cannot be artificially farmed by self-assigned busywork; minting $\Delta R_{i,\mathrm{bp}} > 0$ requires the cryptographic conjunction of an L6 validated demand lease, an L4 completed BPMN task, and an L2/L3 hardware verification with zero Ecological Replacement Cost ($\lambda_{\mathrm{ERC}}$) spike.
+    \item \textbf{Loop 2 --- Zero-Surveillance Demand Signaling ($N_p$):} The $N_p$ neighborhood residents never vote on internal bakery operations; instead, their local \textit{Pantry} lenses transmit \textbf{zero-knowledge-anonymized cohort appetite vectors and short-lived pickup intent leases}. If a guild ignores community tastes, anonymous pickup leases for its output dry up (or another three-person crew instantiates a competing recipe fork on an adjacent oven slot), while every resident retains their full $B = 1$ constitutional voice inside the \textbf{Enveloping Building/Street Node Hypervisor} ($N_{\mathrm{envelope}}$) that leases physical floor space, breaker power (\texttt{mW}), and nocturnal acoustic budgets (\texttt{cB}) to the bakery.
+\end{itemize}
+
+\subsection{How \textit{The Pantry} Solves the ``Spontaneous Weekend Detour'' Problem Without Surveillance}
+
+Suppose forty neighbors express a standing preference for Saturday sourdough, and a sunny Saturday morning inspires twenty of them to head spontaneously for the mountains. If the bakery bakes forty loaves on a static calendar pledge, twenty loaves become Layer~1 food waste; conversely, if Layer~6 badgers residents with Friday afternoon push notifications (\emph{``Confirm your bread pickup within 2 hours or lose your slot!''}), the interface degenerates into an coercive corporate calendar manager.
+
+\textit{The Pantry Lens} solves this coordination hazard thermodynamically through \textbf{Asynchronous Detour Absorption} and \textbf{Two-Tier Demand Signaling}:
+\begin{enumerate}
+    \item \textbf{Tier 1 --- Ambient Taste \& Dietary Rhythm Profile (Private Domain A/B Graph):} Long-horizon flavor affinities (e.g., seeded rye, split-pea tiffins) and zero-knowledge BBS+ anaphylactic allergen exclusion masks live privately inside the household's local \textit{Pantry} graph, shaping only seasonal crop planting and dry grain stocks.
+    \item \textbf{Tier 2 --- Short-Lived Auto-Expiring Pickup Intent Leases (\texttt{AnonymousAppetiteLeaseV50}):} Near-term baking waves are driven by \textit{The Pantry} acting as a \textbf{thermodynamic buffer}. Layer~2 fridge/shelf load cells and Arrhenius temperature-integrated TTL curves climb through Layers~3--5 into the local Layer~6 Semantic Daemon. Only when household bread or tiffin stock actually crosses its local replenishment threshold does \textit{The Pantry} ask local \texttt{col-kmsd} to strip the household's \texttt{did:peer} via a BBS+ Ring-$R_1$ membership proof and emit an anonymous, short-lived Layer~3 pickup lease (\texttt{lease\_ttl\_ms = 43,200,000} [$12\,\mathrm{hours}$]).
+    \item \textbf{Automatic Detour Throttling and Pre-Spoilage Surplus Sharing:} When a household leaves spontaneously for the mountains, local Layer~2 shelf drawdowns pause automatically. Because larder stock remains above the replenishment curve (and any unrenewed pickup lease expires silently at \texttt{expiry\_hlc\_ms}), \textit{The Pantry} throttles outbound bakery demand with \textbf{zero GPS tracking, zero personal calendar inspection, and zero confirmation alerts}. If an item already in \textit{The Pantry} approaches its Arrhenius spoilage curve while the household is away, a standing rule posts an anonymous Ring-$R_1$ \texttt{L3SurplusOffer} so a neighbor claims the perishable stock before it becomes waste.
+\end{enumerate}
+
+Listing~\ref{lst:ch3-anonymous-appetite-lease} provides the 64-byte cache-aligned C++20 wire specification for \texttt{AnonymousAppetiteLeaseV50} shared between \texttt{col-commonsd}, \texttt{col-kmsd}, and \texttt{col-storaged}.
+
+\begin{lstlisting}[language=C++,label={lst:ch3-anonymous-appetite-lease},caption={Zero-surveillance 64-byte Layer 3 cohort appetite and auto-expiring pickup intent lease (`AnonymousAppetiteLeaseV50`).}]
+namespace collective::l3 {
+
+enum class DemandCommitmentTier : uint8_t {
+    AMBIENT_TASTE_AFFINITY   = 0, // Soft seasonal preference (non-binding forecast)
+    SHORT_LIVED_PICKUP_LEASE = 1, // Firm near-term Pantry drawdown lease (auto-expires)
+    MONTAGE_TASTE_FEEDBACK   = 2  // Post-pickup optional anonymous rating on 15% experiment
+};
+
+struct alignas(64) AnonymousAppetiteLeaseV50 {
+    uint64_t lease_nonce_hash{0};         // [0..7]   Unlinkable PRF lease token (lease_cid)
+    uint64_t target_need_cid_prefix{0};   // [8..15]  e.g. need:sourdough_rye / need:pea_soup
+    uint64_t issued_hlc_ms{0};            // [16..23] Issue timestamp (HLC ms)
+    uint64_t expiry_hlc_ms{0};            // [24..31] Auto-expires on spontaneous weekend detour!
+    uint64_t zk_ring_membership_tag{0};   // [32..39] Verifies valid R1 neighbor without DID
+    uint32_t requested_mass_mg{0};        // [40..43] Requested portion mass in milligrams
+    uint32_t allergen_exclusion_mask{0};  // [44..47] Bitmask for BBS+ anaphylactic disjointness
+    uint16_t taste_affinity_bp{5000};     // [48..49] 0..10000 bp flavor resonance
+    uint16_t target_cohort_zone_id{1};    // [50..51] Coarse neighborhood delivery porch cluster
+    DemandCommitmentTier tier{DemandCommitmentTier::SHORT_LIVED_PICKUP_LEASE}; // [52] (1B)
+    uint8_t  auto_throttled_by_detour{0}; // [53]     1 if L2 Pantry consumption paused (1B)
+    uint8_t  quality_flags{0x02};         // [54]     0x02=HardwareRoot, 0x01=Simulated (1B)
+    uint8_t  reserved_pad[9]{0};          // [55..63] Explicit cache-line padding (9B)
+};
+static_assert(sizeof(AnonymousAppetiteLeaseV50) == 64,
+              "AnonymousAppetiteLeaseV50 must occupy exactly 1 cache line (64 bytes).");
+
+} // namespace collective::l3
+\end{lstlisting}
+
+By uniting speech-act provenance, non-exportable hardware keys, Stationary Read-Back spatial separation, $500\,\mathrm{ms}$ Fitts-law speedbumps, local-first Automerge CRDTs, conservation-safe Twin Fracture reconciliation, and zero-surveillance \texttt{AnonymousAppetiteLeaseV50} demand signaling, Layer~6 guarantees that human beings remain sovereign authors of civic commitments without ever becoming tracked subjects of a panoptic database. Yet how do these guarantees manifest concretely across the five canonical Application Lenses when a maturing settlement scales to more than two thousand concurrent workflows? Chapter~\ref{ch:cognitive-triage} answers that question by pairing cybernetic variety attenuation with the complete **Five-Lens Reference Catalog**.

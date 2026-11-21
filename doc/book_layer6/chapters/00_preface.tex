@@ -15,109 +15,127 @@ think like a systems programmer in order to request soup ingredients, borrow a r
 back for a day of rest, or vote on a watershed covenant, the architecture would fail the first
 test of conviviality \parencite{illich1973,weiser1996calm}.
 
-This companion volume is therefore both the **constitutional specification** and the **practical
-developer manual** for **Layer~6: The Semantic Commonwealth**---realized at the system level by
-the Semantic Commons Daemon (\texttt{col-commonsd}) and the local-network capability mediator
+This companion volume is therefore both the \textbf{constitutional specification} and the \textbf{practical
+developer manual} for \textbf{Layer~6: The Semantic Commonwealth}---realized at the system level by
+the local Semantic Commons Daemon (\texttt{col-commonsd}) and the local-network boundary mediator
 (\texttt{col-gatewayd}). It answers two foundational questions for architects, application
 builders, and domain specialists:
 \begin{enumerate}
-    \item How do we construct a **wide-purpose semantic and ontological surface** that translates
-          the intricate cybernetic reality underneath (Layers~1 through~5) and the legal/fiscal
-          carapace outward (Layer~7) into self-describing, human-meaningful concepts without
-          losing mathematical determinism or physical safety?
-    \item How do we support an **open-ended constellation of applications** that serve as
-          purpose-built **semantic lenses** onto that underlying reality---allowing any guild,
+    \item How do we construct a \textbf{wide-purpose semantic protocol and ontological surface}
+          that translates the intricate cybernetic reality underneath (Layers~1 through~5) and the
+          legal/fiscal carapace outward (Layer~7) into self-describing, human-meaningful concepts
+          without losing mathematical determinism or physical safety?
+    \item How do we support an \textbf{open-ended constellation of applications} that serve as
+          purpose-built \textbf{semantic lenses} onto that underlying reality---allowing any guild,
           accessibility collective, or developer to craft the right tool for a specific physical
           setting without ever creating a monolithic ``super-app'' or embedding private business
           logic inside user interfaces?
 \end{enumerate}
 
-\section*{The Wide-Purpose Semantic Surface Over Cybernetic Reality}
+\section*{The Five Layer~6 Architectural Laws of Version~3.2}
 
-Beneath Layer~6 operates a continuous, high-density cybernetic substrate. Hardware transducers
-in Layer~2 sample root-zone volumetric water content in basis points, stockpot core temperatures
-in millikelvins, battery shunt power in milliwatts, and load-cell masses in milligrams. Layer~3
-conserves these physical flows inside an append-only, conflict-free thermodynamic ledger and
-pairwise zero-sum mutual-credit graph. Layer~4 advances hundreds to thousands of deterministic
-BPMN~2.0 workflow instances across room-scoped and neighborhood-scoped nodes, while Layer~5
-enforces polycentric governance quorums, ecological floor invariants, and zero-knowledge
-Web-of-Trust credentials.
+Across the architectural dialogues of \textit{The Architecture of Boundless Time}, five core laws
+govern how Layer~6 bridges human meaning and cybernetic execution:
 
-Left in its raw binary form, this underlying cybernetic reality is an intimidating stream of
-64-bit fixed-point registers, socket opcodes, and state-machine tokens. Layer~6 transforms that
-substrate into a **Unified Semantic and Ontological Surface** anchored in W3C Linked Data
-standards \parencite{bernerslee2001semantic,gruber1993ontology,w3c2020jsonld}:
-\begin{itemize}
-    \item \textbf{Upward Ontological Lifting ($\Pi_{\mathrm{up}}$):} \texttt{col-commonsd} lifts
-          raw lower-layer states into rich, self-describing W3C JSON-LD~1.1 graphs governed by
-          the offline content-addressed namespace \texttt{https://w3id.org/collective/v1/}. A
-          cluster of thermocouple readings, timer ticks, and larder balances becomes a human-legible
-          \texttt{SovereignNeed} (\texttt{need:pea\_soup}), a declarative botanical phenotype
-          (\texttt{LegumeCultivarSpec}), a multi-stage \texttt{NodeFacilityBlueprint}, or a
-          spatially coalesced \texttt{HomesteadRound}.
-    \item \textbf{Downward Intentional Compilation ($\Pi_{\mathrm{down}}$):} Conversely, when a
-          person expresses a need, adjusts a cultivar parameter, claims a stewardship task, or
-          co-signs a treaty, Layer~6 validates the graph against declarative Shapes Constraint
-          Language (\texttt{SHACL}) bounds \parencite{w3c2017shacl}, canonicalizes it via
-          RFC~8785 (\texttt{JCS}) and W3C \texttt{RDFC-1.0} \parencite{rfc8785,w3c2024rdfc} in
-          pure 64-bit fixed-point QUDT SI units \parencite{qudt2024}, presents a mandatory
-          **Deterministic Read-Back**, and forwards the hardware-signed commitment across
-          \texttt{l5\_l6.sock} or \texttt{l6\_l7.sock}---governed everywhere by the constitutional
-          maxim: \textit{the machine assists, people author, and only people sign}
-          \parencite{winograd1986understanding}.
-\end{itemize}
-
-\section*{An Open-Ended Constellation of Applications as Semantic Lenses}
-
-Because Layer~6 is the most visible layer of the stack, it faces a classic design temptation:
-funneling every community interaction into one all-encompassing dashboard. During early node
-bring-up, a single unified starter client (four tabs covering *Needs*, *Decisions*, *Workflows*,
-and *Cluster/Ledger*) is a helpful pedagogical scaffold for a solo steward or small developer
-team inspecting the full vertical arc of a node.
-
-Yet in lived community practice, **no single application can properly serve every craft,
-environment, and human body**. A cook skimming a boiling stockpot with wet hands needs a
-wipeable counter E-Ink slate showing three bold pasteurization figures and a tactile timer---not
-a woodshop CNC tolerance table or a bioregional treaty diff. An arborist walking an off-grid
-chestnut coppice needs a sunlight-readable offline fieldbook synced via local-first Automerge
-CRDTs \parencite{kleppmann2017automerge,kleppmann2019localfirst}. A parent checking a toddler
-into a sanctuary pod needs an ultra-calm, zero-token check-in slate. An elder with low vision or
-a neighbour at an in-person town hall may prefer spoken offline voice confirmation, a passive
-NFC tool tag, or a hand-marked verifiable paper ballot with zero digital screens present
-\parencite{w3c2023wcag,costanzachock2020design}.
-
-Layer~6 solves this by separating the **Wide-Purpose Semantic Surface** from the **Open-Ended
-Constellation of Application Lenses**:
 \begin{enumerate}
-    \item \textbf{Applications as Pure Semantic Lenses ($\mathcal{L}_a : \mathcal{G}_{\mathrm{surface}} \to \mathcal{V}_a$):}
-          Every application in the Constellation is a **lens** that focuses, filters, and shapes
-          a specific slice of the underlying ontological graph $\mathcal{G}_{\mathrm{surface}}$
-          using W3C JSON-LD Framing (\texttt{@frame}) and topic-scoped delta streams
-          (\texttt{/ws/v1/subscribe}), while introspecting declarative \texttt{sh:NodeShape}
-          schemas to render input forms. No lens holds private business logic or direct write
-          paths to Layers~1--4 (\texttt{HTTP 405}).
-    \item \textbf{Open-Ended Developer Extensibility via \texttt{AppCapabilityManifestV1}:}
-          Developing a new Layer~6 application lens requires zero modifications to
-          \texttt{col-commonsd} or lower-layer C++ daemons. Any developer or guild ships a
-          declarative \texttt{AppCapabilityManifestV1} requesting only the least-privilege RBAC
-          scopes its lens requires (for example, \texttt{telemetry:read} and
-          \texttt{bpmn:review} for a shop-floor BOM display), pairs over VLAN~30 TLS~1.3 via an
-          out-of-band \texttt{\#pair\_token} QR handshake to bind a pairwise \texttt{did:peer}
-          key \parencite{miller2006robust,w3c2022did}, and immediately interoperates with every
-          other lens in the settlement.
-    \item \textbf{Cybernetic Variety Attenuation Across Hundreds of Workflows:}
-          As shown in Table~\ref{tab:preface-l6-density}, a single governed node or settlement
-          cluster runs $38$ to $2{,}600+$ concurrent intra-node and inter-node workflows across
-          the 25 Sovereign Scenarios (\texttt{03\_SCENARIOS.md}). Layer~6's ontological surface
-          absorbs $89\text{--}92\%$ of silent autonomic homeostasis, partitions domain
-          projections across specialized lenses, and coalesces co-located human checks into
-          $2\text{--}4$ unhurried **Spatial Homestead Rounds** per day \parencite{ashby1956,beer1979},
-          protected at every step by the unconditional, zero-penalty **Protocol of Refusal**.
+    \item \textbf{Law 1 --- Layer~6 as an HTTP-Like Semantic Protocol (\texttt{col-commonsd} + \texttt{col-gatewayd} vs.\ Plural Application Lenses):}
+          Just as HTTP is not ``one giant website to rule them all,'' but a shared application-layer
+          protocol over which millions of independent applications operate, Layer~6 is a
+          \textbf{semantic protocol and compilation/decompilation boundary}. A single local
+          \textbf{Layer~6 Semantic Daemon} (\texttt{col-commonsd} paired with \texttt{col-gatewayd}
+          on VLAN~30 TLS~1.3 \texttt{:8443}) maintains the node's sovereign W3C JSON-LD~1.1
+          Ontological Graph ($\mathcal{G}_{\mathrm{surface}}$), enforces \texttt{HTTP 405 Method Not
+          Allowed} on direct lower-layer telemetry endpoints (\texttt{/api/telemetry},
+          \texttt{/api/v1/l1..l5/*}, \texttt{/api/v1/l7/*}), and communicates strictly downward to
+          Layer~5 (\texttt{col-kmsd} over \texttt{/run/collective/ipc/l5\_l6.sock}) and outward to
+          Layer~7 (\texttt{col-adversaryd} over \texttt{/run/collective/ipc/l6\_l7.sock}). Even when
+          a single physical building hosts multiple polycentric overlapping Layer~5 nodes---such as
+          a Household Hearth ($N_s=4$), a Solo Studio ($N_s=1$), and a Maker Bench ($N_s=1$) wrapped
+          by a domain-blind \textbf{Enveloping Node Hypervisor}---all lenses on a steward's devices
+          speak to the single local Layer~6 Semantic Daemon, which routes each signed intent
+          downward to the matching Layer~5 node namespace.
+    \item \textbf{Law 2 --- Thermodynamic Separation of Core Application Lenses (\textit{The Pantry} vs.\ \textit{The Workshop} vs.\ \textit{The Bakery/Hearth} vs.\ \textit{Scenario Zero} vs.\ \textit{The Enveloping Node}):}
+          Conflating perishable food with durable tools inside a generic ``inventory UI,'' or
+          conflating household larder consumption with communal commissary production, obscures
+          fundamentally distinct physical laws in Layers~1 and~2. Layer~6 separates five canonical
+          lens archetypes over \texttt{col-commonsd}:
+          \begin{itemize}
+              \item \textbf{\textit{The Pantry Lens} (\texttt{/api/l6/v1/pantry}):} Tracks
+                    \textbf{Perishable Biological Entropy} (Arrhenius temperature-integrated
+                    shelf-life TTL curves, stock drawdowns, spontaneous weekend-detour demand
+                    throttling, short-lived auto-expiring pickup intent leases, and pre-spoilage
+                    Ring~$R_1$ neighbor surplus sharing).
+              \item \textbf{\textit{The Workshop Lens} (\texttt{/api/l6/v1/workshop}):} Tracks
+                    \textbf{Durable Mechanical Cycles} (calendar-agnostic discrete usage wear,
+                    spindle hours, calibration intervals, Pillar~II \texttt{Scenario Kappa} BBS+
+                    capability checkouts, custody leases, and the three-stage hardware fleet
+                    progression from \textit{Stage~I Scavenged Layer~7 Shimmed} appliances through
+                    \textit{Stage~II Right-to-Repair Hybrid Retrofits} to \textit{Stage~III Native
+                    Open-Spec Collective Twins}).
+              \item \textbf{\textit{The Bakery / Communal Hearth Lens} (\texttt{/api/l6/v1/bakery}):}
+                    Orchestrates \textbf{Stoichiometric Thermal Transformation} under Pillar~I's
+                    constitutional \textbf{$85\%$ Verified Staples (\texttt{8,500 bp}) / $15\%$
+                    Compositional \textit{Montage} (\texttt{1,500 bp})} capacity split.
+              \item \textbf{\textit{The Scenario Zero Forge Studio Lens} (\texttt{/api/l6/v1/scenario-zero}):}
+                    Governs the \textbf{Khronos/OpenGL-Style Five-Phase Software Lifecycle},
+                    monitoring \textbf{Dormant Equilibrium (``The \TeX{} Asymptote'')} as
+                    operational stewardship decays ($R_i(t) \to 0$) while the non-decaying Universal
+                    Civic Baseline ($B = 1 = 10{,}000\,\mathrm{bp}$) guards against
+                    single-maintainer hijack, and surfacing \textbf{Substrate Drift} Semantic Diff
+                    wake-up cards when lower-layer hardware evolves.
+              \item \textbf{\textit{The Enveloping Node Hypervisor Lens} (\texttt{/api/l6/v1/envelope}):}
+                    Arbitrates \textbf{Domain-Blind Spatial Boundary Leases}
+                    (\texttt{EnvelopingBoundaryLeaseV50}: partition acoustics in \texttt{cB},
+                    breaker power in \texttt{mW}, exergy in \texttt{uJ}, thermal delta in
+                    \texttt{mK}, spatial polygon in \texttt{mm}, and mandatory finite
+                    \texttt{lease\_ttl\_ms}) across fractal envelopes (\textit{Room/Building $\to$
+                    Street/Microgrid $\to$ Bioregional Watershed}) via \textbf{Two-Speed
+                    Jurisprudence} (\textit{Fast-Path Layer~2 Hazard Preemption} and
+                    \textit{Slow-Path Semantic Diff Precedent Compilation}).
+          \end{itemize}
+    \item \textbf{Law 3 --- Zero-Surveillance Local Need Capture and the Dual-Loop Bakery ($N_s$ Membership vs.\ $N_p$ Anonymous Appetite):}
+          Every Layer~5 node evaluates member voting weight as $V_i(t) = B + R_i(t) = 1 + R_i(t)$
+          (in fixed-point basis points: $V_{i,\mathrm{bp}}(t) = 10{,}000 + R_{i,\mathrm{bp}}(t)$)
+          scoped strictly to active \textbf{Node Membership ($N_s$)} across Solo Genesis ($N_s=1$),
+          Dyadic Collaboration ($N_s=2$), and Community Commons ($N_s \gg 2$, anti-capture
+          crossover $N_s > R_{\max} + 2$). External settlement consumers ($N_p$) never vote on a
+          producer guild's internal dough hydration or oven schedules, nor undergo identity-linked
+          tracking at the pickup counter; instead, \textit{The Pantry} captures dietary rhythms
+          locally, strips personal DIDs in local Layer~5 (\texttt{col-kmsd}) via BBS+
+          ring-membership zero-knowledge proofs, and emits 64-byte anonymous cohort appetite vectors
+          and short-lived pickup leases (\texttt{AnonymousAppetiteLeaseV50}) to Layer~3.
+    \item \textbf{Law 4 --- Layer~6 as Societal Compiler ($\Pi_{\mathrm{down}} : \mathrm{L6} \to \mathrm{L5} \to \mathrm{L4}$) and Upward Semantic Diff Decompiler ($\Pi_{\mathrm{up}}^{\mathrm{diff}} : \mathrm{L4} \to \mathrm{L5} \to \mathrm{L6}$):}
+          Layers~4 (\texttt{col-execd}) and~5 (\texttt{col-kmsd}) are formal cybernetic execution
+          engines operating in WASM bytecode, capability bitmasks, and fixed-point ledgers;
+          \textbf{Layer~6 carries $100\%$ of the burden of human meaning}. Downward
+          ($\Pi_{\mathrm{down}}$), Layer~6 enables \textbf{Open-Source Franchising (``The Speedee
+          Service System Without the Rent'')} across the \textbf{Three Sovereign Content-Addressed
+          JSON-LD Libraries} (\textit{Ontological Graph}, \textit{Orchestration Registry}, and
+          \textit{Physics Baseline} ranked by \texttt{collective:thermodynamicProof} and Ecological
+          Replacement Cost $\lambda_{\mathrm{ERC}}$). Upward ($\Pi_{\mathrm{up}}^{\mathrm{diff}}$),
+          whenever Layer~4's \textbf{3-Tier BPMN Hardware Adaptation Cascade} (\textit{Tier~1: SI
+          Parameter Scaling $\to$ Tier~2: Macro-Activity Substitution $\to$ Tier~3: True-Constraint
+          Hard-Block}) or Layer~5's policy engine hits an unresolvable boundary,
+          \texttt{col-commonsd} decompiles the machine yield packet into a plain-language
+          \textbf{Layer~6 Semantic Diff Card}.
+    \item \textbf{Law 5 --- The Two-Zone Metrological Invariant and Zero-Stat Liberation:}
+          Internally, Layers~2, 3, and~4 execute exclusively in a single \textbf{Canonical 64-Bit
+          Fixed-Point SI Metrological Core} (\texttt{int64\_t} \texttt{uJ}, \texttt{mW},
+          \texttt{mg}, \texttt{mm}, \texttt{mL}, \texttt{mK}, \texttt{cB}, \texttt{ms}, \texttt{bp};
+          \texttt{floating\_point\_opcodes == 0}, with $1\,\mathrm{MJ} = 10^{12}\,\mu\mathrm{J}$).
+          At the human edge, Layer~6 provides a deterministic \textbf{SI Localization Functor}
+          ($\mathcal{U}_{\mathrm{loc}} \leftrightarrow \mathrm{SI}_{\mathrm{fixed}}$) accepting
+          familiar cultural and craft idioms (baker's hydration~$\%$, cups, imperial inches,
+          $^\circ\mathrm{F}/^\circ\mathrm{C}$, $\mathrm{dBA}$) and displaying both the human
+          expression and the exact canonical SI integer in Stage~4 Deterministic Read-Back. Every
+          Layer~6 lens is engineered for \textbf{Zero-Stat Liberation}: zero gamified XP bars, zero
+          fake RPG stat buffs, and $<30$-second interactions that return stewards immediately to
+          unmonitored physical life.
 \end{enumerate}
 
 \begin{table}[htbp]
 \centering
-\caption{Workflow Density, Cybernetic Variety Attenuation, and Semantic Application Lenses Across Node Maturation Stages}
+\caption{Workflow Density, Cybernetic Variety Attenuation, and Plural Application Lenses Across Node Maturation Stages}
 \label{tab:preface-l6-density}
 \small
 \resizebox{\textwidth}{!}{%
@@ -125,10 +143,10 @@ Constellation of Application Lenses**:
 \toprule
 \textbf{Maturation Stage} & \textbf{Civic Scope} & \textbf{Concurrent L4 Workflows} & \textbf{Raw Transitions / Day} & \textbf{Coalesced Human Rounds} & \textbf{Active Layer~6 Application Lenses} \\
 \midrule
-Stage 1A: Household Seed & 1 Parcel (4-SBC Node) & $38\text{--}68$ & $1{,}400\text{--}3{,}200$ & $2\text{--}4\text{ / day}$ & Starter 4-Tab Reference Lens + Hearth/Garden Lens \\
-Stage 1B: Neighborhood Pod & $5\text{--}12$ Lots ($R_1\text{--}R_2$) & $95\text{--}185$ & $6{,}500\text{--}14{,}000$ & $2\text{--}4\text{ / steward}$ & + Courier Deck, Care Sanctuary Slate, Shop BOM Lens \\
-Stage 2: Cooperative Commons & Subchapter T Commons & $260\text{--}620$ & $24{,}000\text{--}68{,}000$ & $2\text{--}3\text{ / steward}$ & + Agora Reader, Lab Notebook, Public Neighbor Portal \\
-Stage 3: Bioregional Campus & CLT / PPT Federation & $850\text{--}2{,}600+$ & $110{,}000\text{--}380{,}000$ & $2\text{--}3\text{ / steward}$ & Full Open-Ended Lens Constellation + Paper/Voice/E-Ink \\
+Stage 1A: Household Seed & 1 Parcel ($N_s=1\text{--}4$) & $38\text{--}68$ & $1{,}400\text{--}3{,}200$ & $2\text{--}4\text{ / day}$ & \textit{The Pantry}, \textit{The Workshop}, \textit{Enveloping Node} \& \textit{Forge Studio} \\
+Stage 1B: Neighborhood Pod & $5\text{--}12$ Lots ($R_1\text{--}R_2$) & $95\text{--}185$ & $6{,}500\text{--}14{,}000$ & $2\text{--}4\text{ / steward}$ & + \textit{The Bakery/Hearth} (85/15 Montage), Courier Deck \& Care Slate \\
+Stage 2: Cooperative Commons & Multi-Guild Floorplate & $260\text{--}620$ & $24{,}000\text{--}68{,}000$ & $2\text{--}3\text{ / steward}$ & + Multi-Guild Enveloping Hypervisor, Agora Reader \& Neighbor Portal \\
+Stage 3: Bioregional Campus & CLT / PPT Federation & $850\text{--}2{,}600+$ & $110{,}000\text{--}380{,}000$ & $2\text{--}3\text{ / steward}$ & Full Plural Lens Constellation + Sovereign Libraries + Paper/Voice/E-Ink \\
 \bottomrule
 \end{tabular}%
 }
@@ -139,38 +157,39 @@ Stage 3: Bioregional Campus & CLT / PPT Federation & $850\text{--}2{,}600+$ & $1
 \resizebox{\textwidth}{!}{%
 \begin{tikzpicture}[
     node distance=0.85cm and 0.9cm,
-    app/.style={draw=teal!75!black, rounded corners=3pt, semithick, fill=teal!6, align=center, font=\scriptsize, minimum width=2.95cm, minimum height=1.0cm, inner sep=4pt},
-    sdk/.style={draw=purple!75!black, rounded corners=3pt, thick, fill=purple!6, align=center, font=\scriptsize, minimum width=13.2cm, minimum height=0.9cm, inner sep=4pt},
-    core/.style={draw=blue!75!black, rounded corners=3pt, thick, fill=blue!6, align=center, font=\footnotesize, minimum width=13.2cm, minimum height=1.15cm, inner sep=5pt},
-    adj/.style={draw=black!75, rounded corners=3pt, semithick, fill=gray!9, align=center, font=\scriptsize, minimum width=6.2cm, minimum height=1.0cm, inner sep=4pt},
+    app/.style={draw=teal!75!black, rounded corners=3pt, semithick, fill=teal!6, align=center, font=\scriptsize, minimum width=2.55cm, minimum height=1.05cm, inner sep=3pt},
+    sdk/.style={draw=purple!75!black, rounded corners=3pt, thick, fill=purple!6, align=center, font=\scriptsize, minimum width=13.8cm, minimum height=0.9cm, inner sep=4pt},
+    core/.style={draw=blue!75!black, rounded corners=3pt, thick, fill=blue!6, align=center, font=\footnotesize, minimum width=13.8cm, minimum height=1.15cm, inner sep=5pt},
+    adj/.style={draw=black!75, rounded corners=3pt, semithick, fill=gray!9, align=center, font=\scriptsize, minimum width=6.5cm, minimum height=1.0cm, inner sep=4pt},
     arr/.style={-{Stealth[length=2.2mm]}, thick}
 ]
-    \node[app] (a1) {\textbf{Hearth \& Cultivar Lenses}\\Kitchen E-Ink \& Fieldbook};
-    \node[app, right=0.35cm of a1] (a2) {\textbf{Shop \& Courier Lenses}\\BOM Terminal \& Offline DTN};
-    \node[app, right=0.35cm of a2] (a3) {\textbf{Care \& Sanctuary Lenses}\\Zero-Token Pod \& Rest Slates};
-    \node[app, right=0.35cm of a3] (a4) {\textbf{Agora, Voice \& Paper}\\Treaty Studio \& QR Ballots};
+    \node[app] (a1) {\textbf{The Pantry Lens}\\Arrhenius TTL \&\\Detour Leases};
+    \node[app, right=0.25cm of a1] (a2) {\textbf{The Workshop Lens}\\Cycle Wear, Custody\\\& Fleet Tiers I--III};
+    \node[app, right=0.25cm of a2] (a3) {\textbf{The Bakery / Hearth}\\85\% Staples / 15\%\\\textit{Montage} Craft};
+    \node[app, right=0.25cm of a3] (a4) {\textbf{Scenario Zero Forge}\\Khronos Lifecycle \&\\Substrate Drift Diffs};
+    \node[app, right=0.25cm of a4] (a5) {\textbf{Enveloping Node}\\Boundary Leases (\texttt{cB},\\\texttt{mW}, \texttt{mK}) \& Ballots};
 
-    \node[sdk, below=0.65cm of a2, xshift=1.65cm] (lens) {
-        \textbf{Layer 6 Application Lens SDK \& Developer Contract}: \texttt{AppCapabilityManifestV1} $\cdot$ JSON-LD Framing $\cdot$ SHACL Forms $\cdot$ Pre-Sign Read-Back $\cdot$ Hardware Ed25519
+    \node[sdk, below=0.65cm of a3] (lens) {
+        \textbf{Layer 6 Application Lens SDK}: \texttt{AppCapabilityManifestV1} $\cdot$ Edge SI Localization ($\mathcal{U}_{\mathrm{loc}}\leftrightarrow\mathrm{SI}_{\mathrm{fixed}}$) $\cdot$ JSON-LD Framing $\cdot$ Pre-Sign Read-Back
     };
 
     \node[core, below=0.65cm of lens] (sem) {
-        \textbf{Wide-Purpose Semantic \& Ontological Surface (\texttt{col-gatewayd} + \texttt{col-commonsd})}\\[2pt]
-        \scriptsize Governed Ontology (\texttt{w3id.org/collective/v1/}) $\cdot$ RFC 8785 / RDFC-1.0 $\cdot$ Spatial Round Coalescer $\cdot$ Domain B Automerge CRDTs
+        \textbf{Local Layer 6 Semantic Daemon (\texttt{col-gatewayd} + \texttt{col-commonsd} on VLAN 30 \texttt{:8443})}\\[2pt]
+        \scriptsize Societal Compiler ($\Pi_{\mathrm{down}}$) $\cdot$ Semantic Diff Decompiler ($\Pi_{\mathrm{up}}^{\mathrm{diff}}$) $\cdot$ 3 Sovereign Libraries $\cdot$ Zero-Stat Liberation
     };
 
-    \node[adj, below left=0.85cm and -3.1cm of sem] (l5) {
+    \node[adj, below left=0.85cm and -3.25cm of sem] (l5) {
         \textbf{Underlying Cybernetic Reality (Layers 1--5)}\\
         \texttt{/run/collective/ipc/l5\_l6.sock} (\texttt{SEQPACKET}) + RO SPSC Rings\\
-        Sensors (L2), Ledgers (L3), Workflows (L4) \& Governance (L5)
+        $V_i(t)=1+R_i(t)$ ($N_s$) $\cdot$ Enveloping Hypervisor $\cdot$ 3-Tier BPMN Cascade
     };
-    \node[adj, below right=0.85cm and -3.1cm of sem] (l7) {
+    \node[adj, below right=0.85cm and -3.25cm of sem] (l7) {
         \textbf{Outward Legal \& Fiscal Carapace (Layer 7, VLAN 40)}\\
         \texttt{/run/collective/ipc/l6\_l7.sock} (\texttt{SEQPACKET})\\
-        Mundane Semantic Camouflage \& Split-Sandbox Intake Quarantine
+        Mundane Semantic Camouflage \& Right-to-Repair Tribute Elimination
     };
 
-    \foreach \n in {a1,a2,a3,a4} {
+    \foreach \n in {a1,a2,a3,a4,a5} {
         \draw[arr, <->] (\n.south) -- (lens.north -| \n.south);
     }
     \draw[arr, <->] (lens.south) -- (sem.north);
@@ -178,56 +197,69 @@ Stage 3: Bioregional Campus & CLT / PPT Federation & $850\text{--}2{,}600+$ & $1
     \draw[arr, <->] (sem.south -| l7.north) -- (l7.north);
 \end{tikzpicture}%
 }
-\caption{Layer~6 Architecture: An open-ended Constellation of Application Lenses projecting and stewarding the underlying cybernetic reality (Layers~1--5) and outward legal carapace (Layer~7) through a Wide-Purpose Semantic and Ontological Surface.}
+\caption{Layer~6 v3.2 Architecture: Five canonical Application Lens families and open-ended domain lenses operating over the HTTP-like Local Layer~6 Semantic Daemon (\texttt{col-gatewayd} + \texttt{col-commonsd}), which acts as the downward Societal Compiler ($\Pi_{\mathrm{down}}$) and upward Semantic Diff Decompiler ($\Pi_{\mathrm{up}}^{\mathrm{diff}}$).}
 \label{fig:preface-constellation}
 \end{figure}
 
-\section*{Structure of This Companion Monograph and Specialist Council Review}
+\section*{Structure of This Companion Monograph}
 
 Part~I (Chapters~1--8) develops the complete engineering specification for building Layer~6 and
-its Application Lenses:
+its plural Application Lenses:
 \begin{itemize}
-    \item \textbf{Chapter~1} establishes the bilateral socket membrane (\texttt{l5\_l6.sock} and
-          \texttt{l6\_l7.sock}), the read-only lower-layer guard (\texttt{HTTP 405}), the
-          mathematical projection between cybernetic reality and the semantic surface, and the
-          five-part **Application Lens Developer Contract** (\texttt{AppCapabilityManifestV1},
-          VLAN~30 \texttt{\#pair\_token} pairing, and lock-free SPSC telemetry rings).
-    \item \textbf{Chapter~2} specifies the **Ontological Surface** itself: unifying the
-          \texttt{https://w3id.org/collective/v1/} namespace, pluralistic overlapping Named
-          Graphs, length-prefixed W3C \texttt{RDFC-1.0} and \texttt{RFC 8785 JCS} hashing,
-          64-bit fixed-point QUDT SI units, **JSON-LD Framing (\texttt{@frame})**, declarative
-          **SHACL form generation**, and multi-layer need/cultivar/facility blueprints.
-    \item \textbf{Chapter~3} formalizes the six-stage human authorship pipeline
-          (\texttt{Express -> Draft -> Ambiguity Halt -> Deterministic Read-Back -> Personal
-          Hardware Sign -> Dispatch}), non-exportable Web Crypto and \texttt{ATECC608A} keys,
-          and local-first Domain~A/Domain~B Automerge CRDT synchronization with Twin Fracture
-          reconciliation.
-    \item \textbf{Chapter~4} solves high-density cognitive ergonomics across hundreds of
-          concurrent workflows via three-stage variety attenuation, **Spatial Homestead Round
-          Coalescing**, 1-to-5 somatic feel envelopes, blinded voluntary task pull, and the
-          unconditional **Protocol of Refusal**.
+    \item \textbf{Chapter~1} establishes the \textbf{HTTP/Browser Protocol Analogy}, the bilateral
+          socket membrane (\texttt{l5\_l6.sock} and \texttt{l6\_l7.sock}), the read-only telemetry
+          guard (\texttt{HTTP 405 Method Not Allowed}), the thermodynamic taxonomy separating
+          \textit{The Pantry}, \textit{The Workshop}, \textit{The Bakery/Hearth}, \textit{Scenario
+          Zero Forge Studio}, and \textit{The Enveloping Node Hypervisor Lens}, the five-part
+          \textbf{Application Lens Developer Contract}, and \textbf{Zero-Stat Liberation}.
+    \item \textbf{Chapter~2} specifies the \textbf{Ontological Surface}, the \textbf{Two-Zone
+          Metrological Invariant} (the deterministic Human Edge SI Localization Functor
+          $\mathcal{U}_{\mathrm{loc}} \leftrightarrow \mathrm{SI}_{\mathrm{fixed}}$ converting
+          cups, hydration~$\%$, inches, $^\circ\mathrm{F}/^\circ\mathrm{C}$, and $\mathrm{dBA}$ to
+          canonical 64-bit fixed-point SI integers \texttt{uJ}, \texttt{mW}, \texttt{mg},
+          \texttt{mm}, \texttt{mL}, \texttt{mK}, \texttt{cB}, \texttt{ms}, \texttt{bp}), the
+          \textbf{Downward Societal Compiler ($\Pi_{\mathrm{down}}$)}, and the \textbf{Upward
+          Semantic Diff Decompiler ($\Pi_{\mathrm{up}}^{\mathrm{diff}}$)} across all four canonical
+          Layer~4/Layer~5 hard-block classes.
+    \item \textbf{Chapter~3} formalizes the six-stage human authorship pipeline, non-exportable Web
+          Crypto and \texttt{ATECC608A} keys, local-first Domain~A/Domain~B Automerge CRDT
+          synchronization, and \textbf{Zero-Surveillance Local Need Capture}---proving how
+          \textit{The Pantry} absorbs \textbf{Spontaneous Weekend Detours} via short-lived
+          auto-expiring pickup leases (\texttt{AnonymousAppetiteLeaseV50}) while the
+          \textbf{Dual-Loop Bakery} separates guild membership governance ($N_s$, where
+          $V_i(t)=1+R_i(t)$) from anonymous community appetite ($N_p$).
+    \item \textbf{Chapter~4} solves high-density cognitive ergonomics across hundreds of concurrent
+          workflows via three-stage variety attenuation and **Spatial Homestead Round Coalescing**,
+          and provides the \textbf{Definitive Five-Lens Reference Catalog} (complete state machines,
+          JSON-LD payload schemas, and UX wireframes for \textit{The Pantry}, \textit{The Workshop}
+          with Stage~I$\to$II$\to$III hardware fleet progression, \textit{The Bakery/Hearth} with
+          $85\%/15\%$ \textit{montage} scheduling, \textit{Scenario Zero Forge Studio}, and
+          \textit{The Enveloping Node Hypervisor Lens}).
     \item \textbf{Chapter~5} bounds optional local edge language models within a dual-sandbox
-          architecture (grammar-constrained Intake slot extraction vs.\ air-gapped Drafting
-          assistance), SHA-256 weight attestation, microjoule (\texttt{uJ}) load shedding, and
-          $100\%$ LLM-free graceful degradation.
+          architecture, detailing how grammar-constrained local parsers assist \texttt{col-commonsd}
+          in decompiling Layer~4 \textbf{Tier~3 True-Constraint Hard-Blocks} into plain-language
+          \textbf{Semantic Diff Cards} without cloud APIs or hallucinated thresholds.
     \item \textbf{Chapter~6} details thermodynamic display physics (0-mW bistable E-Ink, passive
-          NFC, 72-hour black-start shedding), screenless modalities (QR paper travelers, Helios
-          paper ballots, offline voice, Red Brass manual overrides, hardware-severed Unmediated
-          Spaces), and WCAG~2.2 Level~AAA universal accessibility.
+          NFC, 72-hour black-start shedding), screenless modalities, hardware-severed Unmediated
+          Spaces, and WCAG~2.2 Level~AAA workshop and hearth terminals engineered for
+          \textbf{Zero-Stat Liberation} ($<30$-second interaction loops).
     \item \textbf{Chapter~7} scales the semantic surface to bioregional federation: Agora
-          deliberation across Trust Rings $R_0 \dots R_6$, pure-integer exergy clearing with
-          \texttt{domestic\_care\_token\_minting == 0}, four-stage Ricardian \texttt{Treaty\_CID}
-          compilation, and the Mundane Semantic Camouflage Filter.
-    \item \textbf{Chapter~8} grounds these principles in the repository's live C++20 and
-          JavaScript reference implementation (\texttt{core/6\_intent/}, \texttt{col-commonsd},
-          \texttt{col-gatewayd}, and the starter web companion lens), presenting a line-by-line
-          audit by a **Six-Specialist Layer~6 Architectural Council** (Semantic Web Architect,
-          Local-First Protocol Engineer, Cryptographic Authorship Specialist, Adversarial ML
-          Auditor, Calm HCI \& Accessibility Specialist, and Legal Carapace Counsel) alongside a
-          practical Developer Checklist and four-milestone roadmap.
+          deliberation, pure-integer exergy clearing, four-stage Ricardian \texttt{Treaty\_CID}
+          compilation, \textbf{Open-Source Franchising (``The Speedee Service System Without the
+          Rent'')} across the \textbf{Three Sovereign Libraries} (\textit{Ontological Graph},
+          \textit{Orchestration Registry}, and \textit{Physics Baseline} ranked by
+          \texttt{collective:thermodynamicProof} and $\lambda_{\mathrm{ERC}}$), and the Mundane
+          Semantic Camouflage Filter.
+    \item \textbf{Chapter~8} audits the repository's live C++20 and JavaScript reference
+          implementation (\texttt{core/6\_intent/}, \texttt{col-commonsd}, \texttt{col-gatewayd},
+          and \texttt{companion\_l6.js}), details the Layer~6 ballot UX for the \textbf{Unified
+          Constitutional Voting Weight $V_i(t) = B + R_i(t) = 1 + R_i(t)$} and \textbf{Slow-Path
+          Jurisprudence Semantic Diff Ratification}, and provides the v3.2 daemon remediation
+          matrix and developer checklist.
 \end{itemize}
 
 Part~II (Chapters~9--14) then traverses Horizontal Waves~A through~F across all twenty-five
 Sovereign Scenarios (\texttt{Scenario Zero} through \texttt{Scenario Omega}), demonstrating how
-purpose-built Application Lenses allow ordinary people to steward complex, interwoven cybernetic
-workflows with clarity, dignity, and calm.
+each scenario binds its $N_s$ membership regime, primary Layer~6 lenses, Enveloping Node Hypervisor
+boundary lease, Layer~4 3-tier BPMN hardware cascade, and Stage~I$\to$III hardware fleet
+progression into a calm, liberating human experience.

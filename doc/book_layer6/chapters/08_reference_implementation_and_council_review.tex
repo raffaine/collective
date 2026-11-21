@@ -141,6 +141,77 @@ static_assert(sizeof(SignedIntentCommitFrameV3) == 176);
 } // namespace col::commons::authorship
 \end{lstlisting}
 
+\section{Layer 6 Ballot UX for $V_i(t) = 1 + R_i(t)$, Dormant-Node Hijack Immunity, and Slow-Path Jurisprudence Semantic Diffs}
+\label{sec:ballot-ux-slow-path}
+
+In Version~3.2 (\textbf{Law~3 \& Law~4 / \texttt{CCI-2} \& \texttt{CCI-4}}), Layer~6 governance and envelope lenses (\textit{The Scenario Zero Forge Studio}, \textit{The Enveloping Node Hypervisor Lens}, and the \textit{Agora Deliberation Lens}) must project two foundational Layer~5 constitutional mechanisms with total mathematical transparency: the \textbf{Unified Constitutional Voting Weight Law} $V_i(t) = B + R_i(t) = 1 + R_i(t)$ and \textbf{Two-Speed Jurisprudence}.
+
+\subsection{Rendering $V_i(t) = 1 + R_i(t)$ Across Scale Regimes ($N_s=1$, $N_s=2$, $N_s \gg 2$) and Dormant Equilibrium}
+
+Why does a pure meritocracy ($V_i(t) = R_i(t)$ with $B = 0$) fail in a mature software or workshop commons? Because operational stewardship $R_i(t)$ decays exponentially via reputational entropy $\lambda > 0$ (half-life $\tau_{1/2} = \frac{\ln 2}{\lambda}$, e.g., $180$~days) to prevent permanent gerontocracy:
+\begin{equation}
+    R_i(t) = R_i(t_0)\cdot e^{-\lambda(t-t_0)} + \int_{t_0}^{t} \dot{r}_i(\tau)\,e^{-\lambda(t-\tau)}\,d\tau
+\end{equation}
+When a well-engineered node or software package reaches \textbf{Dormant Equilibrium (``The \TeX{} Asymptote'')} where defects drop to zero ($\dot{r}_i(\tau) \to 0$), every founding member's operational bonus decays toward zero ($\lim_{t \to \infty} R_i(t) = 0$). Under pure meritocracy ($B=0$), a single opportunistic actor who commits one minor hardware-drift patch ($\Delta R_{\mathrm{attacker}} = 500\,\mathrm{bp}$) would instantaneously capture $\approx 100\%$ of the node's voting weight (**Dormant-Node Single-Maintainer Hijack**).
+
+To make Dormant-Node Single-Maintainer Hijack mathematically impossible, \texttt{col-kmsd} and every Layer~6 ballot surface enforce the \textbf{Unified Constitutional Voting Weight Law} scoped strictly to \textbf{Node Membership ($N_s$)}:
+\begin{equation}
+    V_i(t) = B + R_i(t) = 1 + R_i(t) \qquad \bigl(V_{i,\mathrm{bp}}(t) = 10{,}000 + R_{i,\mathrm{bp}}(t)\bigr)
+    \label{eq:ch8-voting-law}
+\end{equation}
+where $B = 1$ ($B_{\mathrm{bp}} = 10{,}000\,\mathrm{bp}$) is the \textbf{Non-Decaying Universal Civic Baseline} ($\frac{dB}{dt} = 0$) held by every inducted member $i \in \mathcal{M}_{\mathrm{node}}$. When all $R_j(t) \to 0$ in Dormant Equilibrium, total node voting weight converges to $\sum_{j=1}^{N_s} V_j(t) = N_s \cdot B = N_s$, bounding any lone maintainer's share strictly to $\frac{1 + \Delta R}{N_s + \Delta R}$ ($\approx 2.97\%$ for $N_s = 50, \Delta R = 0.5$).
+
+Every Layer~6 ballot card renders both components of Equation~\eqref{eq:ch8-voting-law} side-by-side across the three structural scale regimes:
+\begin{enumerate}
+    \item \textbf{Regime I --- Solo Genesis Node ($N_s = 1$):} The lone founder or solo crafter holds $V_1(t) = 10{,}000 + R_{1,\mathrm{bp}}(t) = 100\%$ of internal node voice from Day~0 ($R_1(0) = 0$), while importing external Tool Guild covenants and Enveloping Node boundary leases for shared space.
+    \item \textbf{Regime II --- Dyadic Collaboration ($N_s = 2$):} Pairs a veteran mentor ($R_1 = 20{,}000\,\mathrm{bp} \implies V_1 = 30{,}000\,\mathrm{bp}$, $75\%$) with a new apprentice ($R_2 = 0 \implies V_2 = 10{,}000\,\mathrm{bp}$, $25\%$ civic floor); if two co-founders with similar stewardship deadlock on creative direction, the ballot card offers a one-tap \textbf{Frictionless Ontological Fork} button.
+    \item \textbf{Regime III --- Polycentric Community Commons ($N_s \gg 2$, Crossover $N_s > R_{\max} + 2$):} Once active membership exceeds $N_s \cdot 10{,}000\,\mathrm{bp} > R_{\max,\mathrm{bp}} + 20{,}000\,\mathrm{bp}$, no individual engineer can override the collective civic baseline, while safety-critical Layer~2/3 hardware calibration amendments require concurrent passage in the combined $V_i(t) = 1 + R_i(t)$ tally \emph{and} a minimum certified technical stewardship quorum $\sum_{i \in \mathrm{Yes}} R_{i,\mathrm{bp}}(t) \ge R_{\min,\mathrm{safety}}$.
+\end{enumerate}
+
+\subsection{Slow-Path Jurisprudence Semantic Diff Ratification UX}
+
+Inside \textit{The Enveloping Node Hypervisor Lens} (\texttt{/api/l6/v1/envelope}), Layer~6 separates \textbf{Two-Speed Jurisprudence} into two clear visual panes:
+\begin{itemize}
+    \item \textbf{Pane A --- Fast-Path Preemption Audit Trail (Zero Ballot Delay):} Shows deterministic hardware-time overrides where mandatory finite lease TTLs (\texttt{lease\_ttl\_ms}) expired or a Layer~2 physical hazard workflow (\texttt{preemption\_priority\_tier >= 900}, such as an emergency wet-vac extraction at $8{,}200\,\mathrm{cB}$ after a burst pipe) automatically preempted a lower-priority lease (such as an Acoustic Studio Quiet Lease at $4{,}500\,\mathrm{cB}$).
+    \item \textbf{Pane B --- Slow-Path Semantic Diff Precedent Ballot ($\mathrm{L4} \to \mathrm{L5} \to \mathrm{L6} \to \mathrm{L5} \to \mathrm{L4}$):} When an unmapped boundary contention occurs---or when a preempted child node proposes refining the preemption threshold after an incident---\texttt{col-commonsd} renders a side-by-side \textbf{Semantic Diff Ballot Card} showing the current compiled guard predicate, the proposed integer SI predicate diff (e.g., requiring dual-sensor corroboration \texttt{MoistureSensor > 100 mL AND FlowRateDelta > 50 mL/s} plus $+120\,\mathrm{min}$ priority rescheduling compensation), and the live $V_{i,\mathrm{bp}}(t) = 10{,}000 + R_{i,\mathrm{bp}}(t)$ ratification tally. Once ratified via Stage~4 Read-Back and $500\,\mathrm{ms}$ hardware signature, \texttt{col-commonsd} compiles the new precedent directly down into \texttt{col-execd}'s Layer~4 preemption table so the community never votes on the same conflict twice.
+\end{itemize}
+
+\begin{lstlisting}[language=C++,caption={Ratified v3.2 C++20 structs for $V_i(t) = 1 + R_i(t)$ member voice state and Enveloping Node Hypervisor boundary leases projected into Layer 6 lenses.},label={lst:ch8-voice-envelope-v50}]
+namespace collective::layer5 {
+
+inline constexpr int64_t kUniversalCivicBaselineBp = 10'000; // B = 1.0000 (non-decaying)
+
+struct NodeMemberVoiceStateV50 {
+    std::array<uint8_t, 32> member_did_hash;       // Scoped strictly to Node Membership (N_s)
+    std::array<uint8_t, 32> node_id_hash;          // Polycentric guild or enveloping node ID
+    int64_t civic_baseline_bp{kUniversalCivicBaselineBp}; // Non-decaying B = 10,000 bp
+    int64_t stewardship_bonus_bp{0};               // Decaying R_i(t) in basis points (>= 0)
+    int64_t last_decay_epoch_ms{0};                // Monotonic timestamp of last entropy update
+    int64_t half_life_ms{15'552'000'000LL};        // Default 180-day half-life in milliseconds
+    uint32_t certified_capability_mask{0};         // Pillar II work capability bitmask
+
+    [[nodiscard]] constexpr int64_t TotalVotingWeightBp() const noexcept {
+        return civic_baseline_bp + (stewardship_bonus_bp > 0 ? stewardship_bonus_bp : 0);
+    }
+};
+
+struct EnvelopingBoundaryLeaseV50 {
+    std::array<uint8_t, 32> lease_cid;
+    std::array<uint8_t, 32> enveloping_node_id;    // Room/Building, Street, or Watershed Envelope
+    std::array<uint8_t, 32> child_node_id;         // Woodshop, Bakery, or N_s=1 Solo Studio
+    int64_t lease_start_ms{0};
+    int64_t lease_ttl_ms{0};                       // Mandatory finite TTL (Fast-Path invariant)
+    int64_t max_acoustic_cb{5'500};                // Centibels (5,500 cB = 55.0 dBA at partition)
+    int64_t max_power_mw{1'500'000};               // Milliwatts (1.5 kW continuous ceiling)
+    int64_t max_exergy_budget_uj{5'400'000'000'000LL}; // Microjoules (5.4 MJ window budget)
+    int64_t max_thermal_delta_mk{3'000};           // Millikelvins (+3.0 K boundary exhaust delta)
+    int64_t bounding_box_mm[6]{0, 0, 0, 0, 0, 0};  // [x_min, y_min, z_min, x_max, y_max, z_max] mm
+    uint16_t preemption_priority_tier{100};        // L2 hazard workflows carry tier >= 900
+};
+
+} // namespace collective::layer5
+\end{lstlisting}
+
 \section{Application Lens Developer Checklist and Four-Milestone Roadmap}
 \label{sec:constellation-roadmap}
 
