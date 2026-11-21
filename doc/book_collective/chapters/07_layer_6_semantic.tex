@@ -1,10 +1,10 @@
-\chapter{Layer 6: The Semantic Layer}
+\chapter[Layer 6: The Semantic Engine and Application Lenses]{Layer 6: The Semantic Intent Engine and Plural Application Lenses}
 
-Layer~6 is where people meet the Stack. It translates between human expression and the structured records of Layer~5; it hosts local and federated deliberation in the Agora; and it carries the community's ratified decisions outward to Layer~7, the layer that faces the legacy world.
+Layer~6 is where people meet the Stack. While Layers~4 and~5 (\texttt{col-execd} and \texttt{col-kmsd}) operate as deterministic cybernetic execution engines over WebAssembly bytecode, capability bitmasks, and 64-bit fixed-point SI integers, \textbf{Layer~6 carries $100\%$ of the burden of human meaning}. It translates between human expression and the structured records of Layer~5; it compiles turnkey and forked node templates from the Sovereign Libraries downward and decompiles machine hard-blocks upward into human-readable Semantic Diffs; it hosts local and federated deliberation in the Agora; and it carries the community's ratified decisions outward to Layer~7, the carapace that faces the legacy world.
 
-Layer~6 interfaces strictly with Layer~5 below it and Layer~7 above it. Under the law of Strict Adjacency, it does not read the Thermodynamic Ledger, it does not communicate directly with the Orchestrator, and it possesses zero knowledge of physical hardware or network device addresses. Everything it knows about the physical world arrives as cryptographically signed structured records from Layer~5's governance daemon (\texttt{col-kmsd}), which in turn received them from Layer~4. In turn, all outward instructions intended for external corporate, legal, or municipal entities cross the perimeter boundary into Layer~7's legacy adversary daemon (\texttt{col-adversaryd}).
+Layer~6 interfaces strictly with Layer~5 below it and Layer~7 above it (\texttt{CCI-1}). Under the law of Strict Adjacency, it does not mutate the Thermodynamic Ledger or the Orchestrator directly (\texttt{col-gatewayd} enforces \texttt{HTTP 405 Method Not Allowed} on all direct lower-layer mutation paths), and it possesses zero raw hardware drivers. Everything it knows about the physical world arrives as cryptographically signed structured records or read-only diagnostic snapshots lifted into its W3C JSON-LD~1.1 Ontological Graph ($\mathcal{G}_{\mathrm{surface}}$).
 
-Layer~6 is executed by a dedicated system daemon, \texttt{col-commonsd} (The Semantic Commons Daemon). Running within the node's local application runtime, \texttt{col-commonsd} orchestrates local deliberation, plain-language intent compilation, deterministic read-back generation, and semantic translation across two strictly defined Unix domain sockets:
+At the system level, Layer~6 is executed by the local \textbf{Layer~6 Semantic Daemon}---comprising \texttt{col-commonsd} (The Semantic Commons Daemon) paired with \texttt{col-gatewayd} (the local VLAN~30 TLS~1.3 capability mediator on port \texttt{:8443}). Companion Volume~6 (\textit{Layer 6: The Semantic Intent Engine \& Plural Application Lenses}) develops the complete W3C JSON-LD/SHACL schemas and 25-scenario lens wireframes; this chapter presents Layer~6's architectural foundation and its interconnections across two strictly defined Unix domain sockets:
 \begin{itemize}
   \item \textbf{Inward Governance Socket}\newline
   \texttt{/run/collective/ipc/l5\_l6.sock}: Connects \texttt{col-commonsd} directly to \texttt{col-kmsd} within the internal secure enclave. Through this boundary, Layer~5 delivers task offers, deliberative proposals, capability listings, and federated treaty negotiation intents. In return, Layer~6 submits signed member ballots, liquid delegations, ratified Ricardian Treaty packages ($\mathrm{Treaty\_CID}$), and bilateral credit window pacts.
@@ -14,7 +14,62 @@ Layer~6 is executed by a dedicated system daemon, \texttt{col-commonsd} (The Sem
 
 Layer~6 is also the only layer in which a machine---specifically, a local language model---stands directly between people and their own governance. A mistranslated proposal can become binding law, a biased summary can steer a debate, and an injected adversarial instruction can impersonate a decision. The entire architecture of the layer is therefore organized around a single foundational rule: \textit{the machine assists, people author, and only people sign}.
 
-Earlier drafts described Layer~6 as the interface that would one day be ``the only interface humanity needs to interact with the world.'' That claim is decisively withdrawn. Layer~6 is the community's interface to its own infrastructure and governance. The soil, assemblies, physical craft, and unmediated human company remain the primary ways people meet the living world; Layer~6 serves them and must never replace them. As legacy systems recede, Layer~7 will shrink, but Layer~6 will remain one tool among many, not a totalizing digital environment.
+Earlier drafts described Layer~6 as the interface that would one day be ``the only interface humanity needs to interact with the world.'' That claim is decisively withdrawn. Layer~6 is the community's interface to its own infrastructure and governance. The soil, assemblies, physical craft, and unmediated human company remain the primary ways people meet the living world; Layer~6 serves them and must never replace them. As legacy systems recede, Layer~7 will shrink, but Layer~6 will remain one convivial tool among many, engineered under the law of \textbf{Zero-Stat Liberation} to get the human being \textit{out} of the interface and back to the physical hearth, garden, or workshop in under thirty seconds.
+
+\section{Layer 6 as HTTP-Like Semantic Daemon vs.\ Plural Application Lenses}
+\label{sec:l6-http-lenses}
+
+\subsection{The HTTP Analogy: One Local Semantic Daemon, Many Specialized Lenses}
+
+A foundational principle of the Horizon Council's v3.2 architecture (\texttt{D5}, \texttt{D7}, \texttt{CCI-3}) is the \textbf{HTTP Analogy for Layer~6}: just as HTTP is not ``one giant website to rule them all,'' but a shared application-layer protocol over which millions of distinct websites operate, \textbf{Layer~6 is not a monolithic super-app or single operating-system shell}. Layer~6 is a semantic protocol and compilation/decompilation boundary:
+\begin{enumerate}
+  \item \textbf{Single Local Semantic Daemon (\texttt{col-commonsd} + \texttt{col-gatewayd}):} Maintains the node's sovereign W3C JSON-LD~1.1 Ontological Graph ($\mathcal{G}_{\mathrm{surface}}$) and holds the sole downward socket connection to Layer~5 (\path{/run/collective/ipc/l5_l6.sock}). Even when a single physical house hosts multiple overlapping Layer~5 nodes---an $N_s=4$ Household Hearth, an $N_s=1$ Solo Studio, and an $N_s=1$ Maker Bench wrapped by a House Enveloping Node---all devices on the lot talk to that single local Layer~6 Semantic Daemon, which routes signed intents into the matching Layer~5 node namespace in \texttt{col-kmsd}.
+  \item \textbf{Open-Ended Constellation of Application Lenses ($\mathcal{L}_a : \mathcal{G}_{\mathrm{surface}} \to \mathcal{V}_a$):} Application Lenses never open sockets directly to Layers~1--5. Instead, each lens ships a declarative capability manifest (\texttt{AppCapabilityManifestV1} / \texttt{granted\_rbac\_mask}), queries topic-scoped JSON-LD Framing (\texttt{/api/v1/l6/frame?lens=pantry|workshop|hearth|forge\_studio}) and SHACL shape introspection (\texttt{/api/v1/l6/shacl/<intent\_type>}), and submits human-signed commitments through the local daemon.
+\end{enumerate}
+
+\subsection{\textit{The Pantry} vs.\ \textit{The Workshop} vs.\ \textit{The Bakery} vs.\ \textit{Scenario Zero}}
+
+Grouping perishables and durable tools into a single generic ``inventory UI'' obscures two incompatible thermodynamic regimes down in Layers~1--3. The Constellation therefore separates four core Application Lenses across distinct physical ontologies (Table~\ref{tab:l6-lens-taxonomy}):
+
+\begin{table}[htbp]
+\centering
+\small
+\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{|p{0.20\textwidth}|p{0.24\textwidth}|p{0.25\textwidth}|p{0.25\textwidth}|}
+\hline
+\textbf{Layer 6 Lens} & \textbf{L1--L3 Thermodynamic Regime} & \textbf{Core JSON-LD Predicates} & \textbf{Downward L5/L4/L3 Compilation} \\
+\hline
+\textbf{1.\ \textit{The Pantry}} (Household \& Pod Larder Lens) & \textbf{Perishable Biological Entropy} (Arrhenius TTL curves, cold-chain $275{,}150\text{--}277{,}150\,\mathrm{mK}$). & \texttt{pantry:StockLot}, \texttt{pantry:expiryHlcMs}, \texttt{pantry:spoilageHazardBp}, \texttt{pantry:surplusShareWindowMs}. & Emits ZK-stripped appetite vectors, auto-expiring pickup leases (\texttt{AnonymousAppetiteLeaseV50}), \& Ring~$R_1$ surplus offers. \\
+\hline
+\textbf{2.\ \textit{The Workshop}} (Scenario~$\alpha$ Tool Crib Lens) & \textbf{Durable Mechanical Cycles} (calendar-agnostic Archard \& Palmgren-Miner wear). & \texttt{workshop:ToolAsset}, \texttt{workshop:cumulativeUseMs}, \texttt{workshop:wearIndexBp}, \texttt{workshop:fleetTier} ($1\dots 3$). & Verifies Scenario~$\kappa$ \texttt{BBS+} capability VCs, locks L3 custody leases, \& stages Stage~I$\to$III retrofit or metric part swaps. \\
+\hline
+\textbf{3.\ \textit{The Bakery / Hearth}} (Scenario~$\gamma$ Culinary Lens) & \textbf{Stoichiometric Thermal Transformation} (Bigelow $F_0 \ge 347{,}150\,\mathrm{mK}$). & \texttt{hearth:RecipeBatch}, \texttt{hearth:stapleAllocationBp} (\texttt{8500}), \texttt{hearth:montageAllocationBp} (\texttt{1500}). & Merges L3 cohort appetite + L2 shelf clearance; schedules \textbf{85\% staples / 15\% \textit{montage}} under $N_s$ guild voice. \\
+\hline
+\textbf{4.\ \textit{Scenario Zero}} (\textit{Forge Studio} \& Working-Group Lens) & \textbf{Autopoietic Digital Spec + Mild L1/L2 Footprint} (server \texttt{mW}/\texttt{uJ}, $\ge 8{,}000\,\mathrm{bp}$ heat reuse). & \texttt{zero:SoftwareArtifact}, \texttt{zero:AppCapabilityManifest}, \texttt{zero:dormantEquilibriumFlag}. & Executes 5-phase Khronos L4--L6 BPMN lifecycle; wakes from \textbf{Dormant Equilibrium} on L2 \textbf{Substrate Drift} diffs. \\
+\hline
+\end{tabular}
+\caption{Thermodynamic Taxonomy of Core Layer 6 Application Lenses Served by \texttt{col-commonsd}.}
+\label{tab:l6-lens-taxonomy}
+\end{table}
+
+\subsection{Zero-Surveillance Local Need Capture, Weekend-Detour Absorption, and the Dual-Loop Bakery}
+
+In Dialogues~\texttt{D4} and~\texttt{D5}, a classic physical coordination hazard arises: suppose forty neighbours express an affinity for Saturday sourdough, and a sunny morning inspires half of them to head spontaneously for the mountains. A rigid schedule bakes twenty loaves of Layer~1 food waste; conversely, nagging citizens with Friday afternoon confirmation alerts turns Layer~6 back into an anxious corporate calendar manager.
+
+\textit{The Pantry} and \textit{The Bakery / Hearth} resolve this through the \textbf{Dual-Loop Bakery Architecture}:
+\begin{itemize}
+  \item \textbf{Loop 1 (Scoped Craft Governance, $N_s$):} Voting weight $V_i(t) = 1 + R_i(t)$ inside the bakery node belongs exclusively to the $N_s$ active bakers; the $N_p$ bread consumers never vote on starter hydration or oven administration.
+  \item \textbf{Loop 2 (Zero-Surveillance Demand \& Spontaneous Weekend-Detour Absorption, $N_p$):} Households track dietary rhythms and stock drawdowns locally inside \textit{The Pantry}. Only when physical shelf or fridge stock crosses its replenishment curve does \textit{The Pantry} emit a short-lived pickup intent lease (\texttt{lease\_ttl\_ms = 43,200,000} [12 hours]), which local \texttt{col-kmsd} strips of all personal DIDs via a \texttt{BBS+} ring-membership ZKP before publishing \texttt{AnonymousAppetiteLeaseV50} to Layer~3. If a household heads spontaneously to the mountains, Layer~2 shelf drawdowns pause automatically and any unrenewed pickup lease expires silently at \texttt{expiry\_hlc\_ms}---\textbf{throttling bakery demand with zero GPS tracking, zero calendar surveillance, and zero nagging notifications}.
+  \item \textbf{The 85\% Staple / 15\% \textit{Montage} Split:} The bakery's Layer~4 scheduler merges anonymous Layer~3 cohort appetite with Layer~2 shelf-clearance load cells, dedicating $8{,}500\,\mathrm{bp}$ ($85\%$) of oven capacity to verified staples and reserving $1{,}500\,\mathrm{bp}$ ($15\%$) for unrequested culinary \textit{montage} experiments validated organically by shelf clearance and optional anonymous taste notes.
+\end{itemize}
+
+\subsection{Downward Societal Compiler, Human Edge SI Localization, and Upward Semantic Diff Decompiler}
+
+Because Layers~2, 3, and~4 execute strictly in 64-bit fixed-point SI integers (\texttt{CCI-6}) while Layers~4 and~5 operate in formal machine representations (\texttt{CCI-1}), Layer~6 performs bidirectional societal compilation (Companion Volume~6, Chapters~2 and~3):
+\begin{enumerate}
+  \item \textbf{The Downward Societal Compiler ($\Pi_{\mathrm{down}} : \text{L6 Human Intent} \to \text{L5 Policy AST} \to \text{L4 BPMN/WASM}$) and Edge SI Localization:} A baker may enter $78\%$ starter hydration, an older carpenter may measure reclaimed timber in imperial inches ($1.50\,\mathrm{in}$), a cook may read a legacy recipe in degrees Fahrenheit ($165.2\,^\circ\mathrm{F}$), or an acoustician may think in decibels ($42.0\,\mathrm{dBA}$). The Application Lens accepts cultural and craft idioms at the human edge and deterministically normalizes them into canonical 64-bit fixed-point SI integers (\texttt{7,800 bp}, \texttt{38,100 um}, \texttt{347,150 mK}, \texttt{420 cB}) prior to Stage~4 Deterministic Read-Back, which displays \textit{both} the localized human expression and the exact canonical SI commitment (\texttt{"Hold core temp >= 74.0 C (165.2 F / 347,150 mK) for 120 s (120,000 ms)"}). When a steward forks a turnkey blueprint from the Sovereign Libraries, \texttt{col-commonsd} computes the AST delta against \texttt{parentBlueprintCid} and compiles only the ratified delta downward across \path{l5_l6.sock}.
+  \item \textbf{The Upward Semantic Diff Decompiler ($\Pi_{\mathrm{up}}^{\mathrm{diff}} : \text{L4 Hard-Block} \to \text{L5 Escalation} \to \text{L6 Semantic Diff}$):} Whenever Layer~4 (\texttt{col-execd}) hits an unresolvable boundary and escalates a binary \texttt{UpwardYieldPacketV31} frame through Layer~5 to \path{l5_l6.sock}, \texttt{col-commonsd} decompiles the machine register state into a human-understandable \textbf{Layer~6 Semantic Diff Card} across four canonical classes: (a) \textit{Substrate Drift} (\texttt{SUBSTRATE\_DRIFT\_ADAPTER\_REQUIRED}, waking a dormant Scenario~Zero working group to build an adapter for a new Layer~2 sensor chip); (b) \textit{Enveloping Node Lease Contention} (\texttt{ENVELOPE\_LEASE\_CONTENTION}, offering to queue a $750\,\mathrm{cB}$ CNC cut or attest the $-350\,\mathrm{cB}$ acoustic hood closed); (c) \textit{Slow-Path Jurisprudence Precedent} (\texttt{UNMAPPED\_POLICY\_CONFLICT}, compiling the ratified ballot into a permanent Layer~4 tie-breaker); and (d) \textit{Tier~3 True-Constraint Hardware Gap} (\texttt{TRUE\_CONSTRAINT\_HARDWARE\_GAP}, pinpointing the exact missing cold-chain or kiln capability in SI units).
+\end{enumerate}
 
 \section{Design Principles}
 
@@ -258,9 +313,9 @@ Horizontal federation between sovereign Nodes cannot rest upon informal verbal u
 
 \subsection{The Tripartite Contract Architecture}
 
-A Ricardian Inter-Node Treaty binds three distinct representations into a unified, cryptographically immutable artifact:
+A Ricardian Inter-Node Treaty binds three distinct representations into a unified, cryptographically immutable artifact using 64-bit big-endian length-prefixed, domain-separated hashing over W3C \texttt{RDFC-1.0} and \texttt{RFC 8785 JCS} canonicalization:
 \begin{equation}
-\mathrm{Treaty\_CID} = \mathrm{SHA256}\left( \mathrm{Text}_{\mathrm{prose}} \parallel \mathrm{Schema}_{\mathrm{JSON-LD}} \parallel \mathrm{Invariants}_{\mathrm{BPMN}} \right)
+\mathrm{Treaty\_CID} = \mathrm{SHA256}\left( \texttt{"COL-TREATY-V3.1\textbackslash0"} \parallel \mathrm{BE64}(|\mathrm{Text}_{\mathrm{prose}}|) \parallel \mathrm{Text}_{\mathrm{prose}} \parallel \mathrm{BE64}(|\mathrm{Schema}_{\mathrm{JCS}}|) \parallel \mathrm{Schema}_{\mathrm{JCS}} \parallel \mathrm{Invariants}_{\mathrm{BPMN}} \right)
 \label{eq:ch7_treaty_cid}
 \end{equation}
 The three facets of the treaty address three distinct audiences:
@@ -370,9 +425,9 @@ Under this filter:
 
 Consistent with Chapter~1, people residing outside the community are treated neither as enemies nor as passive background. Layer~6 provides non-members with an open municipal portal requiring no cryptographic identity in the Web of Trust. It supports plain-language text and spoken interaction, providing non-members the standing to petition the local council, present testimony at public hearings, and receive formal written responses required under Layer~5 governance rules. Visitors and neighboring residents are never digitally profiled, and zero surveillance telemetry is retained beyond the specific petitions they voluntarily submit.
 
-\section{Oasis: A Shared Interface, Distinct Modes}
+\section{Oasis and Scenario Zero: Shared Protocol Space, Distinct Modes}
 
-The interface used by players to simulate and govern virtual bioregions in Oasis is constructed from the identical software components and design patterns as the interface Stewards utilize in the real physical Node. Skills acquired within the simulation transfer directly to real-world democratic governance, while edge cases and interface failures encountered in Oasis expose flaws in deliberative protocols before they can cause physical harm.
+Because everything that is not strictly Layer~1 physical simulation lives in Layer~6 protocol space rather than inside Oasis's C++ voxel/ECS rendering loop (\texttt{D1}, \texttt{D5}), an autonomous agent inside the Oasis proving ground (\texttt{Layer 1b}) and a real household on a physical lot (\texttt{Layer 1a}) interact with the \textbf{exact same Layer~6 Application Lenses} (\textit{The Pantry}, \textit{The Workshop}, \textit{The Bakery / Hearth}, and \textit{Scenario Zero Forge Studio}) backed by the local Layer~6 Semantic Daemon. At the same time, Oasis itself is stewarded as a canonical \textbf{Layer~6 Software Artifact} under \textbf{Scenario Zero (\texttt{SCN-ZERO-SOFTWARE})} across its five-phase Khronos/OpenGL-style working-group lifecycle (\textit{Friction to RFC $\to$ Working Group Charter $\to$ Inception and Build $\to$ Spec Ratification $\to$ Servicing and Dormant Equilibrium}). Skills acquired within the simulation transfer directly to real-world democratic governance, while edge cases encountered in Oasis expose flaws in deliberative protocols before they can cause physical harm.
 
 However, sharing architectural components does not mean conflating operational realities. Layer~6 enforces strict modal segregation:
 \begin{itemize}
